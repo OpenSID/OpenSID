@@ -77,8 +77,8 @@
 						<td align='right'><?= number_format($q['anggaran'][0]['pagu']-$q['realisasi'][0]['realisasi'])?></td>
 						<td align='right'><?= number_format($q['realisasi'][0]['realisasi']/$q['anggaran'][0]['pagu']*100, 2)?></td>
 					</tr>
-				<?php endforeach  ?>
-			<?php endforeach  ?>
+				<?php endforeach ?>
+			<?php endforeach ?>
 		</tr>
 		<?php endforeach ?>
 	<?php foreach ($data['belanja'] as $b): ?>
@@ -119,10 +119,10 @@
 							<td align='right'><?= number_format($sb3['realisasi'][0]['realisasi']/$sb3['anggaran'][0]['pagu']*100, 2)?></td>
 						</tr>
 						<?php	endforeach ?>
-				<?php endforeach  ?>
-			<?php endforeach  ?>
+				<?php endforeach ?>
+			<?php endforeach ?>
 		</tr>
-		<?php endforeach  ?>
+		<?php endforeach ?>
 	<?php foreach ($data['pembiayaan'] as $a): ?>
 		<tr class='bold highlighted'>
 			<td colspan='4'><?= $a['Akun']." ".$a['Nama_Akun']?></td>
@@ -150,9 +150,9 @@
 						<td align='right'><?= number_format($c['realisasi'][0]['realisasi']/$c['anggaran'][0]['pagu']*100, 2)?></td>
 					</tr>
 				<?php endforeach ?>
-			<?php endforeach  ?>
+			<?php endforeach ?>
 		</tr>
-		<?php endforeach  ?>
+		<?php endforeach ?>
 	<tr class='bold highlighted'>
 		<td colspan='4' align='center'>TOTAL</td>
 		<td align='right'><?= number_format($data['pendapatan'][0]['total_anggaran'][0]['pagu'])?></td>

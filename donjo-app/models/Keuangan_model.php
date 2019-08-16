@@ -258,6 +258,8 @@ class Keuangan_model extends CI_model {
 
   public function widget_keuangan()
   {
+    $CI =& get_instance();
+    $CI->load->model('keuangan_grafik_model');
     //Fetch seluruh tahun yang memungkinkan
     $this->db->select('tahun_anggaran');
     $data = $this->db->get('keuangan_master')->result_array();
@@ -267,7 +269,7 @@ class Keuangan_model extends CI_model {
       $tahun = $subdata['tahun_anggaran'];
 
       //Realisasi Pelaksanaan APBD
-      $raw_data = $this->rp_apbd('1', $tahun);
+      $raw_data = $CI->keuangan_grafik_model->rp_apbd('1', $tahun);
 
       $res_pelaksanaan = array();
       $nama = array(
@@ -285,7 +287,7 @@ class Keuangan_model extends CI_model {
       }
 
       //Pendapatan APBD
-      $raw_data = $this->r_pd('1', $tahun);
+      $raw_data = $CI->keuangan_grafik_model->r_pd('1', $tahun);
       $res_pendapatan = array();
       $tmp_pendapatan = array();
       foreach ($raw_data['jenis_pendapatan'] as $r){
@@ -305,8 +307,7 @@ class Keuangan_model extends CI_model {
       }
 
       //Belanja APBD
-      $raw_data = $this->r_bd('1', $tahun);
-      // var_dump($raw_data);
+      $raw_data = $CI->keuangan_grafik_model->r_bd('1', $tahun);
       $res_belanja = array();
       $tmp_belanja = array();
       foreach ($raw_data['bidang'] as $r){
@@ -349,7 +350,7 @@ class Keuangan_model extends CI_model {
 
     return $result;
   }
-
+  
   // Cek tahun anggaran valid untuk data keuangan
   public function cek_tahun()
   {
