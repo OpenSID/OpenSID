@@ -350,4 +350,12 @@ class Keuangan_model extends CI_model {
     return $result;
   }
 
+  // Cek tahun anggaran valid untuk data keuangan
+  public function cek_tahun()
+  {
+    $this->db->select('tahun_anggaran');
+    $data = $this->db->get('keuangan_master')->result_array();
+    return $data;
+  }
+
 }

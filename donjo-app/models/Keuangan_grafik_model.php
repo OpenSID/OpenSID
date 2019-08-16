@@ -2,14 +2,6 @@
 class Keuangan_grafik_model extends CI_model {
 
   // Post Format Transparansi Anggaran Data
-  // Cek tahun anggaran untuk dropdown shortcode
-  public function cek_tahun()
-  {
-    $this->db->select('tahun_anggaran');
-    $data = $this->db->get('keuangan_master')->result_array();
-    return $data;
-  }
-
   // Query Grafik
   public function rp_apbd($smt, $thn)
   {
@@ -152,7 +144,6 @@ class Keuangan_grafik_model extends CI_model {
       $data['pembiayaan'][$k]['realisasi'] = $this->real_akun($c['Akun'], $thn);
       $data['pembiayaan'][$k]['sub_pembiayaan'] = $this->get_subval($c['id_keuangan_master'], $c['Akun'], $thn);
     }
-
     return $data;
   }
 
