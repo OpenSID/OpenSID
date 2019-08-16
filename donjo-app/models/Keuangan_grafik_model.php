@@ -120,15 +120,13 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where("Akun = '4.'");
     $this->db->where('tahun_anggaran', $thn);
     $data['pendapatan'] = $this->db->get('keuangan_master')->result_array();
-    $i=0;
-    foreach ($data['pendapatan'] as $p)
+    foreach ($data['pendapatan'] as $i => $p)
     {
       $data['pendapatan'][$i]['total_anggaran'] = $this->total_anggaran($thn);
       $data['pendapatan'][$i]['total_realisasi'] = $this->total_realisasi($thn);
       $data['pendapatan'][$i]['anggaran'] = $this->pagu_akun($p['Akun'], $thn);
       $data['pendapatan'][$i]['realisasi'] = $this->real_akun($p['Akun'], $thn);
       $data['pendapatan'][$i]['sub_pendapatan'] = $this->get_subval($p['id_keuangan_master'], $p['Akun'], $thn);
-      $i++;
     }
 
     $this->db->select('Akun, Nama_Akun, id_keuangan_master');
@@ -136,13 +134,11 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where("Akun = '5.'");
     $this->db->where('tahun_anggaran', $thn);
     $data['belanja'] = $this->db->get('keuangan_master')->result_array();
-    $j=0;
-    foreach ($data['belanja'] as $b)
+    foreach ($data['belanja'] as $j => $b)
     {
       $data['belanja'][$j]['anggaran'] = $this->pagu_akun($b['Akun'], $thn);
       $data['belanja'][$j]['realisasi'] = $this->real_akun($b['Akun'], $thn);
       $data['belanja'][$j]['sub_belanja'] = $this->get_subval2($b['id_keuangan_master'], $b['Akun'], $thn);
-      $j++;
     }
 
     $this->db->select('Akun, Nama_Akun, id_keuangan_master');
@@ -150,13 +146,11 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where("Akun = '6.'");
     $this->db->where('tahun_anggaran', $thn);
     $data['pembiayaan'] = $this->db->get('keuangan_master')->result_array();
-    $k=0;
-    foreach ($data['pembiayaan'] as $c)
+    foreach ($data['pembiayaan'] as $k => $c)
     {
       $data['pembiayaan'][$k]['anggaran'] = $this->pagu_akun($c['Akun'], $thn);
       $data['pembiayaan'][$k]['realisasi'] = $this->real_akun($c['Akun'], $thn);
       $data['pembiayaan'][$k]['sub_pembiayaan'] = $this->get_subval($c['id_keuangan_master'], $c['Akun'], $thn);
-      $k++;
     }
 
     return $data;
@@ -200,13 +194,11 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where('Akun', $akun);
     $this->db->where('id_keuangan_master', $id_keuangan_master);
     $data = $this->db->get('keuangan_ref_rek2')->result_array();
-    $i=0;
-    foreach ($data as $d)
+    foreach ($data as $i => $d)
     {
       $data[$i]['anggaran'] = $this->pagu_subval($d['Kelompok'], $thn);
       $data[$i]['realisasi'] = $this->real_subval($d['Kelompok'], $thn);
       $data[$i]['sub_pendapatan2'] = $this->sub_pendapatan2($id_keuangan_master, $d['Kelompok'], $thn);
-      $i++;
     }
     return $data;
   }
@@ -218,13 +210,11 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->group_by('Kd_Bid');
     $this->db->group_by('Nama_Bidang');
     $data = $this->db->get('keuangan_ta_bidang')->result_array();
-    $i=0;
-    foreach ($data as $d)
+    foreach ($data as $i => $d)
     {
       $data[$i]['anggaran'] = $this->pagu_sub_belanja($d['Kd_Bid'], $thn);
       $data[$i]['realisasi'] = $this->real_sub_belanja($d['Kd_Bid'], $thn);
       $data[$i]['sub_belanja2'] = $this->sub_belanja2($id_keuangan_master, $d['Kd_Bid'], $thn);
-      $i++;
     }
     return $data;
   }
@@ -271,12 +261,10 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where('Kelompok', $kelompok);
     $this->db->where('id_keuangan_master', $id_keuangan_master);
     $data = $this->db->get('keuangan_ref_rek3')->result_array();
-    $i=0;
-    foreach ($data as $d)
+    foreach ($data as $i => $d)
     {
       $data[$i]['anggaran'] = $this->pagu_pendapatan2($d['Jenis'], $thn);
       $data[$i]['realisasi'] = $this->real_pendapatan2($d['Jenis'], $thn);
-      $i++;
     }
     return $data;
   }
@@ -290,13 +278,11 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->group_by('Kd_Keg');
     $this->db->group_by('Nama_Kegiatan');
     $data = $this->db->get('keuangan_ta_kegiatan')->result_array();
-    $i=0;
-    foreach ($data as $d)
+    foreach ($data as $i => $d)
     {
       $data[$i]['anggaran'] = $this->pagu_belanja2($d['Kd_Keg'], $thn);
       $data[$i]['realisasi'] = $this->real_belanja2($d['Kd_Keg'], $thn);
       $data[$i]['sub_belanja3'] = $this->sub_belanja3($d['Kd_Keg'], $thn);
-      $i++;
     }
     return $data;
   }
@@ -346,12 +332,10 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->group_by('Jenis');
     $this->db->group_by('Nama_Jenis');
     $data = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
-    $i=0;
-    foreach ($data as $d)
+    foreach ($data as $i => $d)
     {
       $data[$i]['anggaran'] = $this->pagu_belanja3($d['Kd_Keg'], $d['Jenis'], $thn);
       $data[$i]['realisasi'] = $this->real_belanja3($d['Kd_Keg'], $d['Jenis'], $thn);
-      $i++;
     }
     return $data;
   }
