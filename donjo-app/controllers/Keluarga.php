@@ -174,6 +174,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
+	// Tambah anggota keluarga dari penduduk baru
 	public function form_a($p=1, $o=0, $id=0)
 	{
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)

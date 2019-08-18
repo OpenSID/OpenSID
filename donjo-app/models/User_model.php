@@ -9,6 +9,9 @@ class User_model extends CI_Model {
 	// Konfigurasi untuk library 'upload'
 	protected $uploadConfig = array();
 
+	protected $larangan_demo = array(
+		'database' => array('h')
+	);
 
 	public function __construct()
 	{
@@ -663,11 +666,20 @@ class User_model extends CI_Model {
 	*/
 	public function hak_akses($group, $controller, $akses)
 	{
+		$controller = explode('/', $controller);
+		// Demo tidak boleh mengakses menu tertentu
+		if (config_item('demo'))
+		{
+			if (in_array($akses, $this->larangan_demo[$controller[0]]))
+			{
+				log_message('error', '==Akses Demo Terlarang: '.print_r($_SERVER, true));
+				return false;
+			}
+		}
 		// Group admin punya akses global
 		// b = baca; u = ubah; h= hapus
 		if ($group == 1) return true;
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
-		$controller = explode('/', $controller);
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
 		$hak_akses = array(

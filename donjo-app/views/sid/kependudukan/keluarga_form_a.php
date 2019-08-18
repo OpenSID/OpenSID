@@ -402,12 +402,6 @@
                       </div>
                     </div>
                     <div class='col-sm-12'>
-                      <div class='form-group'>
-                        <label for="alamat_sekarang">Alamat Sekarang </label>
-                        <input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" type="text" placeholder="Alamat Sekarang" value="<?= strtoupper($penduduk['alamat_sekarang'])?>"></input>
-                      </div>
-                    </div>
-                    <div class='col-sm-12'>
                       <div class="form-group subtitle_head">
                         <label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>
                       </div>

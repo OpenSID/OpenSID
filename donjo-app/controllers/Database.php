@@ -144,7 +144,9 @@ class Database extends Admin_Controller {
 			'Tanggal Perceraian' => 'tanggal_perceraian',
 			'Cacat' => 'cacat',
 			'Cara KB' => 'cara_kb',
-			'Hamil' => 'hamil'
+			'Hamil' => 'hamil',
+			'KTP-el' => 'ktp_el',
+			'Status Rekam' => 'status_rekam'
 		);
 		$data['main'] = $this->export_model->export_excel();
 		$tgl =  date('d_m_Y');
@@ -208,6 +210,7 @@ class Database extends Admin_Controller {
 
 	public function kosongkan_db()
 	{
+		$this->redirect_hak_akses('h', "database/kosongkan");
 		$this->database_model->kosongkan_db();
 		redirect('database/kosongkan');
 	}
@@ -225,6 +228,7 @@ class Database extends Admin_Controller {
 
 	public function restore()
 	{
+		$this->redirect_hak_akses('h', "database/backup");
 		$this->export_model->restore();
 		redirect('database/backup');
 	}
