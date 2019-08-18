@@ -30,5 +30,52 @@ class Migrasi_1908_ke_1909 extends CI_model {
 			$slug = url_title($artikel['judul'], 'dash', TRUE);
 			$this->db->where('id', $artikel['id'])->update('artikel', array('slug' => $slug));
 		}
+
+	// Tambah tabel asuransi
+	if (!$this->db->table_exists('tweb_penduduk_asuransi'))
+	{
+		$query = "
+			CREATE TABLE `tweb_penduduk_asuransi` (
+				`id_asuransi` int(15) NOT NULL AUTO_INCREMENT,
+				`nama_asuransi` varchar(50) NOT NULL,
+				PRIMARY KEY (id_asuransi)
+			)
+				";
+
+		$this->db->query($query);
+
+		$this->db->truncate('tweb_penduduk_asuransi');
+		$query = "INSERT INTO tweb_penduduk_asuransi (`id_asuransi`, `nama_asuransi`) VALUES
+			(1, 'Tidak/Belum Punya'),
+			(2, 'BPJS Kesehatan'),
+			(3, 'Prudential Life Assurance'),
+			(4, 'AXA Life Indonesia')
+		";
+
+		$this->db->query($query);
+	}
+	// Tambah kolom no_asuransi, id_asuransi
+  	if (!$this->db->field_exists('id_asuransi', 'tweb_penduduk'))
+  	{
+  		$fields = array();
+  		$fields['id_asuransi'] = array(
+	        	'type' => 'char',
+	        	'constraint' => 5,
+	        	'null' => TRUE,
+	        	'default' => NULL
+	        );
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+  	}
+  	if (!$this->db->field_exists('no_asuransi', 'tweb_penduduk'))
+  	{
+  		$fields = array();
+  		$fields['no_asuransi'] = array(
+	        	'type' => 'char',
+	        	'constraint' => 25,
+	        	'null' => TRUE,
+	        	'default' => NULL
+	        );
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+  	}
   }
 }

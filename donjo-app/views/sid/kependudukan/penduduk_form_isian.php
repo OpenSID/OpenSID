@@ -3,12 +3,14 @@
 	{
 		$("select[name='sex']").change();
 		$("select[name='status_kawin']").change();
+		$("select[name='id_asuransi']").change();
 	});
 	$('#mainform').on('reset', function(e)
 	{
 	  setTimeout(function() {
 			$("select[name='sex']").change();
 			$("select[name='status_kawin']").change();
+			$("select[name='id_asuransi']").change();
 	  });
 	});
 	function show_hide_hamil(sex)
@@ -29,6 +31,15 @@
 			$('select[name=sex]').change();
 		});
 	};
+	function show_hide_asuransi(asuransi)
+	{
+		if (asuransi == '1' || asuransi == '') 
+		{
+			$('#asuransi_pilihan').hide();
+		}else{
+			$('#asuransi_pilihan').show();
+		}
+	}
 	function disable_kawin_cerai(status)
 	{
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
@@ -616,10 +627,21 @@
 						</select>
 					</div>
 				</div>
-				<div id='bpjs' class='col-sm-4'>
+				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="bpjs">BPJS Kesehatan </label>
-						<input id="bpjs" name="bpjs" class="form-control input-sm" type="text" maxlength="13" placeholder="Nomor BPJS Kesehatan" value="<?= $penduduk['bpjs']?>"></input>
+						<label for="id_asuransi">Asuransi </label>
+						<select class="form-control input-sm required" name="id_asuransi" onchange="show_hide_asuransi($(this).find(':selected').val());">
+							<option value="">Pilih Asuransi</option>
+							<?php foreach ($pilihan_asuransi as $data): ?>
+								<option value="<?= $data['id_asuransi']?>" <?php selected($penduduk['id_asuransi'], $data['id_asuransi']); ?>><?= strtoupper($data['nama_asuransi'])?></option>
+							<?php endforeach;?>
+						</select>
+					</div>
+				</div>
+				<div id='asuransi_pilihan' class='col-sm-4'>
+					<div class='form-group'>
+						<label for="no_asuransi">No Asuransi </label>
+						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
 					</div>
 				</div>
 			</div>

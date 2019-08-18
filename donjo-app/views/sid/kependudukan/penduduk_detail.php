@@ -257,7 +257,7 @@
 													</tr>
 												<?php endif; ?>
 												<tr>
-													<td>No BPJS Kesehatan</td><td >:</td><td><?= strtoupper($penduduk['bpjs'])?></td>
+													<td>No Asuransi</td><td >:</td><td><?= strtoupper($penduduk['no_asuransi'])?> (<?= $penduduk['asuransi'] ?>)</td>
 												</tr>
 											</thead>
 										</table>
