@@ -362,94 +362,124 @@ class Keuangan_grafik_model extends CI_model {
     return $this->db->get('keuangan_ta_spj_rinci')->result_array();
   }
 
+  private function data_widget_pendapatan($semester = 1, $tahun)
+  {
+    $raw_data = $this->r_pd('1', $tahun);
+    $res_pendapatan = array();
+    $tmp_pendapatan = array();
+    foreach ($raw_data['jenis_pendapatan'] as $r)
+    {
+      $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
+    }
+
+    foreach ($raw_data['anggaran'] as $r)
+    {
+      $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
+    }
+
+    foreach ($raw_data['realisasi'] as $r)
+    {
+      $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['Pagu'] ? $r['Pagu'] : 0);
+    }
+
+    foreach ($tmp_pendapatan as $key => $value)
+    {
+      array_push($res_pendapatan, $value);
+    }
+
+    return $res_pendapatan;
+  }
+  
+  private function data_widget_belanja($semester = 1, $tahun)
+  {
+    $raw_data = $this->r_bd('1', $tahun);
+    $res_belanja = array();
+    $tmp_belanja = array();
+    foreach ($raw_data['bidang'] as $r)
+    {
+      $tmp_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
+    }
+
+    foreach ($raw_data['anggaran'] as $r)
+    {
+      $tmp_belanja[$r['Kode_Bid']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
+    }
+
+    foreach ($raw_data['realisasi'] as $r)
+    {
+      $tmp_belanja[$r['Kd_Bid']]['realisasi'] = ($r['Nilai'] ? $r['Nilai'] : 0);
+    }
+
+    foreach ($tmp_belanja as $key => $value)
+    {
+      array_push($res_belanja, $value);
+    }
+
+    return $res_belanja;
+  }
+
+  private function data_widget_pelaksanaan($semester = 1, $tahun)
+  {
+    $raw_data = $this->rp_apbd('1', $tahun);
+
+    $res_pelaksanaan = array();
+    $nama = array(
+      'PENDAPATAN' => '(PA) Pendapatan Desa',
+      'BELANJA' => '(PA) Belanja Desa',
+      'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
+    );
+    
+    for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++)
+    {
+      $row = array(
+        'nama' => $nama[$raw_data['jenis_belanja'][$i]['Nama_Akun']],
+        'anggaran' => ($raw_data['anggaran'][$i]['AnggaranStlhPAK'] ? $raw_data['anggaran'][$i]['AnggaranStlhPAK'] : 0),
+        'realisasi' => ($raw_data['realisasi'][$i]['Nilai'] ? $raw_data['realisasi'][$i]['Nilai'] : 0),
+      );
+      array_push($res_pelaksanaan, $row);
+    }
+
+    return $res_pelaksanaan;
+  }
+
+  public function data_widget_tahun()
+  {
+    $tahun_anggaran = $this->cek_tahun();
+    $tahun = array();
+    foreach ($this->cek_tahun() as $tahun_anggaran)
+    {
+      array_push($tahun, $tahun_anggaran['tahun_anggaran']);
+    } 
+
+    return $tahun;
+  }
+
+  public function tahun_anggaran_terbaru()
+  {
+    $tahun = $this->data_widget_tahun();
+    rsort($tahun);
+    return $tahun[0];
+  }
+
   public function widget_keuangan()
   {
-    //Fetch seluruh tahun yang memungkinkan
-    $this->db->select('tahun_anggaran');
-    $data = $this->db->get('keuangan_master')->result_array();
+    $data = $this->cek_tahun();
 
     //Loop tahun dan dapatkan array masing-masing
-    foreach ($data as $subdata) {
+    foreach ($data as $subdata)
+    {
       $tahun = $subdata['tahun_anggaran'];
-
-      //Realisasi Pelaksanaan APBD
-      $raw_data = $this->rp_apbd('1', $tahun);
-
-      $res_pelaksanaan = array();
-      $nama = array(
-        'PENDAPATAN' => '(PA) Pendapatan Desa',
-        'BELANJA' => '(PA) Belanja Desa',
-        'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
-      );
-      for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) {
-        $row = array(
-          'nama' => $nama[$raw_data['jenis_belanja'][$i]['Nama_Akun']],
-          'anggaran' => ($raw_data['anggaran'][$i]['AnggaranStlhPAK'] ? $raw_data['anggaran'][$i]['AnggaranStlhPAK'] : 0),
-          'realisasi' => ($raw_data['realisasi'][$i]['Nilai'] ? $raw_data['realisasi'][$i]['Nilai'] : 0),
-        );
-        array_push($res_pelaksanaan, $row);
-      }
-
-      //Pendapatan APBD
-      $raw_data = $this->r_pd('1', $tahun);
-      $res_pendapatan = array();
-      $tmp_pendapatan = array();
-      foreach ($raw_data['jenis_pendapatan'] as $r){
-        $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
-      }
-
-      foreach ($raw_data['anggaran'] as $r) {
-        $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
-      }
-
-      foreach ($raw_data['realisasi'] as $r) {
-        $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['Pagu'] ? $r['Pagu'] : 0);
-      }
-
-      foreach ($tmp_pendapatan as $key => $value){
-        array_push($res_pendapatan, $value);
-      }
-
-      //Belanja APBD
-      $raw_data = $this->r_bd('1', $tahun);
-      $res_belanja = array();
-      $tmp_belanja = array();
-      foreach ($raw_data['bidang'] as $r){
-        $tmp_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
-      }
-
-      foreach ($raw_data['anggaran'] as $r) {
-        $tmp_belanja[$r['Kode_Bid']]['anggaran'] = ($r['Pagu'] ? $r['Pagu'] : 0);
-      }
-
-      foreach ($raw_data['realisasi'] as $r) {
-        $tmp_belanja[$r['Kd_Bid']]['realisasi'] = ($r['Nilai'] ? $r['Nilai'] : 0);
-      }
-
-      foreach ($tmp_belanja as $key => $value){
-        array_push($res_belanja, $value);
-      }
-
-      //Satukan result dalam satu array
-      $res[$tahun]['res_pelaksanaan'] = $res_pelaksanaan;
-      $res[$tahun]['res_pendapatan'] = $res_pendapatan;
-      $res[$tahun]['res_belanja'] = $res_belanja;
+      $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan('1', $tahun);
+      $res[$tahun]['res_pendapatan'] = $this->data_widget_pendapatan('1', $tahun);;
+      $res[$tahun]['res_belanja'] = $this->data_widget_belanja('1', $tahun);
     }
-    //Encode ke JSON
 
     //Cari tahun anggaran terbaru (terbesar secara value)
-    $this->db->order_by('tahun_anggaran', 'desc');
-    $q = $this->db->get('keuangan_master')->result_array();
-    $tahun = array();
-    foreach ($q as $row) {
-      array_push($tahun, $row['tahun_anggaran']);
-    }
-    $tahun_terbaru = $tahun[0];
-    // $result['tahun_anggaran'] = $this->tahun_anggaran();
     $result = array(
+      //Encode ke JSON
       'data' => json_encode($res),
-      'tahun' => $tahun,
-      'tahun_terbaru' => $tahun_terbaru,
+      'tahun' => $this->data_widget_tahun(),
+      'tahun_terbaru' => $this->tahun_anggaran_terbaru(),
     );
 
     return $result;
