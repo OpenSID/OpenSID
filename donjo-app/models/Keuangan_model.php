@@ -228,7 +228,7 @@ class Keuangan_model extends CI_model {
     $data = $this->db->select('tahun_anggaran')
       ->order_by('tahun_anggaran DESC')
       ->get('keuangan_master')->result_array();
-    return $data;
+    return array_column($data, 'tahun_anggaran');;
   }
 
   public function data_id_keuangan_master()

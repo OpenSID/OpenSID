@@ -135,12 +135,15 @@ class Keuangan extends Admin_Controller {
 	public function cek_tahun()
 	{
 		$data = $this->keuangan_model->list_tahun_anggaran();
-		foreach ($data as $key => $d)
+		$list_tahun = array();
+		foreach ($data as $tahun)
 		{
-			$data[$key]['text'] = $d['tahun_anggaran'];
-			$data[$key]['value'] = $d['tahun_anggaran'];
+			$list_tahun[] = array(
+				'text' => $tahun,
+				'value' => $tahun
+			);
 		}
-		echo json_encode($data);
+		echo json_encode($list_tahun);
 	}
 
 }

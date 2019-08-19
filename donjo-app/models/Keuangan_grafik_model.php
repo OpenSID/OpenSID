@@ -1,6 +1,11 @@
 <?php
 class Keuangan_grafik_model extends CI_model {
 
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
   // Post Format Transparansi Anggaran Data
   // Query Grafik
   public function rp_apbd($smt, $thn)
@@ -102,7 +107,6 @@ class Keuangan_grafik_model extends CI_model {
 
     return $data;
   }
-
 
   //Query Laporan Pelaksanaan Realisasi
   public function lap_rp_apbd($smt, $thn)
@@ -331,7 +335,7 @@ class Keuangan_grafik_model extends CI_model {
     return $data;
   }
 
-  public function pagu_belanja3($kd_keg, $jenis, $thn)
+  private function pagu_belanja3($kd_keg, $jenis, $thn)
   {
     $this->db->select('Kd_Keg, LEFT(Kd_Rincian, 6) AS Jenis, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->where('Kd_Keg', $kd_keg);
@@ -380,7 +384,7 @@ class Keuangan_grafik_model extends CI_model {
 
     return $res_pendapatan;
   }
-  
+
   private function data_widget_belanja($semester = 1, $tahun)
   {
     $raw_data = $this->r_bd('1', $tahun);
@@ -419,7 +423,7 @@ class Keuangan_grafik_model extends CI_model {
       'BELANJA' => '(PA) Belanja Desa',
       'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
     );
-    
+
     for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++)
     {
       $row = array(
@@ -433,24 +437,12 @@ class Keuangan_grafik_model extends CI_model {
     return $res_pelaksanaan;
   }
 
-  public function data_widget_tahun()
-  {
-    $tahun = array();
-    foreach ($this->keuangan_model->list_tahun_anggaran() as $tahun_anggaran)
-    {
-      array_push($tahun, $tahun_anggaran['tahun_anggaran']);
-    } 
-
-    return $tahun;
-  }
-
   public function widget_keuangan()
   {
     $data = $this->keuangan_model->list_tahun_anggaran();
 
-    foreach ($data as $subdata)
+    foreach ($data as $tahun)
     {
-      $tahun = $subdata['tahun_anggaran'];
       $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan('1', $tahun);
       $res[$tahun]['res_pendapatan'] = $this->data_widget_pendapatan('1', $tahun);;
       $res[$tahun]['res_belanja'] = $this->data_widget_belanja('1', $tahun);
@@ -460,8 +452,8 @@ class Keuangan_grafik_model extends CI_model {
     $result = array(
       //Encode ke JSON
       'data' => json_encode($res),
-      'tahun' => $this->data_widget_tahun(),
-      'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran()[0]['tahun_anggaran'],
+      'tahun' => $this->keuangan_model->list_tahun_anggaran(),
+      'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran()[0]
     );
 
     return $result;
