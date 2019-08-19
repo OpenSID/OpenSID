@@ -30,8 +30,8 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th>Kode Surat</th>
-							<th>No Urut</th>
+							<th>No Kode Surat</th>
+							<th>No Urut Surat</th>
               <th>Jenis Surat</th>
 							<th>Nama Penduduk</th>
 							<th>Keterangan</th>

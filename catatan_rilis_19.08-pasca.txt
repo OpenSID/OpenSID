@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 19.08-pasca:
 7. #2194: Sekarang impor data penduduk dalam format Excel mempertahankan tanda kutip (') di dalam nama. [bug-fix]
 8. #2193: Tambahkan kolom KTP-el dan Status Rekam di ekspor penduduk dalam format siap impor.
 9. #1911, #1645: Sekarang artikel bisa ditampilkan menggunakan id artikel atau tulisan yg berasal dari judul artikel.
+10. #2151: Tambahkan kolom Keterangan dan Kode Surat di laporan Arsip Layanan Surat Desa. Juga tambahkan blok penandatangan di laporan cetak dan unduh.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
