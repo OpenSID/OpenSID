@@ -192,7 +192,7 @@ class Shortcode_model extends Keuangan_grafik_model {
 
 			$params_explode = explode(",", $matches[1]);
 			$fnName = 'converted_sc_list';
-			return $this->converted_sc_list($params_explode[0],$params_explode[1],$params_explode[2]);
+			return $this->converted_sc_list($params_explode[0], $params_explode[1], $params_explode[2]);
 		}, $str);
 	}
 

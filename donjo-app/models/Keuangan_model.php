@@ -222,6 +222,15 @@ class Keuangan_model extends CI_model {
     return $data->tahun_anggaran;
   }
 
+  // Daftar tahun anggaran tersimpan, diurut tahun terkini di atas
+  public function list_tahun_anggaran()
+  {
+    $data = $this->db->select('tahun_anggaran')
+      ->order_by('tahun_anggaran DESC')
+      ->get('keuangan_master')->result_array();
+    return $data;
+  }
+
   public function data_id_keuangan_master()
   {
     $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
