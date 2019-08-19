@@ -61,7 +61,7 @@ class Keluar extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function edit_keterangan($id=60)
+	public function edit_keterangan($id=0)
 	{
 		$data['data'] = $this->keluar_model->list_data_keterangan($id);
 		$data['form_action'] = site_url("keluar/update_keterangan/$id");

@@ -168,8 +168,6 @@
 
 	public function update_keterangan($id)
 	{
-		unset($_SESSION['error_msg']);
-
 		$data = $_POST;
 		$this->db->where('id',$id);
 
