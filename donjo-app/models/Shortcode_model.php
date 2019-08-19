@@ -4,7 +4,6 @@ class Shortcode_model extends Keuangan_grafik_model {
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('keuangan_grafik_model');
   }
 
 
@@ -176,7 +175,7 @@ class Shortcode_model extends Keuangan_grafik_model {
 
 	private function tabel_rp_apbd($type, $smt, $thn)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($smt, $thn);
+		$data = $this->lap_rp_apbd($smt, $thn);
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd.php");
 		$output = ob_get_clean();
