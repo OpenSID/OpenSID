@@ -435,9 +435,8 @@ class Keuangan_grafik_model extends CI_model {
 
   public function data_widget_tahun()
   {
-    $tahun_anggaran = $this->cek_tahun();
     $tahun = array();
-    foreach ($this->cek_tahun() as $tahun_anggaran)
+    foreach ($this->keuangan_model->list_tahun_anggaran() as $tahun_anggaran)
     {
       array_push($tahun, $tahun_anggaran['tahun_anggaran']);
     } 
@@ -445,18 +444,10 @@ class Keuangan_grafik_model extends CI_model {
     return $tahun;
   }
 
-  public function tahun_anggaran_terbaru()
-  {
-    $tahun = $this->data_widget_tahun();
-    rsort($tahun);
-    return $tahun[0];
-  }
-
   public function widget_keuangan()
   {
-    $data = $this->cek_tahun();
+    $data = $this->keuangan_model->list_tahun_anggaran();
 
-    //Loop tahun dan dapatkan array masing-masing
     foreach ($data as $subdata)
     {
       $tahun = $subdata['tahun_anggaran'];
@@ -470,7 +461,7 @@ class Keuangan_grafik_model extends CI_model {
       //Encode ke JSON
       'data' => json_encode($res),
       'tahun' => $this->data_widget_tahun(),
-      'tahun_terbaru' => $this->tahun_anggaran_terbaru(),
+      'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran()[0]['tahun_anggaran'],
     );
 
     return $result;
