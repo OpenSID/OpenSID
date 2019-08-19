@@ -162,16 +162,8 @@ class Surat extends Admin_Controller {
 			$log_surat['nik_non_warga'] = $_POST['nik_non_warga'];
 			$nik = $log_surat['nik_non_warga'];
 		}
-		
-		if ($keperluan && $keterangan)
-			$log_surat['keterangan'] = $keperluan;
-		else if (!$keperluan)
-			$log_surat['keterangan'] = $keterangan;
-		else if (!$keterangan)
-			$log_surat['keterangan'] = $keperluan;
-		else
-			$log_surat['keterangan'] = NULL;
 
+		$log_surat['keterangan'] = $keterangan ? $keterangan : $keperluan;
 		$nama_surat = $this->keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';
 		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);

@@ -30,9 +30,9 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th>No Kode Surat</th>
-							<th>No Urut Surat</th>
-                            <th>Jenis Surat</th>
+							<th>Kode Surat</th>
+							<th>No Urut</th>
+              <th>Jenis Surat</th>
 							<th>Nama Penduduk</th>
 							<th>Keterangan</th>
 							<th>Ditandatangani Oleh</th>
@@ -48,23 +48,21 @@
 								<td class="textx"><?= $data['no_surat']?></td>
 								<td class="textx"><?= $data['format']?></td>
 								<td>
-                                    <?php if ($data['nama']): ?>
-                                        <?= $data['nama']; ?>
-                                    <?php elseif ($data['nama_non_warga']): ?>
-                                        <strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
-                                        <strong>NIK: </strong><?= $data['nik_non_warga']; ?>
-                                    <?php endif; ?>
+                  <?php if ($data['nama']): ?>
+                      <?= $data['nama']; ?>
+                  <?php elseif ($data['nama_non_warga']): ?>
+                      <strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+                      <strong>NIK: </strong><?= $data['nik_non_warga']; ?>
+                  <?php endif; ?>
 								</td>
 								<td><?= $data['keterangan']?></td>
-                                <td><?= $data['pamong']?></td>
-                                <td nowrap><?= tgl_indo($data['tanggal'])?></td>
+                <td><?= $data['pamong']?></td>
+                <td nowrap><?= tgl_indo($data['tanggal'])?></td>
 								<td><?= $data['nama_user']?></td>
  							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<label>Tanggal cetak : &nbsp; </label>
-				<?= tgl_indo(date("Y m d"))?>
 				<table>
 				<col span="5" style="width: 18%">
 					<col style="width: 28%">
