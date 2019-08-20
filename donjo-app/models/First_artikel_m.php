@@ -363,6 +363,8 @@ class First_artikel_m extends CI_Model {
 				$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
 				if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
 					$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+					// ganti shortcode menjadi icon
+					$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 			}
 		}
 		else
