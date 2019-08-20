@@ -38,7 +38,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (u.no_surat LIKE '$kw' OR n.nama LIKE '$kw' OR
+			$search_sql = " AND (u.no_surat LIKE '$kw' OR k.kode_surat LIKE '$kw' OR n.nama LIKE '$kw' OR
 					s.pamong_nama like '$kw' OR p.nama like '$kw')";
 			return $search_sql;
 		}
@@ -120,7 +120,7 @@
 			case 4: $order_sql = ' ORDER BY nama DESC'; break;
 			case 5: $order_sql = ' ORDER BY u.tanggal'; break;
 			case 6: $order_sql = ' ORDER BY u.tanggal DESC'; break;
-
+		
 			default:$order_sql = ' ORDER BY u.tanggal DESC';
 		}
 
@@ -129,7 +129,6 @@
 
 		//Main Query
 		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
-
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
@@ -168,12 +167,11 @@
 		}
 		else
 			$jml_data = 0;
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
+			$this->load->library('paging');
+			$cfg['page'] = $p;
+			$cfg['per_page'] = $_SESSION['per_page'];
+			$cfg['num_rows'] = $jml_data;
+			$this->paging->init($cfg);
 
 		return $this->paging;
 	}
@@ -193,7 +191,6 @@
 	public function list_data_perorangan($nik='', $o=0, $offset=0, $limit=500)
 	{
 		if (empty($nik)) return array();
-
 		//Ordering SQL
 		switch ($o)
 		{
@@ -209,7 +206,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik,k.kode_surat AS kode_surat, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
 
 		$sql = $select_sql . $this->list_data_perorangan_sql($nik);
 		$sql .= $order_sql;
@@ -243,8 +240,10 @@
 	{
 		$url_surat = $data_log_surat['url_surat'];
 		$nama_surat = $data_log_surat['nama_surat'];
+			
 		unset($data_log_surat['url_surat']);
 		unset($data_log_surat['pamong_nama']);
+	
 
 		foreach ($data_log_surat as $key => $val)
 		{
@@ -318,12 +317,22 @@
 		return $data;
 	}
 
+	public function get_surat_format($id=0)
+	{
+		$sql = "SELECT * FROM log_surat WHERE id = ?";
+		$query = $this->db->query($sql,$id);
+		$data  = $query->row_array();
+		return $data;
+	}
 	public function update($id=0)
 	{
+		$data = $_POST;
+		$this->db->where('id', $id);
+		$outp = $this->db->update('log_surat', $data);
+
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
-
 	public function delete($id='')
 	{
 		$_SESSION['success'] = 1;
@@ -384,6 +393,5 @@
 			get()->result_array();
 		return $query;
 	}
-
 }
 ?>
