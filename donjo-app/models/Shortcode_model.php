@@ -1,4 +1,6 @@
 <?php
+// https://stackoverflow.com/questions/28001003/extends-model-in-codeigniter
+require APPPATH.'/models/Keuangan_grafik_model.php';
 class Shortcode_model extends Keuangan_grafik_model {
 
   public function __construct()
