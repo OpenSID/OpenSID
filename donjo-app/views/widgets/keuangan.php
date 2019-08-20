@@ -267,4 +267,3 @@
     displayChart(year, type);
 	});
 </script>
-<!-- Highcharts -->
