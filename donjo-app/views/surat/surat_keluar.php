@@ -24,8 +24,8 @@
 					<div class="box-header with-border">
 						<a href="<?= site_url('keluar/perorangan_clear')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
 						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
-						<a href="<?= site_url('keluar/dialog_cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Arsip Layanan Surat"><i class="fa fa-print"></i> Cetak</a>
-						<a href="<?= site_url('keluar/dialog_unduh')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Arsip Layanan Surat"><i class="fa fa-download"></i> Unduh</a>
+						<a href="<?= site_url("{$this->controller}/dialog_cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Arsip Layanan Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Arsip Layanan Surat"><i class="fa fa-print "></i> Cetak</a>
+						<a href="<?= site_url("{$this->controller}/dialog_unduh")?>" title="Unduh Arsip Layanan Surat" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Arsip Layanan Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Arsip Layanan Surat"><i class="fa fa-download"></i> Unduh</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -68,11 +68,11 @@
 																<th >Aksi</th>
 																<th nowrap>Kode Surat</th>
 																<?php if ($o==2): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">No Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">Nomor Urut Surat <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o==1): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/2")?>">No Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/2")?>">Nomor Urut Surat <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">No Urut <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">Nomor Urut Surat <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Jenis Surat</th>
 																<?php if ($o==4): ?>
@@ -101,7 +101,6 @@
 																else:
 																	$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
 																endif;
-
 																$theFile = FCPATH.LOKASI_ARSIP.$berkas;
 																$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
 															?>
@@ -116,6 +115,7 @@
 																			if (is_file($lampiran)): ?>
 																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
 																			<?php	endif; ?>
+																		<a href="<?= site_url("keluar/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>	
 																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
@@ -129,7 +129,7 @@
 																			<strong>NIK: </strong><?= $data['nik_non_warga']; ?>
 																		<?php endif; ?>
 																	</td>
-																	<td><?= $data['keterangan']?></td>
+																	<td></> Sebagai Surat </><?= $data['format'] ; ?> <?= $data['keterangan']?></td>
 																	<td><?= $data['pamong']?></td>
 																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
