@@ -358,8 +358,6 @@ class First extends Web_Controller {
 
 	public function kategori($kat=0, $p=1)
 	{
-		$this->load->model('keuangan_grafik_model');
-		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -372,12 +370,6 @@ class First extends Web_Controller {
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $kat);
-
-		// replace shortcode menjadi icon
-		foreach ($data['artikel'] as $key => $d)
-		{
-			$data['artikel'][$key]['isi'] = $this->shortcode_model->convert_sc_list($d['isi']);
-		}
 
 		$this->_get_common_data($data);
 		$this->load->view($this->template, $data);
