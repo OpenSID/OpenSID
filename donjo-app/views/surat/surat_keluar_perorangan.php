@@ -107,7 +107,6 @@
 																	else:
 																		$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
 																	endif;
-
 																	$theFile = FCPATH.LOKASI_ARSIP.$berkas;
 																	$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
 																?>
@@ -128,7 +127,7 @@
 																	<td><?= $data['no_surat']?></td>
 																	<td><?= $data['format']?></td>
 																	<td><?= $data['nama']?></td>
-																	<td><?= $data['keterangan']?></td>
+																	<td></> Sebagai Surat </><?= $data['format'] ; ?> <?= $data['keterangan']?></td>
 																	<td><?= $data['pamong']?></td>
 																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
@@ -208,4 +207,3 @@
 		</div>
 	</section>
 </div>
-
