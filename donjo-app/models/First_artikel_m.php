@@ -268,8 +268,12 @@ class First_artikel_m extends CI_Model {
 
 	public function komentar_show()
 	{
-		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug FROM komentar a INNER JOIN artikel b ON  a.id_artikel = b.id WHERE a.enabled=? AND a.id_artikel <> 775 order by a.tgl_upload desc limit 10 ";
-		$query = $this->db->query($sql,1);
+		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
+			FROM komentar a
+			INNER JOIN artikel b ON  a.id_artikel = b.id
+			WHERE a.enabled = ? AND a.id_artikel <> 775
+			ORDER BY a.tgl_upload DESC LIMIT 10 ";
+		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
 
 		for ($i=0; $i<count($data); $i++)
