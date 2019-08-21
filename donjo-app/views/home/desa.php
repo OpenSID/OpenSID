@@ -101,8 +101,8 @@
 						<div class="col-lg-4 col-xs-4">
 							<div class="small-box bg-yellow">
 								<div class="inner">
-									<h3><?=$miskin['jumlah']?></h3>
-									<p><?=$miskin['nama']?></p>
+									<h3><?=$bantuan['jumlah']?></h3>
+									<p><?=$bantuan['nama']?></p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-ios-pie"></i>
