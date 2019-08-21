@@ -369,39 +369,43 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function add_comment($id=0)
-	{
+	public function add_comment($id=0, $slug = NULL)
+		{
+			$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
+			$query = $this->db->query($sql,1);
+			$data = $query->row_array();
 		// Periksa isian captcha
-		include FCPATH . 'securimage/securimage.php';
-		$securimage = new Securimage();
-		$_SESSION['validation_error'] = false;
-		if ($securimage->check($_POST['captcha_code']) == false)
-		{
-			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
-			$_SESSION['post'] = $_POST;
-			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/$id#kolom-komentar");
-		}
+			include FCPATH . 'securimage/securimage.php';
+			$securimage = new Securimage();
+			$_SESSION['validation_error'] = false;
+			if ($securimage->check($_POST['captcha_code']) == false)
+			{
+				$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
+				$_SESSION['post'] = $_POST;
+				$_SESSION['validation_error'] = true;
+				redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+			}
 
-		$res = $this->first_artikel_m->insert_comment($id);
-		$data['data_config'] = $this->config_model->get_data();
+			$res = $this->first_artikel_m->insert_comment($id);
+			$data['data_config'] = $this->config_model->get_data();
 		// cek kalau berhasil disimpan dalam database
-		if ($res)
-		{
-			$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
-		}
-		else
-		{
-			$_SESSION['post'] = $_POST;
-			if (!empty($_SESSION['validation_error']))
-				$this->session->set_flashdata('flash_message', validation_errors());
+			if ($res)
+			{
+				$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+			}
 			else
-				$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
-		}
+			{
+				$_SESSION['post'] = $_POST;
+				if (!empty($_SESSION['validation_error']))
+					$this->session->set_flashdata('flash_message', validation_errors());
+				else
+					$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
+			}
 
-		$_SESSION['sukses'] = 1;
-		redirect("first/artikel/$id#kolom-komentar");
-	}
+			$_SESSION['sukses'] = 1;
+			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+			
+		}
 
 	private function _get_common_data(&$data)
 	{
