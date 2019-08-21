@@ -45,6 +45,11 @@
 		<script src="<?php echo base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.colorbox.js"></script>
+
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		
 		<script>
 			$(document).ready(function(){
 				$(".group2").colorbox({rel:'group2', transition:"fade"});
