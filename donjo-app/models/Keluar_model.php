@@ -128,7 +128,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
 
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $order_sql;
