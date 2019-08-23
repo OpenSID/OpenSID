@@ -21,7 +21,7 @@
 		$query = $this->db->get_where('tweb_penduduk_asuransi', array('id_asuransi' => $id));
 		foreach ($query->result() as $row)
 		{
-        	$data = $row->nama_asuransi;
+        		$data = $row->nama_asuransi;
 		}
 		return $data;
 	}
