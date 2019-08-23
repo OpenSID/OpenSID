@@ -166,11 +166,9 @@
 		return $this->db->get()->row_array();
 	}
 
-	public function update_keterangan($id)
+	public function update_keterangan($id, $data)
 	{
-		$data = $_POST;
 		$this->db->where('id',$id);
-
 		$outp = $this->db->update('log_surat',$data);
 
 		if ($outp) $_SESSION['success'] = 1;

@@ -70,7 +70,12 @@ class Keluar extends Admin_Controller {
 
 	public function update_keterangan($id='')
 	{
-		$this->keluar_model->update_keterangan($id);
+		$data = [
+			'keterangan' => $this->input->post('keterangan')
+		];
+		$data = $this->security->xss_clean($data);
+		$data = html_escape($data);
+		$this->keluar_model->update_keterangan($id, $data);
 		redirect('keluar/clear');
 	}
 
