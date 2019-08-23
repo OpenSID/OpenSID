@@ -84,8 +84,7 @@ $panjangEmpat = $prosenEmpat * 100 / 100;
 if ($prosenLima == 0) { $panjangLima = 0.2; }
 else { $panjangLima = $prosenLima * 100 / 100; } ?>
 
-<div class="col-md-12">
-<div class="col-md-1"></div>
+<div class="container">
 <div class="col-md-4">
     <div align="center"><h2>Anggaran Tahun 2019</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
@@ -145,7 +144,7 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
         </div>
     </div><hr>
 </div>
-<div class="col-md-3">
+<div class="col-md-4">
     <div align="center"><h2>Pendapatan Tahun 2018</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Pendapatan Desa TA 2018<br>
@@ -223,7 +222,7 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
         </div>
     </div><hr>
 </div>
-<div class="col-md-3">
+<div class="col-md-4">
     <div align="center"><h2>Belanja Tahun 2018</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Belanja Desa TA 2018<br>
@@ -281,5 +280,4 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
         </div>
     </div><hr>
 </div>
-<div class="col-md-1"></div>
 </div>
