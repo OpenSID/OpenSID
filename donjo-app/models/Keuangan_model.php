@@ -228,7 +228,7 @@ class Keuangan_model extends CI_model {
     $data = $this->db->select('tahun_anggaran')
       ->order_by('tahun_anggaran DESC')
       ->get('keuangan_master')->result_array();
-    return array_column($data, 'tahun_anggaran');;
+    return array_column($data, 'tahun_anggaran');
   }
 
   public function data_id_keuangan_master()
@@ -244,6 +244,29 @@ class Keuangan_model extends CI_model {
     $this->db->select_sum('AnggaranStlhPAK');
     $this->db->where('id_keuangan_master', $id_keuangan_master);
     $result = $this->db->get('keuangan_ta_anggaran')->row();
+    return $result;
+  }
+
+  public function data_anggaran_tahun($thn)
+  {
+    $this->db->select_sum('Anggaran');
+    $this->db->select_sum('AnggaranPAK');
+    $this->db->select_sum('AnggaranStlhPAK');
+    $this->db->where('Tahun', $thn);
+    $result = $this->db->get('keuangan_ta_anggaran')->row();
+    return $result;
+  }
+
+  public function data_grafik_utama($thn)
+  {
+    $this->db->select_sum('AnggaranStlhPAK');
+    $this->db->where('Tahun', $thn);
+    $result['anggaran'] = $this->db->get('keuangan_ta_anggaran')->row();
+
+    $this->db->select_sum('Nilai');
+    $this->db->where('Tahun', $thn);
+    $result['realisasi'] = $this->db->get('keuangan_ta_spj_rinci')->row();
+    
     return $result;
   }
 

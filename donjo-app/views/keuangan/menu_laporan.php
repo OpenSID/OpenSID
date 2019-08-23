@@ -7,7 +7,10 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif; ?>><a href="<?=site_url('keuangan/grafik/grafik-R-PD')?>">Grafik Realisasi Pendapatan</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif; ?>><a href="<?= site_url('keuangan/grafik/grafik-RP-APBD')?>">Grafik Realisasi Pelaksanaan</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif; ?>><a href="<?= site_url('keuangan/grafik/grafik-R-BD')?>">Grafik Realisasi Belanja Bidang</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif; ?>><a href="<?= site_url('keuangan/grafik/grafik-R-PD')?>">Grafik Realisasi Pendapatan</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif; ?>><a href="<?= site_url('keuangan/grafik/grafik-R-PEMDES')?>">Grafik Realisasi Pembiayaan Desa</a></li>
 		</ul>
 	</div>
 </div>
