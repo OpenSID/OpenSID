@@ -242,7 +242,7 @@ class Penduduk extends Admin_Controller {
 		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
-		$data['pilihan_asuransi'] = $this->penduduk_model->list_asuransi();
+		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
 		$nav['act']= 2;
 		$nav['act_sub'] = 21;

@@ -1191,12 +1191,6 @@
 		return $data;
 	}
 
-	public function list_asuransi()
-	{
-		$data = $this->db->select('*')->get("tweb_penduduk_asuransi")->result_array();
-		return $data;
-	}
-
 	public function list_cacat()
 	{
 		$sql   = "SELECT * FROM tweb_cacat WHERE 1";

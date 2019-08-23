@@ -257,7 +257,10 @@
 													</tr>
 												<?php endif; ?>
 												<tr>
-													<td>No Asuransi</td><td >:</td><td><?= strtoupper($penduduk['no_asuransi'])?> (<?= $penduduk['asuransi'] ?>)</td>
+													<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi'] ?></td>
+												</tr>
+												<tr>
+													<td>No Asuransi</td><td >:</td><td><?= strtoupper($penduduk['no_asuransi'])?></td>
 												</tr>
 											</thead>
 										</table>
