@@ -11,66 +11,247 @@ class Keuangan extends Admin_Controller {
 		$this->modul_ini = 201;
 	}
 
+	public function setdata_laporan($tahun, $semester)
+	{
+		$sess = array(
+			'set_tahun' => $tahun,
+			'set_semester' => $semester
+		);
+		$this->session->set_userdata( $sess );
+		echo json_encode(true);
+	}
+
 	public function laporan()
 	{
-		$data['tahun_anggaran'] = $this->keuangan_model->tahun_anggaran();
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$sess = array(
+			'set_tahun' => $data['tahun_anggaran'][0],
+			'set_semester' => 1
+		);
+		$this->session->set_userdata( $sess );
 		$data['id_keuangan_master'] = $this->keuangan_model->data_id_keuangan_master();
-		$data['data_anggaran'] = $this->keuangan_model->data_anggaran($data['id_keuangan_master']);
+
 		$data['pendapatan_desa'] = $this->keuangan_model->pendapatan_desa($data['id_keuangan_master']);
 		$data['realisasi_pendapatan_desa'] = $this->keuangan_model->realisasi_pendapatan_desa($data['id_keuangan_master']);
 		// print_r($data['pendapatan_desa']);die();
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('keuangan/laporan',$data);
 		$this->load->view('footer');
 	}
 
+	public function anggaran($tahun, $smt)
+	{
+		$sess = array(
+			'set_tahun' => $tahun,
+			'set_semester' => $smt
+		);
+		$this->session->set_userdata( $sess );
+
+		$data['data_anggaran'] = $this->keuangan_model->data_anggaran_tahun($tahun);
+		$data['data_realisasi'] = $this->keuangan_model->data_grafik_utama($tahun);
+		echo json_encode($data);
+	}
+
 	public function grafik($jenis)
 	{
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
+		$semester = $this->session->userdata('set_semester') ? $this->session->userdata('set_semester') : 1;
+		$sess = array(
+			'set_tahun' => $tahun,
+			'set_semester' => $semester
+		);
+		$this->session->set_userdata( $sess );
+		$this->load->model('keuangan_grafik_model');
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$smt = '1';
-		$thn = '2016';
-		if ($jenis == 'grafik-R-PD')
-		{
-			$data = $this->keuangan_model->r_pd($smt, $thn);
-			$jp = array();
-			foreach ($data['jenis_pendapatan'] as $b)
-			{
-				$jp[] = "'". $b['Nama_Jenis']. "'";
-			}
-			$anggaran = array();
-			foreach ($data['anggaran'] as $a)
-			{
-				$anggaran[] = $a['Pagu'];
-			}
-			$realisasi = array();
-			foreach ($data['realisasi'] as $r)
-			{
-				if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-				{
-					$realisasi[] =  $r['Nilai'];
-				}
-				else
-				{
-					$realisasi[] =  0;
-				}
-			}
-			$data_chart = array(
-				'type' => $jenis,
-				'smt' => $smt,
-				'thn' => $thn,
-				'jp' => $jp,
-				'anggaran' => $anggaran,
-				'realisasi' => $realisasi
-			);
-			$this->load->view('keuangan/grafik_r_pd', $data_chart);
+		$smt = $this->session->userdata('set_semester');
+		$thn = $this->session->userdata('set_tahun');
+
+		switch ($jenis) {
+			case 'grafik-R-PD':
+				$this->grafik_r_pd($thn, $smt);
+				break;
+			case 'grafik-RP-APBD':
+				$this->grafik_rp_apbd($thn, $smt);
+				break;
+			case 'grafik-R-BD':
+				$this->grafik_r_bd($thn, $smt);
+				break;
+			case 'grafik-R-PEMDES';
+				$this->grafik_r_pemdes($thn, $smt);
+				break;
+			case 'rincian_realisasi':
+				$this->rincian_realisasi($thn, $smt);
+				break;
+			default:
+				$this->grafik_r_pd($thn, $smt);
+				break;
 		}
+
 		$this->load->view('footer');
+	}
+
+	private function rincian_realisasi($thn, $smt)
+	{
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($smt, $thn);
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$this->load->view('keuangan/rincian_realisasi', $data);
+	}
+
+	private function grafik_r_pd($thn, $smt)
+	{
+		$data = $this->keuangan_grafik_model->r_pd($smt, $thn);
+		$jp = array();
+		foreach ($data['jenis_pendapatan'] as $b)
+		{
+			$jp[] = "'". $b['Nama_Jenis']. "'";
+		}
+		$anggaran = array();
+		foreach ($data['anggaran'] as $a)
+		{
+			$anggaran[] = $a['Pagu'];
+		}
+		$realisasi = array();
+		foreach ($data['realisasi'] as $r)
+		{
+			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+			{
+				$realisasi[] =  $r['Nilai'];
+			}
+			else
+			{
+				$realisasi[] =  0;
+			}
+		}
+		$data_chart = array(
+			'type' => $jenis,
+			'smt' => $smt,
+			'thn' => $thn,
+			'jp' => $jp,
+			'anggaran' => $anggaran,
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
+		);
+		$this->load->view('keuangan/grafik_r_pd', $data_chart);
+	}
+
+	private function grafik_rp_apbd($thn, $smt)
+	{
+		$data = $this->keuangan_grafik_model->rp_apbd($smt, $thn);
+		$jenisbelanja = array();
+		foreach ($data['jenis_belanja'] as $j)
+		{
+			$jenisbelanja[] = "'". $j['Nama_Akun']. "'";
+		}
+		$anggaran = array();
+		foreach ($data['anggaran'] as $p)
+		{
+			$anggaran[] = $p['AnggaranStlhPAK'];
+		}
+		$realisasi = array();
+		foreach ($data['realisasi'] as $s)
+		{
+			if(!empty($s['Nilai']) || !is_null($s['Nilai']))
+			{
+				$realisasi[] =  $s['Nilai'];
+			}
+			else
+			{
+				$realisasi[] =  0;
+			}
+		}
+		$data_chart = array(
+			'type' => $jenis,
+			'smt' => $smt,
+			'thn' => $thn,
+			'jenisbelanja' => $jenisbelanja,
+			'anggaran' => $anggaran,
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
+		);
+		$this->load->view('keuangan/grafik_rp_apbd', $data_chart);
+	}
+
+	private function grafik_r_bd($thn, $smt)
+	{
+		$data = $this->keuangan_grafik_model->r_bd($smt, $thn);
+		$bidang = array();
+		foreach ($data['bidang'] as $b)
+		{
+			$bidang[] = "'". $b['Nama_Bidang']. "'";
+		}
+		$anggaran = array();
+		foreach ($data['anggaran'] as $a)
+		{
+			$anggaran[] = $a['Pagu'];
+		}
+		$realisasi = array();
+		foreach ($data['realisasi'] as $r)
+		{
+			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+			{
+				$realisasi[] =  $r['Nilai'];
+			}
+			else
+			{
+				$realisasi[] =  0;
+			}
+		}
+		$data_chart = array(
+			'type' => $jenis,
+			'smt' => $smt,
+			'thn' => $thn,
+			'bidang' => $bidang,
+			'anggaran' => $anggaran,
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
+		);
+		$this->load->view('keuangan/grafik_r_bd', $data_chart);
+	}
+
+	private function grafik_r_pemdes($thn, $smt)
+	{
+		$data = $this->keuangan_grafik_model->r_pembiayaan($smt, $thn);
+		$pembiayaan = array();
+		foreach ($data['pembiayaan'] as $d)
+		{
+			$pembiayaan[] = "'". $d['Nama_Kelompok']. "'";
+		}
+		$anggaran = array();
+		foreach ($data['anggaran'] as $a)
+		{
+			$anggaran[] = $a['Pagu'];
+		}
+		$realisasi = array();
+		foreach ($data['realisasi'] as $r)
+		{
+			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+			{
+				$realisasi[] =  $r['Nilai'];
+			}
+			else
+			{
+				$realisasi[] =  0;
+			}
+		}
+		$data_chart = array(
+			'type' => $jenis,
+			'smt' => $smt,
+			'thn' => $thn,
+			'pembiayaan' => $pembiayaan,
+			'anggaran' => $anggaran,
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
+		);
+		$this->load->view('keuangan/grafik_r_pemdes', $data_chart);
 	}
 
 	public function impor_data()

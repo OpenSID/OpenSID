@@ -51,7 +51,7 @@
 			<th>Persentase (%)</th>
 		</tr>
 	</thead>
-	<?php foreach ($data['pendapatan'] as $l): ?>
+	<?php foreach ($pendapatan as $l): ?>
 		<tr class='bold highlighted'>
 			<td colspan='4'><?= $l['Akun'] ." ". $l['Nama_Akun']?></td>
 			<td align='right'><?= number_format($l['anggaran'][0]['pagu'])?></td>
@@ -81,7 +81,7 @@
 			<?php endforeach ?>
 		</tr>
 		<?php endforeach ?>
-	<?php foreach ($data['belanja'] as $b): ?>
+	<?php foreach ($belanja as $b): ?>
 		<tr class='bold highlighted'>
 			<td colspan='4' class='bold highlighted'><?= $b['Akun']." ".$b['Nama_Akun']?></td>
 			<td align='right' class='bold highlighted'><?= number_format($b['anggaran'][0]['pagu'])?></td>
@@ -123,7 +123,7 @@
 			<?php endforeach ?>
 		</tr>
 		<?php endforeach ?>
-	<?php foreach ($data['pembiayaan'] as $a): ?>
+	<?php foreach ($pembiayaan as $a): ?>
 		<tr class='bold highlighted'>
 			<td colspan='4'><?= $a['Akun']." ".$a['Nama_Akun']?></td>
 			<td align='right'><?= number_format($a['anggaran'][0]['pagu'])?></td>
