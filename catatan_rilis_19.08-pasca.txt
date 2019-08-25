@@ -1,6 +1,6 @@
 Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Agung Sugiarto, Ariandi Ryan Kahfi dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada adlersentinel dan Kusmanto Pratama yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto, Ariandi Ryan Kahfi, Uncu dan Diki Siswanto yang terus berkontribusi. Terima kasih pula pada adlersentinel dan Kusmanto Pratama yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.08-pasca:
 
@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 19.08-pasca:
 10. #2151: Tambahkan kolom Keterangan dan Kode Surat di laporan Arsip Layanan Surat Desa. Juga tambahkan blok penandatangan di laporan cetak dan unduh.
 11. #2191: Ubah tulisan statistik bantuan di dashboard admin supaya sesuai dengan statistik yang lain.
 12. #2204: Sekarang url artikel di widget Komentar Terkini berbentuk tulisan, bukan id. Juga setelah mengisi form komentar, artikel ybs ditampilkan menggunakan url tulisan.
+13. #2236: Lampiran F-1.01 di Surat Permohonan Perubahan Kartu Keluarga sekarang menampilkan kode pos yg benar. [bug-fix]
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.08-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
