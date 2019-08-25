@@ -169,8 +169,8 @@
 			<td>:</td>
 			<?php for ($i=0; $i<5; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_desa'][$i])): ?>
-						<?= $config['kode_desa'][$i];?>
+					<?php if (isset($config['kode_pos'][$i])): ?>
+						<?= $config['kode_pos'][$i];?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
