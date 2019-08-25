@@ -61,6 +61,11 @@
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
 		</script>
+		
+		<!-- Highcharts JS -->
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
