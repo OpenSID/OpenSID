@@ -15,7 +15,7 @@ class Keuangan extends Admin_Controller {
 	{
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$data['id_keuangan_master'] = $this->keuangan_model->data_id_keuangan_master();
-		
+
 		$data['pendapatan_desa'] = $this->keuangan_model->pendapatan_desa($data['id_keuangan_master']);
 		$data['realisasi_pendapatan_desa'] = $this->keuangan_model->realisasi_pendapatan_desa($data['id_keuangan_master']);
 		// print_r($data['pendapatan_desa']);die();
@@ -32,7 +32,7 @@ class Keuangan extends Admin_Controller {
 		$sess = array(
 			'set_tahun' => $tahun,
 			'set_semester' => $smt
-		);		
+		);
 		$this->session->set_userdata( $sess );
 
 		$data['data_anggaran'] = $this->keuangan_model->data_anggaran_tahun($tahun);
@@ -45,28 +45,40 @@ class Keuangan extends Admin_Controller {
 		$this->load->model('keuangan_grafik_model');
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
-		if ($jenis == 'grafik-R-PD')
-		{
-			return $this->grafik_r_pd($thn, $smt);
-		}
-		elseif ($jenis == 'grafik-RP-APBD')
-		{
-			return $this->grafik_rp_apbd($thn, $smt);
-		}
-		elseif ($jenis == 'grafik-R-BD')
-		{
-			return $this->grafik_r_bd($thn, $smt);
-		}
-		elseif ($jenis == 'grafik-R-PEMDES')
-		{
-			return $this->grafik_r_pemdes($thn, $smt);
+
+		switch ($jenis) {
+			case 'grafik-R-PD':
+				$this->grafik_r_pd($thn, $smt);
+				break;
+			case 'grafik-RP-APBD':
+				$this->grafik_rp_apbd($thn, $smt);
+				break;
+			case 'grafik-R-BD':
+				$this->grafik_r_bd($thn, $smt);
+				break;
+			case 'grafik-R-PEMDES';
+				$this->grafik_r_pemdes($thn, $smt);
+				break;
+			case 'rincian_realisasi':
+				$this->rincian_realisasi($thn, $smt);
+				break;
+			default:
+				$this->grafik_r_pd($thn, $smt);
+				break;
 		}
 
 		$this->load->view('footer');
+	}
+
+	private function rincian_realisasi($thn, $smt)
+	{
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($smt, $thn);
+		$this->load->view('keuangan/rincian_realisasi', array('data' => $data));
 	}
 
 	private function grafik_r_pd($thn, $smt)
