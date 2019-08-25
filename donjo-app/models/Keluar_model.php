@@ -161,15 +161,15 @@
 	{
 		$this->db->select('id, keterangan');
 		$this->db->from('log_surat');
-		$this->db->where('id',$id);
+		$this->db->where('id', $id);
 
 		return $this->db->get()->row_array();
 	}
 
 	public function update_keterangan($id, $data)
 	{
-		$this->db->where('id',$id);
-		$outp = $this->db->update('log_surat',$data);
+		$this->db->where('id', $id);
+		$outp = $this->db->update('log_surat', $data);
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
