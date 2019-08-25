@@ -7,7 +7,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('keuangan/laporan')?>">Laporan Keuangan</a></li>
-			<li class="active">Grafik Pendapatan Desa</li>
+			<li class="active">Grafik Pelaksanaan Belanja Desa</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -16,7 +16,7 @@
 				<?php $this->load->view('keuangan/menu_laporan');?>
 			</div>
 			<div class="col-md-9">
-				<?php include("donjo-app/views/keuangan/grafik_r_pd_chart.php"); ?>
+				<?php include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php"); ?>
 			</div>
 		</div>
 	</section>

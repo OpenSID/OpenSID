@@ -65,7 +65,7 @@
 <?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
     var posisi = [<?=$data_config['lat'].",".$data_config['lng']?>];
     var zoom = <?=$data_config['zoom'] ?: 10?>;
-<? else: ?>
+<?php else: ?>
     var posisi = [-1.0546279422758742,116.71875000000001];
     var zoom = 10;
 <?php endif; ?>
