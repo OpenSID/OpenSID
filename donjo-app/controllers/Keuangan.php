@@ -11,9 +11,24 @@ class Keuangan extends Admin_Controller {
 		$this->modul_ini = 201;
 	}
 
+	public function setdata_laporan($tahun, $semester)
+	{
+		$sess = array(
+			'set_tahun' => $tahun,
+			'set_semester' => $semester
+		);
+		$this->session->set_userdata( $sess );
+		echo json_encode(true);
+	}
+
 	public function laporan()
 	{
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$sess = array(
+			'set_tahun' => $data['tahun_anggaran'][0],
+			'set_semester' => 1
+		);
+		$this->session->set_userdata( $sess );
 		$data['id_keuangan_master'] = $this->keuangan_model->data_id_keuangan_master();
 
 		$data['pendapatan_desa'] = $this->keuangan_model->pendapatan_desa($data['id_keuangan_master']);
@@ -21,6 +36,7 @@ class Keuangan extends Admin_Controller {
 		// print_r($data['pendapatan_desa']);die();
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('keuangan/laporan',$data);
@@ -42,6 +58,14 @@ class Keuangan extends Admin_Controller {
 
 	public function grafik($jenis)
 	{
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
+		$semester = $this->session->userdata('set_semester') ? $this->session->userdata('set_semester') : 1;
+		$sess = array(
+			'set_tahun' => $tahun,
+			'set_semester' => $semester
+		);
+		$this->session->set_userdata( $sess );
 		$this->load->model('keuangan_grafik_model');
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
@@ -78,7 +102,8 @@ class Keuangan extends Admin_Controller {
 	private function rincian_realisasi($thn, $smt)
 	{
 		$data = $this->keuangan_grafik_model->lap_rp_apbd($smt, $thn);
-		$this->load->view('keuangan/rincian_realisasi', array('data' => $data));
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$this->load->view('keuangan/rincian_realisasi', $data);
 	}
 
 	private function grafik_r_pd($thn, $smt)
@@ -112,7 +137,8 @@ class Keuangan extends Admin_Controller {
 			'thn' => $thn,
 			'jp' => $jp,
 			'anggaran' => $anggaran,
-			'realisasi' => $realisasi
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
 		);
 		$this->load->view('keuangan/grafik_r_pd', $data_chart);
 	}
@@ -148,7 +174,8 @@ class Keuangan extends Admin_Controller {
 			'thn' => $thn,
 			'jenisbelanja' => $jenisbelanja,
 			'anggaran' => $anggaran,
-			'realisasi' => $realisasi
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
 		);
 		$this->load->view('keuangan/grafik_rp_apbd', $data_chart);
 	}
@@ -184,7 +211,8 @@ class Keuangan extends Admin_Controller {
 			'thn' => $thn,
 			'bidang' => $bidang,
 			'anggaran' => $anggaran,
-			'realisasi' => $realisasi
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
 		);
 		$this->load->view('keuangan/grafik_r_bd', $data_chart);
 	}
@@ -220,7 +248,8 @@ class Keuangan extends Admin_Controller {
 			'thn' => $thn,
 			'pembiayaan' => $pembiayaan,
 			'anggaran' => $anggaran,
-			'realisasi' => $realisasi
+			'realisasi' => $realisasi,
+			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
 		);
 		$this->load->view('keuangan/grafik_r_pemdes', $data_chart);
 	}

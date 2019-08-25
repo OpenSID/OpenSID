@@ -1,18 +1,6 @@
 <style type="text/css">
 	.nowrap { white-space: nowrap; }
 </style>
-<script>
-	$(function()
-	{
-		// var keyword = <?= $keyword?> ;
-		var keyword = " " ;
-		$( "#cari" ).autocomplete(
-		{
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Keuangan</h1>
@@ -23,34 +11,11 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-md-3">
-				<?php $this->load->view('keuangan/menu_laporan');?>
-			</div>
+			<?php $this->load->view('keuangan/filter_laporan'); ?>
 			<div class="col-md-9">
 				<div class="box box-danger">
-					<div class="box-header with-border">
-						<h4>Informasi Anggaran</h4>
-						<div class="col-md-5">
-							<select name="tahun_anggaran" id="tahun_anggaran">
-								<option value="">Pilih Tahun</option>
-								<?php foreach ($tahun_anggaran as $t) :?>
-									<option value="<?= $t ?>"><?= $t ?></option>
-								<?php endforeach ?>
-							</select>
-							<select id="semester" name="semester">
-								<option value="">Pilih Semester</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-							</select>
-							<button class="btn btn-info" onclick="setData()"><i class="fa fa-search"></i> Cari</button>
-						</div>
-						<div id="alert" class="col-md-7 alert alert-warning alert-dismissible">
-			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-			                <h4><i class="icon fa fa-warning"></i> Perhatian!</h4>
-			                Lengkapi Filter Data Dahulu.
-			            </div>					
-					</div>
 					<div class="box-body">
+						<h4>Informasi Anggaran</h4>
 						<div class="box box-danger">
 							<div class="box-header with-border">
 								<div class="col-md-4">
@@ -85,10 +50,10 @@
 
 	$(document).ready(function ()
 	{
-
+		setData();
 	});
 
-	function setData() 
+	function setData()
 	{
 		var tahun = $('#tahun_anggaran').val();
 		var semester = $('#semester').val();
@@ -101,7 +66,7 @@
 	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 
-	function get_anggaran(tahun, semester) 
+	function get_anggaran(tahun, semester)
 	{
 		$.ajax({
 			type  : 'GET',

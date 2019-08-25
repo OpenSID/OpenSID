@@ -12,9 +12,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-md-3">
-				<?php $this->load->view('keuangan/menu_laporan');?>
-			</div>
+			<?php $this->load->view('keuangan/filter_laporan'); ?>
 			<div class="col-md-9">
 				<?php include("donjo-app/views/keuangan/grafik_r_pemdes_chart.php"); ?>
 			</div>

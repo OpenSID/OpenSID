@@ -142,33 +142,33 @@
 				data: formdata,
 				processData: false,
 				contentType: false,
-					success: function(response) {
-						if (response == 0)
-						{
-							$('#validasi').submit();
-						}
-						else if (response == 1)
-						{
-							$("#kata_peringatan").text('File harus dalam format .zip');
-							$("#dialog").modal('show');
-							$("#file_path2").val('');
-							$("#file2").focus();
-						}
-						else if (response == 2)
-						{
-							$("#kata_peringatan").text('File tidak berisi data Siskeudes');
-							$("#dialog").modal('show');
-							$("#file_path2").val('');
-							$("#file2").focus();
-						}
-						else
-						{
-							var data = jQuery.parseJSON(response);
-							$("#id_keuangan_master").val(data.id);
-							$("#tahun").text(data.tahun_anggaran);
-							$("#getCodeModal").modal('show');
-						}
-				 }
+				success: function(response) {
+					if (response == 0)
+					{
+						$('#validasi').submit();
+					}
+					else if (response == 1)
+					{
+						$("#kata_peringatan").text('File harus dalam format .zip');
+						$("#dialog").modal('show');
+						$("#file_path2").val('');
+						$("#file2").focus();
+					}
+					else if (response == 2)
+					{
+						$("#kata_peringatan").text('File tidak berisi data Siskeudes');
+						$("#dialog").modal('show');
+						$("#file_path2").val('');
+						$("#file2").focus();
+					}
+					else
+					{
+						var data = jQuery.parseJSON(response);
+						$("#id_keuangan_master").val(data.id);
+						$("#tahun").text(data.tahun_anggaran);
+						$("#getCodeModal").modal('show');
+					}
+			 	}
 			});
 		}
 	}
