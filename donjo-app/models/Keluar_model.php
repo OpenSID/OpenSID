@@ -157,6 +157,24 @@
 		return $data;
 	}
 
+	public function list_data_keterangan($id)
+	{
+		$this->db->select('id, keterangan');
+		$this->db->from('log_surat');
+		$this->db->where('id',$id);
+
+		return $this->db->get()->row_array();
+	}
+
+	public function update_keterangan($id, $data)
+	{
+		$this->db->where('id',$id);
+		$outp = $this->db->update('log_surat',$data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
 	public function paging_perorangan($nik='', $p=1, $o=0)
 	{
 		if (!empty($nik))

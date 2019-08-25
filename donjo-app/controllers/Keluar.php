@@ -61,6 +61,24 @@ class Keluar extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
+	public function edit_keterangan($id=0)
+	{
+		$data['data'] = $this->keluar_model->list_data_keterangan($id);
+		$data['form_action'] = site_url("keluar/update_keterangan/$id");
+		$this->load->view('surat/ajax_edit_keterangan', $data);
+	}
+
+	public function update_keterangan($id='')
+	{
+		$data = [
+			'keterangan' => $this->input->post('keterangan')
+		];
+		$data = $this->security->xss_clean($data);
+		$data = html_escape($data);
+		$this->keluar_model->update_keterangan($id, $data);
+		redirect('keluar/clear');
+	}
+
 	public function delete($p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "keluar/index/$p/$o");
