@@ -38,6 +38,9 @@
 		            dataLabels: {
 		                enabled: true
 		            }
+		        },
+		        series: {
+		            pointWidth: 25
 		        }
 		    },
 		    legend: {
@@ -61,7 +64,6 @@
 		        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
 		        	}
 		        },
-				color: '#2E8B57',
 		        data: [<?= join($anggaran, ',') ?>]
 	        },{
 		        name: 'Realisasi',
@@ -73,7 +75,6 @@
 				    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
 				    }
 			    },
-				color: '#3461eb',
 		        data: [<?= join($realisasi, ',') ?>]
 		    }]
 		});

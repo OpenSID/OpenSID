@@ -117,6 +117,9 @@
 			            dataLabels: {
 			                enabled: true
 			            }
+			        },
+			        series: {
+			            pointWidth: 25
 			        }
 			    },
 			    legend: {
@@ -135,7 +138,6 @@
 			    },
 			    series: [{
 			        name: 'Anggaran',
-					color: '#2E8B57',
 					dataLabels: {
 			        	formatter: function () {
 			        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
@@ -144,7 +146,6 @@
 			        data: [parseInt(data.data_realisasi.anggaran.AnggaranStlhPAK)]
 			    }, {
 			        name: 'Realisasi',
-					color: '#FFD700',
 					dataLabels: {
 			        	formatter: function () {
 			        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
