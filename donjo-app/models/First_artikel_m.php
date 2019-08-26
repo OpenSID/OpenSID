@@ -302,8 +302,11 @@ class First_artikel_m extends CI_Model {
 		else if (!empty($id))
 		{
 			// untuk artikel jenis statis = "AGENDA"
-			$judul = array(999 => "Halaman Statis",
-				1000	=> "Agenda");
+			$judul = array(
+				999 => "Halaman Statis",
+				1000 => "Agenda",
+				1001 => "Artikel Keuangan",
+			);
 			$data = $judul[$id];
 		}
 		else
