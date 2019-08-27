@@ -15,28 +15,3 @@ body{
 #topsection{
   background: url(images/bg_header.jpg);
 }
-
-/*
-Set Warna Bar untuk Anggaran dan Realisasi
-Source : https://www.highcharts.com/docs/chart-design-and-style/style-by-css
-*/
-.highcharts-point.highcharts-color-0,
-.highcharts-legend-item.highcharts-color-0 .highcharts-point,
-.highcharts-tooltip .highcharts-color-0 {
-	fill: #34b4eb;
-}
-
-.highcharts-tooltip.highcharts-color-0,
-.highcharts-data-label-connector.highcharts-color-0 {
-	stroke: #34b4eb;
-}
-
-.highcharts-point.highcharts-color-1,
-.highcharts-legend-item.highcharts-color-1 .highcharts-point,
-.highcharts-tooltip .highcharts-color-1 {
-	fill: #b4eb34;
-}
-.highcharts-tooltip.highcharts-color-1,
-.highcharts-data-label-connector.highcharts-color-1 {
-	stroke: #b4eb34;
-}
