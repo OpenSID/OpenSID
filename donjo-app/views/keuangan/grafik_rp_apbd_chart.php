@@ -61,7 +61,7 @@
 		        name: 'Anggaran',
 		        dataLabels: {
 		        	formatter: function () {
-		        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+		        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
 		        	}
 		        },
 		        data: [<?= join($anggaran, ',') ?>]
@@ -71,8 +71,8 @@
 				    formatter: function () {
 				    	var index = this.series.index;
 				    	var pointB = this.series.chart.series[0].data[index].y;
-				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, '.', ',');
-				    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
+				    	return 'Rp' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
 				    }
 			    },
 		        data: [<?= join($realisasi, ',') ?>]

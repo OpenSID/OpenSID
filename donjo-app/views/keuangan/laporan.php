@@ -140,7 +140,7 @@
 			        name: 'Anggaran',
 					dataLabels: {
 			        	formatter: function () {
-			        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+			        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
 			        	}
 			        },
 			        data: [parseInt(data.data_realisasi.anggaran.AnggaranStlhPAK)]
@@ -148,7 +148,7 @@
 			        name: 'Realisasi',
 					dataLabels: {
 			        	formatter: function () {
-			        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+			        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
 			        	}
 			        },
 			        data: [parseInt(data.data_realisasi.realisasi.Nilai)]
