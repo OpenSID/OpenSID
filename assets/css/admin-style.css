@@ -401,7 +401,7 @@ Warna Bar Anggaran
 
 .highcharts-tooltip.highcharts-color-0,
 .highcharts-data-label-connector.highcharts-color-0 {
-	stroke: #34b4eb;
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
 }
 
 /*
@@ -414,7 +414,7 @@ Warna Bar Realisasi
 }
 .highcharts-tooltip.highcharts-color-1,
 .highcharts-data-label-connector.highcharts-color-1 {
-	stroke: #b4eb34;
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
 }
 
 
