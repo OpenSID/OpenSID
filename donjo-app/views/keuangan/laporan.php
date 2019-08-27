@@ -62,8 +62,10 @@
 		get_anggaran(tahun, semester);
 	}
 
-	function numberWithCommas(x) {
-	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	function numberWithDots(x) {
+	    return (
+	    	x.replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+	    )
 	}
 
 	function get_anggaran(tahun, semester)
@@ -73,10 +75,9 @@
 			url   : '<?php echo site_url('keuangan/anggaran/')?>' + tahun + "/" + semester,
 			dataType : 'json',
 			success : function(data){
-				var anggaran = "Rp. " + numberWithCommas(data.data_anggaran.Anggaran);
-				var pak = "Rp. " + numberWithCommas(data.data_anggaran.AnggaranPAK);
-				var total = "Rp. " + numberWithCommas(data.data_anggaran.AnggaranStlhPAK);
-				console.log(data.data_realisasi.realisasi.Nilai);
+				var anggaran = "Rp" + numberWithDots(data.data_anggaran.Anggaran);
+				var pak = "Rp" + numberWithDots(data.data_anggaran.AnggaranPAK);
+				var total = "Rp" + numberWithDots(data.data_anggaran.AnggaranStlhPAK);
 				$('#data_anggaran').html(anggaran);
 				$('#data_pak').html(pak);
 				$('#data_total').html(total);
