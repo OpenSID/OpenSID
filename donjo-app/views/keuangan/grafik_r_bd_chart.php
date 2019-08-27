@@ -9,7 +9,8 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar'
+		        type: 'bar',
+		        height: 600
 		    },
 		    title: {
 		        text: 'Realisasi Belanja Desa'
