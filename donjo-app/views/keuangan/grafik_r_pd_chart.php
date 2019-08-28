@@ -2,6 +2,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function (){
+		var pointWidth = 25;
+			
 		Highcharts.setOptions({
 			lang: {
 				thousandsSep: '.'
@@ -10,7 +12,7 @@
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
 		        type: 'bar',
-		        height: 800
+		        height: (<?= count($jp) ?> * pointWidth * 2.5 ) + 250
 		    },
 		    title: {
 		        text: 'Realisasi Pendapatan Desa'
@@ -41,7 +43,7 @@
 		            }
 		        },
 		        series: {
-		            pointWidth: 25
+		            pointWidth: pointWidth
 		        }
 		    },
 		    legend: {
