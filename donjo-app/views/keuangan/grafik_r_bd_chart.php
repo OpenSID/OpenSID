@@ -11,8 +11,7 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar',
-		        height: (<?= count($bidang) ?> * pointWidth * 2.5 ) + 250
+		        type: 'bar'
 		    },
 		    title: {
 		        text: 'Realisasi Belanja Desa'
@@ -43,7 +42,8 @@
 		            }
 		        },
 		        series: {
-		            pointWidth: pointWidth
+		            pointWidth: pointWidth,
+		            grouping: false
 		        }
 		    },
 		    legend: {
@@ -75,7 +75,7 @@
 				    	var index = this.series.index;
 				    	var pointB = this.series.chart.series[0].data[index].y;
 				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
-				    	return 'Rp' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+				    	return ' (' + percent + ' %'+')';
 				    }
 			    },
 		        data: [<?= join($realisasi, ',') ?>]
