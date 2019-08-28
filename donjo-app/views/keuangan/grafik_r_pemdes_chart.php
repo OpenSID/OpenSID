@@ -2,6 +2,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function (){
+		var pointWidth = 25;
+
 		Highcharts.setOptions({
 			lang: {
 				thousandsSep: '.'
@@ -9,7 +11,8 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar'
+		        type: 'bar',
+		        height: (<?= count($pembiayaan) ?> * pointWidth * 2.5 ) + 250
 		    },
 		    title: {
 		        text: 'Pembiayaan Desa'
@@ -40,7 +43,7 @@
 		            }
 		        },
 		        series: {
-		            pointWidth: 25
+		            pointWidth: pointWidth
 		        }
 		    },
 		    legend: {
