@@ -633,7 +633,7 @@
 						<select class="form-control input-sm required" name="id_asuransi" onchange="show_hide_asuransi($(this).find(':selected').val());">
 							<option value="">Pilih Asuransi</option>
 							<?php foreach ($pilihan_asuransi as $data): ?>
-								<option value="<?= $data['id_asuransi']?>" <?php selected($penduduk['id_asuransi'], $data['id_asuransi']); ?>><?= strtoupper($data['nama_asuransi'])?></option>
+								<option value="<?= $data['id']?>" <?php selected($penduduk['id_asuransi'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 							<?php endforeach;?>
 						</select>
 					</div>

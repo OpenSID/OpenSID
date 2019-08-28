@@ -32,7 +32,7 @@
 		public  function create()
 		{
 			$data = [
-				'nama_asuransi' => $this->input->post('nama_asuransi')
+				'nama' => $this->input->post('nama_asuransi')
 			];
 			$this->asuransi_model->create($data);
 			redirect('asuransi');

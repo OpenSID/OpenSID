@@ -12,29 +12,29 @@
 
 	public function get_all()
 	{
-		$query = $this->db->get_where('tweb_penduduk_asuransi', array('id_asuransi !=' => 1));
+		$query = $this->db->get_where('tweb_penduduk_asuransi', array('id !=' => 1));
 		$data = $query->result_array();
 		return $data;
 	}
 	public function get_data($id)
 	{
-		$query = $this->db->get_where('tweb_penduduk_asuransi', array('id_asuransi' => $id));
+		$query = $this->db->get_where('tweb_penduduk_asuransi', array('id' => $id));
 		foreach ($query->result() as $row)
 		{
-        	$data = $row->nama_asuransi;
+        	$data = $row->nama;
 		}
 		return $data;
 	}
 	public function update($id,$data)
 	{
-		$this->db->set('nama_asuransi', $data);
-		$this->db->where('id_asuransi', $id);
+		$this->db->set('nama', $data);
+		$this->db->where('id', $id);
 		$this->db->update('tweb_penduduk_asuransi');
 	}
 
 	public function delete($id)
 	{
-		$this->db->delete('tweb_penduduk_asuransi', array('id_asuransi' => $id));
+		$this->db->delete('tweb_penduduk_asuransi', array('id' => $id));
 	}
 	public function delete_all()
 	{

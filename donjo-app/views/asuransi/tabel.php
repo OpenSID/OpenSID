@@ -67,13 +67,13 @@
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id_asuransi']?>" /></td>
+																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td nowrap>
-																				<a href="<?= site_url('asuransi/edit/'.$data["id_asuransi"].'/'); ?>" title="Ubah Asuransi" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Asuransi" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
-																				<a href="#" data-href="<?= site_url('asuransi/delete/'.$data["id_asuransi"].'/'); ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<a href="<?= site_url('asuransi/edit/'.$data["id"].'/'); ?>" title="Ubah Asuransi" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Asuransi" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
+																				<a href="#" data-href="<?= site_url('asuransi/delete/'.$data["id"].'/'); ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td>
-																		<?= $data['nama_asuransi'] ?>
+																		<?= $data['nama'] ?>
 																	</td>
 																</tr>
 															<?php endforeach; ?>

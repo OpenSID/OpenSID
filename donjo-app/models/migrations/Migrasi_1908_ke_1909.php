@@ -36,16 +36,16 @@ class Migrasi_1908_ke_1909 extends CI_model {
 	{
 		$query = "
 			CREATE TABLE `tweb_penduduk_asuransi` (
-				`id_asuransi` int(15) NOT NULL AUTO_INCREMENT,
-				`nama_asuransi` varchar(50) NOT NULL,
-				PRIMARY KEY (id_asuransi)
+				`id` int(15) NOT NULL AUTO_INCREMENT,
+				`nama` varchar(50) NOT NULL,
+				PRIMARY KEY (id)
 			)
 				";
 
 		$this->db->query($query);
 
 		$this->db->truncate('tweb_penduduk_asuransi');
-		$query = "INSERT INTO tweb_penduduk_asuransi (`id_asuransi`, `nama_asuransi`) VALUES
+		$query = "INSERT INTO tweb_penduduk_asuransi (`id`, `nama`) VALUES
 			(1, 'Tidak/Belum Punya'),
 			(2, 'BPJS Kesehatan'),
 			(3, 'Prudential Life Assurance'),
