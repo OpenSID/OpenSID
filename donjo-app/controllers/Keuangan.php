@@ -330,7 +330,7 @@ class Keuangan extends Admin_Controller {
 	public function tes($smt, $thn)
 	{
 		$this->load->model('keuangan_grafik_model');
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($smt, $thn);
+		$data = $this->keuangan_grafik_model->r_pd($smt, $thn);
 		print_r($data);
 	}
 

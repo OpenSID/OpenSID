@@ -32,11 +32,13 @@ class Keuangan_grafik_model extends CI_model {
 
   public function r_pd($smt, $thn)
   {
-    $this->db->select('DISTINCT(Jenis) AS Jenis, Kelompok, Nama_Jenis');
-    $this->db->where("Jenis LIKE '4.%' AND id_keuangan_master=1");
+    $this->db->select('LEFT(Kd_Rincian, 6) AS Akun, Jenis, Kelompok, Nama_Jenis');
+    $this->db->join('keuangan_ref_rek3', 'keuangan_ref_rek3.Jenis = LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6)', 'left');
+    $this->db->where("Jenis LIKE '4.%'");
+    $this->db->where('Tahun', $thn);
     $this->db->order_by('Jenis');
     $this->db->group_by('Jenis');
-    $data['jenis_pendapatan'] = $this->db->get('keuangan_ref_rek3')->result_array();
+    $data['jenis_pendapatan'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
     $this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(AnggaranStlhPAK) AS Pagu');
     $this->db->like('Kd_Rincian', '4.', 'after');
