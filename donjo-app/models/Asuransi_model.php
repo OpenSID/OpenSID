@@ -21,7 +21,11 @@
 		$query = $this->db->get_where('tweb_penduduk_asuransi', array('id' => $id));
 		foreach ($query->result() as $row)
 		{
+<<<<<<< HEAD
         	$data = $row->nama;
+=======
+        		$data = $row->nama_asuransi;
+>>>>>>> 89dcf8cad68ab35e7d49ed686a7f8dcfffd9a7b1
 		}
 		return $data;
 	}
