@@ -9,7 +9,8 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar'
+		        type: 'bar',
+		        height: 600
 		    },
 		    title: {
 		        text: 'Realisasi Belanja Desa'
@@ -38,6 +39,9 @@
 		            dataLabels: {
 		                enabled: true
 		            }
+		        },
+		        series: {
+		            pointWidth: 25
 		        }
 		    },
 		    legend: {
@@ -58,10 +62,9 @@
 		        name: 'Anggaran',
 		        dataLabels: {
 		        	formatter: function () {
-		        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+		        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
 		        	}
 		        },
-				color: '#2E8B57',
 		        data: [<?= join($anggaran, ',') ?>]
 	        },{
 		        name: 'Realisasi',
@@ -69,11 +72,10 @@
 				    formatter: function () {
 				    	var index = this.series.index;
 				    	var pointB = this.series.chart.series[0].data[index].y;
-				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, '.', ',');
-				    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
+				    	return 'Rp' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
 				    }
 			    },
-				color: '#3461eb',
 		        data: [<?= join($realisasi, ',') ?>]
 		    }]
 		});
