@@ -147,7 +147,7 @@
           if(isNaN(persentase)){
             persentase = 0;
           }
-          persentase = persentase.toFixed(2);
+          persentase = Math.round(persentase);
           $("#grafik-container").append(
               "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
           Highcharts.chart("graph-"+ idx, {
