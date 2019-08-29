@@ -215,24 +215,26 @@
               
               series: [{
                 name: 'Anggaran',
-                color: '#7cb5ec',
+                color: '#34b4eb',
                 data: [parseInt(subData['anggaran'])],
                 dataLabels: {
+                  formatter: function(){
+                    return "Rp. " + parseInt(subData['anggaran']);
+                  },
                   style: {"textOutline": "1px contrast"},
-                  color: "#ffffff",
-                },
+                  },
               }, {
                 name: 'Realisasi',
-                color: '#434348',
+                color: '#b4eb34',
                 dataLabels: {
                   formatter: function(){
                     if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
-                      return parseInt(subData['realisasi']);
+                      return "Rp. " + parseInt(subData['realisasi']);
                     }else{
-                      return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
+                      return "Rp. " + parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
                     }
                   },
-                  style: {"textOutline": "none",}
+                  style: {"textOutline": "1px contrast"},
                 },
                 data: [parseInt(subData['realisasi'])],
               }]
