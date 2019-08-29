@@ -9,7 +9,7 @@
 		    marginRight = 10,
 		    marginBottom = 50,
 		    marginLeft = 100,
-		    groupPadding = 0,
+		    groupPadding = 1,
 			pointPadding = 0.3,
 		    chartHeight = marginTop 
                 + marginBottom 
