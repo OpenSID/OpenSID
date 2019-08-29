@@ -2,7 +2,18 @@
 
 <script type="text/javascript">
 	$(document).ready(function (){
-		var pointWidth = 25;
+		var pointWidth = 25,
+			anggaran = [<?= join($anggaran, ',') ?>],
+			countData = anggaran.length,
+			marginTop = 70,
+		    marginRight = 10,
+		    marginBottom = 50,
+		    marginLeft = 100,
+		    groupPadding = 1,
+			pointPadding = 0.3,
+		    chartHeight = marginTop 
+                + marginBottom 
+                + ((pointWidth * countData) * (1 + groupPadding + pointPadding));
 
 		Highcharts.setOptions({
 			lang: {
@@ -12,7 +23,11 @@
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
 		        type: 'bar',
-		        height: (<?= count($anggaran) ?> * pointWidth * 2.5 ) + 250
+		        marginTop: marginTop,
+				marginRight: marginRight,
+				marginBottom: marginBottom,
+				marginLeft: marginLeft,
+				height: chartHeight
 		    },
 		    title: {
 		        text: 'Realisasi Pelaksanaan APBDesa'
@@ -43,7 +58,8 @@
 		            }
 		        },
 		        series: {
-		            pointWidth: pointWidth
+		            pointWidth: pointWidth,
+		            grouping: false
 		        }
 		    },
 		    legend: {
@@ -72,10 +88,10 @@
 		        name: 'Realisasi',
 		        dataLabels: {
 				    formatter: function () {
-				    	var index = this.series.index;
+				    	var index = this.series.data.indexOf(this.point);
 				    	var pointB = this.series.chart.series[0].data[index].y;
 				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
-				    	return 'Rp' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+				    	return ' (' + percent + ' %'+')';
 				    }
 			    },
 		        data: [<?= join($realisasi, ',') ?>]
