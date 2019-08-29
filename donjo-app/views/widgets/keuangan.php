@@ -215,7 +215,7 @@
               
               series: [{
                 name: 'Anggaran',
-                color: '#2E8B57',
+                color: '#7cb5ec',
                 data: [parseInt(subData['anggaran'])],
                 dataLabels: {
                   style: {"textOutline": "1px contrast"},
@@ -223,7 +223,7 @@
                 },
               }, {
                 name: 'Realisasi',
-                color: '#FFD700',
+                color: '#434348',
                 dataLabels: {
                   formatter: function(){
                     if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
