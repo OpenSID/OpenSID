@@ -120,7 +120,8 @@
 			            }
 			        },
 			        series: {
-			            pointWidth: 25
+			            pointWidth: 25,
+			            grouping: false
 			        }
 			    },
 			    legend: {
@@ -149,7 +150,9 @@
 			        name: 'Realisasi',
 					dataLabels: {
 			        	formatter: function () {
-			        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
+					    	var pointB = this.series.chart.series[0].data[0].y;
+					    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
+					    	return ' (' + percent + ' %'+')';
 			        	}
 			        },
 			        data: [parseInt(data.data_realisasi.realisasi.Nilai)]

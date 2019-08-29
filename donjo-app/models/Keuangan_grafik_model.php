@@ -10,7 +10,7 @@ class Keuangan_grafik_model extends CI_model {
   // Query Grafik
   public function rp_apbd($smt, $thn)
   {
-    $this->db->select('Akun, Nama_Akun');
+    $this->db->select('DISTINCT(Akun), Nama_Akun');
     $this->db->where("Akun = '4.' OR Akun = '5.' OR Akun = '6.'");
     $data['jenis_belanja'] = $this->db->get('keuangan_ref_rek1')->result_array();
 
@@ -20,23 +20,25 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->group_by('jenis_belanja');
     $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
-    $this->db->select('Akun');
-    $this->db->select_sum('Nilai');
-    $this->db->join('keuangan_ta_spj_rinci', 'LEFT(keuangan_ta_spj_rinci.Kd_Rincian, 2) = keuangan_ref_rek1.Akun', 'left');
-    $this->db->where("Akun = '4.' OR Akun = '5.' OR Akun = '6.'");
-    $this->db->where('keuangan_ta_spj_rinci.Tahun', $thn);
-    $this->db->group_by('Akun');
-    $this->db->order_by('Akun', 'asc');
-    $data['realisasi'] = $this->db->get('keuangan_ref_rek1')->result_array();
+    $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai) AS Nilai');
+    $this->db->where("LEFT(Kd_Rincian, 2) = '4.' OR LEFT(Kd_Rincian, 2) = '5.' OR LEFT(Kd_Rincian, 2) = '6.'");
+    $this->db->where('Tahun', $thn);
+    $this->db->group_by('LEFT(Kd_Rincian, 2)');
+    $this->db->order_by('LEFT(Kd_Rincian, 2)');
+    $data['realisasi'] = $this->db->get('keuangan_ta_spj_rinci')->result_array();
 
     return $data;
   }
 
   public function r_pd($smt, $thn)
   {
-    $this->db->select('Kelompok, Jenis, Nama_Jenis');
-    $this->db->like('Kelompok', '4.', 'after');
-    $data['jenis_pendapatan'] = $this->db->get('keuangan_ref_rek3')->result_array();
+    $this->db->select('LEFT(Kd_Rincian, 6) AS Akun, Jenis, Kelompok, Nama_Jenis');
+    $this->db->join('keuangan_ref_rek3', 'keuangan_ref_rek3.Jenis = LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6)', 'left');
+    $this->db->where("Jenis LIKE '4.%'");
+    $this->db->where('Tahun', $thn);
+    $this->db->order_by('Jenis');
+    $this->db->group_by('Jenis');
+    $data['jenis_pendapatan'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
     $this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(AnggaranStlhPAK) AS Pagu');
     $this->db->like('Kd_Rincian', '4.', 'after');
@@ -45,7 +47,8 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where('Tahun', $thn);
     $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
-    $this->db->select('LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6) AS jenis_pendapatan, SUM(Nilai) AS Nilai');
+    $this->db->select('LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6) AS jenis_pendapatan');
+    $this->db->select_sum('Nilai');
     $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Rincian = keuangan_ta_anggaran_rinci.Kd_Rincian', 'left');
     $this->db->like('keuangan_ta_anggaran_rinci.Kd_Rincian', '4.', 'after');
     $this->db->order_by('jenis_pendapatan', 'asc');
@@ -98,7 +101,7 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->order_by('Kelompok', 'asc');
     $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
-    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
+    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS Nilai');
     $this->db->like('LEFT(Kd_Rincian, 2)', '6.', 'after');
     $this->db->where('Tahun', $thn);
     $this->db->group_by('Kelompok');

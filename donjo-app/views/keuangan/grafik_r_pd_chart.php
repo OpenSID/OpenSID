@@ -11,8 +11,7 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar',
-		        height: (<?= count($jp) ?> * pointWidth * 2.5 ) + 250
+		        type: 'bar'
 		    },
 		    title: {
 		        text: 'Realisasi Pendapatan Desa'
@@ -21,7 +20,7 @@
 		        text: "<?= 'Semester '.$smt.' Tahun '.$thn ?>"
 		    },
 		    xAxis: {
-		        categories: [<?= join($jp, ',')?>],
+		        categories: [<?= join($jp, ',') ?>]
 		    },
 		    yAxis: {
 		        min: 0,
@@ -43,7 +42,8 @@
 		            }
 		        },
 		        series: {
-		            pointWidth: pointWidth
+		            pointWidth: pointWidth,
+		            grouping: false
 		        }
 		    },
 		    legend: {
@@ -72,10 +72,11 @@
 		        name: 'Realisasi',
 		        dataLabels: {
 				    formatter: function () {
-				    	var index = this.series.index;
+				    	var index = this.series.data.indexOf(this.point);
 				    	var pointB = this.series.chart.series[0].data[index].y;
 				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
-				    	return 'Rp' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+				    	// console.log(percent)
+				    	return ' (' + percent + ' %'+')';
 				    }
 			    },
 		        data: [<?= join($realisasi, ',') ?>]
