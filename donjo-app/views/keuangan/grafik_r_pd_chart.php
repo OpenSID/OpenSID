@@ -2,7 +2,18 @@
 
 <script type="text/javascript">
 	$(document).ready(function (){
-		var pointWidth = 25;
+		var pointWidth = 25,
+			anggaran = [<?= join($anggaran, ',') ?>],
+			countData = anggaran.length,
+			marginTop = 70,
+		    marginRight = 10,
+		    marginBottom = 50,
+		    marginLeft = 100,
+		    groupPadding = 0,
+			pointPadding = 0.3,
+		    chartHeight = marginTop 
+                + marginBottom 
+                + ((pointWidth * countData) * (1 + groupPadding + pointPadding));
 			
 		Highcharts.setOptions({
 			lang: {
@@ -11,7 +22,12 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar'
+		        type: 'bar',
+		        marginTop: marginTop,
+				marginRight: marginRight,
+				marginBottom: marginBottom,
+				marginLeft: marginLeft,
+				height: chartHeight
 		    },
 		    title: {
 		        text: 'Realisasi Pendapatan Desa'
