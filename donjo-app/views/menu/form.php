@@ -44,6 +44,7 @@
 										<option value="3" <?php if ($submenu['link_tipe']=="3"): ?>selected<?php endif; ?>>Statistik Keluarga</option>
 										<option value="4" <?php if ($submenu['link_tipe']=="4"): ?>selected<?php endif; ?>>Statistik Program Bantuan</option>
 										<option value="5" <?php if ($submenu['link_tipe']=="5"): ?>selected<?php endif; ?>>Statistik Lainnya</option>
+										<option value="6" <?php if ($submenu['link_tipe']=="6"): ?>selected<?php endif; ?>>Artikel Keuangan</option>
 										<option value="99" <?php if ($submenu['link_tipe']=="99"): ?>selected<?php endif; ?>>Eksternal</option>
 									</select>
 								</div>
@@ -78,6 +79,12 @@
 									<select id="statistik_lainnya" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==5): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=5): ?>display:none;<?php endif; ?>">
 										<option value="">Pilih Statistik Lainnya</option>
 										<?php foreach ($statistik_lainnya as $id => $nama): ?>
+											<option value="<?= $id?>" <?php if ($submenu['link']==$id): ?>selected<?php endif; ?>><?= $nama?></option>
+										<?php endforeach; ?>
+									</select>
+									<select id="artikel_keuangan" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==6): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=6): ?>display:none;<?php endif; ?>">
+										<option value="">Pilih Artikel Keuangan</option>
+										<?php foreach ($artikel_keuangan as $id => $nama): ?>
 											<option value="<?= $id?>" <?php if ($submenu['link']==$id): ?>selected<?php endif; ?>><?= $nama?></option>
 										<?php endforeach; ?>
 									</select>
@@ -135,6 +142,12 @@
 			$('#statistik_lainnya').show();
 			$('#statistik_lainnya').attr('name', 'link');
 			$('#statistik_lainnya').removeAttr('disabled');
+		}
+		else if (jenis == '6')
+		{
+			$('#artikel_keuangan').show();
+			$('#artikel_keuangan').attr('name', 'link');
+			$('#artikel_keuangan').removeAttr('disabled');
 		}
 		else if (jenis == '99')
 		{
