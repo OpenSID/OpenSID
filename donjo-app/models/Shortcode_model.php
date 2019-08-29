@@ -178,6 +178,9 @@ class Shortcode_model extends Keuangan_grafik_model {
 	private function tabel_rp_apbd($type, $smt, $thn)
 	{
 		$data = $this->lap_rp_apbd($smt, $thn);
+		$pendapatan = $data['pendapatan'];
+		$belanja = $data['belanja'];
+		$pembiayaan = $data['pembiayaan'];
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd.php");
 		$output = ob_get_clean();

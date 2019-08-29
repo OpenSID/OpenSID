@@ -2,6 +2,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function (){
+		var pointWidth = 25;
+			
 		Highcharts.setOptions({
 			lang: {
 				thousandsSep: '.'
@@ -9,7 +11,8 @@
 		})
 		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
 		    chart: {
-		        type: 'bar'
+		        type: 'bar',
+		        height: (<?= count($jp) ?> * pointWidth * 2.5 ) + 250
 		    },
 		    title: {
 		        text: 'Realisasi Pendapatan Desa'
@@ -38,6 +41,9 @@
 		            dataLabels: {
 		                enabled: true
 		            }
+		        },
+		        series: {
+		            pointWidth: pointWidth
 		        }
 		    },
 		    legend: {
@@ -58,10 +64,9 @@
 		        name: 'Anggaran',
 		        dataLabels: {
 		        	formatter: function () {
-		        		return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+		        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
 		        	}
 		        },
-				color: '#3498db',
 		        data: [<?= join($anggaran, ',') ?>]
 	        },{
 		        name: 'Realisasi',
@@ -69,11 +74,10 @@
 				    formatter: function () {
 				    	var index = this.series.index;
 				    	var pointB = this.series.chart.series[0].data[index].y;
-				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, '.', ',');
-				    	return 'Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
+				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
+				    	return 'Rp' + Highcharts.numberFormat(this.y, '.', ',') + ' (' +	percent + ' %'+')';
 				    }
 			    },
-				color: '#e67e22',
 		        data: [<?= join($realisasi, ',') ?>]
 		    }]
 		});
