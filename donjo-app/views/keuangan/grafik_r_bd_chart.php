@@ -72,7 +72,7 @@
 		        name: 'Realisasi',
 		        dataLabels: {
 				    formatter: function () {
-				    	var index = this.series.index;
+				    	var index = this.series.data.indexOf(this.point);
 				    	var pointB = this.series.chart.series[0].data[index].y;
 				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
 				    	return ' (' + percent + ' %'+')';

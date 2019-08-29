@@ -326,12 +326,4 @@ class Keuangan extends Admin_Controller {
 		}
 		echo json_encode($list_tahun);
 	}
-
-	public function tes($smt, $thn)
-	{
-		$this->load->model('keuangan_grafik_model');
-		$data = $this->keuangan_grafik_model->r_pd($smt, $thn);
-		print_r($data);
-	}
-
 }

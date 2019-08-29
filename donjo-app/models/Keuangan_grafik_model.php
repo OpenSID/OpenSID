@@ -47,12 +47,13 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->where('Tahun', $thn);
     $data['anggaran'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
-    $this->db->select('DISTINCT LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6) AS jenis_pendapatan, SUM(Nilai) AS Nilai');
+    $this->db->select('LEFT(keuangan_ta_anggaran_rinci.Kd_Rincian, 6) AS jenis_pendapatan');
+    $this->db->select_sum('Nilai');
     $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Rincian = keuangan_ta_anggaran_rinci.Kd_Rincian', 'left');
-    $this->db->like('keuangan_ta_spj_rinci.Kd_Rincian', '4.', 'after');
-    $this->db->order_by('LEFT(keuangan_ta_spj_rinci.Kd_Rincian, 6)');
-    $this->db->group_by('LEFT(keuangan_ta_spj_rinci.Kd_Rincian, 6)');
-    $this->db->where('keuangan_ta_spj_rinci.Tahun', $thn);
+    $this->db->like('keuangan_ta_anggaran_rinci.Kd_Rincian', '4.', 'after');
+    $this->db->order_by('jenis_pendapatan', 'asc');
+    $this->db->group_by('jenis_pendapatan');
+    $this->db->where('keuangan_ta_anggaran_rinci.Tahun', $thn);
     $data['realisasi'] = $this->db->get('keuangan_ta_anggaran_rinci')->result_array();
 
     return $data;
