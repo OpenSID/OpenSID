@@ -112,9 +112,14 @@
 
 <script type="text/javascript">
   var rawData = <?= $widget_keuangan['data']; ?>;
-
   var year = "<?= $widget_keuangan['tahun_terbaru'] ?>";
   var type = "pelaksanaan"
+
+  Highcharts.setOptions({
+      lang: {
+        thousandsSep: '.'
+      }
+    })
 
   function displayChart(tahun, tipe){
     resetContainer();
@@ -182,18 +187,19 @@
                 bar: {
                   dataLabels: {
                     enabled: true
-                  }
+                  },
                 },
 
                 series: {
                   pointPadding: 0,
                   groupPadding: 0,
                   dataLabels: {
-                    align: 'left',
+                    align: 'right',
                     inside: true,
                     shadow: false,
                     color: '#000',
                   },
+                  grouping: false,
                 },
               },
               
@@ -219,7 +225,11 @@
                 data: [parseInt(subData['anggaran'])],
                 dataLabels: {
                   formatter: function(){
-                    return "Rp. " + parseInt(subData['anggaran']);
+                    if(parseInt(subData['realisasi']) <= parseInt(subData['anggaran'])){
+                      return "Rp. " + Highcharts.numberFormat(subData['anggaran'], '.', ',');
+                    }else{
+                      return "";
+                    }
                   },
                   style: {"textOutline": "1px contrast"},
                   },
@@ -229,9 +239,9 @@
                 dataLabels: {
                   formatter: function(){
                     if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
-                      return "Rp. " + parseInt(subData['realisasi']);
+                      return "Rp. " + Highcharts.numberFormat(subData['realisasi'], '.', ',');
                     }else{
-                      return "Rp. " + parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
+                      return "(" + persentase + "%)";
                     }
                   },
                   style: {"textOutline": "1px contrast"},

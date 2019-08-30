@@ -427,7 +427,7 @@ class Keuangan_grafik_model extends CI_model {
       'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
     );
 
-    for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++)
+    for ($i = 0; $i < count($raw_data['jenis_belanja']); $i++)
     {
       $row = array(
         'nama' => $nama[$raw_data['jenis_belanja'][$i]['Nama_Akun']],
