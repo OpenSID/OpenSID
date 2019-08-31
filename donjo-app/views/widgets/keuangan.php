@@ -112,9 +112,14 @@
 
 <script type="text/javascript">
   var rawData = <?= $widget_keuangan['data']; ?>;
-
   var year = "<?= $widget_keuangan['tahun_terbaru'] ?>";
   var type = "pelaksanaan"
+
+  Highcharts.setOptions({
+      lang: {
+        thousandsSep: '.'
+      }
+    })
 
   function displayChart(tahun, tipe){
     resetContainer();
@@ -147,7 +152,7 @@
           if(isNaN(persentase)){
             persentase = 0;
           }
-          persentase = persentase.toFixed(2);
+          persentase = Math.round(persentase);
           $("#grafik-container").append(
               "<div class='graph-sub' id='graph-sub-"+ idx +"'>"+ subData['nama'] + "</div><div id='graph-"+ idx +"' class='graph'></div>");
           Highcharts.chart("graph-"+ idx, {
@@ -182,18 +187,19 @@
                 bar: {
                   dataLabels: {
                     enabled: true
-                  }
+                  },
                 },
 
                 series: {
                   pointPadding: 0,
                   groupPadding: 0,
                   dataLabels: {
-                    align: 'left',
+                    align: 'right',
                     inside: true,
                     shadow: false,
                     color: '#000',
                   },
+                  grouping: false,
                 },
               },
               
@@ -215,24 +221,30 @@
               
               series: [{
                 name: 'Anggaran',
-                color: '#2E8B57',
+                color: '#34b4eb',
                 data: [parseInt(subData['anggaran'])],
                 dataLabels: {
+                  formatter: function(){
+                    if(parseInt(subData['realisasi']) <= parseInt(subData['anggaran'])){
+                      return "Rp. " + Highcharts.numberFormat(subData['anggaran'], '.', ',');
+                    }else{
+                      return "";
+                    }
+                  },
                   style: {"textOutline": "1px contrast"},
-                  color: "#ffffff",
-                },
+                  },
               }, {
                 name: 'Realisasi',
-                color: '#FFD700',
+                color: '#b4eb34',
                 dataLabels: {
                   formatter: function(){
                     if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
-                      return parseInt(subData['realisasi']);
+                      return "Rp. " + Highcharts.numberFormat(subData['realisasi'], '.', ',');
                     }else{
-                      return parseInt(subData['realisasi']) + " (Realisasi : " + persentase + "%)";
+                      return "(" + persentase + "%)";
                     }
                   },
-                  style: {"textOutline": "none",}
+                  style: {"textOutline": "1px contrast"},
                 },
                 data: [parseInt(subData['realisasi'])],
               }]

@@ -287,4 +287,19 @@ class Keuangan_model extends CI_model {
     $result = $this->db->get('keuangan_ta_rab')->row();
     return $result;
   }
+
+  public function artikel_statis_keuangan()
+  {
+    $this->db->select('id, judul');
+    $this->db->where(array(
+      'id_kategori' => 1001
+    ));
+    $results = $this->db->get('artikel')->result_array();
+    $link = array();
+    foreach ($results as $result)
+    {
+      $link['artikel/'.$result['id']] = $result['judul'];
+    }
+    return $link;
+  }
 }
