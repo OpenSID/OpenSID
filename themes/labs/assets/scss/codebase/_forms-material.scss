@@ -1,0 +1,130 @@
+//
+// Material Forms
+// --------------------------------------------------
+
+.form-material {
+    position: relative;
+    padding-top: 26px;
+
+    // Labels
+    > label {
+        position: absolute;
+        top: 6px;
+        left: 0;
+        margin-bottom: 0;
+    }
+
+    &.floating > label {
+        font-size: $font-size-md;
+        font-weight: 400;
+        cursor: text;
+        z-index: 2;
+        transition: all .2s ease-out;
+        transform: translateY(25px);
+    }
+
+    &.form-material-sm.floating > label {
+        font-size: $font-size-base;
+        transform: translateY(22px);
+    }
+
+    &.form-material-lg.floating > label {
+        font-size: $font-size-lg;
+        transform: translateY(27px);
+    }
+
+    > label,
+    & > .form-control:focus + label,
+    &.floating.open > label {
+        font-size: $font-size-base;
+        font-weight: 600;
+        cursor: default;
+        transform: translateY(0);
+    }
+
+    // :-webkit-autofill Use it separately because it causes issues with non webkit browsers when it is used along with the other selectors
+    &.floating > .form-control:-webkit-autofill + label {
+        font-size: $font-size-base;
+        font-weight: 600;
+        cursor: default;
+        transform: translateY(0);
+    }
+
+    &.floating > .form-control[disabled] + label,
+    &.floating > .form-control[readonly] + label,
+    fieldset[disabled] &.floating > label {
+        cursor: not-allowed;
+    }
+
+    // Form controls and input addons
+    > .form-control {
+        padding-left: 0;
+        padding-right: 0;
+        border-color: transparent;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: 0 1px 0 $input-border-color;
+        transition: box-shadow .3s ease-out;
+
+        ~ .input-group-append {
+            box-shadow: 0 1px 0 $input-border-color;
+            transition: box-shadow .3s ease-out;
+        }
+
+        &:focus {
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: 0 2px 0 $input-focus-border-color;
+
+            + label {
+                color: $body-color;
+            }
+
+            ~ .input-group-append {
+                box-shadow: 0 2px 0 $input-focus-border-color;
+            }
+        }
+    }
+
+    > select.form-control {
+        border-radius: 1px; // Fixes an Opera bug (border not transparent as set but black)
+    }
+
+    .form-control[disabled],
+    .form-control[readonly],
+    fieldset[disabled] .form-control {
+        background-color: $white;
+        border-bottom: 1px dashed #ccc;
+        box-shadow: none;
+    }
+
+    &.input-group .input-group-text {
+        border: none;
+        background-color: transparent;
+    }
+
+    // Form Focus Variations
+    &.form-material-primary > .form-control {
+        @include form-control-material-focus-variant($brand-primary);
+    }
+
+    &.form-material-success > .form-control {
+        @include form-control-material-focus-variant($brand-success);
+    }
+
+    &.form-material-info > .form-control {
+        @include form-control-material-focus-variant($brand-info);
+    }
+
+    &.form-material-warning > .form-control {
+        @include form-control-material-focus-variant($brand-warning);
+    }
+
+    &.form-material-danger > .form-control {
+        @include form-control-material-focus-variant($brand-danger);
+    }
+}
+
+// Form State Variations
+@include form-validation-state-material("valid", $brand-success);
+@include form-validation-state-material("invalid", $brand-danger);

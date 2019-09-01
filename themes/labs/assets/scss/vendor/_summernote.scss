@@ -1,0 +1,23 @@
+//
+// Summernote
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.note-editor {
+    .note-toolbar {
+        background-color: #fcfcfc !important;
+    }
+
+    &.note-frame {
+        border-color: #ddd;
+    }
+
+    .note-toolbar {
+        border-bottom-color: #ddd;
+    }
+
+    .note-statusbar .note-resizebar {
+        border-top-color: #ddd;
+    }
+}

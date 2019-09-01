@@ -1,0 +1,11 @@
+//
+// Vertical align
+// --------------------------------------------------
+
+@mixin vertical-align($top: 50%, $right: auto, $left: auto, $transX: 0, $transY: -50%) {
+    position: absolute;
+    top: $top;
+    right: $right;
+    left: $left;
+    transform: translateX($transX) translateY($transY);
+}

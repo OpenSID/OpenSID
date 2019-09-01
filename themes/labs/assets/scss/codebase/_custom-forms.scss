@@ -1,0 +1,295 @@
+//
+// Custom Form Elements
+// --------------------------------------------------
+
+.custom-control-label::before,
+.custom-control-label::after {
+    top: 3px;
+}
+
+// Base class
+.css-control {
+    position: relative;
+    display: inline-block;
+    padding: 6px 0;
+    margin: 0;
+    font-weight: 400;
+    font-size: $pbf-font-size;
+    cursor: pointer;
+
+    &-input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+
+        &:focus ~ .css-control-indicator {
+            box-shadow: 0 0 3px rgba(0,0,0,.35);
+        }
+
+        ~ .css-control-indicator {
+            position: relative;
+            display: inline-block;
+            margin-top: -3px;
+            margin-right: 3px;
+            vertical-align: middle;
+
+            &::after {
+                position: absolute;
+                content: '';
+            }
+        }
+    }
+
+    &.css-control-sm {
+        padding: 3px 0 4px;
+        font-size: $pbf-font-size-sm;
+    }
+
+    &.css-control-lg {
+        padding: 7px 0;
+        font-size: $pbf-font-size-lg;
+    }
+
+    &.disabled {
+        opacity: .5;
+        cursor: not-allowed;
+    }
+
+    & + & {
+        margin-left: 10px;
+    }
+}
+
+// CSS Radios
+.css-radio {
+    .css-control-input {
+        ~ .css-control-indicator {
+            width: 20px;
+            height: 20px;
+            background-color: $white;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+
+            &::after {
+                top: 2px;
+                right: 2px;
+                bottom: 2px;
+                left: 2px;
+                background-color: $white;
+                border-radius: 50%;
+                opacity: 0;
+                transition: opacity .15s ease-out;
+            }
+        }
+
+        &:checked ~ .css-control-indicator::after {
+            opacity: 1;
+        }
+    }
+
+    &:hover .css-control-input ~ .css-control-indicator {
+        border-color: $body-bg-dark;
+    }
+
+    // Size Variations
+    &.css-control-sm {
+        .css-control-input ~ .css-control-indicator {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &.css-control-lg {
+        .css-control-input ~ .css-control-indicator {
+            width: 26px;
+            height: 26px;
+        }
+    }
+
+    // Color Variations
+    &.css-control-primary .css-control-input:checked ~ .css-control-indicator::after { background-color: $brand-primary; }
+    &.css-control-secondary .css-control-input:checked ~ .css-control-indicator::after { background-color: $gray-dark; }
+    &.css-control-info .css-control-input:checked ~ .css-control-indicator::after { background-color: $brand-info; }
+    &.css-control-success .css-control-input:checked ~ .css-control-indicator::after { background-color: $brand-success; }
+    &.css-control-warning .css-control-input:checked ~ .css-control-indicator::after { background-color: $brand-warning; }
+    &.css-control-danger .css-control-input:checked ~ .css-control-indicator::after { background-color: $brand-danger; }
+}
+
+// CSS Checkboxes
+.css-checkbox {
+    .css-control-input ~ .css-control-indicator {
+        width: 20px;
+        height: 20px;
+        background-color: $white;
+        border: 1px solid #ddd;
+        transition: background-color .15s;
+
+        &::after {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            font-family: 'FontAwesome';
+            font-size: 10px;
+            color: $white;
+            line-height: 18px;
+            content: '\f00c';
+            text-align: center;
+        }
+    }
+
+    &:hover .css-control-input ~ .css-control-indicator {
+        border-color: $body-bg-dark;
+    }
+
+    // Size Variations
+    &.css-control-sm {
+        .css-control-input ~ .css-control-indicator {
+            width: 16px;
+            height: 16px;
+
+            &::after {
+                font-size: 8px;
+                line-height: 15px;
+            }
+        }
+    }
+
+    &.css-control-lg {
+        padding: 6px 0 7px;
+
+        .css-control-input ~ .css-control-indicator {
+            width: 28px;
+            height: 28px;
+
+            &::after {
+                font-size: 14px;
+                line-height: 26px;
+            }
+        }
+    }
+
+    // Shape Variations
+    &.css-checkbox-rounded .css-control-input ~ .css-control-indicator {
+        border-radius: 2px;
+    }
+
+    // Color Variations
+    &.css-control-primary .css-control-input:checked ~ .css-control-indicator {
+        background-color: $brand-primary;
+        border-color: darken($brand-primary, 15%);
+    }
+
+    &.css-control-secondary .css-control-input:checked ~ .css-control-indicator {
+        background-color: $gray-dark;
+        border-color: darken($gray-dark, 15%);
+    }
+
+    &.css-control-info .css-control-input:checked ~ .css-control-indicator {
+        background-color: $brand-info;
+        border-color: darken($brand-info, 15%);
+    }
+
+    &.css-control-success .css-control-input:checked ~ .css-control-indicator {
+        background-color: $brand-success;
+        border-color: darken($brand-success, 15%);
+    }
+
+    &.css-control-warning .css-control-input:checked ~ .css-control-indicator {
+        background-color: $brand-warning;
+        border-color: darken($brand-warning, 15%);
+    }
+
+    &.css-control-danger .css-control-input:checked ~ .css-control-indicator {
+        background-color: $brand-danger;
+        border-color: darken($brand-danger, 15%);
+    }
+}
+
+// CSS Switches
+.css-switch {
+    padding: 3px 0;
+
+    .css-control-input {
+        ~ .css-control-indicator {
+            width: 51px;
+            height: 30px;
+            background-color: #eee;
+            border-radius: 30px;
+            transition: background-color .3s;
+
+            &::after {
+                top: 2px;
+                bottom: 2px;
+                left: 2px;
+                width: 26px;
+                background-color: $white;
+                border-radius: 50%;
+                box-shadow: 1px 0 3px rgba(0,0,0,.1);
+                transition: transform .15s ease-out;
+            }
+        }
+
+        &:checked ~ .css-control-indicator {
+            background-color: #ddd;
+
+            &::after {
+                box-shadow: -2px 0 3px rgba(0,0,0,.3);
+                transform: translateX(20px);
+            }
+        }
+    }
+
+    // Size Variations
+    &.css-control-sm {
+        padding: 3px 0;
+
+        .css-control-input {
+            ~ .css-control-indicator {
+                width: 36px;
+                height: 20px;
+
+                &::after {
+                    width: 16px;
+                }
+            }
+
+            &:checked ~ .css-control-indicator::after {
+                transform: translateX(15px);
+            }
+        }
+    }
+
+    &.css-control-lg {
+        padding: 4px 0;
+
+        .css-control-input {
+            ~ .css-control-indicator {
+                width: 65px;
+                height: 34px;
+
+                &::after {
+                    width: 30px;
+                }
+            }
+
+            &:checked ~ .css-control-indicator::after {
+                transform: translateX(30px);
+            }
+        }
+    }
+
+    // Shape Variations
+    &.css-switch-square .css-control-input ~ .css-control-indicator,
+    &.css-switch-square .css-control-input ~ .css-control-indicator::after {
+        border-radius: 0;
+    }
+
+    // Color Variations
+    &.css-control-primary .css-control-input:checked ~ .css-control-indicator { background-color: $brand-primary; }
+    &.css-control-secondary .css-control-input:checked ~ .css-control-indicator { background-color: $gray-dark; }
+    &.css-control-info .css-control-input:checked ~ .css-control-indicator { background-color: $brand-info; }
+    &.css-control-success .css-control-input:checked ~ .css-control-indicator { background-color: $brand-success; }
+    &.css-control-warning .css-control-input:checked ~ .css-control-indicator { background-color: $brand-warning; }
+    &.css-control-danger .css-control-input:checked ~ .css-control-indicator { background-color: $brand-danger; }
+}

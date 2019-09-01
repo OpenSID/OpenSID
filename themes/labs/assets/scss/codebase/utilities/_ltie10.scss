@@ -1,0 +1,48 @@
+//
+// Lower than IE10
+// --------------------------------------------------
+
+.visible-lt-ie10 {
+    display: none;
+}
+
+.lt-ie10 {
+    .hidden-lt-ie10 {
+        display: none !important;
+    }
+
+    .visible-lt-ie10 {
+        display: block;
+    }
+
+    .visible-lt-ie10-ib {
+        display: inline-block;
+    }
+}
+
+// Hide content and display message on IE9 and lower versions
+.lt-ie10.lt-ie10-msg {
+    body {
+        background-color: $white;
+    }
+
+    &::before {
+        position: fixed;
+        top: 100px;
+        right: 0;
+        left: 0;
+        display: block;
+        padding: 30px 20px;
+        text-align: center;
+        font-size: $font-size-md;
+        font-weight: 600;
+        background: $brand-warning;
+        color: darken($brand-warning, 35%);
+        content: 'Internet Explorer 9 and older versions are not supported. Please update your browser.';
+        z-index: 9999999;
+    }
+
+    #page-container {
+        display: none;
+    }
+}

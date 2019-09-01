@@ -1,0 +1,79 @@
+//
+// Reboot
+// --------------------------------------------------
+
+html, body {
+    font-size: $font-size-root;
+}
+
+html.no-focus *:focus {
+    // Disabling default focus outline is not a good practice for accessibility reasons
+    // Elements have their own focus styles but consider enabling the default outline
+    // in production by removing .no-focus class from <html> tag
+    outline: none !important;
+}
+
+strong {
+    font-weight: 600;
+}
+
+// Links
+a {
+    transition: color .12s ease-out;
+
+    @include media-breakpoint-up(sm) {
+        &.link-effect {
+            position: relative;
+
+            &::before {
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                content: '';
+                background-color: $link-color;
+                visibility: hidden;
+                transform: translateY(6px);
+                transform-origin: 50% 50%;
+                opacity: 0;
+                transition: transform .12s ease-out, opacity .12s ease-out;
+            }
+        }
+    }
+
+    @include hover {
+        &.link-effect::before {
+            visibility: visible;
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+}
+
+// Paragraphs
+p {
+    line-height: 1.6;
+    margin-bottom: $space-base;
+}
+
+.nice-copy p,
+p.nice-copy {
+    line-height: 1.8;
+    font-size: $font-size-md;
+}
+
+.nice-copy-story p,
+p.nice-copy-story {
+    line-height: 1.8;
+    font-size: $font-size-lg;
+    color: #626262;
+}
+
+.nice-copy-story {
+    h2,
+    h3,
+    h4 {
+        margin-top: 50px;
+    }
+}

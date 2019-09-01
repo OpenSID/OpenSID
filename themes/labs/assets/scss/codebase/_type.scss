@@ -1,0 +1,65 @@
+//
+// Typography
+// --------------------------------------------------
+
+// Headings
+.font-size-h1 { font-size: $h1-font-size; }
+.font-size-h2 { font-size: $h2-font-size; }
+.font-size-h3 { font-size: $h3-font-size; }
+.font-size-h4 { font-size: $h4-font-size; }
+.font-size-h5 { font-size: $h5-font-size; }
+.font-size-h6 { font-size: $h6-font-size; }
+
+@include media-breakpoint-down(sm) {
+    .display-1 { font-size: 3.429rem; }
+    .display-2 { font-size: 3.143rem; }
+    .display-3 { font-size: 2.857rem; }
+    .display-4 { font-size: $h1-font-size; }
+
+    h1, .h1, .font-size-h1 { font-size: $h2-font-size; }
+    h2, .h2, .font-size-h2 { font-size: $h3-font-size; }
+    h3, .h3, .font-size-h3 { font-size: $h4-font-size; }
+    h4, .h4, .font-size-h4 { font-size: $h5-font-size; }
+
+    h5, .h5, .font-size-h5,
+    h6, .h6, .font-size-h6 {
+        font-size: $h6-font-size;
+    }
+}
+
+.content-heading {
+    margin-bottom: 20px;
+    padding-top: 30px;
+    padding-bottom: 8px;
+    font-size: $font-size-xl;
+    font-weight: 400;
+    line-height: 28px;
+    border-bottom: 1px solid $body-bg-dark;
+
+    small {
+        margin-top: 5px;
+        font-size: 16px;
+        font-weight: 400;
+        color: $gray-dark;
+    }
+
+    @include media-breakpoint-up(md) {
+        margin-bottom: 25px;
+        padding-top: 40px;
+
+        small {
+            margin-top: 0;
+        }
+    }
+
+    .dropdown {
+        line-height: $line-height-base;
+    }
+}
+
+// Emphasis
+small,
+.small {
+    font-weight: inherit;
+    color: $headings-small-color;
+}

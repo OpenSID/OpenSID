@@ -1,0 +1,37 @@
+//
+// jVectorMap
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.jvectormap-tip {
+    padding: 6px 8px;
+    font-family: $font-family-base;
+    background: $brand-darker;
+    border: none;
+    border-radius: 0;
+}
+
+.jvectormap-zoomin,
+.jvectormap-zoomout,
+.jvectormap-goback {
+    left: 15px;
+    padding: 4px;
+    line-height: 15px;
+    background: #555;
+}
+
+.jvectormap-zoomin,
+.jvectormap-zoomout {
+    width: 15px;
+    height: 15px;
+}
+
+.jvectormap-zoomin:hover,
+.jvectormap-zoomout:hover {
+    opacity: .75;
+}
+
+.jvectormap-zoomout {
+    top: 40px;
+}

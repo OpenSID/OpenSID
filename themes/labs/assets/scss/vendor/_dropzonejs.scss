@@ -1,0 +1,29 @@
+//
+// DropzoneJS
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.dropzone {
+    min-height: 200px;
+    background-color: $body-bg-light;
+    border: 2px dotted $input-border-color;
+    border-radius: 3px;
+
+    .dz-message {
+        margin: 65px 0;
+        font-size: 16px;
+        font-style: italic;
+        font-weight: 600;
+        color: $body-color;
+    }
+
+    @include hover {
+        background-color: $white;
+        border-color: $brand-primary;
+
+        .dz-message {
+            color: $brand-primary;
+        }
+    }
+}

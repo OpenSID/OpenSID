@@ -1,0 +1,25 @@
+//
+// Flot Charts
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.flot-tooltip {
+    position: absolute;
+    display: none;
+    color: $white;
+    background: rgba(0,0,0,.75);
+    padding: 4px 8px;
+}
+
+.flot-pie-label {
+    font-size: 13px;
+    text-align: center;
+    padding: 4px 8px;
+    color: $white;
+}
+
+.legend > table td {
+    padding: 3px 4px;
+    font-size: 14px;
+}

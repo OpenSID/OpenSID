@@ -1,0 +1,84 @@
+//
+// Forms
+// --------------------------------------------------
+
+label {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-control,
+.input-group-text {
+    height: $pbf-height;
+    font-family: $font-family-base;
+}
+
+select.form-control {
+    height: auto;
+
+    &:not([size]):not([multiple]) {
+        padding-top: $pbf-padding-y - 2;
+        padding-bottom: $pbf-padding-y - 2;
+    }
+}
+
+select.form-control-sm {
+    &:not([size]):not([multiple]) {
+        padding-top: $pbf-padding-y-sm - 2;
+        padding-bottom: $pbf-padding-y-sm - 2;
+    }
+}
+
+select.form-control-lg {
+    &:not([size]):not([multiple]) {
+        padding-top: $pbf-padding-y-lg - 2;
+        padding-bottom: $pbf-padding-y-lg - 2;
+    }
+}
+
+textarea.form-control {
+    height: auto;
+    padding: $input-btn-padding-x;
+
+    &.form-control-sm {
+        padding: $input-btn-padding-x-sm;
+    }
+
+    &.form-control-lg {
+        padding: $input-btn-padding-x-lg;
+    }
+}
+
+.form-control-lg,
+.input-group-lg > .form-control,
+.input-group-lg > .input-group-prepend > .input-group-text,
+.input-group-lg > .input-group-append > .input-group-text,
+.input-group-lg > .input-group-prepend > .btn,
+.input-group-lg > .input-group-append > .btn {
+    height: $pbf-height-lg;
+    font-size: $pbf-font-size-lg;
+    line-height: $pbf-line-height-lg;
+}
+
+.form-control-sm,
+.input-group-sm > .form-control,
+.input-group-sm > .input-group-prepend > .input-group-text,
+.input-group-sm > .input-group-append > .input-group-text,
+.input-group-sm > .input-group-prepend > .btn,
+.input-group-sm > .input-group-append > .btn {
+    height: $pbf-height-sm;
+    font-size: $pbf-font-size-sm;
+    line-height: $pbf-line-height-sm;
+}
+
+.col-form-label-lg {
+    font-size: $pbf-font-size-lg;
+}
+
+.col-form-label-sm {
+    font-size: $pbf-font-size-sm;
+}
+
+.invalid-feedback {
+    font-size: $font-size-sm;
+}

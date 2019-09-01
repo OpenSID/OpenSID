@@ -1,0 +1,23 @@
+//
+// Effects
+// --------------------------------------------------
+
+// Ripple effect (mostly for buttons usage)
+.click-ripple {
+    display: block;
+    position: absolute;
+    background: rgba(255, 255, 255, .5);
+    border-radius: 100%;
+    transform: scale(0);
+
+    &.animate {
+        animation: click-ripple .9s ease-out;
+    }
+}
+
+@keyframes click-ripple {
+    100% {
+        opacity: 0;
+        transform: scale(3);
+    }
+}

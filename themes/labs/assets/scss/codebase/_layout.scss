@@ -1,0 +1,52 @@
+//
+// Layout
+// --------------------------------------------------
+
+// Main Structure
+#page-container {
+    margin: 0 auto;
+    width: 100%;
+    min-width: 320px;
+}
+
+#main-container,
+#page-footer {
+    overflow-x: hidden;
+}
+
+// Content
+.content {
+    @include content-layout($space-mobile, $space-mobile);
+
+    @include media-breakpoint-up(md) {
+        @include content-layout($space-base, $space-base);
+    }
+
+    @include media-breakpoint-up(xl) {
+        &.content-narrow { max-width: $space-narrow; }
+    }
+
+    &.content-boxed { max-width: $space-boxed; }
+}
+
+.content-side {
+    @include content-layout($space-side, $space-side, hidden);
+
+    &-user {
+        height: 136px;
+        background-color: $body-bg-light;
+        overflow: hidden;
+    }
+}
+
+.content.content-top {
+    padding-top: $header-height + $space-mobile;
+
+    @include media-breakpoint-up(lg) {
+        padding-top: $header-height + $space-base;
+    }
+}
+
+.section-top {
+    padding-top: $header-height;
+}

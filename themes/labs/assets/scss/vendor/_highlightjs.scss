@@ -1,0 +1,23 @@
+//
+// Highlight.js
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+pre.pre-sh {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+
+    code {
+        &.hljs {
+            background: transparent;
+        }
+
+        &.pwrap {
+            white-space: pre-wrap;
+        }
+    }
+}

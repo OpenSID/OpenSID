@@ -1,0 +1,105 @@
+//
+// Themes
+// --------------------------------------------------
+
+// Default
+@include text-emphasis-variant('.text-default', $brand-primary);
+@include text-emphasis-variant('.text-default-dark', $brand-dark);
+@include text-emphasis-variant('.text-default-darker', $brand-darker);
+@include text-emphasis-variant('.text-default-light', $brand-light);
+@include text-emphasis-variant('.text-default-lighter', $brand-lighter);
+
+@include bg-variant('.bg-default', $brand-primary);
+@include bg-variant('.bg-default-op', rgba($brand-primary, .75));
+@include bg-variant('.bg-default-dark', $brand-dark);
+@include bg-variant('.bg-default-dark-op', rgba($brand-dark, .83));
+@include bg-variant('.bg-default-darker', $brand-darker);
+@include bg-variant('.bg-default-light', $brand-light);
+@include bg-variant('.bg-default-lighter', $brand-lighter);
+
+@include bg-gradient-variant('.bg-gd-default', 135deg, darken($brand-primary, 15%), lighten($brand-primary, 5%));
+
+// Elegance
+@include text-emphasis-variant('.text-elegance', $theme-elegance-primary);
+@include text-emphasis-variant('.text-elegance-dark', $theme-elegance-dark);
+@include text-emphasis-variant('.text-elegance-darker', $theme-elegance-darker);
+@include text-emphasis-variant('.text-elegance-light', $theme-elegance-light);
+@include text-emphasis-variant('.text-elegance-lighter', $theme-elegance-lighter);
+
+@include bg-variant('.bg-elegance', $theme-elegance-primary);
+@include bg-variant('.bg-elegance-op', rgba($theme-elegance-primary, .75));
+@include bg-variant('.bg-elegance-dark', $theme-elegance-dark);
+@include bg-variant('.bg-elegance-dark-op', rgba($theme-elegance-dark, .83));
+@include bg-variant('.bg-elegance-darker', $theme-elegance-darker);
+@include bg-variant('.bg-elegance-light', $theme-elegance-light);
+@include bg-variant('.bg-elegance-lighter', $theme-elegance-lighter);
+
+@include bg-gradient-variant('.bg-gd-elegance', 135deg, darken($theme-elegance-primary, 15%), lighten($theme-elegance-primary, 5%));
+
+// Pulse
+@include text-emphasis-variant('.text-pulse', $theme-pulse-primary);
+@include text-emphasis-variant('.text-pulse-dark', $theme-pulse-dark);
+@include text-emphasis-variant('.text-pulse-darker', $theme-pulse-darker);
+@include text-emphasis-variant('.text-pulse-light', $theme-pulse-light);
+@include text-emphasis-variant('.text-pulse-lighter', $theme-pulse-lighter);
+
+@include bg-variant('.bg-pulse', $theme-pulse-primary);
+@include bg-variant('.bg-pulse-op', rgba($theme-pulse-primary, .75));
+@include bg-variant('.bg-pulse-dark', $theme-pulse-dark);
+@include bg-variant('.bg-pulse-dark-op', rgba($theme-pulse-dark, .83));
+@include bg-variant('.bg-pulse-darker', $theme-pulse-darker);
+@include bg-variant('.bg-pulse-light', $theme-pulse-light);
+@include bg-variant('.bg-pulse-lighter', $theme-pulse-lighter);
+
+@include bg-gradient-variant('.bg-gd-pulse', 135deg, darken($theme-pulse-primary, 15%), lighten($theme-pulse-primary, 5%));
+
+// Flat
+@include text-emphasis-variant('.text-flat', $theme-flat-primary);
+@include text-emphasis-variant('.text-flat-dark', $theme-flat-dark);
+@include text-emphasis-variant('.text-flat-darker', $theme-flat-darker);
+@include text-emphasis-variant('.text-flat-light', $theme-flat-light);
+@include text-emphasis-variant('.text-flat-lighter', $theme-flat-lighter);
+
+@include bg-variant('.bg-flat', $theme-flat-primary);
+@include bg-variant('.bg-flat-op', rgba($theme-flat-primary, .75));
+@include bg-variant('.bg-flat-dark', $theme-flat-dark);
+@include bg-variant('.bg-flat-dark-op', rgba($theme-flat-dark, .83));
+@include bg-variant('.bg-flat-darker', $theme-flat-darker);
+@include bg-variant('.bg-flat-light', $theme-flat-light);
+@include bg-variant('.bg-flat-lighter', $theme-flat-lighter);
+
+@include bg-gradient-variant('.bg-gd-flat', 135deg, darken($theme-flat-primary, 15%), lighten($theme-flat-primary, 5%));
+
+// Corporate
+@include text-emphasis-variant('.text-corporate', $theme-corporate-primary);
+@include text-emphasis-variant('.text-corporate-dark', $theme-corporate-dark);
+@include text-emphasis-variant('.text-corporate-darker', $theme-corporate-darker);
+@include text-emphasis-variant('.text-corporate-light', $theme-corporate-light);
+@include text-emphasis-variant('.text-corporate-lighter', $theme-corporate-lighter);
+
+@include bg-variant('.bg-corporate', $theme-corporate-primary);
+@include bg-variant('.bg-corporate-op', rgba($theme-corporate-primary, .75));
+@include bg-variant('.bg-corporate-dark', $theme-corporate-dark);
+@include bg-variant('.bg-corporate-dark-op', rgba($theme-corporate-dark, .83));
+@include bg-variant('.bg-corporate-darker', $theme-corporate-darker);
+@include bg-variant('.bg-corporate-light', $theme-corporate-light);
+@include bg-variant('.bg-corporate-lighter', $theme-corporate-lighter);
+
+@include bg-gradient-variant('.bg-gd-corporate', 135deg, darken($theme-corporate-primary, 15%), lighten($theme-corporate-primary, 5%));
+
+// Earth
+@include text-emphasis-variant('.text-earth', $theme-earth-primary);
+@include text-emphasis-variant('.text-earth-dark', $theme-earth-dark);
+@include text-emphasis-variant('.text-earth-darker', $theme-earth-darker);
+@include text-emphasis-variant('.text-earth-light', $theme-earth-light);
+@include text-emphasis-variant('.text-earth-lighter', $theme-earth-lighter);
+
+@include bg-variant('.bg-earth', $theme-earth-primary);
+@include bg-variant('.bg-earth-op', rgba($theme-earth-primary, .75));
+@include bg-variant('.bg-earth-dark', $theme-earth-dark);
+@include bg-variant('.bg-earth-dark-op', rgba($theme-earth-dark, .83));
+@include bg-variant('.bg-earth-darker', $theme-earth-darker);
+@include bg-variant('.bg-earth-light', $theme-earth-light);
+@include bg-variant('.bg-earth-lighter', $theme-earth-lighter);
+
+@include bg-gradient-variant('.bg-gd-earth', 135deg, darken($theme-earth-primary, 15%), lighten($theme-earth-primary, 5%));

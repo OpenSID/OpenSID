@@ -1,0 +1,114 @@
+//
+// Page Loader
+// --------------------------------------------------
+
+#page-loader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $brand-primary;
+    z-index: 999998;
+    transition: transform .35s ease-out;
+    transform: translateY(-100%);
+    will-change: transform;
+
+    &.show {
+        transform: translateY(0);
+    }
+
+    &::after,
+    &::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        border-radius: 100%;
+        content: '';
+        z-index: 999999;
+    }
+
+    &::after {
+        margin-top: -100px;
+        margin-left: -100px;
+        width: 200px;
+        height: 200px;
+        background-color: rgba(255,255,255,.5);
+        border: 3px solid rgba(255,255,255,.75);
+        -webkit-animation: page-loader-inner 1.5s infinite ease-out;
+        animation: page-loader-inner 1.5s infinite ease-out;
+    }
+
+    &::before {
+        margin-top: -30px;
+        margin-left: -30px;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255,255,255,1);
+        -webkit-animation: page-loader-outer 1.5s infinite ease-in;
+        animation: page-loader-outer 1.5s infinite ease-in;
+    }
+
+    .lt-ie10 &::after {
+        text-align: center;
+        content: 'Loading..';
+        background-color: transparent;
+    }
+
+    .lt-ie10 &::before {
+        display: none;
+    }
+}
+
+@-webkit-keyframes page-loader-inner {
+    0%, 40% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes page-loader-inner {
+    0%, 40% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes page-loader-outer {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    40%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes page-loader-outer {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    40%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 0;
+    }
+}

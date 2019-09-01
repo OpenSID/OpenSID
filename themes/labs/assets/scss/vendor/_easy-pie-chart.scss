@@ -1,0 +1,22 @@
+//
+// Easy Pie Chart
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.pie-chart {
+    position: relative;
+    display: block;
+
+    > canvas {
+        display: block;
+        margin: 0 auto;
+    }
+
+    > span {
+        @include vertical-align;
+        right: 0;
+        left: 0;
+        text-align: center;
+    }
+}

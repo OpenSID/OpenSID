@@ -1,0 +1,166 @@
+//
+// Layout Variations
+// --------------------------------------------------
+
+#page-container {
+    // Main content related
+    @include media-breakpoint-up(xl) {
+        &.main-content-narrow > #page-header .content-header,
+        &.main-content-narrow > #page-header .content,
+        &.main-content-narrow > #main-container .content,
+        &.main-content-narrow > #page-footer .content {
+            max-width: $space-narrow;
+        }
+    }
+
+    &.main-content-boxed > #page-header .content-header,
+    &.main-content-boxed > #page-header .content,
+    &.main-content-boxed > #main-container .content,
+    &.main-content-boxed > #page-footer .content {
+        max-width: $space-boxed;
+    }
+
+    // Page header related
+    @include media-breakpoint-up(lg) {
+        &.page-header-modern #page-header {
+            background-color: $body-bg;
+            box-shadow: none !important;
+
+            > .content-header {
+                padding-top: $header-height - 36px;
+                padding-bottom: 2px;
+            }
+        }
+    }
+
+    &.page-header-inverse #page-header {
+        color: darken($body-color-light, 8%);
+        background-color: $header-inverse-bg;
+    }
+
+    &.page-header-glass {
+        #page-header {
+            position: absolute;
+            background-color: transparent;
+        }
+
+        &.page-header-fixed {
+            #page-header {
+                transition: background-color .2s linear;
+                will-change: background-color;
+                box-shadow: none;
+            }
+
+            &.page-header-scroll #page-header {
+                background-color: $header-bg;
+                box-shadow: 0 5px 10px rgba(0,0,0,.02);
+            }
+
+            &.page-header-scroll.page-header-inverse #page-header {
+                background-color: $header-inverse-bg;
+                box-shadow: none;
+            }
+        }
+
+        #main-container,
+        &.page-header-fixed #main-container {
+            padding-top: 0;
+        }
+    }
+
+    &.page-header-fixed {
+        #page-header {
+            position: fixed;
+            box-shadow: 0 5px 10px rgba(0,0,0,.02);
+
+            > .content-header {
+                padding-top: (($header-height - $pbf-height) / 2);
+                padding-bottom: (($header-height - $pbf-height) / 2);
+            }
+        }
+
+        &.page-header-inverse #page-header {
+            box-shadow: none;
+        }
+
+        #main-container {
+            padding-top: $header-height;
+        }
+    }
+
+    &.page-header-fixed,
+    &.page-header-glass {
+        #page-header {
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: $zindex-fixed;
+            min-width: 320px;
+            max-width: 100%;
+            width: auto;
+        }
+
+        @include media-breakpoint-up(lg) {
+            &.sidebar-o #page-header {
+                left: $sidebar-width;
+            }
+
+            &.sidebar-r.sidebar-o #page-header {
+                right: $sidebar-width;
+                left: 0;
+            }
+
+            // Mini Sidebar
+            &.sidebar-o.sidebar-mini #page-header {
+                left: $sidebar-mini-width;
+            }
+
+            &.sidebar-r.sidebar-o.sidebar-mini #page-header {
+                right: $sidebar-mini-width;
+                left: 0;
+            }
+        }
+    }
+
+    // Sidebar and side overlay related
+    &.page-header-modern #sidebar {
+        box-shadow: 5px 0 10px rgba(0,0,0,.02);
+    }
+
+    &.sidebar-inverse #sidebar {
+        color: $body-color-light;
+        background-color: $sidebar-inverse-bg;
+        box-shadow: none;
+
+        .content-side-user {
+            background-color: darken($sidebar-inverse-bg, 3%);
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        &.sidebar-o {
+            padding-left: $sidebar-width;
+        }
+
+        &.sidebar-r.sidebar-o {
+            padding-right: $sidebar-width;
+            padding-left: 0;
+        }
+
+        // Mini Sidebar
+        &.sidebar-o.sidebar-mini {
+            padding-left: $sidebar-mini-width;
+        }
+
+        &.sidebar-r.sidebar-o.sidebar-mini {
+            padding-right: $sidebar-mini-width;
+            padding-left: 0;
+        }
+
+        // Side Scroll (Disable native scrolling, slimScroll will be enabled with JS)
+        &.side-scroll #sidebar,
+        &.side-scroll #side-overlay {
+            overflow-y: hidden;
+        }
+    }
+}

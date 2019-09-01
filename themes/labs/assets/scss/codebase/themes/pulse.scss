@@ -1,0 +1,47 @@
+//
+// Color Theme - Pulse
+// --------------------------------------------------
+
+// Bootstrap functions (original)
+@import '../../bootstrap/functions';
+
+// Codebase functions/variables and Bootstrap overrides
+@import '../functions';
+@import '../variables';
+@import '../variables-themes';
+@import '../variables-bootstrap';
+
+// Bootstrap variables and mixins (original)
+@import '../../bootstrap/variables';
+@import '../../bootstrap/mixins';
+
+// Codebase mixins and Bootstrap overrides
+@import '../mixins';
+
+// Generate color theme
+@include color-theme($theme-pulse-primary,
+                     $theme-pulse-light,
+                     $theme-pulse-lighter,
+                     $theme-pulse-dark,
+                     $theme-pulse-darker,
+                     $theme-pulse-body-bg,
+                     $theme-pulse-body-bg-dark,
+                     $theme-pulse-body-bg-light,
+                     $theme-pulse-body-color,
+                     $theme-pulse-body-color-dark,
+                     $theme-pulse-body-color-light,
+                     $theme-pulse-link-color,
+                     $theme-pulse-link-hover-color,
+                     $theme-pulse-headings-color,
+                     $theme-pulse-headings-small-color,
+                     $theme-pulse-header-bg,
+                     $theme-pulse-header-inverse-bg,
+                     $theme-pulse-sidebar-bg,
+                     $theme-pulse-sidebar-inverse-bg,
+                     $theme-pulse-side-overlay-bg,
+                     $theme-pulse-input-color,
+                     $theme-pulse-input-focus-color,
+                     $theme-pulse-input-border-color,
+                     $theme-pulse-input-focus-border-color,
+                     $theme-pulse-input-bg,
+                     $theme-pulse-input-focus-bg);

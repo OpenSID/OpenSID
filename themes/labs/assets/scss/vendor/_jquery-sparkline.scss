@@ -1,0 +1,13 @@
+//
+// jQuery Sparkline
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.jqstooltip {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    border: none !important;
+    background-color: rgba(0,0,0,.75) !important;
+}

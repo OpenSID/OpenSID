@@ -1,0 +1,69 @@
+//
+// Tables
+// --------------------------------------------------
+
+.table {
+    thead th {
+        border-top: none;
+        border-bottom: none;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+}
+
+.table-borderless {
+    &,
+    th,
+    td {
+        border: none !important;
+    }
+}
+
+.table-vcenter {
+    th,
+    td {
+        vertical-align: middle;
+    }
+}
+
+// Table Responsive
+.table-responsive,
+[class*="table-responsive-"] {
+    > .table.table-bordered thead th {
+        border-top: 1px solid $table-border-color;
+    }
+}
+
+// Table backgrounds
+@include table-row-variant(active, $body-bg);
+@include table-row-variant(primary, $brand-lighter);
+@include table-row-variant(success, $brand-success-light);
+@include table-row-variant(info, $brand-info-light);
+@include table-row-variant(warning, $brand-warning-light);
+@include table-row-variant(danger, $brand-danger-light);
+
+// Table tools
+.js-table-checkable tbody tr,
+.js-table-sections-header > tr {
+    cursor: pointer;
+}
+
+.js-table-sections-header {
+    > tr > td:first-child > i {
+        transition: transform .2s ease-in-out;
+    }
+
+    + tbody {
+        display: none;
+    }
+
+    &.show {
+        > tr > td:first-child > i {
+            transform: rotate(90deg);
+        }
+
+        + tbody {
+            display: table-row-group;
+        }
+    }
+}

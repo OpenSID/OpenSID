@@ -1,0 +1,127 @@
+//
+// FullCalendar
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.fc-event {
+    padding-left: 4px;
+    padding-right: 2px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: $body-color-dark;
+    border: 1px solid $brand-info-light;
+    border-radius: 0;
+
+    @include hover {
+        color: $body-color;
+    }
+}
+
+.fc-event,
+.fc-event-dot {
+    background-color: $brand-info-light;
+}
+
+.fc button {
+    height: $pbf-height;
+    line-height: $pbf-height;
+    font-weight: 600;
+    cursor: default;
+}
+
+.fc-state-default.fc-corner-left {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.fc-state-default.fc-corner-right {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.fc-state-default {
+    color: $body-color-dark;
+    background-color: $body-bg;
+    background-image: none;
+    border: 1px solid darken($body-bg-dark, 5%);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.fc-state-hover,
+.fc-state-down,
+.fc-state-active,
+.fc-state-disabled {
+    color: $gray-darker;
+    background-color: darken($body-bg, 12%);
+    border-color: darken($body-bg-dark, 18%);
+}
+
+.fc-state-hover {
+    color: $body-color-dark;
+    transition: all .15s ease-out;
+}
+
+.fc-state-down,
+.fc-state-active {
+    background-color: darken($body-bg, 12%);
+    border-color: darken($body-bg-dark, 18%);
+    box-shadow: none;
+}
+
+.fc-state-disabled {
+    opacity: .35;
+}
+
+.fc-toolbar {
+    margin-bottom: 29px;
+
+    @include media-breakpoint-down(sm) {
+        > div {
+            display: block !important;
+            float: none !important;
+            margin-bottom: 12px !important;
+            @include clearfix();
+        }
+    }
+}
+
+.fc thead th.fc-widget-header {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: $body-bg-light;
+}
+
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-list-heading td,
+.fc-unthemed .fc-list-view,
+.fc-unthemed .fc-popover,
+.fc-unthemed .fc-row,
+.fc-unthemed tbody,
+.fc-unthemed td,
+.fc-unthemed th,
+.fc-unthemed thead {
+    border-color: $body-bg-dark;
+}
+
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-list-heading td,
+.fc-unthemed .fc-popover .fc-header {
+    background: $body-bg;
+}
+
+.fc-unthemed .fc-today {
+    background: $body-bg-light;
+}
+
+@include media-breakpoint-down(xs) {
+    .fc-header-toolbar .fc-button {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}

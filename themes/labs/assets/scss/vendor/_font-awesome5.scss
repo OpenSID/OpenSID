@@ -1,0 +1,32 @@
+//
+// Font Awesome 5 Overrides
+// --------------------------------------------------
+
+// Variables Override
+$fa-font-path: "../fonts" !default;
+
+// Import Font Awesome 5
+@import 'fontawesome5/fontawesome';
+@import 'fontawesome5/fa-regular';
+@import 'fontawesome5/fa-solid';
+@import 'fontawesome5/fa-brands';
+
+// Apply small fixes to reflect the new changes in Font Awesome 5 version
+.block.block-mode-loading.block-mode-loading-refresh::after,
+.block.block-mode-loading.block-mode-loading-sun::after,
+.block.block-mode-loading.block-mode-loading-repeat::after,
+.breadcrumb-item + .breadcrumb-item::before,
+.css-checkbox .css-control-input ~ .css-control-indicator::after,
+.list-events > li::before,
+.nav-main-header a.nav-submenu::before,
+.nav-main a.nav-submenu::before,
+.nav-main a.nav-submenu::after {
+    font-family: 'Font Awesome 5 Free';
+}
+
+.block.block-mode-loading.block-mode-loading-refresh::after,
+.block.block-mode-loading.block-mode-loading-repeat::after,
+.breadcrumb-item + .breadcrumb-item::before,
+.css-checkbox .css-control-input ~ .css-control-indicator::after {
+    font-weight: 900;
+}

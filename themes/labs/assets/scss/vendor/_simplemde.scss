@@ -1,0 +1,15 @@
+//
+// SimpleMDE Markdown Editor
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.CodeMirror-fullscreen,
+.editor-toolbar.fullscreen,
+.editor-preview-side {
+    z-index: $zindex-modal + 2;
+}
+
+.editor-preview {
+    z-index: $zindex-modal + 1;
+}

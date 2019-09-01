@@ -1,0 +1,126 @@
+//
+// Background
+// --------------------------------------------------
+
+// Contextual colors
+@include bg-variant('.bg-primary-op', rgba($brand-primary, .75));
+@include bg-variant('.bg-primary-dark', $brand-dark);
+@include bg-variant('.bg-primary-dark-op', rgba($brand-dark, .8));
+@include bg-variant('.bg-primary-darker', $brand-darker);
+@include bg-variant('.bg-primary-light', $brand-light);
+@include bg-variant('.bg-primary-lighter', $brand-lighter);
+@include bg-variant('.bg-body', $body-bg);
+@include bg-variant('.bg-body-light', $body-bg-light);
+@include bg-variant('.bg-body-dark', $body-bg-dark);
+@include bg-variant('.bg-muted', $gray-dark);
+@include bg-variant('.bg-success-light ', $brand-success-light);
+@include bg-variant('.bg-warning-light ', $brand-warning-light);
+@include bg-variant('.bg-info-light ', $brand-info-light);
+@include bg-variant('.bg-danger-light ', $brand-danger-light);
+@include bg-variant('.bg-white', $white);
+@include bg-variant('.bg-black', $black);
+@include bg-variant('.bg-gray', $gray);
+@include bg-variant('.bg-gray-dark', $gray-dark);
+@include bg-variant('.bg-gray-darker', $gray-darker);
+@include bg-variant('.bg-gray-light', $gray-light);
+@include bg-variant('.bg-gray-lighter', $gray-lighter);
+
+// Gradients
+@include bg-gradient-variant('.bg-gd-primary', 135deg, darken($brand-primary, 15%), lighten($brand-primary, 5%));
+@include bg-gradient-variant('.bg-gd-dusk', 135deg, $theme-elegance-primary, $brand-primary);
+@include bg-gradient-variant('.bg-gd-cherry', 135deg, lighten($theme-pulse-primary, 5%), darken($theme-pulse-primary, 10%));
+@include bg-gradient-variant('.bg-gd-aqua', 135deg, $theme-corporate-primary, $theme-flat-primary);
+@include bg-gradient-variant('.bg-gd-emerald', 135deg, $theme-earth-primary, $theme-corporate-primary);
+@include bg-gradient-variant('.bg-gd-sea', 135deg, darken($brand-primary, 7%), $brand-info);
+@include bg-gradient-variant('.bg-gd-leaf', 135deg, $brand-warning, $brand-success);
+@include bg-gradient-variant('.bg-gd-lake', 135deg, $brand-info, $brand-success);
+@include bg-gradient-variant('.bg-gd-sun', 135deg, $brand-danger, $brand-warning);
+
+// Black/White with opacity
+.bg-black-op {
+    background-color: rgba(0,0,0,.5) !important;
+
+    &-5 {
+        background-color: rgba(0,0,0,.05) !important;
+    }
+
+    &-10 {
+        background-color: rgba(0,0,0,.1) !important;
+    }
+
+    &-25 {
+        background-color: rgba(0,0,0,.25) !important;
+    }
+
+    &-75 {
+        background-color: rgba(0,0,0,.75) !important;
+    }
+
+    &-90 {
+        background-color: rgba(0,0,0,.9) !important;
+    }
+
+    &-95 {
+        background-color: rgba(0,0,0,.95) !important;
+    }
+}
+
+.bg-white-op {
+    background-color: rgba(255,255,255,.5) !important;
+
+    &-5 {
+        background-color: rgba(255,255,255,.05) !important;
+    }
+
+    &-10 {
+        background-color: rgba(255,255,255,.1) !important;
+    }
+
+    &-25 {
+        background-color: rgba(255,255,255,.25) !important;
+    }
+
+    &-75 {
+        background-color: rgba(255,255,255,.75) !important;
+    }
+
+    &-90 {
+        background-color: rgba(255,255,255,.9) !important;
+    }
+
+    &-95 {
+        background-color: rgba(255,255,255,.95) !important;
+    }
+}
+
+// Image Background
+.bg-image {
+    background-color: $gray-lighter;
+    background-position: 0% 50%;
+    background-size: cover;
+
+    &-top {
+        background-position-y: 0%;
+    }
+
+    &-bottom {
+        background-position-y: 100%;
+    }
+
+    @include media-breakpoint-up(xl) {
+        &-fixed {
+            background-attachment: fixed;
+        }
+    }
+}
+
+// Pattern Image
+.bg-pattern {
+    background-repeat: repeat;
+}
+
+// Video Background
+.bg-video {
+    width: 100%;
+    transform: translateZ(0);
+}

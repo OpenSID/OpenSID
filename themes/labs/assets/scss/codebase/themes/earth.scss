@@ -1,0 +1,47 @@
+//
+// Color Theme - Earth
+// --------------------------------------------------
+
+// Bootstrap functions (original)
+@import '../../bootstrap/functions';
+
+// Codebase functions/variables and Bootstrap overrides
+@import '../functions';
+@import '../variables';
+@import '../variables-themes';
+@import '../variables-bootstrap';
+
+// Bootstrap variables and mixins (original)
+@import '../../bootstrap/variables';
+@import '../../bootstrap/mixins';
+
+// Codebase mixins and Bootstrap overrides
+@import '../mixins';
+
+// Generate color theme
+@include color-theme($theme-earth-primary,
+                     $theme-earth-light,
+                     $theme-earth-lighter,
+                     $theme-earth-dark,
+                     $theme-earth-darker,
+                     $theme-earth-body-bg,
+                     $theme-earth-body-bg-dark,
+                     $theme-earth-body-bg-light,
+                     $theme-earth-body-color,
+                     $theme-earth-body-color-dark,
+                     $theme-earth-body-color-light,
+                     $theme-earth-link-color,
+                     $theme-earth-link-hover-color,
+                     $theme-earth-headings-color,
+                     $theme-earth-headings-small-color,
+                     $theme-earth-header-bg,
+                     $theme-earth-header-inverse-bg,
+                     $theme-earth-sidebar-bg,
+                     $theme-earth-sidebar-inverse-bg,
+                     $theme-earth-side-overlay-bg,
+                     $theme-earth-input-color,
+                     $theme-earth-input-focus-color,
+                     $theme-earth-input-border-color,
+                     $theme-earth-input-focus-border-color,
+                     $theme-earth-input-bg,
+                     $theme-earth-input-focus-bg);

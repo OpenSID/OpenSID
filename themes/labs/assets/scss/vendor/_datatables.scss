@@ -1,0 +1,68 @@
+//
+// DataTables
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+table.dataTable {
+    border-collapse: collapse !important;
+
+    td,
+    th {
+        box-sizing: border-box;
+    }
+
+    thead  {
+        > tr > th.sorting_asc,
+        > tr > th.sorting_desc,
+        > tr > th.sorting,
+        > tr > td.sorting_asc,
+        > tr > td.sorting_desc,
+        > tr > td.sorting {
+            padding-right: 20px;
+        }
+
+        .sorting:before,
+        .sorting_asc:before,
+        .sorting_desc:before,
+        .sorting_asc_disabled:before,
+        .sorting_desc_disabled:before {
+            display: none;
+        }
+
+        .sorting:after,
+        .sorting_asc:after,
+        .sorting_desc:after,
+        .sorting_asc_disabled:after,
+        .sorting_desc_disabled:after {
+            top: 10px;
+            right: 6px;
+            bottom: auto;
+            font-family: FontAwesome;
+            font-size: 14px;
+            opacity: .6;
+        }
+
+        .sorting:after {
+            content: "\f0dc";
+        }
+
+        .sorting_asc:after {
+            content: "\f106";
+        }
+
+        .sorting_desc:after {
+            content: "\f107";
+        }
+    }
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    margin-top: 10px;
+    justify-content: center;
+
+    @include media-breakpoint-up(md) {
+        margin-top: 2px;
+        justify-content: flex-end;
+    }
+}

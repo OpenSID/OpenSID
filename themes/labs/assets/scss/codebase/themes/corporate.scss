@@ -1,0 +1,47 @@
+//
+// Color Theme - Corporate
+// --------------------------------------------------
+
+// Bootstrap functions (original)
+@import '../../bootstrap/functions';
+
+// Codebase functions/variables and Bootstrap overrides
+@import '../functions';
+@import '../variables';
+@import '../variables-themes';
+@import '../variables-bootstrap';
+
+// Bootstrap variables and mixins (original)
+@import '../../bootstrap/variables';
+@import '../../bootstrap/mixins';
+
+// Codebase mixins and Bootstrap overrides
+@import '../mixins';
+
+// Generate color theme
+@include color-theme($theme-corporate-primary,
+                     $theme-corporate-light,
+                     $theme-corporate-lighter,
+                     $theme-corporate-dark,
+                     $theme-corporate-darker,
+                     $theme-corporate-body-bg,
+                     $theme-corporate-body-bg-dark,
+                     $theme-corporate-body-bg-light,
+                     $theme-corporate-body-color,
+                     $theme-corporate-body-color-dark,
+                     $theme-corporate-body-color-light,
+                     $theme-corporate-link-color,
+                     $theme-corporate-link-hover-color,
+                     $theme-corporate-headings-color,
+                     $theme-corporate-headings-small-color,
+                     $theme-corporate-header-bg,
+                     $theme-corporate-header-inverse-bg,
+                     $theme-corporate-sidebar-bg,
+                     $theme-corporate-sidebar-inverse-bg,
+                     $theme-corporate-side-overlay-bg,
+                     $theme-corporate-input-color,
+                     $theme-corporate-input-focus-color,
+                     $theme-corporate-input-border-color,
+                     $theme-corporate-input-focus-border-color,
+                     $theme-corporate-input-bg,
+                     $theme-corporate-input-focus-bg);

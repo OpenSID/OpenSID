@@ -1,0 +1,7 @@
+//
+// Badge
+// --------------------------------------------------
+
+.badge-secondary {
+    @include badge-variant(rgba(0,0,0,.33));
+}

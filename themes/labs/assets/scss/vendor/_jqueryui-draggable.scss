@@ -1,0 +1,20 @@
+//
+// Draggable (jQueryUI)
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.draggable {
+    &-column {
+        min-height: 100px;
+    }
+
+    &-handler {
+        cursor: move;
+    }
+
+    &-placeholder {
+        background-color: darken($body-bg, 1%);
+        border: 1px dashed darken($body-bg-dark, 10%);
+    }
+}

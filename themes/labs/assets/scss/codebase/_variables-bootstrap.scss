@@ -1,0 +1,261 @@
+//
+// Bootstrap variables (overrides only)
+// --------------------------------------------------
+
+
+// Color system
+$theme-colors: (
+    primary: $brand-primary,
+    secondary: $gray-600,
+    success: $brand-success,
+    info: $brand-info,
+    warning: $brand-warning,
+    danger: $brand-danger
+) !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold:          200 !default;
+
+
+// Components
+$line-height-lg:                    $pbf-line-height-lg !default;
+$line-height-sm:                    $pbf-line-height-sm !default;
+
+$border-width:                      1px !default;
+
+$border-radius:                     .25rem !default;
+$border-radius-lg:                  .3rem !default;
+$border-radius-sm:                  .2rem !default;
+
+$component-active-color:            $white !default;
+$component-active-bg:               theme-color("primary") !default;
+
+$caret-width:                       .25em !default;
+
+
+// Fonts
+$display-line-height:               $headings-line-height !default;
+
+$lead-font-size:                    1.5rem !default;
+
+$hr-border-color:                   $body-bg-dark !default;
+
+
+// Navs
+$nav-tabs-border-color:             $body-bg-dark !default;
+$nav-tabs-link-hover-border-color:  $body-bg-dark !default;
+$nav-tabs-link-active-color:        $body-color !default;
+$nav-tabs-link-active-bg:           $white !default;
+$nav-tabs-link-active-border-color: $body-bg-dark !default;
+
+$nav-pills-link-active-color:       $white !default;
+$nav-pills-link-active-bg:          $component-active-bg !default;
+
+
+// Tables
+$table-cell-padding:                10px !default;
+$table-cell-padding-sm:             5px !default;
+
+$table-accent-bg:                   rgba(0,0,0,.02) !default;
+$table-hover-bg:                    rgba(0,0,0,.04) !default;
+$table-active-bg:                   $table-hover-bg !default;
+
+$table-border-color:                $body-bg-dark !default;
+
+$table-head-bg:                     $body-bg-dark !default;
+$table-head-color:                  $body-color !default;
+
+$table-dark-bg:                     $brand-dark !default;
+$table-dark-accent-bg:              rgba(0,0,0,.1) !default;
+$table-dark-hover-bg:               rgba(0,0,0,.18) !default;
+$table-dark-border-color:           lighten($brand-dark, 5%) !default;
+$table-dark-color:                  $body-color-light !default;
+
+
+// Buttons
+$input-btn-padding-y:               $pbf-padding-y !default;
+$input-btn-padding-x:               14px !default;
+$input-btn-line-height:             $pbf-line-height !default;
+
+$input-btn-padding-y-sm:            $pbf-padding-y-sm !default;
+$input-btn-padding-x-sm:            9px !default;
+$input-btn-line-height-sm:          $pbf-line-height-sm !default;
+
+$input-btn-padding-y-lg:            $pbf-padding-y-lg !default;
+$input-btn-padding-x-lg:            18px !default;
+$input-btn-line-height-lg:          $pbf-line-height-lg !default;
+
+$input-btn-focus-box-shadow:        none !default;
+
+$btn-font-weight:                   600 !default;
+$btn-focus-box-shadow:              none !default;
+$btn-active-box-shadow:             none !default;
+
+
+// Forms
+$input-bg:                          $white !default;
+
+$input-color:                       $body-color !default;
+$input-border-color:                darken($body-bg-dark, 5%) !default;
+$input-btn-border-width:            $border-width !default;
+$input-box-shadow:                  none !default;
+
+$input-focus-bg:                    $input-bg !default;
+$input-focus-border-color:          darken($body-bg-dark, 25%) !default;
+$input-focus-box-shadow:            none !default;
+
+$input-height-border:               $input-btn-border-width * 2 !default;
+
+$input-height-inner:                $pbf-height - 2px !default;
+$input-height:                      $pbf-height !default;
+
+$input-height-inner-sm:             $pbf-height-sm - 2px !default;
+$input-height-sm:                   $pbf-height-sm !default;
+
+$input-height-inner-lg:             $pbf-height-lg - 2px !default;
+$input-height-lg:                   $pbf-height-lg !default;
+
+$input-transition:                  border-color ease-in-out .15s !default;
+
+$form-group-margin-bottom:          16px !default;
+
+$input-group-addon-bg:              $body-bg-light !default;
+$input-group-addon-border-color:    $input-border-color !default;
+
+$custom-control-gutter:             24px !default;
+$custom-control-spacer-x:           16px !default;
+
+$custom-control-indicator-size:     16px !default;
+
+$custom-control-indicator-focus-box-shadow:     0 0 0 1px $body-bg, 0 0 0 3px theme-color("primary") !default;
+
+$custom-select-focus-border-color:  lighten(theme-color("primary"), 25%) !default;
+$custom-select-focus-box-shadow:    inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($custom-select-focus-border-color, .5) !default;
+
+$custom-select-font-size-sm:        75% !default;
+$custom-select-height-sm:           $input-height-sm !default;
+
+$custom-file-color:                 $body-color !default;
+$custom-file-bg:                    $white !default;
+$custom-file-border-color:          $input-border-color !default;
+$custom-file-button-color:          $custom-file-color !default;
+
+
+// Dropdowns
+$dropdown-padding-y:                8px !default;
+$dropdown-border-color:             $body-bg-dark !default;
+$dropdown-border-radius:            2px !default;
+$dropdown-divider-bg:               $body-bg-dark !default;
+$dropdown-box-shadow:               0 15px 25px rgba(0,0,0,.05) !default;
+
+$dropdown-link-color:               $body-color !default;
+$dropdown-link-hover-color:         darken($gray-900, 5%) !default;
+$dropdown-link-hover-bg:            $body-bg !default;
+
+$dropdown-link-active-color:        $body-color !default;
+$dropdown-link-active-bg:           $body-bg-dark !default;
+
+$dropdown-item-padding-y:           5px !default;
+$dropdown-item-padding-x:           10px !default;
+
+$dropdown-header-color:             $headings-color !default;
+
+
+// Pagination
+$pagination-padding-y:              $pbf-padding-y !default;
+$pagination-padding-x:              10px !default;
+$pagination-padding-y-sm:           $pbf-padding-y-sm !default;
+$pagination-padding-x-sm:           7px !default;
+$pagination-padding-y-lg:           $pbf-padding-y-lg !default;
+$pagination-padding-x-lg:           20px !default;
+$pagination-line-height:            $pbf-line-height !default;
+
+$pagination-color:                  $body-color-dark !default;
+$pagination-bg:                     $body-bg !default;
+$pagination-border-color:           $body-bg !default;
+
+$pagination-hover-color:            $body-color-dark !default;
+$pagination-hover-bg:               darken($body-bg-dark, 10%) !default;
+$pagination-hover-border-color:     darken($body-bg-dark, 10%) !default;
+
+$pagination-active-bg:              theme-color("primary") !default;
+$pagination-active-border-color:    theme-color("primary") !default;
+
+$pagination-disabled-bg:            $white !default;
+$pagination-disabled-border-color:  $white !default;
+
+
+// Tooltips
+$tooltip-bg:                        $brand-dark !default;
+$tooltip-padding-y:                 4px !default;
+$tooltip-padding-x:                 10px !default;
+
+$tooltip-arrow-color:               $tooltip-bg !default;
+
+
+// Popovers
+$popover-inner-padding:             10px !default;
+$popover-border-color:              $body-bg-dark !default;
+$popover-box-shadow:                0 15px 25px rgba(0,0,0,.05) !default;
+
+$popover-header-bg:                 $white !default;
+$popover-header-padding-y:          12px !default;
+$popover-header-padding-x:          10px !default;
+
+$popover-body-padding-y:            10px !default;
+$popover-body-padding-x:            10px !default;
+
+
+// Badges
+$badge-font-size:                   85% !default;
+$badge-font-weight:                 600 !default;
+$badge-padding-y:                   3px !default;
+$badge-padding-x:                   5px !default;
+
+
+// Modals
+$modal-inner-padding:               $space-block !default;
+
+$modal-content-border-width:        0 !default;
+$modal-content-box-shadow-xs:       none !default;
+$modal-content-box-shadow-sm-up:    none !default;
+
+$modal-backdrop-opacity:            .6 !default !default;
+$modal-header-border-color:         $body-bg-dark !default;
+$modal-footer-border-color:         $body-bg-dark !default;
+$modal-header-padding:              $space-base !default;
+
+
+// Alerts
+$alert-margin-bottom:               $space-base !default;
+$alert-link-font-weight:            600 !default;
+$alert-border-width:                0 !default;
+
+
+// Progress bars
+$progress-height:                   20px !default;
+$progress-font-size:                1rem !default;
+$progress-bar-bg:                   theme-color("primary") !default;
+
+
+// List group
+$list-group-border-color:           $body-bg-dark !default;
+
+$list-group-hover-bg:               $body-bg-light !default;
+$list-group-active-color:           $white !default;
+$list-group-active-bg:              $component-active-bg !default;
+$list-group-active-border-color:    theme-color("primary") !default;
+
+$list-group-action-color:           $body-color !default;
+$list-group-action-hover-color:     $body-color !default;
+
+$list-group-action-active-color:    $body-color !default;
+$list-group-action-active-bg:       $body-bg-dark !default;
+
+
+// Breadcrumbs
+$breadcrumb-padding-y:              9px !default;
+$breadcrumb-padding-x:              14px !default;
+
+$breadcrumb-bg:                     $body-bg !default;
+$breadcrumb-active-color:           $body-color-dark !default;

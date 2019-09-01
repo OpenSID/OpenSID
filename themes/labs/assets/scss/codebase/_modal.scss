@@ -1,0 +1,78 @@
+//
+// Modal
+// --------------------------------------------------
+
+.modal-content {
+    border-radius: 0;
+}
+
+.modal-header {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.modal-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top-width: 1px;
+}
+
+// Top position
+.modal-dialog {
+    &.modal-dialog-top {
+        margin-top: 0 !important;
+    }
+}
+
+// Modal Transitions
+.modal {
+    &.fade .modal-dialog {
+        transition-duration: .35s;
+
+        &.modal-dialog-popin {
+            transform: scale(1.2, 1.2);
+        }
+
+        &.modal-dialog-popout {
+            transform: scale(.8, .8);
+        }
+
+        &.modal-dialog-slideup {
+            transform: translate(0, 25%);
+        }
+
+        &.modal-dialog-slideright {
+            transform: translate(-25%, 0);
+        }
+
+        &.modal-dialog-slideleft {
+            transform: translate(25%, 0);
+        }
+
+        &.modal-dialog-fromright {
+            transform: translateX(25%) rotate(15deg) scale(.8);
+        }
+
+        &.modal-dialog-fromleft {
+            transform: translateX(-25%) rotate(-15deg) scale(.8);
+        }
+    }
+
+    &.show .modal-dialog {
+        &.modal-dialog-popin,
+        &.modal-dialog-popout {
+            transform: scale(1, 1);
+        }
+
+        &.modal-dialog-slideup,
+        &.modal-dialog-slideright,
+        &.modal-dialog-slideleft {
+            transform: translate(0, 0);
+        }
+
+        &.modal-dialog-fromright,
+        &.modal-dialog-fromleft {
+            transform: translateX(0) rotate(0) scale(1);
+        }
+    }
+}

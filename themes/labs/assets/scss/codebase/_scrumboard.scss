@@ -1,0 +1,54 @@
+//
+// Scrum Board
+// --------------------------------------------------
+
+.scrumboard {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    opacity: 0;
+    -webkit-overflow-scrolling: touch;
+    padding: $space-mobile $space-mobile 1px;
+
+    @include media-breakpoint-up(md) {
+        padding: $space-base $space-base 1px;
+    }
+
+    .scrumboard-col {
+        flex: 0 0 auto;
+        width: 320px;
+        margin-right: $space-mobile;
+
+        @include media-breakpoint-up(md) {
+            margin-right: $space-base;
+        }
+    }
+
+    .scrumboard-item {
+        position: relative;
+        min-height: 42px;
+        padding: 10px 87px 10px 10px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: darken($brand-warning, 25%);
+        background-color: $brand-warning-light;
+        border-bottom: 1px solid rgba(darken($brand-warning, 25%), .1);
+        box-shadow: 0 5px 8px rgba(darken($brand-warning, 25%), .05);
+    }
+
+    .scrumboard-item-options {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+    }
+
+    .scrumboard-item-handler {
+        cursor: move;
+    }
+
+    .scrumboard-item-placeholder {
+        min-height: 42px;
+        border: 1px dashed $brand-warning;
+    }
+}

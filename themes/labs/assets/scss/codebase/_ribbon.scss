@@ -1,0 +1,132 @@
+//
+// Ribbon
+// --------------------------------------------------
+
+.ribbon {
+    position: relative;
+    min-height: 52px;
+
+    &-box {
+        position: absolute;
+        top: 10px;
+        right: 0;
+        padding: 0 12px;
+        height: 32px;
+        line-height: 32px;
+        color: $white;
+        font-weight: 600;
+        z-index: 2;
+
+        &::before {
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            content: '';
+        }
+    }
+
+    // Styles
+    &-bookmark {
+        .ribbon-box {
+            padding-left: 10px;
+        }
+
+        .ribbon-box::before {
+            top: 0;
+            right: 100%;
+            height: 32px;
+            border: 16px solid;
+            border-left-width: 8px;
+            border-right-width: 0;
+        }
+    }
+
+    &-modern {
+        .ribbon-box {
+            top: 10px;
+            right: -8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 16px;
+        }
+
+        .ribbon-box::before {
+            display: none;
+        }
+    }
+
+    // Position
+    &-left {
+        .ribbon-box {
+            right: auto;
+            left: 0;
+        }
+
+        &.ribbon-bookmark {
+            .ribbon-box {
+                padding-left: 12px;
+                padding-right: 10px;
+            }
+
+            .ribbon-box::before {
+                right: auto;
+                left: 100%;
+                border-left-width: 0;
+                border-right-width: 8px;
+            }
+        }
+
+        &.ribbon-modern {
+            .ribbon-box {
+                left: -8px;
+            }
+        }
+    }
+
+    &-bottom {
+        .ribbon-box {
+            top: auto;
+            bottom: 10px;
+        }
+    }
+
+    // Colors
+    &-primary {
+        @include ribbon-variation($brand-primary);
+    }
+
+    &-success {
+        @include ribbon-variation($brand-success);
+    }
+
+    &-info {
+        @include ribbon-variation($brand-info);
+    }
+
+    &-warning {
+        @include ribbon-variation($brand-warning);
+    }
+
+    &-danger {
+        @include ribbon-variation($brand-danger);
+    }
+
+    &-crystal {
+        .ribbon-box {
+            background-color: rgba(255,255,255,.35);
+        }
+
+        &.ribbon-bookmark {
+            .ribbon-box::before {
+                border-color: rgba(255,255,255,.35);
+                border-left-color: transparent;
+            }
+
+            &.ribbon-left .ribbon-box::before {
+                border-color: rgba(255,255,255,.35);
+                border-right-color: transparent;
+            }
+        }
+    }
+}

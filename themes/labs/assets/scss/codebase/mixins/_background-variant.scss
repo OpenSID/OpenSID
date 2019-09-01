@@ -1,0 +1,10 @@
+//
+// Backgrounds
+// --------------------------------------------------
+
+@mixin bg-gradient-variant($parent, $deg, $color1, $color2) {
+    #{$parent} {
+        background: $color1;
+        background: linear-gradient($deg, $color1 0%, $color2 100%) !important;
+    }
+}

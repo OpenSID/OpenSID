@@ -1,0 +1,59 @@
+//
+// Text
+// --------------------------------------------------
+
+// Font weight
+.font-w300 { font-weight: 300 !important; }
+.font-w400 { font-weight: 400 !important; }
+.font-w600 { font-weight: 600 !important; }
+.font-w700 { font-weight: 700 !important; }
+
+// Font sizes
+.font-size-default { font-size: $font-size-base  !important; }
+.font-size-xl { font-size: $font-size-xl !important; }
+.font-size-lg { font-size: $font-size-lg !important; }
+.font-size-md { font-size: $font-size-md !important; }
+.font-size-sm { font-size: $font-size-sm !important; }
+.font-size-xs { font-size: $font-size-xs !important; }
+
+// Line height
+.line-height-base { line-height: $line-height-base !important; }
+
+// Helpers
+.text-wrap-break-word {
+    word-wrap: break-word;
+}
+
+// Contextual colors
+@include text-emphasis-variant('.text-primary-dark', $brand-dark);
+@include text-emphasis-variant('.text-primary-darker', $brand-darker);
+@include text-emphasis-variant('.text-primary-light', $brand-light);
+@include text-emphasis-variant('.text-primary-lighter', $brand-lighter);
+@include text-emphasis-variant('.text-body-bg', $body-bg);
+@include text-emphasis-variant('.text-body-bg-dark', $body-bg-dark);
+@include text-emphasis-variant('.text-body-bg-light', $body-bg-light);
+@include text-emphasis-variant('.text-body-color', $body-color);
+@include text-emphasis-variant('.text-body-color-dark', $body-color-dark);
+@include text-emphasis-variant('.text-body-color-light', $body-color-light);
+@include text-emphasis-variant('.text-muted', $gray-dark);
+@include text-emphasis-variant('.text-success-light', $brand-success-light);
+@include text-emphasis-variant('.text-warning-light', $brand-warning-light);
+@include text-emphasis-variant('.text-info-light', $brand-info-light);
+@include text-emphasis-variant('.text-danger-light', $brand-danger-light);
+@include text-emphasis-variant('.text-white', $white);
+@include text-emphasis-variant('.text-white-op', rgba(255,255,255,.8));
+@include text-emphasis-variant('.text-black', $black);
+@include text-emphasis-variant('.text-black-op', rgba(0,0,0,.5));
+@include text-emphasis-variant('.text-gray', $gray);
+@include text-emphasis-variant('.text-gray-dark', $gray-dark);
+@include text-emphasis-variant('.text-gray-darker', $gray-darker);
+@include text-emphasis-variant('.text-gray-light', $gray-light);
+@include text-emphasis-variant('.text-gray-lighter', $gray-lighter);
+
+// Contextual dual text colors (for inverse header/sidebar)
+@include text-emphasis-variant('.text-dual-primary-dark', $brand-dark);
+
+.page-header-inverse #page-header,
+.sidebar-inverse #sidebar {
+    @include text-emphasis-variant('.text-dual-primary-dark', $body-color-light);
+}

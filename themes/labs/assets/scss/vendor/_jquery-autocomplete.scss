@@ -1,0 +1,27 @@
+//
+// jQuery AutoComplete
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.autocomplete-suggestions {
+    border-color: $body-bg-dark;
+    box-shadow: 0 15px 25px rgba(0,0,0,.05);
+}
+
+.autocomplete-suggestion {
+    padding: $input-btn-padding-y $input-btn-padding-x;
+    color: $body-color;
+    font-size: $font-size-base;
+    font-weight: 600;
+    line-height: $line-height-base;
+
+    b {
+        color: $brand-primary;
+        font-weight: 600;
+    }
+
+    &.selected {
+        background-color: $body-bg;
+    }
+}

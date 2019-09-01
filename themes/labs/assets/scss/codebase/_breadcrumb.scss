@@ -1,0 +1,10 @@
+//
+// Breadcrumb
+// --------------------------------------------------
+
+.breadcrumb-item {
+    + .breadcrumb-item::before {
+        font-family: 'FontAwesome';
+        content: '\f105';
+    }
+}

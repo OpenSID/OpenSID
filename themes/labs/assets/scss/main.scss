@@ -1,0 +1,123 @@
+//
+// Codebase UI Framework
+// --------------------------------------------------
+
+// Bootstrap functions (original)
+@import 'bootstrap/functions';
+
+// Codebase functions/variables and Bootstrap overrides
+@import 'codebase/functions';
+@import 'codebase/variables';
+@import 'codebase/variables-themes';
+@import 'codebase/variables-bootstrap';
+
+// Bootstrap variables and mixins (original)
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+
+// Codebase mixins and Bootstrap overrides
+@import 'codebase/mixins';
+
+// Bootstrap components (original)
+@import 'bootstrap/reboot';
+@import 'bootstrap/type';
+@import 'bootstrap/images';
+@import 'bootstrap/code';
+@import 'bootstrap/grid';
+@import 'bootstrap/tables';
+@import 'bootstrap/forms';
+@import 'bootstrap/buttons';
+@import 'bootstrap/transitions';
+@import 'bootstrap/dropdown';
+@import 'bootstrap/button-group';
+@import 'bootstrap/input-group';
+@import 'bootstrap/custom-forms';
+@import 'bootstrap/nav';
+//@import 'bootstrap/navbar';
+//@import 'bootstrap/card';
+@import 'bootstrap/breadcrumb';
+@import 'bootstrap/pagination';
+@import 'bootstrap/badge';
+//@import 'bootstrap/jumbotron';
+@import 'bootstrap/alert';
+@import 'bootstrap/progress';
+@import 'bootstrap/media';
+@import 'bootstrap/list-group';
+@import 'bootstrap/close';
+@import 'bootstrap/modal';
+@import 'bootstrap/tooltip';
+@import 'bootstrap/popover';
+//@import 'bootstrap/carousel';
+@import 'bootstrap/utilities';
+@import 'bootstrap/print';
+
+// Extend Bootstrap styles and override the ones..
+// ..we can't alter with the provided variables
+@import 'codebase/reboot';
+@import 'codebase/type';
+@import 'codebase/grid';
+@import 'codebase/tables';
+@import 'codebase/forms';
+@import 'codebase/buttons';
+@import 'codebase/transitions';
+@import 'codebase/dropdown';
+@import 'codebase/custom-forms';
+@import 'codebase/nav';
+@import 'codebase/breadcrumb';
+@import 'codebase/pagination';
+@import 'codebase/badge';
+@import 'codebase/modal';
+@import 'codebase/popover';
+
+// Codebase layout
+@import 'codebase/layout';
+@import 'codebase/header';
+@import 'codebase/sidebar';
+@import 'codebase/side-overlay';
+@import 'codebase/layout-variations';
+@import 'codebase/hero';
+@import 'codebase/block';
+
+// Codebase components
+@import 'codebase/page-loader';
+@import 'codebase/nav-main';
+@import 'codebase/forms-material';
+@import 'codebase/images';
+@import 'codebase/lists';
+@import 'codebase/item';
+@import 'codebase/ribbon';
+@import 'codebase/options-overlay';
+@import 'codebase/scrumboard';
+
+// Print, utilities and themes
+@import 'codebase/print';
+@import 'codebase/utilities';
+@import 'codebase/themes';
+
+// Third party components
+@import 'vendor/animate';
+@import 'vendor/simple-line-icons';
+@import 'vendor/font-awesome';
+//@import 'vendor/font-awesome5';
+
+// Third party plugins (style overrides)
+@import 'vendor/bootstrap-datepicker';
+@import 'vendor/dropzonejs';
+@import 'vendor/datatables';
+@import 'vendor/easy-pie-chart';
+@import 'vendor/flot-charts';
+@import 'vendor/fullcalendar';
+@import 'vendor/highlightjs';
+@import 'vendor/ion-range-slider';
+@import 'vendor/jquery-autocomplete';
+@import 'vendor/jquery-sparkline';
+@import 'vendor/jquery-tags-input';
+@import 'vendor/jqueryui-draggable';
+@import 'vendor/jvector-map';
+@import 'vendor/select2';
+@import 'vendor/simplemde';
+@import 'vendor/slick';
+@import 'vendor/summernote';
+
+// Your own modifications
+@import 'vendor/custom';

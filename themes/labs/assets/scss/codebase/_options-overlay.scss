@@ -1,0 +1,127 @@
+//
+// Options Overlay
+// --------------------------------------------------
+
+.options-container {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: block;
+
+    .options-item {
+        transition: transform .35s ease-out;
+        will-change: transform;
+    }
+
+    .options-overlay {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        bottom: -2px;
+        left: -2px;
+        z-index: 2;
+        content: '';
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in;
+        will-change: opacity, transform;
+
+        &-content {
+            @include vertical-align;
+            right: 0;
+            left: 0;
+            text-align: center;
+        }
+    }
+
+    @include hover {
+        .options-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        .options-overlay {
+            display: none;
+        }
+
+        &:hover .options-overlay {
+            display: block;
+        }
+    }
+}
+
+// Item hover effects
+.fx-item-zoom-in:hover .options-item {
+    transform: scale(1.2, 1.2);
+}
+
+.fx-item-rotate-r:hover .options-item {
+    transform: scale(1.4) rotate(8deg);
+}
+
+.fx-item-rotate-l:hover .options-item {
+    transform: scale(1.4) rotate(-8deg);
+}
+
+// Overlay hover effects
+.fx-overlay-slide-top {
+    .options-overlay {
+        transform: translateY(100%);
+    }
+
+    &:hover .options-overlay {
+        transform: translateY(0);
+    }
+}
+
+.fx-overlay-slide-right {
+    .options-overlay {
+        transform: translateX(-100%);
+    }
+
+    &:hover .options-overlay {
+        transform: translateX(0);
+    }
+}
+
+.fx-overlay-slide-down {
+    .options-overlay {
+        transform: translateY(-100%);
+    }
+
+    &:hover .options-overlay {
+        transform: translateY(0);
+    }
+}
+
+.fx-overlay-slide-left {
+    .options-overlay {
+        transform: translateX(100%);
+    }
+
+    &:hover .options-overlay {
+        transform: translateX(0);
+    }
+}
+
+.fx-overlay-zoom-in {
+    .options-overlay {
+        transform: scale(0, 0);
+    }
+
+    &:hover .options-overlay {
+        transform: scale(1, 1);
+    }
+}
+
+.fx-overlay-zoom-out {
+    .options-overlay {
+        transform: scale(2, 2);
+    }
+
+    &:hover .options-overlay {
+        transform: scale(1, 1);
+    }
+}

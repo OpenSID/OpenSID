@@ -1,0 +1,181 @@
+//
+// Codebase variables and Bootstrap overrides
+// --------------------------------------------------
+
+// Colors
+$white:                     #fff !default;
+$gray-100:                  #f8f9fa !default;
+$gray-200:                  #e9ecef !default;
+$gray-300:                  #dee2e6 !default;
+$gray-400:                  #ced4da !default;
+$gray-500:                  #adb5bd !default;
+$gray-600:                  #6c757d !default;
+$gray-700:                  #495057 !default;
+$gray-800:                  #343a40 !default;
+$gray-900:                  #212529 !default;
+$black:                     #000 !default;
+
+$gray-lighter:              $gray-100 !default;
+$gray-light:                $gray-200 !default;
+$gray:                      $gray-400 !default;
+$gray-dark:                 $gray-600 !default;
+$gray-darker:               $gray-800 !default;
+
+$brand-primary:             #42a5f5 !default;
+$brand-light:               lighten($brand-primary, 15%) !default;
+$brand-lighter:             lighten($brand-primary, 30%) !default;
+$brand-dark:                $gray-800 !default;
+$brand-darker:              $gray-900 !default;
+
+$brand-success:             #9ccc65 !default;
+$brand-success-light:       #ebf5df !default;
+$brand-info:                #26c6da !default;
+$brand-info-light:          #e3f4fc !default;
+$brand-warning:             #ffca28 !default;
+$brand-warning-light:       #fcf7e6 !default;
+$brand-danger:              #ef5350 !default;
+$brand-danger-light:        #fae9e8 !default;
+$brand-inverse:             $brand-dark !default;
+
+
+// Scaffolding
+$body-bg:                   #f5f6f7 !default;
+$body-bg-dark:              darken($body-bg, 4%) !default;
+$body-bg-light:             lighten($body-bg, 2%) !default;
+
+$body-color:                #575757 !default;
+$body-color-dark:           #171717 !default;
+$body-color-light:          $body-bg-dark !default;
+
+$link-color:                $brand-primary !default;
+$link-hover-color:          darken($link-color, 20%) !default;
+$link-hover-decoration:     none !default;
+
+
+// Typography
+$font-family-sans-serif:    -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-monospace:     "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:          $font-family-sans-serif !default;
+
+$font-size-root:            14px !default;
+$font-size-base:            1rem !default;
+
+$line-height-base:          1.5 !default;
+
+$h1-font-size:              2.571428571rem !default; // 36px (with 14px base)
+$h2-font-size:              2.142857142rem !default; // 30px (with 14px base)
+$h3-font-size:              1.857142857rem !default; // 26px (with 14px base)
+$h4-font-size:              1.571428571rem !default; // 22px (with 14px base)
+$h5-font-size:              1.285714286rem !default; // 18px (with 14px base)
+$h6-font-size:              1rem !default;
+
+$font-size-xl:              1.428571429rem !default; // 20px (with 14px base)
+$font-size-lg:              1.285714286rem !default; // 18px (with 14px base)
+$font-size-md:              1.142857143rem !default; // 16px (with 14px base)
+$font-size-sm:              0.928571429rem !default; // 13px (with 14px base)
+$font-size-xs:              0.857142857rem !default; // 12px (with 14px base)
+
+$headings-margin-bottom:    20px !default;
+$headings-font-family:      $font-family-base !default;
+$headings-font-weight:      600 !default;
+$headings-line-height:      1.2 !default;
+$headings-color:            $body-color-dark !default;
+$headings-small-color:      lighten($body-color-dark, 30%) !default;
+
+
+// Pagination, Buttons and Forms
+$pbf-height:                34px !default;
+$pbf-height-sm:             28px !default;
+$pbf-height-lg:             40px !default;
+
+$pbf-line-height:           16px !default;
+$pbf-line-height-sm:        16px !default;
+$pbf-line-height-lg:        20px !default;
+
+$pbf-font-size:             $font-size-base !default;
+$pbf-font-size-sm:          $font-size-base !default;
+$pbf-font-size-lg:          $font-size-md !default;
+
+$pbf-padding-y:             ($pbf-height - $pbf-line-height - 2px) / 2 !default;
+$pbf-padding-y-sm:          ($pbf-height-sm - $pbf-line-height-sm - 2px) / 2 !default;
+$pbf-padding-y-lg:          ($pbf-height-lg - $pbf-line-height-lg - 2px) / 2 !default;
+
+
+// Buttons
+$btn-hero-padding-x:        38px !default;
+$btn-hero-padding-y:        14px !default;
+$btn-hero-padding-x-sm:     34px !default;
+$btn-hero-padding-y-sm:     11px !default;
+$btn-hero-padding-x-lg:     42px !default;
+$btn-hero-padding-y-lg:     15px !default;
+
+
+// Header
+$header-height:             66px !default;           // Best values > 50px and < 80px
+$header-bg:                 $white !default;
+$header-inverse-bg:         $brand-dark !default;
+
+
+// Sidebar and Side Overlay
+$sidebar-bg:                $white !default;
+$sidebar-inverse-bg:        $brand-dark !default;
+$sidebar-width:             220px !default;
+$sidebar-mini-width:        54px !default;
+
+$side-overlay-bg:           $white !default;
+$side-overlay-width:        320px !default;
+
+$side-transition:           .26s cubic-bezier(0.470, 0.000, 0.745, 0.715) !default;
+$main-nav-transition:       .2s cubic-bezier(0.250, 0.460, 0.450, 0.940) !default;
+
+
+// Layout Spaces
+$space-base:                24px !default;           // Content padding
+$space-mobile:              10px !default;           // Content padding in mobile
+$space-side:                18px !default;           // Content padding inside content
+$space-row-gutter-tiny:     6px !default;            // Row with tiny gutter, even number: 2, 4, 6.. etc
+$space-block:               18px !default;           // Block padding
+$space-boxed:               1200px !default;         // Boxed content max width
+$space-narrow:              92% !default;            // Narrow content max width
+$space-breaks: (
+  5: (
+    x: 5px,
+    y: 5px
+  ),
+  10: (
+    x: 10px,
+    y: 10px
+  ),
+  15: (
+    x: 15px,
+    y: 15px
+  ),
+  20: (
+    x: 20px,
+    y: 20px
+  ),
+  30: (
+    x: 30px,
+    y: 30px
+  ),
+  50: (
+    x: 50px,
+    y: 50px
+  ),
+  100: (
+    x: 100px,
+    y: 100px
+  ),
+  150: (
+    x: 150px,
+    y: 150px
+  ),
+  200: (
+    x: 200px,
+    y: 200px
+  ),
+  300: (
+    x: 300px,
+    y: 300px
+  )
+) !default;

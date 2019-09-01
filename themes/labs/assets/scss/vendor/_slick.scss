@@ -1,0 +1,110 @@
+//
+// Slick
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+.slick-slider {
+    &.slick-dotted {
+        margin-bottom: 50px;
+
+        .slick-dots {
+            bottom: -30px;
+        }
+    }
+
+    &.slick-dotted.slick-dotted-inner {
+        margin-bottom: 0;
+
+        .slick-dots {
+            bottom: 10px;
+        }
+    }
+
+    &.slick-dotted.slick-dotted-white {
+        .slick-dots li button::before {
+            color: $white;
+        }
+    }
+
+    .slick-prev,
+    .slick-next {
+        width: 40px;
+        height: 60px;
+        text-align: center;
+        background-color: rgba(0,0,0,.03);
+        z-index: 2;
+
+        @include hover {
+            background-color: rgba(0,0,0,.15);
+        }
+
+        &::before {
+            font-family: 'FontAwesome';
+            font-size: 28px;
+            line-height: 28px;
+            color: $brand-dark;
+        }
+    }
+
+    .slick-prev {
+        left: 0;
+
+        &::before {
+            content: '\f104';
+        }
+    }
+
+    .slick-next {
+        right: 0;
+
+        &::before {
+            content: '\f105';
+        }
+    }
+
+    &.slick-nav-white {
+        .slick-prev,
+        .slick-next {
+            background-color: rgba(255,255,255,.5);
+
+            @include hover {
+                background-color: rgba(255,255,255,1);
+            }
+
+            &:before {
+                color: $black;
+            }
+        }
+    }
+
+    &.slick-nav-black {
+        .slick-prev,
+        .slick-next {
+            background-color: rgba(0,0,0,.25);
+
+            @include hover {
+                background-color: rgba(0,0,0,1);
+            }
+
+            &::before {
+                color: $white;
+            }
+        }
+    }
+
+    &.slick-nav-hover {
+        .slick-prev,
+        .slick-next {
+            opacity: 0;
+            transition: opacity .25s ease-out;
+        }
+
+        @include hover {
+            .slick-prev,
+            .slick-next {
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -1,0 +1,47 @@
+//
+// jQuery Tags Input
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+div.tagsinput {
+    padding: 5px 12px 1px;
+    border-color: $input-border-color;
+    border-radius: 3px;
+
+    input {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 2px;
+        height: 22px;
+    }
+
+    .form-material & {
+        padding-right: 0;
+        padding-left: 0;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid $input-border-color;
+    }
+
+    span.tag {
+        padding: 2px 5px;
+        margin-bottom: 2px;
+        height: 22px;
+        line-height: 18px;
+        color: $white;
+        font-family: $font-family-base;
+        font-weight: 600;
+        background-color: $brand-primary;
+        border: none;
+
+        a {
+            font-size: 13px;
+            color: rgba(255,255,255,.5);
+
+            @include hover {
+                color: rgba(255,255,255,.75);
+            }
+        }
+    }
+}

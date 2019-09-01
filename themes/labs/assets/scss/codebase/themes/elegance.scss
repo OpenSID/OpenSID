@@ -1,0 +1,47 @@
+//
+// Color Theme - Elegance
+// --------------------------------------------------
+
+// Bootstrap functions (original)
+@import '../../bootstrap/functions';
+
+// Codebase functions/variables and Bootstrap overrides
+@import '../functions';
+@import '../variables';
+@import '../variables-themes';
+@import '../variables-bootstrap';
+
+// Bootstrap variables and mixins (original)
+@import '../../bootstrap/variables';
+@import '../../bootstrap/mixins';
+
+// Codebase mixins and Bootstrap overrides
+@import '../mixins';
+
+// Generate color theme
+@include color-theme($theme-elegance-primary,
+                     $theme-elegance-light,
+                     $theme-elegance-lighter,
+                     $theme-elegance-dark,
+                     $theme-elegance-darker,
+                     $theme-elegance-body-bg,
+                     $theme-elegance-body-bg-dark,
+                     $theme-elegance-body-bg-light,
+                     $theme-elegance-body-color,
+                     $theme-elegance-body-color-dark,
+                     $theme-elegance-body-color-light,
+                     $theme-elegance-link-color,
+                     $theme-elegance-link-hover-color,
+                     $theme-elegance-headings-color,
+                     $theme-elegance-headings-small-color,
+                     $theme-elegance-header-bg,
+                     $theme-elegance-header-inverse-bg,
+                     $theme-elegance-sidebar-bg,
+                     $theme-elegance-sidebar-inverse-bg,
+                     $theme-elegance-side-overlay-bg,
+                     $theme-elegance-input-color,
+                     $theme-elegance-input-focus-color,
+                     $theme-elegance-input-border-color,
+                     $theme-elegance-input-focus-border-color,
+                     $theme-elegance-input-bg,
+                     $theme-elegance-input-focus-bg);

@@ -1,0 +1,53 @@
+//
+// Item
+// --------------------------------------------------
+
+.item {
+    display: block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 60px;
+
+    @at-root {
+        a#{&} {
+            @include hover-focus {
+                opacity: .6;
+            }
+        }
+    }
+
+    &.item-circle {
+        border-radius: 50%;
+    }
+
+    &.item-rounded {
+        border-radius: 3px;
+    }
+
+    &.item-rounded-big {
+        border-radius: 24px;
+
+        &.item-2x {
+            border-radius: 35px;
+        }
+
+        &.item-3x {
+            border-radius: 50px;
+        }
+    }
+
+    &.item-2x {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+    }
+
+    &.item-3x {
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+    }
+}

@@ -1,0 +1,363 @@
+//
+// Main Navigation
+// --------------------------------------------------
+
+// Sidebar
+.nav-main {
+    margin: 0 (-$space-side);
+    padding: 0;
+    list-style: none;
+
+    // Headings
+    .nav-main-heading {
+        padding: 24px $space-side 6px $space-side;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        opacity: .5;
+    }
+
+    // Default links
+    a {
+        position: relative;
+        display: block;
+        padding: 9px $space-side 9px ($space-side + 22);
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba($body-color, .8);
+        text-transform: uppercase;
+
+        @at-root .sidebar-inverse #sidebar & {
+            color: rgba($body-color-light, .6);
+        }
+
+        > i {
+            @include vertical-align(50%, auto, $space-side);
+            font-size: 14px;
+            color: $brand-dark;
+
+            @at-root .sidebar-inverse #sidebar & {
+                color: $body-color-light;
+            }
+        }
+
+        &:hover,
+        &:focus,
+        &.active {
+            color: $black;
+
+            @at-root .sidebar-inverse #sidebar & {
+                color: $white;
+            }
+
+            > i {
+                color: $brand-primary;
+
+                @at-root .sidebar-inverse #sidebar & {
+                    color: $brand-primary;
+                }
+            }
+        }
+
+        &.nav-submenu {
+            padding-right: 35px;
+        }
+
+        &.nav-submenu::before,
+        &.nav-submenu::after {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            margin-top: -11px;
+            width: 20px;
+            height: 20px;
+            display: block;
+            line-height: 20px;
+            text-align: center;
+            font-family: 'FontAwesome';
+            font-size: 14px;
+            transition: all $main-nav-transition;
+        }
+
+        &.nav-submenu::before {
+            content: '\f104';
+            opacity: .4;
+        }
+
+        &.nav-submenu::after {
+            content: '\f103';
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+    }
+
+    // Sub menus
+    ul {
+        margin: 0;
+        padding: 0 0 0 ($space-side + 22);
+        height: 0;
+        list-style: none;
+        overflow: hidden;
+
+        > li {
+            opacity: 0;
+            transition: all $main-nav-transition;
+            transform: translateY(-15px);
+        }
+
+        .nav-main-heading {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        a {
+            padding: 5px 8px 5px 0;
+            text-transform: none;
+            color: rgba($body-color, .5);
+
+            @include hover-focus {
+                background-color: transparent;
+            }
+
+            > i {
+                margin-right: 10px;
+            }
+        }
+
+        ul {
+            padding-left: 12px;
+        }
+    }
+
+    // Active sub menu
+    li.open {
+        > a.nav-submenu {
+            color: $black;
+
+            @at-root .sidebar-inverse #sidebar & {
+                color: $white;
+            }
+
+            > i {
+                color: $brand-primary;
+
+                @at-root .sidebar-inverse #sidebar & {
+                    color: $brand-primary;
+                }
+            }
+
+            &::before {
+                opacity: 0;
+                transform: rotate(-90deg);
+            }
+
+            &::after {
+                opacity: .4;
+                transform: rotate(0);
+            }
+        }
+
+        > ul {
+            height: auto;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: $body-bg-light;
+
+            @at-root .sidebar-inverse #sidebar & {
+                background-color: darken($sidebar-inverse-bg, 3%);
+            }
+
+            > li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    }
+}
+
+// Header
+.nav-main-header {
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+        margin: 0 -3px;
+        padding: 0;
+        display: inline-block;
+        list-style: none;
+        vertical-align: middle;
+
+        li {
+            position: relative;
+            display: inline-block;
+            margin: 0 3px;
+        }
+
+        // Default links
+        a {
+            position: relative;
+            display: inline-block;
+            padding: ($pbf-padding-y + 1) 14px;
+            font-weight: 600;
+            line-height: $pbf-line-height;
+            border-radius: 3px;
+
+            > i {
+                margin-right: 8px;
+
+                &.si {
+                    position: relative;
+                    top: 1px;
+                }
+            }
+
+            &.nav-submenu {
+                padding-right: 28px;
+            }
+
+            &.nav-submenu::before {
+                position: absolute;
+                top: 50%;
+                right: 6px;
+                margin-top: -10px;
+                width: 20px;
+                height: 20px;
+                display: block;
+                text-align: center;
+                line-height: 20px;
+                font-family: 'FontAwesome';
+            }
+
+            &.nav-submenu::before {
+                content: '\f107';
+                opacity: .5;
+            }
+        }
+
+        // Sub menu list
+        ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin: 0;
+            padding: 15px 0;
+            display: none;
+            z-index: $zindex-fixed + 2;
+
+            li {
+                display: block;
+                margin: 0;
+            }
+
+            a {
+                display: block;
+                border-radius: 0;
+                min-width: 160px;
+
+                &.nav-submenu::before {
+                    content: '\f105';
+
+                }
+            }
+
+            ul {
+                top: -15px;
+                left: 100%;
+            }
+        }
+
+        // Open sub menus on hover
+        li:hover {
+            > a.nav-submenu {
+                @include border-bottom-radius(0);
+            }
+
+            > ul {
+                display: block;
+            }
+        }
+
+        // Flip last child’s sub menus
+        > li:last-child {
+            ul {
+                right: 0;
+                left: auto;
+
+                a.nav-submenu::before {
+                    content: '\f104';
+                }
+
+                ul {
+                    right: 100%;
+                    left: auto;
+                }
+            }
+        }
+
+        // Handle menu colors
+        a {
+            color: lighten($body-color, 10%);
+        }
+
+        ul a {
+            color: lighten($body-color, 22%);
+        }
+
+        a:hover,
+        a:focus,
+        a.active,
+        li.open > a.nav-submenu,
+        li:hover > a.nav-submenu {
+            color: $black;
+            background-color: $body-bg-dark;
+        }
+
+        ul,
+        > li:hover > a.nav-submenu {
+            background-color: darken($body-bg-dark, 3%);
+        }
+
+        @at-root {
+            .page-header-inverse #page-header &,
+            .page-header-inverse.page-header-glass.page-header-scroll #page-header & {
+                a {
+                    color: darken($body-color-light, 9%);
+                }
+
+                ul a {
+                    color: darken($body-color-light, 18%);
+                }
+
+                a:hover,
+                a:focus,
+                a.active,
+                li.open > a.nav-submenu,
+                li:hover > a.nav-submenu {
+                    color: $white;
+                    background-color: rgba(0,0,0,.25);
+                }
+
+                ul,
+                > li:hover > a.nav-submenu {
+                    background-color: $brand-dark;
+                }
+            }
+        }
+
+        @at-root .page-header-inverse.page-header-glass #page-header & {
+            ul,
+            > li:hover > a.nav-submenu {
+                background-color: darken($brand-dark, 5%);
+            }
+        }
+
+        // Headings
+        .nav-main-heading {
+            display: none;
+        }
+
+        // Hide icons from menu links
+        &.nav-main-header-no-icons a > i {
+            display: none;
+        }
+    }
+}
