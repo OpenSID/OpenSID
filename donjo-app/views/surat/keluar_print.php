@@ -30,9 +30,11 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th>No Surat</th>
-                            <th>Jenis Surat</th>
+							<th>No Kode Surat</th>
+							<th>No Urut Surat</th>
+              <th>Jenis Surat</th>
 							<th>Nama Penduduk</th>
+							<th>Keterangan</th>
 							<th>Ditandatangani Oleh</th>
 							<th>Tanggal</th>
 							<th>User</th>
@@ -41,27 +43,56 @@
 					<tbody>
 						<?php foreach ($main as $data): ?>
 							<tr>
-                                <td><?= $data['no']?></td>
+								<td><?= $data['no']?></td>
+								<td class="textx"><?= $data['kode_surat']?></td>
 								<td class="textx"><?= $data['no_surat']?></td>
 								<td class="textx"><?= $data['format']?></td>
 								<td>
-                                    <?php if ($data['nama']): ?>
-                                        <?= $data['nama']; ?>
-                                    <?php elseif ($data['nama_non_warga']): ?>
-                                        <strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
-                                        <strong>NIK: </strong><?= $data['nik_non_warga']; ?>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= $data['pamong']?></td>
-                                <td nowrap><?= tgl_indo($data['tanggal'])?></td>
+                  <?php if ($data['nama']): ?>
+                      <?= $data['nama']; ?>
+                  <?php elseif ($data['nama_non_warga']): ?>
+                      <strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+                      <strong>NIK: </strong><?= $data['nik_non_warga']; ?>
+                  <?php endif; ?>
+								</td>
+								<td><?= $data['keterangan']?></td>
+                <td><?= $data['pamong']?></td>
+                <td nowrap><?= tgl_indo($data['tanggal'])?></td>
 								<td><?= $data['nama_user']?></td>
  							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				<table>
+				<col span="5" style="width: 18%">
+					<col style="width: 28%">
+					<tr>
+						<td colspan="6">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2">Mengetahui</td>
+						<td colspan="2">&nbsp;</td>
+						<td><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
+					</tr>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2"><?= $pamong_ketahui['jabatan']?> <?= $desa['nama_desa']?></td>
+						<td colspan="2">&nbsp;</td>
+						<td><?= $pamong_ttd['jabatan']?> <?= $desa['nama_desa']?></td>
+					</tr>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2">( <?= $pamong_ketahui['pamong_nama']?> )</td>
+						<td colspan="2">&nbsp;</td>
+						<td>( <?= $pamong_ttd['pamong_nama']?> )</td>
+					</tr>
+				</table>
 			</div>
-			<label>Tanggal cetak : &nbsp; </label>
-			<?= tgl_indo(date("Y m d"))?>
 		</div>
 	</body>
 </html>

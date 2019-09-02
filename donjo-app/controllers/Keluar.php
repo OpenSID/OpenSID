@@ -9,7 +9,9 @@ class Keluar extends Admin_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
 		$this->load->model('header_model');
-        $this->load->helper('download');
+		$this->load->helper('download');
+		$this->load->model('pamong_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 4;
 	}
 
@@ -57,6 +59,22 @@ class Keluar extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/surat_keluar',$data);
 		$this->load->view('footer');
+	}
+
+	public function edit_keterangan($id=0)
+	{
+		$data['data'] = $this->keluar_model->list_data_keterangan($id);
+		$data['form_action'] = site_url("keluar/update_keterangan/$id");
+		$this->load->view('surat/ajax_edit_keterangan', $data);
+	}
+
+	public function update_keterangan($id='')
+	{
+		$data = array('keterangan' => $this->input->post('keterangan'));
+		$data = $this->security->xss_clean($data);
+		$data = html_escape($data);
+		$this->keluar_model->update_keterangan($id, $data);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	public function delete($p=1, $o=0, $id='')
@@ -165,14 +183,38 @@ class Keluar extends Admin_Controller {
     ambilBerkas($berkas->lampiran, 'keluar');
   }
 
+  public function dialog_cetak($o = 0)
+  {
+	  $data['aksi'] = "Cetak";
+	  $data['pamong'] = $this->pamong_model->list_data(true);
+	  $data['form_action'] = site_url("keluar/cetak/$o");
+	  $this->load->view('surat/ajax_cetak', $data);
+  }
+
+	public function dialog_unduh($o = 0)
+	{
+		$data['aksi'] = "Unduh";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+	  $data['form_action'] = site_url("keluar/unduh/$o");
+	  $this->load->view('surat/ajax_cetak', $data);
+	}
+
   public function cetak($o=0)
   {
+	  $data['input'] = $_POST;
+	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+	  $data['desa'] = $this->config_model->get_data();
 	  $data['main'] = $this->keluar_model->list_data();
 	  $this->load->view('surat/keluar_print', $data);
   }
 
-  public function excel($o=0)
+  public function unduh($o=0)
   {
+	  $data['input'] = $_POST;
+	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+	  $data['desa'] = $this->config_model->get_data();
 	  $data['main'] = $this->keluar_model->list_data();
 	  $this->load->view('surat/keluar_excel', $data);
   }

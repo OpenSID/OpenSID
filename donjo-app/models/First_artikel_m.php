@@ -268,8 +268,12 @@ class First_artikel_m extends CI_Model {
 
 	public function komentar_show()
 	{
-		$sql = "SELECT * FROM komentar WHERE enabled=? AND id_artikel <> 775 order by tgl_upload desc limit 10";
-		$query = $this->db->query($sql,1);
+		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
+			FROM komentar a
+			INNER JOIN artikel b ON  a.id_artikel = b.id
+			WHERE a.enabled = ? AND a.id_artikel <> 775
+			ORDER BY a.tgl_upload DESC LIMIT 10 ";
+		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
 
 		for ($i=0; $i<count($data); $i++)
@@ -279,7 +283,7 @@ class First_artikel_m extends CI_Model {
 			$pendek2 = str_split($pendek[0], 90);
 			$data[$i]['komentar_short'] = $pendek2[0]."...";
 			$panjang = str_split($data[$i]['komentar'], 50);
-			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/$id")."'>baca selengkapnya</a>";
+			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
 		}
 		return $data;
 	}
