@@ -89,66 +89,68 @@
 				})
 				Highcharts.chart('chart', {
 			    chart: {
-			        type: 'bar'
+		        type: 'bar'
 			    },
 			    title: {
-			        text: 'Pagu Anggaran VS Realisasi'
+		        text: 'Pagu Anggaran VS Realisasi'
 			    },
 			    subtitle: {
-			        text: 'Tahun ' + tahun
+		        text: 'Tahun ' + tahun
 			    },
 			    xAxis: {
-			        categories: ['Anggaran', 'Realisasi'],
+		        categories: ['Realisasi'],
 			    },
 			    yAxis: {
-			        min: 0,
-			        title: {
-			            text: 'Anggaran vs Realisasi'
-			        },
-			        labels: {
-			            overflow: 'justify',
-			            enabled: false
-			        }
+		        min: 0,
+		        title: {
+	            text: 'Anggaran vs Realisasi'
+		        },
+		        labels: {
+	            overflow: 'justify',
+	            enabled: false
+		        }
 			    },
 			    tooltip: {
-			        valueSuffix: ''
+		        valueSuffix: ''
 			    },
 			    plotOptions: {
-			        bar: {
-			            dataLabels: {
-			                enabled: true
-			            }
-			        },
-			        series: {
-			            pointWidth: 25,
-			            grouping: false
-			        }
+		        bar: {
+	            dataLabels: {
+                enabled: true
+	            }
+		        },
+		        series: {
+	            pointWidth: 25,
+	            grouping: false
+		        }
 			    },
 			    legend: {
-			        layout: 'vertical',
-			        align: 'right',
-			        verticalAlign: 'top',
-			        x: 0,
-			        y: 0,
-			        floating: true,
-			        borderWidth: 1,
-			        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-			        shadow: true
+		        layout: 'vertical',
+		        align: 'right',
+		        verticalAlign: 'top',
+		        x: 0,
+		        y: 0,
+		        floating: true,
+		        borderWidth: 1,
+		        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+		        shadow: true
 			    },
 			    credits: {
-			        enabled: false
+		        enabled: false
 			    },
-			    series: [{
+			    series: [
+			    	{
 			        name: 'Anggaran',
-					dataLabels: {
+							dataLabels: {
 			        	formatter: function () {
 			        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
 			        	}
 			        },
 			        data: [parseInt(data.data_realisasi.anggaran.AnggaranStlhPAK)]
-			    }, {
+				    },
+				    {
 			        name: 'Realisasi',
-					dataLabels: {
+							dataLabels: {
 			        	formatter: function () {
 					    	var pointB = this.series.chart.series[0].data[0].y;
 					    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
@@ -156,8 +158,9 @@
 			        	}
 			        },
 			        data: [parseInt(data.data_realisasi.realisasi.Nilai)]
-			    }]
-			});
+				    }
+			    ]
+				});
 			}
 
 		});
