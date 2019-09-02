@@ -159,7 +159,7 @@
               chart: {
                 type: 'bar',
                 margin: 0,
-                height: 30,
+                height: 20,
                 backgroundColor: "rgba(0,0,0,0)",
                 spacingBottom: 0,
               },
