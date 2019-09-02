@@ -17,8 +17,8 @@ class Migrasi_1909_ke_1910 extends CI_model {
 
 			$query = "INSERT INTO tweb_penduduk_asuransi (`id`, `nama`) VALUES
 				(1, 'Tidak/Belum Punya'),
-				(2, 'BPJS Kesehatan Bantuan'),
-				(3, 'BPJS Kesehatan Mandiri'),
+				(2, 'BPJS Penerima Bantuan Iuran'),
+				(3, 'BPJS Non Penerima Bantuan Iuran'),
 				(99, 'Asuransi Lainnya')
 			";
 
