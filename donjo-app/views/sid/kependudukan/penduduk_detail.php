@@ -259,9 +259,13 @@
 												<tr>
 													<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi'] ?></td>
 												</tr>
-												<tr>
-													<td>No Asuransi</td><td >:</td><td><?= strtoupper($penduduk['no_asuransi'])?></td>
-												</tr>
+												<?php if (!empty($penduduk['id_asuransi']) and $penduduk['id_asuransi'] <> '1'): ?>
+													<tr>
+														<td><?= ($penduduk['id_asuransi'] == '99') ? 'Nama/nomor Asuransi' : 'No Asuransi' ?></td>
+														<td >:</td>
+														<td><?= strtoupper($penduduk['no_asuransi'])?></td>
+													</tr>
+												<?php endif; ?>
 											</thead>
 										</table>
 									</div>
