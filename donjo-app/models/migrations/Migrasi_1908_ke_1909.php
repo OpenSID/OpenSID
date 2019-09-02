@@ -30,16 +30,17 @@ class Migrasi_1908_ke_1909 extends CI_model {
 			$slug = url_title($artikel['judul'], 'dash', TRUE);
 			$this->db->where('id', $artikel['id'])->update('artikel', array('slug' => $slug));
 		}
-	//tambah kolom keterangan untuk log_surat
-	if (!$this->db->field_exists('keterangan', 'log_surat'))
-	{
-		$fields = array();
-		$fields['keterangan'] = array(
-			'type' => 'varchar',
-			'constraint' => 200,
-			'null' => TRUE,
-			'default' => NULL
-		);
-		$this->dbforge->add_column('log_surat', $fields);
+		//tambah kolom keterangan untuk log_surat
+		if (!$this->db->field_exists('keterangan', 'log_surat'))
+		{
+			$fields = array();
+			$fields['keterangan'] = array(
+				'type' => 'varchar',
+				'constraint' => 200,
+				'null' => TRUE,
+				'default' => NULL
+			);
+			$this->dbforge->add_column('log_surat', $fields);
+		}
 	}
 }
