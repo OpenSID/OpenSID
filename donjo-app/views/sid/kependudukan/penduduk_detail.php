@@ -256,6 +256,12 @@
 														<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
 													</tr>
 												<?php endif; ?>
+												<tr>
+													<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi'] ?></td>
+												</tr>
+												<tr>
+													<td>No Asuransi</td><td >:</td><td><?= strtoupper($penduduk['no_asuransi'])?></td>
+												</tr>
 											</thead>
 										</table>
 									</div>
