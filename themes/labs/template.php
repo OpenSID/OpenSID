@@ -2,6 +2,13 @@
 <!DOCTYPE html>
 <html lang="en" class="no-focus">
 <head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-146951370-1');
+</script>
 <?php $this->load->view("$folder_themes/commons/meta.php"); ?>
 <?php $this->load->view("$folder_themes/commons/style.php"); ?>
 <?php $this->load->view("$folder_themes/commons/scripts.php"); ?>
