@@ -6,7 +6,7 @@
         <div class="content-header-section">
             <!-- Logo -->
             <div class="content-header-item">
-                <a class="link-effect font-w700 mr-5" href="index.php">
+                <a class="link-effect font-w700 mr-5" href="<?= site_url()."first"?>">
                     <i class="fa fa-flask fa-2x text-primary js-animation-object animated zoomInLeft"></i>
                     <span class="font-size-xl text-dual-primary-dark js-animation-object animated zoomInRight">LABS</span>
                 </a>

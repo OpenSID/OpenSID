@@ -18,19 +18,18 @@
         <?php $this->load->view("$folder_themes/partials/header.php"); ?>
         <!-- header -->
         <main id="main-container">
-            <div class="bg-white">
-                <div class="bg-pattern" style="background-image: url('assets/img/various/bg-pattern-inverse.png');">
-                    <div class="content text-center">
-                        <div class="pt-50 pb-20">
-                            <a href="<?= site_url(); ?>first">
-                                <h1 class="font-w700 mb-10">
-                                    <?= $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
-                                </h1>
-                            </a>
-                            <h2 class="h5 font-w400 text-muted">
+        <div class="bg-image" style="background-image: url('<?= base_url("$this->theme_folder/$this->theme/assets/headwalp.jpg"); ?>');">
+                <div class="bg-black-op">
+                    <div class="content content-top text-center">
+                        <div class="py-50">
+                            <h1 class="font-w700 text-white mb-10"><?= $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?></h1>
+                            <h2 class="h4 font-w400 text-white-op"> 
                                 <?= ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?>,
                                 <?= ucwords($this->setting->sebutan_kabupaten_singkat." ".$desa['nama_kabupaten'])?>,
-                                <?= ucwords("Prov. ".$desa['nama_propinsi'])?></h2>
+                                <?= ucwords("Prov. ".$desa['nama_propinsi'])?></h2></h2>
+                            <button class="btn btn-hero btn-noborder btn-rounded btn-alt-success mb-10">
+                                <span id="jam"></span>
+                            </button>
                         </div>
                     </div>
                 </div>
