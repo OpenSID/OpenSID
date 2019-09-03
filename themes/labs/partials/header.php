@@ -7,8 +7,8 @@
             <!-- Logo -->
             <div class="content-header-item">
                 <a class="link-effect font-w700 mr-5" href="<?= site_url()."first"?>">
-                    <i class="fa fa-institution fa-2x text-primary js-animation-object animated zoomInLeft"></i>
-                    <span class="font-size-xl text-dual-primary-dark js-animation-object animated zoomInRight"><?php echo $desa['nama_desa']?></span>
+                    <i class="fa fa-institution text-primary js-animation-object animated zoomInLeft"></i>
+                    <span class="h6 text-dual-primary-dark js-animation-object animated zoomInRight"><?php echo $desa['nama_desa']?></span>
                 </a>
             </div>
             <!-- END Logo -->
