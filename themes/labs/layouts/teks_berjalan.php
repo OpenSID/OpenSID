@@ -1,8 +1,8 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-<div class="rounded font-w600 p-10 mb-10 animated fadeIn ml-50 bg-primary-lighter text-primary-darker">
+<div class="btn btn-hero btn-rounded btn-alt-success">
     <?php foreach ($teks_berjalan AS $teks): ?>
-    <?php if ($teks['tautan']): ?>
-    <a class="link-effect" href="<?= site_url('first/artikel/'.$teks['tautan']) ?>"><?= $teks['teks']?></a>
-    <?php endif; ?>
+    <span><?= $teks['teks']?></span>
+        <a href="<?= site_url('first/artikel/'.$teks['tautan']) ?>"><?= $teks['judul_tautan']?> <strong><?php if ($teks['tautan']): ?></strong></a>
+        <?php endif; ?>
     <?php endforeach; ?>
 </div>

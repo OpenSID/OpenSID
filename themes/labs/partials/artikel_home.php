@@ -5,39 +5,51 @@
 <?php $title= $item ?>
 <?php endforeach; ?>
 <?php endif; ?>
-<div class="pb-30 text-center">
-                <a class="btn btn-hero btn-noborder btn-rounded btn-alt-primary">
-                <i class="si si-chemistry text-primary"></i> Artikel Terkini
-                </a>
-            </div>
 <?php if ($headline): ?>
-            	<?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
-        	    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Berita Utama</span> </h2> 
-            	<div id="headline" class="box box-danger" style="margin-bottom:20px;">
-            		<div class="box-header with-border">
-            			<h3 class="catg_titile" style="font-family: Oswald">
-            				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
-            			</h3>
-            		</div>
-            		<div class="box-body">
-            			<?php if ($headline["gambar"] != ""): ?>
-            				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
-            					<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
-            					    <img width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" />
-            					</a>
-            				<?php else: ?>
-            					<img width="300" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>"/>
-            				<?php endif; ?>
-            			<?php endif; ?>
-            			<div class="post">
-            				<div style="text-align: justify;"><?= $abstrak_headline ?> ...
-            				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
-            				    <button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button></a></div>
-            			</div>
-            		</div>
-            	</div>
-            <?php endif; ?>
-
+<?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
+<div class="block block-themed">
+    <div class="block-header">
+        <h3 class="block-title">Berita Utama</h3>
+        <div class="block-options">
+            <a
+                href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
+                <button type="submit" class="btn btn-sm btn-alt-primary">
+                    <i class="si si-action-redo"></i> Selengakpanya ...
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="block-content">
+        <div class="row">
+            <div class="col-md-4">
+                <?php if ($headline["gambar"] != ""): ?>
+                <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
+                <a
+                    href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
+                    <img width="220" class="img-fluid" style="float:left; margin:0 8px 4px 0;"
+                        alt="<?= $data["judul"] ?>" src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" />
+                </a>
+                <?php else: ?>
+                <img width="220" class="img-fluid"
+                    src="<?= base_url("$this->theme_folder/$this->theme/assets/noimage.jpg") ?>"/>
+                <?php endif; ?>
+                <?php endif; ?>
+            </div>
+            <div class="col-md-8">
+                <h4 class="link-effect lead"><a
+                    href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
+                    <?= $headline['judul'] ?></a></h4>
+                <p class="text-right"><?= $abstrak_headline ?> ...</p>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<div class="pb-30 text-center">
+    <a class="btn btn-hero btn-noborder btn-rounded btn-alt-primary">
+        <i class="si si-chemistry text-primary"></i> Artikel Terkini
+    </a>
+</div>
 <?php if ($artikel): ?>
 <div class="row">
     <?php foreach ($artikel as $data): ?>
