@@ -5,9 +5,8 @@
 
 <?php 
 
-$db['default']['username'] = "root";
-$db['default']['password'] = "toor";
-$db['default']['database'] = "INSTALL15";
-$db['default']['hostname'] = "localhost";
-
+$db['default']['username'] = "%USERNAME%";
+$db['default']['password'] = "%PASSWORD%";
+$db['default']['database'] = "%DATABASE%";
+$db['default']['hostname'] = "%HOSTNAME%";
 ?>
