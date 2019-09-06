@@ -102,16 +102,17 @@
 			    },
 			    yAxis: {
 		        min: 0,
-		        title: {
-	            text: 'Anggaran vs Realisasi'
-		        },
+		        title: '',
 		        labels: {
-	            overflow: 'justify',
-	            enabled: false
+		          overflow: 'justify',
+		          enabled: false
 		        }
 			    },
 			    tooltip: {
-		        valueSuffix: ''
+		        valueSuffix: '',
+						formatter: function () {
+							return '<b>'+this.x+'</b><br/>'+this.series.name+ ': '+'Rp' + Highcharts.numberFormat(this.y, '.', ',');
+						}
 			    },
 			    plotOptions: {
 		        bar: {
