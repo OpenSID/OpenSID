@@ -40,31 +40,65 @@
 			peta_desa.on('zoomstart zoomend', function(e){
 				document.getElementById('zoom').value = peta_desa.getZoom();
 			})
+
+			document.getElementById("lat").addEventListener("input",function(e) {
+				let lat = document.getElementById('lat').value;
+				let lng = document.getElementById("lng").value;
+				let latLng = L.latLng({
+					lat: lat,
+					lng: lng
+				});
+
+				kantor_desa.setLatLng(latLng);
+				peta_desa.setView(latLng,zoom);
+			})
+
+			document.getElementById("lng").addEventListener("input",function(e) {
+				let lat = document.getElementById('lat').value;
+				let lng = document.getElementById("lng").value;
+				let latLng = L.latLng({
+					lat: lat,
+					lng: lng
+				});
+
+				kantor_desa.setLatLng(latLng);
+				peta_desa.setView(latLng, zoom);
+			})
 	})();
 </script>
 
 <style>
 	#mapx
 	{
-    z-index: 1;
-    width: 100%;
-    height: 320px;
-    border: 1px solid #000;
+	z-index: 1;
+	width: 100%;
+	height: 320px;
+	border: 1px solid #000;
 	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-        <div id="mapx"></div>
-        <input type="hidden" name="lat" id="lat" value="<?= $desa['lat']?>"/>
-        <input type="hidden" name="lng" id="lng"  value="<?= $desa['lng']?>"/>
-        <input type="hidden" name="zoom" id="zoom"  value="<?= $desa['zoom']?>"/>
-        <input type="hidden" name="map_tipe" id="map_tipe"  value="<?= $desa['map_tipe']?>"/>
+		<div id="mapx"></div>
+		<input type="hidden" name="zoom" id="zoom"  value="<?= $desa['zoom']?>"/>
+		<input type="hidden" name="map_tipe" id="map_tipe"  value="<?= $desa['map_tipe']?>"/>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="lat">Lat</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" name="lat" id="lat" value="<?= $desa['lat']?>"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="lat">Lng</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" name="lng" id="lng" value="<?= $desa['lng']?>" />
+			</div>
+		</div>
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" data-dismiss="modal" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
 	</div>
