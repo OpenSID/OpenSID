@@ -67,19 +67,22 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
     <td ><?php echo $_SESSION['no_kk']?></td>
   </tr>
   <tr>
-    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/1" class=""><button type="button" class="btn btn-primary btn-block">PROFIL</button></a> </h4></td>
+    <td colspan="3"><h4><a href="<?= site_url();?>first/mandiri/1/1" class=""><button type="button" class="btn btn-primary btn-block">PROFIL</button></a> </h4></td>
   </tr>
   <tr>
-    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block">LAYANAN</button></a> </h4></td>
+    <td colspan="3"><h4><a href="<?= site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block">E - LAPOR</button></a> </h4></td>
   </tr>
   <tr>
-    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block">LAPOR</button></a> </h4></td>
+    <td colspan="3"><h4><a href="<?= site_url();?>first/mandiri/1/5" class=""><button type="button" class="btn btn-primary btn-block">LAYANAN SURAT</button></a> </h4></td>
   </tr>
   <tr>
-    <td colspan="3"><h4><a href="<?php echo site_url();?>first/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block">BANTUAN</button></a></h4></td>
+    <td colspan="3"><h4><a href="<?= site_url();?>first/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block">REKAM LAYANAN</button></a> </h4></td>
   </tr>
   <tr>
-    <td colspan="3"><h4><a href="<?php echo site_url();?>first/logout"  class=""><button type="button" class="btn btn-danger btn-block">KELUAR</button></a></h4></td>
+    <td colspan="3"><h4><a href="<?= site_url();?>first/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block">PROGRAM BANTUAN</button></a></h4></td>
+  </tr>
+  <tr>
+    <td colspan="3"><h4><a href="<?= site_url();?>first/logout"  class=""><button type="button" class="btn btn-danger btn-block">KELUAR</button></a></h4></td>
   </tr>
 </table>
   </div>
