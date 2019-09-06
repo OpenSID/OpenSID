@@ -38,6 +38,31 @@
 			document.getElementById('lat').value = e.target._latlng.lat;
 			document.getElementById('lng').value = e.target._latlng.lng;
 		})
+
+		document.getElementById("lat").addEventListener("input",function(e) {
+				let lat = document.getElementById('lat').value;
+				let lng = document.getElementById("lng").value;
+				let latLng = L.latLng({
+					lat: lat,
+					lng: lng
+				});
+
+				posisi_penduduk.setLatLng(latLng);
+				peta_desa.setView(latLng,zoom);
+			})
+
+			document.getElementById("lng").addEventListener("input",function(e) {
+				let lat = document.getElementById('lat').value;
+				let lng = document.getElementById("lng").value;
+				let latLng = L.latLng({
+					lat: lat,
+					lng: lng
+				});
+
+				posisi_penduduk.setLatLng(latLng);
+				peta_desa.setView(latLng, zoom);
+			})
+
 	})();
 </script>
 
@@ -53,16 +78,28 @@
 		<div class="row">
 			<div class="col-sm-12">
         <div id="map"></div>
-        <input type="hidden" name="lat" id="lat" value="<?= $penduduk['lat']; ?>" />
-        <input type="hidden" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
+		<div class="col-sm-12 form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="lat">Lat</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" name="lat" id="lat" value="<?= $penduduk['lat']; ?>" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="lat">Lng</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" name="lng" id="lng" value="<?= $penduduk['lng']; ?>" />
+				</div>
+			</div>
+		</div>
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 		<?php if ($edit == 1): ?>
 			<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
 					 <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_penduduk" data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
 			<?php endif; ?>
 		<?php endif; ?>
-		  </div>
+		</div>
