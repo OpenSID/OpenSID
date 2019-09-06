@@ -7,17 +7,20 @@
 						<?php
 							$views_partial_layout = '';
 							switch($m){
-								case 1 :
-									$views_partial_layout = $folder_themes.'/partials/mandiri.php';
-									break;
 								case 2 :
 									$views_partial_layout = $folder_themes.'/partials/layanan.php';
+									break;
+								case 3 :
+									$views_partial_layout = $folder_themes.'/partials/lapor.php';
 									break;
 								case 4 :
 									$views_partial_layout = $folder_themes.'/partials/bantuan.php';
 									break;
+								case 5 :
+									$views_partial_layout = $folder_themes.'/partials/surat.php';
+									break;
 								default:
-									$views_partial_layout = $folder_themes.'/partials/lapor.php';
+									$views_partial_layout = $folder_themes.'/partials/mandiri.php';
 							}
 							$this->load->view($views_partial_layout);
 						?>
