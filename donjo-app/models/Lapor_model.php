@@ -15,14 +15,14 @@
 	 */
 	public function insert()
 	{
-		$data['komentar'] = strip_tags($_POST["komentar"]);
+		$data['komentar'] = strip_tags($_POST["hp"]." - ".$_POST["surat"]." - ".$_POST["komentar"]);
 		/** ambil dari data session saja */
 		$data['owner'] = $_SESSION['nama'];
 		$data['email'] = $_SESSION['nik'];
 
 		// load library form_validation
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('komentar', 'Laporan', 'required');
+		$this->form_validation->set_rules('komentar', 'Laporan');
 		$this->form_validation->set_rules('owner', 'Nama', 'required');
 		$this->form_validation->set_rules('email', 'NIK', 'required');
 
