@@ -96,7 +96,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="nik">NIK </label>
-						<input id="nik"  name="nik" class="form-control input-sm required" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>"></input>
+						<input id="nik"  name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>"></input>
 						<input name="nik_lama" type="hidden" value="<?= $_SESSION['nik_lama']?>"/>
 					</div>
 				</div>
@@ -378,22 +378,26 @@
 						<label class="text-right"><strong>DATA ORANG TUA :</strong></label>
 					</div>
 				</div>
-				<div class='col-sm-4'>
-					<div class='form-group'>
-						<label for="ayah_nik"> NIK Ayah </label>
-						<input id="ayah_nik"  name="ayah_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ayah"  value="<?= $penduduk['ayah_nik']?>"></input>
-					</div>
-				</div>
-				<div class='col-sm-8'>
-					<div class='form-group'>
-						<label for="nama_ayah">Nama Ayah </label>
-						<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper($penduduk['nama_ayah'])?>"></input>
+				<div class="col-sm-12">
+					<div class="row">
+						<div class='col-sm-4'>
+							<div class='form-group'>
+								<label for="ayah_nik"> NIK Ayah </label>
+								<input id="ayah_nik"  name="ayah_nik"  class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ayah"  value="<?= $penduduk['ayah_nik']?>"></input>
+							</div>
+						</div>
+						<div class='col-sm-8'>
+							<div class='form-group'>
+								<label for="nama_ayah">Nama Ayah </label>
+								<input id="nama_ayah" name="nama_ayah" class="form-control input-sm" type="text" placeholder="Nama Ayah" value="<?= strtoupper($penduduk['nama_ayah'])?>"></input>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="ibu_nik"> NIK Ibu </label>
-						<input id="ibu_nik"  name="ibu_nik"  class="form-control input-sm" type="text" placeholder="Nomor NIK Ibu" value="<?= $penduduk['ibu_nik']?>"></input>
+						<input id="ibu_nik"  name="ibu_nik"  class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ibu" value="<?= $penduduk['ibu_nik']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-8'>
