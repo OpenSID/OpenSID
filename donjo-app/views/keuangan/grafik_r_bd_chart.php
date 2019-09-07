@@ -8,7 +8,7 @@
 		var marginTop = 70;
 		var marginRight = 10;
 		var marginBottom = 50;
-		var marginLeft = 100;
+		var marginLeft = 300;
 		var groupPadding = 0;
 		var pointPadding = 0.3;
 		var chartHeight = marginTop + marginBottom + ((pointWidth * countData) * (1 + groupPadding + pointPadding));
