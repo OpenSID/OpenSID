@@ -26,7 +26,7 @@
 											<td>
 												<div class="form-group">
               						<div class="col-sm-6 col-lg-6">
-              							<select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="<?= site_url('surat/list_penduduk_ajax')?>" onchange="formAction('main')">
+              							<select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="<?= site_url('surat/list_surat_penduduk_ajax')?>" onchange="formAction('main')">
 															<?php if ($individu): ?>
 																<option value="<?= $individu['id']?>" selected><?= $individu['nik'].' - '.$individu['nama']?></option>
 															<?php endif;?>
