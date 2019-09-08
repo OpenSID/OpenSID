@@ -249,5 +249,14 @@ class Surat extends Admin_Controller {
 		$penduduk = $this->surat_model->list_penduduk_ajax($cari, $filter_sex, $page);
 		echo json_encode($penduduk);
 	}
+	public function list_surat_penduduk_ajax()
+	{
+		$cari = $this->input->get('q');
+		$page = $this->input->get('page');
+		$filter_sex = $this->input->get('filter_sex');
+		if ($filter_sex == 'perempuan') $filter_sex = 2;
+		$penduduk = $this->surat_model->list_surat_penduduk_ajax($cari, $filter_sex, $page);
+		echo json_encode($penduduk);
+	}
 
 }
