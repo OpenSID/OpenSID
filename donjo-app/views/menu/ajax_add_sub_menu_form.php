@@ -63,13 +63,13 @@
 							<label class="control-label" for="link">Jenis Link</label>
 							<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val());">
 								<option option value="">-- Pilih Jenis Link --</option>
-								<option value="1" <?php if ($submenu['link_tipe']=="1"): ?>selected<?php endif; ?>>Artikel Statis</option>
-								<option value="2" <?php if ($submenu['link_tipe']=="2"): ?>selected<?php endif; ?>>Statistik Penduduk</option>
-								<option value="3" <?php if ($submenu['link_tipe']=="3"): ?>selected<?php endif; ?>>Statistik Keluarga</option>
-								<option value="4" <?php if ($submenu['link_tipe']=="4"): ?>selected<?php endif; ?>>Statistik Program Bantuan</option>
-								<option value="5" <?php if ($submenu['link_tipe']=="5"): ?>selected<?php endif; ?>>Statistik Lainnya</option>
-								<option value="6" <?php if ($submenu['link_tipe']=="6"): ?>selected<?php endif; ?>>Artikel Keuangan</option>
-								<option value="99" <?php if ($submenu['link_tipe']=="99"): ?>selected<?php endif; ?>>Eksternal</option>
+								<option value="1" <?php selected($submenu['link_tipe'], "1") ?>>Artikel Statis</option>
+								<option value="2" <?php selected($submenu['link_tipe'], "2") ?>>Statistik Penduduk</option>
+								<option value="3" <?php selected($submenu['link_tipe'], "3") ?>>Statistik Keluarga</option>
+								<option value="4" <?php selected($submenu['link_tipe'], "4") ?>>Statistik Program Bantuan</option>
+								<option value="5" <?php selected($submenu['link_tipe'], "5") ?>>Statistik Lainnya</option>
+								<option value="6" <?php selected($submenu['link_tipe'], "6") ?>>Artikel Keuangan</option>
+								<option value="99" <?php selected($submenu['link_tipe'], "99") ?>>Eksternal</option>
 							</select>
 						</div>
 						<div class="form-group">

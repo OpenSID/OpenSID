@@ -47,7 +47,7 @@
 
   #grafik-tahun{
     font-size: 12px;
-    margin-bottom: 10px;
+    /*margin-bottom: 6px;*/
   }
 
   .graph, .graph-sub{
@@ -72,6 +72,11 @@
     text-align: center;
     font-family: 'Courier New', monospace;
     font-size: 12px;
+  }
+
+  #graph-legend{
+    padding: 0;
+    padding-bottom: 12px;
   }
 </style>
 <div class="box box-info box-solid">
@@ -141,6 +146,85 @@
     }
     var chartData = rawData[tahun][tipeGrafik];
     $("#widget-keuangan-container h3").text(judulGrafik);
+    $("#grafik-container").append("<div id='graph-legend' class='graph'></div>");
+    Highcharts.chart("graph-legend", {
+              chart: {
+                type: 'bar',
+                margin: 0,
+                backgroundColor: "rgba(0,0,0,0)",
+                spacing: [0,0,0,0],
+                height: 20
+              },
+
+              title: {
+                text: ''
+              },
+
+              subtitle: {
+                y: -2,
+                style: {"color" : "#000"},
+                text: '',
+              },
+
+              xAxis: {
+                visible: false,
+                categories: [''],
+              },
+              
+              tooltip: {
+                valueSuffix: ''
+              },
+              
+              plotOptions: {
+                bar: {
+                  dataLabels: {
+                    enabled: true
+                  },
+                },
+
+                series: {
+                  pointPadding: 0,
+                  groupPadding: 0,
+                  dataLabels: {
+                    align: 'right',
+                    inside: true,
+                    shadow: false,
+                    color: '#000',
+                  },
+                  grouping: false,
+                },
+              },
+              
+              credits: {
+                enabled: false
+              },
+              
+              yAxis: {
+                visible: false
+              },
+              
+              exporting: {
+                enabled: false
+              },
+              
+              legend: {
+                padding: 0,
+                margin: 0,
+                verticalAlign: 'middle',
+                maxHeight: 50
+              },
+              
+              series: [{
+                name: 'Anggaran',
+                color: '#34b4eb',
+                data: [],
+              }, 
+              {
+                name: 'Realisasi',
+                color: '#b4eb34',
+                data: [],
+              }]
+          });
     //Eksekusi chart dengan for loop
     chartData.forEach(function(subData, idx){
       if(subData['nama']){
