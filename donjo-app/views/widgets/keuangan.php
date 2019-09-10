@@ -78,6 +78,16 @@
     padding: 0;
     padding-bottom: 12px;
   }
+
+  .highcharts-container, svg:not(:root){
+    overflow: visible !important;
+    padding: 0;
+    z-index: 999;
+  }
+
+  .highcharts-tooltip{
+    z-index: 9999;
+  }
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
@@ -264,7 +274,11 @@
               },
               
               tooltip: {
-                valueSuffix: ''
+                valueSuffix: '',
+                backgroundColor: "#fff",
+                // borderColor: "#000",
+                hideDelay: 0,
+                shape: "square"
               },
               
               plotOptions: {
@@ -317,6 +331,11 @@
                   },
                   style: {"textOutline": "1px contrast"},
                   },
+                  tooltip: {
+                    pointFormatter: function(){
+                      return '<b>'+subData['nama']+'</b><br/>Anggaran: Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+                    }
+                  }
               }, {
                 name: 'Realisasi',
                 color: '#b4eb34',
