@@ -693,7 +693,7 @@ class User_model extends CI_Model {
 				'sid_core' => array('b','u'),
 				// kependudukan
 				'dpt' => array('b','u'),
-				'keluarga' => array('b','u'),
+				'keluarga' => array('b','u','h'),
 				'kelompok' => array('b','u'),
 				'kelompok_master' => array('b','u'),
 				'penduduk' => array('b','u'),
