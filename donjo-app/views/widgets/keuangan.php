@@ -10,6 +10,7 @@
     overflow-x: auto;
     max-height: 500px;
     padding-bottom: 20px;
+    z-index: -99 !important;
   }
 
   #widget-keuangan-container h3{
@@ -81,13 +82,22 @@
 
   .highcharts-container, svg:not(:root){
     overflow: visible !important;
-    padding: 0;
-    z-index: 999;
+    position: absolute;
+    /*padding: 0;*/
+    /*z-index: 999 !important;*/
   }
 
-  .highcharts-tooltip{
-    z-index: 9999;
+  .highcharts-tooltip>span {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid silver;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px #888;
+    padding: 8px;
   }
+
+  /*.graph > .highcharts-container{
+    z-index: 999 !important;
+  }*/
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
@@ -276,9 +286,20 @@
               tooltip: {
                 valueSuffix: '',
                 backgroundColor: "#fff",
-                // borderColor: "#000",
                 hideDelay: 0,
-                shape: "square"
+                shape: "square",
+                outside: true,
+                // positioner: function(){
+                // },
+                // useHTML: true,
+
+                // backgroundColor: null,
+                // borderWidth: 0,
+                // shadow: false,
+                // useHTML: true,
+                // style: {
+                //     padding: 0
+                // }
               },
               
               plotOptions: {
@@ -333,12 +354,13 @@
                   },
                   tooltip: {
                     pointFormatter: function(){
-                      return '<b>'+subData['nama']+'</b><br/>Anggaran: Rp. ' + Highcharts.numberFormat(this.y, '.', ',');
+                      return 'Anggaran: <b>Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + '</b>';
                     }
                   }
               }, {
                 name: 'Realisasi',
                 color: '#b4eb34',
+                data: [parseInt(subData['realisasi'])],
                 dataLabels: {
                   formatter: function(){
                     if(parseInt(subData['realisasi']) > parseInt(subData['anggaran'])){
@@ -349,9 +371,14 @@
                   },
                   style: {"textOutline": "1px contrast"},
                 },
-                data: [parseInt(subData['realisasi'])],
+                tooltip: {
+                    pointFormatter: function(){
+                      return 'Realisasi: <b>Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + '</b>';
+                    }
+                  }
               }]
           });
+          // $("#graph-" + idx +" > .highcharts-container").style("zIndex", 0 - idx + "!important")
         }
       }
     });
