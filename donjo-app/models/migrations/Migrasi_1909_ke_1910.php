@@ -47,5 +47,12 @@ class Migrasi_1909_ke_1910 extends CI_model {
 	        );
 			$this->dbforge->add_column('tweb_penduduk', $fields);
   	}
+  	if (!$this->db->field_exists('updated_at', 'komentar'))
+  	{
+			$this->dbforge->add_column("komentar", "updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
+		}
+		// Tambah setting server untuk menentukan setting modul default
+		$query = $this->db->select('1')->where('key', 'penggunaan_server')->get('setting_aplikasi');
+		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'penggunaan_server', 'value'=>'1	', 'jenis'=>'int', 'keterangan'=>"Setting penggunaan server", 'kategori'=>'sistem'));
   }
 }

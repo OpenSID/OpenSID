@@ -538,16 +538,28 @@
 		}
 		if (isset($data['nik']))
 		{
-			if (!ctype_digit($data['nik']))
-				array_push($valid, "NIK hanya berisi angka");
-			if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
-				array_push($valid, "NIK panjangnya harus 16 atau 0");
+			if ($error_nik = $this->nik_error($data['nik'], 'NIK'))
+				array_push($valid, $error_nik);
 			if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
 				array_push($valid, "NIK {$data['nik']} sudah digunakan");
 		}
+		if ($error_nik = $this->nik_error($data['ayah_nik'], 'NIK Ayah'))
+			array_push($valid, $error_nik);
+		if ($error_nik = $this->nik_error($data['ibu_nik'], 'NIK Ibu'))
+				array_push($valid, $error_nik);
 		if (!empty($valid))
 			$_SESSION['validation_error'] = true;
 		return $valid;
+	}
+
+	private function nik_error($nilai, $judul)
+	{
+		if (empty($nilai)) return false;
+		if (!ctype_digit($nilai))
+			return $judul . " hanya berisi angka";
+		if (strlen($nilai) != 16 AND $nilai != '0')
+			return $judul .  " panjangnya harus 16 atau bernilai 0";
+		return false;
 	}
 
 	// Tambah penduduk domisili (tidak ada nomor KK)
