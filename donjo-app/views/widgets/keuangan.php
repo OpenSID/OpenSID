@@ -48,7 +48,6 @@
 
   #grafik-tahun{
     font-size: 12px;
-    /*margin-bottom: 6px;*/
   }
 
   .graph, .graph-sub{
@@ -83,8 +82,6 @@
   .highcharts-container, svg:not(:root){
     overflow: visible !important;
     position: absolute;
-    /*padding: 0;*/
-    /*z-index: 999 !important;*/
   }
 
   .highcharts-tooltip>span {
@@ -94,10 +91,6 @@
     box-shadow: 1px 1px 2px #888;
     padding: 8px;
   }
-
-  /*.graph > .highcharts-container{
-    z-index: 999 !important;
-  }*/
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
@@ -289,17 +282,6 @@
                 hideDelay: 0,
                 shape: "square",
                 outside: true,
-                // positioner: function(){
-                // },
-                // useHTML: true,
-
-                // backgroundColor: null,
-                // borderWidth: 0,
-                // shadow: false,
-                // useHTML: true,
-                // style: {
-                //     padding: 0
-                // }
               },
               
               plotOptions: {
@@ -378,7 +360,6 @@
                   }
               }]
           });
-          // $("#graph-" + idx +" > .highcharts-container").style("zIndex", 0 - idx + "!important")
         }
       }
     });
