@@ -48,7 +48,6 @@
 
   #grafik-tahun{
     font-size: 12px;
-    /*margin-bottom: 6px;*/
   }
 
   .graph, .graph-sub{
@@ -67,7 +66,7 @@
 
   .graph{
     padding-top: 4px;
-  }  
+  }
 
   .graph-not-available{
     text-align: center;
@@ -83,8 +82,6 @@
   .highcharts-container, svg:not(:root){
     overflow: visible !important;
     position: absolute;
-    /*padding: 0;*/
-    /*z-index: 999 !important;*/
   }
 
   .highcharts-tooltip>span {
@@ -94,10 +91,6 @@
     box-shadow: 1px 1px 2px #888;
     padding: 8px;
   }
-
-  /*.graph > .highcharts-container{
-    z-index: 999 !important;
-  }*/
 </style>
 <div class="box box-info box-solid">
   <div class="box-header">
@@ -114,16 +107,12 @@
             <span class="icon-bar"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-left">
-            <?php 
-              foreach ($widget_keuangan['tahun'] as $key):
-            ?>
-            <li><a class="dropdown-item"><b><?= $key ?></b></a></li>
-            <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Realisasi Pelaksanaan APBDesa</a></li>
-            <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Realisasi Pendapatan Desa</a></li>
-            <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Realisasi Belanja Desa</a></li>
-            <?php 
-              endforeach;
-            ?>
+            <?php foreach ($widget_keuangan['tahun'] as $key):?>
+              <li><a class="dropdown-item"><b><?= $key ?></b></a></li>
+              <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Realisasi Pelaksanaan APBDesa</a></li>
+              <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Realisasi Pendapatan Desa</a></li>
+              <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Realisasi Belanja Desa</a></li>
+            <?php endforeach;?>
           </ul>
         </div>
         <h3></h3>
@@ -148,7 +137,8 @@
 
   function displayChart(tahun, tipe){
     resetContainer();
-    switch(tipe){
+    switch(tipe)
+    {
       case "pelaksanaan":
         var judulGrafik = 'Pelaksanaan APBDesa';
         var tipeGrafik = 'res_pelaksanaan';
@@ -190,11 +180,11 @@
                 visible: false,
                 categories: [''],
               },
-              
+
               tooltip: {
                 valueSuffix: ''
               },
-              
+
               plotOptions: {
                 bar: {
                   dataLabels: {
@@ -214,31 +204,31 @@
                   grouping: false,
                 },
               },
-              
+
               credits: {
                 enabled: false
               },
-              
+
               yAxis: {
                 visible: false
               },
-              
+
               exporting: {
                 enabled: false
               },
-              
+
               legend: {
                 padding: 0,
                 margin: 0,
                 verticalAlign: 'middle',
                 maxHeight: 50
               },
-              
+
               series: [{
                 name: 'Anggaran',
                 color: '#34b4eb',
                 data: [],
-              }, 
+              },
               {
                 name: 'Realisasi',
                 color: '#b4eb34',
@@ -282,26 +272,15 @@
                 visible: false,
                 categories: [''],
               },
-              
+
               tooltip: {
                 valueSuffix: '',
                 backgroundColor: "#fff",
                 hideDelay: 0,
                 shape: "square",
                 outside: true,
-                // positioner: function(){
-                // },
-                // useHTML: true,
-
-                // backgroundColor: null,
-                // borderWidth: 0,
-                // shadow: false,
-                // useHTML: true,
-                // style: {
-                //     padding: 0
-                // }
               },
-              
+
               plotOptions: {
                 bar: {
                   dataLabels: {
@@ -321,23 +300,23 @@
                   grouping: false,
                 },
               },
-              
+
               credits: {
                 enabled: false
               },
-              
+
               yAxis: {
                 visible: false
               },
-              
+
               exporting: {
                 enabled: false
               },
-              
+
               legend: {
                 enabled: false
               },
-              
+
               series: [{
                 name: 'Anggaran',
                 color: '#34b4eb',
@@ -372,13 +351,12 @@
                   style: {"textOutline": "1px contrast"},
                 },
                 tooltip: {
-                    pointFormatter: function(){
-                      return 'Realisasi: <b>Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + '</b>';
-                    }
+                  pointFormatter: function(){
+                    return 'Realisasi: <b>Rp. ' + Highcharts.numberFormat(this.y, '.', ',') + '</b>';
                   }
+                }
               }]
           });
-          // $("#graph-" + idx +" > .highcharts-container").style("zIndex", 0 - idx + "!important")
         }
       }
     });
