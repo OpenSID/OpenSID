@@ -16,7 +16,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row" >
-			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">

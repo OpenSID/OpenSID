@@ -86,10 +86,6 @@
 	// Menampilkan tabel sub modul
 	public function list_sub_modul($modul_id=1)
 	{
-		// $sql   = "SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = ? ORDER BY urut";
-		// $query = $this->db->query($sql,$modul);
-		// $data=$query->result_array();
-
 		$data	= $this->db->select('*')->where('parent', $modul_id)->order_by('urut')->get('setting_modul')->result_array();
 
 		for ($i=0; $i<count($data); $i++)
@@ -152,10 +148,21 @@
 		$data = $_POST;
 		$data['modul'] = strip_tags($data['modul']);
 		$data['ikon'] = strip_tags($data['ikon']);
+		$aktif_lama = $this->db->select('aktif')
+			->where('id', $id)
+			->get('setting_modul')
+			->row()->aktif;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('setting_modul', $data);
+		if ($data['aktif'] != $aktif_lama and $data['parent'] == 0)
+			$this->set_aktif_submodul($id, $data['aktif']);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
+	}
+
+	private function set_aktif_submodul($id, $aktif)
+	{
+		$this->db->where('parent', $id)->update('setting_modul', array('aktif' => $aktif));
 	}
 
 	public function delete($id='')
@@ -183,5 +190,75 @@
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
+	}
+
+	/*
+		Setting modul yang diaktifkan sesuai dengan setting penggunaan_server,
+		dan setting online_mode
+
+		penggunaan_server:
+		1 - offline saja di kantor desa
+		2 - online saja di hosting
+		3 - [lebih spesifik di 5 dan 6]
+		4 - offline dan online di kantor desa
+		5 - offline di kantor desa, dan ada online di hosting
+		6 - online di hosting, dan ada offline di kantor desa
+
+		offline_mode:
+		0 - web bisa diakses publik
+		1 - web hanya bisa diakses petugas web
+		2 - web non-aktif sama sekali
+	*/
+	public function default_server()
+	{
+		switch ($this->setting->penggunaan_server) {
+			case '1':
+			case '5':
+				$this->db->update('setting_modul', array('aktif' => 1));
+				// Kalau web tidak diaktifkan sama sekali, non-aktifkan modul Admin Web
+				if ($this->setting->offline_mode == 2)
+				{
+					$modul_web = 13;
+					$this->db->where('id', $modul_web)
+						->update('setting_modul', array('aktif' => 0));
+					$this->set_aktif_submodul($modul_web, 0);
+				}
+				break;
+			case '6':
+				// Online digunakan hanya untuk publikasi web; admin penduduk dan lain-lain
+				// dilakukan offline di kantor desa. Yaitu, hanya modul Admin Web yang aktif
+				// Kecuali Pengaturan selalu aktif
+					$modul_pengaturan = 11;
+					$this->db->where('id <>', $modul_pengaturan)
+						->where('parent <>', $modul_pengaturan)
+						->update('setting_modul', array('aktif' => 0));
+					$modul_web = 13;
+					$this->db->where('id', $modul_web)
+						->update('setting_modul', array('aktif' => 1));
+					$this->set_aktif_submodul($modul_web, 1);
+				break;
+			default:
+				# semua modul aktif
+				$this->db->update('setting_modul', array('aktif' => 1));
+				break;
+		}
+	}
+
+	public function modul_aktif($controller)
+	{
+		$selalu_aktif = array('hom_sid', 'user_setting', 'notif');
+		if (in_array($controller, $selalu_aktif)) return true;
+
+		// Periksa apakah modulnya aktif atau tidak
+		$aktif = $this->db->select('url')
+			->where('aktif', 1)
+			->get('setting_modul')
+			->result_array();
+		foreach ($aktif as $key => $modul)
+		{
+			// url ada yg berbentuk 'modul/clear'
+			$aktif[$key] = explode('/', $modul['url'])[0];
+		}
+		return in_array($controller, $aktif);
 	}
 }
