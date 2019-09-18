@@ -120,7 +120,8 @@ class Setting_model extends CI_Model {
 	public function update_penggunaan_server()
 	{
 		$_SESSION['success'] = 1;
-		$this->setting->offline_mode = $this->input->post('offline_mode_saja') ?: $this->input->post('offline_mode');
+		$mode = $this->input->post('offline_mode_saja');
+		$this->setting->offline_mode = ($mode === '0' or $mode) ? $mode : $this->input->post('offline_mode');
 		$out1 = $this->db->where('key','offline_mode')->update('setting_aplikasi', array('value'=>$this->setting->offline_mode));
 		$penggunaan_server = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
 		$this->setting->penggunaan_server = $penggunaan_server;

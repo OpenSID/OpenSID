@@ -95,10 +95,10 @@
 								<div class="col-sm-6 col-lg-4">
 									<select class="form-control input-sm" name="offline_mode">
 										<option value='' selected="selected">-- Pilih Akses Web --</option>
-										<option value="1" <?php selected($this->setting->offline_mode, '1')?>>
+										<option value="1" <?php ($this->setting->penggunaan_server == '5' and $this->setting->offline_mode =='1') and print('selected')?>>
 											Web bisa diakses petugas web
 										</option>
-										<option value="2" <?php selected($this->setting->offline_mode, '2')?>>
+										<option value="2" <?php ($this->setting->penggunaan_server == '5' and $this->setting->offline_mode =='2') and print('selected')?>>
 											Web non-aktif sama sekali
 										</option>
 									</select>
