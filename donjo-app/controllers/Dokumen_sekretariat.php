@@ -11,14 +11,8 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->modul_ini = 15;
 	}
 
-	public function clear($kat=1)
-	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect("dokumen_sekretariat/index/$kat");
-	}
-
-	public function index($kat=1, $p=1, $o=0)
+	// Produk Hukum
+	public function produk_hukum($kat=1, $p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -36,19 +30,94 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
+		switch ($kat) {
+			case 1:
+				$_SESSION['submenu'] = "Dokumen Umum";
+				$_SESSION['sub_kat'] = "Dokumen Umum";
+				break;
+			case 2:
+				$_SESSION['submenu'] = "SK Kades";
+				$_SESSION['sub_kat'] = "SK Kades";
+				break;
+			case 3:
+				$_SESSION['submenu'] = "Perdes";
+				$_SESSION['sub_kat'] = "Perdes";
+				break;
+			case 4;
+				$_SESSION['submenu'] = "Perades";
+				$_SESSION['sub_kat'] = "Perades";
+				break;
+			case 5:
+				$_SESSION['submenu'] = "Perkades";
+				$_SESSION['sub_kat'] = "Perkades";
+				break;
+			case 6:
+				$_SESSION['submenu'] = "Perakades";
+				$_SESSION['sub_kat'] = "Perakades";
+				break;
+			default:
+				$_SESSION['submenu'] = "Dokumen Umum";
+				$_SESSION['sub_kat'] = "Dokumen Umum";
+				break;
+		}
+
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
+		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
+		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
+		$data['keyword'] = $this->web_dokumen_model->autocomplete();
+		$data['sub_kat'] = $_SESSION['sub_kat'];
+
+		// $this->index($kat, $p=1, $o=0);
+
+		$header = $this->header_model->get_data();
+		$this->_set_tab($kat);
+		$nav['act_sub'] = 95;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('dokumen/table', $data);
+		$this->load->view('footer');
+	}
+
+	public function clear($kat=1)
+	{
+		unset($_SESSION['cari']);
+		unset($_SESSION['filter']);
+		redirect("dokumen_sekretariat/index/$kat");
+	}
+
+	private function index($kat=1, $p=1, $o=0)
+	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+		$data['kat'] = $kat;
+
+		if (isset($_SESSION['cari']))
+			$data['cari'] = $_SESSION['cari'];
+		else $data['cari'] = '';
+
+		if (isset($_SESSION['filter']))
+			$data['filter'] = $_SESSION['filter'];
+		else $data['filter'] = '';
+
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page']=$_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
+
+		$_SESSION['submenu'] = $kat;
+
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
-		$header = $this->header_model->get_data();
-		$this->_set_tab($kat);
-		$nav['act'] = 15;
-		$nav['act_sub'] = $this->tab_ini;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		// $header = $this->header_model->get_data();
+		// $this->_set_tab($kat);
+		// $nav['act'] = 15;
+		// $nav['act_sub'] = $this->tab_ini;
+		// $this->load->view('header', $header);
+		// $this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
-		$this->load->view('footer');
+		// $this->load->view('footer');
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')

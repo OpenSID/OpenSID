@@ -2,6 +2,30 @@
 class Migrasi_1909_ke_1910 extends CI_model {
 
   public function up() {
+
+  	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
+  	if ($this->db->table_exists('setting_modul'))
+	{
+		$array = array( 59, 60 );
+		$this->db->where_in('id', $array);
+		$this->db->delete('setting_modul');
+
+		$object = array(
+			'id' => 95,
+			'modul' => 'Produk Hukum',
+			'url' => 'dokumen_sekretariat/produk_hukum',
+			'aktif' => 1,
+			'ikon' => 'fa-balance-scale',
+			'urut' => 3,
+			'level' => 2,
+			'hidden' => 0,
+			'ikon_kecil' => '',
+			'parent' => 15
+		);
+		$this->db->insert('setting_modul', $object);
+
+	}
+
 		// Tambah tabel asuransi
 		if (!$this->db->table_exists('tweb_penduduk_asuransi'))
 		{
