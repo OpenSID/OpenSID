@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 19.09-pasca:
 2. #2274: Sekarang kolom NIK Ayah dan NIK Ibu, kalau diisi, harus berisi 0 atau bilangan 16 digit. [bug-fix]
 3. Tambah setting penggunaan server. Modul bisa aktif/non-aktifkan sesuai penggunaan server.
 4. Modul tidak aktif sekarang tidak bisa diakses.
+5. Sekarang foto staf pemerintahan desa tidak hilang pada waktu update data staf. [bug-fix]
 
 
 
