@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 19.09-pasca:
 3. Tambah setting penggunaan server. Modul bisa aktif/non-aktifkan sesuai penggunaan server.
 4. Modul tidak aktif sekarang tidak bisa diakses.
 5. Sekarang foto staf pemerintahan desa tidak hilang pada waktu update data staf. [bug-fix]
+6. #1661: Sediakan rss feed untuk menyiarkan artikel baru.
 
 
 
