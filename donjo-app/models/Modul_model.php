@@ -154,7 +154,7 @@
 			->row()->aktif;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('setting_modul', $data);
-		if ($data['aktif'] != $aktif_lama and $data['parent'] == 0)
+		if ($data['aktif'] != $aktif_lama)
 			$this->set_aktif_submodul($id, $data['aktif']);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -162,7 +162,15 @@
 
 	private function set_aktif_submodul($id, $aktif)
 	{
-		$this->db->where('parent', $id)->update('setting_modul', array('aktif' => $aktif));
+		$submodul = $this->db->select('id')->where('parent', $id)->get('setting_modul')->result_array();
+		$list_submodul = array_column($submodul, 'id');
+		foreach ($submodul as $modul)
+		{
+			$sub = $this->db->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
+			$list_submodul = array_merge($list_submodul, array_column($sub, 'id'));
+		}
+		$list_id = implode(",", $list_submodul);
+		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
 	}
 
 	public function delete($id='')

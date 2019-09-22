@@ -54,5 +54,35 @@ class Migrasi_1909_ke_1910 extends CI_model {
 		// Tambah setting server untuk menentukan setting modul default
 		$query = $this->db->select('1')->where('key', 'penggunaan_server')->get('setting_aplikasi');
 		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'penggunaan_server', 'value'=>'1	', 'jenis'=>'int', 'keterangan'=>"Setting penggunaan server", 'kategori'=>'sistem'));
+		// Tambah controller yg merupakan submodul yg tidak tampil di menu utama
+		$modul_nonmenu = array(
+			'id' => '65',
+			'modul' => 'Kategori',
+			'url' => 'kategori',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '49',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
+		$modul_nonmenu = array(
+			'id' => '66',
+			'modul' => 'Log Penduduk',
+			'url' => 'penduduk_log',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '21',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
+		$this->db->where('id', 2)->update('setting_modul', array('url'=>'', 'aktif'=>'1'));
   }
 }
