@@ -72,6 +72,8 @@
 							<td><?= $data['hamil']?></td>
 							<td><?= $data['ktp_el'] ?></td>
 							<td><?= $data['status_rekam'] ?></td>
+							<td><?= strtoupper($data['alamat_sekarang']) ?></td>
+							<td><?= strtoupper($data['alamat_sebelumnya']) ?></td>
 							<?php if (!empty($opendk)): ?>
 								<td><?= $data['id']?></td>
 								<td><?= $data['status_dasar']?></td>
