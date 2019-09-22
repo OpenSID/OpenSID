@@ -3,12 +3,12 @@
 	public function __construct()
 	{
 		parent::__construct();
+    $this->load->model('user_model');
     // Terpaksa menjalankan migrasi, karena apabila kolom parent
     // belum ada, menu navigasi tidak bisa ditampilkan
     if (!$this->db->field_exists('parent', 'setting_modul'))
     {
       $this->load->model('database_model');
-      $this->load->model('user_model');
       $this->database_model->migrasi_db_cri();
     }
 	}
