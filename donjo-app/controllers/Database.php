@@ -147,6 +147,7 @@ class Database extends Admin_Controller {
 			'Hamil' => 'hamil',
 			'KTP-el' => 'ktp_el',
 			'Status Rekam' => 'status_rekam',
+			'Alamat Sekarang' => 'alamat_sekarang',
 			'Alamat Sebelumnya' => 'alamat_sebelumnya'
 		);
 		$data['main'] = $this->export_model->export_excel();

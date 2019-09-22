@@ -36,7 +36,8 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "hamil" => "33",
   "ktp_el" => "34",
   "status_rekam" => "35",
-  "alamat_sebelumnya" => "36")));
+  "alamat_sekarang" => "36",
+  "alamat_sebelumnya" => "37")));
 
 class Import_model extends CI_Model {
 
@@ -236,6 +237,7 @@ class Import_model extends CI_Model {
 		$isi_baris['hamil'] = trim($data->val($i, $kolom_impor_keluarga['hamil']));
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($data->val($i, $kolom_impor_keluarga['ktp_el'])));
 		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($data->val($i, $kolom_impor_keluarga['status_rekam'])));
+		$isi_baris['alamat_sekarang'] = trim($data->val($i, $kolom_impor_keluarga['alamat_sekarang']));
 		$isi_baris['alamat_sebelumnya'] = trim($data->val($i, $kolom_impor_keluarga['alamat_sebelumnya']));
 		return $isi_baris;
 	}
@@ -328,7 +330,7 @@ class Import_model extends CI_Model {
 	protected function tulis_tweb_penduduk($isi_baris)
 	{
 		// Siapkan data penduduk
-		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sebelumnya', 'status_dasar');
+		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar');
 		foreach ($kolom_baris as $kolom)
 		{
 			$data[$kolom] = $isi_baris[$kolom];
