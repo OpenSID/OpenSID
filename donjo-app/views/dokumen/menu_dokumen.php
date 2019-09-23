@@ -25,7 +25,7 @@
 		<div class="box-body">
 		<form method="POST" action="#" id="form_kategori">	
 			<div class="form-group">
-				<label class="control-label col-sm-12" for="kategori">Nama Kategori</label>
+				<label class="control-label col-sm-12" for="kategori_dokumen">Nama Kategori</label>
 				<div class="col-sm-12">
 					<input type="text" name="kategori_dokumen" id="kategori_dokumen" class="form-control input-sm" required>
 				</div>				
@@ -44,16 +44,15 @@
 	function save() {
 		var url = "<?= base_url('index.php/dokumen_sekretariat/tambah_kategori') ?>";
 		var form = $('#form_kategori');
-		
+		var kategori = $('#kategori_dokumen').val();
+
 		$.ajax({
 			url: url,
 			type: 'POST',
-			data: form.serialize(),
+			data: {kategori: kategori},
 			dataType: 'json',
 			success: function(data){
-				// window.location.replace("<?= site_url('dokumen_sekretariat/produk_hukum') ?>");
-				console.log(form.serialize());
-				alert(form.serialize());
+				window.location.replace("<?= site_url('dokumen_sekretariat/produk_hukum') ?>");
 			},
 			error: function (err, jxqhr, thrownError) {
 				alert(thrownError);

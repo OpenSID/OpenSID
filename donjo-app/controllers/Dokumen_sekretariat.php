@@ -59,20 +59,12 @@ class Dokumen_sekretariat extends Admin_Controller {
 	// Tambah Kategori Baru
 	public function tambah_kategori()
 	{
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('kategori_dokumen', 'kategori_dokumen', 'required');
-		if ($this->form_validation->run() === TRUE) {
-			echo json_encode("TRUE");
-		}else{
-			echo json_encode("FALSE");
-		}
-		// $kategori = $this->input->post('kategori');
-		// $object = array(
-		// 	'kategori' => $kategori
-		// );
-		// $res = $this->web_dokumen_model->tambah_kategori($object);
-		// echo json_encode($kategori);
-		// redirect('produk_hukum','refresh');
+		$kategori = $this->input->post('kategori');
+		$object = array(
+			'kategori' => $kategori
+		);
+		$res = $this->web_dokumen_model->tambah_kategori($object);
+		echo json_encode($res);
 	}
 
 	public function clear($kat=1)
