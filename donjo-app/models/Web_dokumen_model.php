@@ -16,6 +16,45 @@ class Web_dokumen_model extends CI_Model {
 		parent::__construct();
 	}
 
+	// Pengganti KODE_KATEGORI
+	public function dokumen_kategori()
+	{
+		$this->db->order_by('id', 'asc');
+		$res = $this->db->get('dokumen_kategori')->result_array();
+		$i = 1;
+		$data = array();
+		foreach ($res as $a) {
+			$data[$i++] = $a['kategori'];
+		}
+		return $data;
+	}
+
+	// Tambah Kategori
+	public function tambah_kategori($object)
+	{
+		$res = $this->db->insert('dokumen_kategori', $object);
+		return $res;
+	}
+
+	// Lists Dokumen web first
+	public function all_dokumen()
+	{
+		$this->db->select('dokumen.id, satuan, nama, tahun, dokumen_kategori.kategori');
+		$this->db->join('dokumen_kategori', 'dokumen_kategori.id = dokumen.kategori', 'left');
+		$this->db->order_by('dokumen.id', 'random');
+		$res = $this->db->get('dokumen')->result_array();
+		return $res;
+	}
+
+	// Lists Tahun Dokumen untuk web first
+	public function tahun_dokumen()
+	{
+		$this->db->select('tahun');
+		$this->db->group_by('tahun');
+		$res = $this->db->get('dokumen')->result_array();
+		return $res;
+	}
+
 	public function autocomplete()
 	{
 		$str = autocomplete_str('nama', 'dokumen');
@@ -234,7 +273,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function kat_nama($kat=1)
 	{
-		$kategori = unserialize(KODE_KATEGORI);
+		$kategori = $this->dokumen_kategori();
 		$kat_nama = $kategori[$kat];
 		if (empty($kat_nama)) $kat_nama = $kategori[1];
 		return $kat_nama;
@@ -242,7 +281,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function list_kategori()
 	{
-		return unserialize(KODE_KATEGORI);
+		return $this->dokumen_kategori();
 	}
 
 	public function listTahun($kat=1)

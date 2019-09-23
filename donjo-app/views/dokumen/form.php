@@ -24,6 +24,12 @@
 									<input name="nama" class="form-control input-sm" type="text" value="<?=$dokumen['nama']?>"></input>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="nama">Tahun</label>
+								<div class="col-sm-2">
+									<input name="tahun" class="form-control input-sm" type="number" value="<?=$dokumen['tahun']?>"></input>
+								</div>
+							</div>
 							<?php if ($dokumen['satuan']): ?>
 								<div class="form-group">
 									<label class="col-sm-4 control-label">Dokumen</label>

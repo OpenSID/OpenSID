@@ -2,6 +2,53 @@
 class Migrasi_1909_ke_1910 extends CI_model {
 
   public function up() {
+  	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
+  	if ($this->db->table_exists('dokumen'))
+	{
+		$fields = array(
+	        'tahun' => array(
+                'type' => 'INT',
+                'constraint' => '4'
+	        )
+		);
+		$this->dbforge->add_column('dokumen',$fields);
+	}
+  	// Penambahan table dokumen_kategori untuk dynamic categories dokumen
+  	if (!$this->db->table_exists('dokumen_kategori'))
+	{
+		$fields = array(
+	        'id' => array(
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => TRUE,
+                'auto_increment' => TRUE
+	        ),
+	        'kategori' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '100'
+	        )
+		);
+
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_field($fields);
+		$this->dbforge->create_table('dokumen_kategori');
+
+		$object = array(
+			array(
+				'id' => 1,
+				'kategori' => 'Dokumen Umum'
+			),
+			array(
+				'id' => 2,
+				'kategori' => 'SK Kades'
+			),
+			array(
+				'id' => 3,
+				'kategori' => 'Perdes'
+			)
+		);
+		$this->db->insert_batch('dokumen_kategori', $object);
+	}
 
   	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
   	if ($this->db->table_exists('setting_modul'))
@@ -23,7 +70,6 @@ class Migrasi_1909_ke_1910 extends CI_model {
 			'parent' => 15
 		);
 		$this->db->insert('setting_modul', $object);
-
 	}
 
 		// Tambah tabel asuransi

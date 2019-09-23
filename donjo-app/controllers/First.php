@@ -342,6 +342,24 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function jdih()
+	{
+		$this->load->model('web_dokumen_model');
+		$data = $this->includes;
+
+		$data['main']    = $this->web_dokumen_model->all_dokumen();
+		$data['kategori'] = $this->web_dokumen_model->dokumen_kategori();
+		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+		$data['heading']="Jaringan Dokumentasi dan Informasi Hukum - JDIH";
+		// $data['tipe'] = 3;
+		// $data['total'] = $this->web_dokumen_model->total();
+		$data['st'] = 1;
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/jdih.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
 	public function agenda($stat=0)
 	{
 		$data = $this->includes;

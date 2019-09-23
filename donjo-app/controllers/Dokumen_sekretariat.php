@@ -30,52 +30,49 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		switch ($kat) {
-			case 1:
-				$_SESSION['submenu'] = "Dokumen Umum";
-				$_SESSION['sub_kat'] = "Dokumen Umum";
-				break;
-			case 2:
-				$_SESSION['submenu'] = "SK Kades";
-				$_SESSION['sub_kat'] = "SK Kades";
-				break;
-			case 3:
-				$_SESSION['submenu'] = "Perdes";
-				$_SESSION['sub_kat'] = "Perdes";
-				break;
-			case 4;
-				$_SESSION['submenu'] = "Perades";
-				$_SESSION['sub_kat'] = "Perades";
-				break;
-			case 5:
-				$_SESSION['submenu'] = "Perkades";
-				$_SESSION['sub_kat'] = "Perkades";
-				break;
-			case 6:
-				$_SESSION['submenu'] = "Perakades";
-				$_SESSION['sub_kat'] = "Perakades";
-				break;
-			default:
-				$_SESSION['submenu'] = "Dokumen Umum";
-				$_SESSION['sub_kat'] = "Dokumen Umum";
-				break;
-		}
-
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
+		$data['submenu'] = $this->web_dokumen_model->dokumen_kategori();
 		$data['sub_kat'] = $_SESSION['sub_kat'];
 
-		// $this->index($kat, $p=1, $o=0);
+		foreach ($data['submenu'] as $k => $s) 
+		{
+			if ($kat == $k) {
+				$_SESSION['submenu'] = $s;
+				$_SESSION['sub_kat'] = $s;
+				$_SESSION['kd_kat'] = $k;
+			}
+		}
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
 		$nav['act_sub'] = 95;
+		$res = $this->web_dokumen_model->dokumen_kategori();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
+	}
+
+	// Tambah Kategori Baru
+	public function tambah_kategori()
+	{
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('kategori_dokumen', 'kategori_dokumen', 'required');
+		if ($this->form_validation->run() === TRUE) {
+			echo json_encode("TRUE");
+		}else{
+			echo json_encode("FALSE");
+		}
+		// $kategori = $this->input->post('kategori');
+		// $object = array(
+		// 	'kategori' => $kategori
+		// );
+		// $res = $this->web_dokumen_model->tambah_kategori($object);
+		// echo json_encode($kategori);
+		// redirect('produk_hukum','refresh');
 	}
 
 	public function clear($kat=1)
@@ -173,6 +170,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 	{
 		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
+		$tahun = $this->input->post('tahun');
 		$outp = $this->web_dokumen_model->insert();
 		if (!$outp) $_SESSION['success'] = -1;
 		redirect("dokumen_sekretariat/index/$kat");
