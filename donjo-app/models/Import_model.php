@@ -36,8 +36,7 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "hamil" => "33",
   "ktp_el" => "34",
   "status_rekam" => "35",
-  "alamat_sekarang" => "36",
-  "alamat_sebelumnya" => "37")));
+  "alamat_sekarang" => "36")));
 
 class Import_model extends CI_Model {
 
@@ -238,7 +237,6 @@ class Import_model extends CI_Model {
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($data->val($i, $kolom_impor_keluarga['ktp_el'])));
 		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($data->val($i, $kolom_impor_keluarga['status_rekam'])));
 		$isi_baris['alamat_sekarang'] = trim($data->val($i, $kolom_impor_keluarga['alamat_sekarang']));
-		$isi_baris['alamat_sebelumnya'] = trim($data->val($i, $kolom_impor_keluarga['alamat_sebelumnya']));
 		return $isi_baris;
 	}
 
