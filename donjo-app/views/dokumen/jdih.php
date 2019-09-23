@@ -39,8 +39,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="col-md-12"> -->
-		<table class="table table-striped table-bordered">
+	<div  style="margin-right: 1rem; margin-left: 1rem;">
+		<table class="table table-striped table-bordered" id="jdih-table">
 			<thead>
 				<tr>
 					<th>Nama Dokumen</th>
@@ -49,7 +49,7 @@
 					<th>Aksi</th>
 				</tr>
 			</thead>
-			<tbody id="jdih-table">
+			<tbody>
 				<?php foreach($main as $m): ?>
 					<tr>
 						<td><a href="<?= base_url('desa/upload/dokumen/') . $m['satuan'] ?>"><?= $m['nama'] ?></a></td>
@@ -60,10 +60,13 @@
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-	<!-- </div>	 -->
+	</div>	
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
-    $('#jdih-table').DataTable();
+    $('#jdih-table').DataTable({
+    	"dom": 'rt<"bottom"p><"clear">',
+    	"destroy": true
+    });
 	} );
 </script>
