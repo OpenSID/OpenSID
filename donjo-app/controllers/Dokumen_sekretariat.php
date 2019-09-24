@@ -8,11 +8,12 @@ class Dokumen_sekretariat extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 15;
 	}
 
-	// Produk Hukum
-	public function produk_hukum($kat=1, $p=1, $o=0)
+	// Peraturan Desa
+	public function peraturan_desa($kat=1, $p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -34,37 +35,28 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
-		$data['submenu'] = $this->web_dokumen_model->dokumen_kategori();
-		$data['sub_kat'] = $_SESSION['sub_kat'];
+		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
+		$data['sub_kategori'] = $_SESSION['sub_kategori'];
 
-		foreach ($data['submenu'] as $k => $s) 
+		foreach ($data['submenu'] as $s) 
 		{
-			if ($kat == $k) {
-				$_SESSION['submenu'] = $s;
-				$_SESSION['sub_kat'] = $s;
-				$_SESSION['kd_kat'] = $k;
+			if ($kat == $s['id']) 
+			{
+				$_SESSION['submenu'] = $s['id'];
+				$_SESSION['sub_kategori'] = $s['kategori'];
+				$_SESSION['kode_kategori'] = $s['id'];
 			}
 		}
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
 		$nav['act_sub'] = 95;
-		$res = $this->web_dokumen_model->dokumen_kategori();
+		// $res = $this->web_dokumen_model->dokumen_kategori();
+		// print_r($data['submenu']);
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
-	}
-
-	// Tambah Kategori Baru
-	public function tambah_kategori()
-	{
-		$kategori = $this->input->post('kategori');
-		$object = array(
-			'kategori' => $kategori
-		);
-		$res = $this->web_dokumen_model->tambah_kategori($object);
-		echo json_encode($res);
 	}
 
 	public function clear($kat=1)

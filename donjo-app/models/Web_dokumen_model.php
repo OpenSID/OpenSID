@@ -1,14 +1,4 @@
 <?php
-
-define("KODE_KATEGORI", serialize(array(
-			1 => 'Dokumen Umum',
-			2 => 'SK Kades',
-			3 => 'Perdes',
-			4 => 'Perades',
-			5 => 'Perkades',
-			6 => 'Perakades'
-		)));
-
 class Web_dokumen_model extends CI_Model {
 
 	public function __construct()
@@ -16,32 +6,41 @@ class Web_dokumen_model extends CI_Model {
 		parent::__construct();
 	}
 
-	// Pengganti KODE_KATEGORI
-	public function dokumen_kategori()
+	// Link untuk ajax_submenu
+	public function link_peraturan_desa()
 	{
-		$this->db->order_by('id', 'asc');
-		$res = $this->db->get('dokumen_kategori')->result_array();
-		$i = 1;
-		$data = array();
-		foreach ($res as $a) {
-			$data[$i++] = $a['kategori'];
-		}
+		$data = array(
+			"peraturan_desa" => "Peraturan Desa"
+		);
 		return $data;
 	}
 
-	// Tambah Kategori
-	public function tambah_kategori($object)
-	{
-		$res = $this->db->insert('dokumen_kategori', $object);
-		return $res;
-	}
-
 	// Lists Dokumen web first
-	public function all_dokumen()
+	public function all_dokumen($kategori, $tahun, $isi)
 	{
-		$this->db->select('dokumen.id, satuan, nama, tahun, dokumen_kategori.kategori');
-		$this->db->join('dokumen_kategori', 'dokumen_kategori.id = dokumen.kategori', 'left');
-		$this->db->order_by('dokumen.id', 'random');
+		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
+		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
+
+		if ($kategori == '' && $tahun == '' && $isi == '') 
+		{			
+			$this->db->order_by('dokumen.id', 'random');
+		}
+		elseif ($tahun == '' && $isi == '') 
+		{			
+			$this->db->where('dokumen.kategori', $kategori);
+		}
+		elseif ($isi == '') 
+		{
+			$this->db->where('dokumen.kategori', $kategori);
+			$this->db->where('tahun', $tahun);
+		}
+		else
+		{
+			$this->db->where('dokumen.kategori', $kategori);
+			$this->db->where('tahun', $tahun);
+			$this->db->like('nama', urldecode($isi), 'BOTH');
+		}
+		
 		$res = $this->db->get('dokumen')->result_array();
 		return $res;
 	}
@@ -271,9 +270,21 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
+	public function ref_dokumen()
+	{
+		$this->db->order_by('id', 'asc');
+		$res = $this->db->get('ref_dokumen')->result_array();
+		$i = 1;
+		$data = array();
+		foreach ($res as $a) {
+			$data[$i++] = $a['kategori'];
+		}
+		return $data;
+	}
+
 	public function kat_nama($kat=1)
 	{
-		$kategori = $this->dokumen_kategori();
+		$kategori = $this->ref_dokumen();
 		$kat_nama = $kategori[$kat];
 		if (empty($kat_nama)) $kat_nama = $kategori[1];
 		return $kat_nama;
@@ -281,7 +292,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function list_kategori()
 	{
-		return $this->dokumen_kategori();
+		return $this->ref_dokumen();
 	}
 
 	public function listTahun($kat=1)

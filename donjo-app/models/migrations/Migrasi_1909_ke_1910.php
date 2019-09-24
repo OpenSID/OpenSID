@@ -2,6 +2,18 @@
 class Migrasi_1909_ke_1910 extends CI_model {
 
   public function up() {
+  	// Penambahan widget peraturan desa
+  	if ($this->db->table_exists('widget'))
+	{
+		$data = array(
+			'isi' => 'peraturan_desa.php', 
+			'enabled' => 1,
+			'judul' => 'Peraturan Desa',
+			'jenis_widget' => 2,
+			'urut' => 17
+		);
+		$this->db->insert('widget', $data);
+	}
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
   	if ($this->db->table_exists('dokumen'))
 	{
@@ -14,7 +26,7 @@ class Migrasi_1909_ke_1910 extends CI_model {
 		$this->dbforge->add_column('dokumen',$fields);
 	}
   	// Penambahan table dokumen_kategori untuk dynamic categories dokumen
-  	if (!$this->db->table_exists('dokumen_kategori'))
+  	if (!$this->db->table_exists('ref_dokumen'))
 	{
 		$fields = array(
 	        'id' => array(
@@ -31,7 +43,7 @@ class Migrasi_1909_ke_1910 extends CI_model {
 
 		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_field($fields);
-		$this->dbforge->create_table('dokumen_kategori');
+		$this->dbforge->create_table('ref_dokumen');
 
 		$object = array(
 			array(
@@ -47,7 +59,7 @@ class Migrasi_1909_ke_1910 extends CI_model {
 				'kategori' => 'Perdes'
 			)
 		);
-		$this->db->insert_batch('dokumen_kategori', $object);
+		$this->db->insert_batch('ref_dokumen', $object);
 	}
 
   	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
@@ -59,10 +71,10 @@ class Migrasi_1909_ke_1910 extends CI_model {
 
 		$object = array(
 			'id' => 95,
-			'modul' => 'Produk Hukum',
-			'url' => 'dokumen_sekretariat/produk_hukum',
+			'modul' => 'Peraturan Desa',
+			'url' => 'dokumen_sekretariat/peraturan_desa',
 			'aktif' => 1,
-			'ikon' => 'fa-balance-scale',
+			'ikon' => 'fa-book',
 			'urut' => 3,
 			'level' => 2,
 			'hidden' => 0,

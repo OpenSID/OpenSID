@@ -6,13 +6,13 @@
 		<div class="row">
 			<div class="col-md-6"></div>
 			<div class="col-md-6">
-				<form>
+				<form method="POST" action="<?= site_url('first/peraturan_desa/') ?>">
 					<div class="form-group">
 						<label for="jenis_dokumen">Jenis Dokumen</label>
 						<select class="form-control" name="kategori">
 							<option value="">-Pilih Jenis Dokumen-</option>
-							<?php foreach($kategori as $k => $s): ?>
-								<option value="<?= $k ?>"><?= $s ?></option>
+							<?php foreach($kategori as $s): ?>
+								<option value="<?= $s['id'] ?>"><?= $s['kategori'] ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>

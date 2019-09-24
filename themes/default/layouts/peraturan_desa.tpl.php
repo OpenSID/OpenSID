@@ -4,7 +4,7 @@
 			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">
-						<?php $this->load->view('dokumen/jdih'); ?>
+						<?php $this->load->view('widgets/peraturan_desa'); ?>
 					</div>
 				</div>
 			</div>
