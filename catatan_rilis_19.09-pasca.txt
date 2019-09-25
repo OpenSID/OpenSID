@@ -13,7 +13,7 @@ Lengkapnya, isi rilis versi 19.09-pasca:
 7. #2071: Kolom alamat_sekarang ikut diekspor ke file Excel penduduk.
 8. #2281: Pengguna operator sekarang diberi hak akses memecah KK.
 9. #2046: Input lokasi peta kantor desa dan lokasi penduduk sekarang bisa menggunakan koordinat longitude dan latitude.
-
+10. Tambah modul keuangan: impor data Siskeudes dalam format csv; tampilkan widget grafik keuangan; sisip grafik dan laporan keuangan di artikel; sediakan artikel statis keuangan yg dapat ditambahkan ke menu statis.
 
 
 Apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.09-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
