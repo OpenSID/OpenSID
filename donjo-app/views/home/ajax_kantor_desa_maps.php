@@ -1,6 +1,8 @@
 <script>
 	$(document).ready(function(){
 		$('#simpan_kantor').click(function(){
+			if (!$('#validasi').valid()) return;
+
 			var lat = $('#lat').val();
 			var lng = $('#lng').val();
 			var zoom = $('#zoom').val();
@@ -15,55 +17,71 @@
 	});
 	(function() {
 		setTimeout(function() {peta_desa.invalidateSize();}, 500);
-			//Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-			<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
-				var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-				var zoom = <?=$desa['zoom'] ?: 4?>;
-			<?php else: ?>
-				var posisi = [-1.0546279422758742,116.71875000000001];
-				var zoom = 4;
-			<?php endif; ?>
-			//Inisialisasi tampilan peta
-			var peta_desa = L.map('mapx').setView(posisi, zoom);
-			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-				maxZoom: 18,
-				attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-				id: 'mapbox.streets'
-			}).addTo(peta_desa);
-			var kantor_desa = L.marker(posisi, {draggable: true}).addTo(peta_desa);
-			kantor_desa.on('dragend', function(e){
-				document.getElementById('lat').value = e.target._latlng.lat;
-				document.getElementById('lng').value = e.target._latlng.lng;
-				document.getElementById('map_tipe').value = "HYBRID"
-				document.getElementById('zoom').value = peta_desa.getZoom();
-			})
-			peta_desa.on('zoomstart zoomend', function(e){
-				document.getElementById('zoom').value = peta_desa.getZoom();
-			})
+		//Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+		<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
+			var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 4?>;
+		<?php else: ?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+			var zoom = 4;
+		<?php endif; ?>
+		//Inisialisasi tampilan peta
+		var peta_desa = L.map('mapx').setView(posisi, zoom);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+			id: 'mapbox.streets'
+		}).addTo(peta_desa);
+		var kantor_desa = L.marker(posisi, {draggable: true}).addTo(peta_desa);
+		kantor_desa.on('dragend', function(e){
+			$('#lat').val(e.target._latlng.lat);
+			$('#lng').val(e.target._latlng.lng);
+			$('#map_tipe').val("HYBRID");
+			$('#zoom').val(peta_desa.getZoom());
+		})
+		peta_desa.on('zoomstart zoomend', function(e){
+			$('#zoom').val(peta_desa.getZoom());
+		})
 
-			document.getElementById("lat").addEventListener("input",function(e) {
-				let lat = document.getElementById('lat').value;
-				let lng = document.getElementById("lng").value;
-				let latLng = L.latLng({
-					lat: lat,
-					lng: lng
-				});
+		$('#lat').on("input",function(e) {
+			if (!$('#validasi').valid())
+			{
+				$("#simpan_kantor").attr('disabled', true);
+				return;
+			} else
+			{
+				$("#simpan_kantor").attr('disabled', false);
+			}
+			let lat = $('#lat').val();
+			let lng = $('#lng').val();
+			let latLng = L.latLng({
+				lat: lat,
+				lng: lng
+			});
 
-				kantor_desa.setLatLng(latLng);
-				peta_desa.setView(latLng,zoom);
-			})
+			kantor_desa.setLatLng(latLng);
+			peta_desa.setView(latLng,zoom);
+		})
 
-			document.getElementById("lng").addEventListener("input",function(e) {
-				let lat = document.getElementById('lat').value;
-				let lng = document.getElementById("lng").value;
-				let latLng = L.latLng({
-					lat: lat,
-					lng: lng
-				});
+		$('#lng').on("input",function(e) {
+			if (!$('#validasi').valid())
+			{
+				$("#simpan_kantor").attr('disabled', true);
+				return;
+			} else
+			{
+				$("#simpan_kantor").attr('disabled', false);
+			}
+			let lat = $('#lat').val();
+			let lng = $('#lng').val();
+			let latLng = L.latLng({
+				lat: lat,
+				lng: lng
+			});
 
-				kantor_desa.setLatLng(latLng);
-				peta_desa.setView(latLng, zoom);
-			})
+			kantor_desa.setLatLng(latLng);
+			peta_desa.setView(latLng, zoom);
+		})
 	})();
 </script>
 
@@ -80,26 +98,31 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-		<div id="mapx"></div>
-		<input type="hidden" name="zoom" id="zoom"  value="<?= $desa['zoom']?>"/>
-		<input type="hidden" name="map_tipe" id="map_tipe"  value="<?= $desa['map_tipe']?>"/>
+				<div id="mapx"></div>
+				<input type="hidden" name="zoom" id="zoom"  value="<?= $desa['zoom']?>"/>
+				<input type="hidden" name="map_tipe" id="map_tipe"  value="<?= $desa['map_tipe']?>"/>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<div class="form-group">
-			<label class="col-sm-3 control-label" for="lat">Lat</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control" name="lat" id="lat" value="<?= $desa['lat']?>"/>
+		<form id="validasi">
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="lat">Lat</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control number" name="lat" id="lat" value="<?= $desa['lat']?>"/>
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-3 control-label" for="lat">Lng</label>
-			<div class="col-sm-9">
-				<input type="text" class="form-control" name="lng" id="lng" value="<?= $desa['lng']?>" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="lat">Lng</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control number" name="lng" id="lng" value="<?= $desa['lng']?>" />
+				</div>
 			</div>
-		</div>
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" data-dismiss="modal" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" data-dismiss="modal" id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+		</form>
 	</div>
+
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 
