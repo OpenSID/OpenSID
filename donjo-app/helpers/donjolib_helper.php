@@ -503,7 +503,8 @@ function fixSQL($str, $encode_ent = false) {
 
 //baca data tanpa HTML Tags
 function fixTag($varString){
-	return strip_tags($varString);
+	// edited : filter <i> tag for exception
+	return strip_tags($varString, '<i>');
 }
 
 /*
