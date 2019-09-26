@@ -102,5 +102,14 @@ class Migrasi_1909_ke_1910 extends CI_model {
 			$this->db->query($sql);
 		}
 		$this->db->where('id', 2)->update('setting_modul', array('url'=>'', 'aktif'=>'1'));
+	  // Ubah id rtm supaya bisa lebih panjang
+	  $sql = "ALTER TABLE `tweb_rtm` CHANGE `no_kk` `no_kk` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+	  $sql = "ALTER TABLE `tweb_penduduk` CHANGE `id_rtm` `id_rtm` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+	  $sql = "ALTER TABLE `program_peserta` CHANGE `peserta` `peserta` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+	  $sql = "ALTER TABLE `program_peserta` CHANGE `kartu_nik` `kartu_nik` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
   }
 }

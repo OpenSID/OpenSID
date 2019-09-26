@@ -594,7 +594,7 @@ class Import_model extends CI_Model {
 		$a = "TRUNCATE tweb_rtm; ";
 		$this->db->query($a);
 
-		$a = "INSERT INTO tweb_rtm (id, no_kk, nik_kepala) SELECT distinct(id_rtm) AS no_kk,id_rtm,id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
+		$a = "INSERT INTO tweb_rtm (no_kk, nik_kepala) SELECT id_rtm, id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
 		$outp = $this->db->query($a);
 
 		$_SESSION['ggl'] = $gg;
