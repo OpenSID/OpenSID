@@ -302,4 +302,10 @@ class Keuangan_model extends CI_model {
     }
     return $link;
   }
+  public function delete($id='')
+	{
+		$sql = "DELETE FROM keuangan_master WHERE id = ?";
+		$outp = $this->db->query($sql,array($id));
+		return $outp;
+	}
 }
