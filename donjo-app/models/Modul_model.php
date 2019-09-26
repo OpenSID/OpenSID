@@ -45,7 +45,7 @@
 				$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
 				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
 				// Kelompok submenu yg kosong tidak dimasukkan
-				if (!empty($data[$i]['submodul']))
+				if (!empty($data[$i]['submodul']) or !empty($data[$i]['url']))
 					$aktif[] = $data[$i];
 			}
 			else
@@ -86,7 +86,10 @@
 	// Menampilkan tabel sub modul
 	public function list_sub_modul($modul_id=1)
 	{
-		$data	= $this->db->select('*')->where('parent', $modul_id)->order_by('urut')->get('setting_modul')->result_array();
+		$data	= $this->db->select('*')
+			->where('parent', $modul_id)
+			->where('hidden <>', 2)
+			->order_by('urut')->get('setting_modul')->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{

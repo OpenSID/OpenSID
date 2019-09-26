@@ -83,6 +83,24 @@ class Migrasi_1909_ke_1910 extends CI_model {
 		);
 		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
 		$this->db->query($sql);
+		$submodul_analisis = array('67'=>'analisis_kategori', '68'=>'analisis_indikator', '69'=>'analisis_klasifikasi', '70'=>'analisis_periode', '71'=>'analisis_respon', '72'=>'analisis_laporan', '73'=>'analisis_statistik_jawaban');
+		foreach ($submodul_analisis as $key => $submodul)
+		{
+			$modul_nonmenu = array(
+				'id' => $key,
+				'modul' => $submodul,
+				'url' => $submodul,
+				'aktif' => '1',
+				'ikon' => '',
+				'urut' => '',
+				'level' => '',
+				'parent' => '5',
+				'hidden' => '2',
+				'ikon_kecil' => ''
+			);
+			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+			$this->db->query($sql);
+		}
 		$this->db->where('id', 2)->update('setting_modul', array('url'=>'', 'aktif'=>'1'));
   }
 }
