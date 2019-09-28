@@ -101,6 +101,20 @@ class Migrasi_1909_ke_1910 extends CI_model {
 			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
 			$this->db->query($sql);
 		}
+		$modul_nonmenu = array(
+			'id' => '74',
+			'modul' => 'Wilayah',
+			'url' => 'wilayah',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '21',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
 		$this->db->where('id', 2)->update('setting_modul', array('url'=>'', 'aktif'=>'1'));
 	  // Ubah id rtm supaya bisa lebih panjang
 	  $sql = "ALTER TABLE `tweb_rtm` CHANGE `no_kk` `no_kk` VARCHAR(30) NOT NULL";
