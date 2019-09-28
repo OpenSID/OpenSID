@@ -116,6 +116,25 @@ class Migrasi_1909_ke_1910 extends CI_model {
 		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
 		$this->db->query($sql);
 		$this->db->where('id', 2)->update('setting_modul', array('url'=>'', 'aktif'=>'1'));
+		$submodul_inventaris = array('75'=>'api_inventaris_asset', '76'=>'api_inventaris_gedung', '77'=>'api_inventaris_gedung', '78'=>'api_inventaris_jalan', '79'=>'api_inventaris_konstruksi', '80'=>'api_inventaris_peralatan', '81'=>'api_inventaris_tanah', '82'=>'inventaris_asset', '83'=>'inventaris_gedung', '84'=>'inventaris_jalan', '85'=>'inventaris_kontruksi', '86'=>'inventaris_peralatan', '87'=>'laporan_inventaris');
+		foreach ($submodul_inventaris as $key => $submodul)
+		{
+			$modul_nonmenu = array(
+				'id' => $key,
+				'modul' => $submodul,
+				'url' => $submodul,
+				'aktif' => '1',
+				'ikon' => '',
+				'urut' => '',
+				'level' => '',
+				'parent' => '61',
+				'hidden' => '2',
+				'ikon_kecil' => ''
+			);
+			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+			$this->db->query($sql);
+		}
+
 	  // Ubah id rtm supaya bisa lebih panjang
 	  $sql = "ALTER TABLE `tweb_rtm` CHANGE `no_kk` `no_kk` VARCHAR(30) NOT NULL";
 	  $this->db->query($sql);
