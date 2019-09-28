@@ -125,17 +125,19 @@ class Migrasi_1909_ke_1910 extends CI_model {
 	  $this->db->query($sql);
 	  $sql = "ALTER TABLE `program_peserta` CHANGE `kartu_nik` `kartu_nik` VARCHAR(30) NOT NULL";
 	  $this->db->query($sql);
-	  
+
 	  // ubah/perbaiki struktur database, table artikel
-	  $this->db->query('ALTER TABLE artikel MODIFY isi TEXT NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY gambar VARCHAR(200) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY gambar1 VARCHAR(200) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY gambar2 VARCHAR(200) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY gambar3 VARCHAR(200) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY dokumen VARCHAR(400) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY link_dokumen VARCHAR(200) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY slug VARCHAR(200) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY jenis_widget TINYINT(2) NOT NULL Default NULL;');
-	  $this->db->query('ALTER TABLE artikel MODIFY boleh_komentar TINYINT(1) NOT NULL Default NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar1 VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar2 VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar3 VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY dokumen VARCHAR(400) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY link_dokumen VARCHAR(200) DEFAULT NULL;');
+
+		// Hapus kolom artikel tidak digunakan
+  	if ($this->db->field_exists('jenis_widget', 'artikel'))
+  	{
+			$this->dbforge->drop_column('artikel', 'jenis_widget');
+  	}
   }
 }
