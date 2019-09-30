@@ -58,6 +58,7 @@
 		$this->db
 				->from('tweb_penduduk u')
 				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+				->join('log_surat h', 'u.id = h.id_pend')
 				->where('status_dasar', 1);
 		if ($filter_sex) $this->db->where('sex', $filter_sex);
 		if ($cari)
@@ -185,8 +186,7 @@
 		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 		left join tweb_keluarga k on u.id_kk = k.id
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-		left join tweb_penduduk_status s on u.status = s.id
-		inner join log_surat l on u.id = log_surat.id_pend
+		left join tweb_penduduk_status s on u.status = s.id		
 		WHERE u.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
