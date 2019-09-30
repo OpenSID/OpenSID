@@ -2,7 +2,7 @@ Di rilis ini [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yan
 
 Terima kasih pada Rismawan Junandia yang terus berkontribusi. Terima kasih pula pada @ropelid, Nursan Amar dan Alvin Leonardo yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 19.09-pasca:
+Lengkapnya, isi rilis versi 19.09-pasca;
 
 1. #2020: Tambah kolom Asuransi Kesehatan di data penduduk.
 2. #2274: Sekarang kolom NIK Ayah dan NIK Ibu, kalau diisi, harus berisi 0 atau bilangan 16 digit. [bug-fix]
