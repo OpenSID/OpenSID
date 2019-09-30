@@ -713,6 +713,8 @@ class User_model extends CI_Model {
 				'analisis_periode' => array('b','u'),
 				'analisis_respon' => array('b','u'),
 				'analisis_statistik_jawaban' => array('b','u'),
+				// keuangan
+				'keuangan' => array('b','u'),
 				// bantuan
 				'program_bantuan' => array('b','u'),
 				// inventaris

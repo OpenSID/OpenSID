@@ -54,5 +54,109 @@ class Migrasi_1909_ke_1910 extends CI_model {
 		// Tambah setting server untuk menentukan setting modul default
 		$query = $this->db->select('1')->where('key', 'penggunaan_server')->get('setting_aplikasi');
 		$query->result() OR	$this->db->insert('setting_aplikasi', array('key'=>'penggunaan_server', 'value'=>'1	', 'jenis'=>'int', 'keterangan'=>"Setting penggunaan server", 'kategori'=>'sistem'));
+		// Tambah controller yg merupakan submodul yg tidak tampil di menu utama
+		$modul_nonmenu = array(
+			'id' => '65',
+			'modul' => 'Kategori',
+			'url' => 'kategori',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '49',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
+		$modul_nonmenu = array(
+			'id' => '66',
+			'modul' => 'Log Penduduk',
+			'url' => 'penduduk_log',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '21',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
+		$submodul_analisis = array('67'=>'analisis_kategori', '68'=>'analisis_indikator', '69'=>'analisis_klasifikasi', '70'=>'analisis_periode', '71'=>'analisis_respon', '72'=>'analisis_laporan', '73'=>'analisis_statistik_jawaban');
+		foreach ($submodul_analisis as $key => $submodul)
+		{
+			$modul_nonmenu = array(
+				'id' => $key,
+				'modul' => $submodul,
+				'url' => $submodul,
+				'aktif' => '1',
+				'ikon' => '',
+				'urut' => '',
+				'level' => '',
+				'parent' => '5',
+				'hidden' => '2',
+				'ikon_kecil' => ''
+			);
+			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+			$this->db->query($sql);
+		}
+		$modul_nonmenu = array(
+			'id' => '74',
+			'modul' => 'Wilayah',
+			'url' => 'wilayah',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '21',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
+		$this->db->where('id', 2)->update('setting_modul', array('url'=>'', 'aktif'=>'1'));
+		$submodul_inventaris = array('75'=>'api_inventaris_asset', '76'=>'api_inventaris_gedung', '77'=>'api_inventaris_gedung', '78'=>'api_inventaris_jalan', '79'=>'api_inventaris_konstruksi', '80'=>'api_inventaris_peralatan', '81'=>'api_inventaris_tanah', '82'=>'inventaris_asset', '83'=>'inventaris_gedung', '84'=>'inventaris_jalan', '85'=>'inventaris_kontruksi', '86'=>'inventaris_peralatan', '87'=>'laporan_inventaris');
+		foreach ($submodul_inventaris as $key => $submodul)
+		{
+			$modul_nonmenu = array(
+				'id' => $key,
+				'modul' => $submodul,
+				'url' => $submodul,
+				'aktif' => '1',
+				'ikon' => '',
+				'urut' => '',
+				'level' => '',
+				'parent' => '61',
+				'hidden' => '2',
+				'ikon_kecil' => ''
+			);
+			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+			$this->db->query($sql);
+		}
+
+	  // Ubah id rtm supaya bisa lebih panjang
+	  $sql = "ALTER TABLE `tweb_rtm` CHANGE `no_kk` `no_kk` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+	  $sql = "ALTER TABLE `tweb_penduduk` CHANGE `id_rtm` `id_rtm` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+	  $sql = "ALTER TABLE `program_peserta` CHANGE `peserta` `peserta` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+	  $sql = "ALTER TABLE `program_peserta` CHANGE `kartu_nik` `kartu_nik` VARCHAR(30) NOT NULL";
+	  $this->db->query($sql);
+
+	  // ubah/perbaiki struktur database, table artikel
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar1 VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar2 VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY gambar3 VARCHAR(200) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY dokumen VARCHAR(400) DEFAULT NULL;');
+	  $this->db->query('ALTER TABLE artikel MODIFY link_dokumen VARCHAR(200) DEFAULT NULL;');
+
+		// Hapus kolom artikel tidak digunakan
+  	if ($this->db->field_exists('jenis_widget', 'artikel'))
+  	{
+			$this->dbforge->drop_column('artikel', 'jenis_widget');
+  	}
   }
 }

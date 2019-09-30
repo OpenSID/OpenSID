@@ -6,6 +6,7 @@ class First_artikel_m extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('web_sosmed_model');
+		$this->load->model('shortcode_model');
 	}
 
 	public function get_headline()
@@ -119,6 +120,8 @@ class First_artikel_m extends CI_Model {
 			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
 			if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
 				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+				// ganti shortcode menjadi icon
+				$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 		}
 		return $data;
 	}
@@ -299,8 +302,11 @@ class First_artikel_m extends CI_Model {
 		else if (!empty($id))
 		{
 			// untuk artikel jenis statis = "AGENDA"
-			$judul = array(999 => "Halaman Statis",
-				1000	=> "Agenda");
+			$judul = array(
+				999 => "Halaman Statis",
+				1000 => "Agenda",
+				1001 => "Artikel Keuangan",
+			);
 			$data = $judul[$id];
 		}
 		else
@@ -364,6 +370,8 @@ class First_artikel_m extends CI_Model {
 				$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
 				if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
 					$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+					// ganti shortcode menjadi icon
+					$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 			}
 		}
 		else
