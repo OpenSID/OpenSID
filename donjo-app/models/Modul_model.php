@@ -3,12 +3,12 @@
 	public function __construct()
 	{
 		parent::__construct();
+    $this->load->model('user_model');
     // Terpaksa menjalankan migrasi, karena apabila kolom parent
     // belum ada, menu navigasi tidak bisa ditampilkan
     if (!$this->db->field_exists('parent', 'setting_modul'))
     {
       $this->load->model('database_model');
-      $this->load->model('user_model');
       $this->database_model->migrasi_db_cri();
     }
 	}
@@ -45,7 +45,7 @@
 				$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
 				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
 				// Kelompok submenu yg kosong tidak dimasukkan
-				if (!empty($data[$i]['submodul']))
+				if (!empty($data[$i]['submodul']) or !empty($data[$i]['url']))
 					$aktif[] = $data[$i];
 			}
 			else
@@ -86,7 +86,10 @@
 	// Menampilkan tabel sub modul
 	public function list_sub_modul($modul_id=1)
 	{
-		$data	= $this->db->select('*')->where('parent', $modul_id)->order_by('urut')->get('setting_modul')->result_array();
+		$data	= $this->db->select('*')
+			->where('parent', $modul_id)
+			->where('hidden <>', 2)
+			->order_by('urut')->get('setting_modul')->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -154,7 +157,7 @@
 			->row()->aktif;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('setting_modul', $data);
-		if ($data['aktif'] != $aktif_lama and $data['parent'] == 0)
+		if ($data['aktif'] != $aktif_lama)
 			$this->set_aktif_submodul($id, $data['aktif']);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -162,7 +165,15 @@
 
 	private function set_aktif_submodul($id, $aktif)
 	{
-		$this->db->where('parent', $id)->update('setting_modul', array('aktif' => $aktif));
+		$submodul = $this->db->select('id')->where('parent', $id)->get('setting_modul')->result_array();
+		$list_submodul = array_column($submodul, 'id');
+		foreach ($submodul as $modul)
+		{
+			$sub = $this->db->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
+			$list_submodul = array_merge($list_submodul, array_column($sub, 'id'));
+		}
+		$list_id = implode(",", $list_submodul);
+		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
 	}
 
 	public function delete($id='')

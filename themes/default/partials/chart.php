@@ -58,7 +58,6 @@ $(function () {
 		</script>
 	</head>
 	<body>
-<script src="http://code.highcharts.com/highcharts.js"></script>
 
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
