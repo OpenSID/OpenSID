@@ -186,6 +186,7 @@
 		left join tweb_keluarga k on u.id_kk = k.id
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 		left join tweb_penduduk_status s on u.status = s.id
+		inner join log_surat l on u.id = log_surat.id_pend
 		WHERE u.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
