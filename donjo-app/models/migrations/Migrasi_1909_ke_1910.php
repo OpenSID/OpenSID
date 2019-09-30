@@ -37,7 +37,7 @@ class Migrasi_1909_ke_1910 extends CI_model {
 					'tahun' => $tahun, 
 				);
 				$this->db->where('id', $v['id']);
-				$this->db->insert('dokumen', $data);
+				$this->db->update('dokumen', $data);
 			}
 		}
 		else

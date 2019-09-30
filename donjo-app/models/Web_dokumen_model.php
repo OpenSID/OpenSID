@@ -21,25 +21,10 @@ class Web_dokumen_model extends CI_Model {
 		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
 
-		if ($kategori == '' && $tahun == '' && $isi == '') 
-		{			
-			$this->db->order_by('dokumen.id', 'random');
-		}
-		elseif ($tahun == '' && $isi == '') 
-		{			
-			$this->db->where('dokumen.kategori', $kategori);
-		}
-		elseif ($isi == '') 
-		{
-			$this->db->where('dokumen.kategori', $kategori);
-			$this->db->where('tahun', $tahun);
-		}
-		else
-		{
-			$this->db->where('dokumen.kategori', $kategori);
-			$this->db->where('tahun', $tahun);
-			$this->db->like('nama', urldecode($isi), 'BOTH');
-		}
+		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
+		if ($tahun) $this->db->where('tahun', $tahun);
+		if ($isi) $this->db->like('nama', urldecode($isi), 'BOTH');
+		$this->db->order_by('dokumen.tahun DESC', 'dokumen.kategori ASC', 'dokumen.nama ASC');
 		
 		$res = $this->db->get('dokumen')->result_array();
 		return $res;

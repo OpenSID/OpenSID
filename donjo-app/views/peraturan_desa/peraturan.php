@@ -6,10 +6,10 @@
 		<div class="row">
 			<div class="col-md-6"></div>
 			<div class="col-md-6">
-				<form>
+				<form id="peraturan-form">
 					<div class="form-group">
 						<label for="jenis_dokumen">Jenis Dokumen</label>
-						<select class="form-control" name="kategori">
+						<select class="form-control" name="kategori" id="kategori">
 							<option value="">-Pilih Jenis Dokumen-</option>
 							<?php foreach($kategori as $s): ?>
 								<option value="<?= $s['id'] ?>"><?= $s['kategori'] ?></option>
@@ -18,7 +18,7 @@
 					</div>
 					<div class="form-group">
 						<label for="jenis_dokumen">Tahun</label>
-						<select class="form-control" name="tahun">
+						<select class="form-control" name="tahun" id="tahun">
 							<option value="">-Pilih Tahun-</option>
 							<?php foreach($tahun as $t): ?>
 								<option value="<?= $t['tahun'] ?>"><?= $t['tahun'] ?></option>
@@ -27,7 +27,7 @@
 					</div>
 					<div class="form-group">
 						<label for="jenis_dokumen">Tentang</label>
-						<input type="text" name="tentang" class="form-control">
+						<input type="text" name="tentang" id="tentang" class="form-control">
 					</div>
 				</form>
 			</div>
@@ -35,7 +35,7 @@
 		<div class="row">
 			<div class="col-md-6"></div>
 			<div class="col-md-6">
-				<button class="btn btn-info"><i class="fa fa-search"></i> Cari</button>
+				<button onclick="ambil_dokumen()" type="button" class="btn btn-info"><i class="fa fa-search"></i> Cari</button>
 			</div>
 		</div>
 	</div>
@@ -63,10 +63,29 @@
 	</div>	
 </div>
 <script type="text/javascript">
-	$(document).ready(function() {
+$(document).ready(function() {
     $('#jdih-table').DataTable({
     	"dom": 'rt<"bottom"p><"clear">',
     	"destroy": true
     });
-	} );
+} );
+
+function ambil_dokumen() {
+	var kategori = $('#kategori').val();
+	var tahun = $('#tahun').val();
+	var tentang = $('#tentang').val();
+
+	$.ajax({
+		type: "POST",
+		// dataType: "html",
+		// url: ,
+		success: function (data) {
+			console.log(kategori);
+			window.location.replace("<?= site_url('first/peraturan_desa/')?>" + kategori + "/" +tahun+ "/"+tentang);
+		},
+		error: function (err, jqxhr, errThrown) {
+			console.log(err);
+		}
+	})
+}
 </script>

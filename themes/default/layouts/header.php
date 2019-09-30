@@ -42,7 +42,6 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-		<!-- <script src="<?= base_url()?>assets/front/js/jquery.js"></script> --> <!-- Old Jquery -->
 		<script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
