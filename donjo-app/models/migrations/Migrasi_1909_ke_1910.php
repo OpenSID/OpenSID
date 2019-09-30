@@ -17,13 +17,42 @@ class Migrasi_1909_ke_1910 extends CI_model {
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
   	if ($this->db->table_exists('dokumen'))
 	{
-		$fields = array(
-	        'tahun' => array(
-                'type' => 'INT',
-                'constraint' => '4'
-	        )
-		);
-		$this->dbforge->add_column('dokumen',$fields);
+		$res = $this->db->get('dokumen')->result_array();
+
+	  	if (!$this->db->field_exists('tahun','dokumen'))
+		{
+			$fields = array(
+		        'tahun' => array(
+	                'type' => 'INT',
+	                'constraint' => '4'
+		        )
+			);
+			$this->dbforge->add_column('dokumen',$fields);
+
+			foreach ($res as $v) 
+			{
+				$tgl_lapor =  json_decode($v['attr'], TRUE);
+				$tahun = date('Y',strtotime($tgl_lapor['tgl_lapor']));
+				$data = array(
+					'tahun' => $tahun, 
+				);
+				$this->db->where('id', $v['id']);
+				$this->db->insert('dokumen', $data);
+			}
+		}
+		else
+		{
+			foreach ($res as $v) 
+			{
+				$tgl_lapor =  json_decode($v['attr'], TRUE);
+				$tahun = date('Y',strtotime($tgl_lapor['tgl_lapor']));
+				$data = array(
+					'tahun' => $tahun, 
+				);
+				$this->db->where('id', $v['id']);
+				$this->db->update('dokumen', $data);
+			}
+		}
 	}
   	// Penambahan table dokumen_kategori untuk dynamic categories dokumen
   	if (!$this->db->table_exists('ref_dokumen'))
