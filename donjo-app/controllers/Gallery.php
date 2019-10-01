@@ -264,4 +264,10 @@ class Gallery extends Admin_Controller {
 		$this->web_gallery_model->gallery_lock($id, 2);
 		redirect("gallery/sub_gallery/$gallery");
 	}
+
+	public function urut($id_gallery=0, $id = 0, $arah = 0)
+	{
+		$this->web_gallery_model->urut($id_gallery, $id, $arah);
+		redirect("gallery/sub_gallery/$gallery");
+	}
 }
