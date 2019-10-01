@@ -117,6 +117,7 @@
 	public function update($id=0)
 	{
 	  $data = $_POST;
+	  $data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('komentar', $data);
 		if ($outp) $_SESSION['success'] = 1;
@@ -152,9 +153,10 @@
 
 	public function komentar_lock($id='',$val=0)
 	{
-		$sql = "UPDATE komentar SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
-
+		$outp = $this->db->where('id', $id)
+			->update('komentar', array(
+					'enabled' => $val,
+					'updated_at' => date('Y-m-d H:i:s')));
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}

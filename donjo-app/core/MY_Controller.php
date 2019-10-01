@@ -143,6 +143,13 @@ class Admin_Controller extends MY_Controller
  		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+
+		$this->load->model('modul_model');
+		if (!$this->modul_model->modul_aktif($this->controller))
+		{
+			session_error("Fitur ini tidak aktif");
+			redirect('/');
+		}
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))

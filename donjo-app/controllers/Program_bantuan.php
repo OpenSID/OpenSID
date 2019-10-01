@@ -178,7 +178,7 @@ class Program_bantuan extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 6;		
+		$nav['act'] = 6;
 		$data['asaldana'] = unserialize(ASALDANA);
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
