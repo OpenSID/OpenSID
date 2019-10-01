@@ -199,8 +199,20 @@ class Web_dokumen_model extends CI_Model {
 		if ($this->upload_dokumen($data))
 		{
 			$data['attr'] = json_encode($data['attr']);
-      $tgl_lapor = json_decode($data['attr'], TRUE);
-      $data['tahun'] = date('Y', strtotime($tgl_lapor['tgl_lapor']));
+      $tgl = json_decode($data['attr'], TRUE);
+      if ($data['kategori'] == 2) 
+      {
+        $data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+      }
+      elseif($data['kategori'] == 3)
+      {
+        $data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+      }
+      else
+      {
+        $data['tahun'] = date('Y');
+      }  
+      
 			return $this->db->insert('dokumen', $data);
 		}
 		else return false;
@@ -212,8 +224,20 @@ class Web_dokumen_model extends CI_Model {
 		if (!$this->upload_dokumen($data, $data['old_file']))
 			unset($data['satuan']);
 		$data['attr'] = json_encode($data['attr']);
-    $tgl_lapor = json_decode($data['attr'], TRUE);
-    $data['tahun'] = date('Y', strtotime($tgl_lapor['tgl_lapor']));
+    $tgl = json_decode($data['attr'], TRUE);
+    if ($data['kategori'] == 2) 
+    {
+      $data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+    }
+    elseif($data['kategori'] == 3)
+    {
+      $data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+    }
+    else
+    {
+      $data['tahun'] = date('Y');
+    } 
+     
 		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
 

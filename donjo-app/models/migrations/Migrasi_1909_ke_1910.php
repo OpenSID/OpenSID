@@ -12,16 +12,24 @@ class Migrasi_1909_ke_1910 extends CI_model {
 			{
 				$fields = array(
 	        'tahun' => array(
-                'type' => 'INT',
-                'constraint' => '4'
+              'type' => 'INT',
+              'constraint' => '4'
 	        )
 				);
 				$this->dbforge->add_column('dokumen',$fields);
 
 				foreach ($res as $v) 
 				{
-					$tgl_lapor =  json_decode($v['attr'], TRUE);
-					$tahun = date('Y',strtotime($tgl_lapor['tgl_lapor']));
+					$tgl =  json_decode($v['attr'], TRUE);
+          if ($v['kategori'] == 2) 
+          {
+            $tahun = date('Y',strtotime($tgl['tgl_kep_kades']));
+          }
+          elseif($v['kategori'] == 3)
+          {
+            $tahun = date('Y',strtotime($tgl['tgl_ditetapkan']));
+          }
+					
 					$data = array(
 						'tahun' => $tahun, 
 					);
@@ -33,8 +41,16 @@ class Migrasi_1909_ke_1910 extends CI_model {
 			{
 				foreach ($res as $v) 
 				{
-					$tgl_lapor =  json_decode($v['attr'], TRUE);
-					$tahun = date('Y',strtotime($tgl_lapor['tgl_lapor']));
+					$tgl =  json_decode($v['attr'], TRUE);
+          if ($v['kategori'] == 2) 
+          {
+            $tahun = date('Y',strtotime($tgl['tgl_kep_kades']));
+          }
+          elseif($v['kategori'] == 3)
+          {
+            $tahun = date('Y',strtotime($tgl['tgl_ditetapkan']));
+          }
+          
 					$data = array(
 						'tahun' => $tahun, 
 					);
@@ -49,14 +65,14 @@ class Migrasi_1909_ke_1910 extends CI_model {
 		{
 			$fields = array(
         'id' => array(
-              'type' => 'INT',
-              'constraint' => 5,
-              'unsigned' => TRUE,
-              'auto_increment' => TRUE
+            'type' => 'INT',
+            'constraint' => 5,
+            'unsigned' => TRUE,
+            'auto_increment' => TRUE
         ),
         'kategori' => array(
-              'type' => 'VARCHAR',
-              'constraint' => '100'
+            'type' => 'VARCHAR',
+            'constraint' => '100'
         )
 			);
 
