@@ -128,7 +128,7 @@ class Menu extends Admin_Controller {
 			$data['submenu'] = NULL;
 			$data['form_action'] = site_url("menu/insert_sub_menu/$tip/$menu");
 		}
-		// print_r($data['statistik_penduduk']);
+    
 		$this->load->view('menu/ajax_add_sub_menu_form', $data);
 	}
 

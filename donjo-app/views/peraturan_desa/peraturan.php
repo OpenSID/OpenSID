@@ -1,4 +1,4 @@
-<div class="box box-danger">
+<div class="box box-danger" style="padding-bottom: 2rem;">
 	<div class="box-header with-border">
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
@@ -66,7 +66,8 @@
 $(document).ready(function() {
     $('#jdih-table').DataTable({
     	"dom": 'rt<"bottom"p><"clear">',
-    	"destroy": true
+    	"destroy": true,
+      "paging": false
     });
 } );
 
@@ -77,8 +78,6 @@ function ambil_dokumen() {
 
 	$.ajax({
 		type: "POST",
-		// dataType: "html",
-		// url: ,
 		success: function (data) {
 			console.log(kategori);
 			window.location.replace("<?= site_url('first/peraturan_desa/')?>" + kategori + "/" +tahun+ "/"+tentang);

@@ -6,20 +6,13 @@ class Web_dokumen_model extends CI_Model {
 		parent::__construct();
 	}
 
-	// Link untuk ajax_submenu
+	// Link peraturan Desa
 	public function link_peraturan_desa()
 	{
-		$this->db->select('id, judul');
-	    $this->db->where(array(
-	      'id_kategori' => 1002
-	    ));
-	    $results = $this->db->get('artikel')->result_array();
-	    $link = array();
-	    foreach ($results as $result)
-	    {
-	      $link['artikel/'.$result['id']] = $result['judul'];
-	    }
-	    return $link;
+		$link = array(
+      'peraturan_desa' => 'Peraturan Desa'
+    );
+	  return $link;
 	}
 
 	// Lists Dokumen web first
