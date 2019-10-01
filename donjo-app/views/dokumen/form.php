@@ -3,7 +3,7 @@
 		<h1>Pengaturan <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url().$this->controller.'/produk_hukum/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+			<li><a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
 			<li class="active">Pengaturan <?= $kat_nama?></li>
 		</ol>
 	</section>
@@ -13,7 +13,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url().$this->controller.'/produk_hukum/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
             	</a>
 						</div>
@@ -22,12 +22,6 @@
 								<label class="control-label col-sm-4" for="nama">Nama Dokumen</label>
 								<div class="col-sm-6">
 									<input name="nama" class="form-control input-sm" type="text" value="<?=$dokumen['nama']?>"></input>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-4" for="nama">Tahun</label>
-								<div class="col-sm-2">
-									<input name="tahun" class="form-control input-sm" type="number" value="<?=$dokumen['tahun']?>"></input>
 								</div>
 							</div>
 							<?php if ($dokumen['satuan']): ?>

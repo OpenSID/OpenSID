@@ -199,6 +199,8 @@ class Web_dokumen_model extends CI_Model {
 		if ($this->upload_dokumen($data))
 		{
 			$data['attr'] = json_encode($data['attr']);
+      $tgl_lapor = json_decode($data['attr'], TRUE);
+      $data['tahun'] = date('Y', strtotime($tgl_lapor['tgl_lapor']));
 			return $this->db->insert('dokumen', $data);
 		}
 		else return false;
@@ -210,7 +212,9 @@ class Web_dokumen_model extends CI_Model {
 		if (!$this->upload_dokumen($data, $data['old_file']))
 			unset($data['satuan']);
 		$data['attr'] = json_encode($data['attr']);
-		return $this->db->where('id',$id)->update('dokumen', $data);;
+    $tgl_lapor = json_decode($data['attr'], TRUE);
+    $data['tahun'] = date('Y', strtotime($tgl_lapor['tgl_lapor']));
+		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
 
 	public function delete($id='')
