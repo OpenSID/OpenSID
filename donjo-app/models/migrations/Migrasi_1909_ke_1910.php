@@ -43,7 +43,8 @@ class Migrasi_1909_ke_1910 extends CI_model {
 				}
 			}
 		}
-	  	// Penambahan table dokumen_kategori untuk dynamic categories dokumen
+    
+  	// Penambahan table dokumen_kategori untuk dynamic categories dokumen
 		if (!$this->db->table_exists('ref_dokumen'))
 		{
 			$fields = array(
@@ -80,7 +81,7 @@ class Migrasi_1909_ke_1910 extends CI_model {
 			$this->db->insert_batch('ref_dokumen', $object);
 		}
 
-	  	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
+  	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
 		if ($this->db->table_exists('setting_modul'))
 		{
 			$array = array( 59, 60 );
