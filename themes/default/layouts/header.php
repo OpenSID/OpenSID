@@ -44,10 +44,15 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
 
+		<!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
+    <script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
+    <!-- Charts -->
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>

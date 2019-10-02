@@ -41,6 +41,7 @@ class First extends Web_Controller {
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
 		$this->load->model('keluar_model');
+		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
 	}
 
@@ -345,6 +346,21 @@ class First extends Web_Controller {
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/stat.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function peraturan_desa($kategori='', $tahun='', $isi='')
+	{
+		$this->load->model('web_dokumen_model');
+		$data = $this->includes;
+
+		$data['main']    = $this->web_dokumen_model->all_dokumen($kategori, $tahun, $isi);
+		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen');
+		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+		$data['heading']="Jaringan Dokumentasi dan Informasi Hukum - JDIH";
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/peraturan_desa.tpl.php');
 		$this->load->view($this->template, $data);
 	}
 

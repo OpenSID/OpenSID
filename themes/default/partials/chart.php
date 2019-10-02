@@ -1,7 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <div class="block"><head>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
 		<script type="text/javascript">
 $(function () {
     var chart;
