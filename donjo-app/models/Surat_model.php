@@ -113,11 +113,15 @@
 	/*
 	 * Mengambil data penduduk yang telah bersurat untuk pilihan di form arsip layanan (rekam surat perseorangan)
 	 */
-	public function list_penduduk_bersurat_ajax($cari='')
+	public function list_penduduk_bersurat_ajax($cari='',$page='1')
 	{
 
-		// Karena untuk dropdown ambil data penduduk diasumsikan sebatas 1 x page paginasi ( $page =1)
-		$page=1;
+		// Hitung jumlah total
+		$this->list_penduduk_bersurat_ajax_sql($cari);
+		$jml = $this->db->select('count(u.id) as jml')
+				->get()->row()->jml;
+		
+		
 		$resultCount = 25;
 		$offset = ($page - 1) * $resultCount;
 
@@ -137,13 +141,19 @@
 			$penduduk[] = array('id' => $row['id'], 'text' => $info_pilihan_penduduk);
 		}
 
-
+		$endCount = $offset + $resultCount;
+		$morePages = $endCount > $count;
+	
 		$hasil = array(
-		"results" => $penduduk,
+		  "results" => $penduduk,
+		  "pagination" => array(
+			"more" => $morePages
+		  )
 		);
-
+	
 		return $hasil;
 	}
+
 	private function list_penduduk_bersurat_ajax_sql($cari='')
 	{
 		$this->db
