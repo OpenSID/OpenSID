@@ -254,7 +254,8 @@ class Surat extends Admin_Controller {
 	public function list_penduduk_bersurat_ajax()
 	{
 		$cari = $this->input->get('q');
-		$penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari);
+		$page = $this->input->get('page');
+		$penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari,$page);
 		echo json_encode($penduduk);
 	}
 
