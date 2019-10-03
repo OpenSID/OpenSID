@@ -61,7 +61,7 @@ class Menu extends Admin_Controller {
 		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
 		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
 		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
-		$data['statistik_lainnya'] = $this->laporan_penduduk_model->link_statistik_lainnya();
+		$data['statis_lainnya'] = $this->laporan_penduduk_model->link_statis_lainnya();
 		$data['artikel_keuangan'] = $this->keuangan_model->artikel_statis_keuangan();
 
 		if ($id)
@@ -113,7 +113,7 @@ class Menu extends Admin_Controller {
 		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
 		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
 		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
-		$data['statistik_lainnya'] = $this->laporan_penduduk_model->link_statistik_lainnya();
+		$data['statis_lainnya'] = $this->laporan_penduduk_model->link_statis_lainnya();
 		$data['artikel_keuangan'] = $this->keuangan_model->artikel_statis_keuangan();
 
 		if ($id)
@@ -126,7 +126,7 @@ class Menu extends Admin_Controller {
 			$data['submenu'] = NULL;
 			$data['form_action'] = site_url("menu/insert_sub_menu/$tip/$menu");
 		}
-    
+
 		$this->load->view('menu/ajax_add_sub_menu_form', $data);
 	}
 
