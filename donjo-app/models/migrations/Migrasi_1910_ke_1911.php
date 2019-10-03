@@ -4,6 +4,8 @@ class Migrasi_1910_ke_1911 extends CI_model {
   public function up()
   {
   	$this->jdih();
+  	// WNI sebagai nilai default untuk kolom kewarganegaraan
+	  $this->dbforge->modify_column('tweb_penduduk', array('warganegara_id' => array('type' => 'TINYINT', 'constraint' => 4, 'null' => false, 'default' => 1)));
   }
 
   public function jdih()
