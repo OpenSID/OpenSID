@@ -150,9 +150,7 @@ class Auth extends MY_Controller {
 
 			$data['reg_status'] = $this->common_model->select('settings');
 
-			$this->load->config('social_auth_config');
-
-	                $data['reg_email']     = $this->config->item('reg_status');
+			$data['reg_email']     = $this->config->item('reg_status');
 
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
                         
