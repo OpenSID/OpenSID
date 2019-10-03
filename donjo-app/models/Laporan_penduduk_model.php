@@ -55,10 +55,11 @@
 		return $statistik;
 	}
 
-	public function link_statistik_lainnya()
+	public function link_statis_lainnya()
 	{
 		$statistik = array(
-			"wilayah" => "Wilayah Administratif"
+			"wilayah" => "Wilayah Administratif",
+      'peraturan_desa' => 'Peraturan Desa'
 		);
 		return $statistik;
 	}
