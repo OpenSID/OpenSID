@@ -33,11 +33,6 @@
 			$('#artikel_keuangan').show();
 			$('#artikel_keuangan').attr('name', 'link');
 		}
-		else if (jenis == '7')
-		{
-			$('#peraturan_desa').show();
-			$('#peraturan_desa').attr('name', 'link');
-		}
 		else if (jenis == '99')
 		{
 			$('#eksternal').show();
@@ -74,7 +69,6 @@
 								<option value="4" <?php selected($submenu['link_tipe'], "4") ?>>Statistik Program Bantuan</option>
 								<option value="5" <?php selected($submenu['link_tipe'], "5") ?>>Statistik Lainnya</option>
 								<option value="6" <?php selected($submenu['link_tipe'], "6") ?>>Artikel Keuangan</option>
-                <option value="7" <?php selected($submenu['link_tipe'], "7") ?>>Peraturan Desa</option>
 								<option value="99" <?php selected($submenu['link_tipe'], "99") ?>>Eksternal</option>
 							</select>
 						</div>

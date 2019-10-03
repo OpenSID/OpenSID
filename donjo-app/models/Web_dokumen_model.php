@@ -6,15 +6,6 @@ class Web_dokumen_model extends CI_Model {
 		parent::__construct();
 	}
 
-	// Link peraturan Desa
-	public function link_peraturan_desa()
-	{
-		$link = array(
-      'peraturan_desa' => 'Peraturan Desa'
-    );
-	  return $link;
-	}
-
 	// Lists Dokumen web first
 	public function all_dokumen($kategori, $tahun, $isi)
 	{

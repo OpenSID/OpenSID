@@ -58,7 +58,8 @@
 	public function link_statistik_lainnya()
 	{
 		$statistik = array(
-			"wilayah" => "Wilayah Administratif"
+			"wilayah" => "Wilayah Administratif",
+      'peraturan_desa' => 'Peraturan Desa'
 		);
 		return $statistik;
 	}
