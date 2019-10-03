@@ -57,12 +57,6 @@
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 
-		<script>
-			$(document).ready(function(){
-				$(".group2").colorbox({rel:'group2', transition:"fade"});
-				$(".group3").colorbox({rel:'group3', transition:"fade"});
-			});
-		</script>
 	</head>
 	<body>
 		<div id="maincontainer">
