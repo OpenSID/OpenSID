@@ -83,6 +83,7 @@
 
     $this->list_penduduk_ajax_sql($cari, $filter);
 		$this->db
+				->distinct()
 				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
 				->limit($resultCount, $offset);
 		$data = $this->db->get()->result_array();
