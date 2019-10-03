@@ -70,10 +70,8 @@
 	/*
 	 * Mengambil semua data penduduk untuk pilihan di form surat
 	 */
-	public function list_penduduk_ajax($cari='', $filter_in='', $page=1)
+	public function list_penduduk_ajax($cari='', $filter=array(), $page=1)
 	{
-		$filter = is_array($filter_in) ? $filter_in : array('sex' => $filter_in);
-
 		// Hitung jumlah total
 		$this->list_penduduk_ajax_sql($cari, $filter);
 		$jml = $this->db->select('count(u.id) as jml')
