@@ -148,7 +148,7 @@
 			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
 				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success']=-1;
-				redirect('man_user');
+				redirect('users');
 			}
 			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
@@ -238,7 +238,7 @@
 			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])){
 				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success']=-1;
-				redirect('man_user');
+				redirect('users');
 			}
 			// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 			// karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
