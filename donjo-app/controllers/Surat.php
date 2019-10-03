@@ -19,10 +19,13 @@ class Surat extends Admin_Controller {
 
 	public function index()
 	{
-		$header = $this->header_model->get_data();
+		if (!$this->ion_auth->logged_in() || (in_array('4', gp_read())))
+                {
+                $header = $this->header_model->get_data();
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
+                $user = $this->ion_auth->user()->row();
 
 		// Reset untuk surat yang menggunakan session variable
 		unset($_SESSION['id_pria']);
@@ -43,6 +46,12 @@ class Surat extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/format_surat', $data);
 		$this->load->view('footer');
+                }
+                else
+                {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	        }
 	}
 
 	public function panduan()
@@ -87,10 +96,11 @@ class Surat extends Admin_Controller {
 	}
 
 	public function cetak($url = '')
-	{
-		$log_surat['url_surat'] = $url;
+	{            
+                $user = $this->ion_auth->user()->row();
+                $log_surat['url_surat'] = $url;
 		$log_surat['pamong_nama'] = $_POST['pamong'];
-		$log_surat['id_user'] = $_SESSION['user'];
+		$log_surat['id_user'] = $user->id;
 		$log_surat['no_surat'] = $_POST['nomor'];
 
 		$id = $_POST['nik'];
@@ -119,10 +129,11 @@ class Surat extends Admin_Controller {
 
 	public function doc($url = '')
 	{
-		$format = $this->surat_model->get_surat($url);
+		$user = $this->ion_auth->user()->row();
+                $format = $this->surat_model->get_surat($url);
 		$log_surat['url_surat'] = $format['id'];
 		$log_surat['id_pamong'] = $_POST['pamong_id'];
-		$log_surat['id_user'] = $_SESSION['user'];
+		$log_surat['id_user'] = $user->id;
 		$log_surat['no_surat'] = $_POST['nomor'];
 		$id = $_POST['nik'];
 		$keperluan = $_POST['keperluan'];
@@ -191,7 +202,8 @@ class Surat extends Admin_Controller {
 
 	private function get_data_untuk_form($url, &$data)
 	{
-		$this->load->model('pamong_model');
+		$user = $this->ion_auth->user()->row();
+                $this->load->model('pamong_model');
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat'] = $this->surat_model->get_surat($url);
 		$data['input'] = $this->input->post();
@@ -203,6 +215,7 @@ class Surat extends Admin_Controller {
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+                $data['user'] = $user->username;
 		if ($pamong_ttd)
 		{
 			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);

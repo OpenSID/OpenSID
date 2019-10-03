@@ -23,7 +23,9 @@ class Keuangan extends Admin_Controller {
 
 	public function laporan()
 	{
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		if (!$this->ion_auth->logged_in() || (in_array('203', gp_read())))
+                {
+                $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$sess = array(
 			'set_tahun' => $data['tahun_anggaran'][0],
 			'set_semester' => 1
@@ -41,6 +43,12 @@ class Keuangan extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('keuangan/laporan',$data);
 		$this->load->view('footer');
+                }
+                else
+                {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	        }
 	}
 
 	public function anggaran($tahun, $smt)
@@ -256,7 +264,9 @@ class Keuangan extends Admin_Controller {
 
 	public function impor_data()
 	{
-		$data['main'] = $this->keuangan_model->list_data();
+		if (!$this->ion_auth->logged_in() || (in_array('202', gp_read())))
+                {
+                $data['main'] = $this->keuangan_model->list_data();
 		$data['form_action'] = site_url("keuangan/proses_impor");
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 202;
@@ -264,6 +274,12 @@ class Keuangan extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('keuangan/impor_data', $data);
 		$this->load->view('footer');
+                }
+                else
+                {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	        }
 	}
 
 	public function proses_impor()

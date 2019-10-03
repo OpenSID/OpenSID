@@ -11,8 +11,9 @@ class Penduduk extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('header_model');
-		$this->modul_ini = 2;
-	}
+                $this->modul_ini = 2;
+
+         }
 
 	private function clear_session()
 	{
@@ -53,7 +54,11 @@ class Penduduk extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-		$data['p'] = $p;
+                               
+               if (!$this->ion_auth->logged_in() || (in_array('21', gp_read())))
+               {
+
+                $data['p'] = $p;
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
@@ -144,7 +149,7 @@ class Penduduk extends Admin_Controller {
 			$data['status_ktp'] = $_SESSION['status_ktp'];
 		else $data['status_ktp'] = '';
 
-		if (isset($_POST['per_page']))
+                if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
@@ -153,21 +158,36 @@ class Penduduk extends Admin_Controller {
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
-		$header = $this->header_model->get_data();
+		
+                
+                $header = $this->header_model->get_data();
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 21;
 		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
+         
+                $this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/penduduk', $data);
 		$this->load->view('footer');
+                
+              
+               }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
+                
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
-		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
+		
+                if (!$this->ion_auth->logged_in() || (in_array('21', gp_create())))
+                {
+
+                // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 			unset($_SESSION['validation_error']);
 
@@ -242,21 +262,32 @@ class Penduduk extends Admin_Controller {
 		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
-		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
-		$nav['act']= 2;
+                $nav['act']= 2;
 		$nav['act_sub'] = 21;
 		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
-		$this->load->view('header', $header);
+
+                $this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/penduduk_form', $data);
 		$this->load->view('footer');
+
+               }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
 	}
 
 	public function detail($p = 1, $o = 0, $id = '')
 	{
-		$data['p'] = $p;
+		
+                if (!$this->ion_auth->logged_in() || (in_array('21', gp_read())))
+                {               
+
+                $data['p'] = $p;
 		$data['o'] = $o;
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
@@ -264,11 +295,18 @@ class Penduduk extends Admin_Controller {
 		$header['minsidebar'] = 1;
 		$nav['act']= 2;
 		$nav['act_sub'] = 21;
-
+                         
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/penduduk_detail', $data);
 		$this->load->view('footer');
+
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
 	}
 
 	public function dokumen($id = '')
@@ -324,26 +362,51 @@ class Penduduk extends Admin_Controller {
 
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
+		if (!$this->ion_auth->logged_in() || (in_array('21', gp_delete())))
+                {  
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
-		redirect("penduduk/dokumen/$id_pend");
+                redirect("penduduk/dokumen/$id_pend");
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
+                
 	}
 
 	public function delete_all_dokumen($id_pend = 0)
 	{
-		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
+		if (!$this->ion_auth->logged_in() || (in_array('21', gp_delete())))
+                {
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
-		redirect("penduduk/dokumen/$id_pend");
+                redirect("penduduk/dokumen/$id_pend");
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
+               
 	}
 
 	public function cetak_biodata($id = '')
 	{
-		$header = $this->header_model->get_data();
+		if (!$this->ion_auth->logged_in() || (in_array('21', gp_print())))
+                {
+                $header = $this->header_model->get_data();
 		$data['desa'] = $header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$this->load->view('sid/kependudukan/cetak_biodata', $data);
+                $this->load->view('sid/kependudukan/cetak_biodata', $data);
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
+                
 	}
 
 	public function search()
@@ -451,16 +514,37 @@ class Penduduk extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "penduduk/index/$p/$o");
+		
+                if (!$this->ion_auth->logged_in() || (in_array('21', gp_delete())))
+                {
+                
 		$this->penduduk_model->delete($id);
-		redirect("penduduk/index/$p/$o");
+                redirect("penduduk/index/$p/$o");
+
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
+
+                
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "penduduk/index/$p/$o");
+		
+                if (!$this->ion_auth->logged_in() || (in_array('21', gp_delete())))
+                {
 		$this->penduduk_model->delete_all();
 		redirect("penduduk/index/$p/$o");
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
+                
 	}
 
 	public function ajax_adv_search()
@@ -640,14 +724,30 @@ class Penduduk extends Admin_Controller {
 
 	public function cetak($o = 0)
 	{
-		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/penduduk_print', $data);
+		if (!$this->ion_auth->logged_in() || (in_array('21', gp_print())))
+                {
+                $data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
+                $this->load->view('sid/kependudukan/penduduk_print', $data);
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
 	}
 
 	public function excel($o = 0)
 	{
-		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/penduduk_excel', $data);
+		if (!$this->ion_auth->logged_in() || (in_array('21', gp_print())))
+                {
+                $data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
+                $this->load->view('sid/kependudukan/penduduk_excel', $data);
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
 	}
 
 	public function statistik($tipe = 0, $nomor = 0, $sex = NULL)
