@@ -33,7 +33,11 @@ class Keluarga extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-		$data['p'] = $p;
+		if (!$this->ion_auth->logged_in() || (in_array('22', gp_read())))
+               
+               {
+
+                $data['p'] = $p;
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
@@ -93,6 +97,14 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga', $data);
 		$this->load->view('footer');
+
+
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
 	}
 
 	public function cetak($o=0)

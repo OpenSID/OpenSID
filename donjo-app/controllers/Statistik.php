@@ -16,7 +16,10 @@ class Statistik extends Admin_Controller {
 
 	public function index($lap = 0, $o = 0)
 	{
-		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
+		
+                if (!$this->ion_auth->logged_in() || (in_array('27', gp_read())))
+                {
+               // $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
 		$data['lap'] = $lap;
 		$data['judul_kelompok'] = "Jenis Kelompok";
@@ -29,6 +32,12 @@ class Statistik extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk', $data);
 		$this->load->view('footer');
+                }
+                else
+                {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	        }
 	}
 
 	public function clear()

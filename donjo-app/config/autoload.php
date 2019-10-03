@@ -58,7 +58,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database');
+$autoload['libraries'] = array('database', 'session', 'ion_auth', 'form_validation');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array('session');
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','donjolib','date','pict','opensid','database','surat');
+$autoload['helper'] = array('url', 'my_helper', 'session', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat', 'html','language','form','country_helper');
 
 /*
 | -------------------------------------------------------------------
@@ -117,7 +117,7 @@ $autoload['config'] = array('sid_ini');
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
 |
 */
-$autoload['language'] = array();
+$autoload['language'] = array('auth');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('setting_model', 'folder_desa_model');
+$autoload['model'] = array('setting_model', 'folder_desa_model', 'common_model', 'Users_modal', 'Users_groups', 'modul_model', 'header_model');

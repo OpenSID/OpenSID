@@ -161,7 +161,7 @@
 			{
 				$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success'] = -1;
-				redirect('man_user');
+				redirect('users');
 			}
 			// Inisialisasi library 'upload'
 			$this->upload->initialize($this->uploadConfig);
@@ -263,7 +263,7 @@
 			{
 				$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success'] = -1;
-				redirect('man_user');
+				redirect('users');
 			}
 			// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 			// karakter maksimal yang bisa ditampung kolom surat_masuk.berkas_scan hanya 100 karakter

@@ -101,7 +101,7 @@
 			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
 			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
 			LEFT JOIN tweb_penduduk p ON s.id_pend = p.id
-			LEFT JOIN user w ON u.id_user = w.id
+			LEFT JOIN users w ON u.id_user = w.id
 			WHERE 1 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
@@ -128,7 +128,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.username AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
 
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $order_sql;
@@ -202,7 +202,7 @@
 			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
 			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
 			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
-			LEFT JOIN user w ON u.id_user = w.id
+			LEFT JOIN users w ON u.id_user = w.id
 			WHERE 1 ";
 		$sql .= $this->filterku_sql($nik);
 		return $sql;
@@ -227,7 +227,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.username AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
 
 		$sql = $select_sql . $this->list_data_perorangan_sql($nik);
 		$sql .= $order_sql;

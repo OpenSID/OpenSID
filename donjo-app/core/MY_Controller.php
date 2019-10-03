@@ -128,52 +128,35 @@ class Web_Controller extends MY_Controller
 	}
 }
 
-/**
- *
- */
+
 class Admin_Controller extends MY_Controller
 {
-	public $grup;
-	public $CI = NULL;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->CI = & get_instance();
- 		$this->controller = strtolower($this->router->fetch_class());
+                $this->CI = & get_instance();
+ 	        $this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+		            
 
-		$this->load->model('modul_model');
-		if (!$this->modul_model->modul_aktif($this->controller))
+                if (!$this->ion_auth->logged_in())
 		{
-			session_error("Fitur ini tidak aktif");
-			redirect('/');
+			redirect('auth', 'refresh');
 		}
-		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
-		{
-			if (empty($this->grup))
-			{
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-				redirect('siteman');
-			}
-			else
-			{
-				session_error("Anda tidak mempunyai akses pada fitur ini");
-				unset($_SESSION['request_uri']);
-				redirect('/');
-			}
-		}
+
+                		        	
 	}
 
-	protected function redirect_hak_akses($akses, $redirect='', $controller='')
+
+        protected function redirect_hak_akses($akses, $redirect='', $controller='')
 	{
 		if (empty($controller))
 			$controller = $this->controller;
 		if (!$this->user_model->hak_akses($this->grup, $controller, $akses))
 		{
 			session_error("Anda tidak mempunyai akses pada fitur ini");
-			if (empty($this->grup)) redirect('siteman');
+			if (empty($this->grup)) redirect('auth');
 			empty($redirect) ? redirect('/') : redirect($redirect);
 		}
 	}
@@ -184,5 +167,11 @@ class Admin_Controller extends MY_Controller
 			$controller = $this->controller;
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
+
+	
 }
+/**
+ *
+ */
+
 

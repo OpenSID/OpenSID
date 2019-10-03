@@ -21,7 +21,9 @@ class Kelompok extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-    unset($_SESSION['kelompok']);
+                if (!$this->ion_auth->logged_in() || (in_array('24', gp_read())))
+               {
+                unset($_SESSION['kelompok']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -51,6 +53,12 @@ class Kelompok extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('kelompok/table', $data);
 		$this->load->view('footer');
+                }
+               else
+               {
+		  $data['page'] = "errors/html/error_access";
+                  $this->load->view('dashboard',$data);
+	       }
 	}
 
 	public function anggota($id=0)

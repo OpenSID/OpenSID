@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
 			<?=$this->setting->admin_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
@@ -53,19 +53,12 @@
 		<?php endif; ?>
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-    <script src="<?= base_url()?>assets/js/turf.min.js"></script>
+    		<script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
-		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
-		<script type="text/javascript">
-			var BASE_URL = "<?= base_url(); ?>";
-		</script>
-		
-		<!-- Highcharts JS -->
-		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+
+		    		  
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
@@ -80,52 +73,71 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
+
+					<?php $user = $this->ion_auth->user()->row(); ?>
+							
 								<li>
 									<a href="<?=site_url()?>komentar">
-										<i class="fa fa-commenting fa-lg" title="Komentar baru"></i><span class="badge" id="b_komentar"></span>
+									<i class="fa fa-commenting fa-lg" title="Komentar baru"></i><span class="badge" id="b_komentar"></span>
 									</a>
 								</li>
-							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'lapor')): ?>
 								<li>
 									<a href="<?=site_url()?>lapor">
-										<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span>
-									</a>
+									<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span></a>
 								</li>
-							<?php endif; ?>
-							<li class="dropdown user user-menu">
+		
+		<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<?php if ($foto): ?>
-									<img src="<?= AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
-								<?php else :?>
-									<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
-								<?php endif; ?>
-									<span class="hidden-xs"><?=$nama?> </span>
+								<?php 
+            		if (empty($user->user_img)) 
+            		{
+            			
+            	?>
+            		<img src="<?php bs() ?>assets/files/user_pict/kuser.png" class="img-circle" width="18" alt="">
+            	<?php	
+            		} 
+            		else {
+            	?>
+                	<img src="<?php bs() ?>assets/files/user_pict/<?php echo $user->user_img ?>" class="img-circle" width="18" alt="">
+            	<?php		
+            		}
+            		
+
+            	 ?> 
+									<span class="hidden-xs"><?php echo $user->username;?> </span>
 								</a>
-								<ul class="dropdown-menu">
+                                                                 <ul class="dropdown-menu">
 									<li class="user-header">
-										<?php if ($foto): ?>
-											<img src="<?=AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
-										<?php else :?>
-											<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-										<?php endif; ?>
+										<?php 
+            		if (empty($user->user_img)) 
+            		{
+            			
+            	?>
+            		<img src="<?php bs() ?>assets/files/user_pict/kuser.png" class="img-circle" width="100" alt="">
+            	<?php	
+            		} 
+            		else {
+            	?>
+                	<img src="<?php bs() ?>assets/files/user_pict/<?php echo $user->user_img ?>" class="img-circle" width="100" alt="">
+            	<?php		
+            		}
+            		
+
+            	 ?> 
 										<p>Anda Login Sebagai</p>
-										<p><strong><?=$nama?></strong></p>
+										<p><strong><?php echo $user->username;?></p>
 									</li>
 									<li class="user-footer">
 										<div class="pull-left">
-											<a href="<?=site_url()?>user_setting/" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox">
-												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
+											<a href="<?=site_url()?>users/profile" class="btn bg-maroon btn-flat btn-sm" >Profil</button>
 											</a>
 										</div>
 										<div class="pull-right">
-											<a href="<?=site_url()?>siteman" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
+											<a href="<?=site_url()?>auth/logout" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
 										</div>
 									</li>
 								</ul>
 							</li>
-						</ul>
 					</div>
 				</nav>
 			</header>

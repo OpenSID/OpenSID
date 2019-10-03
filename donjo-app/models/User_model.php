@@ -17,18 +17,18 @@ class User_model extends CI_Model {
 	{
 		parent::__construct();
 		// Untuk dapat menggunakan library upload
-		$this->load->library('upload');
+		//$this->load->library('upload');
 		// Untuk dapat menggunakan fungsi generator()
 		$this->load->helper('donjolib');
-		$this->uploadConfig = array(
-			'upload_path' => LOKASI_USER_PICT,
-			'allowed_types' => 'gif|jpg|jpeg|png',
-			'max_size' => max_upload()*1024,
-		);
+		//$this->uploadConfig = array(
+		//	'upload_path' => LOKASI_USER_PICT,
+		//	'allowed_types' => 'gif|jpg|jpeg|png',
+		//	'max_size' => max_upload()*1024,
+		//);
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
-        // Helper upload file
+                // Helper upload file
 		$this->load->helper('pict_helper');
 	}
 
@@ -678,7 +678,7 @@ class User_model extends CI_Model {
 		}
 		// Group admin punya akses global
 		// b = baca; u = ubah; h= hapus
-		if ($group == 1) return true;
+		if ($group == 0) return true;
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 

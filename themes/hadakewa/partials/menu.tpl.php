@@ -66,7 +66,7 @@ navigasi ke tautannya.
 				<?php }?>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<a href="<?php echo site_url('siteman') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-lock fa-lg"></i> Login Admin</button></a>
+				<a href="<?php echo site_url('auth/login') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-lock fa-lg"></i> Login Admin</button></a>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div>
