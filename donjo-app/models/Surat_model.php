@@ -109,6 +109,64 @@
 		return $hasil;
 	}
 
+
+	/*
+	 * Mengambil data penduduk yang telah bersurat untuk pilihan di form arsip layanan (rekam surat perseorangan)
+	 */
+	public function list_penduduk_bersurat_ajax($cari='',$page='1')
+	{
+
+		// Hitung jumlah total
+		$this->list_penduduk_bersurat_ajax_sql($cari);
+		$jml = $this->db->select('count(u.id) as jml')
+				->get()->row()->jml;
+		
+		
+		$resultCount = 25;
+		$offset = ($page - 1) * $resultCount;
+
+		$this->list_penduduk_bersurat_ajax_sql($cari);
+		$this->db
+				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
+				->limit($resultCount, $offset);
+		$data = $this->db->get()->result_array();
+
+		
+		$penduduk = array();
+		foreach($data as $row)
+		{
+			$nama = addslashes($row['nama']);
+			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
+			$info_pilihan_penduduk = "NIK/Tag ID Card : {$row['nik']}/{$row['tag_id_card']} - {$nama}\n{$alamat}";
+			$penduduk[] = array('id' => $row['id'], 'text' => $info_pilihan_penduduk);
+		}
+
+		$endCount = $offset + $resultCount;
+		$morePages = $endCount > $count;
+	
+		$hasil = array(
+		  "results" => $penduduk,
+		  "pagination" => array(
+			"more" => $morePages
+		  )
+		);
+	
+		return $hasil;
+	}
+
+	private function list_penduduk_bersurat_ajax_sql($cari='')
+	{
+		$this->db
+				->from('tweb_penduduk u')
+				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+				->join('log_surat h', 'u.id = h.id_pend')
+				->where('status_dasar', 1);		
+		if ($cari)
+		{
+			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
+		}
+	}
+
 	/*
 	 * Mengambil semua data penduduk untuk pilihan di form surat
 	 * Digunakan juga oleh method lain dengan tambahan kriteria penduduk
@@ -185,7 +243,7 @@
 		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 		left join tweb_keluarga k on u.id_kk = k.id
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-		left join tweb_penduduk_status s on u.status = s.id
+		left join tweb_penduduk_status s on u.status = s.id		
 		WHERE u.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
