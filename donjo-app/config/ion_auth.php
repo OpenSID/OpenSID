@@ -1,26 +1,37 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 /**
-* Name:  Ion Auth
-*
-* Version: 2.5.2
-*
-* Author: Ben Edmunds
-*		  ben.edmunds@gmail.com
-*         @benedmunds
-*
-* Added Awesomeness: Phil Sturgeon
-*
-* Location: http://github.com/benedmunds/CodeIgniter-Ion-Auth
-*
-* Created:  10.01.2009
-*
-* Description:  Modified auth system based on redux_auth with extensive customization.  This is basically what Redux Auth 2 should be.
-* Original Author name has been kept but that does not mean that the method has not been modified.
-*
-* Requirements: PHP5 or above
-*
-*/
+ * Name:    Ion Auth
+ * Author:  Ben Edmunds
+ *           ben.edmunds@gmail.com
+ *           @benedmunds
+ *
+ * Added Awesomeness: Phil Sturgeon
+ *
+ * Created:  10.01.2009
+ *
+ * Description:  Modified auth system based on redux_auth with extensive customization. This is basically what Redux Auth 2 should be.
+ * Original Author name has been kept but that does not mean that the method has not been modified.
+ *
+ * Requirements: PHP5.6 or above
+ *
+ * @package    CodeIgniter-Ion-Auth
+ * @author     Ben Edmunds
+ * @link       http://github.com/benedmunds/CodeIgniter-Ion-Auth
+ * @filesource
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/*
+ | -------------------------------------------------------------------------
+ | Database group name option.
+ | -------------------------------------------------------------------------
+ | Allows to select a specific group for the database connection
+ |
+ | Default is empty: uses default group defined in CI's configuration
+ | (see application/config/database.php, $active_group variable)
+ */
 $config['database_group_name'] = '';
+
 /*
 | -------------------------------------------------------------------------
 | Tables.
@@ -43,32 +54,55 @@ $config['join']['groups'] = 'group_id';
 
 /*
  | -------------------------------------------------------------------------
- | Hash Method (sha1 or bcrypt)
+ | Hash Method (bcrypt or argon2)
  | -------------------------------------------------------------------------
  | Bcrypt is available in PHP 5.3+
+ | Argon2 is available in PHP 7.2
  |
- | IMPORTANT: Based on the recommendation by many professionals, it is highly recommended to use
- | bcrypt instead of sha1.
+ | Argon2 is recommended by expert (it is actually the winner of the Password Hashing Competition
+ | for more information see https://password-hashing.net). So if you can (PHP 7.2), go for it.
  |
- | NOTE: If you use bcrypt you will need to increase your password column character limit to (80)
+ | Bcrypt specific:
+ | 		bcrypt_default_cost settings:  This defines how strong the encryption will be.
+ | 		However, higher the cost, longer it will take to hash (CPU usage) So adjust
+ | 		this based on your server hardware.
  |
- | Below there is "default_rounds" setting.  This defines how strong the encryption will be,
- | but remember the more rounds you set the longer it will take to hash (CPU usage) So adjust
- | this based on your server hardware.
+ | 		You can (and should!) benchmark your server. This can be done easily with this little script:
+ | 		https://gist.github.com/Indigo744/24062e07477e937a279bc97b378c3402
  |
- | If you are using Bcrypt the Admin password field also needs to be changed in order to login as admin:
- | $2y$: $2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa
- | $2a$: $2a$08$6TTcWD1CJ8pzDy.2U3mdi.tpl.nYOR1pwYXwblZdyQd9SL16B7Cqa
+ | 		With bcrypt, an example hash of "password" is:
+ | 		$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa
  |
- | Be careful how high you set max_rounds, I would do your own testing on how long it takes
- | to encrypt with x rounds.
+ |		A specific parameter bcrypt_admin_cost is available for user in admin group.
+ |		It is recommended to have a stronger hashing for administrators.
  |
- | salt_prefix: Used for bcrypt. Versions of PHP before 5.3.7 only support "$2a$" as the salt prefix
- | Versions 5.3.7 or greater should use the default of "$2y$".
+ | Argon2 specific:
+ | 		argon2_default_params settings:  This is an array containing the options for the Argon2 algorithm.
+ | 		You can define 3 differents keys:
+ | 			memory_cost (default 4096 kB)
+ |				Maximum memory (in kBytes) that may be used to compute the Argon2 hash
+ |				The spec recommends setting the memory cost to a power of 2.
+ | 			time_cost (default 2)
+ |				Number of iterations (used to tune the running time independently of the memory size).
+                This defines how strong the encryption will be.
+ | 			threads (default 2)
+ |				Number of threads to use for computing the Argon2 hash
+ |				The spec recommends setting the number of threads to a power of 2.
+ |
+ | 		You can (and should!) benchmark your server. This can be done easily with this little script:
+ | 		https://gist.github.com/Indigo744/e92356282eb808b94d08d9cc6e37884c
+ |
+ | 		With argon2, an example hash of "password" is:
+ | 		$argon2i$v=19$m=1024,t=2,p=2$VEFSSU4wSzh3cllVdE1JZQ$PDeks/7JoKekQrJa9HlfkXIk8dAeZXOzUxLBwNFbZ44
+ |
+ |		A specific parameter argon2_admin_params is available for user in admin group.
+ |		It is recommended to have a stronger hashing for administrators.
+ |
+ | For more information, check the password_hash function help: http://php.net/manual/en/function.password-hash.php
+ |
  */
-$config['hash_method']    = 'bcrypt';	// sha1 or bcrypt, bcrypt is STRONGLY recommended
+$config['hash_method']				= 'bcrypt';	// bcrypt or argon2
 $config['bcrypt_default_cost']		= 10;		// Set cost according to your server benchmark - but no lower than 10 (default PHP value)
-
 $config['bcrypt_admin_cost']		= 12;		// Cost for user in admin group
 $config['argon2_default_params']	= [
 	'memory_cost'	=> 1 << 12,	// 4MB
@@ -85,13 +119,19 @@ $config['argon2_admin_params']		= [
  | -------------------------------------------------------------------------
  | Authentication options.
  | -------------------------------------------------------------------------
- | maximum_login_attempts: This maximum is not enforced by the library, but is
- | used by $this->ion_auth->is_max_login_attempts_exceeded().
- | The controller should check this function and act
- | appropriately. If this variable set to 0, there is no maximum.
+ | maximum_login_attempts: 	This maximum is not enforced by the library, but is used by
+ | 							is_max_login_attempts_exceeded().
+ | 							The controller should check this function and act appropriately.
+ | 							If this variable set to 0, there is no maximum.
+ | min_password_length:		This minimum is not enforced directly by the library.
+ | 							The controller should define a validation rule to enforce it.
+ | 							See the Auth controller for an example implementation.
+ |
+ | The library will fail for empty password or password size above 4096 bytes.
+ | This is an arbitrary (long) value to protect against DOS attack.
  */
-$config['site_title']                 = "Login System";       // Site Title, example.com
-$config['admin_email']                = "admin@gmail.com"; // Admin Email, admin@example.com
+$config['site_title']                 = "opendesa.id";       // Site Title, example.com
+$config['admin_email']                = "admin@opendesa.id"; // Admin Email, admin@example.com
 $config['default_group']              = 'members';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'email';             /* You can use any unique column in your table as identity column.
@@ -124,7 +164,6 @@ $config['recheck_timer']              = 0;                   /* The number of se
  */
 $config['remember_cookie_name'] = 'remember_code';
 
-
 /*
  | -------------------------------------------------------------------------
  | Email options.
@@ -133,10 +172,17 @@ $config['remember_cookie_name'] = 'remember_code';
  | 	  'file' = Use the default CI config or use from a config file
  | 	  array  = Manually set your email config settings
  */
-$config['use_ci_email'] = FALSE; // Send Email using the builtin CI email class, if false it will return the code and the identity
+$config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
 $config['email_config'] = array(
-	'mailtype' => 'html',
-);
+                        'protocol' => 'mail',
+                        'smtp_host' => 'smtp.hosting.com',
+                        'smtp_user' => 'admin@opendesa.id',
+                        'smtp_pass' => 'password',
+                        'smtp_port' => '587',   
+                        'mailtype' => 'html',
+                        'charset' => 'utf-8',
+                        'wordwrap' => TRUE
+                     );
 
 /*
  | -------------------------------------------------------------------------
@@ -165,28 +211,6 @@ $config['email_forgot_password'] = 'forgot_password.tpl.php';
 
 /*
  | -------------------------------------------------------------------------
- | Forgot Password Complete Email Template
- | -------------------------------------------------------------------------
- | Default: new_password.tpl.php
- */
-$config['email_forgot_password_complete'] = 'new_password.tpl.php';
-
-/*
- | -------------------------------------------------------------------------
- | Salt options
- | -------------------------------------------------------------------------
- | salt_length Default: 22
- |
- | store_salt: Should the salt be stored in the database?
- | This will change your password encryption algorithm,
- | default password, 'password', changes to
- | fbaa5e216d163a02ae630ab1a43372635dd374c0 with default salt.
- */
-$config['salt_length'] = 22;
-$config['store_salt']  = FALSE;
-
-/*
- | -------------------------------------------------------------------------
  | Message Delimiters.
  | -------------------------------------------------------------------------
  */
@@ -195,6 +219,3 @@ $config['message_start_delimiter'] = '<p>'; 	// Message start delimiter
 $config['message_end_delimiter']   = '</p>'; 	// Message end delimiter
 $config['error_start_delimiter']   = '<p>';		// Error message start delimiter
 $config['error_end_delimiter']     = '</p>';	// Error message end delimiter
-
-/* End of file ion_auth.php */
-/* Location: ./application/config/ion_auth.php */

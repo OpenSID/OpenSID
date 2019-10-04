@@ -121,10 +121,11 @@ $config['session_data'] = 'password,first_name';
  | 	  'file' = Use the default CI config or use from a config file
  | 	  array  = Manually set your email config settings
  */
-$config['use_ci_email'] = FALSE; // Send Email using the builtin CI email class, if false it will return the code and the identity
-$config['email_config'] = array(
-	'mailtype' => 'html',
-);
+$config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
+$config['email_config'] = array(                        
+                                'mailtype' => 'html',
+                  
+                  );
 
 /*
  | -------------------------------------------------------------------------
