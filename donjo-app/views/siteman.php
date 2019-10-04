@@ -47,20 +47,17 @@
 												var counter = eval(<?php echo json_encode($_SESSION['siteman_timeout'])?>) - eval(<?php echo json_encode(time())?>);
 												myVar= setInterval(function(){
 													if(counter>=0){
-														document.getElementById("countdown").innerHTML = counter;
-													}
-													
-													if(counter==0){
+														document.getElementById("countdown").innerHTML = counter;//catatan: tambahkan script untuk conver ke Waktu IND
+													}else{
 														location.reload();
 													}
 													counter--;
 												}, 1000)
 											}
 										</script>
-		
 										<div class="error login-footer-top">
-										<script>start_countdown();</script>
-										<p style="color:red; text-transform:uppercase">  Gagal 3 kali silakan coba kembali dalam <b id="countdown"> </b> detik lagi</p>
+											<script>start_countdown();</script>
+											<p style="color:red; text-transform:uppercase">  Gagal 3 kali silakan coba kembali dalam <b id="countdown"> </b> detik lagi</p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
