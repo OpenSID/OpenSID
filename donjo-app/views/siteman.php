@@ -44,20 +44,24 @@
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<script type="text/javascript">
 											function start_countdown(){
-												var counter = eval(<?php echo json_encode($_SESSION['siteman_timeout'])?>) - eval(<?php echo json_encode(time())?>);
-												myVar= setInterval(function(){
-													if(counter>=0){
-														document.getElementById("countdown").innerHTML = counter;//catatan: tambahkan script untuk conver ke Waktu IND
-													}else{
+												var times = eval(<?php echo json_encode($_SESSION['siteman_timeout'])?>) - eval(<?php echo json_encode(time())?>);
+												var menit = Math.floor(times / 60); var detik = times % 60;
+												timer= setInterval(function(){
+													detik--;
+													if(detik <= 0 && menit >=1){
+														detik = 60; menit--;
+													}
+													if(menit <= 0 && detik <= 0){
+														clearInterval(timer);
 														location.reload();
 													}
-													counter--;
+													document.getElementById("countdown").innerHTML = "Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK ";//catatan: tambahkan script untuk conver ke Waktu IND
 												}, 1000)
 											}
 										</script>
 										<div class="error login-footer-top">
 											<script>start_countdown();</script>
-											<p style="color:red; text-transform:uppercase">  Gagal 3 kali silakan coba kembali dalam <b id="countdown"> </b> detik lagi</p>
+											<p id="countdown" style="color:red; text-transform:uppercase"></b></p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
