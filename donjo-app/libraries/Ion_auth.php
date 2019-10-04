@@ -265,7 +265,7 @@ class Ion_auth
 			}
 
 			// deactivate so the user must follow the activation flow
-			$deactivate = $this->ion_auth_model->deactivate($id);
+			$deactivate = $this->deactivate($id);
 
 			// the deactivate method call adds a message, here we need to clear that
 			$this->ion_auth_model->clear_messages();
@@ -342,10 +342,6 @@ class Ion_auth
 
 		// Destroy the session
 		$this->session->sess_destroy();
-
-		// Recreate the session
-		session_start();
-		$this->session->sess_regenerate(TRUE);
 
 		$this->set_message('logout_successful');
 		return TRUE;
@@ -431,6 +427,24 @@ class Ion_auth
 		}
 	}
 
+	public function deactivate($id = NULL)
+	{
+		$this->trigger_events('deactivate');
+
+		if (!isset($id))
+		{
+			$this->set_error('deactivate_unsuccessful');
+			return FALSE;
+		}
+		else if ($this->logged_in() && $this->user()->row()->id == $id)
+		{
+			$this->set_error('deactivate_current_user_unsuccessful');
+			return FALSE;
+		}
+
+		return $this->ion_auth_model->deactivate($id);
+	}
+	
 	public function get_user_group($value='')
 	{
 
@@ -456,4 +470,5 @@ class Ion_auth
 		$chk = $this->session->userdata('group_id');
 		return $chk;
 	}
+
 }
