@@ -21,6 +21,7 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		
 	</head>
 	<body class="login">
 		<div class="top-content">
@@ -41,8 +42,25 @@
 							<div class="form-bottom">
 								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
 									<?php if ($_SESSION['siteman_wait']==1): ?>
+										<script type="text/javascript">
+											function start_countdown(){
+												var counter = eval(<?php echo json_encode($_SESSION['siteman_timeout'])?>) - eval(<?php echo json_encode(time())?>);
+												myVar= setInterval(function(){
+													if(counter>=0){
+														document.getElementById("countdown").innerHTML = counter;
+													}
+													
+													if(counter==0){
+														location.reload();
+													}
+													counter--;
+												}, 1000)
+											}
+										</script>
+		
 										<div class="error login-footer-top">
-										<p style="color:red; text-transform:uppercase">Gagal 3 kali, silakan coba kembali dalam <?= waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> lagi</p>
+										<script>start_countdown();</script>
+										<p style="color:red; text-transform:uppercase">  Gagal 3 kali silakan coba kembali dalam <b id="countdown"> </b> detik lagi</p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
