@@ -2795,9 +2795,8 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 	}
-
-
-        public function user_group_id($id)
+	
+	public function user_group_id($id)
 	{
 		$this->db->select('*');
 		$this->db->from('users');
