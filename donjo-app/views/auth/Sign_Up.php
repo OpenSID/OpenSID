@@ -1,41 +1,46 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			<?=$this->setting->login_title
+				. ' ' . ucwords($this->setting->sebutan_desa)
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']: '')
+				. get_dynamic_title_page_from_path();
+			?>
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
+                
+		<?php if (is_file("desa/css/siteman.css")): ?>
+			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php endif; ?>
+		<?php if (is_file(LOKASI_LOGO_DESA ."favicon.ico")): ?>
+			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
+		<?php else: ?>
+			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
+		<?php endif; ?>
+	</head>
+	<body class="login">
+		<div class="top-content">
+			<div class="inner-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3 form-box">
+							<div class="form-top">
+								<a href="<?=site_url(); ?>first/"><img src="<?=LogoDesa($desa['logo']);?>" alt="<?=$desa['nama_desa']?>" class="img-responsive" /></a>
+								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$desa['nama_desa']?></h1>
+									<h3>
+										<br /><?=$desa['alamat_kantor']?><br />Kodepos <?=$desa['kode_pos']?>
+										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$desa['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$desa['nama_kabupaten']?>
+									</h3>
+								</div>
+								<hr />
+							</div>
+							<div class="form-bottom">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign UP</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="<?= bs() ?>public/assets/css/iofrm-style.css">
-    <link rel="stylesheet" type="text/css" href="<?= bs() ?>public/assets/css/iofrm-theme9.css">
-    
-</head>
-
-<body>
-<div class="form-body">
-        <div class="row">
-            <div class="img-holder">
-                <div class="bg"></div>
-                <div class="info-holder">
-                    <h3>Get more things done with Loggin platform.</h3>
-                    <p>Access to the most powerfull tool in the entire design and web industry.</p>
-                    <img src="<?= bs() ?>public/assets/img/graphic5.svg" alt="image">
-                </div>
-            </div>
-            <div class="form-holder">
-                <?php echo validation_errors(); ?>
-                <div class="form-content">
-                    <div class="form-items">
-                        <div class="website-logo-inside">
-                            <a href="index.html">
-                                <!-- <div class="logo"> -->
-                                    <img class="logo-size" src="<?= bs() ?>public/assets/img/login.png" alt="">
-                                <!-- </div> -->
-                            </a>
-                        </div>
                         <div class="page-links">
                             <a href="<?= site_url('auth/login') ?>">Login</a><a href="<?= site_url('Register') ?>" class="active">Register</a>
                         </div>
@@ -55,31 +60,21 @@
 
                             <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm Password" required/>
 
-                            <div class="g-recaptcha" data-sitekey="6LfaLzIUAAAAAHpYFZW__WFypmev0w8rgz7AtPBN"
-                              data-callback="YourOnSubmitFn"></div>
-
                             <div class="form-button">
                                 <button id="submit" type="submit" class="ibtn">Register</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="http://brandio.io/envato/iofrm/html/js/jquery.min.js"></script>
-    <script src="http://brandio.io/envato/iofrm/html/js/popper.min.js"></script>
-    <script src="http://brandio.io/envato/iofrm/html/js/bootstrap.min.js"></script>
-    <script src="<?= bs() ?>public/assets/js/main.js"></script>
-</body>
 
+<hr/>
+								<div class="login-footer-bottom">powered by: <a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
-
-<script src="<?= base_url('public/assets/js/bootstrap-notify.js') ?>"></script>
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
-
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-
   <script>
     $("#myform").validate({
       rules: {
