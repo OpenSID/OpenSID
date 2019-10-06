@@ -138,7 +138,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete_all($kat=1, $p=1, $o=0)
@@ -146,19 +146,19 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function dokumen_lock($kat=1, $id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 1);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dokumen_unlock($kat=1,$id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 2);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dialog_cetak($kat=1)
