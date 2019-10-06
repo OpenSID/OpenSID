@@ -95,6 +95,7 @@
 			case "16": return "Akseptor KB"; break;
 			case "17": return "Akte Kelahiran"; break;
 			case "18": return "Kepemilikan Wajib KTP"; break;
+			case "19": return "Jenis Asuransi"; break;
 			case "21": return "Klasifikasi Sosial"; break;
 			case "24": return "Penerima BOS"; break;
 			default: return "Pendidikan";
@@ -344,6 +345,14 @@
 				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND sex = 1 AND status_dasar = 1) AS laki,
 				(SELECT COUNT(id) FROM tweb_penduduk WHERE ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND sex = 2 AND status_dasar = 1) AS perempuan
 				FROM tweb_status_ktp u
+				WHERE 1 ";
+				break;
+			
+			case "19": $sql = "SELECT u.*,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE id_asuransi = u.id AND status_dasar = 1) AS jumlah,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE id_asuransi = u.id AND sex = 1 AND status_dasar = 1) AS laki,
+				(SELECT COUNT(id) FROM tweb_penduduk WHERE id_asuransi = u.id AND sex = 2 AND status_dasar = 1) AS perempuan
+				FROM tweb_penduduk_asuransi u 
 				WHERE 1 ";
 				break;
 

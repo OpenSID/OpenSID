@@ -22,7 +22,8 @@
       <li <?php if ($lap==10): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/10')?>">Sakit Menahun</a></li>
       <li <?php if ($lap==16): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/16')?>">Akseptor KB</a></li>
       <li <?php if ($lap==17): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/17')?>">Akte Kelahiran</a></li>
-      <li <?php if ($lap==18): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/18')?>">Kepemilikan KTP</a></li>
+			<li <?php if ($lap==18): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/18')?>">Kepemilikan KTP</a></li>
+			<li <?php if ($lap==19): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/19')?>">Jenis Asuransi</a></li>
 		</ul>
 	</div>
 </div>

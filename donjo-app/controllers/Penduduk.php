@@ -42,6 +42,7 @@ class Penduduk extends Admin_Controller {
 		unset($_SESSION['cara_kb_id']);
 		unset($_SESSION['akta_kelahiran']);
 		unset($_SESSION['status_ktp']);
+		unset($_SESSION['id_asuransi']);
 	}
 
 	public function clear()
@@ -143,6 +144,11 @@ class Penduduk extends Admin_Controller {
 		if (isset($_SESSION['status_ktp']))
 			$data['status_ktp'] = $_SESSION['status_ktp'];
 		else $data['status_ktp'] = '';
+		
+		if (isset($_SESSION['id_asuransi']))
+			$data['id_asuransi'] = $_SESSION['id_asuransi'];
+		else 
+			$data['id_asuransi'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
@@ -700,6 +706,9 @@ class Penduduk extends Admin_Controller {
 				else
 					$_SESSION['status_ktp'] = $nomor;
 				$pre = "KEPEMILIKAN WAJIB KTP : ";
+				break;
+			case 19:
+				$_SESSION['id_asuransi'] = $nomor; $pre = "JENIS ASURANSI : ";
 				break;
 		}
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
