@@ -505,6 +505,7 @@
 		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
 		if (empty($data['id_asuransi']) or $data['id_asuransi'] == 1)
 			$data['no_asuransi'] = NULL;
+		if (empty($data['warganegara_id'])) $data['warganegara_id'] = 1; //default WNI
 
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
 		if ($data['status_kawin'] != 2 or empty($data['cara_kb_id'])) $data['cara_kb_id'] = NULL;

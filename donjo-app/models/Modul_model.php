@@ -167,6 +167,8 @@
 	{
 		$submodul = $this->db->select('id')->where('parent', $id)->get('setting_modul')->result_array();
 		$list_submodul = array_column($submodul, 'id');
+		if (empty($list_submodul)) return;
+
 		foreach ($submodul as $modul)
 		{
 			$sub = $this->db->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
