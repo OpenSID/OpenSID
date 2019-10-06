@@ -44,11 +44,13 @@
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<script type="text/javascript">
 											function start_countdown(){
-												var times = eval(<?php echo json_encode($_SESSION['siteman_timeout'])?>) - eval(<?php echo json_encode(time())?>);
+												var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
 												var menit = Math.floor(times / 60); var detik = times % 60;
 												timer = setInterval(function(){ detik--;
 													if(detik <= 0 && menit >=1){ detik = 60; menit--;}
-													if(menit <= 0 && detik <= 0){ clearInterval(timer); location.reload();}
+													if(menit <= 0 && detik <= 0){ clearInterval(timer); 
+													
+													location.reload();}
 													document.getElementById("countdown").innerHTML = "Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK ";//catatan: tambahkan script untuk conver ke Waktu IND
 												}, 1000)
 											}
