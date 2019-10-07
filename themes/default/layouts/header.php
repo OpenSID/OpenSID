@@ -42,6 +42,7 @@
 		<link type='text/css' href="<?= base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/lightbox.css" />
 
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
@@ -51,11 +52,16 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<script src="<?= base_url()?>assets/js/lightbox.js"></script>
 
 		<script>
 			$(document).ready(function(){
 				$(".group2").colorbox({rel:'group2', transition:"fade"});
 				$(".group3").colorbox({rel:'group3', transition:"fade"});
+				lightbox.option({
+      				'resizeDuration': 200,
+      				'wrapAround': true
+    			});
 			});
 		</script>
 	</head>
