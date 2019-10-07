@@ -65,7 +65,6 @@
 
     });
     </script>
-    <script src="<?= base_url()?>/assets/js/highcharts/highcharts.js"></script>
     <div id="container_widget" style="width: 100%; height: 150px; margin: 0 auto"></div>
   </div>
 </div>

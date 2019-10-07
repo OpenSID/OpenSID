@@ -796,7 +796,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$data = array(
 				'program_id' => $id,
-				'peserta' => fixSQL($nik),
+				'peserta' => $nik,
 				'sasaran' => $row["sasaran"],
 				'no_id_kartu' => $post['no_id_kartu'],
 				'kartu_nik' => $post['kartu_nik'],

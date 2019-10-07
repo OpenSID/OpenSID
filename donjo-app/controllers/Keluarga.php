@@ -492,14 +492,12 @@ class Keluarga extends Admin_Controller {
 
 	public function delete_anggota($p=1, $o=0, $kk=0, $id='')
 	{
-		$this->redirect_hak_akses('h', "keluarga/anggota/$p/$o/$kk");
 		$this->keluarga_model->rem_anggota($kk,$id);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
 	public function delete_all_anggota($p=1, $o=0, $kk=0)
 	{
-		$this->redirect_hak_akses('h', "keluarga/anggota/$p/$o/$kk");
 		$this->keluarga_model->rem_all_anggota($kk);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}

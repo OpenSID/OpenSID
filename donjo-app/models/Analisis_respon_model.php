@@ -968,6 +968,14 @@
 					$isbj = $querys->row_array();
 					$id_subjek = $isbj['id'];
 				}
+				elseif ($subject == 3)
+				{
+					// sasaran rumah tangga, simpan id, bukan nomor rumah tangga
+					$id_subjek = $this->db->select('id')
+						->where('id_rtm', $id_subjek)
+						->get('tweb_rtm')
+						->row()->id;
+				}
 
 				$j = $kl+$op;
 				$all = "";
