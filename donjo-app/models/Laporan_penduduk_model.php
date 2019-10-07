@@ -347,12 +347,12 @@
 				FROM tweb_status_ktp u
 				WHERE 1 ";
 				break;
-			
+
 			case "19": $sql = "SELECT u.*,
-				(SELECT COUNT(id) FROM tweb_penduduk WHERE id_asuransi = u.id AND status_dasar = 1) AS jumlah,
-				(SELECT COUNT(id) FROM tweb_penduduk WHERE id_asuransi = u.id AND sex = 1 AND status_dasar = 1) AS laki,
-				(SELECT COUNT(id) FROM tweb_penduduk WHERE id_asuransi = u.id AND sex = 2 AND status_dasar = 1) AS perempuan
-				FROM tweb_penduduk_asuransi u 
+				(SELECT COUNT(id) FROM penduduk_hidup WHERE id_asuransi = u.id) AS jumlah,
+				(SELECT COUNT(id) FROM penduduk_hidup WHERE id_asuransi = u.id AND sex = 1) AS laki,
+				(SELECT COUNT(id) FROM penduduk_hidup WHERE id_asuransi = u.id AND sex = 2) AS perempuan
+				FROM tweb_penduduk_asuransi u
 				WHERE 1 ";
 				break;
 

@@ -57,17 +57,11 @@ class Penduduk extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['judul_statistik']))
-			$data['judul_statistik'] = $_SESSION['judul_statistik'];
-		else $data['judul_statistik'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		$list_session = array('cari', 'judul_statistik', 'filter', 'sex', 'agama', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'status_ktp', 'id_asuransi');
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
 
 		if (isset($_SESSION['status_dasar']))
 			$data['status_dasar'] = $_SESSION['status_dasar'];
@@ -76,10 +70,6 @@ class Penduduk extends Admin_Controller {
 			$data['status_dasar'] = '1';
 			$_SESSION['status_dasar'] = '1';
 		}
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -104,51 +94,6 @@ class Penduduk extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['cacat']))
-			$data['cacat'] = $_SESSION['cacat'];
-		else $data['cacat'] = '';
-
-		if (isset($_SESSION['cara_kb_id']))
-			$data['cara_kb_id'] = $_SESSION['cara_kb_id'];
-		else $data['cara_kb_id'] = '';
-
-		if (isset($_SESSION['akta_kelahiran']))
-			$data['akta_kelahiran'] = $_SESSION['akta_kelahiran'];
-		else $data['akta_kelahiran'] = '';
-
-		if (isset($_SESSION['pekerjaan_id']))
-			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
-		else $data['pekerjaan_id'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['pendidikan_sedang_id']))
-			$data['pendidikan_sedang_id'] = $_SESSION['pendidikan_sedang_id'];
-		else $data['pendidikan_sedang_id'] = '';
-
-		if (isset($_SESSION['pendidikan_kk_id']))
-			$data['pendidikan_kk_id'] = $_SESSION['pendidikan_kk_id'];
-		else $data['pendidikan_kk_id'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
-		if (isset($_SESSION['status_ktp']))
-			$data['status_ktp'] = $_SESSION['status_ktp'];
-		else $data['status_ktp'] = '';
-		
-		if (isset($_SESSION['id_asuransi']))
-			$data['id_asuransi'] = $_SESSION['id_asuransi'];
-		else 
-			$data['id_asuransi'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
