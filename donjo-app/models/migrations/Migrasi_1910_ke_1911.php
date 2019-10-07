@@ -27,6 +27,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			$this->db->query($sql);
 		}
 		// Update view supaya kolom baru ikut masuk
-		$this->db->query("ALTER VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
+		$this->db->query("DROP VIEW penduduk_hidup");
+		$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
   }
 }
