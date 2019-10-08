@@ -183,6 +183,11 @@ class Statistik extends Admin_Controller {
 
 	public function unduh($lap = 0)
 	{
+		$cluster_session = $this->get_cluster_session();
+		$data_cluster = array('dusun', 'rw', 'rt');
+		foreach ($data_cluster as $item) {
+			$data[$item] = $cluster_session[$item];
+		}
 		$data['aksi'] = 'unduh';
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
