@@ -4,8 +4,7 @@
 	</div>
 	<div class="box-body">
 		<div class="row">
-			<div class="col-md-6"></div>
-			<div class="col-md-6">
+			<div class="col-md-3">
 				<form id="peraturan-form">
 					<div class="form-group">
 						<label for="jenis_dokumen">Jenis Dokumen</label>
@@ -16,6 +15,8 @@
 							<?php endforeach; ?>
 						</select>
 					</div>
+			</div>
+			<div class="col-md-3">
 					<div class="form-group">
 						<label for="jenis_dokumen">Tahun</label>
 						<select class="form-control" name="tahun" id="tahun">
@@ -25,17 +26,19 @@
 							<?php endforeach; ?>
 						</select>
 					</div>
+			</div>
+			<div class="col-md-3">
 					<div class="form-group">
 						<label for="jenis_dokumen">Tentang</label>
 						<input type="text" name="tentang" id="tentang" class="form-control">
 					</div>
 				</form>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6"></div>
-			<div class="col-md-6">
-				<button onclick="ambil_dokumen()" type="button" class="btn btn-info"><i class="fa fa-search"></i> Cari</button>
+			<div class="col-md-3">
+				<div class="form-group">
+					<br/>
+					<button onclick="ambil_dokumen()" type="button" class="btn btn-info"><i class="fa fa-search"></i> Cari</button>
+				</div>
 			</div>
 		</div>
 	</div>
