@@ -15,8 +15,7 @@
 		<h1><?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('dokumen_sekretariat/produk_hukum')?>">Produk Hukum</a></li>
-			<li class="active"><?= $_SESSION['sub_kat']; ?></li>
+			<li class="active"><a href="<?= site_url('dokumen_sekretariat/peraturan_desa')?>">Peraturan Desa</a></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

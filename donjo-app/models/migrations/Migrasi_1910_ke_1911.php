@@ -8,6 +8,23 @@ class Migrasi_1910_ke_1911 extends CI_model {
 
   public function jdih()
   {
+    // Hapus jenis dokumen umum
+    if ($this->db->table_exists('ref_dokumen'))
+    {
+      $this->db->truncate('ref_dokumen');
+      $object = array(
+        array(
+          'id' => 2,
+          'kategori' => 'SK Kades'
+        ),
+        array(
+          'id' => 3,
+          'kategori' => 'Perdes'
+        )
+      );
+      $this->db->insert_batch('ref_dokumen', $object);
+
+    }
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
 		if ($this->db->table_exists('dokumen'))
 		{
