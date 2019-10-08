@@ -7,7 +7,7 @@ class Web_dokumen_model extends CI_Model {
 	}
 
 	// Lists Dokumen web first
-	public function all_dokumen($kategori, $tahun, $isi)
+	public function all_dokumen($kategori='', $tahun='', $isi='')
 	{
 		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
@@ -15,7 +15,7 @@ class Web_dokumen_model extends CI_Model {
 		
 		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
 		if ($tahun) $this->db->where('tahun', $tahun);
-		if ($isi) $this->db->like('nama', urldecode($isi), 'BOTH');
+		if ($isi) $this->db->like('nama', $isi);
 		$this->db->order_by('dokumen.tahun DESC', 'dokumen.kategori ASC', 'dokumen.nama ASC');
 		
 		$res = $this->db->get('dokumen')->result_array();
