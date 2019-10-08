@@ -13,7 +13,7 @@
 
 		<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 			<div class="sampul">
-				<a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>" title="" data-lightbox="AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"><img src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>" /></a>
+				<a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>" /></a>
 			</div>
 		<?php endif; ?>
 		<div class="teks"><?= $single_artikel["isi"]?></div>
@@ -23,15 +23,15 @@
 			<br/>
 		<?php endif; ?>
 		<?php if($single_artikel['gambar1']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar1'])): ?>
-			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>" title="" data-lightbox="AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"><img src="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>" /></a>
+			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>" /></a>
 			</div>
 		<?php endif; ?>
 		<?php if($single_artikel['gambar2']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar2'])): ?>
-			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>" title="" data-lightbox="AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"><img src="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>" /></a>
+			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>" /></a>
 			</div>
 		<?php endif; ?>
 		<?php if($single_artikel['gambar3']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar3'])): ?>
-			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" title="" data-lightbox="AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"><img src="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" /></a>
+			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" /></a>
 			</div>
 		<?php endif; ?>
 		<div class="form-group" style="clear:both;">
