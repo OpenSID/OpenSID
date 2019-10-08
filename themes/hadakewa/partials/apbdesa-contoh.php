@@ -75,6 +75,9 @@ $prosenDua = number_format($dua/928153096 * 100,2);
 $prosenTiga = number_format($tiga/55668000 * 100,2);
 $prosenEmpat = number_format($empat/249632015 * 100,2);
 $prosenLima = number_format($lima/2047410 * 100,2);
+$tahun = date('Y');
+$tahun = 2016; //debug only
+$data = $this->keuangan_grafik_model->grafik_keuangan_hakadewa(2016);
 
 // menentukan panjang grafik batang berdasarkan prosentase
 $panjangSatu = $prosenSatu * 100 / 100;
@@ -84,8 +87,51 @@ $panjangEmpat = $prosenEmpat * 100 / 100;
 if ($prosenLima == 0) { $panjangLima = 0.2; }
 else { $panjangLima = $prosenLima * 100 / 100; } ?>
 
-<div class="container" style="width: 100%; padding-top: 20px;">
-<div class="col-md-4">
+
+<div class="container" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
+    <?php
+    // var_dump($data);
+        foreach ($data as $subdata_name => $subdatas):
+            switch ($subdata_name) {
+                case 'res_pelaksanaan':
+                    $subdata_name = 'Pelaksanaan Tahun '. $tahun;
+                    break;
+
+                case 'res_pendapatan':
+                    $subdata_name = 'Pendapatan Tahun '. $tahun;
+                    break;
+                
+                case 'res_belanja':
+                    $subdata_name = 'Belanja Tahun '. $tahun;
+                    break;
+
+                default:
+                    $subdata_name = '';
+                    break;
+            }
+    ?>
+    <div class="col-md-4">
+        <div align="center"><h2><?= ($subdata_name)?></h2></div><hr/>
+    <?php
+            foreach ($subdatas as $subdata):
+                $subdata['persen'] = round($subdata['persen'], 2);
+    ?>
+        <div class="progress-group">
+            <?= $subdata['judul']; ?><br>
+            <b>Rp. <?= number_format($subdata['realisasi']); ?></b>
+            <div class="progress progress-sm active" align="right"><small><b><?= $subdata['persen'] ?> %</b></small>&nbsp;
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $subdata['persen'] ?>%"></div>
+            </div>
+        </div>
+    <?php
+            endforeach;
+    ?>
+        </div>
+    <?php
+        endforeach;
+    ?>
+</div>
+    <!--
     <div align="center"><h2>Anggaran Tahun 2019</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Anggaran Pendapatan TA 2019<br>
@@ -281,3 +327,4 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
     </div><hr>
 </div>
 </div>
+-->
