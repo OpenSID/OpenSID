@@ -25,9 +25,6 @@ class Penduduk extends Admin_Controller {
 		unset($_SESSION['cacat']);
 		unset($_SESSION['menahun']);
 		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
 		unset($_SESSION['agama']);
 		unset($_SESSION['umur_min']);
 		unset($_SESSION['umur_max']);
@@ -48,6 +45,9 @@ class Penduduk extends Admin_Controller {
 	public function clear()
 	{
 		$this->clear_session();
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}
