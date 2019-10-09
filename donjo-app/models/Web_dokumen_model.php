@@ -138,6 +138,7 @@ class Web_dokumen_model extends CI_Model {
 
 	private function upload_dokumen(&$data, $file_lama="")
 	{
+    $nama = str_replace(' /', '_', $data['nama']);
 		unset($data['old_file']);
 		if (empty($_FILES['satuan']['tmp_name']))
 		{
@@ -177,9 +178,9 @@ class Web_dokumen_model extends CI_Model {
 		}
 
 		if (!empty($data['id_pend']))
-			$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
+			$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
 		else
-			$nama_file = $data['nama']."_".generator(6)."_".$nama_file;
+			$nama_file = $nama."_".generator(6)."_".$nama_file;
 		$nama_file = urlencode($nama_file);
 		UploadDocument($nama_file, $file_lama);
 		$data['satuan'] = $nama_file;
@@ -282,13 +283,14 @@ class Web_dokumen_model extends CI_Model {
 		$res = $this->db->get('ref_dokumen')->result_array();
 		$i = 1;
 		$data = array();
-		foreach ($res as $a) {
+		foreach ($res as $a) 
+    {
 			$data[$i++] = $a['kategori'];
 		}
 		return $data;
 	}
 
-	public function kat_nama($kat=1)
+	public function kat_nama($kat=2)
 	{
 		$kategori = $this->ref_dokumen();
 		$kat_nama = $kategori[$kat];

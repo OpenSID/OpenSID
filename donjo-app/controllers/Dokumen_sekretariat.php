@@ -13,7 +13,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 	}
 
 	// Peraturan Desa
-	public function peraturan_desa($kat=1, $p=1, $o=0)
+	public function peraturan_desa($kat=2, $p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -56,16 +56,17 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
+    // print_r($data['kat_nama']);
 	}
 
-	public function clear($kat=1)
+	public function clear($kat=2)
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		redirect("dokumen_sekretariat/index/$kat");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
-	public function form($kat=1, $p=1, $o=0, $id='')
+	public function form($kat=2, $p=1, $o=0, $id='')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
