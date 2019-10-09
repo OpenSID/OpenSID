@@ -12,6 +12,7 @@ class Web_dokumen_model extends CI_Model {
 		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
 		$this->db->where('dokumen.enabled', 1);
+    $this->db->where_not_in('ref_dokumen.kategori', 1);
 		
 		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
 		if ($tahun) $this->db->where('tahun', $tahun);

@@ -4,11 +4,11 @@
 	</div>
 	<div class="box-body">
 		<div class="row">
-      <form id="peraturanForm" action="<?=site_url('dokumen_sekretariat/tentang_dokumen')?>" method="POST">
+      <form id="peraturanForm" action="<?=site_url('first/tentang_dokumen')?>" method="POST">
   			<div class="col-md-3">				
   				<div class="form-group">
   					<label for="jenis_dokumen">Jenis Dokumen</label>
-  					<select class="form-control" name="kategori" id="kategori" onchange="formAction('peraturanForm', '<?=site_url('dokumen_sekretariat/kategori_dokumen')?>')">
+  					<select class="form-control" name="kategori" id="kategori" onchange="formAction('peraturanForm', '<?=site_url('first/kategori_dokumen')?>')">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
   							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['kategori'] ?></option>
@@ -19,7 +19,7 @@
   			<div class="col-md-3">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tahun</label>
-  					<select class="form-control" name="tahun" id="tahun" onchange="formAction('peraturanForm', '<?=site_url('dokumen_sekretariat/tahun_dokumen')?>')">
+  					<select class="form-control" name="tahun" id="tahun" onchange="formAction('peraturanForm', '<?=site_url('first/tahun_dokumen')?>')">
   						<option value="">Semua</option>
   						<?php foreach($tahun as $t): ?>
   							<option value="<?= $t['tahun'] ?>" <?php if ($t['tahun']==$tahun_dokumen): ?>selected <?php endif ?> ><?= $t['tahun'] ?></option>
@@ -34,7 +34,7 @@
   				</div>
   			</div> 
         <div class="col-md-3">
-          <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;"><i class="fa fa-search" onsubmit="formAction('peraturanForm', '<?=site_url('dokumen_sekretariat/tentang_dokumen')?>')"></i> Cari</button>
+          <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;"><i class="fa fa-search" onsubmit="formAction('peraturanForm', '<?=site_url('first/tentang_dokumen')?>')"></i> Cari</button>
         </div>   
       </form>
 		</div>

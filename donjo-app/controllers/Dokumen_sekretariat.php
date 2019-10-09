@@ -51,42 +51,12 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
 		$nav['act_sub'] = 95;
+    $header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
 	}
-
-  // function filter kategori
-  public function kategori_dokumen()
-  {
-    $kategori = $this->input->post('kategori');
-    if ($kategori != "")
-      $_SESSION['kategori_dokumen'] = $kategori;
-    else unset($_SESSION['kategori_dokumen']);
-    redirect('first/peraturan_desa');
-  }
-
-  // function filter tahun
-  public function tahun_dokumen()
-  {
-    $tahun = $this->input->post('tahun');
-    if ($tahun != "")
-      $_SESSION['tahun_dokumen'] = $tahun;
-    else unset($_SESSION['tahun_dokumen']);
-    redirect('first/peraturan_desa');
-  }
-
-  // function filter tentang
-  public function tentang_dokumen()
-  {
-    $tentang = $this->input->post('tentang');
-    if ($tentang != "")
-      $_SESSION['tentang_dokumen'] = $tentang;
-    else unset($_SESSION['tentang_dokumen']);
-    redirect('first/peraturan_desa');
-    // print_r($tentang);
-  }
 
 	public function clear($kat=1)
 	{
