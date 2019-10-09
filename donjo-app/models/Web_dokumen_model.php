@@ -138,7 +138,21 @@ class Web_dokumen_model extends CI_Model {
 
 	private function upload_dokumen(&$data, $file_lama="")
 	{
-    $nama = str_replace(' /', '_', $data['nama']);
+    // slugify characters
+    $nama = $data['nama'];
+      // replace non letter or digits by -
+    $nama = preg_replace('~[^\pL\d]+~u', '-', $nama);
+      // transliterate
+    $nama = iconv('utf-8', 'us-ascii//TRANSLIT', $nama);
+      // remove unwanted characters
+    $nama = preg_replace('~[^-\w]+~', '', $nama);
+      // trim
+    $nama = trim($nama, '-');
+      // remove duplicate -
+    $nama = preg_replace('~-+~', '-', $nama);
+      // lowercase
+    $nama = strtolower($nama);
+
 		unset($data['old_file']);
 		if (empty($_FILES['satuan']['tmp_name']))
 		{
