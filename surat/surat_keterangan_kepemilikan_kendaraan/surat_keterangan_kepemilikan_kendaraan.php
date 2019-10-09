@@ -110,7 +110,6 @@
 								<label class="col-sm-3 control-label">PENANDATANGAN<br></label>
 							</div>
 
-							<?php //include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 						</form>
 					</div>
