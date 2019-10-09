@@ -1,7 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
-<script src="<?php echo base_url()?>assets/js/jquery.min.js"></script>
 <script src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
 <script src="<?php echo base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
 <!--
