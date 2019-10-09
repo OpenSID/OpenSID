@@ -43,6 +43,7 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
+    $this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
@@ -354,19 +355,6 @@ class First extends Web_Controller {
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
-    if (isset($_SESSION['kategori_dokumen']))
-      $data['kategori_dokumen'] = $_SESSION['kategori_dokumen'];
-    else $data['kategori_dokumen'] = '';
-
-    if (isset($_SESSION['tahun_dokumen']))
-      $data['tahun_dokumen'] = $_SESSION['tahun_dokumen'];
-    else $data['tahun_dokumen'] = '';
-
-    if (isset($_SESSION['tentang_dokumen']))
-      $data['tentang_dokumen'] = $_SESSION['tentang_dokumen'];
-    else $data['tentang_dokumen'] = '';
-
-		$data['main']    = $this->web_dokumen_model->all_dokumen($data['kategori_dokumen'], $data['tahun_dokumen'], $data['tentang_dokumen']);
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading']="Peraturan Desa";
@@ -374,38 +362,39 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/peraturan_desa.tpl.php');
 		$this->load->view($this->template, $data);
-    // print_r($data['tentang_dokumen']);
 	}
+
+  public function ajax_table_dokumen()
+  {
+    $kategori_dokumen = '';
+    $tahun_dokumen = '';
+    $tentang_dokumen = '';
+    $data    = $this->web_dokumen_model->all_dokumen($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    echo json_encode($data);
+  }
 
   // function filter kategori
   public function kategori_dokumen()
   {
-    $kategori = $this->input->post('kategori');
-    if ($kategori != "")
-      $_SESSION['kategori_dokumen'] = $kategori;
-    else unset($_SESSION['kategori_dokumen']);
-    redirect('first/peraturan_desa');
+    $kategori_dokumen = $this->input->post('kategori');
+    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen, $tahun_dokumen = '', $tentang_dokumen = '');
+    echo json_encode($data);
   }
 
   // function filter tahun
   public function tahun_dokumen()
   {
-    $tahun = $this->input->post('tahun');
-    if ($tahun != "")
-      $_SESSION['tahun_dokumen'] = $tahun;
-    else unset($_SESSION['tahun_dokumen']);
-    redirect('first/peraturan_desa');
+    $tahun_dokumen = $this->input->post('tahun');
+    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen = '', $tahun_dokumen, $tentang_dokumen = '');
+    echo json_encode($data);
   }
 
   // function filter tentang
   public function tentang_dokumen()
   {
-    $tentang = $this->input->post('tentang');
-    if ($tentang != "")
-      $_SESSION['tentang_dokumen'] = $tentang;
-    else unset($_SESSION['tentang_dokumen']);
-    redirect('first/peraturan_desa');
-    // print_r($tentang);
+    $tentang_dokumen = $this->input->post('tentang');
+    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen = '', $tahun_dokumen = '', $tentang_dokumen);
+    echo json_encode($data);
   }
 
 	public function agenda($stat=0)

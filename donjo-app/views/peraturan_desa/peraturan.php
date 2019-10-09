@@ -4,11 +4,11 @@
 	</div>
 	<div class="box-body">
 		<div class="row">
-      <form id="peraturanForm" action="<?=site_url('first/tentang_dokumen')?>" method="POST">
+      <form id="peraturanForm" onsubmit="formAction('tentang_dokumen', '<?=site_url('first/tentang_dokumen')?>'); return false;">
   			<div class="col-md-3">				
   				<div class="form-group">
   					<label for="jenis_dokumen">Jenis Dokumen</label>
-  					<select class="form-control" name="kategori" id="kategori" onchange="formAction('peraturanForm', '<?=site_url('first/kategori_dokumen')?>')">
+  					<select class="form-control" name="kategori" id="kategori" onchange="formAction('kategori_dokumen', '<?=site_url('first/kategori_dokumen')?>')">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
   							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['kategori'] ?></option>
@@ -19,7 +19,7 @@
   			<div class="col-md-3">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tahun</label>
-  					<select class="form-control" name="tahun" id="tahun" onchange="formAction('peraturanForm', '<?=site_url('first/tahun_dokumen')?>')">
+  					<select class="form-control" name="tahun" id="tahun" onchange="formAction('tahun_dokumen', '<?=site_url('first/tahun_dokumen')?>')">
   						<option value="">Semua</option>
   						<?php foreach($tahun as $t): ?>
   							<option value="<?= $t['tahun'] ?>" <?php if ($t['tahun']==$tahun_dokumen): ?>selected <?php endif ?> ><?= $t['tahun'] ?></option>
@@ -30,11 +30,11 @@
   			<div class="col-md-3">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tentang</label>
-  					<input value="<?= $tentang_dokumen ?>" type="text" name="tentang" id="tentang" class="form-control" >
+  					<input type="text" name="tentang" id="tentang" class="form-control" >
   				</div>
   			</div> 
         <div class="col-md-3">
-          <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;"><i class="fa fa-search" onsubmit="formAction('peraturanForm', '<?=site_url('first/tentang_dokumen')?>')"></i> Cari</button>
+          <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;" onclick=""><i class="fa fa-search"></i> Cari</button>
         </div>   
       </form>
 		</div>
@@ -48,14 +48,7 @@
 					<th>Tahun</th>
 				</tr>
 			</thead>
-			<tbody>
-				<?php foreach($main as $m): ?>
-					<tr>
-						<td><a href="<?= base_url('desa/upload/dokumen/') . $m['satuan'] ?>"><?= $m['nama'] ?></a></td>
-						<td><?= $m['kategori'] ?></td>
-						<td><?= $m['tahun'] ?></td>
-					</tr>
-				<?php endforeach; ?>
+			<tbody id="tbody-dokumen">
 			</tbody>
 		</table>
 	</div>	
@@ -67,15 +60,66 @@ $(document).ready(function() {
     	"destroy": true,
       "paging": false
     });
+
+    get_table();
 } );
 
-function formAction(idForm, action, target = '')
+function get_table() {
+  $.ajax({
+    type: "GET",
+    url: "<?= site_url('first/ajax_table_dokumen')?>",
+    dataType: "JSON",
+    success: function(data) {
+      var html;
+      for (var i = 0; i < data.length; i++) {
+        html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
+        "<td>"+data[i].kategori+"</td>"+
+        "<td>"+data[i].tahun+"</td>";
+      }
+      $('#tbody-dokumen').html(html);
+    },
+    error: function(err, jqxhr, errThrown) {
+      console.log(err);
+    }
+  })
+}
+
+function formAction(type, action)
 {
-  if (target != '')
-  {
-    $('#'+idForm).attr('target', target);
+  $('#tbody-dokumen').html('');
+  var url = action;
+  if (type == 'kategori_dokumen') {
+    var data = { 
+      kategori : $('#kategori').val()
+    }
+  }else if (type == 'tahun_dokumen') {
+    var data = { 
+      tahun : $('#tahun').val()
+    }
+  }else if (type == 'tentang_dokumen') {
+    var data = { 
+      tentang : $('#tentang').val()
+    }
   }
-  $('#'+idForm).attr('action', action);
-  $('#'+idForm).submit();
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: data,
+    dataType: "JSON",
+    success: function(data) {
+      console.log(url);
+      var html;
+      for (var i = 0; i < data.length; i++) {
+        html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
+        "<td>"+data[i].kategori+"</td>"+
+        "<td>"+data[i].tahun+"</td>";
+      }
+      $('#tbody-dokumen').html(html);
+    },
+    error: function(err, jqxhr, errThrown) {
+      console.log(err);
+    }
+  })
 }
 </script>
