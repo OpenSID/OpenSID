@@ -69,7 +69,8 @@ function get_table() {
     type: "GET",
     url: "<?= site_url('first/ajax_table_dokumen')?>",
     dataType: "JSON",
-    success: function(data) {
+    success: function(data) 
+    {
       var html;
       for (var i = 0; i < data.length; i++) {
         html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
@@ -78,7 +79,8 @@ function get_table() {
       }
       $('#tbody-dokumen').html(html);
     },
-    error: function(err, jqxhr, errThrown) {
+    error: function(err, jqxhr, errThrown) 
+    {
       console.log(err);
     }
   })
@@ -88,15 +90,20 @@ function formAction(type, action)
 {
   $('#tbody-dokumen').html('');
   var url = action;
-  if (type == 'kategori_dokumen') {
+  if (type == 'kategori_dokumen') 
+  {
     var data = { 
       kategori : $('#kategori').val()
     }
-  }else if (type == 'tahun_dokumen') {
+  }
+  else if (type == 'tahun_dokumen') 
+  {
     var data = { 
       tahun : $('#tahun').val()
     }
-  }else if (type == 'tentang_dokumen') {
+  }
+  else if (type == 'tentang_dokumen') 
+  {
     var data = { 
       tentang : $('#tentang').val()
     }
@@ -107,17 +114,20 @@ function formAction(type, action)
     url: url,
     data: data,
     dataType: "JSON",
-    success: function(data) {
+    success: function(data) 
+    {
       console.log(url);
       var html;
-      for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) 
+      {
         html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
         "<td>"+data[i].kategori+"</td>"+
         "<td>"+data[i].tahun+"</td>";
       }
       $('#tbody-dokumen').html(html);
     },
-    error: function(err, jqxhr, errThrown) {
+    error: function(err, jqxhr, errThrown) 
+    {
       console.log(err);
     }
   })
