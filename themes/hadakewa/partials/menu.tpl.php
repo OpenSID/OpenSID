@@ -1,7 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.bar.css">
-<script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/bootstrap.js"></script>
 <!--
 https://stackoverflow.com/questions/24685000/bootstrap-3-dropdowns-on-hover-and-on-click

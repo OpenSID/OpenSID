@@ -13,7 +13,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 	}
 
 	// Peraturan Desa
-	public function peraturan_desa($kat=1, $p=1, $o=0)
+	public function peraturan_desa($kat=2, $p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -51,51 +51,21 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
 		$nav['act_sub'] = 95;
+    $header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
 	}
 
-  // function filter kategori
-  public function kategori_dokumen()
-  {
-    $kategori = $this->input->post('kategori');
-    if ($kategori != "")
-      $_SESSION['kategori_dokumen'] = $kategori;
-    else unset($_SESSION['kategori_dokumen']);
-    redirect('first/peraturan_desa');
-  }
-
-  // function filter tahun
-  public function tahun_dokumen()
-  {
-    $tahun = $this->input->post('tahun');
-    if ($tahun != "")
-      $_SESSION['tahun_dokumen'] = $tahun;
-    else unset($_SESSION['tahun_dokumen']);
-    redirect('first/peraturan_desa');
-  }
-
-  // function filter tentang
-  public function tentang_dokumen()
-  {
-    $tentang = $this->input->post('tentang');
-    if ($tentang != "")
-      $_SESSION['tentang_dokumen'] = $tentang;
-    else unset($_SESSION['tentang_dokumen']);
-    redirect('first/peraturan_desa');
-    // print_r($tentang);
-  }
-
-	public function clear($kat=1)
+	public function clear($kat=2)
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
-		redirect("dokumen_sekretariat/index/$kat");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
-	public function form($kat=1, $p=1, $o=0, $id='')
+	public function form($kat=2, $p=1, $o=0, $id='')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
