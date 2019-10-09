@@ -281,7 +281,7 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$this->db->order_by('id', 'asc');
 		$res = $this->db->get('ref_dokumen')->result_array();
-		$i = 1;
+		$i = 2;
 		$data = array();
 		foreach ($res as $a) 
     {
@@ -294,7 +294,7 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$kategori = $this->ref_dokumen();
 		$kat_nama = $kategori[$kat];
-		if (empty($kat_nama)) $kat_nama = $kategori[1];
+		if (empty($kat_nama)) $kat_nama = $kategori[2];
 		return $kat_nama;
 	}
 

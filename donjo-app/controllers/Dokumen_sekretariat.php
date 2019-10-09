@@ -56,7 +56,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
-    // print_r($data['kat_nama']);
 	}
 
 	public function clear($kat=2)
