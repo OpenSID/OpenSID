@@ -8,7 +8,7 @@
       <form id="peraturanForm" onsubmit="formAction(); return false;">
   			<div class="col-md-3">				
   				<div class="form-group">
-  					<label for="jenis_dokumen">Jenis Dokumen</label>
+  					<label for="jenis_dokumen">Jenis Peraturan</label>
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
