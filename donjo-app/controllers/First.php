@@ -282,6 +282,7 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
+		$this->clear_cluster_session();
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
@@ -436,5 +437,13 @@ class First extends Web_Controller {
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
 
+	}
+
+	private function clear_cluster_session()
+	{
+		$cluster_session = array('dusun', 'rw', 'rt');
+		foreach ($cluster_session as $session) {
+			$this->session->unset_userdata($session);
+		}
 	}
 }
