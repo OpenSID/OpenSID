@@ -373,27 +373,14 @@ class First extends Web_Controller {
     echo json_encode($data);
   }
 
-  // function filter kategori
-  public function kategori_dokumen()
+  // function filter dokumen
+  public function filter_dokumen()
   {
     $kategori_dokumen = $this->input->post('kategori');
-    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen, $tahun_dokumen = '', $tentang_dokumen = '');
-    echo json_encode($data);
-  }
-
-  // function filter tahun
-  public function tahun_dokumen()
-  {
     $tahun_dokumen = $this->input->post('tahun');
-    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen = '', $tahun_dokumen, $tentang_dokumen = '');
-    echo json_encode($data);
-  }
-
-  // function filter tentang
-  public function tentang_dokumen()
-  {
     $tentang_dokumen = $this->input->post('tentang');
-    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen = '', $tahun_dokumen = '', $tentang_dokumen);
+
+    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
     echo json_encode($data);
   }
 
