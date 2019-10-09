@@ -2,10 +2,17 @@
 	<div class="box-header with-border">
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
+  <style type="text/css">
+    .garis{
+      border: 12pt;
+      border-color: black;
+      border-width: 10pt;
+    }
+  </style>
 	<div class="box-body">
 		<div class="row">
       <form id="peraturanForm" onsubmit="formAction('tentang_dokumen', '<?=site_url('first/tentang_dokumen')?>'); return false;">
-  			<div class="col-md-3">				
+  			<div class="col-md-3 garis">				
   				<div class="form-group">
   					<label for="jenis_dokumen">Jenis Dokumen</label>
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction('kategori_dokumen', '<?=site_url('first/kategori_dokumen')?>')">
@@ -16,7 +23,7 @@
   					</select>
   				</div>
   			</div>
-  			<div class="col-md-3">
+  			<div class="col-md-3 garis">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tahun</label>
   					<select class="form-control" name="tahun" id="tahun" onchange="formAction('tahun_dokumen', '<?=site_url('first/tahun_dokumen')?>')">
@@ -27,13 +34,13 @@
   					</select>
   				</div>
   			</div>
-  			<div class="col-md-3">
+  			<div class="col-md-3 garis">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tentang</label>
   					<input type="text" name="tentang" id="tentang" class="form-control" >
   				</div>
   			</div> 
-        <div class="col-md-3">
+        <div class="col-md-3 garis">
           <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;" onclick=""><i class="fa fa-search"></i> Cari</button>
         </div>   
       </form>
