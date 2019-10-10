@@ -14,6 +14,10 @@ class Migrasi_1910_ke_1911 extends CI_model {
       $this->db->truncate('ref_dokumen');
       $object = array(
         array(
+          'id' => 1,
+          'kategori' => 'Dokumen Umum'
+        ),
+        array(
           'id' => 2,
           'kategori' => 'SK Kades'
         ),

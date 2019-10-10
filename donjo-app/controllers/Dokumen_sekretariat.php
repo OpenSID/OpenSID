@@ -37,6 +37,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
+    $_SESSION['menu_kategori'] = TRUE;
 
 		foreach ($data['submenu'] as $s) 
 		{
