@@ -452,14 +452,57 @@ class Keuangan_grafik_model extends CI_model {
       $res[$tahun]['res_belanja'] = $this->data_widget_belanja('1', $tahun);
     }
 
-    //Cari tahun anggaran terbaru (terbesar secara value)
     $result = array(
       //Encode ke JSON
       'data' => json_encode($res),
       'tahun' => $this->keuangan_model->list_tahun_anggaran(),
+      //Cari tahun anggaran terbaru (terbesar secara value)
       'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran()[0]
     );
 
+    return $result;
+  }
+
+  public function data_keuangan_hakadewa($tahun = NULL)
+  {
+    if(is_null($tahun)) $tahun = 2016;
+    $data['res_pelaksanaan'] = $this->data_widget_pelaksanaan('1', $tahun);
+    $data['res_pendapatan'] = $this->data_widget_pendapatan('1', $tahun);
+    $data['res_belanja'] = $this->data_widget_belanja('1', $tahun);
+
+    $result = array(
+      'data' => $data,
+      'tahun' => $tahun
+    );
+
+    return $data;
+  }
+
+  public function grafik_keuangan_hakadewa($tahun = NULL)
+  {
+    if(is_null($tahun)) $tahun = 2016;
+    $raw_data = $this->data_keuangan_hakadewa($tahun);
+    foreach ($raw_data as $keys => $raws)
+    {
+      foreach ($raws as $key => $raw){
+        $data['judul'] = $raw['nama'];
+        $data['anggaran'] = $raw['anggaran'];
+        $data['realisasi'] = $raw['realisasi'];
+        if($data['anggaran'] != 0 && $data['realisasi'] != 0)
+        {
+          $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
+        }
+        elseif($data['realisasi'] != 0)
+        {
+          $data['persen'] = 100;
+        }
+        else
+        {
+          $data['persen'] = 0;
+        }
+        $result[$keys][] = $data;
+      }
+    }
     return $result;
   }
 }
