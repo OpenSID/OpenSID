@@ -2,13 +2,14 @@
 	<div class="box-header with-border">
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
+  </style>
 	<div class="box-body">
 		<div class="row">
-      <form id="peraturanForm" action="<?=site_url('dokumen_sekretariat/tentang_dokumen')?>" method="POST">
+      <form id="peraturanForm" onsubmit="formAction(); return false;">
   			<div class="col-md-3">				
   				<div class="form-group">
-  					<label for="jenis_dokumen">Jenis Dokumen</label>
-  					<select class="form-control" name="kategori" id="kategori" onchange="formAction('peraturanForm', '<?=site_url('dokumen_sekretariat/kategori_dokumen')?>')">
+  					<label for="jenis_dokumen">Jenis Peraturan</label>
+  					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
   							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['kategori'] ?></option>
@@ -19,7 +20,7 @@
   			<div class="col-md-3">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tahun</label>
-  					<select class="form-control" name="tahun" id="tahun" onchange="formAction('peraturanForm', '<?=site_url('dokumen_sekretariat/tahun_dokumen')?>')">
+  					<select class="form-control" name="tahun" id="tahun" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($tahun as $t): ?>
   							<option value="<?= $t['tahun'] ?>" <?php if ($t['tahun']==$tahun_dokumen): ?>selected <?php endif ?> ><?= $t['tahun'] ?></option>
@@ -30,11 +31,11 @@
   			<div class="col-md-3">
   				<div class="form-group">
   					<label for="jenis_dokumen">Tentang</label>
-  					<input value="<?= $tentang_dokumen ?>" type="text" name="tentang" id="tentang" class="form-control" >
+  					<input type="text" name="tentang" id="tentang" class="form-control" style="margin-top: 0rem;">
   				</div>
   			</div> 
         <div class="col-md-3">
-          <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;"><i class="fa fa-search" onsubmit="formAction('peraturanForm', '<?=site_url('dokumen_sekretariat/tentang_dokumen')?>')"></i> Cari</button>
+          <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;"><i class="fa fa-search"></i> Cari</button>
         </div>   
       </form>
 		</div>
@@ -43,19 +44,12 @@
 		<table class="table table-striped table-bordered" id="jdih-table">
 			<thead>
 				<tr>
-					<th>Nama Dokumen</th>
+					<th>Nama Peraturan</th>
 					<th>Jenis</th>
 					<th>Tahun</th>
 				</tr>
 			</thead>
-			<tbody>
-				<?php foreach($main as $m): ?>
-					<tr>
-						<td><a href="<?= base_url('desa/upload/dokumen/') . $m['satuan'] ?>"><?= $m['nama'] ?></a></td>
-						<td><?= $m['kategori'] ?></td>
-						<td><?= $m['tahun'] ?></td>
-					</tr>
-				<?php endforeach; ?>
+			<tbody id="tbody-dokumen">
 			</tbody>
 		</table>
 	</div>	
@@ -67,15 +61,72 @@ $(document).ready(function() {
     	"destroy": true,
       "paging": false
     });
+
+    get_table();
 } );
 
-function formAction(idForm, action, target = '')
+function get_table() {
+  $.ajax({
+    type: "GET",
+    url: "<?= site_url('first/ajax_table_dokumen')?>",
+    dataType: "JSON",
+    success: function(data) 
+    {
+      var html;
+      if (data.length == 0) 
+      {
+        html = "<tr><td colspan='3' align='center'>No Data Available</td></tr>";
+      }
+      for (var i = 0; i < data.length; i++) {
+        html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
+        "<td>"+data[i].kategori+"</td>"+
+        "<td>"+data[i].tahun+"</td>";
+      }
+      $('#tbody-dokumen').html(html);
+    },
+    error: function(err, jqxhr, errThrown) 
+    {
+      console.log(err);
+    }
+  })
+}
+
+function formAction()
 {
-  if (target != '')
-  {
-    $('#'+idForm).attr('target', target);
-  }
-  $('#'+idForm).attr('action', action);
-  $('#'+idForm).submit();
+  $('#tbody-dokumen').html('');
+  var url = "<?= site_url('first/filter_dokumen') ?>";
+  var kategori = $('#kategori').val();
+  var tahun = $('#tahun').val();
+  var tentang = $('#tentang').val();
+
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: {
+      kategori: kategori,
+      tahun: tahun,
+      tentang: tentang
+    },
+    dataType: "JSON",
+    success: function(data) 
+    {
+      var html;      
+      if (data.length == 0) 
+      {
+        html = "<tr><td colspan='3' align='center'>No Data Available</td></tr>";
+      }
+      for (var i = 0; i < data.length; i++) 
+      {
+        html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
+        "<td>"+data[i].kategori+"</td>"+
+        "<td>"+data[i].tahun+"</td>";
+      }
+      $('#tbody-dokumen').html(html);
+    },
+    error: function(err, jqxhr, errThrown) 
+    {
+      console.log(err);
+    }
+  })
 }
 </script>

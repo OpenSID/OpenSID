@@ -12,6 +12,7 @@ class Web_dokumen_model extends CI_Model {
 		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
 		$this->db->where('dokumen.enabled', 1);
+    $this->db->where_not_in('ref_dokumen.kategori', 1);
 		
 		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
 		if ($tahun) $this->db->where('tahun', $tahun);
@@ -137,6 +138,21 @@ class Web_dokumen_model extends CI_Model {
 
 	private function upload_dokumen(&$data, $file_lama="")
 	{
+    // slugify characters
+    $nama = $data['nama'];
+      // replace non letter or digits by -
+    $nama = preg_replace('~[^\pL\d]+~u', '-', $nama);
+      // transliterate
+    $nama = iconv('utf-8', 'us-ascii//TRANSLIT', $nama);
+      // remove unwanted characters
+    $nama = preg_replace('~[^-\w]+~', '', $nama);
+      // trim
+    $nama = trim($nama, '-');
+      // remove duplicate -
+    $nama = preg_replace('~-+~', '-', $nama);
+      // lowercase
+    $nama = strtolower($nama);
+
 		unset($data['old_file']);
 		if (empty($_FILES['satuan']['tmp_name']))
 		{
@@ -176,9 +192,9 @@ class Web_dokumen_model extends CI_Model {
 		}
 
 		if (!empty($data['id_pend']))
-			$nama_file = $data['id_pend']."_".$data['nama']."_".generator(6)."_".$nama_file;
+			$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
 		else
-			$nama_file = $data['nama']."_".generator(6)."_".$nama_file;
+			$nama_file = $nama."_".generator(6)."_".$nama_file;
 		$nama_file = urlencode($nama_file);
 		UploadDocument($nama_file, $file_lama);
 		$data['satuan'] = $nama_file;
@@ -281,7 +297,8 @@ class Web_dokumen_model extends CI_Model {
 		$res = $this->db->get('ref_dokumen')->result_array();
 		$i = 1;
 		$data = array();
-		foreach ($res as $a) {
+		foreach ($res as $a) 
+    {
 			$data[$i++] = $a['kategori'];
 		}
 		return $data;
@@ -291,7 +308,7 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$kategori = $this->ref_dokumen();
 		$kat_nama = $kategori[$kat];
-		if (empty($kat_nama)) $kat_nama = $kategori[1];
+		if (empty($kat_nama)) $kat_nama = $kategori[0];
 		return $kat_nama;
 	}
 
