@@ -5,6 +5,17 @@
 		parent::__construct();
 	}
 
+	public function list_nama($tabel)
+	{
+		$data = $this->list_data($tabel);
+		$list = array();
+		foreach ($data as $key => $value)
+		{
+			$list[$value['id']] = $value['nama'];
+		}
+		return $list;
+	}
+
 	public function list_data($tabel, $kecuali='')
 	{
 		if (!empty($kecuali))

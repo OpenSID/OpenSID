@@ -4,21 +4,23 @@ class Web_dokumen_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('referensi_model');
 	}
 
-	// Lists Dokumen web first
-	public function all_dokumen($kategori='', $tahun='', $isi='')
+	// Ambil semua peraturan
+	public function all_peraturan($kategori='', $tahun='', $isi='')
 	{
-		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
+		$kategori_peraturan = array('2', '3');
+		$this->db->select('dokumen.id, satuan, dokumen.nama, tahun, ref_dokumen.nama as kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
 		$this->db->where('dokumen.enabled', 1);
-    $this->db->where_not_in('ref_dokumen.kategori', 1);
-		
+    $this->db->where_in('ref_dokumen.id', $kategori_peraturan);
+
 		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
 		if ($tahun) $this->db->where('tahun', $tahun);
-		if ($isi) $this->db->like('nama', $isi);
+		if ($isi) $this->db->like('dokumen.nama', $isi);
 		$this->db->order_by('dokumen.tahun DESC', 'dokumen.kategori ASC', 'dokumen.nama ASC');
-		
+
 		$res = $this->db->get('dokumen')->result_array();
 		return $res;
 	}
@@ -208,7 +210,7 @@ class Web_dokumen_model extends CI_Model {
 		{
 			$data['attr'] = json_encode($data['attr']);
       $tgl = json_decode($data['attr'], TRUE);
-      if ($data['kategori'] == 2) 
+      if ($data['kategori'] == 2)
       {
         $data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
       }
@@ -219,8 +221,8 @@ class Web_dokumen_model extends CI_Model {
       else
       {
         $data['tahun'] = date('Y');
-      }  
-      
+      }
+
 			return $this->db->insert('dokumen', $data);
 		}
 		else return false;
@@ -233,7 +235,7 @@ class Web_dokumen_model extends CI_Model {
 			unset($data['satuan']);
 		$data['attr'] = json_encode($data['attr']);
     $tgl = json_decode($data['attr'], TRUE);
-    if ($data['kategori'] == 2) 
+    if ($data['kategori'] == 2)
     {
       $data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
     }
@@ -244,8 +246,8 @@ class Web_dokumen_model extends CI_Model {
     else
     {
       $data['tahun'] = date('Y');
-    } 
-     
+    }
+
 		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
 
@@ -291,22 +293,9 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
-	public function ref_dokumen()
-	{
-		$this->db->order_by('id', 'asc');
-		$res = $this->db->get('ref_dokumen')->result_array();
-		$i = 1;
-		$data = array();
-		foreach ($res as $a) 
-    {
-			$data[$i++] = $a['kategori'];
-		}
-		return $data;
-	}
-
 	public function kat_nama($kat=1)
 	{
-		$kategori = $this->ref_dokumen();
+		$kategori = $this->list_kategori();
 		$kat_nama = $kategori[$kat];
 		if (empty($kat_nama)) $kat_nama = $kategori[0];
 		return $kat_nama;
@@ -314,7 +303,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function list_kategori()
 	{
-		return $this->ref_dokumen();
+		return $this->referensi_model->list_nama('ref_dokumen');
 	}
 
 	public function listTahun($kat=1)
