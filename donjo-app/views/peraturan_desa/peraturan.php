@@ -6,13 +6,13 @@
 	<div class="box-body">
 		<div class="row">
       <form id="peraturanForm" onsubmit="formAction(); return false;">
-  			<div class="col-md-3">				
+  			<div class="col-md-3">
   				<div class="form-group">
-  					<label for="jenis_dokumen">Jenis Dokumen</label>
+  					<label for="jenis_dokumen">Jenis Peraturan</label>
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
-  							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['kategori'] ?></option>
+  							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['nama'] ?></option>
   						<?php endforeach; ?>
   					</select>
   				</div>
@@ -33,10 +33,10 @@
   					<label for="jenis_dokumen">Tentang</label>
   					<input type="text" name="tentang" id="tentang" class="form-control" style="margin-top: 0rem;">
   				</div>
-  			</div> 
+  			</div>
         <div class="col-md-3">
           <button type="submit" class="btn btn-info" style="margin-top: 2.5rem;"><i class="fa fa-search"></i> Cari</button>
-        </div>   
+        </div>
       </form>
 		</div>
 	</div>
@@ -44,7 +44,7 @@
 		<table class="table table-striped table-bordered" id="jdih-table">
 			<thead>
 				<tr>
-					<th>Nama Dokumen</th>
+					<th>Nama Peraturan</th>
 					<th>Jenis</th>
 					<th>Tahun</th>
 				</tr>
@@ -52,7 +52,7 @@
 			<tbody id="tbody-dokumen">
 			</tbody>
 		</table>
-	</div>	
+	</div>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -68,12 +68,12 @@ $(document).ready(function() {
 function get_table() {
   $.ajax({
     type: "GET",
-    url: "<?= site_url('first/ajax_table_dokumen')?>",
+    url: "<?= site_url('first/ajax_table_peraturan')?>",
     dataType: "JSON",
-    success: function(data) 
+    success: function(data)
     {
       var html;
-      if (data.length == 0) 
+      if (data.length == 0)
       {
         html = "<tr><td colspan='3' align='center'>No Data Available</td></tr>";
       }
@@ -84,7 +84,7 @@ function get_table() {
       }
       $('#tbody-dokumen').html(html);
     },
-    error: function(err, jqxhr, errThrown) 
+    error: function(err, jqxhr, errThrown)
     {
       console.log(err);
     }
@@ -94,7 +94,7 @@ function get_table() {
 function formAction()
 {
   $('#tbody-dokumen').html('');
-  var url = "<?= site_url('first/filter_dokumen') ?>";
+  var url = "<?= site_url('first/filter_peraturan') ?>";
   var kategori = $('#kategori').val();
   var tahun = $('#tahun').val();
   var tentang = $('#tentang').val();
@@ -108,14 +108,14 @@ function formAction()
       tentang: tentang
     },
     dataType: "JSON",
-    success: function(data) 
+    success: function(data)
     {
-      var html;      
-      if (data.length == 0) 
+      var html;
+      if (data.length == 0)
       {
         html = "<tr><td colspan='3' align='center'>No Data Available</td></tr>";
       }
-      for (var i = 0; i < data.length; i++) 
+      for (var i = 0; i < data.length; i++)
       {
         html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
         "<td>"+data[i].kategori+"</td>"+
@@ -123,7 +123,7 @@ function formAction()
       }
       $('#tbody-dokumen').html(html);
     },
-    error: function(err, jqxhr, errThrown) 
+    error: function(err, jqxhr, errThrown)
     {
       console.log(err);
     }

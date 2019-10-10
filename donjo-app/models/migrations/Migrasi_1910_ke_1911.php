@@ -8,23 +8,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
 
   public function jdih()
   {
-    // Hapus jenis dokumen umum
-    if ($this->db->table_exists('ref_dokumen'))
-    {
-      $this->db->truncate('ref_dokumen');
-      $object = array(
-        array(
-          'id' => 2,
-          'kategori' => 'SK Kades'
-        ),
-        array(
-          'id' => 3,
-          'kategori' => 'Perdes'
-        )
-      );
-      $this->db->insert_batch('ref_dokumen', $object);
-
-    }
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
 		if ($this->db->table_exists('dokumen'))
 		{
@@ -92,7 +75,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
             'unsigned' => TRUE,
             'auto_increment' => TRUE
         ),
-        'kategori' => array(
+        'nama' => array(
             'type' => 'VARCHAR',
             'constraint' => '100'
         )
@@ -101,23 +84,27 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			$this->dbforge->add_key('id', TRUE);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->create_table('ref_dokumen');
-
-			$object = array(
-				array(
-					'id' => 1,
-					'kategori' => 'Dokumen Umum'
-				),
-				array(
-					'id' => 2,
-					'kategori' => 'SK Kades'
-				),
-				array(
-					'id' => 3,
-					'kategori' => 'Perdes'
-				)
-			);
-			$this->db->insert_batch('ref_dokumen', $object);
 		}
+		else
+		{
+      $this->db->truncate('ref_dokumen');
+    }
+
+		$object = array(
+			array(
+				'id' => 1,
+				'nama' => 'Dokumen Umum'
+			),
+			array(
+				'id' => 2,
+				'nama' => 'SK Kades'
+			),
+			array(
+				'id' => 3,
+				'nama' => 'Perdes'
+			)
+		);
+		$this->db->insert_batch('ref_dokumen', $object);
 
   	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
 		if ($this->db->table_exists('setting_modul'))

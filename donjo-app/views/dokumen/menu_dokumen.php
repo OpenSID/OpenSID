@@ -8,9 +8,9 @@
 		</div>
 		<div class="box-body no-padding">
 			<ul class="nav nav-pills nav-stacked">
-				<?php foreach($submenu as $s): ?>
-				<li <?php if ($_SESSION['submenu'] == $s['id']): ?>class="active"<?php endif; ?>><a href="<?= site_url('dokumen_sekretariat/peraturan_desa/'.$s['id'])?>"><?= $s['kategori'] ?></a></li>
-				<?php endforeach;?>
+				<?php for($i=1; $i < count($submenu); $i++): ?>
+				<li <?php if ($_SESSION['submenu'] == $submenu[$i]['id']): ?>class="active"<?php endif; ?>><a href="<?= site_url('dokumen_sekretariat/peraturan_desa/'.$submenu[$i]['id'])?>"><?= $submenu[$i]['nama'] ?></a></li>
+				<?php endfor;?>
 			</ul>
 		</div>
 	</div>
