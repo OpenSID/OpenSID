@@ -90,7 +90,6 @@ else { $panjangLima = $prosenLima * 100 / 100; } ?>
 
 <div class="container" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <?php
-    // var_dump($data);
         foreach ($data as $subdata_name => $subdatas):
             switch ($subdata_name) {
                 case 'res_pelaksanaan':
