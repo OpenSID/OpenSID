@@ -44,7 +44,7 @@
 		<table class="table table-striped table-bordered" id="jdih-table">
 			<thead>
 				<tr>
-					<th>Nama Dokumen</th>
+					<th>Nama Peraturan</th>
 					<th>Jenis</th>
 					<th>Tahun</th>
 				</tr>
