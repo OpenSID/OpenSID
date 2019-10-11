@@ -53,13 +53,14 @@
 		return $str;
 	}
 
-	private function list_penduduk_ajax_sql($cari='', $filter_sex='')
+	private function list_penduduk_ajax_sql($cari='', $filter=array())
 	{
 		$this->db
 				->from('tweb_penduduk u')
 				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
 				->where('status_dasar', 1);
-		if ($filter_sex) $this->db->where('sex', $filter_sex);
+		if ($filter['sex']) $this->db->where('sex', $filter['sex']);
+		if ($filter['bersurat']) $this->db->join('log_surat h', 'u.id = h.id_pend');
 		if ($cari)
 		{
 			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
@@ -69,10 +70,10 @@
 	/*
 	 * Mengambil semua data penduduk untuk pilihan di form surat
 	 */
-	public function list_penduduk_ajax($cari='', $filter_sex='', $page=1)
+	public function list_penduduk_ajax($cari='', $filter=array(), $page=1)
 	{
 		// Hitung jumlah total
-		$this->list_penduduk_ajax_sql($cari, $filter_sex);
+		$this->list_penduduk_ajax_sql($cari, $filter);
 		$jml = $this->db->select('count(u.id) as jml')
 				->get()->row()->jml;
 
@@ -80,8 +81,9 @@
     $resultCount = 25;
     $offset = ($page - 1) * $resultCount;
 
-    $this->list_penduduk_ajax_sql($cari, $filter_sex);
+    $this->list_penduduk_ajax_sql($cari, $filter);
 		$this->db
+				->distinct()
 				->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
 				->limit($resultCount, $offset);
 		$data = $this->db->get()->result_array();
@@ -106,6 +108,16 @@
       )
     );
 
+		return $hasil;
+	}
+
+	/*
+	 * Mengambil data penduduk yang telah bersurat untuk pilihan di form arsip layanan (rekam surat perseorangan)
+	 */
+	public function list_penduduk_bersurat_ajax($cari='',$page='1')
+	{
+		$filter = array('bersurat' => true);
+		$hasil = $this->list_penduduk_ajax($cari, $filter, $page);
 		return $hasil;
 	}
 
