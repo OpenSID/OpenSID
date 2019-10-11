@@ -11,7 +11,7 @@
 		$list = array();
 		foreach ($data as $key => $value)
 		{
-			$list[$value['id']] = $value['nama'];
+			$list[$value['id']] = $value['kategori'];
 		}
 		return $list;
 	}

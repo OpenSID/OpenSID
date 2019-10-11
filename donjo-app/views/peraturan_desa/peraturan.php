@@ -12,7 +12,7 @@
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
-  							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['nama'] ?></option>
+  							<option value="<?= $s['id'] ?>" <?php if ($s['id']==$kategori_dokumen): ?>selected <?php endif ?>><?= $s['kategori'] ?></option>
   						<?php endforeach; ?>
   					</select>
   				</div>

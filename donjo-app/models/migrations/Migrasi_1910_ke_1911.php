@@ -75,7 +75,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
             'unsigned' => TRUE,
             'auto_increment' => TRUE
         ),
-        'nama' => array(
+        'kategori' => array(
             'type' => 'VARCHAR',
             'constraint' => '100'
         )
@@ -93,15 +93,15 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		$object = array(
 			array(
 				'id' => 1,
-				'nama' => 'Dokumen Umum'
+				'kategori' => 'Dokumen Umum'
 			),
 			array(
 				'id' => 2,
-				'nama' => 'SK Kades'
+				'kategori' => 'SK Kades'
 			),
 			array(
 				'id' => 3,
-				'nama' => 'Perdes'
+				'kategori' => 'Perdes'
 			)
 		);
 		$this->db->insert_batch('ref_dokumen', $object);

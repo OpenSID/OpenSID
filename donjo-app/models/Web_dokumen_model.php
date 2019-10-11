@@ -11,7 +11,7 @@ class Web_dokumen_model extends CI_Model {
 	public function all_peraturan($kategori='', $tahun='', $isi='')
 	{
 		$kategori_peraturan = array('2', '3');
-		$this->db->select('dokumen.id, satuan, dokumen.nama, tahun, ref_dokumen.nama as kategori');
+		$this->db->select('dokumen.id, satuan, dokumen.nama, tahun, ref_dokumen.kategori as kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
 		$this->db->where('dokumen.enabled', 1);
     $this->db->where_in('ref_dokumen.id', $kategori_peraturan);

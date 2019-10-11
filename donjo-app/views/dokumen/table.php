@@ -15,7 +15,7 @@
 		<h1><?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active"><a href="<?= site_url('dokumen_sekretariat/peraturan_desa')?>">Peraturan Desa</a></li>
+      <li class="active"><?= $kat_nama ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
