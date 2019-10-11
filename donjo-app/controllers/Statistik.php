@@ -18,9 +18,8 @@ class Statistik extends Admin_Controller {
 	public function index($lap = 0, $o = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
-		$cluster = array('dusun', 'rw', 'rt', 'list_rw', 'list_rt');
-		foreach ($cluster as $item) {
-			$data[$item] = $cluster_session[$item];
+		foreach ($cluster_session as $key => $value) {
+			$data[$key] = $value;
 		}
 		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
@@ -88,9 +87,8 @@ class Statistik extends Admin_Controller {
 	public function graph($lap = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
-		$data_cluster = array('dusun', 'rw', 'rt', 'list_rw', 'list_rt');
-		foreach ($data_cluster as $item) {
-			$data[$item] = $cluster_session[$item];
+		foreach ($cluster_session as $key => $value) {
+			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
@@ -109,9 +107,8 @@ class Statistik extends Admin_Controller {
 	public function pie($lap = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
-		$data_cluster = array('dusun', 'rw', 'rt', 'list_rw', 'list_rt');
-		foreach ($data_cluster as $item) {
-			$data[$item] = $cluster_session[$item];
+		foreach ($cluster_session as $key => $value) {
+			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
@@ -168,9 +165,8 @@ class Statistik extends Admin_Controller {
 	public function cetak($lap = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
-		$data_cluster = array('dusun', 'rw', 'rt');
-		foreach ($data_cluster as $item) {
-			$data[$item] = $cluster_session[$item];
+		foreach ($cluster_session as $key => $value) {
+			$data[$key] = $value;
 		}
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
@@ -184,9 +180,8 @@ class Statistik extends Admin_Controller {
 	public function unduh($lap = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
-		$data_cluster = array('dusun', 'rw', 'rt');
-		foreach ($data_cluster as $item) {
-			$data[$item] = $cluster_session[$item];
+		foreach ($cluster_session as $key => $value) {
+			$data[$key] = $value;
 		}
 		$data['aksi'] = 'unduh';
 		$data['lap'] = $lap;
