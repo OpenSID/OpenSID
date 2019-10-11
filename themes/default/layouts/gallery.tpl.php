@@ -19,5 +19,11 @@
 				<?php $this->load->view($folder_themes.'/partials/copywright.tpl.php');?>
 			</div>
 		</div>
+		<?php if ($gallery): ?>
+			<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
+			<script>
+				$(".group2").colorbox({rel:'group2', transition:"fade"});
+			</script>
+		<?php endif ?>
 	</body>
 </html>
