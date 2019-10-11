@@ -364,7 +364,7 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_table_dokumen()
+  public function ajax_table_peraturan()
   {
     $kategori_dokumen = '';
     $tahun_dokumen = '';
@@ -374,13 +374,13 @@ class First extends Web_Controller {
   }
 
   // function filter dokumen
-  public function filter_dokumen()
+  public function filter_peraturan()
   {
     $kategori_dokumen = $this->input->post('kategori');
     $tahun_dokumen = $this->input->post('tahun');
     $tentang_dokumen = $this->input->post('tentang');
 
-    $data = $this->web_dokumen_model->all_dokumen($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
     echo json_encode($data);
   }
 
@@ -446,7 +446,7 @@ class First extends Web_Controller {
 
 			$_SESSION['sukses'] = 1;
 			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
-			
+
 		}
 
 	private function _get_common_data(&$data)
