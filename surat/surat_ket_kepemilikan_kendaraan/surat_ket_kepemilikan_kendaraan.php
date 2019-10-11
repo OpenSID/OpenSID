@@ -40,7 +40,7 @@
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 
 							<div class="form-group subtitle_head" id="detail_kendaraan">
-								<label class="col-sm-3 control-label">IDENTITAS / DETAIL KENDARAAN<br></label>
+								<label class="col-sm-3 control-label">IDENTITAS / DETAIL KENDARAAN (Sesuai BPKP)<br></label>
 							</div>
 
 							<div class="form-group">
@@ -62,7 +62,7 @@
 								<div class="col-sm-3">
 									<label for="nopol">Nomor Polisi</label>
 									<input name="nopol" class="form-control input-sm required" placeholder="Nomor Polisi">
-								</div>				
+								</div>
 								<div class="col-sm-3">
 									<label for="nosin">Nomor Mesin</label>
 									<input name="nosin" class="form-control input-sm required" placeholder="Nomor Mesin">
@@ -77,7 +77,7 @@
 								<div class="col-sm-3">
 									<label for="bpkb">Nomor BPKB</label>
 									<input name="bpkb" class="form-control input-sm required" placeholder="Nomor BPKB">
-								</div>				
+								</div>
 								<div class="col-sm-3">
 									<label for="bahan_bakar">Bahan Bakar</label>
 									<input name="bahan_bakar" class="form-control input-sm required" placeholder="Bahan Bakar">
