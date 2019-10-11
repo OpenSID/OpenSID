@@ -46,14 +46,14 @@
 			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<?php endif ?>
 
-    	<script src="<?= base_url()?>assets/js/leaflet.js"></script>
+    <script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
-		<script src="<?= base_url()?>assets/front/js/layout.js"></script>		
+		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-		
+
 	</head>
 	<body>
 		<div id="maincontainer">
