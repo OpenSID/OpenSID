@@ -6,8 +6,8 @@ class Web_dokumen_model extends CI_Model {
 		parent::__construct();
 	}
 
-	// Lists Dokumen web first
-	public function all_dokumen($kategori='', $tahun='', $isi='')
+	// Lists peraturan web first
+	public function all_peraturan($kategori='', $tahun='', $isi='')
 	{
 		$this->db->select('dokumen.id, satuan, nama, tahun, ref_dokumen.kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
