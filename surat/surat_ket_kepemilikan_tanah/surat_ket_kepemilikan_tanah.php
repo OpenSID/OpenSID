@@ -43,7 +43,7 @@
 								<label class="col-sm-3 control-label">DETAIL INFORMASI TANAH / LAHAN<br></label>
 							</div>
 
-							<div class="form-group">	
+							<div class="form-group">
 								<div class="col-sm-3">
 									<label for="jenis_tanah">Jenis Tanah</label>
 									<select class="form-control input-sm required" name="jenis_tanah" onchange="$('input[name=jenis_tanah_nama]').val($(this).find(':selected').data('jenis_tanahnama'));">
@@ -57,26 +57,27 @@
 									<label for="luas_tanah">Luas Tanah</label>
 									<input name="luas_tanah" class="form-control input-sm required" placeholder="Luas Tanah (dalam M2)">
 								</div>
-								<div class="col-sm-3">
-								<label for="bukti_kepemilikan">Bukti Kepemilikan</label>
-								<select class="form-control input-sm required" name="bukti_kepemilikan" onchange="$('input[name=bukti_kepemilikan_nama]').val($(this).find(':selected').data('bukti_kepemilikannama'));">
-									<option value=""> ->> Pilih Bukti Kepemilikan Tanah <<- </option>
-									<?php foreach ($bukti_kepemilikan as $pilihan => $nama): ?>
-										<option value="<?= $pilihan?>" data-bukti_kepemilikannama="<?= $nama; ?>" <?php if ($pilihan==$_SESSION['post']['bukti_kepemilikan']): ?>selected<?php endif; ?>><?= $nama; ?></option>
-									<?php endforeach;?>
-								</select>
-								</div>	
 							</div>
-
 							<div class="form-group">
 								<div class="col-sm-3">
-									<label for="atas_nama">Atas Nama</label>
-									<input name="atas_nama" class="form-control input-sm required" placeholder="Atas Nama">
+									<label for="bukti_kepemilikan">Bukti Kepemilikan</label>
+									<select class="form-control input-sm required" name="bukti_kepemilikan" onchange="$('input[name=bukti_kepemilikan_nama]').val($(this).find(':selected').data('bukti_kepemilikannama'));">
+										<option value=""> ->> Pilih Bukti Kepemilikan Tanah <<- </option>
+										<?php foreach ($bukti_kepemilikan as $pilihan => $nama): ?>
+											<option value="<?= $pilihan?>" data-bukti_kepemilikannama="<?= $nama; ?>" <?php if ($pilihan==$_SESSION['post']['bukti_kepemilikan']): ?>selected<?php endif; ?>><?= $nama; ?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
 								<div class="col-sm-3">
 									<label for="nomor_kepemilikan">Nomor Bukti Kepemilikan</label>
 									<input name="nomor_kepemilikan" class="form-control input-sm required" placeholder="Nomor Bukti Kepemilikan">
 								</div>
+								<div class="col-sm-3">
+									<label for="atas_nama">Atas Nama</label>
+									<input name="atas_nama" class="form-control input-sm required" placeholder="Atas Nama">
+								</div>
+							</div>
+							<div class="form-group">
 								<div class="col-sm-3">
 									<label for="asal_tanah">Asal Kepemilikan Tanah</label>
 									<select class="form-control input-sm required" name="asal_tanah" onchange="$('input[name=asal_tanah_nama]').val($(this).find(':selected').data('asal_tanahnama'));">
@@ -96,7 +97,7 @@
 								<div class="col-sm-3">
 									<label for="utara">Batas Sebelah Utara</label>
 									<input name="utara" class="form-control input-sm required" placeholder="Batas Sebelah Utara">
-								</div>				
+								</div>
 								<div class="col-sm-3">
 									<label for="timur">Batas Sebelah Timur</label>
 									<input name="timur" class="form-control input-sm required" placeholder="Batas Sebelah Timur">
@@ -110,7 +111,7 @@
 									<input name="barat" class="form-control input-sm required" placeholder="Batas Sebelah Barat">
 								</div>
 							</div>
-							
+
 							<div class="form-group subtitle_head" id="detail_kendaraan">
 								<label class="col-sm-3 control-label">PENANDATANGAN<br></label>
 							</div>
