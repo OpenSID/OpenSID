@@ -45,17 +45,17 @@
 
 							<div class="form-group">	
 								<div class="col-sm-3">
-								<label for="jenis_tanah">Jenis Tanah</label>
-								<select class="form-control input-sm required" name="jenis_tanah" onchange="$('input[name=jenis_tanah_nama]').val($(this).find(':selected').data('jenis_tanahnama'));">
-									<option value=""> ->> Pilih Jenis Tanah/Lahan <<- </option>
-									<?php foreach ($jenis_tanah as $pilihan => $nama): ?>
-										<option value="<?= $pilihan?>" data-jenis_tanahnama="<?= $nama; ?>" <?php if ($pilihan==$_SESSION['post']['jenis_tanah']): ?>selected<?php endif; ?>><?= $nama; ?></option>
-									<?php endforeach;?>
-								</select>
+									<label for="jenis_tanah">Jenis Tanah</label>
+									<select class="form-control input-sm required" name="jenis_tanah" onchange="$('input[name=jenis_tanah_nama]').val($(this).find(':selected').data('jenis_tanahnama'));">
+										<option value=""> ->> Pilih Jenis Tanah/Lahan <<- </option>
+										<?php foreach ($jenis_tanah as $pilihan => $nama): ?>
+											<option value="<?= $pilihan?>" data-jenis_tanahnama="<?= $nama; ?>" <?php if ($pilihan==$_SESSION['post']['jenis_tanah']): ?>selected<?php endif; ?>><?= $nama; ?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
 								<div class="col-sm-3">
-									<label for="atas_nama">Atas Nama</label>
-									<input name="atas_nama" class="form-control input-sm required" placeholder="Atas Nama">
+									<label for="luas_tanah">Luas Tanah</label>
+									<input name="luas_tanah" class="form-control input-sm required" placeholder="Luas Tanah (dalam M2)">
 								</div>
 								<div class="col-sm-3">
 								<label for="bukti_kepemilikan">Bukti Kepemilikan</label>
@@ -70,12 +70,25 @@
 
 							<div class="form-group">
 								<div class="col-sm-3">
+									<label for="atas_nama">Atas Nama</label>
+									<input name="atas_nama" class="form-control input-sm required" placeholder="Atas Nama">
+								</div>
+								<div class="col-sm-3">
 									<label for="nomor_kepemilikan">Nomor Bukti Kepemilikan</label>
 									<input name="nomor_kepemilikan" class="form-control input-sm required" placeholder="Nomor Bukti Kepemilikan">
 								</div>
 								<div class="col-sm-3">
-									<label for="luas_tanah">Luas Tanah</label>
-									<input name="luas_tanah" class="form-control input-sm required" placeholder="Luas Tanah (dalam M2)">
+									<label for="asal_tanah">Asal Kepemilikan Tanah</label>
+									<select class="form-control input-sm required" name="asal_tanah" onchange="$('input[name=asal_tanah_nama]').val($(this).find(':selected').data('asal_tanahnama'));">
+										<option value=""> ->> Pilih Asal Kepemilikan Tanah <<- </option>
+										<?php foreach ($asal_tanah as $pilihan => $nama): ?>
+											<option value="<?= $pilihan?>" data-asal_tanahnama="<?= $nama; ?>" <?php if ($pilihan==$_SESSION['post']['asal_tanah']): ?>selected<?php endif; ?>><?= $nama; ?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+								<div class="col-sm-3">
+									<label for="bukti_pendukungg">Bukti Pendukung Kepemilikan</label>
+									<input name="bukti_pendukung" class="form-control input-sm required" placeholder="Bukti Pendukung Kepemilikan">
 								</div>
 							</div>
 
@@ -97,23 +110,7 @@
 									<input name="barat" class="form-control input-sm required" placeholder="Batas Sebelah Barat">
 								</div>
 							</div>
-
-							<div class="form-group">
-								<div class="col-sm-3">
-									<label for="asal_tanah">Asal Kepemilikan Tanah</label>
-									<select class="form-control input-sm required" name="asal_tanah" onchange="$('input[name=asal_tanah_nama]').val($(this).find(':selected').data('asal_tanahnama'));">
-										<option value=""> ->> Pilih Asal Kepemilikan Tanah <<- </option>
-										<?php foreach ($asal_tanah as $pilihan => $nama): ?>
-											<option value="<?= $pilihan?>" data-asal_tanahnama="<?= $nama; ?>" <?php if ($pilihan==$_SESSION['post']['asal_tanah']): ?>selected<?php endif; ?>><?= $nama; ?></option>
-										<?php endforeach;?>
-									</select>
-								</div>
-								<div class="col-sm-3">
-									<label for="bukti_pendukungg">Bukti Pendukung Kepemilikan</label>
-									<input name="bukti_pendukung" class="form-control input-sm required" placeholder="Bukti Pendukung Kepemilikan">
-								</div>
-							</div>
-
+							
 							<div class="form-group subtitle_head" id="detail_kendaraan">
 								<label class="col-sm-3 control-label">PENANDATANGAN<br></label>
 							</div>
