@@ -62,7 +62,3 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		$this->db->query($sql);
   }
 }
-  }
-}
-  }
-}
