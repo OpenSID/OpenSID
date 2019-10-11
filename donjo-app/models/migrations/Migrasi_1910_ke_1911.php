@@ -47,5 +47,18 @@ class Migrasi_1910_ke_1911 extends CI_model {
 				kode_surat = VALUES(kode_surat),
 				jenis = VALUES(jenis)";
 		$this->db->query($sql);
+		// Tambah surat
+		$data = array(
+			'nama'=>'Keterangan Kepemilikan Tanah',
+			'url_surat'=>'surat_ket_kepemilikan_tanah',
+			'kode_surat'=>'S-49',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
   }
 }
