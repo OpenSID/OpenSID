@@ -105,7 +105,7 @@
 		$respon = array();
 		for ($i=$this->baris_pertama; $i<=$this->jml_baris; $i++)
 		{
-			$data_subjek = $this->tulis_rtm($data_sheet[$i]);
+			$data_subjek = $this->tulis_rtm($data_sheet[$i], $rtm);
 			if (!$data_subjek)
 			{
 				$gagal++;
@@ -116,7 +116,7 @@
 			{
 				// $list_id_subjek[nik] = id-penduduk atau $list_id_subjek[id_rtm] = id-rumah-tangga
 				if ($_SESSION['subjek_tipe'] == 3)
-					$this->list_id_subjek[$data_sheet[$i][$this->kolom_subjek]] = $data_subjek['id_rtm'];
+					$this->list_id_subjek[$data_sheet[$i][$this->kolom_subjek]] = $rtm;
 				else
 					$this->list_id_subjek[$data_sheet[$i][$this->kolom_subjek]] = $data_subjek['id_penduduk'];
 				$this->siapkan_respon($indikator, $per, $data_sheet[$i], $respon);
@@ -191,7 +191,7 @@
 		else return 0;
 	}
 
-	private function tulis_rtm($baris)
+	private function tulis_rtm($baris, &$rtm)
 	{
 		$id_rtm = $baris[$this->kolom['id_rtm']];
 		$rtm_level = $baris[$this->kolom['rtm_level']];
@@ -229,8 +229,10 @@
 			}
 		}
 		$penduduk = array();
-		$penduduk['id_rtm'] = $rtm;
+		$penduduk['id_rtm'] = $id_rtm;
 		$penduduk['rtm_level'] = $rtm_level;
+		$penduduk['updated_at'] = date('Y-m-d H:i:s');
+		$penduduk['updated_by'] = $this->session->user;
 		$this->db->where('nik', $nik)->update('tweb_penduduk', $penduduk);
 		$penduduk['id_penduduk'] = $query->row()->id;
 		return $penduduk;

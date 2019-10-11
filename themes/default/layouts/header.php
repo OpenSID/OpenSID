@@ -3,12 +3,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title><?=
-			$this->setting->website_title
+		<title>
+			<?=
+				$this->setting->website_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
 				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
 				. get_dynamic_title_page_from_path();
-		?></title>
+			?>
+		</title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa <?= $desa['nama_desa'];?>">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,20 +40,19 @@
 
 		<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?= base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
-		<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
+		<?php if ($single_artikel OR $gallery): ?>
+			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
+		<?php endif ?>
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
-		<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
 
-		<script>
-			$(document).ready(function(){
-				$(".group2").colorbox({rel:'group2', transition:"fade"});
-				$(".group3").colorbox({rel:'group3', transition:"fade"});
-			});
-		</script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		
 	</head>
 	<body>
 		<div id="maincontainer">
@@ -99,7 +100,7 @@
 						</div>
 					</div>
 
-					<?php if (count($teks_berjalan) > 0): ?>
+					<?php if (!empty($teks_berjalan)): ?>
 						<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php');?>
 					<?php endif; ?>
 

@@ -12,7 +12,7 @@
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
 				<div class="box-body">
-					<p>OpenSID dikembangkan sejak Mei 2016, berlandasan Sistem Informasi Desa (SID) CRI. OpenSID dirancang supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Informasi lebih lanjut dapat dilihat di <a href= https://github.com/OpenSID/opensid>https://github.com/OpenSID/opensid</a>.</p>
+					<p>OpenSID adalah aplikasi Sistem Informasi Desa (SID) yang dikembangkan sejak Mei 2016. OpenSID dirancang dan dikelola supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Informasi lebih lanjut dapat dilihat di <a href= https://github.com/OpenSID/opensid>https://github.com/OpenSID/opensid</a>.</p>
 				</div>
 			</div>
 		</div>
@@ -142,6 +142,35 @@
 						<li>Forum diskusi teknis pengembangan OpenSID:</li>
 						<a href="https://opensid.slack.com" target="_blank">https://opensid.slack.com </a>
 					</ol>
+				</div>
+			</div>
+		</div>
+		<div class="panel box box-default">
+			<div class="box-header with-border">
+				<h4 class="box-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#donasi">Donasi</a>
+				</h4>
+			</div>
+			<div id="donasi" class="panel-collapse collapse">
+				<div class="box-body">
+					<h4>OpenSID SELALU GRATIS</h4>
+					<div>
+						<p>OpenSID selalu gratis dan bebas digunakan dan dikembangkan desa. OpenSID berlisensi GNU General Public License Version 3, yaitu Open Source, di mana scriptnya selalu bebas diperoleh dan disesuaikan desa.</p>
+					</div>
+					<h4>OpenSID DIKEMBANGKAN KOMUNITAS</h4>
+					<div>
+						<p>OpenSID dikembangkan oleh komunitas relawan yang peduli dan meluangkan waktu dan keahlian mereka secara sukarela untuk terus mengembangkan OpenSID.</p>
+						<p>Selain menyumbangkan waktu mereka, ada kalanya relawan OpenSID juga mengeluarkan dana pribadi untuk mendukung kegiatan OpenSID.</p>
+					</div>
+					<h4>OpenSID MEMERLUKAN BANTUAN</h4>
+					<div>
+						<p>Untuk terus berkembang, OpenSID memerlukan bantuan komunitas SID, termasuk donasi. Semua donasi bersifat sukarela dan sama sekali tidak ada keharusan. </p>
+						<p>Donasi anda akan memungkinkan OpenSID dikembangkan terus secara berkesinambungan, supaya bisa terus disempurnakan dan bisa dimanfaatkan oleh sebanyak mungkin desa di seluruh Nusantara. </p>
+						<p>
+							Cara mengirimkan donasi dan informasi lebih lanjut ada di:
+						</p>
+						<a href="https://www.opendesa.id/donasi" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan OpenSID</a>
+					</div>
 				</div>
 			</div>
 		</div>

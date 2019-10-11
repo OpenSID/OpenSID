@@ -163,6 +163,7 @@ class Keluarga extends Admin_Controller {
 		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
+		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
@@ -174,6 +175,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
+	// Tambah anggota keluarga dari penduduk baru
 	public function form_a($p=1, $o=0, $id=0)
 	{
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
@@ -204,6 +206,7 @@ class Keluarga extends Admin_Controller {
 		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
+		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
 		if ($_SESSION['validation_error'])
@@ -489,14 +492,12 @@ class Keluarga extends Admin_Controller {
 
 	public function delete_anggota($p=1, $o=0, $kk=0, $id='')
 	{
-		$this->redirect_hak_akses('h', "keluarga/anggota/$p/$o/$kk");
 		$this->keluarga_model->rem_anggota($kk,$id);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
 	public function delete_all_anggota($p=1, $o=0, $kk=0)
 	{
-		$this->redirect_hak_akses('h', "keluarga/anggota/$p/$o/$kk");
 		$this->keluarga_model->rem_all_anggota($kk);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}

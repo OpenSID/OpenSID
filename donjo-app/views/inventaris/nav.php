@@ -12,9 +12,6 @@
 <!-- boostrap dan datatables -->
 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css') ?>">
-<!-- jQuery library -->
-	<script src="<?= base_url('assets/js/jquery-3.2.1.min.js'); ?>"></script>
-<!-- Latest compiled JavaScript -->
 	<script src="<?= base_url('assets/bootstrap/js/bootstrap.js')?>"></script>
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/js/DataTables/datatables.min.css')?>">
 	<script type="text/javascript" charset="utf8" src="<?= base_url('assets/js/DataTables/datatables.min.js')?>"></script>

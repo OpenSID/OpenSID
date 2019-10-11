@@ -88,7 +88,7 @@
 }
 .user-panel
 {
-	padding: 10px 10px 25px 10px;
+	padding: 5px 0px 0px 0px;
 }
 .user-panel > .info
 {
@@ -376,4 +376,45 @@ img.profile-user-img.penduduk
 	max-height: 250px;
 	max-width: 200px;
 }
+
+/* Tabel umum */
+td.bilangan, th.bilangan, td.no_urut
+{
+	text-align: center;
+}
+
+.kecil{font-size:.8em;color:#888;font-style:italic;font-weight:400;margin-bottom:.5em;}
+
+/*
+Set Warna Bar untuk Anggaran dan Realisasi
+Source : https://www.highcharts.com/docs/chart-design-and-style/style-by-css
+*/
+
+/*
+Warna Bar Anggaran
+*/
+.highcharts-point.highcharts-color-0,
+.highcharts-legend-item.highcharts-color-0 .highcharts-point,
+.highcharts-tooltip .highcharts-color-0 {
+	fill: #34b4eb;
+}
+
+.highcharts-tooltip.highcharts-color-0,
+.highcharts-data-label-connector.highcharts-color-0 {
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
+}
+
+/*
+Warna Bar Realisasi
+*/
+.highcharts-point.highcharts-color-1,
+.highcharts-legend-item.highcharts-color-1 .highcharts-point,
+.highcharts-tooltip .highcharts-color-1 {
+	fill: #b4eb34;
+}
+.highcharts-tooltip.highcharts-color-1,
+.highcharts-data-label-connector.highcharts-color-1 {
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
+}
+
 

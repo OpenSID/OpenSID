@@ -7,13 +7,6 @@ class Gis extends Admin_Controller {
 		parent::__construct();
 		session_start();
 
-		// Jika offline_mode dalam level yang menyembunyikan website,
-		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode >= 2)
-		{
-			redirect('hom_desa');
-			exit;
-		}
 		$this->load->model('penduduk_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');

@@ -8,17 +8,17 @@
 				<strong><?= ucwords($this->setting->sebutan_desa." ".$desa['nama_desa']);?></strong>
 				</br>
 				<?php
-					$nam_kec = strlen(unpenetration($desa['nama_kecamatan']));
-					$nam_kab = strlen(unpenetration($desa['nama_kabupaten']));
+					$nam_kec = strlen($desa['nama_kecamatan']);
+					$nam_kab = strlen($desa['nama_kabupaten']);
 				?>
 				<?php	if ($nam_kec<=12 AND $nam_kab<=12): ?>
-					<?=ucwords($this->setting->sebutan_kecamatan." ".unpenetration($desa['nama_kecamatan']));?>
+					<?=ucwords($this->setting->sebutan_kecamatan." ".$desa['nama_kecamatan']);?>
 					</br>
-					<?=ucwords($this->setting->sebutan_kabupaten." ".unpenetration($desa['nama_kabupaten']));?>
+					<?=ucwords($this->setting->sebutan_kabupaten." ".$desa['nama_kabupaten']);?>
 				<?php	else: ?>
-					<?=ucwords(substr($this->setting->sebutan_kecamatan,0,3).". ".unpenetration($desa['nama_kecamatan']));?>
+					<?=ucwords(substr($this->setting->sebutan_kecamatan,0,3).". ".$desa['nama_kecamatan']);?>
 					</br>
-					<?=ucwords(substr($this->setting->sebutan_kabupaten,0,3).". ".unpenetration($desa['nama_kabupaten']));?>
+					<?=ucwords(substr($this->setting->sebutan_kabupaten,0,3).". ".$desa['nama_kabupaten']);?>
 				<?php	endif; ?>
 			</div>
 		</div>

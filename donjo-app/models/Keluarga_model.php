@@ -4,6 +4,7 @@
 	{
 		parent::__construct();
 		$this->load->model('program_bantuan_model');
+		$this->load->model('penduduk_model');
 	}
 
 	public function autocomplete()
@@ -86,7 +87,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw')";
+			$search_sql = " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw' OR t.tag_id_card LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -167,15 +168,15 @@
 			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
 			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
 			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.nama'; break;
-			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
+			case 5: $order_sql = ' ORDER BY u.tgl_daftar'; break;
+			case 6: $order_sql = ' ORDER BY u.tgl_daftar DESC'; break;
 			default:$order_sql = ' ORDER BY u.no_kk DESC';
 		}
 
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.sex, t.status_dasar,
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.id as id_pend,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
@@ -233,10 +234,11 @@
 		$default['id_kk'] = $kk_id;
 		$default['kk_level'] = 1;
 		$default['status'] = 1; // statusnya menjadi tetap
+		$default['updated_at'] = date('Y-m-d H:i:s');
+		$default['updated_by'] = $this->session->user;
 		$this->db->where('id', $data['nik_kepala']);
 		$this->db->update('tweb_penduduk', $default);
 
-		$this->load->model('penduduk_model');
 		$this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
 
 		$log['id_pend'] = 1;
@@ -249,20 +251,6 @@
 
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-	}
-
-	private function validasi_data_penduduk($data)
-	{
-		$valid = array();
-		if (!ctype_digit($data['nik']))
-			array_push($valid, "NIK hanya berisi angka");
-		if (strlen($data['nik']) != 16 AND $data['nik'] != '0')
-			array_push($valid, "NIK panjangnya harus 16 atau 0");
-		if ($this->db->select('nik')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row()->nik)
-			array_push($valid, "NIK {$data['nik']} sudah digunakan");
-		if (!empty($valid))
-			$_SESSION['validation_error'] = true;
-		return $valid;
 	}
 
 	private function validasi_data_keluarga($data)
@@ -289,7 +277,7 @@
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
+		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -336,15 +324,9 @@
 		$data2['alamat'] = $data['alamat'];
 		UNSET($data['alamat']);
 
-		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
-		else $data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
-		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
-		else $data['tanggalperkawinan'] = tgl_indo_in($data['tanggalperkawinan']);
-		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
-		else $data['tanggalperceraian'] = tgl_indo_in($data['tanggalperceraian']);
-
 		// Tulis penduduk baru sebagai kepala keluarga
 		$data['kk_level'] = 1;
+		$data['created_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		$id_pend = $this->db->insert_id();
 		if ($outp) $_SESSION['success'] = 1;
@@ -358,6 +340,8 @@
 		$kk_id = $this->db->insert_id();
 
 		// Update penduduk kaitkan dengan KK
+		$default['updated_at'] = date('Y-m-d H:i:s');
+		$default['updated_by'] = $this->session->user;
 		$default['id_kk'] = $kk_id;
 		$this->db->where('id', $id_pend);
 		$this->db->update('tweb_penduduk', $default);
@@ -453,6 +437,8 @@
 
 		$temp['id_kk'] = $id;
 		$temp['kk_level'] = $data['kk_level'];
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
@@ -468,6 +454,8 @@
 		{
     	// Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
 			$lvl['kk_level'] = 11;
+			$lvl['updated_at'] = date('Y-m-d H:i:s');
+			$lvl['updated_by'] = $this->session->user;
 			$this->db->where('id_kk', $id_kk);
 			$this->db->where('kk_level', 1);
 			$this->db->update('tweb_penduduk', $lvl);
@@ -497,6 +485,8 @@
 		$this->update_kk_level($id, $pend['id_kk'], $data['kk_level'], $data['kk_level_lama']);
     unset($data['kk_level_lama']);
 
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
@@ -510,6 +500,8 @@
 		$temp['no_kk_sebelumnya'] = $this->db->select('no_kk')->where('id',$kk)->get('tweb_keluarga')->row()->no_kk;
 		$temp['id_kk'] = 0;
 		$temp['kk_level'] = 0;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 		if ($pend['kk_level'] == '1')
@@ -519,7 +511,6 @@
 			$outp = $this->db->update('tweb_keluarga', $temp2);
 		}
 
-		$this->load->model('penduduk_model');
 		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
 	}
 
@@ -730,9 +721,8 @@
 		{
 			$id_detail='5';
 		}
-		$data['tanggallahir'] = tgl_indo_in($data['tanggallahir']);
 
-		$error_validasi = array_merge($this->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
+		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -744,11 +734,11 @@
 			return;
 		}
 
+		$data['created_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		if (!$outp) $_SESSION = -1;
 
     $id_pend = $this->db->insert_id();
-		$this->load->model('penduduk_model');
 		$this->penduduk_model->tulis_log_penduduk($id_pend, $id_detail, $blnskrg, $thnskrg);
 	}
 
@@ -836,6 +826,8 @@
 		{
 			$this->db->where('id_kk', $id_kk);
 			$data['id_cluster'] = $id_cluster;
+			$data['updated_at'] = date('Y-m-d H:i:s');
+			$data['updated_by'] = $this->session->user;
 			$outp = $this->db->update('tweb_penduduk', $data);
 
 			// Tulis log pindah untuk setiap anggota keluarga

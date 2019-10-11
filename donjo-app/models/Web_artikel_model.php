@@ -67,11 +67,16 @@
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
 				WHERE id_kategori = ? ";
+		elseif ($cat == -1)
+			// Semua artikel
+			$sql = "FROM artikel a
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE 1 ";
 		else
 			// Artikel dinamis tidak berkategori
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND k.id IS NULL ";
+				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND a.id_kategori <> 1001 AND k.id IS NULL ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->grup_sql();
@@ -144,13 +149,16 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 		$data = $_POST;
-
 		if (empty($data['judul'])  || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
 		  $_SESSION['success'] = -1;
 		  return;
 		}
+		// Batasi judul menggunakan teks polos
+		$data['judul'] = strip_tags($data['judul']);
+		// Gunakan judul untuk url artikel
+		$slug = url_title($data['judul'], 'dash', TRUE);
 
 		$fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
@@ -224,6 +232,7 @@
 		}
 		else
 		{
+			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->insert('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
@@ -259,7 +268,6 @@
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
-
 	  $data = $_POST;
 		if (empty($data['judul']) || empty($data['isi']))
 		{
@@ -267,6 +275,10 @@
 		  $_SESSION['success'] = -1;
 		  return;
 		}
+		// Batasi judul menggunakan teks polos
+		$data['judul'] = strip_tags($data['judul']);
+		// Gunakan judul untuk url artikel
+		$slug = url_title($data['judul'], 'dash', TRUE);
 
 	  $fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
@@ -356,6 +368,7 @@
 		else
 		{
 			$this->db->where('id', $id);
+			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->update('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;

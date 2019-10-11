@@ -300,4 +300,28 @@ class Web extends Admin_Controller {
 		redirect("web/slider");
 	}
 
+	public function teks_berjalan()
+	{
+		$header = $this->header_model->get_data();
+		$nav['act'] = 13;
+		$nav['act_sub'] = 64;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('web/admin_teks_berjalan.php');
+		$this->load->view('footer');
+	}
+
+	public function update_teks_berjalan()
+	{
+		// Kontributor tidak boleh melakukan ini
+		if ($_SESSION['grup'] == 4)
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
+			redirect("web/teks_berjalan");
+		}
+
+		$this->setting_model->update_teks_berjalan();
+		redirect("web/teks_berjalan");
+	}
+
 }

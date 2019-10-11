@@ -23,7 +23,13 @@
 		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
 		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
 		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
-		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => NULL)
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
+		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
+		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
+		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
+		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => '19.09'),
+		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
+		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -109,20 +115,22 @@
 			'value' => $versi
 		);
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
-	 $_SESSION['success'] = 1;
+		$this->load->model('track_model');
+		$this->track_model->kirim_data();
+	 	$_SESSION['success'] = 1;
   }
 
   private function getCurrentVersion()
   {
-	// Untuk kasus tabel setting_aplikasi belum ada
-	if (!$this->db->table_exists('setting_aplikasi')) return NULL;
-	$result = NULL;
-	$_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
-	if (!empty($_result))
-	{
-	  $result = $_result->value;
-	}
-	return $result;
+		// Untuk kasus tabel setting_aplikasi belum ada
+		if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+		$result = NULL;
+		$_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
+		if (!empty($_result))
+		{
+		  $result = $_result->value;
+		}
+		return $result;
   }
 
   private function nop()
@@ -132,56 +140,339 @@
 
   private function _migrasi_db_cri()
   {
-	$this->migrasi_cri_lama();
-	$this->migrasi_03_ke_04();
-	$this->migrasi_08_ke_081();
-	$this->migrasi_082_ke_09();
-	$this->migrasi_092_ke_010();
-	$this->migrasi_010_ke_10();
-	$this->migrasi_10_ke_11();
-	$this->migrasi_111_ke_12();
-	$this->migrasi_124_ke_13();
-	$this->migrasi_13_ke_14();
-	$this->migrasi_14_ke_15();
-	$this->migrasi_15_ke_16();
-	$this->migrasi_16_ke_17();
-	$this->migrasi_17_ke_18();
-	$this->migrasi_18_ke_19();
-	$this->migrasi_19_ke_110();
-	$this->migrasi_110_ke_111();
-	$this->migrasi_111_ke_112();
-	$this->migrasi_112_ke_113();
-	$this->migrasi_113_ke_114();
-	$this->migrasi_114_ke_115();
-	$this->migrasi_115_ke_116();
-	$this->migrasi_116_ke_117();
-	$this->migrasi_117_ke_20();
-	$this->migrasi_20_ke_21();
-	$this->migrasi_21_ke_22();
-	$this->migrasi_22_ke_23();
-	$this->migrasi_23_ke_24();
-	$this->migrasi_24_ke_25();
-	$this->migrasi_25_ke_26();
-	$this->migrasi_26_ke_27();
-	$this->migrasi_27_ke_28();
-	$this->migrasi_28_ke_29();
-	$this->migrasi_29_ke_210();
-	$this->migrasi_210_ke_211();
-	$this->migrasi_211_ke_1806();
-	$this->migrasi_1806_ke_1807();
-	$this->migrasi_1808_ke_1809();
-	$this->migrasi_1809_ke_1810();
-	$this->migrasi_1810_ke_1811();
-	$this->migrasi_1811_ke_1812();
-	$this->migrasi_1812_ke_1901();
-	$this->migrasi_1901_ke_1902();
-	$this->migrasi_1903_ke_1904();
-	$this->migrasi_1904_ke_1905();
+		$this->migrasi_cri_lama();
+		$this->migrasi_03_ke_04();
+		$this->migrasi_08_ke_081();
+		$this->migrasi_082_ke_09();
+		$this->migrasi_092_ke_010();
+		$this->migrasi_010_ke_10();
+		$this->migrasi_10_ke_11();
+		$this->migrasi_111_ke_12();
+		$this->migrasi_124_ke_13();
+		$this->migrasi_13_ke_14();
+		$this->migrasi_14_ke_15();
+		$this->migrasi_15_ke_16();
+		$this->migrasi_16_ke_17();
+		$this->migrasi_17_ke_18();
+		$this->migrasi_18_ke_19();
+		$this->migrasi_19_ke_110();
+		$this->migrasi_110_ke_111();
+		$this->migrasi_111_ke_112();
+		$this->migrasi_112_ke_113();
+		$this->migrasi_113_ke_114();
+		$this->migrasi_114_ke_115();
+		$this->migrasi_115_ke_116();
+		$this->migrasi_116_ke_117();
+		$this->migrasi_117_ke_20();
+		$this->migrasi_20_ke_21();
+		$this->migrasi_21_ke_22();
+		$this->migrasi_22_ke_23();
+		$this->migrasi_23_ke_24();
+		$this->migrasi_24_ke_25();
+		$this->migrasi_25_ke_26();
+		$this->migrasi_26_ke_27();
+		$this->migrasi_27_ke_28();
+		$this->migrasi_28_ke_29();
+		$this->migrasi_29_ke_210();
+		$this->migrasi_210_ke_211();
+		$this->migrasi_211_ke_1806();
+		$this->migrasi_1806_ke_1807();
+		$this->migrasi_1808_ke_1809();
+		$this->migrasi_1809_ke_1810();
+		$this->migrasi_1810_ke_1811();
+		$this->migrasi_1811_ke_1812();
+		$this->migrasi_1812_ke_1901();
+		$this->migrasi_1901_ke_1902();
+		$this->migrasi_1903_ke_1904();
+		$this->migrasi_1904_ke_1905();
+		$this->migrasi_1905_ke_1906();
+		$this->migrasi_1906_ke_1907();
+		$this->migrasi_1907_ke_1908();
+		$this->migrasi_1908_ke_1909();
+		$this->migrasi_1909_ke_1910();
+		$this->migrasi_1910_ke_1911();
+  }
+
+  private function migrasi_1910_ke_1911()
+  {
+  	$this->load->model('migrations/migrasi_1910_ke_1911');
+  	$this->migrasi_1910_ke_1911->up();
+  }
+
+  private function migrasi_1909_ke_1910()
+  {
+  	$this->load->model('migrations/migrasi_1909_ke_1910');
+  	$this->migrasi_1909_ke_1910->up();
+  }
+
+  private function migrasi_1908_ke_1909()
+  {
+  	$this->load->model('migrations/migrasi_1908_ke_1909');
+  	$this->migrasi_1908_ke_1909->up();
+  }
+
+  private function migrasi_1907_ke_1908()
+  {
+  	$this->load->model('migrations/migrasi_1907_ke_1908');
+  	$this->migrasi_1907_ke_1908->up();
+  }
+
+  private function migrasi_1906_ke_1907()
+  {
+  	$this->load->model('migrations/migrasi_1906_ke_1907');
+  	$this->migrasi_1906_ke_1907->up();
+  }
+
+  private function migrasi_1905_ke_1906()
+  {
+  	// Tambah kolom waktu update dan user pengupdate
+  	if (!$this->db->field_exists('created_at', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$this->dbforge->add_field("created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
+			$fields = array();
+			$fields['created_by'] = array(
+					'type' => 'int',
+					'constraint' => 11,
+				  'null' => FALSE,
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
+  	if (!$this->db->field_exists('updated_at', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$this->dbforge->add_field("updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
+		}
+		$fields = array();
+		$fields['updated_by'] = array(
+				'type' => 'int',
+				'constraint' => 11,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+  	if (!$this->db->field_exists('updated_by', 'tweb_penduduk'))
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		else
+		  $this->dbforge->modify_column('tweb_penduduk', $fields);
+
+  	// Tambah menu teks berjalan
+		$data = array(
+			'id' => '64',
+			'modul' => 'Teks Berjalan',
+			'url' => 'teks_berjalan',
+			'aktif' => '1',
+			'ikon' => 'fa-ellipsis-h',
+			'urut' => '9',
+			'level' => '2',
+			'parent' => '13',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa-ellipsis-h'
+		);
+		$sql = $this->db->insert_string('setting_modul', $data) . " ON DUPLICATE KEY UPDATE url = VALUES(url), ikon = VALUES(ikon), ikon_kecil = VALUES(ikon_kecil)";
+		$this->db->query($sql);
+
+		if (!$this->db->table_exists('teks_berjalan'))
+		{
+			$query = "
+			CREATE TABLE `teks_berjalan` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`teks` text,
+				`urut` int(5),
+				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`created_by` int(11) NOT NULL,
+				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`updated_by` int(11),
+				`status` int(1) NOT NULL DEFAULT '0',
+				PRIMARY KEY (id)
+			)
+			";
+			$this->db->query($query);
+
+			$setting_teks_berjalan = $this->db->select('id, value')->where('key','isi_teks_berjalan')->get('setting_aplikasi')->row();
+			if ($setting_teks_berjalan)
+			{
+				// ambil teks, tulis ke tabel teks_berjalan
+				// hapus setting
+				$isi_teks = $setting_teks_berjalan->value;
+				$data = array(
+					'teks' => $isi_teks,
+					'created_by' => $this->session->user
+				);
+				$this->db->insert('teks_berjalan', $data);
+				$this->db->where('key','isi_teks_berjalan')->delete('setting_aplikasi');
+			}
+			else
+			{
+				// ambil teks dari artikel, tulis ke tabel teks_berjalan
+				// hapus artikel
+				$id_kategori = $this->db->select('id')->where('kategori', 'teks_berjalan')->limit(1)->get('kategori')->row()->id;
+				if ($id_kategori)
+				{
+					// Ambil teks dari artikel
+					$teks = $this->db->select('a.isi, a.enabled')
+						->from('artikel a')
+						->join('kategori k', 'a.id_kategori = k.id', 'left')
+						->where('k.kategori', 'teks_berjalan')
+						->get()->result_array();
+					foreach ($teks as $data)
+					{
+						$isi_teks = strip_tags($data['isi']);
+						$isi = array(
+							'teks' => $isi_teks,
+							'status' => $data['enabled'],
+							'created_by' => $this->session->user
+						);
+						$this->db->insert('teks_berjalan', $isi);
+					}
+					// Hapus artikel dan kategori teks berjalan
+					$this->db->where('id_kategori', $id_kategori)->delete('artikel');
+					$this->db->where('kategori', 'teks_berjalan')->delete('kategori');
+				}
+			}
+		}
+  	// Tambah tautan pada teks berjalan
+  	if (!$this->db->field_exists('tautan', 'teks_berjalan'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$fields['judul_tautan'] = array(
+					'type' => 'varchar',
+					'constraint' => 150,
+			);
+			$this->dbforge->add_column('teks_berjalan', $fields);
+		}
+
+  	// Hapus menu SID dan Donasi
+		$this->db->where('id', 16)->delete('setting_modul');
+		$this->db->where('id', 19)->delete('setting_modul');
+
+  	$fields = $this->db->field_data('tweb_penduduk');
+  	$lookup = array_column($fields, NULL, 'name');   // re-index by 'name'
+  	$field_berat_lahir = $lookup['berat_lahir'];
+  	if (strtolower($field_berat_lahir->type) == 'varchar')
+  	{
+	  	// Ubah berat lahir dari kg menjadi gram
+	  	$list_penduduk = $this->db->select('id, berat_lahir')->get('tweb_penduduk')->result_array();
+	  	foreach ($list_penduduk as $penduduk)
+	  	{
+	  		// Kolom berat_lahir tersimpan sebagai varchar
+	  		$berat_lahir = (float)str_replace(',', '.', preg_replace('/[^0-9,\.]/','', $penduduk['berat_lahir']));
+	  		if ($berat_lahir < 100.0)
+	  		{
+	  			$berat_lahir = (int)($berat_lahir * 1000.0);
+	  			$this->db->where('id', $penduduk['id'])->update('tweb_penduduk', array('berat_lahir' => $berat_lahir));
+	  		}
+	  	}
+	  	// Ganti kolom berat_lahir menjadi bilangan
+		  $this->dbforge->modify_column('tweb_penduduk', array('berat_lahir' => array('type' => 'SMALLINT')));
+  	}
+  	// Di tweb_penduduk ubah kelahiran_anak_ke supaya default NULL
+	  $this->dbforge->modify_column('tweb_penduduk', array('kelahiran_anak_ke' => array('type' => 'TINYINT', 'constraint' => 2, 'default' => NULL)));
+
+	  // Ubah kolom tweb_penduduk supaya boleh null
+		$fields = array();
+		$fields['ktp_el'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['status_rekam'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['tempat_dilahirkan'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['jenis_kelahiran'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['penolong_kelahiran'] = array(
+				'type' => 'TINYINT',
+				'constraint' => 2,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['panjang_lahir'] = array(
+				'type' => 'VARCHAR',
+				'constraint' => 10,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+		$fields['sakit_menahun_id'] = array(
+				'type' => 'INT',
+				'constraint' => 11,
+			  'null' => TRUE,
+				'default' => NULL
+		);
+	  $this->dbforge->modify_column('tweb_penduduk', $fields);
   }
 
   private function migrasi_1904_ke_1905()
   {
+  	// Tambah kolom penduduk
+  	if (!$this->db->field_exists('tag_id_card', 'tweb_penduduk'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['tag_id_card'] = array(
+					'type' => 'VARCHAR',
+					'constraint' => 15,
+					'default' => NULL
+			);
+			$this->dbforge->add_column('tweb_penduduk', $fields);
+		}
+  	// Tambah form admin aparatur desa
+		$this->db->where('isi','aparatur_desa.php')->update('widget',array('form_admin'=>'web_widget/admin/aparatur_desa'));
+  	// Konversi data suplemen terdata ke id
+  	$jml = $this->db->select('count(id) as jml')
+  		->where('id_terdata <>', '0')
+  		->where('char_length(id_terdata) <> 16')
+  		->get('suplemen_terdata')
+  		->row()->jml;
+  	if ($jml == 0)
+  	{
+	  	$terdata = $this->db->select('s.id as s_id, s.id_terdata, s.sasaran,
+	  		(case when s.sasaran = 1 then p.id else k.id end) as id')
+	  		->from('suplemen_terdata s')
+	  		->join('tweb_keluarga k', 'k.no_kk = s.id_terdata', 'left')
+	  		->join('tweb_penduduk p', 'p.nik = s.id_terdata', 'left')
+	  		->get()
+	  		->result_array();
+	  	foreach ($terdata as $data)
+	  	{
+				$this->db
+					->where('id', $data['s_id'])
+					->update('suplemen_terdata', array('id_terdata' => $data['id']));
+	   	}
+	  }
+
 		$this->db->where('id', 62)->update('setting_modul', array('url'=>'gis/clear', 'aktif'=>'1'));
+		// Tambah surat keterangan penghasilan orangtua
+		$data = array(
+			'nama'=>'Keterangan Penghasilan Orangtua',
+			'url_surat'=>'surat_ket_penghasilan_orangtua',
+			'kode_surat'=>'S-42',
+			'jenis'=>1);
+		$sql = $this->db->insert_string('tweb_surat_format', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				nama = VALUES(nama),
+				url_surat = VALUES(url_surat),
+				kode_surat = VALUES(kode_surat),
+				jenis = VALUES(jenis)";
+		$this->db->query($sql);
   }
 
   private function migrasi_1903_ke_1904()
@@ -3269,7 +3560,7 @@
 	public function kosongkan_db()
 	{
 		// Views tidak perlu dikosongkan.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup');
+		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup', 'keluarga_aktif');
 		// Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
 		// tabel rujukannya
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk');

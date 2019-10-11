@@ -24,6 +24,11 @@
     }
 
     $_SESSION['balik_ke'] = $dari;
+    $this->kirim_data();
+  }
+
+  public function kirim_data()
+  {
     if (defined('ENVIRONMENT'))
     {
       switch (ENVIRONMENT)
@@ -83,7 +88,6 @@
     {
       $_SESSION['track_admin'] = date("Y m d");
     }
-
   }
 
   /*

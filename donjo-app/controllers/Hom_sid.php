@@ -10,6 +10,7 @@ class Hom_sid extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('program_bantuan_model');
+		$this->load->model('surat_model');
 		$this->modul_ini = 1;
 	}
 
@@ -18,10 +19,11 @@ class Hom_sid extends Admin_Controller {
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();
 		$data['keluarga'] = $this->header_model->keluarga_total();
-		$data['miskin'] = $this->header_model->miskin_total();
+		$data['bantuan'] = $this->header_model->bantuan_total();
 		$data['kelompok'] = $this->header_model->kelompok_total();
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
+		$data['jumlah_surat'] = $this->surat_model->surat_total();
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 16;

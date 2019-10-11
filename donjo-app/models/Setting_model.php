@@ -21,8 +21,17 @@ class Setting_model extends CI_Model {
 				$this->load->model('database_model');
 				$this->database_model->migrasi_db_cri();
 			}
-			$pr = $this->db->order_by('key')->get("setting_aplikasi")->result();
+			$pr = $this->db
+				->where("kategori is null or kategori <> 'sistem'")
+				->order_by('key')->get("setting_aplikasi")->result();
 			foreach($pr as $p)
+			{
+				$pre[addslashes($p->key)] = addslashes($p->value);
+			}
+			$setting_sistem = $this->db
+				->where('kategori', 'sistem')
+				->order_by('key')->get("setting_aplikasi")->result();
+			foreach($setting_sistem as $p)
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
@@ -103,31 +112,40 @@ class Setting_model extends CI_Model {
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
+	/*
+		Input post:
+		- jenis_server dan server_mana menentukan setting penggunaan_server
+		- offline_mode dan offline_mode_saja menentukan setting offline_mode
+	*/
+	public function update_penggunaan_server()
+	{
+		$_SESSION['success'] = 1;
+		$mode = $this->input->post('offline_mode_saja');
+		$this->setting->offline_mode = ($mode === '0' or $mode) ? $mode : $this->input->post('offline_mode');
+		$out1 = $this->db->where('key','offline_mode')->update('setting_aplikasi', array('value'=>$this->setting->offline_mode));
+		$penggunaan_server = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
+		$this->setting->penggunaan_server = $penggunaan_server;
+		$out2 = $this->db->where('key','penggunaan_server')->update('setting_aplikasi', array('value'=>$penggunaan_server));
+		if (!$out1 or !$out2) $_SESSION['success'] = -1;
+	}
+
 	public function load_options()
 	{
 		foreach ($this->list_setting as $i => $set)
 		{
-			if ($set->jenis == 'option' or $set->jenis == 'option-value')
+			if (in_array($set->jenis, array('option', 'option-value', 'option-kode')))
 			{
 				$this->list_setting[$i]->options = $this->get_options($set->id);
 			}
 		}
-
 	}
 
 	private function get_options($id)
 	{
-		$result = array();
-		$rows = $this->db->select('id,value')
+		$rows = $this->db->select('id, kode, value')
 		                 ->where('id_setting', $id)
 		                 ->get('setting_aplikasi_options')
 		                 ->result();
-
-		foreach ($rows as $row)
-		{
-			$result[$row->id] = $row->value;
-		}
-
-		return $result;
+		return $rows;
 	}
 }

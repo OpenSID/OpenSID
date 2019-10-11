@@ -26,7 +26,7 @@ class Header_model extends CI_Model {
 		return $data;
 	}
 
-	public function miskin_total()
+	public function bantuan_total()
 	{
 		$jml_program = $this->db->select('COUNT(id) as jml')
 			->get('program')
@@ -34,7 +34,7 @@ class Header_model extends CI_Model {
 		if (empty($jml_program))
 		{
 			$data['jumlah'] = 0;
-			$data['nama'] = 'PROGRAM BANTUAN';
+			$data['nama'] = 'Bantuan';
 			$data['link_detail'] = 'program_bantuan';
 			return $data;
 		}

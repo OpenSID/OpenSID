@@ -12,23 +12,13 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-body">
+						<div class="box-header with-border">
+							<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
+							</a>
+						</div>
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
-							<div class="box-header with-border">
-								<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
-									<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
-								</a>
-							</div>
-							<div class="form-group">
-								<label for="nik"  class="col-sm-3 control-label">NIK / Nama</label>
-								<div class="col-sm-6 col-lg-4">
-									<select class="form-control  input-sm select2-nik" id="cari_nik" name="nik" style ="width:100%;" onchange="formAction('main')">
-										<option value="">--  Cari NIK / Nama Penduduk--</option>
-										<?php foreach ($penduduk as $data): ?>
-											<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
-										<?php endforeach;?>
-									</select>
-								</div>
-							</div>
+							<?php include("donjo-app/views/surat/form/_cari_nik.php"); ?>
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
@@ -42,13 +32,7 @@
 							<?php if ($individu): ?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 							<?php	endif; ?>
-							<div class="form-group">
-								<label for="nomor" class="col-sm-3 control-label">Nomor Surat</label>
-								<div class="col-sm-8">
-									<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $surat_terakhir['no_surat_berikutnya'];?>">
-									<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
-								</div>
-							</div>
+							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
 								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">

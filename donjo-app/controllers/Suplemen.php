@@ -31,9 +31,9 @@ class Suplemen extends Admin_Controller {
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($id);
 		$sasaran = $data['suplemen']['sasaran'];
 		$data['list_sasaran'] = $this->suplemen_model->list_sasaran($id, $sasaran);
-		if (isset($_POST['nik']))
+		if (isset($_POST['terdata']))
 		{
-			$data['individu'] = $this->suplemen_model->get_terdata($_POST['nik'], $sasaran);
+			$data['individu'] = $this->suplemen_model->get_terdata($_POST['terdata'], $sasaran);
 		}
 		else
 		{
@@ -129,10 +129,10 @@ class Suplemen extends Admin_Controller {
 		redirect("suplemen/rincian/1/$id");
 	}
 
-	public function hapus_terdata($id_suplemen, $terdata_id)
+	public function hapus_terdata($id_suplemen, $id_terdata)
 	{
 		$this->redirect_hak_akses('h', "suplemen/rincian/1/$id_suplemen");
-		$this->suplemen_model->hapus_terdata($terdata_id);
+		$this->suplemen_model->hapus_terdata($id_terdata);
 		redirect("suplemen/rincian/1/$id_suplemen");
 	}
 

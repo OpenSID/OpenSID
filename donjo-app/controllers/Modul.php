@@ -90,12 +90,6 @@ class Modul extends Admin_Controller {
 		redirect('modul');
 	}
 
-	public function insert()
-	{
-		$this->modul_model->insert();
-		redirect('modul');
-	}
-
 	public function update($id = '')
 	{
 		$this->modul_model->update($id);
@@ -105,5 +99,18 @@ class Modul extends Admin_Controller {
 		{
 			redirect("modul/sub_modul/$_POST[parent]");
 		}
+	}
+
+	public function ubah_server()
+	{
+		$this->load->model('setting_model');
+		$this->setting_model->update_penggunaan_server();
+		redirect('modul');
+	}
+
+	public function default_server()
+	{
+		$this->modul_model->default_server();
+		redirect('modul');
 	}
 }

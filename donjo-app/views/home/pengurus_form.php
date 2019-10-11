@@ -33,10 +33,10 @@
 							<div class="form-group col-sm-12" >
 				  			<label class="col-sm-4 col-lg-2 control-label" for="id_pend">NIK / Nama Penduduk </label>
 								<div class="col-sm-7">
-									<select class="form-contr	ol select2 input-sm" id="id_pend" name="id_pend"  onchange="formAction('main')" style="width:100%" >
+									<select class="form-control select2 input-sm" id="id_pend" name="id_pend"  onchange="formAction('main')" style="width:100%" >
 										<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 										<?php foreach ($penduduk as $data): ?>
-											<option value="<?= $data['id']?>" <?php if ($individu['id']==$data['id']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<option value="<?= $data['id']?>" <?php if ($individu['id']==$data['id']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -84,19 +84,19 @@
 								<label class="col-sm-4 control-label" for="pamong_nik">Nomor Induk Kependudukan</label>
 								<div class="col-sm-7">
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Nomor Induk Kependudukan" value="<?=$individu['nik']?>" disabled="disabled"></input>
-									<input id="pamong_nik" name="pamong_nik" class="form-control input-sm pengurus-luar-desa" type="text" placeholder="Nomor Induk Kependudukan" value="<?=$pamong['pamong_nik']?>" style="display: none;"></input>
+									<input id="pamong_nik" name="pamong_nik" class="form-control input-sm pengurus-luar-desa digits" type="text" placeholder="Nomor Induk Kependudukan" value="<?=$pamong['pamong_nik']?>" style="display: none;"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_niap">NIAP</label>
 								<div class="col-sm-7">
-									<input id="pamong_niap" name="pamong_niap" class="form-control input-sm" type="text" placeholder="NIAP" value="<?=$pamong['pamong_niap']?>" ></input>
+									<input id="pamong_niap" name="pamong_niap" class="form-control input-sm digits" type="text" placeholder="NIAP" value="<?=$pamong['pamong_niap']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nip">NIP</label>
 								<div class="col-sm-7">
-									<input id="pamong_nip" name="pamong_nip" class="form-control input-sm" type="text" placeholder="NIP" value="<?=$pamong['pamong_nip']?>" ></input>
+									<input id="pamong_nip" name="pamong_nip" class="form-control input-sm digits" type="text" placeholder="NIP" value="<?=$pamong['pamong_nip']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">

@@ -146,7 +146,7 @@
 								<select class="form-control input-sm required" name="dusun1" onchange="DusSel(this.value)">
 									<option value="">Pilih Dusun</option>
 									<?php foreach ($dusun as $data): ?>
-										<option value="<?=($data['dusun'])?>"><?=ununderscore(unpenetration($data['dusun']))?></option>
+										<option value="<?=($data['dusun'])?>"><?=$data['dusun']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>

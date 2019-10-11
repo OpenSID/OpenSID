@@ -37,7 +37,7 @@
 											</tr>
 											<tr>
 												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Kepala Rumah Tangga</td>
-												<td nowrap > :  <?= unpenetration($kepala_kk['nama'])?></td>
+												<td nowrap > :  <?= $kepala_kk['nama']?></td>
 											</tr>
 											<tr>
 												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
@@ -76,10 +76,10 @@
 																	</td>
 																	<td><?= $data['nik']?></td>
 																	<td><?= $data['no_kk']?></td>
-																	<td nowrap width="25%"><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td nowrap width="25%"><?= strtoupper($data['nama'])?></td>
 																	<td><?= $data['sex']?></td>
 																	<td nowrap><?= $data['hubungan']?></td>
-																	<td width="35%"><?= unpenetration($data['alamat'])?></td>
+																	<td width="35%"><?= $data['alamat']?></td>
 																</tr>
 															<?php endforeach; ?>
 														</tbody>

@@ -39,7 +39,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="nama_desa" name="nama_desa" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_desa)?>" value="<?=unpenetration($main["nama_desa"])?>"></input>
+									<input id="nama_desa" name="nama_desa" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

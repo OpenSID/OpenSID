@@ -9,6 +9,9 @@ class User_model extends CI_Model {
 	// Konfigurasi untuk library 'upload'
 	protected $uploadConfig = array();
 
+	protected $larangan_demo = array(
+		'database' => array('h')
+	);
 
 	public function __construct()
 	{
@@ -304,6 +307,7 @@ class User_model extends CI_Model {
 		$data['session'] = md5(now());
 
 		$data['foto'] = $this->urusFoto();
+		$data['nama'] = strip_tags($data['nama']);
 
 		if (!$this->db->insert('user', $data))
 		{
@@ -351,6 +355,7 @@ class User_model extends CI_Model {
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
+		$data['nama'] = strip_tags($data['nama']);
 
 		if (!$this->db->where('id', $idUser)->update('user', $data))
 		{
@@ -445,7 +450,7 @@ class User_model extends CI_Model {
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
-		$data['nama'] = $this->input->post('nama');
+		$data['nama'] = strip_tags($this->input->post('nama'));
 		$password = $this->input->post('pass_lama');
 		$pass_baru = $this->input->post('pass_baru');
 		$pass_baru1 = $this->input->post('pass_baru1');
@@ -661,11 +666,20 @@ class User_model extends CI_Model {
 	*/
 	public function hak_akses($group, $controller, $akses)
 	{
+		$controller = explode('/', $controller);
+		// Demo tidak boleh mengakses menu tertentu
+		if (config_item('demo'))
+		{
+			if (in_array($akses, $this->larangan_demo[$controller[0]]))
+			{
+				log_message('error', '==Akses Demo Terlarang: '.print_r($_SERVER, true));
+				return false;
+			}
+		}
 		// Group admin punya akses global
 		// b = baca; u = ubah; h= hapus
 		if ($group == 1) return true;
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
-		$controller = explode('/', $controller);
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
 		$hak_akses = array(
@@ -699,6 +713,8 @@ class User_model extends CI_Model {
 				'analisis_periode' => array('b','u'),
 				'analisis_respon' => array('b','u'),
 				'analisis_statistik_jawaban' => array('b','u'),
+				// keuangan
+				'keuangan' => array('b','u'),
 				// bantuan
 				'program_bantuan' => array('b','u'),
 				// inventaris
@@ -734,6 +750,7 @@ class User_model extends CI_Model {
 				'komentar' => array('b','u','h'),
 				'menu' => array('b','u'),
 				'sosmed' => array('b','u'),
+				'teks_berjalan' => array('b','u'),
 				'web' => array('b','u'),
 				'web_widget' => array('b','u'),
 				// pengaturan
@@ -751,7 +768,9 @@ class User_model extends CI_Model {
 				'lapor' => array('b','u'),
 				'mandiri' => array('b','u'),
 				// notifikasi
-				'notif' => array('b','u')
+				'notif' => array('b','u'),
+				// wilayah
+				'wilayah' => array('b')
 			),
 			// Redaktur
 			3 => array(

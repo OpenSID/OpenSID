@@ -6,10 +6,9 @@
 	https://github.com/malsup/cycle2/issues/178
  -->
 
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-3.2.1.min.js"></script>
-<script src="<?php echo base_url()?>assets/js/jquery.cycle2.min.js"></script>
-<script src="<?php echo base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
-<script src="<?php echo base_url()?>assets/js/jquery.pause.min.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.cycle2.min.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.pause.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -34,9 +33,14 @@
 		});
 	});
 </script>
-<div id="scroller" style="margin-bottom: 0px; padding-bottom: 3px;">
-  <?php foreach($teks_berjalan AS $data) {?>
-  	<span style="vertical-align: middle; color: white; font: bold 8pt Arial; padding-right: 200px;"><?php echo $data['isi']?></span>
-  <?php }?>
+<div id="scroller" class="teks_berjalan" style="margin-bottom: 0px; padding-bottom: 3px;">
+  <?php foreach ($teks_berjalan AS $teks): ?>
+  	<span class="teks">
+  		<?= $teks['teks']?>
+  		<?php if ($teks['tautan']): ?>
+	  		<a href="<?= site_url('first/artikel/'.$teks['tautan']) ?>"><?= $teks['judul_tautan']?></a>
+	  	<?php endif; ?>
+  	</span>
+  <?php endforeach; ?>
   <span>&nbsp;</span>
 </div>

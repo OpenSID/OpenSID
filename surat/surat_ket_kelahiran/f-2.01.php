@@ -363,7 +363,7 @@ table#kode
 			<td colspan="10">11. Berat Bayi</td>
 			<td>:</td>
 			<td colspan="3" class="kotak"><?= $input['berat_lahir']?></td>
-			<td> Kg</td>
+			<td> gram</td>
 			<td colspan="21">&nbsp;</td>
 		</tr>
 		<tr>
@@ -1173,31 +1173,29 @@ table#kode
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr style="line-height: 1px; height: 1px; margin-bottom: -10px;">
 			<?php for ($i=0; $i<48; $i++): ?>
-				<td style="line-height: 1px; height: 1px;">&nbsp;</td>
+				<td style="line-height: 1px; height: 1px; padding: -10px;"></td>
 			<?php endfor; ?>
 		</tr>
 	</table>
 	<table id="ttd" class="disdukcapil" style="margin-top: 0px; margin-bottom: 0px; padding: 0px; border: 0px; border-collapse: collapse;">
 		<col span="48" style="width: 2.0833%;">
 		<tr>
-			<td colspan="46" style="text-align: right">
+			<td colspan="33">&nbsp;</td>
+			<td colspan="15" style="text-align: center">
 				<?= $config['nama_desa'];?>, <?= tgl_indo(date('Y m d',time()));?>
 			</td>
-			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
-			<td colspan="4">&nbsp;</td>
-			<td colspan="16" style="text-align: center;">Mengetahui</td>
-			<td colspan="15">&nbsp;</td>
-			<td colspan="10" style="text-align: center;">Pelapor</td>
 			<td colspan="3">&nbsp;</td>
+			<td colspan="15" style="text-align: center;">Mengetahui,</td>
+			<td colspan="15" style="text-align: center;">Mengetahui,</td>
+			<td colspan="15" style="text-align: center;">Pelapor</td>
 		</tr>
 		<tr>
-			<td colspan="4">&nbsp;</td>
-			<td colspan="16" style="text-align: center;"><?= padded_string_center($input['jabatan'],30)?></td>
-			<td colspan="15">&nbsp;</td>
-			<td colspan="10" style="text-align: center;">&nbsp;</td>
 			<td colspan="3">&nbsp;</td>
+			<td colspan="15" style="text-align: center;">Camat <?= $config['nama_kecamatan']; ?></td>
+			<td colspan="15" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
+			<td colspan="15" style="text-align: center;">&nbsp;</td>
 		</tr>
 		<tr><td colspan="48">&nbsp;</td></tr>
 		<tr><td colspan="48">&nbsp;</td></tr>
@@ -1208,11 +1206,16 @@ table#kode
 			<?php endfor; ?>
 		</tr>
 		<tr>
-			<td colspan="4">&nbsp;</td>
-			<td colspan="16" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
-			<td colspan="15">&nbsp;</td>
-			<td colspan="10" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
 			<td colspan="3">&nbsp;</td>
+			<td colspan="15" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($config['nama_kepala_camat']),30)?>&nbsp;)</strong></td>
+			<td colspan="15" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
+			<td colspan="15" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
+		</tr>
+		<tr>
+			<td colspan="3">&nbsp;</td>
+			<td colspan="15" style="text-align: center;"><strong>NIP : <?= padded_string_center(strtoupper($config['nip_kepala_camat']),30)?></strong></td>
+			<td colspan="15" style="text-align: center;">&nbsp;</td>
+			<td colspan="15" style="text-align: center;">&nbsp;</td>
 		</tr>
 	</table>
 </page>

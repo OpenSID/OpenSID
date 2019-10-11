@@ -9,10 +9,10 @@
 					<table width="100%">
 						<tr> <img src="<?= LogoDesa($desa['logo']);?>" alt=""  class="logo"></tr>
 						<div class="header">
-							<h4 class="kop">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper(unpenetration($desa['nama_kabupaten']))?> </h4>
-							<h4 class="kop">KECAMATAN <?= strtoupper(unpenetration($desa['nama_kecamatan']))?> </h4>
-							<h4 class="kop"><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper(unpenetration($desa['nama_desa']))?></h4>
-							<h5 class="kop2"><?= (unpenetration($desa['alamat_kantor']))?> </h5>
+							<h4 class="kop">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($desa['nama_kabupaten'])?> </h4>
+							<h4 class="kop">KECAMATAN <?= strtoupper($desa['nama_kecamatan'])?> </h4>
+							<h4 class="kop"><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa'])?></h4>
+							<h5 class="kop2"><?= ($desa['alamat_kantor'])?> </h5>
 							<div style="text-align: center;"><hr /></div>
 						</div>
 					</table>
@@ -20,7 +20,7 @@
 						<table width="100%">
 							<tr>
 								<td width="10%"></td><td></td><td width="43%" align="left">  </td>
-								<td align="left"><?= unpenetration($desa['nama_desa'])?>, <?= $tanggal_sekarang?></td>
+								<td align="left"><?= $desa['nama_desa']?>, <?= $tanggal_sekarang?></td>
 							</tr>
 							<tr>
 								<td width="10%">Nomor</td><td>:</td><td width="43%" align="left"><?= $input['nomor'] ?>  </td>
@@ -32,7 +32,7 @@
 							</tr>
 							<tr>
 								<td width="10%"></td><td></td><td width="43%" align="left">  </td>
-								<td align="left"><p>Kepada Yth. Kepala Kepala Pengadilan Agama <?= ucwords($this->setting->sebutan_kabupaten)?>  <?= unpenetration($desa['nama_kabupaten'])?></td>
+								<td align="left"><p>Kepada Yth. Kepala Kepala Pengadilan Agama <?= ucwords($this->setting->sebutan_kabupaten)?>  <?= $desa['nama_kabupaten']?></td>
 							</tr>
 							<tr></tr>
 							<tr></tr>
@@ -48,19 +48,19 @@
 						<table width="100%">
 							<tr><td colspan="3">Dengan ini kami kirimkan dengan hormat permohonan cerai dari pasangan suami istri : </td></tr>
 							<tr><td width="30%">A. SUAMI</td><td>:</td><td></td></tr>
-							<tr><td>Nama</td><td>:</td><td><?= unpenetration($pribadi['nama'])?></td></tr>
+							<tr><td>Nama</td><td>:</td><td><?= $pribadi['nama']?></td></tr>
 							<tr><td>NIK</td><td>:</td><td><?= $pribadi['nik']?></td></tr>
 							<tr><td>Tempat dan Tanggal Lahir </td><td>:</td><td><?= $pribadi['tempatlahir']?>, <?= tgl_indo(($pribadi['tanggallahir']))?> </td></tr>
 							<tr><td>Pekerjaan</td><td>:</td><td><?= $pribadi['pek']?></td></tr>
 							<tr><td>Agama</td><td>:</td><td><?= $pribadi['agama']?></td></tr>
-							<tr><td>Alamat</td><td>:</td><td>RT. <?= $pribadi['rt']?>, RW. <?= $pribadi['rw']?>, Dusun <?= unpenetration(ununderscore($pribadi['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
+							<tr><td>Alamat</td><td>:</td><td>RT. <?= $pribadi['rt']?>, RW. <?= $pribadi['rw']?>, Dusun <?= $pribadi['dusun']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, Kec. <?= $desa['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $desa['nama_kabupaten']?></td></tr>
 							<tr><td>B. ISTRI</td><td>:</td><td></td></tr>
 							<tr><td>Nama</td><td>:</td><td><?= $istri['nama']?></td></tr>
 							<tr><td>NIK</td><td>:</td><td><?= $istri['nik']?></td></tr>
 							<tr><td>Tempat dan Tanggal Lahir </td><td>:</td><td><?= $istri['tempatlahir']?> <?= tgl_indo(($istri['tanggallahir']))?> </td></tr>
 							<tr><td>Pekerjaan</td><td>:</td><td><?= $istri['pek']?></td></tr>
 							<tr><td>Agama</td><td>:</td><td><?= $istri['agama']?></td></tr>
-							<tr><td>Alamat</td><td>:</td><td>RT. <?= $istri['rt']?>, RW. <?= $istri['rw']?>, Dusun <?= unpenetration(ununderscore($istri['dusun']))?>, <?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, Kec. <?= unpenetration($desa['nama_kecamatan'])?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= unpenetration($desa['nama_kabupaten'])?></td></tr>
+							<tr><td>Alamat</td><td>:</td><td>RT. <?= $istri['rt']?>, RW. <?= $istri['rw']?>, Dusun <?= $istri['dusun']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, Kec. <?= $desa['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $desa['nama_kabupaten']?></td></tr>
 							<tr></tr>
 							<tr><td colspan="3">Adapun sebab-sebab menurut keterangannya sebagai berikut :</td></tr>
 							<tr></tr>
@@ -71,7 +71,7 @@
 						</table>
 						<table width="100%">
 							<tr></tr>
-							<tr><td width="23%"></td><td width="30%"></td><td align="center"><?= unpenetration($input['jabatan'])?> <?= unpenetration($desa['nama_desa'])?></td></tr>
+							<tr><td width="23%"></td><td width="30%"></td><td align="center"><?= $input['jabatan']?> <?= $desa['nama_desa']?></td></tr>
 							<tr></tr>
 							<tr></tr>
 							<tr></tr>

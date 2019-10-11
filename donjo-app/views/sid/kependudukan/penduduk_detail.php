@@ -36,6 +36,26 @@
 								<div class="col-md-12">
 									<div class="box-header with-border">
 										<h3 class="box-title">Biodata Penduduk (NIK : <?= $penduduk['nik']?>)</h3>
+										<br>
+										<?php if (!empty($penduduk['nama_pendaftar'])): ?>
+											<p class="kecil">
+												Terdaftar pada:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
+												<i class="fa fa-user"></i> <?= $penduduk['nama_pengubah']?>
+											</p>
+										<?php else: ?>
+											<p class="kecil">
+												Terdaftar sebelum:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
+											</p>
+										<?php endif; ?>
+										<?php if (!empty($penduduk['nama_pengubah'])): ?>
+											<p class="kecil">
+												Terakhir diubah:
+												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['updated_at']);?>
+												<i class="fa fa-user"></i> <?= $penduduk['nama_pengubah']?>
+											</p>
+										<?php endif; ?>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -70,11 +90,13 @@
 																<th>Wajib KTP</th>
 																<th>KTP-EL</th>
 																<th>Status Rekam</th>
+																<th>Tag ID Card</th>
 															</tr>
 															<tr>
 																<td><?= strtoupper($penduduk['wajib_ktp'])?></td>
 																<td><?= strtoupper($penduduk['ktp_el'])?></td>
 																<td><?= strtoupper($penduduk['status_rekam'])?></td>
+																<td><?= $penduduk['tag_id_card']?></td>
 															</tr>
 														</table>
 													</td>
@@ -125,7 +147,7 @@
 													<td>Penolong Kelahiran</td><td >:</td><td><?= $penduduk['penolong_kelahiran_nama'] ?></td>
 												</tr>
 												<tr>
-													<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']?> Kg</td>
+													<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']?> Gram</td>
 												</tr>
 												<tr>
 													<td>Panjang Lahir</td><td >:</td><td><?= $penduduk['panjang_lahir']?> cm</td>
@@ -182,16 +204,13 @@
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
-													<td>Dusun</td><td >:</td><td><?= strtoupper(ununderscore($penduduk['dusun']))?></td>
+													<td>Dusun</td><td >:</td><td><?= strtoupper($penduduk['dusun'])?></td>
 												</tr>
 												<tr>
 													<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt'])?> / <?= $penduduk['rw']?></td>
 												</tr>
 												<tr>
 													<td>Alamat Sebelumnya</td><td >:</td><td><?= strtoupper($penduduk['alamat_sebelumnya'])?></td>
-												</tr>
-												<tr>
-													<td>Alamat Sekarang</td><td >:</td><td><?= strtoupper($penduduk['alamat_sekarang'])?></td>
 												</tr>
 												<tr>
 													<th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>
@@ -235,6 +254,16 @@
 												<?php if ($penduduk['id_sex'] == 2): ?>
 													<tr>
 														<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
+													</tr>
+												<?php endif; ?>
+												<tr>
+													<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi'] ?></td>
+												</tr>
+												<?php if (!empty($penduduk['id_asuransi']) and $penduduk['id_asuransi'] <> '1'): ?>
+													<tr>
+														<td><?= ($penduduk['id_asuransi'] == '99') ? 'Nama/nomor Asuransi' : 'No Asuransi' ?></td>
+														<td >:</td>
+														<td><?= strtoupper($penduduk['no_asuransi'])?></td>
 													</tr>
 												<?php endif; ?>
 											</thead>

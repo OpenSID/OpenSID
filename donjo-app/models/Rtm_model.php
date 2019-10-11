@@ -59,7 +59,7 @@
 		if (isset($_SESSION['cari']))
 		{
 			$cari = $_SESSION['cari'];
-			$kw = penetration($this->db->escape_like_str($cari));
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND t.nama LIKE '$kw'";
 			return $search_sql;
@@ -105,7 +105,7 @@
 	private function list_data_sql()
 	{
 		$sql = " FROM tweb_rtm u
-			LEFT JOIN tweb_penduduk t ON u.id = t.id_rtm AND t.rtm_level = 1
+			LEFT JOIN tweb_penduduk t ON u.no_kk = t.id_rtm AND t.rtm_level = 1
 			LEFT JOIN tweb_keluarga k ON t.id_kk = k.id
 			LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
 			WHERE 1 ";
@@ -135,7 +135,10 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		$select_sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, k.alamat AS alamat,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.id ) AS jumlah_anggota, c.dusun, c.rw, c.rt ";
+			(SELECT COUNT(id)
+				FROM tweb_penduduk
+				WHERE id_rtm = u.no_kk ) AS jumlah_anggota,
+			c.dusun, c.rw, c.rt ";
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
@@ -160,24 +163,17 @@
 	{
 		$nik = $_POST['nik_kepala'];
 
-		$data['no_kk'] = "0";
-		$data['nik_kepala'] = $nik;
-		$outp = $this->db->insert('tweb_rtm', $data);
-
-		$sql = "SELECT id FROM tweb_rtm ORDER by id DESC LIMIT 1";
-		$query = $this->db->query($sql);
-		$kk = $query->row_array();
-
 		$kw = $this->get_kode_wilayah();
 		$nortm = 100000 + $kk['id'];
 		$nortm = substr($nortm, 1, 5);
 		$rtm['no_kk'] = $kw."".$nortm;
 		$rtm['nik_kepala'] = $nik;
-		$this->db->where('id', $kk['id']);
-		$this->db->update('tweb_rtm', $rtm);
+		$outp = $this->db->insert('tweb_rtm', $rtm);
 
-		$default['id_rtm'] = $kk['id'];
+		$default['id_rtm'] = $rtm['no_kk'];
 		$default['rtm_level'] = 1;
+		$default['updated_at'] = date('Y-m-d H:i:s');
+		$default['updated_by'] = $this->session->user;
 		$this->db->where('id', $nik);
 		$this->db->update('tweb_penduduk', $default);
 
@@ -189,6 +185,8 @@
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$this->db->where('id_rtm', $id);
 		$outp = $this->db->update('tweb_penduduk', $temp);
@@ -196,49 +194,32 @@
 		$sql = "DELETE FROM tweb_rtm WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if (!$outp) $this->session->success = -1;
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_rtm WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-
-				$default['id_rtm'] = "";
-				$default['rtm_level'] = "";
-
-				$this->db->where('id_rtm',$id);
-				$this->db->update('tweb_penduduk', $default);
-			}
+			$this->delete($id);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function add_anggota($id=0)
 	{
 		$data = $_POST;
-		$temp['id_rtm'] = $id;
+		$no_rtm = $this->db->select('no_kk')
+			->where('id', $id)
+			->get('tweb_rtm')->row()->no_kk;
+		$temp['id_rtm'] = $no_rtm;
 		$temp['rtm_level'] = 2;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
-
-		if ($temp['rtm_level'] == "1")
-		{
-			$temp2['nik_kepala'] = $data['nik'];
-			$this->db->where('id', $temp['id_rtm']);
-			$outp = $this->db->update('tweb_rtm', $temp2);
-		}
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -248,6 +229,8 @@
 	{
 		$data = $_POST;
 
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 		// Kalau menjadi kepala rumah tangga, tweb_rtm perlu diupdate juga
@@ -264,6 +247,8 @@
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
+		$temp['updated_at'] = date('Y-m-d H:i:s');
+		$temp['updated_by'] = $this->session->user;
 
 		$pend = $this->rtm_model->get_anggota($id);
 		$this->db->where('id', $id);
@@ -275,28 +260,16 @@
 			$outp = $this->db->update('tweb_rtm', $temp2);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if (!$outp) $this->session->success = -1;
 	}
 
 	public function rem_all_anggota($kk)
 	{
 		$id_cb = $_POST['id_cb'];
-		$temp['id_rtm'] = 0;
-		$temp['rtm_level'] = 0;
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->db->where('id', $id);
-				$outp = $this->db->update('tweb_penduduk', $temp);
-			}
+			$this->rem_anggota($kk, $id);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function get_dusun($id=0)
@@ -364,8 +337,9 @@
 			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id
+			LEFT JOIN tweb_rtm r ON u.id_rtm = r.no_kk
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
-			WHERE id_rtm = ? ORDER BY rtm_level";
+			WHERE r.id = ? ORDER BY rtm_level";
 
 		$query = $this->db->query($sql, array($id));
 		$data = $query->result_array();
@@ -374,7 +348,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			$data[$i]['alamat'] = "Dusun ".ununderscore($data[$i]['dusun']).", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
+			$data[$i]['alamat'] = "Dusun ".$data[$i]['dusun'].", RW ".$data[$i]['rw'].", RT ".$data[$i]['rt'];
 			$data[$i]['tanggallahir'] = tgl_indo($data[$i]['tanggallahir']);
 		}
 		return $data;

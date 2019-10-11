@@ -6,7 +6,7 @@
 		<title>
 			<?=$this->setting->admin_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']):  '')
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']:  '')
 				. get_dynamic_title_page_from_path();
 			?>
 		</title>
@@ -47,12 +47,25 @@
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.pm.css" />
+		<!-- Untuk ubahan style desa -->
+		<?php if (is_file("desa/css/siteman.css")): ?>
+			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php endif; ?>
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
+		<script type="text/javascript">
+			var BASE_URL = "<?= base_url(); ?>";
+		</script>
+		
+		<!-- Highcharts JS -->
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">

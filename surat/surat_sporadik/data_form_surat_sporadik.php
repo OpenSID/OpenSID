@@ -1,6 +1,4 @@
 <?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
-		$str_desa = ucwords($this->setting->sebutan_desa.' '.$data['lokasi']['nama_desa']);
-		$data['atas_nama'] = array("An. Kepala $str_desa","Ub. Kepala $str_desa");
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
 		$data['nomor'] = $this->input->post('nomor_main');
 		$_SESSION['post'] = $_POST;

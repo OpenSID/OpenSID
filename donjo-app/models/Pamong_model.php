@@ -144,34 +144,43 @@
 			}
 		}
 
+		$data = array();
+		$data['foto'] = $nama_file;
+		$data = $this->siapkan_data($data);
 		// Beri urutan terakhir
 		$data['urut'] = $this->urut_max() + 1;
-		$data['id_pend'] = $this->input->post('id_pend');
-		$this->data_pamong_asal($data);
-		$data['pamong_nip'] = $this->input->post('pamong_nip');
-		$data['pamong_niap'] = $this->input->post('pamong_niap');
-		$data['jabatan'] = $this->input->post('jabatan');
-		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
-		$data['pamong_status'] = $this->input->post('pamong_status');
-		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
-		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
-		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
-		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
-		$data['pamong_tgl_terdaftar'] = NOW();
-		$data['foto'] = $nama_file;
+		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
+
 		$outp = $this->db->insert('tweb_desa_pamong', $data);
 
 		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	private function siapkan_data(&$data)
+	{
+		$data['id_pend'] = $this->input->post('id_pend');
+		$this->data_pamong_asal($data);
+		$data['pamong_nip'] = strip_tags($this->input->post('pamong_nip'));
+		$data['pamong_niap'] = strip_tags($this->input->post('pamong_niap'));
+		$data['jabatan'] = strip_tags($this->input->post('jabatan'));
+		$data['pamong_pangkat'] = strip_tags($this->input->post('pamong_pangkat'));
+		$data['pamong_status'] = $this->input->post('pamong_status');
+		$data['pamong_nosk'] = strip_tags($this->input->post('pamong_nosk'));
+		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? strip_tags($this->input->post('pamong_nohenti')) : NULL;
+		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ?tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
+		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab'));
+		return $data;
 	}
 
 	private function data_pamong_asal(&$data)
 	{
 		if (empty($data['id_pend']))
 		{
-			$data['pamong_nama'] = $this->input->post('pamong_nama');
-			$data['pamong_nik'] = $this->input->post('pamong_nik');
-			$data['pamong_tempatlahir'] = $this->input->post('pamong_tempatlahir');
+			unset($data['id_pend']);
+			$data['pamong_nama'] = strip_tags($this->input->post('pamong_nama'));
+			$data['pamong_nik'] = strip_tags($this->input->post('pamong_nik'));
+			$data['pamong_tempatlahir'] = strip_tags($this->input->post('pamong_tempatlahir'));
 			$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
 			$data['pamong_sex'] = $this->input->post('pamong_sex');
 			$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
@@ -191,6 +200,7 @@
 
 	public function update($id=0)
 	{
+		$data = array();
 		unset($_SESSION['validation_error']);
 		$_SESSION['success'] = 1;;
 		unset($_SESSION['error_msg']);
@@ -200,36 +210,19 @@
 		$old_foto = $this->input->post('old_foto');
 		if (!empty($nama_file))
 		{
-		  $nama_file  = urlencode(generator(6)."_".$_FILES['foto']['name']);
 			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))
 			{
-				UploadFoto($nama_file, $old_foto, $tipe_file);
+			  $data['foto'] = urlencode(generator(6)."_".$nama_file);
+				UploadFoto($data['foto'], $old_foto, $tipe_file);
 			}
 			else
 			{
-				$nama_file = '';
 				$_SESSION['success'] = -1;
 				$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
 			}
 		}
 
-		$data['id_pend'] = $this->input->post('id_pend');
-		$this->data_pamong_asal($data);
-		$data['pamong_nip'] = $this->input->post('pamong_nip');
-		$data['pamong_niap'] = $this->input->post('pamong_niap');
-		$data['jabatan'] = $this->input->post('jabatan');
-		$data['jabatan'] = $this->input->post('jabatan');
-		$data['pamong_pangkat'] = $this->input->post('pamong_pangkat');
-		$data['pamong_status'] = $this->input->post('pamong_status');
-		$data['pamong_nosk'] = $this->input->post('pamong_nosk');
-		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
-		$data['pamong_nohenti'] = $this->input->post('pamong_nohenti');
-		$data['pamong_tglhenti'] = tgl_indo_in($this->input->post('pamong_tglhenti'));
-		$data['pamong_masajab'] = $this->input->post('pamong_masajab');
-		if (!empty($nama_file))
-		{
-			$data['foto'] = $nama_file;
-		}
+		$data = $this->siapkan_data($data);
 		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
 
@@ -265,10 +258,32 @@
 	{
 		if ($val == 1)
 		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd default
+			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / default
 			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
 		}
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
+	}
+
+	public function ub($id='', $val=0)
+	{
+		if ($val == 1)
+		{
+			// Hanya satu pamong yang boleh digunakan sebagai ttd u.b
+			$this->db->where('pamong_ub', 1)->update('tweb_desa_pamong', array('pamong_ub'=>0));
+		}
+		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ub'=>$val));
+	}
+
+	public function get_ttd()
+	{
+		$ttd = $this->db->where('pamong_ttd', 1)->get('tweb_desa_pamong')->row_array();
+		return $ttd;
+	}
+
+	public function get_ub()
+	{
+		$ub = $this->db->where('pamong_ub', 1)->get('tweb_desa_pamong')->row_array();
+		return $ub;
 	}
 
   private function urut_max()
