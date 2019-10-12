@@ -102,11 +102,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			array(
 				'id' => 3,
 				'nama' => 'Perdes'
-			),
-      array(
-        'id' => 4,
-        'nama' => 'Perkades'
-      )
+			)
 		);
 		$this->db->insert_batch('ref_dokumen', $object);
 
