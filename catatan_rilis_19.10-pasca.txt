@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 9. #1761: Tampilkan gambar artikel dan galeri dalam popup pada waktu diklik.
 10. #2362: Grafik data statistik di web tampil kembali untuk tema default. [bug-fix]
 11. Tambah Surat Keterangan Kepemilikan Tanah.
+12. Tata ulang library laman web untuk menghindari bentrok. [teknis]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
