@@ -1,8 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.bar.css">
-<script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/jquery.js"></script>
-<script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/bootstrap.js"></script>
 <!--
 https://stackoverflow.com/questions/24685000/bootstrap-3-dropdowns-on-hover-and-on-click
 $('.navbar-toggle').is(':visible') checks if we are currently in mobile view, $(this).toggleClass('open', true) adds or removes open css class used by bootstrap, and window.location = $(this).attr('href') sends user to location set in the link href.
@@ -34,9 +32,6 @@ navigasi ke tautannya.
 </script>
 <link type='text/css' href="<?php echo base_url()?>assets/front/css/default.css" rel='Stylesheet' />
 <link type='text/css' href="<?php echo base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
-<?php if(is_file("desa/css/".$this->theme."/desa-default.css")):?>
-  <link type='text/css' href="<?php echo base_url()?>desa/css/<?php echo $this->theme ?>/desa-default.css" rel='Stylesheet' />
-<?php endif; ?>
 
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
