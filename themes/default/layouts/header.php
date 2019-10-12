@@ -45,9 +45,10 @@
 		<?php endif ?>
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 
-		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
+		<script src="<?= base_url()?>assets/front/js/bootstrap.min.js"></script>
 
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
