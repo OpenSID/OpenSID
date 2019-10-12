@@ -140,21 +140,6 @@ class Web_dokumen_model extends CI_Model {
 
 	private function upload_dokumen(&$data, $file_lama="")
 	{
-    // slugify characters
-    $nama = $data['nama'];
-      // replace non letter or digits by -
-    $nama = preg_replace('~[^\pL\d]+~u', '-', $nama);
-      // transliterate
-    $nama = iconv('utf-8', 'us-ascii//TRANSLIT', $nama);
-      // remove unwanted characters
-    $nama = preg_replace('~[^-\w]+~', '', $nama);
-      // trim
-    $nama = trim($nama, '-');
-      // remove duplicate -
-    $nama = preg_replace('~-+~', '-', $nama);
-      // lowercase
-    $nama = strtolower($nama);
-
 		unset($data['old_file']);
 		if (empty($_FILES['satuan']['tmp_name']))
 		{
@@ -193,11 +178,12 @@ class Web_dokumen_model extends CI_Model {
 			return false;
 		}
 
+    $nama = $data['nama'];
 		if (!empty($data['id_pend']))
 			$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
 		else
 			$nama_file = $nama."_".generator(6)."_".$nama_file;
-		$nama_file = urlencode($nama_file);
+		$nama_file = bersihkan_namafile($nama_file);
 		UploadDocument($nama_file, $file_lama);
 		$data['satuan'] = $nama_file;
 		return true;
