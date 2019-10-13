@@ -720,6 +720,7 @@ function UploadPengesahan($fupload_name)
 
 /*
   Hasilkan nama file yg aman untuk digunakan di url
+  source = https://stackoverflow.com/questions/2955251/php-function-to-make-slug-url-string
 */
 function bersihkan_namafile($nama)
 {

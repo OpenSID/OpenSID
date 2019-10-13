@@ -369,11 +369,11 @@ class First extends Web_Controller {
     $kategori_dokumen = '';
     $tahun_dokumen = '';
     $tentang_dokumen = '';
-    $data    = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
     echo json_encode($data);
   }
 
-  // function filter dokumen
+  // function filter peraturan
   public function filter_peraturan()
   {
     $kategori_dokumen = $this->input->post('kategori');

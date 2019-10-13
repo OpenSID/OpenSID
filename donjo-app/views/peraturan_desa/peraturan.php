@@ -66,9 +66,11 @@ $(document).ready(function() {
 } );
 
 function get_table() {
+  var url = "<?= site_url('first/ajax_table_peraturan')?>";
+
   $.ajax({
     type: "GET",
-    url: "<?= site_url('first/ajax_table_peraturan')?>",
+    url: url,
     dataType: "JSON",
     success: function(data)
     {
@@ -77,7 +79,8 @@ function get_table() {
       {
         html = "<tr><td colspan='3' align='center'>No Data Available</td></tr>";
       }
-      for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < data.length; i++) 
+      {
         html += "<tr>"+"<td><a href='<?= base_url('desa/upload/dokumen/')?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
         "<td>"+data[i].kategori+"</td>"+
         "<td>"+data[i].tahun+"</td>";
