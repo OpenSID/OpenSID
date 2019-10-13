@@ -17,8 +17,8 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			{
 				$fields = array(
 	        'tahun' => array(
-              'type' => 'INT',
-              'constraint' => '4'
+            'type' => 'INT',
+            'constraint' => '4'
 	        )
 				);
 				$this->dbforge->add_column('dokumen',$fields);
@@ -70,14 +70,14 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		{
 			$fields = array(
         'id' => array(
-            'type' => 'INT',
-            'constraint' => 5,
-            'unsigned' => TRUE,
-            'auto_increment' => TRUE
+          'type' => 'INT',
+          'constraint' => 5,
+          'unsigned' => TRUE,
+          'auto_increment' => TRUE
         ),
         'nama' => array(
-            'type' => 'VARCHAR',
-            'constraint' => '100'
+          'type' => 'VARCHAR',
+          'constraint' => '100'
         )
 			);
 
