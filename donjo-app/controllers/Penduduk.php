@@ -45,9 +45,7 @@ class Penduduk extends Admin_Controller {
 	public function clear()
 	{
 		$this->clear_session();
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
+		parent::clear_cluster_session();
 		$_SESSION['per_page'] = 50;
 		redirect('penduduk');
 	}

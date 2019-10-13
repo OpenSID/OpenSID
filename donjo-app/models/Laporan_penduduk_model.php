@@ -35,7 +35,7 @@
 		return $sql->result_array();
 	}
 
-	public function list_rw($dusun='')
+	public function list_rw($dusun = '')
 	{
 		$sql = $this->db
 			->select()
@@ -47,7 +47,7 @@
 		return $sql->result_array();
 	}
 
-	public function list_rt($dusun='', $rw='')
+	public function list_rt($dusun = '', $rw = '')
 	{
 		$sql = $this->db
 			->select()
@@ -558,9 +558,9 @@
 		elseif ($lap<=20 AND "$lap" <> 'kelas_sosial')
 		{
 			$sql3 = "SELECT ";
-			$sql3 .= $this->get_jumlah_sql(0, true);
-			$sql3 .= $this->get_laki_sql(0, true);
-			$sql3 .= $this->get_perempuan_sql(0);
+			$sql3 .= $this->get_jumlah_sql(false, true);
+			$sql3 .= $this->get_laki_sql(false, true);
+			$sql3 .= $this->get_perempuan_sql(false);
 		}
 		else
 		{

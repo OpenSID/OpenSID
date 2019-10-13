@@ -40,7 +40,6 @@
 						</div>
 						<div class="box-body">
 							<div class="col-sm-12">
-								
 								<?php if ($lap < 50): ?>
 									<h4 class="box-title"><b>Data Kependudukan menurut <?= ($stat);?></b></h4>
 								<?php else: ?>
