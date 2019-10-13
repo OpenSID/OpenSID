@@ -29,6 +29,10 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		// Update view supaya kolom baru ikut masuk
 		$this->db->query("DROP VIEW penduduk_hidup");
 		$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
+
+		// ubah url menu statistik kependudukan
+		$this->db->update('setting_modul', array('url' => 'statistik/clear'), array('id' => 27));
+
 		// Ubah kode surat
 		$this->db
 			->where('url_surat', 'surat_kuasa')

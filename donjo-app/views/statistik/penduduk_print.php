@@ -14,7 +14,7 @@
 						<tr>
 							<td align="center" >
 								<?php if ($aksi != 'unduh'): ?>
-									<img src="<?= LogoDesa($config['logo']);?>" alt="" style="float: left;">
+									<img src="<?= LogoDesa($config['logo']);?>" alt="" style="width:100px; height:auto">
 								<?php endif; ?>
 								<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
 								<h1 style="text-transform: uppercase;"></h1>
@@ -33,10 +33,43 @@
 												<div class="nowrap">
 													<label style="width: 150px;">Laporan. No</label>
 													<label>:</label>
-													<span><?= $laporan_no?></span>
+													<span><?= $laporan_no ?></span>
 												</div>
 											</td>
 										</tr>
+										<?php if($dusun) : ?>
+										<tr>
+											<td class="top" width="60%">
+												<div class="nowrap">
+													<label style="width: 150px;"><?= ucwords($this->setting->sebutan_dusun) ?></label>
+													<label>:</label>
+													<span><?= ucwords($dusun) ?></span>
+												</div>
+											</td>
+										</tr>
+										<?php endif ?>
+										<?php if($rw) : ?>
+										<tr>
+											<td class="top" width="60%">
+												<div class="nowrap">
+													<label style="width: 150px;">RW</label>
+													<label>:</label>
+													<span><?= $rw ?></span>
+												</div>
+											</td>
+										</tr>
+										<?php endif ?>
+										<?php if($rt) : ?>
+										<tr>
+											<td class="top" width="60%">
+												<div class="nowrap">
+													<label style="width: 150px;">RT</label>
+													<label>:</label>
+													<span><?= $rt ?></span>
+												</div>
+											</td>
+										</tr>
+										<?php endif ?>
 									</tbody>
 								</table>
 								<br>
