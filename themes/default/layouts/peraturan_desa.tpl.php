@@ -16,9 +16,7 @@
       </div>
 
       <div id="footer">
-        <?php
-        $this->load->view($folder_themes.'/partials/copywright.tpl.php');
-        ?>
+        <?php $this->load->view($folder_themes.'/partials/copywright.tpl.php'); ?>
       </div>
     </div>
   </body>

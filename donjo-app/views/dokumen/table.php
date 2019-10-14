@@ -22,10 +22,10 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
         <?php if ($this->modul_ini == 15): ?>
-				<?php $this->load->view('dokumen/menu_dokumen'); ?>
-				<div class="col-md-9">
+  				<?php $this->load->view('dokumen/menu_dokumen'); ?>
+  				<div class="col-md-9">
         <?php else: ?>
-        <div class="col-md-12">
+          <div class="col-md-12">
         <?php endif; ?>
 					<?php if ($this->modul_ini <> 15): ?>
 						<div class="col-md-3">
