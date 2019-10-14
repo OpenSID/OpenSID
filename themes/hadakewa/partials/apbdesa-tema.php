@@ -3,8 +3,18 @@
     $data = $this->keuangan_grafik_model->grafik_keuangan_hakadewa(2016);
 ?>
 
+<style type="text/css">
+    .transparansi-hidden{
+        display: none;
+    }
 
-<div class="container" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
+    .transparansi-show{
+        display: show;
+    }
+</style>
+
+<!-- Untuk menyembunyikan menu ini, ganti class transparansi-show dengan transparansi-hidden. -->
+<div class="container transparansi-show" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <?php
         foreach ($data as $subdata_name => $subdatas):
             switch ($subdata_name) {

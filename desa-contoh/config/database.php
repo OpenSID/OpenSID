@@ -11,6 +11,6 @@
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'opensid';
+$db['default']['password'] = 'firejacket';
+$db['default']['database'] = 'desa_keuangan';
 ?>
