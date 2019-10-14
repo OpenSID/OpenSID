@@ -37,7 +37,7 @@
 												</div>
 											</td>
 										</tr>
-										<?php if($dusun) : ?>
+										<?php if ($dusun) : ?>
 										<tr>
 											<td class="top" width="60%">
 												<div class="nowrap">
@@ -48,7 +48,7 @@
 											</td>
 										</tr>
 										<?php endif ?>
-										<?php if($rw) : ?>
+										<?php if ($rw) : ?>
 										<tr>
 											<td class="top" width="60%">
 												<div class="nowrap">
@@ -59,7 +59,7 @@
 											</td>
 										</tr>
 										<?php endif ?>
-										<?php if($rt) : ?>
+										<?php if ($rt) : ?>
 										<tr>
 											<td class="top" width="60%">
 												<div class="nowrap">
