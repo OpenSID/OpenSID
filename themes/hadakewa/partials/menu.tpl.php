@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/bootstrap/css/bootstrap.bar.css">
+<link rel="stylesheet" type="text/css" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <!--
 https://stackoverflow.com/questions/24685000/bootstrap-3-dropdowns-on-hover-and-on-click
 $('.navbar-toggle').is(':visible') checks if we are currently in mobile view, $(this).toggleClass('open', true) adds or removes open css class used by bootstrap, and window.location = $(this).attr('href') sends user to location set in the link href.
@@ -30,8 +30,11 @@ navigasi ke tautannya.
 		});
 	});
 </script>
-<link type='text/css' href="<?php echo base_url()?>assets/front/css/default.css" rel='Stylesheet' />
-<link type='text/css' href="<?php echo base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
+<link type='text/css' href="<?= base_url()?>assets/front/css/default.css" rel='Stylesheet' />
+<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
+<?php if (is_file("desa/css/".$this->theme."/desa-default.css")):?>
+  <link type='text/css' href="<?= base_url()?>desa/css/<?php echo $this->theme ?>/desa-default.css" rel='Stylesheet' />
+<?php endif; ?>
 
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
@@ -42,26 +45,27 @@ navigasi ke tautannya.
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<?php echo site_url(); ?>first/">
-									<img src="<?php echo LogoDesa($desa['logo']);?>" alt="<?php echo $desa['nama_desa']?>" width="30px" style="margin:-7px"/></a>
+			<a class="navbar-brand" href="<?= site_url(); ?>first/">
+				<img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
+			</a>
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="<?php echo site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
-				<?php foreach($menu_atas as $data){?>
-					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo $data['link']?>"><i class="fa fa-th-large"></i> <?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
-						<?php if(count($data['submenu'])>0): ?>
+				<li><a href="<?= site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
+				<?php foreach ($menu_atas as $data): ?>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?= $data['link']?>"><i class="fa fa-th-large"></i> <?= $data['nama'] ?><?php (count($data['submenu']) > 0) and print("<span class='caret'></span>") ?></a>
+						<?php if (count($data['submenu']) > 0): ?>
 							<ul class="dropdown-menu">
-								<?php foreach($data['submenu'] as $submenu): ?>
-									<li><a href="<?php echo $submenu['link']?>"><?php echo $submenu['nama']?></a></li>
+								<?php foreach ($data['submenu'] as $submenu): ?>
+									<li><a href="<?= $submenu['link']?>"><?= $submenu['nama']?></a></li>
 								<?php endforeach; ?>
 							</ul>
 						<?php endif; ?>
 					</li>
-				<?php }?>
+				<?php endforeach; ?>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<a href="<?php echo site_url('siteman') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-lock fa-lg"></i> Login Admin</button></a>
+				<a href="<?= site_url('siteman') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-lock fa-lg"></i> Login Admin</button></a>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div>
