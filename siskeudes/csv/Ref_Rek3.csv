@@ -1,0 +1,74 @@
+Kelompok,Jenis,Nama_Jenis,Formula
+"1.1.","1.1.1.","Kas dan Bank",1
+"1.1.","1.1.2.","Piutang",1
+"1.1.","1.1.3.","Persediaan",1
+"1.2.","1.2.1.","Penyertaan Modal Pemerintah Desa",1
+"1.3.","1.3.1.","Tanah",1
+"1.3.","1.3.2.","Peralatan dan Mesin",1
+"1.3.","1.3.3.","Gedung dan Bangunan",1
+"1.3.","1.3.4.","Jalan, Irigasi dan Jaringan",1
+"1.3.","1.3.5.","Aset Tetap Lainnya",1
+"1.3.","1.3.6.","Konstruksi Dalam Pengerjaan",1
+"1.3.","1.3.7.","Aset Tak Berwujud",1
+"1.3.","1.3.8.","Akumulasi Penyusutan Aktiva Tetap",1
+"1.4.","1.4.1.","Dana Cadangan",1
+"1.5.","1.5.1.","Tagihan Piutang Penjualan Angsuran",1
+"1.5.","1.5.2.","Tagihan Tuntutan Ganti Kerugian Daerah",1
+"1.5.","1.5.3.","Kemitraan dengan Pihak Ketiga",1
+"1.5.","1.5.4.","Aktiva Tidak Berwujud",1
+"1.5.","1.5.5.","Aset Lain-lain",1
+"2.1.","2.1.1.","Hutang Perhitungan Pihak Ketiga",-1
+"2.1.","2.1.2.","Hutang Bunga",-1
+"2.1.","2.1.3.","Hutang Pajak",-1
+"2.1.","2.1.4.","Pendapatan Diterima Dimuka",-1
+"2.1.","2.1.5.","Bagian Lancar Hutang Jangka Panjang",-1
+"2.1.","2.1.6.","Hutang Jangka Pendek Lainnya",-1
+"3.1.","3.1.1.","Ekuitas",-1
+"3.1.","3.1.2.","Ekuitas SAL",-1
+"4.1.","4.1.1.","Hasil Usaha Desa",1
+"4.1.","4.1.2.","Hasil Aset Desa",1
+"4.1.","4.1.3.","Swadaya, Partisipasi dan Gotong Royong",1
+"4.1.","4.1.4.","Lain-Lain Pendapatan Asli Desa",1
+"4.2.","4.2.1.","Dana Desa",1
+"4.2.","4.2.2.","Bagi Hasil Pajak dan Retribusi",1
+"4.2.","4.2.3.","Alokasi Dana Desa",1
+"4.2.","4.2.4.","Bantuan Keuangan Provinsi",1
+"4.2.","4.2.5.","Bantuan Keuangan Kabupaten/Kota",1
+"4.3.","4.3.1.","Penerimaan dari Hasil Kerjasama Antar Desa",1
+"4.3.","4.3.2.","Penerimaan dari Hasil Kerjasama dengan Pihak Ketiga",1
+"4.3.","4.3.3.","Penerimaan Bantuan dari Perusahaan yang Berlokasi di Desa",1
+"4.3.","4.3.4.","Hibah dan Sumbangan dari Pihak Ketiga",1
+"4.3.","4.3.5.","Koreksi Kesalahan Belanja Tahun-tahun Sebelumnya",1
+"4.3.","4.3.6.","Bunga Bank",1
+"4.3.","4.3.7.","Lain-lain Pendapatan Desa Yang Sah",1
+"5.1.","5.1.1.","Penghasilan Tetap dan Tunjangan Kepala Desa",-1
+"5.1.","5.1.2.","Penghasilan Tetap dan Tunjangan Perangkat Desa",-1
+"5.1.","5.1.3.","Jaminan Sosial Kepala Desa dan Perangkat Desa",-1
+"5.1.","5.1.4.","Tunjangan BPD / BAMUSDES",-1
+"5.2.","5.2.1.","Belanja Barang Perlengkapan",-1
+"5.2.","5.2.2.","Belanja Jasa Honorarium",-1
+"5.2.","5.2.3.","Belanja Perjalanan Dinas",-1
+"5.2.","5.2.4.","Belanja Jasa Sewa",-1
+"5.2.","5.2.5.","Belanja Operasional Perkantoran",-1
+"5.2.","5.2.6.","Belanja Pemeliharaan",-1
+"5.2.","5.2.7.","Belanja Barang dan Jasa yang Diserahkan kepada Masyarakat",-1
+"5.3.","5.3.1.","Belanja Modal Pengadaan Tanah",-1
+"5.3.","5.3.2.","Belanja Modal Pengadaan Peralatan, Mesin dan Alat Berat",-1
+"5.3.","5.3.3.","Belanja Modal Kendaraan",-1
+"5.3.","5.3.4.","Belanja Modal Gedung, Bangunan dan Taman",-1
+"5.3.","5.3.5.","Belanja Modal Jalan/Prasarana Jalan",-1
+"5.3.","5.3.6.","Belanja Modal Jembatan",-1
+"5.3.","5.3.7.","Belanja Modal Irigasi/Embung/Drainase/Air Limbah/Persampahan",-1
+"5.3.","5.3.8.","Belanja Modal Jaringan/Instalasi",-1
+"5.3.","5.3.9.","Belanja Modal Lainnya",-1
+"5.4.","5.4.1.","Belanja Tidak Terduga",-1
+"6.1.","6.1.1.","SILPA Tahun Sebelumnya",1
+"6.1.","6.1.2.","Pencairan Dana Cadangan",1
+"6.1.","6.1.3.","Hasil Penjualan Kekayaan Desa Yang Dipisahkan",1
+"6.1.","6.1.9.","Penerimaan Pembiayaan Lainnya",1
+"6.2.","6.2.1.","Pembentukan Dana Cadangan",-1
+"6.2.","6.2.2.","Penyertaan Modal Desa",-1
+"6.2.","6.2.9.","Pengeluaran Pembiayaan Lainnya",-1
+"7.1.","7.1.1.","Perhitungan PFK - Potongan Pajak",1
+"7.1.","7.1.2.","Perhitungan PFK - Potongan Pajak Daerah",1
+"7.1.","7.1.3.","Perhitungan PFK - Uang Muka dan Jaminan",1

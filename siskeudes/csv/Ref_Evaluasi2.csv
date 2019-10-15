@@ -1,0 +1,23 @@
+Kd_Aspek,Kd_Sub,Uraian_SubAspek,Kd_Komponen,Uraian_Komponen,Alat_Verifikasi,Keterangan
+"1.",,,"1.1.","Apakah Semua Dokumen evaluasi telah diterima dari Desa secara lengkap","Ceklist kelengkapan dokumen",
+"1.",,,"1.2.","Apakah pengajuan Rancangan Perdes tentang APBDesa atau Rancangan Perdes tentang Perubahan APBDesa dilakukan tepat waktu","Keputusan hasil Musyawarah BPD Pembahasan dan Penyepakatan Perdes tentang APBDesa/Perubahan APBDesa (lihat tanggal keputusan)","Berdasarkan aturan, 3 hari setelah disepakati bersama Perdes tentang APBDesa/Perdes tentang Perubahan APBDesa harus diajukan kepada Bupati/Walikota atau Camat untuk dievaluasi."
+"1.",,,"1.3.","Apakah BPD telah menyepakati Rancangan Perdes tentang APBDesa/Rancangan Perdes Perubahan APBDesa","Keputusan hasil Musyawarah BPD Pembahasan dan Penyepakatan Perdes tentang APBDesa/Perubahan APBDesa (lihat Berita Acara Hasil Musyawarah)","Berdasarkan Permendagri mengenai BPD"
+"2.","2.1.","Umum","2.1.1.","Apakah rancangan Perdes tentang APBDesa/Perubahan APBDesa disusun berdasarkan RKPDesa/ RKPDesa Perubahan tahun berkenaan.","RKP Desa atau RKPDesa Perubahan tahun berkenaan.",
+"2.","2.1.","Umum","2.1.2.","Apakah penempatan pos Pendapatan telah sesuai dengan peraturan perundang-undangan.",,
+"2.","2.2.","Pendapatan","2.2.1.","Apakah estimasi pendapatan rasional dan realistis.",,
+"2.","2.2.","Pendapatan","2.2.2.","Apakah estimasi pendapatan Desa yang bersumber dari Pendapatan Asli Desa rasional dan realistis, serta didapatkan secara legal dan telah diatur dalam Peraturan Desa.","Perdes terkait PADesa (misal Perdes tentang Pungutan dll)",
+"2.","2.2.","Pendapatan","2.2.3.","Apakah estimasi pendapatan desa yang bersumber dari Dana Transfer rasional dan realistis.","Perbup/Perwali tentang penetapan alokasi dana Transfer ke desa misalnya ADD, Dana Desa dll.",
+"2.","2.3.","Belanja","2.3.1.","Apakah penempatan pos Belanja telah sesuai peraturan perundang-undangan yang berlaku.",,
+"2.","2.3.","Belanja","2.3.2.","Apakah semua kegiatan Belanja Desa telah sesuai dengan Kewenangan Desa.","Perbup/Perwali tentang Daftar Inventarisasi Kewenangan Desa",
+"2.","2.3.","Belanja","2.3.3.","Apakah ada program/kegiatan yang dilakukan lebih dari 1 (satu) tahun anggaran (muliyears).",,
+"2.","2.3.","Belanja","2.3.4.","Apakah belanja Desa yang ditetapkan dalam APBDesa paling banyak 30% dipergunakan untuk: 1. Siltap dan tujangan Kades dan perangkat Desa; 2. Operasional Pemerintahan Desa; 3.Tunjangan dan Operasional BPD; 4. Insentif RT/RW.",,
+"2.","2.3.","Belanja","2.3.5.","Siltap, tunjangan dan operasional untuk Kepala Desa dan Perangkat Desa sesuai yang ditetapkan dalam Peraturan Bupati/Walikota.","Peraturan Bupati tentang ADD atau Perbup tentang penetapan Siltap Kepala Desa dan Perangkat Desa.",
+"2.","2.3.","Belanja","2.3.6.","Besaran Tunjangan dan Operasional untuk Anggota BPD, serta insentif RT/RW dianggarkan sesuai yang ditetapkan dalam Peraturan Bupati/Walikota","Peraturan Bupati tentang ADD atau Perbup tentang penetapan Siltap Kepala Desa dan Perangkat Desa.",
+"2.","2.3.","Belanja","2.3.7.","Alokasi belanja dengan output yang akan dihasilkan logis karena telah memperhitungkan tingkat kemahalan dan geografis (standar harga).","Standar harga yang ditetapkan oleh Kabupaten/Kota.",
+"2.","2.4.","Pembiayaan","2.4.1.","Apakah penempatan pos pembiayaan telah sesuai dengan peraturan perundang-undangan yang berlaku.",,
+"2.","2.4.","Pembiayaan","2.4.2.","Apakah ada pos pengeluaran pembiayaan untuk pembentukan Dana Cadangan.",,
+"2.","2.4.","Pembiayaan","2.4.3.","Apakah pembentukan Dana Cadangan telah ditetapkan dalam Peraturan Desa.","Peraturan Desa tentang Dana Cadangan",
+"2.","2.4.","Pembiayaan","2.4.4.","Apakah ada pos pengeluaran pembiayaan untuk penyertaan modal pada BUMDesa",,
+"2.","2.4.","Pembiayaan","2.4.5.","Apakah penyertaan modal pada BUMDesa telah sesuai dengan peraturan perundang-undangan dan ditetapkan melalui Peraturan Desa dan memenuhi nilai kelayakan usaha.","Peraturan Desa tentang Pembentukan BUMDesa dan hasil analisa kelayakan usaha.",
+"2.","2.4.","Pembiayaan","2.4.6.","Pada evaluasi Perubahan APBDesa, pada pos penerimaan pembiayaan terdapat Silpa tahun anggaran sebelumnya.",,
+"2.","2.4.","Pembiayaan","2.4.7.","Pada evaluasi Perubahan APBDesa, apakah SilPA tahun sebelumnya telah digunakan seluruhnya.",,

@@ -1,0 +1,33 @@
+Demo convert mdb siskeudes 2019 ke csv dan import ke opensid
+1. Install mdbtools di ubuntu, 
+    sudo apt-get install mdbtools
+    enter saja dan pastikan terkoneksi internet, jika sudah terinstall lanjut ke langkah berikutnya
+2. Proses convert mdb ke csv
+    untuk memudahkan kita letakkan semua file yang dibutuhkan dalam satu folder siskeudes
+    buat satu folder csv dalam folder siskeudes untuk tempat menyimpan hasil convert
+    copykan file mdb ke dalam folder siskeudes
+    buka terminal dan masuk ke direktori tempat mdbconvert.sh
+    pastikan file mdbconvert.sh statusnya executable 
+        sudo chmod +x mdbconvert.sh
+    jika sudah berhasil compress file dalam folder csv menjadi satu file zip    
+
+Import ke opensid
+1. update struktur dbnnya terlebih dahulu bisa menggunakan phpmyadmin, mysql workbech atau aplikasi lainnya
+    ALTER TABLE keuangan_ta_anggaran ADD Kd_SubRinci varchar(100) NULL;
+    ALTER TABLE keuangan_ta_anggaran_log ADD No_Perkades varchar(100) NULL;
+    ALTER TABLE keuangan_ta_anggaran_log ADD Petugas varchar(80) NULL;
+    ALTER TABLE keuangan_ta_anggaran_log add Tanggal varchar(100) NULL;
+    ALTER TABLE keuangan_ta_anggaran_log MODIFY COLUMN UserID VARCHAR(50) NOT NULL;
+
+    ALTER TABLE keuangan_ta_kegiatan add Jbt_PPTKD varchar(100) NULL;
+    ALTER TABLE keuangan_ta_kegiatan add Kd_Sub varchar(100) NULL;
+    ALTER TABLE keuangan_ta_kegiatan add Nilai BIGINT UNSIGNED;
+    ALTER TABLE keuangan_ta_kegiatan add NilaiPAK BIGINT UNSIGNED;
+    ALTER TABLE keuangan_ta_kegiatan add Satuan VARCHAR(30);
+    ALTER TABLE keuangan_ta_kegiatan MODIFY COLUMN Kd_Bid varchar(100) NULL;
+
+    proses ini sudah saya lakukan di db saya, eksekusi script diatas di phpmyadmin atau semisalnya
+
+2. Lakukan proses import data di opensid
+
+        

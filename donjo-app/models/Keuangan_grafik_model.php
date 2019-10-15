@@ -76,8 +76,8 @@ class Keuangan_grafik_model extends CI_model {
     $data['anggaran'] = $this->db->get('keuangan_ta_bidang')->result_array();
 
     $this->db->select("keuangan_ta_kegiatan.Kd_Bid");
-    $this->db->select_sum('Nilai');
-    $this->db->join('keuangan_ta_kegiatan', 'keuangan_ta_kegiatan.Kd_Bid = keuangan_ta_bidang.Kd_Bid', 'left');
+    $this->db->select_sum('keuangan_ta_kegiatan.Nilai');
+    $this->db->join('keuangan_ta_kegiatan', 'left(keuangan_ta_kegiatan.Kd_Sub,10) = keuangan_ta_bidang.Kd_Bid', 'left');
     $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');
     $this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_Spj = keuangan_ta_spj_rinci.No_Spj', 'left');
     $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
