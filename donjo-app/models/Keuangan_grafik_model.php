@@ -463,9 +463,9 @@ class Keuangan_grafik_model extends CI_model {
     return $result;
   }
 
-  public function data_keuangan_hakadewa($tahun = NULL)
+  public function data_keuangan_hakadewa($tahun)
   {
-    if(is_null($tahun)) $tahun = 2016;
+    
     $data['res_pelaksanaan'] = $this->data_widget_pelaksanaan('1', $tahun);
     $data['res_pendapatan'] = $this->data_widget_pendapatan('1', $tahun);
     $data['res_belanja'] = $this->data_widget_belanja('1', $tahun);
@@ -478,31 +478,40 @@ class Keuangan_grafik_model extends CI_model {
     return $data;
   }
 
-  public function grafik_keuangan_hakadewa($tahun = NULL)
+  public function grafik_keuangan_hakadewa($tahun)
   {
-    if(is_null($tahun)) $tahun = 2016;
-    $raw_data = $this->data_keuangan_hakadewa($tahun);
-    foreach ($raw_data as $keys => $raws)
-    {
-      foreach ($raws as $key => $raw){
-        $data['judul'] = $raw['nama'];
-        $data['anggaran'] = $raw['anggaran'];
-        $data['realisasi'] = $raw['realisasi'];
-        if($data['anggaran'] != 0 && $data['realisasi'] != 0)
-        {
-          $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
-        }
-        elseif($data['realisasi'] != 0)
-        {
-          $data['persen'] = 100;
-        }
-        else
-        {
-          $data['persen'] = 0;
-        }
-        $result[$keys][] = $data;
+    $thn = $this->keuangan_model->list_tahun_anggaran();
+    if(is_null($thn)){
+      return null;
+    }else{
+      if(!in_array($tahun, $thn)){
+        $tahun = $thn[0];
       }
+      $raw_data = $this->data_keuangan_hakadewa($tahun);
+      foreach ($raw_data as $keys => $raws)
+      {
+        foreach ($raws as $key => $raw){
+          $data['judul'] = $raw['nama'];
+          $data['anggaran'] = $raw['anggaran'];
+          $data['realisasi'] = $raw['realisasi'];
+
+          if($data['anggaran'] != 0 && $data['realisasi'] != 0)
+          {
+            $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
+          }
+          elseif($data['realisasi'] != 0)
+          {
+            $data['persen'] = 100;
+          }
+          else
+          {
+            $data['persen'] = 0;
+          }
+          $result['data_widget'][$keys][] = $data;
+        }
+      }
+      $result['tahun'] = $tahun;
+      return $result;
     }
-    return $result;
   }
 }

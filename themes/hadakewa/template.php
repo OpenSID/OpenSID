@@ -16,7 +16,7 @@
 			</div>
 
 			<div id="footer">
-				<?php $this->load->view($folder_themes. '/partials/apbdesa-contoh.php');?>
+				<?php $this->load->view($folder_themes. '/partials/apbdesa-tema.php');?>
 				<?php $this->load->view($folder_themes. '/partials/copywright.tpl.php');?>
 			</div>
 		</div>
