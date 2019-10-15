@@ -16,7 +16,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta property="og:site_name" content="<?= $desa['nama_desa'];?>"/>
 		<meta property="og:type" content="article"/>
-		<?php if(isset($single_artikel)): ?>
+		<?php if (isset($single_artikel)): ?>
 			<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
 			<meta property="og:url" content="<?= base_url()?>index.php/first/artikel/<?= $single_artikel['id'];?>"/>
 			<meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
@@ -25,7 +25,7 @@
 		<?php else: ?>
 			<meta name="description" content="Website <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -34,7 +34,7 @@
 
 		<!-- Styles untuk tema dan penyesuaiannya di folder desa -->
 		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
-		<?php if(is_file("desa/css/".$this->theme."/desa-web.css")): ?>
+		<?php if (is_file("desa/css/".$this->theme."/desa-web.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
 
@@ -50,10 +50,14 @@
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?= base_url()?>assets/front/js/bootstrap.min.js"></script>
 
+		<!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
+    <script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
+    <!-- Charts -->
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-		
 	</head>
 	<body>
 		<div id="maincontainer">

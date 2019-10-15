@@ -8,17 +8,12 @@ class Dokumen_sekretariat extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 15;
 	}
 
-	public function clear($kat=1)
-	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect("dokumen_sekretariat/index/$kat");
-	}
-
-	public function index($kat=1, $p=1, $o=0)
+	// Peraturan Desa
+	public function peraturan_desa($kat=2, $p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -40,18 +35,38 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
+		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
+		$data['sub_kategori'] = $_SESSION['sub_kategori'];
+    $_SESSION['menu_kategori'] = TRUE;
+
+		foreach ($data['submenu'] as $s) 
+		{
+			if ($kat == $s['id']) 
+			{
+				$_SESSION['submenu'] = $s['id'];
+				$_SESSION['sub_kategori'] = $s['kategori'];
+				$_SESSION['kode_kategori'] = $s['id'];
+			}
+		}
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		$nav['act'] = 15;
-		$nav['act_sub'] = $this->tab_ini;
+		$nav['act_sub'] = 95;
+    $header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
 	}
 
-	public function form($kat=1, $p=1, $o=0, $id='')
+	public function clear($kat=2)
+	{
+		unset($_SESSION['cari']);
+		unset($_SESSION['filter']);
+		redirect("dokumen_sekretariat/peraturan_desa/$kat");
+	}
+
+	public function form($kat=2, $p=1, $o=0, $id='')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -106,7 +121,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
 		if (!$outp) $_SESSION['success'] = -1;
-		redirect("dokumen_sekretariat/index/$kat");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
 	public function update($kat, $id='', $p=1, $o=0)
@@ -115,9 +130,9 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
 			$kat = $this->input->post('kategori');
-		$outp = $this->web_dokumen_model->update($id);
+  		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete($kat=1, $p=1, $o=0, $id='')
@@ -125,7 +140,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete_all($kat=1, $p=1, $o=0)
@@ -133,19 +148,19 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function dokumen_lock($kat=1, $id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 1);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dokumen_unlock($kat=1,$id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 2);
-		redirect("dokumen_sekretariat/index/$kat/$p/$o");
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dialog_cetak($kat=1)
