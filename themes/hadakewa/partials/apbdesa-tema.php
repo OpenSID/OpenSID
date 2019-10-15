@@ -1,9 +1,13 @@
 <?php
     $tahun = date('Y');
-    $data = $this->keuangan_grafik_model->grafik_keuangan_hakadewa(2016);
+    $data = $this->keuangan_grafik_model->grafik_keuangan_hakadewa();
 ?>
 
 <style type="text/css">
+
+
+
+    /*Untuk menyembunyikan dan menampilkan menu.*/
     .transparansi-hidden{
         display: none;
     }
@@ -12,7 +16,6 @@
         display: show;
     }
 </style>
-
 <!-- Untuk menyembunyikan menu ini, ganti class transparansi-show dengan transparansi-hidden. -->
 <div class="container transparansi-show" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <?php
@@ -43,10 +46,11 @@
     ?>
         <div class="progress-group">
             <?= $subdata['judul']; ?><br>
-            <b>Rp. <?= number_format($subdata['realisasi']); ?></b>
-            <div class="progress progress-sm active" align="right"><small><b><?= $subdata['persen'] ?> %</b></small>&nbsp;
-                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $subdata['persen'] ?>%"></div>
+            <b>Rp. <?= number_format($subdata['realisasi']); ?> / Rp. <?= number_format($subdata['anggaran']); ?></b>
+            <div class="progress progress-bar-striped" align="right" style="background-color: #27b2c8"><small><b><?= $subdata['persen'] ?> %</b></small>&nbsp;
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: <?= $subdata['persen'] ?>%" aria-valuenow="<?= 100 - $subdata['persen'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
+
         </div>
     <?php
             endforeach;
