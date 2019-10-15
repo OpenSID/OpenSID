@@ -59,7 +59,8 @@ $(document).ready(function() {
     $('#jdih-table').DataTable({
     	"dom": 'rt<"bottom"p><"clear">',
     	"destroy": true,
-      "paging": false
+      "paging": false,
+      "ordering": false
     });
 
     get_table();
