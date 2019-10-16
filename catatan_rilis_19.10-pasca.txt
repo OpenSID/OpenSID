@@ -1,6 +1,6 @@
 Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 
@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 13. #1879: Statistik kependudukan bisa ditampilkan per wilayah (dusun, rw, rt).
 14. #2290: Tampilkan Peraturan Desa di web sebagai halaman yang bisa dimuat di menu statis.
 15: #2304: Sekarang bisa hapus data Siskeudes yang telah diimpor.
+16. #2383: Ubah status 'Kawin Tidak Tercatat' menjadi 'Kawin Belum Tercatat'.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
