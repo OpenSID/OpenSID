@@ -326,6 +326,7 @@ class Keuangan extends Admin_Controller {
 		}
 		echo json_encode($list_tahun);
 	}
+
 	public function delete($id = '')
 	{
 		$this->redirect_hak_akses('h', 'keuangan');

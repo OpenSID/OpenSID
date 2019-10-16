@@ -35,7 +35,7 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
 							</div>
-			
+
 							<hr>
 							<div class="row">
 								<div class="col-sm-12">
@@ -55,8 +55,8 @@
 												<?php foreach ($main as $data): ?>
 													<tr>
 														<td><?=$data['no']?></td>
-														<td nowrap>													
-														<a href="#" data-href="<?= site_url("keuangan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<td nowrap>
+															<a href="#" data-href="<?= site_url("keuangan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<td><?=$data['versi_database']?></td>
 														<td><?=$data['tahun_anggaran']?></td>
 														<td><?=tgl_indo_out($data['tanggal_impor'])?></td>
@@ -107,7 +107,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			</div>			
+			</div>
 		</div>
 	</div>
 </div>

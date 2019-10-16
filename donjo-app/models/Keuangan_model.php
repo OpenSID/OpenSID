@@ -266,7 +266,7 @@ class Keuangan_model extends CI_model {
     $this->db->select_sum('Nilai');
     $this->db->where('Tahun', $thn);
     $result['realisasi'] = $this->db->get('keuangan_ta_spj_rinci')->row();
-    
+
     return $result;
   }
 
@@ -302,10 +302,10 @@ class Keuangan_model extends CI_model {
     }
     return $link;
   }
+
   public function delete($id='')
 	{
-		$sql = "DELETE FROM keuangan_master WHERE id = ?";
-		$outp = $this->db->query($sql,array($id));
+		$outp = $this->db->where('id', $id)->delete('keuangan_master');
 		return $outp;
 	}
 }
