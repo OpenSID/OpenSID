@@ -1,6 +1,6 @@
 Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto, Rudy Purwanto dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 
@@ -10,6 +10,14 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 4. #2343: Submodul Pemetaan > Pengaturan Peta sekarang aktif kembali. [bug-fix]
 5. #2323: Pilihan penduduk di Surat Keterangan Kelahiran, Surat Keterangan Kematian dan Surat Keterangan Penghasilan Orangtua sekarang lebih cepat ditampilkan untuk penduduk jumlah besar.
 6. #2342: Sediakan statistik kependudukan berdasarkan jenis asuransi yang dimiliki.
+7. #2356: Perbaiki pencarian penduduk di peta. [bug-fix]
+8. Tambah Surat Keterangan Kepemilikan Kendaraan.
+9. #1761: Tampilkan gambar artikel dan galeri dalam popup pada waktu diklik.
+10. #2362: Grafik data statistik di web tampil kembali untuk tema default. [bug-fix]
+11. Tambah Surat Keterangan Kepemilikan Tanah.
+12. Tata ulang library laman web untuk menghindari bentrok. [teknis]
+13. #1879: Statistik kependudukan bisa ditampilkan per wilayah (dusun, rw, rt).
+14. #2290: Tampilkan Peraturan Desa di web sebagai halaman yang bisa dimuat di menu statis.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

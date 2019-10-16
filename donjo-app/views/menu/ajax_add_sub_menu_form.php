@@ -25,8 +25,8 @@
 		}
 		else if (jenis == '5')
 		{
-			$('#statistik_lainnya').show();
-			$('#statistik_lainnya').attr('name', 'link');
+			$('#statis_lainnya').show();
+			$('#statis_lainnya').attr('name', 'link');
 		}
 		else if (jenis == '6')
 		{
@@ -67,7 +67,7 @@
 								<option value="2" <?php selected($submenu['link_tipe'], "2") ?>>Statistik Penduduk</option>
 								<option value="3" <?php selected($submenu['link_tipe'], "3") ?>>Statistik Keluarga</option>
 								<option value="4" <?php selected($submenu['link_tipe'], "4") ?>>Statistik Program Bantuan</option>
-								<option value="5" <?php selected($submenu['link_tipe'], "5") ?>>Statistik Lainnya</option>
+								<option value="5" <?php selected($submenu['link_tipe'], "5") ?>>Halaman Statis Lainnya</option>
 								<option value="6" <?php selected($submenu['link_tipe'], "6") ?>>Artikel Keuangan</option>
 								<option value="99" <?php selected($submenu['link_tipe'], "99") ?>>Eksternal</option>
 							</select>
@@ -98,9 +98,9 @@
 									<option value="<?= $id?>" <?php selected($submenu['link'], $id) ?>><?= $nama?></option>
 								<?php endforeach; ?>
 							</select>
-							<select id="statistik_lainnya" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==5): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=5): ?>display:none;<?php endif; ?>">
-								<option value="">Pilih Statistik Lainnya</option>
-								<?php foreach ($statistik_lainnya as $id => $nama): ?>
+							<select id="statis_lainnya" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==5): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=5): ?>display:none;<?php endif; ?>">
+								<option value="">Pilih Halaman Statis Lainnya</option>
+								<?php foreach ($statis_lainnya as $id => $nama): ?>
 									<option value="<?= $id?>" <?php selected($submenu['link'], $id) ?>><?= $nama?></option>
 								<?php endforeach; ?>
 							</select>
@@ -108,6 +108,12 @@
 								<option value="">Pilih Artikel Keuangan</option>
 								<?php foreach ($artikel_keuangan as $id => $nama): ?>
 									<option value="<?= $id?>" <?php selected($submenu['link'], $id) ?>><?= $nama?></option>
+								<?php endforeach; ?>
+							</select>
+							<select id="peraturan_desa" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=7): ?>display:none;<?php endif; ?>">
+								<option value="">Pilih Peraturan Desa</option>
+								<?php foreach ($peraturan_desa as $id => $nama): ?>
+									<option value="<?= $id?>" <?php if ($submenu['link']==$id): ?>selected<?php endif; ?>><?= $nama?></option>
 								<?php endforeach; ?>
 							</select>
 							<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">

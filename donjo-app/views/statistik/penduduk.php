@@ -45,6 +45,36 @@
 								<?php else: ?>
 									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 								<?php endif; ?>
+								<?php if($lap <= 20 AND $lap <> 'kelas_sosial') : ?>
+									<div class="row">
+										<div class="col-sm-12 form-inline">
+											<form action="" id="mainform" method="post">
+												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun/0/'.$lap)?>')">
+													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php $dusun == $data['dusun'] and print('selected') ?>><?= strtoupper($data['dusun'])?></option>
+													<?php endforeach; ?>
+												</select>
+												<?php if ($dusun): ?>
+													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw/0/'.$lap)?>')" >
+														<option value="">RW</option>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php $rw == $data['rw'] and print('selected') ?>><?= $data['rw']?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
+												<?php if ($rw): ?>
+													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt/0/'.$lap)?>')">
+														<option value="">RT</option>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php $rt == $data['rt'] and print('selected') ?>><?= $data['rt']?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
+											</form>
+										</div>
+									</div>
+								<?php endif ?>
 								<div class="table-responsive">
 									<table class="table table-bordered dataTable table-striped table-hover nowrap">
 										<thead class="bg-gray color-palette">

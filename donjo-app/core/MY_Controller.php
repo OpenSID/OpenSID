@@ -86,17 +86,18 @@ class MY_Controller extends CI_Controller {
 	    	$this->template = '../../themes/default/' . $template_file;
 		}
 
-
-		/* Set Breadcumbs
-		 * sometime, we want to have Breadcumbs different from page title
-		 * so, use this function
-		 * --------------------------------------
-		 * @author	Ahmad Afandi
-		 * @since	Version 0.0.1
-		 * @access	public
-		 * @param	string
-		 * @return	chained object
+		/**
+		 * Bersihkan session cluster wilayah
 		 */
+
+		public function clear_cluster_session()
+		{
+			$cluster_session = array('dusun', 'rw', 'rt');
+			foreach ($cluster_session as $session) 
+			{
+				$this->session->unset_userdata($session);
+			}
+		}
 
 }
 

@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<link type='text/css' href="<?php echo base_url()?>assets/css/slider.css" rel='Stylesheet' />
+<link type='text/css' href="<?php echo base_url()?>assets/front/css/slider.css" rel='Stylesheet' />
 <script type="text/javascript">
 	$(document).ready(function() {
     $('.slider').cycle({

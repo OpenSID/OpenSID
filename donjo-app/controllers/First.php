@@ -41,7 +41,9 @@ class First extends Web_Controller {
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
 		$this->load->model('keluar_model');
+		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
+    $this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
@@ -282,6 +284,7 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
+		parent::clear_cluster_session();
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
@@ -348,6 +351,40 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function peraturan_desa()
+	{
+		$this->load->model('web_dokumen_model');
+		$data = $this->includes;
+
+		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+		$data['heading']="Peraturan Desa";
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/peraturan_desa.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+  public function ajax_table_peraturan()
+  {
+    $kategori_dokumen = '';
+    $tahun_dokumen = '';
+    $tentang_dokumen = '';
+    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    echo json_encode($data);
+  }
+
+  // function filter peraturan
+  public function filter_peraturan()
+  {
+    $kategori_dokumen = $this->input->post('kategori');
+    $tahun_dokumen = $this->input->post('tahun');
+    $tentang_dokumen = $this->input->post('tentang');
+
+    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    echo json_encode($data);
+  }
+
 	public function agenda($stat=0)
 	{
 		$data = $this->includes;
@@ -376,42 +413,41 @@ class First extends Web_Controller {
 	}
 
 	public function add_comment($id=0, $slug = NULL)
+	{
+		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
+		$query = $this->db->query($sql,1);
+		$data = $query->row_array();
+	// Periksa isian captcha
+		include FCPATH . 'securimage/securimage.php';
+		$securimage = new Securimage();
+		$_SESSION['validation_error'] = false;
+		if ($securimage->check($_POST['captcha_code']) == false)
 		{
-			$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
-			$query = $this->db->query($sql,1);
-			$data = $query->row_array();
-		// Periksa isian captcha
-			include FCPATH . 'securimage/securimage.php';
-			$securimage = new Securimage();
-			$_SESSION['validation_error'] = false;
-			if ($securimage->check($_POST['captcha_code']) == false)
-			{
-				$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
-				$_SESSION['post'] = $_POST;
-				$_SESSION['validation_error'] = true;
-				redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
-			}
-
-			$res = $this->first_artikel_m->insert_comment($id);
-			$data['data_config'] = $this->config_model->get_data();
-		// cek kalau berhasil disimpan dalam database
-			if ($res)
-			{
-				$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
-			}
-			else
-			{
-				$_SESSION['post'] = $_POST;
-				if (!empty($_SESSION['validation_error']))
-					$this->session->set_flashdata('flash_message', validation_errors());
-				else
-					$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
-			}
-
-			$_SESSION['sukses'] = 1;
+			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
+			$_SESSION['post'] = $_POST;
+			$_SESSION['validation_error'] = true;
 			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
-			
 		}
+
+		$res = $this->first_artikel_m->insert_comment($id);
+		$data['data_config'] = $this->config_model->get_data();
+	// cek kalau berhasil disimpan dalam database
+		if ($res)
+		{
+			$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+		}
+		else
+		{
+			$_SESSION['post'] = $_POST;
+			if (!empty($_SESSION['validation_error']))
+				$this->session->set_flashdata('flash_message', validation_errors());
+			else
+				$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
+		}
+
+		$_SESSION['sukses'] = 1;
+		redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+	}
 
 	private function _get_common_data(&$data)
 	{
@@ -435,6 +471,6 @@ class First extends Web_Controller {
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
-
 	}
+
 }
