@@ -65,6 +65,23 @@ class Migrasi_1910_ke_1911 extends CI_model {
 				jenis = VALUES(jenis)";
 		$this->db->query($sql);
   	$this->jdih();
+  	// Tambah foreign key constraint untuk semua tabel keuangan
+		$sql = "SELECT *
+	    FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+	    WHERE CONSTRAINT_NAME = 'id_keuangan_ref_bank_desa_master_fk'
+			AND TABLE_NAME = 'keuangan_ref_bank_desa'";
+	  $query = $this->db->query($sql);
+	  if ($query->num_rows() == 0)
+	  {
+	  	$tabel_keuangan = array('keuangan_ref_bank_desa', 'keuangan_ref_bel_operasional', 'keuangan_ref_bidang', 'keuangan_ref_bunga', 'keuangan_ref_desa', 'keuangan_ref_kecamatan', 'keuangan_ref_kegiatan', 'keuangan_ref_korolari', 'keuangan_ref_neraca_close', 'keuangan_ref_perangkat', 'keuangan_ref_potongan', 'keuangan_ref_rek1', 'keuangan_ref_rek2', 'keuangan_ref_rek3', 'keuangan_ref_rek4', 'keuangan_ref_sbu', 'keuangan_ref_sumber', 'keuangan_ta_anggaran', 'keuangan_ta_anggaran_log', 'keuangan_ta_anggaran_rinci', 'keuangan_ta_bidang', 'keuangan_ta_desa', 'keuangan_ta_jurnal_umum', 'keuangan_ta_jurnal_umum_rinci', 'keuangan_ta_kegiatan', 'keuangan_ta_mutasi', 'keuangan_ta_pajak', 'keuangan_ta_pajak_rinci', 'keuangan_ta_pemda', 'keuangan_ta_pencairan', 'keuangan_ta_perangkat', 'keuangan_ta_rab', 'keuangan_ta_rab_rinci', 'keuangan_ta_rab_sub', 'keuangan_ta_rpjm_bidang', 'keuangan_ta_rpjm_kegiatan', 'keuangan_ta_rpjm_misi', 'keuangan_ta_rpjm_pagu_indikatif', 'keuangan_ta_rpjm_pagu_tahunan', 'keuangan_ta_rpjm_sasaran', 'keuangan_ta_rpjm_tujuan', 'keuangan_ta_rpjm_visi', 'keuangan_ta_saldo_awal', 'keuangan_ta_spj', 'keuangan_ta_spj_bukti', 'keuangan_ta_spj_rinci', 'keuangan_ta_spj_sisa', 'keuangan_ta_spjpot', 'keuangan_ta_spp', 'keuangan_ta_spp_rinci', 'keuangan_ta_sppbukti', 'keuangan_ta_spppot', 'keuangan_ta_sts', 'keuangan_ta_sts_rinci', 'keuangan_ta_tbp', 'keuangan_ta_tbp_rinci', 'keuangan_ta_triwulan', 'keuangan_ta_triwulan_rinci');
+	  	foreach ($tabel_keuangan as $keuangan)
+	  	{
+				$this->dbforge->add_column(
+					$keuangan,
+					array("CONSTRAINT `id_{$keuangan}_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE")
+				);
+	  	}
+	  }
   }
 
   private function jdih()
