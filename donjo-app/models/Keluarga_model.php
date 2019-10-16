@@ -601,7 +601,7 @@
 				then w.nama
 				else
 					case when u.akta_perkawinan = ''
-						then 'KAWIN TIDAK TERCATAT'
+						then 'KAWIN BELUM TERCATAT'
 						else 'KAWIN TERCATAT'
 					end
 				end) as status_kawin,
