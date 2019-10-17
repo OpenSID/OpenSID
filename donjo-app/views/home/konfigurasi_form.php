@@ -147,7 +147,7 @@
 								<label class="col-sm-3 control-label" for="kode_propinsi">Peta Kantor / Wilayah <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-9">
 									<a href="<?=site_url("hom_desa/ajax_kantor_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Kantor <?=ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor <?=ucwords($this->setting->sebutan_desa)?></a>
-									<a href="<?=site_url("hom_desa/ajax_wilayah_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Wilayah <?=ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah <?=ucwords($this->setting->sebutan_desa)?></a>
+									<a href="<?=site_url("hom_desa/ajax_wilayah_maps")?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah <?=ucwords($this->setting->sebutan_desa)?></a>
 								</div>
 							</div>
 						</div>
