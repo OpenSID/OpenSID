@@ -1,3 +1,4 @@
+<?php if(!empty($widget_keuangan['tahun']) && !is_null($widget_keuangan['tahun'])): ?>
 <!-- widget Statistik -->
 <style type="text/css">
 
@@ -387,3 +388,4 @@
     displayChart(year, type);
 	});
 </script>
+<?php endif; ?>
