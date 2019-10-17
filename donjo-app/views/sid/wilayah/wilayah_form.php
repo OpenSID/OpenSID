@@ -30,7 +30,8 @@
 													</div>
 												</div>
 											</div>
-											<?php if ($dusun): ?>
+
+                                                                                       <?php if ($dusun): ?>
 												<div class="col-sm-12">
 													<div class="form-group">
 														<label class="col-sm-3 control-label" for="kepala_lama">Kepala  <?= ucwords($this->setting->sebutan_dusun)?> Sebelumnya</label>
@@ -57,15 +58,42 @@
 												</div>
 											</div>
 										</div>
+									
+
+                                                                        <div class="form-group">
+								<label class="col-sm-3 control-label" for="kode_propinsi">Peta Kantor / Wilayah <?=ucwords($this->setting->sebutan_dusun)?></label>
+								<div class="col-sm-9">
+									<a href="<?=site_url("sid_core/ajax_kantor_dusun_maps/$dusun")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Kantor <?=ucwords($this->setting->sebutan_dusun)?> <?= $dusun?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor <?=ucwords($this->setting->sebutan_dusun)?></a>
+									<a href="<?=site_url("sid_core/ajax_wilayah_dusun_maps/$dusun")?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah <?=ucwords($this->setting->sebutan_dusun)?></a>
+								</div>
+							</div>
+
 									</div>
+
+                                                                        </div>
+
 									<div class="box-footer">
 										<div class="col-xs-12">
 											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 										</div>
 									</div>
+
 								</form>
 							</div>
+
+                                         <div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'></h4>
+									</div>
+									<div class="fetched-data"></div>
+								</div>
+							</div>
+					</div>
+
 						</div>
 					</div>
 				</div>

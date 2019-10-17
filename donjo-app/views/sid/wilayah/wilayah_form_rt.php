@@ -59,7 +59,15 @@
 												</div>
 											</div>
 										</div>
-									</div>
+
+<div class="form-group">
+								<label class="col-sm-3 control-label" for="kode_propinsi">Peta Kantor / Wilayah RT</label>
+								<div class="col-sm-9">
+									<a href="<?=site_url("sid_core/ajax_kantor_rt_maps/$dusun/$rw/$rt")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Kantor RT <?= $rt?> RW <?= $rw?> <?= ucwords($this->setting->sebutan_dusun." ".$dusun)?> <?= ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'])?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor RT</a>
+									<a href="<?=site_url("sid_core/ajax_wilayah_rt_maps/$dusun/$rw/$rt")?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah RT</a>
+								</div>
+							</div>
+			</div>
 									<div class="box-footer">
 										<div class="col-xs-12">
 											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
@@ -68,7 +76,19 @@
 									</div>
 								</form>
 							</div>
-						</div>
+<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+							<div class='modal-dialog'>
+								<div class='modal-content'>
+									<div class='modal-header'>
+										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+										<h4 class='modal-title' id='myModalLabel'></h4>
+									</div>
+									<div class="fetched-data"></div>
+								</div>
+							</div>
+					</div>
+
+					</div>
 					</div>
 				</div>
 			</div>
