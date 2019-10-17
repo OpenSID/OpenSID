@@ -59,7 +59,12 @@ class Hom_desa extends Admin_Controller {
 	{
 		$data['desa'] = $this->config_model->get_data();
 		$data['form_action'] = site_url("hom_desa/update_wilayah_maps/");
+		
+                $header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view("home/ajax_wilayah_desa_maps", $data);
+		$this->load->view('footer');
 	}
 
 	public function update_kantor_maps()
@@ -71,7 +76,7 @@ class Hom_desa extends Admin_Controller {
 	public function update_wilayah_maps()
 	{
 		$this->config_model->update_wilayah();
-			redirect("hom_desa/konfigurasi");
+		redirect("hom_desa/konfigurasi");
 	}
 
 }
