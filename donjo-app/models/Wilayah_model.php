@@ -170,6 +170,10 @@
 
 	public function insert_rw($dusun='')
 	{
+
+                if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
+		  UNSET($_POST['id_kepala']);
+
 		$data = $_POST;
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
@@ -194,7 +198,7 @@
 		// print_r($rw);exit;
 		$this->db->where('dusun', $temp['dusun']);
 		$this->db->where('rw', $rw);
-        $this->db->where('rt', '0');//rw pasti data rt 0
+                $this->db->where('rt', '0');//rw pasti data rt 0
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		if ($outp) $_SESSION['success'] = 1;
@@ -237,7 +241,10 @@
 
 	public function insert_rt($dusun='', $rw='')
 	{
-		$data = $_POST;
+		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
+			UNSET($_POST['id_kepala']);
+
+                $data = $_POST;
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$data['rw'] = $rw;
@@ -262,57 +269,7 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function update_dusun_map($dusun='')
-	{
-  	if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-  		UNSET($_POST['id_kepala']);
-
-    $data = $_POST;
-		$this->db->where('id', $dusun);
-		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-  public function get_dusun_maps($id='')
-  {
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		return $query->row_array();
-	}
-
-	public function update_rw_map($dus=0, $id=0)
-	{
-    if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-      UNSET($_POST['id_kepala']);
-
-    $data = $_POST;
-		$this->db->where('dusun', $dus);
-		$this->db->where('rw', $id);
-		$this->db->where('rt', '0');
-		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-	public function update_rt_map($dus=0, $rw=0, $id=0)
-	{
-    if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-      UNSET($_POST['id_kepala']);
-
-    $data = $_POST;
-		$this->db->where('dusun', $dus);
-		$this->db->where('rw', $rw);
-		$this->db->where('rt', $id);
-		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-	public function delete_rt($id=0)
+        public function delete_rt($id=0)
 	{
 		$sql = "DELETE FROM tweb_wil_clusterdesa WHERE id = ?";
 		$outp = $this->db->query($sql, $id);
@@ -321,6 +278,7 @@
 		else $_SESSION['success'] = -1;
 	}
 
+	
 	public function list_penduduk($ex_id=0)
 	{
 		$sql = "SELECT p.id, p.nik, p.nama, c.dusun
@@ -393,7 +351,7 @@
 		return $data;
 	}
 
-	public function get_rw($dusun='', $rw='')
+        public function get_rw($dusun='', $rw='')
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = '0'";
 		$query = $this->db->query($sql, array($dusun, $rw));
@@ -466,6 +424,125 @@
 					WHERE u.rt <> '0' AND u.rt <> '-' AND u.rw = '$rw' AND u.dusun = '$dusun') as x  ";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
+		return $data;
+	}
+
+
+       public function update_kantor_dusun_map($id='')
+	{
+                $data = $_POST;
+                $id = $_POST['id'];
+		$this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+        
+        public function update_wilayah_dusun_map($id='')
+	{
+                $data = $_POST;
+                $id = $_POST['id'];
+		$this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+       public function get_dusun_maps($dusun='')
+       {
+		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ?";
+		$query = $this->db->query($sql, $dusun);
+		return $query->row_array();
+       }
+
+
+       public function update_kantor_rw_map($id='')
+	{
+                $data = $_POST;
+                $id = $_POST['id'];
+                $this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+
+       public function update_wilayah_rw_map($id='')
+	{
+                $data = $_POST;
+                $id = $_POST['id'];
+                $this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+
+       public function get_rw_maps($dusun='', $rw='')
+	{
+		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ?";
+		$query = $this->db->query($sql, array($dusun, $rw));
+		return $query->row_array();
+	}
+
+	
+       public function update_kantor_rt_map($id='')
+	{
+                $data = $_POST;
+                $id = $_POST['id'];
+                $this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+
+       public function update_wilayah_rt_map($id='')
+	{
+                $data = $_POST;
+                $id = $_POST['id'];
+                $this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+
+       public function get_rt_maps($dusun='', $rw='', $rt='')
+	{
+		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
+		$query = $this->db->query($sql, array($dusun, $rw, $rt));
+		return $query->row_array();
+	}
+
+       public function list_rw_gis($dusun='')
+	{
+		$data = $this->db->
+			where('rt', '0')->
+			//where('dusun', urldecode($dusun))->
+			where('rw <>', '0')->
+			order_by('rw')->
+			get('tweb_wil_clusterdesa')->
+			result_array();
+		return $data;
+	}
+
+        public function list_rt_gis($dusun='', $rw='')
+	{
+		$data = $this->db->
+			where('rt <>', '0')->
+			//where('dusun', urldecode($dusun))->
+			//where('rw', $rw)->
+			order_by('rt')->
+			get('tweb_wil_clusterdesa')->
+			result_array();
 		return $data;
 	}
 
