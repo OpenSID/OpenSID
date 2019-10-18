@@ -15,3 +15,9 @@ body{
 #topsection{
   background: url(images/bg_header.jpg);
 }
+
+/* Untuk menyembunyikan tema, ubah display: block menjadi display: none;. */
+
+#transparansi-footer{
+  display: block;
+}

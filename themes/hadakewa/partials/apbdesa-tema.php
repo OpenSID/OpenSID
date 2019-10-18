@@ -7,22 +7,12 @@
     .progress-bar span{
       position: absolute;
       right: 20px;
-      color: #002C6C;
+      color: #000000;
+      font-weight: bold;
     }
-    
-    /*Untuk menyembunyikan dan menampilkan menu.*/
-    
-    .transparansi-hidden{
-        display: none;
-    }
-
-    .transparansi-show{
-        display: show;
-    }
-
 </style>
 <!-- Untuk menyembunyikan menu ini, ganti class transparansi-show dengan transparansi-hidden. -->
-<div class="container transparansi-show" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
+<div class="container" id="transparansi-footer" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <?php
         foreach ($data['data_widget'] as $subdata_name => $subdatas):
             $tahun = $data['tahun'];
