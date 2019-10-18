@@ -185,8 +185,7 @@ class First extends Web_Controller {
 				break;
 		}
 
-		$this->set_template('layouts/mandiri.php');
-		$this->load->view($this->template, $data);
+		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
 	/*

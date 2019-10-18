@@ -6,20 +6,14 @@
   }
 </style>
 
+<div class="box-header with-border">
+  <span style="font-size: x-large; float: left"><strong>BIODATA PENDUDUK</strong></span>
+  <div class="text-right">
+    <div class="text-right"><a href="<?= site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i>CETAK BIODATA</button></a></div>
+  </div>
+</div>
 <div class="artikel layanan">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form">
-    <tr>
-      <th colspan="3" class="judul" scope="col"><b>KARTU KELUARGA PENDUDUK</b></th>
-    </tr>
-	  <tr>
-		  <td colspan="3" class="button" scope="col"><a href="<?php echo site_url("first/cetak_kk/$penduduk[id]/1"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK KARTU KELUARGA</button></a></td>
-    </tr>
-  </table>
-
   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form" >
-    <tr>
-      <th colspan="3" class="judul" scope="col"><b>BIODATA PENDUDUK</b></th>
-    </tr>
     <tr>
       <td width="36%">Nama</td>
       <td width="2%">:</td>
@@ -134,15 +128,17 @@
         <td><?php echo strtoupper($penduduk['tanggalperceraian'])?></td>
       </tr>
     <?php endif ?>
-    <tr class="judul">
-      <td><b>Data Orang Tua</b></td>
-      <td>&nbsp;</td>
-      <td></td>
-    </tr>
+  </table>
+  <div class="box box-info" style="margin-top: 10px; margin-bottom: 0px; padding-bottom: 0px;">
+    <div class="box-header with-border">
+      <h4 class="box-title">Data Orang Tua</h4>
+    </div>
+  </div>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="form">
     <tr>
-      <td>NIK Ayah</td>
-      <td>:</td>
-      <td><?php echo strtoupper($penduduk['ayah_nik'])?></td>
+      <td width="36%">NIK Ayah</td>
+      <td width="2%">:</td>
+      <td width="62%"><?php echo strtoupper($penduduk['ayah_nik'])?></td>
     </tr>
     <tr class="shaded">
       <td>Nama Ayah</td>
@@ -169,56 +165,66 @@
       <td>:</td>
       <td><?php echo strtoupper($penduduk['status'])?></td>
     </tr>
-    <tr>
-      <td colspan="3" class="button" scope="col"><a href="<?php echo site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK BIODATA</button></a></td>
-    </tr>
   </table>
 
-  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped form">
-      <tr>
-        <th colspan="4" class="judul" scope="col"><b>KEANGGOTAAN KELOMPOK</b></th>
-      </tr>
-      <tr>
-        <th width="2">No</th>
-        <th width="220">Nama Kelompok</th>
-        <th width="360">Kategori Kelompok</th>
-        <th> &nbsp;</th>
-      </tr>
-      <?php $no=1; foreach($list_kelompok as $kel){?>
+  <div class="box box-info" style="margin-top: 10px;">
+    <div class="box-header with-border">
+      <h4 class="box-title">KEANGGOTAAN KELOMPOK</h4>
+      <div class="box-tools">
+        <button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#kelompok"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+    <div class="box-body" id="kelompok">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped form">
         <tr>
-          <td align="center" width="2"><?php echo $no;?></td>
-          <td><?php echo $kel['nama']?></td>
-          <td><?php echo $kel['kategori']?></td>
-          <td></td>
+          <th width="2">No</th>
+          <th width="220">Nama Kelompok</th>
+          <th width="360">Kategori Kelompok</th>
+          <th> &nbsp;</th>
         </tr>
-        <?php $no++;
-      }?>
-  </table>
+        <?php $no=1; foreach($list_kelompok as $kel){?>
+          <tr>
+            <td align="center" width="2"><?php echo $no;?></td>
+            <td><?php echo $kel['nama']?></td>
+            <td><?php echo $kel['kategori']?></td>
+            <td></td>
+          </tr>
+          <?php $no++;
+        }?>
+      </table>
+    </div>
+  </div>
 
-  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
-    <thead>
-      <tr>
-        <th colspan="5" class="judul" scope="col"><b>DOKUMEN / KELENGKAPAN PENDUDUK</b></th>
-      </tr>
-      <tr>
-        <th width="2">No</th>
-        <th width="220">Nama Dokumen</th>
-        <th width="360">Berkas</th>
-        <th width="200">Tanggal Upload</th>
-        <th>&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach($list_dokumen as $data){?>
-        <tr>
-          <td align="center" width="2"><?php echo $data['no']?></td>
-          <td><?php echo $data['nama']?></td>
-          <td><a href="<?php echo base_url().LOKASI_DOKUMEN?><?php echo urlencode($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
-          <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
-          <td></td>
-        </tr>
-      <?php }?>
-    </tbody>
-  </table>
-
+  <div class="box box-info" style="margin-top: 10px;">
+    <div class="box-header with-border">
+      <h4 class="box-title">DOKUMEN / KELENGKAPAN PENDUDUK</h4>
+      <div class="box-tools">
+        <button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#dokumen"><i class="fa fa-minus"></i></button>
+      </div>
+    </div>
+    <div class="box-body" id="dokumen">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
+        <thead>
+          <tr>
+            <th width="2">No</th>
+            <th width="220">Nama Dokumen</th>
+            <th width="360">Berkas</th>
+            <th width="200">Tanggal Upload</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($list_dokumen as $data){?>
+            <tr>
+              <td align="center" width="2"><?php echo $data['no']?></td>
+              <td><?php echo $data['nama']?></td>
+              <td><a href="<?php echo base_url().LOKASI_DOKUMEN?><?php echo urlencode($data['satuan'])?>" ><?php echo $data['satuan']?></a></td>
+              <td><?php echo tgl_indo2($data['tgl_upload'])?></td>
+              <td></td>
+            </tr>
+          <?php }?>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

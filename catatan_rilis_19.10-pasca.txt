@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 14. #2290: Tampilkan Peraturan Desa di web sebagai halaman yang bisa dimuat di menu statis.
 15: #2304: Sekarang bisa hapus data Siskeudes yang telah diimpor.
 16. #2383: Ubah status 'Kawin Tidak Tercatat' menjadi 'Kawin Belum Tercatat'.
+17. Sekarang halaman beranda Layanan Mandiri untuk tema 'default' dan 'hadakewa' disamakan menggunakan layar penuh.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
