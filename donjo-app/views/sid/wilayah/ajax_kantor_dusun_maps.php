@@ -23,8 +23,8 @@
 			var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
 			var zoom = <?=$dusun['zoom'] ?: 16?>;
 		<?php else: ?>
-			var posisi = [-1.0546279422758742,116.71875000000001];
-			var zoom = 4;
+			var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 16?>;
 		<?php endif; ?>
 		//Inisialisasi tampilan peta
 		var peta_dusun = L.map('mapx').setView(posisi, zoom);

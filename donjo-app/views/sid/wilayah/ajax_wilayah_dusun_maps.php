@@ -4,13 +4,13 @@
 	window.onload = function()
 	{
          
-         //Jika posisi kantor rt belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+         //Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($dusun['lat']) && !empty($dusun['lng'])): ?>
     var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
     var zoom = <?=$dusun['zoom'] ?: 10?>;
 	<?php else: ?>
-    var posisi = [-1.0546279422758742,116.71875000000001];
-    var zoom = 4;
+    var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+    var zoom = <?=$desa['zoom'] ?: 10?>;
 	<?php endif; ?>
 	//Menggunakan https://github.com/codeofsumit/leaflet.pm
 	//Inisialisasi tampilan peta
