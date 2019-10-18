@@ -102,7 +102,7 @@
 	#map
 	{
 		width:100%;
-		height:72vh
+		height:65vh
 	}
 
 </style>
@@ -111,16 +111,16 @@
 	<section class="content-header">
 		<h1>Peta Wilayah RW <?= $rw['rw']?> <?= ucwords($this->setting->sebutan_dusun." ".$rw['dusun'])?> <?= ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'])?></h1>
 		<ol class="breadcrumb">
-                        
-                        <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button> 
-                         
+                        <li><a href="<?= site_url('sid_core')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url("sid_core/form_rw/$dusun[id]/$rw[rw]")?>"> Pengelolaan Data RW</a></li>   
+			<li class="active">Peta Wilayah RW</li>                    
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
                                 <div class="box box-info">
+                                <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 					
 					<div class="box-body">
 						<div class="row">
@@ -129,11 +129,20 @@
 				       <div id="map">
                                        <input type="hidden" id="path" name="path" value="<?= $rw['path']?>">
                                        <input type="hidden" name="id" id="id"  value="<?= $rw['id']?>"/>
-            	                       </div>
-                          </form>
+                                       </div>
+                          
 							</div>
                                           	</div>
 					</div>
+      <div class='box-footer'>
+        <div class='col-xs-12'>
+          <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+          <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+        </div>
+      </div>
+                              </form>
+      
+
 				</div>
 			</div>
 		</div>
@@ -148,6 +157,7 @@
 
       var id = $('#id').val();
       var path = $('#path').val();
+       
       $.ajax(
 			{
         type: "POST",

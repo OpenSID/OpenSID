@@ -101,14 +101,13 @@
 			<div class="col-sm-12">
 				<div id="mapx"></div>
 				<input type="hidden" name="zoom" id="zoom"  value="<?= $rt['zoom']?>"/>
-				<input type="hidden" name="map_tipe" id="map_tipe"  value="<?= $rt['map_tipe']?>"/>
-                                <input type="hidden" name="id" id="id"  value="<?= $rt['id']?>"/>
+				<input type="hidden" name="map_tipe" id="map_tipe" value="<?= $rt['map_tipe']?>"/>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
 		<form id="validasi">
-                        <div class="form-group">
+			<div class="form-group">
 				<label class="col-sm-3 control-label" for="lat">Lat</label>
 				<div class="col-sm-9">
 					<input type="text" class="form-control number" name="lat" id="lat" value="<?= $rt['lat']?>"/>

@@ -67,16 +67,14 @@
 									<a href="<?=site_url("sid_core/ajax_wilayah_rt_maps/$dusun/$rw/$rt")?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah RT</a>
 								</div>
 							</div>
-			</div>
-									<div class="box-footer">
-										<div class="col-xs-12">
-											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
-										</div>
-									</div>
-								</form>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
-<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+						</div>
+						<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 							<div class='modal-dialog'>
 								<div class='modal-content'>
 									<div class='modal-header'>
@@ -86,9 +84,14 @@
 									<div class="fetched-data"></div>
 								</div>
 							</div>
-					</div>
+						</div>
 
-					</div>
+
+
+								</form>
+							</div>
+
+                                         	</div>
 					</div>
 				</div>
 			</div>
