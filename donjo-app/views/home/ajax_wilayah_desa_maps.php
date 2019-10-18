@@ -7,7 +7,7 @@
          //Jika posisi kantor rt belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
     var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-    var zoom = <?=$desa['zoom'] ?: 10?>;
+    var zoom = <?=$desa['zoom'] ?: 18?>;
 	<?php else: ?>
     var posisi = [-1.0546279422758742,116.71875000000001];
     var zoom = 4;
@@ -102,7 +102,7 @@
 	#map
 	{
 		width:100%;
-		height:72vh
+		height:65vh
 	}
 
 </style>
@@ -111,29 +111,34 @@
 	<section class="content-header">
 		<h1>Peta Wilayah <?= ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'])?></h1>
 		<ol class="breadcrumb">
-                        
-                        <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan_wilayah"><i class='fa fa-check'></i> Simpan</button> 
-                         
+                        <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url("hom_desa/konfigurasi")?>"> Identitas Desa</a></li> 
+			<li class="active">Peta Wilayah <?= ucwords($this->setting->sebutan_desa." ".$desa['nama_desa'])?></li>                    
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
                                 <div class="box box-info">
-					
+				<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+	
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-										
-				       <div id="map">
-                                       <input type="hidden" id="path" name="path" value="<?= $desa['path']?>">
-                                       
-            	                       </div>
-                          </form>
-							</div>
+							    <div id="map">
+                                                            <input type="hidden" id="path" name="path" value="<?= $desa['path']?>">
+                                                            </div>
+                                         	       </div>
                                           	</div>
 					</div>
+
+      <div class='box-footer'>
+        <div class='col-xs-12'>
+          <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+          <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+        </div>
+      </div>
+                              </form>
 				</div>
 			</div>
 		</div>
