@@ -409,7 +409,8 @@ class Sid_Core extends Admin_Controller {
 
         public function ajax_kantor_dusun_maps($dusun='')
 	{
-		$data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
+		$data['desa'] = $this->config_model->get_data();
+                $data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
                 $data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
 		$this->load->view("sid/wilayah/ajax_kantor_dusun_maps", $data);
 	}
@@ -417,7 +418,8 @@ class Sid_Core extends Admin_Controller {
 
         public function ajax_wilayah_dusun_maps($dusun='')
 	{
-		$data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
+		$data['desa'] = $this->config_model->get_data();
+                $data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
 		$data['form_action'] = site_url("sid_core/update_wilayah_dusun_map/$id");
 		
                 $header = $this->header_model->get_data();
@@ -442,14 +444,16 @@ class Sid_Core extends Admin_Controller {
 
 	public function ajax_kantor_rw_maps($dusun='',$rw='')
 	{
-		$data['rw'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
+		$data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
+                $data['rw'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
 		$data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id");
 		$this->load->view("sid/wilayah/ajax_kantor_rw_maps", $data);
 	}
 
         public function ajax_wilayah_rw_maps($dusun='',$rw='')
 	{
-		$data['rw'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
+		$data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
+                $data['rw'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
 		$data['form_action'] = site_url("sid_core/update_wilayah_rw_map/$id");
 		
                 $header = $this->header_model->get_data();
@@ -474,14 +478,16 @@ class Sid_Core extends Admin_Controller {
 	
         public function ajax_kantor_rt_maps($dusun='',$rw='',$rt='')
 	{
-		$data['rt'] = $this->wilayah_model->get_rt_maps($dusun, $rw, $rt);
+		$data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
+                $data['rt'] = $this->wilayah_model->get_rt_maps($dusun, $rw, $rt);
 		$data['form_action'] = site_url("sid_core/update_kantor_rt_map/$id");
 		$this->load->view("sid/wilayah/ajax_kantor_rt_maps", $data);
 	}
 
         public function ajax_wilayah_rt_maps($dusun='',$rw='',$rt='')
 	{
-		$data['rt'] = $this->wilayah_model->get_rt_maps($dusun, $rw, $rt);
+		$data['dusun'] = $this->wilayah_model->get_dusun_maps($dusun);
+                $data['rt'] = $this->wilayah_model->get_rt_maps($dusun, $rw, $rt);
 		$data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id");
 		
                 $header = $this->header_model->get_data();
