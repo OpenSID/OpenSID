@@ -10,8 +10,6 @@
 		});
 	});
 </script>
-<style type="text/css">
-</style>
 <div class="box">
 	<div class="slider">
     <span class="cycle-prev"><img src="<?php echo base_url()?>assets/images/back_button.png" alt="Back"></span> <!-- Untuk membuat tanda panah di kiri slider -->
