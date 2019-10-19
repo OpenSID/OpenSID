@@ -12,6 +12,11 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->modul_ini = 15;
 	}
 
+	public function index($kat=2, $p=1, $o=0)
+	{
+		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
+	}
+
 	// Peraturan Desa
 	public function peraturan_desa($kat=2, $p=1, $o=0)
 	{
@@ -39,9 +44,9 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
     $_SESSION['menu_kategori'] = TRUE;
 
-		foreach ($data['submenu'] as $s) 
+		foreach ($data['submenu'] as $s)
 		{
-			if ($kat == $s['id']) 
+			if ($kat == $s['id'])
 			{
 				$_SESSION['submenu'] = $s['id'];
 				$_SESSION['sub_kategori'] = $s['kategori'];

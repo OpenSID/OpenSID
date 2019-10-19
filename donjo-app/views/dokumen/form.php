@@ -31,7 +31,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama Dokumen</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$dokumen['nama']?>"></input>
+									<input name="nama" class="form-control input-sm required" type="text" value="<?=$dokumen['nama']?>"></input>
 								</div>
 							</div>
 							<?php if ($dokumen['satuan']): ?>
@@ -47,18 +47,22 @@
 								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
 								<div class="col-sm-6">
 									<div class="input-group input-group-sm">
-										<input type="text" class="form-control" id="file_path">
+										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path">
 										<input id="file" type="file" class="hidden" name="satuan">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
-									<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
+									<?php if ($dokumen): ?>
+										<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
+									<?php endif; ?>
 								</div>
 							</div>
 							<input name="kategori" type="hidden" value="<?= $kat;?>">
 							<?php
-								if ($kat == 2)
+								if ($kat == 1)
+									include ("donjo-app/views/dokumen/_informasi_publik.php");
+								elseif ($kat == 2)
 									include ("donjo-app/views/dokumen/_sk_kades.php");
 								elseif ($kat == 3)
 									include ("donjo-app/views/dokumen/_perdes.php");

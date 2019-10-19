@@ -82,6 +82,11 @@ class Migrasi_1910_ke_1911 extends CI_model {
 				);
 	  	}
 	  }
+	  // Ubah dokumen menjadi informasi publik
+		$this->db->where('id', 52)->update('setting_modul', array('modul'=>'Informasi Publik', 'aktif'=>'1'));
+		$attr = json_encode(array('kategori_publik' => 3)); // Kategori info publik 'Informasi Setiap Saat'
+		$this->db->where('kategori', '1')->where('id_pend', '0')
+			->update('dokumen', array('attr' => $attr));
   }
 
   private function jdih()
@@ -171,7 +176,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		$object = array(
 			array(
 				'id' => 1,
-				'nama' => 'Dokumen Umum'
+				'nama' => 'Informasi Publik'
 			),
 			array(
 				'id' => 2,

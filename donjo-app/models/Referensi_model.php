@@ -1,4 +1,14 @@
-<?php class Referensi_model extends CI_Model {
+<?php
+
+define("KATEGORI_PUBLIK", serialize(array(
+	"Informasi Berkala" => "1",
+	"Informasi Serta-merta" => "2",
+	"Informasi Setiap Saat" => "3",
+	"Informasi Dikecualikan" => "4"
+)));
+
+
+class Referensi_model extends CI_Model {
 
 	public function __construct()
 	{

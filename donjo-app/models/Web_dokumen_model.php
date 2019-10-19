@@ -114,6 +114,9 @@ class Web_dokumen_model extends CI_Model {
 		{
 			$data[$i]['no'] = $j + 1;
 			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
+			// Ambil keterangan kategori publik
+			if ($data[$i]['attr']['kategori_publik'])
+				$data[$i]['attr']['kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['attr']['kategori_publik']];
 
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
