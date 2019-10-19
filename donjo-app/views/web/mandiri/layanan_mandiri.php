@@ -20,7 +20,7 @@
         <td><h4><a href="<?= site_url();?>first/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-history"></i>Riwayat Layanan</button></a> </h4></td>
       </tr>
       <tr>
-        <td><h4><a href="<?= site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-bullhorn"></i>Lapor</button></a> </h4></td>
+        <td><h4><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-bullhorn"></i>Lapor</button></h4></td>
       </tr>
       <tr>
         <td><h4><a href="<?= site_url();?>first/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-handshake-o"></i>Bantuan</button></a></h4></td>
