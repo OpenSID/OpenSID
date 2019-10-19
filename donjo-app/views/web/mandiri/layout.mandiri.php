@@ -93,6 +93,16 @@
   </div>
 
   <script>
+    <?php if ($m == 3) { ?>
+      $('#exampleModal').modal('show')
+    <?php }; ?>
+
+    $('#exampleModal').on('hide.bs.modal', function() {
+      $('#komentar').val('');
+      $('#error').html('');
+      $('#cek').removeClass('has-error');
+    });
+
     $('#reset').on('click', function() {
       $('#komentar').val('');
       $('#error').html('');
@@ -113,8 +123,6 @@
         success: function(hasil) {
           if (hasil['sukses'] == 1) {
             $('#exampleModal').modal('hide')
-            $('#komentar').val('');
-            $('#error').html('');
           } else {
             $('#cek').addClass('has-error');
             $('#error').html(hasil['message']);
