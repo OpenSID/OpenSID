@@ -87,6 +87,21 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		$attr = json_encode(array('kategori_publik' => 3)); // Kategori info publik 'Informasi Setiap Saat'
 		$this->db->where('kategori', '1')->where('id_pend', '0')
 			->update('dokumen', array('attr' => $attr));
+		// Aktifkan submodul Kelompok
+		$modul_nonmenu = array(
+			'id' => 94,
+			'modul' => 'Kategori Kelompok',
+			'url' => 'kelompok_master',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '',
+			'level' => '',
+			'parent' => '24',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
   }
 
   private function jdih()
