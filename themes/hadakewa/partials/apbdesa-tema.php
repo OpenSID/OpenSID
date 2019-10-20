@@ -11,7 +11,6 @@
       font-weight: bold;
     }
 </style>
-<!-- Untuk menyembunyikan menu ini, ganti class transparansi-show dengan transparansi-hidden. -->
 <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <?php
         foreach ($data['data_widget'] as $subdata_name => $subdatas):
