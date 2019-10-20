@@ -1,8 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
 <!--
 	Untuk bisa menghentikan scroller, perlu menambah plugin jquery.pause
 	dan mengubah jquery.cycle2.carousel.js, mengikuti contoh di

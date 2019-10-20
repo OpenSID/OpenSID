@@ -58,6 +58,10 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
+		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
+		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
+		
 	</head>
 	<body>
 		<div id="maincontainer">
