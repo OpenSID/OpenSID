@@ -110,12 +110,6 @@
 									<option value="<?= $id?>" <?php selected($submenu['link'], $id) ?>><?= $nama?></option>
 								<?php endforeach; ?>
 							</select>
-							<select id="peraturan_desa" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=7): ?>display:none;<?php endif; ?>">
-								<option value="">Pilih Peraturan Desa</option>
-								<?php foreach ($peraturan_desa as $id => $nama): ?>
-									<option value="<?= $id?>" <?php if ($submenu['link']==$id): ?>selected<?php endif; ?>><?= $nama?></option>
-								<?php endforeach; ?>
-							</select>
 							<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">
 								<input  name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
 								<span class="text-sm text-red">(misalnya: http://opensid.info)</span>

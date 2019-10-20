@@ -56,7 +56,6 @@
 								<li class="<?php ($cat == 999) and print('active') ?>"><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
        					<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
        					<li class="<?php ($cat == 1001) and print('active') ?>"><a href="<?=site_url('web/index/1001')?>">Keuangan</a></li>
-       					<li class="<?php ($cat == 1002) and print('active') ?>"><a href="<?=site_url('web/index/1002')?>">Peraturan Desa</a></li>
 							</ul>
 						</div>
 					</div>
@@ -73,8 +72,6 @@
 											Agenda
 										<?php elseif ($cat == 1001): ?>
 											Artikel Keuangan
-										<?php elseif ($cat == 1002): ?>
-											Artikel Peraturan Desa
 										<?php else: ?>
 											Artikel Statis
 										<?php endif; ?> Baru
