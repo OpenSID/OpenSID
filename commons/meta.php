@@ -52,12 +52,19 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
     <meta property="og:description" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
-<script language='javascript' src="<?= base_url('assets/js/jquery.min.js'); ?>"></script>
+<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
 <script language='javascript' src="<?= base_url('assets/bootstrap/js/bootstrap.js'); ?>"></script>
-<script language='javascript' src="<?= base_url('assets/js/jquery.cycle2.min.js') ?>"></script>
-<script language='javascript' src="<?= base_url('assets/js/jquery.cycle2.carousel.js') ?>"></script>
+<script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.min.js') ?>"></script>
+<script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.carousel.js') ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script> 
 <script src="<?= base_url()?>assets/js/leaflet.js"></script>
+
+<script src="<?= base_url()?>assets/front/js/layout.js"></script>
+<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
 <script type="text/javascript">
