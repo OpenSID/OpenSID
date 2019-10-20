@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 16. #2383: Ubah status 'Kawin Tidak Tercatat' menjadi 'Kawin Belum Tercatat'.
 17. Sekarang halaman beranda Layanan Mandiri untuk tema 'default' dan 'hadakewa' disamakan menggunakan layar penuh.
 18. #2407: Ubah halaman Admin Web > Dokumen menjadi Admin Web > Informasi Publik.
+19. #2409: Submodul Kependudukan > Kelompok > Kategori Kelompok sekarang aktif kembali. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
