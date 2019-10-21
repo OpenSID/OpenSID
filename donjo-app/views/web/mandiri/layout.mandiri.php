@@ -1,5 +1,4 @@
 <?php $this->load->view('web/mandiri/header_mandiri.php') ?>
-
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
@@ -42,62 +41,61 @@
     </div>
   </section>
 </div>
-
 <?php $this->load->view('web/mandiri/footer_mandiri.php') ?>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="lapor_modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header  bg-primary ">
-        <h5 class="modal-title" id="exampleModalLabel">Lapor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h3 class="text-center"><i class="fa fa-user"></i> Form Pelaporan</h3>
       </div>
       <div class="modal-body">
-        <form id="validasi">
-          <p>Silakan laporkan perubahan data kependudukan anda.</p>
-
-          <div class="form-group row">
-            <label for="pengirim" class="col-sm-2 col-form-label">Pengirim</label>
-            <div class="col-sm-10">
-              <input type="text" id="pengirim" class="form-control" readonly="readonly" name="owner" value="<?= $_SESSION['nama'] ?>">
+        <div class="container-fluid">
+          <form id="validasi" class="form-horizontal">
+            <div class="row">
+              <div class="form-group">
+                <label for="pengirim" class="col-sm-3 control-label" style="text-align:right;">Pengirim : </label>
+                <div class="col-sm-6">
+                  <input type="text" id="pengirim" class="form-control" readonly="readonly" name="owner" value="<?= $_SESSION['nama'] ?>">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="nik" class="col-sm-3 control-label" style="text-align:right;">NIK :</label>
+                <div class="col-sm-6">
+                  <input type="text" id="nik" class="form-control" readonly="readonly" name="email" value="<?= $_SESSION['nik'] ?>">
+                </div>
+              </div>
+              <hr style="height:1.5px;border:none;color:#d2d6de;background-color:#d2d6de;" />
             </div>
-          </div>
-
-          <div class="form-group row">
-            <label for="nik" class="col-sm-2 col-form-label">NIK</label>
-            <div class="col-sm-10">
-              <input type="text" id="nik" class="form-control" readonly="readonly" name="email" value="<?= $_SESSION['nik'] ?>">
-            </div>
-          </div>
-
-          <div class="form-group row" id="cek">
-            <label for="Komentar" class="col-sm-2 col-form-label">Laporan</label>
-            <div class="col-sm-10">
-              <textarea id="komentar" class="form-control is-invalid" name="komentar" placeholder="Isi laporan anda"></textarea>
+            <div class="form-group" id="cek">
+              <label for="Komentar" class="col-form-label">
+                <span class="lead">Isi Laporan</span> Penjelasan dan Isi Laporan
+              </label>
+              <textarea id="komentar" class="form-control is-invalid" rows="10" name="komentar" placeholder="Isi laporan anda"></textarea>
               <span id="error" class="help-block"></span>
             </div>
-
-
+          </form>
+          <div class="modal-footer">
+            <div class="row">
+              <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i>Batal</button>
+              <button type="button" class="btn btn-info pull-left" id="reset"><i class="fa fa-undo"></i>Reset</button>
+              <button type="button" class="btn btn-primary pull-right" id="kirim"><i class="fa fa-sign-in"></i>Kirim</button>
+            </div>
           </div>
 
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="kirim">Kirim</button>
-        <button type="button" class="btn btn-secondary" id="reset">Reset</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-      </div>
-      </form>
     </div>
   </div>
 
   <script>
-    <?php if ($m == 3) { ?>
-      $('#exampleModal').modal('show')
-    <?php }; ?>
+    var alamat = "<?= site_url('lapor_web/insert') ?>";
+    var m = <?= $m;  ?>
 
-    $('#exampleModal').on('hide.bs.modal', function() {
+    if (m == 3) {
+      $('#lapor_modal').modal('show')
+    }
+
+    $('#lapor_modal').on('hide.bs.modal', function() {
       $('#komentar').val('');
       $('#error').html('');
       $('#cek').removeClass('has-error');
@@ -117,15 +115,16 @@
     $('#kirim').on('click', function() {
       $.ajax({
         type: "post",
-        url: "<?= site_url() ?>lapor_web/insert",
+        url: alamat,
         dataType: "JSON",
         data: $('#validasi').serialize(),
         success: function(hasil) {
           if (hasil['sukses'] == 1) {
-            $('#exampleModal').modal('hide')
+            $('#lapor_modal').modal('hide');
+            alert(hasil['pesan'])
           } else {
             $('#cek').addClass('has-error');
-            $('#error').html(hasil['message']);
+            $('#error').html(hasil['pesan']);
           }
 
         }
