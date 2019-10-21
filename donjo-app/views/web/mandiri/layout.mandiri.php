@@ -1,3 +1,7 @@
+<style type="text/css">
+  div.modal-header.bg-primary { padding: 10px; }
+</style>
+
 <?php $this->load->view('web/mandiri/header_mandiri.php') ?>
 <div class="content-wrapper">
   <section class="content">
@@ -46,7 +50,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header  bg-primary ">
-        <h3 class="text-center"><i class="fa fa-user"></i> Form Pelaporan</h3>
+        <h3 class="text-center"><i class="fa fa-commenting"></i> Form Pelaporan</h3>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
@@ -68,7 +72,7 @@
             </div>
             <div class="form-group" id="cek">
               <label for="Komentar" class="col-form-label">
-                <span class="lead">Isi Laporan</span> Penjelasan dan Isi Laporan
+                <span class="lead">Isi Laporan </span> Penjelasan dan Isi Laporan
               </label>
               <textarea id="komentar" class="form-control is-invalid" rows="10" name="komentar" placeholder="Isi laporan anda"></textarea>
               <span id="error" class="help-block"></span>
