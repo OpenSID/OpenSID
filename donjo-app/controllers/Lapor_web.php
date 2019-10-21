@@ -1,8 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-
 class Lapor_web extends Web_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -10,7 +8,6 @@ class Lapor_web extends Web_Controller
 		$this->load->model('lapor_model');
 		$this->load->model('config_model');
 	}
-
 	/**
 	 * Kirim laporan pengguna layanan mandiri
 	 *
@@ -19,34 +16,35 @@ class Lapor_web extends Web_Controller
 	 */
 	public function insert()
 	{
-		if ($_SESSION['mandiri'] != 1) {
+		if ($_SESSION['mandiri'] != 1) 
+		{
 			redirect('first');
 		}
-
 		$_SESSION['success'] = 1;
 		$res = $this->lapor_model->insert();
-		$data['data_config'] = $this->config_model->get_data();
 		// cek kalau berhasil disimpan dalam database
-		if ($res) {
-			//$this->session->set_flashdata('flash_message', 'Laporan anda telah berhasil dikirim dan akan segera diproses.');
-			$message = 'Laporan anda telah berhasil dikirim dan akan segera diproses.';
+		if ($res) 
+		{
 			$sukses = 1;
-		} else {
+			$pesan = 'Laporan anda telah berhasil dikirim dan akan segera diproses.';
+		} 
+		else 
+		{
 			$_SESSION['post'] = $_POST;
-			if (!empty($_SESSION['validation_error'])) {
-				$this->session->set_flashdata('flash_message', validation_errors());
-				$message = 'Bidang Laporan dibutuhkan';
+			if (!empty($_SESSION['validation_error'])) 
+			{
 				$sukses = 0;
-			} else {
-				//	$this->session->set_flashdata('flash_message', 'Laporan anda gagal dikirim. Silakan ulangi lagi.');
-				$message = 'Laporan anda gagal dikirim. Silakan ulangi lagi.';
+				$pesan = validation_errors();
+			} 
+			else
+			{
 				$sukses = 0;
+				$pesan = 'Laporan anda gagal dikirim. Silakan ulangi lagi.';
 			}
 		}
-
 		$respon = [
 			'sukses' => $sukses,
-			'message' => $message
+			'pesan' => $pesan
 		];
 
 		echo json_encode($respon);
