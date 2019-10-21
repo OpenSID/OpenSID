@@ -1,4 +1,3 @@
-<!-- Beranda Layanan Mandiri -->
 <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td class="text-center"><p style="font-size: larger; font-weight:bolder"><?= $_SESSION['nama'];?></p>

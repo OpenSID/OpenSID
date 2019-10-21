@@ -411,7 +411,7 @@ class First extends Web_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
-			$row[] = "<a href='".base_url('desa/upload/dokumen/').$baris['satuan']."'>".$baris['nama']."</a>";
+			$row[] = "<a href='".base_url('desa/upload/dokumen/').$baris['satuan']."' target='_blank'>".$baris['nama']."</a>";
 			$row[] = $baris['tahun'];
 			// Ambil judul kategori
 			$kategori_publik = json_decode($baris['attr'], true)['kategori_publik'];

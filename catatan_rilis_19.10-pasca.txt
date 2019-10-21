@@ -1,6 +1,6 @@
 Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 
@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 19. #2409: Submodul Kependudukan > Kelompok > Kategori Kelompok sekarang aktif kembali. [bug-fix]
 20. #2401: Sekarang slider di web tema 'hadakewa' jalan kembali setelah teks berjalan dinon-aktifkan. [bug-fix]
 21. #2408: Sekarang halaman informasi publik dapat ditampilkan di web melalui menu statis.
+22. #2416: Tampilkan form lapor di Layanan Mandiri sebagai popup.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
