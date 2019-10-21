@@ -1,6 +1,6 @@
 Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 
