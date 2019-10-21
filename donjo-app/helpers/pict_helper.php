@@ -724,6 +724,8 @@ function UploadPengesahan($fupload_name)
 */
 function bersihkan_namafile($nama)
 {
+  // Simpan extension
+  $ext = get_extension($nama);
   // replace non letter or digits by -
   $nama = preg_replace('~[^\pL\d]+~u', '-', $nama);
   // transliterate
@@ -735,7 +737,7 @@ function bersihkan_namafile($nama)
   // remove duplicate -
   $nama = preg_replace('~-+~', '-', $nama);
   // lowercase
-  return strtolower($nama);
+  return strtolower($nama.$ext);
 }
 
 ?>
