@@ -1,8 +1,17 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<div class="artikel">
-	<h3>DAFTAR REKAM CETAK SURAT</h3>
-	<table class="table table-striped">
+<script>
+	$(document).ready(function() {
+		$('#list-rekam').DataTable({
+			'pageLength' : 10
+		});
+	})
+</script>
+<div class="box-header with-border">
+	<span style="font-size: x-large"><strong>DAFTAR REKAM CETAK SURAT</strong></span>
+</div>
+<div class="box-body">
+	<table class="table table-striped" id="list-rekam">
 		<thead>
 			<tr>
 				<th>No</th>
