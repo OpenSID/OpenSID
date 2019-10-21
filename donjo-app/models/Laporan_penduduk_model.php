@@ -85,11 +85,11 @@
 
 	private function get_jumlah_sql($fk = false, $delimiter = false, $where = 0)
 	{
-		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b 
+		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
 						WHERE 1 ";
 		$sql .= $fk ? "AND $fk = u.id " : "";
-		$sql .= $where ? : '';	
+		$sql .= $where ? : '';
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
@@ -101,8 +101,8 @@
 
 	private function get_laki_sql($fk = false, $delimiter = false, $where = 0)
 	{
-		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b 
-						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id 
+		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
+						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
 						WHERE sex = 1 ";
 		$sql .= $fk ? "AND $fk = u.id " : "";
 		$sql .= $where ? : '';
@@ -110,15 +110,15 @@
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
 		$sql .= ") AS laki";
-		$sql .= $delimiter ? ',' : '';		
+		$sql .= $delimiter ? ',' : '';
 
 		return $sql;
 	}
 
 	private function get_perempuan_sql($fk = false, $delimiter = false, $where = 0)
 	{
-		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b 
-						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id 
+		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
+						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
 						WHERE sex = 2 ";
 		$sql .= $fk ? "AND $fk = u.id " : "";
 		$sql .= $where ? : '';
@@ -130,7 +130,7 @@
 
 		return $sql;
 	}
-	
+
 	private function statistik_penduduk_sql($lap = 0, $fk = false, $tabel_referensi)
 	{
 		switch($lap){
@@ -168,7 +168,7 @@
 				$sql .= " FROM $tabel_referensi u";
 				$sql .= " WHERE status = 1";
 				break;
-			
+
 			case 18:
 				// kepemilikan ktp
 				$where = " AND ((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam ";
@@ -227,7 +227,8 @@
 	{
 		$statistik = array(
 			"wilayah" => "Wilayah Administratif",
-      'peraturan_desa' => 'Peraturan Desa'
+      'peraturan_desa' => 'Peraturan Desa',
+      'informasi_publik' => 'Informasi Publik'
 		);
 		return $statistik;
 	}
@@ -473,7 +474,7 @@
 				$sql = $this->statistik_penduduk_sql($lap, "pendidikan_kk_id", "tweb_penduduk_pendidikan_kk");
 				break;
 
-			case "1": 
+			case "1":
 				$sql = $this->statistik_penduduk_sql($lap, "pekerjaan_id", "tweb_penduduk_pekerjaan");
 				break;
 
@@ -489,11 +490,11 @@
 				$sql = $this->statistik_penduduk_sql($lap, "sex", "tweb_penduduk_sex");
 				break;
 
-			case "5": 
+			case "5":
 				$sql = $this->statistik_penduduk_sql($lap, "warganegara_id", "tweb_penduduk_warganegara");
 				break;
 
-			case "6": 
+			case "6":
 				$sql = $this->statistik_penduduk_sql($lap, "status", "tweb_penduduk_status");
 				break;
 
@@ -526,7 +527,7 @@
 				$sql = $this->statistik_penduduk_sql($lap, "cara_kb_id", "tweb_cara_kb");
 				break;
 
-			case "17": 
+			case "17":
 				$sql = $this->statistik_penduduk_sql($lap, false, "tweb_penduduk_umur");
 				break;
 

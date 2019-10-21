@@ -1,6 +1,13 @@
 <?php
 class Web_dokumen_model extends CI_Model {
 
+	// Untuk datatables informasi publik
+	var $table = 'dokumen';
+	var $column_order = array(null, 'nama','tahun', null, 'tgl_upload'); //set column field database for datatable orderable
+	var $column_search = array('nama'); //set column field database for datatable searchable
+	var $order = array('id' => 'asc'); // default order
+
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -14,7 +21,7 @@ class Web_dokumen_model extends CI_Model {
 		$this->db->select('dokumen.id, satuan, dokumen.nama, tahun, ref_dokumen.nama as kategori');
 		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
 		$this->db->where('dokumen.enabled', 1);
-    $this->db->where_in('ref_dokumen.id', $kategori_peraturan);
+		$this->db->where_in('ref_dokumen.id', $kategori_peraturan);
 
 		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
 		if ($tahun) $this->db->where('tahun', $tahun);
@@ -24,6 +31,74 @@ class Web_dokumen_model extends CI_Model {
 		$res = $this->db->get('dokumen')->result_array();
 		return $res;
 	}
+
+	// ================= informasi publik ===================
+	// https://mbahcoding.com/tutorial/php/codeigniter/codeigniter-simple-server-side-datatable-example.html
+
+	private function get_informasi_publik_query()
+	{
+			$this->db->from($this->table)
+				->where('kategori', '1')
+				->where('id_pend', '0');
+
+			$i = 0;
+
+			foreach ($this->column_search as $item) // loop column
+			{
+				if ($_POST['search']['value']) // if datatable send POST for search
+				{
+					if ($i===0) // first loop
+					{
+						$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+						$this->db->like($item, $_POST['search']['value']);
+					}
+					else
+					{
+						$this->db->or_like($item, $_POST['search']['value']);
+					}
+					if (count($this->column_search) - 1 == $i) //last loop
+						$this->db->group_end(); //close bracket
+				}
+				$i++;
+			}
+
+			if (isset($_POST['order'])) // here order processing
+			{
+				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+			}
+			else if (isset($this->order))
+			{
+				$order = $this->order;
+				$this->db->order_by(key($order), $order[key($order)]);
+			}
+	}
+
+	public function get_informasi_publik()
+	{
+		$this->get_informasi_publik_query();
+		if ($_POST['length'] != -1)
+		$this->db->limit($_POST['length'], $_POST['start']);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function count_informasi_publik_filtered()
+	{
+		$this->get_informasi_publik_query();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_informasi_publik_all()
+	{
+		$this->db->from($this->table)
+			->where('kategori', '1')
+			->where('id_pend', '0');
+		return $this->db->count_all_results();
+	}
+
+	// ============== akhir informasi publik ===================
+
 
 	// Lists Tahun Dokumen untuk web first
 	public function tahun_dokumen()
@@ -130,15 +205,15 @@ class Web_dokumen_model extends CI_Model {
 
 	private function semua_mime_type()
 	{
-	  $semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
-	  $semua_mime_type = array_diff($semua_mime_type, array('application/octet-stream'));
-	  return $semua_mime_type;
+		$semua_mime_type = array_merge(unserialize(MIME_TYPE_DOKUMEN), unserialize(MIME_TYPE_GAMBAR), unserialize(MIME_TYPE_ARSIP));
+		$semua_mime_type = array_diff($semua_mime_type, array('application/octet-stream'));
+		return $semua_mime_type;
 	}
 
 	private function semua_ext()
 	{
-	  $semua_ext = array_merge(unserialize(EXT_DOKUMEN), unserialize(EXT_GAMBAR), unserialize(EXT_ARSIP));
-	  return $semua_ext;
+		$semua_ext = array_merge(unserialize(EXT_DOKUMEN), unserialize(EXT_GAMBAR), unserialize(EXT_ARSIP));
+		return $semua_ext;
 	}
 
 	private function upload_dokumen(&$data, $file_lama="")
@@ -151,22 +226,22 @@ class Web_dokumen_model extends CI_Model {
 
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
-	  $lokasi_file = $_FILES['satuan']['tmp_name'];
+		$lokasi_file = $_FILES['satuan']['tmp_name'];
 		if (empty($lokasi_file))
 		{
 			$_SESSION['success'] = -1;
 			return false;
 		}
-	  if (function_exists('finfo_open'))
-	  {
-	    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-	    $tipe_file = finfo_file($finfo, $lokasi_file);
-	  }
-	  else
-		  $tipe_file = $_FILES['satuan']['type'];
-	  $nama_file = $_FILES['satuan']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  $ext = get_extension($nama_file);
+		if (function_exists('finfo_open'))
+		{
+			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+			$tipe_file = finfo_file($finfo, $lokasi_file);
+		}
+		else
+			$tipe_file = $_FILES['satuan']['type'];
+		$nama_file = $_FILES['satuan']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		$ext = get_extension($nama_file);
 
 		if (!in_array($tipe_file, $this->semua_mime_type()) OR !in_array($ext, $this->semua_ext()))
 		{
@@ -181,7 +256,7 @@ class Web_dokumen_model extends CI_Model {
 			return false;
 		}
 
-    $nama = $data['nama'];
+		$nama = $data['nama'];
 		if (!empty($data['id_pend']))
 			$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
 		else
@@ -198,20 +273,23 @@ class Web_dokumen_model extends CI_Model {
 		if ($this->upload_dokumen($data))
 		{
 			$data['attr'] = json_encode($data['attr']);
-      $tgl = json_decode($data['attr'], TRUE);
-      if ($data['kategori'] == 2)
-      {
-        $data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
-      }
-      elseif($data['kategori'] == 3)
-      {
-        $data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
-      }
-      else
-      {
-        $data['tahun'] = date('Y');
-      }
+			$tgl = json_decode($data['attr'], TRUE);
+			switch ($data['kategori'])
+			{
+				case 1:
+					$data['tahun'] = $this->input->post('tahun');
+					break;
+				case 2:
+					$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+					break;
+				case 3:
+					$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+					break;
 
+				default:
+					$data['tahun'] = date('Y');
+					break;
+			}
 			return $this->db->insert('dokumen', $data);
 		}
 		else return false;
@@ -219,24 +297,27 @@ class Web_dokumen_model extends CI_Model {
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+		$data = $_POST;
 		if (!$this->upload_dokumen($data, $data['old_file']))
 			unset($data['satuan']);
 		$data['attr'] = json_encode($data['attr']);
-    $tgl = json_decode($data['attr'], TRUE);
-    if ($data['kategori'] == 2)
-    {
-      $data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
-    }
-    elseif($data['kategori'] == 3)
-    {
-      $data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
-    }
-    else
-    {
-      $data['tahun'] = date('Y');
-    }
+		$tgl = json_decode($data['attr'], TRUE);
+		switch ($data['kategori'])
+		{
+			case 1:
+				$data['tahun'] = $this->input->post('tahun');
+				break;
+			case 2:
+				$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+				break;
+			case 3:
+				$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+				break;
 
+			default:
+				$data['tahun'] = date('Y');
+				break;
+		}
 		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
 

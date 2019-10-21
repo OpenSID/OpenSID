@@ -86,6 +86,7 @@
                                   <?php endif; ?>
 																	<?php if ($kat == 1): ?>
 																		<th>Kategori Info Publik</th>
+																		<th>Tahun</th>
 																	<?php elseif ($kat == 2): ?>
 																		<th nowrap>Nomor Dan Tanggal Keputusan</th>
 																		<th nowrap>Uraian Singkat</th>
@@ -127,6 +128,7 @@
 																		<td width="30%"><?= $data['nama']?></td>
 																		<?php if ($kat == 1): ?>
 																			<td><?= $data['attr']['kategori_publik']?></td>
+																			<td><?= $data['tahun']?></td>
 																		<?php elseif ($kat == 2): ?>
 																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 																			<td><?= $data['attr']['uraian']?></td>
