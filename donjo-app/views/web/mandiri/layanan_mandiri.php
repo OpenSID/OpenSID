@@ -1,6 +1,6 @@
 <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td class="text-center"><p style="font-size: larger; font-weight:bolder"><?= $_SESSION['nama'];?></p>
+    <td class="text-center"><p style="font-size: larger; "><?= $_SESSION['nama'];?></p>
       NIK: <?= $_SESSION['nik'];?><br>
       No KK: <?= $_SESSION['no_kk']?></td>
   </tr>
@@ -14,7 +14,7 @@
     <td><h4><a href="<?= site_url();?>first/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-history"></i>Riwayat Layanan</button></a> </h4></td>
   </tr>
   <tr>
-    <td><h4><a href="<?= site_url();?>first/mandiri/1/3" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-bullhorn"></i>Lapor</button></a> </h4></td>
+    <td><h4><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#lapor_modal"><i class="fa fa-bullhorn"></i>Lapor</button></h4></td>
   </tr>
   <tr>
     <td><h4><a href="<?= site_url();?>first/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-handshake-o"></i>Bantuan</button></a></h4></td>
