@@ -17,7 +17,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
-	// Peraturan Desa
+	// Produk Hukum Desa
 	public function peraturan_desa($kat=2, $p=1, $o=0)
 	{
 		$data['p'] = $p;

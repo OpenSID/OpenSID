@@ -227,7 +227,7 @@
 	{
 		$statistik = array(
 			"wilayah" => "Wilayah Administratif",
-      'peraturan_desa' => 'Peraturan Desa',
+      'peraturan_desa' => 'Produk Hukum',
       'informasi_publik' => 'Informasi Publik'
 		);
 		return $statistik;

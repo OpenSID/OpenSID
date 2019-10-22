@@ -225,5 +225,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			);
 			$this->db->insert('setting_modul', $object);
 		}
+	  // Ganti nama modul yg salah
+	  $this->db->where('id', 95)->update('setting_modul', array('modul' => 'Produk Hukum'));
 	}
 }

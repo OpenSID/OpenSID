@@ -357,7 +357,7 @@ class First extends Web_Controller {
 
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-		$data['heading']="Peraturan Desa";
+		$data['heading']="Produk Hukum";
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
 		$this->_get_common_data($data);
 
