@@ -1,15 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<script>
-	$(document).ready(function() {
-		$('#list-rekam').DataTable({
-			'pageLength' : 10,
-			'language': {
-				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-				}
-		});
-	})
-</script>
 <div class="box-header with-border">
 	<span style="font-size: x-large"><strong>DAFTAR REKAM CETAK SURAT</strong></span>
 </div>
