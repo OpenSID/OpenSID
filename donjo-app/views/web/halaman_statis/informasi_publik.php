@@ -25,7 +25,6 @@
 	</div>
 </div>
 
-<script src="<?= base_url()?>assets/js/terakhir.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -47,7 +46,7 @@ $(document).ready(function() {
         },
       ],
       'language': {
-        'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+        'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
       }
     });
 

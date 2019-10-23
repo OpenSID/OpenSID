@@ -42,8 +42,6 @@
 		<script src="<?= base_url()?>assets/js/numeral.min.js"></script>
 		<!-- Script-->
 		<script src="<?= base_url()?>assets/js/script.js"></script>
-		<!-- File ini untuk mencari base_url di js -->
-		<script src="<?= base_url()?>assets/js/terakhir.js"></script>
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">

@@ -8,7 +8,7 @@
       <form id="peraturanForm" onsubmit="formAction(); return false;">
   			<div class="col-md-3">
   				<div class="form-group">
-  					<label for="jenis_dokumen">Jenis Peraturan</label>
+  					<label for="jenis_dokumen">Jenis</label>
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
@@ -44,7 +44,7 @@
 		<table class="table table-striped table-bordered" id="jdih-table">
 			<thead>
 				<tr>
-					<th>Nama Peraturan</th>
+					<th>Judul Produk Hukum</th>
 					<th>Jenis</th>
 					<th>Tahun</th>
 				</tr>
