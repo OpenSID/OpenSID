@@ -1,8 +1,10 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<div class="artikel">
-	<h3>DAFTAR REKAM CETAK SURAT</h3>
-	<table class="table table-striped">
+<div class="box-header with-border">
+	<span style="font-size: x-large"><strong>DAFTAR REKAM CETAK SURAT</strong></span>
+</div>
+<div class="box-body">
+	<table class="table table-striped" id="list-rekam">
 		<thead>
 			<tr>
 				<th>No</th>
@@ -13,13 +15,14 @@
 			</tr>
 		</thead>
 		<tbody>
+			<?php $no = 1 ?>
 			<?php foreach($surat_keluar as $data): ?>
 				<tr>
-					<td align="center" width="2"><?php echo $data['no']?></td>
-					<td><?php echo $data['no_surat']?></td>
-					<td><?php echo $data['format']?></td>
-					<td><?php echo $data['pamong']?></td>
-					<td><?php echo tgl_indo2($data['tanggal'])?></td>
+					<td align="center" width="2"><?= $no++ ?></td>
+					<td><?= $data['no_surat']?></td>
+					<td><?= $data['format']?></td>
+					<td><?= $data['pamong']?></td>
+					<td><?= tgl_indo2($data['tanggal'])?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

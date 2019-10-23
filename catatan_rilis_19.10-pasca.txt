@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 20. #2401: Sekarang slider di web tema 'hadakewa' jalan kembali setelah teks berjalan dinon-aktifkan. [bug-fix]
 21. #2408: Sekarang halaman informasi publik dapat ditampilkan di web melalui menu statis.
 22. #2416: Tampilkan form lapor di Layanan Mandiri sebagai popup.
+23. #2406: Perbaiki tampilan daftar rekam surat di layanan mandiri.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

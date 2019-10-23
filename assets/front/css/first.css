@@ -1534,7 +1534,7 @@ blockquote p {
 #mandiri button { margin-bottom: 1px; }
 #mandiri td {
 	height: 30px;
-	padding-left: 10px;
+	padding: 0px 5px;
 }
 #mandiri td.titik {
 	padding-left: 1px;

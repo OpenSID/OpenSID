@@ -55,7 +55,7 @@
     <script src="<?= base_url()?>assets/js/numeral.min.js"></script>
     <!-- Script-->
     <script src="<?= base_url()?>assets/js/script.js"></script>
-
-
+    <!-- Khusus modul layanan mandiri -->
+    <script src="<?= base_url() ?>assets/front/js/mandiri.js"></script>
   </body>
 </html>
