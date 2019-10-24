@@ -1,8 +1,3 @@
-<?php
-    $thn = date('Y');
-    $data = $this->keuangan_grafik_model->grafik_keuangan_hakadewa($thn);
-?>
-
 <style type="text/css">
     .progress-bar span{
       position: absolute;
@@ -13,30 +8,31 @@
 </style>
 <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <?php
-        foreach ($data['data_widget'] as $subdata_name => $subdatas):
-            $tahun = $data['tahun'];
-            switch ($subdata_name) {
-                case 'res_pelaksanaan':
-                    $subdata_name = 'Pelaksanaan Tahun '. $tahun;
-                    break;
+      foreach ($data_widget as $subdata_name => $subdatas):
+        // $tahun = $data['tahun'];
+        switch ($subdata_name)
+        {
+          case 'res_pelaksanaan':
+            $subdata_name = 'Pelaksanaan Tahun '. $tahun;
+            break;
 
-                case 'res_pendapatan':
-                    $subdata_name = 'Pendapatan Tahun '. $tahun;
-                    break;
+          case 'res_pendapatan':
+            $subdata_name = 'Pendapatan Tahun '. $tahun;
+            break;
                 
-                case 'res_belanja':
-                    $subdata_name = 'Belanja Tahun '. $tahun;
-                    break;
+          case 'res_belanja':
+            $subdata_name = 'Belanja Tahun '. $tahun;
+            break;
 
-                default:
-                    $subdata_name = '';
-                    break;
-            }
+          default:
+            $subdata_name = '';
+            break;
+        }
     ?>
     <div class="col-md-4">
         <div align="center"><h2><?= ($subdata_name)?></h2></div><hr/>
     <?php
-            foreach ($subdatas as $subdata):
+        foreach ($subdatas as $subdata):
                 $subdata['persen'] = round($subdata['persen'], 2);
                 if($subdata['judul'] != NULL):
     ?>

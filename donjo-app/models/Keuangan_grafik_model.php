@@ -478,8 +478,9 @@ class Keuangan_grafik_model extends CI_model {
     return $data;
   }
 
-  public function grafik_keuangan_hakadewa($tahun)
+  public function grafik_keuangan_hakadewa($tahun = NULL)
   {
+    if(is_null($tahun)) $tahun = date('Y');
     $thn = $this->keuangan_model->list_tahun_anggaran();
     if(is_null($thn)){
       return null;
