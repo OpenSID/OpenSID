@@ -180,7 +180,6 @@ class Sid_Core extends Admin_Controller {
 
 	public function form_rw($id_dusun = '', $rw = '')
 	{
-
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
@@ -208,8 +207,6 @@ class Sid_Core extends Admin_Controller {
 			$data['form_action'] = site_url("sid_core/insert_rw/$id_dusun");
 		}
 
-
-
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
@@ -220,7 +217,7 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-        public function insert_rw($dusun = '')
+  public function insert_rw($dusun = '')
 	{
 		$this->wilayah_model->insert_rw($dusun);
 		redirect("sid_core/sub_rw/$dusun");
@@ -414,6 +411,7 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_kantor_dusun_maps($id='')
 	{
+		$nav['act_sub'] = 20;
 		$data['desa'] = $this->config_model->get_data();
     $data['dusun'] = $this->wilayah_model->get_dusun_maps($id);
     $data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
@@ -439,6 +437,7 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_dusun_maps($id='')
 	{
+		$nav['act_sub'] = 20;
 		$data['desa'] = $this->config_model->get_data();
     $data['dusun'] = $this->wilayah_model->get_dusun_maps($id);
 		$data['form_action'] = site_url("sid_core/update_wilayah_dusun_map/$id");
@@ -501,6 +500,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function ajax_kantor_rw_maps($id_dusun = '',$rw='')
 	{
+		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
@@ -529,6 +529,7 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_rw_maps($id_dusun = '',$rw='')
 	{
+		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
@@ -586,6 +587,7 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_kantor_rt_maps($id_dusun = '',$rw='',$id='')
 	{
+		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
@@ -616,6 +618,7 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_rt_maps($id_dusun = '',$rw='',$id='')
 	{
+		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
