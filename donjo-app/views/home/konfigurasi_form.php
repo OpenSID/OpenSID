@@ -4,7 +4,8 @@
 		<h1>Identitas <?=ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Identitas <?=ucwords($this->setting->sebutan_desa)?></li>
+      <li><a href="<?=site_url('hom_desa/konfigurasi')?>"></i> Identitas <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li class="active">Ubah Identitas <?=ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -35,6 +36,9 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">
+						<div class="box-header with-border">
+							<a href="<?=site_url()?>hom_desa/konfigurasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data <?=ucwords($this->setting->sebutan_desa)?>"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Data Identitas <?=ucwords($this->setting->sebutan_desa)?></a>
+						</div>
 						<div class="box-body">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?=ucwords($this->setting->sebutan_desa)?></label>
@@ -143,17 +147,10 @@
 									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="<?=$main["kode_propinsi"]?>"></input>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_propinsi">Peta Kantor / Wilayah <?=ucwords($this->setting->sebutan_desa)?></label>
-								<div class="col-sm-9">
-									<a href="<?=site_url("hom_desa/ajax_kantor_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Kantor <?=ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Kantor <?=ucwords($this->setting->sebutan_desa)?></a>
-									<a href="<?=site_url("hom_desa/ajax_wilayah_maps")?>" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Peta Wilayah <?=ucwords($this->setting->sebutan_desa)?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map'></i> Wilayah <?=ucwords($this->setting->sebutan_desa)?></a>
-								</div>
-							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>

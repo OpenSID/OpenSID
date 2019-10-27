@@ -1,6 +1,6 @@
 Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
+Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk, Zeppy Shiddiq dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 
@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 22. #2416: Tampilkan form lapor di Layanan Mandiri sebagai popup.
 23. #2406: Perbaiki tampilan daftar rekam surat di layanan mandiri.
 24. Tambahkan grafik transparansi keuangan di tema Hadakewa yang datanya diambil dari database hasil impor data Siskeudes.
+25. Sekarang bisa gambarkan lokasi kantor dan peta wilayah untuk dusun, rw dan rt. Pemetaan lokasi kantor desa dan wilayah desa sekarang diberikan ruang yg lebih besar.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

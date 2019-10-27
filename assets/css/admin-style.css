@@ -417,4 +417,17 @@ Warna Bar Realisasi
 	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
 }
 
+/* Untuk menampilkan drop-down yg melewati batas window
+https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
+*/
+@media (max-width: 767px) {
+  .table-responsive .dropdown-menu {
+    position: static !important;
+  }
+}
+@media (min-width: 768px) {
+  .table-responsive {
+    overflow: visible;
+  }
+}
 
