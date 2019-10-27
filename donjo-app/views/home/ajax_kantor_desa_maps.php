@@ -3,7 +3,7 @@
 	window.onload = function()
 	{
 
-		//Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+	//Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 		<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
 			var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
 			var zoom = <?=$desa['zoom'] ?: 16?>;
@@ -12,7 +12,7 @@
 			var zoom = 4;
 		<?php endif; ?>
 
-    //Inisialisasi tampilan peta
+    	//Inisialisasi tampilan peta
 		var peta_desa = L.map('mapx').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -28,7 +28,7 @@
 			$('#zoom').val(peta_desa.getZoom());
 		})
 
-    peta_desa.on('zoomstart zoomend', function(e){
+    		peta_desa.on('zoomstart zoomend', function(e){
 			$('#zoom').val(peta_desa.getZoom());
 		})
 
@@ -71,6 +71,49 @@
 			kantor_desa.setLatLng(latLng);
 			peta_desa.setView(latLng, zoom);
 		})
+
+	//Unggah Peta dari file GPX/KML
+				 
+		L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+		
+		control = L.Control.fileLayerLoad({
+			addToMap: false,
+			formats: [
+			'.gpx',
+			'.kml'
+			],
+			fitBounds: true,
+			layerOptions: {
+				pointToLayer: function (data, latlng) {
+					return L.marker(latlng);
+				},
+				
+			}
+		});
+		control.addTo(peta_desa);
+		 
+		control.loader.on('data:loaded', function (e) {
+			peta_desa.removeLayer(kantor_desa);
+			var type = e.layerType;
+			var layer = e.layer;
+			var coords=[];
+			var geojson = layer.toGeoJSON();
+			var shape_for_db = JSON.stringify(geojson);
+								 
+			var polygon =   
+			L.geoJson(JSON.parse(shape_for_db), {
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng);
+			},
+			onEachFeature: function (feature, layer) {
+			coords.push(feature.geometry.coordinates);
+			}
+			}).addTo(peta_desa)
+		   
+		   document.getElementById('lat').value = coords[0][1];
+		   document.getElementById('lng').value = coords[0][0];         
+		});
+
 	}; //EOF window.onload
 </script>
 <style>
@@ -79,6 +122,11 @@
 	width:100%;
 	height:50vh
 	}
+	.icon {
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+        }
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
@@ -135,7 +183,7 @@
 		$('#simpan_kantor').click(function(){
 			if (!$('#validasi').valid()) return;
 
-      var id = $('#id').val();
+      			var id = $('#id').val();
 			var lat = $('#lat').val();
 			var lng = $('#lng').val();
 			var zoom = $('#zoom').val();
@@ -152,4 +200,5 @@
 
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>
