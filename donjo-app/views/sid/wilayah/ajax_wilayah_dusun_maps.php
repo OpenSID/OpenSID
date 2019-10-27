@@ -5,7 +5,7 @@ window.onload = function()
 {
   var drawnItems;
 
-  //Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+  //Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan peta desa
 	<?php if (!empty($dusun['lat']) && !empty($dusun['lng'])): ?>
     var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
     var zoom = <?=$dusun['zoom'] ?: 10?>;
@@ -63,55 +63,71 @@ window.onload = function()
     });
   });
 
-  //Tombol uplad import file GPX
-  var style = {
-    color: 'red',
-    opacity: 1.0,
-    fillOpacity: 1.0,
-    weight: 2,
-    clickable: true
-  };
+	//Unggah Peta dari file GPX/KML
 
-  L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
-  control = L.Control.fileLayerLoad({
-    fitBounds: true,
-    layerOptions: {
-      style: style,
-      pointToLayer: function (data, latlng) {
-        return L.circleMarker(
-          latlng,
-          { style: style }
-        );
-      },
-    }
-  });
-  control.addTo(peta_dusun);
+	var style = {
+	color: 'red',
+	opacity: 1.0,
+	fillOpacity: 1.0,
+	weight: 2,
+	clickable: true
+	};
 
-  control.loader.on('data:loaded', function (e) {
-    var type = e.layerType;
-    var layer = e.layer;
-    var coords=[];
+	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
 
-    var geojson = layer.toGeoJSON();
-    var shape_for_db = JSON.stringify(geojson);
+	control = L.Control.fileLayerLoad({
+	addToMap: false,
+	fitBounds: true,
+	layerOptions: {
+		style: style,
+		pointToLayer: function (data, latlng) {
+			return L.circleMarker(
+				latlng,
+				{ style: style }
+			);
+		},
+		
+	}
+	});
+	control.addTo(peta_dusun);
 
+	control.loader.on('data:loaded', function (e) {
+	var type = e.layerType;
+	var layer = e.layer;
+	var coords=[];
+	var geojson = layer.toGeoJSON();
+	var options = {tolerance: 0.0001, highQuality: false};
+	var simplified = turf.simplify(geojson, options);
+	var shape_for_db = JSON.stringify(geojson);
 
-    var polygon =
-    L.geoJson(JSON.parse(shape_for_db), {
-      pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, { style: style });
-    },
-    onEachFeature: function (feature, layer) {
-      coords.push([feature.geometry.coordinates[1],feature.geometry.coordinates[0]]);
-    }
-    }).addTo(peta_dusun);
+	var polygon =   
+	//L.geoJson(JSON.parse(shape_for_db), { //jika ingin koordinat tidak dipotong/simplified
+	L.geoJson(simplified, {
+	pointToLayer: function (feature, latlng) {
+		return L.circleMarker(latlng, { style: style });
+	},
+	onEachFeature: function (feature, layer) {
+	coords.push(feature.geometry.coordinates);
 
-    polygon.on('pm:edit', function(e)
-    {
-      //document.getElementById('path').value = coords;
-      //document.getElementById('path').value = coords.toString();
-    });
-  });
+	},
+
+	}).addTo(peta_dusun);
+
+	var jml = coords[0].length;
+	coords[0].push(coords[0][0]);
+	for (var x = 0; x < jml; x++)
+	{
+	coords[0][x].reverse();
+	}
+
+	polygon.on('pm:edit', function(e)
+	{
+	document.getElementById('path').value = JSON.stringify(coords);
+	});
+
+	document.getElementById('path').value = JSON.stringify(coords);
+		 
+	});
 
   //Menghapus Peta wilayah
   peta_dusun.on('pm:globalremovalmodetoggled', function(e)

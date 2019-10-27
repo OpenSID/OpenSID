@@ -28,7 +28,7 @@
 			$('#zoom').val(peta_rt.getZoom());
 		})
 
-    peta_rt.on('zoomstart zoomend', function(e){
+    		peta_rt.on('zoomstart zoomend', function(e){
 			$('#zoom').val(peta_rt.getZoom());
 		})
 
@@ -71,6 +71,49 @@
 			kantor_rt.setLatLng(latLng);
 			peta_rt.setView(latLng, zoom);
 		})
+
+		//Unggah Peta dari file GPX/KML
+				 
+		L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+		
+		control = L.Control.fileLayerLoad({
+			addToMap: false,
+			formats: [
+			'.gpx',
+			'.kml'
+			],
+			fitBounds: true,
+			layerOptions: {
+				pointToLayer: function (data, latlng) {
+					return L.marker(latlng);
+				},
+				
+			}
+		});
+		control.addTo(peta_rt);
+		 
+		control.loader.on('data:loaded', function (e) {
+			peta_rt.removeLayer(kantor_rt);
+			var type = e.layerType;
+			var layer = e.layer;
+			var coords=[];
+			var geojson = layer.toGeoJSON();
+			var shape_for_db = JSON.stringify(geojson);
+								 
+			var polygon =   
+			L.geoJson(JSON.parse(shape_for_db), {
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng);
+			},
+			onEachFeature: function (feature, layer) {
+			coords.push(feature.geometry.coordinates);
+			}
+			}).addTo(peta_rt)
+		   
+		   document.getElementById('lat').value = coords[0][1];
+		   document.getElementById('lng').value = coords[0][0];         
+		});
+
 	}; //EOF window.onload
 </script>
 <style>
@@ -79,6 +122,11 @@
 		width:100%;
 		height:50vh
 	}
+	.icon {
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+        }
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
@@ -141,14 +189,14 @@
 		$('#simpan_kantor').click(function(){
 			if (!$('#validasi').valid()) return;
 
-      var id = $('#id').val();
+      			var id = $('#id').val();
 			var lat = $('#lat').val();
 			var lng = $('#lng').val();
 			var zoom = int($('#zoom').val());
 			var map_tipe = $('#map_tipe').val();
-      var dusun = $('#dusun').val();
-      var rw = $('#rw').val();
-      var rt = $('#rt').val();
+      			var dusun = $('#dusun').val();
+      			var rw = $('#rw').val();
+      			var rt = $('#rt').val();
 			$.ajax({
 				type: "POST",
 				url: "<?=$form_action?>",
@@ -161,4 +209,5 @@
 
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>

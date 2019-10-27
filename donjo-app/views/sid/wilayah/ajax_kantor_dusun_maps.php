@@ -3,7 +3,7 @@
 	window.onload = function()
 	{
 
-		//Jika posisi wilayah dusun belum ada, maka posisi peta akan menampilkan posisi peta desa
+	//Jika posisi wilayah dusun belum ada, maka posisi peta akan menampilkan posisi peta desa
 		<?php if (!empty($dusun['lat'] && !empty($dusun['lng']))): ?>
 			var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
 			var zoom = <?=$dusun['zoom'] ?: 16?>;
@@ -12,7 +12,7 @@
 			var zoom = <?=$desa['zoom'] ?: 16?>;
 		<?php endif; ?>
 
-	  //Inisialisasi tampilan peta
+	//Inisialisasi tampilan peta
 		var peta_dusun = L.map('mapx').setView(posisi, zoom);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -28,7 +28,7 @@
 			$('#zoom').val(peta_dusun.getZoom());
 		})
 
-    peta_dusun.on('zoomstart zoomend', function(e){
+    		peta_dusun.on('zoomstart zoomend', function(e){
 			$('#zoom').val(peta_dusun.getZoom());
 		})
 
@@ -71,6 +71,49 @@
 			kantor_dusun.setLatLng(latLng);
 			peta_dusun.setView(latLng, zoom);
 		})
+
+	//Unggah Peta dari file GPX/KML
+			 
+		L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+		
+		control = L.Control.fileLayerLoad({
+			addToMap: false,
+			formats: [
+			'.gpx',
+			'.kml'
+			],
+			fitBounds: true,
+			layerOptions: {
+				pointToLayer: function (data, latlng) {
+					return L.marker(latlng);
+				},
+				
+			}
+		});
+		control.addTo(peta_dusun);
+		 
+		control.loader.on('data:loaded', function (e) {
+			peta_dusun.removeLayer(kantor_dusun);
+			var type = e.layerType;
+			var layer = e.layer;
+			var coords=[];
+			var geojson = layer.toGeoJSON();
+			var shape_for_db = JSON.stringify(geojson);
+								 
+			var polygon =   
+			L.geoJson(JSON.parse(shape_for_db), {
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng);
+			},
+			onEachFeature: function (feature, layer) {
+			coords.push(feature.geometry.coordinates);
+			}
+			}).addTo(peta_dusun)
+		   
+		   document.getElementById('lat').value = coords[0][1];
+		   document.getElementById('lng').value = coords[0][0];         
+		});
+
 	}; //EOF window.onload
 </script>
 <style>
@@ -78,6 +121,12 @@
 	{
 	width:100%;
 	height:50vh
+	}
+	.icon {
+        max-width: 70%;
+        max-height: 70%;
+        margin: 4px;
+        }
 	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
@@ -138,12 +187,12 @@
 		$('#simpan_kantor').click(function(){
 			if (!$('#validasi').valid()) return;
 
-      var id = $('#id').val();
+      			var id = $('#id').val();
 			var lat = $('#lat').val();
 			var lng = $('#lng').val();
 			var zoom = int($('#zoom').val());
 			var map_tipe = $('#map_tipe').val();
-      var dusun = $('#dusun').val();
+      			var dusun = $('#dusun').val();
 			$.ajax({
 				type: "POST",
 				url: "<?=$form_action?>",
@@ -156,4 +205,5 @@
 
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>

@@ -4,7 +4,7 @@ var infoWindow;
 window.onload = function()
 {
 
-  //Jika posisi kantor rw belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+  //Jika posisi kantor rw belum ada, maka posisi peta akan menampilkan peta dusun
 	<?php if (!empty($rw['lat'] && !empty($rw['lng']))): ?>
 		var posisi = [<?=$rw['lat'].",".$rw['lng']?>];
 		var zoom = <?=$rw['zoom'] ?: 16?>;
@@ -21,34 +21,6 @@ window.onload = function()
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
     id: 'mapbox.streets'
   }).addTo(peta_rw);
-
-  //Tombol uplad import file GPX
-  var style = {
-    color: 'red',
-    opacity: 1.0,
-    fillOpacity: 1.0,
-    weight: 4,
-    clickable: false
-  };
-
-  L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
-  control = L.Control.fileLayerLoad({
-    fitBounds: true,
-    layerOptions: {
-      style: style,
-      pointToLayer: function (data, latlng) {
-        return L.circleMarker(
-          latlng,
-          { style: style }
-        );
-      }
-    }
-  });
-  control.addTo(peta_rw);
-  control.loader.on('data:loaded', function (e) {
-      var layer = e.layer;
-      console.log(layer);
-  });
 
   //Tombol yang akan dimunculkan dipeta
   var options =
@@ -90,6 +62,72 @@ window.onload = function()
     })
 
   });
+
+	//Unggah Peta dari file GPX/KML
+
+	var style = {
+	color: 'red',
+	opacity: 1.0,
+	fillOpacity: 1.0,
+	weight: 2,
+	clickable: true
+	};
+
+	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+
+	control = L.Control.fileLayerLoad({
+	addToMap: false,
+	fitBounds: true,
+	layerOptions: {
+		style: style,
+		pointToLayer: function (data, latlng) {
+			return L.circleMarker(
+				latlng,
+				{ style: style }
+			);
+		},
+		
+	}
+	});
+	control.addTo(peta_rw);
+
+	control.loader.on('data:loaded', function (e) {
+	var type = e.layerType;
+	var layer = e.layer;
+	var coords=[];
+	var geojson = layer.toGeoJSON();
+	var options = {tolerance: 0.0001, highQuality: false};
+	var simplified = turf.simplify(geojson, options);
+	var shape_for_db = JSON.stringify(geojson);
+
+	var polygon =   
+	//L.geoJson(JSON.parse(shape_for_db), { //jika ingin koordinat tidak dipotong/simplified
+	L.geoJson(simplified, {
+	pointToLayer: function (feature, latlng) {
+		return L.circleMarker(latlng, { style: style });
+	},
+	onEachFeature: function (feature, layer) {
+	coords.push(feature.geometry.coordinates);
+
+	},
+
+	}).addTo(peta_rw);
+
+	var jml = coords[0].length;
+	coords[0].push(coords[0][0]);
+	for (var x = 0; x < jml; x++)
+	{
+	coords[0][x].reverse();
+	}
+
+	polygon.on('pm:edit', function(e)
+	{
+	document.getElementById('path').value = JSON.stringify(coords);
+	});
+
+	document.getElementById('path').value = JSON.stringify(coords);
+		 
+	});
 
   //Menghapus Peta wilayah
   peta_rw.on('pm:globalremovalmodetoggled', function(e)
