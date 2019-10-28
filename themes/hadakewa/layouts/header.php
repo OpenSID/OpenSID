@@ -61,7 +61,10 @@
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
-
+    <!-- Diperlukan untuk javascript yg mengakses resources -->
+    <script type="text/javascript">
+      var BASE_URL = "<?= base_url(); ?>";
+    </script>
 	</head>
 	<body>
 		<div id="maincontainer">
