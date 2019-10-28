@@ -12,6 +12,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
+		$this->load->model('wilayah_model');
 		$this->modul_ini = 9;
 		$this->load->database();
 	}
@@ -44,6 +45,9 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['layer_lokasi']);
 		unset($_SESSION['layer_area']);
 		$_SESSION['layer_keluarga'] == 0;
+		unset($_SESSION['layer_dusun']);
+                unset($_SESSION['layer_rw']);
+                unset($_SESSION['layer_rt']);
 		redirect('gis');
 	}
 
@@ -109,6 +113,18 @@ class Gis extends Admin_Controller {
 			$data['layer_area'] = $_SESSION['layer_area'];
 		else $data['layer_area'] = 0;
 
+		if (isset($_SESSION['layer_dusun']))
+			$data['layer_dusun'] = $_SESSION['layer_dusun'];
+		else $data['layer_dusun'] = 0;
+
+                if (isset($_SESSION['layer_rw']))
+			$data['layer_rw'] = $_SESSION['layer_rw'];
+		else $data['layer_rw'] = 0;
+
+                if (isset($_SESSION['layer_rt']))
+			$data['layer_rt'] = $_SESSION['layer_rt'];
+		else $data['layer_rt'] = 0;
+
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
@@ -119,6 +135,11 @@ class Gis extends Admin_Controller {
 		$data['area'] = $this->plan_area_model->list_data();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+                $data['rw'] = $this->wilayah_model->list_rw();
+                $data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+                $data['rt'] = $this->wilayah_model->list_rt(); 
+                $data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['act'] = 9;
@@ -315,6 +336,33 @@ class Gis extends Admin_Controller {
 				$_SESSION['layer_penduduk'] = 1;
 			}
 		}
+		redirect('gis');
+	}
+
+       public function layer_dusun()
+	{
+		$layer_dusun = $this->input->post('layer_dusun');
+		if ($layer_dusun == "")
+			$_SESSION['layer_dusun'] = 0;
+		else $_SESSION['layer_dusun'] = 1;
+		redirect('gis');
+	}
+
+        public function layer_rw()
+	{
+		$layer_rw = $this->input->post('layer_rw');
+		if ($layer_rw == "")
+			$_SESSION['layer_rw'] = 0;
+		else $_SESSION['layer_rw'] = 1;
+		redirect('gis');
+	}
+
+        public function layer_rt()
+	{
+		$layer_rt = $this->input->post('layer_rt');
+		if ($layer_rt == "")
+			$_SESSION['layer_rt'] = 0;
+		else $_SESSION['layer_rt'] = 1;
 		redirect('gis');
 	}
 }
