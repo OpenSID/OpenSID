@@ -421,13 +421,13 @@ Warna Bar Realisasi
 https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
 */
 @media (max-width: 767px) {
-  .table-responsive .dropdown-menu {
-    position: static !important;
-  }
+	.table-responsive {
+		overflow-x: auto;
+		overflow-y: auto;
+	}
 }
-@media (min-width: 768px) {
-  .table-responsive {
-    overflow: visible;
-  }
+@media (min-width: 767px) {
+	.table-responsive {
+		overflow: inherit !important;
+	}
 }
-
