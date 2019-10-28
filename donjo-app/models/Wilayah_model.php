@@ -506,15 +506,14 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function get_rt_maps($rt_id)
+       public function get_rt_maps($dusun='', $rw='', $id='')
 	{
-		$data = $this->db->where('id', $rt_id)
-			->get('tweb_wil_clusterdesa')
-			->row_array();
-		return $data;
+		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND id = ?";
+		$query = $this->db->query($sql, array($dusun, $rw, $id));
+		return $query->row_array();
 	}
 
-	public function list_rw_gis($dusun='')
+       public function list_rw_gis($dusun='')
 	{
 		$data = $this->db->
 			where('rt', '0')->
@@ -526,7 +525,7 @@
 		return $data;
 	}
 
-	public function list_rt_gis($dusun='', $rw='')
+        public function list_rt_gis($dusun='', $rw='')
 	{
 		$data = $this->db->
 			where('rt <>', '0')->
