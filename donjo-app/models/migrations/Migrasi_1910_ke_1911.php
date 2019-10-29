@@ -227,5 +227,9 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		}
 	  // Ganti nama modul yg salah
 	  $this->db->where('id', 95)->update('setting_modul', array('modul' => 'Produk Hukum'));
+
+  	// Perbesar kolom 'path' untuk peta wilayah
+	  $this->dbforge->modify_column('tweb_wil_clusterdesa', array('path' => array('type' => 'TEXT', 'null' => true, 'default' => '')));
+
 	}
 }
