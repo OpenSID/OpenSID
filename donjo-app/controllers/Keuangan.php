@@ -39,16 +39,16 @@ class Keuangan extends Admin_Controller {
 		$header['minsidebar'] = 1;
 		if (!empty($data['tahun_anggaran']))
 		{
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('keuangan/laporan',$data);
-		$this->load->view('footer');
+			$this->load->view('header', $header);
+			$this->load->view('nav', $nav);
+			$this->load->view('keuangan/laporan',$data);
+			$this->load->view('footer');
 		}
 		else
 		{
-		$_SESSION['success'] = -1;
-		$_SESSION['error_msg'] = "Data Laporan Keuangan Belum Tersedia";
-		redirect("keuangan/impor_data");
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = "Data Laporan Keuangan Belum Tersedia";
+			redirect("keuangan/impor_data");
 		}
 	}
 
