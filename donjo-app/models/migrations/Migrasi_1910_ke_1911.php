@@ -1,5 +1,6 @@
 <?php
 class Migrasi_1910_ke_1911 extends CI_model {
+
   public function up()
   {
   	// WNI sebagai nilai default untuk kolom kewarganegaraan
@@ -91,8 +92,8 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			'url' => 'kelompok_master',
 			'aktif' => '1',
 			'ikon' => '',
-			'urut' => '',
-			'level' => '',
+			'urut' => '0',
+			'level' => '0',
 			'parent' => '24',
 			'hidden' => '2',
 			'ikon_kecil' => ''
@@ -100,6 +101,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
 		$this->db->query($sql);
   }
+  
   private function jdih()
   {
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
