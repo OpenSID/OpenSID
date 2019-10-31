@@ -494,7 +494,12 @@
 		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
 
-
+                $data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
+		$data['pendidikan_sedang_id'] = $data['pendidikan_sedang_id'] ?: NULL;
+		$data['pekerjaan_id'] = $data['pendidikan_sedang_id'] ?: NULL;
+		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
+		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
+		
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
@@ -653,12 +658,12 @@
 		//$log['id_detail'] = "8";
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
-		$log['tgl_peristiwa'] = date("d-m-Y");
+		$log['tgl_peristiwa'] = date("d-m-y");
 		$this->tulis_log_penduduk_data($log);
 
 		$log1['id_pend'] = $idku;
 		$log1['id_cluster'] = 1;
-		$log1['tanggal'] = date("m-d-y");
+		$log1['tanggal'] = date("d-m-y");
 
 		$outp = $this->db->insert('log_perubahan_penduduk', $log1);
 
