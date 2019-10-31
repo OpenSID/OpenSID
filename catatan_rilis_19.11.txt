@@ -18,7 +18,7 @@ Lengkapnya, isi rilis versi 19.11 adalah sebagai berikut:
 12. Tata ulang library laman web untuk menghindari bentrok. [teknis]
 13. #1879: Statistik kependudukan bisa ditampilkan per wilayah (dusun, rw, rt).
 14. #2290: Tampilkan Peraturan Desa di web sebagai halaman yang bisa dimuat di menu statis.
-15: #2304: Sekarang bisa hapus data Siskeudes yang telah diimpor.
+15. #2304: Sekarang bisa hapus data Siskeudes yang telah diimpor.
 16. #2383: Ubah status 'Kawin Tidak Tercatat' menjadi 'Kawin Belum Tercatat'.
 17. Sekarang halaman beranda Layanan Mandiri untuk tema 'default' dan 'hadakewa' disamakan menggunakan layar penuh.
 18. #2407: Ubah halaman Admin Web > Dokumen menjadi Admin Web > Informasi Publik.
