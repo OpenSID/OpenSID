@@ -17,8 +17,8 @@ class Migrasi_1910_ke_1911 extends CI_model {
 				'url' => $submodul,
 				'aktif' => '1',
 				'ikon' => '',
-				'urut' => '',
-				'level' => '',
+				'urut' => '0',
+				'level' => '0',
 				'parent' => '8',
 				'hidden' => '2',
 				'ikon_kecil' => ''
@@ -29,10 +29,8 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		// Update view supaya kolom baru ikut masuk
 		$this->db->query("DROP VIEW penduduk_hidup");
 		$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
-
 		// Ubah url menu statistik kependudukan
 		$this->db->update('setting_modul', array('url' => 'statistik/clear'), array('id' => 27));
-
 		// Ubah kode surat
 		$this->db
 			->where('url_surat', 'surat_kuasa')
@@ -94,8 +92,8 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			'url' => 'kelompok_master',
 			'aktif' => '1',
 			'ikon' => '',
-			'urut' => '',
-			'level' => '',
+			'urut' => '0',
+			'level' => '0',
 			'parent' => '24',
 			'hidden' => '2',
 			'ikon_kecil' => ''
@@ -103,14 +101,13 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
 		$this->db->query($sql);
   }
-
+  
   private function jdih()
   {
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
 		if ($this->db->table_exists('dokumen'))
 		{
 			$res = $this->db->get('dokumen')->result_array();
-
 	  	if (!$this->db->field_exists('tahun','dokumen'))
 			{
 				$fields = array(
@@ -120,7 +117,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
 	        )
 				);
 				$this->dbforge->add_column('dokumen',$fields);
-
 				foreach ($res as $v)
 				{
 					$tgl =  json_decode($v['attr'], TRUE);
@@ -132,7 +128,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
           {
             $tahun = date('Y',strtotime($tgl['tgl_ditetapkan']));
           }
-
 					$data = array(
 						'tahun' => $tahun,
 					);
@@ -153,7 +148,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
           {
             $tahun = date('Y',strtotime($tgl['tgl_ditetapkan']));
           }
-
 					$data = array(
 						'tahun' => $tahun,
 					);
@@ -162,7 +156,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
 				}
 			}
 		}
-
   	// Penambahan table dokumen_kategori untuk dynamic categories dokumen
 		if (!$this->db->table_exists('ref_dokumen'))
 		{
@@ -178,7 +171,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
           'constraint' => '100'
         )
 			);
-
 			$this->dbforge->add_key('id', TRUE);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->create_table('ref_dokumen');
@@ -187,7 +179,6 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		{
       $this->db->truncate('ref_dokumen');
     }
-
 		$object = array(
 			array(
 				'id' => 1,
@@ -203,14 +194,12 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			)
 		);
 		$this->db->insert_batch('ref_dokumen', $object);
-
   	// Perubahan Sub Menu pada Sekretariat > SK Kades dan Perdes menjadi Sekretariat > Produk Hukum
 		if ($this->db->table_exists('setting_modul'))
 		{
 			$array = array( 59, 60 );
 			$this->db->where_in('id', $array);
 			$this->db->delete('setting_modul');
-
 			$object = array(
 				'id' => 95,
 				'modul' => 'Peraturan Desa',
@@ -227,9 +216,7 @@ class Migrasi_1910_ke_1911 extends CI_model {
 		}
 	  // Ganti nama modul yg salah
 	  $this->db->where('id', 95)->update('setting_modul', array('modul' => 'Produk Hukum'));
-
   	// Perbesar kolom 'path' untuk peta wilayah
-	  $this->dbforge->modify_column('tweb_wil_clusterdesa', array('path' => array('type' => 'TEXT', 'null' => true, 'default' => '')));
-
+	  $this->dbforge->modify_column('tweb_wil_clusterdesa', array('path' => array('type' => 'TEXT', 'null' => true)));
 	}
 }
