@@ -1,4 +1,4 @@
-Di rilis ini, versi 19.11, terdapat Batasi pilihan penduduk di Rekam Surat Perorangan pada penduduk bersurat saja. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 19.11, daftar Produk Hukum dan Informasi Publik dapat ditampilkan di web melalui menu statis. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk, Zeppy Shiddiq, Ariandi Ryan Kahfi dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
