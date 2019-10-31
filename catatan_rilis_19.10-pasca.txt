@@ -1,8 +1,8 @@
-Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, OpenSID versi 19.11-pasca, terdapat beberapa fitur yang baru seperti Produk Hukum Desa dan Informasi Publik. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk, Zeppy Shiddiq, Ariandi Ryan Kahfi dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 
 1. #2242: Batasi pilihan penduduk di Rekam Surat Perorangan pada penduduk bersurat saja.
 2. #2330: Perbaiki error pada saat mengubah status di Pengaturan > Modul > Submodul. [bug-fix]
