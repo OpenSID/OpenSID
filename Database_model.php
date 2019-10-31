@@ -28,7 +28,8 @@
 		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
 		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
 		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => '19.09'),
-		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => NULL)
+		'10.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
+		'19.10' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => NULL),
 	);
 
 	public function __construct()
