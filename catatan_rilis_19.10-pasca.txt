@@ -29,6 +29,8 @@ Lengkapnya, isi rilis versi 19.11 adalah sebagai berikut:
 23. #2406: Perbaiki tampilan daftar rekam surat di layanan mandiri.
 24. Tambahkan grafik transparansi keuangan di tema Hadakewa yang datanya diambil dari database hasil impor data Siskeudes.
 25. Sekarang bisa gambarkan lokasi kantor dan peta wilayah untuk dusun, rw dan rt. Pemetaan lokasi kantor desa dan wilayah desa sekarang diberikan ruang yg lebih besar.
+26. #2446: Perbaiki isian kode pos dan kode desa tertukar di lampiran F-1.15 di Surat Permohonan Kartu Keluarga. [bug-fix]
+27. Perbaikan console error jika laporan keuangan belum tersedia. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
