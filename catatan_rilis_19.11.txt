@@ -1,8 +1,8 @@
-Di rilis ini, versi 19.10-pasca, terdapat [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 19.11, daftar Produk Hukum dan Informasi Publik dapat ditampilkan di web melalui menu statis. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Diki Siswanto, Rudy Purwanto, Nur Hidayat, balongbesuk, Zeppy Shiddiq, Ariandi Ryan Kahfi dan Eka Satria Bahari yang terus berkontribusi. Terima kasih pula pada Zukrodin, Ilham Surya Pratama dan Kadir Djaelani yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 19.11 adalah sebagai berikut:
 
 1. #2242: Batasi pilihan penduduk di Rekam Surat Perorangan pada penduduk bersurat saja.
 2. #2330: Perbaiki error pada saat mengubah status di Pengaturan > Modul > Submodul. [bug-fix]
@@ -18,7 +18,7 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 12. Tata ulang library laman web untuk menghindari bentrok. [teknis]
 13. #1879: Statistik kependudukan bisa ditampilkan per wilayah (dusun, rw, rt).
 14. #2290: Tampilkan Peraturan Desa di web sebagai halaman yang bisa dimuat di menu statis.
-15: #2304: Sekarang bisa hapus data Siskeudes yang telah diimpor.
+15. #2304: Sekarang bisa hapus data Siskeudes yang telah diimpor.
 16. #2383: Ubah status 'Kawin Tidak Tercatat' menjadi 'Kawin Belum Tercatat'.
 17. Sekarang halaman beranda Layanan Mandiri untuk tema 'default' dan 'hadakewa' disamakan menggunakan layar penuh.
 18. #2407: Ubah halaman Admin Web > Dokumen menjadi Admin Web > Informasi Publik.
@@ -33,4 +33,4 @@ Lengkapnya, isi rilis versi 19.10-pasca adalah sebagai berikut:
 27. Perbaikan console error jika laporan keuangan belum tersedia. [bug-fix]
 
 
-Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.10-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
