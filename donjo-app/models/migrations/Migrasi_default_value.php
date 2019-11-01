@@ -3,6 +3,13 @@
 class Migrasi_default_value extends CI_model {
 
 	public function up() {
+
+		// Proses ini lama. Jadi tes jangan diulangi kalau sudah dikerjakan sekali.
+		$fields = $this->db->field_data('agenda');
+		$key = array_search('id_artikel', array_column($fields, 'name'));
+		$kolom = $fields[$key];
+		if ($kolom->default === NULL) return;
+
 		$this->dbforge->modify_column('agenda', array('id_artikel' => array('id_artikel','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
 		$this->dbforge->modify_column('agenda', array('koordinator_kegiatan' => array('koordinator_kegiatan','type' => 'VARCHAR(50)', 'null' => true, 'default' => NULL)));
 		$this->dbforge->modify_column('agenda', array('lokasi_kegiatan' => array('lokasi_kegiatan','type' => 'VARCHAR(100)', 'null' => true, 'default' => NULL)));

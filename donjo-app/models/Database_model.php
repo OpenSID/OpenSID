@@ -197,8 +197,8 @@
 
   private function migrasi_1911_ke_1912()
   {
-  	$this->load->model('migrations/migrasi_default_value');
-  	$this->migrasi_default_value->up();
+  	// $this->load->model('migrations/migrasi_default_value');
+  	// $this->migrasi_default_value->up();
   }
 
   private function migrasi_1910_ke_1911()
