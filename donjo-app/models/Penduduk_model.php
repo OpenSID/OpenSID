@@ -509,6 +509,7 @@
 		$data['panjang_lahir'] = $data['panjang_lahir'] ?: NULL;
 		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
 		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
+		$data['kk_level'] = $data['kk_level'] ?: 0;
 		if (empty($data['id_asuransi']) or $data['id_asuransi'] == 1)
 			$data['no_asuransi'] = NULL;
 		if (empty($data['warganegara_id'])) $data['warganegara_id'] = 1; //default WNI

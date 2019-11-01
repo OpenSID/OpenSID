@@ -29,7 +29,8 @@
 		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
 		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => '19.09'),
 		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
-		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => NULL)
+		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => '19.11'),
+		'19.11' => array('migrate' => 'migrasi_1911_ke_1912', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -191,6 +192,13 @@
 		$this->migrasi_1908_ke_1909();
 		$this->migrasi_1909_ke_1910();
 		$this->migrasi_1910_ke_1911();
+		$this->migrasi_1911_ke_1912();
+  }
+
+  private function migrasi_1911_ke_1912()
+  {
+  	$this->load->model('migrations/migrasi_default_value');
+  	$this->migrasi_default_value->up();
   }
 
   private function migrasi_1910_ke_1911()
