@@ -494,7 +494,7 @@
 		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
 
-                $data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
+    $data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
 		$data['pendidikan_sedang_id'] = $data['pendidikan_sedang_id'] ?: NULL;
 		$data['pekerjaan_id'] = $data['pendidikan_sedang_id'] ?: NULL;
 		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
