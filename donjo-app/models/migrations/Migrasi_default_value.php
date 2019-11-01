@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_default_value extends CI_Migration {
+class Migrasi_default_value extends CI_model {
 
 	public function up() {
 		$this->dbforge->modify_column('agenda', array('id_artikel' => array('id_artikel','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
