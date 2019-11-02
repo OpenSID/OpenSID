@@ -499,6 +499,7 @@
 		$data['pekerjaan_id'] = $data['pendidikan_sedang_id'] ?: NULL;
 		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
 		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
+		$data['hamil'] = $data['hamil'] ?: NULL;
 		
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
@@ -1268,16 +1269,23 @@
 
 	public function tulis_log_penduduk($id_pend, $id_detail, $bulan, $tahun)
 	{
-    $query = "
-      INSERT INTO log_penduduk (id_pend, id_detail, bulan, tahun) VALUES
-      (?, ?, ?, ?)
-      ON DUPLICATE KEY UPDATE
+		$data = array(
+			'id_pend' => $id_pend,
+			'id_detail' => $id_detail,
+			'bulan' => $bulan,
+			'tahun' => $tahun,
+			'tgl_peristiwa' => date("d-m-y")
+		);
+    $query = $this->db->insert_string('log_penduduk', $data) .
+    "ON DUPLICATE KEY UPDATE
         id_pend = VALUES(id_pend),
         id_detail = VALUES(id_detail),
         bulan = VALUES(bulan),
-        tahun = VALUES(tahun);
+        tahun = VALUES(tahun),
+        tgl_peristiwa = VALUES(tgl_peristiwa)
+        ;
     ";
-    $this->db->query($query, array($id_pend, $id_detail, $bulan, $tahun));
+    $this->db->query($query);
 	}
 
 	public function get_judul_statistik($tipe=0, $nomor=1, $sex=0)
