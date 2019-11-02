@@ -594,7 +594,7 @@
 									</label>
                                                                         <label>
 										<input type="checkbox" name="layer_rt" value="1"onchange="handle_rt(this);" <?php if ($layer_rt==1): ?>checked<?php endif; ?>>
-										<span> Rt</span>
+										<span> RT</span>
 									</label>
 									<label>
 										<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?php if ($layer_area==1): ?>checked<?php endif; ?>>
