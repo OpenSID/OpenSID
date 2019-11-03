@@ -163,10 +163,14 @@
 	{
 		$nik = $_POST['nik_kepala'];
 
+		$no_rtm = $this->db->select('no_kk')
+			->order_by('no_kk DESC')->limit(1)
+			->get('tweb_rtm')
+			->row()->no_kk;
 		$kw = $this->get_kode_wilayah();
-		$nortm = 100000 + $kk['id'];
-		$nortm = substr($nortm, 1, 5);
-		$rtm['no_kk'] = $kw."".$nortm;
+		// Gunakan 5 digit terakhir sebagai nomor urut
+		$no_urut = substr($no_rtm, -5);
+		$rtm['no_kk'] = $kw . str_pad($no_urut + 1, 5, '0', STR_PAD_LEFT);
 		$rtm['nik_kepala'] = $nik;
 		$outp = $this->db->insert('tweb_rtm', $rtm);
 
@@ -181,18 +185,17 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='')
+	public function delete($no_kk='')
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
 		$temp['updated_by'] = $this->session->user;
 
-		$this->db->where('id_rtm', $id);
-		$outp = $this->db->update('tweb_penduduk', $temp);
+		$this->db->where('id_rtm', $no_kk)->update('tweb_penduduk', $temp);
 
-		$sql = "DELETE FROM tweb_rtm WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$outp = $this->db->where('no_kk', $no_kk)
+			->delete('tweb_rtm');
 
 		if (!$outp) $this->session->success = -1;
 	}
@@ -201,9 +204,9 @@
 	{
 		$id_cb = $_POST['id_cb'];
 
-		foreach ($id_cb as $id)
+		foreach ($id_cb as $no_kk)
 		{
-			$this->delete($id);
+			$this->delete($no_kk);
 		}
 	}
 
@@ -389,9 +392,13 @@
 	public function update_nokk($id=0)
 	{
 		$data = $_POST;
-
-		$this->db->where("id", $id);
-		$outp = $this->db->update("tweb_rtm", $data);
+		if ($data['no_kk'])
+		{
+			$rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
+			$this->db->where('id_rtm', $rtm->no_kk)
+				->update('tweb_penduduk', array('id_rtm' => $data['no_kk']));
+		}
+		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

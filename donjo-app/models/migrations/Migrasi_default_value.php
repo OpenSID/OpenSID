@@ -41,6 +41,7 @@ class Migrasi_default_value extends CI_model {
 		$this->dbforge->modify_column('tweb_penduduk_map', array('lng' => array('lng','type' => 'VARCHAR(24)', 'null' => true, 'default' => NULL)));
 		$this->dbforge->modify_column('tweb_penduduk_pendidikan', array('nama' => array('nama','type' => 'VARCHAR(50)', 'null' => false)));
 		$this->dbforge->modify_column('tweb_penduduk_pendidikan_kk', array('nama' => array('nama','type' => 'VARCHAR(50)', 'null' => false)));
+		$this->dbforge->modify_column('tweb_rtm', array('kelas_sosial' => array('kelas_sosial','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
 	}
 
 }
