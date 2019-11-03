@@ -164,13 +164,28 @@
 		$nik = $_POST['nik_kepala'];
 
 		$no_rtm = $this->db->select('no_kk')
-			->order_by('no_kk DESC')->limit(1)
+			->order_by('length(no_kk) DESC, no_kk DESC')->limit(1)
 			->get('tweb_rtm')
 			->row()->no_kk;
-		$kw = $this->get_kode_wilayah();
-		// Gunakan 5 digit terakhir sebagai nomor urut
-		$no_urut = substr($no_rtm, -5);
-		$rtm['no_kk'] = $kw . str_pad($no_urut + 1, 5, '0', STR_PAD_LEFT);
+		if ($no_rtm)
+		{
+			if (strlen($no_rtm) >= 5)
+			{
+				// Gunakan 5 digit terakhir sebagai nomor urut
+				$kw = substr($no_rtm, 0, strlen($no_rtm) - 5);
+				$no_urut = substr($no_rtm, -5);
+				$no_urut = str_pad($no_urut + 1, 5, '0', STR_PAD_LEFT);
+				$rtm['no_kk'] = $kw . $no_urut;
+			}
+			else
+				$rtm['no_kk'] = str_pad($no_rtm + 1, strlen($no_rtm), '0', STR_PAD_LEFT);;
+		}
+		else
+		{
+			$kw = $this->get_kode_wilayah();
+			$rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
+		}
+
 		$rtm['nik_kepala'] = $nik;
 		$outp = $this->db->insert('tweb_rtm', $rtm);
 
