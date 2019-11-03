@@ -394,6 +394,15 @@
 		$data = $_POST;
 		if ($data['no_kk'])
 		{
+			$ada_nokk = $this->db->select('id')
+				->where('no_kk', $data['no_kk'])
+				->get('tweb_rtm')->row()->id;
+			if ($ada_nokk and $ada_nokk != $id)
+			{
+				$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = 'Nomor RTM itu sudah ada';
+				return;
+			}
 			$rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
 			$this->db->where('id_rtm', $rtm->no_kk)
 				->update('tweb_penduduk', array('id_rtm' => $data['no_kk']));
