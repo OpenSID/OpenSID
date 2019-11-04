@@ -230,7 +230,6 @@ class Statistik extends Admin_Controller {
 			$data['rentang'] = $this->laporan_penduduk_model->get_rentang($id);
 		}
 		$this->load->view('statistik/ajax_rentang_form', $data);
-
 	}
 
 	public function rentang_insert()
@@ -310,10 +309,9 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
-                $data['dusun'] = $dusun;
-                $this->get_data_stat($data, $lap, $dusun);
-               	$this->load->view('statistik/penduduk_graph_gis', $data);
-		
+		$data['dusun'] = $dusun;
+		$this->get_data_stat($data, $lap, $dusun);
+		$this->load->view('statistik/penduduk_graph_gis', $data);
 	}
 
         public function load_pie_gis_dusun($tipe = 0, $lap = 0, $dusun = '')
@@ -325,7 +323,7 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
-                $data['dusun'] = $dusun;
+		$data['dusun'] = $dusun;
 		$this->get_data_stat($data, $lap);
 		
 		$this->load->view('statistik/penduduk_pie_gis', $data);
@@ -368,11 +366,10 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_rw'] = $this->laporan_penduduk_model->list_rw();
 		$data['lap'] = $lap;
-                $data['dusun'] = $dusun;
-                $data['rw'] = $rw;
-                $this->get_data_stat($data, $lap, $rw);
-               	$this->load->view('statistik/penduduk_graph_gis', $data);
-		
+		$data['dusun'] = $dusun;
+		$data['rw'] = $rw;
+		$this->get_data_stat($data, $lap, $rw);
+		$this->load->view('statistik/penduduk_graph_gis', $data);
 	}
 
         public function load_pie_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '')
@@ -384,8 +381,8 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_rw'] = $this->laporan_penduduk_model->list_rw();
 		$data['lap'] = $lap;
-                $data['dusun'] = $dusun;
-                $data['rw'] = $rw;
+		$data['dusun'] = $dusun;
+		$data['rw'] = $rw;
 		$this->get_data_stat($data, $lap);
 		
 		$this->load->view('statistik/penduduk_pie_gis', $data);
@@ -395,13 +392,11 @@ class Statistik extends Admin_Controller {
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		$this->session->unset_userdata('rt');
-                $dusun = $dusun;
+		$dusun = $dusun;
 		$rw = $rw;
 		if ($rw)
-                        
 			$this->session->set_userdata('rw', $rw);
 		else
-                        
 			$this->session->unset_userdata('rw');
 
 		redirect("statistik/load_graph_gis_rw/$tipe_stat/$lap/$dusun/$rw");
@@ -414,15 +409,12 @@ class Statistik extends Admin_Controller {
 		$dusun = $dusun;
 		$rw = $rw;
 		if ($rw)
-                        
 			$this->session->set_userdata('rw', $rw);
 		else
-                        
 			$this->session->unset_userdata('rw');
 
 		redirect("statistik/load_pie_gis_rw/$tipe_stat/$lap/$dusun/$rw");
 	}
-
 
         public function load_graph_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
@@ -433,12 +425,11 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_rt'] = $this->laporan_penduduk_model->list_rt();
 		$data['lap'] = $lap;
-                $data['dusun'] = $dusun;
-                $data['rw'] = $rw;
-                $data['rt'] = $rt;
-                $this->get_data_stat($data, $lap, $rt);
-               	$this->load->view('statistik/penduduk_graph_gis', $data);
-		
+		$data['dusun'] = $dusun;
+		$data['rw'] = $rw;
+		$data['rt'] = $rt;
+		$this->get_data_stat($data, $lap, $rt);
+		$this->load->view('statistik/penduduk_graph_gis', $data);	
 	}
 
         public function load_pie_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '')
@@ -450,10 +441,10 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_rt'] = $this->laporan_penduduk_model->list_rt();
 		$data['lap'] = $lap;
-                $data['dusun'] = $dusun;
-                $data['rw'] = $rw;
-                $data['rt'] = $rt;
-		$this->get_data_stat($data, $lap);
+		$data['dusun'] = $dusun;
+		$data['rw'] = $rw;
+		$data['rt'] = $rt;
+		$this->get_data_stat($data, $lap, $rt);
 		
 		$this->load->view('statistik/penduduk_pie_gis', $data);
 	}
@@ -462,7 +453,7 @@ class Statistik extends Admin_Controller {
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		$dusun = $dusun;
-                $rw = $rw;
+		$rw = $rw;
 		$rt = $rt;
 		if ($rt)
 			$this->session->set_userdata('rt', $rt);
@@ -476,7 +467,7 @@ class Statistik extends Admin_Controller {
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		$dusun = $dusun;
-                $rw = $rw;
+		$rw = $rw;
 		$rt = $rt;
 		if ($rt)
 			$this->session->set_userdata('rt', $rt);
