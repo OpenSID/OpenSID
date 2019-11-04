@@ -685,9 +685,11 @@ $('document').ready(function()
         menuOffsetHeight = $(e.target).offset().top + $(e.target).outerHeight(true) + menu.outerHeight(true);
 
     if (menuOffsetHeight > tableOffsetHeight)
+    {
       table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight);
+	    $('.table-responsive')[0].scrollIntoView(false);
+    }
 
-    $('.table-responsive')[0].scrollIntoView(false);
   });
 
   $('.table-responsive').on('hide.bs.dropdown', function () {
