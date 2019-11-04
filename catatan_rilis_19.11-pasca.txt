@@ -7,6 +7,7 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 1. #2444: Perbaiki database supaya sesuai sql_mode STRICT_TRANS_TABLES.
 2. #2455: Sekarang pengaturan data keuangan dapat ditampilkan untuk widget keuangan. [bug-fix]
 3. Perbaiki sekarang bisa kembali tambah, ubah dan hapus rumah tangga. [bug-fix]
+4. #2458: Sekarang scroll horizontal tampil kembali untuk tabel yang lebar, seperti daftar penduduk. [bug-fix]
 
 
 
