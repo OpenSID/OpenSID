@@ -420,14 +420,5 @@ Warna Bar Realisasi
 /* Untuk menampilkan drop-down yg melewati batas window
 https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
 */
-@media (max-width: 767px) {
-	.table-responsive {
-		overflow-x: auto;
-		overflow-y: auto;
-	}
-}
-@media (min-width: 767px) {
-	.table-responsive {
-		overflow: inherit !important;
-	}
-}
+
+
