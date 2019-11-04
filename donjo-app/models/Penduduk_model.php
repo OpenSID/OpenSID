@@ -496,7 +496,7 @@
 
     $data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
 		$data['pendidikan_sedang_id'] = $data['pendidikan_sedang_id'] ?: NULL;
-		$data['pekerjaan_id'] = $data['pendidikan_sedang_id'] ?: NULL;
+		$data['pekerjaan_id'] = $data['pekerjaan_id'] ?: NULL;
 		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
 		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
 		$data['hamil'] = $data['hamil'] ?: NULL;
