@@ -76,8 +76,9 @@ window.onload = function()
 	control = L.Control.fileLayerLoad({
 		addToMap: false,
 		formats: [
-			'.gpx',
-		],
+      '.gpx',
+      '.geojson'
+    ],
 		fitBounds: true,
 		layerOptions: {
 			style: style,
@@ -100,6 +101,17 @@ window.onload = function()
 		var options = {tolerance: 0.0001, highQuality: false};
 		var simplified = turf.simplify(geojson, options);
 		var shape_for_db = JSON.stringify(geojson);
+		var gpxData = togpx(JSON.parse(shape_for_db));
+
+		$("#exportGPX").on('click', function (event) {
+			data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+
+			$(this).attr({
+				'href': data,
+				'target': '_blank'
+			});
+
+		});
 
 		var polygon =
 		//L.geoJson(JSON.parse(shape_for_db), { //jika ingin koordinat tidak dipotong/simplified
@@ -214,7 +226,7 @@ window.onload = function()
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+								<a href="#" class="btn btn-social btn-flat btn-info btn-sm" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
@@ -249,3 +261,4 @@ $(document).ready(function(){
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
+<script src="<?= base_url()?>assets/js/togpx.js"></script>
