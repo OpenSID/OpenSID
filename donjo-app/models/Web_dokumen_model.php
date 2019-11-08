@@ -32,78 +32,51 @@ class Web_dokumen_model extends CI_Model {
 		return $res;
 	}
 
-	// ================= informasi publik ===================
-	// https://mbahcoding.com/tutorial/php/codeigniter/codeigniter-simple-server-side-datatable-example.html
-
-	private function get_informasi_publik_query()
+	public function all_peraturan_public($kategori='', $tahun='', $isi='')
 	{
-			$this->db->from($this->table)
-				->where('kategori', '1')
-				->where('id_pend', '0');
+		$kategori_peraturan = array('4', '5', '6', '7');
+		$this->db->select('dokumen.id, satuan, dokumen.nama, tahun, ref_dokumen.nama as kategori');
+		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
+		$this->db->where('dokumen.enabled', 1);
+		$this->db->where_in('ref_dokumen.id', $kategori_peraturan);
 
-			$i = 0;
+		if ($kategori) $this->db->where('dokumen.kategori', $kategori);
+		if ($tahun) $this->db->where('tahun', $tahun);
+		if ($isi) $this->db->like('dokumen.nama', $isi);
+		$this->db->order_by('dokumen.tahun DESC', 'dokumen.kategori ASC', 'dokumen.nama ASC');
 
-			foreach ($this->column_search as $item) // loop column
-			{
-				if ($_POST['search']['value']) // if datatable send POST for search
-				{
-					if ($i===0) // first loop
-					{
-						$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-						$this->db->like($item, $_POST['search']['value']);
-					}
-					else
-					{
-						$this->db->or_like($item, $_POST['search']['value']);
-					}
-					if (count($this->column_search) - 1 == $i) //last loop
-						$this->db->group_end(); //close bracket
-				}
-				$i++;
-			}
-
-			if (isset($_POST['order'])) // here order processing
-			{
-				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-			}
-			else if (isset($this->order))
-			{
-				$order = $this->order;
-				$this->db->order_by(key($order), $order[key($order)]);
-			}
+		$res = $this->db->get('dokumen')->result_array();
+		return $res;
 	}
-
-	public function get_informasi_publik()
-	{
-		$this->get_informasi_publik_query();
-		if ($_POST['length'] != -1)
-		$this->db->limit($_POST['length'], $_POST['start']);
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
-	public function count_informasi_publik_filtered()
-	{
-		$this->get_informasi_publik_query();
-		$query = $this->db->get();
-		return $query->num_rows();
-	}
-
-	public function count_informasi_publik_all()
-	{
-		$this->db->from($this->table)
-			->where('kategori', '1')
-			->where('id_pend', '0');
-		return $this->db->count_all_results();
-	}
-
-	// ============== akhir informasi publik ===================
-
 
 	// Lists Tahun Dokumen untuk web first
 	public function tahun_dokumen()
 	{
+
 		$this->db->select('tahun');
+		$this->db->group_by('tahun');
+		$res = $this->db->get('dokumen')->result_array();
+		return $res;
+	}
+
+	public function tahun_dokumen_peraturan()
+	{
+		$kategori_peraturan = array('2', '3');
+		$this->db->select('tahun');
+		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
+		$this->db->where_in('ref_dokumen.id', $kategori_peraturan);
+		$this->db->group_by('tahun');
+		$res = $this->db->get('dokumen')->result_array();
+		return $res;
+	}
+
+
+	public function tahun_dokumen_public()
+	{
+		$kategori_peraturan = array('4', '5', '6', '7');
+		$this->db->select('tahun');
+		$this->db->join('ref_dokumen', 'ref_dokumen.id = dokumen.kategori', 'left');
+		$this->db->where_in('ref_dokumen.id', $kategori_peraturan);
 		$this->db->group_by('tahun');
 		$res = $this->db->get('dokumen')->result_array();
 		return $res;
@@ -189,14 +162,11 @@ class Web_dokumen_model extends CI_Model {
 		{
 			$data[$i]['no'] = $j + 1;
 			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
-			// Ambil keterangan kategori publik
-			if ($data[$i]['attr']['kategori_publik'])
-				$data[$i]['attr']['kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['attr']['kategori_publik']];
 
 			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
+			$data[$i]['aktif'] = "Ya";
 			else
-				$data[$i]['aktif'] = "Tidak";
+			$data[$i]['aktif'] = "Tidak";
 
 			$j++;
 		}
@@ -238,7 +208,7 @@ class Web_dokumen_model extends CI_Model {
 			$tipe_file = finfo_file($finfo, $lokasi_file);
 		}
 		else
-			$tipe_file = $_FILES['satuan']['type'];
+		$tipe_file = $_FILES['satuan']['type'];
 		$nama_file = $_FILES['satuan']['name'];
 		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$ext = get_extension($nama_file);
@@ -258,9 +228,9 @@ class Web_dokumen_model extends CI_Model {
 
 		$nama = $data['nama'];
 		if (!empty($data['id_pend']))
-			$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
+		$nama_file = $data['id_pend']."_".$nama."_".generator(6)."_".$nama_file;
 		else
-			$nama_file = $nama."_".generator(6)."_".$nama_file;
+		$nama_file = $nama."_".generator(6)."_".$nama_file;
 		$nama_file = bersihkan_namafile($nama_file);
 		UploadDocument($nama_file, $file_lama);
 		$data['satuan'] = $nama_file;
@@ -277,18 +247,18 @@ class Web_dokumen_model extends CI_Model {
 			switch ($data['kategori'])
 			{
 				case 1:
-					$data['tahun'] = $this->input->post('tahun');
-					break;
+				$data['tahun'] = $this->input->post('tahun');
+				break;
 				case 2:
-					$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
-					break;
+				$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+				break;
 				case 3:
-					$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
-					break;
+				$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+				break;
 
 				default:
-					$data['tahun'] = date('Y');
-					break;
+				$data['tahun'] = date('Y');
+				break;
 			}
 			return $this->db->insert('dokumen', $data);
 		}
@@ -299,24 +269,24 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$data = $_POST;
 		if (!$this->upload_dokumen($data, $data['old_file']))
-			unset($data['satuan']);
+		unset($data['satuan']);
 		$data['attr'] = json_encode($data['attr']);
 		$tgl = json_decode($data['attr'], TRUE);
 		switch ($data['kategori'])
 		{
 			case 1:
-				$data['tahun'] = $this->input->post('tahun');
-				break;
+			$data['tahun'] = $this->input->post('tahun');
+			break;
 			case 2:
-				$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
-				break;
+			$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+			break;
 			case 3:
-				$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
-				break;
+			$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+			break;
 
 			default:
-				$data['tahun'] = date('Y');
-				break;
+			$data['tahun'] = date('Y');
+			break;
 		}
 		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
@@ -324,11 +294,11 @@ class Web_dokumen_model extends CI_Model {
 	public function delete($id='')
 	{
 		$old_dokumen = $this->db->select('satuan')->
-			where('id',$id)->
-			get('dokumen')->row()->satuan;
+		where('id',$id)->
+		get('dokumen')->row()->satuan;
 		$outp = $this->db->where('id', $id)->delete('dokumen');
 		if ($outp)
-			unlink(LOKASI_DOKUMEN . $old_dokumen);
+		unlink(LOKASI_DOKUMEN . $old_dokumen);
 		else $_SESSION['success'] = -1;
 	}
 
@@ -371,9 +341,35 @@ class Web_dokumen_model extends CI_Model {
 		return $kat_nama;
 	}
 
+	public function kat_nama_peraturan($kat=1)
+	{
+		$kategori = $this->list_kategori_peraturan();
+		$kat_nama = $kategori[$kat];
+		if (empty($kat_nama)) $kat_nama = $kategori[0];
+		return $kat_nama;
+	}
+
+	public function kat_nama_public($kat=1)
+	{
+		$kategori = $this->list_kategori_public();
+		$kat_nama = $kategori[$kat];
+		if (empty($kat_nama)) $kat_nama = $kategori[0];
+		return $kat_nama;
+	}
+
 	public function list_kategori()
 	{
 		return $this->referensi_model->list_nama('ref_dokumen');
+	}
+
+	public function list_kategori_peraturan()
+	{
+		return $this->referensi_model->list_nama_peraturan('ref_dokumen');
+	}
+
+	public function list_kategori_public()
+	{
+		return $this->referensi_model->list_nama_public('ref_dokumen');
 	}
 
 	public function listTahun($kat=1)
@@ -386,25 +382,41 @@ class Web_dokumen_model extends CI_Model {
 		switch ($kat)
 		{
 			case '1':
-				# Dokumen umum
+			# Dokumen umum
 			$this->db->select('YEAR(tgl_upload) AS tahun');
-				break;
+			break;
 			case '2':
-				# SK KADES
-				$attr_str = '"tgl_kep_kades":';
-				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
-				break;
+			# SK KADES
+			$attr_str = '"tgl_kep_kades":';
+			$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
+			break;
 			case '3':
-				# PERDES
-				$attr_str = '"tgl_ditetapkan":';
-				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
-				break;
+			# PERDES
+			$attr_str = '"tgl_ditetapkan":';
+			$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
+			break;
+			case '4':
+			# Dokumen umum
+			$this->db->select('YEAR(tgl_upload) AS tahun');
+			break;
+			case '5':
+			# Dokumen umum
+			$this->db->select('YEAR(tgl_upload) AS tahun');
+			break;
+			case '6':
+			# Dokumen umum
+			$this->db->select('YEAR(tgl_upload) AS tahun');
+			break;
+			case '7':
+			# Dokumen umum
+			$this->db->select('YEAR(tgl_upload) AS tahun');
+			break;
 		}
 
 		$list_tahun = $this->db->distinct()
-			->where('kategori', $kat)
-			->order_by('tahun DESC')
-			->get('dokumen')->result_array();
+		->where('kategori', $kat)
+		->order_by('tahun DESC')
+		->get('dokumen')->result_array();
 		return $list_tahun;
 	}
 
@@ -415,27 +427,43 @@ class Web_dokumen_model extends CI_Model {
 			switch ($kat)
 			{
 				case '1':
-					# Dokumen umum
-					$this->db->where('YEAR(tgl_upload)', $tahun);
-					break;
+				# Dokumen umum
+				$this->db->where('YEAR(tgl_upload)', $tahun);
+				break;
 				// Data tanggal berbeda menurut kategori dokumen
 				// Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr
 				// MySQL baru memiliki fitur query json mulai dari 5.7; jadi di sini dilakukan secara manual
 				case '2':
-					# SK KADES
-					$regex = '"tgl_kep_kades":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
-					$this->db->where("attr REGEXP '" . $regex . "'");
-					break;
+				# SK KADES
+				$regex = '"tgl_kep_kades":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
+				$this->db->where("attr REGEXP '" . $regex . "'");
+				break;
 				case '3':
-					# PERDES
-					$regex = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-'. $tahun;
-					$this->db->where("attr REGEXP '" . $regex . "'");
-					break;
+				# PERDES
+				$regex = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-'. $tahun;
+				$this->db->where("attr REGEXP '" . $regex . "'");
+				break;
+				case '4':
+				# Dokumen umum
+				$this->db->where('YEAR(tgl_upload)', $tahun);
+				break;
+				case '5':
+				# Dokumen umum
+				$this->db->where('YEAR(tgl_upload)', $tahun);
+				break;
+				case '6':
+				# Dokumen umum
+				$this->db->where('YEAR(tgl_upload)', $tahun);
+				break;
+				case '7':
+				# Dokumen umum
+				$this->db->where('YEAR(tgl_upload)', $tahun);
+				break;
 			}
 		}
 		$data = $this->db->select('*')
-			->where('kategori', $kat)
-			->get('dokumen')->result_array();
+		->where('kategori', $kat)
+		->get('dokumen')->result_array();
 		foreach ($data as $i => $dok)
 		{
 			$data[$i]['no'] = $i + 1;
@@ -447,11 +475,17 @@ class Web_dokumen_model extends CI_Model {
 	public function namaKategori($kat)
 	{
 		if ($kat == 2)
-			return 'SK Kepala Desa';
+		return 'SK Kepala Desa';
 		elseif ($kat == 3)
-			return 'Peraturan Desa';
+		return 'Peraturan Desa';
+		elseif ($kat == 4)
+		return 'Informasi Berkala';
+		elseif ($kat == 5)
+		return 'Informasi Serta-merta';
+		elseif ($kat == 6)
+		return 'Informasi Setiap Saat';
 		else
-			return 'Dokumen Umum';
+		return 'Informasi Dikecualikan';
 	}
 
 }
