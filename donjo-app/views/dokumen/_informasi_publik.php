@@ -1,10 +1,10 @@
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Kategori Informasi Publik</label>
+	<label class="control-label col-sm-4" for="nama">Kategori Publik</label>
 	<div class="col-sm-6">
 		<select name="attr[kategori_publik]" class="form-control select2 input-sm required">
-			<option value="">Pilih Kategori Informasi Publik</option>
-			<?php foreach ($list_kategori_publik AS $key => $value): ?>
-				<option value="<?= $key ?>" <?php selected($dokumen['attr']['kategori_publik'], $key) ?>><?= $value ?></option>
+			<option value="">Pilih Kategori Dokumen</option>
+			<?php foreach($kategori as $s): ?>
+				<option value="<?= $s['id'] ?>" <?php selected($s['id'], $kategori_dokumen) ?>><?= $s['nama'] ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>
