@@ -40,7 +40,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
-		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
+		$data['submenu'] = $this->referensi_model->list_data_peraturan('ref_dokumen');
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
     $_SESSION['menu_kategori'] = TRUE;
 

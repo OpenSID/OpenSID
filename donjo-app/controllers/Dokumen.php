@@ -11,54 +11,74 @@ class Dokumen extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('referensi_model');
-		$this->modul_ini = 13;
+		$this->modul_ini = 15;
 	}
 
-	public function clear()
+	public function index($kat=4, $p=1, $o=0)
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect('dokumen');
+		redirect("dokumen/peraturan_desa/$kat/$p/$o");
 	}
 
-	public function index($kat=1, $p=1, $o=0)
+	// Produk Hukum Desa
+	public function peraturan_desa($kat=4, $p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 
 		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
+		$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
 		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
+		$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
+		$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama_public($kat);
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
+		$data['submenu'] = $this->referensi_model->list_data_public('ref_dokumen');
+		$data['sub_kategori'] = $_SESSION['sub_kategori'];
+		$_SESSION['menu_kategori'] = TRUE;
+
+		foreach ($data['submenu'] as $s)
+		{
+			if ($kat == $s['id'])
+			{
+				$_SESSION['submenu'] = $s['id'];
+				$_SESSION['sub_kategori'] = $s['kategori'];
+				$_SESSION['kode_kategori'] = $s['id'];
+			}
+		}
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 52;
-
+		$this->_set_tab($kat);
+		$nav['act_sub'] = 95;
+		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/table', $data);
+		$this->load->view('nav', $nav);
+		$this->load->view('dokumen/table_public', $data);
 		$this->load->view('footer');
 	}
 
-	public function form($kat=1, $p=1, $o=0, $id='')
+	public function clear($kat=4)
+	{
+		unset($_SESSION['cari']);
+		unset($_SESSION['filter']);
+		redirect("dokumen/peraturan_desa/$kat");
+	}
+
+	public function form($kat=4, $p=1, $o=0, $id='')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
+		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 
 		if ($id)
 		{
@@ -71,13 +91,14 @@ class Dokumen extends Admin_Controller {
 			$data['form_action'] = site_url("dokumen/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
+		$data['kategori'] = $this->referensi_model->list_data_public('ref_dokumen');
 		$header = $this->header_model->get_data();
+		$this->_set_tab($kat);
+		$nav['act'] = 15;
+		$nav['act_sub'] = $this->tab_ini;
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 52;
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form', $data);
 		$this->load->view('footer');
 	}
@@ -87,7 +108,7 @@ class Dokumen extends Admin_Controller {
 		$cari = $this->input->post('cari');
 		$kat = $this->input->post('kategori');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
+		$_SESSION['cari']=$cari;
 		else unset($_SESSION['cari']);
 		redirect("dokumen/index/$kat");
 	}
@@ -97,7 +118,7 @@ class Dokumen extends Admin_Controller {
 		$filter = $this->input->post('filter');
 		$kat = $this->input->post('kategori');
 		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
+		$_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
 		redirect("dokumen/index/$kat");
 	}
@@ -108,7 +129,7 @@ class Dokumen extends Admin_Controller {
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
 		if (!$outp) $_SESSION['success'] = -1;
-		redirect("dokumen/index/$kat");
+		redirect("dokumen/peraturan_desa/$kat");
 	}
 
 	public function update($kat, $id='', $p=1, $o=0)
@@ -116,10 +137,10 @@ class Dokumen extends Admin_Controller {
 		$_SESSION['success'] = 1;
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
-			$kat = $this->input->post('kategori');
+		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
-		redirect("dokumen/index/$kat/$p/$o");
+		redirect("dokumen/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete($kat=1, $p=1, $o=0, $id='')
@@ -127,7 +148,7 @@ class Dokumen extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
-		redirect("dokumen/index/$kat/$p/$o");
+		redirect("dokumen/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete_all($kat=1, $p=1, $o=0)
@@ -135,19 +156,19 @@ class Dokumen extends Admin_Controller {
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
 		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
-		redirect("dokumen/index/$kat/$p/$o");
+		redirect("dokumen/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function dokumen_lock($kat=1, $id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 1);
-		redirect("dokumen/index/$kat/$p/$o");
+		redirect("dokumen/peraturan_desa/$kat/");
 	}
 
-	public function dokumen_unlock($kat=1, $id='')
+	public function dokumen_unlock($kat=1,$id='')
 	{
 		$this->web_dokumen_model->dokumen_lock($id, 2);
-		redirect("dokumen/index/$kat/$p/$o");
+		redirect("dokumen/peraturan_desa/$kat/");
 	}
 
 	public function dialog_cetak($kat=1)
@@ -208,4 +229,29 @@ class Dokumen extends Admin_Controller {
 		$this->load->view("dokumen/dokumen_excel", $data);
 	}
 
+	private function _set_tab($kat)
+	{
+		switch ($kat)
+		{
+			case '4':
+			$this->tab_ini = 61;
+			break;
+
+			case '5':
+			$this->tab_ini = 62;
+			break;
+
+			case '6':
+			$this->tab_ini = 63;
+			break;
+
+			case '7':
+			$this->tab_ini = 64;
+			break;
+
+			default:
+			$this->tab_ini = 61;
+			break;
+		}
+	}
 }

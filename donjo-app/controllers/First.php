@@ -354,7 +354,7 @@ class First extends Web_Controller {
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
-		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+		$data['kategori'] = $this->referensi_model->list_data_peraturan('ref_dokumen');
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading']="Produk Hukum";
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
@@ -364,33 +364,51 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_table_peraturan()
-  {
-    $kategori_dokumen = '';
-    $tahun_dokumen = '';
-    $tentang_dokumen = '';
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
+  	public function ajax_table_peraturan()
+	{
+		$kategori_dokumen = '';
+		$tahun_dokumen = '';
+		$tentang_dokumen = '';
+		$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
-  // function filter peraturan
-  public function filter_peraturan()
-  {
-    $kategori_dokumen = $this->input->post('kategori');
-    $tahun_dokumen = $this->input->post('tahun');
-    $tentang_dokumen = $this->input->post('tentang');
+	public function ajax_table_peraturan_public()
+	{
+		$kategori_dokumen = '';
+		$tahun_dokumen = '';
+		$tentang_dokumen = '';
+		$data = $this->web_dokumen_model->all_peraturan_public($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
+	public function filter_peraturan()
+	{
+		$kategori_dokumen = $this->input->post('kategori');
+		$tahun_dokumen = $this->input->post('tahun');
+		$tentang_dokumen = $this->input->post('tentang');
+
+		$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
+
+	public function filter_peraturan_public()
+	{
+		$kategori_dokumen = $this->input->post('kategori');
+		$tahun_dokumen = $this->input->post('tahun');
+		$tentang_dokumen = $this->input->post('tentang');
+
+		$data = $this->web_dokumen_model->all_peraturan_public($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
 	public function informasi_publik()
 	{
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
-		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
-		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+		$data['kategori'] = $this->referensi_model->list_data_public('ref_dokumen');
+		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen_public();
 		$data['heading'] ="Informasi Publik";
 		$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
 		$this->_get_common_data($data);
@@ -398,35 +416,6 @@ class First extends Web_Controller {
 		$this->set_template('layouts/halaman_statis.tpl.php');
 		$this->load->view($this->template, $data);
 	}
-
-  public function ajax_informasi_publik()
-  {
-  	$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
-		$data = array();
-		$no = $_POST['start'];
-
-		foreach ($informasi_publik as $baris)
-		{
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = "<a href='".base_url('desa/upload/dokumen/').$baris['satuan']."' target='_blank'>".$baris['nama']."</a>";
-			$row[] = $baris['tahun'];
-			// Ambil judul kategori
-			$kategori_publik = json_decode($baris['attr'], true)['kategori_publik'];
-			$kategori_publik = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$kategori_publik];
-			$row[] = $kategori_publik;
-			$row[] = $baris['tgl_upload'];
-			$data[] = $row;
-		}
-
-		$output = array(
-     	"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
-      "recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
-			'data' => $data
-		);
-    echo json_encode($output);
-  }
 
 	public function agenda($stat=0)
 	{
