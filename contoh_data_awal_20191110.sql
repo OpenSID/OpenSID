@@ -1439,12 +1439,12 @@ CREATE TABLE `analisis_respon_hasil` (
   UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 129, '25.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 254, '5.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 298, '17.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 304, '17.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 308, '21.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 309, '9.000', '0000-00-00 00:00:00');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 129, '25.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 254, '5.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 298, '17.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 304, '17.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 308, '21.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 309, '9.000', '2018-08-20 05:13:33');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 2, 1, '25.000', '2018-08-20 05:15:33');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 2, 2, '13.000', '2018-08-20 05:15:50');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 2, 3, '8.000', '2018-08-20 05:16:04');
@@ -2364,7 +2364,7 @@ DROP TABLE IF EXISTS `inbox`;
 
 CREATE TABLE `inbox` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ReceivingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ReceivingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Text` text NOT NULL,
   `SenderNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
@@ -2406,7 +2406,7 @@ CREATE TABLE `inventaris_asset` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2439,7 +2439,7 @@ CREATE TABLE `inventaris_gedung` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2472,7 +2472,7 @@ CREATE TABLE `inventaris_jalan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2503,7 +2503,7 @@ CREATE TABLE `inventaris_kontruksi` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2535,7 +2535,7 @@ CREATE TABLE `inventaris_peralatan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2565,7 +2565,7 @@ CREATE TABLE `inventaris_tanah` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -6410,7 +6410,7 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=817 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=818 DEFAULT CHARSET=latin1;
 
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2017-04-11 02:01:54', 28, 9, NULL, NULL);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (2, 97, 46, 51, 37, '2017-05-10 21:03:26', 28, 9, NULL, NULL);
@@ -7228,6 +7228,7 @@ INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (814, 97, 46, 51, 37, '2019-10-31 22:21:19', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (815, 97, 46, 51, 37, '2019-10-31 22:21:19', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (816, 97, 46, 51, 37, '2019-10-31 22:21:20', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (817, 97, 46, 51, 37, '2019-11-09 22:52:09', 28, 9, 0, 0);
 
 
 #
@@ -7425,8 +7426,8 @@ DROP TABLE IF EXISTS `outbox`;
 
 CREATE TABLE `outbox` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `SendBefore` time NOT NULL DEFAULT '23:59:59',
   `SendAfter` time NOT NULL DEFAULT '00:00:00',
   `Text` text,
@@ -7439,7 +7440,7 @@ CREATE TABLE `outbox` (
   `MultiPart` enum('false','true') DEFAULT 'false',
   `RelativeValidity` int(11) DEFAULT '-1',
   `SenderID` varchar(255) DEFAULT NULL,
-  `SendingTimeOut` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `SendingTimeOut` timestamp NULL DEFAULT NULL,
   `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
   `CreatorID` text NOT NULL,
   PRIMARY KEY (`ID`),
@@ -7665,8 +7666,8 @@ DROP TABLE IF EXISTS `sentitems`;
 
 CREATE TABLE `sentitems` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DeliveryDateTime` timestamp NULL DEFAULT NULL,
   `Text` text NOT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
@@ -7984,7 +7985,7 @@ CREATE TABLE `teks_berjalan` (
   `urut` int(5) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `tautan` varchar(150) DEFAULT NULL,
@@ -7992,7 +7993,7 @@ CREATE TABLE `teks_berjalan` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `teks_berjalan` (`id`, `teks`, `urut`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `tautan`, `judul_tautan`) VALUES (1, 'Ini contoh teks berjalan. Isi dengan tulisan yang menampilkan suatu ciri atau kegiatan penting di desa anda.', NULL, '2019-05-28 22:45:28', 1, '0000-00-00 00:00:00', NULL, 1, NULL, NULL);
+INSERT INTO `teks_berjalan` (`id`, `teks`, `urut`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `tautan`, `judul_tautan`) VALUES (1, 'Ini contoh teks berjalan. Isi dengan tulisan yang menampilkan suatu ciri atau kegiatan penting di desa anda.', NULL, '2019-05-28 22:45:28', 1, '2019-05-28 22:45:28', NULL, 1, NULL, NULL);
 
 
 #
@@ -12467,37 +12468,37 @@ CREATE TABLE `tweb_penduduk` (
   `nik` decimal(16,0) NOT NULL,
   `id_kk` int(11) DEFAULT '0',
   `kk_level` tinyint(2) NOT NULL DEFAULT '0',
-  `id_rtm` varchar(30) NOT NULL,
-  `rtm_level` int(11) NOT NULL,
+  `id_rtm` varchar(30) DEFAULT NULL,
+  `rtm_level` int(11) DEFAULT NULL,
   `sex` tinyint(4) unsigned DEFAULT NULL,
-  `tempatlahir` varchar(100) NOT NULL,
+  `tempatlahir` varchar(100) DEFAULT NULL,
   `tanggallahir` date DEFAULT NULL,
-  `agama_id` int(10) unsigned NOT NULL,
-  `pendidikan_kk_id` int(10) unsigned NOT NULL,
-  `pendidikan_sedang_id` int(10) unsigned NOT NULL,
-  `pekerjaan_id` int(10) unsigned NOT NULL,
-  `status_kawin` tinyint(4) unsigned NOT NULL,
+  `agama_id` int(1) DEFAULT NULL,
+  `pendidikan_kk_id` int(1) DEFAULT NULL,
+  `pendidikan_sedang_id` int(1) DEFAULT NULL,
+  `pekerjaan_id` int(1) DEFAULT NULL,
+  `status_kawin` tinyint(4) DEFAULT NULL,
   `warganegara_id` tinyint(4) NOT NULL DEFAULT '1',
   `dokumen_pasport` varchar(45) DEFAULT NULL,
   `dokumen_kitas` int(10) DEFAULT NULL,
-  `ayah_nik` varchar(16) NOT NULL,
-  `ibu_nik` varchar(16) NOT NULL,
-  `nama_ayah` varchar(100) NOT NULL,
-  `nama_ibu` varchar(100) NOT NULL,
-  `foto` varchar(100) NOT NULL,
-  `golongan_darah_id` int(11) NOT NULL,
+  `ayah_nik` varchar(16) DEFAULT NULL,
+  `ibu_nik` varchar(16) DEFAULT NULL,
+  `nama_ayah` varchar(100) DEFAULT NULL,
+  `nama_ibu` varchar(100) DEFAULT NULL,
+  `foto` varchar(100) DEFAULT NULL,
+  `golongan_darah_id` int(11) DEFAULT NULL,
   `id_cluster` int(11) NOT NULL,
   `status` int(10) unsigned DEFAULT NULL,
-  `alamat_sebelumnya` varchar(200) NOT NULL,
-  `alamat_sekarang` varchar(200) NOT NULL,
+  `alamat_sebelumnya` varchar(200) DEFAULT NULL,
+  `alamat_sekarang` varchar(200) DEFAULT NULL,
   `status_dasar` tinyint(4) NOT NULL DEFAULT '1',
   `hamil` int(1) DEFAULT NULL,
   `cacat_id` int(11) DEFAULT NULL,
   `sakit_menahun_id` int(11) DEFAULT NULL,
-  `akta_lahir` varchar(40) NOT NULL,
-  `akta_perkawinan` varchar(40) NOT NULL,
+  `akta_lahir` varchar(40) DEFAULT NULL,
+  `akta_perkawinan` varchar(40) DEFAULT NULL,
   `tanggalperkawinan` date DEFAULT NULL,
-  `akta_perceraian` varchar(40) NOT NULL,
+  `akta_perceraian` varchar(40) DEFAULT NULL,
   `tanggalperceraian` date DEFAULT NULL,
   `cara_kb_id` tinyint(2) DEFAULT NULL,
   `telepon` varchar(20) DEFAULT NULL,
@@ -12505,7 +12506,7 @@ CREATE TABLE `tweb_penduduk` (
   `no_kk_sebelumnya` varchar(30) DEFAULT NULL,
   `ktp_el` tinyint(4) DEFAULT NULL,
   `status_rekam` tinyint(4) DEFAULT NULL,
-  `waktu_lahir` varchar(5) NOT NULL,
+  `waktu_lahir` varchar(5) DEFAULT NULL,
   `tempat_dilahirkan` tinyint(2) DEFAULT NULL,
   `jenis_kelahiran` tinyint(2) DEFAULT NULL,
   `kelahiran_anak_ke` tinyint(2) DEFAULT NULL,
@@ -12711,8 +12712,8 @@ DROP TABLE IF EXISTS `tweb_penduduk_map`;
 
 CREATE TABLE `tweb_penduduk_map` (
   `id` int(11) NOT NULL,
-  `lat` varchar(24) NOT NULL,
-  `lng` varchar(24) NOT NULL
+  `lat` varchar(24) DEFAULT NULL,
+  `lng` varchar(24) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_penduduk_map` (`id`, `lat`, `lng`) VALUES (7, '-8.495339739996284', '116.05516478419307');
@@ -12977,8 +12978,9 @@ CREATE TABLE `tweb_rtm` (
   `nik_kepala` int(11) NOT NULL,
   `no_kk` varchar(30) NOT NULL,
   `tgl_daftar` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `kelas_sosial` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `kelas_sosial` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `no_kk` (`no_kk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
@@ -13283,7 +13285,7 @@ INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (12, 'sinergi_program.php', 1, 'Sinergi Program', 1, 6, 'web_widget/admin/sinergi_program', '[]');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (13, 'menu_kategori.php', 1, 'Menu Kategori', 1, 3, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (14, 'peta_wilayah_desa.php', 1, 'Peta Wilayah Desa', 1, 1, 'hom_desa/konfigurasi', '');
-INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (15, 'keuangan.php', 1, 'Keuangan', 1, 15, 'keuangan/widget', '');
+INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (15, 'keuangan.php', 1, 'Keuangan', 1, 15, 'keuangan/impor_data', '');
 
 
 #
@@ -13351,7 +13353,7 @@ CREATE TABLE `mutasi_inventaris_asset` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -13375,7 +13377,7 @@ CREATE TABLE `mutasi_inventaris_gedung` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -13399,7 +13401,7 @@ CREATE TABLE `mutasi_inventaris_jalan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -13423,7 +13425,7 @@ CREATE TABLE `mutasi_inventaris_peralatan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -13447,7 +13449,7 @@ CREATE TABLE `mutasi_inventaris_tanah` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
