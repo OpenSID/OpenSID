@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengelolaan Data <?= ucwords($this->setting->sebutan_dusun)?></h1>
+    <h1>Pengelolaan Data <?= ucwords($this->setting->sebutan_dusun)?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
@@ -38,7 +38,7 @@
 															<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
 																<strong><?= $individu["nama"]?></strong>
 																<br/>NIK - <?= $individu["nik"]?>
-															</P>
+															</p>
 														</div>
 													</div>
 												</div>
@@ -58,19 +58,20 @@
 											</div>
 										</div>
 									</div>
-									<div class="box-footer">
-										<div class="col-xs-12">
-											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+									<div class='box-footer'>
+										<div class='col-xs-12'>
+											<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+											<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 										</div>
 									</div>
 								</form>
 							</div>
-						</div>
+           	</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
-
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>

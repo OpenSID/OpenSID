@@ -27,7 +27,10 @@
 		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
 		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
 		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
-		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => NULL)
+		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => '19.09'),
+		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
+		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => '19.11'),
+		'19.11' => array('migrate' => 'migrasi_1911_ke_1912', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -120,15 +123,15 @@
 
   private function getCurrentVersion()
   {
-	// Untuk kasus tabel setting_aplikasi belum ada
-	if (!$this->db->table_exists('setting_aplikasi')) return NULL;
-	$result = NULL;
-	$_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
-	if (!empty($_result))
-	{
-	  $result = $_result->value;
-	}
-	return $result;
+		// Untuk kasus tabel setting_aplikasi belum ada
+		if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+		$result = NULL;
+		$_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
+		if (!empty($_result))
+		{
+		  $result = $_result->value;
+		}
+		return $result;
   }
 
   private function nop()
@@ -138,55 +141,78 @@
 
   private function _migrasi_db_cri()
   {
-	$this->migrasi_cri_lama();
-	$this->migrasi_03_ke_04();
-	$this->migrasi_08_ke_081();
-	$this->migrasi_082_ke_09();
-	$this->migrasi_092_ke_010();
-	$this->migrasi_010_ke_10();
-	$this->migrasi_10_ke_11();
-	$this->migrasi_111_ke_12();
-	$this->migrasi_124_ke_13();
-	$this->migrasi_13_ke_14();
-	$this->migrasi_14_ke_15();
-	$this->migrasi_15_ke_16();
-	$this->migrasi_16_ke_17();
-	$this->migrasi_17_ke_18();
-	$this->migrasi_18_ke_19();
-	$this->migrasi_19_ke_110();
-	$this->migrasi_110_ke_111();
-	$this->migrasi_111_ke_112();
-	$this->migrasi_112_ke_113();
-	$this->migrasi_113_ke_114();
-	$this->migrasi_114_ke_115();
-	$this->migrasi_115_ke_116();
-	$this->migrasi_116_ke_117();
-	$this->migrasi_117_ke_20();
-	$this->migrasi_20_ke_21();
-	$this->migrasi_21_ke_22();
-	$this->migrasi_22_ke_23();
-	$this->migrasi_23_ke_24();
-	$this->migrasi_24_ke_25();
-	$this->migrasi_25_ke_26();
-	$this->migrasi_26_ke_27();
-	$this->migrasi_27_ke_28();
-	$this->migrasi_28_ke_29();
-	$this->migrasi_29_ke_210();
-	$this->migrasi_210_ke_211();
-	$this->migrasi_211_ke_1806();
-	$this->migrasi_1806_ke_1807();
-	$this->migrasi_1808_ke_1809();
-	$this->migrasi_1809_ke_1810();
-	$this->migrasi_1810_ke_1811();
-	$this->migrasi_1811_ke_1812();
-	$this->migrasi_1812_ke_1901();
-	$this->migrasi_1901_ke_1902();
-	$this->migrasi_1903_ke_1904();
-	$this->migrasi_1904_ke_1905();
-	$this->migrasi_1905_ke_1906();
-	$this->migrasi_1906_ke_1907();
-	$this->migrasi_1907_ke_1908();
-	$this->migrasi_1908_ke_1909();
+		$this->migrasi_cri_lama();
+		$this->migrasi_03_ke_04();
+		$this->migrasi_08_ke_081();
+		$this->migrasi_082_ke_09();
+		$this->migrasi_092_ke_010();
+		$this->migrasi_010_ke_10();
+		$this->migrasi_10_ke_11();
+		$this->migrasi_111_ke_12();
+		$this->migrasi_124_ke_13();
+		$this->migrasi_13_ke_14();
+		$this->migrasi_14_ke_15();
+		$this->migrasi_15_ke_16();
+		$this->migrasi_16_ke_17();
+		$this->migrasi_17_ke_18();
+		$this->migrasi_18_ke_19();
+		$this->migrasi_19_ke_110();
+		$this->migrasi_110_ke_111();
+		$this->migrasi_111_ke_112();
+		$this->migrasi_112_ke_113();
+		$this->migrasi_113_ke_114();
+		$this->migrasi_114_ke_115();
+		$this->migrasi_115_ke_116();
+		$this->migrasi_116_ke_117();
+		$this->migrasi_117_ke_20();
+		$this->migrasi_20_ke_21();
+		$this->migrasi_21_ke_22();
+		$this->migrasi_22_ke_23();
+		$this->migrasi_23_ke_24();
+		$this->migrasi_24_ke_25();
+		$this->migrasi_25_ke_26();
+		$this->migrasi_26_ke_27();
+		$this->migrasi_27_ke_28();
+		$this->migrasi_28_ke_29();
+		$this->migrasi_29_ke_210();
+		$this->migrasi_210_ke_211();
+		$this->migrasi_211_ke_1806();
+		$this->migrasi_1806_ke_1807();
+		$this->migrasi_1808_ke_1809();
+		$this->migrasi_1809_ke_1810();
+		$this->migrasi_1810_ke_1811();
+		$this->migrasi_1811_ke_1812();
+		$this->migrasi_1812_ke_1901();
+		$this->migrasi_1901_ke_1902();
+		$this->migrasi_1903_ke_1904();
+		$this->migrasi_1904_ke_1905();
+		$this->migrasi_1905_ke_1906();
+		$this->migrasi_1906_ke_1907();
+		$this->migrasi_1907_ke_1908();
+		$this->migrasi_1908_ke_1909();
+		$this->migrasi_1909_ke_1910();
+		$this->migrasi_1910_ke_1911();
+		$this->migrasi_1911_ke_1912();
+  }
+
+  private function migrasi_1911_ke_1912()
+  {
+  	$this->load->model('migrations/migrasi_default_value');
+  	$this->migrasi_default_value->up();
+  	$this->load->model('migrations/migrasi_1911_ke_1912');
+  	$this->migrasi_1911_ke_1912->up();
+  }
+
+  private function migrasi_1910_ke_1911()
+  {
+  	$this->load->model('migrations/migrasi_1910_ke_1911');
+  	$this->migrasi_1910_ke_1911->up();
+  }
+
+  private function migrasi_1909_ke_1910()
+  {
+  	$this->load->model('migrations/migrasi_1909_ke_1910');
+  	$this->migrasi_1909_ke_1910->up();
   }
 
   private function migrasi_1908_ke_1909()

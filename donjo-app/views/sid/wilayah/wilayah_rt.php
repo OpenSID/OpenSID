@@ -51,11 +51,24 @@
 																<tr>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
-																	<td nowrap>
+                                  <td nowrap>
 																		<?php if ($data['rt']!="-"): ?>
 																			<a href="<?= site_url("sid_core/form_rt/$id_dusun/$rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																			<a href="#" data-href="<?= site_url("sid_core/delete_rt/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
+                                    <?php if ($data['rt']!="-"): ?>
+															        <div class="btn-group">
+																				<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
+																				<ul class="dropdown-menu" role="menu">
+																					<li>
+																						<a href="<?= site_url("sid_core/ajax_kantor_rt_maps/$id_dusun/$rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RT</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("sid_core/ajax_wilayah_rt_maps/$id_dusun/$rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah RT</a>
+																					</li>
+																				</ul>
+																			</div>
+                                    <?php endif; ?>
 																	</td>
 																	<td><?= $data['rt']?></td>
 																	<td nowrap><strong><?= $data['nama_ketua']?></strong></td>

@@ -90,17 +90,18 @@ class MY_Controller extends CI_Controller {
 	    	$this->template = '../../themes/default/' . $template_file;
 		}
 
-
-		/* Set Breadcumbs
-		 * sometime, we want to have Breadcumbs different from page title
-		 * so, use this function
-		 * --------------------------------------
-		 * @author	Ahmad Afandi
-		 * @since	Version 0.0.1
-		 * @access	public
-		 * @param	string
-		 * @return	chained object
+		/**
+		 * Bersihkan session cluster wilayah
 		 */
+
+		public function clear_cluster_session()
+		{
+			$cluster_session = array('dusun', 'rw', 'rt');
+			foreach ($cluster_session as $session) 
+			{
+				$this->session->unset_userdata($session);
+			}
+		}
 
 }
 
@@ -147,6 +148,13 @@ class Admin_Controller extends MY_Controller
  		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+
+		$this->load->model('modul_model');
+		if (!$this->modul_model->modul_aktif($this->controller))
+		{
+			session_error("Fitur ini tidak aktif");
+			redirect('/');
+		}
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))

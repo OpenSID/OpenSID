@@ -146,7 +146,8 @@ class Database extends Admin_Controller {
 			'Cara KB' => 'cara_kb',
 			'Hamil' => 'hamil',
 			'KTP-el' => 'ktp_el',
-			'Status Rekam' => 'status_rekam'
+			'Status Rekam' => 'status_rekam',
+			'Alamat Sekarang' => 'alamat_sekarang'
 		);
 		$data['main'] = $this->export_model->export_excel();
 		$tgl =  date('d_m_Y');

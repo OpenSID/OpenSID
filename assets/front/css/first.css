@@ -1534,7 +1534,7 @@ blockquote p {
 #mandiri button { margin-bottom: 1px; }
 #mandiri td {
 	height: 30px;
-	padding-left: 10px;
+	padding: 0px 5px;
 }
 #mandiri td.titik {
 	padding-left: 1px;
@@ -1567,3 +1567,34 @@ span.meta_date, span.meta_comment, span.meta_more{display:inline-block; margin-r
 span.meta_date:before{content:" "; font-family:FontAwesome; font-style:normal; font-weight:normal; padding-right:4px; text-decoration:inherit}
 span.meta_date:hover, span.meta_comment:hover, span.meta_more:hover, span.meta_comment a:hover, span.meta_more a:hover{color:#e64946}
 
+/*
+Set Warna Bar untuk Anggaran dan Realisasi
+Source : https://www.highcharts.com/docs/chart-design-and-style/style-by-css
+*/
+
+/*
+Warna Bar Anggaran
+*/
+.highcharts-point.highcharts-color-0,
+.highcharts-legend-item.highcharts-color-0 .highcharts-point,
+.highcharts-tooltip .highcharts-color-0 {
+	fill: #34b4eb;
+}
+
+.highcharts-tooltip.highcharts-color-0,
+.highcharts-data-label-connector.highcharts-color-0 {
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
+}
+
+/*
+Warna Bar Realisasi
+*/
+.highcharts-point.highcharts-color-1,
+.highcharts-legend-item.highcharts-color-1 .highcharts-point,
+.highcharts-tooltip .highcharts-color-1 {
+	fill: #b4eb34;
+}
+.highcharts-tooltip.highcharts-color-1,
+.highcharts-data-label-connector.highcharts-color-1 {
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
+}

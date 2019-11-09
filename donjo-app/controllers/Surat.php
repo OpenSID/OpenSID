@@ -125,6 +125,8 @@ class Surat extends Admin_Controller {
 		$log_surat['id_user'] = $_SESSION['user'];
 		$log_surat['no_surat'] = $_POST['nomor'];
 		$id = $_POST['nik'];
+		$keperluan = $_POST['keperluan'];
+		$keterangan = $_POST['keterangan'];
 		switch ($url)
 		{
 			case 'surat_ket_kelahiran':
@@ -161,6 +163,7 @@ class Surat extends Admin_Controller {
 			$nik = $log_surat['nik_non_warga'];
 		}
 
+		$log_surat['keterangan'] = $keterangan ? $keterangan : $keperluan;
 		$nama_surat = $this->keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';
 		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
@@ -242,8 +245,17 @@ class Surat extends Admin_Controller {
 		$cari = $this->input->get('q');
 		$page = $this->input->get('page');
 		$filter_sex = $this->input->get('filter_sex');
-		if ($filter_sex == 'perempuan') $filter_sex = 2;
-		$penduduk = $this->surat_model->list_penduduk_ajax($cari, $filter_sex, $page);
+		$filter['sex'] = ($filter_sex == 'perempuan') ? 2 : $filter_sex;
+		$penduduk = $this->surat_model->list_penduduk_ajax($cari, $filter, $page);
+		echo json_encode($penduduk);
+	}
+
+	// list untuk dropdown arsip layanan tampil hanya yg bersurat saja
+	public function list_penduduk_bersurat_ajax()
+	{
+		$cari = $this->input->get('q');
+		$page = $this->input->get('page');
+		$penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari,$page);
 		echo json_encode($penduduk);
 	}
 
