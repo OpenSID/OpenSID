@@ -323,4 +323,5 @@ class Web extends Admin_Controller {
 		$this->setting_model->update_teks_berjalan();
 		redirect("web/teks_berjalan");
 	}
+
 }

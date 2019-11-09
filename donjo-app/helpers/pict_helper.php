@@ -717,4 +717,27 @@ function UploadPengesahan($fupload_name)
     imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
   }
 }
+
+/*
+  Hasilkan nama file yg aman untuk digunakan di url
+  source = https://stackoverflow.com/questions/2955251/php-function-to-make-slug-url-string
+*/
+function bersihkan_namafile($nama)
+{
+  // Simpan extension
+  $ext = get_extension($nama);
+  // replace non letter or digits by -
+  $nama = preg_replace('~[^\pL\d]+~u', '-', $nama);
+  // transliterate
+  $nama = iconv('utf-8', 'us-ascii//TRANSLIT', $nama);
+  // remove unwanted characters
+  $nama = preg_replace('~[^-\w]+~', '', $nama);
+  // trim
+  $nama = trim($nama, '-');
+  // remove duplicate -
+  $nama = preg_replace('~-+~', '-', $nama);
+  // lowercase
+  return strtolower($nama.$ext);
+}
+
 ?>

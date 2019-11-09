@@ -17,7 +17,7 @@
 						<a href="<?= site_url("sid_core/excel_rw/$id_dusun")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<a href="<?= site_url("sid_core")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar <?= ucwords($this->setting->sebutan_dusun)?>
-           	</a>
+						</a>
 					</div>
 					<div class="box-header with-border">
 						<strong><?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun?></strong>
@@ -36,7 +36,7 @@
 																<th><input type="checkbox" id="checkall"></th>
 																<th>No</th>
 																<th>Aksi</th>
-																<th> RW</th>
+																<th>RW</th>
 																<th>Ketua RW</th>
 																<th>NIK Ketua RW</th>
 																<th>RT</th>
@@ -44,7 +44,6 @@
 																<th>L+P</th>
 																<th>L</th>
 																<th>P</th>
-
 															</tr>
 														</thead>
 														<tbody>
@@ -52,6 +51,7 @@
 																<tr>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 																	<td><?= $data['no']?></td>
+
 																	<td nowrap>
 																		<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
 																		<?php if ($data['rw']!="-"): ?>
@@ -59,6 +59,19 @@
 																		<?php endif; ?>
 																		<?php if ($data['rw']!="-"): ?>
 																			<a href="#" data-href="<?= site_url("sid_core/delete_rw/$id_dusun/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
+																		<?php if ($data['rw']!="-"): ?>
+																			<div class="btn-group">
+																				<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
+																				<ul class="dropdown-menu" role="menu">
+																					<li>
+																						<a href="<?= site_url("sid_core/ajax_kantor_rw_maps/$id_dusun/$data[rw]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RW</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("sid_core/ajax_wilayah_rw_maps/$id_dusun/$data[rw]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah RW</a>
+																					</li>
+																				</ul>
+																			</div>
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['rw']?></td>

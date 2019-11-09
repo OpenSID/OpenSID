@@ -674,3 +674,27 @@ function urlencode(str) {
     .replace(/\*/g, '%2A');
     // .replace(/%20/g, '+');
 }
+
+// https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
+$('document').ready(function()
+{
+  $('.table-responsive').on('show.bs.dropdown', function (e) {
+    var table = $(this),
+        menu = $(e.target).find('.dropdown-menu'),
+        tableOffsetHeight = table.offset().top + table.height(),
+        menuOffsetHeight = $(e.target).offset().top + $(e.target).outerHeight(true) + menu.outerHeight(true);
+
+    if (menuOffsetHeight > tableOffsetHeight)
+    {
+      table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight);
+	    $('.table-responsive')[0].scrollIntoView(false);
+    }
+
+  });
+
+  $('.table-responsive').on('hide.bs.dropdown', function () {
+    $(this).css("padding-bottom", 0);
+  })
+});
+
+

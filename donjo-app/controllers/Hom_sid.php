@@ -19,7 +19,7 @@ class Hom_sid extends Admin_Controller {
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();
 		$data['keluarga'] = $this->header_model->keluarga_total();
-		$data['miskin'] = $this->header_model->miskin_total();
+		$data['bantuan'] = $this->header_model->bantuan_total();
 		$data['kelompok'] = $this->header_model->kelompok_total();
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();

@@ -101,8 +101,8 @@
 						<div class="col-lg-4 col-xs-4">
 							<div class="small-box bg-yellow">
 								<div class="inner">
-									<h3><?=$miskin['jumlah']?></h3>
-									<p><?=$miskin['nama']?></p>
+									<h3><?=$bantuan['jumlah']?></h3>
+									<p><?=$bantuan['nama']?></p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-ios-pie"></i>
@@ -111,7 +111,7 @@
 									<?php if ($this->CI->cek_hak_akses('u')): ?>
 										<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
 									<?php endif; ?>
-									<a href="<?=site_url().$miskin['link_detail']?>" class="inner text-white">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url().$bantuan['link_detail']?>" class="inner text-white">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 						</div>

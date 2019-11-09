@@ -30,10 +30,10 @@ $(document).ready(function() {
 				remote: {
 					url: $('#url_remote').val(),
 					type: "post",
-			    data:{
-			      url: function() {
-			        return $('#url_surat').val()
-			      }
+					data:{
+						url: function() {
+							return $('#url_surat').val()
+						}
 					}
 				}
 			}
@@ -71,10 +71,10 @@ $(document).ready(function() {
 				remote: {
 					url: $('#url_remote').val(),
 					type: "post",
-			    data:{
-			      nomor_urut_lama: function() {
-			        return $('#nomor_urut_lama').val()
-			      }
+					data:{
+						nomor_urut_lama: function() {
+							return $('#nomor_urut_lama').val()
+						}
 					}
 				}
 			}
@@ -144,6 +144,18 @@ $(document).ready(function() {
 				error.insertAfter(element);
 			}
 		}
+	});
+
+	jQuery.validator.addMethod("nik", function(value, element) {
+		nik_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
+		return this.optional(element) || nik_valid;
+	}, "NIK harus 0 atau bilangan 16 digit");
+
+	$('.nik').each(function() {
+		$(this).rules("add",
+			{
+				nik: true,
+			});
 	});
 
 })

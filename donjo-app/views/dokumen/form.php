@@ -3,7 +3,11 @@
 		<h1>Pengaturan <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+      <?php if ($this->modul_ini == 15): ?>
+  			<li><a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+      <?php else: ?>
+        <li><a href="<?= site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+      <?php endif; ?>
 			<li class="active">Pengaturan <?= $kat_nama?></li>
 		</ol>
 	</section>
@@ -13,15 +17,21 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url().$this->controller.'/index/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
-            	</a>
+              <?php if ($this->modul_ini == 15): ?>
+  							<a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+  								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
+              	</a>
+              <?php else: ?>
+                <a href="<?= site_url().$this->controller.'/index/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+                  <i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
+                </a>
+              <?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama Dokumen</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$dokumen['nama']?>"></input>
+									<input name="nama" class="form-control input-sm required" type="text" value="<?=$dokumen['nama']?>"></input>
 								</div>
 							</div>
 							<?php if ($dokumen['satuan']): ?>
@@ -37,18 +47,22 @@
 								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
 								<div class="col-sm-6">
 									<div class="input-group input-group-sm">
-										<input type="text" class="form-control" id="file_path">
+										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path">
 										<input id="file" type="file" class="hidden" name="satuan">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
-									<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
+									<?php if ($dokumen): ?>
+										<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
+									<?php endif; ?>
 								</div>
 							</div>
 							<input name="kategori" type="hidden" value="<?= $kat;?>">
 							<?php
-								if ($kat == 2)
+								if ($kat == 1)
+									include ("donjo-app/views/dokumen/_informasi_publik.php");
+								elseif ($kat == 2)
 									include ("donjo-app/views/dokumen/_sk_kades.php");
 								elseif ($kat == 3)
 									include ("donjo-app/views/dokumen/_perdes.php");

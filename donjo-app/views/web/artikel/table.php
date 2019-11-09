@@ -31,10 +31,10 @@
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_kategori AS $data): ?>
-									<li <?php if ($cat == $data['id']): ?>class="active"<?php endif; ?>>
+									<li class="<?php ($cat == $data['id']) and print('active') ?>">
 										<a href='<?=site_url("web/index/$data[id]")?>'>
 											<?php if ($data['kategori']!="teks_berjalan"): ?>
-												<?=$data['kategori'];?>
+												<?= $data['kategori'];?>
 											<?php else: ?>
 												Teks Berjalan
 											<?php endif; ?>
@@ -53,8 +53,9 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li <?php if ($cat == 999): ?>class="active"<?php endif; ?>><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
-               	<li <?php if ($cat == 1000): ?>class="active"<?php endif; ?>><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
+								<li class="<?php ($cat == 999) and print('active') ?>"><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
+       					<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
+       					<li class="<?php ($cat == 1001) and print('active') ?>"><a href="<?=site_url('web/index/1001')?>">Keuangan</a></li>
 							</ul>
 						</div>
 					</div>
@@ -64,15 +65,17 @@
             <div class="box-header with-border">
 							<?php if ($cat > 0): ?>
 								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
-										<i class="fa fa-plus"></i>Tambah
-											<?php if ($kategori): ?>
-												<?=$kategori['kategori'];?>
-											<?php elseif ($cat == 1000): ?>
-												Agenda
-											<?php else: ?>
-												Artikel Statis
-											<?php endif; ?> Baru
-	            	</a>
+									<i class="fa fa-plus"></i>Tambah
+										<?php if ($kategori): ?>
+											<?= $kategori['kategori'];?>
+										<?php elseif ($cat == 1000): ?>
+											Agenda
+										<?php elseif ($cat == 1001): ?>
+											Artikel Keuangan
+										<?php else: ?>
+											Artikel Statis
+										<?php endif; ?> Baru
+	            				</a>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("web/delete_all/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -90,8 +93,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url("web/filter/$cat")?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+														<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
+														<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -158,8 +161,12 @@
 																					<a href="<?=site_url("web/artikel_lock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock">&nbsp;</i></a>
 																				<?php elseif ($data['enabled'] == '1'): ?>
 																					<a href="<?=site_url("web/artikel_unlock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
-																					<a href="<?=site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline"><i class="<?php if ($data['headline']==1): ?>fa fa-star-o <?php else: ?> fa fa-star <?php endif; ?>"></i></a>
-																					<a href="<?=site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="btn bg-gray btn-flat btn-sm" title="<?php if ($data['headline']==3): ?>Keluarkan dari slide <?php else: ?>Masukkan ke dalam slide<?php endif ?>"><i class="<?php if ($data['headline']==3): ?>fa fa-pause <?php else: ?> fa fa-play  <?php endif; ?>"></i></a>
+																					<a href="<?=site_url("web/headline/$cat/$p/$o/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline">
+																						<i class="<?= ($data['headline']==1) ? 'fa fa-star-o' : 'fa fa-star' ?>"></i>
+																					</a>
+																					<a href="<?=site_url("web/slide/$cat/$p/$o/$data[id]")?>" class="btn bg-gray btn-flat btn-sm" title="<?= ($data['headline']==3) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide' ?>">
+																						<i class="<?= ($data['headline']==3) ? 'fa fa-pause' : 'fa fa-play' ?>"></i>
+																					</a>
 																				<?php endif; ?>
 																			<?php endif; ?>
                                     </td>

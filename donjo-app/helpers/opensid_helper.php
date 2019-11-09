@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '19.08-pasca');
+define("VERSION", '19.11-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -18,6 +18,7 @@ define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widget/');
 define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widget/');
+define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
