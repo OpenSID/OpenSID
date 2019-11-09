@@ -210,7 +210,8 @@
 			"statistik/2"  => "Status Perkawinan",
 			"statistik/13" => "Umur",
 			"statistik/18" => "Kepemilikan Wajib KTP",
-			"statistik/5"  => "Warga Negara"
+			"statistik/5"  => "Warga Negara",
+			"statistik/19" => "Asuransi"
 		);
 		return $statistik;
 	}
