@@ -1,0 +1,3 @@
+[submodule "themes/klampok"]
+	path = themes/klampok
+	url = git@github.com:ndunks/OpenSID-theme-klampok.id.git
