@@ -1187,13 +1187,13 @@ table#kode
 		</tr>
 		<tr>
 			<td colspan="3">&nbsp;</td>
-			<td colspan="15" style="text-align: center;">Mengetahui,</td>
+			<td colspan="15" style="text-align: center;"></td>
 			<td colspan="15" style="text-align: center;">Mengetahui,</td>
 			<td colspan="15" style="text-align: center;">Pelapor</td>
 		</tr>
 		<tr>
 			<td colspan="3">&nbsp;</td>
-			<td colspan="15" style="text-align: center;">Camat <?= $config['nama_kecamatan']; ?></td>
+			<td colspan="15" style="text-align: center;"></td>
 			<td colspan="15" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
 			<td colspan="15" style="text-align: center;">&nbsp;</td>
 		</tr>
@@ -1207,13 +1207,13 @@ table#kode
 		</tr>
 		<tr>
 			<td colspan="3">&nbsp;</td>
-			<td colspan="15" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($config['nama_kepala_camat']),30)?>&nbsp;)</strong></td>
+			<td colspan="15" style="text-align: center;"></td>
 			<td colspan="15" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
 			<td colspan="15" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
 		</tr>
 		<tr>
 			<td colspan="3">&nbsp;</td>
-			<td colspan="15" style="text-align: center;"><strong>NIP : <?= padded_string_center(strtoupper($config['nip_kepala_camat']),30)?></strong></td>
+			<td colspan="15" style="text-align: center;"></td>
 			<td colspan="15" style="text-align: center;">&nbsp;</td>
 			<td colspan="15" style="text-align: center;">&nbsp;</td>
 		</tr>
