@@ -154,7 +154,7 @@ class Dokumen extends Admin_Controller {
 	{
 		$data['form_action'] = site_url("dokumen/cetak/$kat");
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_laporan'] = $this->web_dokumen_model->listTahun($kat);
+		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 
@@ -183,7 +183,7 @@ class Dokumen extends Admin_Controller {
 	{
 		$data['form_action'] = site_url("dokumen/excel/$kat");
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_laporan'] = $this->web_dokumen_model->listTahun($kat);
+		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 

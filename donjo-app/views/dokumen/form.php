@@ -3,7 +3,7 @@
 		<h1>Pengaturan <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-      <?php if ($this->modul_ini == 15): ?>
+      <?php if (in_array($kat, array('2', '3'))): ?>
   			<li><a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
       <?php else: ?>
         <li><a href="<?= site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
@@ -17,7 +17,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-              <?php if ($this->modul_ini == 15): ?>
+              <?php if (in_array($kat, array('2', '3'))): ?>
   							<a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
   								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
               	</a>

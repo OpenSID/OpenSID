@@ -39,6 +39,7 @@ class Web_dokumen_model extends CI_Model {
 	{
 			$this->db->from($this->table)
 				->where('kategori', '1')
+				->where('enabled', '1')
 				->where('id_pend', '0');
 
 			$i = 0;
@@ -77,7 +78,7 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$this->get_informasi_publik_query();
 		if ($_POST['length'] != -1)
-		$this->db->limit($_POST['length'], $_POST['start']);
+			$this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -375,7 +376,7 @@ class Web_dokumen_model extends CI_Model {
 		return $this->referensi_model->list_nama('ref_dokumen');
 	}
 
-	public function listTahun($kat=1)
+	public function list_tahun($kat=1)
 	{
 		$list_tahun = array();
 		// Data tanggal berbeda menurut kategori dokumen
@@ -441,16 +442,6 @@ class Web_dokumen_model extends CI_Model {
 			$data[$i]['attr'] = json_decode($dok['attr'], true);
 		}
 		return $data;
-	}
-
-	public function namaKategori($kat)
-	{
-		if ($kat == 2)
-			return 'SK Kepala Desa';
-		elseif ($kat == 3)
-			return 'Peraturan Desa';
-		else
-			return 'Dokumen Umum';
 	}
 
 }
