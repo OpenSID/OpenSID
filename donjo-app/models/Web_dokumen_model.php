@@ -3,7 +3,7 @@ class Web_dokumen_model extends CI_Model {
 
 	// Untuk datatables informasi publik
 	var $table = 'dokumen';
-	var $column_order = array(null, 'nama','tahun', null, 'tgl_upload'); //set column field database for datatable orderable
+	var $column_order = array(null, 'nama','tahun', 'kategori_info_publik', 'tgl_upload'); //set column field database for datatable orderable
 	var $column_search = array('nama'); //set column field database for datatable searchable
 	var $order = array('id' => 'asc'); // default order
 
@@ -188,10 +188,9 @@ class Web_dokumen_model extends CI_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
 			// Ambil keterangan kategori publik
-			if ($data[$i]['attr']['kategori_publik'])
-				$data[$i]['attr']['kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['attr']['kategori_publik']];
+			if ($data[$i]['kategori_info_publik'])
+				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
 
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
@@ -387,7 +386,7 @@ class Web_dokumen_model extends CI_Model {
 		{
 			case '1':
 				# Dokumen umum
-			$this->db->select('YEAR(tgl_upload) AS tahun');
+				$this->db->select('tahun');
 				break;
 			case '2':
 				# SK KADES
@@ -416,7 +415,7 @@ class Web_dokumen_model extends CI_Model {
 			{
 				case '1':
 					# Dokumen umum
-					$this->db->where('YEAR(tgl_upload)', $tahun);
+					$this->db->where('tahun', $tahun);
 					break;
 				// Data tanggal berbeda menurut kategori dokumen
 				// Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr

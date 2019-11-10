@@ -166,7 +166,7 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)
-			$data['kategori'] = 'Dokumen Umum';
+			$data['kategori'] = 'Informasi Publik';
 		else
 		{
 			$data['desa'] = $this->config_model->get_data();
@@ -195,7 +195,7 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)
-			$data['kategori'] = 'Dokumen Umum';
+			$data['kategori'] = 'Informasi Publik';
 		else
 		{
 			$data['desa'] = $this->config_model->get_data();

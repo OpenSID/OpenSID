@@ -127,7 +127,7 @@
 																	  </td>
 																		<td width="30%"><?= $data['nama']?></td>
 																		<?php if ($kat == 1): ?>
-																			<td><?= $data['attr']['kategori_publik']?></td>
+																			<td><?= $data['kategori_info_publik']?></td>
 																			<td><?= $data['tahun']?></td>
 																		<?php elseif ($kat == 2): ?>
 																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>

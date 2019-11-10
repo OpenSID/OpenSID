@@ -413,9 +413,7 @@ class First extends Web_Controller {
 			$row[] = "<a href='".base_url('desa/upload/dokumen/').$baris['satuan']."' target='_blank'>".$baris['nama']."</a>";
 			$row[] = $baris['tahun'];
 			// Ambil judul kategori
-			$kategori_publik = json_decode($baris['attr'], true)['kategori_publik'];
-			$kategori_publik = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$kategori_publik];
-			$row[] = $kategori_publik;
+			$row[] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
 			$row[] = $baris['tgl_upload'];
 			$data[] = $row;
 		}
