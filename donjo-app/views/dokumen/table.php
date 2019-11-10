@@ -21,7 +21,7 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-        <?php if ($this->modul_ini == 15): ?>
+        <?php if (in_array($kat, array('2', '3'))): ?>
   				<?php $this->load->view('dokumen/menu_dokumen'); ?>
   				<div class="col-md-9">
         <?php else: ?>

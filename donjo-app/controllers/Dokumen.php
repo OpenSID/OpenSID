@@ -11,7 +11,7 @@ class Dokumen extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('referensi_model');
-		$this->modul_ini = 13;
+		$this->modul_ini = 15;
 	}
 
 	public function clear()
@@ -45,7 +45,7 @@ class Dokumen extends Admin_Controller {
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
+		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
 
 		$this->load->view('header', $header);
@@ -74,7 +74,7 @@ class Dokumen extends Admin_Controller {
 		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
+		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
