@@ -33,5 +33,8 @@ class Migrasi_1911_ke_1912 extends CI_model {
 	  $this->dbforge->modify_column('mutasi_inventaris_jalan', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
 	  $this->dbforge->modify_column('mutasi_inventaris_peralatan', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
 	  $this->dbforge->modify_column('mutasi_inventaris_tanah', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+	  // Pindahkan submenu Informasi Publik ke menu Sekretariat
+		$this->db->where('id', '52')->update('setting_modul', array('parent' => 15, 'urut' => 4));
+
 	}
 }
