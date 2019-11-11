@@ -129,7 +129,7 @@ $(document).ready(function()
 	});
 	$('button[type="reset"]').click(function()
 	{
-		$('.select2').select2('val', 'All');
+		$('.select2').val('').trigger('change');
 	});
 	//File Upload
 	$('#file_browser').click(function(e)
