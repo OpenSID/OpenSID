@@ -90,7 +90,7 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita Desa</label>
+	<label class="control-label col-sm-4" for="nama">Keterangan</label>
 	<div class="col-sm-6">
 		<input name="attr[keterangan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['keterangan']?>"></input>
 	</div>
