@@ -129,6 +129,7 @@ $(document).ready(function()
 	});
 	$('button[type="reset"]').click(function()
 	{
+		// https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
 		$('.select2').val('').trigger('change');
 	});
 	//File Upload
