@@ -35,43 +35,49 @@ class Web_dokumen_model extends CI_Model {
 	// ================= informasi publik ===================
 	// https://mbahcoding.com/tutorial/php/codeigniter/codeigniter-simple-server-side-datatable-example.html
 
+
+	private function get_all_informasi_publik_query()
+	{
+		$this->db->from($this->table)
+			->where('id_pend', '0')
+			->where('enabled', '1')
+			->where('id_pend', '0');
+	}
+
 	private function get_informasi_publik_query()
 	{
-			$this->db->from($this->table)
-				->where('kategori', '1')
-				->where('enabled', '1')
-				->where('id_pend', '0');
+		$this->get_all_informasi_publik_query();
 
-			$i = 0;
+		$i = 0;
 
-			foreach ($this->column_search as $item) // loop column
+		foreach ($this->column_search as $item) // loop column
+		{
+			if ($_POST['search']['value']) // if datatable send POST for search
 			{
-				if ($_POST['search']['value']) // if datatable send POST for search
+				if ($i===0) // first loop
 				{
-					if ($i===0) // first loop
-					{
-						$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-						$this->db->like($item, $_POST['search']['value']);
-					}
-					else
-					{
-						$this->db->or_like($item, $_POST['search']['value']);
-					}
-					if (count($this->column_search) - 1 == $i) //last loop
-						$this->db->group_end(); //close bracket
+					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					$this->db->like($item, $_POST['search']['value']);
 				}
-				$i++;
+				else
+				{
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if (count($this->column_search) - 1 == $i) //last loop
+					$this->db->group_end(); //close bracket
 			}
+			$i++;
+		}
 
-			if (isset($_POST['order'])) // here order processing
-			{
-				$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-			}
-			else if (isset($this->order))
-			{
-				$order = $this->order;
-				$this->db->order_by(key($order), $order[key($order)]);
-			}
+		if (isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		}
+		else if (isset($this->order))
+		{
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
 	}
 
 	public function get_informasi_publik()
@@ -92,9 +98,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function count_informasi_publik_all()
 	{
-		$this->db->from($this->table)
-			->where('kategori', '1')
-			->where('id_pend', '0');
+		$this->get_all_informasi_publik_query();
 		return $this->db->count_all_results();
 	}
 
@@ -140,7 +144,10 @@ class Web_dokumen_model extends CI_Model {
 
 	private function list_data_sql($kat)
 	{
-		$sql = " FROM dokumen WHERE id_pend = 0 AND kategori = ".$kat;
+		$sql = " FROM dokumen WHERE id_pend = 0";
+		// $kat == 1 adalah informasi publik dan mencakup juga jenis dokumen lain termasuk SK Kades dan Perdes
+		if ($kat != '1')
+			$sql .= " AND kategori = ".$kat;
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		return $sql;
@@ -189,6 +196,7 @@ class Web_dokumen_model extends CI_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
+			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
 			// Ambil keterangan kategori publik
 			if ($data[$i]['kategori_info_publik'])
 				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
@@ -281,9 +289,11 @@ class Web_dokumen_model extends CI_Model {
 					break;
 				case 2:
 					$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+					$data['kategori_info_publik'] = '3';
 					break;
 				case 3:
 					$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+					$data['kategori_info_publik'] = '3';
 					break;
 
 				default:
@@ -309,9 +319,11 @@ class Web_dokumen_model extends CI_Model {
 				break;
 			case 2:
 				$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+				$data['kategori_info_publik'] = '3';
 				break;
 			case 3:
 				$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+				$data['kategori_info_publik'] = '3';
 				break;
 
 			default:

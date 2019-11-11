@@ -17,7 +17,7 @@
 			<div class="input-group-addon">
 		  	<i class="fa fa-calendar"></i>
 			</div>
-		  <input id="tgl_1" name="attr[tgl_kep_kades]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_kep_kades']?>"></input>
+		  <input id="tgl_1" name="attr[tgl_kep_kades]" class="form-control input-sm required" type="text" value="<?=$dokumen['attr']['tgl_kep_kades']?>"></input>
     </div>
   </div>
 </div>

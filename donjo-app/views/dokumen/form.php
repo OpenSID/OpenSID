@@ -58,14 +58,14 @@
 									<?php endif; ?>
 								</div>
 							</div>
-							<input name="kategori" type="hidden" value="<?= $kat;?>">
+							<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat;?>">
 							<?php
-								if ($kat == 1)
-									include ("donjo-app/views/dokumen/_informasi_publik.php");
-								elseif ($kat == 2)
+								if ($kat == 2 or $dokumen['kategori'] == 2)
 									include ("donjo-app/views/dokumen/_sk_kades.php");
-								elseif ($kat == 3)
+								elseif ($kat == 3 or $dokumen['kategori'] == 3)
 									include ("donjo-app/views/dokumen/_perdes.php");
+								else
+									include ("donjo-app/views/dokumen/_informasi_publik.php");
 							?>
 						</div>
 						<div class='box-footer'>

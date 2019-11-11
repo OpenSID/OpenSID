@@ -58,5 +58,9 @@ class Migrasi_1911_ke_1912 extends CI_model {
 					->update('dokumen', array('kategori_info_publik' => $kat, 'attr' => json_encode($attr)));
 			}
 		}
+		// Isi kategori_info_publik untuk semua dokumen SK Kades dan Perdes sebagai 'Informasi Setiap Saat'
+		$this->db->where('kategori_info_publik IS NULL')
+			->where("kategori IN (2,3)")
+			->update('dokumen', array('kategori_info_publik' => '3'));
 	}
 }
