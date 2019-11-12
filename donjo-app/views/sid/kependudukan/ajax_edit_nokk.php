@@ -46,7 +46,7 @@
 						<div class="form-group">
 							<div class="form-group col-sm-5 horizontal">
 								<label><?= ucwords($this->setting->sebutan_dusun)?> </label>
-								<select name="dusun" class="input-sm required" onchange="ubah_dusun($(this).val())">
+								<select name="dusun" class="form-control input-sm required" onchange="ubah_dusun($(this).val())">
 									<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 										<?php foreach ($dusun as $data): ?>
 											<option value="<?= $data['dusun']?>" <?php selected($kk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
@@ -57,7 +57,7 @@
 								<label>RW </label>
 								<select
 								  id="rw"
-								  class="input-sm required"
+								  class="form-control input-sm required"
 								  name="rw"
 								  data-source="<?= site_url()?>wilayah/list_rw/"
 								  data-valueKey="rw"
@@ -73,7 +73,7 @@
 								<label>RT </label>
 								<select
 								  id="id_cluster"
-								  class="input-sm required"
+								  class="form-control input-sm required"
 								  name="id_cluster"
 								  data-source="<?= site_url()?>wilayah/list_rt/"
 								  data-valueKey="id"
