@@ -805,6 +805,7 @@
 		}
 		if (!empty($data['tgl_cetak_kk'])) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s", strtotime($data['tgl_cetak_kk']));
 		else $data['tgl_cetak_kk'] = NULL;
+		if (empty($data['kelas_sosial'])) $data['kelas_sosial'] = NULL;
 		$this->db->where("id", $id);
 		$outp=$this->db->update("tweb_keluarga", $data);
 

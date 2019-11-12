@@ -802,7 +802,7 @@ class Program_bantuan_model extends CI_Model {
 				'kartu_nik' => $post['kartu_nik'],
 				'kartu_nama' => $post['kartu_nama'],
 				'kartu_tempat_lahir' => $post['kartu_tempat_lahir'],
-				'kartu_tanggal_lahir' => tgl_indo_in($post['kartu_tanggal_lahir']),
+				'kartu_tanggal_lahir' => date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']),
 				'kartu_alamat' => $post['kartu_alamat']
 			);
 			$file_gambar = $this->_upload_gambar();
