@@ -95,8 +95,8 @@ class Migrasi_1911_ke_1912 extends CI_model {
 		$this->db->where('kategori_info_publik IS NULL')
 			->where("kategori IN (2,3)")
 			->update('dokumen', array('kategori_info_publik' => '3'));
-	   // ubah/perbaiki struktur database, table analisis_klasifikasi
-	  $this->db->query('ALTER TABLE analisis_klasifikasi MODIFY minval double(7,2);');
-	  $this->db->query('ALTER TABLE analisis_klasifikasi MODIFY maxval double(7,2);');
+	  // Perbesar nilai klasifikasi melebihi 999.99
+	  $this->dbforge->modify_column('analisis_klasifikasi', 'minval double(7,2) NOT NULL');
+	  $this->dbforge->modify_column('analisis_klasifikasi', 'maxval double(7,2) NOT NULL');
 	}
 }
