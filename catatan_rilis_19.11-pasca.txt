@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 8. #2463: Batasi dokumen aktif saja yg tampil di daftar informasi publik di web.
 9. #2470: Tampilkan SK Kades dan Perdes sebagai dokumen Informasi Publik dengan kategori 'Informasi Setiap Saat'.
 10. #2442: Ekspor keseluruhan data informasi publik.
+11. #2473: Perbaiki tampilan form Ubah Data KK pada layar kecil.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

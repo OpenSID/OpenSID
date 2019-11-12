@@ -9,14 +9,14 @@
 
 	function ubah_dusun(dusun)
 	{
-		$('#isi_rt').hide();
+		$('#isi_rt').css('visibility', 'hidden');
 		var rw = $('#rw');
 		select_options(rw, urlencode(dusun));
 	}
 
 	function ubah_rw(dusun, rw)
 	{
-		$('#isi_rt').show();
+		$('#isi_rt').css('visibility','visible');
 		var rt = $('#id_cluster');
 		var params = urlencode(dusun) + '/' + rw;
 		select_options(rt, params);
@@ -44,7 +44,7 @@
 							<input id="alamat" name="alamat" class="form-control input-sm" type="text" placeholder="Alamat Jalan/Perumahan" value="<?= $kk['alamat']?>"></input>
 						</div>
 						<div class="form-group">
-							<div class="form-group col-sm-5 horizontal">
+							<div class="form-group col-sm-6 horizontal">
 								<label><?= ucwords($this->setting->sebutan_dusun)?> </label>
 								<select name="dusun" class="form-control input-sm required" onchange="ubah_dusun($(this).val())">
 									<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
@@ -96,7 +96,7 @@
 						</div>
 						<div class="form-group">
 							<label>Kelas Sosial</label>
-							<select class="form-control input-sm"  id="kelas_sosial" name="kelas_sosial">
+							<select class="form-control input-sm" id="kelas_sosial" name="kelas_sosial">
 								<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
 								<?php foreach ($keluarga_sejahtera as $data): ?>
 									<option value="<?= $data['id']?>" <?php if ($kk['kelas_sosial'] == $data['id']): ?>selected <?php endif; ?>><?= strtoupper($data['nama'])?></option>
