@@ -157,7 +157,7 @@ class Dokumen extends Admin_Controller {
 
 	public function cetak($kat=1)
 	{
-		$data['main'] = $this->web_dokumen_model->dataCetak($kat, $this->input->post('tahun'));
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
 		$data['input'] = $this->input->post();
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['kat'] = $kat;
@@ -186,7 +186,7 @@ class Dokumen extends Admin_Controller {
 
 	public function excel($kat=1)
 	{
-		$data['main'] = $this->web_dokumen_model->dataCetak($kat, $this->input->post('tahun'));
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
 		$data['input'] = $this->input->post();
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['kat'] = $kat;

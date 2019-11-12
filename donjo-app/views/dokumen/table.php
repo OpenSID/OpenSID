@@ -9,6 +9,19 @@
 			maxShowItems: 10,
 		});
 	});
+
+$(document).ready(function()
+{
+	$('#modalEkspor').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+});
+
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -42,6 +55,11 @@
 							<a href="<?= site_url("{$this->controller}/dialog_excel/$kat")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan">
 								<i class="fa fa-download"></i>Unduh
             	</a>
+            	<?php if ($kat == 1): ?>
+								<a href="<?= site_url("informasi_publik/ekspor")?>" class="btn btn-social btn-flat bg-blue btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Ekspor Data" data-remote="false" data-toggle="modal" data-target="#modalEkspor" data-title="Ekspor Data">
+									<i class="fa fa-download"></i>Ekspor
+	            	</a>
+	            <?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -189,6 +207,19 @@
 									</div>
 								</div>
 							</div>
+							<!-- Untuk menampilkan modal ekspor  -->
+							<div  class="modal fade" id="modalEkspor" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'> Ekspor Data</h4>
+										</div>
+										<div class="fetched-data"></div>
+									</div>
+								</div>
+							</div>
+
 							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 								<div class='modal-dialog'>
 									<div class='modal-content'>

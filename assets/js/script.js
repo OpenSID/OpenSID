@@ -266,6 +266,11 @@ $(document).ready(function()
 		format: 'DD-MM-YYYY HH:mm:ss',
 		locale:'id'
 	});
+	$('.tgl').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
 	$('#tgl_1').datetimepicker(
 	{
 		format: 'DD-MM-YYYY',

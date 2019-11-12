@@ -14,6 +14,36 @@ class Migrasi_1911_ke_1912 extends CI_model {
 				'unique' => TRUE
 		);
 	  $this->dbforge->modify_column('tweb_rtm', $fields);
+		// Buat tabel untuk mencatat riwayat ekspor data
+		if (!$this->db->table_exists('log_ekspor') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `log_ekspor` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`tgl_ekspor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`kode_ekspor` varchar(100) NOT NULL,
+				`semua` int(1) NOT NULL DEFAULT '1',
+				`dari_tgl` date DEFAULT NULL,
+				`total` int NOT NULL DEFAULT '0',
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+		}
+	  // Aktifkan submodul informasi publik
+		$modul_nonmenu = array(
+			'id' => '96',
+			'modul' => 'Informasi Publik',
+			'url' => 'informasi_publik',
+			'aktif' => '1',
+			'ikon' => '',
+			'urut' => '0',
+			'level' => '0',
+			'parent' => '52',
+			'hidden' => '2',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$this->db->query($sql);
 		// Perbaiki nilai default kolom untuk sql_mode STRICT_TRANS_TABLE
 	  $this->dbforge->modify_column('inbox', 'ReceivingDateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
 	  $this->dbforge->modify_column('inventaris_asset', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');

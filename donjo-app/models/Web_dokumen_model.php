@@ -420,7 +420,7 @@ class Web_dokumen_model extends CI_Model {
 		return $list_tahun;
 	}
 
-	public function dataCetak($kat=1, $tahun='')
+	public function data_cetak($kat=1, $tahun='')
 	{
 		if (!empty($tahun))
 		{
@@ -456,5 +456,17 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
+	public function ekspor_informasi_publik()
+	{
+		$kode_desa = $this->db->select('kode_desa')
+			->limit(1)->get('config')
+			->row()->kode_desa;
+		$data = $this->db->select("id, '{$kode_desa}' as kode_desa, satuan, nama, tgl_upload, kategori, tahun")
+			->where('enabled', '1')
+			->where('id_pend', '0')
+			->order_by('id')
+			->get('dokumen')->result_array();
+		return $data;
+	}
 }
 ?>
