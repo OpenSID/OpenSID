@@ -6,11 +6,11 @@ window.onload = function()
 
 	//Jika posisi kantor rt belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
-	var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-	var zoom = <?=$desa['zoom'] ?: 18?>;
+		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+		var zoom = <?=$desa['zoom'] ?: 18?>;
 	<?php else: ?>
-	var posisi = [-1.0546279422758742,116.71875000000001];
-	var zoom = 4;
+		var posisi = [-1.0546279422758742,116.71875000000001];
+		var zoom = 4;
 	<?php endif; ?>
 	//Menggunakan https://github.com/codeofsumit/leaflet.pm
 	//Inisialisasi tampilan peta
@@ -51,7 +51,7 @@ window.onload = function()
 			latLngs = layer.getLatLng();
 		}
 		else
-		latLngs = layer.getLatLngs();
+			latLngs = layer.getLatLngs();
 
 		var p = latLngs;
 		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 }).addTo(peta_desa);
@@ -153,17 +153,17 @@ window.onload = function()
 
 	//Merubah Peta wilayah yg sudah ada
 	<?php if (!empty($desa['path'])): ?>
-	var daerah_desa = <?=$desa['path']?>;
+		var daerah_desa = <?=$desa['path']?>;
 
-	//Titik awal dan titik akhir poligon harus sama
-	daerah_desa[0].push(daerah_desa[0][0]);
+		//Titik awal dan titik akhir poligon harus sama
+		daerah_desa[0].push(daerah_desa[0][0]);
 
-	var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
-	poligon_desa.on('pm:edit', function(e)
-	{
-		document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-	})
-	setTimeout(function() {peta_desa.invalidateSize();peta_desa.fitBounds(poligon_desa.getBounds());}, 500);
+		var poligon_desa = L.polygon(daerah_desa).addTo(peta_desa);
+		poligon_desa.on('pm:edit', function(e)
+		{
+			document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+		})
+		setTimeout(function() {peta_desa.invalidateSize();peta_desa.fitBounds(poligon_desa.getBounds());}, 500);
 	<?php endif; ?>
 
 	//Fungsi
@@ -220,21 +220,21 @@ window.onload = function()
 									</div>
 								</div>
 							</div>
-							<div class='box-footer'>
-								<div class='col-xs-12'>
-									<a href="#" class="btn btn-social btn-flat btn-info btn-sm" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
-								</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<a href="#" class="btn btn-social btn-flat btn-info btn-sm" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</div>
 			</div>
-		</section>
-	</div>
+		</div>
+	</section>
+</div>
 
-	<script>
-
+<script>
 	$(document).ready(function(){
 		$('#simpan_kantor').click(function(){
 			if (!$('#validasi').valid()) return;
@@ -249,9 +249,9 @@ window.onload = function()
 				});
 			});
 		});
-		</script>
-		<script src="<?= base_url()?>assets/js/validasi.js"></script>
-		<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-		<script src="<?= base_url()?>assets/js/togeojson.js"></script>
-		<script src="<?= base_url()?>assets/js/togpx.js"></script>
+	</script>
+	<script src="<?= base_url()?>assets/js/validasi.js"></script>
+	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+	<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+	<script src="<?= base_url()?>assets/js/togpx.js"></script>

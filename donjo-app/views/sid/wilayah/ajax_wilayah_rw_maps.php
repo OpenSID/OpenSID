@@ -6,11 +6,11 @@ window.onload = function()
 
 	//Jika posisi kantor rw belum ada, maka posisi peta akan menampilkan peta dusun
 	<?php if (!empty($rw['lat'] && !empty($rw['lng']))): ?>
-	var posisi = [<?=$rw['lat'].",".$rw['lng']?>];
-	var zoom = <?=$rw['zoom'] ?: 16?>;
+		var posisi = [<?=$rw['lat'].",".$rw['lng']?>];
+		var zoom = <?=$rw['zoom'] ?: 16?>;
 	<?php else: ?>
-	var posisi = [<?=$dusun_rw['lat'].",".$dusun_rw['lng']?>];
-	var zoom = <?=$dusun_rw['zoom'] ?: 16?>;
+		var posisi = [<?=$dusun_rw['lat'].",".$dusun_rw['lng']?>];
+		var zoom = <?=$dusun_rw['zoom'] ?: 16?>;
 	<?php endif; ?>
 	//Menggunakan https://github.com/codeofsumit/leaflet.pm
 	//Inisialisasi tampilan peta
@@ -152,17 +152,17 @@ window.onload = function()
 
 	//Merubah Peta wilayah yg sudah ada
 	<?php if (!empty($rw['path'])): ?>
-	var daerah_rw = <?=$rw['path']?>;
+		var daerah_rw = <?=$rw['path']?>;
 
-	//Titik awal dan titik akhir poligon harus sama
-	daerah_rw[0].push(daerah_rw[0][0]);
+		//Titik awal dan titik akhir poligon harus sama
+		daerah_rw[0].push(daerah_rw[0][0]);
 
-	var poligon_rw = L.polygon(daerah_rw).addTo(peta_rw);
-	poligon_rw.on('pm:edit', function(e)
-	{
-		document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-	})
-	setTimeout(function() {peta_rw.invalidateSize();peta_rw.fitBounds(poligon_rw.getBounds());}, 500);
+		var poligon_rw = L.polygon(daerah_rw).addTo(peta_rw);
+		poligon_rw.on('pm:edit', function(e)
+		{
+			document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+		})
+		setTimeout(function() {peta_rw.invalidateSize();peta_rw.fitBounds(poligon_rw.getBounds());}, 500);
 	<?php endif; ?>
 
 	//Fungsi
@@ -184,16 +184,16 @@ window.onload = function()
 }; //EOF window.onload
 </script>
 <style>
-#map
-{
-	width:100%;
-	height:65vh
-}
-.icon {
-	max-width: 70%;
-	max-height: 70%;
-	margin: 4px;
-}
+	#map
+	{
+		width:100%;
+		height:65vh
+	}
+	.icon {
+		max-width: 70%;
+		max-height: 70%;
+		margin: 4px;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
@@ -237,15 +237,15 @@ window.onload = function()
 </div>
 
 <script>
-$(document).ready(function(){
-	$('#simpan_kantor').click(function(){
-		if (!$('#validasi').valid()) return;
+	$(document).ready(function(){
+		$('#simpan_kantor').click(function(){
+			if (!$('#validasi').valid()) return;
 
-		var id = $('#id').val();
-		var path = $('#path').val();
-		var rw = $('#rw').val();
-		var dusun = $('#dusun').val();
-		$.ajax(
+			var id = $('#id').val();
+			var path = $('#path').val();
+			var rw = $('#rw').val();
+			var dusun = $('#dusun').val();
+			$.ajax(
 			{
 				type: "POST",
 				url: "<?=$form_action?>",

@@ -5,11 +5,11 @@ window.onload = function()
 
 	//Jika posisi wilayah rw belum ada, maka posisi peta akan menampilkan posisi peta dusun
 	<?php if (!empty($rw['lat'] && !empty($rw['lng']))): ?>
-	var posisi = [<?=$rw['lat'].",".$rw['lng']?>];
-	var zoom = <?=$rw['zoom'] ?: 16?>;
+		var posisi = [<?=$rw['lat'].",".$rw['lng']?>];
+		var zoom = <?=$rw['zoom'] ?: 16?>;
 	<?php else: ?>
-	var posisi = [<?=$dusun_rw['lat'].",".$dusun_rw['lng']?>];
-	var zoom = <?=$dusun_rw['zoom'] ?: 16?>;
+		var posisi = [<?=$dusun_rw['lat'].",".$dusun_rw['lng']?>];
+		var zoom = <?=$dusun_rw['zoom'] ?: 16?>;
 	<?php endif; ?>
 
 	//Inisialisasi tampilan peta
@@ -117,16 +117,16 @@ window.onload = function()
 }; //EOF window.onload
 </script>
 <style>
-#mapx
-{
-	width:100%;
-	height:50vh
-}
-.icon {
-	max-width: 70%;
-	max-height: 70%;
-	margin: 4px;
-}
+	#mapx
+	{
+		width:100%;
+		height:50vh
+	}
+	.icon {
+		max-width: 70%;
+		max-height: 70%;
+		margin: 4px;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
@@ -183,25 +183,25 @@ window.onload = function()
 </div>
 
 <script>
-$(document).ready(function(){
-	$('#simpan_kantor').click(function(){
-		if (!$('#validasi').valid()) return;
+	$(document).ready(function(){
+		$('#simpan_kantor').click(function(){
+			if (!$('#validasi').valid()) return;
 
-		var id = $('#id').val();
-		var lat = $('#lat').val();
-		var lng = $('#lng').val();
-		var zoom = int($('#zoom').val());
-		var map_tipe = $('#map_tipe').val();
-		var rw = $('#rw').val();
-		var dusun = $('#dusun').val();
-		$.ajax({
-			type: "POST",
-			url: "<?=$form_action?>",
-			dataType: 'json',
-			data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe, id: id, rw: rw, dusun: dusun},
+			var id = $('#id').val();
+			var lat = $('#lat').val();
+			var lng = $('#lng').val();
+			var zoom = int($('#zoom').val());
+			var map_tipe = $('#map_tipe').val();
+			var rw = $('#rw').val();
+			var dusun = $('#dusun').val();
+			$.ajax({
+				type: "POST",
+				url: "<?=$form_action?>",
+				dataType: 'json',
+				data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe, id: id, rw: rw, dusun: dusun},
+			});
 		});
 	});
-});
 </script>
 
 <script src="<?= base_url()?>assets/js/validasi.js"></script>

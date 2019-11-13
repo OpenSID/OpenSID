@@ -5,11 +5,11 @@ window.onload = function()
 
 	//Jika posisi wilayah dusun belum ada, maka posisi peta akan menampilkan posisi peta desa
 	<?php if (!empty($dusun['lat'] && !empty($dusun['lng']))): ?>
-	var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
-	var zoom = <?=$dusun['zoom'] ?: 16?>;
+		var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
+		var zoom = <?=$dusun['zoom'] ?: 16?>;
 	<?php else: ?>
-	var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-	var zoom = <?=$desa['zoom'] ?: 16?>;
+		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+		var zoom = <?=$desa['zoom'] ?: 16?>;
 	<?php endif; ?>
 
 	//Inisialisasi tampilan peta
@@ -117,17 +117,16 @@ window.onload = function()
 }; //EOF window.onload
 </script>
 <style>
-#mapx
-{
-	width:100%;
-	height:50vh
-}
-.icon {
-	max-width: 70%;
-	max-height: 70%;
-	margin: 4px;
-}
-}
+	#mapx
+	{
+		width:100%;
+		height:50vh
+	}
+	.icon {
+		max-width: 70%;
+		max-height: 70%;
+		margin: 4px;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
@@ -158,29 +157,28 @@ window.onload = function()
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<form id="validasi">
-									<div class="form-group">
-										<label class="col-sm-3 control-label" for="lat">Lat</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $dusun['lat']?>"/>
-										</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="lat">Lat</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control number" name="lat" id="lat" value="<?= $dusun['lat']?>"/>
 									</div>
-									<div class="form-group">
-										<label class="col-sm-3 control-label" for="lat">Lng</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $dusun['lng']?>" />
-										</div>
-									</div>
-									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
-									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="lat">Lng</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $dusun['lng']?>" />
+									</div>
+								</div>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</div>
 			</div>
-		</section>
-	</div>
+		</div>
+	</section>
+</div>
 
 <script>
 	$(document).ready(function(){

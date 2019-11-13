@@ -5,11 +5,11 @@ window.onload = function()
 
 	//Jika posisi wilayah rt belum ada, maka posisi peta akan menampilkan posisi peta dusun
 	<?php if (!empty($rt['lat'] && !empty($rt['lng']))): ?>
-	var posisi = [<?=$rt['lat'].",".$rt['lng']?>];
-	var zoom = <?=$rt['zoom'] ?: 16?>;
+		var posisi = [<?=$rt['lat'].",".$rt['lng']?>];
+		var zoom = <?=$rt['zoom'] ?: 16?>;
 	<?php else: ?>
-	var posisi = [<?=$dusun_rt['lat'].",".$dusun_rt['lng']?>];
-	var zoom = <?=$dusun_rt['zoom'] ?: 16?>;
+		var posisi = [<?=$dusun_rt['lat'].",".$dusun_rt['lng']?>];
+		var zoom = <?=$dusun_rt['zoom'] ?: 16?>;
 	<?php endif; ?>
 
 	//Inisialisasi tampilan peta
@@ -117,16 +117,16 @@ window.onload = function()
 }; //EOF window.onload
 </script>
 <style>
-#mapx
-{
-	width:100%;
-	height:50vh
-}
-.icon {
-	max-width: 70%;
-	max-height: 70%;
-	margin: 4px;
-}
+	#mapx
+	{
+		width:100%;
+		height:50vh
+	}
+	.icon {
+		max-width: 70%;
+		max-height: 70%;
+		margin: 4px;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">

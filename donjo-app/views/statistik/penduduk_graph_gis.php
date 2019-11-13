@@ -111,7 +111,7 @@
 												<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27): ?>
 													<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>"><?= $data['jumlah']?></a>
 												<?php else: ?>
-												<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
+													<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
 													<a href="<?= $tautan_jumlah ?>/0"><?= $data['jumlah']?></a>
 												<?php endif; ?>
 											</td>

@@ -5,11 +5,11 @@ window.onload = function()
 
 	//Jika posisi wilayah desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
-	var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-	var zoom = <?=$desa['zoom'] ?: 16?>;
+		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+		var zoom = <?=$desa['zoom'] ?: 16?>;
 	<?php else: ?>
-	var posisi = [-1.0546279422758742,116.71875000000001];
-	var zoom = 4;
+		var posisi = [-1.0546279422758742,116.71875000000001];
+		var zoom = 4;
 	<?php endif; ?>
 
 	//Inisialisasi tampilan peta
@@ -175,10 +175,11 @@ window.onload = function()
 					</form>
 				</div>
 			</div>
-		</section>
-	</div>
+		</div>
+	</section>
+</div>
 
-	<script>
+<script>
 	$(document).ready(function(){
 		$('#simpan_kantor').click(function(){
 			if (!$('#validasi').valid()) return;

@@ -265,9 +265,9 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$dusun = $this->input->post('dusun');
 		if ($dusun)
-		$this->session->set_userdata('dusun', $dusun);
+			$this->session->set_userdata('dusun', $dusun);
 		else
-		$this->session->unset_userdata('dusun');
+			$this->session->unset_userdata('dusun');
 		redirect("statistik/$tipe_stat/$lap");
 	}
 
@@ -277,9 +277,9 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw)
-		$this->session->set_userdata('rw', $rw);
+			$this->session->set_userdata('rw', $rw);
 		else
-		$this->session->unset_userdata('rw');
+			$this->session->unset_userdata('rw');
 		redirect("statistik/$tipe_stat/$lap");
 	}
 
@@ -288,9 +288,9 @@ class Statistik extends Admin_Controller {
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		$rt = $this->input->post('rt');
 		if ($rt)
-		$this->session->set_userdata('rt', $rt);
+			$this->session->set_userdata('rt', $rt);
 		else
-		$this->session->unset_userdata('rt');
+			$this->session->unset_userdata('rt');
 		redirect("statistik/$tipe_stat/$lap");
 	}
 
@@ -303,7 +303,8 @@ class Statistik extends Admin_Controller {
 	public function load_graph_gis_desa($lap = 0, $desa = '')
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -317,7 +318,8 @@ class Statistik extends Admin_Controller {
 	public function load_pie_gis_desa($lap = 0, $desa = '')
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -336,9 +338,9 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$desa = $desa;
 		if ($desa)
-		$this->session->set_userdata('desa', $desa);
+			$this->session->set_userdata('desa', $desa);
 		else
-		$this->session->unset_userdata('desa');
+			$this->session->unset_userdata('desa');
 
 		redirect("statistik/load_graph_gis_desa/$lap/$desa");
 	}
@@ -351,9 +353,9 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$desa = $desa;
 		if ($desa)
-		$this->session->set_userdata('desa', $desa);
+			$this->session->set_userdata('desa', $desa);
 		else
-		$this->session->unset_userdata('desa');
+			$this->session->unset_userdata('desa');
 
 		redirect("statistik/load_graph_gis_desa/$lap/$desa");
 	}
@@ -361,7 +363,8 @@ class Statistik extends Admin_Controller {
 	public function load_graph_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -373,7 +376,8 @@ class Statistik extends Admin_Controller {
 	public function load_pie_gis_dusun($tipe = 0, $lap = 0, $dusun = '')
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -389,9 +393,9 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$dusun = $dusun;
 		if ($dusun)
-		$this->session->set_userdata('dusun', $dusun);
+			$this->session->set_userdata('dusun', $dusun);
 		else
-		$this->session->unset_userdata('dusun');
+			$this->session->unset_userdata('dusun');
 
 		redirect("statistik/load_graph_gis_dusun/$tipe_stat/$lap/$dusun");
 	}
@@ -403,9 +407,9 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$dusun = $dusun;
 		if ($dusun)
-		$this->session->set_userdata('dusun', $dusun);
+			$this->session->set_userdata('dusun', $dusun);
 		else
-		$this->session->unset_userdata('dusun');
+			$this->session->unset_userdata('dusun');
 
 		redirect("statistik/load_pie_gis_dusun/$tipe_stat/$lap/$dusun");
 	}
@@ -413,7 +417,8 @@ class Statistik extends Admin_Controller {
 	public function load_graph_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -424,7 +429,8 @@ class Statistik extends Admin_Controller {
 	public function load_pie_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '')
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -439,9 +445,9 @@ class Statistik extends Admin_Controller {
 		$dusun = $dusun;
 		$rw = $rw;
 		if ($rw)
-		$this->session->set_userdata('rw', $rw);
+			$this->session->set_userdata('rw', $rw);
 		else
-		$this->session->unset_userdata('rw');
+			$this->session->unset_userdata('rw');
 
 		redirect("statistik/load_graph_gis_rw/$tipe_stat/$lap/$dusun/$rw");
 	}
@@ -453,9 +459,9 @@ class Statistik extends Admin_Controller {
 		$dusun = $dusun;
 		$rw = $rw;
 		if ($rw)
-		$this->session->set_userdata('rw', $rw);
+			$this->session->set_userdata('rw', $rw);
 		else
-		$this->session->unset_userdata('rw');
+			$this->session->unset_userdata('rw');
 
 		redirect("statistik/load_pie_gis_rw/$tipe_stat/$lap/$dusun/$rw");
 	}
@@ -463,7 +469,8 @@ class Statistik extends Admin_Controller {
 	public function load_graph_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -475,7 +482,8 @@ class Statistik extends Admin_Controller {
 	public function load_pie_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '')
 	{
 		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value) {
+		foreach ($cluster_session as $key => $value) 
+		{
 			$data[$key] = $value;
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -491,9 +499,9 @@ class Statistik extends Admin_Controller {
 		$rw = $rw;
 		$rt = $rt;
 		if ($rt)
-		$this->session->set_userdata('rt', $rt);
+			$this->session->set_userdata('rt', $rt);
 		else
-		$this->session->unset_userdata('rt');
+			$this->session->unset_userdata('rt');
 
 		redirect("statistik/load_graph_gis_rt/$tipe_stat/$lap/$dusun/$rw/$rt");
 	}
@@ -505,9 +513,9 @@ class Statistik extends Admin_Controller {
 		$rw = $rw;
 		$rt = $rt;
 		if ($rt)
-		$this->session->set_userdata('rt', $rt);
+			$this->session->set_userdata('rt', $rt);
 		else
-		$this->session->unset_userdata('rt');
+			$this->session->unset_userdata('rt');
 
 		redirect("statistik/load_pie_gis_rt/$tipe_stat/$lap/$dusun/$rw/$rt");
 	}

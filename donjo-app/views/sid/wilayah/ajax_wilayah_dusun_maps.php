@@ -7,11 +7,11 @@ window.onload = function()
 
   //Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan peta desa
   <?php if (!empty($dusun['lat']) && !empty($dusun['lng'])): ?>
-  var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
-  var zoom = <?=$dusun['zoom'] ?: 10?>;
+    var posisi = [<?=$dusun['lat'].",".$dusun['lng']?>];
+    var zoom = <?=$dusun['zoom'] ?: 10?>;
   <?php else: ?>
-  var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-  var zoom = <?=$desa['zoom'] ?: 10?>;
+    var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+    var zoom = <?=$desa['zoom'] ?: 10?>;
   <?php endif; ?>
   //Menggunakan https://github.com/codeofsumit/leaflet.pm
   //Inisialisasi tampilan peta
@@ -151,17 +151,17 @@ window.onload = function()
 
   //Merubah Peta wilayah yg sudah ada
   <?php if (!empty($dusun['path'])): ?>
-  var daerah_dusun = <?=$dusun['path']?>;
+    var daerah_dusun = <?=$dusun['path']?>;
 
-  //Titik awal dan titik akhir poligon harus sama
-  daerah_dusun[0].push(daerah_dusun[0][0]);
+    //Titik awal dan titik akhir poligon harus sama
+    daerah_dusun[0].push(daerah_dusun[0][0]);
 
-  var poligon_dusun = L.polygon(daerah_dusun).addTo(peta_dusun);
-  poligon_dusun.on('pm:edit', function(e)
-  {
-    document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-  })
-  setTimeout(function() {peta_dusun.invalidateSize();peta_dusun.fitBounds(poligon_dusun.getBounds());}, 500);
+    var poligon_dusun = L.polygon(daerah_dusun).addTo(peta_dusun);
+    poligon_dusun.on('pm:edit', function(e)
+    {
+      document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+    })
+    setTimeout(function() {peta_dusun.invalidateSize();peta_dusun.fitBounds(poligon_dusun.getBounds());}, 500);
   <?php endif; ?>
 
   //Fungsi
@@ -183,16 +183,16 @@ window.onload = function()
 }; //EOF window.onload
 </script>
 <style>
-#map
-{
-  width:100%;
-  height:65vh
-}
-.icon {
-  max-width: 70%;
-  max-height: 70%;
-  margin: 4px;
-}
+  #map
+  {
+    width:100%;
+    height:65vh
+  }
+  .icon {
+    max-width: 70%;
+    max-height: 70%;
+    margin: 4px;
+  }
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
@@ -234,14 +234,14 @@ window.onload = function()
 </div>
 
 <script>
-$(document).ready(function(){
-  $('#simpan_kantor').click(function(){
-    if (!$('#validasi').valid()) return;
+  $(document).ready(function(){
+    $('#simpan_kantor').click(function(){
+      if (!$('#validasi').valid()) return;
 
-    var id = $('#id').val();
-    var path = $('#path').val();
-    var dusun = $('#dusun').val();
-    $.ajax(
+      var id = $('#id').val();
+      var path = $('#path').val();
+      var dusun = $('#dusun').val();
+      $.ajax(
       {
         type: "POST",
         url: "<?=$form_action?>",
