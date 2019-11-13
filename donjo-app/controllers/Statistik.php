@@ -230,7 +230,6 @@ class Statistik extends Admin_Controller {
 			$data['rentang'] = $this->laporan_penduduk_model->get_rentang($id);
 		}
 		$this->load->view('statistik/ajax_rentang_form', $data);
-
 	}
 
 	public function rentang_insert()
@@ -299,5 +298,225 @@ class Statistik extends Admin_Controller {
 	{
 		$tipe_stat = array('index', 'graph', 'pie');
 		return $tipe_stat[$index];
+	}
+
+	public function load_graph_gis_desa($lap = 0, $desa = '')
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
+		$data['lap'] = $lap;
+		$this->get_data_stat($data, $lap);
+
+		$this->load->view('statistik/penduduk_graph_gis', $data);
+	}
+
+	public function load_pie_gis_desa($lap = 0, $desa = '')
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
+		$data['lap'] = $lap;
+		$this->get_data_stat($data, $lap);
+
+		$this->load->view('statistik/penduduk_pie_gis', $data);
+	}
+
+	public function graph_gis_desa($lap = 0, $desa = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$this->session->unset_userdata('dusun');
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+		$desa = $desa;
+		if ($desa)
+			$this->session->set_userdata('desa', $desa);
+		else
+			$this->session->unset_userdata('desa');
+
+		redirect("statistik/load_graph_gis_desa/$lap/$desa");
+	}
+
+	public function pie_gis_desa($lap = 0, $desa = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$this->session->unset_userdata('dusun');
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+		$desa = $desa;
+		if ($desa)
+			$this->session->set_userdata('desa', $desa);
+		else
+			$this->session->unset_userdata('desa');
+
+		redirect("statistik/load_graph_gis_desa/$lap/$desa");
+	}
+
+	public function load_graph_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_graph_gis', $data);
+	}
+
+	public function load_pie_gis_dusun($tipe = 0, $lap = 0, $dusun = '')
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_pie_gis', $data);
+	}
+
+	public function graph_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+		$dusun = $dusun;
+		if ($dusun)
+			$this->session->set_userdata('dusun', $dusun);
+		else
+			$this->session->unset_userdata('dusun');
+
+		redirect("statistik/load_graph_gis_dusun/$tipe_stat/$lap/$dusun");
+	}
+
+	public function pie_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+		$dusun = $dusun;
+		if ($dusun)
+			$this->session->set_userdata('dusun', $dusun);
+		else
+			$this->session->unset_userdata('dusun');
+
+		redirect("statistik/load_pie_gis_dusun/$tipe_stat/$lap/$dusun");
+	}
+
+	public function load_graph_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_graph_gis', $data);
+	}
+
+	public function load_pie_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '')
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_pie_gis', $data);
+	}
+
+	public function graph_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$this->session->unset_userdata('rt');
+		$dusun = $dusun;
+		$rw = $rw;
+		if ($rw)
+			$this->session->set_userdata('rw', $rw);
+		else
+			$this->session->unset_userdata('rw');
+
+		redirect("statistik/load_graph_gis_rw/$tipe_stat/$lap/$dusun/$rw");
+	}
+
+	public function pie_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$this->session->unset_userdata('rt');
+		$dusun = $dusun;
+		$rw = $rw;
+		if ($rw)
+			$this->session->set_userdata('rw', $rw);
+		else
+			$this->session->unset_userdata('rw');
+
+		redirect("statistik/load_pie_gis_rw/$tipe_stat/$lap/$dusun/$rw");
+	}
+
+	public function load_graph_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_graph_gis', $data);
+	}
+
+	public function load_pie_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '')
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value) 
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_pie_gis', $data);
+	}
+
+	public function graph_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$dusun = $dusun;
+		$rw = $rw;
+		$rt = $rt;
+		if ($rt)
+			$this->session->set_userdata('rt', $rt);
+		else
+			$this->session->unset_userdata('rt');
+
+		redirect("statistik/load_graph_gis_rt/$tipe_stat/$lap/$dusun/$rw/$rt");
+	}
+
+	public function pie_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		$dusun = $dusun;
+		$rw = $rw;
+		$rt = $rt;
+		if ($rt)
+			$this->session->set_userdata('rt', $rt);
+		else
+			$this->session->unset_userdata('rt');
+
+		redirect("statistik/load_pie_gis_rt/$tipe_stat/$lap/$dusun/$rw/$rt");
 	}
 }
