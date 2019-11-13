@@ -76,13 +76,24 @@ class Hom_desa extends Admin_Controller {
 
 	public function ajax_wilayah_maps()
 	{
-		$data['desa'] = $this->config_model->get_data();
+		$nav['act_sub'] = 17;
+		$data_desa = $this->config_model->get_data();
+
+		$data['wil_ini'] = $data_desa;
+    $data['wil_atas']['lat'] = -1.0546279422758742;
+    $data['wil_atas']['lng'] = 116.71875000000001;
+    $data['wil_atas']['zoom'] = 4;
+    $data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+    $data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+    $data['breadcrumb'] = array(
+    	array('link' => site_url("hom_desa/konfigurasi"), 'judul' => "Identitas ".ucwords($this->setting->sebutan_desa)),
+    );
 		$data['form_action'] = site_url("hom_desa/update_wilayah_maps/");
 
     $header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view("home/ajax_wilayah_desa_maps", $data);
+		$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
 		$this->load->view('footer');
 	}
 
