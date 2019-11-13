@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 10. #2442: Ekspor keseluruhan data informasi publik.
 11. #2473: Perbaiki tampilan form Ubah Data KK pada layar kecil.
 12. #2414: Perbesar nilai klasifikasi supaya bisa lebih dari nilai 999,99.
+13. #2425: Sekarang gambar artikel yg disipkan melalui editor tampil pada url tulisan dan id. Gambar juga sekarang tampil dengan proporsi yg benar. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
