@@ -223,7 +223,7 @@
 
     var FileLayerLoad = L.Control.extend({
         statics: {
-            TITLE: 'Load local file (GPX, KML, GeoJSON)',
+            TITLE: 'Unggah Peta dari file GPX/KML',
             LABEL: '&#8965;'
         },
         options: {
