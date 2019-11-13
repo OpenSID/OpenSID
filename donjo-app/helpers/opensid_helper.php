@@ -656,4 +656,49 @@ function buang_nondigit($str)
 	return preg_replace('/[^0-9]/', '', $str);
 }
 
+/**
+ * @param array 		$files = array($file1, $file2, ...)
+ * @return string 	path ke zip file
+
+	Masukkan setiap berkas ke dalam zip.
+
+	$file bisa:
+		- array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
+		- full-path-ke-berkas
+	Untuk membuat folder di dalam zip gunakan:
+		$file = array('nama' => 'dir', 'file' => nama-folder)
+*/
+function masukkan_zip($files=array())
+{
+  $zip = new ZipArchive();
+  # create a temp file & open it
+  $tmp_file = tempnam(sys_get_temp_dir(),'');
+  $zip->open($tmp_file, ZipArchive::CREATE);
+
+  foreach ($files as $file)
+  {
+		if (is_array($file))
+		{
+			if ($file['nama'] == 'dir')
+			{
+				$zip->addEmptyDir($file['file']);
+				continue;
+			}
+			else
+			{
+				$nama_file = $file['nama'];
+				$file = $file['file'];
+			}
+		}
+		else
+		{
+			$nama_file = basename($file);
+		}
+    $download_file = file_get_contents($file);
+    $zip->addFromString($nama_file, $download_file);
+  }
+  $zip->close();
+  return $tmp_file;
+}
+
 ?>

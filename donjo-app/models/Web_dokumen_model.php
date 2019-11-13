@@ -226,14 +226,16 @@ class Web_dokumen_model extends CI_Model {
 
 	private function upload_dokumen(&$data, $file_lama="")
 	{
+		$_SESSION['error_msg'] = "";
+		$_SESSION['success'] = 1;
 		unset($data['old_file']);
 		if (empty($_FILES['satuan']['tmp_name']))
 		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] .= ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
 			return false;
 		}
 
-		$_SESSION['error_msg'] = "";
-		$_SESSION['success'] = 1;
 		$lokasi_file = $_FILES['satuan']['tmp_name'];
 		if (empty($lokasi_file))
 		{
