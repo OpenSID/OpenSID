@@ -916,7 +916,7 @@
 				}
 			}
 			# Masukkan semua berkas ke dalam zip
-			$berkas_kk = $this->masukkan_zip($berkas_kk);
+			$berkas_kk = masukkan_zip($berkas_kk);
 	    # Unduh berkas zip
 	    header('Content-disposition: attachment; filename=berkas_kk_'.date("d-m-Y").'.zip');
 	    header('Content-type: application/zip');
@@ -1018,22 +1018,4 @@
 		fclose($handle);
 		return $berkas_arsip;
 	}
-
-	private function masukkan_zip($files=array())
-	{
-    $zip = new ZipArchive();
-    # create a temp file & open it
-    $tmp_file = tempnam(sys_get_temp_dir(),'');
-    $zip->open($tmp_file, ZipArchive::CREATE);
-
-    # masukkan setiap berkas ke dalam zip
-    foreach ($files as $file)
-    {
-        $download_file = file_get_contents($file);
-        $zip->addFromString(basename($file), $download_file);
-    }
-    $zip->close();
-    return $tmp_file;
-	}
-
 }
