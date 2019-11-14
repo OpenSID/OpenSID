@@ -7,9 +7,11 @@
 						<p>
 							Ekspor data dan dokumen informasi publik untuk diimpor ke aplikasi di tingkat supra-desa, seperti PPID kabupaten atau ke aplikasi OpenDK
 						</p>
-						<p>
-							Ekspor lengkap terakhir pada <?= tgl_indo_out($log_semua->tgl_ekspor) ?> dengan total data <?= $log_semua->total ?>.
-						</p>
+						<?php if ($log_semua): ?>
+							<p>
+								Ekspor lengkap terakhir pada <?= tgl_indo_out($log_semua->tgl_ekspor) ?> dengan total data <?= $log_semua->total ?>.
+							</p>
+						<?php endif; ?>
 						<div class="form-group">
 							<label class="control-label">Data untuk diekspor</label>
 							<select class="form-control input-sm required"  id="data_ekspor">>
