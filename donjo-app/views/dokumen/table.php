@@ -56,7 +56,7 @@ $(document).ready(function()
 								<i class="fa fa-download"></i>Unduh
             	</a>
             	<?php if ($kat == 1): ?>
-								<a href="<?= site_url("informasi_publik/ekspor")?>" class="btn btn-social btn-flat bg-blue btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Ekspor Data" data-remote="false" data-toggle="modal" data-target="#modalEkspor" data-title="Ekspor Data">
+								<a href="<?= site_url("informasi_publik/ekspor")?>" class="btn btn-social btn-flat bg-blue btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Ekspor Data" data-remote="false" data-toggle="modal" data-target="#modalEkspor" data-title="Ekspor Data Informasi Publik">
 									<i class="fa fa-download"></i>Ekspor
 	            	</a>
 	            <?php endif; ?>

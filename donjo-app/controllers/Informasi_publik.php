@@ -8,12 +8,14 @@ class Informasi_publik extends Admin_Controller {
 		session_start();
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
+		$this->load->model('log_ekspor_model');
 		$this->modul_ini = 13;
 	}
 
 	public function ekspor()
 	{
 		$data['form_action'] = site_url("informasi_publik/ekspor_csv");
+		$data['log_semua'] = $this->log_ekspor_model->log_terakhir('informasi_publik', 1);
 		$this->load->view('dokumen/dialog_ekspor', $data);
 	}
 
@@ -49,6 +51,14 @@ class Informasi_publik extends Admin_Controller {
 			);
 		}
 		fclose($file);
+
+		// Tulis log ekspor
+		$log = array(
+			'kode_ekspor' => 'informasi_publik',
+			'semua' => 1,
+			'total' => count($data)
+		);
+		$this->log_ekspor_model->tulis_log($log);
 
 		# Masukkan semua berkas ke dalam zip
 		$berkas_zip = masukkan_zip($berkas);
