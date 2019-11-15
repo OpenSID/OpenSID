@@ -478,7 +478,7 @@ class Web_dokumen_model extends CI_Model {
 		$kode_desa = $this->db->select('kode_desa')
 			->limit(1)->get('config')
 			->row()->kode_desa;
-		$this->db->select("id, '{$kode_desa}' as kode_desa, satuan, nama, tgl_upload, updated_at, kategori_info_publik as kategori, tahun");
+		$this->db->select("id, '{$kode_desa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun");
 		if ($data_ekspor == 1)
 			$data = $this->ekspor_semua_data();
 		else
