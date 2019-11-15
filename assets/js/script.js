@@ -127,11 +127,17 @@ $(document).ready(function()
 	$('#disposisi_kepada').select2({
 		placeholder: "Pilih tujuan disposisi"
 	});
-	$('button[type="reset"]').click(function()
+
+	// Reset select2 ke nilai asli
+	// https://stackoverflow.com/questions/10319289/how-to-execute-code-after-html-form-reset-with-jquery
+	$('button[type="reset"]').click(function(e)
 	{
+    e.preventDefault();
+    $(this).closest('form').get(0).reset();
 		// https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
-		$('.select2').val('').trigger('change');
+		$('.select2').trigger('change');
 	});
+
 	//File Upload
 	$('#file_browser').click(function(e)
 	{
