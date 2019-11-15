@@ -98,5 +98,21 @@ class Migrasi_1911_ke_1912 extends CI_model {
 	  // Perbesar nilai klasifikasi melebihi 999.99
 	  $this->dbforge->modify_column('analisis_klasifikasi', 'minval double(7,2) NOT NULL');
 	  $this->dbforge->modify_column('analisis_klasifikasi', 'maxval double(7,2) NOT NULL');
+	  // Catat perubahan pada dokumen dan terapkan soft-delete
+  	if (!$this->db->field_exists('updated_at','dokumen'))
+		{
+		  $this->dbforge->add_column('dokumen', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$fields = array(
+         'deleted' => array(
+        	'type' => 'TINYINT',
+        	'constraint' => 1,
+        	'null' => FALSE,
+        	'default' => 0
+        )
+			);
+			$this->dbforge->add_column('dokumen', $fields);
+		}
+		if (!$this->db->table_exists('dokumen_hidup'))
+			$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
 	}
 }

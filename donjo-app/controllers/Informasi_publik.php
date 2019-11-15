@@ -16,6 +16,7 @@ class Informasi_publik extends Admin_Controller {
 	{
 		$data['form_action'] = site_url("informasi_publik/ekspor_csv");
 		$data['log_semua'] = $this->log_ekspor_model->log_terakhir('informasi_publik', 1);
+		$data['log_perubahan'] = $this->log_ekspor_model->log_terakhir('informasi_publik', 2);
 		$this->load->view('dokumen/dialog_ekspor', $data);
 	}
 
@@ -38,7 +39,7 @@ class Informasi_publik extends Admin_Controller {
 
 		// Ambil data dan berkas infoemasi publik
 		$file = fopen($tmpfname, "w");;
-		$data = $this->web_dokumen_model->ekspor_informasi_publik();
+		$data = $this->web_dokumen_model->ekspor_informasi_publik($this->input->post('data_ekspor'), $this->input->post('tgl_dari'));
 
 		$header = array_keys($data[0]);
 		fputcsv($file, $header);
@@ -55,7 +56,7 @@ class Informasi_publik extends Admin_Controller {
 		// Tulis log ekspor
 		$log = array(
 			'kode_ekspor' => 'informasi_publik',
-			'semua' => 1,
+			'semua' => $this->input->post('data_ekspor'),
 			'total' => count($data)
 		);
 		$this->log_ekspor_model->tulis_log($log);

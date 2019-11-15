@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 12. #2414: Perbesar nilai klasifikasi supaya bisa lebih dari nilai 999,99.
 13. #2425: Sekarang gambar artikel yg disipkan melalui editor tampil pada url tulisan dan id. Gambar juga sekarang tampil dengan proporsi yg benar. [bug-fix]
 14. Sekarang data peta dalam format GPX/KML dapat diimpor ke peta kantor/wilayah desa/dusun/rw/rt.
+15. #2454: Ekspor perubahan data informasi publik sejak tanggal tertentu.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
