@@ -4,14 +4,14 @@
 <script type="text/javascript">
 	$('document').ready(function()
 	{
-		$('#validasi').submit(function()
+		$('#validasi_cetak').submit(function()
 		{
-			if ($('#validasi').valid())
+			if ($('#validasi_cetak').valid())
 				$('#modalBox').modal('hide');
 		});
 	});
 </script>
-<form action="<?=$form_action?>" method="post" target="_blank" id="validasi">
+<form action="<?=$form_action?>" method="post" target="_blank" id="validasi_cetak">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
