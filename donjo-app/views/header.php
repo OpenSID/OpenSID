@@ -134,7 +134,7 @@
 				</nav>
 			</header>
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
-			<!-- Untuk menampilkan modal bootstrap info pengguna login  -->
+			<!-- Untuk menampilkan modal bootstrap umum  -->
 			<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class='modal-dialog'>
 					<div class='modal-content'>

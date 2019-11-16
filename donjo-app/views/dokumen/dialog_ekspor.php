@@ -27,7 +27,7 @@
 								<?php endif; ?>
 							</select>
 						</div>
-						<div class="form-group" id="tanggal_dari">
+						<div class="form-group" id="tanggal_dari" style="display: none;">
 							<label class="control-label">Perubahan sejak tanggal</label>
 							<div class="input-group input-group-sm date">
 								<div class="input-group-addon">
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="btn-ok" >
 				<i class='fa fa-download'></i> Unduh
 			</button>
@@ -54,8 +54,9 @@
 <script type="text/javascript">
 	$('document').ready(function()
 	{
-		$("#data_ekspor").change(function()
+		$("#data_ekspor").change(function(e)
 		{
+			e.preventDefault();
 			var tgl_dari = $("input[name='tgl_dari']");
 			if ($(this).val() == '2')
 			{
@@ -68,12 +69,11 @@
 				tgl_dari.removeClass('required');
 			}
 		});
-		$('#data_ekspor').trigger('change');
 
 		$('#validasi').submit(function(e)
 		{
 			if ($('#validasi').valid())
-				$('#modalEkspor').modal('hide');
+				$('#modalBox').modal('hide');
 		});
 		$('.tgl').data('DateTimePicker').date('<?= date('d/m/Y H:i:s', strtotime($log_perubahan ? $log_perubahan->tgl_ekspor : $log_semua->tgl_ekspor)) ?>');
 	});
