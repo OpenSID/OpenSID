@@ -72,16 +72,8 @@
 
 		$('#validasi').submit(function(e)
 		{
-			if (!$('#validasi').valid()) return;
-		  e.preventDefault(); // dont submit multiple times
-		  this.submit(); // use native js submit
-
-		  setTimeout(function()
-		  {
-		  	// TODO: menutup dialog tidak bisa dengan cara biasa, jadi terpaksa refresh screen
-			  // $('#validasi').closest(".ui-dialog-content").dialog("close");
-			  window.top.location.reload(false);
-		  }, 500);
+			if ($('#validasi').valid())
+				$('#modalEkspor').modal('hide');
 		});
 		$('.tgl').data('DateTimePicker').date('<?= date('d/m/Y H:i:s', strtotime($log_perubahan ? $log_perubahan->tgl_ekspor : $log_semua->tgl_ekspor)) ?>');
 	});
