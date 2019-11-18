@@ -2,7 +2,7 @@
 class Web_dokumen_model extends CI_Model {
 
 	// Untuk datatables informasi publik
-	var $table = 'dokumen';
+	var $table = 'dokumen_hidup';
 	var $column_order = array(null, 'nama','tahun', 'kategori_info_publik', 'tgl_upload'); //set column field database for datatable orderable
 	var $column_search = array('nama'); //set column field database for datatable searchable
 	var $order = array('id' => 'asc'); // default order
@@ -28,7 +28,7 @@ class Web_dokumen_model extends CI_Model {
 		if ($isi) $this->db->like('dokumen.nama', $isi);
 		$this->db->order_by('dokumen.tahun DESC', 'dokumen.kategori ASC', 'dokumen.nama ASC');
 
-		$res = $this->db->get('dokumen')->result_array();
+		$res = $this->db->from('dokumen_hidup as dokumen')->get()->result_array();
 		return $res;
 	}
 
@@ -110,13 +110,13 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$this->db->select('tahun');
 		$this->db->group_by('tahun');
-		$res = $this->db->get('dokumen')->result_array();
+		$res = $this->db->from($this->table)->get()->result_array();
 		return $res;
 	}
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'dokumen');
+		$str = autocomplete_str('nama', 'dokumen_hidup');
 		return $str;
 	}
 
@@ -144,7 +144,7 @@ class Web_dokumen_model extends CI_Model {
 
 	private function list_data_sql($kat)
 	{
-		$sql = " FROM dokumen WHERE id_pend = 0";
+		$sql = " FROM dokumen_hidup WHERE id_pend = 0";
 		// $kat == 1 adalah informasi publik dan mencakup juga jenis dokumen lain termasuk SK Kades dan Perdes
 		if ($kat != '1')
 			$sql .= " AND kategori = ".$kat;
@@ -310,8 +310,11 @@ class Web_dokumen_model extends CI_Model {
 	public function update($id=0)
 	{
 		$data = $_POST;
-		if (!$this->upload_dokumen($data, $data['old_file']))
+		if (empty($data['satuan']) or !$this->upload_dokumen($data, $data['old_file']))
+		{
 			unset($data['satuan']);
+			unset($data['old_file']);
+		}
 		$data['attr'] = json_encode($data['attr']);
 		$tgl = json_decode($data['attr'], TRUE);
 		switch ($data['kategori'])
@@ -332,15 +335,21 @@ class Web_dokumen_model extends CI_Model {
 				$data['tahun'] = date('Y');
 				break;
 		}
+		$data['updated_at'] = date('Y-m-d H:i:s');
 		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
 
+	// Soft delete, tapi hapus berkas dokumen
 	public function delete($id='')
 	{
 		$old_dokumen = $this->db->select('satuan')->
 			where('id',$id)->
 			get('dokumen')->row()->satuan;
-		$outp = $this->db->where('id', $id)->delete('dokumen');
+		$data = array(
+			'updated_at' => date('Y-m-d H:i:s'),
+			'deleted' => 1
+		);
+		$outp = $this->db->where('id', $id)->update('dokumen', $data);
 		if ($outp)
 			unlink(LOKASI_DOKUMEN . $old_dokumen);
 		else $_SESSION['success'] = -1;
@@ -370,9 +379,9 @@ class Web_dokumen_model extends CI_Model {
 
 	public function get_dokumen($id=0)
 	{
-		$sql = "SELECT * FROM dokumen WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data  = $query->row_array();
+		$data = $this->db->from($this->table)
+			->where('id', $id)
+			->get()->row_array();
 		$data['attr'] = json_decode($data['attr'], true);
 		return $data;
 	}
@@ -400,25 +409,27 @@ class Web_dokumen_model extends CI_Model {
 		switch ($kat)
 		{
 			case '1':
-				# Dokumen umum
+				# Informasi publik, termasuk kategori lainnya
 				$this->db->select('tahun');
 				break;
 			case '2':
 				# SK KADES
 				$attr_str = '"tgl_kep_kades":';
-				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
+				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun")
+					->where('kategori', $kat);
 				break;
 			case '3':
 				# PERDES
 				$attr_str = '"tgl_ditetapkan":';
-				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun");
+				$this->db->select("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4) AS tahun")
+					->where('kategori', $kat);
 				break;
 		}
 
 		$list_tahun = $this->db->distinct()
-			->where('kategori', $kat)
+			->from($this->table)
 			->order_by('tahun DESC')
-			->get('dokumen')->result_array();
+			->get()->result_array();
 		return $list_tahun;
 	}
 
@@ -429,7 +440,7 @@ class Web_dokumen_model extends CI_Model {
 			switch ($kat)
 			{
 				case '1':
-					# Dokumen umum
+					# Informasi publik
 					$this->db->where('tahun', $tahun);
 					break;
 				// Data tanggal berbeda menurut kategori dokumen
@@ -447,9 +458,13 @@ class Web_dokumen_model extends CI_Model {
 					break;
 			}
 		}
+		# Informasi publik termasuk kategori lainnya
+		if ($kat != '1') $this->db->where('kategori', $kat);
 		$data = $this->db->select('*')
-			->where('kategori', $kat)
-			->get('dokumen')->result_array();
+			->from($this->table)
+			->where('id_pend', '0')
+			->where('enabled', '1')
+			->get()->result_array();
 		foreach ($data as $i => $dok)
 		{
 			$data[$i]['no'] = $i + 1;
@@ -458,16 +473,55 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
-	public function ekspor_informasi_publik()
+	public function ekspor_informasi_publik($data_ekspor, $tgl_dari=NULL)
 	{
 		$kode_desa = $this->db->select('kode_desa')
 			->limit(1)->get('config')
 			->row()->kode_desa;
-		$data = $this->db->select("id, '{$kode_desa}' as kode_desa, satuan, nama, tgl_upload, kategori, tahun")
-			->where('enabled', '1')
+		$this->db->select("id, '{$kode_desa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun");
+		if ($data_ekspor == 1)
+			$data = $this->ekspor_semua_data();
+		else
+			$data = $this->ekspor_perubahan_data($tgl_dari);
+		return $data;
+	}
+
+	// Semua informasi publik diekspor termasuk yg tidak aktif dan yg telah dihapus
+	private function ekspor_semua_data()
+	{
+		// Hanya data yg 'hidup'
+		$data = $this->db->select("'0' as aksi")
+			->from($this->table)
 			->where('id_pend', '0')
 			->order_by('id')
-			->get('dokumen')->result_array();
+			->get()->result_array();
+		return $data;
+	}
+
+	/*
+		aksi:
+		1 - tambah baru
+		2 - berubah
+		3 - dihapus
+	*/
+	private function ekspor_perubahan_data($tgl_dari)
+	{
+		$this->db->select("
+			(CASE when deleted = 1
+				then '3'
+				else
+					case when DATE(tgl_upload) > STR_TO_DATE('{$tgl_dari}', '%d-%m-%Y')
+						then '1'
+						else '2'
+					end
+				end) as aksi
+		");
+		// Termasuk data yg sudah dihapus
+		$data = $this->db->from('dokumen')
+			->where('id_pend', '0')
+			->where("DATE(updated_at) > STR_TO_DATE('{$tgl_dari}', '%d-%m-%Y')")
+			->order_by('id')
+			->get()->result_array();
 		return $data;
 	}
 }
