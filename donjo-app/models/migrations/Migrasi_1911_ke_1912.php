@@ -65,6 +65,10 @@ class Migrasi_1911_ke_1912 extends CI_model {
 	  $this->dbforge->modify_column('mutasi_inventaris_tanah', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
 	  $this->dbforge->modify_column('program_peserta', 'kartu_nik VARCHAR(30) NULL DEFAULT NULL');
 	  $this->dbforge->modify_column('program_peserta', 'kartu_peserta VARCHAR(100) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('lokasi', 'lat VARCHAR(30) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('lokasi', 'lng VARCHAR(30) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('lokasi', 'foto VARCHAR(100) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('lokasi', 'id_cluster INT(11) NULL DEFAULT NULL');
 
 	  // Pindahkan submenu Informasi Publik ke menu Sekretariat
 		$this->db->where('id', '52')->update('setting_modul', array('parent' => 15, 'urut' => 4));
