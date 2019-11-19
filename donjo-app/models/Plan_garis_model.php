@@ -1,4 +1,6 @@
-<?php class Plan_garis_model extends CI_Model {
+<?php
+
+class Plan_garis_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -38,7 +40,7 @@
 		if (isset($_SESSION['line']))
 		{
 			$kf = $_SESSION['line'];
-			$line_sql = " AND m.id = $kf";
+			$line_sql = " AND p.id = $kf";
 			return $line_sql;
 		}
 	}
@@ -48,17 +50,21 @@
 		if (isset($_SESSION['subline']))
 		{
 			$kf = $_SESSION['subline'];
-			$subline_sql = " AND p.id = $kf";
+			$subline_sql = " AND m.id = $kf";
 			return $subline_sql;
 		}
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
+		$sql = "SELECT COUNT(l.id) AS id FROM garis l LEFT JOIN line p ON l.ref_line = p.id LEFT JOIN line m ON p.parrent = m.id WHERE 1 ";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->line_sql();
+		$sql .= $this->subline_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		$jml_data = $row['id'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -69,20 +75,7 @@
 		return $this->paging;
 	}
 
-	private function list_data_sql()
-	{
-		$sql = "FROM garis l
-			LEFT JOIN line p ON l.ref_line = p.id
-			LEFT JOIN line m ON p.parrent = m.id
-			WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->line_sql();
-		$sql .= $this->subline_sql();
-		return $sql;
-	}
-
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o=0,$offset=0, $limit=500)
 	{
 		switch ($o)
 		{
@@ -94,9 +87,17 @@
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$select_sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol ";
 
-		$sql = $select_sql . $this->list_data_sql();
+		$sql = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color
+			FROM garis l
+			LEFT JOIN line p ON l.ref_line = p.id
+			LEFT JOIN line m ON p.parrent = m.id
+			WHERE 1";
+
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->line_sql();
+		$sql .= $this->subline_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -120,13 +121,13 @@
 
 	public function insert()
 	{
-	  $data = $_POST;
-	  $garis_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($garis_file))
-	  {
+		  $data = $_POST;
+		  $garis_file = $_FILES['foto']['tmp_name'];
+		  $tipe_file = $_FILES['foto']['type'];
+		  $nama_file = $_FILES['foto']['name'];
+		  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		  if (!empty($garis_file))
+		  {
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadgaris($nama_file);
@@ -144,17 +145,18 @@
 			$_SESSION['success'] = 1;
 		else
 			$_SESSION['success'] = -1;
+
 	}
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
-	  $garis_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($garis_file))
-	  {
+		  $data = $_POST;
+		  $garis_file = $_FILES['foto']['tmp_name'];
+		  $tipe_file = $_FILES['foto']['type'];
+		  $nama_file = $_FILES['foto']['name'];
+		  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		  if (!empty($garis_file))
+		  {
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadgaris($nama_file);
@@ -171,7 +173,7 @@
 		}
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-	}
+  }
 
 	public function delete($id='')
 	{
@@ -222,9 +224,8 @@
 		if (isset($_SESSION['line']))
 		{
 			$sqlx = "SELECT * FROM line WHERE id = ?";
-			$query = $this->db->query($sqlx, $_SESSION['line']);
+			$query = $this->db->query($sqlx,$_SESSION['line']);
 			$temp = $query->row_array();
-
 			$kf = $temp['parrent'];
 		}
 
@@ -233,9 +234,9 @@
 		return $data;
 	}
 
-	public function garis_lock($id='',$val=0)
+	public function garis_lock($id='', $val=0)
 	{
-		$sql = "UPDATE garis SET enabled = ? WHERE id = ?";
+		$sql = "UPDATE garis SET enabled=? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
 		if ($outp) $_SESSION['success'] = 1;
@@ -245,7 +246,7 @@
 	public function get_garis($id=0)
 	{
 		$sql = "SELECT * FROM garis WHERE id = ?";
-		$query = $this->db->query($sql,$id);
+		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
 	}
@@ -253,7 +254,7 @@
 	public function update_position($id=0)
 	{
 		$data = $_POST;
-		$this->db->where('id',$id);
+		$this->db->where('id', $id);
 		$outp = $this->db->update('garis', $data);
 
 		if ($outp) $_SESSION['success'] = 1;
