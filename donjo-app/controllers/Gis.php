@@ -48,6 +48,7 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['layer_dusun']);
 		unset($_SESSION['layer_rw']);
 		unset($_SESSION['layer_rt']);
+		unset($_SESSION['layer_garis']);
 		redirect('gis');
 	}
 
@@ -124,6 +125,10 @@ class Gis extends Admin_Controller {
 		if (isset($_SESSION['layer_rt']))
 			$data['layer_rt'] = $_SESSION['layer_rt'];
 		else $data['layer_rt'] = 0;
+
+		if (isset($_SESSION['layer_garis']))
+			$data['layer_garis'] = $_SESSION['layer_garis'];
+		else $data['layer_garis'] = 0;
 
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
@@ -347,7 +352,6 @@ class Gis extends Admin_Controller {
 			$_SESSION['layer_dusun'] = 0;
 		else
 			$_SESSION['layer_dusun'] = 1;
-		$_SESSION['layer_desa'] = 1;
 		redirect('gis');
 	}
 
@@ -358,8 +362,6 @@ class Gis extends Admin_Controller {
 			$_SESSION['layer_rw'] = 0;
 		else
 			$_SESSION['layer_rw'] = 1;
-		$_SESSION['layer_dusun'] = 1;
-		$_SESSION['layer_desa'] = 1;
 		redirect('gis');
 	}
 
@@ -370,8 +372,16 @@ class Gis extends Admin_Controller {
 			$_SESSION['layer_rt'] = 0;
 		else
 			$_SESSION['layer_rt'] = 1;
-		$_SESSION['layer_dusun'] = 1;
-		$_SESSION['layer_desa'] = 1;
+		redirect('gis');
+	}
+
+	public function layer_garis()
+	{
+		$layer_garis = $this->input->post('layer_garis');
+		if ($layer_garis == "")
+			$_SESSION['layer_garis'] = 0;
+		else
+			$_SESSION['layer_garis'] = 1;
 		redirect('gis');
 	}
 }
