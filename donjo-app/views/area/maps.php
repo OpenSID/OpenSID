@@ -234,22 +234,6 @@ window.onload = function()
 	</section>
 </div>
 
-<script>
-	$(document).ready(function(){
-		$('#simpan_kantor').click(function(){
-			if (!$('#validasi').valid()) return;
-
-			var path = $('#path').val();
-			$.ajax(
-				{
-					type: "POST",
-					url: "<?=$form_action?>",
-					dataType: 'json',
-					data: {path: path},
-				});
-			});
-		});
-	</script>
 	<script src="<?= base_url()?>assets/js/validasi.js"></script>
 	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
