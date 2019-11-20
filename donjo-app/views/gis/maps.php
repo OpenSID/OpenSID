@@ -317,10 +317,10 @@
 					semua_marker.push(turf.point([daftar_lokasi[x].lng, daftar_lokasi[x].lat], {content: content,style: L.icon(point_style)}));
 			  }
 			}
-			<?php endif; ?>
+		<?php endif; ?>
 
 			//AREA
-			<?php if ($layer_area==1 AND !empty($area)): ?>
+		<?php if ($layer_area==1 AND !empty($area)): ?>
 			var daftar_area = JSON.parse('<?=addslashes(json_encode($area))?>');
 			var jml = daftar_area.length;
 			var jml_path;
@@ -372,53 +372,54 @@
 
     //GARIS
     <?php if ($layer_garis==1 AND !empty($garis)): ?>
-    var daftar_garis = JSON.parse('<?=addslashes(json_encode($garis))?>');
-    var jml = daftar_garis.length;
-    var coords;
-    var lengthOfCoords;
-    var foto;
-    var content_garis;
-    var lokasi_gambar = "<?= base_url().LOKASI_FOTO_garis?>";
+	    var daftar_garis = JSON.parse('<?=addslashes(json_encode($garis))?>');
+	    var jml = daftar_garis.length;
+	    var coords;
+	    var lengthOfCoords;
+	    var foto;
+	    var content_garis;
+	    var lokasi_gambar = "<?= base_url().LOKASI_FOTO_garis?>";
 
-    for (var x = 0; x < jml;x++)
-    {
-      if (daftar_garis[x].path)
-      {
-        daftar_garis[x].path = JSON.parse(daftar_garis[x].path)
-        coords = daftar_garis[x].path;
-        lengthOfCoords = coords.length;
+	    for (var x = 0; x < jml;x++)
+	    {
+	      if (daftar_garis[x].path)
+	      {
+	        daftar_garis[x].path = JSON.parse(daftar_garis[x].path)
+	        coords = daftar_garis[x].path;
+	        lengthOfCoords = coords.length;
 
-        for (i = 0; i < lengthOfCoords; i++) {
-          holdLon = coords[i][0];
-          coords[i][0] = coords[i][1];
-          coords[i][1] = holdLon;
-        }
+	        for (i = 0; i < lengthOfCoords; i++) 
+	        {
+	          holdLon = coords[i][0];
+	          coords[i][0] = coords[i][1];
+	          coords[i][1] = holdLon;
+	        }
 
-        if (daftar_garis[x].foto)
-        {
-          foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_garis[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
-        }
-        else
-        foto = "";
-        //Style polyline
-        var garis_style = {
-          stroke: true,
-          opacity: 1,
-          weight: 3,
-          color: daftar_garis[x].color
-        }
-        content_garis =
-        '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h4 id="firstHeading" class="firstHeading">'+daftar_garis[x].nama+'</h4>'+
-        '<div id="bodyContent">'+ foto +
-        '</div>'+
-        '</div>';
+	        if (daftar_garis[x].foto)
+	        {
+	          foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_garis[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+	        }
+	        else
+	        foto = "";
+	        //Style polyline
+	        var garis_style = {
+	          stroke: true,
+	          opacity: 1,
+	          weight: 3,
+	          color: daftar_garis[x].color
+	        }
+	        content_garis =
+	        '<div id="content">'+
+	        '<div id="siteNotice">'+
+	        '</div>'+
+	        '<h4 id="firstHeading" class="firstHeading">'+daftar_garis[x].nama+'</h4>'+
+	        '<div id="bodyContent">'+ foto +
+	        '</div>'+
+	        '</div>';
 
-        semua_marker.push(turf.lineString(coords, {content: content_garis, style: garis_style}));
-      }
-    }
+	        semua_marker.push(turf.lineString(coords, {content: content_garis, style: garis_style}));
+	      }
+	    }
     <?php endif; ?>
 
 		//PENDUDUK

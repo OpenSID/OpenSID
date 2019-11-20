@@ -57,14 +57,10 @@ class Plan_garis_model extends CI_Model {
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(l.id) AS id FROM garis l LEFT JOIN line p ON l.ref_line = p.id LEFT JOIN line m ON p.parrent = m.id WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->line_sql();
-		$sql .= $this->subline_sql();
+		$sql = "SELECT COUNT(l.id) AS jml " . $this->list_data_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -73,6 +69,20 @@ class Plan_garis_model extends CI_Model {
 		$this->paging->init($cfg);
 
 		return $this->paging;
+	}
+
+	// Pastikan paging dan pencarian data berdasarkan filter yg sama
+	private function list_data_sql()
+	{
+		$sql = "FROM garis l
+			LEFT JOIN line p ON l.ref_line = p.id
+			LEFT JOIN line m ON p.parrent = m.id
+			WHERE 1 ";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->line_sql();
+		$sql .= $this->subline_sql();
+		return $sql;
 	}
 
 	public function list_data($o=0,$offset=0, $limit=500)
@@ -88,16 +98,9 @@ class Plan_garis_model extends CI_Model {
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color
-			FROM garis l
-			LEFT JOIN line p ON l.ref_line = p.id
-			LEFT JOIN line m ON p.parrent = m.id
-			WHERE 1";
+		$select_sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color ";
+		$sql = $select_sql . $this->list_data_sql();
 
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->line_sql();
-		$sql .= $this->subline_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -121,13 +124,13 @@ class Plan_garis_model extends CI_Model {
 
 	public function insert()
 	{
-		  $data = $_POST;
-		  $garis_file = $_FILES['foto']['tmp_name'];
-		  $tipe_file = $_FILES['foto']['type'];
-		  $nama_file = $_FILES['foto']['name'];
-		  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		  if (!empty($garis_file))
-		  {
+	  $data = $_POST;
+	  $garis_file = $_FILES['foto']['tmp_name'];
+	  $tipe_file = $_FILES['foto']['type'];
+	  $nama_file = $_FILES['foto']['name'];
+	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  if (!empty($garis_file))
+	  {
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadgaris($nama_file);
@@ -150,13 +153,13 @@ class Plan_garis_model extends CI_Model {
 
 	public function update($id=0)
 	{
-		  $data = $_POST;
-		  $garis_file = $_FILES['foto']['tmp_name'];
-		  $tipe_file = $_FILES['foto']['type'];
-		  $nama_file = $_FILES['foto']['name'];
-		  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		  if (!empty($garis_file))
-		  {
+	  $data = $_POST;
+	  $garis_file = $_FILES['foto']['tmp_name'];
+	  $tipe_file = $_FILES['foto']['type'];
+	  $nama_file = $_FILES['foto']['name'];
+	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  if (!empty($garis_file))
+	  {
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadgaris($nama_file);
@@ -224,7 +227,7 @@ class Plan_garis_model extends CI_Model {
 		if (isset($_SESSION['line']))
 		{
 			$sqlx = "SELECT * FROM line WHERE id = ?";
-			$query = $this->db->query($sqlx,$_SESSION['line']);
+			$query = $this->db->query($sqlx, $_SESSION['line']);
 			$temp = $query->row_array();
 			$kf = $temp['parrent'];
 		}
@@ -236,7 +239,7 @@ class Plan_garis_model extends CI_Model {
 
 	public function garis_lock($id='', $val=0)
 	{
-		$sql = "UPDATE garis SET enabled=? WHERE id = ?";
+		$sql = "UPDATE garis SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
 		if ($outp) $_SESSION['success'] = 1;
