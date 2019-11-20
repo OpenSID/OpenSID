@@ -140,7 +140,7 @@ class Gis extends Admin_Controller {
 		$data['area'] = $this->plan_area_model->list_data();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
-		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt'] = $this->wilayah_model->list_rt();
