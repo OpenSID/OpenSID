@@ -90,7 +90,7 @@
 
 
 		//WILAYAH DUSUN
-		<?php if ($layer_dusun==1 AND !empty($dusun)): ?>
+		<?php if ($layer_dusun==1 AND !empty($dusun_gis)): ?>
 			//Style polygon
 			var dusun_style = {
 			  stroke: true,
@@ -100,7 +100,7 @@
 			  fillColor: '#FFFF00',
 			  fillOpacity: 0.5
 			}
-			var daftar_dusun = JSON.parse('<?=addslashes(json_encode($dusun))?>');
+			var daftar_dusun = JSON.parse('<?=addslashes(json_encode($dusun_gis))?>');
 			var jml = daftar_dusun.length;
 			var jml_path;
 			var content_dusun;
@@ -154,7 +154,7 @@
 		<?php endif; ?>
 
 
-		//WILAYAH rw
+		//WILAYAH RW
 		<?php if ($layer_rw==1 AND !empty($rw_gis)): ?>
 			//Style polygon
 			var rw_style = {
@@ -218,7 +218,7 @@
 			}
 		<?php endif; ?>
 
-		//WILAYAH rt
+		//WILAYAH RT
 		<?php if ($layer_rt==1 AND !empty($rt_gis)): ?>
 			//Style polygon
 			var rt_style = {
@@ -317,19 +317,10 @@
 					semua_marker.push(turf.point([daftar_lokasi[x].lng, daftar_lokasi[x].lat], {content: content,style: L.icon(point_style)}));
 			  }
 			}
-			<?php endif; ?>
+		<?php endif; ?>
 
 			//AREA
-			<?php if ($layer_area==1 AND !empty($area)): ?>
-			//Style polygon
-			var area_style = {
-			  stroke: true,
-			  color: '#FF0000',
-			  opacity: 1,
-			  weight: 2,
-			  fillColor: '#8888dd',
-			  fillOpacity: 0.5
-			}
+		<?php if ($layer_area==1 AND !empty($area)): ?>
 			var daftar_area = JSON.parse('<?=addslashes(json_encode($area))?>');
 			var jml = daftar_area.length;
 			var jml_path;
@@ -339,36 +330,97 @@
 
 			for (var x = 0; x < jml;x++)
 			{
-			  if (daftar_area[x].path)
+        if (daftar_area[x].path)
 			  {
-				daftar_area[x].path = JSON.parse(daftar_area[x].path)
-				jml_path = daftar_area[x].path[0].length;
-				for (var y = 0; y < jml_path; y++)
-				{
-				  daftar_area[x].path[0][y].reverse()
-				}
-				if (daftar_area[x].foto)
-				{
-				  foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_area[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
-				}
-				else
-				foto = "";
-				content_area =
-				'<div id="content">'+
-				'<div id="siteNotice">'+
-				'</div>'+
-				'<h4 id="firstHeading" class="firstHeading">'+daftar_area[x].nama+'</h4>'+
-				'<div id="bodyContent">'+ foto +
-				'<p>'+daftar_area[x].desk+'</p>'+
-				'</div>'+
-				'</div>';
+          daftar_area[x].path = JSON.parse(daftar_area[x].path)
+  				jml_path = daftar_area[x].path[0].length;
+  				for (var y = 0; y < jml_path; y++)
+  				{
+  				  daftar_area[x].path[0][y].reverse()
+  				}
+  				if (daftar_area[x].foto)
+  				{
+  				  foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_area[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+  				}
+  				else
+  				foto = "";
 
-				daftar_area[x].path[0].push(daftar_area[x].path[0][0])
-				//Menambahkan point ke marker
-				semua_marker.push(turf.polygon(daftar_area[x].path, {content: content_area, style: area_style}));
+          //Style polygon
+    			var area_style = {
+    			  stroke: true,
+    			  opacity: 1,
+    			  weight: 2,
+            fillColor: daftar_area[x].color,
+    			  fillOpacity: 0.5
+    			}
+  				content_area =
+  				'<div id="content">'+
+  				'<div id="siteNotice">'+
+  				'</div>'+
+  				'<h4 id="firstHeading" class="firstHeading">'+daftar_area[x].nama+'</h4>'+
+  				'<div id="bodyContent">'+ foto +
+  				'<p>'+daftar_area[x].desk+'</p>'+
+  				'</div>'+
+  				'</div>';
+
+          daftar_area[x].path[0].push(daftar_area[x].path[0][0])
+  				//Menambahkan point ke marker
+          semua_marker.push(turf.polygon(daftar_area[x].path, {content: content_area, style: area_style}));
 			  }
 			}
 		<?php endif; ?>
+
+    //GARIS
+    <?php if ($layer_garis==1 AND !empty($garis)): ?>
+	    var daftar_garis = JSON.parse('<?=addslashes(json_encode($garis))?>');
+	    var jml = daftar_garis.length;
+	    var coords;
+	    var lengthOfCoords;
+	    var foto;
+	    var content_garis;
+	    var lokasi_gambar = "<?= base_url().LOKASI_FOTO_garis?>";
+
+	    for (var x = 0; x < jml;x++)
+	    {
+	      if (daftar_garis[x].path)
+	      {
+	        daftar_garis[x].path = JSON.parse(daftar_garis[x].path)
+	        coords = daftar_garis[x].path;
+	        lengthOfCoords = coords.length;
+
+	        for (i = 0; i < lengthOfCoords; i++) 
+	        {
+	          holdLon = coords[i][0];
+	          coords[i][0] = coords[i][1];
+	          coords[i][1] = holdLon;
+	        }
+
+	        if (daftar_garis[x].foto)
+	        {
+	          foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_garis[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+	        }
+	        else
+	        foto = "";
+	        //Style polyline
+	        var garis_style = {
+	          stroke: true,
+	          opacity: 1,
+	          weight: 3,
+	          color: daftar_garis[x].color
+	        }
+	        content_garis =
+	        '<div id="content">'+
+	        '<div id="siteNotice">'+
+	        '</div>'+
+	        '<h4 id="firstHeading" class="firstHeading">'+daftar_garis[x].nama+'</h4>'+
+	        '<div id="bodyContent">'+ foto +
+	        '</div>'+
+	        '</div>';
+
+	        semua_marker.push(turf.lineString(coords, {content: content_garis, style: garis_style}));
+	      }
+	    }
+    <?php endif; ?>
 
 		//PENDUDUK
 		<?php if ($layer_penduduk==1 OR $layer_keluarga==1 AND !empty($penduduk)): ?>
@@ -599,7 +651,11 @@
 							  </label>
 							  <label>
 									<input type="checkbox" name="layer_lokasi" value="1"onchange="handle_lokasi(this);" <?php if ($layer_lokasi==1): ?>checked<?php endif; ?>>
-									<span> Lokasi/Properti Desa </span>
+									<span> Lokasi/Properti </span>
+							  </label>
+                <label>
+									<input type="checkbox" name="layer_garis" value="1"onchange="handle_garis(this);" <?php if ($layer_garis==1): ?>checked<?php endif; ?>>
+									<span> Garis </span>
 							  </label>
 							</div>
 					  </div>
@@ -643,6 +699,10 @@
 	{
 	  formAction('mainform', '<?=site_url('gis')?>/layer_lokasi');
 	}
+  function handle_garis(cb)
+	{
+	  formAction('mainform', '<?=site_url('gis')?>/layer_garis');
+	}
 	function AmbilFoto(foto, ukuran = "kecil_")
 	{
 	  ukuran_foto = ukuran || null
@@ -656,4 +716,3 @@
 	  return file_foto;
 	}
 </script>
-

@@ -48,22 +48,17 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['layer_dusun']);
 		unset($_SESSION['layer_rw']);
 		unset($_SESSION['layer_rt']);
+		unset($_SESSION['layer_garis']);
 		redirect('gis');
 	}
 
 	public function index()
 	{
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
+		$variabel_sesi = array('cari', 'filter', 'sex', 'agama');
+		foreach ($variabel_sesi as $variabel)
+		{
+			$data[$variabel] = $this->session->userdata($variabel) ?: '';
+		}
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -85,45 +80,11 @@ class Gis extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['layer_penduduk']))
-			$data['layer_penduduk'] = $_SESSION['layer_penduduk'];
-		else $data['layer_penduduk'] = 0;
-
-		if (isset($_SESSION['layer_keluarga']))
-			$data['layer_keluarga'] = $_SESSION['layer_keluarga'];
-		else $data['layer_keluarga'] = 0;
-
-		if (isset($_SESSION['layer_desa']))
-			$data['layer_desa'] = $_SESSION['layer_desa'];
-		else $data['layer_desa'] = 0;
-
-		if (isset($_SESSION['layer_wilayah']))
-			$data['layer_wilayah'] = $_SESSION['layer_wilayah'];
-		else $data['layer_wilayah'] = 0;
-
-		if (isset($_SESSION['layer_lokasi']))
-			$data['layer_lokasi'] = $_SESSION['layer_lokasi'];
-		else $data['layer_lokasi'] = 0;
-
-		if (isset($_SESSION['layer_area']))
-			$data['layer_area'] = $_SESSION['layer_area'];
-		else $data['layer_area'] = 0;
-
-		if (isset($_SESSION['layer_dusun']))
-			$data['layer_dusun'] = $_SESSION['layer_dusun'];
-		else $data['layer_dusun'] = 0;
-
-		if (isset($_SESSION['layer_rw']))
-			$data['layer_rw'] = $_SESSION['layer_rw'];
-		else $data['layer_rw'] = 0;
-
-		if (isset($_SESSION['layer_rt']))
-			$data['layer_rt'] = $_SESSION['layer_rt'];
-		else $data['layer_rt'] = 0;
+		$variabel_sesi = array('layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis');
+		foreach ($variabel_sesi as $variabel)
+		{
+			$data[$variabel] = $this->session->userdata($variabel) ?: 0;
+		}
 
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
@@ -135,7 +96,7 @@ class Gis extends Admin_Controller {
 		$data['area'] = $this->plan_area_model->list_data();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
-		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt'] = $this->wilayah_model->list_rt();
@@ -192,28 +153,19 @@ class Gis extends Admin_Controller {
 
 	public function layer_wilayah()
 	{
-		$layer_wilayah = $this->input->post('layer_wilayah');
-		if ($layer_wilayah == "")
-			$_SESSION['layer_wilayah'] = 0;
-		else $_SESSION['layer_wilayah'] = 1;
+		$_SESSION['layer_wilayah'] = $this->input->post('layer_wilayah') ? 1 : 0;
 		redirect('gis');
 	}
 
 	public function layer_area()
 	{
-		$layer_area = $this->input->post('layer_area');
-		if ($layer_area == "")
-			$_SESSION['layer_area'] = 0;
-		else $_SESSION['layer_area'] = 1;
+		$_SESSION['layer_area'] = $this->input->post('layer_area') ? 1 : 0;
 		redirect('gis');
 	}
 
 	public function layer_lokasi()
 	{
-		$layer_lokasi = $this->input->post('layer_lokasi');
-		if ($layer_lokasi == "")
-			$_SESSION['layer_lokasi'] = 0;
-		else $_SESSION['layer_lokasi'] = 1;
+		$_SESSION['layer_lokasi'] = $this->input->post('layer_lokasi') ? 1 : 0;
 		redirect('gis');
 	}
 
@@ -234,10 +186,7 @@ class Gis extends Admin_Controller {
 
 	public function layer_desa()
 	{
-		$layer_desa = $this->input->post('layer_desa');
-		if ($layer_desa == "")
-			$_SESSION['layer_desa'] = 0;
-		else $_SESSION['layer_desa'] = 1;
+		$_SESSION['layer_desa'] = $this->input->post('layer_desa') ? 1 : 0;
 		redirect('gis');
 	}
 
@@ -342,36 +291,25 @@ class Gis extends Admin_Controller {
 
 	public function layer_dusun()
 	{
-		$layer_dusun = $this->input->post('layer_dusun');
-		if ($layer_dusun == "")
-			$_SESSION['layer_dusun'] = 0;
-		else
-			$_SESSION['layer_dusun'] = 1;
-		$_SESSION['layer_desa'] = 1;
+		$_SESSION['layer_dusun'] = $this->input->post('layer_dusun') ? 1 : 0;
 		redirect('gis');
 	}
 
 	public function layer_rw()
 	{
-		$layer_rw = $this->input->post('layer_rw');
-		if ($layer_rw == "")
-			$_SESSION['layer_rw'] = 0;
-		else
-			$_SESSION['layer_rw'] = 1;
-		$_SESSION['layer_dusun'] = 1;
-		$_SESSION['layer_desa'] = 1;
+		$_SESSION['layer_rw'] = $this->input->post('layer_rw') ? 1 : 0;
 		redirect('gis');
 	}
 
 	public function layer_rt()
 	{
-		$layer_rt = $this->input->post('layer_rt');
-		if ($layer_rt == "")
-			$_SESSION['layer_rt'] = 0;
-		else
-			$_SESSION['layer_rt'] = 1;
-		$_SESSION['layer_dusun'] = 1;
-		$_SESSION['layer_desa'] = 1;
+		$_SESSION['layer_rt'] = $this->input->post('layer_rt') ? 1 : 0;
+		redirect('gis');
+	}
+
+	public function layer_garis()
+	{
+		$_SESSION['layer_garis'] = $this->input->post('layer_garis') ? 1 : 0;
 		redirect('gis');
 	}
 }
