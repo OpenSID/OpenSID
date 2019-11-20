@@ -70,6 +70,10 @@ class Migrasi_1911_ke_1912 extends CI_model {
 	  $this->dbforge->modify_column('lokasi', 'foto VARCHAR(100) NULL DEFAULT NULL');
 	  $this->dbforge->modify_column('lokasi', 'id_cluster INT(11) NULL DEFAULT NULL');
 	  $this->dbforge->modify_column('polygon', 'simbol VARCHAR(50) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('garis', "path TEXT NULL");
+	  $this->dbforge->modify_column('garis', "foto VARCHAR(100) NULL DEFAULT NULL");
+	  $this->dbforge->modify_column('garis', "desk TEXT NULL");
+	  $this->dbforge->modify_column('garis', "id_cluster INT(11) NULL DEFAULT NULL");
 
 	  // Pindahkan submenu Informasi Publik ke menu Sekretariat
 		$this->db->where('id', '52')->update('setting_modul', array('parent' => 15, 'urut' => 4));
