@@ -90,7 +90,7 @@
 
 
 		//WILAYAH DUSUN
-		<?php if ($layer_dusun==1 AND !empty($dusun)): ?>
+		<?php if ($layer_dusun==1 AND !empty($dusun_gis)): ?>
 			//Style polygon
 			var dusun_style = {
 			  stroke: true,
@@ -100,7 +100,7 @@
 			  fillColor: '#FFFF00',
 			  fillOpacity: 0.5
 			}
-			var daftar_dusun = JSON.parse('<?=addslashes(json_encode($dusun))?>');
+			var daftar_dusun = JSON.parse('<?=addslashes(json_encode($dusun_gis))?>');
 			var jml = daftar_dusun.length;
 			var jml_path;
 			var content_dusun;
