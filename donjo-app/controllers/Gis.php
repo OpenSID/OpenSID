@@ -97,9 +97,7 @@ class Gis extends Admin_Controller {
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw'] = $this->wilayah_model->list_rw();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt'] = $this->wilayah_model->list_rt();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
