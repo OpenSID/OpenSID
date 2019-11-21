@@ -33,6 +33,7 @@
                   <div id="map">
                     <input type="hidden" id="path" name="path" value="<?= $wil_ini['path']?>">
                     <input type="hidden" name="id" id="id"  value="<?= $wil_ini['id']?>"/>
+                    <input type="hidden" name="zoom" id="zoom"  value="<?= $wil_ini['zoom']?>"/>
                   </div>
                 </div>
               </div>
@@ -57,20 +58,61 @@
     //Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan peta desa
     <?php if (!empty($wil_ini['lat']) && !empty($wil_ini['lng'])): ?>
       var posisi = [<?=$wil_ini['lat'].",".$wil_ini['lng']?>];
-      var zoom = <?=$wil_ini['zoom'] ?: 10?>;
+      var zoom = <?=$wil_ini['zoom']?>;
     <?php else: ?>
       var posisi = [<?=$wil_atas['lat'].",".$wil_atas['lng']?>];
-      var zoom = <?=$wil_atas['zoom'] ?: 10?>;
+      var zoom = <?=$wil_atas['zoom']?>;
     <?php endif; ?>
-    //Menggunakan https://github.com/codeofsumit/leaflet.pm
+
     //Inisialisasi tampilan peta
     var peta_wilayah = L.map('map').setView(posisi, zoom);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      maxZoom: 18,
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-      id: 'mapbox.streets'
-    }).addTo(peta_wilayah);
+
+    //Menampilkan BaseLayers Peta
+    var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_wilayah);
+
+    //Menampilkan overlayLayers Peta Wilayah di Atasnya
+    <?php if (!empty($wil_atas['path'])): ?>
+    var daerah_wil_atas = <?=$wil_atas['path']?>;
+    var poligon_wil_atas = L.polygon(daerah_wil_atas, {pmIgnore: true, color: 'red',opacity: 1, fillColor: 'blue', fillOpacity: 0.1, weight: 2});
+    <?php endif; ?>
+
+		var baseLayers = {
+			'OpenStreetMap': defaultLayer,
+      'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT')
+		};
+
+		var overlayLayers = {
+			'Peta Administratif': poligon_wil_atas
+		};
+
+    //Menampilkan Peta wilayah yg sudah ada
+    <?php if (!empty($wil_ini['path'])): ?>
+      var daerah_wilayah = <?=$wil_ini['path']?>;
+
+      //Titik awal dan titik akhir poligon harus sama
+      daerah_wilayah[0].push(daerah_wilayah[0][0]);
+
+      var poligon_wilayah = L.polygon(daerah_wilayah).addTo(peta_wilayah);
+      poligon_wilayah.on('pm:edit', function(e)
+      {
+        document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+        document.getElementById('zoom').value = peta_wilayah.getZoom();
+      })
+
+      var layer = poligon_wilayah;
+      var geojson = layer.toGeoJSON();
+      var shape_for_db = JSON.stringify(geojson);
+      var gpxData = togpx(JSON.parse(shape_for_db));
+
+      $("#exportGPX").on('click', function (event) {
+        data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+        $(this).attr({
+          'href': data,
+          'target': '_blank'
+        });
+      });
+      //setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
+    <?php endif; ?>
 
     //Tombol yang akan dimunculkan di peta
     var options =
@@ -109,6 +151,7 @@
       polygon.on('pm:edit', function(e)
       {
         document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+        document.getElementById('zoom').value = peta_wilayah.getZoom();
       });
     });
 
@@ -172,7 +215,6 @@
         },
         onEachFeature: function (feature, layer) {
           coords.push(feature.geometry.coordinates);
-
         },
 
       }).addTo(peta_wilayah);
@@ -187,9 +229,11 @@
       polygon.on('pm:edit', function(e)
       {
         document.getElementById('path').value = JSON.stringify(coords);
+        document.getElementById('zoom').value = peta_wilayah.getZoom();
       });
 
       document.getElementById('path').value = JSON.stringify(coords);
+      document.getElementById('zoom').value = peta_wilayah.getZoom();
     });
 
     //Menghapus Peta wilayah
@@ -198,20 +242,7 @@
       document.getElementById('path').value = '';
     })
 
-    //Merubah Peta wilayah yg sudah ada
-    <?php if (!empty($wil_ini['path'])): ?>
-      var daerah_wilayah = <?=$wil_ini['path']?>;
-
-      //Titik awal dan titik akhir poligon harus sama
-      daerah_wilayah[0].push(daerah_wilayah[0][0]);
-
-      var poligon_wilayah = L.polygon(daerah_wilayah).addTo(peta_wilayah);
-      poligon_wilayah.on('pm:edit', function(e)
-      {
-        document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-      })
-      setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
-    <?php endif; ?>
+    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
 
     //Fungsi
     function getLatLong(x, y)
@@ -231,9 +262,7 @@
 
   }; //EOF window.onload
 </script>
-
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
-<script src="<?= base_url()?>assets/js/togpx.js"></script>
