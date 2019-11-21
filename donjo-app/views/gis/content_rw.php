@@ -8,7 +8,7 @@
 					<div class="collapse box-body no-padding" id="collapseStat_<?= $key_rw ?>">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/pie_gis_rw/2/$key/".trim($rw[dusun])."/".trim($rw[rw]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw'] ?>"><?= $value ?></a></li>
+								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/pie_gis_rw/2/$key/".trim($rw[dusun])."/".trim($rw[rw]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>

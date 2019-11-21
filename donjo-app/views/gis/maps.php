@@ -57,9 +57,6 @@
 			// Diambil dari "donjo-app/views/gis/content_desa.php" yang di-include 
 			// Cara ini digunakan untuk lebih mudah di-maintain
 			content_desa = $('#isi_popup').html();
-			$('#isi_popup').remove();
-			$('#isi_popup_dusun').remove();
-			$('#isi_popup_rw').remove();
 
 			//Menambahkan poligon ke marker
 			semua_marker.push(turf.polygon(daerah_desa, {content: content_desa, style: style_polygon}))
@@ -106,9 +103,6 @@
 					semua_marker.push(turf.point([daftar_dusun[x].lng,daftar_dusun[x].lat], {content: "Kantor Dusun " +daftar_dusun[x].dusun}))
 			  }
 			}
-			$('#isi_popup').remove();
-			$('#isi_popup_dusun').remove();
-			$('#isi_popup_rw').remove();
 		<?php endif; ?>
 
 
@@ -150,9 +144,6 @@
 					semua_marker.push(turf.point([daftar_rw[x].lng,daftar_rw[x].lat], {content: "Kantor RW " +daftar_rw[x].rw}))
 			  }
 			}
-			$('#isi_popup').remove();
-			$('#isi_popup_dusun').remove();
-			$('#isi_popup_rw').remove();
 		<?php endif; ?>
 
 		//WILAYAH RT
@@ -218,6 +209,10 @@
 			  }
 			}
 		<?php endif; ?>
+
+		$('#isi_popup').remove();
+		$('#isi_popup_dusun').remove();
+		$('#isi_popup_rw').remove();
 
 		//LOKASI DAN PROPERTI
 		<?php if ($layer_lokasi == 1 AND !empty($lokasi)): ?>
