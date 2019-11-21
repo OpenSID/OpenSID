@@ -4,7 +4,7 @@
 			<div id="content">
 				<center><h4 id="firstHeading" class="firstHeading">Wilayah RW <?= $rw['rw'] . " " . ucwords($this->setting->sebutan_dusun) . " " . $rw['dusun']?></h4></center>
 				<div id="bodyContent">
-					<p><center><a href="#collapseStat" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStat" aria-expanded="false" aria-controls="collapseStat"><i class="fa  fa-bar-chart"></i>Statistik Penduduk RW <?= $rw['rw'] ?></a></center></p>
+					<p><center><a href="#collapseStat" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStat" aria-expanded="false" aria-controls="collapseStat"><i class="fa  fa-bar-chart"></i>Statistik Penduduk</a></center></p>
 					<div class="collapse box-body no-padding" id="collapseStat">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
