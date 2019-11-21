@@ -1,6 +1,6 @@
 <div id="isi_popup_dusun">
-	<?php foreach ($dusun_gis as $key => $dusun): ?>
-		<div id="isi_popup_dusun_<?= $key ?>" style="visibility: hidden;">
+	<?php foreach ($dusun_gis as $key_dusun => $dusun): ?>
+		<div id="isi_popup_dusun_<?= $key_dusun ?>" style="visibility: hidden;">
 			<div id="content">
 				<center><h4 id="firstHeading" class="firstHeading">Wilayah <?= $wilayah . $dusun['dusun']?></h4></center>
 				<div id="bodyContent">
@@ -8,7 +8,7 @@
 					<div class="collapse box-body no-padding" id="collapseStat">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/pie_gis_dusun/2/$key/"."'".$dusun['dusun']."'")?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
+								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/pie_gis_dusun/2/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>
