@@ -54,33 +54,11 @@
 			  fillOpacity: 0.5
 			};
 
-			content_desa =
-			'<div id="content">'+
-			'<center><h4 id="firstHeading" class="firstHeading">Wilayah <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'</h4></center>'+
-			'<div id="bodyContent">'+
-			'<p><center><a href="#collapseStat" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStat" aria-expanded="false" aria-controls="collapseStat"><i class="fa  fa-bar-chart"></i>Statistik Penduduk</center></p>'+
-			'<div class="collapse box-body no-padding" id="collapseStat">'+
-			'<div class="card card-body">'+
-			'<li class="<?php ($lap==13) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/13/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Umur</a></li>'+
-			'<li class="<?php ($lap==0) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/0/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Pendidikan dalam KK</a></li>'+
-			'<li class="<?php ($lap==14) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/14/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Pendidikan sedang Ditempuh</a></li>'+
-			'<li class="<?php ($lap==1) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/1/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Pekerjaan</a></li>'+
-			'<li class="<?php ($lap==2) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/2/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Status Perkawinan</a></li>'+
-			'<li class="<?php ($lap==3) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/3/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Agama</a></li>'+
-			'<li class="<?php ($lap==4) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/4/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Jenis Kelamin</a></li>'+
-			'<li class="<?php ($lap==5) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/5/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Warga Negara</a></li>'+
-			'<li class="<?php ($lap==6) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/6/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Status Penduduk</a></li>'+
-			'<li class="<?php ($lap==7) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/7/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'"> Golongan Darah</a></li>'+
-			'<li class="<?php ($lap==9) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/9/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Penyandang Cacat</a></li>'+
-			'<li class="<?php ($lap==10) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/10/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Sakit Menahun</a></li>'+
-			'<li class="<?php ($lap==16) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/16/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?>' +daftar_desa.nama_desa+'">Akseptor KB</a></li>'+
-			'<li class="<?php ($lap==17) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/17/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Akte Kelahiran</a></li>'+
-			'<li class="<?php ($lap==18) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/18/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Kepemilikan KTP</a></li>'+
-			'<li class="<?php ($lap==19) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_desa/19/'+daftar_desa.nama_desa+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_desa)?> '+daftar_desa.nama_desa+'">Jenis Asuransi</a></li>'+
-			'</div>'+
-			'</div>'+
-			'</div>'+
-			'</div>';
+			// Diambil dari "donjo-app/views/gis/content_desa.php" yang di-include 
+			// Cara ini digunakan untuk lebih mudah di-maintain
+			content_desa = $('#isi_popup').html();
+			$('#isi_popup').remove();
+			$('#isi_popup_dusun').remove();
 
 			//Menambahkan poligon ke marker
 			semua_marker.push(turf.polygon(daerah_desa, {content: content_desa, style: style_polygon}))
@@ -116,33 +94,11 @@
 					  daftar_dusun[x].path[0][y].reverse()
 					}
 
-					content_dusun =
-					'<div id="content">'+
-					'<center><h4 id="firstHeading" class="firstHeading">Wilayah <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'</center></h4>'+
-					'<div id="bodyContent">'+
-					'<p><center><a href="#collapseStat" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStat" aria-expanded="false" aria-controls="collapseStat"><i class="fa  fa-bar-chart"></i>Statistik Penduduk</center></p>'+
-					'<div class="collapse box-body no-padding" id="collapseStat">'+
-					'<div class="card card-body">'+
-					'<li class="<?php ($lap==13) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/13/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+' ">Umur</a></li>'+
-					'<li class="<?php ($lap==0) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/0/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Pendidikan dalam KK</a></li>'+
-					'<li class="<?php ($lap==14) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/14/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Pendidikan sedang Ditempuh</a></li>'+
-					'<li class="<?php ($lap==1) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/1/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Pekerjaan</a></li>'+
-					'<li class="<?php ($lap==2) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/2/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Status Perkawinan</a></li>'+
-					'<li class="<?php ($lap==3) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/3/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Agama</a></li>'+
-					'<li class="<?php ($lap==4) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/4/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Jenis Kelamin</a></li>'+
-					'<li class="<?php ($lap==5) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/5/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Warga Negara</a></li>'+
-					'<li class="<?php ($lap==6) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/6/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Status Penduduk</a></li>'+
-					'<li class="<?php ($lap==7) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/7/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'"> Golongan Darah</a></li>'+
-					'<li class="<?php ($lap==9) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/9/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Penyandang Cacat</a></li>'+
-					'<li class="<?php ($lap==10) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/10/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Sakit Menahun</a></li>'+
-					'<li class="<?php ($lap==16) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/16/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?>' +daftar_dusun[x].dusun+'">Akseptor KB</a></li>'+
-					'<li class="<?php ($lap==17) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/17/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Akte Kelahiran</a></li>'+
-					'<li class="<?php ($lap==18) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/18/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Kepemilikan KTP</a></li>'+
-					'<li class="<?php ($lap==19) and print("active") ?>"><a href="<?=site_url("statistik/pie_gis_dusun/2/19/'+daftar_dusun[x].dusun+'")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?=ucwords($this->setting->sebutan_dusun)?> '+daftar_dusun[x].dusun+'">Jenis Asuransi</a></li>'+
-					'</div>'+
-					'</div>'+
-					'</div>'+
-					'</div>';
+					// Diambil dari "donjo-app/views/gis/content_dusun.php" yang di-include 
+					// Cara ini digunakan untuk lebih mudah di-maintain
+					content_dusun = $('#isi_popup_dusun_' + x).html();
+					$('#isi_popup').remove();
+					$('#isi_popup_dusun').remove();
 
 					daftar_dusun[x].path[0].push(daftar_dusun[x].path[0][0])
 					//Menambahkan poligon ke marker
@@ -539,6 +495,8 @@
 					  <a class="leaflet-control-control icos" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i class="fa fa-gears"></i></a>
 					  <a class="leaflet-control-control icos" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i class="fa fa-list"></i></a>
 					</div>
+					<?php $this->load->view("gis/content_desa.php", array('desa' => $desa, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
+					<?php $this->load->view("gis/content_dusun.php", array('dusun_gis' => $dusun_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
 					<div id="target1" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden" aria-haspopup="true" style="max-width: 250px;">
 					  <div class="leaflet-control-layers-overlays">
 							<div class="leaflet-control-layers-group" id="leaflet-control-layers-group-2">
