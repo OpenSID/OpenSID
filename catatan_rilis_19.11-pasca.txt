@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 14. Sekarang data peta dalam format GPX/KML dapat diimpor ke peta kantor/wilayah desa/dusun/rw/rt.
 15. #2454: Ekspor perubahan data informasi publik sejak tanggal tertentu.
 16. #1550: Sekarang peta Lokasi/Garis/Area bisa diimpor dari file GPX/KML dan bisa diekspor ke file GPX/KML.
+17. Fitur Pemetaan > Peta dan Pemetaan > Pengaturan Peta telah banyak dilengkapi, termasuk penampilan statistik penduduk per wilayah administratif di peta.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
