@@ -8,7 +8,7 @@
 					<div class="collapse box-body no-padding" id="collapseStat">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/pie_gis_rw/2/$key/".trim($rw[dusun])."/".trim($rw[rw]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw']?>"><?= $value ?></a></li>
+								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/chart_gis_rw/pie/2/$key/".trim($rw[dusun])."/".trim($rw[rw]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw']?> <?= $wilayah . $rw['dusun']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>
@@ -16,7 +16,7 @@
 					<div class="collapse box-body no-padding" id="collapseStatGraph">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/graph_gis_rw/1/$key/".trim($rw[dusun])."/".trim($rw[rw]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw']?>"><?= $value ?></a></li>
+								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/chart_gis_rw/bar/1/$key/".trim($rw[dusun])."/".trim($rw[rw]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw']?> <?= $wilayah . $rw['dusun']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>

@@ -8,7 +8,7 @@
 					<div class="collapse box-body no-padding" id="collapseStat">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/pie_gis_dusun/2/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
+								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/chart_gis_dusun/pie/2/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>
@@ -16,7 +16,7 @@
 					<div class="collapse box-body no-padding" id="collapseStatGraph">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/graph_gis_dusun/1/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
+								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/chart_gis_dusun/bar/1/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>

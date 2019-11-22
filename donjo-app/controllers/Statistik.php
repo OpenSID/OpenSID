@@ -300,7 +300,7 @@ class Statistik extends Admin_Controller {
 		return $tipe_stat[$index];
 	}
 
-	public function graph_gis_desa($lap = 0, $desa = '' )
+	public function chart_gis_desa($chart = 'pie', $lap = 0, $desa = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
@@ -308,21 +308,10 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_graph_gis/$lap");
+		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
 
-	public function pie_gis_desa($lap = 0, $desa = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
-		$this->session->unset_userdata('dusun');
-		$this->session->unset_userdata('rw');
-		$this->session->unset_userdata('rt');
-
-		redirect("statistik/load_pie_gis/$lap");
-	}
-
-	public function load_graph_gis($lap = 0)
+	public function load_chart_gis($lap = 0, $chart = 'pie')
 	{
 		$cluster_session = $this->get_cluster_session();
 		foreach ($cluster_session as $key => $value)
@@ -331,80 +320,38 @@ class Statistik extends Admin_Controller {
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
+		$data['jenis_chart'] = $chart;
 		$this->get_data_stat($data, $lap);
-		$this->load->view('statistik/penduduk_graph_gis', $data);
+		$this->load->view('statistik/penduduk_gis', $data);
 	}
 
-	public function load_pie_gis($lap = 0)
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['lap'] = $lap;
-		$this->get_data_stat($data, $lap);
-		$this->load->view('statistik/penduduk_pie_gis', $data);
-	}
-
-	public function graph_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
+	public function chart_gis_dusun($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_graph_gis/$lap");
+		redirect("statistik/load_chart_gis/$lap/chart");
 	}
 
-	public function pie_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		$this->session->unset_userdata('rw');
-		$this->session->unset_userdata('rt');
-
-		redirect("statistik/load_pie_gis/$lap");
-	}
-
-	public function graph_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	public function chart_gis_rw($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
 		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_graph_gis/$lap");
+		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
 
-	public function pie_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
-		$this->session->unset_userdata('rt');
-
-		redirect("statistik/load_pie_gis/$lap");
-	}
-
-	public function graph_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	public function chart_gis_rt($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
 		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
 		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
 
-		redirect("statistik/load_graph_gis/$lap");
-	}
-
-	public function pie_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
-		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
-
-		redirect("statistik/load_pie_gis/$lap");
+		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
 }
