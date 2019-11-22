@@ -77,6 +77,9 @@
       var overlayLayers = {
         'Peta Administratif': poligon_wil_atas
       };
+    <?php else: ?>
+      var overlayLayers = {
+      };
     <?php endif; ?>
 
 		var baseLayers = {
@@ -250,14 +253,7 @@
       document.getElementById('path').value = '';
     })
 
-    if (typeof overlayLayers !== 'undefined') 
-    {
-      L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
-    }
-    else
-    {
-      L.control.layers(baseLayers).addTo(peta_wilayah);
-    }
+    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
 
     //Fungsi
     function getLatLong(x, y)
