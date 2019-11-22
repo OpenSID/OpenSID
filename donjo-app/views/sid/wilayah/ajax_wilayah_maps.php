@@ -111,7 +111,9 @@
           'target': '_blank'
         });
       });
-      //setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
+
+      setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
+
     <?php endif; ?>
 
     //Tombol yang akan dimunculkan di peta
@@ -128,6 +130,9 @@
       editMode: true, // adds button to toggle edit mode for all layers
       removalMode: true, // adds a button to remove layers
     };
+
+    //Menambahkan zoom scale ke peta
+    L.control.scale().addTo(peta_wilayah);
 
     //Menambahkan toolbar ke peta
     peta_wilayah.pm.addControls(options);
@@ -153,6 +158,8 @@
         document.getElementById('path').value = getLatLong('Poly', e.target).toString();
         document.getElementById('zoom').value = peta_wilayah.getZoom();
       });
+
+      peta_wilayah.fitBounds(polygon.getBounds());
     });
 
     //Unggah Peta dari file GPX/KML
@@ -234,6 +241,7 @@
 
       document.getElementById('path').value = JSON.stringify(coords);
       document.getElementById('zoom').value = peta_wilayah.getZoom();
+      peta_wilayah.fitBounds(polygon.getBounds());
     });
 
     //Menghapus Peta wilayah
