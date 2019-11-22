@@ -54,7 +54,7 @@
 			  fillOpacity: 0.5
 			};
 
-			// Diambil dari "donjo-app/views/gis/content_desa.php" yang di-include 
+			// Diambil dari "donjo-app/views/gis/content_desa.php" yang di-include
 			// Cara ini digunakan untuk lebih mudah di-maintain
 			content_desa = $('#isi_popup').html();
 
@@ -92,7 +92,7 @@
 					  daftar_dusun[x].path[0][y].reverse()
 					}
 
-					// Diambil dari "donjo-app/views/gis/content_dusun.php" yang di-include 
+					// Diambil dari "donjo-app/views/gis/content_dusun.php" yang di-include
 					// Cara ini digunakan untuk lebih mudah di-maintain
 					content_dusun = $('#isi_popup_dusun_' + x).html();
 
@@ -100,7 +100,10 @@
 					//Menambahkan poligon ke marker
 					semua_marker.push(turf.polygon(daftar_dusun[x].path, {content: content_dusun, style: dusun_style}));
 					//Menambahkan point kantor desa
+          if (daftar_dusun[x].lng)
+          {
 					semua_marker.push(turf.point([daftar_dusun[x].lng,daftar_dusun[x].lat], {content: "Kantor Dusun " +daftar_dusun[x].dusun}))
+          }
 			  }
 			}
 		<?php endif; ?>
@@ -133,7 +136,7 @@
 					  daftar_rw[x].path[0][y].reverse()
 					}
 
-					// Diambil dari "donjo-app/views/gis/content_rw.php" yang di-include 
+					// Diambil dari "donjo-app/views/gis/content_rw.php" yang di-include
 					// Cara ini digunakan untuk lebih mudah di-maintain
 					content_rw = $('#isi_popup_rw_' + x).html();
 
@@ -141,7 +144,10 @@
 					//Menambahkan poligon ke marker
 					semua_marker.push(turf.polygon(daftar_rw[x].path, {content: content_rw, style: rw_style}));
 					//Menambahkan point kantor desa
+          if (daftar_rw[x].lng)
+          {
 					semua_marker.push(turf.point([daftar_rw[x].lng,daftar_rw[x].lat], {content: "Kantor RW " +daftar_rw[x].rw}))
+          }
 			  }
 			}
 		<?php endif; ?>
@@ -173,7 +179,7 @@
 					  daftar_rt[x].path[0][y].reverse()
 					}
 
-					// Diambil dari "donjo-app/views/gis/content_rw.php" yang di-include 
+					// Diambil dari "donjo-app/views/gis/content_rw.php" yang di-include
 					// Cara ini digunakan untuk lebih mudah di-maintain
 					content_rt = $('#isi_popup_rt_' + x).html();
 
@@ -181,7 +187,10 @@
 					//Menambahkan poligon ke marker
 					semua_marker.push(turf.polygon(daftar_rt[x].path, {content: content_rt, style: rt_style}));
 					//Menambahkan point kantor desa
+          if (daftar_rt[x].lng)
+          {
 					semua_marker.push(turf.point([daftar_rt[x].lng,daftar_rt[x].lat], {content: "Kantor RT " +daftar_rt[x].rt}))
+          }
 			  }
 			}
 		<?php endif; ?>

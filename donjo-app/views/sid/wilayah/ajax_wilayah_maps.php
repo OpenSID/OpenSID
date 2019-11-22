@@ -72,17 +72,16 @@
 
     //Menampilkan overlayLayers Peta Wilayah di Atasnya
     <?php if (!empty($wil_atas['path'])): ?>
-    var daerah_wil_atas = <?=$wil_atas['path']?>;
-    var poligon_wil_atas = L.polygon(daerah_wil_atas, {pmIgnore: true, color: 'red',opacity: 1, fillColor: 'blue', fillOpacity: 0.1, weight: 2});
+      var daerah_wil_atas = <?=$wil_atas['path']?>;
+      var poligon_wil_atas = L.polygon(daerah_wil_atas, {pmIgnore: true, color: 'red',opacity: 1, fillColor: 'blue', fillOpacity: 0.1, weight: 2});
+      var overlayLayers = {
+        'Peta Administratif': poligon_wil_atas
+      };
     <?php endif; ?>
 
 		var baseLayers = {
 			'OpenStreetMap': defaultLayer,
       'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT')
-		};
-
-		var overlayLayers = {
-			'Peta Administratif': poligon_wil_atas
 		};
 
     //Menampilkan Peta wilayah yg sudah ada
@@ -111,7 +110,10 @@
           'target': '_blank'
         });
       });
-      //setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
+
+      peta_wilayah.panTo(poligon_wilayah.getBounds().getCenter());
+      // setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
+
     <?php endif; ?>
 
     //Tombol yang akan dimunculkan di peta
@@ -128,6 +130,9 @@
       editMode: true, // adds button to toggle edit mode for all layers
       removalMode: true, // adds a button to remove layers
     };
+
+    //Menambahkan zoom scale ke peta
+    L.control.scale().addTo(peta_wilayah);
 
     //Menambahkan toolbar ke peta
     peta_wilayah.pm.addControls(options);
@@ -153,6 +158,8 @@
         document.getElementById('path').value = getLatLong('Poly', e.target).toString();
         document.getElementById('zoom').value = peta_wilayah.getZoom();
       });
+
+      peta_wilayah.fitBounds(polygon.getBounds());
     });
 
     //Unggah Peta dari file GPX/KML
@@ -234,6 +241,7 @@
 
       document.getElementById('path').value = JSON.stringify(coords);
       document.getElementById('zoom').value = peta_wilayah.getZoom();
+      peta_wilayah.fitBounds(polygon.getBounds());
     });
 
     //Menghapus Peta wilayah
@@ -242,7 +250,14 @@
       document.getElementById('path').value = '';
     })
 
-    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
+    if (typeof overlayLayers !== 'undefined') 
+    {
+      L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
+    }
+    else
+    {
+      L.control.layers(baseLayers).addTo(peta_wilayah);
+    }
 
     //Fungsi
     function getLatLong(x, y)
