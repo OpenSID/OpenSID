@@ -160,6 +160,19 @@ window.onload = function()
 			document.getElementById('path').value = getLatLong('Line', e.target).toString();
 		})
 		setTimeout(function() {peta_garis.invalidateSize();peta_garis.fitBounds(poligon_garis.getBounds());}, 500);
+
+		var layer = poligon_garis;
+		var geojson = layer.toGeoJSON();
+		var shape_for_db = JSON.stringify(geojson);
+		var gpxData = togpx(JSON.parse(shape_for_db));
+
+		$("#exportGPX").on('click', function (event) {
+			data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+			$(this).attr({
+				'href': data,
+				'target': '_blank'
+			});
+		});
 	<?php endif; ?>
 
 	//Fungsi
@@ -250,4 +263,3 @@ window.onload = function()
 	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 	<script src="<?= base_url()?>assets/js/togeojson.js"></script>
-	<script src="<?= base_url()?>assets/js/togpx.js"></script>
