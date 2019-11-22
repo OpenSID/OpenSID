@@ -72,17 +72,16 @@
 
     //Menampilkan overlayLayers Peta Wilayah di Atasnya
     <?php if (!empty($wil_atas['path'])): ?>
-    var daerah_wil_atas = <?=$wil_atas['path']?>;
-    var poligon_wil_atas = L.polygon(daerah_wil_atas, {pmIgnore: true, color: 'red',opacity: 1, fillColor: 'blue', fillOpacity: 0.1, weight: 2});
+      var daerah_wil_atas = <?=$wil_atas['path']?>;
+      var poligon_wil_atas = L.polygon(daerah_wil_atas, {pmIgnore: true, color: 'red',opacity: 1, fillColor: 'blue', fillOpacity: 0.1, weight: 2});
+      var overlayLayers = {
+        'Peta Administratif': poligon_wil_atas
+      };
     <?php endif; ?>
 
 		var baseLayers = {
 			'OpenStreetMap': defaultLayer,
       'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT')
-		};
-
-		var overlayLayers = {
-			'Peta Administratif': poligon_wil_atas
 		};
 
     //Menampilkan Peta wilayah yg sudah ada
@@ -112,7 +111,8 @@
         });
       });
 
-      setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
+      peta_wilayah.panTo(poligon_wilayah.getBounds().getCenter());
+      // setTimeout(function() {peta_wilayah.invalidateSize();peta_wilayah.fitBounds(poligon_wilayah.getBounds());}, 500);
 
     <?php endif; ?>
 
@@ -250,7 +250,14 @@
       document.getElementById('path').value = '';
     })
 
-    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
+    if (typeof overlayLayers !== 'undefined') 
+    {
+      L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
+    }
+    else
+    {
+      L.control.layers(baseLayers).addTo(peta_wilayah);
+    }
 
     //Fungsi
     function getLatLong(x, y)
