@@ -261,11 +261,11 @@
 	}
 
 	function hari($tgl){
-    $hari = array(
-      0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'
-    );
+		$hari = array(
+			0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'
+		);
 		$dayofweek = date('w', $tgl);
-    return $hari[$dayofweek];
+		return $hari[$dayofweek];
 	}
 
 	function dua_digit($i){
@@ -534,6 +534,14 @@ function fTampilTgl($sdate,$edate){
 		}
 	}
 	return $tgl;
+}
+
+// https://stackoverflow.com/questions/19271381/correctly-determine-if-date-string-is-a-valid-date-in-that-format
+function validate_date($date, $format = 'd-m-Y')
+{
+	$d = DateTime::createFromFormat($format, $date);
+	// The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+	return $d && $d->format($format) === $date;
 }
 
 // Potong teks pada batasan kata

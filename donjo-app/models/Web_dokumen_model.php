@@ -386,6 +386,22 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
+	/**
+	 * Ambil nama berkas dari database berdasarkan id dokumen
+	 * @param  string       $id  			Id pada tabel dokumen
+	 * @return  string|NULL
+	 */
+	public function get_nama_berkas($id)
+	{
+		// Ambil nama berkas dari database untuk dokumen yg aktif
+		$nama_berkas = $this->db->select('satuan')
+			->where('id', $id)			
+			->where('id_pend', 0)
+			->where('enabled', 1)
+			->get('dokumen')->row()->satuan;
+		return $nama_berkas;
+	}
+
 	public function kat_nama($kat=1)
 	{
 		$kategori = $this->list_kategori();
@@ -470,6 +486,20 @@ class Web_dokumen_model extends CI_Model {
 			$data[$i]['no'] = $i + 1;
 			$data[$i]['attr'] = json_decode($dok['attr'], true);
 		}
+		return $data;
+	}
+
+	public function data_ppid($tgl_dari=NULL)
+	{
+		$kode_desa = $this->db->select('kode_desa')
+			->limit(1)->get('config')
+			->row()->kode_desa;
+		$lokasi_dokumen = base_url('desa/upload/dokumen/');
+		$this->db->select("id, '{$kode_desa}' as kode_desa, CONCAT('{$lokasi_dokumen}', satuan) as dokumen, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun");
+		if (empty($tgl_dari))
+			$data = $this->ekspor_semua_data();
+		else
+			$data = $this->ekspor_perubahan_data($tgl_dari);
 		return $data;
 	}
 

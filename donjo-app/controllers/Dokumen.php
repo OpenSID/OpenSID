@@ -205,4 +205,19 @@ class Dokumen extends Admin_Controller {
 		$this->load->view("dokumen/dokumen_excel", $data);
 	}
 
+  	/**
+	 * Unduh berkas scan berdasarkan kolom surat_keluar.id
+	 * @param   integer  $idSuratMasuk  Id berkas scan pada koloam surat_keluar.id
+	 * @return  void
+	 */
+	public function unduh_berkas_scan($id_dokumen)
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
+		if ($berkas)
+			ambilBerkas($berkas, $_SERVER['HTTP_REFERER'], '', LOKASI_DOKUMEN);
+		else
+			$this->output->set_status_header('404');
+	}
+
 }
