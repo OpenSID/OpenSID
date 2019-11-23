@@ -22,11 +22,11 @@
       <li class="active">Peta Wilayah <?= $wilayah ?></li>
     </ol>
   </section>
-  <section class="content" id="maincontent">
+  <section class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="box box-info">
-          <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+          <form action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="box-body">
               <div class="row">
                 <div class="col-sm-12">
@@ -273,7 +273,5 @@
 
   }; //EOF window.onload
 </script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
