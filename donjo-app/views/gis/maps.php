@@ -16,15 +16,21 @@
 			var zoom   = 10;
 		<?php endif; ?>
 
-		//Membuat peta, dan menyimpannya ke variabel 'peta' secara global
-		var mymap = L.map('map').setView(posisi, zoom);
+		//Inisialisasi tampilan peta
+    var mymap = L.map('map').setView(posisi, zoom);
 
-		//Menambahkan tile layer OSM ke peta
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',	{
-		  maxZoom: 19,
-		  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-		  id: 'mapbox.streets'
-		}).addTo(mymap); //Menambahkan tile layer ke variabel 'peta'
+    //Menampilkan BaseLayers Peta
+    var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(mymap);
+
+    var baseLayers = {
+      'OpenStreetMap': defaultLayer,
+      'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
+      'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+      'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+      'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+    };
+
+    L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(mymap);
 
 		//Semua marker akan ditampung divariabel ini
 		var semua_marker = [];
@@ -448,7 +454,7 @@
 
 </style>
 <div class="content-wrapper">
-  <form id="mainform" name="mainform" action="" method="post">
+  <form id="mainform_map" name="mainform_map" action="" method="post">
 		<div class="row">
 		  <div class="col-md-12">
 				<div id="map">
@@ -468,7 +474,7 @@
 							  <div class="leaflet-control-layers-separator"></div>
 							  <div class="form-group">
 									<label>Status Penduduk</label>
-									<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url('gis/filter')?>')">
+									<select class="form-control input-sm " name="filter" onchange="formAction('mainform_map','<?= site_url('gis/filter')?>')">
 									  <option value="">Status</option>
 									  <option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
 									  <option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Pasif</option>
@@ -477,7 +483,7 @@
 							  </div>
 							  <div class="form-group">
 									<label>Jenis Kelamin</label>
-									<select class="form-control input-sm " name="sex" onchange="formAction('mainform','<?= site_url('gis/sex')?>')">
+									<select class="form-control input-sm " name="sex" onchange="formAction('mainform_map','<?= site_url('gis/sex')?>')">
 									  <option value="">Jenis Kelamin</option>
 									  <option value="1" <?php if ($sex==1): ?>selected<?php endif ?>>Laki-laki</option>
 									  <option value="2" <?php if ($sex==2): ?>selected<?php endif ?>>Perempuan</option>
@@ -485,7 +491,7 @@
 							  </div>
 							  <div class="form-group">
 									<label>Dusun</label>
-									<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('gis/dusun')?>')">
+									<select class="form-control input-sm " name="dusun" onchange="formAction('mainform_map','<?= site_url('gis/dusun')?>')">
 									  <option value=""><?=ucwords($this->setting->sebutan_dusun)?></option>
 									  <?php foreach ($list_dusun AS $data): ?>
 											<option <?php if ($dusun==$data['dusun']): ?>selected<?php endif ?> value="<?=$data['dusun']?>"><?=$data['dusun']?></option>
@@ -495,7 +501,7 @@
 							  <?php if ($dusun): ?>
 									<div class="form-group">
 									  <label>RW</label>
-									  <select class="form-control input-sm " name="rw" onchange="formAction('mainform','<?= site_url('gis/rw')?>')">
+									  <select class="form-control input-sm " name="rw" onchange="formAction('mainform_map','<?= site_url('gis/rw')?>')">
 											<option value="">RW</option>
 											<?php foreach ($list_rw AS $data): ?>
 											  <option <?php if ($rw==$data['rw']): ?>selected<?php endif ?>><?=$data['rw']?></option>
@@ -505,7 +511,7 @@
 									<?php if ($rw): ?>
 									  <div class="form-group">
 											<label>RT</label>
-											<select class="form-control input-sm " name="rt" onchange="formAction('mainform','<?= site_url('gis/rt')?>')">
+											<select class="form-control input-sm " name="rt" onchange="formAction('mainform_map','<?= site_url('gis/rt')?>')">
 											  <option value="">RT</option>
 											  <?php foreach ($list_rt AS $data): ?>
 													<option <?php if ($rt==$data['rt']): ?>selected<?php endif ?>><?=$data['rt']?></option>
@@ -519,9 +525,9 @@
 									  <label>Cari</label>
 									  <div class="box-tools">
 											<div class="input-group input-group-sm pull-right">
-											  <input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform').submit();endif">
+											  <input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();endif">
 											  <div class="input-group-btn">
-													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
 											  </div>
 											</div>
 									  </div>
@@ -591,39 +597,39 @@
 <script>
 	function handle_pend(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_penduduk');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_penduduk');
 	}
 	function handle_kel(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_keluarga');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_keluarga');
 	}
 	function handle_desa(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_desa');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_desa');
 	}
 	function handle_dusun(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_dusun');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_dusun');
 	}
 	function handle_rw(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_rw');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_rw');
 	}
 	function handle_rt(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_rt');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_rt');
 	}
 	function handle_area(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_area');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_area');
 	}
 	function handle_lokasi(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_lokasi');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_lokasi');
 	}
   function handle_garis(cb)
 	{
-	  formAction('mainform', '<?=site_url('gis')?>/layer_garis');
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_garis');
 	}
 	function AmbilFoto(foto, ukuran = "kecil_")
 	{
