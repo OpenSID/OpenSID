@@ -47,7 +47,7 @@
 								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
 								<div class="col-sm-6">
 									<div class="input-group input-group-sm">
-										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path">
+										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path" name="satuan">
 										<input id="file" type="file" class="hidden" name="satuan">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
@@ -80,3 +80,4 @@
 		</form>
 	</section>
 </div>
+
