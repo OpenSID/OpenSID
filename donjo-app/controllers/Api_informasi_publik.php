@@ -1,5 +1,9 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+	Untuk menyediakan data informasi publik bagi pengguna eksternal.
+	Data informasi publik bebas diakses umum
+*/
 class Api_informasi_publik extends Api_Controller {
 
 	public function __construct()
@@ -7,9 +11,6 @@ class Api_informasi_publik extends Api_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('web_dokumen_model');
-		$this->load->model('config_model');
-		$this->load->model('log_ekspor_model');
-		$this->modul_ini = 13;
 	}
 
 	public function index()

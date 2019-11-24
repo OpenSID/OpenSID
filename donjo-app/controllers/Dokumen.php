@@ -11,6 +11,7 @@ class Dokumen extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('referensi_model');
+		$this->load->helper('download');
 		$this->modul_ini = 15;
 	}
 
@@ -206,16 +207,16 @@ class Dokumen extends Admin_Controller {
 	}
 
   	/**
-	 * Unduh berkas scan berdasarkan kolom surat_keluar.id
-	 * @param   integer  $idSuratMasuk  Id berkas scan pada koloam surat_keluar.id
+	 * Unduh berkas berdasarkan kolom dokumen.id
+	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas_scan($id_dokumen)
+	public function unduh_berkas($id_dokumen)
 	{
 		// Ambil nama berkas dari database
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
 		if ($berkas)
-			ambilBerkas($berkas, $_SERVER['HTTP_REFERER'], '', LOKASI_DOKUMEN);
+			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else
 			$this->output->set_status_header('404');
 	}

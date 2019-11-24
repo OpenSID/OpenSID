@@ -140,7 +140,7 @@ $(document).ready(function()
 																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url($this->controller.'/dokumen_unlock/'.$kat.'/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
                                       <?php endif ?>
-																			<a href='<?= site_url("{$this->controller}/unduh_berkas_scan/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
 																			<a href="#" data-href="<?= site_url("{$this->controller}/delete/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="30%"><?= $data['nama']?></td>
