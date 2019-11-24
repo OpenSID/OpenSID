@@ -494,8 +494,8 @@ class Web_dokumen_model extends CI_Model {
 		$kode_desa = $this->db->select('kode_desa')
 			->limit(1)->get('config')
 			->row()->kode_desa;
-		$lokasi_dokumen = base_url('desa/upload/dokumen/');
-		$this->db->select("id, '{$kode_desa}' as kode_desa, CONCAT('{$lokasi_dokumen}', satuan) as dokumen, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun");
+		$lokasi_dokumen = base_url('dokumen/unduh_berkas/');
+		$this->db->select("id, '{$kode_desa}' as kode_desa, CONCAT('{$lokasi_dokumen}', id) as dokumen, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun");
 		if (empty($tgl_dari))
 			$data = $this->ekspor_semua_data();
 		else
