@@ -3580,6 +3580,7 @@
 			"analisis_tipe_indikator",
 			"artikel", //remove everything except widgets 1003
 			"gis_simbol",
+			"klasifikasi_surat",
 			"media_sosial", //?
 			"provinsi",
 			"ref_pindah",
@@ -3592,6 +3593,7 @@
 			"tweb_golongan_darah",
 			"tweb_keluarga_sejahtera",
 			"tweb_penduduk_agama",
+			"tweb_penduduk_asuransi",
 			"tweb_penduduk_hubungan",
 			"tweb_penduduk_kawin",
 			"tweb_penduduk_pekerjaan",
