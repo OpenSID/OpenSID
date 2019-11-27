@@ -21,7 +21,10 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 15. #2454: Ekspor perubahan data informasi publik sejak tanggal tertentu.
 16. #1550: Sekarang peta Lokasi/Garis/Area bisa diimpor dari file GPX/KML dan bisa diekspor ke file GPX/KML.
 17. Fitur Pemetaan > Peta dan Pemetaan > Pengaturan Peta telah banyak dilengkapi, termasuk penampilan statistik penduduk per wilayah administratif di peta.
-18. Sediakan API untuk menyediakan data informasi publik dalam format json.
+18. #2502: Pengaturan > Database > Kosongkan DB sekarang tidak menghapus tabel tweb_penduduk_asuransi atau klasifikasi_surat. [bug-fix]
+19. #2202: Citra satelit dari Mapbox sekarang bisa ditampilkan di peta.
+20. Sediakan API untuk menyediakan data informasi publik dalam format json.
+21. Unduh berkas dokumen melalui controller dan tidak lagi secara langsung dari lokasi di server. [security-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
