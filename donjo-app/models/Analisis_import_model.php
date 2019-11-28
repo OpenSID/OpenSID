@@ -61,8 +61,8 @@ class Analisis_import_Model extends CI_Model {
 
 			$indikator['id_kategori']	= $kategori['id'];
 			$indikator['id_tipe']	= $data->val($i, 4, $sheet);
-			$indikator['bobot']	= $data->val($i, 5, $sheet);
-			$indikator['act_analisis'] = $data->val($i, 6, $sheet);
+			$indikator['bobot']	= $data->val($i, 5, $sheet) ?: 0;
+			$indikator['act_analisis'] = $data->val($i, 6, $sheet) ?: 2;
 
 			$this->db->insert('analisis_indikator', $indikator);
 		}
@@ -83,7 +83,7 @@ class Analisis_import_Model extends CI_Model {
 			$indikator = $query->row_array();
 
 			$parameter['id_indikator'] = $indikator['id'];
-			$parameter['nilai']	= $data->val($i, 4, $sheet);
+			$parameter['nilai']	= $data->val($i, 4, $sheet) ?: 0;
 			$parameter['asign']	= 1;
 
 			$this->db->insert('analisis_parameter',$parameter);

@@ -123,5 +123,24 @@ class Migrasi_1911_ke_1912 extends CI_model {
 		}
 		if (!$this->db->table_exists('dokumen_hidup'))
 			$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
+		// Sesuaikan tabel config dengan sql_mode STRICT_TRANS_TABLES
+	  $this->dbforge->modify_column('config', 'logo varchar(100) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('config', 'lat varchar(20) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('config', 'lng varchar(20) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('config', 'zoom tinyint(4) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('config', 'map_tipe varchar(20) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('config', 'path text NULL');
+  	if ($this->db->field_exists('g_analytic','config'))
+		{
+		  $this->dbforge->drop_column('config', 'g_analytic');					
+		}
+		// Sesuaikan impor analisis dengan sql_mode STRICT_TRANS_TABLES
+	  $this->dbforge->modify_column('analisis_master', 'id_kelompok int(11) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('analisis_master', 'id_child smallint(4) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('analisis_master', 'format_impor tinyint(2) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('analisis_kategori_indikator', 'kategori_kode varchar(3) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('analisis_kategori_indikator', 'id int(11) NOT NULL AUTO_INCREMENT');		
+	  $this->dbforge->modify_column('analisis_indikator', 'id_kategori int(4) NOT NULL');		
+
 	}
 }
