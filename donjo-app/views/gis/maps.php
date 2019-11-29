@@ -451,6 +451,10 @@
 {
   width:70px;height:70px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;
 }
+.leaflet-control-layers {
+	display: block;
+	position: relative;
+}
 
 </style>
 <div class="content-wrapper">
