@@ -325,6 +325,20 @@ class Statistik extends Admin_Controller {
 		$this->load->view('statistik/penduduk_gis', $data);
 	}
 
+	public function load_chart_gis_nondesa($chart = 'pie', $tipe = 0, $lap = 0)
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value)
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$data['jenis_chart'] = $chart;
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_gis', $data);
+	}
+
 	public function chart_gis_dusun($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
@@ -332,7 +346,7 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/chart");
+		redirect("statistik/load_chart_gis_nondesa/$chart/$tipe/$lap");
 	}
 
 	public function chart_gis_rw($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '' )
@@ -342,7 +356,7 @@ class Statistik extends Admin_Controller {
 		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/$chart");
+		redirect("statistik/load_chart_gis_nondesa/$chart/$tipe/$lap");
 	}
 
 	public function chart_gis_rt($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
@@ -352,6 +366,6 @@ class Statistik extends Admin_Controller {
 		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
 		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/$chart");
+		redirect("statistik/load_chart_gis_nondesa/$chart/$tipe/$lap");
 	}
 }
