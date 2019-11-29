@@ -332,7 +332,7 @@ class Statistik extends Admin_Controller {
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/chart");
+		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
 
 	public function chart_gis_rw($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '' )
