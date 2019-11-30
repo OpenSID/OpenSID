@@ -9,6 +9,10 @@
     max-height: 70%;
     margin: 4px;
   }
+  .leaflet-control-layers {
+  	display: block;
+  	position: relative;
+  }
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">

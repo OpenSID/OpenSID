@@ -1,11 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+<?php 
+	$previous = "javascript:history.go(-1)";
+	if(isset($_SERVER['HTTP_REFERER'])) {
+    $previous = $_SERVER['HTTP_REFERER'];
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>404 Page Not Found</title>
-	<link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="/assets/css/AdminLTE.css" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css')?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/font-awesome.min.css')?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/AdminLTE.css')?>" />
 </head>
 <body>
 <div class="container">
@@ -16,7 +24,7 @@
 			<h3><i class="fa fa-warning text-yellow"></i> <?= strip_tags($message); ?></h3>
 			<p>
 				Kami tidak dapat menemukan halaman yang Anda inginkan.
-				Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
+				Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a> atau ke <a href="<?= $previous ?>">halaman sebelumnya.</a>
 			</p>
 		</div>
 

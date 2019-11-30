@@ -72,5 +72,6 @@ class Informasi_publik extends Admin_Controller {
     header('Content-type: application/zip');
     readfile($berkas_zip);
   }
+
 }
 

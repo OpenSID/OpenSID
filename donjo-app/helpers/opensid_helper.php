@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '19.11-pasca');
+define("VERSION", '19.12');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -584,20 +584,29 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
 	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-	if (!file_exists($pathBerkas)) {
+	if (!file_exists($pathBerkas))
+	{
 		$_SESSION['success'] = -1;
 		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
-		redirect($redirect_url);
+		if ($redirect_url)
+			redirect($redirect_url);
+		else
+		{
+			http_response_code(404);
+			include(FCPATH . 'donjo-app/views/errors/html/error_404.php'); 
+			die();			
+		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
-	$data         = file_get_contents($pathBerkas);
-	if(!is_null($unique_id)){
+	$data = file_get_contents($pathBerkas);
+	if (!is_null($unique_id))
+	{
 		// Buang unique id pada nama berkas download
-		$nama_berkas       = explode($unique_id, $nama_berkas);
-		$namaFile     = $nama_berkas[0];
+		$nama_berkas = explode($unique_id, $nama_berkas);
+		$namaFile = $nama_berkas[0];
 		$ekstensiFile = explode('.', end($nama_berkas));
 		$ekstensiFile = end($ekstensiFile);
-		$nama_berkas       = $namaFile . '.' . $ekstensiFile;
+		$nama_berkas = $namaFile . '.' . $ekstensiFile;
 	}
 	force_download($nama_berkas, $data);
 }
