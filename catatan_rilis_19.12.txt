@@ -1,8 +1,9 @@
-Di rilis ini, versi 19.11-pasca, [untuk diisi]. Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 19.12, Sediakan API untuk menyediakan data informasi publik dalam format json.
+Selain itu, rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Zeppy Shiddiq, Nur Hidayat dan Il Ham yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq, Nur Hidayat dan Il Ham yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 19.12 adalah sebagai berikut:
 
 1. #2444: Perbaiki database supaya sesuai sql_mode STRICT_TRANS_TABLES.
 2. #2455: Sekarang pengaturan data keuangan dapat ditampilkan untuk widget keuangan. [bug-fix]
@@ -27,4 +28,4 @@ Lengkapnya, isi rilis versi 19.11-pasca adalah sebagai berikut:
 21. Unduh berkas dokumen melalui controller dan tidak lagi secara langsung dari lokasi di server. [security-fix]
 
 
-Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.11-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.12, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
