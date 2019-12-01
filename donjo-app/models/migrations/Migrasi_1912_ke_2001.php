@@ -134,6 +134,20 @@ class Migrasi_1912_ke_2001 extends CI_model {
 		$this->db->query("ALTER TABLE keuangan_ta_pajak MODIFY COLUMN Keterangan varchar(250) NULL");
 		$this->db->query("ALTER TABLE keuangan_ta_pencairan MODIFY COLUMN Keterangan varchar(250) NULL");
 		$this->db->query("ALTER TABLE keuangan_ta_spp MODIFY COLUMN Keterangan varchar(250) NULL");
-		$this->db->query("ALTER TABLE keuangan_ta_pemda MODIFY COLUMN Logo MEDIUMBLOB NULL");		
+		$this->db->query("ALTER TABLE keuangan_ta_pemda MODIFY COLUMN Logo MEDIUMBLOB NULL");	
+		// Sesuaikan dengan data 2019
+		$this->db->query("ALTER TABLE keuangan_ta_rpjm_tujuan MODIFY COLUMN Uraian_Tujuan varchar(250)");		
+		if (!$this->db->field_exists('Kunci','keuangan_ta_spj'))
+		{
+			$this->db->query("ALTER TABLE keuangan_ta_spj ADD Kunci varchar(10) NULL");			
+		}
+		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_spj_bukti'))
+		{
+			$this->db->query("ALTER TABLE keuangan_ta_spj_bukti ADD Kd_SubRinci varchar(10) NULL");			
+		}
+		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_spj_rinci'))
+		{
+			$this->db->query("ALTER TABLE keuangan_ta_spj_rinci ADD Kd_SubRinci varchar(10) NULL");			
+		}
 	}
 }
