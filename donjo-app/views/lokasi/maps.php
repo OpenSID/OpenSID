@@ -14,11 +14,17 @@ window.onload = function()
 
 	//Inisialisasi tampilan peta
 	var peta_lokasi = L.map('mapx').setView(posisi, zoom);
-	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-		id: 'mapbox.streets'
-	}).addTo(peta_lokasi);
+
+	//Menampilkan BaseLayers Peta
+	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_lokasi);
+
+	var baseLayers = {
+		'OpenStreetMap': defaultLayer,
+		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
+		'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+		'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+	};
 
 	var kantor_lokasi = L.marker(posisi, {draggable: true}).addTo(peta_lokasi);
 	kantor_lokasi.on('dragend', function(e){
@@ -112,6 +118,8 @@ window.onload = function()
 		document.getElementById('lng').value = coords[0][0];
 	});
 
+	L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(peta_lokasi);
+
 }; //EOF window.onload
 </script>
 <style>
@@ -125,6 +133,10 @@ window.onload = function()
 	max-height: 70%;
 	margin: 4px;
 }
+.leaflet-control-layers {
+	display: block;
+	position: relative;
+}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
@@ -136,7 +148,7 @@ window.onload = function()
 			<li class="active">Lokasi <?= $lokasi['nama']?></li>
 		</ol>
 	</section>
-	<section class="content" id="maincontent">
+	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
