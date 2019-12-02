@@ -12,15 +12,20 @@ window.onload = function()
 		var posisi = [-1.0546279422758742,116.71875000000001];
 		var zoom = 4;
 	<?php endif; ?>
-	//Menggunakan https://github.com/codeofsumit/leaflet.pm
+
 	//Inisialisasi tampilan peta
 	var peta_garis = L.map('map').setView(posisi, zoom);
-	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-	{
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-		id: 'mapbox.streets'
-	}).addTo(peta_garis);
+
+	//Menampilkan BaseLayers Peta
+	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_garis);
+
+	var baseLayers = {
+		'OpenStreetMap': defaultLayer,
+		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
+		'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+		'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+	};
 
 	//Tombol yang akan dimunculkan dipeta
 	var options =
@@ -191,6 +196,8 @@ window.onload = function()
 		return hasil;
 	}
 
+	L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(peta_garis);
+
 }; //EOF window.onload
 </script>
 <style>
@@ -204,7 +211,10 @@ window.onload = function()
 	max-height: 70%;
 	margin: 4px;
 }
-
+.leaflet-control-layers {
+	display: block;
+	position: relative;
+}
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
@@ -216,11 +226,11 @@ window.onload = function()
 			<li class="active">Peta Lokasi <?= $garis['nama']?></li>
 		</ol>
 	</section>
-	<section class="content" id="maincontent">
+	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
@@ -243,23 +253,5 @@ window.onload = function()
 	</section>
 </div>
 
-<script>
-	$(document).ready(function(){
-		$('#simpan_kantor').click(function(){
-			if (!$('#validasi').valid()) return;
-
-			var path = $('#path').val();
-			$.ajax(
-				{
-					type: "POST",
-					url: "<?=$form_action?>",
-					dataType: 'json',
-					data: {path: path},
-				});
-			});
-		});
-	</script>
-	<script src="<?= base_url()?>assets/js/validasi.js"></script>
-	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-	<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>
