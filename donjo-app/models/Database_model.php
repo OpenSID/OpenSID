@@ -3615,7 +3615,8 @@
 			"tweb_surat_format",
 			"user",
 			"user_grup",
-			"widget"
+			"widget",
+			"ref_dokumen"
 		);
 
 		// Hanya kosongkan contoh menu kalau pengguna memilih opsi itu
@@ -3658,7 +3659,7 @@
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return array_column($data, 'TABLE_NAME');
-	}	
+	}
 
 }
 ?>
