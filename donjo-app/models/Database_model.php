@@ -3588,6 +3588,7 @@
 			"klasifikasi_surat",
 			"media_sosial", //?
 			"provinsi",
+			"ref_dokumen",
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
@@ -3615,8 +3616,7 @@
 			"tweb_surat_format",
 			"user",
 			"user_grup",
-			"widget",
-			"ref_dokumen"
+			"widget"
 		);
 
 		// Hanya kosongkan contoh menu kalau pengguna memilih opsi itu
