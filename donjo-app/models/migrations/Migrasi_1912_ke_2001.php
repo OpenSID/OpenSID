@@ -37,7 +37,7 @@ class Migrasi_1912_ke_2001 extends CI_model {
 			$this->db->query("ALTER TABLE keuangan_ref_kegiatan ADD Kd_Sub varchar(30) NULL");
 		}	
 		$this->db->query("ALTER TABLE keuangan_ref_kegiatan MODIFY COLUMN Kd_Bid varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ref_korolari MODIFY COLUMN Jenis varchar(11) NULL");		
+		$this->db->query("ALTER TABLE keuangan_ref_korolari MODIFY COLUMN Jenis varchar(30) NULL");		
 		if (!$this->db->field_exists('ID_Bank','keuangan_ta_mutasi'))
 		{
 			$this->db->query("ALTER TABLE keuangan_ta_mutasi ADD ID_Bank varchar(10) NULL");
@@ -47,6 +47,10 @@ class Migrasi_1912_ke_2001 extends CI_model {
 		if (!$this->db->field_exists('ID_Bank','keuangan_ta_pajak'))
 		{
 			$this->db->query("ALTER TABLE keuangan_ta_pajak ADD ID_Bank varchar(10) NULL");
+		}	
+		if (!$this->db->field_exists('NTPN','keuangan_ta_pajak'))
+		{
+			$this->db->query("ALTER TABLE keuangan_ta_pajak ADD NTPN varchar(30) NULL");
 		}	
 		$this->db->query("ALTER TABLE keuangan_ta_pemda MODIFY COLUMN Logo MEDIUMBLOB NULL");		
 		if (!$this->db->field_exists('ID_Bank','keuangan_ta_pencairan'))
@@ -63,7 +67,7 @@ class Migrasi_1912_ke_2001 extends CI_model {
 			$this->db->query("ALTER TABLE keuangan_ta_rpjm_kegiatan ADD Kd_Sub varchar(30) NULL");
 		}	
 		$this->db->query("ALTER TABLE keuangan_ta_rpjm_kegiatan MODIFY COLUMN Kd_Bid varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_rpjm_misi MODIFY COLUMN Uraian_Misi varchar(200) NULL");		
+		$this->db->query("ALTER TABLE keuangan_ta_rpjm_misi MODIFY COLUMN Uraian_Misi varchar(250) NULL");		
 		if (!$this->db->field_exists('No_ID','keuangan_ta_rpjm_pagu_tahunan'))
 		{
 			$this->db->query("ALTER TABLE keuangan_ta_rpjm_pagu_tahunan ADD No_ID varchar(20) NULL");
@@ -145,9 +149,11 @@ class Migrasi_1912_ke_2001 extends CI_model {
 		{
 			$this->db->query("ALTER TABLE keuangan_ta_spj_bukti ADD Kd_SubRinci varchar(10) NULL");			
 		}
+		$this->db->query("ALTER TABLE keuangan_ta_spj_bukti MODIFY COLUMN Keterangan varchar(250)");		
 		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_spj_rinci'))
 		{
 			$this->db->query("ALTER TABLE keuangan_ta_spj_rinci ADD Kd_SubRinci varchar(10) NULL");			
 		}
+		$this->db->query("ALTER TABLE keuangan_ta_rpjm_sasaran MODIFY COLUMN Uraian_Sasaran varchar(250)");		
 	}
 }
