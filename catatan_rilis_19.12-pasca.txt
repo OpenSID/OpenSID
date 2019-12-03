@@ -1,0 +1,10 @@
+Di rilis ini, versi 19.12-pasca, disediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula kepada [untuk diisi] yang baru mulai berkontribusi
+
+Lengkapnya, isi rilis versi 19.12-pasca adalah sebagai berikut:
+
+1. #2398: Sekarang modul Keuangan bisa mengimpor data Siskeudes untuk tahun anggaran 2019.
+
+
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
