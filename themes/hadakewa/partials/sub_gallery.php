@@ -10,8 +10,8 @@
 		<div class="box-body">
 			<ul class="thumbnail">
 				<?php $i = 1 ?>
-				<?php foreach($gallery as $data) : ?>
-					<?php if(is_file(LOKASI_GALERI . 'sedang_' . $data['gambar'])) : ?>
+				<?php foreach ($gallery as $data) : ?>
+					<?php if (is_file(LOKASI_GALERI . 'sedang_' . $data['gambar'])) : ?>
 						<li>
 							<div class="entry">
 								<a href="<?= AmbilGaleri($data['gambar'],'sedang') ?>" class="group2">
@@ -23,7 +23,7 @@
 							</div>
 						</li>
 					<?php endif ?>
-					<?php if(fmod($i, 2) == 0) : ?>
+					<?php if (fmod($i, 2) == 0) : ?>
 						<div class="clearboth"></div>
 					<?php endif ?>
 					<?php $i++ ?>
@@ -35,7 +35,7 @@
 		<div class="box-footer">
 			<p>Halaman <?= $p ?> dari <?= $paging->end_link ?></p>
 			<ul class="pagination	pagination-sm no-margin">
-				<?php if($paging->start_link) : ?>
+				<?php if ($paging->start_link) : ?>
 					<li>
 						<a href="<?= site_url('first/sub_gallery/'.$parrent['id'].'/'.$paging->start_link)?>" title="Halaman Awal">
 							<i class="fa fa-fast-backward"></i>&nbsp;
@@ -47,14 +47,14 @@
 						<a class="page-link" href="<?= site_url('first/sub_gallery/'.$parrent['id'].'/'.$i. $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>&nbsp;
 					</li>
 				<?php endforeach; ?>
-				<?php if($paging->next) : ?>
+				<?php if ($paging->next) : ?>
 					<li>
 						<a href="<?= site_url('first/sub_gallery/'.$parrent['id'].'/'.$paging->next . $paging->suffix)?>" title="Halaman Selanjutnya">
 							<i class="fa fa-forward"></i>
 						</a>
 					</li>
 				<?php endif ?>
-				<?php if($paging->end_link) : ?>
+				<?php if ($paging->end_link) : ?>
 					<li>
 						<a href="<?= site_url('first/sub_gallery/'.$parrent['id'].'/'.$paging->end_link . $paging->suffix)?>" title="Halaman Akhir">
 							<i class="fa fa-fast-forward"></i>&nbsp;
@@ -63,6 +63,5 @@
 				<?php endif ?>
 			</ul>
 		</div>
-
 	</div>
 </div>
