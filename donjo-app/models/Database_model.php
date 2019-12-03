@@ -3588,6 +3588,7 @@
 			"klasifikasi_surat",
 			"media_sosial", //?
 			"provinsi",
+			"ref_dokumen",
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
@@ -3658,7 +3659,7 @@
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return array_column($data, 'TABLE_NAME');
-	}	
+	}
 
 }
 ?>
