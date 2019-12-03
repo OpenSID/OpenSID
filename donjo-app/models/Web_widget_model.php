@@ -362,9 +362,17 @@
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
 		$data['arsip_rand'] = $this->first_artikel_m->arsip_rand();
 		$data['aparatur_desa'] = $this->pamong_model->list_data(true);
-		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
+	}
+
+	public function get_widget_data_stat(&$data)
+	{
+		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
+		$this->session->unset_userdata('dusun');
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 	}
 
 }
