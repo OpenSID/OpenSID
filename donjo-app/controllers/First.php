@@ -500,6 +500,7 @@ class First extends Web_Controller {
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
 		$data['w_cos']  = $this->web_widget_model->get_widget_aktif();
 		$this->web_widget_model->get_widget_data($data);
+		$this->web_widget_model->get_widget_data_stat($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
