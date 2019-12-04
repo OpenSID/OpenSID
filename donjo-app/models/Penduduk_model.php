@@ -313,7 +313,8 @@
 			array('pekerjaan_id','pekerjaan_id'),
 			array('agama','agama_id'),
 			array('warganegara','warganegara_id'),
-			array('golongan_darah','golongan_darah_id')
+			array('golongan_darah','golongan_darah_id'),
+			array('id_asuransi', 'id_asuransi')
 		);
 		foreach ($kolom_kode as $kolom)
 		{
@@ -338,7 +339,7 @@
 				then k.nama
 				else
 					case when u.akta_perkawinan = ''
-						then 'KAWIN TIDAK TERCATAT'
+						then 'KAWIN BELUM TERCATAT'
 						else 'KAWIN TERCATAT'
 					end
 				end) as kawin,
@@ -493,7 +494,13 @@
 		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
 
-
+    $data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
+		$data['pendidikan_sedang_id'] = $data['pendidikan_sedang_id'] ?: NULL;
+		$data['pekerjaan_id'] = $data['pekerjaan_id'] ?: NULL;
+		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
+		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
+		$data['hamil'] = $data['hamil'] ?: NULL;
+		
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
@@ -503,6 +510,7 @@
 		$data['panjang_lahir'] = $data['panjang_lahir'] ?: NULL;
 		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
 		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
+		$data['kk_level'] = $data['kk_level'] ?: 0;
 		if (empty($data['id_asuransi']) or $data['id_asuransi'] == 1)
 			$data['no_asuransi'] = NULL;
 		if (empty($data['warganegara_id'])) $data['warganegara_id'] = 1; //default WNI
@@ -652,12 +660,12 @@
 		//$log['id_detail'] = "8";
 		$log['bulan'] = date("m");
 		$log['tahun'] = date("Y");
-		$log['tgl_peristiwa'] = date("d-m-Y");
+		$log['tgl_peristiwa'] = date("d-m-y");
 		$this->tulis_log_penduduk_data($log);
 
 		$log1['id_pend'] = $idku;
 		$log1['id_cluster'] = 1;
-		$log1['tanggal'] = date("m-d-y");
+		$log1['tanggal'] = date("d-m-y");
 
 		$outp = $this->db->insert('log_perubahan_penduduk', $log1);
 
@@ -919,7 +927,7 @@
 				then k.nama
 				else
 					case when u.akta_perkawinan = ''
-						then 'KAWIN TIDAK TERCATAT'
+						then 'KAWIN BELUM TERCATAT'
 						else 'KAWIN TERCATAT'
 					end
 				end) as kawin,
@@ -1261,16 +1269,23 @@
 
 	public function tulis_log_penduduk($id_pend, $id_detail, $bulan, $tahun)
 	{
-    $query = "
-      INSERT INTO log_penduduk (id_pend, id_detail, bulan, tahun) VALUES
-      (?, ?, ?, ?)
-      ON DUPLICATE KEY UPDATE
+		$data = array(
+			'id_pend' => $id_pend,
+			'id_detail' => $id_detail,
+			'bulan' => $bulan,
+			'tahun' => $tahun,
+			'tgl_peristiwa' => date("d-m-y")
+		);
+    $query = $this->db->insert_string('log_penduduk', $data) .
+    "ON DUPLICATE KEY UPDATE
         id_pend = VALUES(id_pend),
         id_detail = VALUES(id_detail),
         bulan = VALUES(bulan),
-        tahun = VALUES(tahun);
+        tahun = VALUES(tahun),
+        tgl_peristiwa = VALUES(tgl_peristiwa)
+        ;
     ";
-    $this->db->query($query, array($id_pend, $id_detail, $bulan, $tahun));
+    $this->db->query($query);
 	}
 
 	public function get_judul_statistik($tipe=0, $nomor=1, $sex=0)
@@ -1296,6 +1311,7 @@
 				case 16: $sql = "SELECT * FROM tweb_cara_kb WHERE id = ?";break;
 				case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
 				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
+				case 19: $sql = "SELECT * FROM tweb_penduduk_asuransi WHERE id = ?"; break;
 			}
 			$query = $this->db->query($sql, $nomor);
 			$judul = $query->row_array();

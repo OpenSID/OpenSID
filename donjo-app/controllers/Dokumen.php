@@ -10,7 +10,9 @@ class Dokumen extends Admin_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
-		$this->modul_ini = 13;
+		$this->load->model('referensi_model');
+		$this->load->helper('download');
+		$this->modul_ini = 15;
 	}
 
 	public function clear()
@@ -44,7 +46,7 @@ class Dokumen extends Admin_Controller {
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
+		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
 
 		$this->load->view('header', $header);
@@ -70,9 +72,10 @@ class Dokumen extends Admin_Controller {
 			$data['form_action'] = site_url("dokumen/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
+		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
+		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -112,9 +115,6 @@ class Dokumen extends Admin_Controller {
 	public function update($kat, $id='', $p=1, $o=0)
 	{
 		$_SESSION['success'] = 1;
-		$kategori = $this->input->post('kategori');
-		if (!empty($kategori))
-			$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
 		redirect("dokumen/index/$kat/$p/$o");
@@ -152,19 +152,19 @@ class Dokumen extends Admin_Controller {
 	{
 		$data['form_action'] = site_url("dokumen/cetak/$kat");
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_laporan'] = $this->web_dokumen_model->listTahun($kat);
+		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 
 	public function cetak($kat=1)
 	{
-		$data['main'] = $this->web_dokumen_model->dataCetak($kat, $this->input->post('tahun'));
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
 		$data['input'] = $this->input->post();
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['kat'] = $kat;
 		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)
-			$data['kategori'] = 'Dokumen Umum';
+			$data['kategori'] = 'Informasi Publik';
 		else
 		{
 			$data['desa'] = $this->config_model->get_data();
@@ -181,19 +181,19 @@ class Dokumen extends Admin_Controller {
 	{
 		$data['form_action'] = site_url("dokumen/excel/$kat");
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_laporan'] = $this->web_dokumen_model->listTahun($kat);
+		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 
 	public function excel($kat=1)
 	{
-		$data['main'] = $this->web_dokumen_model->dataCetak($kat, $this->input->post('tahun'));
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
 		$data['input'] = $this->input->post();
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['kat'] = $kat;
 		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)
-			$data['kategori'] = 'Dokumen Umum';
+			$data['kategori'] = 'Informasi Publik';
 		else
 		{
 			$data['desa'] = $this->config_model->get_data();
@@ -204,6 +204,21 @@ class Dokumen extends Admin_Controller {
 		elseif ($kat == 3) $data['template'] = 'perdes_print.php';
 		else $data['template'] = 'dokumen_print.php';
 		$this->load->view("dokumen/dokumen_excel", $data);
+	}
+
+  	/**
+	 * Unduh berkas berdasarkan kolom dokumen.id
+	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
+	 * @return  void
+	 */
+	public function unduh_berkas($id_dokumen)
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
+		if ($berkas)
+			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
+		else
+			$this->output->set_status_header('404');
 	}
 
 }

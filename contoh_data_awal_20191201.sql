@@ -1,9 +1,9 @@
-DROP VIEW IF EXISTS data_surat;
 DROP VIEW IF EXISTS daftar_kontak;
-DROP VIEW IF EXISTS daftar_anggota_grup;
 DROP VIEW IF EXISTS daftar_grup;
-DROP VIEW IF EXISTS penduduk_hidup;
+DROP VIEW IF EXISTS daftar_anggota_grup;
+DROP VIEW IF EXISTS dokumen_hidup;
 DROP VIEW IF EXISTS keluarga_aktif;
+DROP VIEW IF EXISTS penduduk_hidup;
 DROP TABLE IF EXISTS agenda;
 DROP TABLE IF EXISTS log_penduduk;
 DROP TABLE IF EXISTS setting_aplikasi_options;
@@ -32,7 +32,7 @@ CREATE TABLE `analisis_indikator` (
   `id_tipe` tinyint(4) NOT NULL DEFAULT '1',
   `bobot` tinyint(4) NOT NULL DEFAULT '0',
   `act_analisis` tinyint(1) NOT NULL DEFAULT '2',
-  `id_kategori` tinyint(4) NOT NULL,
+  `id_kategori` int(4) NOT NULL,
   `is_publik` tinyint(1) NOT NULL DEFAULT '0',
   `is_teks` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -160,10 +160,10 @@ INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_
 DROP TABLE IF EXISTS `analisis_kategori_indikator`;
 
 CREATE TABLE `analisis_kategori_indikator` (
-  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` tinyint(4) NOT NULL,
   `kategori` varchar(50) NOT NULL,
-  `kategori_kode` varchar(3) NOT NULL,
+  `kategori_kode` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
@@ -197,8 +197,8 @@ CREATE TABLE `analisis_klasifikasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` int(11) NOT NULL,
   `nama` varchar(20) NOT NULL,
-  `minval` double(5,2) NOT NULL,
-  `maxval` double(5,2) NOT NULL,
+  `minval` double(7,2) NOT NULL,
+  `maxval` double(7,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -221,10 +221,10 @@ CREATE TABLE `analisis_master` (
   `lock` tinyint(1) NOT NULL DEFAULT '1',
   `deskripsi` text NOT NULL,
   `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
-  `id_kelompok` int(11) NOT NULL,
+  `id_kelompok` int(11) DEFAULT NULL,
   `pembagi` varchar(10) NOT NULL DEFAULT '100',
-  `id_child` smallint(4) NOT NULL,
-  `format_impor` tinyint(2) NOT NULL,
+  `id_child` smallint(4) DEFAULT NULL,
+  `format_impor` tinyint(2) DEFAULT NULL,
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -1439,12 +1439,12 @@ CREATE TABLE `analisis_respon_hasil` (
   UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 129, '25.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 254, '5.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 298, '17.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 304, '17.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 308, '21.000', '0000-00-00 00:00:00');
-INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 309, '9.000', '0000-00-00 00:00:00');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 129, '25.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 254, '5.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 298, '17.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 304, '17.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 308, '21.000', '2018-08-20 05:13:33');
+INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 309, '9.000', '2018-08-20 05:13:33');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 2, 1, '25.000', '2018-08-20 05:15:33');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 2, 2, '13.000', '2018-08-20 05:15:50');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 2, 3, '8.000', '2018-08-20 05:16:04');
@@ -1604,21 +1604,20 @@ CREATE TABLE `config` (
   `kode_kabupaten` varchar(100) NOT NULL,
   `nama_propinsi` varchar(100) NOT NULL,
   `kode_propinsi` varchar(100) NOT NULL,
-  `logo` varchar(100) NOT NULL,
-  `lat` varchar(20) NOT NULL,
-  `lng` varchar(20) NOT NULL,
-  `zoom` tinyint(4) NOT NULL,
-  `map_tipe` varchar(20) NOT NULL,
-  `path` text NOT NULL,
+  `logo` varchar(100) DEFAULT NULL,
+  `lat` varchar(20) DEFAULT NULL,
+  `lng` varchar(20) DEFAULT NULL,
+  `zoom` tinyint(4) DEFAULT NULL,
+  `map_tipe` varchar(20) DEFAULT NULL,
+  `path` text,
   `alamat_kantor` varchar(200) DEFAULT NULL,
-  `g_analytic` varchar(200) NOT NULL,
   `email_desa` varchar(50) DEFAULT NULL,
   `telepon` varchar(50) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `nama_kepala_desa`, `nip_kepala_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `g_analytic`, `email_desa`, `telepon`, `website`) VALUES (1, 'Senggig1 ', '05', 'Muhammad Ilham ', '--', '83355', 'Batulay4r ', '14', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bar4t ', '01', 'Nusa Tenggara Barat', '52', 'opensid_logo__sid__bXziTU1.png', '-8.48782268404703', '116.04083776474', 13, 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', 'gsgsdgsdgsg', '', '', '');
+INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `nama_kepala_desa`, `nip_kepala_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `email_desa`, `telepon`, `website`) VALUES (1, 'Senggig1 ', '05', 'Muhammad Ilham ', '--', '83355', 'Batulay4r ', '14', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bar4t ', '01', 'Nusa Tenggara Barat', '52', 'opensid_logo__sid__bXziTU1.png', '-8.487832963768826', '116.04078914970162', 14, 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.470993084228864,116.03974342346193],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', '', '', '');
 
 
 #
@@ -1673,13 +1672,18 @@ CREATE TABLE `dokumen` (
   `id_pend` int(11) NOT NULL DEFAULT '0',
   `kategori` tinyint(3) NOT NULL DEFAULT '1',
   `attr` text NOT NULL,
+  `tahun` int(4) DEFAULT NULL,
+  `kategori_info_publik` tinyint(4) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`) VALUES (2, 'SK+TIM+Penyusun+RPJMDes+Tahun+2017_uwdc6N_grafik-statistik-ada-jumlah.png', 'SK TIM Penyusun RPJMDes Tahun 2017', 1, '2018-05-28 06:49:28', 0, 2, '{\"uraian\":\"SK TIM Penyusun RPJMDes Tahun 2017\",\"no_kep_kades\":\"1\",\"tgl_kep_kades\":\"13-01-2017\",\"no_lapor\":\"1\",\"tgl_lapor\":\"13-01-2017\",\"keterangan\":\"Sudah Terbit\"}');
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`) VALUES (3, 'SK+Pengangkatan+RT+dan+Pemberentian+RT+Baru_OzjhwE_surat-kk-peraturan.jpg', 'SK Pengangkatan RT dan Pemberentian RT Baru', 1, '2018-05-28 06:51:53', 0, 2, '{\"uraian\":\"SK Pengangkatan RT dan Pemberentian RT Baru\",\"no_kep_kades\":\"2\",\"tgl_kep_kades\":\"14-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}');
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`) VALUES (4, 'Perdes+SPJ+Tentang+Keuang+Desa+Tahun+2016_cXJUfP_user-setting-pengaturan.png', 'Perdes SPJ Tentang Keuang Desa Tahun 2016', 1, '2018-05-28 06:57:37', 0, 3, '{\"uraian\":\"Perdes SPJ Tentang Keuang Desa Tahun 2016\",\"jenis_peraturan\":\"Perdes SPJ Tahun 2016\",\"no_ditetapkan\":\"1\",\"tgl_ditetapkan\":\"09-01-2016\",\"tgl_kesepakatan\":\"05-01-2016\",\"no_lapor\":\"1\",\"tgl_lapor\":\"05-01-2016\",\"no_lembaran_desa\":\"1\",\"tgl_lembaran_desa\":\"05-01-2017\",\"no_berita_desa\":\"1\",\"tgl_berita_desa\":\"05-01-2017\",\"keterangan\":\"Sudah Terbit\"}');
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`) VALUES (5, 'RPJMDes+Miau+Merah+Tahun+2016+s%2Fd+2022_fMaZGt_cetak-log-penduduk.png', 'RPJMDes Miau Merah Tahun 2016 s/d 2022', 1, '2018-05-28 07:09:56', 0, 3, '{\"uraian\":\"Rencana Pembangunan Jangka Menengah Desa\",\"jenis_peraturan\":\"RPJMDes\",\"no_ditetapkan\":\"2\",\"tgl_ditetapkan\":\"13-01-2017\",\"tgl_kesepakatan\":\"13-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"13-01-2017\",\"no_lembaran_desa\":\"2\",\"tgl_lembaran_desa\":\"14-01-2017\",\"no_berita_desa\":\"2\",\"tgl_berita_desa\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}');
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`) VALUES (2, 'SK+TIM+Penyusun+RPJMDes+Tahun+2017_uwdc6N_grafik-statistik-ada-jumlah.png', 'SK TIM Penyusun RPJMDes Tahun 2017', 1, '2018-05-28 06:49:28', 0, 2, '{\"uraian\":\"SK TIM Penyusun RPJMDes Tahun 2017\",\"no_kep_kades\":\"1\",\"tgl_kep_kades\":\"13-01-2017\",\"no_lapor\":\"1\",\"tgl_lapor\":\"13-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`) VALUES (3, 'SK+Pengangkatan+RT+dan+Pemberentian+RT+Baru_OzjhwE_surat-kk-peraturan.jpg', 'SK Pengangkatan RT dan Pemberentian RT Baru', 1, '2018-05-28 06:51:53', 0, 2, '{\"uraian\":\"SK Pengangkatan RT dan Pemberentian RT Baru\",\"no_kep_kades\":\"2\",\"tgl_kep_kades\":\"14-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`) VALUES (4, 'Perdes+SPJ+Tentang+Keuang+Desa+Tahun+2016_cXJUfP_user-setting-pengaturan.png', 'Perdes SPJ Tentang Keuang Desa Tahun 2016', 1, '2018-05-28 06:57:37', 0, 3, '{\"uraian\":\"Perdes SPJ Tentang Keuang Desa Tahun 2016\",\"jenis_peraturan\":\"Perdes SPJ Tahun 2016\",\"no_ditetapkan\":\"1\",\"tgl_ditetapkan\":\"09-01-2016\",\"tgl_kesepakatan\":\"05-01-2016\",\"no_lapor\":\"1\",\"tgl_lapor\":\"05-01-2016\",\"no_lembaran_desa\":\"1\",\"tgl_lembaran_desa\":\"05-01-2017\",\"no_berita_desa\":\"1\",\"tgl_berita_desa\":\"05-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2016, 3, '2019-11-30 22:01:57', 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`) VALUES (5, 'RPJMDes+Miau+Merah+Tahun+2016+s%2Fd+2022_fMaZGt_cetak-log-penduduk.png', 'RPJMDes Miau Merah Tahun 2016 s/d 2022', 1, '2018-05-28 07:09:56', 0, 3, '{\"uraian\":\"Rencana Pembangunan Jangka Menengah Desa\",\"jenis_peraturan\":\"RPJMDes\",\"no_ditetapkan\":\"2\",\"tgl_ditetapkan\":\"13-01-2017\",\"tgl_kesepakatan\":\"13-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"13-01-2017\",\"no_lembaran_desa\":\"2\",\"tgl_lembaran_desa\":\"14-01-2017\",\"no_berita_desa\":\"2\",\"tgl_berita_desa\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`) VALUES (6, 'formulir-pengajuan-keberatan-informasi-od5ryq-ammar-alifian-fahdan-1-jpg.jpg', 'Formulir Pengajuan Keberatan Informasi', 1, '2019-10-31 22:20:48', 0, 1, '[]', 2019, 1, '2019-11-30 22:01:57', 0);
 
 
 #
@@ -1720,12 +1724,12 @@ DROP TABLE IF EXISTS `garis`;
 CREATE TABLE `garis` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text NOT NULL,
+  `path` text,
   `enabled` int(11) NOT NULL DEFAULT '1',
   `ref_line` int(9) NOT NULL,
-  `foto` varchar(100) NOT NULL,
-  `desk` text NOT NULL,
-  `id_cluster` int(11) NOT NULL,
+  `foto` varchar(100) DEFAULT NULL,
+  `desk` text,
+  `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -2362,7 +2366,7 @@ DROP TABLE IF EXISTS `inbox`;
 
 CREATE TABLE `inbox` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ReceivingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ReceivingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Text` text NOT NULL,
   `SenderNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
@@ -2404,7 +2408,7 @@ CREATE TABLE `inventaris_asset` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2437,7 +2441,7 @@ CREATE TABLE `inventaris_gedung` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2470,7 +2474,7 @@ CREATE TABLE `inventaris_jalan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2501,7 +2505,7 @@ CREATE TABLE `inventaris_kontruksi` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2533,7 +2537,7 @@ CREATE TABLE `inventaris_peralatan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2563,7 +2567,7 @@ CREATE TABLE `inventaris_tanah` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
@@ -2680,7 +2684,9 @@ CREATE TABLE `keuangan_ref_bank_desa` (
   `Alamat_Pemilik` varchar(12) DEFAULT NULL,
   `No_Identitas` int(11) DEFAULT NULL,
   `No_Telepon` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bank_desa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bank_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2693,7 +2699,9 @@ CREATE TABLE `keuangan_ref_bel_operasional` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_keuangan_master` int(11) NOT NULL,
   `ID_Keg` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bel_operasional_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bel_operasional_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2707,7 +2715,9 @@ CREATE TABLE `keuangan_ref_bidang` (
   `id_keuangan_master` int(11) NOT NULL,
   `Kd_Bid` varchar(50) NOT NULL,
   `Nama_Bidang` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bidang_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2721,7 +2731,9 @@ CREATE TABLE `keuangan_ref_bunga` (
   `id_keuangan_master` int(11) NOT NULL,
   `Kd_Bunga` varchar(50) NOT NULL,
   `Kd_Admin` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bunga_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bunga_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2736,7 +2748,9 @@ CREATE TABLE `keuangan_ref_desa` (
   `Kd_Kec` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
   `Nama_Desa` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_desa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2750,7 +2764,9 @@ CREATE TABLE `keuangan_ref_kecamatan` (
   `id_keuangan_master` int(11) NOT NULL,
   `Kd_Kec` varchar(100) NOT NULL,
   `Nama_Kecamatan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_kecamatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_kecamatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2765,7 +2781,9 @@ CREATE TABLE `keuangan_ref_kegiatan` (
   `Kd_Bid` varchar(100) NOT NULL,
   `ID_Keg` varchar(100) NOT NULL,
   `Nama_Kegiatan` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_kegiatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2781,7 +2799,9 @@ CREATE TABLE `keuangan_ref_korolari` (
   `Kd_RekDB` varchar(100) NOT NULL,
   `Kd_RekKD` varchar(250) NOT NULL,
   `Jenis` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_korolari_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_korolari_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2795,7 +2815,9 @@ CREATE TABLE `keuangan_ref_neraca_close` (
   `id_keuangan_master` int(11) NOT NULL,
   `Kd_Rincian` varchar(100) NOT NULL,
   `Kelompok` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_neraca_close_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_neraca_close_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2809,7 +2831,9 @@ CREATE TABLE `keuangan_ref_perangkat` (
   `id_keuangan_master` int(11) NOT NULL,
   `Kode` varchar(100) NOT NULL,
   `Nama_Perangkat` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_perangkat_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2823,7 +2847,9 @@ CREATE TABLE `keuangan_ref_potongan` (
   `id_keuangan_master` int(11) NOT NULL,
   `Kd_Rincian` varchar(100) NOT NULL,
   `Kd_Potongan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_potongan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_potongan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2838,7 +2864,9 @@ CREATE TABLE `keuangan_ref_rek1` (
   `Akun` varchar(100) NOT NULL,
   `Nama_Akun` varchar(100) NOT NULL,
   `NoLap` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek1_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek1_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2853,7 +2881,9 @@ CREATE TABLE `keuangan_ref_rek2` (
   `Akun` varchar(100) NOT NULL,
   `Kelompok` varchar(100) NOT NULL,
   `Nama_Kelompok` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek2_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek2_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2869,7 +2899,9 @@ CREATE TABLE `keuangan_ref_rek3` (
   `Jenis` varchar(100) NOT NULL,
   `Nama_Jenis` varchar(100) NOT NULL,
   `Formula` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek3_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek3_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2885,7 +2917,9 @@ CREATE TABLE `keuangan_ref_rek4` (
   `Obyek` varchar(100) NOT NULL,
   `Nama_Obyek` varchar(100) NOT NULL,
   `Peraturan` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek4_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek4_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2903,7 +2937,9 @@ CREATE TABLE `keuangan_ref_sbu` (
   `Nama_SBU` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
   `Satuan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_sbu_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_sbu_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2918,7 +2954,9 @@ CREATE TABLE `keuangan_ref_sumber` (
   `Kode` varchar(100) NOT NULL,
   `Nama_Sumber` varchar(100) NOT NULL,
   `Urut` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_sumber_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_sumber_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2943,7 +2981,9 @@ CREATE TABLE `keuangan_ta_anggaran` (
   `SumberDana` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
   `TglPosting` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_anggaran_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_anggaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2962,7 +3002,9 @@ CREATE TABLE `keuangan_ta_anggaran_log` (
   `TglPosting` varchar(100) NOT NULL,
   `UserID` int(11) NOT NULL,
   `Kunci` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_anggaran_log_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_anggaran_log_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -2991,7 +3033,9 @@ CREATE TABLE `keuangan_ta_anggaran_rinci` (
   `HrgSatuanPAK` varchar(100) NOT NULL,
   `AnggaranStlhPAK` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_anggaran_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_anggaran_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3007,7 +3051,9 @@ CREATE TABLE `keuangan_ta_bidang` (
   `Kd_Desa` varchar(100) NOT NULL,
   `Kd_Bid` varchar(100) NOT NULL,
   `Nama_Bidang` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_bidang_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3040,7 +3086,9 @@ CREATE TABLE `keuangan_ta_desa` (
   `Ibukota` varchar(100) NOT NULL,
   `Status` varchar(100) NOT NULL,
   `NPWP` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_desa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3064,7 +3112,9 @@ CREATE TABLE `keuangan_ta_jurnal_umum` (
   `Kredit` varchar(100) NOT NULL,
   `Jenis` varchar(100) NOT NULL,
   `Posted` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_jurnal_umum_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_jurnal_umum_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3088,7 +3138,9 @@ CREATE TABLE `keuangan_ta_jurnal_umum_rinci` (
   `DK` varchar(100) NOT NULL,
   `Debet` varchar(100) NOT NULL,
   `Kredit` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_jurnal_umum_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_jurnal_umum_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3114,7 +3166,9 @@ CREATE TABLE `keuangan_ta_kegiatan` (
   `Waktu` varchar(100) NOT NULL,
   `Keluaran` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_kegiatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3137,7 +3191,9 @@ CREATE TABLE `keuangan_ta_mutasi` (
   `Sumberdana` varchar(100) NOT NULL,
   `Kd_Mutasi` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_mutasi_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_mutasi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3163,7 +3219,9 @@ CREATE TABLE `keuangan_ta_pajak` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Jumlah` varchar(100) NOT NULL,
   `KdBayar` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pajak_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pajak_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3181,7 +3239,9 @@ CREATE TABLE `keuangan_ta_pajak_rinci` (
   `No_Bukti` varchar(100) NOT NULL,
   `Kd_Rincian` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pajak_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pajak_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3206,7 +3266,9 @@ CREATE TABLE `keuangan_ta_pemda` (
   `C_Kode` varchar(100) NOT NULL,
   `C_Pemda` varchar(100) NOT NULL,
   `C_Data` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pemda_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pemda_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3227,7 +3289,9 @@ CREATE TABLE `keuangan_ta_pencairan` (
   `Jumlah` varchar(100) NOT NULL,
   `Potongan` varchar(100) NOT NULL,
   `KdBayar` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pencairan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pencairan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3248,7 +3312,9 @@ CREATE TABLE `keuangan_ta_perangkat` (
   `Nomor_HP` varchar(100) NOT NULL,
   `Rek_Bank` varchar(100) NOT NULL,
   `Nama_Bank` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_perangkat_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3267,7 +3333,9 @@ CREATE TABLE `keuangan_ta_rab` (
   `Anggaran` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
   `AnggaranStlhPAK` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rab_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rab_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3296,7 +3364,9 @@ CREATE TABLE `keuangan_ta_rab_rinci` (
   `AnggaranStlhPAK` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
   `Kode_SBU` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rab_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rab_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3317,7 +3387,9 @@ CREATE TABLE `keuangan_ta_rab_sub` (
   `Anggaran` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
   `AnggaranStlhPAK` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rab_sub_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rab_sub_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3332,7 +3404,9 @@ CREATE TABLE `keuangan_ta_rpjm_bidang` (
   `Kd_Desa` varchar(100) NOT NULL,
   `Kd_Bid` varchar(100) NOT NULL,
   `Nama_Bidang` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_bidang_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3363,7 +3437,9 @@ CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
   `Kerjasama` varchar(100) NOT NULL,
   `Pihak_Ketiga` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_kegiatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3380,7 +3456,9 @@ CREATE TABLE `keuangan_ta_rpjm_misi` (
   `ID_Visi` varchar(100) NOT NULL,
   `No_Misi` varchar(100) NOT NULL,
   `Uraian_Misi` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_misi_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_misi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3402,7 +3480,9 @@ CREATE TABLE `keuangan_ta_rpjm_pagu_indikatif` (
   `Tahun5` varchar(100) NOT NULL,
   `Tahun6` varchar(100) NOT NULL,
   `Pola` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3430,7 +3510,9 @@ CREATE TABLE `keuangan_ta_rpjm_pagu_tahunan` (
   `Selesai` varchar(100) NOT NULL,
   `Pola_Kegiatan` varchar(100) NOT NULL,
   `Pelaksana` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3447,7 +3529,9 @@ CREATE TABLE `keuangan_ta_rpjm_sasaran` (
   `ID_Tujuan` varchar(100) NOT NULL,
   `No_Sasaran` varchar(100) NOT NULL,
   `Uraian_Sasaran` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_sasaran_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_sasaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3464,7 +3548,9 @@ CREATE TABLE `keuangan_ta_rpjm_tujuan` (
   `ID_Misi` varchar(100) NOT NULL,
   `No_Tujuan` varchar(100) NOT NULL,
   `Uraian_Tujuan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_tujuan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_tujuan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3482,7 +3568,9 @@ CREATE TABLE `keuangan_ta_rpjm_visi` (
   `Uraian_Visi` varchar(100) NOT NULL,
   `TahunA` varchar(100) NOT NULL,
   `TahunN` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_visi_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_visi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3502,7 +3590,9 @@ CREATE TABLE `keuangan_ta_saldo_awal` (
   `Debet` varchar(100) NOT NULL,
   `Kredit` varchar(100) NOT NULL,
   `Tgl_Bukti` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_saldo_awal_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_saldo_awal_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3523,7 +3613,9 @@ CREATE TABLE `keuangan_ta_spj` (
   `Jumlah` varchar(100) NOT NULL,
   `Potongan` varchar(100) NOT NULL,
   `Status` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3550,7 +3642,9 @@ CREATE TABLE `keuangan_ta_spj_bukti` (
   `NPWP` varchar(100) NOT NULL,
   `Keterangan` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_bukti_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_bukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3573,7 +3667,9 @@ CREATE TABLE `keuangan_ta_spj_rinci` (
   `Nilai` varchar(100) NOT NULL,
   `Alamat` varchar(100) NOT NULL,
   `Sisa` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3596,7 +3692,9 @@ CREATE TABLE `keuangan_ta_spj_sisa` (
   `Kd_Keg` varchar(100) NOT NULL,
   `Keterangan` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_sisa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_sisa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3615,7 +3713,9 @@ CREATE TABLE `keuangan_ta_spjpot` (
   `No_Bukti` varchar(100) NOT NULL,
   `Kd_Rincian` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spjpot_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spjpot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3636,7 +3736,9 @@ CREATE TABLE `keuangan_ta_spp` (
   `Jumlah` varchar(100) NOT NULL,
   `Potongan` varchar(100) NOT NULL,
   `Status` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spp_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3655,7 +3757,9 @@ CREATE TABLE `keuangan_ta_spp_rinci` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spp_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3682,7 +3786,9 @@ CREATE TABLE `keuangan_ta_sppbukti` (
   `NPWP` varchar(100) NOT NULL,
   `Keterangan` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_sppbukti_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_sppbukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3701,7 +3807,9 @@ CREATE TABLE `keuangan_ta_spppot` (
   `No_Bukti` varchar(100) NOT NULL,
   `Kd_Rincian` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spppot_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spppot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3723,7 +3831,9 @@ CREATE TABLE `keuangan_ta_sts` (
   `Jumlah` varchar(100) NOT NULL,
   `Nm_Bendahara` varchar(100) NOT NULL,
   `Jbt_Bendahara` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_sts_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_sts_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3741,7 +3851,9 @@ CREATE TABLE `keuangan_ta_sts_rinci` (
   `No_TBP` varchar(100) NOT NULL,
   `Uraian` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_sts_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_sts_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3769,7 +3881,9 @@ CREATE TABLE `keuangan_ta_tbp` (
   `Status` varchar(100) NOT NULL,
   `KdBayar` varchar(100) NOT NULL,
   `Ref_Bayar` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_tbp_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_tbp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3789,7 +3903,9 @@ CREATE TABLE `keuangan_ta_tbp_rinci` (
   `RincianSD` varchar(100) NOT NULL,
   `SumberDana` varchar(100) NOT NULL,
   `nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_tbp_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_tbp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3815,7 +3931,9 @@ CREATE TABLE `keuangan_ta_triwulan` (
   `Tw3Rinci` varchar(100) NOT NULL,
   `Tw4Rinci` varchar(100) NOT NULL,
   `KunciData` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_triwulan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_triwulan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -3842,7 +3960,9 @@ CREATE TABLE `keuangan_ta_triwulan_rinci` (
   `Tw3Rinci` varchar(100) NOT NULL,
   `Tw4Rinci` varchar(100) NOT NULL,
   `KunciData` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_triwulan_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_triwulan_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -6292,401 +6412,25 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=393 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=983 DEFAULT CHARSET=latin1;
 
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2017-04-11 02:01:54', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (2, 97, 46, 51, 37, '2017-05-10 21:03:26', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (3, 97, 46, 51, 37, '2017-06-05 10:08:30', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (4, 97, 46, 51, 37, '2017-07-03 12:19:17', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (5, 97, 46, 51, 37, '2017-08-01 01:37:30', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (6, 97, 46, 51, 37, '2017-09-05 06:13:41', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (7, 97, 46, 51, 37, '2017-10-29 09:37:57', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (8, 97, 46, 51, 37, '2017-11-28 01:51:11', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (9, 97, 46, 51, 37, '2017-12-27 05:03:39', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (10, 97, 46, 51, 37, '2018-01-26 05:30:07', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (11, 97, 46, 51, 37, '2018-03-01 05:47:41', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (12, 97, 46, 51, 37, '2018-03-31 22:40:49', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (13, 97, 46, 51, 37, '2018-03-31 22:40:52', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (14, 97, 46, 51, 37, '2018-03-31 22:40:52', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (15, 97, 46, 51, 37, '2018-03-31 22:40:55', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (16, 97, 46, 51, 37, '2018-03-31 22:40:57', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (17, 97, 46, 51, 37, '2018-03-31 22:40:58', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (18, 97, 46, 51, 37, '2018-03-31 22:40:59', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (19, 97, 46, 51, 37, '2018-03-31 22:41:03', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (20, 97, 46, 51, 37, '2018-03-31 22:41:03', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (21, 97, 46, 51, 37, '2018-03-31 22:41:10', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (22, 97, 46, 51, 37, '2018-03-31 22:41:13', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (23, 97, 46, 51, 37, '2018-03-31 22:41:14', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (24, 97, 46, 51, 37, '2018-04-26 06:39:57', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (25, 97, 46, 51, 37, '2018-05-16 17:50:29', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (26, 97, 46, 51, 37, '2018-06-01 20:39:41', 28, 9, NULL, NULL);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (27, 97, 46, 51, 37, '2018-07-06 10:00:35', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (28, 97, 46, 51, 37, '2018-08-20 05:14:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (29, 97, 46, 51, 37, '2018-09-28 10:40:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (30, 97, 46, 51, 37, '2018-10-10 06:03:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (31, 97, 46, 51, 37, '2018-10-31 21:04:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (32, 97, 46, 51, 37, '2018-10-31 21:04:26', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (33, 97, 46, 51, 37, '2018-10-31 21:04:26', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (34, 97, 46, 51, 37, '2018-10-31 21:04:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (35, 97, 46, 51, 37, '2018-10-31 21:04:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (36, 97, 46, 51, 37, '2018-10-31 21:04:41', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (37, 97, 46, 51, 37, '2018-10-31 21:04:41', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (38, 97, 46, 51, 37, '2018-10-31 21:04:44', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (39, 97, 46, 51, 37, '2018-10-31 21:04:46', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (40, 97, 46, 51, 37, '2018-10-31 21:05:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (41, 97, 46, 51, 37, '2018-10-31 21:54:59', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (42, 97, 46, 51, 37, '2018-10-31 21:55:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (43, 97, 46, 51, 37, '2018-10-31 21:55:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (44, 97, 46, 51, 37, '2018-10-31 21:55:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (45, 97, 46, 51, 37, '2018-10-31 21:55:23', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (46, 97, 46, 51, 37, '2018-10-31 21:55:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (47, 97, 46, 51, 37, '2018-10-31 21:56:14', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (48, 97, 46, 51, 37, '2018-11-29 23:31:05', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (49, 97, 46, 51, 37, '2018-12-05 10:37:13', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (50, 97, 46, 51, 37, '2019-01-01 00:43:26', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (51, 97, 46, 51, 37, '2019-02-06 02:08:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (52, 97, 46, 51, 37, '2019-03-30 03:28:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (53, 97, 46, 51, 37, '2019-03-31 23:44:29', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (54, 97, 46, 51, 37, '2019-03-31 23:44:29', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (55, 97, 46, 51, 37, '2019-03-31 23:44:29', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (56, 97, 46, 51, 37, '2019-03-31 23:44:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (57, 97, 46, 51, 37, '2019-03-31 23:44:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (58, 97, 46, 51, 37, '2019-03-31 23:44:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (59, 97, 46, 51, 37, '2019-03-31 23:44:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (60, 97, 46, 51, 37, '2019-03-31 23:44:34', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (61, 97, 46, 51, 37, '2019-03-31 23:44:35', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (62, 97, 46, 51, 37, '2019-03-31 23:44:35', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (63, 97, 46, 51, 37, '2019-03-31 23:44:38', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (64, 97, 46, 51, 37, '2019-03-31 23:44:38', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (65, 97, 46, 51, 37, '2019-03-31 23:44:41', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (66, 97, 46, 51, 37, '2019-03-31 23:44:41', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (67, 97, 46, 51, 37, '2019-03-31 23:44:41', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (68, 97, 46, 51, 37, '2019-03-31 23:44:41', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (69, 97, 46, 51, 37, '2019-03-31 23:44:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (70, 97, 46, 51, 37, '2019-03-31 23:44:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (71, 97, 46, 51, 37, '2019-03-31 23:44:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (72, 97, 46, 51, 37, '2019-03-31 23:44:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (73, 97, 46, 51, 37, '2019-03-31 23:44:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (74, 97, 46, 51, 37, '2019-03-31 23:44:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (75, 97, 46, 51, 37, '2019-03-31 23:44:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (76, 97, 46, 51, 37, '2019-03-31 23:44:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (77, 97, 46, 51, 37, '2019-03-31 23:44:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (78, 97, 46, 51, 37, '2019-03-31 23:44:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (79, 97, 46, 51, 37, '2019-03-31 23:44:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (80, 97, 46, 51, 37, '2019-03-31 23:44:55', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (81, 97, 46, 51, 37, '2019-03-31 23:44:55', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (82, 97, 46, 51, 37, '2019-03-31 23:44:56', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (83, 97, 46, 51, 37, '2019-03-31 23:44:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (84, 97, 46, 51, 37, '2019-03-31 23:44:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (85, 97, 46, 51, 37, '2019-03-31 23:44:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (86, 97, 46, 51, 37, '2019-04-30 23:14:13', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (87, 97, 46, 51, 37, '2019-04-30 23:14:14', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (88, 97, 46, 51, 37, '2019-04-30 23:14:14', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (89, 97, 46, 51, 37, '2019-04-30 23:14:14', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (90, 97, 46, 51, 37, '2019-04-30 23:14:14', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (91, 97, 46, 51, 37, '2019-04-30 23:14:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (92, 97, 46, 51, 37, '2019-04-30 23:14:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (93, 97, 46, 51, 37, '2019-04-30 23:14:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (94, 97, 46, 51, 37, '2019-04-30 23:14:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (95, 97, 46, 51, 37, '2019-04-30 23:14:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (96, 97, 46, 51, 37, '2019-04-30 23:14:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (97, 97, 46, 51, 37, '2019-04-30 23:14:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (98, 97, 46, 51, 37, '2019-04-30 23:14:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (99, 97, 46, 51, 37, '2019-04-30 23:14:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (100, 97, 46, 51, 37, '2019-04-30 23:14:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (101, 97, 46, 51, 37, '2019-04-30 23:14:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (102, 97, 46, 51, 37, '2019-04-30 23:14:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (103, 97, 46, 51, 37, '2019-04-30 23:14:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (104, 97, 46, 51, 37, '2019-04-30 23:14:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (105, 97, 46, 51, 37, '2019-04-30 23:14:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (106, 97, 46, 51, 37, '2019-04-30 23:14:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (107, 97, 46, 51, 37, '2019-04-30 23:14:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (108, 97, 46, 51, 37, '2019-04-30 23:14:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (109, 97, 46, 51, 37, '2019-04-30 23:14:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (110, 97, 46, 51, 37, '2019-04-30 23:14:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (111, 97, 46, 51, 37, '2019-04-30 23:14:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (112, 97, 46, 51, 37, '2019-04-30 23:14:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (113, 97, 46, 51, 37, '2019-04-30 23:14:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (114, 97, 46, 51, 37, '2019-04-30 23:14:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (115, 97, 46, 51, 37, '2019-04-30 23:14:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (116, 97, 46, 51, 37, '2019-04-30 23:14:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (117, 97, 46, 51, 37, '2019-04-30 23:14:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (118, 97, 46, 51, 37, '2019-04-30 23:14:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (119, 97, 46, 51, 37, '2019-04-30 23:14:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (120, 97, 46, 51, 37, '2019-04-30 23:14:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (121, 97, 46, 51, 37, '2019-04-30 23:15:00', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (122, 97, 46, 51, 37, '2019-04-30 23:15:00', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (123, 97, 46, 51, 37, '2019-04-30 23:15:03', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (124, 97, 46, 51, 37, '2019-04-30 23:15:03', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (125, 97, 46, 51, 37, '2019-04-30 23:15:06', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (126, 97, 46, 51, 37, '2019-04-30 23:15:06', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (127, 97, 46, 51, 37, '2019-04-30 23:15:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (128, 97, 46, 51, 37, '2019-04-30 23:15:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (129, 97, 46, 51, 37, '2019-04-30 23:15:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (130, 97, 46, 51, 37, '2019-04-30 23:15:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (131, 97, 46, 51, 37, '2019-04-30 23:15:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (132, 97, 46, 51, 37, '2019-04-30 23:15:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (133, 97, 46, 51, 37, '2019-04-30 23:15:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (134, 97, 46, 51, 37, '2019-04-30 23:15:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (135, 97, 46, 51, 37, '2019-04-30 23:15:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (136, 97, 46, 51, 37, '2019-04-30 23:15:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (137, 97, 46, 51, 37, '2019-04-30 23:15:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (138, 97, 46, 51, 37, '2019-04-30 23:15:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (139, 97, 46, 51, 37, '2019-04-30 23:15:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (140, 97, 46, 51, 37, '2019-04-30 23:15:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (141, 97, 46, 51, 37, '2019-04-30 23:15:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (142, 97, 46, 51, 37, '2019-04-30 23:15:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (143, 97, 46, 51, 37, '2019-04-30 23:15:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (144, 97, 46, 51, 37, '2019-04-30 23:15:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (145, 97, 46, 51, 37, '2019-04-30 23:15:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (146, 97, 46, 51, 37, '2019-04-30 23:15:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (147, 97, 46, 51, 37, '2019-04-30 23:15:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (148, 97, 46, 51, 37, '2019-04-30 23:15:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (149, 97, 46, 51, 37, '2019-04-30 23:15:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (150, 97, 46, 51, 37, '2019-04-30 23:15:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (151, 97, 46, 51, 37, '2019-04-30 23:15:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (152, 97, 46, 51, 37, '2019-04-30 23:15:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (153, 97, 46, 51, 37, '2019-04-30 23:15:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (154, 97, 46, 51, 37, '2019-04-30 23:15:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (155, 97, 46, 51, 37, '2019-04-30 23:15:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (156, 97, 46, 51, 37, '2019-04-30 23:15:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (157, 97, 46, 51, 37, '2019-04-30 23:15:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (158, 97, 46, 51, 37, '2019-04-30 23:15:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (159, 97, 46, 51, 37, '2019-04-30 23:15:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (160, 97, 46, 51, 37, '2019-04-30 23:15:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (161, 97, 46, 51, 37, '2019-04-30 23:16:00', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (162, 97, 46, 51, 37, '2019-04-30 23:16:00', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (163, 97, 46, 51, 37, '2019-04-30 23:16:03', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (164, 97, 46, 51, 37, '2019-04-30 23:16:03', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (165, 97, 46, 51, 37, '2019-04-30 23:16:06', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (166, 97, 46, 51, 37, '2019-04-30 23:16:06', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (167, 97, 46, 51, 37, '2019-04-30 23:16:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (168, 97, 46, 51, 37, '2019-04-30 23:16:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (169, 97, 46, 51, 37, '2019-04-30 23:16:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (170, 97, 46, 51, 37, '2019-04-30 23:16:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (171, 97, 46, 51, 37, '2019-04-30 23:16:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (172, 97, 46, 51, 37, '2019-04-30 23:16:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (173, 97, 46, 51, 37, '2019-04-30 23:16:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (174, 97, 46, 51, 37, '2019-04-30 23:16:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (175, 97, 46, 51, 37, '2019-04-30 23:16:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (176, 97, 46, 51, 37, '2019-04-30 23:16:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (177, 97, 46, 51, 37, '2019-04-30 23:16:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (178, 97, 46, 51, 37, '2019-04-30 23:16:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (179, 97, 46, 51, 37, '2019-04-30 23:16:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (180, 97, 46, 51, 37, '2019-04-30 23:16:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (181, 97, 46, 51, 37, '2019-04-30 23:16:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (182, 97, 46, 51, 37, '2019-04-30 23:16:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (183, 97, 46, 51, 37, '2019-04-30 23:16:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (184, 97, 46, 51, 37, '2019-04-30 23:16:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (185, 97, 46, 51, 37, '2019-04-30 23:16:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (186, 97, 46, 51, 37, '2019-04-30 23:16:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (187, 97, 46, 51, 37, '2019-04-30 23:16:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (188, 97, 46, 51, 37, '2019-04-30 23:16:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (189, 97, 46, 51, 37, '2019-04-30 23:16:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (190, 97, 46, 51, 37, '2019-04-30 23:16:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (191, 97, 46, 51, 37, '2019-04-30 23:16:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (192, 97, 46, 51, 37, '2019-04-30 23:16:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (193, 97, 46, 51, 37, '2019-04-30 23:16:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (194, 97, 46, 51, 37, '2019-04-30 23:16:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (195, 97, 46, 51, 37, '2019-04-30 23:16:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (196, 97, 46, 51, 37, '2019-04-30 23:16:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (197, 97, 46, 51, 37, '2019-04-30 23:16:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (198, 97, 46, 51, 37, '2019-04-30 23:16:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (199, 97, 46, 51, 37, '2019-04-30 23:16:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (200, 97, 46, 51, 37, '2019-04-30 23:16:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (201, 97, 46, 51, 37, '2019-04-30 23:17:00', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (202, 97, 46, 51, 37, '2019-04-30 23:17:00', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (203, 97, 46, 51, 37, '2019-04-30 23:17:03', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (204, 97, 46, 51, 37, '2019-04-30 23:17:03', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (205, 97, 46, 51, 37, '2019-04-30 23:17:06', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (206, 97, 46, 51, 37, '2019-04-30 23:17:06', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (207, 97, 46, 51, 37, '2019-04-30 23:17:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (208, 97, 46, 51, 37, '2019-04-30 23:17:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (209, 97, 46, 51, 37, '2019-04-30 23:17:11', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (210, 97, 46, 51, 37, '2019-04-30 23:17:11', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (211, 97, 46, 51, 37, '2019-04-30 23:17:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (212, 97, 46, 51, 37, '2019-04-30 23:17:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (213, 97, 46, 51, 37, '2019-04-30 23:17:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (214, 97, 46, 51, 37, '2019-04-30 23:17:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (215, 97, 46, 51, 37, '2019-04-30 23:17:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (216, 97, 46, 51, 37, '2019-04-30 23:17:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (217, 97, 46, 51, 37, '2019-04-30 23:17:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (218, 97, 46, 51, 37, '2019-04-30 23:17:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (219, 97, 46, 51, 37, '2019-04-30 23:17:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (220, 97, 46, 51, 37, '2019-04-30 23:17:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (221, 97, 46, 51, 37, '2019-04-30 23:17:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (222, 97, 46, 51, 37, '2019-04-30 23:17:27', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (223, 97, 46, 51, 37, '2019-04-30 23:17:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (224, 97, 46, 51, 37, '2019-04-30 23:17:30', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (225, 97, 46, 51, 37, '2019-04-30 23:17:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (226, 97, 46, 51, 37, '2019-04-30 23:17:33', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (227, 97, 46, 51, 37, '2019-04-30 23:17:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (228, 97, 46, 51, 37, '2019-04-30 23:17:36', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (229, 97, 46, 51, 37, '2019-04-30 23:17:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (230, 97, 46, 51, 37, '2019-04-30 23:17:39', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (231, 97, 46, 51, 37, '2019-04-30 23:17:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (232, 97, 46, 51, 37, '2019-04-30 23:17:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (233, 97, 46, 51, 37, '2019-04-30 23:17:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (234, 97, 46, 51, 37, '2019-04-30 23:17:45', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (235, 97, 46, 51, 37, '2019-04-30 23:17:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (236, 97, 46, 51, 37, '2019-04-30 23:17:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (237, 97, 46, 51, 37, '2019-04-30 23:17:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (238, 97, 46, 51, 37, '2019-04-30 23:17:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (239, 97, 46, 51, 37, '2019-04-30 23:17:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (240, 97, 46, 51, 37, '2019-04-30 23:17:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (241, 97, 46, 51, 37, '2019-04-30 23:17:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (242, 97, 46, 51, 37, '2019-04-30 23:17:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (243, 97, 46, 51, 37, '2019-04-30 23:18:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (244, 97, 46, 51, 37, '2019-04-30 23:18:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (245, 97, 46, 51, 37, '2019-04-30 23:18:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (246, 97, 46, 51, 37, '2019-04-30 23:18:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (247, 97, 46, 51, 37, '2019-04-30 23:18:07', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (248, 97, 46, 51, 37, '2019-04-30 23:18:07', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (249, 97, 46, 51, 37, '2019-04-30 23:18:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (250, 97, 46, 51, 37, '2019-04-30 23:18:09', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (251, 97, 46, 51, 37, '2019-04-30 23:18:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (252, 97, 46, 51, 37, '2019-04-30 23:18:12', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (253, 97, 46, 51, 37, '2019-04-30 23:18:15', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (254, 97, 46, 51, 37, '2019-04-30 23:18:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (255, 97, 46, 51, 37, '2019-04-30 23:18:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (256, 97, 46, 51, 37, '2019-04-30 23:18:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (257, 97, 46, 51, 37, '2019-04-30 23:18:17', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (258, 97, 46, 51, 37, '2019-04-30 23:18:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (259, 97, 46, 51, 37, '2019-04-30 23:18:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (260, 97, 46, 51, 37, '2019-04-30 23:18:19', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (261, 97, 46, 51, 37, '2019-04-30 23:18:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (262, 97, 46, 51, 37, '2019-04-30 23:18:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (263, 97, 46, 51, 37, '2019-04-30 23:18:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (264, 97, 46, 51, 37, '2019-04-30 23:18:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (265, 97, 46, 51, 37, '2019-04-30 23:18:26', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (266, 97, 46, 51, 37, '2019-05-28 22:45:23', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (267, 97, 46, 51, 37, '2019-07-01 03:44:18', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (268, 97, 46, 51, 37, '2019-07-31 23:50:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (269, 97, 46, 51, 37, '2019-07-31 23:50:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (270, 97, 46, 51, 37, '2019-07-31 23:50:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (271, 97, 46, 51, 37, '2019-07-31 23:50:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (272, 97, 46, 51, 37, '2019-07-31 23:50:28', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (273, 97, 46, 51, 37, '2019-07-31 23:50:28', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (274, 97, 46, 51, 37, '2019-07-31 23:50:31', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (275, 97, 46, 51, 37, '2019-07-31 23:50:31', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (276, 97, 46, 51, 37, '2019-07-31 23:50:34', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (277, 97, 46, 51, 37, '2019-07-31 23:50:34', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (278, 97, 46, 51, 37, '2019-07-31 23:50:37', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (279, 97, 46, 51, 37, '2019-07-31 23:50:37', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (280, 97, 46, 51, 37, '2019-07-31 23:50:40', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (281, 97, 46, 51, 37, '2019-07-31 23:50:40', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (282, 97, 46, 51, 37, '2019-07-31 23:50:43', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (283, 97, 46, 51, 37, '2019-07-31 23:50:43', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (284, 97, 46, 51, 37, '2019-07-31 23:50:46', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (285, 97, 46, 51, 37, '2019-07-31 23:50:46', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (286, 97, 46, 51, 37, '2019-07-31 23:50:49', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (287, 97, 46, 51, 37, '2019-07-31 23:50:49', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (288, 97, 46, 51, 37, '2019-07-31 23:50:52', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (289, 97, 46, 51, 37, '2019-07-31 23:50:52', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (290, 97, 46, 51, 37, '2019-07-31 23:50:55', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (291, 97, 46, 51, 37, '2019-07-31 23:50:55', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (292, 97, 46, 51, 37, '2019-07-31 23:50:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (293, 97, 46, 51, 37, '2019-07-31 23:50:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (294, 97, 46, 51, 37, '2019-07-31 23:51:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (295, 97, 46, 51, 37, '2019-07-31 23:51:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (296, 97, 46, 51, 37, '2019-07-31 23:51:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (297, 97, 46, 51, 37, '2019-07-31 23:51:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (298, 97, 46, 51, 37, '2019-07-31 23:51:07', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (299, 97, 46, 51, 37, '2019-07-31 23:51:07', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (300, 97, 46, 51, 37, '2019-07-31 23:51:10', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (301, 97, 46, 51, 37, '2019-07-31 23:51:10', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (302, 97, 46, 51, 37, '2019-07-31 23:51:13', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (303, 97, 46, 51, 37, '2019-07-31 23:51:13', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (304, 97, 46, 51, 37, '2019-07-31 23:51:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (305, 97, 46, 51, 37, '2019-07-31 23:51:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (306, 97, 46, 51, 37, '2019-07-31 23:51:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (307, 97, 46, 51, 37, '2019-07-31 23:51:21', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (308, 97, 46, 51, 37, '2019-07-31 23:51:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (309, 97, 46, 51, 37, '2019-07-31 23:51:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (310, 97, 46, 51, 37, '2019-07-31 23:51:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (311, 97, 46, 51, 37, '2019-07-31 23:51:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (312, 97, 46, 51, 37, '2019-07-31 23:51:28', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (313, 97, 46, 51, 37, '2019-07-31 23:51:28', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (314, 97, 46, 51, 37, '2019-07-31 23:51:31', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (315, 97, 46, 51, 37, '2019-07-31 23:51:31', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (316, 97, 46, 51, 37, '2019-07-31 23:51:34', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (317, 97, 46, 51, 37, '2019-07-31 23:51:34', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (318, 97, 46, 51, 37, '2019-07-31 23:51:37', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (319, 97, 46, 51, 37, '2019-07-31 23:51:37', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (320, 97, 46, 51, 37, '2019-07-31 23:51:40', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (321, 97, 46, 51, 37, '2019-07-31 23:51:40', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (322, 97, 46, 51, 37, '2019-07-31 23:51:42', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (323, 97, 46, 51, 37, '2019-07-31 23:51:43', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (324, 97, 46, 51, 37, '2019-07-31 23:51:43', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (325, 97, 46, 51, 37, '2019-07-31 23:51:46', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (326, 97, 46, 51, 37, '2019-07-31 23:51:46', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (327, 97, 46, 51, 37, '2019-07-31 23:51:49', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (328, 97, 46, 51, 37, '2019-07-31 23:51:49', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (329, 97, 46, 51, 37, '2019-07-31 23:51:52', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (330, 97, 46, 51, 37, '2019-07-31 23:51:52', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (331, 97, 46, 51, 37, '2019-07-31 23:51:55', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (332, 97, 46, 51, 37, '2019-07-31 23:51:55', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (333, 97, 46, 51, 37, '2019-07-31 23:51:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (334, 97, 46, 51, 37, '2019-07-31 23:51:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (335, 97, 46, 51, 37, '2019-07-31 23:52:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (336, 97, 46, 51, 37, '2019-07-31 23:52:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (337, 97, 46, 51, 37, '2019-07-31 23:52:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (338, 97, 46, 51, 37, '2019-07-31 23:52:04', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (339, 97, 46, 51, 37, '2019-07-31 23:52:07', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (340, 97, 46, 51, 37, '2019-07-31 23:52:07', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (341, 97, 46, 51, 37, '2019-07-31 23:52:10', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (342, 97, 46, 51, 37, '2019-07-31 23:52:10', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (343, 97, 46, 51, 37, '2019-07-31 23:52:13', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (344, 97, 46, 51, 37, '2019-07-31 23:52:13', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (345, 97, 46, 51, 37, '2019-07-31 23:52:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (346, 97, 46, 51, 37, '2019-07-31 23:52:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (347, 97, 46, 51, 37, '2019-07-31 23:52:19', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (348, 97, 46, 51, 37, '2019-07-31 23:52:19', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (349, 97, 46, 51, 37, '2019-07-31 23:52:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (350, 97, 46, 51, 37, '2019-07-31 23:52:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (351, 97, 46, 51, 37, '2019-07-31 23:52:22', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (352, 97, 46, 51, 37, '2019-07-31 23:52:23', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (353, 97, 46, 51, 37, '2019-07-31 23:52:23', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (354, 97, 46, 51, 37, '2019-07-31 23:52:24', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (355, 97, 46, 51, 37, '2019-07-31 23:52:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (356, 97, 46, 51, 37, '2019-07-31 23:52:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (357, 97, 46, 51, 37, '2019-07-31 23:52:25', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (358, 97, 46, 51, 37, '2019-08-30 19:18:01', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (359, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (360, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (361, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (362, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (363, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (364, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (365, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (366, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (367, 97, 46, 51, 37, '2019-09-30 21:47:47', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (368, 97, 46, 51, 37, '2019-09-30 21:47:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (369, 97, 46, 51, 37, '2019-09-30 21:47:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (370, 97, 46, 51, 37, '2019-09-30 21:47:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (371, 97, 46, 51, 37, '2019-09-30 21:47:48', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (372, 97, 46, 51, 37, '2019-09-30 21:47:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (373, 97, 46, 51, 37, '2019-09-30 21:47:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (374, 97, 46, 51, 37, '2019-09-30 21:47:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (375, 97, 46, 51, 37, '2019-09-30 21:47:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (376, 97, 46, 51, 37, '2019-09-30 21:47:51', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (377, 97, 46, 51, 37, '2019-09-30 21:47:52', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (378, 97, 46, 51, 37, '2019-09-30 21:47:52', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (379, 97, 46, 51, 37, '2019-09-30 21:47:53', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (380, 97, 46, 51, 37, '2019-09-30 21:47:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (381, 97, 46, 51, 37, '2019-09-30 21:47:54', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (382, 97, 46, 51, 37, '2019-09-30 21:47:56', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (383, 97, 46, 51, 37, '2019-09-30 21:47:56', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (384, 97, 46, 51, 37, '2019-09-30 21:47:56', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (385, 97, 46, 51, 37, '2019-09-30 21:47:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (386, 97, 46, 51, 37, '2019-09-30 21:47:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (387, 97, 46, 51, 37, '2019-09-30 21:47:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (388, 97, 46, 51, 37, '2019-09-30 21:47:57', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (389, 97, 46, 51, 37, '2019-09-30 21:47:58', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (390, 97, 46, 51, 37, '2019-09-30 21:47:59', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (391, 97, 46, 51, 37, '2019-09-30 21:47:59', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (392, 97, 46, 51, 37, '2019-09-30 21:47:59', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2019-11-30 22:04:42', 28, 9, 0, 0);
 
+#
+# TABLE STRUCTURE FOR: log_ekspor
+#
+
+DROP TABLE IF EXISTS `log_ekspor`;
+
+CREATE TABLE `log_ekspor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tgl_ekspor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `kode_ekspor` varchar(100) NOT NULL,
+  `semua` int(1) NOT NULL DEFAULT '1',
+  `dari_tgl` date DEFAULT NULL,
+  `total` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: log_keluarga
@@ -6756,11 +6500,11 @@ CREATE TABLE `lokasi` (
   `desk` text NOT NULL,
   `nama` varchar(50) NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT '1',
-  `lat` varchar(30) NOT NULL,
-  `lng` varchar(30) NOT NULL,
+  `lat` varchar(30) DEFAULT NULL,
+  `lng` varchar(30) DEFAULT NULL,
   `ref_point` int(9) NOT NULL,
-  `foto` varchar(100) NOT NULL,
-  `id_cluster` int(11) NOT NULL,
+  `foto` varchar(100) DEFAULT NULL,
+  `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ref_point` (`ref_point`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -6809,7 +6553,7 @@ CREATE TABLE `menu` (
   `enabled` int(11) NOT NULL DEFAULT '1',
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (16, 'Profil Desa', 'artikel/32', 1, 1, 1, 1, NULL);
 INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (17, 'Pemerintahan Desa', 'artikel/85', 1, 1, 1, 1, NULL);
@@ -6871,6 +6615,8 @@ INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabl
 INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (112, 'Coba', 'coba', 2, 1, 1, 1, NULL);
 INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (113, '', '', 3, 109, 0, 1, NULL);
 INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (114, 'Sejarah Desa', 'artikel/99', 3, 16, 0, 1, NULL);
+INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (115, 'Produk Hukum', 'peraturan_desa', 1, 1, 5, 1, 1);
+INSERT INTO `menu` (`id`, `nama`, `link`, `tipe`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (116, 'Informasi Publik', 'informasi_publik', 1, 1, 5, 1, 2);
 
 
 #
@@ -6881,8 +6627,8 @@ DROP TABLE IF EXISTS `outbox`;
 
 CREATE TABLE `outbox` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `SendBefore` time NOT NULL DEFAULT '23:59:59',
   `SendAfter` time NOT NULL DEFAULT '00:00:00',
   `Text` text,
@@ -6895,7 +6641,7 @@ CREATE TABLE `outbox` (
   `MultiPart` enum('false','true') DEFAULT 'false',
   `RelativeValidity` int(11) DEFAULT '-1',
   `SenderID` varchar(255) DEFAULT NULL,
-  `SendingTimeOut` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `SendingTimeOut` timestamp NULL DEFAULT NULL,
   `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
   `CreatorID` text NOT NULL,
   PRIMARY KEY (`ID`),
@@ -6957,7 +6703,7 @@ DROP TABLE IF EXISTS `polygon`;
 CREATE TABLE `polygon` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `simbol` varchar(50) NOT NULL,
+  `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(10) NOT NULL DEFAULT 'ff0000',
   `tipe` int(4) NOT NULL,
   `parrent` int(4) DEFAULT '1',
@@ -7009,12 +6755,12 @@ CREATE TABLE `program_peserta` (
   `program_id` int(11) NOT NULL,
   `sasaran` tinyint(4) DEFAULT NULL,
   `no_id_kartu` varchar(30) DEFAULT NULL,
-  `kartu_nik` varchar(30) NOT NULL,
+  `kartu_nik` varchar(30) DEFAULT NULL,
   `kartu_nama` varchar(100) DEFAULT NULL,
   `kartu_tempat_lahir` varchar(100) DEFAULT NULL,
   `kartu_tanggal_lahir` date DEFAULT NULL,
   `kartu_alamat` varchar(200) DEFAULT NULL,
-  `kartu_peserta` varchar(100) NOT NULL,
+  `kartu_peserta` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
@@ -7079,6 +6825,23 @@ INSERT INTO `provinsi` (`kode`, `nama`) VALUES (92, 'Papua Barat');
 
 
 #
+# TABLE STRUCTURE FOR: ref_dokumen
+#
+
+DROP TABLE IF EXISTS `ref_dokumen`;
+
+CREATE TABLE `ref_dokumen` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+INSERT INTO `ref_dokumen` (`id`, `nama`) VALUES (1, 'Informasi Publik');
+INSERT INTO `ref_dokumen` (`id`, `nama`) VALUES (2, 'SK Kades');
+INSERT INTO `ref_dokumen` (`id`, `nama`) VALUES (3, 'Perdes');
+
+
+#
 # TABLE STRUCTURE FOR: ref_pindah
 #
 
@@ -7104,8 +6867,8 @@ DROP TABLE IF EXISTS `sentitems`;
 
 CREATE TABLE `sentitems` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DeliveryDateTime` timestamp NULL DEFAULT NULL,
   `Text` text NOT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
@@ -7163,7 +6926,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.10', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.12', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (22, 'tombol_cetak_surat', '0', 'Tampilkan tombol cetak langsung di form surat', 'boolean', NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
@@ -7218,7 +6981,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (24, 'Kelompok', 'kelompok/clear', 1, 'fa-sitemap', 5, 2, 0, '', 2);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (25, 'Data Suplemen', 'suplemen', 1, 'fa-slideshare', 6, 2, 0, '', 2);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (26, 'Calon Pemilih', 'dpt/clear', 1, 'fa-podcast', 7, 2, 0, '', 2);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (27, 'Statistik Kependudukan', 'statistik', 1, 'fa-bar-chart', 1, 2, 0, '', 3);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (27, 'Statistik Kependudukan', 'statistik/clear', 1, 'fa-bar-chart', 1, 2, 0, '', 3);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (28, 'Laporan Bulanan', 'laporan/clear', 1, 'fa-file-text', 2, 2, 0, '', 3);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (29, 'Laporan Kelompok Rentan', 'laporan_rentan/clear', 1, 'fa-wheelchair', 3, 2, 0, '', 3);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (30, 'Pengaturan Surat', 'surat_master/clear', 1, 'fa-cog', 1, 2, 0, '', 4);
@@ -7238,15 +7001,13 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (49, 'Menu', 'menu/clear', 1, 'fa-bars', 3, 4, 0, '', 13);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (50, 'Komentar', 'komentar/clear', 1, 'fa-comments', 4, 4, 0, '', 13);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (51, 'Galeri', 'gallery', 1, 'fa-image', 5, 5, 0, '', 13);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (52, 'Dokumen', 'dokumen/clear', 1, 'fa-file-text', 6, 4, 0, '', 13);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (52, 'Informasi Publik', 'dokumen/clear', 1, 'fa-file-text', 4, 4, 0, '', 15);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (53, 'Media Sosial', 'sosmed', 1, 'fa-facebook', 7, 4, 0, '', 13);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (54, 'Slider', 'web/slider', 1, 'fa-film', 8, 4, 0, '', 13);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (55, 'Laporan Masuk', 'lapor', 1, 'fa-wechat', 1, 2, 0, '', 14);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (56, 'Pendaftar Layanan Mandiri', 'mandiri/clear', 1, 'fa-500px', 2, 2, 0, '', 14);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (57, 'Surat Masuk', 'surat_masuk/clear', 1, 'fa-sign-in', 1, 2, 0, '', 15);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (58, 'Surat Keluar', 'surat_keluar/clear', 1, 'fa-sign-out', 2, 2, 0, '', 15);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (59, 'SK Kades', 'dokumen_sekretariat/clear/2', 1, 'fa-legal', 3, 2, 0, '', 15);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (60, 'Perdes', 'dokumen_sekretariat/clear/3', 1, 'fa-newspaper-o', 4, 2, 0, '', 15);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (61, 'Inventaris', 'inventaris_tanah', 1, 'fa-cubes', 5, 2, 0, '', 15);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (62, 'Peta', 'gis/clear', 1, 'fa-globe', 1, 2, 0, 'fa fa-globe', 9);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (63, 'Klasfikasi Surat', 'klasifikasi/clear', 1, 'fa-code', 10, 2, 0, 'fa-code', 15);
@@ -7274,6 +7035,15 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (85, 'inventaris_kontruksi', 'inventaris_kontruksi', 1, '', 0, 0, 2, '', 61);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (86, 'inventaris_peralatan', 'inventaris_peralatan', 1, '', 0, 0, 2, '', 61);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (87, 'laporan_inventaris', 'laporan_inventaris', 1, '', 0, 0, 2, '', 61);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (88, 'plan', 'plan', 1, '', 0, 0, 2, '', 8);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (89, 'point', 'point', 1, '', 0, 0, 2, '', 8);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (90, 'garis', 'garis', 1, '', 0, 0, 2, '', 8);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (91, 'line', 'line', 1, '', 0, 0, 2, '', 8);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (92, 'area', 'area', 1, '', 0, 0, 2, '', 8);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (93, 'polygon', 'polygon', 1, '', 0, 0, 2, '', 8);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (94, 'Kategori Kelompok', 'kelompok_master', 1, '', 0, 0, 2, '', 24);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (95, 'Produk Hukum', 'dokumen_sekretariat/peraturan_desa', 1, 'fa-book', 3, 2, 0, '', 15);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (96, 'Informasi Publik', 'informasi_publik', 1, '', 0, 0, 2, '', 52);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (200, 'Info [Desa]', 'hom_desa', 1, 'fa-dashboard', 2, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (201, 'Keuangan', 'keuangan', 1, 'fa-balance-scale', 6, 2, 0, 'fa-balance-scale', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (202, 'Impor Data', 'keuangan/impor_data', 1, 'fa-cloud-upload', 6, 2, 0, 'fa-cloud-upload', 201);
@@ -7402,6 +7172,7 @@ INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-05-28
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-05-29', '10.0.2.2{}', 1);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-11-30', '192.168.33.1{}', 1);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2019-08-30', '::1{}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2019-11-01', '192.168.33.1{}', 1);
 
 
 #
@@ -7416,7 +7187,7 @@ CREATE TABLE `teks_berjalan` (
   `urut` int(5) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `tautan` varchar(150) DEFAULT NULL,
@@ -7424,7 +7195,7 @@ CREATE TABLE `teks_berjalan` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `teks_berjalan` (`id`, `teks`, `urut`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `tautan`, `judul_tautan`) VALUES (1, 'Ini contoh teks berjalan. Isi dengan tulisan yang menampilkan suatu ciri atau kegiatan penting di desa anda.', NULL, '2019-05-28 22:45:28', 1, '0000-00-00 00:00:00', NULL, 1, NULL, NULL);
+INSERT INTO `teks_berjalan` (`id`, `teks`, `urut`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `tautan`, `judul_tautan`) VALUES (1, 'Ini contoh teks berjalan. Isi dengan tulisan yang menampilkan suatu ciri atau kegiatan penting di desa anda.', NULL, '2019-05-28 22:45:28', 1, '2019-05-28 22:45:28', NULL, 1, NULL, NULL);
 
 
 #
@@ -11899,37 +11670,37 @@ CREATE TABLE `tweb_penduduk` (
   `nik` decimal(16,0) NOT NULL,
   `id_kk` int(11) DEFAULT '0',
   `kk_level` tinyint(2) NOT NULL DEFAULT '0',
-  `id_rtm` varchar(30) NOT NULL,
-  `rtm_level` int(11) NOT NULL,
+  `id_rtm` varchar(30) DEFAULT NULL,
+  `rtm_level` int(11) DEFAULT NULL,
   `sex` tinyint(4) unsigned DEFAULT NULL,
-  `tempatlahir` varchar(100) NOT NULL,
+  `tempatlahir` varchar(100) DEFAULT NULL,
   `tanggallahir` date DEFAULT NULL,
-  `agama_id` int(10) unsigned NOT NULL,
-  `pendidikan_kk_id` int(10) unsigned NOT NULL,
-  `pendidikan_sedang_id` int(10) unsigned NOT NULL,
-  `pekerjaan_id` int(10) unsigned NOT NULL,
-  `status_kawin` tinyint(4) unsigned NOT NULL,
-  `warganegara_id` int(10) unsigned NOT NULL,
+  `agama_id` int(1) DEFAULT NULL,
+  `pendidikan_kk_id` int(1) DEFAULT NULL,
+  `pendidikan_sedang_id` int(1) DEFAULT NULL,
+  `pekerjaan_id` int(1) DEFAULT NULL,
+  `status_kawin` tinyint(4) DEFAULT NULL,
+  `warganegara_id` tinyint(4) NOT NULL DEFAULT '1',
   `dokumen_pasport` varchar(45) DEFAULT NULL,
   `dokumen_kitas` int(10) DEFAULT NULL,
-  `ayah_nik` varchar(16) NOT NULL,
-  `ibu_nik` varchar(16) NOT NULL,
-  `nama_ayah` varchar(100) NOT NULL,
-  `nama_ibu` varchar(100) NOT NULL,
-  `foto` varchar(100) NOT NULL,
-  `golongan_darah_id` int(11) NOT NULL,
+  `ayah_nik` varchar(16) DEFAULT NULL,
+  `ibu_nik` varchar(16) DEFAULT NULL,
+  `nama_ayah` varchar(100) DEFAULT NULL,
+  `nama_ibu` varchar(100) DEFAULT NULL,
+  `foto` varchar(100) DEFAULT NULL,
+  `golongan_darah_id` int(11) DEFAULT NULL,
   `id_cluster` int(11) NOT NULL,
   `status` int(10) unsigned DEFAULT NULL,
-  `alamat_sebelumnya` varchar(200) NOT NULL,
-  `alamat_sekarang` varchar(200) NOT NULL,
+  `alamat_sebelumnya` varchar(200) DEFAULT NULL,
+  `alamat_sekarang` varchar(200) DEFAULT NULL,
   `status_dasar` tinyint(4) NOT NULL DEFAULT '1',
   `hamil` int(1) DEFAULT NULL,
   `cacat_id` int(11) DEFAULT NULL,
   `sakit_menahun_id` int(11) DEFAULT NULL,
-  `akta_lahir` varchar(40) NOT NULL,
-  `akta_perkawinan` varchar(40) NOT NULL,
+  `akta_lahir` varchar(40) DEFAULT NULL,
+  `akta_perkawinan` varchar(40) DEFAULT NULL,
   `tanggalperkawinan` date DEFAULT NULL,
-  `akta_perceraian` varchar(40) NOT NULL,
+  `akta_perceraian` varchar(40) DEFAULT NULL,
   `tanggalperceraian` date DEFAULT NULL,
   `cara_kb_id` tinyint(2) DEFAULT NULL,
   `telepon` varchar(20) DEFAULT NULL,
@@ -11937,7 +11708,7 @@ CREATE TABLE `tweb_penduduk` (
   `no_kk_sebelumnya` varchar(30) DEFAULT NULL,
   `ktp_el` tinyint(4) DEFAULT NULL,
   `status_rekam` tinyint(4) DEFAULT NULL,
-  `waktu_lahir` varchar(5) NOT NULL,
+  `waktu_lahir` varchar(5) DEFAULT NULL,
   `tempat_dilahirkan` tinyint(2) DEFAULT NULL,
   `jenis_kelahiran` tinyint(2) DEFAULT NULL,
   `kelahiran_anak_ke` tinyint(2) DEFAULT NULL,
@@ -12143,8 +11914,8 @@ DROP TABLE IF EXISTS `tweb_penduduk_map`;
 
 CREATE TABLE `tweb_penduduk_map` (
   `id` int(11) NOT NULL,
-  `lat` varchar(24) NOT NULL,
-  `lng` varchar(24) NOT NULL
+  `lat` varchar(24) DEFAULT NULL,
+  `lng` varchar(24) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_penduduk_map` (`id`, `lat`, `lng`) VALUES (7, '-8.495339739996284', '116.05516478419307');
@@ -12409,8 +12180,10 @@ CREATE TABLE `tweb_rtm` (
   `nik_kepala` int(11) NOT NULL,
   `no_kk` varchar(30) NOT NULL,
   `tgl_daftar` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `kelas_sosial` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `kelas_sosial` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `no_kk` (`no_kk`),
+  UNIQUE KEY `no_kk_2` (`no_kk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
@@ -12532,7 +12305,7 @@ CREATE TABLE `tweb_surat_format` (
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8;
 
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, 0, 0, 1);
@@ -12577,10 +12350,12 @@ INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampi
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (165, 'Baru', 'surat_baru', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (166, 'Non Warga Baru', 'surat_non_warga_baru', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (167, 'Perintah Perjalanan Dinas', 'surat_perintah_perjalanan_dinas', 'S-46', NULL, 0, 0, 1);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (168, 'Kuasa', 'surat_kuasa', 'S-43', NULL, 0, 0, 1);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (168, 'Kuasa', 'surat_kuasa', 'S-47', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (169, 'Kk', 'kk', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (170, 'Permintaan Pembayaran', 'surat_permintaan_pembayaran', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (171, 'Coba Lagi', 'surat_coba_lagi', '', NULL, 0, 0, 2);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (172, 'Keterangan Kepemilikan Kendaraan', 'surat_ket_kepemilikan_kendaraan', 'S-48', NULL, 0, 0, 1);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (173, 'Keterangan Kepemilikan Tanah', 'surat_ket_kepemilikan_tanah', 'S-49', NULL, 0, 0, 1);
 
 
 #
@@ -12598,7 +12373,7 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   `lat` varchar(20) DEFAULT NULL,
   `lng` varchar(20) DEFAULT NULL,
   `zoom` int(11) DEFAULT NULL,
-  `path` tinytext,
+  `path` text,
   `map_tipe` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `rt` (`rt`,`rw`,`dusun`),
@@ -12613,7 +12388,7 @@ INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (6, '0', '-', 'SENGGIGI', 0, '', '', 0, '', '');
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (7, '-', '-', 'SENGGIGI', 0, '', '', 0, '', '');
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (8, '001', '-', 'SENGGIGI', 0, '', '', 0, '', '');
-INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (9, '0', '0', 'KERANDANGAN', 0, '', '', 0, '', '');
+INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (9, '0', '0', 'KERANDANGAN', 0, '-8.487384220496068', '116.04262340348217', 17, '[[[-8.485902029262565,116.04141712188722],[-8.485689801625153,116.04226469993593],[-8.485626133311067,116.04422807693483],[-8.485901656206273,116.04463371913882],[-8.486320971248613,116.04483272647488],[-8.486835829473774,116.0447645187378],[-8.487504344139245,116.04471087455751],[-8.48779085006813,116.04368090629579],[-8.488194080272509,116.04272603988649],[-8.488024299185433,116.04154586791994],[-8.487186003967512,116.04076266288759],[-8.486676659143768,116.04054808616638]]]', 'HYBRID');
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (10, '0', '-', 'KERANDANGAN', 0, '', '', 0, '', '');
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (11, '-', '-', 'KERANDANGAN', 0, '', '', 0, '', '');
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`) VALUES (12, '002', '-', 'KERANDANGAN', 0, '', '', 0, '', '');
@@ -12713,7 +12488,7 @@ INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (12, 'sinergi_program.php', 1, 'Sinergi Program', 1, 6, 'web_widget/admin/sinergi_program', '[]');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (13, 'menu_kategori.php', 1, 'Menu Kategori', 1, 3, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (14, 'peta_wilayah_desa.php', 1, 'Peta Wilayah Desa', 1, 1, 'hom_desa/konfigurasi', '');
-INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (15, 'keuangan.php', 1, 'Keuangan', 1, 15, 'keuangan/widget', '');
+INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (15, 'keuangan.php', 1, 'Keuangan', 1, 15, 'keuangan/impor_data', '');
 
 
 #
@@ -12781,7 +12556,7 @@ CREATE TABLE `mutasi_inventaris_asset` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -12805,7 +12580,7 @@ CREATE TABLE `mutasi_inventaris_gedung` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -12829,7 +12604,7 @@ CREATE TABLE `mutasi_inventaris_jalan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -12853,7 +12628,7 @@ CREATE TABLE `mutasi_inventaris_peralatan` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -12877,7 +12652,7 @@ CREATE TABLE `mutasi_inventaris_tanah` (
   `keterangan` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -13037,16 +12812,6 @@ CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pen
 
 
 #
-# TABLE STRUCTURE FOR: daftar_anggota_grup
-#
-
-DROP TABLE IF EXISTS `daftar_anggota_grup`;
-
-CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)));
-
-
-
-#
 # TABLE STRUCTURE FOR: daftar_grup
 #
 
@@ -13057,12 +12822,22 @@ CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` A
 
 
 #
-# TABLE STRUCTURE FOR: penduduk_hidup
+# TABLE STRUCTURE FOR: daftar_anggota_grup
 #
 
-DROP TABLE IF EXISTS `penduduk_hidup`;
+DROP TABLE IF EXISTS `daftar_anggota_grup`;
 
-CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
+CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)));
+
+
+
+#
+# TABLE STRUCTURE FOR: dokumen_hidup
+#
+
+DROP TABLE IF EXISTS `dokumen_hidup`;
+
+CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted` from `dokumen` where (`dokumen`.`deleted` <> 1);
 
 
 
@@ -13073,6 +12848,16 @@ CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_pendud
 DROP TABLE IF EXISTS `keluarga_aktif`;
 
 CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on((`k`.`nik_kepala` = `p`.`id`))) where (`p`.`status_dasar` = 1);
+
+
+
+#
+# TABLE STRUCTURE FOR: penduduk_hidup
+#
+
+DROP TABLE IF EXISTS `penduduk_hidup`;
+
+CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
 
 
 

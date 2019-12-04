@@ -103,7 +103,7 @@
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("garis/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="<?= site_url("garis/ajax_garis_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#mapBox" data-title="Lokasi <?= $data['nama']?>" title="Lokasi <?= $data['nama']?>"><i class="fa fa-map"></i></a>
+																			<a href="<?= site_url("garis/ajax_garis_maps/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Lokasi <?= $data['nama']?>"><i class="fa fa-map"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
 																				<a href="<?= site_url('garis/garis_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
@@ -203,4 +203,3 @@
 		</form>
 	</section>
 </div>
-

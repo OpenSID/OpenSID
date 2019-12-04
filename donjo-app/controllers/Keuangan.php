@@ -37,10 +37,19 @@ class Keuangan extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
 		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('keuangan/laporan',$data);
-		$this->load->view('footer');
+		if (!empty($data['tahun_anggaran']))
+		{
+			$this->load->view('header', $header);
+			$this->load->view('nav', $nav);
+			$this->load->view('keuangan/laporan',$data);
+			$this->load->view('footer');
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = "Data Laporan Keuangan Belum Tersedia";
+			redirect("keuangan/impor_data");
+		}
 	}
 
 	public function anggaran($tahun, $smt)
@@ -50,6 +59,8 @@ class Keuangan extends Admin_Controller {
 			'set_semester' => $smt
 		);
 		$this->session->set_userdata( $sess );
+
+
 
 		$data['data_anggaran'] = $this->keuangan_model->data_anggaran_tahun($tahun);
 		$data['data_realisasi'] = $this->keuangan_model->data_grafik_utama($tahun);
@@ -325,5 +336,14 @@ class Keuangan extends Admin_Controller {
 			);
 		}
 		echo json_encode($list_tahun);
+	}
+
+	public function delete($id = '')
+	{
+		$this->redirect_hak_akses('h', 'keuangan');
+		$_SESSION['success'] = 1;
+		$outp = $this->keuangan_model->delete($id);
+		if (!$outp) $_SESSION['success'] = -1;
+		redirect('keuangan/impor_data');
 	}
 }

@@ -107,7 +107,11 @@ class Plan extends Admin_Controller {
 
 		$data['desa'] = $this->plan_lokasi_model->get_desa();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
+		$header= $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view("lokasi/maps", $data);
+		$this->load->view('footer');
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '')

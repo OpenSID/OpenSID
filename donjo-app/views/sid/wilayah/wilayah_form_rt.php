@@ -14,14 +14,14 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						 <a href="<?= site_url("sid_core/sub_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
+						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
            	</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-							<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+								<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 									<div class="box-body">
 										<div class="row">
 											<div class="col-sm-12">
@@ -40,7 +40,7 @@
 															<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
 																<strong> <?= $individu['nama']?></strong>
 																<br />NIK - <?= $individu['nik']?>
-															</P>
+															</p>
 														</div>
 													</div>
 												</div>
@@ -60,19 +60,21 @@
 											</div>
 										</div>
 									</div>
-									<div class="box-footer">
-										<div class="col-xs-12">
-											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+									<div class='box-footer'>
+										<div class='col-xs-12'>
+											<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+											<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 										</div>
 									</div>
 								</form>
 							</div>
-						</div>
+           	</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 

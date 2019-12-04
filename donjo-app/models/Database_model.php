@@ -29,7 +29,9 @@
 		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
 		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => '19.09'),
 		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
-		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => NULL)
+		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => '19.11'),
+		'19.11' => array('migrate' => 'migrasi_1911_ke_1912', 'nextVersion' => '19.12'),
+		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -191,6 +193,22 @@
 		$this->migrasi_1908_ke_1909();
 		$this->migrasi_1909_ke_1910();
 		$this->migrasi_1910_ke_1911();
+		$this->migrasi_1911_ke_1912();
+		$this->migrasi_1912_ke_2001();
+  }
+
+  private function migrasi_1912_ke_2001()
+  {
+  	$this->load->model('migrations/migrasi_1912_ke_2001');
+  	$this->migrasi_1912_ke_2001->up();
+  }
+
+  private function migrasi_1911_ke_1912()
+  {
+  	$this->load->model('migrations/migrasi_default_value');
+  	$this->migrasi_default_value->up();
+  	$this->load->model('migrations/migrasi_1911_ke_1912');
+  	$this->migrasi_1911_ke_1912->up();
   }
 
   private function migrasi_1910_ke_1911()
@@ -3560,18 +3578,17 @@
 	public function kosongkan_db()
 	{
 		// Views tidak perlu dikosongkan.
-		$views = array('daftar_kontak', 'daftar_anggota_grup', 'daftar_grup', 'penduduk_hidup', 'keluarga_aktif');
-		// Tabel dengan foreign key akan terkosongkan secara otomatis melalui delete
-		// tabel rujukannya
-		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk');
+		$views = $this->get_views();
 		$table_lookup = array(
 			"analisis_ref_state",
 			"analisis_ref_subjek",
 			"analisis_tipe_indikator",
 			"artikel", //remove everything except widgets 1003
 			"gis_simbol",
+			"klasifikasi_surat",
 			"media_sosial", //?
 			"provinsi",
+			"ref_dokumen",
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
@@ -3582,6 +3599,7 @@
 			"tweb_golongan_darah",
 			"tweb_keluarga_sejahtera",
 			"tweb_penduduk_agama",
+			"tweb_penduduk_asuransi",
 			"tweb_penduduk_hubungan",
 			"tweb_penduduk_kawin",
 			"tweb_penduduk_pekerjaan",
@@ -3607,7 +3625,7 @@
 			array_push($table_lookup,"kategori","menu");
 		}
 
-		$jangan_kosongkan = array_merge($views, $ada_foreign_key, $table_lookup);
+		$jangan_kosongkan = array_merge($views, $table_lookup);
 
 		// Hapus semua artikel kecuali artikel widget dengan kategori 1003
 		$this->db->where("id_kategori !=", "1003");
@@ -3615,6 +3633,7 @@
 		// Kosongkan semua tabel kecuali table lookup dan views
 		// Tabel yang ada foreign key akan dikosongkan secara otomatis
 		$semua_table = $this->db->list_tables();
+		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
 		foreach ($semua_table as $table)
 		{
 			if (!in_array($table, $jangan_kosongkan))
@@ -3623,6 +3642,7 @@
 				$this->db->query($query);
 			}
 		}
+		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
 		// Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
 		$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
 		$this->analisis_import_model->import_excel($file_analisis, 'DDK02', $jenis = 1);
@@ -3630,6 +3650,15 @@
 		$this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis = 1);
 
 		$_SESSION['success'] = 1;
+	}
+
+	public function get_views()
+	{
+		$db = $this->db->database;
+		$sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'VIEW' AND TABLE_SCHEMA = '$db'";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		return array_column($data, 'TABLE_NAME');
 	}
 
 }

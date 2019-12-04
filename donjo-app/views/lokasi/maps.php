@@ -1,53 +1,199 @@
-<!-- OpenStreetMap Js-->
-<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-<script src="<?= base_url()?>assets/js/turf.min.js"></script>
-<script src="<?= base_url()?>assets/js/leaflet.pm.min.js"></script>
 <script>
-	(function() {
-		setTimeout(function() {peta_desa.invalidateSize();}, 500);
-		//Jika posisi peta_desa belum ada, maka gunakan peta_desa default
-		<?php if (!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
-			var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
-			var zoom = <?=$desa['zoom'] ?: 10?>;
-		<?php else: ?>
-			var posisi = [-7.885619783139936, 110.39893195996092];
-			var zoom = 10;
-		<?php endif; ?>
-		//Inisialisasi tampilan peta
-		var peta_desa = L.map('map_lokasi').setView(posisi, zoom);
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-			id: 'map_lokasi'
-		}).addTo(peta_desa);
-		var lokasi_marker = L.marker(posisi, {draggable: true}).addTo(peta_desa);
-		lokasi_marker.on('dragend', function(e){
-			document.getElementById('lat').value = e.target._latlng.lat;
-			document.getElementById('lng').value = e.target._latlng.lng;
-		})
-	})();
+var infoWindow;
+window.onload = function()
+{
+
+	//Jika posisi wilayah lokasi belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+	<?php if (!empty($lokasi['lat'] && !empty($lokasi['lng']))): ?>
+		var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
+		var zoom = 16;
+	<?php else: ?>
+		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+		var zoom = <?=$desa['zoom'] ?: 16?>;
+	<?php endif; ?>
+
+	//Inisialisasi tampilan peta
+	var peta_lokasi = L.map('mapx').setView(posisi, zoom);
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+		id: 'mapbox.streets'
+	}).addTo(peta_lokasi);
+
+	var kantor_lokasi = L.marker(posisi, {draggable: true}).addTo(peta_lokasi);
+	kantor_lokasi.on('dragend', function(e){
+		$('#lat').val(e.target._latlng.lat);
+		$('#lng').val(e.target._latlng.lng);
+	})
+
+	peta_lokasi.on('zoomstart zoomend', function(e){
+		$('#zoom').val(peta_lokasi.getZoom());
+	})
+
+	$('#lat').on("input",function(e) {
+		if (!$('#validasi').valid())
+		{
+			$("#simpan_kantor").attr('disabled', true);
+			return;
+		} else
+		{
+			$("#simpan_kantor").attr('disabled', false);
+		}
+		let lat = $('#lat').val();
+		let lng = $('#lng').val();
+		let latLng = L.latLng({
+			lat: lat,
+			lng: lng
+		});
+
+		kantor_lokasi.setLatLng(latLng);
+		peta_lokasi.setView(latLng,zoom);
+	})
+
+	$('#lng').on("input",function(e) {
+		if (!$('#validasi').valid())
+		{
+			$("#simpan_kantor").attr('disabled', true);
+			return;
+		} else
+		{
+			$("#simpan_kantor").attr('disabled', false);
+		}
+		let lat = $('#lat').val();
+		let lng = $('#lng').val();
+		let latLng = L.latLng({
+			lat: lat,
+			lng: lng
+		});
+
+		kantor_lokasi.setLatLng(latLng);
+		peta_lokasi.setView(latLng, zoom);
+	})
+
+	//Unggah Peta dari file GPX/KML
+
+	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+
+	control = L.Control.fileLayerLoad({
+		addToMap: false,
+		formats: [
+			'.gpx',
+			'.kml'
+		],
+		fitBounds: true,
+		layerOptions: {
+			pointToLayer: function (data, latlng) {
+				return L.marker(latlng);
+			},
+
+		}
+	});
+	control.addTo(peta_lokasi);
+
+	control.loader.on('data:loaded', function (e) {
+		peta_lokasi.removeLayer(kantor_lokasi);
+		var type = e.layerType;
+		var layer = e.layer;
+		var coords=[];
+		var geojson = layer.toGeoJSON();
+		var shape_for_db = JSON.stringify(geojson);
+
+		var polygon =
+		L.geoJson(JSON.parse(shape_for_db), {
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng);
+			},
+			onEachFeature: function (feature, layer) {
+				coords.push(feature.geometry.coordinates);
+			}
+		}).addTo(peta_lokasi)
+
+		document.getElementById('lat').value = coords[0][1];
+		document.getElementById('lng').value = coords[0][0];
+	});
+
+}; //EOF window.onload
 </script>
 <style>
-  #map_lokasi
-  {
-		z-index: 1;
-    width: 100%;
-    height: 320px;
-    border: 1px solid #000;
-  }
+#mapx
+{
+	width:100%;
+	height:50vh
+}
+.icon {
+	max-width: 70%;
+	max-height: 70%;
+	margin: 4px;
+}
 </style>
-<form action="<?= $form_action?>" method="post" id="validasi">
-	<div class='modal-body'>
+<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Lokasi <?= $lokasi['nama']?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('plan')?>"> Pengaturan Lokasi</a></li>
+			<li class="active">Lokasi <?= $lokasi['nama']?></li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-sm-12">
-				<div id="map_lokasi"></div>
-				<input type="hidden" name="lat" id="lat" value="<?= $lokasi['lat']?>"/>
-    		<input type="hidden" name="lng" id="lng" value="<?= $lokasi['lng']?>" />>
+			<div class="col-md-12">
+				<div class="box box-info">
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-sm-12">
+									<div id="mapx">
+										<input type="hidden" name="id" id="id"  value="<?= $lokasi['id']?>"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='box-footer'>
+							<div class='col-xs-12'>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="lat">Lat</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control number" name="lat" id="lat" value="<?= $lokasi['lat']?>"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="lat">Lng</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $lokasi['lng']?>" />
+									</div>
+								</div>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
-	</div>
-</form>
+	</section>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('#simpan_kantor').click(function(){
+			if (!$('#validasi').valid()) return;
+
+			var id = $('#id').val();
+			var lat = $('#lat').val();
+			var lng = $('#lng').val();
+			$.ajax({
+				type: "POST",
+				url: "<?=$form_action?>",
+				dataType: 'json',
+				data: {lat: lat, lng: lng, id: id},
+			});
+		});
+	});
+</script>
+
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>

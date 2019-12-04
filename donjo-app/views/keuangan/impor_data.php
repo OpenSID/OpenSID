@@ -35,6 +35,7 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
 							</div>
+
 							<hr>
 							<div class="row">
 								<div class="col-sm-12">
@@ -44,6 +45,7 @@
 											<thead class="bg-gray disabled color-palette">
 												<tr>
 													<th>No</th>
+													<th>Aksi</th>
 													<th>Versi</th>
 													<th>Tahun Anggaran</th>
 													<th>Tanggal Impor</th>
@@ -53,6 +55,8 @@
 												<?php foreach ($main as $data): ?>
 													<tr>
 														<td><?=$data['no']?></td>
+														<td nowrap>
+															<a href="#" data-href="<?= site_url("keuangan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<td><?=$data['versi_database']?></td>
 														<td><?=$data['tahun_anggaran']?></td>
 														<td><?=tgl_indo_out($data['tanggal_impor'])?></td>
@@ -90,7 +94,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="modal fade in"  id="dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -108,7 +111,25 @@
 		</div>
 	</div>
 </div>
-
+<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+			</div>
+			<div class='modal-body btn-info'>
+				Apakah Anda yakin ingin menghapus data ini?
+			</div>
+			<div class='modal-footer'>
+				<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<a class='btn-ok'>
+					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	$(document).ready(function()
 	{

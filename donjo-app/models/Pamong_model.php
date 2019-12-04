@@ -166,10 +166,11 @@
 		$data['pamong_pangkat'] = strip_tags($this->input->post('pamong_pangkat'));
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = strip_tags($this->input->post('pamong_nosk'));
-		$data['pamong_tglsk'] = tgl_indo_in($this->input->post('pamong_tglsk'));
+		$data['pamong_tglsk'] = !empty($this->input->post('pamong_tglsk')) ? tgl_indo_in($this->input->post('pamong_tglsk')) : NULL;
+		$data['pamong_tanggallahir'] = !empty($this->input->post('pamong_tanggallahir')) ? tgl_indo_in($this->input->post('pamong_tanggallahir')) : NULL;		
 		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? strip_tags($this->input->post('pamong_nohenti')) : NULL;
-		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ?tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
-		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab'));
+		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
+		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab')) ?: NULL;
 		return $data;
 	}
 
@@ -178,23 +179,13 @@
 		if (empty($data['id_pend']))
 		{
 			unset($data['id_pend']);
-			$data['pamong_nama'] = strip_tags($this->input->post('pamong_nama'));
-			$data['pamong_nik'] = strip_tags($this->input->post('pamong_nik'));
-			$data['pamong_tempatlahir'] = strip_tags($this->input->post('pamong_tempatlahir'));
-			$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir'));
-			$data['pamong_sex'] = $this->input->post('pamong_sex');
-			$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan');
-			$data['pamong_agama'] = $this->input->post('pamong_agama');
-		}
-		else
-		{
-			$data['pamong_nama'] = null;
-			$data['pamong_nik'] = null;
-			$data['pamong_tempatlahir'] = null;
-			$data['pamong_tanggallahir'] = null;
-			$data['pamong_sex'] = null;
-			$data['pamong_pendidikan'] = null;
-			$data['pamong_agama'] = null;
+			$data['pamong_nama'] = strip_tags($this->input->post('pamong_nama')) ?: null;
+			$data['pamong_nik'] = strip_tags($this->input->post('pamong_nik')) ?: null;
+			$data['pamong_tempatlahir'] = strip_tags($this->input->post('pamong_tempatlahir')) ?: null;
+			$data['pamong_tanggallahir'] = tgl_indo_in($this->input->post('pamong_tanggallahir')) ?: null;
+			$data['pamong_sex'] = $this->input->post('pamong_sex') ?: null;
+			$data['pamong_pendidikan'] = $this->input->post('pamong_pendidikan') ?: null;
+			$data['pamong_agama'] = $this->input->post('pamong_agama') ?: null;
 		}
 	}
 

@@ -5,10 +5,7 @@
 	dan mengubah jquery.cycle2.carousel.js, mengikuti contoh di
 	https://github.com/malsup/cycle2/issues/178
  -->
-
-<script src="<?= base_url()?>assets/js/jquery.cycle2.min.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.cycle2.carousel.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.pause.min.js"></script>
+<script src="<?php echo base_url()?>assets/front/js/jquery.pause.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
