@@ -27,5 +27,7 @@ Catatan pra rilis versi 4.1.8:
 25. Sekarang halaman arsip menampilkan semua artikel. [bug-fix]
 26. #16 Tambah sumber dana pada grafik APBDesa.
 27. Sesuaikan Link URL pada saat berbagi artikel.
+28. Menyesuaikan library pada widget aparatur desa.
+29. Merapikan tampilan widget Arsip Artikel.
 
 ****************************************************************
