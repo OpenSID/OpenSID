@@ -61,29 +61,29 @@
 </div>
 
 <script>
-//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
+	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+	<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
     var posisi = [<?=$data_config['lat'].",".$data_config['lng']?>];
     var zoom = <?=$data_config['zoom'] ?: 10?>;
-<?php else: ?>
+	<?php else: ?>
     var posisi = [-1.0546279422758742,116.71875000000001];
     var zoom = 10;
-<?php endif; ?>
+	<?php endif; ?>
 
-var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
+	var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
 
-//Menampilkan BaseLayers Peta
-var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(lokasi_kantor);
+	//Menampilkan BaseLayers Peta
+	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(lokasi_kantor);
 
-var baseLayers = {
-	'OpenStreetMap': defaultLayer,
-	'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a>'}),
-};
+	var baseLayers = {
+		'OpenStreetMap': defaultLayer,
+		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a>'}),
+	};
 
-L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(lokasi_kantor);
+	L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(lokasi_kantor);
 
-//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
+	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
+	<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
     var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
-<?php endif; ?>
+	<?php endif; ?>
 </script>
