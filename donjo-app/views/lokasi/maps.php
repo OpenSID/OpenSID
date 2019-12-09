@@ -39,11 +39,11 @@ window.onload = function()
 	$('#lat').on("input",function(e) {
 		if (!$('#validasi').valid())
 		{
-			$("#simpan_kantor").attr('disabled', true);
+			$("#simpan").attr('disabled', true);
 			return;
 		} else
 		{
-			$("#simpan_kantor").attr('disabled', false);
+			$("#simpan").attr('disabled', false);
 		}
 		let lat = $('#lat').val();
 		let lng = $('#lng').val();
@@ -59,11 +59,11 @@ window.onload = function()
 	$('#lng').on("input",function(e) {
 		if (!$('#validasi').valid())
 		{
-			$("#simpan_kantor").attr('disabled', true);
+			$("#simpan").attr('disabled', true);
 			return;
 		} else
 		{
-			$("#simpan_kantor").attr('disabled', false);
+			$("#simpan").attr('disabled', false);
 		}
 		let lat = $('#lat').val();
 		let lng = $('#lng').val();
@@ -177,7 +177,7 @@ window.onload = function()
 									</div>
 								</div>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' id='simpan' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</form>
@@ -187,25 +187,5 @@ window.onload = function()
 	</section>
 </div>
 
-<script>
-	$(document).ready(function(){
-		$('#simpan_kantor').click(function(){
-			if (!$('#validasi').valid()) return;
-
-			var id = $('#id').val();
-			var lat = $('#lat').val();
-			var lng = $('#lng').val();
-			$.ajax({
-				type: "POST",
-				url: "<?=$form_action?>",
-				dataType: 'json',
-				data: {lat: lat, lng: lng, id: id},
-			});
-		});
-	});
-</script>
-
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
