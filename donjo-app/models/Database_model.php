@@ -31,7 +31,7 @@
 		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
 		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => '19.11'),
 		'19.11' => array('migrate' => 'migrasi_1911_ke_1912', 'nextVersion' => '19.12'),
-		'19.12' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -194,6 +194,13 @@
 		$this->migrasi_1909_ke_1910();
 		$this->migrasi_1910_ke_1911();
 		$this->migrasi_1911_ke_1912();
+		$this->migrasi_1912_ke_2001();
+  }
+
+  private function migrasi_1912_ke_2001()
+  {
+  	$this->load->model('migrations/migrasi_1912_ke_2001');
+  	$this->migrasi_1912_ke_2001->up();
   }
 
   private function migrasi_1911_ke_1912()
@@ -3581,6 +3588,7 @@
 			"klasifikasi_surat",
 			"media_sosial", //?
 			"provinsi",
+			"ref_dokumen",
 			"ref_pindah",
 			"setting_modul",
 			"setting_aplikasi",
@@ -3651,7 +3659,7 @@
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return array_column($data, 'TABLE_NAME');
-	}	
+	}
 
 }
 ?>
