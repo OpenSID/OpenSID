@@ -37,7 +37,7 @@ window.onload = function()
 	})
 
 	$('#lat').on("input",function(e) {
-		if (!$('#validasi').valid())
+		if (!$('#validasi1').valid())
 		{
 			$("#simpan").attr('disabled', true);
 			return;
@@ -57,7 +57,7 @@ window.onload = function()
 	})
 
 	$('#lng').on("input",function(e) {
-		if (!$('#validasi').valid())
+		if (!$('#validasi1').valid())
 		{
 			$("#simpan").attr('disabled', true);
 			return;
@@ -152,7 +152,7 @@ window.onload = function()
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
@@ -186,6 +186,32 @@ window.onload = function()
 		</div>
 	</section>
 </div>
+<script>
+	$(document).ready(function(){
+		$('#simpan').click(function(){
+
+			$("#validasi1").validate({
+				errorElement: "label",
+				errorClass: "error",
+				highlight:function (element){
+					$(element).closest(".form-group").addClass("has-error");
+				},
+				unhighlight:function (element){
+					$(element).closest(".form-group").removeClass("has-error");
+				},
+				errorPlacement: function (error, element) {
+					if (element.parent('.input-group').length) {
+						error.insertAfter(element.parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+			if (!$('#validasi1').valid()) return;
+
+		});
+	});
+</script>
 
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
