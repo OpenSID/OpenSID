@@ -7,6 +7,11 @@ Lengkapnya, isi rilis versi 19.12-pasca adalah sebagai berikut:
 1. #2398: Sekarang modul Keuangan bisa mengimpor data Siskeudes untuk tahun anggaran 2019.
 2. #2528: Sekarang di tema Hakadewa Teks Berjalan tetap berfungsi saat membuka galeri atau subgaleri. [bug-fix]
 3. #2532: Jenis produk hukum di menu Sekretariat sekarang tidak hilang pada waktu melakukan Kosongkan DB. [bug-fix]
+4. #2533: Widget statistik di web tidak lagi terpengaruh oleh filter wilayah di Kependudukan > Penduduk. [bug-fix]
+5. #2529: Album dan gambar galeri dapat diubah tanpa harus mengisi berkas gambar lagi. [bug-fix]
+6. Sediakan fitur untuk tampilkan citra satelit di widget Lokasi Kantor Desa dan Peta Wilayah Desa.
+7. Sediakan fitur untuk tampilkan citra satelit di peta lokasi/garis/area.
+8. Sesuaikan tabel user dengan setting sql_mode STRICT_TRANS_TABLES. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

@@ -4,6 +4,8 @@ class Migrasi_1912_ke_2001 extends CI_model {
 	public function up()
 	{
 	  $this->siskeudes_2019();
+	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		$this->db->query("ALTER TABLE user MODIFY COLUMN last_login datetime NULL");			  
 	}
 
 	private function siskeudes_2019()
