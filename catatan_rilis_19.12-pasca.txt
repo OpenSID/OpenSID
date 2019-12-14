@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 19.12-pasca adalah sebagai berikut:
 6. Sediakan fitur untuk tampilkan citra satelit di widget Lokasi Kantor Desa dan Peta Wilayah Desa.
 7. Sediakan fitur untuk tampilkan citra satelit di peta lokasi/garis/area.
 8. Sesuaikan tabel user dengan setting sql_mode STRICT_TRANS_TABLES. [bug-fix]
+9. Sediakan fitur untuk tampilkan citra satelit di form lokasi kantor desa/dusun/rw/rt.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
