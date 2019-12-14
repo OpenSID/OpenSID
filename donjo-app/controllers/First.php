@@ -5,6 +5,7 @@ class First extends Web_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		parent::clear_cluster_session();
 		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
@@ -282,7 +283,6 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
-		parent::clear_cluster_session();
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
