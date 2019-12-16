@@ -412,19 +412,23 @@ class Sid_Core extends Admin_Controller {
   public function ajax_kantor_dusun_maps($id='')
 	{
 		$nav['act_sub'] = 20;
-		$data['desa'] = $this->config_model->get_data();
-    $data['dusun'] = $this->wilayah_model->get_dusun_maps($id);
-    $data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+    $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
+    $data['nama_wilayah'] = ucwords($this->setting->sebutan_dusun." ".$data['wil_ini']['dusun']." ".$sebutan_desa." ".$data['wil_atas']['nama_desa']);
+    $data['wilayah'] = ucwords($this->setting->sebutan_dusun);
+    $data['breadcrumb'] = array(
+    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']),
+    );
+		$data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
     $header = $this->header_model->get_data();
-    $sebutan_desa = ucwords($this->setting->sebutan_desa);
-    $namadesa =  $data['desa']['nama_desa'];
-    $iddusun =  $data['dusun']['id'];
+    $namadesa =  $data['wil_atas']['nama_desa'];
 
-    if (!empty($data['desa']['lat'] && !empty($data['desa']['lng'])))
+    if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
       $this->load->view('header', $header);
 			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_kantor_dusun_maps", $data);
+			$this->load->view("sid/wilayah/ajax_kantor_maps", $data);
       $this->load->view('footer');
     }
 		else
@@ -507,20 +511,25 @@ class Sid_Core extends Admin_Controller {
 		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
-		$data['id_dusun'] = $id_dusun;
+    $data['id_dusun'] = $id_dusun;
 
-    $data['dusun_rw'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data['rw'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
+    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
+		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
+    $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
+    $data['breadcrumb'] = array(
+    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
+    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
+    );
+    $data['wilayah'] = 'RW';
     $data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id_dusun/$rw");
     $header = $this->header_model->get_data();
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 
-
-    if (!empty($data['dusun_rw']['lat'] && !empty($data['dusun_rw']['lng'])))
+    if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
 			$this->load->view('header', $header);
 			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_rw_maps", $data);
+	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
 	    $this->load->view('footer');
     }
 		else
@@ -600,21 +609,27 @@ class Sid_Core extends Admin_Controller {
 		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
-		$data['id_dusun'] = $id_dusun;
+    $data['id_dusun'] = $id_dusun;
 
-    $data['dusun_rt'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data['rw'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
-    $data['rt'] = $this->wilayah_model->get_rt_maps($id);
-    $idrt =  $data['rt']['id'];
-    $data['form_action'] = site_url("sid_core/update_kantor_rt_map/$id_dusun/$rw/$id");
-    $header = $this->header_model->get_data();
     $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+    $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
+		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
+    $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
+    $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
+    $data['breadcrumb'] = array(
+    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
+    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
+    	array('link' => site_url("sid_core/sub_rt/$id_dusun/{$data_rw['rw']}"), 'judul' => 'Daftar RT')
+    );
+    $data['wilayah'] = 'RT';
+    $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$rw/$id");
+    $header = $this->header_model->get_data();
 
-    if (!empty($data['dusun_rt']['lat'] && !empty($data['dusun_rt']['lng'])))
+    if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
 			$this->load->view('header', $header);
 			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_rt_maps", $data);
+	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
 	    $this->load->view('footer');
     }
 		else
