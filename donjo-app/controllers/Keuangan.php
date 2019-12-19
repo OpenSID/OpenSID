@@ -133,9 +133,9 @@ class Keuangan extends Admin_Controller {
 		$realisasi = array();
 		foreach ($data['realisasi'] as $r)
 		{
-			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
+			if(!empty($r['realisasi']) || !is_null($r['realisasi']))
 			{
-				$realisasi[] =  $r['Nilai'];
+				$realisasi[] =  $r['realisasi'];
 			}
 			else
 			{
@@ -170,9 +170,9 @@ class Keuangan extends Admin_Controller {
 		$realisasi = array();
 		foreach ($data['realisasi'] as $s)
 		{
-			if(!empty($s['Nilai']) || !is_null($s['Nilai']))
+			if(!empty($s['realisasi']) || !is_null($s['realisasi']))
 			{
-				$realisasi[] =  $s['Nilai'];
+				$realisasi[] =  $s['realisasi'];
 			}
 			else
 			{
@@ -226,6 +226,7 @@ class Keuangan extends Admin_Controller {
 			'tahun_anggaran' => $this->keuangan_model->list_tahun_anggaran()
 		);
 		$this->load->view('keuangan/grafik_r_bd', $data_chart);
+    print_r($data);
 	}
 
 	private function grafik_r_pemdes($thn, $smt)
