@@ -65,21 +65,18 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->order_by('Kd_Bid', 'asc');
     $data['bidang'] = $this->db->get('keuangan_master')->result_array();
 
-    $this->db->select('LEFT(keuangan_ta_anggaran_rinci.Kd_Keg, 8) AS Kode_Bid, SUM(AnggaranStlhPAK) AS Pagu');
-    $this->db->join('keuangan_ta_anggaran_rinci', 'LEFT(keuangan_ta_anggaran_rinci.Kd_Keg, 8) = keuangan_ta_bidang.Kd_Bid', 'left');
+    $this->db->select('LEFT(keuangan_ta_anggaran_rinci.Kd_Keg, 10) AS Kode_Bid, SUM(AnggaranStlhPAK) AS Pagu');
+    $this->db->join('keuangan_ta_anggaran_rinci', 'LEFT(keuangan_ta_anggaran_rinci.Kd_Keg, 10) = keuangan_ta_bidang.Kd_Bid', 'left');
     $this->db->group_by('Kode_Bid');
     $this->db->order_by('Kode_Bid', 'asc');
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
     $data['anggaran'] = $this->db->get('keuangan_ta_bidang')->result_array();
 
-    $this->db->select("keuangan_ta_kegiatan.Kd_Bid");
-    $this->db->select_sum('keuangan_ta_kegiatan.Nilai');
-    $this->db->join('keuangan_ta_kegiatan', 'left(keuangan_ta_kegiatan.Kd_Sub,10) = keuangan_ta_bidang.Kd_Bid', 'left');
-    $this->db->join('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci.Kd_Keg = keuangan_ta_kegiatan.Kd_Keg', 'left');
-    $this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_Spj = keuangan_ta_spj_rinci.No_Spj', 'left');
-    $this->db->group_by('keuangan_ta_kegiatan.Kd_Bid');
-    $this->db->order_by('keuangan_ta_kegiatan.Kd_Bid', 'asc');
+    $this->db->select('LEFT(keuangan_ta_spp_rinci.Kd_Keg, 10) AS Kode_Bid, SUM(Nilai) AS realisasi');
+    $this->db->join('keuangan_ta_spp_rinci', 'LEFT(keuangan_ta_spp_rinci.Kd_Keg, 10) = keuangan_ta_bidang.Kd_Bid', 'left');    
     $this->db->where('keuangan_ta_bidang.Tahun', $thn);
+    $this->db->group_by('Kode_Bid');
+    $this->db->order_by('Kode_Bid', 'asc');
     $data['realisasi'] = $this->db->get('keuangan_ta_bidang')->result_array();
     return $data;
   }
