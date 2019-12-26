@@ -3594,6 +3594,7 @@
 			"setting_aplikasi",
 			"setting_aplikasi_options",
 			"skin_sid",
+			"tweb_aset",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",
