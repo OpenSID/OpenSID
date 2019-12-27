@@ -391,12 +391,12 @@ class Web_dokumen_model extends CI_Model {
 	 * @param  string       $id  			Id pada tabel dokumen
 	 * @return  string|NULL
 	 */
-	public function get_nama_berkas($id)
+	public function get_nama_berkas($id, $id_pend=0)
 	{
 		// Ambil nama berkas dari database untuk dokumen yg aktif
 		$nama_berkas = $this->db->select('satuan')
 			->where('id', $id)			
-			->where('id_pend', 0)
+			->where('id_pend', $id_pend)
 			->where('enabled', 1)
 			->get('dokumen')->row()->satuan;
 		return $nama_berkas;
