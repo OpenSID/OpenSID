@@ -410,7 +410,7 @@ class First extends Web_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
-			$row[] = "<a href='".site_url('dokumen/unduh_berkas/').$baris['id']."' target='_blank'>".$baris['nama']."</a>";
+			$row[] = "<a href='".site_url('dokumen_web/unduh_berkas/').$baris['id']."' target='_blank'>".$baris['nama']."</a>";
 			$row[] = $baris['tahun'];
 			// Ambil judul kategori
 			$row[] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
