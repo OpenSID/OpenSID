@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 19.12-pasca adalah sebagai berikut:
 9. Sediakan fitur untuk tampilkan citra satelit di form lokasi kantor desa/dusun/rw/rt.
 10. #2556: Daftar nama barang inventaris sekarang tidak hilang pada waktu melakukan Kosongkan DB. [bug-fix]
 11. Sekarang dokumen Produk Hukum dan Informasi Publik bisa diunduh dari web tanpa harus login admin dulu. [bug-fix]
+12. Perbaiki bisa tampilkan halaman menu statis yg tidak ada submenu di layanan mandiri. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 19.12-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
