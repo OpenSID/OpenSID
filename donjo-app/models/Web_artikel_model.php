@@ -226,13 +226,13 @@
 			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
+		$data['slug'] = $slug; // insert slug
 		if ($cat == AGENDA)
 		{
 			$outp = $this->insert_agenda($data);
 		}
 		else
 		{
-			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->insert('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
