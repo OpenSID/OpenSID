@@ -163,10 +163,29 @@
 	{
 		$nik = $_POST['nik_kepala'];
 
-		$kw = $this->get_kode_wilayah();
-		$nortm = 100000 + $kk['id'];
-		$nortm = substr($nortm, 1, 5);
-		$rtm['no_kk'] = $kw."".$nortm;
+		$no_rtm = $this->db->select('no_kk')
+			->order_by('length(no_kk) DESC, no_kk DESC')->limit(1)
+			->get('tweb_rtm')
+			->row()->no_kk;
+		if ($no_rtm)
+		{
+			if (strlen($no_rtm) >= 5)
+			{
+				// Gunakan 5 digit terakhir sebagai nomor urut
+				$kw = substr($no_rtm, 0, strlen($no_rtm) - 5);
+				$no_urut = substr($no_rtm, -5);
+				$no_urut = str_pad($no_urut + 1, 5, '0', STR_PAD_LEFT);
+				$rtm['no_kk'] = $kw . $no_urut;
+			}
+			else
+				$rtm['no_kk'] = str_pad($no_rtm + 1, strlen($no_rtm), '0', STR_PAD_LEFT);;
+		}
+		else
+		{
+			$kw = $this->get_kode_wilayah();
+			$rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
+		}
+
 		$rtm['nik_kepala'] = $nik;
 		$outp = $this->db->insert('tweb_rtm', $rtm);
 
@@ -181,18 +200,17 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='')
+	public function delete($no_kk='')
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
 		$temp['updated_by'] = $this->session->user;
 
-		$this->db->where('id_rtm', $id);
-		$outp = $this->db->update('tweb_penduduk', $temp);
+		$this->db->where('id_rtm', $no_kk)->update('tweb_penduduk', $temp);
 
-		$sql = "DELETE FROM tweb_rtm WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$outp = $this->db->where('no_kk', $no_kk)
+			->delete('tweb_rtm');
 
 		if (!$outp) $this->session->success = -1;
 	}
@@ -201,9 +219,9 @@
 	{
 		$id_cb = $_POST['id_cb'];
 
-		foreach ($id_cb as $id)
+		foreach ($id_cb as $no_kk)
 		{
-			$this->delete($id);
+			$this->delete($no_kk);
 		}
 	}
 
@@ -389,9 +407,22 @@
 	public function update_nokk($id=0)
 	{
 		$data = $_POST;
-
-		$this->db->where("id", $id);
-		$outp = $this->db->update("tweb_rtm", $data);
+		if ($data['no_kk'])
+		{
+			$ada_nokk = $this->db->select('id')
+				->where('no_kk', $data['no_kk'])
+				->get('tweb_rtm')->row()->id;
+			if ($ada_nokk and $ada_nokk != $id)
+			{
+				$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = 'Nomor RTM itu sudah ada';
+				return;
+			}
+			$rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
+			$this->db->where('id_rtm', $rtm->no_kk)
+				->update('tweb_penduduk', array('id_rtm' => $data['no_kk']));
+		}
+		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

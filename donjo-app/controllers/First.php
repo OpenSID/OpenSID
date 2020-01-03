@@ -5,6 +5,7 @@ class First extends Web_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		parent::clear_cluster_session();
 		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
@@ -41,7 +42,9 @@ class First extends Web_Controller {
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
 		$this->load->model('keluar_model');
+		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
+    $this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
@@ -70,6 +73,7 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
+		$this->load->model('keuangan_grafik_model');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -79,11 +83,10 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-
-
 		$data['artikel'] = $this->first_artikel_m->artikel_show(0, $data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
+		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari))
@@ -94,7 +97,6 @@ class First extends Web_Controller {
 
 		$this->_get_common_data($data);
 		$this->track_model->track_desa('first');
-
 		$this->load->view($this->template, $data);
 	}
 
@@ -183,8 +185,7 @@ class First extends Web_Controller {
 				break;
 		}
 
-		$this->set_template('layouts/mandiri.php');
-		$this->load->view($this->template, $data);
+		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
 	/*
@@ -348,6 +349,83 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function peraturan_desa()
+	{
+		$this->load->model('web_dokumen_model');
+		$data = $this->includes;
+
+		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+		$data['heading']="Produk Hukum";
+		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/halaman_statis.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+  public function ajax_table_peraturan()
+  {
+    $kategori_dokumen = '';
+    $tahun_dokumen = '';
+    $tentang_dokumen = '';
+    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    echo json_encode($data);
+  }
+
+  // function filter peraturan
+  public function filter_peraturan()
+  {
+    $kategori_dokumen = $this->input->post('kategori');
+    $tahun_dokumen = $this->input->post('tahun');
+    $tentang_dokumen = $this->input->post('tentang');
+
+    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    echo json_encode($data);
+  }
+
+	public function informasi_publik()
+	{
+		$this->load->model('web_dokumen_model');
+		$data = $this->includes;
+
+		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+		$data['heading'] ="Informasi Publik";
+		$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/halaman_statis.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+  public function ajax_informasi_publik()
+  {
+  	$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($informasi_publik as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = "<a href='".site_url('dokumen_web/unduh_berkas/').$baris['id']."' target='_blank'>".$baris['nama']."</a>";
+			$row[] = $baris['tahun'];
+			// Ambil judul kategori
+			$row[] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
+			$row[] = $baris['tgl_upload'];
+			$data[] = $row;
+		}
+
+		$output = array(
+     	"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
+      "recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
+			'data' => $data
+		);
+    echo json_encode($output);
+  }
+
 	public function agenda($stat=0)
 	{
 		$data = $this->includes;
@@ -376,42 +454,41 @@ class First extends Web_Controller {
 	}
 
 	public function add_comment($id=0, $slug = NULL)
+	{
+		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
+		$query = $this->db->query($sql,1);
+		$data = $query->row_array();
+	// Periksa isian captcha
+		include FCPATH . 'securimage/securimage.php';
+		$securimage = new Securimage();
+		$_SESSION['validation_error'] = false;
+		if ($securimage->check($_POST['captcha_code']) == false)
 		{
-			$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
-			$query = $this->db->query($sql,1);
-			$data = $query->row_array();
-		// Periksa isian captcha
-			include FCPATH . 'securimage/securimage.php';
-			$securimage = new Securimage();
-			$_SESSION['validation_error'] = false;
-			if ($securimage->check($_POST['captcha_code']) == false)
-			{
-				$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
-				$_SESSION['post'] = $_POST;
-				$_SESSION['validation_error'] = true;
-				redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
-			}
-
-			$res = $this->first_artikel_m->insert_comment($id);
-			$data['data_config'] = $this->config_model->get_data();
-		// cek kalau berhasil disimpan dalam database
-			if ($res)
-			{
-				$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
-			}
-			else
-			{
-				$_SESSION['post'] = $_POST;
-				if (!empty($_SESSION['validation_error']))
-					$this->session->set_flashdata('flash_message', validation_errors());
-				else
-					$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
-			}
-
-			$_SESSION['sukses'] = 1;
+			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
+			$_SESSION['post'] = $_POST;
+			$_SESSION['validation_error'] = true;
 			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
-			
 		}
+
+		$res = $this->first_artikel_m->insert_comment($id);
+		$data['data_config'] = $this->config_model->get_data();
+	// cek kalau berhasil disimpan dalam database
+		if ($res)
+		{
+			$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+		}
+		else
+		{
+			$_SESSION['post'] = $_POST;
+			if (!empty($_SESSION['validation_error']))
+				$this->session->set_flashdata('flash_message', validation_errors());
+			else
+				$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
+		}
+
+		$_SESSION['sukses'] = 1;
+		redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+	}
 
 	private function _get_common_data(&$data)
 	{
@@ -435,6 +512,6 @@ class First extends Web_Controller {
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
-
 	}
+
 }

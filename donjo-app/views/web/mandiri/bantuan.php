@@ -28,11 +28,12 @@
 <style type="text/css">
   .ui-dialog-titlebar {background-color: #e9e9f9;}
 </style>
-
-<div class="artikel">
+<div class="box-header with-border">
+	<span style="font-size: x-large"><strong>Daftar Bantuan Yang Diterima (Sasaran Perorangan)</strong></span>
+</div>
+<div class="box-body">
   <?php if(!empty($daftar_bantuan)): ?>
     <table  class="table table-bordered">
-      <caption><h3>Daftar Bantuan Yang Diterima (Sasaran Perorangan)</h3></caption>
       <thead>
         <tr>
           <th>Nama</th>

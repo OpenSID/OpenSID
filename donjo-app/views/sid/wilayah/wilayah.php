@@ -10,8 +10,8 @@
 	});
 </script>
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Wilayah Administratif <?= ucwords($this->setting->sebutan_dusun)?></h1>
+  <section class="content-header">
+    <h1>Wilayah Administratif <?= ucwords($this->setting->sebutan_dusun)?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar <?= ucwords($this->setting->sebutan_dusun)?></li>
@@ -21,7 +21,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<div class="box-header with-border">
+          <div class="box-header with-border">
 						<a href="<?= site_url('sid_core/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Dusun</a>
 						<a href="<?= site_url('sid_core/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url('sid_core/excel')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
@@ -60,49 +60,56 @@
 																<th>L+P</th>
 																<th>L</th>
 																<th>P</th>
-
 															</tr>
 														</thead>
 														<tbody>
 															<?php
 																$total = array();
-
 																$total['total_rw'] = 0;
 																$total['total_rt'] = 0;
 																$total['total_kk'] = 0;
 																$total['total_warga'] = 0;
 																$total['total_warga_l'] = 0;
 																$total['total_warga_p'] = 0;
-
 																foreach ($main as $data):
 															?>
-																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
-																		<td class="no_urut"><?= $data['no']?></td>
-																		<td nowrap>
-																			<a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
-																			<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if ($this->CI->cek_hak_akses('h')): ?>
-																				<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																			<?php endif; ?>
-																		</td>
-																		<td><?= strtoupper($data['dusun'])?></td>
-																		<td nowrap><strong><?= strtoupper($data['nama_kadus'])?></strong> - <?= $data['nik_kadus']?></td>
-																		<td class="bilangan"><a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rw']?></a></td>
-																		<td class="bilangan"><?= $data['jumlah_rt']?></td>
-																		<td class="bilangan"><a href="<?= site_url("sid_core/warga_kk/$data[id]")?>"><?= $data['jumlah_kk']?></a></td>
-																		<td class="bilangan"><a href="<?= site_url("sid_core/warga/$data[id]")?>"><?= $data['jumlah_warga']?></a></td>
-																		<td class="bilangan"><a href="<?= site_url("sid_core/warga_l/$data[id]")?>"><?= $data['jumlah_warga_l']?></a></td>
-																		<td class="bilangan"><a href="<?= site_url("sid_core/warga_p/$data[id]")?>"><?= $data['jumlah_warga_p']?></a></td>
-																	</tr>
-																	<?php
-																		$total['total_rw'] += $data['jumlah_rw'];
-																		$total['total_rt'] += $data['jumlah_rt'];
-																		$total['total_kk'] += $data['jumlah_kk'];
-																		$total['total_warga'] += $data['jumlah_warga'];
-																		$total['total_warga_l'] += $data['jumlah_warga_l'];
-																		$total['total_warga_p'] += $data['jumlah_warga_p'];
-
+																<tr>
+																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+																	<td class="no_urut"><?= $data['no']?></td>
+																	<td nowrap>
+	                                  <a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
+																		<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
+														        <div class="btn-group">
+																			<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
+																			<ul class="dropdown-menu" role="menu">
+																				<li>
+																					<a href="<?= site_url("sid_core/ajax_kantor_dusun_maps/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor <?=ucwords($this->setting->sebutan_dusun)?></a>
+																				</li>
+																				<li>
+																					<a href="<?= site_url("sid_core/ajax_wilayah_dusun_maps/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah <?=ucwords($this->setting->sebutan_dusun)?></a>
+																				</li>
+																			</ul>
+																		</div>
+																	</td>
+																	<td><?= strtoupper($data['dusun'])?></td>
+																	<td nowrap><strong><?= strtoupper($data['nama_kadus'])?></strong> - <?= $data['nik_kadus']?></td>
+																	<td class="bilangan"><a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rw']?></a></td>
+																	<td class="bilangan"><?= $data['jumlah_rt']?></td>
+																	<td class="bilangan"><a href="<?= site_url("sid_core/warga_kk/$data[id]")?>"><?= $data['jumlah_kk']?></a></td>
+																	<td class="bilangan"><a href="<?= site_url("sid_core/warga/$data[id]")?>"><?= $data['jumlah_warga']?></a></td>
+																	<td class="bilangan"><a href="<?= site_url("sid_core/warga_l/$data[id]")?>"><?= $data['jumlah_warga_l']?></a></td>
+																	<td class="bilangan"><a href="<?= site_url("sid_core/warga_p/$data[id]")?>"><?= $data['jumlah_warga_p']?></a></td>
+																</tr>
+															<?php
+																$total['total_rw'] += $data['jumlah_rw'];
+																$total['total_rt'] += $data['jumlah_rt'];
+																$total['total_kk'] += $data['jumlah_kk'];
+																$total['total_warga'] += $data['jumlah_warga'];
+																$total['total_warga_l'] += $data['jumlah_warga_l'];
+																$total['total_warga_p'] += $data['jumlah_warga_p'];
 																endforeach;
 															?>
 														</tbody>
@@ -190,4 +197,7 @@
 		</div>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+
 

@@ -127,10 +127,17 @@ $(document).ready(function()
 	$('#disposisi_kepada').select2({
 		placeholder: "Pilih tujuan disposisi"
 	});
-	$('button[type="reset"]').click(function()
+
+	// Reset select2 ke nilai asli
+	// https://stackoverflow.com/questions/10319289/how-to-execute-code-after-html-form-reset-with-jquery
+	$('button[type="reset"]').click(function(e)
 	{
-		$('.select2').select2('val', 'All');
+    e.preventDefault();
+    $(this).closest('form').get(0).reset();
+		// https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
+		$('.select2').trigger('change');
 	});
+
 	//File Upload
 	$('#file_browser').click(function(e)
 	{
@@ -263,6 +270,12 @@ $(document).ready(function()
 	$('.tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss',
+		locale:'id'
+	});
+	$('.tgl').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
 		locale:'id'
 	});
 	$('#tgl_1').datetimepicker(
@@ -674,3 +687,27 @@ function urlencode(str) {
     .replace(/\*/g, '%2A');
     // .replace(/%20/g, '+');
 }
+
+// https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
+$('document').ready(function()
+{
+  $('.table-responsive').on('show.bs.dropdown', function (e) {
+    var table = $(this),
+        menu = $(e.target).find('.dropdown-menu'),
+        tableOffsetHeight = table.offset().top + table.height(),
+        menuOffsetHeight = $(e.target).offset().top + $(e.target).outerHeight(true) + menu.outerHeight(true);
+
+    if (menuOffsetHeight > tableOffsetHeight)
+    {
+      table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight);
+	    $('.table-responsive')[0].scrollIntoView(false);
+    }
+
+  });
+
+  $('.table-responsive').on('hide.bs.dropdown', function () {
+    $(this).css("padding-bottom", 0);
+  })
+});
+
+

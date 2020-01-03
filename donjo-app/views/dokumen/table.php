@@ -9,36 +9,38 @@
 			maxShowItems: 10,
 		});
 	});
+
+$(document).ready(function()
+{
+	$('#modalEkspor').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+});
+
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1><?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active"><?= $kat_nama?></li>
+      <li class="active"><?= $kat_nama ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<?php if ($this->modul_ini <> 15): ?>
-					<div class="col-md-3">
-						<div class="box box-info">
-							<div class="box-header with-border">
-								<h3 class="box-title">Kategori Dokumen</h3>
-								<div class="box-tools">
-									<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-								</div>
-							</div>
-							<div class="box-body no-padding">
-								<ul class="nav nav-pills nav-stacked">
-									<li class="active"><a href="<?= site_url('dokumen/index/1')?>">Umum</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				<?php endif; ?>
-				<div class="<?php if ($this->modul_ini <> 15): ?>col-md-9<?php else: ?>col-md-12<?php endif; ?>">
+        <?php if (in_array($kat, array('2', '3'))): ?>
+  				<?php $this->load->view('dokumen/menu_dokumen'); ?>
+  				<div class="col-md-9">
+        <?php else: ?>
+          <div class="col-md-12">
+        <?php endif; ?>
+				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?= site_url("{$this->controller}/form/$kat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Menu Baru">
@@ -53,6 +55,11 @@
 							<a href="<?= site_url("{$this->controller}/dialog_excel/$kat")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan">
 								<i class="fa fa-download"></i>Unduh
             	</a>
+            	<?php if ($kat == 1): ?>
+								<a href="<?= site_url("informasi_publik/ekspor")?>" class="btn btn-social btn-flat bg-blue btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Ekspor Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ekspor Data Informasi Publik">
+									<i class="fa fa-download"></i>Ekspor
+	            	</a>
+	            <?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -64,8 +71,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+														<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
+														<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -95,7 +102,10 @@
                                   <?php else: ?>
                                     <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
-																	<?php if ($kat == 2): ?>
+																	<?php if ($kat == 1): ?>
+																		<th>Kategori Info Publik</th>
+																		<th>Tahun</th>
+																	<?php elseif ($kat == 2): ?>
 																		<th nowrap>Nomor Dan Tanggal Keputusan</th>
 																		<th nowrap>Uraian Singkat</th>
 																	<?php elseif ($kat == 3): ?>
@@ -130,11 +140,14 @@
 																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url($this->controller.'/dokumen_unlock/'.$kat.'/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
                                       <?php endif ?>
-																			<a href="<?= base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
 																			<a href="#" data-href="<?= site_url("{$this->controller}/delete/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="30%"><?= $data['nama']?></td>
-																		<?php if ($kat == 2): ?>
+																		<?php if ($kat == 1): ?>
+																			<td><?= $data['kategori_info_publik']?></td>
+																			<td><?= $data['tahun']?></td>
+																		<?php elseif ($kat == 2): ?>
 																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 																			<td><?= $data['attr']['uraian']?></td>
 																		<?php elseif ($kat == 3): ?>
