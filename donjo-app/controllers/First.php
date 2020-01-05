@@ -325,6 +325,7 @@ class First extends Web_Controller {
 		$this->load->model('dpt_model');
 		$data = $this->includes;
 		$data['main'] = $this->dpt_model->statistik_wilayah();
+		$data['heading']="Daftar Pemilih Tetap";
 		$data['total'] = $this->dpt_model->statistik_total();
 		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
 		$this->_get_common_data($data);
