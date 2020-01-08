@@ -2679,11 +2679,12 @@ CREATE TABLE `keuangan_ref_bank_desa` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `NoRek_Bank` varchar(100) NOT NULL,
   `Nama_Bank` varchar(250) NOT NULL,
-  `Kantor_Cabang` varchar(13) DEFAULT NULL,
-  `Nama_Pemilik` varchar(21) DEFAULT NULL,
-  `Alamat_Pemilik` varchar(12) DEFAULT NULL,
-  `No_Identitas` int(11) DEFAULT NULL,
-  `No_Telepon` int(11) DEFAULT NULL,
+  `Kantor_Cabang` varchar(100) DEFAULT NULL,
+  `Nama_Pemilik` varchar(100) DEFAULT NULL,
+  `Alamat_Pemilik` varchar(100) DEFAULT NULL,
+  `No_Identitas` varchar(20) DEFAULT NULL,
+  `No_Telepon` varchar(20) DEFAULT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_bank_desa_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_bank_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2778,9 +2779,11 @@ DROP TABLE IF EXISTS `keuangan_ref_kegiatan`;
 CREATE TABLE `keuangan_ref_kegiatan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Bid` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) DEFAULT NULL,
   `ID_Keg` varchar(100) NOT NULL,
   `Nama_Kegiatan` varchar(250) NOT NULL,
+  `Jns_Kegiatan` tinyint(5) DEFAULT NULL,
+  `Kd_Sub` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_kegiatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2798,7 +2801,7 @@ CREATE TABLE `keuangan_ref_korolari` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Kd_RekDB` varchar(100) NOT NULL,
   `Kd_RekKD` varchar(250) NOT NULL,
-  `Jenis` int(11) NOT NULL,
+  `Jenis` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_korolari_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_korolari_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2981,6 +2984,7 @@ CREATE TABLE `keuangan_ta_anggaran` (
   `SumberDana` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
   `TglPosting` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_anggaran_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_anggaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3000,8 +3004,11 @@ CREATE TABLE `keuangan_ta_anggaran_log` (
   `Kd_Desa` varchar(100) NOT NULL,
   `No_Perdes` varchar(100) NOT NULL,
   `TglPosting` varchar(100) NOT NULL,
-  `UserID` int(11) NOT NULL,
+  `UserID` varchar(50) NOT NULL,
   `Kunci` varchar(100) NOT NULL,
+  `No_Perkades` varchar(100) DEFAULT NULL,
+  `Petugas` varchar(80) DEFAULT NULL,
+  `Tanggal` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_anggaran_log_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_anggaran_log_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3154,7 +3161,7 @@ CREATE TABLE `keuangan_ta_kegiatan` (
   `id_keuangan_master` int(11) NOT NULL,
   `Tahun` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Bid` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) DEFAULT NULL,
   `Kd_Keg` varchar(100) NOT NULL,
   `ID_Keg` varchar(100) NOT NULL,
   `Nama_Kegiatan` varchar(100) NOT NULL,
@@ -3166,6 +3173,11 @@ CREATE TABLE `keuangan_ta_kegiatan` (
   `Waktu` varchar(100) NOT NULL,
   `Keluaran` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
+  `Jbt_PPTKD` varchar(100) DEFAULT NULL,
+  `Kd_Sub` varchar(30) DEFAULT NULL,
+  `Nilai` bigint(20) unsigned DEFAULT NULL,
+  `NilaiPAK` bigint(20) unsigned DEFAULT NULL,
+  `Satuan` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_kegiatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3184,13 +3196,14 @@ CREATE TABLE `keuangan_ta_mutasi` (
   `Kd_Desa` varchar(100) NOT NULL,
   `No_Bukti` varchar(100) NOT NULL,
   `Tgl_Bukti` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
-  `Kd_Bank` varchar(100) NOT NULL,
+  `Keterangan` varchar(200) DEFAULT NULL,
+  `Kd_Bank` varchar(100) DEFAULT NULL,
   `Kd_Rincian` varchar(100) NOT NULL,
   `Kd_Keg` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
   `Kd_Mutasi` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_mutasi_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_mutasi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3209,7 +3222,7 @@ CREATE TABLE `keuangan_ta_pajak` (
   `Kd_Desa` varchar(100) NOT NULL,
   `No_SSP` varchar(100) NOT NULL,
   `Tgl_SSP` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
   `Nama_WP` varchar(100) NOT NULL,
   `Alamat_WP` varchar(100) NOT NULL,
   `NPWP` varchar(100) NOT NULL,
@@ -3219,6 +3232,8 @@ CREATE TABLE `keuangan_ta_pajak` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Jumlah` varchar(100) NOT NULL,
   `KdBayar` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  `NTPN` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_pajak_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_pajak_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3262,7 +3277,7 @@ CREATE TABLE `keuangan_ta_pemda` (
   `Alamat` varchar(100) NOT NULL,
   `Nm_Bupati` varchar(100) NOT NULL,
   `Jbt_Bupati` varchar(100) NOT NULL,
-  `Logo` varchar(100) NOT NULL,
+  `Logo` mediumblob,
   `C_Kode` varchar(100) NOT NULL,
   `C_Pemda` varchar(100) NOT NULL,
   `C_Data` varchar(100) NOT NULL,
@@ -3285,10 +3300,12 @@ CREATE TABLE `keuangan_ta_pencairan` (
   `No_SPP` varchar(100) NOT NULL,
   `Tgl_Cek` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
   `Jumlah` varchar(100) NOT NULL,
   `Potongan` varchar(100) NOT NULL,
   `KdBayar` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  `Kunci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_pencairan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_pencairan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3333,6 +3350,7 @@ CREATE TABLE `keuangan_ta_rab` (
   `Anggaran` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
   `AnggaranStlhPAK` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rab_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rab_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3419,7 +3437,7 @@ CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_keuangan_master` int(11) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Bid` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) DEFAULT NULL,
   `Kd_Keg` varchar(100) NOT NULL,
   `ID_Keg` varchar(100) NOT NULL,
   `Nama_Kegiatan` varchar(100) NOT NULL,
@@ -3437,6 +3455,7 @@ CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
   `Kerjasama` varchar(100) NOT NULL,
   `Pihak_Ketiga` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
+  `Kd_Sub` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_kegiatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3455,7 +3474,7 @@ CREATE TABLE `keuangan_ta_rpjm_misi` (
   `Kd_Desa` varchar(100) NOT NULL,
   `ID_Visi` varchar(100) NOT NULL,
   `No_Misi` varchar(100) NOT NULL,
-  `Uraian_Misi` varchar(100) NOT NULL,
+  `Uraian_Misi` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_misi_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_misi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3510,6 +3529,7 @@ CREATE TABLE `keuangan_ta_rpjm_pagu_tahunan` (
   `Selesai` varchar(100) NOT NULL,
   `Pola_Kegiatan` varchar(100) NOT NULL,
   `Pelaksana` varchar(100) NOT NULL,
+  `No_ID` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3528,7 +3548,7 @@ CREATE TABLE `keuangan_ta_rpjm_sasaran` (
   `Kd_Desa` varchar(100) NOT NULL,
   `ID_Tujuan` varchar(100) NOT NULL,
   `No_Sasaran` varchar(100) NOT NULL,
-  `Uraian_Sasaran` varchar(100) NOT NULL,
+  `Uraian_Sasaran` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_sasaran_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_sasaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3547,7 +3567,7 @@ CREATE TABLE `keuangan_ta_rpjm_tujuan` (
   `Kd_Desa` varchar(100) NOT NULL,
   `ID_Misi` varchar(100) NOT NULL,
   `No_Tujuan` varchar(100) NOT NULL,
-  `Uraian_Tujuan` varchar(100) NOT NULL,
+  `Uraian_Tujuan` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_tujuan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_tujuan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3565,7 +3585,7 @@ CREATE TABLE `keuangan_ta_rpjm_visi` (
   `ID_Visi` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
   `No_Visi` varchar(100) NOT NULL,
-  `Uraian_Visi` varchar(100) NOT NULL,
+  `Uraian_Visi` varchar(250) DEFAULT NULL,
   `TahunA` varchar(100) NOT NULL,
   `TahunN` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
@@ -3613,6 +3633,7 @@ CREATE TABLE `keuangan_ta_spj` (
   `Jumlah` varchar(100) NOT NULL,
   `Potongan` varchar(100) NOT NULL,
   `Status` varchar(100) NOT NULL,
+  `Kunci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3640,8 +3661,9 @@ CREATE TABLE `keuangan_ta_spj_bukti` (
   `Rek_Bank` varchar(100) NOT NULL,
   `Nm_Bank` varchar(100) NOT NULL,
   `NPWP` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
   `Nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_bukti_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_bukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3665,8 +3687,9 @@ CREATE TABLE `keuangan_ta_spj_rinci` (
   `No_SPP` varchar(100) NOT NULL,
   `JmlCair` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
-  `Alamat` varchar(100) NOT NULL,
+  `Alamat` varchar(100) DEFAULT NULL,
   `Sisa` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3732,10 +3755,12 @@ CREATE TABLE `keuangan_ta_spp` (
   `Tgl_SPP` varchar(100) NOT NULL,
   `Jn_SPP` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
   `Jumlah` varchar(100) NOT NULL,
   `Potongan` varchar(100) NOT NULL,
   `Status` varchar(100) NOT NULL,
+  `F10` varchar(10) DEFAULT NULL,
+  `F11` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spp_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3757,6 +3782,7 @@ CREATE TABLE `keuangan_ta_spp_rinci` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Sumberdana` varchar(100) NOT NULL,
   `Nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spp_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3784,8 +3810,9 @@ CREATE TABLE `keuangan_ta_sppbukti` (
   `Rek_Bank` varchar(100) NOT NULL,
   `Nm_Bank` varchar(100) NOT NULL,
   `NPWP` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
+  `Keterangan` varchar(200) DEFAULT NULL,
   `Nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_sppbukti_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_sppbukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3869,7 +3896,7 @@ CREATE TABLE `keuangan_ta_tbp` (
   `No_Bukti` varchar(100) NOT NULL,
   `Tgl_Bukti` varchar(100) NOT NULL,
   `Kd_Desa` varchar(100) NOT NULL,
-  `Uraian` varchar(100) NOT NULL,
+  `Uraian` varchar(250) DEFAULT NULL,
   `Nm_Penyetor` varchar(100) NOT NULL,
   `Alamat_Penyetor` varchar(100) NOT NULL,
   `TTD_Penyetor` varchar(100) NOT NULL,
@@ -3881,6 +3908,7 @@ CREATE TABLE `keuangan_ta_tbp` (
   `Status` varchar(100) NOT NULL,
   `KdBayar` varchar(100) NOT NULL,
   `Ref_Bayar` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_tbp_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_tbp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3903,6 +3931,7 @@ CREATE TABLE `keuangan_ta_tbp_rinci` (
   `RincianSD` varchar(100) NOT NULL,
   `SumberDana` varchar(100) NOT NULL,
   `nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_tbp_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_tbp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3926,11 +3955,24 @@ CREATE TABLE `keuangan_ta_triwulan` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Anggaran` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
-  `Tw1Rinci` varchar(100) NOT NULL,
-  `Tw2Rinci` varchar(100) NOT NULL,
-  `Tw3Rinci` varchar(100) NOT NULL,
-  `Tw4Rinci` varchar(100) NOT NULL,
+  `Tw1Rinci` varchar(100) DEFAULT NULL,
+  `Tw2Rinci` varchar(100) DEFAULT NULL,
+  `Tw3Rinci` varchar(100) DEFAULT NULL,
+  `Tw4Rinci` varchar(100) DEFAULT NULL,
   `KunciData` varchar(100) NOT NULL,
+  `Jan` varchar(100) DEFAULT NULL,
+  `Peb` varchar(100) DEFAULT NULL,
+  `Mar` varchar(100) DEFAULT NULL,
+  `Apr` varchar(100) DEFAULT NULL,
+  `Mei` varchar(100) DEFAULT NULL,
+  `Jun` varchar(100) DEFAULT NULL,
+  `Jul` varchar(100) DEFAULT NULL,
+  `Agt` varchar(100) DEFAULT NULL,
+  `Sep` varchar(100) DEFAULT NULL,
+  `Okt` varchar(100) DEFAULT NULL,
+  `Nop` varchar(100) DEFAULT NULL,
+  `Des` varchar(100) DEFAULT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_triwulan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_triwulan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -3955,11 +3997,23 @@ CREATE TABLE `keuangan_ta_triwulan_rinci` (
   `Kd_Rincian` varchar(100) NOT NULL,
   `Anggaran` varchar(100) NOT NULL,
   `AnggaranPAK` varchar(100) NOT NULL,
-  `Tw1Rinci` varchar(100) NOT NULL,
-  `Tw2Rinci` varchar(100) NOT NULL,
-  `Tw3Rinci` varchar(100) NOT NULL,
-  `Tw4Rinci` varchar(100) NOT NULL,
+  `Tw1Rinci` varchar(100) DEFAULT NULL,
+  `Tw2Rinci` varchar(100) DEFAULT NULL,
+  `Tw3Rinci` varchar(100) DEFAULT NULL,
+  `Tw4Rinci` varchar(100) DEFAULT NULL,
   `KunciData` varchar(100) NOT NULL,
+  `Jan` varchar(100) DEFAULT NULL,
+  `Peb` varchar(100) DEFAULT NULL,
+  `Mar` varchar(100) DEFAULT NULL,
+  `Apr` varchar(100) DEFAULT NULL,
+  `Mei` varchar(100) DEFAULT NULL,
+  `Jun` varchar(100) DEFAULT NULL,
+  `Jul` varchar(100) DEFAULT NULL,
+  `Agt` varchar(100) DEFAULT NULL,
+  `Sep` varchar(100) DEFAULT NULL,
+  `Okt` varchar(100) DEFAULT NULL,
+  `Nop` varchar(100) DEFAULT NULL,
+  `Des` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_triwulan_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_triwulan_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -6412,9 +6466,34 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=983 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1007 DEFAULT CHARSET=latin1;
 
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2019-11-30 22:04:42', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (983, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (984, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (985, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (986, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (987, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (988, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (989, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (990, 97, 46, 51, 37, '2019-12-31 20:11:59', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (991, 97, 46, 51, 37, '2019-12-31 20:11:59', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (992, 97, 46, 51, 37, '2019-12-31 20:12:00', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (993, 97, 46, 51, 37, '2019-12-31 20:12:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (994, 97, 46, 51, 37, '2019-12-31 20:12:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (995, 97, 46, 51, 37, '2019-12-31 20:12:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (996, 97, 46, 51, 37, '2019-12-31 20:12:01', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (997, 97, 46, 51, 37, '2019-12-31 20:12:02', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (998, 97, 46, 51, 37, '2019-12-31 20:12:03', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (999, 97, 46, 51, 37, '2019-12-31 20:12:03', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1000, 97, 46, 51, 37, '2019-12-31 20:12:03', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1001, 97, 46, 51, 37, '2019-12-31 20:12:04', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1002, 97, 46, 51, 37, '2019-12-31 20:12:05', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1003, 97, 46, 51, 37, '2019-12-31 20:12:05', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1004, 97, 46, 51, 37, '2019-12-31 20:12:05', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1005, 97, 46, 51, 37, '2019-12-31 20:12:05', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1006, 97, 46, 51, 37, '2019-12-31 20:12:06', 28, 9, 0, 0);
+
 
 #
 # TABLE STRUCTURE FOR: log_ekspor
@@ -6926,7 +7005,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '19.12', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '20.01', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (22, 'tombol_cetak_surat', '0', 'Tampilkan tombol cetak langsung di form surat', 'boolean', NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
@@ -12425,7 +12504,7 @@ CREATE TABLE `user` (
   `password` varchar(100) NOT NULL,
   `id_grup` int(5) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `last_login` datetime NOT NULL,
+  `last_login` datetime DEFAULT NULL,
   `active` tinyint(1) unsigned DEFAULT '0',
   `nama` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,

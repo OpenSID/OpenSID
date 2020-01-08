@@ -31,7 +31,8 @@
 		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
 		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => '19.11'),
 		'19.11' => array('migrate' => 'migrasi_1911_ke_1912', 'nextVersion' => '19.12'),
-		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => NULL)
+		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => '20.01'),
+		'20.01' => array('migrate' => NULL, 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -3594,6 +3595,7 @@
 			"setting_aplikasi",
 			"setting_aplikasi_options",
 			"skin_sid",
+			"tweb_aset",
 			"tweb_cacat",
 			"tweb_cara_kb",
 			"tweb_golongan_darah",

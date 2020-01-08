@@ -14,6 +14,7 @@ class Siteman extends CI_Controller {
 
 	public function index()
 	{
+		unset($_SESSION['balik_ke']);
 		$this->user_model->logout();
 		$header = $this->header_model->get_config();
 
@@ -29,7 +30,7 @@ class Siteman extends CI_Controller {
 
 		$this->load->view('siteman', $header);
 		$_SESSION['siteman'] = 0;
-		$this->track_model->track_desa('siteman');
+		$this->track_model->track_desa('main');
 	}
 
 	public function auth()

@@ -128,15 +128,17 @@
               <ul class="nav navbar-nav">
                 <li><a href="<?= site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
                 <?php foreach ($menu_atas as $data): ?>
-                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?= $data['link']?>"><i class="fa fa-th-large"></i> <?= $data['nama'] ?><?php (count($data['submenu']) > 0) and print("<span class='caret'></span>") ?></a>
-                    <?php if (count($data['submenu']) > 0): ?>
+                  <?php if (count($data['submenu']) > 0): ?>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?= $data['link']?>"><i class="fa fa-th-large"></i> <?= $data['nama'] ?><span class='caret'></span></a>
                       <ul class="dropdown-menu">
                         <?php foreach ($data['submenu'] as $submenu): ?>
                           <li><a href="<?= $submenu['link']?>"><?= $submenu['nama']?></a></li>
                         <?php endforeach; ?>
                       </ul>
-                    <?php endif; ?>
-                  </li>
+                    </li>
+                  <?php else: ?>
+                    <li><a href="<?= $data['link']?>"><i class="fa fa-home fa-lg"></i> <?= $data['nama'] ?></a></li>                                   
+                  <?php endif; ?>
                 <?php endforeach; ?>
               </ul>
               <ul class="nav navbar-nav navbar-right">
