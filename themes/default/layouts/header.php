@@ -114,7 +114,7 @@
 						</div>
 					</div>
 
-					Kabupaten Lima Puluh Kota
+					Kabupaten Lima Puluh Kota Terhebat
 
 					<div id="mainmenu">
 						<?php $this->load->view($folder_themes.'/partials/menu.left.php');?>
