@@ -114,9 +114,7 @@
 						</div>
 					</div>
 
-					<?php if (!empty($teks_berjalan)): ?>
-						<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php');?>
-					<?php endif; ?>
+					Kabupaten Lima Puluh Kota
 
 					<div id="mainmenu">
 						<?php $this->load->view($folder_themes.'/partials/menu.left.php');?>
