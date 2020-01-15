@@ -26,4 +26,9 @@
 			<li <?php if ($_SESSION['submenu'] == "Laporan Analisis"): ?>class="active"<?php endif; ?>><a href="<?=site_url("keuangan/grafik/rincian_realisasi")?>">Realisasi</a></li>
 		</ul>
 	</div>
+	<div class="box-header">
+		<a href="<?= site_url("keuangan/cetak/cetak_rincian_realisasi")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Rincian Realisasi" target="_blank"><i class="fa fa-print"></i>Cetak Rincian Realisasi</a>
+	</div>
+
+
 </div>
