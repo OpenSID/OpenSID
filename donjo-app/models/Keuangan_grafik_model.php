@@ -216,7 +216,7 @@ class Keuangan_grafik_model extends CI_model {
     $this->db->like('Kd_Rincian', $akun, 'after');
     $this->db->where('Tahun', $thn);
     $this->db->group_by('Akun');
-    return $this->db->get('keuangan_ta_tbp_rinci')->result_array();
+    return $this->db->get('keuangan_ta_spp_rinci')->result_array();
   }
 
   private function real_akun_pembiayaan_keluar($akun, $thn)
@@ -348,28 +348,26 @@ class Keuangan_grafik_model extends CI_model {
   private function real_subval_belanja($kelompok, $thn)
   {
     $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
-    $this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
     $this->db->like('Kd_Rincian', $kelompok, 'after');
-    $this->db->where('keuangan_ta_spp.Tahun', $thn);
+    $this->db->where('Tahun', $thn);
     $this->db->group_by('Kelompok');
     return $this->db->get('keuangan_ta_spp_rinci')->result_array();
   }
 
   private function real_subval_pembiayaan($kelompok, $thn)
   {
-    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
+    $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Kredit) AS realisasi');
     $this->db->like('Kd_Rincian', $kelompok, 'after');
     $this->db->where('Tahun', $thn);
     $this->db->group_by('Kelompok');
-    return $this->db->get('keuangan_ta_tbp_rinci')->result_array();
+    return $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
   }
 
   private function real_subval_pembiayaan_keluar($kelompok, $thn)
   {
     $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai) AS realisasi');
-    $this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
     $this->db->like('Kd_Rincian', $kelompok, 'after');
-    $this->db->where('keuangan_ta_spp.Tahun', $thn);
+    $this->db->where('Tahun', $thn);
     $this->db->group_by('Kelompok');
     return $this->db->get('keuangan_ta_spp_rinci')->result_array();
   }
@@ -490,28 +488,26 @@ class Keuangan_grafik_model extends CI_model {
   private function real_belanja2($jenis, $thn)
   {
     $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai) AS realisasi');
-    $this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
     $this->db->like('Kd_Rincian', $jenis, 'after');
-    $this->db->where('keuangan_ta_spp.Tahun', $thn);
+    $this->db->where('Tahun', $thn);
     $this->db->group_by('Jenis');
     return $this->db->get('keuangan_ta_spp_rinci')->result_array();
   }
 
   private function real_pembiayaan2($jenis, $thn)
   {
-    $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai) AS realisasi');
+    $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Kredit) AS realisasi');
     $this->db->like('Kd_Rincian', $jenis, 'after');
     $this->db->where('Tahun', $thn);
     $this->db->group_by('Jenis');
-    return $this->db->get('keuangan_ta_tbp_rinci`')->result_array();
+    return $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
   }
 
   private function real_pembiayaan_keluar2($jenis, $thn)
   {
     $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai) AS realisasi');
-    $this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
     $this->db->like('Kd_Rincian', $jenis, 'after');
-    $this->db->where('keuangan_ta_spp.Tahun', $thn);
+    $this->db->where('Tahun', $thn);
     $this->db->group_by('Jenis');
     return $this->db->get('keuangan_ta_spp_rinci')->result_array();
   }
