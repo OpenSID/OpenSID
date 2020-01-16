@@ -481,7 +481,7 @@ class Keluarga extends Admin_Controller {
 	public function add_anggota($p=1, $o=0, $id=0)
 	{
 		$this->keluarga_model->add_anggota($id);
-		redirect("keluarga/index/$p/$o");
+		redirect("keluarga/anggota/$p/$o/$id");
 	}
 
 	public function update_anggota($p=1, $o=0, $id_kk=0, $id=0)
