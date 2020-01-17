@@ -7,12 +7,7 @@
 							<option value="<?= $tahun ?>" <?php selected($tahun, $this->session->set_tahun)?>><?= $tahun ?></option>
 						<?php endforeach ?>
 					</select>
-					<label style="margin-left: 5px;">Semester: </label>
-					<select id="semester" name="semester" onchange="setData();">
-						<option value="">Pilih Semester</option>
-						<option value="1" <?php selected(1, $this->session->set_semester)?>>1</option>
-						<option value="2" <?php selected(2, $this->session->set_semester)?>>2</option>
-					</select>
+					
 				</div>
 			</div>
 			<div class="col-md-3">
