@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.01-pasca, [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada riyandika yang baru mulai berkontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Riyandika Andhi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 
