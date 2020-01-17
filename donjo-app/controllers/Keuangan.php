@@ -158,6 +158,7 @@ class Keuangan extends Admin_Controller {
 		$data = $this->keuangan_grafik_model->lap_rp_apbd($smt, $thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['sm'] = '2';
 		$header = $this->header_model->get_data();
 		$data['desa'] = $header['desa'];
 		$this->load->view('keuangan/cetak_tabel_laporan_rp_apbd.php', $data);
@@ -168,6 +169,7 @@ class Keuangan extends Admin_Controller {
 		$data = $this->keuangan_grafik_model->lap_rp_apbd_smt1($smt, $thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['sm'] = '1';
 		$header = $this->header_model->get_data();
 		$data['desa'] = $header['desa'];
 		$this->load->view('keuangan/cetak_tabel_laporan_rp_apbd.php', $data);
