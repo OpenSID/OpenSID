@@ -1,0 +1,10 @@
+Di rilis ini, versi 20.01-pasca, [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada riyandika yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
+
+1. #2584: Sekarang setelah menambah anggota keluarga kembali ke halaman anggota keluarga.
+
+
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
