@@ -11,9 +11,9 @@
 	"sSearch":       "Cari:",
 	"sUrl":          "",
 	"oPaginate": {
-		"sFirst":    "Pertama",
-		"sPrevious": "Sebelumnya",
-		"sNext":     "Selanjutnya",
-		"sLast":     "Terakhir"
+		"sFirst":    "<i class='fa fa-fast-backward'></i>&nbsp;",
+		"sPrevious": "<i class='fa fa-backward'></i>&nbsp;",
+		"sNext":     "<i class='fa fa-forward'></i>&nbsp;",
+		"sLast":     "<i class='fa fa-fast-backward'></i>&nbsp;"
 	}
 }
