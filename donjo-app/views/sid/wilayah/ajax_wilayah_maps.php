@@ -172,6 +172,12 @@
       peta_wilayah.fitBounds(polygon.getBounds());
     });
 
+    // update value zoom ketika ganti zoom
+    peta_wilayah.on('zoomend', function(e){
+        document.getElementById('zoom').value = peta_wilayah.getZoom();
+        console.log(peta_wilayah.getZoom());
+    });
+
     //Unggah Peta dari file GPX/KML
 
     var style = {
