@@ -2,9 +2,7 @@
 var infoWindow;
 window.onload = function()
 {
-
-	//Jika posisi wilayah lokasi belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-	<?php if (!empty($lokasi['lat'] && !empty($lokasi['lng']))): ?>
+	<?php if (!empty($lokasi['lat']) && !empty($lokasi['lng'])): ?>
 		var posisi = [<?=$lokasi['lat'].",".$lokasi['lng']?>];
 		var zoom = 16;
 	<?php else: ?>
@@ -26,8 +24,8 @@ window.onload = function()
 		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
 	};
 
-	var kantor_lokasi = L.marker(posisi, {draggable: true}).addTo(peta_lokasi);
-	kantor_lokasi.on('dragend', function(e){
+	var lokasi_kantor = L.marker(posisi, {draggable: true}).addTo(peta_lokasi);
+	lokasi_kantor.on('dragend', function(e){
 		$('#lat').val(e.target._latlng.lat);
 		$('#lng').val(e.target._latlng.lng);
 	})
@@ -37,13 +35,13 @@ window.onload = function()
 	})
 
 	$('#lat').on("input",function(e) {
-		if (!$('#validasi').valid())
+		if (!$('#validasi1').valid())
 		{
-			$("#simpan").attr('disabled', true);
+			$("#simpan_kantor").attr('disabled', true);
 			return;
 		} else
 		{
-			$("#simpan").attr('disabled', false);
+			$("#simpan_kantor").attr('disabled', false);
 		}
 		let lat = $('#lat').val();
 		let lng = $('#lng').val();
@@ -52,18 +50,18 @@ window.onload = function()
 			lng: lng
 		});
 
-		kantor_lokasi.setLatLng(latLng);
+		lokasi_kantor.setLatLng(latLng);
 		peta_lokasi.setView(latLng,zoom);
 	})
 
 	$('#lng').on("input",function(e) {
-		if (!$('#validasi').valid())
+		if (!$('#validasi1').valid())
 		{
-			$("#simpan").attr('disabled', true);
+			$("#simpan_kantor").attr('disabled', true);
 			return;
 		} else
 		{
-			$("#simpan").attr('disabled', false);
+			$("#simpan_kantor").attr('disabled', false);
 		}
 		let lat = $('#lat').val();
 		let lng = $('#lng').val();
@@ -72,12 +70,11 @@ window.onload = function()
 			lng: lng
 		});
 
-		kantor_lokasi.setLatLng(latLng);
+		lokasi_kantor.setLatLng(latLng);
 		peta_lokasi.setView(latLng, zoom);
 	})
 
 	//Unggah Peta dari file GPX/KML
-
 	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
 
 	control = L.Control.fileLayerLoad({
@@ -97,7 +94,7 @@ window.onload = function()
 	control.addTo(peta_lokasi);
 
 	control.loader.on('data:loaded', function (e) {
-		peta_lokasi.removeLayer(kantor_lokasi);
+		peta_lokasi.removeLayer(lokasi_kantor);
 		var type = e.layerType;
 		var layer = e.layer;
 		var coords=[];
@@ -115,28 +112,70 @@ window.onload = function()
 		}).addTo(peta_lokasi)
 
 		document.getElementById('lat').value = coords[0][1];
-		document.getElementById('lng').value = coords[0][0];
 	});
+
+	//Geolocation GPS
+	var lc = L.control.locate({
+		icon: 'fa fa-map-marker',
+    strings: {
+        title: "Lokasi Saya",
+				locateOptions: {enableHighAccuracy: true},
+				popup: "Anda berada disekitar {distance} {unit} dari titik ini"
+    }
+
+	}).addTo(peta_lokasi);
+
+	peta_lokasi.on('locationfound', function(e) {
+			$('#lat').val(e.latlng.lat);
+			$('#lng').val(e.latlng.lng);
+	    lokasi_kantor.setLatLng(e.latlng);
+	    peta_lokasi.setView(e.latlng)
+	});
+
+	peta_lokasi.on('startfollowing', function() {
+    peta_lokasi.on('dragstart', lc._stopFollowing, lc);
+	}).on('stopfollowing', function() {
+    peta_lokasi.off('dragstart', lc._stopFollowing, lc);
+	});
+
+	//Export ke GPX
+	var geojson = lokasi_kantor.toGeoJSON();
+	var shape_for_db = JSON.stringify(geojson);
+	var gpxData = togpx(JSON.parse(shape_for_db));
+
+	$("#exportGPX").on('click', function (event) {
+		data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+		$(this).attr({
+			'href': data,
+			'target': '_blank'
+		});
+	});
+
+	//Menambahkan zoom scale ke peta
+	L.control.scale().addTo(peta_lokasi);
 
 	L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(peta_lokasi);
 
 }; //EOF window.onload
 </script>
 <style>
-#mapx
-{
-	width:100%;
-	height:50vh
-}
-.icon {
-	max-width: 70%;
-	max-height: 70%;
-	margin: 4px;
-}
-.leaflet-control-layers {
-	display: block;
-	position: relative;
-}
+	#mapx
+	{
+		width:100%;
+		height:50vh
+	}
+	.icon {
+		max-width: 70%;
+		max-height: 70%;
+		margin: 4px;
+	}
+	.leaflet-control-layers {
+  	display: block;
+  	position: relative;
+  }
+	.leaflet-control-locate a {
+  font-size: 2em;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
@@ -152,7 +191,7 @@ window.onload = function()
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
@@ -176,8 +215,10 @@ window.onload = function()
 										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $lokasi['lng']?>" />
 									</div>
 								</div>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' id='simpan' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<a href="<?= site_url('plan')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+								<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</form>
@@ -186,6 +227,71 @@ window.onload = function()
 		</div>
 	</section>
 </div>
+
+<script>
+	$(document).ready(function(){
+		$('#simpan_kantor').click(function(){
+
+			$("#validasi1").validate({
+				errorElement: "label",
+				errorClass: "error",
+				highlight:function (element){
+					$(element).closest(".form-group").addClass("has-error");
+				},
+				unhighlight:function (element){
+					$(element).closest(".form-group").removeClass("has-error");
+				},
+				errorPlacement: function (error, element) {
+					if (element.parent('.input-group').length) {
+						error.insertAfter(element.parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+
+			if (!$('#validasi1').valid()) return;
+
+			var id = $('#id').val();
+			var lat = $('#lat').val();
+			var lng = $('#lng').val();
+
+			$.ajax({
+				type: "POST",
+				url: "<?=$form_action?>",
+				dataType: 'json',
+				data: {lat: lat, lng: lng, id: id},
+			});
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function(){
+		$('#resetme').click(function(){
+			$("#validasi1").validate({
+				errorElement: "label",
+				errorClass: "error",
+				highlight:function (element){
+					$(element).closest(".form-group").addClass("has-error");
+				},
+				unhighlight:function (element){
+					$(element).closest(".form-group").removeClass("has-error");
+				},
+				errorPlacement: function (error, element) {
+					if (element.parent('.input-group').length) {
+						error.insertAfter(element.parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+
+			window.location.reload(false);
+
+		});
+	});
+</script>
 
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
