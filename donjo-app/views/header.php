@@ -47,6 +47,7 @@
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-geoman.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Locate.min.css" />
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -60,6 +61,7 @@
     <script src="<?= base_url()?>assets/js/togeojson.js"></script>
 		<script src="<?= base_url()?>assets/js/togpx.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
+		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 
     <!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
