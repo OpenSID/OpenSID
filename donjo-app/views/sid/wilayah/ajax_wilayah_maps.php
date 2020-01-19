@@ -2,7 +2,7 @@
   #map
   {
     width:100%;
-    height:65vh
+    height:62vh
   }
   .icon {
     max-width: 70%;
@@ -13,6 +13,9 @@
   	display: block;
   	position: relative;
   }
+  .leaflet-control-locate a {
+  font-size: 2em;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
@@ -44,7 +47,9 @@
             </div>
             <div class='box-footer'>
               <div class='col-xs-12'>
-                <a href="#" class="btn btn-social btn-flat btn-info btn-sm" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                <a href="<?= $tautan['link'] ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+								<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
                 <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
               </div>
             </div>
@@ -254,6 +259,27 @@
       peta_wilayah.fitBounds(polygon.getBounds());
     });
 
+    //Geolocation IP Route/GPS
+  	var lc = L.control.locate({
+  		icon: 'fa fa-map-marker',
+      locateOptions: {enableHighAccuracy: true},
+      strings: {
+          title: "Lokasi Saya",
+  				popup: "Anda berada di sekitar {distance} {unit} dari titik ini"
+      }
+
+  	}).addTo(peta_wilayah);
+
+  	peta_wilayah.on('locationfound', function(e) {
+  	    peta_wilayah.setView(e.latlng)
+  	});
+
+    peta_wilayah.on('startfollowing', function() {
+      peta_wilayah.on('dragstart', lc._stopFollowing, lc);
+  	}).on('stopfollowing', function() {
+      peta_wilayah.off('dragstart', lc._stopFollowing, lc);
+  	});
+
     //Menghapus Peta wilayah
     peta_wilayah.on('pm:globalremovalmodetoggled', function(e)
     {
@@ -279,6 +305,32 @@
     }
 
   }; //EOF window.onload
+</script>
+<script>
+	$(document).ready(function(){
+		$('#resetme').click(function(){
+			$("#validasi1").validate({
+				errorElement: "label",
+				errorClass: "error",
+				highlight:function (element){
+					$(element).closest(".form-group").addClass("has-error");
+				},
+				unhighlight:function (element){
+					$(element).closest(".form-group").removeClass("has-error");
+				},
+				errorPlacement: function (error, element) {
+					if (element.parent('.input-group').length) {
+						error.insertAfter(element.parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+
+			window.location.reload(false);
+
+		});
+	});
 </script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
