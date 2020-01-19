@@ -204,7 +204,7 @@
 																					<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																				</li>
 																				<li>
-																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
+																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
 																				</li>
 																				<li>
 																					<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
