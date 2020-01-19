@@ -182,7 +182,8 @@ window.onload = function()
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<?php if ($edit == 1): ?>
-			<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Lokasi Tempat Tinggal</a></li>
+			<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
+			<li><a href=#> Lokasi Tempat Tinggal</a></li>
 			<?php endif; ?>
 			<?php if ($edit == 0): ?>
 			<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
