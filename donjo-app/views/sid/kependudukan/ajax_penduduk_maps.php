@@ -208,13 +208,23 @@ window.onload = function()
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="lat">Latitude</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control number" name="lat" id="Latitude" value="<?= $penduduk['lat']; ?>"/>
+										<?php if ($edit == 1): ?>
+										<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
+										<?php endif; ?>
+										<?php if ($edit == 0): ?>
+										<input readonly="readonly" class="form-control number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
+										<?php endif; ?>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="lat">Longitude</label>
 									<div class="col-sm-9">
+										<?php if ($edit == 1): ?>
 										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>" />
+										<?php endif; ?>
+										<?php if ($edit == 0): ?>
+										<input readonly="readonly" class="form-control number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>" />
+										<?php endif; ?>
 									</div>
 								</div>
 								<?php if ($edit == 1): ?>
