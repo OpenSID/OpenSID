@@ -205,13 +205,13 @@ window.onload = function()
 						<div class='box-footer'>
 							<div class='col-xs-12'>
 								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lat">Lat</label>
+									<label class="col-sm-3 control-label" for="lat">Latitude</label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
+										<input type="text" class="form-control number" name="lat" id="Latitude" value="<?= $penduduk['lat']; ?>"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lat">Lng</label>
+									<label class="col-sm-3 control-label" for="lat">Longitude</label>
 									<div class="col-sm-9">
 										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>" />
 									</div>
@@ -222,10 +222,12 @@ window.onload = function()
 								<?php if ($edit == 0): ?>
 								<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 								<?php endif; ?>
-								<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-								<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
-									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+								<?php if ($edit == 1): ?>
+									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+									<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+									<?php endif; ?>
 								<?php endif; ?>
 							</div>
 						</div>
