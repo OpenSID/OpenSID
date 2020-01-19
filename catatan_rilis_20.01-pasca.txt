@@ -1,11 +1,14 @@
 Di rilis ini, versi 20.01-pasca, [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Riyandika Andhi yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Riyandika Andhi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 
 1. #2584: Sekarang setelah menambah anggota keluarga kembali ke halaman anggota keluarga.
 2. #2524: Seragamkan tombol paginasi di daftar informasi publik dengan daftar artikel di web.
+3. #2520, #2521: Tambahkan tombol kembali di form ubah Lokasi Kantor Desa dan Peta Wilayah Desa.
+4. Form ubah lokasi tempat tinggal penduduk disesuaikan dengan form peta lokasi lainnya.
+5. Sediakan tombol geolocation (lokasi saya saat ini) di semua form ubah lokasi dan wilayah peta.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
