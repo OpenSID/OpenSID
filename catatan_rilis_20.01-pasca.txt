@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 4. Form ubah lokasi tempat tinggal penduduk disesuaikan dengan form peta lokasi lainnya.
 5. Sediakan tombol geolocation (lokasi saya saat ini) di semua form ubah lokasi dan wilayah peta.
 6. Perbaiki ubah tampilkan jumlah entri per halaman di daftar Galeri. [bug-fix]
+7. #2566: Sekarang tautan artikel agenda di web menampilkan artikel yang bersangkutan. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
