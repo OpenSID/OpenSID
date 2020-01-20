@@ -121,7 +121,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("gallery/pager")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("gallery")?>" method="post" class="form-horizontal">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
