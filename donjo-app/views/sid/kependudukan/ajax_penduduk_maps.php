@@ -181,13 +181,18 @@ window.onload = function()
 		<h1>Lokasi Tempat Tinggal <?= $penduduk['nama']?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<?php if ($edit == 1): ?>
-			<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
-			<li><a href=#> Lokasi Tempat Tinggal</a></li>
-			<?php endif; ?>
-			<?php if ($edit == 0): ?>
-			<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
-			<?php endif; ?>
+			<?php switch ($edit) {
+				case '0': ?>
+					<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
+				<?php break; ?>
+				<?php case '1': ?>
+					<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
+					<li><a href=#> Lokasi Tempat Tinggal</a></li>
+				<?php break; ?>
+				<?php case '2': ?>
+					<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
+				<?php break; ?>
+			<?php } ?>
 		</ol>
 	</section>
 	<section class="content">
@@ -208,38 +213,59 @@ window.onload = function()
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="lat">Latitude</label>
 									<div class="col-sm-9">
-										<?php if ($edit == 1): ?>
-										<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
-										<?php endif; ?>
-										<?php if ($edit == 0): ?>
-										<input readonly="readonly" class="form-control number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
-										<?php endif; ?>
+										<?php switch ($edit) {
+											case '0': ?>
+											<input readonly="readonly" class="form-control number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
+											<?php break; ?>
+											<?php case '1': ?>
+											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
+											<?php break; ?>
+											<?php case '2': ?>
+											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
+											<?php break; ?>
+										<?php } ?>
 									</div>
 								</div>
+
 								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lat">Longitude</label>
+									<label class="col-sm-3 control-label" for="lng">Longitude</label>
 									<div class="col-sm-9">
-										<?php if ($edit == 1): ?>
-										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>" />
-										<?php endif; ?>
-										<?php if ($edit == 0): ?>
-										<input readonly="readonly" class="form-control number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>" />
-										<?php endif; ?>
+										<?php switch ($edit) {
+											case '0': ?>
+											<input readonly="readonly" class="form-control number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>"/>
+											<?php break; ?>
+											<?php case '1': ?>
+											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
+											<?php break; ?>
+											<?php case '2': ?>
+											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
+											<?php break; ?>
+										<?php } ?>
 									</div>
 								</div>
-								<?php if ($edit == 1): ?>
-								<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-								<?php endif; ?>
-								<?php if ($edit == 0): ?>
-								<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-								<?php endif; ?>
-								<?php if ($edit == 1): ?>
+
+								<?php switch ($edit) {
+									case '0': ?>
+									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+									<?php break; ?>
+									<?php case '1': ?>
+									<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
 									<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
 										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
 									<?php endif; ?>
-								<?php endif; ?>
+									<?php break; ?>
+									<?php case '2': ?>
+									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+									<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+									<?php endif; ?>
+									<?php break; ?>
+								<?php } ?>
+
 							</div>
 						</div>
 					</form>
