@@ -173,14 +173,18 @@ class Surat extends Admin_Controller {
 
 		if ($lampiran)
 		{
-			$name_file = str_replace('rtf', 'zip', $nama_surat);
-			$file_surat = LOKASI_ARSIP.$nama_surat;
-			$file_lampiran = LOKASI_ARSIP.$lampiran;
-			$this->load->library('zip');
-			$this->zip->read_file($file_surat);
-			$this->zip->read_file($file_lampiran);
-			$this->zip->archive(LOKASI_ARSIP.$name_file);
-			header("location:".base_url(LOKASI_ARSIP.$name_file));
+			$nama_file = str_replace('rtf', 'zip', $nama_surat);
+			$berkas_zip = array();
+			$berkas_zip[] = LOKASI_ARSIP.$nama_surat;
+			$berkas_zip[] = LOKASI_ARSIP.$lampiran;
+			# Masukkan semua berkas ke dalam zip
+			$berkas_zip = masukkan_zip($berkas_zip);
+	    # Unduh berkas zip
+	    header('Content-disposition: attachment; filename='.$nama_file.'.zip');
+	    header('Content-type: application/zip');
+	    readfile($berkas_zip);
+
+
 		}
 		else
 		{
