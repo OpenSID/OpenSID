@@ -15,6 +15,8 @@ Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 9. Sediakan fitur marker cluster di Pemetaan > Peta untuk menampilkan data penduduk yang lokasinya menumpuk.
 10. #2598, #2536: Sekarang di widget Agenda, dibedakan agenda yang akan datang dari yang sudah lalu. 
 11. Bedakan icon tombol kembali ke daftar keluarga dan tombol kembali ke daftar anggota keluarga di salinan kartu keluarga.
+12. #2596: Menu navigasi sekarang tampil pada rincian data peserta program bantuan [bug-fix].
+13. #2399: Sekarang lampiran ikut terunduh pada waktu cetak surat melalui Ekspor Dok.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

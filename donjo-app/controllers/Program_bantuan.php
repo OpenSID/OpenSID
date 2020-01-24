@@ -129,7 +129,11 @@ class Program_bantuan extends Admin_Controller {
 	public function data_peserta($id)
 	{
 		$header = $this->header_model->get_data();
+		$nav['act']= 6;
+		$header['minsidebar'] = 1;
+		
 		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
 		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
