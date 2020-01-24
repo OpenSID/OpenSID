@@ -311,18 +311,18 @@ class Keluarga extends Admin_Controller {
 
 	public function insert_a()
 	{
+		$id_kk = $this->input->post('id_kk');
 		$this->keluarga_model->insert_a();
 		if ($_SESSION['validation_error'])
 		{
-			$id_kk = $this->input->post('id_kk');
 			$_SESSION['id_kk'] = $id_kk;
 			$_SESSION['kk'] = $this->keluarga_model->get_kepala_a($id_kk);
 			$_SESSION['dari_internal'] = true;
-			redirect("keluarga/form_a/$p/0/$id_kk");
+			redirect("keluarga/form_a/1/0/$id_kk");
 		}
 		else
 		{
-			redirect('keluarga');
+			redirect("keluarga/kartu_keluarga/1/0/$id_kk");
 		}
 	}
 
@@ -481,7 +481,7 @@ class Keluarga extends Admin_Controller {
 	public function add_anggota($p=1, $o=0, $id=0)
 	{
 		$this->keluarga_model->add_anggota($id);
-		redirect("keluarga/index/$p/$o");
+		redirect("keluarga/anggota/$p/$o/$id");
 	}
 
 	public function update_anggota($p=1, $o=0, $id_kk=0, $id=0)

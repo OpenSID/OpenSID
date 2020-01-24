@@ -262,10 +262,19 @@ class First_artikel_m extends CI_Model {
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE id_kategori='1000' AND a.enabled = 1 AND a.tgl_upload < NOW()
+			WHERE id_kategori='1000' AND a.enabled = 1 AND g.tgl_agenda >= NOW()
+			ORDER BY a.tgl_upload ASC";
+		$query = $this->db->query($sql);
+		$data['yad'] = $query->result_array();
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN agenda g ON g.id_artikel = a.id
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE id_kategori='1000' AND a.enabled = 1 AND g.tgl_agenda < NOW()
 			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data['lama'] = $query->result_array();
 		return $data;
 	}
 

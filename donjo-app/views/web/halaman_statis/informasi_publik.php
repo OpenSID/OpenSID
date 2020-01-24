@@ -47,6 +47,9 @@ $(document).ready(function() {
       ],
       'language': {
         'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+      },
+      'drawCallback': function (){
+          $('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
       }
     });
 

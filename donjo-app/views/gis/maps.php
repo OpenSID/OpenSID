@@ -34,6 +34,8 @@
 
 		//Semua marker akan ditampung divariabel ini
 		var semua_marker = [];
+    var markers = new L.MarkerClusterGroup();
+    var markersList = [];
 
 		//WILAYAH DESA
 		<?php if ($layer_desa==1 AND !empty($desa['path'])): ?>
@@ -355,8 +357,8 @@
 			var content;
 			var point_style = L.icon({
 			  iconUrl: '<?= base_url()."assets/images/gis/point/pend.png"?>',
-			  iconSize: [32, 37],
-			  iconAnchor: [16, 37],
+			  iconSize: [22, 27],
+			  iconAnchor: [11, 27],
 			  popupAnchor: [0, -28],
 			});
 			for (var x = 0; x < jml;x++)
@@ -406,7 +408,7 @@
 			  }
 			},
 			//Method untuk menambahkan style ke point (titik marker)
-			pointToLayer: function (feature, latlng)
+      pointToLayer: function (feature, latlng)
 			{
 			  if (feature.properties.style)
 			  {
@@ -415,9 +417,13 @@
 			  else
 				  return L.marker(latlng);
 			}
-		  }).addTo(mymap);
+    });
 
-		  //Mempusatkan tampilan map agar semua marker terlihat
+      markersList.push(geojson);
+  		markers.addLayer(geojson);
+      mymap.addLayer(markers);
+
+      //Mempusatkan tampilan map agar semua marker terlihat
 		  mymap.fitBounds(geojson.getBounds());
 		}
   }; //EOF window.onload
