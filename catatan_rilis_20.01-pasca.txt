@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.01-pasca, [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Riyandika Andhi dan fahruddinakas yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Riyandika Andhi, ZER07URN dan fahruddinakas yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 
@@ -13,7 +13,7 @@ Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 7. #2566: Sekarang tautan artikel agenda di web menampilkan artikel yang bersangkutan. [bug-fix]
 8. #2496: Sekarang faktor zoom tersimpan di form ubah peta wilayah desa/dusun/rw/rt. [bug-fix]
 9. Sediakan fitur marker cluster di Pemetaan > Peta untuk menampilkan data penduduk yang lokasinya menumpuk.
-10. #2598: Sekarang di widget Agenda, dibedakan agenda yang akan datang dari yang sudah lalu. 
+10. #2598, #2536: Sekarang di widget Agenda, dibedakan agenda yang akan datang dari yang sudah lalu. 
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
