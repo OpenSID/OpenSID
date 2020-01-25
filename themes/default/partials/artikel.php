@@ -11,6 +11,16 @@
 			<?php endif; ?>
 		</h3>
 
+		<?php if($single_artikel['id_kategori'] == 1000) : ?>
+			<div class="detail_agenda box box-info">
+				<div class="box-body">
+					<p>TANGGAL KEGIATAN : <?= tgl_indo2($detail_agenda['tgl_agenda'])?></p>
+					<p>KOORDINATOR KEGIATAN : <?= $detail_agenda['koordinator_kegiatan']?></p>
+					<p>LOKASI KEGIATAN : <?= $detail_agenda['lokasi_kegiatan']?>	</p>
+				</div>
+			</div>
+		<?php endif; ?>		
+
 		<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 			<div class="sampul">
 				<a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>" /></a>
@@ -34,6 +44,7 @@
 			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" /></a>
 			</div>
 		<?php endif; ?>
+
 		<div class="form-group" style="clear:both;">
 			<ul id="pageshare" title="Bagikan ke teman anda" class="pagination">
 				<li class="sbutton" id="fb"><a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url().'first/artikel/'.$single_artikel['id']?>" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;Share</a></li>

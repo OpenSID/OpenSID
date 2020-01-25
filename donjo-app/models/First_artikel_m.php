@@ -357,6 +357,13 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
+	
+	public function get_agenda($id)
+	{
+		$data = $this->db->where('id_artikel', $id)
+			->get('agenda')->row_array();
+		return $data;
+	}
 
 	public function list_artikel($offset=0, $limit=50, $id=0)
 	{
