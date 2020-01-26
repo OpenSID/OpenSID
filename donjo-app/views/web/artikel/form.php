@@ -54,6 +54,9 @@
 							<a href="<?=site_url("web/index/$cat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
             	</a>
+            	<?php if ($artikel['slug']): ?>
+            		<a href="<?= site_url('first/artikel/'.$artikel['thn'].'/'.$artikel['bln'].'/'.$artikel['hri'].'/'.$artikel['slug']) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+            	<?php endif; ?>
 						</div>
 						<div class="box-body">
 			  			<div class="form-group">

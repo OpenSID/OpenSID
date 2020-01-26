@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.01-pasca adalah sebagai berikut:
 12. #2596: Menu navigasi sekarang tampil pada rincian data peserta program bantuan [bug-fix].
 13. #2399: Sekarang lampiran ikut terunduh pada waktu cetak surat melalui Ekspor Dok.
 14. #2597: Tampilkan informasi detail agenda pada waktu menampilkan artikel terkait di web.
+15. #2531: Bisa tampilkan penampakan artikel di web dari form ubah artikel dan daftar artikel di Admin Web > Artikel.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.01-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
