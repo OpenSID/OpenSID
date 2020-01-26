@@ -14,7 +14,7 @@
       	<?php if (count($agenda['hari_ini']) > 0): ?>
 		      <li class="active"><a data-toggle="tab" href="#hari-ini">Hari ini</a></li>
 		    <?php endif; ?>
-	      <li <?php count($agenda['hari_ini']) > 0 or print('class="active"')?>><a data-toggle="tab" href="#terkini">Yang akan datang</a></li>
+	      <li <?php count($agenda['hari_ini']) > 0 or print('class="active"')?>><a data-toggle="tab" href="#yad">Yang akan datang</a></li>
       	<?php if (count($agenda['lama']) > 0): ?>
 		      <li><a data-toggle="tab" href="#lalu">Lama</a></li>
 		    <?php endif; ?>
@@ -50,7 +50,7 @@
 		      </ul>
 		    </div>
 		    
-	      <div id="terkini" class="tab-pane fade <?php count($agenda['hari_ini']) > 0 or print('in active')?> ">
+	      <div id="yad" class="tab-pane fade <?php count($agenda['hari_ini']) > 0 or print('in active')?> ">
 		      <ul class="sidebar-latest">
 		      	<?php if (count($agenda['yad']) > 0): ?>
 			        <?php foreach ($agenda['yad'] as $l): ?>
