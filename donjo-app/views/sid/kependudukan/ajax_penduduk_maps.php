@@ -115,25 +115,25 @@ window.onload = function()
 	//Geolocation GPS
 	var lc = L.control.locate({
 		icon: 'fa fa-map-marker',
-    strings: {
-        title: "Lokasi Saya",
+		strings: {
+				title: "Lokasi Saya",
 				locateOptions: {enableHighAccuracy: true},
 				popup: "Anda berada di sekitar {distance} {unit} dari titik ini"
-    }
+		}
 
 	}).addTo(peta_penduduk);
 
 	peta_penduduk.on('locationfound', function(e) {
 			$('#lat').val(e.latlng.lat);
 			$('#lng').val(e.latlng.lng);
-	    posisi_penduduk.setLatLng(e.latlng);
-	    peta_penduduk.setView(e.latlng)
+			posisi_penduduk.setLatLng(e.latlng);
+			peta_penduduk.setView(e.latlng)
 	});
 
 	peta_penduduk.on('startfollowing', function() {
-    peta_penduduk.on('dragstart', lc._stopFollowing, lc);
+		peta_penduduk.on('dragstart', lc._stopFollowing, lc);
 	}).on('stopfollowing', function() {
-    peta_penduduk.off('dragstart', lc._stopFollowing, lc);
+		peta_penduduk.off('dragstart', lc._stopFollowing, lc);
 	});
 
 	//Export ke GPX
@@ -168,11 +168,11 @@ window.onload = function()
 		margin: 4px;
 	}
 	.leaflet-control-layers {
-  	display: block;
-  	position: relative;
-  }
+		display: block;
+		position: relative;
+	}
 	.leaflet-control-locate a {
-  font-size: 2em;
+	font-size: 2em;
 	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
@@ -181,18 +181,15 @@ window.onload = function()
 		<h1>Lokasi Tempat Tinggal <?= $penduduk['nama']?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<?php switch ($edit) {
-				case '0': ?>
-					<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
+			<?php switch ($edit): ?><?php case '0': ?>
+			<?php case '2': ?>
+				<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
 				<?php break; ?>
-				<?php case '1': ?>
-					<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
-					<li><a href=#> Lokasi Tempat Tinggal</a></li>
+			<?php case '1': ?>
+				<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
+				<li><a href=#> Lokasi Tempat Tinggal</a></li>
 				<?php break; ?>
-				<?php case '2': ?>
-					<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
-				<?php break; ?>
-			<?php } ?>
+			<?php endswitch ?>
 		</ol>
 	</section>
 	<section class="content">
@@ -213,43 +210,40 @@ window.onload = function()
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="lat">Latitude</label>
 									<div class="col-sm-9">
-										<?php switch ($edit) {
-											case '0': ?>
+										<?php switch ($edit): ?><?php case '0': ?>											
 											<input readonly="readonly" class="form-control number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
 											<?php break; ?>
-											<?php case '1': ?>
+										<?php case '1': ?>
 											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
 											<?php break; ?>
-											<?php case '2': ?>
+										<?php case '2': ?>
 											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
 											<?php break; ?>
-										<?php } ?>
+										<?php endswitch ?>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="lng">Longitude</label>
 									<div class="col-sm-9">
-										<?php switch ($edit) {
-											case '0': ?>
+										<?php switch ($edit): ?><?php case '0': ?>
 											<input readonly="readonly" class="form-control number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>"/>
 											<?php break; ?>
-											<?php case '1': ?>
+										<?php case '1': ?>
 											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
 											<?php break; ?>
-											<?php case '2': ?>
+										<?php case '2': ?>
 											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
 											<?php break; ?>
-										<?php } ?>
+										<?php endswitch ?>
 									</div>
 								</div>
 
-								<?php switch ($edit) {
-									case '0': ?>
+								<?php switch ($edit): ?><?php case '0': ?>
 									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 									<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/2")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
 									<?php break; ?>
-									<?php case '1': ?>
+								<?php case '1': ?>
 									<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
@@ -257,7 +251,7 @@ window.onload = function()
 										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
 									<?php endif; ?>
 									<?php break; ?>
-									<?php case '2': ?>
+								<?php case '2': ?>
 									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
@@ -265,7 +259,7 @@ window.onload = function()
 										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
 									<?php endif; ?>
 									<?php break; ?>
-								<?php } ?>
+								<?php endswitch ?>
 
 							</div>
 						</div>
