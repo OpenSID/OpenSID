@@ -247,6 +247,7 @@ window.onload = function()
 								<?php switch ($edit) {
 									case '0': ?>
 									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+									<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/2")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
 									<?php break; ?>
 									<?php case '1': ?>
 									<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>

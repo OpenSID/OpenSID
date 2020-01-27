@@ -207,9 +207,6 @@
 																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
 																				</li>
 																				<li>
-																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/2")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Ubah Lokasi Tempat Tinggal</a>
-																				</li>
-																				<li>
 																					<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
 																				</li>
 																				<li>
