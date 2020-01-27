@@ -2,8 +2,14 @@
 
 <?php 
 	$previous = "javascript:history.go(-1)";
-	if(isset($_SERVER['HTTP_REFERER'])) {
+	if(isset($_SERVER['HTTP_REFERER'])) 
+	{
     $previous = $_SERVER['HTTP_REFERER'];
+	}
+	$CI =& get_instance();
+	if( ! isset($CI))
+	{
+		$CI = new CI_Controller();
 	}
 ?>
 
@@ -11,9 +17,9 @@
 <html lang="en">
 <head>
 	<title>404 Page Not Found</title>
-	<link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="/assets/css/AdminLTE.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url()?>assets/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url()?>assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url()?>assets/css/AdminLTE.css" />
 </head>
 <body>
 <div class="container">
