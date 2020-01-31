@@ -1,0 +1,26 @@
+Di rilis ini, versi 20.02, tersedia tombol geolocation (lokasi saya saat ini) di semua form ubah lokasi dan wilayah peta. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Zeppy Shiddiq dan Il Ham yang terus berkontribusi. Terima kasih pula pada Riyandika Andhi, ZER07URN, lanskids dan fahruddinakas yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.02 adalah sebagai berikut:
+
+1. #2584: Sekarang setelah menambah anggota keluarga kembali ke halaman anggota keluarga.
+2. #2524: Seragamkan tombol paginasi di daftar informasi publik dengan daftar artikel di web.
+3. #2520, #2521: Tambahkan tombol kembali di form ubah Lokasi Kantor Desa dan Peta Wilayah Desa.
+4. Form ubah lokasi tempat tinggal penduduk disesuaikan dengan form peta lokasi lainnya. Form lihat lokasi tempat tinggal penduduk sekarang disediakan tombol untuk mengubah lokasi. 
+5. Sediakan tombol geolocation (lokasi saya saat ini) di semua form ubah lokasi dan wilayah peta.
+6. Perbaiki ubah tampilkan jumlah entri per halaman di daftar Galeri. [bug-fix]
+7. #2566: Sekarang tautan artikel agenda di web menampilkan artikel yang bersangkutan. [bug-fix]
+8. #2496: Sekarang faktor zoom tersimpan di form ubah peta wilayah desa/dusun/rw/rt. [bug-fix]
+9. Sediakan fitur marker cluster di Pemetaan > Peta untuk menampilkan data penduduk yang lokasinya menumpuk.
+10. #2598, #2536: Sekarang di widget Agenda, dibedakan agenda hari ini, yang akan datang dan yang sudah lalu. 
+11. Bedakan icon tombol kembali ke daftar keluarga dan tombol kembali ke daftar anggota keluarga di salinan kartu keluarga.
+12. #2596: Menu navigasi sekarang tampil pada rincian data peserta program bantuan [bug-fix].
+13. #2399: Sekarang lampiran ikut terunduh pada waktu cetak surat melalui Ekspor Dok.
+14. #2597: Tampilkan informasi detail agenda pada waktu menampilkan artikel terkait di web.
+15. #2531: Bisa tampilkan penampakan artikel di web dari form ubah artikel dan daftar artikel di Admin Web > Artikel.
+16. #2626: Sekarang halaman error 404 (halaman tidak ditemukan) tampil dengan benar. [bug-fix]
+17. #2632: Tambahkan tombol 'kembali ke daftar keluarga' di form Tambah Anggota Keluarga.
+
+
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
