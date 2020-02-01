@@ -1,4 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php 
+	$CI =& get_instance();
+	if( ! isset($CI))
+	{
+		$CI = new CI_Controller();
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
