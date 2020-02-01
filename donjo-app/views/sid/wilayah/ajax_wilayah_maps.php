@@ -175,6 +175,10 @@
       });
 
       peta_wilayah.fitBounds(polygon.getBounds());
+
+      // set value setelah create polygon
+      document.getElementById('path').value = getLatLong('Poly', layer).toString();
+      document.getElementById('zoom').value = peta_wilayah.getZoom();
     });
 
     // update value zoom ketika ganti zoom

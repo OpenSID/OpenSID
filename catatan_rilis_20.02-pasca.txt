@@ -1,10 +1,11 @@
 Di rilis ini, versi 20.02-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi]yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq dan Riyandika Andhi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 
 1. Sekarang peta lokasi tempat tinggal penduduk dapat diubah walaupun sebelumnya belum ada. [bug-fix]
+2. #2641: Bisa langsung simpan peta wilayah setelah dibuat poligonnya. 
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
