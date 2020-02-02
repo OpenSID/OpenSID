@@ -79,6 +79,8 @@ class Keuangan extends Admin_Controller {
 	{
 		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['sm'] = 'AKHIR';
 		$this->load->view('keuangan/rincian_realisasi', $data);
 	}
 
@@ -86,6 +88,8 @@ class Keuangan extends Admin_Controller {
 	{
 		$data = $this->keuangan_grafik_model->lap_rp_apbd_smt1($thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['sm'] = '2';
 		$this->load->view('keuangan/rincian_realisasi_smt1', $data);
 	}
 
