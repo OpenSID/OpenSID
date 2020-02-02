@@ -7,7 +7,7 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($_SESSION['submenu'] == "Data Kategori"): ?>class="active"<?php endif; ?>><a href="<?= site_url('keuangan/grafik/grafik-RP-APBD')?>">Grafik Pelaksanaan APBDes</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Grafik Keuangan"): ?>class="active"<?php endif; ?>><a href="<?= site_url('keuangan/grafik/grafik-RP-APBD')?>">Grafik Pelaksanaan APBDes</a></li>
 		</ul>
 	</div>
 </div>
@@ -20,8 +20,8 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($_SESSION['submenu'] == "Laporan Analisis"): ?>class="active"<?php endif; ?>><a href="<?=site_url("keuangan/grafik/rincian_realisasi_smt1")?>">Laporan Pelaksanaan APBDes Semester 1</a></li>
-			<li <?php if ($_SESSION['submenu'] == "Laporan Analisis 1"): ?>class="active"<?php endif; ?>><a href="<?=site_url("keuangan/grafik/rincian_realisasi")?>">Laporan Pelaksanaan APBDes Semester 2</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Laporan Keuangan Semester1"): ?>class="active"<?php endif; ?>><a href="<?=site_url("keuangan/grafik/rincian_realisasi_smt1")?>">Laporan Pelaksanaan APBDes Semester 1</a></li>
+			<li <?php if ($_SESSION['submenu'] == "Laporan Keuangan Akhir"): ?>class="active"<?php endif; ?>><a href="<?=site_url("keuangan/grafik/rincian_realisasi")?>">Laporan Pelaksanaan APBDes Semester 2</a></li>
 		</ul>
 	</div>
 
