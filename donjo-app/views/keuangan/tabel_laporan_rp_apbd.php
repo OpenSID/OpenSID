@@ -41,6 +41,9 @@
 	}
 </style>
 
+<div class="box box-info">
+	<div class="box-header with-border">
+
 <table width="100%" style="border: solid 0px black; text-align: center;">
 	<tr>
 		</td>
@@ -234,3 +237,5 @@
 		</tr>
 
 </table>
+</div>
+</div>
