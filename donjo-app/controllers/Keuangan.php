@@ -89,55 +89,6 @@ class Keuangan extends Admin_Controller {
 		$this->load->view('keuangan/rincian_realisasi_smt1', $data);
 	}
 
-	public function cetak($jenis)
-	{
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
-		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
-		$semester = $this->session->userdata('set_semester') ? $this->session->userdata('set_semester') : 0;
-		$sess = array(
-			'set_tahun' => $tahun,
-			'set_semester' => $semester
-		);
-		$this->session->set_userdata( $sess );
-		$this->load->model('keuangan_grafik_model');
-		$smt = $this->session->userdata('set_semester');
-		$thn = $this->session->userdata('set_tahun');
-
-		switch ($jenis) {
-			case 'cetak_rincian_realisasi':
-				$this->cetak_rincian_realisasi($thn);
-				break;
-			case 'cetak_rincian_realisasi_smt1':
-				$this->cetak_rincian_realisasi_smt1($thn);
-				break;
-			default:
-				$this->cetak_rincian_realisasi($thn);
-				break;
-		}
-	}
-
-	private function cetak_rincian_realisasi($thn)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
-		$data['ta'] = $this->session->userdata('set_tahun');
-		$data['sm'] = '2';
-		$header = $this->header_model->get_data();
-		$data['desa'] = $header['desa'];
-		$this->load->view('keuangan/cetak_tabel_laporan_rp_apbd.php', $data);
-	}
-
-	private function cetak_rincian_realisasi_smt1($thn)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd_smt1($thn);
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
-		$data['ta'] = $this->session->userdata('set_tahun');
-		$data['sm'] = '1';
-		$header = $this->header_model->get_data();
-		$data['desa'] = $header['desa'];
-		$this->load->view('keuangan/cetak_tabel_laporan_rp_apbd.php', $data);
-	}
-
 	private function grafik_rp_apbd($thn)
 	{
 		$data = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
