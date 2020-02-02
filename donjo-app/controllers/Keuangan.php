@@ -140,7 +140,7 @@ class Keuangan extends Admin_Controller {
 
 	private function grafik_rp_apbd($thn)
 	{
-		$data = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		$data = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$this->load->view('keuangan/grafik_rp_apbd', $data);
 	}
