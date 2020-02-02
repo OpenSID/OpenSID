@@ -305,11 +305,11 @@ class Keuangan_model extends CI_model {
 
   public function cek_desa($id_master)
   {
-    $data = $this->db->select('d.Kd_Desa, d.Nama_Desa')
+    $data = $this->db->select('a.Kd_Desa, d.Nama_Desa')
       ->where('a.id_keuangan_master', $id_master)
       ->distinct()
       ->from('keuangan_ta_anggaran a')
-      ->join('keuangan_ref_desa d', 'a.Kd_Desa = d.Kd_Desa')
+      ->join('keuangan_ref_desa d', 'a.Kd_Desa = d.Kd_Desa and a.id_keuangan_master = d.id_keuangan_master', 'left')
       ->get()
       ->result_array();
     return $data;
