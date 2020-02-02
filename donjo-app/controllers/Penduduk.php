@@ -556,14 +556,22 @@ class Penduduk extends Admin_Controller {
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
 		$data['desa'] = $this->penduduk_model->get_desa();
-		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id");
+		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
+		$header = $this->header_model->get_data();
 
-		$this->load->view("sid/kependudukan/maps", $data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view("sid/kependudukan/ajax_penduduk_maps", $data);
+		$this->load->view('footer');
 	}
 
-	public function update_maps($p = 1, $o = 0, $id = '')
+	public function update_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$this->penduduk_model->update_position($id);
+		if ($edit == 1)
+			redirect("penduduk/form/$p/$o/$id");
+		else
+			redirect("penduduk");
 	}
 
 	public function edit_status_dasar($p = 1, $o = 0, $id = 0)

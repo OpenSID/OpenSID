@@ -98,7 +98,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT a.*, k.kategori AS kategori " . $this->list_data_sql($cat);
+		$sql = "SELECT a.*, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri " . $this->list_data_sql($cat);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -226,13 +226,13 @@
 			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
+		$data['slug'] = $slug; // insert slug
 		if ($cat == AGENDA)
 		{
 			$outp = $this->insert_agenda($data);
 		}
 		else
 		{
-			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->insert('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
@@ -455,7 +455,7 @@
 
 	public function get_artikel($id=0)
 	{
-		$sql = "SELECT a.*, g.*, g.id as id_agenda, u.nama AS owner
+		$sql = "SELECT a.*, g.*, g.id as id_agenda, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id

@@ -171,7 +171,25 @@ class Surat extends Admin_Controller {
 		$log_surat['lampiran'] = $lampiran;
 		$this->keluar_model->log_surat($log_surat);
 
-		header("location:".base_url(LOKASI_ARSIP.$nama_surat));
+		if ($lampiran)
+		{
+			$nama_file = str_replace('rtf', 'zip', $nama_surat);
+			$berkas_zip = array();
+			$berkas_zip[] = LOKASI_ARSIP.$nama_surat;
+			$berkas_zip[] = LOKASI_ARSIP.$lampiran;
+			# Masukkan semua berkas ke dalam zip
+			$berkas_zip = masukkan_zip($berkas_zip);
+	    # Unduh berkas zip
+	    header('Content-disposition: attachment; filename='.$nama_file.'.zip');
+	    header('Content-type: application/zip');
+	    readfile($berkas_zip);
+
+
+		}
+		else
+		{
+			header("location:".base_url(LOKASI_ARSIP.$nama_surat));
+		}
 	}
 
 	public function nomor_surat_duplikat()
