@@ -41,7 +41,7 @@ class Shortcode_model extends Keuangan_grafik_model {
 
 	private function grafik_rp_apbd($type, $thn)
 	{
-    $data = $this->grafik_keuangan_tema();
+    $data = $this->grafik_keuangan_tema($thn);
 		$data_widget = $data['data_widget'];
 		ob_start();
 			include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php");
