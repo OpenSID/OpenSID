@@ -41,6 +41,17 @@
 	}
 </style>
 
+<table width="100%" style="border: solid 0px black; text-align: center;">
+	<tr>
+		</td>
+		<td>
+			<h5>LAPORAN REALISASI PELAKSANAAN</h5>
+			<h5>ANGGARAN PENDAPATAN DAN BELANJA DESA</h5>
+			<h5>TAHUN ANGGARAN <?= $thn ?></h5>
+		</td>
+	</tr>
+</table>
+
 <table class='blueTable' width='100%'>
 	<thead>
 		<tr>
