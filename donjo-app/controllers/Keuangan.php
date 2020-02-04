@@ -8,9 +8,6 @@ class Keuangan extends Admin_Controller {
 		session_start();
 		$this->load->model('keuangan_model');
 		$this->load->model('header_model');
-		$_SESSION['submenu'] = "Grafik Keuangan";
-		$_SESSION['submenu'] = "Laporan Keuangan Akhir";
-		$_SESSION['submenu'] = "Laporan Keuangan Semester1";
 		$this->modul_ini = 201;
 	}
 
@@ -59,7 +56,8 @@ class Keuangan extends Admin_Controller {
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
 
-		switch ($jenis) {
+		switch ($jenis) 
+		{
 			case 'grafik-RP-APBD':
 				$this->grafik_rp_apbd($thn);
 				break;
@@ -90,7 +88,7 @@ class Keuangan extends Admin_Controller {
 
 	private function rincian_realisasi_smt1($thn)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd_smt1($thn);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1=1);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$data['ta'] = $this->session->userdata('set_tahun');
 		$data['sm'] = '1';
