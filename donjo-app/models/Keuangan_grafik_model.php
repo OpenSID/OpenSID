@@ -6,12 +6,24 @@ class Keuangan_grafik_model extends CI_model {
 		parent::__construct();
   }
 
-  public function rp_apbd_widget($thn)
+  public function rp_apbd_widget($thn, $opt=false)
   {
 		$this->db->select('Akun, Nama_Akun');
 		$this->db->join('keuangan_ref_rek1', 'keuangan_ref_rek1.id_keuangan_master = keuangan_master.id', 'left');
-		$this->db->where("Akun NOT LIKE '1.%'");
-		$this->db->where("Akun NOT LIKE '7.%'");
+
+    if ($opt)
+		{
+      $this->db->where("Akun NOT LIKE '1.%'");
+  		$this->db->where("Akun NOT LIKE '2.%'");
+  		$this->db->where("Akun NOT LIKE '3.%'");
+  		$this->db->where("Akun NOT LIKE '7.%'");
+    }
+    else
+    {
+      $this->db->where("Akun NOT LIKE '1.%'");
+  		$this->db->where("Akun NOT LIKE '7.%'");
+    }
+
 		$this->db->where('tahun_anggaran', $thn);
 		$this->db->order_by('Akun', 'asc');
 		$this->db->group_by('Akun');
@@ -33,22 +45,18 @@ class Keuangan_grafik_model extends CI_model {
 		$this->db->where('keuangan_ta_spp_rinci.Tahun', $thn);
 		$this->db->where('keuangan_ta_spp.Jn_SPP', 'LS');
 		$this->db->group_by('jenis_pelaksanaan');
-		//$this->db->like('Kd_Rincian', '4.', 'after');
 		$this->db->like('Kd_Rincian', '5.', 'after');
 		$data['realisasi_belanja'] = $this->db->get('keuangan_ta_spp_rinci')->result_array();
 
 		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai) AS realisasi');
 		$this->db->where('Tahun', $thn);
 		$this->db->group_by('jenis_pelaksanaan');
-		//$this->db->like('Kd_Rincian', '4.', 'after');
 		$this->db->like('Kd_Rincian', '5.', 'after');
 		$data['realisasi_belanja_spj'] = $this->db->get('keuangan_ta_spj_rinci')->result_array();
 
 		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai) AS realisasi');
 		$this->db->group_by('jenis_pelaksanaan');
 		$this->db->where('Tahun', $thn);
-		//$this->db->like('Kd_Rincian', '4.', 'after');
-		//$this->db->like('Kd_Rincian', '5.', 'after');
 		$data['realisasi_bunga'] = $this->db->get('keuangan_ta_mutasi')->result_array();
 
 		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Kredit) AS realisasi');
@@ -59,76 +67,31 @@ class Keuangan_grafik_model extends CI_model {
 		return $data;
   }
 
-  public function rp_apbd_widget_opt($thn)
-  {
-		$this->db->select('Akun, Nama_Akun');
-		$this->db->join('keuangan_ref_rek1', 'keuangan_ref_rek1.id_keuangan_master = keuangan_master.id', 'left');
-		$this->db->where("Akun NOT LIKE '1.%'");
-		$this->db->where("Akun NOT LIKE '2.%'");
-		$this->db->where("Akun NOT LIKE '3.%'");
-		$this->db->where("Akun NOT LIKE '7.%'");
-		$this->db->where('tahun_anggaran', $thn);
-		$this->db->order_by('Akun', 'asc');
-		$this->db->group_by('Akun');
-		$this->db->group_by('Nama_Akun');
-		$data['jenis_pelaksanaan'] = $this->db->get('keuangan_master')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(AnggaranStlhPAK) AS pagu');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('jenis_pelaksanaan');
-		$data['anggaran'] = $this->db->get('keuangan_ta_rab_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai) AS realisasi');
-		$this->db->group_by('jenis_pelaksanaan');
-		$this->db->where('Tahun', $thn);
-		$data['realisasi_pendapatan'] = $this->db->get('keuangan_ta_tbp_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai) AS realisasi');
-		$this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
-		$this->db->where('keuangan_ta_spp_rinci.Tahun', $thn);
-		$this->db->where('keuangan_ta_spp.Jn_SPP', 'LS');
-		$this->db->group_by('jenis_pelaksanaan');
-		//$this->db->like('Kd_Rincian', '4.', 'after');
-		$this->db->like('Kd_Rincian', '5.', 'after');
-		$data['realisasi_belanja'] = $this->db->get('keuangan_ta_spp_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai) AS realisasi');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('jenis_pelaksanaan');
-		//$this->db->like('Kd_Rincian', '4.', 'after');
-		$this->db->like('Kd_Rincian', '5.', 'after');
-		$data['realisasi_belanja_spj'] = $this->db->get('keuangan_ta_spj_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai) AS realisasi');
-		$this->db->group_by('jenis_pelaksanaan');
-		$this->db->where('Tahun', $thn);
-		//$this->db->like('Kd_Rincian', '4.', 'after');
-		//$this->db->like('Kd_Rincian', '5.', 'after');
-		$data['realisasi_bunga'] = $this->db->get('keuangan_ta_mutasi')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Kredit) AS realisasi');
-		$this->db->group_by('jenis_pelaksanaan');
-		$this->db->where('Tahun', $thn);
-		$data['realisasi_biaya'] = $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
-
-		return $data;
-  }
-
-  public function r_pd_widget($thn)
+  public function r_pd_widget($thn, $opt=false)
   {
 		$this->db->select('keuangan_ref_rek3.Jenis, keuangan_ref_rek3.Nama_Jenis');
 		$this->db->join('keuangan_ref_rek2', 'keuangan_ref_rek2.id_keuangan_master = keuangan_master.id', 'left');
 		$this->db->join('keuangan_ref_rek3', 'keuangan_ref_rek3.Kelompok = keuangan_ref_rek2.Kelompok', 'left');
-		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '1.%'");
-		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '3.%'");
-		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '5.%'");
-		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '6.%'");
-		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '7.%'");
-		$this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE '%Hutang%'");
-		$this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Penerimaan dari Hasil Kerjasama dengan Pihak Ketiga%'");
-		$this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Penerimaan Bantuan dari Perusahaan yang Berlokasi di Desa%'");
-		$this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Koreksi Kesalahan Belanja Tahun-tahun Sebelumnya%'");
-		$this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Lain-lain Pendapatan Desa Yang Sah%'");
+
+    if ($opt)
+		{
+      $this->db->where("keuangan_ref_rek3.Jenis LIKE '4.%'");
+    }
+    else
+    {
+  		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '1.%'");
+  		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '3.%'");
+  		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '5.%'");
+  		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '6.%'");
+  		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '7.%'");
+    }
+
+    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE '%Hutang%'");
+    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Penerimaan dari Hasil Kerjasama dengan Pihak Ketiga%'");
+    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Penerimaan Bantuan dari Perusahaan yang Berlokasi di Desa%'");
+    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Koreksi Kesalahan Belanja Tahun-tahun Sebelumnya%'");
+    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Lain-lain Pendapatan Desa Yang Sah%'");
+
 		$this->db->where('tahun_anggaran', $thn);
 		$this->db->order_by('keuangan_ref_rek3.Jenis', 'asc');
 		$data['jenis_pendapatan'] = $this->db->get('keuangan_master')->result_array();
@@ -154,89 +117,23 @@ class Keuangan_grafik_model extends CI_model {
 		return $data;
   }
 
-  public function r_pd_widget_opt($thn)
-  {
-		$this->db->select('Nama_Jenis, Jenis');
-		$this->db->join('keuangan_ref_rek3', 'keuangan_ref_rek3.Jenis = LEFT(keuangan_ta_rab_rinci.Kd_Rincian, 6)', 'left');
-		$this->db->where("Jenis LIKE '4.%'");
-		$this->db->where('Tahun', $thn);
-		$this->db->order_by('Jenis', 'asc');
-		$this->db->group_by('Jenis');
-		$this->db->group_by('Nama_Jenis');
-		$data['jenis_pendapatan'] = $this->db->get('keuangan_ta_rab_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(AnggaranStlhPAK) AS pagu');
-		$this->db->like('Kd_Rincian', '4.', 'after');
-		$this->db->group_by('jenis_pendapatan');
-		$this->db->where('Tahun', $thn);
-		$data['anggaran'] = $this->db->get('keuangan_ta_rab_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(Nilai) AS realisasi');
-		$this->db->like('Kd_Rincian', '4.', 'after');
-		$this->db->group_by('jenis_pendapatan');
-		$this->db->where('Tahun', $thn);
-		$data['realisasi_pendapatan'] = $this->db->get('keuangan_ta_tbp_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(Nilai) AS realisasi');
-		$this->db->like('Kd_Rincian', '4.', 'after');
-		$this->db->group_by('jenis_pendapatan');
-		$this->db->where('Tahun', $thn);
-		$data['realisasi_bunga'] = $this->db->get('keuangan_ta_mutasi')->result_array();
-
-		return $data;
-  }
-
-  public function r_bd_widget($thn)
+  public function r_bd_widget($thn, $opt=false)
   {
 		$this->db->select('Nama_Kelompok, Kelompok, id_keuangan_master');
 		$this->db->join('keuangan_ref_rek2', 'keuangan_ref_rek2.id_keuangan_master = keuangan_master.id', 'left');
-		$this->db->where("Akun NOT LIKE '1.%'");
-		$this->db->where("Akun NOT LIKE '4.%'");
-		$this->db->where("Akun NOT LIKE '6.%'");
-		$this->db->where("Akun NOT LIKE '7.%'");
-		$this->db->where('tahun_anggaran', $thn);
-		$this->db->order_by('Kelompok', 'asc');
-		$data['jenis_belanja'] = $this->db->get('keuangan_master')->result_array();
 
-		$this->db->select('LEFT(Kd_Rincian, 4) AS jenis_belanja, SUM(AnggaranStlhPAK) AS pagu');
-		$this->db->like('Kd_Rincian', '5.', 'after');
-		$this->db->group_by('jenis_belanja');
-		$this->db->where('Tahun', $thn);
-		$data['anggaran'] = $this->db->get('keuangan_ta_rab_rinci')->result_array();
+    if ($opt)
+		{
+      $this->db->where("Akun LIKE '5.%'");
+    }
+    else
+    {
+  		$this->db->where("Akun NOT LIKE '1.%'");
+  		$this->db->where("Akun NOT LIKE '4.%'");
+  		$this->db->where("Akun NOT LIKE '6.%'");
+  		$this->db->where("Akun NOT LIKE '7.%'");
+    }
 
-		$this->db->select('LEFT(Kd_Rincian, 4) AS jenis_belanja, SUM(Nilai) AS realisasi');
-		$this->db->like('Kd_Rincian', '5.', 'after');
-		$this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
-		$this->db->where('keuangan_ta_spp_rinci.Tahun', $thn);
-		$this->db->where('keuangan_ta_spp.Jn_SPP', 'LS');
-		$this->db->group_by('jenis_belanja');
-		$data['realisasi_belanja'] = $this->db->get('keuangan_ta_spp_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 4) AS jenis_belanja, SUM(Nilai) AS realisasi');
-		$this->db->like('Kd_Rincian', '5.', 'after');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('jenis_belanja');
-		$data['realisasi_belanja_spj'] = $this->db->get('keuangan_ta_spj_rinci')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 4) AS jenis_belanja, SUM(Nilai) AS realisasi');
-		$this->db->like('Kd_Rincian', '5.', 'after');
-		$this->db->group_by('jenis_belanja');
-		$this->db->where('Tahun', $thn);
-		$data['realisasi_bunga'] = $this->db->get('keuangan_ta_mutasi')->result_array();
-
-		$this->db->select('LEFT(Kd_Rincian, 4) AS jenis_belanja, SUM(Kredit) AS realisasi');
-		$this->db->group_by('jenis_belanja');
-		$this->db->where('Tahun', $thn);
-		$data['realisasi_biaya'] = $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
-
-		return $data;
-  }
-
-  public function r_bd_widget_opt($thn)
-  {
-		$this->db->select('Nama_Kelompok, Kelompok, id_keuangan_master');
-		$this->db->join('keuangan_ref_rek2', 'keuangan_ref_rek2.id_keuangan_master = keuangan_master.id', 'left');
-		$this->db->where("Akun LIKE '5.%'");
 		$this->db->where('tahun_anggaran', $thn);
 		$this->db->order_by('Kelompok', 'asc');
 		$data['jenis_belanja'] = $this->db->get('keuangan_master')->result_array();
@@ -317,7 +214,7 @@ class Keuangan_grafik_model extends CI_model {
 		  $data['pembiayaan'][$i]['anggaran'] = $this->pagu_akun($p['Akun'], $thn);
 		  $data['pembiayaan'][$i]['realisasi'] = $this->real_akun_pembiayaan($p['Akun'], $thn, $smt1);
 		  $data['pembiayaan'][$i]['sub_pembiayaan'] = $this->get_subval_pembiayaan($p['id_keuangan_master'], $p['Akun'], $thn, $smt1);
-		}		
+		}
 
 		$this->db->select('Akun, Nama_Akun, id_keuangan_master');
 		$this->db->join('keuangan_ref_rek1', 'keuangan_ref_rek1.id_keuangan_master = keuangan_master.id', 'left');
@@ -848,7 +745,7 @@ class Keuangan_grafik_model extends CI_model {
 			$this->db->where('keuangan_ta_jurnal_umum.Tanggal >=', '01/01/$thn 00:00:00');
 			$this->db->where('keuangan_ta_jurnal_umum.Tanggal <=', '06/31/$thn 00:00:00');
 		}
-		$this->db->group_by('Jenis');
+		$this->db->group_by('Kd_Rincian');
 		return $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
   }
 
@@ -867,30 +764,58 @@ class Keuangan_grafik_model extends CI_model {
 		return $this->db->get('keuangan_ta_spp_rinci')->result_array();
   }
 
-  private function data_widget_pendapatan($tahun)
+  private function data_widget_pendapatan($tahun, $opt=false)
   {
-		$raw_data = $this->r_pd_widget($tahun);
-		$res_pendapatan = array();
-		$tmp_pendapatan = array();
-		foreach ($raw_data['jenis_pendapatan'] as $r)
+    if ($opt)
 		{
-		  $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
-		}
+      $raw_data = $this->r_pd_widget($tahun, $opt=true);
+  		$res_pendapatan = array();
+  		$tmp_pendapatan = array();
+  		foreach ($raw_data['jenis_pendapatan'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
+  		}
 
-		foreach ($raw_data['anggaran'] as $r)
-		{
-		  $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
-		}
+  		foreach ($raw_data['anggaran'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_pendapatan'] as $r)
-		{
-		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi_pendapatan'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_pendapatan'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_bunga'] as $r)
-		{
-		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi_bunga'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_bunga'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+    }
+    else
+    {
+      $raw_data = $this->r_pd_widget($tahun, $opt=false);
+  		$res_pendapatan = array();
+  		$tmp_pendapatan = array();
+  		foreach ($raw_data['jenis_pendapatan'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
+  		}
+
+  		foreach ($raw_data['anggaran'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
+  		}
+
+  		foreach ($raw_data['realisasi_pendapatan'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi_pendapatan'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+
+  		foreach ($raw_data['realisasi_bunga'] as $r)
+  		{
+  		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi_bunga'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+    }
 
 		foreach ($tmp_pendapatan as $key => $value)
 		{
@@ -900,212 +825,170 @@ class Keuangan_grafik_model extends CI_model {
 		return $res_pendapatan;
   }
 
-  private function data_widget_belanja($tahun)
+  private function data_widget_belanja($tahun, $opt=false )
   {
-		$raw_data = $this->r_bd_widget($tahun);
-		$res_belanja = array();
-		$tmp_belanja = array();
-		foreach ($raw_data['jenis_belanja'] as $r)
+    if ($opt)
 		{
-		  $tmp_belanja[$r['Kelompok']]['nama'] = $r['Nama_Kelompok'];
-		}
+      $raw_data = $this->r_bd_widget($tahun, $opt=true);
+  		$res_belanja = array();
+  		$tmp_belanja = array();
+      foreach ($raw_data['jenis_belanja'] as $r)
+  		{
+  		  $tmp_belanja[$r['Kelompok']]['nama'] = $r['Nama_Kelompok'];
+  		}
 
-		foreach ($raw_data['anggaran'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
-		}
+  		foreach ($raw_data['anggaran'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_belanja'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi_belanja'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_belanja'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_belanja_spj'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi_belanja_spj'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_belanja_spj'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_bunga'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi_bunga'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_bunga'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi1'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_biaya'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi_biaya'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_biaya'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+    }
+    else
+    {
+      $raw_data = $this->r_bd_widget($tahun, $opt=false);
+  		$res_belanja = array();
+  		$tmp_belanja = array();
+      foreach ($raw_data['jenis_belanja'] as $r)
+  		{
+  		  $tmp_belanja[$r['Kelompok']]['nama'] = $r['Nama_Kelompok'];
+  		}
 
-		foreach ($tmp_belanja as $key => $value)
-		{
-		  array_push($res_belanja, $value);
-		}
+  		foreach ($raw_data['anggaran'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
+  		}
+
+  		foreach ($raw_data['realisasi_belanja'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi_belanja'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+
+  		foreach ($raw_data['realisasi_belanja_spj'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi_belanja_spj'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+
+  		foreach ($raw_data['realisasi_bunga'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi_bunga'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+
+  		foreach ($raw_data['realisasi_biaya'] as $r)
+  		{
+  		  $tmp_belanja[$r['jenis_belanja']]['realisasi_biaya'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+    }
+
+    foreach ($tmp_belanja as $key => $value)
+    {
+      array_push($res_belanja, $value);
+    }
 
 		return $res_belanja;
   }
 
-  private function data_widget_pelaksanaan($tahun)
+  private function data_widget_pelaksanaan($tahun, $opt=false)
   {
-		$raw_data = $this->rp_apbd_widget($tahun);
-		$res_pelaksanaan = array();
-		$tmp_pelaksanaan = array();
-		foreach ($raw_data['jenis_pelaksanaan'] as $r)
+    if ($opt)
 		{
-		  $tmp_pelaksanaan[$r['Akun']]['nama'] = $r['Nama_Akun'];
-		}
+      $raw_data = $this->rp_apbd_widget($tahun, $opt=true);
+  		$res_pelaksanaan = array();
+  		$tmp_pelaksanaan = array();
+  		foreach ($raw_data['jenis_pelaksanaan'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['Akun']]['nama'] = $r['Nama_Akun'];
+  		}
 
-		foreach ($raw_data['anggaran'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
-		}
+  		foreach ($raw_data['anggaran'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_pendapatan'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_pendapatan'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_pendapatan'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_belanja'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_belanja'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_belanja'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_belanja_spj'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_belanja_spj'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_belanja_spj'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_bunga'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_bunga'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_bunga'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi1'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_biaya'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_biaya'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_biaya'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+    }
+    else
+    {
+      $raw_data = $this->rp_apbd_widget($tahun, $opt=false);
+  		$res_pelaksanaan = array();
+  		$tmp_pelaksanaan = array();
 
-		foreach ($tmp_pelaksanaan as $key => $value)
-		{
-		  array_push($res_pelaksanaan, $value);
-		}
+  		foreach ($raw_data['jenis_pelaksanaan'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['Akun']]['nama'] = $r['Nama_Akun'];
+  		}
 
-		return $res_pelaksanaan;
-  }
+  		foreach ($raw_data['anggaran'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
+  		}
 
-  private function data_widget_pendapatan_opt($tahun)
-  {
-		$raw_data = $this->r_pd_widget_opt($tahun);
-		$res_pendapatan = array();
-		$tmp_pendapatan = array();
-		foreach ($raw_data['jenis_pendapatan'] as $r)
-		{
-		  $tmp_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
-		}
+  		foreach ($raw_data['realisasi_pendapatan'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_pendapatan'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['anggaran'] as $r)
-		{
-		  $tmp_pendapatan[$r['jenis_pendapatan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
-		}
+  		foreach ($raw_data['realisasi_belanja'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_belanja'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_pendapatan'] as $r)
-		{
-		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_belanja_spj'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_belanja_spj'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($raw_data['realisasi_bunga'] as $r)
-		{
-		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_bunga'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_bunga'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
 
-		foreach ($tmp_pendapatan as $key => $value)
-		{
-		  array_push($res_pendapatan, $value);
-		}
-
-		return $res_pendapatan;
-  }
-
-  private function data_widget_belanja_opt($tahun)
-  {
-		$raw_data = $this->r_bd_widget_opt($tahun);
-		$res_belanja = array();
-		$tmp_belanja = array();
-		foreach ($raw_data['jenis_belanja'] as $r)
-		{
-		  $tmp_belanja[$r['Kelompok']]['nama'] = $r['Nama_Kelompok'];
-		}
-
-		foreach ($raw_data['anggaran'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_belanja'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_belanja_spj'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_bunga'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi1'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_biaya'] as $r)
-		{
-		  $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($tmp_belanja as $key => $value)
-		{
-		  array_push($res_belanja, $value);
-		}
-
-		return $res_belanja;
-  }
-
-  private function data_widget_pelaksanaan_opt($tahun)
-  {
-		$raw_data = $this->rp_apbd_widget_opt($tahun);
-		$res_pelaksanaan = array();
-		$tmp_pelaksanaan = array();
-		foreach ($raw_data['jenis_pelaksanaan'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['Akun']]['nama'] = $r['Nama_Akun'];
-		}
-
-		foreach ($raw_data['anggaran'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['anggaran'] = ($r['pagu'] ? $r['pagu'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_pendapatan'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_belanja'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_belanja_spj'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_bunga'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi1'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
-
-		foreach ($raw_data['realisasi_biaya'] as $r)
-		{
-		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
-		}
+  		foreach ($raw_data['realisasi_biaya'] as $r)
+  		{
+  		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_biaya'] = ($r['realisasi'] ? $r['realisasi'] : 0);
+  		}
+    }
 
 		foreach ($tmp_pelaksanaan as $key => $value)
 		{
@@ -1121,9 +1004,9 @@ class Keuangan_grafik_model extends CI_model {
 
 		foreach ($data as $tahun)
 		{
-		  $res[$tahun]['res_pendapatan'] = $this->data_widget_pendapatan_opt($tahun);
-		  $res[$tahun]['res_belanja'] = $this->data_widget_belanja_opt($tahun);
-		  $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan_opt($tahun);
+		  $res[$tahun]['res_pendapatan'] = $this->data_widget_pendapatan($tahun, $opt=true);
+		  $res[$tahun]['res_belanja'] = $this->data_widget_belanja($tahun, $opt=true);
+		  $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt=true);
 		}
 
 		$result = array(
@@ -1139,11 +1022,11 @@ class Keuangan_grafik_model extends CI_model {
 
   private function data_keuangan_tema($tahun)
   {
-		$data['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun);
+		$data['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt=false);
 		$data['res_pelaksanaan']['laporan'] = 'APBDes '. $tahun . ' Pelaksanaan';
-		$data['res_pendapatan'] = $this->data_widget_pendapatan($tahun);
+		$data['res_pendapatan'] = $this->data_widget_pendapatan($tahun, $opt=false);
 		$data['res_pendapatan']['laporan'] = 'APBDes '. $tahun . ' Pendapatan';
-		$data['res_belanja'] = $this->data_widget_belanja($tahun);
+		$data['res_belanja'] = $this->data_widget_belanja($tahun, $opt=false);
 		$data['res_belanja']['laporan'] = 'APBDes '. $tahun . ' Pembelanjaan';
 
 		return $data;
