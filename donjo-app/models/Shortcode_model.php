@@ -27,162 +27,37 @@ class Shortcode_model extends Keuangan_grafik_model {
 		}, $str);
 	}
 
-	private function extract_shortcode($type, $smt, $thn)
+	private function extract_shortcode($type, $thn)
 	{
 		if ($type == 'grafik-RP-APBD')
 		{
-			return $this->grafik_rp_apbd($type, $smt, $thn);
-		}
-		elseif ($type == 'grafik-R-PD')
-		{
-			return $this->grafik_r_pd($type, $smt, $thn);
-		}
-		elseif ($type == 'grafik-R-BD')
-		{
-			return $this->grafik_r_bd($type, $smt, $thn);
-		}
-		elseif($type == 'grafik-R-PEMDES')
-		{
-			return $this->grafik_r_pemdes($type, $smt, $thn);
+			return $this->grafik_rp_apbd($type, $thn);
 		}
 		elseif($type == 'lap-RP-APBD')
 		{
-			return $this->tabel_rp_apbd($type, $smt, $thn);
+			return $this->tabel_rp_apbd($type, $thn);
 		}
 	}
 
-	private function grafik_rp_apbd($type, $smt, $thn)
+	private function grafik_rp_apbd($type, $thn)
 	{
-		$data = $this->rp_apbd($smt, $thn);
-		$jenisbelanja = array();
-		foreach ($data['jenis_belanja'] as $j)
-		{
-			$jenisbelanja[] = "'". $j['Nama_Akun']. "'";
-		}
-		$anggaran = array();
-		foreach ($data['anggaran'] as $p)
-		{
-			$anggaran[] = $p['AnggaranStlhPAK'];
-		}
-		$realisasi = array();
-		foreach ($data['realisasi'] as $s)
-		{
-			if(!empty($s['Nilai']) || !is_null($s['Nilai']))
-			{
-				$realisasi[] =  $s['Nilai'];
-			}
-			else
-			{
-				$realisasi[] =  0;
-			}
-		}
+    $data = $this->grafik_keuangan_tema($thn);
+		$data_widget = $data['data_widget'];
 		ob_start();
 			include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php");
 		$res = ob_get_clean();
 		return $res;
 	}
 
-	private function grafik_r_pd($type, $smt, $thn)
+	private function tabel_rp_apbd($type, $thn)
 	{
-		$data = $this->r_pd($smt, $thn);
-		$jp = array();
-		foreach ($data['jenis_pendapatan'] as $b)
-		{
-			$jp[] = "'". $b['Nama_Jenis']. "'";
-		}
-		$anggaran = array();
-		foreach ($data['anggaran'] as $a)
-		{
-			$anggaran[] = $a['Pagu'];
-		}
-		$realisasi = array();
-		foreach ($data['realisasi'] as $r)
-		{
-			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-			{
-				$realisasi[] =  $r['Nilai'];
-			}
-			else
-			{
-				$realisasi[] =  0;
-			}
-		}
-		ob_start();
-			include("donjo-app/views/keuangan/grafik_r_pd_chart.php");
-		$res = ob_get_clean();
-		return $res;
-	}
-
-	private function grafik_r_bd($type, $smt, $thn)
-	{
-		$data = $this->r_bd($smt, $thn);
-		$bidang = array();
-		foreach ($data['bidang'] as $b)
-		{
-			$bidang[] = "'". $b['Nama_Bidang']. "'";
-		}
-		$anggaran = array();
-		foreach ($data['anggaran'] as $a)
-		{
-			$anggaran[] = $a['Pagu'];
-		}
-		$realisasi = array();
-		foreach ($data['realisasi'] as $r)
-		{
-			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-			{
-				$realisasi[] =  $r['Nilai'];
-			}
-			else
-			{
-				$realisasi[] =  0;
-			}
-		}
-		ob_start();
-			include("donjo-app/views/keuangan/grafik_r_bd_chart.php");
-		$res = ob_get_clean();
-		return $res;
-	}
-
-	private function grafik_r_pemdes($type, $smt, $thn)
-	{
-		$data = $this->r_pembiayaan($smt, $thn);
-		$pembiayaan = array();
-		foreach ($data['pembiayaan'] as $d)
-		{
-			$pembiayaan[] = "'". $d['Nama_Kelompok']. "'";
-		}
-		$anggaran = array();
-		foreach ($data['anggaran'] as $a)
-		{
-			$anggaran[] = $a['Pagu'];
-		}
-		$realisasi = array();
-		foreach ($data['realisasi'] as $r)
-		{
-			if(!empty($r['Nilai']) || !is_null($r['Nilai']))
-			{
-				$realisasi[] =  $r['Nilai'];
-			}
-			else
-			{
-				$realisasi[] =  0;
-			}
-		}
-		ob_start();
-			include("donjo-app/views/keuangan/grafik_r_pemdes_chart.php");
-		$res = ob_get_clean();
-		return $res;
-	}
-
-	private function tabel_rp_apbd($type, $smt, $thn)
-	{
-		$data = $this->lap_rp_apbd($smt, $thn);
+		$data = $this->lap_rp_apbd($thn);
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
 		$pembiayaan = $data['pembiayaan'];
+    $pembiayaan_keluar = $data['pembiayaan_keluar'];
 		ob_start();
-			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd.php");
+			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
 		return $output;
 	}
@@ -200,31 +75,16 @@ class Shortcode_model extends Keuangan_grafik_model {
 		}, $str);
 	}
 
-	private function converted_sc_list($type, $smt, $thn)
+	private function converted_sc_list($type, $thn)
 	{
 		if ($type == "lap-RP-APBD")
 		{
-			$output = "<i class='fa fa-table'></i> Tabel Laporan Realisasi Pelaksanaan APBDes Smt " . $smt . " TA. " . $thn . ", ";
+			$output = "<i class='fa fa-table'></i> Tabel Laporan Realisasi Pelaksanaan APBDes TA. " . $thn . ", ";
 			return $output;
 		}
 		elseif ($type == "grafik-RP-APBD")
 		{
-			$output = "<i class='fa fa-bar-chart'></i> Realisasi Pelaksanaan APBDes Smt " . $smt . " TA. " . $thn . ", ";
-			return $output;
-		}
-		elseif ($type == "grafik-R-PD")
-		{
-			$output = "<i class='fa fa-bar-chart'></i> Realisasi Pendapatan Desa Smt " . $smt . " TA. " . $thn . ", ";
-			return $output;
-		}
-		elseif ($type == "grafik-R-BD")
-		{
-			$output = "<i class='fa fa-bar-chart'></i> Realisasi Belanja Bidang Desa Smt " . $smt . " TA. " . $thn . ", ";
-			return $output;
-		}
-		elseif ($type == "grafik-R-PEMDES")
-		{
-			$output = "<i class='fa fa-bar-chart'></i> Realisasi Pembiayaan Desa Smt " . $smt . " TA. " . $thn . ", ";
+			$output = "<i class='fa fa-bar-chart'></i> Grafik Realisasi Pelaksanaan APBDes TA. " . $thn . ", ";
 			return $output;
 		}
 	}
