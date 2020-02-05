@@ -49,7 +49,10 @@
 											<input name="username" type="text" placeholder="Username" <?php if ($_SESSION['siteman_wait']==1): ?> disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
 										</div>
 										<div class="form-group">
-											<input name="password" type="password" placeholder="Password" <?php if ($_SESSION['siteman_wait']==1): ?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+											<input name="password" id="password" type="password" placeholder="Password" <?php if ($_SESSION['siteman_wait']==1): ?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+										</div>
+										<div class="form-group">
+											<input type="checkbox" id="checkbox" class="form-checkbox"> Show password
 										</div>
 										<hr />
 										<button type="submit" class="btn">LOGIN</button>
@@ -77,3 +80,14 @@
 		</div>
 	</body>
 </html>
+<script>
+var x = document.getElementById("checkbox");
+var pass = document.getElementById("password");
+x.onclick = function(){
+	if (pass.type === "password"){
+		pass.type ='text';
+	} else {
+		pass.type ='password'
+	}
+}
+</script>
