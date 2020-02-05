@@ -84,9 +84,9 @@
 var x = document.getElementById("checkbox");
 var pass = document.getElementById("password");
 x.onclick = function(){
-	if(pass.type === "password"){
+	if (pass.type === "password"){
 		pass.type ='text';
-	}else{
+	} else {
 		pass.type ='password'
 	}
 }
