@@ -93,7 +93,7 @@ class Keuangan extends Admin_Controller {
 		$data['ta'] = $this->session->userdata('set_tahun');
 		$data['sm'] = '1';
 		$_SESSION['submenu'] = "Laporan Keuangan Semester1";
-		$this->load->view('keuangan/rincian_realisasi_smt1', $data);
+		$this->load->view('keuangan/rincian_realisasi', $data);
 	}
 
 	private function grafik_rp_apbd($thn)
