@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 2. #2641: Bisa langsung simpan peta wilayah setelah dibuat poligonnya. 
 3. #2627: Perbaiki tampilan dan isi pesan error 500 (kesalahan basis data). [teknis]
 4. #2627: Perbaiki tampilan error 500 untuk kesalahan script umum. [teknis]
+5. #2558, #2507, #2324, #2303: Perbaikan modul transparansi keuangan, memperbaiki laporan dan grafik keuangan secara menyeluruh. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
