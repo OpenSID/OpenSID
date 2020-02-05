@@ -40,7 +40,7 @@
 		background-color: #FFFF00 !important;
 	}
 </style>
-
+<div class="table-responsive">
 <table class='blueTable' width='100%'>
 	<thead>
 		<tr>
@@ -211,3 +211,4 @@
 		<td align='right'></td>
 	</tr>
 </table>
+</div>
