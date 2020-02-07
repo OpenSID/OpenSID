@@ -15,15 +15,7 @@ window.onload = function()
 	var peta_penduduk = L.map('mapx').setView(posisi, zoom);
 
 	//Menampilkan BaseLayers Peta
-	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_penduduk);
-
-	var baseLayers = {
-		'OpenStreetMap': defaultLayer,
-		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-		'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-	};
+  var baseLayers = getBaseLayers(peta_penduduk, '<?=$this->setting->google_key?>');
 
 	var posisi_penduduk = L.marker(posisi, {draggable: <?= ($penduduk['status_dasar'] == 1  || !isset($penduduk['status_dasar']) ? "true" : "false"); ?>}).addTo(peta_penduduk);
 	posisi_penduduk.on('dragend', function(e){
@@ -288,31 +280,6 @@ $(document).ready(function()
 		});
 	});
 });
-</script>
-
-<script>
-	$(document).ready(function(){
-		$('#resetme').click(function(){
-			$("#validasi").validate({
-				errorElement: "label",
-				errorClass: "error",
-				highlight:function (element){
-					$(element).closest(".form-group").addClass("has-error");
-				},
-				unhighlight:function (element){
-					$(element).closest(".form-group").removeClass("has-error");
-				},
-				errorPlacement: function (error, element) {
-					if (element.parent('.input-group').length) {
-						error.insertAfter(element.parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-			window.location.reload(false);
-		});
-	});
 </script>
 
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>

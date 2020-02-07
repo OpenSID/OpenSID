@@ -14,9 +14,6 @@ window.onload = function()
 	//Inisialisasi tampilan peta
 	var peta_kantor = L.map('mapx').setView(posisi, zoom);
 
-	//Menampilkan BaseLayers Peta
-	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_kantor);
-
 	//1. Menampilkan overlayLayers Peta Semua Wilayah
 	var marker_desa = [];
 	var marker_dusun = [];
@@ -257,13 +254,8 @@ window.onload = function()
 	var overlayLayers = {};
 	<?php endif; ?>
 
-	var baseLayers = {
-		'OpenStreetMap': defaultLayer,
-		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-		'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-	};
+	//Menampilkan BaseLayers Peta
+  var baseLayers = getBaseLayers(peta_kantor, '<?=$this->setting->google_key?>');
 
 	var lokasi_kantor = L.marker(posisi, {draggable: true}).addTo(peta_kantor);
 
@@ -513,33 +505,6 @@ window.onload = function()
 				dataType: 'json',
 				data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe, id: id},
 			});
-		});
-	});
-</script>
-
-<script>
-	$(document).ready(function(){
-		$('#resetme').click(function(){
-			$("#validasi1").validate({
-				errorElement: "label",
-				errorClass: "error",
-				highlight:function (element){
-					$(element).closest(".form-group").addClass("has-error");
-				},
-				unhighlight:function (element){
-					$(element).closest(".form-group").removeClass("has-error");
-				},
-				errorPlacement: function (error, element) {
-					if (element.parent('.input-group').length) {
-						error.insertAfter(element.parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-
-			window.location.reload(false);
-
 		});
 	});
 </script>

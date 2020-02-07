@@ -75,9 +75,6 @@
     //Inisialisasi tampilan peta
     var peta_wilayah = L.map('map').setView(posisi, zoom);
 
-    //Menampilkan BaseLayers Peta
-    var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_wilayah);
-
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];
     var marker_dusun = [];
@@ -318,13 +315,8 @@
     var overlayLayers = {};
     <?php endif; ?>
 
-    var baseLayers = {
-      'OpenStreetMap': defaultLayer,
-      'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-      'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-      'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-      'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-    };
+    //Menampilkan BaseLayers Peta
+    var baseLayers = getBaseLayers(peta_wilayah, '<?=$this->setting->google_key?>');
 
     //Menampilkan Peta wilayah yg sudah ada
     <?php if (!empty($wil_ini['path'])): ?>
@@ -527,49 +519,7 @@
 
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
 
-    //Fungsi
-    function getLatLong(x, y)
-    {
-      var hasil;
-      if (x == 'Rectangle' || x == 'Line' || x == 'Poly')
-      {
-        hasil = JSON.stringify(y._latlngs);
-      }
-      else
-      {
-        hasil = JSON.stringify(y._latlng);
-      }
-      hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
-      return hasil;
-    }
-
   }; //EOF window.onload
-</script>
-<script>
-	$(document).ready(function(){
-		$('#resetme').click(function(){
-			$("#validasi1").validate({
-				errorElement: "label",
-				errorClass: "error",
-				highlight:function (element){
-					$(element).closest(".form-group").addClass("has-error");
-				},
-				unhighlight:function (element){
-					$(element).closest(".form-group").removeClass("has-error");
-				},
-				errorPlacement: function (error, element) {
-					if (element.parent('.input-group').length) {
-						error.insertAfter(element.parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-
-			window.location.reload(false);
-
-		});
-	});
 </script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>

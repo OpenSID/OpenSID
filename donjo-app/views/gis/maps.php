@@ -20,15 +20,7 @@
     var mymap = L.map('map').setView(posisi, zoom);
 
     //Menampilkan BaseLayers Peta
-    var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(mymap);
-
-    var baseLayers = {
-      'OpenStreetMap': defaultLayer,
-      'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-      'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-      'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-      'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-    };
+    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->google_key?>');
 
     L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(mymap);
 
