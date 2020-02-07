@@ -218,6 +218,7 @@ class Keuangan_model extends CI_model {
           $_SESSION['success'] = -1;
       }
     }
+    $this->add_bidang();
   }
 
   public function extract_update()
@@ -229,6 +230,46 @@ class Keuangan_model extends CI_model {
     $this->extract();
     $this->db->where('id', $this->id_keuangan_master)
       ->update('keuangan_master', array('tanggal_impor' => date("Y-m-d")));
+  }
+
+  // Menampilkan Bidang di grafik perlu ada row spacer di data
+  public function add_bidang()
+  {
+    $data = array(
+      array(
+        'id_keuangan_master' => $this->data_id_keuangan_master(),
+        'Tahun' => $this->data_tahun_keuangan_master(),
+        'Kd_Desa' => '1',
+        'Kd_Bid' => '01',
+        'Nama_Bidang' => 'ROW_SPACER'
+      ),
+      array(
+        'id_keuangan_master' => $this->data_id_keuangan_master(),
+        'Tahun' => $this->data_tahun_keuangan_master(),
+        'Kd_Desa' => '1',
+        'Kd_Bid' => '02',
+        'Nama_Bidang' => 'ROW_SPACER'
+      ),
+      array(
+        'id_keuangan_master' => $this->data_id_keuangan_master(),
+        'Tahun' => $this->data_tahun_keuangan_master(),
+        'Kd_Desa' => '1',
+        'Kd_Bid' => '03',
+        'Nama_Bidang' => 'ROW_SPACER'
+      )
+    );
+
+    foreach ($data as $modul)
+    {
+      $sql = $this->db->insert_string('keuangan_ta_bidang', $modul);
+      $sql .= " ON DUPLICATE KEY UPDATE
+      id_keuangan_master = VALUES(id_keuangan_master),
+      Tahun = VALUES(Tahun),
+      Kd_Desa = VALUES(Kd_Desa),
+      Kd_Bid = VALUES(Kd_Bid),
+      Nama_Bidang = VALUES(Nama_Bidang)";
+      $this->db->query($sql);
+    }
   }
 
   private function cek_file_valid()
@@ -282,6 +323,12 @@ class Keuangan_model extends CI_model {
     return $data->id;
   }
 
+  public function data_tahun_keuangan_master()
+  {
+    $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
+    return $data->tahun_anggaran;
+  }
+
   public function artikel_statis_keuangan()
   {
     $this->db->select('id, judul');
@@ -323,5 +370,6 @@ class Keuangan_model extends CI_model {
       $this->db->where('Kd_Desa <>', $desa)
         ->where('id_keuangan_master', $id_master)->delete($tabel);
     }
+    $this->add_bidang();
   }
 }
