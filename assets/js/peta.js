@@ -6,6 +6,34 @@ $(document).ready(function()
 	});
 });
 
+function set_marker(marker, daftar_path, warna, judul, nama_wil)
+{
+  var marker_style = {
+    stroke: true,
+    color: '#FF0000',
+    opacity: 1,
+    weight: 2,
+    fillColor: warna,
+    fillOpacity: 0.5
+  }
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var jml_path;
+  for (var x = 0; x < jml;x++)
+  {
+    if (daftar[x].path)
+    {
+      daftar[x].path = JSON.parse(daftar[x].path)
+      jml_path = daftar[x].path[0].length;
+      for (var y = 0; y < jml_path; y++)
+      {
+        daftar[x].path[0][y].reverse()
+      }
+      daftar[x].path[0].push(daftar[x].path[0][0])
+      marker.push(turf.polygon(daftar[x].path, {content: judul + ' ' + daftar[x][nama_wil], style: marker_style}));
+    }
+  }
+}
 
 function getBaseLayers(peta, access_token)
 {

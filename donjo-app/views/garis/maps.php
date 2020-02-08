@@ -118,90 +118,17 @@
 
     //WILAYAH DUSUN
     <?php if (!empty($dusun_gis)): ?>
-      var dusun_style = {
-        stroke: true,
-        color: '#FF0000',
-        opacity: 1,
-        weight: 2,
-        fillColor: '#FFFF00',
-        fillOpacity: 0.5
-      }
-      var daftar_dusun = JSON.parse('<?=addslashes(json_encode($dusun_gis))?>');
-      var jml = daftar_dusun.length;
-      var jml_path;
-      for (var x = 0; x < jml;x++)
-      {
-        if (daftar_dusun[x].path)
-        {
-          daftar_dusun[x].path = JSON.parse(daftar_dusun[x].path)
-          jml_path = daftar_dusun[x].path[0].length;
-          for (var y = 0; y < jml_path; y++)
-          {
-            daftar_dusun[x].path[0][y].reverse()
-          }
-
-          daftar_dusun[x].path[0].push(daftar_dusun[x].path[0][0])
-          marker_dusun.push(turf.polygon(daftar_dusun[x].path, {content: '<?=ucwords($this->setting->sebutan_dusun)?>' + ' ' + daftar_dusun[x].dusun, style: dusun_style}));
-        }
-      }
+      set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
     <?php endif; ?>
 
     //WILAYAH RW
     <?php if (!empty($rw_gis)): ?>
-      var rw_style = {
-        stroke: true,
-        color: '#FF0000',
-        opacity: 1,
-        weight: 2,
-        fillColor: '#8888dd',
-        fillOpacity: 0.5
-      }
-      var daftar_rw = JSON.parse('<?=addslashes(json_encode($rw_gis))?>');
-      var jml = daftar_rw.length;
-      var jml_path;
-      for (var x = 0; x < jml;x++)
-      {
-        if (daftar_rw[x].path)
-        {
-          daftar_rw[x].path = JSON.parse(daftar_rw[x].path)
-          jml_path = daftar_rw[x].path[0].length;
-          for (var y = 0; y < jml_path; y++)
-          {
-            daftar_rw[x].path[0][y].reverse()
-          }
-          daftar_rw[x].path[0].push(daftar_rw[x].path[0][0])
-          marker_rw.push(turf.polygon(daftar_rw[x].path, {content: 'RW' + ' ' + daftar_rw[x].rw, style: rw_style}));
-        }
-      }
+      set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
     <?php endif; ?>
 
     //WILAYAH RT
     <?php if (!empty($rt_gis)): ?>
-      var rt_style = {
-        stroke: true,
-        color: '#FF0000',
-        opacity: 1,
-        weight: 2,
-        fillColor: '#008000',
-        fillOpacity: 0.5,
-      }
-      var daftar_rt = JSON.parse('<?=addslashes(json_encode($rt_gis))?>');
-      var jml = daftar_rt.length;
-      var jml_path;
-      for (var x = 0; x < jml;x++)
-      {
-        if (daftar_rt[x].path)
-        {
-          daftar_rt[x].path = JSON.parse(daftar_rt[x].path)
-          jml_path = daftar_rt[x].path[0].length;
-          for (var y = 0; y < jml_path; y++)
-          {
-            daftar_rt[x].path[0][y].reverse()
-          }
-          daftar_rt[x].path[0].push(daftar_rt[x].path[0][0])
-          marker_rt.push(turf.polygon(daftar_rt[x].path, {content: 'RT' + ' ' + daftar_rt[x].rt, style: rt_style}));
-        }
-      }
+      set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
     <?php endif; ?>
 
     //2. Menampilkan overlayLayers Peta Semua Wilayah
