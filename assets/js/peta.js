@@ -22,6 +22,49 @@ function getBaseLayers(peta, access_token)
 	return baseLayers;
 }
 
+function poligonWil(marker)
+{
+	var poligon_wil = L.geoJSON(turf.featureCollection(marker), {
+    pmIgnore: true,
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup(feature.properties.content);
+      layer.bindTooltip(feature.properties.content);
+    },
+    style: function(feature)
+    {
+      if (feature.properties.style)
+      {
+        return feature.properties.style;
+      }
+    },
+    pointToLayer: function (feature, latlng)
+    {
+      if (feature.properties.style)
+      {
+        return L.marker(latlng, {icon: feature.properties.style});
+      }
+      else
+      return L.marker(latlng);
+    }
+  });
+	return poligon_wil;
+}
+
+function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt)
+{
+  var poligon_wil_desa = poligonWil(marker_desa);
+  var poligon_wil_dusun = poligonWil(marker_dusun);
+  var poligon_wil_rw = poligonWil(marker_rw);
+  var poligon_wil_rt = poligonWil(marker_rt);
+  var overlayLayers = {
+    'Peta Wilayah Desa': poligon_wil_desa,
+    'Peta Wilayah Dusun': poligon_wil_dusun,
+    'Peta Wilayah RW': poligon_wil_rw,
+    'Peta Wilayah RT': poligon_wil_rt
+  };
+  return overlayLayers;
+}
+
 function getLatLong(x, y)
 {
   var hasil;

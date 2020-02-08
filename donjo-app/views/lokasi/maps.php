@@ -146,112 +146,11 @@ window.onload = function()
 	<?php endif; ?>
 
 	//2. Menampilkan overlayLayers Peta Semua Wilayah
-	<?php if (!empty($wil_atas['path'])): ?>
-	var poligon_wil_desa = L.geoJSON(turf.featureCollection(marker_desa), {
-		pmIgnore: true,
-		onEachFeature: function (feature, layer) {
-			layer.bindPopup(feature.properties.content);
-			layer.bindTooltip(feature.properties.content);
-		},
-		style: function(feature)
-		{
-			if (feature.properties.style)
-			{
-				return feature.properties.style;
-			}
-		},
-		pointToLayer: function (feature, latlng)
-		{
-			if (feature.properties.style)
-			{
-				return L.marker(latlng, {icon: feature.properties.style});
-			}
-			else
-			return L.marker(latlng);
-		}
-	});
-
-	var poligon_wil_dusun = L.geoJSON(turf.featureCollection(marker_dusun), {
-		pmIgnore: true,
-		onEachFeature: function (feature, layer) {
-			layer.bindPopup(feature.properties.content);
-			layer.bindTooltip(feature.properties.content);
-		},
-		style: function(feature)
-		{
-			if (feature.properties.style)
-			{
-				return feature.properties.style;
-			}
-		},
-		pointToLayer: function (feature, latlng)
-		{
-			if (feature.properties.style)
-			{
-				return L.marker(latlng, {icon: feature.properties.style});
-			}
-			else
-			return L.marker(latlng);
-		}
-	});
-
-	var poligon_wil_rw = L.geoJSON(turf.featureCollection(marker_rw), {
-		pmIgnore: true,
-		onEachFeature: function (feature, layer) {
-			layer.bindPopup(feature.properties.content);
-			layer.bindTooltip(feature.properties.content);
-		},
-		style: function(feature)
-		{
-			if (feature.properties.style)
-			{
-				return feature.properties.style;
-			}
-		},
-		pointToLayer: function (feature, latlng)
-		{
-			if (feature.properties.style)
-			{
-				return L.marker(latlng, {icon: feature.properties.style});
-			}
-			else
-			return L.marker(latlng);
-		}
-	});
-
-	var poligon_wil_rt = L.geoJSON(turf.featureCollection(marker_rt), {
-		pmIgnore: true,
-		onEachFeature: function (feature, layer) {
-			layer.bindPopup(feature.properties.content);
-			layer.bindTooltip(feature.properties.content);
-		},
-		style: function(feature)
-		{
-			if (feature.properties.style)
-			{
-				return feature.properties.style;
-			}
-		},
-		pointToLayer: function (feature, latlng)
-		{
-			if (feature.properties.style)
-			{
-				return L.marker(latlng, {icon: feature.properties.style});
-			}
-			else
-			return L.marker(latlng);
-		}
-	});
-
-	var overlayLayers = {
-		'Peta Wilayah Desa': poligon_wil_desa,
-		'Peta Wilayah Dusun': poligon_wil_dusun,
-		'Peta Wilayah RW': poligon_wil_rw,
-		'Peta Wilayah RT': poligon_wil_rt
-	};
-	<?php else: ?>
-	var overlayLayers = {};
-	<?php endif; ?>
+  <?php if (!empty($wil_atas['path'])): ?>
+    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt);
+  <?php else: ?>
+    var overlayLayers = {};
+  <?php endif; ?>
 
 	//Menampilkan BaseLayers Peta
   var baseLayers = getBaseLayers(peta_lokasi, '<?=$this->setting->google_key?>');
