@@ -14,137 +14,83 @@ window.onload = function()
 	//Inisialisasi tampilan peta
 	var peta_penduduk = L.map('mapx').setView(posisi, zoom);
 
+	//1. Menampilkan overlayLayers Peta Semua Wilayah
+	var marker_desa = [];
+	var marker_dusun = [];
+	var marker_rw = [];
+	var marker_rt = [];
+
+	//WILAYAH DESA
+	<?php if (!empty($desa['path'])): ?>
+	var daerah_desa = <?=$desa['path']?>;
+	var daftar_desa = JSON.parse('<?=addslashes(json_encode($desa))?>');
+	var jml = daerah_desa[0].length;
+	daerah_desa[0].push(daerah_desa[0][0]);
+	for (var x = 0; x < jml; x++)
+	{
+		daerah_desa[0][x].reverse();
+	}
+	var style_polygon = {
+		stroke: true,
+		color: '#FF0000',
+		opacity: 1,
+		weight: 2,
+		fillColor: '#8888dd',
+		fillOpacity: 0.5
+	};
+	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	var point_style = {
+			iconSize: [32, 37],
+			iconAnchor: [16, 37],
+			popupAnchor: [0, -28],
+			iconUrl: "<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico"
+	};
+	<?php else: ?>
+	var point_style = {
+			iconSize: [32, 37],
+			iconAnchor: [16, 37],
+			popupAnchor: [0, -28],
+			iconUrl: "<?= base_url()?>favicon.ico"
+	};
+	<?php endif; ?>
+
+	marker_desa.push(turf.polygon(daerah_desa, {content: "<?=ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa'])?>", style: style_polygon, style: L.icon(point_style)}))
+	marker_desa.push(turf.point([<?=$desa['lng'].",".$desa['lat']?>], {content: "Kantor Desa",style: L.icon(point_style)}));
+	<?php endif; ?>
+
+	//WILAYAH DUSUN
+  <?php if (!empty($dusun_gis)): ?>
+    set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+  <?php endif; ?>
+
+  //WILAYAH RW
+  <?php if (!empty($rw_gis)): ?>
+    set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+  <?php endif; ?>
+
+  //WILAYAH RT
+  <?php if (!empty($rt_gis)): ?>
+    set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+  <?php endif; ?>
+
+	//2. Menampilkan overlayLayers Peta Semua Wilayah
+  <?php if (!empty($wil_atas['path'])): ?>
+    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt);
+  <?php else: ?>
+    var overlayLayers = {};
+  <?php endif; ?>
+
 	//Menampilkan BaseLayers Peta
   var baseLayers = getBaseLayers(peta_penduduk, '<?=$this->setting->google_key?>');
 
-	var posisi_penduduk = L.marker(posisi, {draggable: <?= ($penduduk['status_dasar'] == 1  || !isset($penduduk['status_dasar']) ? "true" : "false"); ?>}).addTo(peta_penduduk);
-	posisi_penduduk.on('dragend', function(e){
-		$('#lat').val(e.target._latlng.lat);
-		$('#lng').val(e.target._latlng.lng);
-	})
-
-	$('#lat').on("input",function(e) {
-		if (!$('#validasi').valid())
-		{
-			$("#simpan_penduduk").attr('disabled', true);
-			return;
-		} else
-		{
-			$("#simpan_penduduk").attr('disabled', false);
-		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		posisi_penduduk.setLatLng(latLng);
-		peta_penduduk.setView(latLng,zoom);
-	})
-
-	$('#lng').on("input",function(e) {
-		if (!$('#validasi').valid())
-		{
-			$("#simpan_penduduk").attr('disabled', true);
-			return;
-		} else
-		{
-			$("#simpan_penduduk").attr('disabled', false);
-		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		posisi_penduduk.setLatLng(latLng);
-		peta_penduduk.setView(latLng, zoom);
-	})
-
-	//Unggah Peta dari file GPX/KML
+	//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
 	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
-
-	control = L.Control.fileLayerLoad({
-		addToMap: false,
-		formats: [
-			'.gpx',
-			'.kml'
-		],
-		fitBounds: true,
-		layerOptions: {
-			pointToLayer: function (data, latlng) {
-				return L.marker(latlng);
-			},
-
-		}
-	});
-	control.addTo(peta_penduduk);
-
-	control.loader.on('data:loaded', function (e) {
-		peta_penduduk.removeLayer(posisi_penduduk);
-		var type = e.layerType;
-		var layer = e.layer;
-		var coords=[];
-		var geojson = layer.toGeoJSON();
-		var shape_for_db = JSON.stringify(geojson);
-
-		var polygon =
-		L.geoJson(JSON.parse(shape_for_db), {
-			pointToLayer: function (feature, latlng) {
-				return L.marker(latlng);
-			},
-			onEachFeature: function (feature, layer) {
-				coords.push(feature.geometry.coordinates);
-			}
-		}).addTo(peta_penduduk)
-
-		document.getElementById('lat').value = coords[0][1];
-		document.getElementById('lng').value = coords[0][0];
-	});
-
-	//Geolocation GPS
-	var lc = L.control.locate({
-		icon: 'fa fa-map-marker',
-		strings: {
-				title: "Lokasi Saya",
-				locateOptions: {enableHighAccuracy: true},
-				popup: "Anda berada di sekitar {distance} {unit} dari titik ini"
-		}
-
-	}).addTo(peta_penduduk);
-
-	peta_penduduk.on('locationfound', function(e) {
-			$('#lat').val(e.latlng.lat);
-			$('#lng').val(e.latlng.lng);
-			posisi_penduduk.setLatLng(e.latlng);
-			peta_penduduk.setView(e.latlng)
-	});
-
-	peta_penduduk.on('startfollowing', function() {
-		peta_penduduk.on('dragstart', lc._stopFollowing, lc);
-	}).on('stopfollowing', function() {
-		peta_penduduk.off('dragstart', lc._stopFollowing, lc);
-	});
-
-	//Export ke GPX
-	var geojson = posisi_penduduk.toGeoJSON();
-	var shape_for_db = JSON.stringify(geojson);
-	var gpxData = togpx(JSON.parse(shape_for_db));
-
-	$("#exportGPX").on('click', function (event) {
-		data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
-		$(this).attr({
-			'href': data,
-			'target': '_blank'
-		});
-	});
+	showCurrentPoint(posisi, peta_penduduk);
 
 	//Menambahkan zoom scale ke peta
 	L.control.scale().addTo(peta_penduduk);
 
-	L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(peta_penduduk);
+	L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_penduduk);
 
 }; //EOF window.onload
 </script>
@@ -188,7 +134,7 @@ window.onload = function()
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
@@ -263,23 +209,41 @@ window.onload = function()
 </div>
 
 <script>
-$(document).ready(function()
-{
-	$('#simpan_penduduk').click(function()
-	{
-		if (!$('#validasi').valid()) return;
+	$(document).ready(function(){
+		$('#simpan_penduduk').click(function(){
 
-		var lat = $('#lat').val();
-		var lng = $('#lng').val();
-		$.ajax(
-		{
-			type: "POST",
-			url: "<?=$form_action?>",
-			dataType: 'json',
-			data: {lat: lat, lng: lng},
+			$("#validasi1").validate({
+				errorElement: "label",
+				errorClass: "error",
+				highlight:function (element){
+					$(element).closest(".form-group").addClass("has-error");
+				},
+				unhighlight:function (element){
+					$(element).closest(".form-group").removeClass("has-error");
+				},
+				errorPlacement: function (error, element) {
+					if (element.parent('.input-group').length) {
+						error.insertAfter(element.parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+
+			if (!$('#validasi1').valid()) return;
+
+			var id = $('#id').val();
+			var lat = $('#lat').val();
+			var lng = $('#lng').val();
+
+			$.ajax({
+				type: "POST",
+				url: "<?=$form_action?>",
+				dataType: 'json',
+				data: {lat: lat, lng: lng, id: id},
+			});
 		});
 	});
-});
 </script>
 
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>

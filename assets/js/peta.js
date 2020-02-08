@@ -132,7 +132,7 @@ function stylePointLogo(url)
 	return style;
 }
 
-function editToolbar()
+function editToolbarPoly()
 {
 	var options =
 	{
@@ -142,6 +142,24 @@ function editToolbar()
 		drawPolyline: false, // adds button to draw a polyline
 		drawRectangle: false, // adds button to draw a rectangle
 		drawPolygon: true, // adds button to draw a polygon
+		drawCircle: false, // adds button to draw a cricle
+		cutPolygon: false, // adds button to cut a hole in a polygon
+		editMode: true, // adds button to toggle edit mode for all layers
+		removalMode: true, // adds a button to remove layers
+	};
+	return options;
+}
+
+function editToolbarLine()
+{
+	var options =
+	{
+		position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+		drawMarker: false, // adds button to draw markers
+		drawCircleMarker: false, // adds button to draw markers
+		drawPolyline: true, // adds button to draw a polyline
+		drawRectangle: false, // adds button to draw a rectangle
+		drawPolygon: false, // adds button to draw a polygon
 		drawCircle: false, // adds button to draw a cricle
 		cutPolygon: false, // adds button to cut a hole in a polygon
 		editMode: true, // adds button to toggle edit mode for all layers
@@ -309,7 +327,37 @@ function addPetaPoly(layerpeta)
 	return addPetaPoly;
 }
 
-function showCurrentPeta(wilayah, layerpeta)
+function addPetaLine(layerpeta)
+{
+	layerpeta.on('pm:create', function(e)
+	{
+		var type = e.layerType;
+		var layer = e.layer;
+		var latLngs;
+
+		if (type === 'circle') {
+			latLngs = layer.getLatLng();
+		}
+		else
+		latLngs = layer.getLatLngs();
+
+		var p = latLngs;
+		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 }).addTo(layerpeta);
+
+		polygon.on('pm:edit', function(e)
+		{
+			document.getElementById('path').value = getLatLong('Line', e.target).toString();
+		});
+
+		layerpeta.fitBounds(polygon.getBounds());
+
+		// set value setelah create polygon
+		document.getElementById('path').value = getLatLong('Line', layer).toString();
+	});
+	return addPetaLine;
+}
+
+function showCurrentPolygon(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
@@ -333,11 +381,201 @@ function showCurrentPeta(wilayah, layerpeta)
 		});
 	});
 
-	layerpeta.panTo(poligon_wilayah.getBounds().getCenter());
+	layerpeta.fitBounds(poligon_wilayah.getBounds());
 
 	// set value setelah create polygon
 	document.getElementById('path').value = getLatLong('Poly', layer).toString();
 	document.getElementById('zoom').value = layerpeta.getZoom();
 
-	return showCurrentPeta;
+	return showCurrentPolygon;
+}
+
+function showCurrentPoint(posisi1, layerpeta)
+{
+	var lokasi_kantor = L.marker(posisi1, {draggable: true}).addTo(layerpeta);
+
+	lokasi_kantor.on('dragend', function(e){
+		$('#lat').val(e.target._latlng.lat);
+		$('#lng').val(e.target._latlng.lng);
+		$('#map_tipe').val("HYBRID");
+		$('#zoom').val(layerpeta.getZoom());
+	})
+
+	layerpeta.on('zoomstart zoomend', function(e){
+		$('#zoom').val(layerpeta.getZoom());
+	})
+
+	$('#lat').on("input",function(e) {
+		if (!$('#validasi1').valid())
+		{
+			$("#simpan_kantor").attr('disabled', true);
+			return;
+		} else
+		{
+			$("#simpan_kantor").attr('disabled', false);
+		}
+		let lat = $('#lat').val();
+		let lng = $('#lng').val();
+		let latLng = L.latLng({
+			lat: lat,
+			lng: lng
+		});
+
+		lokasi_kantor.setLatLng(latLng);
+		layerpeta.setView(latLng,zoom);
+	})
+
+	$('#lng').on("input",function(e) {
+		if (!$('#validasi1').valid())
+		{
+			$("#simpan_kantor").attr('disabled', true);
+			return;
+		} else
+		{
+			$("#simpan_kantor").attr('disabled', false);
+		}
+		let lat = $('#lat').val();
+		let lng = $('#lng').val();
+		let latLng = L.latLng({
+			lat: lat,
+			lng: lng
+		});
+
+		lokasi_kantor.setLatLng(latLng);
+		layerpeta.setView(latLng, zoom);
+	});
+
+	var geojson = lokasi_kantor.toGeoJSON();
+	var shape_for_db = JSON.stringify(geojson);
+	var gpxData = togpx(JSON.parse(shape_for_db));
+
+	$("#exportGPX").on('click', function (event) {
+		data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+		$(this).attr({
+			'href': data,
+			'target': '_blank'
+		});
+	});
+
+	var lc = L.control.locate({
+		icon: 'fa fa-map-marker',
+		strings: {
+				title: "Lokasi Saya",
+				locateOptions: {enableHighAccuracy: true},
+				popup: "Anda berada disekitar {distance} {unit} dari titik ini"
+		}
+
+	}).addTo(layerpeta);
+
+	layerpeta.on('locationfound', function(e) {
+			$('#lat').val(e.latlng.lat);
+			$('#lng').val(e.latlng.lng);
+			lokasi_kantor.setLatLng(e.latlng);
+			layerpeta.setView(e.latlng)
+	});
+
+	layerpeta.on('startfollowing', function() {
+		layerpeta.on('dragstart', lc._stopFollowing, lc);
+	}).on('stopfollowing', function() {
+		layerpeta.off('dragstart', lc._stopFollowing, lc);
+	});
+
+	control = L.Control.fileLayerLoad({
+		addToMap: false,
+		formats: [
+			'.gpx',
+			'.kml'
+		],
+		fitBounds: true,
+		layerOptions: {
+			pointToLayer: function (data, latlng) {
+				return L.marker(latlng);
+			},
+
+		}
+	});
+	control.addTo(layerpeta);
+
+	control.loader.on('data:loaded', function (e) {
+		layerpeta.removeLayer(lokasi_kantor);
+		var type = e.layerType;
+		var layer = e.layer;
+		var coords=[];
+		var geojson = layer.toGeoJSON();
+		var shape_for_db = JSON.stringify(geojson);
+
+		var polygon =
+		L.geoJson(JSON.parse(shape_for_db), {
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng);
+			},
+			onEachFeature: function (feature, layer) {
+				coords.push(feature.geometry.coordinates);
+			}
+		}).addTo(layerpeta)
+
+		document.getElementById('lat').value = coords[0][1];
+		document.getElementById('lng').value = coords[0][0];
+	});
+	return showCurrentPoint;
+}
+
+function showCurrentLine(wilayah, layerpeta)
+{
+	var poligon_wilayah = L.polyline(wilayah).addTo(layerpeta);
+	poligon_wilayah.on('pm:edit', function(e)
+	{
+		document.getElementById('path').value = getLatLong('Line', e.target).toString();
+	})
+
+	var layer = poligon_wilayah;
+	var geojson = layer.toGeoJSON();
+	var shape_for_db = JSON.stringify(geojson);
+	var gpxData = togpx(JSON.parse(shape_for_db));
+
+	$("#exportGPX").on('click', function (event) {
+		data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+		$(this).attr({
+			'href': data,
+			'target': '_blank'
+		});
+	});
+
+	layerpeta.fitBounds(poligon_wilayah.getBounds());
+
+	// set value setelah create polygon
+	document.getElementById('path').value = getLatLong('Line', layer).toString();
+
+	return showCurrentLine;
+}
+
+function showCurrentArea(wilayah, layerpeta)
+{
+	var daerah_wilayah = wilayah;
+	daerah_wilayah[0].push(daerah_wilayah[0][0]);
+	var poligon_wilayah = L.polygon(wilayah).addTo(layerpeta);
+	poligon_wilayah.on('pm:edit', function(e)
+	{
+		document.getElementById('path').value = getLatLong('Poly', e.target).toString();
+	})
+
+	var layer = poligon_wilayah;
+	var geojson = layer.toGeoJSON();
+	var shape_for_db = JSON.stringify(geojson);
+	var gpxData = togpx(JSON.parse(shape_for_db));
+
+	$("#exportGPX").on('click', function (event) {
+		data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
+		$(this).attr({
+			'href': data,
+			'target': '_blank'
+		});
+	});
+
+	layerpeta.fitBounds(poligon_wilayah.getBounds());
+
+	// set value setelah create polygon
+	document.getElementById('path').value = getLatLong('Poly', layer).toString();
+
+	return showCurrentArea;
 }

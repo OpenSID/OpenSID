@@ -129,14 +129,14 @@
     //Menampilkan Peta wilayah yg sudah ada
     <?php if (!empty($wil_ini['path'])): ?>
       var wilayah = <?=$wil_ini['path']?>;
-      showCurrentPeta(wilayah, peta_wilayah);
+      showCurrentPolygon(wilayah, peta_wilayah);
     <?php endif; ?>
 
     //Menambahkan zoom scale ke peta
     L.control.scale().addTo(peta_wilayah);
 
     //Menambahkan toolbar ke peta
-    peta_wilayah.pm.addControls(editToolbar());
+    peta_wilayah.pm.addControls(editToolbarPoly());
 
     //Menambahkan Peta wilayah
     addPetaPoly(peta_wilayah);
