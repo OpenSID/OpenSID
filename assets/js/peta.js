@@ -35,6 +35,21 @@ function set_marker(marker, daftar_path, warna, judul, nama_wil)
   }
 }
 
+function set_marker_desa(marker_desa, desa, judul, favico_desa)
+{
+	var daerah_desa = JSON.parse(desa['path']);
+  var jml = daerah_desa[0].length;
+  daerah_desa[0].push(daerah_desa[0][0]);
+  for (var x = 0; x < jml; x++)
+  {
+    daerah_desa[0][x].reverse();
+  }
+
+  var point_style = stylePointLogo(favico_desa);
+  marker_desa.push(turf.polygon(daerah_desa, {content: judul, style: stylePolygonDesa(), style: L.icon(point_style)}))
+  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
+}
+
 function getBaseLayers(peta, access_token)
 {
 	//Menampilkan BaseLayers Peta

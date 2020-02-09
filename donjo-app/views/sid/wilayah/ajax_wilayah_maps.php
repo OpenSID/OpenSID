@@ -83,22 +83,7 @@
 
     //OVERLAY WILAYAH DESA
     <?php if (!empty($desa['path'])): ?>
-      var daerah_desa = <?=$desa['path']?>;
-      var daftar_desa = JSON.parse('<?=addslashes(json_encode($desa))?>');
-      var jml = daerah_desa[0].length;
-      daerah_desa[0].push(daerah_desa[0][0]);
-      for (var x = 0; x < jml; x++)
-      {
-        daerah_desa[0][x].reverse();
-      }
-      <?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-        var point_style = stylePointLogo("<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico");
-  		<?php else: ?>
-        var point_style = stylePointLogo("<?= base_url()?>favicon.ico");
-  		<?php endif; ?>
-
-      marker_desa.push(turf.polygon(daerah_desa, {content: "<?=ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa'])?>", style: stylePolygonDesa(), style: L.icon(point_style)}))
-      marker_desa.push(turf.point([<?=$desa['lng'].",".$desa['lat']?>], {content: "Kantor Desa",style: L.icon(point_style)}));
+      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
     <?php endif; ?>
 
     //OVERLAY WILAYAH DUSUN

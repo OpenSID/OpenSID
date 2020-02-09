@@ -31,9 +31,7 @@
 
 		//WILAYAH DESA
 		<?php if ($layer_desa==1 AND !empty($desa['path'])): ?>
-
 			var daerah_desa = <?=$desa['path']?>;
-			var daftar_desa = JSON.parse('<?=addslashes(json_encode($desa))?>');
 			var jml = daerah_desa[0].length;
 			var content_desa;
 
@@ -44,22 +42,12 @@
 			  daerah_desa[0][x].reverse();
 			}
 
-			//Style polygon
-			var style_polygon = {
-			  stroke: true,
-			  color: '#FF0000',
-			  opacity: 1,
-			  weight: 2,
-			  fillColor: '#8888dd',
-			  fillOpacity: 0.5
-			};
-
 			// Diambil dari "donjo-app/views/gis/content_desa.php" yang di-include
 			// Cara ini digunakan untuk lebih mudah di-maintain
 			content_desa = $('#isi_popup').html();
 
 			//Menambahkan poligon ke marker
-			semua_marker.push(turf.polygon(daerah_desa, {content: content_desa, style: style_polygon}))
+			semua_marker.push(turf.polygon(daerah_desa, {content: content_desa, style: stylePolygonDesa()}))
 			//Menambahkan point kantor desa
 			semua_marker.push(turf.point([<?=$desa['lng'].",".$desa['lat']?>], {content: "Kantor Desa"}))
 		<?php endif; ?>
