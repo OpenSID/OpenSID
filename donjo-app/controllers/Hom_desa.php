@@ -9,6 +9,7 @@ class Hom_desa extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('config_model');
+		$this->load->model('wilayah_model');
 		$this->modul_ini = 200;
 	}
 
@@ -70,6 +71,11 @@ class Hom_desa extends Admin_Controller {
     $data['wil_atas']['lat'] = -1.0546279422758742;
     $data['wil_atas']['lng'] = 116.71875000000001;
     $data['wil_atas']['zoom'] = 4;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
     $data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
     $data['breadcrumb'] = array(
@@ -93,6 +99,11 @@ class Hom_desa extends Admin_Controller {
     $data['wil_atas']['lat'] = -1.0546279422758742;
     $data['wil_atas']['lng'] = 116.71875000000001;
     $data['wil_atas']['zoom'] = 4;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
     $data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
     $data['breadcrumb'] = array(
