@@ -197,6 +197,22 @@ class Keuangan_grafik_model extends CI_model {
 		  $data['belanja'][$i]['sub_belanja'] = $this->get_subval_belanja($p['id_keuangan_master'], $p['Akun'], $thn, $smt1);
 		}
 
+    $this->db->select('Kd_Bid, Nama_Bidang, id_keuangan_master');
+		$this->db->join('keuangan_ta_bidang', 'keuangan_ta_bidang.id_keuangan_master = keuangan_master.id', 'left');
+    $this->db->where("Kd_Bid NOT LIKE '01%'");
+    $this->db->where("Kd_Bid NOT LIKE '02%'");
+    $this->db->where("Kd_Bid NOT LIKE '03%'");
+		$this->db->where('tahun_anggaran', $thn);
+		$data['belanja_bidang'] = $this->db->get('keuangan_master')->result_array();
+
+		foreach ($data['belanja_bidang'] as $i => $p)
+		{
+      $data['belanja_bidang'][$i]['anggaran'] = $this->pagu_akun_bidang($p['Kd_Bid'], $thn);
+		  $data['belanja_bidang'][$i]['realisasi'] = $this->real_akun_belanja_bidang($p['Kd_Bid'], $thn, $smt1);
+		  $data['belanja_bidang'][$i]['realisasi_spj'] = $this->real_akun_belanja_spj_bidang($p['Kd_Bid'], $thn, $smt1);
+		  $data['belanja_bidang'][$i]['realisasi_bunga'] = $this->real_akun_belanja_bunga_bidang($p['Kd_Bid'], $thn, $smt1);
+		}
+
 		$this->db->select('Akun, Nama_Akun, id_keuangan_master');
 		$this->db->join('keuangan_ref_rek1', 'keuangan_ref_rek1.id_keuangan_master = keuangan_master.id', 'left');
 		$this->db->where("Akun = '6.'");
@@ -220,7 +236,6 @@ class Keuangan_grafik_model extends CI_model {
 		  $data['pembiayaan_keluar'][$i]['realisasi'] = $this->real_akun_pembiayaan_keluar($p['Akun'], $thn, $smt1);
 		  $data['pembiayaan_keluar'][$i]['sub_pembiayaan_keluar'] = $this->get_subval_pembiayaan_keluar($p['id_keuangan_master'], $p['Akun'], $thn, $smt1);
 		}
-
 		return $data;
   }
 
@@ -228,6 +243,15 @@ class Keuangan_grafik_model extends CI_model {
   {
 		$this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(AnggaranStlhPAK) AS pagu');
 		$this->db->like('Kd_Rincian', $akun, 'after');
+		$this->db->where('Tahun', $thn);
+		$this->db->group_by('Akun');
+		return $this->db->get('keuangan_ta_rab_rinci')->result_array();
+  }
+
+  private function pagu_akun_bidang($akun, $thn)
+  {
+    $this->db->select('LEFT(Kd_Keg, 10) AS Akun, SUM(AnggaranStlhPAK) AS pagu');
+		$this->db->like('LEFT(Kd_Keg, 10)', $akun, 'after');
 		$this->db->where('Tahun', $thn);
 		$this->db->group_by('Akun');
 		return $this->db->get('keuangan_ta_rab_rinci')->result_array();
@@ -297,6 +321,51 @@ class Keuangan_grafik_model extends CI_model {
   {
 		$this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai) AS realisasi');
 		$this->db->like('Kd_Rincian', $akun, 'after');
+		$this->db->where('Tahun', $thn);
+		if ($smt1)
+		{
+			$this->db->where('Tgl_Bukti >=', '01/01/$thn 00:00:00');
+			$this->db->where('Tgl_Bukti <=', '06/31/$thn 00:00:00');
+		}
+		$this->db->group_by('Akun');
+		return $this->db->get('keuangan_ta_mutasi')->result_array();
+  }
+
+  private function real_akun_belanja_bidang($akun, $thn, $smt1=false)
+  {
+		$this->db->select('LEFT(Kd_Keg, 10) AS Akun, SUM(Nilai) AS realisasi');
+    $this->db->like('LEFT(Kd_Keg, 10)', $akun, 'after');
+		$this->db->join('keuangan_ta_spp', 'keuangan_ta_spp.No_SPP = keuangan_ta_spp_rinci.No_SPP', 'left');
+		$this->db->where('keuangan_ta_spp_rinci.Tahun', $thn);
+		$this->db->where('keuangan_ta_spp.Jn_SPP', 'LS');
+		if ($smt1)
+		{
+			$this->db->where('keuangan_ta_spp.Tgl_SPP >=', '01/01/$thn 00:00:00');
+			$this->db->where('keuangan_ta_spp.Tgl_SPP <=', '06/31/$thn 00:00:00');
+		}
+		$this->db->group_by('Akun');
+		return $this->db->get('keuangan_ta_spp_rinci')->result_array();
+  }
+
+  private function real_akun_belanja_spj_bidang($akun, $thn, $smt1=false)
+  {
+		$this->db->select('LEFT(Kd_Keg, 10) AS Akun, SUM(Nilai) AS realisasi');
+		$this->db->like('LEFT(Kd_Keg, 10)', $akun, 'after');
+		$this->db->where('keuangan_ta_spj_rinci.Tahun', $thn);
+		if ($smt1)
+		{
+			$this->db->join('keuangan_ta_spj', 'keuangan_ta_spj.No_SPJ = keuangan_ta_spj_rinci.No_SPJ', 'left');
+			$this->db->where('keuangan_ta_spj.Tgl_SPJ >=', '01/01/$thn 00:00:00');
+			$this->db->where('keuangan_ta_spj.Tgl_SPJ <=', '06/31/$thn 00:00:00');
+		}
+		$this->db->group_by('Akun');
+		return $this->db->get('keuangan_ta_spj_rinci')->result_array();
+  }
+
+  private function real_akun_belanja_bunga_bidang($akun, $thn, $smt1=false)
+  {
+		$this->db->select('LEFT(Kd_Keg, 10) AS Akun, SUM(Nilai) AS realisasi');
+		$this->db->like('LEFT(Kd_Keg, 10)', $akun, 'after');
 		$this->db->where('Tahun', $thn);
 		if ($smt1)
 		{

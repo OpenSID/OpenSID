@@ -56,7 +56,7 @@ class Keuangan extends Admin_Controller {
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
 
-		switch ($jenis) 
+		switch ($jenis)
 		{
 			case 'grafik-RP-APBD':
 				$this->grafik_rp_apbd($thn);
@@ -66,6 +66,12 @@ class Keuangan extends Admin_Controller {
 				break;
 			case 'rincian_realisasi_smt1':
 				$this->rincian_realisasi_smt1($thn);
+				break;
+			case 'rincian_realisasi_bidang':
+				$this->rincian_realisasi_bidang($thn);
+				break;
+			case 'rincian_realisasi_smt1_bidang':
+				$this->rincian_realisasi_smt1_bidang($thn);
 				break;
 
 			default:
@@ -93,6 +99,26 @@ class Keuangan extends Admin_Controller {
 		$data['ta'] = $this->session->userdata('set_tahun');
 		$data['sm'] = '1';
 		$_SESSION['submenu'] = "Laporan Keuangan Semester1";
+		$this->load->view('keuangan/rincian_realisasi', $data);
+	}
+
+	private function rincian_realisasi_bidang($thn)
+	{
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['sm'] = '2';
+		$_SESSION['submenu'] = "Laporan Keuangan Akhir Bidang";
+		$this->load->view('keuangan/rincian_realisasi', $data);
+	}
+
+	private function rincian_realisasi_smt1_bidang($thn)
+	{
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1=1);
+		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['sm'] = '1';
+		$_SESSION['submenu'] = "Laporan Keuangan Semester1 Bidang";
 		$this->load->view('keuangan/rincian_realisasi', $data);
 	}
 
