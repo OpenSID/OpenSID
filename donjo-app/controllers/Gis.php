@@ -40,15 +40,10 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['status_penduduk']);
 		unset($_SESSION['layer_penduduk']);
 		unset($_SESSION['layer_keluarga']);
-		unset($_SESSION['layer_desa']);
 		unset($_SESSION['layer_wilayah']);
 		unset($_SESSION['layer_lokasi']);
 		unset($_SESSION['layer_area']);
 		$_SESSION['layer_keluarga'] == 0;
-		unset($_SESSION['layer_dusun']);
-		unset($_SESSION['layer_rw']);
-		unset($_SESSION['layer_rt']);
-		unset($_SESSION['layer_garis']);
 		redirect('gis');
 	}
 
@@ -205,12 +200,6 @@ class Gis extends Admin_Controller {
 		redirect('gis');
 	}
 
-	public function layer_desa()
-	{
-		$_SESSION['layer_desa'] = $this->input->post('layer_desa') ? 1 : 0;
-		redirect('gis');
-	}
-
 	public function sex()
 	{
 		$sex = $this->input->post('sex');
@@ -307,24 +296,6 @@ class Gis extends Admin_Controller {
 					$_SESSION['layer_penduduk'] = 1;
 			}
 		}
-		redirect('gis');
-	}
-
-	public function layer_dusun()
-	{
-		$_SESSION['layer_dusun'] = $this->input->post('layer_dusun') ? 1 : 0;
-		redirect('gis');
-	}
-
-	public function layer_rw()
-	{
-		$_SESSION['layer_rw'] = $this->input->post('layer_rw') ? 1 : 0;
-		redirect('gis');
-	}
-
-	public function layer_rt()
-	{
-		$_SESSION['layer_rt'] = $this->input->post('layer_rt') ? 1 : 0;
 		redirect('gis');
 	}
 
