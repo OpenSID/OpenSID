@@ -19,169 +19,42 @@
 		//Inisialisasi tampilan peta
     var mymap = L.map('map').setView(posisi, zoom);
 
-    //Menampilkan BaseLayers Peta
-    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->google_key?>');
-
-    L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(mymap);
-
-		//Semua marker akan ditampung divariabel ini
-		var semua_marker = [];
+    //1. Menampilkan overlayLayers Peta Semua Wilayah
+    var marker_desa = [];
+    var marker_dusun = [];
+    var marker_rw = [];
+    var marker_rt = [];
+    var semua_marker = [];
     var markers = new L.MarkerClusterGroup();
     var markersList = [];
 
-		//WILAYAH DESA
-		<?php if ($layer_desa==1 AND !empty($desa['path'])): ?>
-			var daerah_desa = <?=$desa['path']?>;
-			var jml = daerah_desa[0].length;
-			var content_desa;
+    //OVERLAY WILAYAH DESA
+    <?php if (!empty($desa['path'])): ?>
+      set_marker_desa_content(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>", '#isi_popup');
+    <?php endif; ?>
 
-			daerah_desa[0].push(daerah_desa[0][0]);
+    //OVERLAY WILAYAH DUSUN
+    <?php if (!empty($dusun_gis)): ?>
+      set_marker_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_');
+    <?php endif; ?>
 
-			for (var x = 0; x < jml; x++)
-			{
-			  daerah_desa[0][x].reverse();
-			}
+    //OVERLAY WILAYAH RW
+    <?php if (!empty($rw_gis)): ?>
+      set_marker_content(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw', '#isi_popup_rw_');
+    <?php endif; ?>
 
-			// Diambil dari "donjo-app/views/gis/content_desa.php" yang di-include
-			// Cara ini digunakan untuk lebih mudah di-maintain
-			content_desa = $('#isi_popup').html();
+    //OVERLAY WILAYAH RT
+    <?php if (!empty($rt_gis)): ?>
+      set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt', '#isi_popup_rt_');
+    <?php endif; ?>
 
-			//Menambahkan poligon ke marker
-			semua_marker.push(turf.polygon(daerah_desa, {content: content_desa, style: stylePolygonDesa()}))
-			//Menambahkan point kantor desa
-			semua_marker.push(turf.point([<?=$desa['lng'].",".$desa['lat']?>], {content: "Kantor Desa"}))
-		<?php endif; ?>
+    //Menampilkan overlayLayers Peta Semua Wilayah
+    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt);
 
+    //Menampilkan BaseLayers Peta
+    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->google_key?>');
 
-		//WILAYAH DUSUN
-		<?php if ($layer_dusun==1 AND !empty($dusun_gis)): ?>
-			//Style polygon
-			var dusun_style = {
-			  stroke: true,
-			  color: '#FF0000',
-			  opacity: 1,
-			  weight: 2,
-			  fillColor: '#FFFF00',
-			  fillOpacity: 0.5
-			}
-			var daftar_dusun = JSON.parse('<?=addslashes(json_encode($dusun_gis))?>');
-			var jml = daftar_dusun.length;
-			var jml_path;
-			var content_dusun;
-
-			for (var x = 0; x < jml;x++)
-			{
-			  if (daftar_dusun[x].path)
-			  {
-					daftar_dusun[x].path = JSON.parse(daftar_dusun[x].path)
-					jml_path = daftar_dusun[x].path[0].length;
-					for (var y = 0; y < jml_path; y++)
-					{
-					  daftar_dusun[x].path[0][y].reverse()
-					}
-
-					// Diambil dari "donjo-app/views/gis/content_dusun.php" yang di-include
-					// Cara ini digunakan untuk lebih mudah di-maintain
-					content_dusun = $('#isi_popup_dusun_' + x).html();
-
-					daftar_dusun[x].path[0].push(daftar_dusun[x].path[0][0])
-					//Menambahkan poligon ke marker
-					semua_marker.push(turf.polygon(daftar_dusun[x].path, {content: content_dusun, style: dusun_style}));
-					//Menambahkan point kantor desa
-          if (daftar_dusun[x].lng)
-          {
-					semua_marker.push(turf.point([daftar_dusun[x].lng,daftar_dusun[x].lat], {content: "Kantor Dusun " +daftar_dusun[x].dusun}))
-          }
-			  }
-			}
-		<?php endif; ?>
-
-
-		//WILAYAH RW
-		<?php if ($layer_rw==1 AND !empty($rw_gis)): ?>
-			//Style polygon
-			var rw_style = {
-			  stroke: true,
-			  color: '#FF0000',
-			  opacity: 1,
-			  weight: 2,
-			  fillColor: '#8888dd',
-			  fillOpacity: 0.5
-			}
-			var daftar_rw = JSON.parse('<?=addslashes(json_encode($rw_gis))?>');
-			var jml = daftar_rw.length;
-			var jml_path;
-			var content_rw;
-
-			for (var x = 0; x < jml;x++)
-			{
-			  if (daftar_rw[x].path)
-			  {
-					daftar_rw[x].path = JSON.parse(daftar_rw[x].path)
-					jml_path = daftar_rw[x].path[0].length;
-					for (var y = 0; y < jml_path; y++)
-					{
-					  daftar_rw[x].path[0][y].reverse()
-					}
-
-					// Diambil dari "donjo-app/views/gis/content_rw.php" yang di-include
-					// Cara ini digunakan untuk lebih mudah di-maintain
-					content_rw = $('#isi_popup_rw_' + x).html();
-
-					daftar_rw[x].path[0].push(daftar_rw[x].path[0][0])
-					//Menambahkan poligon ke marker
-					semua_marker.push(turf.polygon(daftar_rw[x].path, {content: content_rw, style: rw_style}));
-					//Menambahkan point kantor desa
-          if (daftar_rw[x].lng)
-          {
-					semua_marker.push(turf.point([daftar_rw[x].lng,daftar_rw[x].lat], {content: "Kantor RW " +daftar_rw[x].rw}))
-          }
-			  }
-			}
-		<?php endif; ?>
-
-		//WILAYAH RT
-		<?php if ($layer_rt==1 AND !empty($rt_gis)): ?>
-			//Style polygon
-			var rt_style = {
-			  stroke: true,
-			  color: '#FF0000',
-			  opacity: 1,
-			  weight: 2,
-			  fillColor: '#008000',
-			  fillOpacity: 0.5
-			}
-			var daftar_rt = JSON.parse('<?=addslashes(json_encode($rt_gis))?>');
-			var jml = daftar_rt.length;
-			var jml_path;
-			var content_rt;
-
-			for (var x = 0; x < jml;x++)
-			{
-			  if (daftar_rt[x].path)
-			  {
-					daftar_rt[x].path = JSON.parse(daftar_rt[x].path)
-					jml_path = daftar_rt[x].path[0].length;
-					for (var y = 0; y < jml_path; y++)
-					{
-					  daftar_rt[x].path[0][y].reverse()
-					}
-
-					// Diambil dari "donjo-app/views/gis/content_rw.php" yang di-include
-					// Cara ini digunakan untuk lebih mudah di-maintain
-					content_rt = $('#isi_popup_rt_' + x).html();
-
-					daftar_rt[x].path[0].push(daftar_rt[x].path[0][0])
-					//Menambahkan poligon ke marker
-					semua_marker.push(turf.polygon(daftar_rt[x].path, {content: content_rt, style: rt_style}));
-					//Menambahkan point kantor desa
-          if (daftar_rt[x].lng)
-          {
-					semua_marker.push(turf.point([daftar_rt[x].lng,daftar_rt[x].lat], {content: "Kantor RT " +daftar_rt[x].rt}))
-          }
-			  }
-			}
-		<?php endif; ?>
+    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
 
 		$('#isi_popup').remove();
 		$('#isi_popup_dusun').remove();
@@ -548,22 +421,6 @@
 									<span> Keluarga</span>
 							  </label>
 							  <label>
-									<input type="checkbox" name="layer_desa" value="1"onchange="handle_desa(this);" <?php if ($layer_desa==1): ?>checked<?php endif; ?>>
-									<span> <?= ucwords($this->setting->sebutan_desa)?></span>
-							  </label>
-							  <label>
-									<input type="checkbox" name="layer_dusun" value="1"onchange="handle_dusun(this);" <?php if ($layer_dusun==1): ?>checked<?php endif; ?>>
-									<span> <?= ucwords($this->setting->sebutan_dusun)?></span>
-							  </label>
-							  <label>
-									<input type="checkbox" name="layer_rw" value="1"onchange="handle_rw(this);" <?php if ($layer_rw==1): ?>checked<?php endif; ?>>
-									<span> RW</span>
-							  </label>
-							  <label>
-									<input type="checkbox" name="layer_rt" value="1"onchange="handle_rt(this);" <?php if ($layer_rt==1): ?>checked<?php endif; ?>>
-									<span> RT</span>
-							  </label>
-							  <label>
 									<input type="checkbox" name="layer_area" value="1"onchange="handle_area(this);" <?php if ($layer_area==1): ?>checked<?php endif; ?>>
 									<span> Area</span>
 							  </label>
@@ -592,22 +449,6 @@
 	function handle_kel(cb)
 	{
 	  formAction('mainform_map', '<?=site_url('gis')?>/layer_keluarga');
-	}
-	function handle_desa(cb)
-	{
-	  formAction('mainform_map', '<?=site_url('gis')?>/layer_desa');
-	}
-	function handle_dusun(cb)
-	{
-	  formAction('mainform_map', '<?=site_url('gis')?>/layer_dusun');
-	}
-	function handle_rw(cb)
-	{
-	  formAction('mainform_map', '<?=site_url('gis')?>/layer_rw');
-	}
-	function handle_rt(cb)
-	{
-	  formAction('mainform_map', '<?=site_url('gis')?>/layer_rt');
 	}
 	function handle_area(cb)
 	{

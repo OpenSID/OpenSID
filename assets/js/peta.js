@@ -50,6 +50,55 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
   marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
 }
 
+function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
+{
+	var daerah_desa = JSON.parse(desa['path']);
+  var jml = daerah_desa[0].length;
+  daerah_desa[0].push(daerah_desa[0][0]);
+  for (var x = 0; x < jml; x++)
+  {
+    daerah_desa[0][x].reverse();
+  }
+
+	content = $(contents).html();
+
+  var point_style = stylePointLogo(favico_desa);
+  marker_desa.push(turf.polygon(daerah_desa, {content: content, style: stylePolygonDesa(), style: L.icon(point_style)}))
+  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
+}
+
+function set_marker_content(marker, daftar_path, warna, judul, nama_wil, contents)
+{
+  var marker_style = {
+    stroke: true,
+    color: '#FF0000',
+    opacity: 1,
+    weight: 2,
+    fillColor: warna,
+    fillOpacity: 0.5
+  }
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var jml_path;
+  for (var x = 0; x < jml;x++)
+  {
+    if (daftar[x].path)
+    {
+      daftar[x].path = JSON.parse(daftar[x].path)
+      jml_path = daftar[x].path[0].length;
+      for (var y = 0; y < jml_path; y++)
+      {
+        daftar[x].path[0][y].reverse()
+      }
+
+			content = $(contents + x).html();
+
+      daftar[x].path[0].push(daftar[x].path[0][0])
+      marker.push(turf.polygon(daftar[x].path, {content: content, style: marker_style}));
+    }
+  }
+}
+
 function getBaseLayers(peta, access_token)
 {
 	//Menampilkan BaseLayers Peta
@@ -90,6 +139,7 @@ function poligonWil(marker)
       return L.marker(latlng);
     }
   });
+
 	return poligon_wil;
 }
 
@@ -99,6 +149,7 @@ function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt)
   var poligon_wil_dusun = poligonWil(marker_dusun);
   var poligon_wil_rw = poligonWil(marker_rw);
   var poligon_wil_rt = poligonWil(marker_rt);
+
   var overlayLayers = {
     'Peta Wilayah Desa': poligon_wil_desa,
     'Peta Wilayah Dusun': poligon_wil_dusun,
