@@ -217,7 +217,7 @@ class Gis extends Admin_Controller {
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
 		{
-			$_SESSION['dusun']=$dusun;
+			$_SESSION['dusun'] = $dusun;
 			if (empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}

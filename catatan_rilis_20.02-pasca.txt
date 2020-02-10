@@ -11,6 +11,8 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 5. #2558, #2507, #2324, #2303: Perbaikan modul transparansi keuangan, memperbaiki laporan dan grafik keuangan secara menyeluruh. [bug-fix]
 6. #2654: Sekarang password yang diisi pada form login Admin dapat ditampilkan sebagai teks biasa.
 7. #2661: Dokumen yang sudah dihapus tidak tampil lagi di daftar dokumen/kelengkapan penduduk. [bug-fix]
+8. #2643: Tampilkan batas administratif desa/dusun/RW/RT di semua form peta.
+9. Sekarang faktor zoom di form peta bisa disimpan.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

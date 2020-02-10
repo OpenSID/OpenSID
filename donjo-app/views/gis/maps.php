@@ -84,7 +84,7 @@
 					  foto = '<td><img src="'+AmbilFotoLokasi(daftar_lokasi[x].foto)+'" class="foto_pend"/></td>';
 					}
 					else
-					foto = '';
+						foto = '';
 					content = '<div id="content">'+
 					'<div id="siteNotice">'+
 					'</div>'+
@@ -98,7 +98,7 @@
 			}
 		<?php endif; ?>
 
-			//AREA
+		//AREA
 		<?php if ($layer_area==1 AND !empty($area)): ?>
 			var daftar_area = JSON.parse('<?=addslashes(json_encode($area))?>');
 			var jml = daftar_area.length;
@@ -122,7 +122,7 @@
   				  foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_area[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
   				}
   				else
-  				foto = "";
+	  				foto = "";
 
           //Style polygon
     			var area_style = {
@@ -179,7 +179,7 @@
 	          foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_garis[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
 	        }
 	        else
-	        foto = "";
+		        foto = "";
 	        //Style polyline
 	        var garis_style = {
 	          stroke: true,
@@ -214,7 +214,7 @@
 			  iconAnchor: [11, 27],
 			  popupAnchor: [0, -28],
 			});
-			for (var x = 0; x < jml;x++)
+			for (var x = 0; x < jml; x++)
 			{
 			  if (penduduk[x].lat || penduduk[x].lng)
 			  {
@@ -225,7 +225,7 @@
 					  foto = '<td><img src="'+AmbilFoto(penduduk[x].foto)+'" class="foto_pend"/></td>';
 					}
 					else
-					foto = '<td><img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
+						foto = '<td><img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
 
 					//Konten yang akan ditampilkan saat marker diklik
 					content =
