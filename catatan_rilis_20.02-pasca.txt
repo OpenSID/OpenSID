@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.02-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Zeppy Shiddiq, Il Ham dan Riyandika Andhi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq, Il Ham, Nur Hidayat dan Riyandika Andhi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 
@@ -8,6 +8,9 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 2. #2641: Bisa langsung simpan peta wilayah setelah dibuat poligonnya. 
 3. #2627: Perbaiki tampilan dan isi pesan error 500 (kesalahan basis data). [teknis]
 4. #2627: Perbaiki tampilan error 500 untuk kesalahan script umum. [teknis]
+5. #2558, #2507, #2324, #2303: Perbaikan modul transparansi keuangan, memperbaiki laporan dan grafik keuangan secara menyeluruh. [bug-fix]
+6. #2654: Sekarang password yang diisi pada form login Admin dapat ditampilkan sebagai teks biasa.
+7. #2661: Dokumen yang sudah dihapus tidak tampil lagi di daftar dokumen/kelengkapan penduduk. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
