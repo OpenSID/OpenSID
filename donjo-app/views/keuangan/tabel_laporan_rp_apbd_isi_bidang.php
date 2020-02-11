@@ -99,16 +99,27 @@
 				<td align='right'></td>
 				<td align='right'></td>
 			</tr>
-				<?php foreach ($belanja_bidang as $b2): ?>
-					<tr>
-						<td></td>
-						<td colspan='2'><?= substr($b2['Kd_Bid'],8) ?></td>
-						<td><?= $b2['Nama_Bidang'] ?></td>
-						<td align='right'><?= number_format($b2['anggaran'][0]['pagu']) ?></td>
-						<td align='right'><?= number_format($b2['realisasi'][0]['realisasi']+$b2['realisasi_spj'][0]['realisasi']+$b2['realisasi_bunga'][0]['realisasi']) ?></td>
-						<td align='right'><?= number_format(($b2['anggaran'][0]['pagu'])-($b2['realisasi'][0]['realisasi']+$b2['realisasi_spj'][0]['realisasi']+$b2['realisasi_bunga'][0]['realisasi']))?></td>
-						<td align='right'><?= $b2['anggaran'][0]['pagu'] != 0 ? number_format(($b2['realisasi'][0]['realisasi']+$b2['realisasi_spj'][0]['realisasi']+$b2['realisasi_bunga'][0]['realisasi'])/$b2['anggaran'][0]['pagu']*100, 2) : 0 ?></td>
+
+				<?php foreach ($belanja_bidang as $b1): ?>
+					<tr class='bold'>
+						<td><?= substr($b1['Kd_Bid'],8) ?></td>
+						<td colspan='3'><?= $b1['Nama_Bidang'] ?></td>
+						<td align='right'><?= number_format($b1['anggaran'][0]['pagu'])?></td>
+						<td align='right'><?= number_format($b1['realisasi'][0]['realisasi']+$b1['realisasi_spj'][0]['realisasi']+$b1['realisasi_bunga'][0]['realisasi'])?></td>
+						<td align='right'><?= number_format(($b1['anggaran'][0]['pagu'])-($b1['realisasi'][0]['realisasi']+$b1['realisasi_spj'][0]['realisasi']+$b1['realisasi_bunga'][0]['realisasi'])) ?></td>
+						<td align='right'><?= $b1['anggaran'][0]['pagu'] != 0 ? number_format(($b1['realisasi'][0]['realisasi']+$b1['realisasi_spj'][0]['realisasi']+$b1['realisasi_bunga'][0]['realisasi'])/$b1['anggaran'][0]['pagu']*100, 2) : 0 ?></td>
 					</tr>
+					<?php foreach ($b1['sub_belanja'] as $b2): ?>
+						<tr>
+							<td></td>
+							<td colspan='2'><?= substr($b2['Kd_Keg'],8) ?></td>
+							<td><?= $b2['Nama_Kegiatan'] ?></td>
+							<td align='right'><?= number_format($b2['anggaran'][0]['pagu']) ?></td>
+							<td align='right'><?= number_format($b2['realisasi'][0]['realisasi']+$b2['realisasi_spj'][0]['realisasi']+$b2['realisasi_bunga'][0]['realisasi']) ?></td>
+							<td align='right'><?= number_format(($b2['anggaran'][0]['pagu'])-($b2['realisasi'][0]['realisasi']+$b2['realisasi_spj'][0]['realisasi']+$b2['realisasi_bunga'][0]['realisasi']))?></td>
+							<td align='right'><?= $b2['anggaran'][0]['pagu'] != 0 ? number_format(($b2['realisasi'][0]['realisasi']+$b2['realisasi_spj'][0]['realisasi']+$b2['realisasi_bunga'][0]['realisasi'])/$b2['anggaran'][0]['pagu']*100, 2) : 0 ?></td>
+						</tr>
+					<?php endforeach ?>
 				<?php endforeach ?>
 			<tr class='bold highlighted'>
 				<td colspan='4' align='center'>JUMLAH BELANJA</td>
