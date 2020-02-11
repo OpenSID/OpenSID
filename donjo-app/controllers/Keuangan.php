@@ -62,16 +62,16 @@ class Keuangan extends Admin_Controller {
 				$this->grafik_rp_apbd($thn);
 				break;
 			case 'rincian_realisasi':
-				$this->rincian_realisasi($thn);
+				$this->rincian_realisasi($thn, 'Akhir');
 				break;
 			case 'rincian_realisasi_smt1':
-				$this->rincian_realisasi_smt1($thn);
+				$this->rincian_realisasi($thn, 'Semester1', $smt1=1);
 				break;
 			case 'rincian_realisasi_bidang':
-				$this->rincian_realisasi_bidang($thn);
+				$this->rincian_realisasi($thn, 'Akhir Bidang');
 				break;
 			case 'rincian_realisasi_smt1_bidang':
-				$this->rincian_realisasi_smt1_bidang($thn);
+				$this->rincian_realisasi($thn, 'Semester1 Bidang', $smt1-1);
 				break;
 
 			default:
@@ -82,43 +82,13 @@ class Keuangan extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	private function rincian_realisasi($thn)
+	private function rincian_realisasi($thn, $judul, $smt1=false)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$data['ta'] = $this->session->userdata('set_tahun');
-		$data['sm'] = '2';
-		$_SESSION['submenu'] = "Laporan Keuangan Akhir";
-		$this->load->view('keuangan/rincian_realisasi', $data);
-	}
-
-	private function rincian_realisasi_smt1($thn)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1=1);
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
-		$data['ta'] = $this->session->userdata('set_tahun');
-		$data['sm'] = '1';
-		$_SESSION['submenu'] = "Laporan Keuangan Semester1";
-		$this->load->view('keuangan/rincian_realisasi', $data);
-	}
-
-	private function rincian_realisasi_bidang($thn)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
-		$data['ta'] = $this->session->userdata('set_tahun');
-		$data['sm'] = '2';
-		$_SESSION['submenu'] = "Laporan Keuangan Akhir Bidang";
-		$this->load->view('keuangan/rincian_realisasi', $data);
-	}
-
-	private function rincian_realisasi_smt1_bidang($thn)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1=1);
-		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
-		$data['ta'] = $this->session->userdata('set_tahun');
-		$data['sm'] = '1';
-		$_SESSION['submenu'] = "Laporan Keuangan Semester1 Bidang";
+		$data['sm'] = $smt1 ? '1' : '2';
+		$_SESSION['submenu'] = "Laporan Keuangan " . $judul;
 		$this->load->view('keuangan/rincian_realisasi', $data);
 	}
 
