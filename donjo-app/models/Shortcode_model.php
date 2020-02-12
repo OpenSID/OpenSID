@@ -75,8 +75,9 @@ class Shortcode_model extends Keuangan_grafik_model {
     $belanja_bidang = $data['belanja_bidang'];
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
+    $jenis = 'bidang';
 		ob_start();
-			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel_bidang.php");
+			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
 		return $output;
 	}
