@@ -135,6 +135,13 @@ class Keuangan_grafik_model extends CI_model {
 
     $this->db->order_by('Kd_Bid', 'asc');
     $data['jenis_belanja'] = $this->db->get('keuangan_master')->result_array();
+    // Perlu ditambahkan baris berikut untuk memaksa menampilkan semua bidang di grafik keuangan
+    // TODO: lihat apakah bisa diatasi langsung di script penampilan
+    if (!$opt)
+    {
+	    array_unshift($data['jenis_belanja'] , array('Kd_Bid' => '03', 'Nama_Bidang' => 'ROW_SPACER'));
+	    array_unshift($data['jenis_belanja'] , array('Kd_Bid' => '02', 'Nama_Bidang' => 'ROW_SPACER'));
+    }
 
     $this->db->select('LEFT(Kd_Keg, 10) AS jenis_belanja, SUM(AnggaranStlhPAK) AS pagu');
     $this->db->like('Kd_Rincian', '5.', 'after');
