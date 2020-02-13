@@ -55,7 +55,7 @@
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
 										</div>
 										<hr />
-										<button type="submit" class="btn">LOGIN</button>
+										<button type="submit" class="btn">MASUK</button>
 										<?php if ($_SESSION['siteman']==-1): ?>
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
@@ -65,7 +65,7 @@
 											</div>
 										<?php elseif ($_SESSION['siteman']==-2): ?>
 											<div class="error">
-												Redaksi belum boleh login, SID belum memiliki sambungan internet!
+												Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
 											</div>
 										<?php endif; ?>
 									<?php endif; ?>
