@@ -206,9 +206,6 @@ class Keuangan_grafik_model extends CI_model {
 
     $this->db->select('Kd_Bid, Nama_Bidang, id_keuangan_master');
 		$this->db->join('keuangan_ta_bidang', 'keuangan_ta_bidang.id_keuangan_master = keuangan_master.id', 'left');
-    $this->db->where("Kd_Bid NOT LIKE '01%'");
-    $this->db->where("Kd_Bid NOT LIKE '02%'");
-    $this->db->where("Kd_Bid NOT LIKE '03%'");
 		$this->db->where('tahun_anggaran', $thn);
 		$data['belanja_bidang'] = $this->db->get('keuangan_master')->result_array();
 
