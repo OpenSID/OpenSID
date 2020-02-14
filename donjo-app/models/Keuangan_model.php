@@ -182,7 +182,7 @@ class Keuangan_model extends CI_model {
 
   private function get_tahun_anggaran()
   {
-    $csv_anggaran = $this->get_csv($this->zip_file, 'Ta_Anggaran.csv');
+    $csv_anggaran = $this->get_csv($this->zip_file, 'Ta_RAB.csv');
     if ($csv_anggaran)
       return $csv_anggaran[0]['Tahun'];
     else
@@ -314,7 +314,7 @@ class Keuangan_model extends CI_model {
     $data = $this->db->select('a.Kd_Desa, d.Nama_Desa')
       ->where('a.id_keuangan_master', $id_master)
       ->distinct()
-      ->from('keuangan_ta_anggaran a')
+      ->from('keuangan_ta_rab a')
       ->join('keuangan_ref_desa d', 'a.Kd_Desa = d.Kd_Desa and a.id_keuangan_master = d.id_keuangan_master', 'left')
       ->get()
       ->result_array();
