@@ -282,6 +282,12 @@ class Keuangan_model extends CI_model {
     return $data->id;
   }
 
+  public function data_tahun_keuangan_master()
+  {
+    $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
+    return $data->tahun_anggaran;
+  }
+
   public function artikel_statis_keuangan()
   {
     $this->db->select('id, judul');
