@@ -1,0 +1,64 @@
+version "3.1"
+
+services:
+  webserver:
+    image: nginx:alpine
+    restart: always
+    networks:
+      - frontend
+    ports:
+      - 80:80
+    volumes:
+      - ./:/public_html
+      - ./.docker/nginx.conf:/etc/nginx/nginx.conf
+
+  php:
+    image: php:7.2-fpm-alpine
+    networks:
+      - backend
+      - frontend
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile
+    depends_on:
+      - webserver
+    volumes:
+      - ./:/public_html
+
+  db:
+    image: mariadb:10.4
+    restart: always
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: rahasia
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    networks:
+      - frontend
+      - backend
+    environment:
+      PMA_HOST: db
+      PMA_PORTS: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rahasia
+      UPLOAD_LIMIT: 100M
+      HIDE_PHP_VERSION: true
+    ports:
+      - 8081:80
+    volumes:
+      - /sessions
+
+volumes:
+  public_html:
+  db_data:
+
+networks:
+  frontend:
+  backend:
