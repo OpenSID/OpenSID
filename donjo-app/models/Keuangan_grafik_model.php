@@ -80,17 +80,17 @@ class Keuangan_grafik_model extends CI_model {
     else
     {
   		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '1.%'");
-  		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '3.%'");
   		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '5.%'");
   		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '6.%'");
   		$this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '7.%'");
     }
 
     $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE '%Hutang%'");
-    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Penerimaan dari Hasil Kerjasama dengan Pihak Ketiga%'");
-    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Penerimaan Bantuan dari Perusahaan yang Berlokasi di Desa%'");
-    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Koreksi Kesalahan Belanja Tahun-tahun Sebelumnya%'");
+    $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE '%Ekuitas SAL%'");
+    $this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '4.3.2%'");
+    $this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '4.3.3%'");
     $this->db->where("keuangan_ref_rek3.Nama_Jenis NOT LIKE 'Lain-lain Pendapatan Desa Yang Sah%'");
+    $this->db->where("keuangan_ref_rek3.Jenis NOT LIKE '4.3.9%'");
 
 		$this->db->where('tahun_anggaran', $thn);
 		$this->db->order_by('keuangan_ref_rek3.Jenis', 'asc');
@@ -1179,7 +1179,8 @@ class Keuangan_grafik_model extends CI_model {
 			  $result['data_widget'][$keys]['laporan'] = $raw;
 			  continue;
 			}
-			$data['judul'] = $raw['nama'];
+
+      $data['judul'] = $raw['nama'];
 			$data['anggaran'] = $raw['anggaran'];
 			$data['realisasi'] = $raw['realisasi']+$raw['realisasi_pendapatan']+$raw['realisasi_belanja']+$raw['realisasi_belanja_spj']+$raw['realisasi_bunga']+$raw['realisasi_biaya'];
 
