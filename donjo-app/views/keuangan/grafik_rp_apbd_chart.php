@@ -1,105 +1,31 @@
-<div id="<?= $type . '-' . $smt . '-' . $thn ?>" ></div>
+<style type="text/css">
+  .progress-bar span
+  {
+    position: absolute;
+    right: 20px;
+    color: #000000;
+    font-weight: bold;
+  }
 
-<script type="text/javascript">
-	$(document).ready(function (){
-		var pointWidth = 25;
-		var anggaran = [<?= join($anggaran, ',') ?>];
-		var countData = anggaran.length
-		var marginTop = 70;
-		var marginRight = 10;
-		var marginBottom = 50;
-		var marginLeft = 100;
-		var groupPadding = 1;
-		var pointPadding = 0.3;
-		var chartHeight = marginTop + marginBottom + ((pointWidth * countData) * (1 + groupPadding + pointPadding));
-			
-		Highcharts.setOptions({
-			lang: {
-				thousandsSep: '.'
-			}
-		})
-		
-		Highcharts.chart("<?= $type . '-' . $smt . '-' . $thn ?>", {
-	    chart: {
-				type: 'bar',
-				marginTop: marginTop,
-				marginRight: marginRight,
-				marginBottom: marginBottom,
-				marginLeft: marginLeft,
-				height: chartHeight
-	    },
-	    title: {
-        text: 'Realisasi Pelaksanaan APBDesa'
-	    },
-	    subtitle: {
-        text: "<?= 'Semester '.$smt.' Tahun '.$thn ?>"
-	    },
-	    xAxis: {
-        categories: ['(PA) Pendapatan Desa', '(PA) Belanja Desa', '(PA) Pembiayaan Desa'],
-	    },
-	    yAxis: {
-        min: 0,
-        title: '',
-        labels: {
-          overflow: 'justify',
-          enabled: false
-        }
-	    },
-	    tooltip: {
-        valueSuffix: '',
-				formatter: function () {
-					return '<b>'+this.x+'</b><br/>'+this.series.name+ ': '+'Rp' + Highcharts.numberFormat(this.y, '.', ',');
-				}
-	    },
-	    plotOptions: {
-        bar: {
-          dataLabels: {
-              enabled: true
-          }
-        },
-        series: {
-          pointWidth: pointWidth,
-          grouping: false
-        }
-	    },
-	    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'top',
-        x: 0,
-        y: 0,
-        floating: true,
-        borderWidth: 1,
-        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-        shadow: true
-	    },
-	    credits: {
-        enabled: false
-	    },
-	    series: [
-	    	{
-	        name: 'Anggaran',
-	        dataLabels: {
-	        	formatter: function () {
-	        		return 'Rp' + Highcharts.numberFormat(this.y, '.', ',');
-	        	}
-	        },
-	        data: [<?= join($anggaran, ',') ?>]
-        },
-        {
-	        name: 'Realisasi',
-	        dataLabels: {
-				    formatter: function () {
-				    	var index = this.series.data.indexOf(this.point);
-				    	var pointB = this.series.chart.series[0].data[index].y;
-				    	var percent = Highcharts.numberFormat(this.y / pointB * 100, 0);
-				    	return ' (' + percent + ' %'+')';
-				    }
-			    },
-	        data: [<?= join($realisasi, ',') ?>]
-	    	}
-	    ]
-		});
-
-	});
-</script>
+</style>
+<div class="container" style="width: 100%; background: #fff; color: #222">
+  <div class="box box-info">
+    <?php foreach ($data_widget as $subdata_name => $subdatas): ?>
+      <div class="col-md-4">
+        <div align="center"><h4><?= ($subdatas['laporan'])?></h4></div><hr/>
+        <div align="center"><h5>Realisasi | Anggaran</h5></div><hr/>
+        <?php foreach ($subdatas as $key => $subdata): ?>
+          <?php if($subdata['judul'] != NULL and $key != 'laporan'): ?>
+            <div class="progress-group">
+              <?= $subdata['judul']; ?><br>
+              <b>Rp. <?= number_format($subdata['realisasi']); ?> | Rp. <?= number_format($subdata['anggaran']); ?></b>
+              <div class="progress progress-bar-striped" align="right" style="background-color: #FF0000"><small></small>
+                <div class="progress-bar progress-bar-info" role="progressbar" style="width: <?= $subdata['persen'] ?>%" aria-valuenow="<?= $subdata['persen'] ?>" aria-valuemin="0" aria-valuemax="100"><span><?= $subdata['persen'] ?> %</span></div>
+              </div>
+            </div>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</div>

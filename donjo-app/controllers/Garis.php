@@ -8,6 +8,8 @@ class Garis extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('wilayah_model');
+		$this->load->model('config_model');
 		$this->load->database();
 		$this->modul_ini = 9;
 	}
@@ -98,6 +100,11 @@ class Garis extends Admin_Controller {
 			$data['garis'] = null;
 
 		$data['desa'] = $this->plan_garis_model->get_desa();
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
 
 		$header = $this->header_model->get_data();

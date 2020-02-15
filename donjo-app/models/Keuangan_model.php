@@ -3,6 +3,48 @@ class Keuangan_model extends CI_model {
 
   private $zip_file = '';
   private $id_keuangan_master = NULL;
+  private $tabel_berdesa = array(
+    'keuangan_ref_bank_desa',
+    'keuangan_ta_anggaran',
+    'keuangan_ta_anggaran_log',
+    'keuangan_ta_anggaran_rinci',
+    'keuangan_ta_bidang',
+    'keuangan_ta_jurnal_umum',
+    'keuangan_ta_jurnal_umum_rinci',
+    'keuangan_ta_kegiatan',
+    'keuangan_ta_mutasi',
+    'keuangan_ta_pajak',
+    'keuangan_ta_pajak_rinci',
+    'keuangan_ta_pencairan',
+    'keuangan_ta_perangkat',
+    'keuangan_ta_rab',
+    'keuangan_ta_rab_rinci',
+    'keuangan_ta_rab_sub',
+    'keuangan_ta_rpjm_bidang',
+    'keuangan_ta_rpjm_kegiatan',
+    'keuangan_ta_rpjm_misi',
+    'keuangan_ta_rpjm_pagu_indikatif',
+    'keuangan_ta_rpjm_pagu_tahunan',
+    'keuangan_ta_rpjm_sasaran',
+    'keuangan_ta_rpjm_tujuan',
+    'keuangan_ta_rpjm_visi',
+    'keuangan_ta_saldo_awal',
+    'keuangan_ta_spj',
+    'keuangan_ta_spjpot',
+    'keuangan_ta_spj_bukti',
+    'keuangan_ta_spj_rinci',
+    'keuangan_ta_spj_sisa',
+    'keuangan_ta_spp',
+    'keuangan_ta_sppbukti',
+    'keuangan_ta_spppot',
+    'keuangan_ta_spp_rinci',
+    'keuangan_ta_sts',
+    'keuangan_ta_sts_rinci',
+    'keuangan_ta_tbp',
+    'keuangan_ta_tbp_rinci',
+    'keuangan_ta_triwulan',
+    'keuangan_ta_triwulan_rinci'
+  );
   private $data_siskeudes = array(
     'keuangan_ref_bank_desa' => 'Ref_Bank_Desa.csv',
     'keuangan_ref_bel_operasional' => 'Ref_Bel_Operasional.csv',
@@ -63,6 +105,7 @@ class Keuangan_model extends CI_model {
     'keuangan_ta_triwulan_rinci' => 'Ta_TriwulanArsip.csv'
   );
 
+
   public function __construct()
   {
     parent::__construct();
@@ -118,7 +161,8 @@ class Keuangan_model extends CI_model {
     # read the file's data:
     $path = sprintf('zip://%s#%s', $zip_file, $file_in_zip);
     $file_data = file_get_contents($path);
-    $file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
+    //$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
+    $file_data = preg_split('/\r*\n+|\r+/', $file_data);
     $csv = array_map('str_getcsv', $file_data);
     array_walk($csv, function(&$a) use ($csv) {
       $a = array_combine($csv[0], $a);
@@ -138,7 +182,7 @@ class Keuangan_model extends CI_model {
 
   private function get_tahun_anggaran()
   {
-    $csv_anggaran = $this->get_csv($this->zip_file, 'Ta_Anggaran.csv');
+    $csv_anggaran = $this->get_csv($this->zip_file, 'Ta_RAB.csv');
     if ($csv_anggaran)
       return $csv_anggaran[0]['Tahun'];
     else
@@ -212,6 +256,7 @@ class Keuangan_model extends CI_model {
     for ($i=0; $i<count($data); $i++)
     {
       $data[$i]['no'] = $i + 1;
+      $data[$i]['desa_ganda'] = $this->cek_desa($data[$i]['id']);
     }
     return $data;
   }
@@ -237,55 +282,10 @@ class Keuangan_model extends CI_model {
     return $data->id;
   }
 
-  public function data_anggaran($id_keuangan_master)
+  public function data_tahun_keuangan_master()
   {
-    $this->db->select_sum('Anggaran');
-    $this->db->select_sum('AnggaranPAK');
-    $this->db->select_sum('AnggaranStlhPAK');
-    $this->db->where('id_keuangan_master', $id_keuangan_master);
-    $result = $this->db->get('keuangan_ta_anggaran')->row();
-    return $result;
-  }
-
-  public function data_anggaran_tahun($thn)
-  {
-    $this->db->select_sum('Anggaran');
-    $this->db->select_sum('AnggaranPAK');
-    $this->db->select_sum('AnggaranStlhPAK');
-    $this->db->where('Tahun', $thn);
-    $result = $this->db->get('keuangan_ta_anggaran')->row();
-    return $result;
-  }
-
-  public function data_grafik_utama($thn)
-  {
-    $this->db->select_sum('AnggaranStlhPAK');
-    $this->db->where('Tahun', $thn);
-    $result['anggaran'] = $this->db->get('keuangan_ta_anggaran')->row();
-
-    $this->db->select_sum('Nilai');
-    $this->db->where('Tahun', $thn);
-    $result['realisasi'] = $this->db->get('keuangan_ta_spj_rinci')->row();
-
-    return $result;
-  }
-
-  public function pendapatan_desa($id_keuangan_master)
-  {
-    $this->db->select_sum('AnggaranStlhPAK');
-    $this->db->where('id_keuangan_master', $id_keuangan_master);
-    $this->db->like('KD_Rincian', '4.1.', 'after');
-    $result = $this->db->get('keuangan_ta_anggaran')->row();
-    return $result;
-  }
-
-  public function realisasi_pendapatan_desa($id_keuangan_master)
-  {
-    $this->db->select_sum('AnggaranStlhPAK');
-    $this->db->where('id_keuangan_master', $id_keuangan_master);
-    $this->db->like('Kd_Rincian', '4.1.', 'after');
-    $result = $this->db->get('keuangan_ta_rab')->row();
-    return $result;
+    $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
+    return $data->tahun_anggaran;
   }
 
   public function artikel_statis_keuangan()
@@ -308,4 +308,26 @@ class Keuangan_model extends CI_model {
 		$outp = $this->db->where('id', $id)->delete('keuangan_master');
 		return $outp;
 	}
+
+  public function cek_desa($id_master)
+  {
+    $data = $this->db->select('a.Kd_Desa, d.Nama_Desa')
+      ->where('a.id_keuangan_master', $id_master)
+      ->distinct()
+      ->from('keuangan_ta_rab a')
+      ->join('keuangan_ref_desa d', 'a.Kd_Desa = d.Kd_Desa and a.id_keuangan_master = d.id_keuangan_master', 'left')
+      ->get()
+      ->result_array();
+    return $data;
+  }
+
+  // Hapus data yg bukan untuk $desa
+  public function bersihkan_desa($id_master, $desa)
+  {
+    foreach ($this->tabel_berdesa as $tabel)
+    {
+      $this->db->where('Kd_Desa <>', $desa)
+        ->where('id_keuangan_master', $id_master)->delete($tabel);
+    }
+  }
 }

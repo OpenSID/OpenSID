@@ -15,8 +15,8 @@
   <div class="box box-info">
     <?php foreach ($data_widget as $subdata_name => $subdatas): ?>
       <div class="col-md-4">
-      <div align="center" style="height: 3.5em;"><h2><?= ($subdatas['laporan'])?></h2></div><hr/>
-      <div align="center" style="height: 1em;"><h4>Realisasi | Anggaran</h4></div><hr/>
+      <div align="center" style="height: 0.5em;"><h4><?= ($subdatas['laporan'])?></h4></div><hr/>
+      <div align="center" style="height: 0.5em;"><h5>Realisasi | Anggaran</h5></div><hr/>
       <?php foreach ($subdatas as $key => $subdata): ?>
         <?php if($subdata['judul'] != NULL and $key != 'laporan'): ?>
           <div class="progress-group">
