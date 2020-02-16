@@ -656,4 +656,11 @@ function comma($number)
 	}
 	return $results;
 }
+
+function hit($angka){
+	
+	$hasil = number_format($angka,0,'.','.')." Kali";
+	return $hasil;
+ 
+}
 // =======================================
