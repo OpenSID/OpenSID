@@ -1,9 +1,11 @@
-version "3.1"
-
+version: "3.1"
 services:
+
   webserver:
     image: nginx:alpine
     restart: always
+    depends_on:
+      - php
     networks:
       - frontend
     ports:
@@ -13,27 +15,33 @@ services:
       - ./.docker/nginx.conf:/etc/nginx/nginx.conf
 
   php:
-    image: php:7.2-fpm-alpine
     networks:
       - backend
       - frontend
     build:
       context: ./
-      dockerfile: .docker/Dockerfile
+      dockerfile: .docker/Dockerfile.php
+    ports:
+      - 9000:9000
     depends_on:
-      - webserver
+      - db
     volumes:
       - ./:/public_html
+      - ./.docker/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf
 
   db:
-    image: mariadb:10.4
     restart: always
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile.db
     networks:
       - backend
     environment:
-      MYSQL_ROOT_PASSWORD: rahasia
-    ports:
-      - 3306:3306
+      # MYSQL_ROOT_PASSWORD: rahasia
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: opensid
+      MYSQL_USER: opensid
+      MYSQL_PASSWORD: rahasia
     volumes:
       - db_data:/var/lib/mysql
 
@@ -46,17 +54,14 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORTS: 3306
-      PMA_USER: root
-      PMA_PASSWORD: rahasia
       UPLOAD_LIMIT: 100M
-      HIDE_PHP_VERSION: true
+      HIDE_PHP_VERSION: 1
     ports:
       - 8081:80
     volumes:
       - /sessions
 
 volumes:
-  public_html:
   db_data:
 
 networks:
