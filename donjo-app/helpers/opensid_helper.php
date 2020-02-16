@@ -611,15 +611,17 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	force_download($nama_berkas, $data);
 }
 
-function autocomplete_str($kolom, $tabel)
+function autocomplete_str($cari, $kolom, $tabel)
 {
 	$CI =& get_instance();
 	$CI->load->database();
-	$data = $CI->db->distinct()->
-		select($kolom)->
-		order_by($kolom)->
-		get($tabel)->result_array();
-
+	$data = $CI->db
+				->distinct()
+				->select($kolom)
+				->from($tabel)
+				->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')")
+				->order_by($kolom);
+				$data = $CI->db->get()->result_array();
 	return autocomplete_data_ke_str($data);
 }
 /**

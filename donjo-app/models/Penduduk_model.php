@@ -12,9 +12,9 @@
 		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
-	public function autocomplete()
+	public function autocomplete($cari="")
 	{
-		$str = autocomplete_str('nama', 'tweb_penduduk');
+		$str = autocomplete_str($cari, 'nama', 'tweb_penduduk');
 		return $str;
 	}
 

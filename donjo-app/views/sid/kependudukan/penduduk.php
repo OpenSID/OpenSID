@@ -1,14 +1,28 @@
 <script>
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-			{
-				source: keyword,
-				maxShowItems: 10,
-			});
-	});
-
+	$( "#cari" ).autocomplete(
+	{
+      source: function( request, response ) 
+      {
+        $.ajax( 
+        {
+          url: "penduduk/list_penduduk_ajax",
+          dataType: "json",
+          data: 
+          {
+            term: request.term
+          },
+          success: function( data ) 
+          {
+            response( data );
+          }
+        } );
+      },
+      minLength: 2,
+      maxShowItems: 10,
+    } );
+    });
 </script>
 <style>
 	.input-sm
