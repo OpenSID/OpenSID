@@ -82,7 +82,6 @@ class Keluarga extends Admin_Controller {
 		}
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->keluarga_model->autocomplete();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
 		$nav['act'] = 2;
@@ -93,6 +92,12 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('nav',$nav);
 		$this->load->view('sid/kependudukan/keluarga', $data);
 		$this->load->view('footer');
+	}
+
+	public function autocomplete()
+	{
+		$data = $this->keluarga_model->autocomplete($this->input->post('cari'));
+		echo json_encode($data);
 	}
 
 	public function cetak($o=0)
