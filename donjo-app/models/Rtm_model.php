@@ -329,7 +329,7 @@
 		$sql = "SELECT p.id, p.nik, p.nama, h.nama as kk_level
 			FROM tweb_penduduk p
 			LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level = h.id
-			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND id_rtm = 0";
+			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND (id_rtm = 0 OR id_rtm IS NULL)";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
