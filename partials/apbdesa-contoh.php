@@ -6,7 +6,7 @@ $pbh20          = 144654900;	//Ketik Anggaran PBH 2020
 $add20          = 751947200;	//Ketik Anggaran ADD 2020
 $dll20          = 100000;		//Ketik Anggaran DLL 2020
 $pembiayaan20   = 456812456;	//Ketik Anggaran SiLPA Tahun 2019
-$total20 = $add20 + $dd20 + $pbh20 + $pad20;
+$total20 = $add20 + $dd20 + $pbh20 + $pad20 + $dll20;
 
 //Anggaran Pendapatan Tahun 2019
 $add19          = 793077100;	//Ketik Anggaran ADD 2019
@@ -110,7 +110,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div align="center"><h2>Pendapatan Tahun 2019</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Pendapatan Desa TA 2019<br>
-        <span class="pull-left"><b>Rp. <?= number_format($total+$pembiayaan19); ?></b></span>
+        <span class="pull-left"><b>Rp. <?= number_format($total+$pembiayaan19); ?> | Rp. <?= number_format($total19+$pembiayaan19); ?></b></span>
         <span class="pull-right"><b><?php $persennya = number_format(($total+$pembiayaan19)/($total19+$pembiayaan19) * 100,2); ?><?= $persennya; ?>%&nbsp;</b></span>
     </div><br>
     <div class="progress-group">
@@ -136,7 +136,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div class="progress-group">
         Bagi Hasil Pajak & Retribusi Daerah (PBH)<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($pbh); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($pbh); ?> | Rp. <?= number_format($pbh19); ?></b></span>
             <small class="pull-right"><b><?= $panjangPBH; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
@@ -146,7 +146,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div class="progress-group">
         Alokasi Dana Desa (ADD)<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($add); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($add); ?> | Rp. <?= number_format($add19); ?></b></span>
             <small class="pull-right"><b><?= $panjangADD; ?>%&nbsp;</b></small>
         </div>
 		<div class="progress sm" align="right">
@@ -168,13 +168,13 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div align="center"><h2>Belanja Tahun 2019</h2></div><hr>
     <div class="progress-group" style="margin-bottom:15px;">
         Realisasi Belanja Desa TA 2019<br>
-        <span class="pull-left"><b>Rp. <?= number_format($total2); ?></b></span>
+        <span class="pull-left"><b>Rp. <?= number_format($total2); ?> | Rp. <?= number_format($total+$pembiayaan19); ?></b></span>
         <span class="pull-right"><b><?php $persennya2 = number_format($total2/($total+$pembiayaan19) * 100,2); ?><?= $persennya2; ?>%&nbsp;</b></span>
     </div><br>
     <div class="progress-group">
         Penyelenggaraan Pemerintahan Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($satu); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($satu); ?> | Rp. <?= number_format($bidangsatu); ?></b></span>
             <small class="pull-right"><b><?= $panjangSatu; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
@@ -184,7 +184,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div class="progress-group">
         Pembangunan Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($dua); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($dua); ?> | Rp. <?= number_format($bidangdua); ?></b></span>
             <small class="pull-right"><b><?= $panjangDua; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
@@ -194,7 +194,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div class="progress-group">
         Pembinaan Kemasyarakatan Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($tiga); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($tiga); ?> | Rp. <?= number_format($bidangtiga); ?></b></span>
             <small class="pull-right"><b><?= $panjangTiga; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
@@ -204,7 +204,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div class="progress-group">
         Pemberdayaan Masyarakat Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($empat); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($empat); ?> | Rp. <?= number_format($bidangempat); ?></b></span>
             <small class="pull-right"><b><?= $panjangEmpat; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
@@ -214,7 +214,7 @@ $panjangLima = number_format($lima/$bidanglima * 100,2); ?>
     <div class="progress-group">
         Bidang Penanggulangan Bencana Desa<br>
         <div class="clearfix">
-            <span class="pull-left"><b>Rp. <?= number_format($lima); ?></b></span>
+            <span class="pull-left"><b>Rp. <?= number_format($lima); ?> | Rp. <?= number_format($bidanglima); ?></b></span>
             <small class="pull-right"><b><?= $panjangLima; ?>%&nbsp;</b></small>
         </div>
         <div class="progress sm" align="right">
