@@ -14,11 +14,17 @@
 		   &copy; <a target="_blank" href="https://opendesa.id/">OpenDesa</a>
 		   <i class="fa fa-circle" style="font-size: smaller;"></i>
 		   <a target="_blank" href="https://github.com/OpenSID/OpenSID">OpenSID <?= AmbilVersi()?></a>
-		   <a target="_blank" href="<?= site_url(); ?>siteman"> | Natra 4.1.8</a>
+		   <a target="_blank" href="<?= site_url(); ?>siteman"> | Natra 4.1.9</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
-  
+<script type="text/javascript">
+function printDiv(divName) {
+	var printContents = document.getElementById(divName).innerHTML;
+	var originalContents = document.body.innerHTML;
+	document.body.innerHTML = printContents;
+	window.print();
+	document.body.innerHTML = originalContents;
+} </script>

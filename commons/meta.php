@@ -8,7 +8,7 @@
 <meta name='theme' content='Natra' />
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
-<meta name='theme:version' content='4.1.08' />
+<meta name='theme:version' content='4.1.9' />
 <meta name="keywords" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>" />
 <meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 <meta property="og:type" content="article"/>
