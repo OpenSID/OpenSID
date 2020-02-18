@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 12. Hapus fitur cetak langsung, termasuk menghapus semua template surat cetak langsung.
 13. #2561: Penampilan autocomplete di kotak cari di halaman Penduduk dan Keluarga sekarang menggunakan ajax, supaya dapat menangani jumlah penduduk yang besar. 
 14. Sekarang daftar pilihan penduduk tampil pada waktu menambah Rumah Tangga, pada kasus di mana data penduduk diimpor dengan kolom id_rtm kosong. [bug-fix]
+15. #2679: Sekarang tidak error pada waktu menambah Album baru walaupun sql_mode STRICT. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
