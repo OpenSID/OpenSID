@@ -120,7 +120,7 @@ function poligonWil(marker)
     pmIgnore: true,
     onEachFeature: function (feature, layer) {
       layer.bindPopup(feature.properties.content);
-      layer.bindTooltip(feature.properties.content);
+      layer.bindTooltip(feature.properties.content, {sticky: true, direction: 'top'});
     },
     style: function(feature)
     {
@@ -645,3 +645,34 @@ function showCurrentArea(wilayah, layerpeta)
 
 	return showCurrentArea;
 }
+
+$(document).ready(function()
+{
+	$('#modalKecil').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+
+  $('#modalSedang').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+
+  $('#modalBesar').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+	return false;
+})
