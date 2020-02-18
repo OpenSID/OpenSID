@@ -29,5 +29,8 @@ Catatan pra rilis versi 4.1.8:
 27. Sesuaikan Link URL pada saat berbagi artikel.
 28. Menyesuaikan library pada widget aparatur desa.
 29. Merapikan tampilan widget Arsip Artikel.
+30. #27 Menampilkan Produk Hukum dan Informasi Publik.
+31. Tambah tombol Cetak di setiap Artikel.
+32. Update apbdesa-contoh.php
 
 ****************************************************************
