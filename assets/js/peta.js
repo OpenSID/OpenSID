@@ -118,6 +118,7 @@ function poligonWil(marker)
 {
 	var poligon_wil = L.geoJSON(turf.featureCollection(marker), {
     pmIgnore: true,
+		showMeasurements: true,
     onEachFeature: function (feature, layer) {
       layer.bindPopup(feature.properties.content);
       layer.bindTooltip(feature.properties.content, {sticky: true, direction: 'top'});
@@ -298,7 +299,9 @@ function eximGpx(layerpeta)
 				coords.push(feature.geometry.coordinates);
 			},
 
-		}).addTo(layerpeta);
+		})
+		.addTo(layerpeta)
+		.showMeasurements();
 
 		var jml = coords[0].length;
 		coords[0].push(coords[0][0]);
@@ -376,12 +379,14 @@ function addPetaPoly(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 }).addTo(layerpeta);
+		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		.addTo(layerpeta)
+		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
 			document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-			document.getElementById('zoom').value = peta_wilayah.getZoom();
+			document.getElementById('zoom').value = layerpeta.getZoom();
 		});
 
 		layerpeta.fitBounds(polygon.getBounds());
@@ -408,7 +413,9 @@ function addPetaLine(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 }).addTo(layerpeta);
+		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		.addTo(layerpeta)
+		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
@@ -427,7 +434,10 @@ function showCurrentPolygon(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah).addTo(layerpeta);
+	var poligon_wilayah = L.polygon(wilayah)
+	.addTo(layerpeta)
+	.showMeasurements();
+
 	poligon_wilayah.on('pm:edit', function(e)
 	{
 		document.getElementById('path').value = getLatLong('Poly', e.target).toString();
@@ -588,7 +598,10 @@ function showCurrentPoint(posisi1, layerpeta)
 
 function showCurrentLine(wilayah, layerpeta)
 {
-	var poligon_wilayah = L.polyline(wilayah).addTo(layerpeta);
+	var poligon_wilayah = L.polyline(wilayah)
+	.addTo(layerpeta)
+	.showMeasurements();
+
 	poligon_wilayah.on('pm:edit', function(e)
 	{
 		document.getElementById('path').value = getLatLong('Line', e.target).toString();
@@ -619,7 +632,10 @@ function showCurrentArea(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah).addTo(layerpeta);
+	var poligon_wilayah = L.polygon(wilayah)
+	.addTo(layerpeta)
+	.showMeasurements();
+
 	poligon_wilayah.on('pm:edit', function(e)
 	{
 		document.getElementById('path').value = getLatLong('Poly', e.target).toString();

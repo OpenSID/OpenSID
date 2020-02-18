@@ -50,6 +50,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Locate.min.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -68,7 +69,8 @@
 		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
-		
+		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
+
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
