@@ -1,4 +1,4 @@
-Catatan pra rilis versi 4.1.8:
+Catatan pra rilis versi 4.1.9:
 
 1. Mengatasi menu yang tidak berfungsi saat di klik jika bukan submenu. [bug-fix]
 2. Perbaiki gagal kirim pada laporan layanan mandiri. [bug-fix]
@@ -32,5 +32,6 @@ Catatan pra rilis versi 4.1.8:
 30. #27 Menampilkan Produk Hukum dan Informasi Publik.
 31. Tambah tombol Cetak di setiap Artikel.
 32. Update apbdesa-contoh.php
+33. Update Widget Agenda. [bug-fix]
 
 ****************************************************************
