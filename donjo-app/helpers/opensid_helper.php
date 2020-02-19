@@ -728,4 +728,9 @@ function masukkan_zip($files=array())
   return $tmp_file;
 }
 
+function alfanumerik_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
 ?>
