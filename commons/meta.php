@@ -2,31 +2,34 @@
 <!-- bawaan tema -->
 <meta content="utf-8" http-equiv="encoding">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <meta name='viewport' content='width=device-width, initial-scale=1' />
 <meta name='google' content='notranslate' />
 <meta name='theme' content='Natra' />
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:version' content='4.1.9' />
-<meta name="keywords" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>" />
-<meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
+<meta name="keywords" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '
+	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
+	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>" />
+<meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '
+	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
+	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
 <meta property="og:type" content="article"/>
 <meta property="fb:app_id" content="147912828718">
 <title><?php
 if ($single_artikel["judul"] == "")
-	echo $this->setting->website_title
-		. ' ' . ucwords($this->setting->sebutan_desa)
-		. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '');
-else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa)
-		. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '');
-?></title>
+	echo $this->setting->website_title.' '
+	.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '
+	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
+	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];
+else echo $single_artikel["judul"].' - '.ucwords($this->setting->sebutan_desa).(($desa['nama_desa'])?' '.$desa['nama_desa']:''); ?></title>
 
-<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-<link rel="shortcut icon" href="<?php echo base_url()?><?php echo LOKASI_LOGO_DESA?>favicon.ico" />
-<?php else: ?>
-<link rel="shortcut icon" href="<?php echo base_url()?>favicon.ico" />
-<?php endif; ?>
+<link rel="apple-touch-icon" sizes="144x144" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-144x144.png") ?>" />
+<link rel="apple-touch-icon" sizes="114x114" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-114x114.png") ?>" />
+<link rel="apple-touch-icon" sizes="72x72" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-72x72.png") ?>" />
+<link rel="apple-touch-icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon.png"); ?>" />
+<link rel="shortcut icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/favicon.png") ?>" />
 
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
@@ -46,10 +49,15 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
     <meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
     <meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 <?php else: ?>
-    <meta property="og:title" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
+    <meta property="og:title" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '
+	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
+	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
     <meta property="og:url" content="<?= site_url()?>"/>
-    <meta property="og:image" content="<?= LogoDesa($desa['logo']);?>"/>
-    <meta property="og:description" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
+    <meta property="og:image" content="<?= base_url("$this->theme_folder/$this->theme/images/header.jpg"); ?>"/>
+    <meta property="og:description" content="<?= $this->setting->website_title.' '
+	.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '
+	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
+	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
@@ -61,6 +69,7 @@ else echo $single_artikel["judul"]. ' - ' . ucwords($this->setting->sebutan_desa
 
 <script src="<?= base_url()?>assets/front/js/layout.js"></script>
 <script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
+
 <script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>

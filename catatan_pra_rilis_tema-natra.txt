@@ -33,5 +33,6 @@ Catatan pra rilis versi 4.1.9:
 31. Tambah tombol Cetak di setiap Artikel.
 32. Update apbdesa-contoh.php
 33. Update Widget Agenda. [bug-fix]
+34. #18 Lengkapi Title Browser di Homepage
 
 ****************************************************************
