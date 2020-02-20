@@ -21,26 +21,28 @@
 		      <ul class="sidebar-latest">
 		        <?php foreach ($agenda['hari_ini'] as $l): ?>
 		          <li>
-							  <table id="table-agenda" width="100%">
-									<tr>
-										<td colspan="3"><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
-									</tr>
-									<tr>
-										<th id="label-meta-agenda" width="40%">Waktu</th>
-										<td width="5%">:</td>
-										<td id="isi-meta-agenda" width="55%"><?= tgl_indo2($l['tgl_agenda'])?></td>
-									</tr>
-									<tr>
-										<th id="label-meta-agenda">Lokasi</th>
-										<td>:</td>
-										<td id="isi-meta-agenda"><?= $l['lokasi_kegiatan']?></td>
-									</tr>
-									<tr>
-										<th id="label-meta-agenda">Koordinator</th>
-										<td>:</td>
-										<td id="isi-meta-agenda"><?= $l['koordinator_kegiatan']?></td>
-									</tr>
-							  </table>
+							  <table id="table-agenda" width="100%" style="margin-bottom:10px;">
+                              <tr valign="top">
+                                <th id="label-meta-agenda" width="35%">Kegiatan</th>
+                                <td width="5%" class="titik">:</td>
+                                <td><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
+                              </tr>
+                        	  <tr valign="top">
+                                <th id="label-meta-agenda">Waktu</th>
+                                <td class="titik">:</td>
+                                <td><div id="small-agenda"><?= tgl_indo2($l['tgl_agenda'])?></div></td>
+                              </tr>
+                              <tr valign="top">
+                                <th id="label-meta-agenda">Lokasi</th>
+                                <td class="titik">:</td>
+                                <td><?= $l['lokasi_kegiatan']?></td>
+                              </tr>
+                              <tr valign="top">
+                                <th id="label-meta-agenda">Koordinator</th>
+                                <td class="titik">:</td>
+                                <td><?= $l['koordinator_kegiatan']?></td>
+                              </tr>
+                            </table>
 						  </li>
 		        <?php endforeach; ?>
 		      </ul>
@@ -53,7 +55,7 @@
 			          <li>
 			              <table id="table-agenda" width="100%" style="margin-bottom:10px;">
                               <tr valign="top">
-                                <th id="label-meta-agenda" width="35%">Agenda</th>
+                                <th id="label-meta-agenda" width="35%">Kegiatan</th>
                                 <td width="5%" class="titik">:</td>
                                 <td><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
                               </tr>
@@ -88,7 +90,7 @@
 			          <li>
 			              <table id="table-agenda" width="100%" style="margin-bottom:10px;">
                               <tr valign="top">
-                                <th id="label-meta-agenda" width="35%">Agenda</th>
+                                <th id="label-meta-agenda" width="35%">Kegiatan</th>
                                 <td width="5%" class="titik">:</td>
                                 <td><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
                               </tr>
