@@ -301,7 +301,6 @@ function eximGpx(layerpeta)
 
 		})
 		.addTo(layerpeta)
-		.showMeasurements();
 
 		var jml = coords[0].length;
 		coords[0].push(coords[0][0]);
