@@ -21,12 +21,12 @@
             <tr><td>
               <a href="<?= site_url("first/artikel/$l[id]")?>">
                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$l[gambar]")): ?>
-                    <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
+                  <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
                 <?php else: ?>
-                    <img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
+                  <img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
                 <?php endif;?>
                 <div align="justify">
-                    <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= $l['judul']?></font></small>
+                  <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= $l['judul']?></font></small>
                 </div>
               </a>
             </td></tr>
@@ -39,12 +39,12 @@
             <tr><td>
               <a href="<?= site_url("first/artikel/$l[id]")?>">
                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$l[gambar]")): ?>
-                    <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
+                  <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
                 <?php else: ?>
-                    <img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
+                  <img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
                 <?php endif;?>
                 <div align="justify">
-                    <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= $l['judul']?></font></small>
+                  <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= $l['judul']?></font></small>
                 </div>
               </a>
             </td></tr>
