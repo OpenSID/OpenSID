@@ -208,11 +208,14 @@ class First extends Web_Controller {
 		{
 			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
 			$id = $data['single_artikel']['id'];
+			
 		}
+		
 		// replace isi artikel dengan shortcodify
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
+		$this->first_artikel_m->hit($id); //update hit //cat: update hit dilakukan setelah kunjungan selanjutnya, karena slug harus dikonversi dahulu ke id sehingga data artikel(hit) belum update
 		$this->_get_common_data($data);
 
 		// Validasi pengisian komentar di add_comment()
@@ -225,6 +228,7 @@ class First extends Web_Controller {
 			$_SESSION['post']['komentar'] = '';
 			$_SESSION['post']['captcha_code'] = '';
 		}
+		
 		$this->set_template('layouts/artikel.tpl.php');
 		$this->load->view($this->template,$data);
 	}
