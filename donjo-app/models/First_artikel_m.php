@@ -477,5 +477,17 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
+	
+	// hit update
+	public function hit($id)
+	{
+		//membatasi hit pada id yang sama berulang kali (refresh)
+		//cat: coba tambahkan time_out untuk id bisa hit setelah 30 detik dengan id yg sama
+		if($_SESSION['id'] != $id){
+			$_SESSION['id'] = $id;
+			
+			$this->db->query("UPDATE `artikel` SET `hit` = hit +1 WHERE `id` = ".$id);
+		}
+	}
 
 }
