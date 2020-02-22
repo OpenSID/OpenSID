@@ -336,7 +336,7 @@ class First_artikel_m extends CI_Model {
 
 	public function get_artikel($slug, $is_id=false)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori')
+		$this->db->select('a.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
