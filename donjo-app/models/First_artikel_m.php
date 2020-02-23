@@ -103,7 +103,7 @@ class First_artikel_m extends CI_Model {
 				FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE a.enabled = 1 AND headline <> 1";
+				WHERE a.id_kategori NOT IN (1000) AND a.enabled = 1 AND headline <> 1";//selain agenda boleh muncul
 			$cari = trim($this->input->get('cari'));
 			if ( ! empty($cari))
 			{
