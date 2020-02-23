@@ -22,7 +22,7 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 16. Judul di widget artikel dibuat rata kiri dan kanan.
 17. Agenda di widget agenda dibuat urut tanggal menurun di semua tab.
 18. Perbaiki tampilan daftar informasi publik supaya sesuai dengan daftar di halaman lainnya.
-19. Hapus kotak centang yg tidak digunakan di halaman Pengaturan > Modul dan Submodul.
+19. #2695: Hapus kotak centang yg tidak digunakan di halaman Pengaturan > Modul dan Submodul.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
