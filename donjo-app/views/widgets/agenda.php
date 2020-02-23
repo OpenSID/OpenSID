@@ -27,7 +27,7 @@
 		          <li>
 							  <table id="table-agenda" width="100%">
 									<tr>
-										<td colspan="3"><a href="<?= site_url('first/artikel/'.$l['thn'].'/'.$l['bln'].'/'.$l['hri'].'/'.$l['slug'])?>"><?= $l['judul']?></a></td>
+										<td colspan="3"><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
 									</tr>
 									<tr>
 										<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -57,7 +57,7 @@
 			          <li>
 								  <table id="table-agenda" width="100%">
 										<tr>
-											<td colspan="3"><a href="<?= site_url('first/artikel/'.$l['thn'].'/'.$l['bln'].'/'.$l['hri'].'/'.$l['slug'])?>"><?= $l['judul']?></a></td>
+											<td colspan="3"><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
 										</tr>
 										<tr>
 											<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -90,7 +90,7 @@
 			          <li>
 								  <table id="table-agenda" width="100%">
 										<tr>
-											<td colspan="3"><a href="<?= site_url('first/artikel/'.$l['thn'].'/'.$l['bln'].'/'.$l['hri'].'/'.$l['slug'])?>"><?= $l['judul']?></a></td>
+											<td colspan="3"><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
 										</tr>
 										<tr>
 											<th id="label-meta-agenda" width="40%">Waktu</th>
