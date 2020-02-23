@@ -257,7 +257,7 @@ class First_artikel_m extends CI_Model {
 
 	public function agenda_show()
 	{
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
@@ -266,7 +266,7 @@ class First_artikel_m extends CI_Model {
 			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data['hari_ini'] = $query->result_array();
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
@@ -275,7 +275,7 @@ class First_artikel_m extends CI_Model {
 			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data['yad'] = $query->result_array();
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
