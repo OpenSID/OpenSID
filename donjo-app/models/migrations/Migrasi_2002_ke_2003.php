@@ -14,5 +14,22 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		$fields = array();
 		$fields['kode_surat'] = array('type' => 'VARCHAR', 'constraint' => 10, 'null' => TRUE, 'default' => NULL);
 	  $this->dbforge->modify_column('tweb_surat_format', $fields);
+		// Tambah Modul Pengunjung pada Admin WEB
+		if ($this->db->table_exists('setting_modul'))
+		{
+			$object = array(
+				'id' => 205,
+				'modul' => 'Pengunjung',
+				'url' => 'pengunjung',
+				'aktif' => 1,
+				'ikon' => 'fa-bar-chart',
+				'urut' => 10,
+				'level' => 4,
+				'hidden' => 0,
+				'ikon_kecil' => '',
+				'parent' => 13
+			);
+			$this->db->insert('setting_modul', $object);
+		}
 	}
 }
