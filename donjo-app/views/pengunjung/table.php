@@ -18,15 +18,15 @@
 			{
 				title:
 				{
-					text: '<?= $_SESSION['lblx']?>'
+					text: '<?= strtoupper($main['lblx'])?>'
 				},
         categories: [
-					<?php foreach ($main as $data): ?>
-					['<?php if($_SESSION['lblx']=='Bulan'){
-								echo getBulan($data['tgl']);
-							}else{
+					<?php foreach ($main['pengunjung']as $data): ?>
+					['<?php if($main['lblx']=='Bulan'):
+								echo getBulan($data['tgl'])." ".date('Y');
+							else:
 								echo tgl_indo2($data['tgl']);
-							}
+							endif;
 						?>', ],
 				<?php endforeach;?>
 					]
@@ -35,7 +35,7 @@
 			{
 				title:
 				{
-					text: 'Pengunjung (Orang)'
+					text: 'PENGUNJUNG (ORANG)'
 				}
 			},
 			legend:
@@ -60,12 +60,12 @@
 			shadow:1,
 			border:1,
 			data: [
-				<?php foreach ($main as $data): ?>
-					['<?php if($_SESSION['lblx']=='Bulan'){
-								echo getBulan($data['tgl']);
-							}else{
+				<?php foreach ($main ['pengunjung']as $data): ?>
+					['<?php if($main['lblx']=='Bulan'):
+								echo getBulan($data['tgl'])." ".date('Y');
+							else:
 								echo tgl_indo2($data['tgl']);
-							}
+							endif;
 						?>',<?= $data['Total']?>],
 				<?php endforeach;?>]
 			}]
@@ -94,21 +94,9 @@
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<div class="row">
-											<div class="col-sm-6">
-												<a href="<?=site_url("pengunjung/dialog_cetak/$lap")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i>Cetak</a>
-												<a href="<?=site_url("pengunjung/dialog_unduh/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-print "></i>Unduh</a>
-											</div>
-											<div class="col-sm-6">
-												<div class="box-tools">
-													<div class="input-group input-group-sm pull-right">
-														<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('pengunjung/filter')?>')">
-															<option value=""<?php if ($filter==''): ?>selected<?php endif ?>>Semua</option>
-															<option value="1"<?php if ($filter==1): ?>selected<?php endif ?>>Minggu Ini</option>
-															<option value="2"<?php if ($filter==2): ?>selected<?php endif ?>>Bulan  Ini</option>
-															<option value="3"<?php if ($filter==3): ?>selected<?php endif ?>>Tahun Ini</option>
-														</select>
-													</div>
-												</div>
+											<div class="col-sm-12">
+												<a href="<?=site_url("pengunjung/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" target="_blank"><i class="fa fa-print "></i>Cetak</a>
+												<a href="<?=site_url("pengunjung/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" target="_blank"><i class="fa fa-print "></i>Unduh</a>
 											</div>
 										</div>
 									</div>
@@ -186,66 +174,76 @@
 							</div>
 							<div class="box-header">
 								<hr>
-								<h4 class="text-center"><strong>STATISTIK PENGUNJUNG WEBSITE <?= $_SESSION['judul']; ?><strong></h4>
+								<h4 class="text-center"><strong>STATISTIK PENGUNJUNG WEBSITE <?= $main['judul'] ?><strong></h4>
 								<hr>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
-								  <div class="nav-tabs-custom">
-									<ul class="nav nav-tabs">
-									  <li class="active"><a href="#tab_1" data-toggle="tab">Data</a></li>
-									  <li><a href="#tab_2" data-toggle="tab">Grafik</a></li>
-									</ul>
-									<div class="tab-content">
-										<!-- Tabel Data -->
-										<div class="tab-pane active" id="tab_1">
-											<div class="row">
-												<div class="col-sm-12">
-													<div class="table-responsive">
-														<table class="table table-bordered table-striped table-hover nowrap">
-															<thead class="bg-gray">
-																<tr>
-																	<th class="text-center" width='5%'>No</th>
-																	<th class="text-center"><?= $_SESSION['lblx']?></th>
-																	<th class="text-center">Pengunjung (Orang)</th>
-																</tr>
-															</thead>
-															<tbody>
-																<?php $no = 1; $total = 0; foreach ($main as $data):
-																		$total = $total + $data['Total'];
-																?>
-																<tr>
-																	<td class="text-center"><?= $no++;?></td>
-																	<td class="text-center">
-																	<?php
-																		if($_SESSION['lblx']=='Bulan'){
-																			echo getBulan($data['tgl']);
-																		}else{
-																			echo tgl_indo2($data['tgl']);
-																		}
-																	?>
-																	</td>
-																	<td class="text-center"><?= $data['Total'];?></td>
-																</tr>
-															  <?php endforeach;?>
-															</tbody>
-															<tfoot class="bg-gray disabled color-palette">
-																<tr>
-																	<th colspan="2" class="text-center">Total</th>
-																	<th class="text-center"><?= $total?></th>
-																</tr>
-															</tfoot>
-														</table>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="tab-pane" id="tab_2">
-											<!-- Ini Grafik -->
-											<div id="chart"> </div>
+								<div class="col-sm-12">
+									<div class="box-tools">
+										<div class="input-group input-group-sm pull-left">
+											<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('pengunjung/filter')?>')">
+												<option value=""<?php if ($filter==''): ?>selected<?php endif ?>>Semua</option>
+												<option value="1"<?php if ($filter==1): ?>selected<?php endif ?>>Minggu Ini</option>
+												<option value="2"<?php if ($filter==2): ?>selected<?php endif ?>>Bulan  Ini</option>
+												<option value="3"<?php if ($filter==3): ?>selected<?php endif ?>>Tahun Ini</option>
+											</select>
 										</div>
 									</div>
 								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-8">
+											<div class="box box-info">
+												<!-- Ini Grafik -->
+												<br>
+												<div id="chart"> </div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="box box-info">
+											<!-- Tabel Data -->
+												<div class="table-responsive">
+													<table class="table table-bordered table-striped table-hover nowrap">
+														<thead class="bg-gray">
+															<tr>
+																<th class="text-center" width='5%'>No</th>
+																<th class="text-center"><?= $main['lblx']?></th>
+																<th class="text-center">Pengunjung (Orang)</th>
+															</tr>
+														</thead>
+														<tbody>
+														<?php $no = 1; $total = 0; foreach ($main['pengunjung'] as $data):
+															$total = $total + $data['Total'];
+														?>
+															<tr>
+																<td class="text-center"><?= $no++;?></td>
+																<td class="text-center">
+																<?php if($main['lblx']=='Bulan'):
+																		echo getBulan($data['tgl'])." ".date('Y');
+																	  else :
+																		echo tgl_indo2($data['tgl']);
+																	  endif;
+																?>
+																</td>
+																<td class="text-center"><?= $data['Total'];?></td>
+															</tr>
+														<?php endforeach;?>
+														</tbody>
+														<tfoot class="bg-gray disabled color-palette">
+															<tr>
+																<th colspan="2" class="text-center">Total</th>
+																<th class="text-center"><?= $total?></th>
+															</tr>
+														</tfoot>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>									
 							</div>
 						</div>
 					</div>

@@ -20,7 +20,7 @@ class Migrasi_2002_ke_2003 extends CI_model {
 			$object = array(
 				'id' => 205,
 				'modul' => 'Pengunjung',
-				'url' => 'pengunjung',
+				'url' => 'pengunjung/clear',
 				'aktif' => 1,
 				'ikon' => 'fa-bar-chart',
 				'urut' => 10,
