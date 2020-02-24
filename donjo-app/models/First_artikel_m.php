@@ -179,7 +179,7 @@ class First_artikel_m extends CI_Model {
 	public function full_arsip($offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		ORDER BY a.tgl_upload DESC";
 
