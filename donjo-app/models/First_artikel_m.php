@@ -128,11 +128,13 @@ class First_artikel_m extends CI_Model {
 
 	public function arsip_show($rand = false)
 	{
+		// Artikel agenda (kategori=1000) tidak ditampilkan
 		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE a.enabled = ?
+			AND a.id_kategori NOT IN (1000)
 			AND a.tgl_upload < NOW() ";
 		if ($rand)
 			$sql .= "	ORDER BY RAND() DESC LIMIT 7 ";
