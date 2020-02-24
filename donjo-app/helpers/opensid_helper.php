@@ -629,15 +629,12 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	force_download($nama_berkas, $data);
 }
 
-function autocomplete_str($kolom, $tabel)
+function autocomplete_str($kolom, $tabel, $kondisi)
 {
 	$CI =& get_instance();
 	$CI->load->database();
-	$data = $CI->db->distinct()->
-		select($kolom)->
-		order_by($kolom)->
-		get($tabel)->result_array();
-
+	$CI->db->select($kolom);
+	$data = $CI->db->get_where($tabel, $kondisi)->result_array();
 	return autocomplete_data_ke_str($data);
 }
 /**
