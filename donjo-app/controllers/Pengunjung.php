@@ -8,7 +8,6 @@ class Pengunjung extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_pengunjung_model');
-		$this->load->model('pamong_model');
 		$this->modul_ini = 13;
 	}
 
