@@ -9,7 +9,8 @@ class Web_menu_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'menu');
+		$kondisi =  array('parrent' => 1, 'tipe' => 1, 'enabled' => $_SESSION['filter']);
+		$str = autocomplete_str('nama', 'menu', $kondisi);
 		return $str;
 	}
 
