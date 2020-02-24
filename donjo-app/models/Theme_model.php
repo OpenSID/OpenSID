@@ -21,5 +21,11 @@
 		return $list_tema;
 	}
 
+	public function active()
+	{
+		$data = $this->db->where('key', 'web_theme')
+			->get('setting_aplikasi')->row_array();
+		return $data['value'];
+	}
 }
 ?>
