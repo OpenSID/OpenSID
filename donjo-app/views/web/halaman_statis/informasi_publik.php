@@ -8,16 +8,16 @@
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
   </style>
-	<div  style="margin-right: 1rem; margin-left: 1rem;">
+	<div style="margin-right: 1rem; margin-left: 1rem;">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered" id="info_publik">
 				<thead>
 					<tr>
-		  <th>No</th>
+      		  <th>No</th>
 						<th>Judul Informasi</th>
-		  <th>Tahun</th>
-		  <th>Kategori</th>
-		  <th>Tanggal Upload</th>
+      		  <th>Tahun</th>
+      		  <th>Kategori</th>
+      		  <th>Tanggal Upload</th>
 					</tr>
 				</thead>
 	      <tfoot>
