@@ -27,7 +27,7 @@ class Pengunjung extends Admin_Controller {
 		$data['bulan_ini'] = $this->web_pengunjung_model->get_count('2');
 		$data['tahun_ini'] = $this->web_pengunjung_model->get_count('3');
 		$data['jumlah'] = $this->web_pengunjung_model->get_count('1');
-
+	
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 205;
@@ -47,39 +47,23 @@ class Pengunjung extends Admin_Controller {
 		redirect('pengunjung');
 	}
 	
-	public function dialog_cetak($lap = 0)
+	public function clear()
 	{
-		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("pengunjung/cetak/$lap");
-		$this->load->view('pengunjung/ajax_cetak', $data);
+		unset($_SESSION['filter']);
+		redirect('pengunjung');
 	}
 
-	public function dialog_unduh($lap = 0)
+	public function cetak()
 	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("pengunjung/unduh/$lap");
-		$this->load->view('pengunjung/ajax_cetak', $data);
-	}
-
-	public function cetak($lap = 0)
-	{
-		$data['lap'] = $lap;
 		$data['main'] = $this->web_pengunjung_model->get_pengunjung($filter);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('pengunjung/print', $data);
 	}
 	
-	public function unduh($lap = 0)
+	public function unduh()
 	{		
 		$data['aksi'] = 'unduh';
-		$data['lap'] = $lap;
 		$data['filename'] = underscore('Laporan Data Statistik Pengunjung Website '.ucwords($_SESSION['judul']));
 		$data['main'] = $this->web_pengunjung_model->get_pengunjung($filter);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('pengunjung/excel', $data);
 	}
 }
