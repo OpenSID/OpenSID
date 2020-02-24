@@ -62,9 +62,9 @@
 
 							<div class="teks">
 								<div class="kecil">
-									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?>
-									<i class="fa fa-user"></i> <?= $data['owner'] ?>
-									<?php if (trim($data['kategori']) != ''): ?>
+									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> | 
+									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
+									<i class="fa fa-eye"></i> <?= $data['hit'] ?> Kali									<?php if (trim($data['kategori']) != ''): ?>
 										<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['id_kategori']) ?>"><?= $data['kategori'] ?></a>
 									<?php endif; ?>
 								</div>

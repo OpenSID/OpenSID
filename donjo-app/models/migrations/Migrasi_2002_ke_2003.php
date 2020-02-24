@@ -31,5 +31,10 @@ class Migrasi_2002_ke_2003 extends CI_model {
 			);
 			$this->db->insert('setting_modul', $object);
 		}
+    // Tambah kolom hits pada artikel
+		if (!$this->db->field_exists('hits','artikel'))
+		{
+			$this->db->query("ALTER TABLE artikel ADD COLUMN hit INT NULL DEFAULT '0'");
+		}	
 	}
 }
