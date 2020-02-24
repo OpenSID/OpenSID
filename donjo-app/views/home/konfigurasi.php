@@ -128,12 +128,11 @@
 										</table>
 									</div>
 								</div>
+					  		</div>
 					  	</div>
-					  </div>
 					</div>
 				</div>
 			</div>
 		</form>
 	</section>
 </div>
-
