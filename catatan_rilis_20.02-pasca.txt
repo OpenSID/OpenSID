@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 19. #2695: Hapus kotak centang yg tidak digunakan di halaman Pengaturan > Modul dan Submodul.
 20. #2692: Tautan ke artikel di widget Agenda sekarang menggunakan url tulisan bukan id lagi.
 21. #2690: Artikel agenda sekarang tidak ditampilkan di daftar artikel terkini.
+22. #2650: Tabel informasi publik di web sekarang bisa discroll horizontal pada tampilan layar kecil.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
