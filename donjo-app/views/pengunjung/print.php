@@ -29,32 +29,24 @@
 									<thead>
 										<tr class="thick">
 											<th class="thick">No</th>
-											<th class="thick"><?= $_SESSION['lblx']?></th>
+											<th class="thick"><?= $main['lblx']?></th>
 											<th class="thick">Pengunjung (Orang)</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php $no = 1; $total = 0; foreach ($main['pengunjung'] as $data):
-											$total = $total + $data['Total'];
-										?>
+										<?php $no = 1; foreach ($main['pengunjung'] as $data):?>
 										<tr>
 											<td class="thick" align="center" width="2"><?= $no++;?></td>
 											<td class="thick" align="center">
-											<?php if($main['lblx']=='Bulan'):
-													  echo getBulan($data['tgl'])." ".date('Y');
-												  else :
-													  echo tgl_indo2($data['tgl']);
-												  endif;
-											?>
-											</td>
-											<td class="thick" align="center"><?= $data['Total'];?></td>
+												<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?></td>
+											<td class="thick" align="center"><?= $data['Jumlah'];?></td>
 										</tr>
 										<?php endforeach;?>
 									</tbody>
 									<tfoot class="bg-gray disabled color-palette">
 										<tr>
 											<th colspan="2" class="text-center">Total</th>
-											<th class="text-center"><?= $total?></th>
+											<th class="text-center"><?= $main['Total']?></th>
 										</tr>
 									</tfoot>
 								</table>								
