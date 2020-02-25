@@ -5,49 +5,74 @@
 		parent::__construct();
 	}
 
-	public function get_pengunjung()
-	{
-		if (isset($_SESSION['filter']))
-		{
-			$type = $_SESSION['filter'];
-		}
+	public function get_pengunjung($type)
+	{		
+		$tgl = date('Y-m-d');
+		$bln = date('m');
+		$thn = date('Y');
 		
 		$this->db->select_sum('Jumlah');
 		
 		switch ($type)
 		{
-			case 1: 
-				$awal = $this->op_tgl('-6 days', date('Y-m-d'));
-				$data['lblx'] = "Tanggal";
-				$data['judul'] = "DARI TANGGAL ".$awal." SAMPAI ".date('Y-m-d');
-				
+			case 1: 			
 				$this->db->select('Tanggal');
-				$this->db->where('Tanggal >=', $awal);
-				$this->db->where('Tanggal <=', date('Y-m-d'));
+				$this->kondisi($type);
 				$this->db->group_by('Tanggal');
-				break; //7 Hari
+				
+				$data['lblx'] = "Tanggal";
+				$data['judul'] = "Hari Ini ( ".tgl_indo2($tgl).")";
+				break; //Hari Ini
 			case 2: 
-				$data['lblx'] = "Tanggal";
-				$data['judul'] = "BULAN ".strtoupper(getBulan(date('m')))." ".date('Y');
-				
+				$awal = $this->op_tgl('-1 days', $tgl);
 				$this->db->select('Tanggal');
-				$this->db->where('MONTH(`Tanggal`) =', date('m'));
+				$this->kondisi($type);
 				$this->db->group_by('Tanggal');
-				break;//1 bulan(tgl 1 sampai akhir bulan)
+				
+				$data['lblx'] = "Tanggal";
+				$data['judul'] = "Kemarin ( ".tgl_indo2($awal).")";
+				break; //Kemarin
 			case 3: 
-				$data['lblx'] = "Bulan";
-				$data['judul'] = "TAHUN ".date('Y');
-
+				$awal = $this->op_tgl('-6 days', $tgl);
+				$this->db->select('Tanggal');
+				$this->kondisi($type);
+				$this->db->group_by('Tanggal');
+				
+				$data['lblx'] = "Tanggal";
+				$data['judul'] = "Dari Tanggal ".tgl_indo2($awal)." - ".tgl_indo2($tgl);
+				break; //7 Hari (Minggu Ini)
+			case 4:			
+				$this->db->select('Tanggal');
+				$this->kondisi($type);
+				$this->db->group_by('Tanggal');
+				
+				$data['lblx'] = "Tanggal";
+				$data['judul'] = "Bulan ".ucwords(getBulan($bln))." ".$thn;
+				break;//1 bulan(tgl 1 sampai akhir bulan)
+			case 5: 
 				$this->db->select('MONTH(`Tanggal`) AS Tanggal');
-				$this->db->where('YEAR(Tanggal) =', date('Y'));
+				$this->kondisi($type);
 				$this->db->group_by('MONTH(`Tanggal`)');
+				
+				$data['lblx'] = "Bulan";
+				$data['judul'] = "Tahun ".$thn;
 				break; //1 tahun / 12 Bulan
+			case 6:
+				//$awal = 
+				//$akhir =
+				//$this->db->select('Tanggal');
+				//$this->kondisi($type);
+				//$this->db->group_by('Tanggal');
+				
+				//$data['lblx'] = "Tanggal";
+				//$data['judul'] = "Dari Tanggal ".$awal." Sampai ".$akhir;
+				break; //Retang Tanggal
 			default: 
-				$data['lblx'] = "Tahun";
-				$data['judul'] = "SETIAP TAHUN";
-
 				$this->db->select('YEAR(`Tanggal`) AS Tanggal');
 				$this->db->group_by('YEAR(`Tanggal`)');
+				
+				$data['lblx'] = "Tahun";
+				$data['judul'] = "Setiap Tahun";
 				break; //Semua Data
 		}
 		$this->db->order_by('Tanggal', 'asc');
@@ -62,27 +87,48 @@
 		return $data;
 	}
 	
-	public function get_count($tgl)
+	public function kondisi($type)
 	{
-		$this->db->select_sum('Jumlah');
+		$tgl = date('Y-m-d');
+		$bln = date('m');
+		$thn = date('Y');
 		
-		switch ($tgl)
+		switch ($type)
 		{
 			case 1: 
-				//null
-				break; //Semua Data
+				$this->db->where('Tanggal', $tgl);
+				break; //Hari Ini
 			case 2: 
-				$this->db->where('MONTH(Tanggal) =', date('m'));
-				break; //Data Bulan Ini
+				$awal = $this->op_tgl('-1 days', $tgl);
+				$this->db->where('Tanggal', $awal);
+				break; //Kemarin
 			case 3: 
-				$this->db->where('YEAR(Tanggal) =', date('Y'));
-				break; //Data Tahun Ini
+				$awal = $this->op_tgl('-6 days', $tgl);
+				$this->db->where('Tanggal >=', $awal);
+				$this->db->where('Tanggal <=', $tgl);
+				break; //Minggu Ini
+			case 4: 
+				$this->db->where('MONTH(`Tanggal`) =', $bln);
+				break; //Bulan Ini
+			case 5: 
+				$this->db->where('YEAR(Tanggal) =', $thn);
+				break; //Tahun Ini
+			case 6: 
+				//$awal = 
+				//$akhir =
+				//$this->db->where('Tanggal >=', $awal);
+				//$this->db->where('Tanggal <=', $akhir);
+				break; //Rentang Tgl
 			default: 
-				$hari = $this->op_tgl($tgl, date('Y-m-d')); 
-				$this->db->where('Tanggal >=', $hari);
-				$this->db->where('Tanggal <=', date('Y-m-d'));
-				break; //Data Dengan Rentang Jarak
+				//null
+				break; //Semua / Jumlah
 		}
+	}
+	
+	public function get_count($type)
+	{
+		$this->db->select_sum('Jumlah');
+		$this->kondisi($type);
 		$sql = $this->db->get('sys_traffic');
 		
 		$data = $sql->result_array();
@@ -99,13 +145,5 @@
 		$data = date('Y-m-d', strtotime($op, strtotime($tgl)));
 		return $data;
 	}	
-	
-	public function get_config()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$data = $query->row_array();
-		return $data;
-	}
 }
 ?>
