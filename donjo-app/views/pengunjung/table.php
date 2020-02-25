@@ -22,12 +22,7 @@
 				},
         categories: [
 					<?php foreach ($main['pengunjung']as $data): ?>
-					['<?php if($main['lblx']=='Bulan'):
-								echo getBulan($data['tgl'])." ".date('Y');
-							else:
-								echo tgl_indo2($data['tgl']);
-							endif;
-						?>', ],
+					['<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>', ],
 				<?php endforeach;?>
 					]
 			},
@@ -61,12 +56,7 @@
 			border:1,
 			data: [
 				<?php foreach ($main ['pengunjung']as $data): ?>
-					['<?php if($main['lblx']=='Bulan'):
-								echo getBulan($data['tgl'])." ".date('Y');
-							else:
-								echo tgl_indo2($data['tgl']);
-							endif;
-						?>',<?= $data['Total']?>],
+					['<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>',<?= $data['Jumlah']?>],
 				<?php endforeach;?>]
 			}]
 		});
@@ -112,8 +102,9 @@
 										  <p>Hari Ini</p>
 										</div>
 										<div class="icon">
-										  <i class="ion ion-stats-bars"></i>
+											<i class="ion ion-stats-bars"></i>
 										</div>
+											<a class="small-box-footer"> </a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -123,8 +114,9 @@
 										  <p>Kemarin</p>
 										</div>
 										<div class="icon">
-										  <i class="ion ion-stats-bars"></i>
+											<i class="ion ion-stats-bars"></i>
 										</div>
+											<a class="small-box-footer"> </a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -136,6 +128,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
+											<a class="small-box-footer"> </a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -147,6 +140,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
+											<a class="small-box-footer"> </a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -158,6 +152,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
+											<a class="small-box-footer"> </a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -169,6 +164,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
+											<a class="small-box-footer"> </a>
 									  </div>
 								</div>
 							</div>
@@ -182,10 +178,10 @@
 									<div class="box-tools">
 										<div class="input-group input-group-sm pull-left">
 											<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('pengunjung/filter')?>')">
-												<option value=""<?php if ($filter==''): ?>selected<?php endif ?>>Semua</option>
-												<option value="1"<?php if ($filter==1): ?>selected<?php endif ?>>Minggu Ini</option>
-												<option value="2"<?php if ($filter==2): ?>selected<?php endif ?>>Bulan  Ini</option>
-												<option value="3"<?php if ($filter==3): ?>selected<?php endif ?>>Tahun Ini</option>
+												<option value=""<?php selected($filter, ''); ?>>Semua</option>
+												<option value="1"<?php selected($filter, 1); ?>>Minggu Ini</option>
+												<option value="2"<?php selected($filter, 2); ?>>Bulan  Ini</option>
+												<option value="3"<?php selected($filter, 3); ?>>Tahun Ini</option>
 											</select>
 										</div>
 									</div>
@@ -215,27 +211,20 @@
 															</tr>
 														</thead>
 														<tbody>
-														<?php $no = 1; $total = 0; foreach ($main['pengunjung'] as $data):
-															$total = $total + $data['Total'];
-														?>
+														<?php $no = 1; foreach ($main['pengunjung'] as $data):														?>
 															<tr>
 																<td class="text-center"><?= $no++;?></td>
 																<td class="text-center">
-																<?php if($main['lblx']=='Bulan'):
-																		echo getBulan($data['tgl'])." ".date('Y');
-																	  else :
-																		echo tgl_indo2($data['tgl']);
-																	  endif;
-																?>
+																	<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>
 																</td>
-																<td class="text-center"><?= $data['Total'];?></td>
+																<td class="text-center"><?= $data['Jumlah'];?></td>
 															</tr>
 														<?php endforeach;?>
 														</tbody>
 														<tfoot class="bg-gray disabled color-palette">
 															<tr>
 																<th colspan="2" class="text-center">Total</th>
-																<th class="text-center"><?= $total?></th>
+																<th class="text-center"><?= $main['Total']?></th>
 															</tr>
 														</tfoot>
 													</table>
@@ -252,4 +241,3 @@
 		</form>
 	</section>
 </div>
-
