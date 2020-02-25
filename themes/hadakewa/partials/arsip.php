@@ -14,6 +14,7 @@
 							<td width="20%"><b>Tanggal Artikel</b></td>
 							<td><b>Judul Artikel</b></td>
 							<td width="20%"><b>Penulis</b></td>
+							<td width="10%"><b>Dibaca</b></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -30,6 +31,9 @@
 							</td>
 							<td style="text-align:center;">
 								<?= $data["owner"]?>
+							</td>
+							<td style="text-align:center;">
+								<?= $data['hit']?> Kali
 							</td>
 						</tr>
 					<?php endforeach; ?>
