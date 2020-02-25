@@ -2,9 +2,7 @@
 
 <?php if ($agenda): ?>
   <div class="single_bottom_rightbar">
-    <div class="single_bottom_rightbar">
-      <h2><a href="<?= site_url();?>first/kategori/1000"><i class="fa fa-calendar"></i> Agenda</a></h2>
-    </div>
+    <h2><a href="<?= site_url();?>first/kategori/1000"><i class="fa fa-calendar"></i> Agenda</a></h2>
     <div id="agenda" class="box-body">
 	    <ul class="nav nav-tabs">
       	<?php if (count($agenda['hari_ini']) > 0): ?>
@@ -25,7 +23,7 @@
                               <tr valign="top">
                                 <th id="label-meta-agenda" width="35%">Kegiatan</th>
                                 <td width="5%" class="titik">:</td>
-                                <td><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
+                                <td><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
                               </tr>
                         	  <tr valign="top">
                                 <th id="label-meta-agenda">Waktu</th>
@@ -43,6 +41,7 @@
                                 <td><?= $l['koordinator_kegiatan']?></td>
                               </tr>
                             </table>
+                            <?php if (count($agenda['yad']) > 0): ?><hr><?php endif; ?>
 						  </li>
 		        <?php endforeach; ?>
 		      </ul>
@@ -57,7 +56,7 @@
                               <tr valign="top">
                                 <th id="label-meta-agenda" width="35%">Kegiatan</th>
                                 <td width="5%" class="titik">:</td>
-                                <td><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
+                                <td><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
                               </tr>
                         	  <tr valign="top">
                                 <th id="label-meta-agenda">Waktu</th>
@@ -75,6 +74,7 @@
                                 <td><?= $l['koordinator_kegiatan']?></td>
                               </tr>
                             </table>
+                            <?php if (count($agenda['yad']) > 0): ?><hr><?php endif; ?>
 					  </li>
 			        <?php endforeach; ?>
 			      <?php else: ?>
@@ -92,7 +92,7 @@
                               <tr valign="top">
                                 <th id="label-meta-agenda" width="35%">Kegiatan</th>
                                 <td width="5%" class="titik">:</td>
-                                <td><a href="<?= site_url("first/artikel/$l[id_artikel]")?>"><?= $l['judul']?></a></td>
+                                <td><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
                               </tr>
                         	  <tr valign="top">
                                 <th id="label-meta-agenda">Waktu</th>
@@ -110,7 +110,8 @@
                                 <td><?= $l['koordinator_kegiatan']?></td>
                               </tr>
                             </table>
-							  </li>
+                            <?php if (count($agenda['yad']) > 0): ?><hr><?php endif; ?>
+                        </li>
 			        <?php endforeach; ?>
 			      </ul>
 					</marquee>
