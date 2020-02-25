@@ -7,6 +7,25 @@ define("KATEGORI_PUBLIK", serialize(array(
 	"Informasi Dikecualikan" => "4"
 )));
 
+define("LIST_LAP", serialize(array(
+	'13' => 'Umur',
+	'0' => 'Pendidikan dalam KK',
+	'14' => 'Pendidikan sedang Ditempuh',
+	'1' => 'Pekerjaan',
+	'2' => 'Status Perkawinan',
+	'3' => 'Agama',
+	'4' => 'Jenis Kelamin',
+	'5' => 'Warga Negara',
+	'6' => 'Status Penduduk',
+	'7' => 'Golongan Darah',
+	'9' => 'Penyandang Cacat',
+	'10' => 'Sakit Menahun',
+	'16' => 'Akseptor KB',
+	'17' => 'Akte Kelahiran',
+	'18' => 'Kepemilikan KTP',
+	'19' => 'Jenis Asuransi'
+)));
+
 
 class Referensi_model extends CI_Model {
 
@@ -56,6 +75,12 @@ class Referensi_model extends CI_Model {
 	{
 		$status_rekam = array_flip(unserialize(STATUS_REKAM));
 		return $status_rekam;
+	}
+
+	public function list_lap()
+	{
+		$list_lap = unserialize(LIST_LAP);
+		return $list_lap;
 	}
 }
 

@@ -13,6 +13,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 9;
 		$this->load->database();
 	}
@@ -94,7 +95,7 @@ class Gis extends Admin_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['list_lap'] = $this->list_lap();
+		$data['list_lap'] = $this->referensi_model->list_lap();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['act'] = 9;
@@ -103,29 +104,6 @@ class Gis extends Admin_Controller {
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);
 		$this->load->view('footer');
-	}
-
-	private function list_lap()
-	{
-		$data = array(
-			'13' => 'Umur',
-			'0' => 'Pendidikan dalam KK',
-			'14' => 'Pendidikan sedang Ditempuh',
-			'1' => 'Pekerjaan',
-			'2' => 'Status Perkawinan',
-			'3' => 'Agama',
-			'4' => 'Jenis Kelamin',
-			'5' => 'Warga Negara',
-			'6' => 'Status Penduduk',
-			'7' => 'Golongan Darah',
-			'9' => 'Penyandang Cacat',
-			'10' => 'Sakit Menahun',
-			'16' => 'Akseptor KB',
-			'17' => 'Akte Kelahiran',
-			'18' => 'Kepemilikan KTP',
-			'19' => 'Jenis Asuransi'
-		);
-		return $data;
 	}
 
 	public function search()

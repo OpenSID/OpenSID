@@ -20,7 +20,7 @@
 							<?php endforeach; ?>
 						</div>
 					</div>
-					<p><center><a href="<?=site_url("first/load_kadus/$dusun[id_kepala]")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="Kepala <?= $wilayah . $dusun['dusun']?>" data-remote="false" data-toggle="modal" data-target="#modalKecil"><i class="fa fa-user"></i>&nbsp;Kepala <?= $wilayah?>&nbsp;</a></center></p>
+					<p><center><a href="<?=site_url("first/load_aparatur_wilayah/$dusun[id_kepala]/1")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="Kepala <?= $wilayah . $dusun['dusun']?>" data-remote="false" data-toggle="modal" data-target="#modalKecil"><i class="fa fa-user"></i>&nbsp;Kepala <?= $wilayah?>&nbsp;</a></center></p>
 				</div>
 			</div>
 		</div>

@@ -527,43 +527,13 @@ class First extends Web_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['list_lap'] = $this->list_lap();
-		$data['kadus'] = $this->penduduk_model->get_penduduk($id);
+		$data['list_lap'] = $this->referensi_model->list_lap();
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/peta_statis.tpl.php');
 		$this->load->view($this->template, $data);
-	}
-
-	private function list_lap()
-	{
-		$data = array(
-			'13' => 'Umur',
-			'0' => 'Pendidikan dalam KK',
-			'14' => 'Pendidikan sedang Ditempuh',
-			'1' => 'Pekerjaan',
-			'2' => 'Status Perkawinan',
-			'3' => 'Agama',
-			'4' => 'Jenis Kelamin',
-			'5' => 'Warga Negara',
-			'6' => 'Status Penduduk',
-			'7' => 'Golongan Darah',
-			'9' => 'Penyandang Cacat',
-			'10' => 'Sakit Menahun',
-			'16' => 'Akseptor KB',
-			'17' => 'Akte Kelahiran',
-			'18' => 'Kepemilikan KTP',
-			'19' => 'Jenis Asuransi'
-		);
-		return $data;
-	}
-
-	public function load_aparatur_desa()
-	{
-		$this->_get_common_data($data);
-		$this->load->view('gis/aparatur_desa_web', $data);
 	}
 
 	public function load_apbdes()
@@ -574,22 +544,33 @@ class First extends Web_Controller {
 		$this->load->view('gis/apbdes_web', $data);
 	}
 
-	public function load_kadus($id='')
+	public function load_aparatur_desa()
 	{
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$this->load->view('gis/kepala_dusun',$data);
+		$this->_get_common_data($data);
+		$this->load->view('gis/aparatur_desa_web', $data);
 	}
 
-	public function load_ketua_rw($id='')
+	public function load_aparatur_wilayah($id='', $kd_jabatan=0)
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$this->load->view('gis/ketua_rw',$data);
-	}
 
-	public function load_ketua_rt($id='')
-	{
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$this->load->view('gis/ketua_rt',$data);
+		switch ($kd_jabatan)
+		{
+			case '1':
+				$data['jabatan'] = "Kepala Dusun";
+				break;
+			case '2':
+				$data['jabatan'] = "Ketua RW";
+				break;
+			case '3':
+				$data['jabatan'] = "Ketua RT";
+				break;
+			default:
+				$data['jabatan'] = "Kepala Dusun";
+				break;
+		}
+
+		$this->load->view('gis/aparatur_wilayah',$data);
 	}
 
 }
