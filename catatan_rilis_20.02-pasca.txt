@@ -28,6 +28,10 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 22. #2650: Tabel informasi publik di web sekarang bisa discroll horizontal pada tampilan layar kecil.
 23. #2647: Gunakan tautan url tulisan di halaman Arsip Artikel di web.
 24. #2646: Bagi artikel sekarang menggunakan url tulisan bukan id. 
+25. #2704: Perbaiki script url artikel tulisan (slug) menggunakan helper. [teknis]
+26. #2667: Catat dan tampilkan berapa kali suatu artikel telah dibaca.
+27. #2706: Kotak cari di daftar Pengaturan > Modul sekarang menampilkan pilihan dari data yang ada. [bug-fix]
+28. #2710: Dari daftar Dokumen/Kelengkapan Penduduk, tampilkan dokumen kependudukan di tab browser terpisah.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
