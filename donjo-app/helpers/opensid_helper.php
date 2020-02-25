@@ -629,6 +629,15 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	force_download($nama_berkas, $data);
 }
 
+function ambil_config()
+{
+	$CI =& get_instance();
+	$CI->load->database();
+	$data = $CI->db->where('id', 1)->
+			get('config')->row_array();
+	return $data;
+}
+
 function autocomplete_str($kolom, $tabel)
 {
 	$CI =& get_instance();
