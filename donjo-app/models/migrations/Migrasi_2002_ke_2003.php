@@ -19,8 +19,7 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		{
 			$this->db->query("ALTER TABLE artikel ADD COLUMN hit INT NULL DEFAULT '0'");
 		}
-		
-			// Tambah Modul Pengunjung pada Admin WEB
+		// Tambah Modul Pengunjung pada Admin WEB
 		$data = array(
 				'id' => 205,
 				'modul' => 'Pengunjung',
