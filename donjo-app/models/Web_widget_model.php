@@ -11,7 +11,8 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('judul', 'widget');
+		$kondisi =  array('enabled' => $_SESSION['filter']);
+		$str = autocomplete_str('judul', 'widget', $kondisi);
 		return $str;
 	}
 
