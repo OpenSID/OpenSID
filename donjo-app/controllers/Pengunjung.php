@@ -42,7 +42,6 @@ class Pengunjung extends Admin_Controller {
 	public function clear()
 	{
 		unset($_SESSION['id']);
-		unset($_SESSION['filter']);
 		redirect('pengunjung');
 	}
 
