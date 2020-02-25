@@ -18,7 +18,7 @@
 			{
 				title:
 				{
-					text: '<?= strtoupper($main['lblx'])?>'
+					text: '<?= ucwords($main['lblx'])?>'
 				},
         categories: [
 					<?php foreach ($main['pengunjung']as $data): ?>
@@ -30,7 +30,7 @@
 			{
 				title:
 				{
-					text: 'PENGUNJUNG (ORANG)'
+					text: 'Pengunjung (Orang)'
 				}
 			},
 			legend:
@@ -104,7 +104,7 @@
 										<div class="icon">
 											<i class="ion ion-stats-bars"></i>
 										</div>
-											<a href="#" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="<?=site_url('pengunjung/detail/1')?>" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -116,7 +116,7 @@
 										<div class="icon">
 											<i class="ion ion-stats-bars"></i>
 										</div>
-											<a href="#" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="<?=site_url('pengunjung/detail/2')?>" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -128,7 +128,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
-											<a href="#" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="<?=site_url('pengunjung/detail/3')?>" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -140,7 +140,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
-											<a href="#" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="<?=site_url('pengunjung/detail/4')?>" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -152,7 +152,7 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
-											<a href="#" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="<?=site_url('pengunjung/detail/5')?>" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
 									  </div>
 								</div>
 								<div class="col-lg-2 col-xs-6">
@@ -164,30 +164,15 @@
 										<div class="icon">
 										  <i class="ion ion-stats-bars"></i>
 										</div>
-											<a href="#" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="<?=site_url('pengunjung/detail/')?>" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
 									  </div>
 								</div>
 							</div>
 							<div class="box-header">
 								<hr>
-								<h4 class="text-center"><strong>STATISTIK PENGUNJUNG WEBSITE <?= $main['judul'] ?><strong></h4>
+								<h4 class="text-center"><strong>Statistik Pengunjung Website <?= $main['judul'] ?><strong></h4>
 								<hr>
 							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="box-tools">
-										<div class="input-group input-group-sm pull-left">
-											<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('pengunjung/filter')?>')">
-												<option value=""<?php selected($filter, ''); ?>>Semua</option>
-												<option value="1"<?php selected($filter, 1); ?>>Minggu Ini</option>
-												<option value="2"<?php selected($filter, 2); ?>>Bulan  Ini</option>
-												<option value="3"<?php selected($filter, 3); ?>>Tahun Ini</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</div>
-							<br>
 							<div class="row">
 								<div class="col-md-12">
 									<div class="row">
@@ -241,4 +226,3 @@
 		</form>
 	</section>
 </div>
-
