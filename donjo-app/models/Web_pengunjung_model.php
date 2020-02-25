@@ -72,6 +72,9 @@
 		$query = "SELECT SUM(`Jumlah`) AS `Total` FROM sys_traffic ".$parm;
 		$data = $this->db->query($query)->result_array();
 		$data = $data [0]['Total'];
+		if(empty($data)):
+			$data = 0;
+		endif;
 		return $data;
 	}
 	
