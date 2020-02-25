@@ -9,7 +9,7 @@
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -24,7 +24,7 @@
 					<?php endif; ?>
 				<?php endif; ?>
 				<?= $abstrak_headline ?>
-				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">..selengkapnya</a>
+				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">..selengkapnya</a>
 			</div>
 		</div>
 	<?php endif; ?>
@@ -53,7 +53,7 @@
 						<?php $abstrak = potong_teks($data['isi'], 300) ?>
 						<li class="artikel">
 							<h3 class="judul">
-								<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>"><?= $data["judul"] ?></a>
+								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
 							</h3>
 
 							<div class="teks">
@@ -74,7 +74,7 @@
 										<?php endif; ?>
 									</div>
 									<?= $abstrak ?>
-									<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>"> ..selengkapnya</a>
+									<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
 								</div>
 								<br class="clearboth gb"/>
 							</li>
