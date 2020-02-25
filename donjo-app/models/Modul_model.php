@@ -101,8 +101,7 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT modul FROM setting_modul WHERE hidden = 0
-					UNION SELECT url FROM setting_modul WHERE  hidden = 0";
+		$sql = "SELECT modul FROM setting_modul WHERE hidden = 0 AND parent = 0";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
