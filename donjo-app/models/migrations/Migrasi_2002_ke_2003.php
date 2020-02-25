@@ -18,6 +18,32 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		if (!$this->db->field_exists('hits','artikel'))
 		{
 			$this->db->query("ALTER TABLE artikel ADD COLUMN hit INT NULL DEFAULT '0'");
-		}	
+		}
+		
+			// Tambah Modul Pengunjung pada Admin WEB
+		$data = array(
+				'id' => 205,
+				'modul' => 'Pengunjung',
+				'url' => 'pengunjung/clear',
+				'aktif' => 1,
+				'ikon' => 'fa-bar-chart',
+				'urut' => 10,
+				'level' => 4,
+				'hidden' => 0,
+				'ikon_kecil' => '',
+				'parent' => 13
+				);
+		$sql = $this->db->insert_string('setting_modul', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				modul = VALUES(modul),
+				aktif = VALUES(aktif),
+				ikon = VALUES(ikon),
+				urut = VALUES(urut),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				ikon_kecil = VALUES(ikon_kecil),
+				parent = VALUES(parent)
+				";
+		$this->db->query($sql);
 	}
 }
