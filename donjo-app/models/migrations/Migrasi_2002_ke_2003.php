@@ -14,5 +14,10 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		$fields = array();
 		$fields['kode_surat'] = array('type' => 'VARCHAR', 'constraint' => 10, 'null' => TRUE, 'default' => NULL);
 	  $this->dbforge->modify_column('tweb_surat_format', $fields);
+		// Tambah kolom hits pada artikel
+		if (!$this->db->field_exists('hits','artikel'))
+		{
+			$this->db->query("ALTER TABLE artikel ADD COLUMN hit INT NULL DEFAULT '0'");
+		}	
 	}
 }
