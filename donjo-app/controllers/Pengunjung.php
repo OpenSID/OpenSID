@@ -11,22 +11,23 @@ class Pengunjung extends Admin_Controller {
 		$this->modul_ini = 13;
 	}
 
-	public function index()//bagus
+	public function index()
 	{
 		if (isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 		
 		//cat: -0 days(hari ini), -1 days(kemarin), -7 days(minggu ini)
-		
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung();		
+
 		$data['hari_ini'] = $this->web_pengunjung_model->get_count('-0 days');
 		$data['kemarin'] = $this->web_pengunjung_model->get_count('-1 days');
 		$data['minggu_ini'] = $this->web_pengunjung_model->get_count('-7 days');
 		$data['bulan_ini'] = $this->web_pengunjung_model->get_count('2');
 		$data['tahun_ini'] = $this->web_pengunjung_model->get_count('3');
 		$data['jumlah'] = $this->web_pengunjung_model->get_count('1');
-	
+		
+		$data['main'] = $this->web_pengunjung_model->get_pengunjung();		
+		
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 205;
@@ -36,7 +37,7 @@ class Pengunjung extends Admin_Controller {
 		$this->load->view('pengunjung/table', $data);
 		$this->load->view('footer');
 	}
-
+	
 	public function filter()
 	{
 		$filter = $this->input->post('filter');
@@ -54,7 +55,8 @@ class Pengunjung extends Admin_Controller {
 
 	public function cetak()
 	{
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung($filter);
+		$data['config'] = $this->web_pengunjung_model->get_config();
+		$data['main'] = $this->web_pengunjung_model->get_pengunjung();
 		$this->load->view('pengunjung/print', $data);
 	}
 	
