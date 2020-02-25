@@ -62,7 +62,7 @@
 																		<a href="#" data-href="<?= site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td width="40%"><?= $data['nama']?></td>
-																	<td width="30%"><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" ><?= $data['satuan']?></a></td>
+																	<td width="30%"><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" target="_blank"><?= $data['satuan']?></a></td>
 																	<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																</tr>
 																<?php endforeach; ?>
