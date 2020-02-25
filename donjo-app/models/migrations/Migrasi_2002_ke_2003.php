@@ -15,9 +15,7 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		$fields['kode_surat'] = array('type' => 'VARCHAR', 'constraint' => 10, 'null' => TRUE, 'default' => NULL);
 	  $this->dbforge->modify_column('tweb_surat_format', $fields);
 		// Tambah Modul Pengunjung pada Admin WEB
-		if ($this->db->table_exists('setting_modul'))
-		{
-			$object = array(
+		$data = array(
 				'id' => 205,
 				'modul' => 'Pengunjung',
 				'url' => 'pengunjung/clear',
@@ -28,8 +26,18 @@ class Migrasi_2002_ke_2003 extends CI_model {
 				'hidden' => 0,
 				'ikon_kecil' => '',
 				'parent' => 13
-			);
-			$this->db->insert('setting_modul', $object);
-		}
+				);
+		$sql = $this->db->insert_string('setting_modul', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				modul = VALUES(modul),
+				aktif = VALUES(aktif),
+				ikon = VALUES(ikon),
+				urut = VALUES(urut),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				ikon_kecil = VALUES(ikon_kecil),
+				parent = VALUES(parent)
+				";
+		$this->db->query($sql);
 	}
 }
