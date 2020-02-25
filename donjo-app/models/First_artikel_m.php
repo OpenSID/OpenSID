@@ -179,7 +179,7 @@ class First_artikel_m extends CI_Model {
 	public function full_arsip($offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		ORDER BY a.tgl_upload DESC";
 
@@ -338,7 +338,7 @@ class First_artikel_m extends CI_Model {
 
 	public function get_artikel($slug, $is_id=false)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori')
+		$this->db->select('a.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -480,4 +480,14 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	public function hit($id)
+	{
+		//membatasi hit pada id yang sama berulang kali (refresh)
+		//cat: coba tambahkan time_out untuk id bisa hit setelah 30 detik dengan id yg sama
+		if($_SESSION['id'] != $id){
+			$_SESSION['id'] = $id;
+
+			$this->db->query("UPDATE `artikel` SET `hit` = hit +1 WHERE `id` = ".$id);
+		}
+	}
 }

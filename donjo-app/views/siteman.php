@@ -41,8 +41,21 @@
 							<div class="form-bottom">
 								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
 									<?php if ($_SESSION['siteman_wait']==1): ?>
+										<script type="text/javascript">
+											function start_countdown(){
+												var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
+												var menit = Math.floor(times / 60); var detik = times % 60;
+												timer = setInterval(function(){ detik--;
+													if(detik <= 0 && menit >=1){ detik = 60; menit--;}
+													if(menit <= 0 && detik <= 0){ clearInterval(timer); 
+													location.reload();}
+													document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
+												}, 1000)
+											}
+										</script>
 										<div class="error login-footer-top">
-										<p style="color:red; text-transform:uppercase">Gagal 3 kali, silakan coba kembali dalam <?= waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> lagi</p>
+											<script>start_countdown();</script>
+											<p id="countdown" style="color:red; text-transform:uppercase"></p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
