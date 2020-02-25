@@ -20,7 +20,7 @@
 								<h1 style="text-transform: uppercase;"></h1>
 								<h1><?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($config['nama_kecamatan'])?> </h1>
 								<h1><?= strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa'])?></h1>
-								<h1>LAPORAN DATA STATISTIK PENGUNJUNG WEBSITE <?= $main['judul'];?></h1>
+								<h1>LAPORAN DATA STATISTIK PENGUNJUNG WEBSITE <?= strtoupper($main['judul']);?></h1>
 							</td>
 						</tr>
 						<tr>
