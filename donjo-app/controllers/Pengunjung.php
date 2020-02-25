@@ -11,22 +11,16 @@ class Pengunjung extends Admin_Controller {
 		$this->modul_ini = 13;
 	}
 
-	public function index($stat=0)//bagus
-	{
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+	public function index(//bagus
+	{		
+		$data['hari_ini'] = $this->web_pengunjung_model->get_count('1');
+		$data['kemarin'] = $this->web_pengunjung_model->get_count('2');
+		$data['minggu_ini'] = $this->web_pengunjung_model->get_count('3');
+		$data['bulan_ini'] = $this->web_pengunjung_model->get_count('4');
+		$data['tahun_ini'] = $this->web_pengunjung_model->get_count('5');
+		$data['jumlah'] = $this->web_pengunjung_model->get_count('');
 		
-		//cat: -0 days(hari ini), -1 days(kemarin), -7 days(minggu ini)
-
-		$data['hari_ini'] = $this->web_pengunjung_model->get_count('-0 days');
-		$data['kemarin'] = $this->web_pengunjung_model->get_count('-1 days');
-		$data['minggu_ini'] = $this->web_pengunjung_model->get_count('-7 days');
-		$data['bulan_ini'] = $this->web_pengunjung_model->get_count('2');
-		$data['tahun_ini'] = $this->web_pengunjung_model->get_count('3');
-		$data['jumlah'] = $this->web_pengunjung_model->get_count('1');
-		
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung();		
+		$data['main'] = $this->web_pengunjung_model->get_pengunjung($_SESSION['id']);		
 		
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
@@ -38,33 +32,33 @@ class Pengunjung extends Admin_Controller {
 		$this->load->view('footer');
 	}
 	
-	public function filter()
+	public function detail($id='')
 	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		$_SESSION['id'] = $id;
+		
 		redirect('pengunjung');
 	}
 	
 	public function clear()
 	{
+		unset($_SESSION['id']);
 		unset($_SESSION['filter']);
 		redirect('pengunjung');
 	}
 
 	public function cetak()
 	{
-		$data['config'] = $this->web_pengunjung_model->get_config();
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung();
+		$data['config'] = ambil_config();
+		$data['main'] = $this->web_pengunjung_model->get_pengunjung(($_SESSION['id']));
 		$this->load->view('pengunjung/print', $data);
 	}
 	
 	public function unduh()
 	{		
 		$data['aksi'] = 'unduh';
-		$data['filename'] = underscore('Laporan Data Statistik Pengunjung Website '.ucwords($_SESSION['judul']));
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung($filter);
+		$data['config'] = ambil_config();
+		$data['filename'] = underscore('Laporan Data Statistik Pengunjung Website');
+		$data['main'] = $this->web_pengunjung_model->get_pengunjung(($_SESSION['id']));
 		$this->load->view('pengunjung/excel', $data);
 	}
 }
