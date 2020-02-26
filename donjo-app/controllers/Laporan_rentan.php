@@ -8,6 +8,7 @@ class Laporan_rentan extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('laporan_bulanan_model');
+		$this->load->model('config_model');
 
 		//Initialize Session ------------
 		$_SESSION['success'] = 0;
@@ -35,7 +36,7 @@ class Laporan_rentan extends Admin_Controller {
 		else $data['dusun'] = '';
 
 		$data['list_dusun'] = $this->laporan_bulanan_model->list_dusun();
-		$data['config'] = $this->laporan_bulanan_model->configku();
+		$data['config'] = $this->$this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
 
 		$nav['act'] = 3;
@@ -51,14 +52,14 @@ class Laporan_rentan extends Admin_Controller {
 
 	public function cetak()
 	{
-		$data['config'] = $this->laporan_bulanan_model->configku();
+		$data['config'] = $this->$this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
 		$this->load->view('laporan/kelompok_print', $data);
 	}
 
 	public function excel()
 	{
-		$data['config'] = $this->laporan_bulanan_model->configku();
+		$data['config'] = $this->$this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
 		$this->load->view('laporan/kelompok_excel', $data);
 	}

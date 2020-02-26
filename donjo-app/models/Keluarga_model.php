@@ -5,6 +5,7 @@
 		parent::__construct();
 		$this->load->model('program_bantuan_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('config_model');
 	}
 
 	public function autocomplete($cari='')
@@ -550,7 +551,7 @@
 		$kk['id_kk'] = $id;
 		$kk['main'] = $this->keluarga_model->list_anggota($id);
 		$kk['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-		$kk['desa'] = $this->keluarga_model->get_desa();
+		$kk['desa'] = $this->config_model->get_data();
 		$data['all_kk'][] = $kk;
 		return $data;
 	}

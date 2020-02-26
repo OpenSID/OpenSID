@@ -2,6 +2,7 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
+	$this->load->model('config_model');
 
 	$individu['umur'] = str_pad($individu['umur'], 3, " ", STR_PAD_LEFT);
 
@@ -123,7 +124,7 @@
 		$input['umur_saksi2']						= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 	}
 
-	$desa = $this->keluarga_model->get_desa();
+	$desa = $this->config_model->get_data();
 	// Gunakan data identitas desa, jika ada
 	if ($desa['nip_kepala_desa'])
 	{

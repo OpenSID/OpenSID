@@ -12,6 +12,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->model('wilayah_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('referensi_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 2;
 	}
 
@@ -441,7 +442,7 @@ class Keluarga extends Admin_Controller {
 		$data['hubungan'] = $this->keluarga_model->list_hubungan();
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$kk = $this->keluarga_model->get_kepala_kk($id);
-		$data['desa'] = $this->keluarga_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 		if ($kk)
 			$data['kepala_kk'] = $kk;
 		else
