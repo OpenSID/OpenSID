@@ -1,6 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<script type="text/javascript" src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script type="text/javascript">
 			var chart;
 			$(document).ready(function() {
@@ -59,21 +58,16 @@
 						<?php  foreach($main as $data){?>
 						  <?= $data['jumlah'].",";?>
 						<?php }?>]
-
 					}]
 				});
-
-
 			});
-
 </script>
 
 <?php
-
 	echo "
-	<div class=\"single_page_area\">
+	<div class=\"box box-danger\">
 		<div class=\"box-header with-border\">
-			<h2 class=\"post_titile\">Grafik Statistik Kependudukan berdasarkan Indeks Kemiskinan</h2>
+			<h3 class=\"box-title\">Grafik Statistik Kependudukan berdasarkan Indeks Kemiskinan</h3>
 		</div>
 		<div class=\"box-body\">
 			<div id=\"container\"></div>
@@ -83,10 +77,9 @@
 			</div>
 		</div>
 	</div>
-
-	<div class=\"single_page_area\">
+	<div class=\"box box-danger\">
 		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Tabel</h3>
+			<h3 class=\"box-title\">Tabel Statistik Kependudukan berdasarkan Indeks Kemiskinan</h3>
 		</div>
 		<div class=\"box-body\">
 			<table class=\"table table-striped\">
@@ -111,9 +104,7 @@
 				</tbody>
 				<tfooter><tr><th colspan=\"2\" class=\"angka\">JUMLAH</th><th>".$i."</th></tr></tfooter>
 			</table>";
-
 		echo "
 		</div>
 	</div>";
 ?>
-

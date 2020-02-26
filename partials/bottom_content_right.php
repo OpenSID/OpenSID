@@ -14,9 +14,7 @@ if($w_cos){
 		} else {
 			echo "
 			<div class=\"single_bottom_rightbar\">
-				<div class=\"single_bottom_rightbar\">
-					<h2>".$data["judul"]."</h2>
-				</div>
+			    <h2><i class='fa fa-folder-open'></i> ".$data["judul"]."</h2>
 				<div class=\"box-body\">
 				".html_entity_decode($data['isi'])."
 				</div>

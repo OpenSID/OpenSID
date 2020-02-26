@@ -55,11 +55,9 @@
 						<?php }?>
 						<?php }?>
 					<?php }?>]
-
 				}]
 			});
 		};
-
 </script>
 <style>
 tr#total{
@@ -71,8 +69,8 @@ font-weight:bold;
 h3{ margin-left: 10px; }
 </style>
 
-<h2><?= $indikator?></h2><br>
-<div class="" style="padding: 5px;">
+<h3><?= $indikator?></h3><br>
+<div class="middin-center" style="padding: 5px;">
 <div id="contentpane">
 <div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
 <table class="table table-striped">
