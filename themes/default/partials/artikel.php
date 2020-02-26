@@ -8,8 +8,8 @@
 			<i class="fa fa-clock-o"></i><?= tgl_indo2($single_artikel['tgl_upload']);?>  | 
 			<?php if (trim($single_artikel['kategori']) != '') : ?>
 				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><?= $single_artikel['kategori']?></a> |
-			<?php endif; ?>
-			<i class="fa fa-eye"></i> <?= $single_artikel['hit'];?> Kali
+			<?php endif; ?> | 
+			<i class="fa fa-eye"></i> <?= hit($single_artikel['hit']) ?>
 		</h3>
 
 		<?php if($single_artikel['id_kategori'] == 1000) : ?>
