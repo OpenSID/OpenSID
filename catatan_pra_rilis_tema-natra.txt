@@ -35,5 +35,7 @@ Catatan pra rilis versi 4.1.9:
 33. Update Widget Agenda. [bug-fix]
 34. #18 Lengkapi Title Browser di Homepage
 35. #19 Warna Widget Artikel
+36. Kini favicon.ico mengikuti hasil uplaod file logo.
+37. Tampilkan berapa kali suatu artikel telah dibaca.
 
 ****************************************************************
