@@ -2,10 +2,6 @@ Repo ini adalah tema 'natra' untuk web aplikasi OpenSID.
 
 Tema ini awalnya dibuat oleh Ariandi Ryan Kahfi, dan merupakan pemenang Sayembara Tema Web OpenSID 2019.
 
-
-
-
-
 ******************************************************
 Silakan edit file commons/meta.php
 
@@ -27,8 +23,12 @@ melalui link berikut:
 https://www.natairaya.desa.id/first/artikel/79
 
 ******************************************************
-Untuk merubah Grafik Bar APBDesa,
+Untuk merubah Grafik Bar APBDesa Manual,
 Anda dapat edit file partials/apbdesa-contoh.php
+
+Dan untuk menerapkannya, edit file template.php baris
+ke 38: '/partials/apbdesa-tema.php' ubah menjadi
+'/partials/apbdesa-contoh.php'
 
 ******************************************************
 Terima kasih.
