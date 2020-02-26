@@ -1,4 +1,3 @@
-<?php if (!is_null($transparansi)) $this->load->view($folder_themes. '/partials/apbdesa-contoh.php', $transparansi);?>
 <div class="col-md-12" align="center">
 <div align="center"><h2>Statistik Desa</h2></div><hr>
 <div class="col-md-6">

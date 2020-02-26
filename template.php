@@ -35,6 +35,7 @@
   </section>
 </div>
 <footer id="footer">
+<?php if (!is_null($transparansi)) $this->load->view($folder_themes. '/partials/apbdesa-tema.php', $transparansi);?>
 <?php $this->load->view("$folder_themes/partials/footer_top.php"); ?>
 <?php $this->load->view("$folder_themes/partials/footer_bottom.php"); ?>
 </footer>
