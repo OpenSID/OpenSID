@@ -7,6 +7,8 @@ class First_artikel_m extends CI_Model {
 		parent::__construct();
 		$this->load->model('web_sosmed_model');
 		$this->load->model('shortcode_model');
+		if (!isset($_SESSION['artikel']))
+			$_SESSION['artikel'] = array();
 	}
 
 	public function get_headline()
@@ -103,7 +105,7 @@ class First_artikel_m extends CI_Model {
 				FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE a.enabled = 1 AND headline <> 1";
+				WHERE a.id_kategori NOT IN (1000) AND a.enabled = 1 AND headline <> 1";//selain agenda boleh muncul
 			$cari = trim($this->input->get('cari'));
 			if ( ! empty($cari))
 			{
@@ -128,11 +130,13 @@ class First_artikel_m extends CI_Model {
 
 	public function arsip_show($rand = false)
 	{
+		// Artikel agenda (kategori=1000) tidak ditampilkan
 		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE a.enabled = ?
+			AND a.id_kategori NOT IN (1000)
 			AND a.tgl_upload < NOW() ";
 		if ($rand)
 			$sql .= "	ORDER BY RAND() DESC LIMIT 7 ";
@@ -177,7 +181,7 @@ class First_artikel_m extends CI_Model {
 	public function full_arsip($offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		ORDER BY a.tgl_upload DESC";
 
@@ -257,25 +261,25 @@ class First_artikel_m extends CI_Model {
 
 	public function agenda_show()
 	{
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) = CURDATE()
-			ORDER BY a.tgl_upload ASC";
+			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data['hari_ini'] = $query->result_array();
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) > CURDATE()
-			ORDER BY a.tgl_upload ASC";
+			ORDER BY a.tgl_upload DESC";
 		$query = $this->db->query($sql);
 		$data['yad'] = $query->result_array();
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
@@ -336,7 +340,8 @@ class First_artikel_m extends CI_Model {
 
 	public function get_artikel($slug, $is_id=false)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori')
+		$this->hit($slug, $is_id); // catat artikel diakses
+		$this->db->select('a.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -476,6 +481,22 @@ class First_artikel_m extends CI_Model {
 			$data = false;
 		}
 		return $data;
+	}
+	
+	public function hit($slug, $is_id=false)
+	{
+		if ($is_id)
+			// $slug adalah id
+			$this->db->where('id', $slug);
+		else
+			$this->db->where('slug', $slug);
+		$id = $this->db->select('id')->get('artikel')->row()->id;
+		//membatasi hit hanya satu kali dalam setiap session
+		if (in_array($id, $_SESSION['artikel'])) return;
+		$this->db->set('hit', 'hit + 1', false)
+			->where('id', $id)
+			->update('artikel');
+		$_SESSION['artikel'][] = $id;
 	}
 
 }

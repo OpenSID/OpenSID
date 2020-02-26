@@ -167,7 +167,7 @@
 
 	private function validasi_surat(&$data)
 	{
-		$data['nama'] = preg_replace('/[^a-zA-Z0-9\s]/', '', $data['nama']);
+		$data['nama'] = alfanumerik_spasi($data['nama']);
 	}
 
 	public function update($id=0)
