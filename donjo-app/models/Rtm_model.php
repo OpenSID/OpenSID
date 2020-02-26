@@ -390,13 +390,6 @@
 		return $data;
 	}
 
-  public function get_desa()
-  {
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 	public function list_hubungan()
 	{
 		$sql = "SELECT id, nama as hubungan FROM tweb_rtm_hubungan WHERE 1";

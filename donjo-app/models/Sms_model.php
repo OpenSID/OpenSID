@@ -1,5 +1,4 @@
-<?php
-class Sms_model extends CI_Model {
+<?php class Sms_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -1026,7 +1025,5 @@ class Sms_model extends CI_Model {
 
 		return $data;
 	}
-
 }
-
 ?>
