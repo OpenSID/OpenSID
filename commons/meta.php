@@ -1,4 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <!-- bawaan tema -->
 <meta content="utf-8" http-equiv="encoding">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,12 +26,11 @@ if ($single_artikel["judul"] == "")
 	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];
 else echo $single_artikel["judul"].' - '.ucwords($this->setting->sebutan_desa).(($desa['nama_desa'])?' '.$desa['nama_desa']:''); ?></title>
 
-<link rel="apple-touch-icon" sizes="144x144" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-144x144.png") ?>" />
-<link rel="apple-touch-icon" sizes="114x114" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-114x114.png") ?>" />
-<link rel="apple-touch-icon" sizes="72x72" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon-72x72.png") ?>" />
-<link rel="apple-touch-icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/apple-touch-icon.png"); ?>" />
-<link rel="shortcut icon" href="<?= base_url("$this->theme_folder/$this->theme/images/favicons/favicon.png") ?>" />
-
+<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
+<?php else: ?>
+<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
+<?php endif; ?>
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/animate.css"); ?>">
