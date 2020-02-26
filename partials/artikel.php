@@ -1,5 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <?php if($single_artikel["id"]) : ?>
 	<div class="single_page_area" id="<?= 'artikel-'.$single_artikel['judul']?>">
         <div style="margin-top:0px;">
@@ -15,11 +14,13 @@
 		<div id="printableArea">
 		<h4 class="catg_titile" style="font-family: Oswald"><font color="#FFFFFF"><?= $single_artikel["judul"]?></font></h4>
 		<div class="post_commentbox">
-			<i class="fa fa-clock-o"></i> <a><?= tgl_indo2($single_artikel['tgl_upload']);?></a>
-			<i class="fa fa-user"></i> <a><?= $single_artikel['owner']?></a>
-			<?php if (trim($single_artikel['kategori']) != '') : ?>
-				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><?= $single_artikel['kategori']?></a>
-			<?php endif; ?>
+		    <span class="meta_date"><?= tgl_indo2($single_artikel['tgl_upload']);?>&nbsp;
+		    <i class="fa fa-user"></i><?= $single_artikel['owner']?>&nbsp;
+		    <i class="fa fa-eye"></i> <?= $single_artikel['hit']?> kali dibaca&nbsp;
+		    <?php if (trim($single_artikel['kategori']) != '') : ?>
+		    <a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><i class='fa fa-tag'></i><?= $single_artikel['kategori']?></a>
+		    <?php endif; ?>
+		    </span>
 		</div>
 		<div class="single_page_content" style="margin-bottom:10px;">	
 		<?php if($single_artikel["isi"]!='<p>&nbsp;&nbsp;</p>'): ?>

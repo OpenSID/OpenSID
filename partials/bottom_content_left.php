@@ -1,7 +1,4 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-<!--
- List Konten
- -->
 <?php $title = (!empty($judul_kategori))? $judul_kategori : "Artikel Terkini" ?>
 
 <?php if (is_array($title)): ?>
@@ -20,7 +17,7 @@
                     <?php endif; ?>
                 </div>
                 <?php if ($headline): ?>
-            	<?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
+            	<?php $abstrak_headline = potong_teks($headline['isi'], 500) ?>
         	    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Berita Utama</span> </h2> 
             	<div id="headline" class="box box-danger" style="margin-bottom:20px;">
             		<div class="box-header with-border">
@@ -62,9 +59,15 @@
 		                        <h2 class="catg_titile">
 		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
 		                        </h2>
-		                        <div class="comments_box"> <span class="meta_date"><?= tgl_indo2($data['tgl_upload']) ?></span> <span class="meta_comment"> <?= $data['owner'] ?></span> <?php if (trim($data['kategori']) != ''): ?>
-		                        <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['id_kategori']) ?>"><?= $data['kategori'] ?></a>
-		                        <?php endif; ?></div>
+		                        <div class="post_commentbox">
+		                            <span class="meta_date"><?= tgl_indo2($data['tgl_upload']);?>&nbsp;
+		                            <i class="fa fa-user"></i><?= $data['owner']?>&nbsp;
+		                            <i class="fa fa-eye"></i> <?= $data['hit']?> kali dibaca&nbsp;
+		                            <?php if (trim($data['kategori']) != '') : ?>
+		                            <a href="<?= site_url('first/kategori/'.$data['id_kategori'])?>"><i class='fa fa-tag'></i><?= $data['kategori']?></a>&nbsp;
+		                            <?php endif; ?>
+		                            </span>
+		                        </div>
 		                        <?php if ($data['gambar']!=''): ?>
 		                        <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 		                        <div class="catgimg2_container">
