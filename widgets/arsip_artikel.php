@@ -11,7 +11,7 @@
                   <?php foreach ($arsip as $l): ?>
                     <tr><td colspan="2">
                             <span class="meta_date"><?= tgl_indo2($l['tgl_upload']);?>&nbsp;
-                            <i class="fa fa-eye"></i> <?= hit($l['hit']) ?> Dibaca</span>
+                            <i class="fa fa-eye"></i> <?= hit($l['hit']) ?></span>
                         </td>
                     </tr>
                     <tr>
@@ -34,7 +34,7 @@
                   <?php foreach ($arsip_rand as $l): ?>
                     <tr><td colspan="2">
                             <span class="meta_date"><?= tgl_indo2($l['tgl_upload']);?>&nbsp;
-                            <i class="fa fa-eye"></i> <?= hit($l['hit']) ?> Dibaca</span>
+                            <i class="fa fa-eye"></i> <?= hit($l['hit']) ?></span>
                         </td>
                     </tr>
                     <tr>
