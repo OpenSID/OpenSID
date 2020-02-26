@@ -34,6 +34,7 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 28. #2710: Dari daftar Dokumen/Kelengkapan Penduduk, tampilkan dokumen kependudukan di tab browser terpisah.
 29. #2683: Sediakan tabel dan grafik statistik pengunjung website.
 30. Tampilan header info desa di tema hadakewa tidak lagi dipaksa huruf besar.
+31. #2723: Hapus folder tidak diperlukan. Tutup celah akses publik ke folder securimage. [security-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
