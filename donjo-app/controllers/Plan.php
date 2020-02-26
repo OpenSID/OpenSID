@@ -77,7 +77,7 @@ class Plan extends Admin_Controller {
 
 		if ($id)
 		{
-			$data['lokasi'] = $this->$this->config_model->get_data();
+			$data['lokasi'] = $this->config_model->get_data();
 			$data['form_action'] = site_url("plan/update/$id/$p/$o");
 		}
 		else
@@ -103,7 +103,7 @@ class Plan extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 		if ($id)
-			$data['lokasi'] = $this->$this->config_model->get_data();
+			$data['lokasi'] = $this->config_model->get_data();
 		else
 			$data['lokasi'] = NULL;
 
