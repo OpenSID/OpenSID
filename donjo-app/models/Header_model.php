@@ -4,6 +4,7 @@ class Header_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('config_model');
 	}
 
 	// Data penduduk yang digunakan untuk ditampilkan di Widget halaman dashbord (Home SID)
@@ -100,9 +101,7 @@ class Header_model extends CI_Model {
 			}
 		}
 
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$outp['desa'] = $query->row_array();
+		$outp['desa'] = $this->config_model->get_data();
 
 		$sql = "SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND enabled = 2;";
 		$query = $this->db->query($sql);

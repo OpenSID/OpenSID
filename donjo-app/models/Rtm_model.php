@@ -3,6 +3,7 @@
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('config_model');
 	}
 
 	public function autocomplete()
@@ -316,9 +317,7 @@
 
 	private function get_kode_wilayah()
 	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$d = $query->row_array();
+		$d = $this->config_model->get_data();
 		$data = $d['kode_kabupaten'].$d['kode_kecamatan'].$d['kode_desa'];
 
 		return $data;

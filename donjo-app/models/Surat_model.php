@@ -6,6 +6,7 @@
 		$this->load->model('surat_master_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('penomoran_surat_model');
+		$this->load->model('config_model');
 	}
 
 	public function list_surat()
@@ -317,13 +318,6 @@
 		{
 			$data["pekerjaan"] = $this->penduduk_model->normalkanPekerjaan($data["pekerjaan"]);
 		}
-	}
-
-	public function get_data_desa()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
 	}
 
 	public function get_pamong($id=0)
@@ -1012,7 +1006,7 @@
 	{
 		$data['input'] = $_POST;
 		// Ambil data
-		$data['config'] = $this->get_data_desa();
+		$data['config'] = $this->config_model->get_data();
 		$data['surat'] = $this->get_surat($url);
 		$data['surat']['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 		switch ($url)

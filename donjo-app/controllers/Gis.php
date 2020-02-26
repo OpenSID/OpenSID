@@ -85,7 +85,7 @@ class Gis extends Admin_Controller {
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['desa'] = $this->penduduk_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 		$data['lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['garis'] = $this->plan_garis_model->list_data();
 		$data['area'] = $this->plan_area_model->list_data();

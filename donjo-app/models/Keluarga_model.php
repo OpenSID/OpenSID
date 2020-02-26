@@ -880,7 +880,7 @@
 	public function get_data_unduh_kk($id)
 	{
 		$data = array();
-		$data['desa'] = $this->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 		$data['id_kk'] = $id;
 		$data['main'] = $this->list_anggota($id);
 		$data['kepala_kk']= $this->get_kepala_kk($id);
