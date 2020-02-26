@@ -62,7 +62,7 @@
 		                        <div class="post_commentbox">
 		                            <span class="meta_date"><?= tgl_indo2($data['tgl_upload']);?>&nbsp;
 		                            <i class="fa fa-user"></i><?= $data['owner']?>&nbsp;
-		                            <i class="fa fa-eye"></i> <?= $data['hit']?> kali dibaca&nbsp;
+		                            <i class="fa fa-eye"></i><?= hit($data['hit']) ?> Dibaca&nbsp;
 		                            <?php if (trim($data['kategori']) != '') : ?>
 		                            <a href="<?= site_url('first/kategori/'.$data['id_kategori'])?>"><i class='fa fa-tag'></i><?= $data['kategori']?></a>&nbsp;
 		                            <?php endif; ?>
