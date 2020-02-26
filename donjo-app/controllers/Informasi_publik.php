@@ -1,7 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Informasi_publik extends Admin_Controller {
-
+class Informasi_publik extends Admin_Controller 
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -24,8 +24,8 @@ class Informasi_publik extends Admin_Controller {
 	{
 		$filename = 'informasi_publik_'.date('Ymd').'.csv';
 		// Gunakan file temporer
-    $tmpfname = tempnam(sys_get_temp_dir(),'');
-    // Siapkan daftar berkas untuk dimasukkan ke zip
+		$tmpfname = tempnam(sys_get_temp_dir(),'');
+		// Siapkan daftar berkas untuk dimasukkan ke zip
 		$berkas = array();
 		$berkas[] = array(
 			'nama' => $filename, 
@@ -63,15 +63,12 @@ class Informasi_publik extends Admin_Controller {
 
 		# Masukkan semua berkas ke dalam zip
 		$berkas_zip = masukkan_zip($berkas);
-    # Unduh berkas zip
-    $kode_desa = $this->db->select('kode_desa')
-    	->limit(1)->get('config')
-    	->row()->kode_desa;
+		# Unduh berkas zip
+		$data = $this->config_model->get_data();
 		header("Content-Description: File Transfer");
-    header('Content-disposition: attachment; filename=informasi_publik_' . $kode_desa . '_' . date("d-m-Y") . '.zip');
-    header('Content-type: application/zip');
-    readfile($berkas_zip);
+		header('Content-disposition: attachment; filename=informasi_publik_' . $data['kode_desa'] . '_' . date("d-m-Y") . '.zip');
+		header('Content-type: application/zip');
+		readfile($berkas_zip);
   }
-
 }
 
