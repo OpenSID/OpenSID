@@ -80,7 +80,7 @@ img:hover{opacity:0.75}
 .catg1_img:hover img{ -webkit-transform:scale(1.1); -moz-transform:scale(1.1); -ms-transform:scale(1.1); -o-transform:scale(1.1); transform:scale(1.1)}
 .catg1_nav li .post_titile{color:#434c51; float:left; margin:10px 0px; font-size:16px; width:100%; -webkit-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
 .catg1_nav li .post_titile a{color:#383838; font-family:'Oswald',sans-serif; -webkit-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
-.content_middle_middle{border-left:5px solid #798992; border-right:5px solid #798992; display:inline; float:left; margin-top:17px; position:relative; width:100%}
+.content_middle_middle{border-left:5px solid #798992; border-right:5px solid #798992; display:inline; float:left; margin-top:0px; position:relative; width:100%}
 .content_middle_middle:after{ content:""; height:122px; left:-5px; position:absolute; top:0; width:5px}
 .content_middle_middle:before{content:""; height:122px; right:-5px; position:absolute; top:0; width:5px}
 .single_featured_slide{float:left; display:inline; width:100%; text-align:center}

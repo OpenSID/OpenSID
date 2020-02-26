@@ -1,10 +1,7 @@
 <!-- widget Kategori-->
 
 <div class="single_bottom_rightbar">
-	<div class="single_bottom_rightbar">
     <h2> Kategori</h2>
-	</div>
-	<div class="">
 			<ul id="ul-menu" class="sidebar-latest">
 				<?php foreach($menu_kiri as $data){?>
 					<li><a href="<?= site_url()."first/kategori/".$data['id']?>"><?= $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
@@ -18,5 +15,4 @@
 					</li>
 				<?php }?>
 			</ul>
-	</div>
 </div>

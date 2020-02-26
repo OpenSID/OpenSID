@@ -10,7 +10,7 @@
 </style>
 <!-- widget Peta Lokasi Kantor Desa -->
 <div class="single_bottom_rightbar">
-    <h2 class="box-title">
+    <h2>
     <i class="fa fa-map-marker"></i>
     <?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?></h2>
   <div class="box-body">

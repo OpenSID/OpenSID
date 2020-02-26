@@ -2,8 +2,7 @@
 
   <div class="single_bottom_rightbar">
     <h2><i class="fa fa-bar-chart-o"></i> Statistik Penduduk</h2>
-  </div>
-  <div style="margin-bottom:20px;">
+  <div style="margin-bottom:10px;">
       <?php
       $cowok1 = $this->db->query('SELECT sex FROM tweb_penduduk WHERE sex = 1');
       $cewek1 = $this->db->query('SELECT sex FROM tweb_penduduk WHERE sex = 2');
@@ -28,4 +27,5 @@
         <div class="progress-group">
             <button type="button" class="btn btn-success btn-block">Jumlah <?= number_format($kk);?> KK | <?= number_format($dua);?> Jiwa</button>
         </div>
+  </div>
   </div>

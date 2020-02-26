@@ -1,9 +1,7 @@
  <!-- widget Statistik Pengunjung -->
 
 <div class="single_bottom_rightbar">
-  <div class="single_bottom_rightbar">
-    <h2><i class="fa fa-bar-chart-o"></i> Statistik Pengunjung</h2>
-  </div>
+  <h2><i class="fa fa-bar-chart-o"></i> Statistik Pengunjung</h2>
   <div class="">
   <?php
   $ip = $_SERVER['REMOTE_ADDR']."{}";

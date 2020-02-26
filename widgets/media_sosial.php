@@ -1,7 +1,7 @@
 <!-- widget SocMed -->
 
 <div class="single_bottom_rightbar">
-  <h2 class="box-title"><i class="fa fa-globe"></i> Info Media Sosial</h2>
+  <h2><i class="fa fa-globe"></i> Info Media Sosial</h2>
   <div class="box-body">
 		<?php foreach ($sosmed As $data): ?>
 		  <?php if (!empty($data["link"])): ?>
