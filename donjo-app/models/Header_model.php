@@ -114,12 +114,4 @@ class Header_model extends CI_Model {
 
 		return $outp;
 	}
-
-	public function get_config()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$outp['desa'] = $query->row_array();
-		return $outp;
-	}
 }
