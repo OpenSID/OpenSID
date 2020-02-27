@@ -275,7 +275,7 @@
 		}
 	}
 
-	public function cek_link_active($link)
+	public function link_active($link)
 	{
 		$data = $this->db->where('menu', array('link' => $link, 'enable' => '1'))
 							->num_rows();
