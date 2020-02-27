@@ -36,7 +36,7 @@
 	        <div class="single_footer_top wow fadeInRight">
 	            <?php foreach ($sosmed As $data): ?>
 	            <?php if (!empty($data["link"])): ?>
-	            <a href="<?= $data['link']?>" target="_blank">
+	            <a href="<?= $data['link']?>" rel="noopener noreferrer" target="_blank">
 	                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?>-square fa-3x"></i></span>
 	                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram'): ?>
 	                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?> fa-3x"></i></span>

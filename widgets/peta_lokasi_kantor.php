@@ -15,7 +15,7 @@
     <?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?></h2>
   <div class="box-body">
     <div id="map_canvas" style="height:200px;"></div>
-    <button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" target="_blank">Buka Peta</a></button>
+    <button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" rel="noopener noreferrer" target="_blank">Buka Peta</a></button>
 		<button class="btn btn-success btn-block" data-toggle="collapse" data-target="#collapse2" aria-expanded="false">
 			Detail
       <i class="fa fa-chevron-up pull-right"></i>

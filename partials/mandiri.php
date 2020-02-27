@@ -14,7 +14,7 @@
 	<h2>KARTU KELUARGA PENDUDUK</h2> </div></b></th>
     </tr>
 	  <tr>
-		  <td colspan="3" class="button" scope="col"><a href="<?= site_url("first/cetak_kk/$penduduk[id]/1"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK KARTU KELUARGA</button></a></td>
+		  <td colspan="3" class="button" scope="col"><a href="<?= site_url("first/cetak_kk/$penduduk[id]/1"); ?>" rel="noopener noreferrer" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK KARTU KELUARGA</button></a></td>
     </tr>
   </table><br>
 
@@ -169,7 +169,7 @@
       <td><?= strtoupper($penduduk['status'])?></td>
     </tr><br>
     <tr>
-      <td colspan="3" class="button" scope="col"><a href="<?= site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK BIODATA</button></a></td>
+      <td colspan="3" class="button" scope="col"><a href="<?= site_url("first/cetak_biodata/$penduduk[id]"); ?>" rel="noopener noreferrer" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i> CETAK BIODATA</button></a></td>
     </tr>
   </table><br>
 

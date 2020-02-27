@@ -7,7 +7,7 @@
     </div>
     <div class="single_bottom_rightbar">
         <div id="map_wilayah" style="height:200px;"></div>
-        <a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" class="btn btn-primary btn-block" target="_blank">Buka Peta</a>
+        <a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" class="btn btn-primary btn-block" rel="noopener noreferrer" target="_blank">Buka Peta</a>
     </div>
 </div>
 

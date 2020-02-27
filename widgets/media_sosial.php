@@ -5,7 +5,7 @@
   <div class="box-body">
 		<?php foreach ($sosmed As $data): ?>
 		  <?php if (!empty($data["link"])): ?>
-		    <a href="<?= $data['link']?>" target="_blank">
+		    <a href="<?= $data['link']?>" rel="noopener noreferrer" target="_blank">
 		    	<img src="<?= base_url().'assets/front/'.$data['gambar'] ?>" alt="<?= $data['nama'] ?>" style="width:50px;height:50px;"/>
 		    </a>
 		  <?php endif; ?>
