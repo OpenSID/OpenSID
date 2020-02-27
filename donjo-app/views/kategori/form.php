@@ -11,20 +11,20 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-          <?php $this->load->view('kategori/menu_kiri.php')?>
+					<?php $this->load->view('kategori/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?= site_url("kategori")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori
-            	</a>
+							</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama Kategori</label>
 								<div class="col-sm-6">
-									<input name="kategori" class="form-control input-sm" type="text" value="<?=$kategori['kategori']?>"></input>
+									<input name="kategori" class="form-control input-sm required" type="text" value="<?=$kategori['kategori']?>"></input>
 								</div>
 							</div>
 						</div>

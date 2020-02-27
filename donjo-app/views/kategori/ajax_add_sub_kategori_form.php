@@ -8,7 +8,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label" for="nama">Nama Kategori</label>
-							<input name="kategori" class="form-control input-sm" type="text" value="<?=$subkategori['kategori']?>"></input>
+							<input name="kategori" class="form-control input-sm required" type="text" value="<?=$subkategori['kategori']?>"></input>
 						</div>
 					</div>
 				</div>
