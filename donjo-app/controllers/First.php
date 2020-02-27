@@ -70,7 +70,7 @@ class First extends Web_Controller {
 		$this->first_m->ganti();
 		redirect('first');
 	}
-
+	
 	public function index($p=1)
 	{
 		$this->load->model('keuangan_grafik_model');
@@ -195,6 +195,8 @@ class First extends Web_Controller {
 	*/
 	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
 	{
+		$this->first_artikel_m->link_active($slug, 'artikel'); 
+		
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
@@ -284,9 +286,7 @@ class First extends Web_Controller {
 
 	public function statistik($stat='', $tipe=0)
 	{
-		//cek link tersedia dan aktif pada tabel menu
-		//agar tidak sembarangan memasukkan keyword di statistik
-		$cek = $this->laporan_penduduk_model->link_active('statistik/'.$stat); 
+		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
 		if($cek > 0){
 			$data = $this->includes;
 
@@ -302,12 +302,15 @@ class First extends Web_Controller {
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
 		}else{
-			//rederict ke halaman kosong
+			$this->load->view('errors/html/error_404');
 		}
+		
+		
 	}
-
+	
 	public function data_analisis($stat="", $sb=0, $per=0)
 	{
+		//$this->first_artikel_m->link_active(null, 'dpt'); 
 		$data = $this->includes;
 
 		if ($stat == "")
@@ -331,9 +334,7 @@ class First extends Web_Controller {
 
 	public function dpt()
 	{
-		//cek link tersedia dan aktif pada tabel menu
-		//agar tidak sembarangan memasukkan keyword di statistik
-		$cek = $this->laporan_penduduk_model->link_active('dpt'); 
+		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
 		if($cek > 0){
 			$this->load->model('dpt_model');
 			$data = $this->includes;
@@ -345,16 +346,15 @@ class First extends Web_Controller {
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
 		}else{
-			//rederict ke halaman kosong
+			$this->load->view('errors/html/error_404');
 		}
 	}
 
 	public function wilayah()
 	{
-		//cek link tersedia dan aktif pada tabel menu
-		//agar tidak sembarangan memasukkan keyword di statistik
-		$cek = $this->laporan_penduduk_model->link_active('wilayah'); 
+		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
 		if($cek > 0){
+			$this->first_artikel_m->link_active(null, 'wilayah'); 
 			$this->load->model('wilayah_model');
 			$data = $this->includes;
 
@@ -368,16 +368,16 @@ class First extends Web_Controller {
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
 		}else{
-			//rederict ke halaman kosong
+			$this->load->view('errors/html/error_404');
 		}
 	}
 
 	public function peraturan_desa()
 	{
-		//cek link tersedia dan aktif pada tabel menu
-		//agar tidak sembarangan memasukkan keyword di statistik
-		$cek = $this->laporan_penduduk_model->link_active('peraturan_desa'); 
+		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
 		if($cek > 0){
+			$this->first_artikel_m->link_active(null, 'peraturan_desa'); 
+			
 			$this->load->model('web_dokumen_model');
 			$data = $this->includes;
 
@@ -390,7 +390,7 @@ class First extends Web_Controller {
 			$this->set_template('layouts/halaman_statis.tpl.php');
 			$this->load->view($this->template, $data);
 		}else{
-			//rederict ke halaman kosong
+			$this->load->view('errors/html/error_404');
 		}
 	}
 
@@ -543,5 +543,4 @@ class First extends Web_Controller {
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
 	}
-
 }

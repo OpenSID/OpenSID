@@ -249,7 +249,7 @@
 
 		switch ("$lap")
 		{
-			case "kelas_sosial": return "Klasifikasi Sosial"; break;
+			//case "kelas_sosial": return "Klasifikasi Sosial"; break;
 			case "pendidikan-dalam-kk": return "0"; break;
 			case "pekerjaan": return "1"; break;
 			case "status-perkawinan": return "2"; break;
@@ -258,11 +258,12 @@
 			case "warga-negara": return "5"; break;
 			case "status-penduduk": return "6"; break;
 			case "golongan-darah": return "7"; break;
+			case "pendidikan": return "8"; break;
 			case "cacat": return "9"; break;
 			case "penyakit-menahun": return "10"; break;
 			case "umur": return "13"; break;
 			case "pendidikan-sedang-ditempuh": return "14"; break;
-			//case "15": return "Umur"; break;
+			case "umur": return "15"; break;
 			case "akseptor-kb": return "16"; break;
 			case "akte-kelahiran": return "17"; break;
 			case "kepemilikan-wajib-ktp": return "18"; break;
@@ -273,13 +274,6 @@
 			
 			//"dpt" => "Calon Pemilih",
 		}
-	}
-
-	public function link_active($link)
-	{
-		$data = $this->db->where('menu', array('link' => $link, 'enable' => '1'))
-							->num_rows();
-		return $data;
 	}
 	
 	public function jenis_laporan($lap)

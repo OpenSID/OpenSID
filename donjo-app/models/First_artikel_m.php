@@ -499,4 +499,17 @@ class First_artikel_m extends CI_Model {
 		$_SESSION['artikel'][] = $id;
 	}
 
+	public function link_active($link, $kat)
+	{
+		//Cek Kategori
+		if($kat == "artikel"){
+			//Cek Artikel Aktif
+			$cek = $this->db->get_where('artikel', array('slug' => $link, 'enabled' => '1'))->num_rows();
+			return $cek;
+		}else{
+			//Cek Menu Aktif
+			$cek = $this->db->get_where('menu', array('link' => $kat.'/'.$link, 'enabled' => '1'))->num_rows();
+			return $cek;
+		}
+	}
 }

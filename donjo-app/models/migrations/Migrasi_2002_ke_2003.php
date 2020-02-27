@@ -67,5 +67,25 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		$this->db->where('link', 'statistik/21')->update('menu', array('link' => 'statistik/klasifikasi-sosial'));
 		$this->db->where('link', 'statistik/24')->update('menu', array('link' => 'statistik/penerima-bos'));
 		
+		// Untuk Jenis Link : 
+		//$link = str_replace("-", " ", $slug);
+		//cek menu dgn url
+		$list_menu = $this->db->where("link like '%artikel/%'")->get('menu')->result_array();
+		foreach ($list_menu as $menu)
+		{
+			//cari idnya di artikel
+			//jika ada ganti jdi slug dr artikel
+			$id = str_replace("artikel/", "", $menu['link']);
+			
+			$artikel = $this->db->where('id', $id)->get('artikel')->row_array();
+			//$tgl = substr(str_replace("-", "/", $artikel['tgl_upload']),0,9);
+			$this->db->where('link', 'artikel/'.$artikel['id'])->update('menu', array('link' => 'artikel/'.$artikel['slug']));
+			
+		}
+		
+		
+		
+		
+		str_replace("-", " ", $slug);
 	}
 }
