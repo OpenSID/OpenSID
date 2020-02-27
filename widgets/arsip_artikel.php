@@ -1,6 +1,6 @@
 <!-- widget Arsip Artikel -->
     <div class="single_bottom_rightbar">
-        <h2><i class="fa fa-archive"></i> Arsip Artikel</h2>
+        <h2><a href="<?= site_url();?>first/arsip"><i class="fa fa-calendar"></i> Arsip Artikel</a></h2>
             <ul role="tablist" class="nav nav-tabs custom-tabs">
               <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#recentComent">Terbaru</a></li>
               <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#random">Acak</a></li>

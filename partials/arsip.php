@@ -40,7 +40,7 @@
 								<?= $data["owner"]?>
 							</td>
 							<td style="text-align:center;">
-								<?= hit($data['hit']) ?> Dibaca
+								<?= hit($data['hit']) ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>
