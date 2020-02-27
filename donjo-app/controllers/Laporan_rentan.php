@@ -36,7 +36,7 @@ class Laporan_rentan extends Admin_Controller {
 		else $data['dusun'] = '';
 
 		$data['list_dusun'] = $this->laporan_bulanan_model->list_dusun();
-		$data['config'] = $this->$this->config_model->get_data();
+		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
 
 		$nav['act'] = 3;
@@ -52,7 +52,7 @@ class Laporan_rentan extends Admin_Controller {
 
 	public function cetak()
 	{
-		$data['config'] = $this->$this->config_model->get_data();
+		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
 		$this->load->view('laporan/kelompok_print', $data);
 	}
