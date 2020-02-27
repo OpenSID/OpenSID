@@ -37,7 +37,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="link">Jenis Link</label>
 								<div class="col-sm-6">
-									<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val());">
+									<select class="form-control input-sm" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val());">
 										<option option value="">-- Pilih Jenis Link --</option>
 										<option value="1" <?php selected($submenu['link_tipe'], "1") ?>>Artikel Statis</option>
 										<option value="2" <?php selected($submenu['link_tipe'], "2") ?>>Statistik Penduduk</option>
@@ -89,7 +89,7 @@
 										<?php endforeach; ?>
 									</select>
 									<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">
-										<input  name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
+										<input  name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm required" type="text" value="<?=$submenu['link']?>"></input>
 										<span class="text-sm text-red">(misalnya: http://opensid.info)</span>
 									</span>
 								</div>
