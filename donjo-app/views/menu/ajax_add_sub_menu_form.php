@@ -83,7 +83,7 @@
 							<select id="statistik_penduduk" class="form-control input-sm jenis_link"  name="<?php if ($submenu['link_tipe']==2): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=2): ?>display:none;<?php endif; ?>">
 								<option value="">Pilih Statistik Penduduk</option>
 								<?php foreach ($statistik_penduduk as $id => $nama): ?>
-									<option value="<?=$id?>" <?php selected($submenu['link'], $id) ?>>><?= $nama?></option>
+									<option value="<?=$id?>" <?php selected($submenu['link'], $id) ?>><?= $nama?></option>
 								<?php endforeach; ?>
 							</select>
 							<select id="statistik_keluarga" class="form-control jenis_link input-sm"  name="<?php if ($submenu['link_tipe']==3): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=3): ?>display:none;<?php endif; ?>">

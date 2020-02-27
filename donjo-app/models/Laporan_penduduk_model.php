@@ -195,23 +195,23 @@
 	public function link_statistik_penduduk()
 	{
 		$statistik = array(
-			"statistik/3"  => "Agama",
-			"statistik/17" => "Akte Kelahiran",
-			"statistik/16" => "Akseptor KB",
-			"dpt" 				 => "Calon Pemilih",
-			"statistik/9"  => "Cacat",
-			"statistik/7"  => "Golongan Darah",
-			"statistik/4"  => "Jenis Kelamin",
-			"statistik/0"  => "Pendidikan Dalam KK",
-			"statistik/14" => "Pendidikan Sedang Ditempuh",
-			"statistik/10" => "Penyakit Menahun",
-			"statistik/1"  => "Pekerjaan",
-			"statistik/6"  => "Status Penduduk",
-			"statistik/2"  => "Status Perkawinan",
-			"statistik/13" => "Umur",
-			"statistik/18" => "Kepemilikan Wajib KTP",
-			"statistik/5"  => "Warga Negara",
-			"statistik/19" => "Asuransi"
+			"statistik/agama" => "Agama",
+			"statistik/akte-kelahiran" => "Akte Kelahiran",
+			"statistik/akseptor-kb" => "Akseptor KB",
+			"dpt" => "Calon Pemilih",
+			"statistik/cacat" => "Cacat",
+			"statistik/golongan-darah" => "Golongan Darah",
+			"statistik/jenis-kelamin" => "Jenis Kelamin",
+			"statistik/pendidikan-dalam-kk" => "Pendidikan Dalam KK",
+			"statistik/pendidikan-sedang-ditempuh" => "Pendidikan Sedang Ditempuh",
+			"statistik/penyakit-menahun" => "Penyakit Menahun",
+			"statistik/pekerjaan"  => "Pekerjaan",
+			"statistik/status-penduduk" => "Status Penduduk",
+			"statistik/status-perkawinan" => "Status Perkawinan",
+			"statistik/umur" => "Umur",
+			"statistik/kepemilikan-wajib-ktp" => "Kepemilikan Wajib KTP",
+			"statistik/warga-negara" => "Warga Negara",
+			"statistik/jenis-asuransi" => "Jenis Asuransi"
 		);
 		return $statistik;
 	}
@@ -219,7 +219,7 @@
 	public function link_statistik_keluarga()
 	{
 		$statistik = array(
-			"statistik/kelas_sosial" => "Kelas Sosial"
+			"statistik/kelas-sosial" => "Kelas Sosial"
 		);
 		return $statistik;
 	}
@@ -227,52 +227,61 @@
 	public function link_statis_lainnya()
 	{
 		$statistik = array(
-			"wilayah" => "Wilayah Administratif",
-      'peraturan_desa' => 'Produk Hukum',
-      'informasi_publik' => 'Informasi Publik'
+			"wilayah-administratif" => "Wilayah Administratif",
+			"peraturan-desa" => "Produk Hukum",
+			"informasi-publik" => "Informasi Publik"
 		);
 		return $statistik;
 	}
 
-	public function judul_statistik($lap)
+	public function ambil_id($lap)
 	{
 		// Program bantuan berbentuk '50<program_id>'
-		if ($lap > 50)
-		{
-			$program_id = preg_replace("/^50/", "", $lap);
-			$this->db->select("nama");
-			$this->db->where('id', $program_id);
-			$q = $this->db->get('program');
-			$program = $q->row_array();
-			return $program['nama'];
-		}
+		//if ($lap > 50)
+		//{
+			//$program_id = preg_replace("/^50/", "", $lap);
+			//$this->db->select("nama");
+			//$this->db->where('id', $program_id);
+			//$q = $this->db->get('program');
+			//$program = $q->row_array();
+			//return $program['nama'];
+		//}
 
 		switch ("$lap")
 		{
 			case "kelas_sosial": return "Klasifikasi Sosial"; break;
-			case "0": return "Pendidikan Dalam KK"; break;
-			case "1": return "Pekerjaan"; break;
-			case "2": return "Status Perkawinan"; break;
-			case "3": return "Agama"; break;
-			case "4": return "Jenis Kelamin"; break;
-			case "5": return "Warga Negara"; break;
-			case "6": return "Status"; break;
-			case "7": return "Golongan Darah"; break;
-			case "9": return "Cacat"; break;
-			case "10": return "Sakit Menahun"; break;
-			case "13": return "Umur"; break;
-			case "14": return "Pendidikan Sedang Ditempuh"; break;
-			case "15": return "Umur"; break;
-			case "16": return "Akseptor KB"; break;
-			case "17": return "Akte Kelahiran"; break;
-			case "18": return "Kepemilikan Wajib KTP"; break;
-			case "19": return "Jenis Asuransi"; break;
-			case "21": return "Klasifikasi Sosial"; break;
-			case "24": return "Penerima BOS"; break;
-			default: return "Pendidikan";
+			case "pendidikan-dalam-kk": return "0"; break;
+			case "pekerjaan": return "1"; break;
+			case "status-perkawinan": return "2"; break;
+			case "agama": return "3"; break;
+			case "jenis-kelamin": return "4"; break;
+			case "warga-negara": return "5"; break;
+			case "status-penduduk": return "6"; break;
+			case "golongan-darah": return "7"; break;
+			case "cacat": return "9"; break;
+			case "penyakit-menahun": return "10"; break;
+			case "umur": return "13"; break;
+			case "pendidikan-sedang-ditempuh": return "14"; break;
+			//case "15": return "Umur"; break;
+			case "akseptor-kb": return "16"; break;
+			case "akte-kelahiran": return "17"; break;
+			case "kepemilikan-wajib-ktp": return "18"; break;
+			case "jenis-asuransi": return "19"; break;
+			//case "klasifikasi-sosial": return "21"; break;
+			//case "penerima-bos": return "24"; break;
+			//default: return "Pendidikan";
+			
+			//"dpt" => "Calon Pemilih",
 		}
 	}
 
+	public function cek_link_active($link)
+	{
+		$data = $this->db->where('menu', array('link' => $link, 'enable' => '1'))
+							->num_rows();
+		return $data;
+	}
+	
 	public function jenis_laporan($lap)
 	{
 		$jenis_laporan = "penduduk";

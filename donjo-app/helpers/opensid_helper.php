@@ -448,6 +448,12 @@ function fatalErrorShutdownHandler()
 	}
 }
 
+function unslug($slug)
+{
+	$data = str_replace("-", " ", $slug);
+	return ucwords($data);
+}
+
 function get_dynamic_title_page_from_path()
 {
 	$parse = str_replace(array(

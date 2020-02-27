@@ -282,20 +282,28 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function statistik($stat=0, $tipe=0)
+	public function statistik($stat='', $tipe=0)
 	{
-		$data = $this->includes;
+		//cek link tersedia dan aktif pada tabel menu
+		//agar tidak sembarangan memasukkan keyword di statistik
+		$cek = $this->laporan_penduduk_model->link_active('statistik/'.$stat); 
+		if($cek > 0){
+			$data = $this->includes;
 
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
-		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
-		$data['tipe'] = $tipe;
-		$data['st'] = $stat;
+			$id = $this->laporan_penduduk_model->ambil_id($stat);
+			$data['heading'] = unslug($stat);
+			$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($id);
+			$data['stat'] = $this->laporan_penduduk_model->list_data($id);
+			$data['tipe'] = $tipe;
+			$data['st'] = $id;
 
-		$this->_get_common_data($data);
+			$this->_get_common_data($data);
 
-		$this->set_template('layouts/stat.tpl.php');
-		$this->load->view($this->template, $data);
+			$this->set_template('layouts/stat.tpl.php');
+			$this->load->view($this->template, $data);
+		}else{
+			//rederict ke halaman kosong
+		}
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
@@ -323,46 +331,67 @@ class First extends Web_Controller {
 
 	public function dpt()
 	{
-		$this->load->model('dpt_model');
-		$data = $this->includes;
-		$data['main'] = $this->dpt_model->statistik_wilayah();
-		$data['total'] = $this->dpt_model->statistik_total();
-		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
-		$this->_get_common_data($data);
-		$data['tipe'] = 4;
-		$this->set_template('layouts/stat.tpl.php');
-		$this->load->view($this->template, $data);
+		//cek link tersedia dan aktif pada tabel menu
+		//agar tidak sembarangan memasukkan keyword di statistik
+		$cek = $this->laporan_penduduk_model->link_active('dpt'); 
+		if($cek > 0){
+			$this->load->model('dpt_model');
+			$data = $this->includes;
+			$data['main'] = $this->dpt_model->statistik_wilayah();
+			$data['total'] = $this->dpt_model->statistik_total();
+			$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+			$this->_get_common_data($data);
+			$data['tipe'] = 4;
+			$this->set_template('layouts/stat.tpl.php');
+			$this->load->view($this->template, $data);
+		}else{
+			//rederict ke halaman kosong
+		}
 	}
 
 	public function wilayah()
 	{
-		$this->load->model('wilayah_model');
-		$data = $this->includes;
+		//cek link tersedia dan aktif pada tabel menu
+		//agar tidak sembarangan memasukkan keyword di statistik
+		$cek = $this->laporan_penduduk_model->link_active('wilayah'); 
+		if($cek > 0){
+			$this->load->model('wilayah_model');
+			$data = $this->includes;
 
-		$data['main']    = $this->first_penduduk_m->wilayah();
-		$data['heading']="Populasi Per Wilayah";
-		$data['tipe'] = 3;
-		$data['total'] = $this->wilayah_model->total();
-		$data['st'] = 1;
-		$this->_get_common_data($data);
+			$data['main']    = $this->first_penduduk_m->wilayah();
+			$data['heading']="Populasi Per Wilayah";
+			$data['tipe'] = 3;
+			$data['total'] = $this->wilayah_model->total();
+			$data['st'] = 1;
+			$this->_get_common_data($data);
 
-		$this->set_template('layouts/stat.tpl.php');
-		$this->load->view($this->template, $data);
+			$this->set_template('layouts/stat.tpl.php');
+			$this->load->view($this->template, $data);
+		}else{
+			//rederict ke halaman kosong
+		}
 	}
 
 	public function peraturan_desa()
 	{
-		$this->load->model('web_dokumen_model');
-		$data = $this->includes;
+		//cek link tersedia dan aktif pada tabel menu
+		//agar tidak sembarangan memasukkan keyword di statistik
+		$cek = $this->laporan_penduduk_model->link_active('peraturan_desa'); 
+		if($cek > 0){
+			$this->load->model('web_dokumen_model');
+			$data = $this->includes;
 
-		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
-		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-		$data['heading']="Produk Hukum";
-		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
-		$this->_get_common_data($data);
+			$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+			$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+			$data['heading']="Produk Hukum";
+			$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
+			$this->_get_common_data($data);
 
-		$this->set_template('layouts/halaman_statis.tpl.php');
-		$this->load->view($this->template, $data);
+			$this->set_template('layouts/halaman_statis.tpl.php');
+			$this->load->view($this->template, $data);
+		}else{
+			//rederict ke halaman kosong
+		}
 	}
 
   public function ajax_table_peraturan()
