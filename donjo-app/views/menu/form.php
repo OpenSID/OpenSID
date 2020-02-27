@@ -23,7 +23,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$submenu['nama']?>"></input>
+									<input  name="nama" class="form-control input-sm required" type="text" value="<?=$submenu['nama']?>"></input>
 								</div>
 							</div>
 							<?php if (!empty($submenu['link'])): ?>
@@ -52,7 +52,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4">Link</label>
 								<div class="col-sm-6" >
-									<select id="link" class="form-control input-sm jenis_link"  name="<?php if ($submenu['link_tipe']==1): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=1): ?>display:none<?php endif; ?>" <?php if ($submenu['link_tipe']!=1): ?>disabled="disabled"<?php endif; ?>>
+									<select id="link" class="form-control input-sm jenis_link required"  name="<?php if ($submenu['link_tipe']==1): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=1): ?>display:none<?php endif; ?>" <?php if ($submenu['link_tipe']!=1): ?>disabled="disabled"<?php endif; ?>>
 										<option value="">Pilih Artikel Statis</option>
 										<?php foreach ($link as $data): ?>
 											<option value="artikel/<?= $data['id']?>" <?php selected($submenu['link'], $id) ?>><label>No link : </label><?=$data['judul']?></option>
