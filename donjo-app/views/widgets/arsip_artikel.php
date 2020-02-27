@@ -19,7 +19,7 @@
         <table>
           <?php foreach ($arsip as $l): ?>
             <tr><td>
-              <a href="<?= site_url("first/artikel/$l[id]")?>">
+               <a href="<?= site_url('first/artikel/'.buat_slug($l))?>">
                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$l[gambar]")): ?>
                   <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
                 <?php else: ?>
@@ -37,7 +37,7 @@
         <table>
           <?php foreach ($arsip_rand as $l): ?>
             <tr><td>
-              <a href="<?= site_url("first/artikel/$l[id]")?>">
+              <a href="<?= site_url('first/artikel/'.buat_slug($l))?>">
                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$l[gambar]")): ?>
                   <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
                 <?php else: ?>
