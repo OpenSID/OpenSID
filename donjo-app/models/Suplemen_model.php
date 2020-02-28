@@ -1,6 +1,4 @@
-<?php
-
-class Suplemen_model extends CI_Model {
+<?php class Suplemen_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -495,6 +493,5 @@ class Suplemen_model extends CI_Model {
 			return null;
 		}
 	}
-
 }
 ?>

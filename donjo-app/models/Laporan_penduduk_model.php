@@ -633,14 +633,6 @@
 		return $data;
 	}
 
-	public function get_config()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$data = $query->row_array();
-		return $data;
-	}
-
 	public function list_data_rentang()
 	{
 		$query = $this->db->where('status', 1)->order_by('dari')->get('tweb_penduduk_umur');
