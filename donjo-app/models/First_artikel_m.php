@@ -505,14 +505,10 @@ class First_artikel_m extends CI_Model {
 			//Cek Artikel Aktif Pada Halaman Website //link=slug
 			$cek = $this->db->get_where('artikel', array('slug' => $link, 'enabled' => '1'))->num_rows();
 			return $cek;
-		}else if($kat == "artikel"){
-			//Cek Artikel Aktif Pada Halaman Website //link=slug
-			$cek = $this->db->get_where('artikel', array('slug' => $link, 'enabled' => '1'))->num_rows();
-			return $cek;
 		}else{
-			//Cek Lainnya Aktif
-			//$cek = $this->db->get_where('menu', array('link' => $kat.'/'.$link, 'enabled' => '1'))->num_rows();
-			//return $cek;
+			//Cek Menu Aktif
+			$cek = $this->db->get_where('menu', array('link' => $kat.'/'.$link, 'enabled' => '1'))->num_rows();
+			return $cek;
 		}
 	}
 }

@@ -198,7 +198,7 @@
 			"statistik/agama" => "Agama",
 			"statistik/akte-kelahiran" => "Akte Kelahiran",
 			"statistik/akseptor-kb" => "Akseptor KB",
-			"dpt" => "Calon Pemilih",
+			"statistik/calon-pemilih" => "Calon Pemilih",
 			"statistik/cacat" => "Cacat",
 			"statistik/golongan-darah" => "Golongan Darah",
 			"statistik/jenis-kelamin" => "Jenis Kelamin",
@@ -270,7 +270,11 @@
 			case "jenis-asuransi": return "19"; break;
 			//case "klasifikasi-sosial": return "21"; break;
 			//case "penerima-bos": return "24"; break;
-			//default: return 999; break;
+
+			case "calon-pemilih": return "1000"; break;
+			default:
+				# code...
+				break;
 			
 			//"dpt" => "Calon Pemilih",
 		}

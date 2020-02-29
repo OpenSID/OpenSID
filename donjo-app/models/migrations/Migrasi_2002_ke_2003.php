@@ -68,15 +68,11 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		$this->db->where('link', 'statistik/24')->update('menu', array('link' => 'statistik/penerima-bos'));
 		
 		// Untuk Jenis Link : artikel
-		//cek menu dgn url
+		//ganti link dengan url artikel pada tabel menu menjadi artikel/slug (slug diambil dari tabel artikel)
 		$list_menu = $this->db->where("link like '%artikel/%'")->get('menu')->result_array();
 		foreach ($list_menu as $menu)
 		{
-			//cari idnya di artikel
-			//jika ada ganti jdi slug dr artikel
 			$id = str_replace("artikel/", "", $menu['link']);
-			
-
 			$data = $this->db->select('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where('id', $id)->get('artikel');
 			$artikel = $data->row_array();
 			$cek = $data->num_rows();
@@ -88,5 +84,8 @@ class Migrasi_2002_ke_2003 extends CI_model {
 			}			
 		}
 		str_replace("-", " ", $slug);
+
+		//ganti link dpt pada tabel menu menjadi statsitik/calon-pemilih
+		$this->db->where('link', 'dpt')->update('menu', array('link' => 'calon-pemilih'));
 	}
 }

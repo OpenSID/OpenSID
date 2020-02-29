@@ -285,25 +285,32 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function statistik($stat='', $tipe=0)
+	public function statistik($stat='', $tipe='')
 	{
 		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
-		//link tidak aktif masih bisa diakses admin yg login
-		if($cek == 0 AND $_SESSION['siteman'] != 1){
-			$this->load->view('errors/html/error_404');
-		}else{
-			$data = $this->includes;
-			$data['heading'] = unslug($stat);
-			$id = $this->laporan_penduduk_model->ambil_id($stat);
-			$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($id);
-			$data['stat'] = $this->laporan_penduduk_model->list_data($id);
-			$data['tipe'] = $tipe;
-			$data['st'] = $id;
+		$id = $this->laporan_penduduk_model->ambil_id($stat);
 
-			$this->_get_common_data($data);
-			$this->set_template('layouts/stat.tpl.php');
-			$this->load->view($this->template, $data);
-		}		
+		if($id == 1000){
+			$this->dpt($stat);
+		}else{
+			//link tidak aktif masih bisa diakses admin yg login
+			if($cek == 0 AND $_SESSION['siteman'] != 1){
+				$this->load->view('errors/html/error_404');
+			}else{
+				$data = $this->includes;
+				$data['heading'] = unslug($stat);
+				
+				$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($id);
+				$data['stat'] = $this->laporan_penduduk_model->list_data($id);
+				$data['tipe'] = $tipe;
+				$data['st'] = $id;
+
+				$this->_get_common_data($data);
+				$this->set_template('layouts/stat.tpl.php');
+				$this->load->view($this->template, $data);
+			}
+		}
+		
 	}
 	
 	public function data_analisis($stat="", $sb=0, $per=0)
@@ -330,10 +337,13 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function dpt()
+	public function dpt($stat)
 	{
-		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
-		if($cek > 0){
+		$cek = $this->first_artikel_m->link_active('calon-pemilih', 'statistik'); 
+		//link tidak aktif masih bisa diakses admin yg login
+		if($cek == 0 AND $_SESSION['siteman'] != 1){
+			$this->load->view('errors/html/error_404');
+		}else{
 			$this->load->model('dpt_model');
 			$data = $this->includes;
 			$data['main'] = $this->dpt_model->statistik_wilayah();
@@ -343,15 +353,16 @@ class First extends Web_Controller {
 			$data['tipe'] = 4;
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
-		}else{
-			$this->load->view('errors/html/error_404');
 		}
 	}
 
 	public function wilayah()
 	{
-		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
-		if($cek > 0){
+		$cek = $this->first_artikel_m->link_active($stat, 'statistik');
+
+		if($cek == 0 AND $_SESSION['siteman'] != 1){
+			$this->load->view('errors/html/error_404');
+		}else{
 			$this->first_artikel_m->link_active(null, 'wilayah'); 
 			$this->load->model('wilayah_model');
 			$data = $this->includes;
@@ -365,15 +376,16 @@ class First extends Web_Controller {
 
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
-		}else{
-			$this->load->view('errors/html/error_404');
 		}
 	}
 
 	public function peraturan_desa()
 	{
-		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
-		if($cek > 0){
+		$cek = $this->first_artikel_m->link_active($stat, 'statistik');
+		
+		if($cek == 0 AND $_SESSION['siteman'] != 1){
+			$this->load->view('errors/html/error_404');
+		}else{
 			$this->first_artikel_m->link_active(null, 'peraturan_desa'); 
 			
 			$this->load->model('web_dokumen_model');
@@ -387,8 +399,6 @@ class First extends Web_Controller {
 
 			$this->set_template('layouts/halaman_statis.tpl.php');
 			$this->load->view($this->template, $data);
-		}else{
-			$this->load->view('errors/html/error_404');
 		}
 	}
 
