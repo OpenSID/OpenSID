@@ -1,48 +1,36 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
-
-<html>
-<head>
-
-<?php $this->load->view("$folder_themes/commons/meta.php"); ?>
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <?php $this->load->view("$folder_themes/commons/meta.php"); ?>
 </head>
 <body>
+<!--
 <div id="preloader">
   <div id="status">&nbsp;</div>
 </div>
+-->
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
-<div class="container"style="
-    background-color: #f6f6f6;
-">
-  <header id="header">  
-<?php $this->load->view("$folder_themes/partials/header.php"); ?>
-  </header>
-  <div id="navarea">
-<?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>  
-  </div>
-  <section id="mainContent">
-
-  
-  
-    <div class="content_middle">
-
-	
+<div class="container"style="background-color: #f6f6f6;">
+    <header id="header">
+        <?php $this->load->view("$folder_themes/partials/header.php"); ?>
+    </header>
+    <div id="navarea">
+        <?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>
     </div>
-    <div class="content_bottom">
-		<div class="col-lg-9 col-md-9">
-		<div class="content_bottom_left">
-		
-<?php $this->load->view($folder_themes.'/partials/sub_gallery.php');?>
-
-	    </div>
-		</div>
-		<div class="col-lg-3 col-md-3">
-<?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
-		</div>
-    </div>
-  </section>
+    <section id="mainContent">
+        <div class="content_middle"></div>
+        <div class="content_bottom">
+            <div class="col-lg-9 col-md-9">
+                <div class="content_bottom_left">
+                    <?php $this->load->view($folder_themes.'/partials/sub_gallery.php');?>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
+            </div>
+        </div>
+    </section>
 </div>
 <footer id="footer">
 <?php $this->load->view("$folder_themes/partials/footer_top.php"); ?>
