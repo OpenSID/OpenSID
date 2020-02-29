@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.02-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.03, tersedia tabel dan grafik statistik pengunjung website, serta perbaikan modul transparansi keuangan. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Zeppy Shiddiq, Il Ham, Nur Hidayat, ianskids, Ariandi Ryan Kahfi dan Riyandika Andhi yang terus berkontribusi. Terima kasih pula pada afa28 yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.03 adalah sebagai berikut:
 
 1. Sekarang peta lokasi tempat tinggal penduduk dapat diubah walaupun sebelumnya belum ada. [bug-fix]
 2. #2641: Bisa langsung simpan peta wilayah setelah dibuat poligonnya. 
@@ -37,4 +37,4 @@ Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
 31. #2723: Hapus folder tidak diperlukan. Tutup celah akses publik ke folder securimage. [security-fix]
 
 
-Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
