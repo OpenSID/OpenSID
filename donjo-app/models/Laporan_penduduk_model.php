@@ -227,9 +227,9 @@
 	public function link_statis_lainnya()
 	{
 		$statistik = array(
-			"wilayah-administratif" => "Wilayah Administratif",
+			"wilayah" => "Wilayah Administratif",
 			"peraturan-desa" => "Produk Hukum",
-			"informasi-publik" => "Informasi Publik"
+			"informasi_publik" => "Informasi Publik"
 		);
 		return $statistik;
 	}
@@ -246,7 +246,7 @@
 			//$program = $q->row_array();
 			//return $program['nama'];
 		//}
-
+		//cek id statistik
 		switch ("$lap")
 		{
 			//case "kelas_sosial": return "Klasifikasi Sosial"; break;
@@ -270,7 +270,7 @@
 			case "jenis-asuransi": return "19"; break;
 			//case "klasifikasi-sosial": return "21"; break;
 			//case "penerima-bos": return "24"; break;
-			//default: return "Pendidikan";
+			//default: return 999; break;
 			
 			//"dpt" => "Calon Pemilih",
 		}

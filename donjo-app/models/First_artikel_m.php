@@ -501,15 +501,20 @@ class First_artikel_m extends CI_Model {
 
 	public function link_active($link, $kat)
 	{
-		//Cek Kategori
 		if($kat == "artikel"){
-			//Cek Artikel Aktif
+			//Cek Artikel Aktif Pada Halaman Website //link=slug
+			$cek = $this->db->get_where('artikel', array('slug' => $link, 'enabled' => '1'))->num_rows();
+			return $cek;
+		}else if($kat == "artikel"){
+			//Cek Artikel Aktif Pada Halaman Website //link=slug
 			$cek = $this->db->get_where('artikel', array('slug' => $link, 'enabled' => '1'))->num_rows();
 			return $cek;
 		}else{
-			//Cek Menu Aktif
-			$cek = $this->db->get_where('menu', array('link' => $kat.'/'.$link, 'enabled' => '1'))->num_rows();
-			return $cek;
+			//Cek Lainnya Aktif
+			//$cek = $this->db->get_where('menu', array('link' => $kat.'/'.$link, 'enabled' => '1'))->num_rows();
+			//return $cek;
 		}
 	}
+
+
 }

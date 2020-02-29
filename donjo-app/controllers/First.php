@@ -105,7 +105,6 @@ class First extends Web_Controller {
 		if ($_SESSION['mandiri'] != 1)
 		{
 			redirect('first');
-			return;
 		}
 		// Hanya boleh mencetak data pengguna yang login
 		$id = $_SESSION['id'];
@@ -120,7 +119,6 @@ class First extends Web_Controller {
 		if ($_SESSION['mandiri'] != 1)
 		{
 			redirect('first');
-			return;
 		}
 		// Hanya boleh mencetak data pengguna yang login
 		$id = $_SESSION['id'];
@@ -137,7 +135,6 @@ class First extends Web_Controller {
 		if ($_SESSION['mandiri'] != 1)
 		{
 			redirect('first');
-			return;
 		}
 		$this->load->model('program_bantuan_model');
 		$data = $this->program_bantuan_model->get_program_peserta_by_id($id);
@@ -195,40 +192,44 @@ class First extends Web_Controller {
 	*/
 	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
 	{
-		$this->first_artikel_m->link_active($slug, 'artikel'); 
-		
-		$this->load->model('shortcode_model');
-		$data = $this->includes;
+		$cek = $this->first_artikel_m->link_active($slug, 'artikel'); 
+		//link tidak aktif masih bisa diakses admin yg login
+		if($cek == 0 AND $_SESSION['siteman'] != 1){
+			$this->load->view('errors/html/error_404');
+		}else{
+			$this->load->model('shortcode_model');
+			$data = $this->includes;
 
-		if (empty($slug))
-		{
-			// Kalau slug kosong, parameter pertama adalah id artikel
-			$id = $thn;
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
-		}
-		else
-		{
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
-			$id = $data['single_artikel']['id'];
-		}
-		// replace isi artikel dengan shortcodify
-		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
-		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
-		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
-		$this->_get_common_data($data);
+			if (empty($slug))
+			{
+				// Kalau slug kosong, parameter pertama adalah id artikel
+				$id = $thn;
+				$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
+			}
+			else
+			{
+				$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
+				$id = $data['single_artikel']['id'];
+			}
+			// replace isi artikel dengan shortcodify
+			$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
+			$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
+			$data['komentar'] = $this->first_artikel_m->list_komentar($id);
+			$this->_get_common_data($data);
 
-		// Validasi pengisian komentar di add_comment()
-		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
-		if (empty($_SESSION['validation_error']))
-		{
-			$_SESSION['post']['owner'] = '';
-			$_SESSION['post']['email'] = '';
-			$_SESSION['post']['no_hp'] = '';
-			$_SESSION['post']['komentar'] = '';
-			$_SESSION['post']['captcha_code'] = '';
-		}
-		$this->set_template('layouts/artikel.tpl.php');
-		$this->load->view($this->template,$data);
+			// Validasi pengisian komentar di add_comment()
+			// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
+			if (empty($_SESSION['validation_error']))
+			{
+				$_SESSION['post']['owner'] = '';
+				$_SESSION['post']['email'] = '';
+				$_SESSION['post']['no_hp'] = '';
+				$_SESSION['post']['komentar'] = '';
+				$_SESSION['post']['captcha_code'] = '';
+			}
+			$this->set_template('layouts/artikel.tpl.php');
+			$this->load->view($this->template,$data);
+		}		
 	}
 
 	public function arsip($p=1)
@@ -287,25 +288,22 @@ class First extends Web_Controller {
 	public function statistik($stat='', $tipe=0)
 	{
 		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
-		if($cek > 0){
+		//link tidak aktif masih bisa diakses admin yg login
+		if($cek == 0 AND $_SESSION['siteman'] != 1){
+			$this->load->view('errors/html/error_404');
+		}else{
 			$data = $this->includes;
-
-			$id = $this->laporan_penduduk_model->ambil_id($stat);
 			$data['heading'] = unslug($stat);
+			$id = $this->laporan_penduduk_model->ambil_id($stat);
 			$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($id);
 			$data['stat'] = $this->laporan_penduduk_model->list_data($id);
 			$data['tipe'] = $tipe;
 			$data['st'] = $id;
 
 			$this->_get_common_data($data);
-
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
-		}else{
-			$this->load->view('errors/html/error_404');
-		}
-		
-		
+		}		
 	}
 	
 	public function data_analisis($stat="", $sb=0, $per=0)
