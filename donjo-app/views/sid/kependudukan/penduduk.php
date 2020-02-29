@@ -1,14 +1,22 @@
 <script>
-	$(function()
-	{
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-			{
-				source: keyword,
-				maxShowItems: 10,
-			});
-	});
-
+  $( function() {
+	  $( "#cari" ).autocomplete({
+	    source: function( request, response ) {
+	      $.ajax( {
+					type: "POST",
+	        url: '<?= site_url("penduduk/autocomplete")?>',
+	        dataType: "json",
+	        data: {
+	          cari: request.term
+	        },
+	        success: function( data ) {
+	          response( JSON.parse( data ));
+	        }
+	      } );
+	    },
+	    minLength: 2,
+	  } );
+  } );
 </script>
 <style>
 	.input-sm
@@ -52,7 +60,7 @@
 									<a href="<?= site_url("penduduk/cetak")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk/excel")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+									<a href="<?= site_url("penduduk/excel/$o")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 								</li>
 								<li>
 									<a href="<?= site_url("penduduk/ajax_adv_search")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
@@ -90,7 +98,7 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
@@ -131,6 +139,7 @@
 															<th><input type="checkbox" id="checkall"/></th>
 															<th>No</th>
 															<th >Aksi</th>
+															<th >Foto</th>
 															<?php if ($o==2): ?>
 																<th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
 															<?php elseif ($o==1): ?>
@@ -138,6 +147,7 @@
 															<?php else: ?>
 																<th><a href="<?= site_url("penduduk/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
 															<?php endif; ?>
+															<th>Tag ID Card</th>
 															<?php if ($o==4): ?>
 																<th nowrap><a href="<?= site_url("penduduk/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
 															<?php elseif ($o==3): ?>
@@ -171,6 +181,13 @@
 															<?php endif; ?>
 															<th >Pekerjaan</th>
 															<th>Kawin</th>
+															<?php if ($o==10): ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/9")?>">Tgl Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+															<?php elseif ($o==9): ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/10")?>">Tgl Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+															<?php else: ?>
+																<th nowrap><a href="<?= site_url("penduduk/index/$p/10")?>">Tgl Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
+															<?php endif; ?>
 														</tr>
 														</thead>
 														<tbody>
@@ -195,7 +212,7 @@
 																					<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																				</li>
 																				<li>
-																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Lokasi <?= $data['nama']?>" data-title="Lokasi <?= $data['nama']?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
+																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
 																				</li>
 																				<li>
 																					<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
@@ -215,9 +232,17 @@
 																		</ul>
 																	</div>
 																</td>
+																<td nowrap>
+																	<div class="user-panel">
+																		<div class="image2">
+																			<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																		</div>
+																	</div>
+																</td>
 																<td>
 																	<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																</td>
+																<td nowrap><?= $data['tag_id_card']?></td>
 																<td nowrap><?= strtoupper($data['nama'])?></td>
 																<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
 																<!-- tambah kolom orang tua-->
@@ -226,13 +251,14 @@
 																<!-- tambah kolom orang tua-->
 																<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
 																<td><?= strtoupper($data['alamat'])?></td>
-																<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+																<td><?= strtoupper($data['dusun'])?></td>
 																<td><?= $data['rw']?></td>
 																<td><?= $data['rt']?></td>
 																<td><?= $data['pendidikan']?></td>
 																<td><?= $data['umur']?></td>
 																<td><?= $data['pekerjaan']?></td>
 																<td><?= $data['kawin']?></td>
+																<td><?= tgl_indo($data['created_at'])?></td>
 															</tr>
 														<?php endforeach; ?>
 														</tbody>

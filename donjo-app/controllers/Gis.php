@@ -7,18 +7,12 @@ class Gis extends Admin_Controller {
 		parent::__construct();
 		session_start();
 
-		// Jika offline_mode dalam level yang menyembunyikan website,
-		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode >= 2)
-		{
-			redirect('hom_desa');
-			exit;
-		}
 		$this->load->model('penduduk_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
+		$this->load->model('wilayah_model');
 		$this->modul_ini = 9;
 		$this->load->database();
 	}
@@ -46,7 +40,6 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['status_penduduk']);
 		unset($_SESSION['layer_penduduk']);
 		unset($_SESSION['layer_keluarga']);
-		unset($_SESSION['layer_desa']);
 		unset($_SESSION['layer_wilayah']);
 		unset($_SESSION['layer_lokasi']);
 		unset($_SESSION['layer_area']);
@@ -56,17 +49,11 @@ class Gis extends Admin_Controller {
 
 	public function index()
 	{
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
+		$variabel_sesi = array('cari', 'filter', 'sex', 'agama');
+		foreach ($variabel_sesi as $variabel)
+		{
+			$data[$variabel] = $this->session->userdata($variabel) ?: '';
+		}
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -88,33 +75,11 @@ class Gis extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['layer_penduduk']))
-			$data['layer_penduduk'] = $_SESSION['layer_penduduk'];
-		else $data['layer_penduduk'] = 0;
-
-		if (isset($_SESSION['layer_keluarga']))
-			$data['layer_keluarga'] = $_SESSION['layer_keluarga'];
-		else $data['layer_keluarga'] = 0;
-
-		if (isset($_SESSION['layer_desa']))
-			$data['layer_desa'] = $_SESSION['layer_desa'];
-		else $data['layer_desa'] = 0;
-
-		if (isset($_SESSION['layer_wilayah']))
-			$data['layer_wilayah'] = $_SESSION['layer_wilayah'];
-		else $data['layer_wilayah'] = 0;
-
-		if (isset($_SESSION['layer_lokasi']))
-			$data['layer_lokasi'] = $_SESSION['layer_lokasi'];
-		else $data['layer_lokasi'] = 0;
-
-		if (isset($_SESSION['layer_area']))
-			$data['layer_area'] = $_SESSION['layer_area'];
-		else $data['layer_area'] = 0;
+		$variabel_sesi = array('layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis');
+		foreach ($variabel_sesi as $variabel)
+		{
+			$data[$variabel] = $this->session->userdata($variabel) ?: 0;
+		}
 
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
@@ -126,15 +91,41 @@ class Gis extends Admin_Controller {
 		$data['area'] = $this->plan_area_model->list_data();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['list_lap'] = $this->list_lap();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['act'] = 9;
 		$nav['act_sub'] = 62;
-
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);
 		$this->load->view('footer');
+	}
+
+	private function list_lap()
+	{
+		$data = array(
+			'13' => 'Umur',
+			'0' => 'Pendidikan dalam KK',
+			'14' => 'Pendidikan sedang Ditempuh',
+			'1' => 'Pekerjaan',
+			'2' => 'Status Perkawinan',
+			'3' => 'Agama',
+			'4' => 'Jenis Kelamin',
+			'5' => 'Warga Negara',
+			'6' => 'Status Penduduk',
+			'7' => 'Golongan Darah',
+			'9' => 'Penyandang Cacat',
+			'10' => 'Sakit Menahun',
+			'16' => 'Akseptor KB',
+			'17' => 'Akte Kelahiran',
+			'18' => 'Kepemilikan KTP',
+			'19' => 'Jenis Asuransi'
+		);
+		return $data;
 	}
 
 	public function search()
@@ -157,7 +148,7 @@ class Gis extends Admin_Controller {
 		{
 			$_SESSION['filter'] = $filter;
 			if (empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
-				$_SESSION['layer_penduduk'] = 1;
+			$_SESSION['layer_penduduk'] = 1;
 		}
 		else unset($_SESSION['filter']);
 		redirect('gis');
@@ -168,37 +159,29 @@ class Gis extends Admin_Controller {
 		$layer_penduduk = $this->input->post('layer_penduduk');
 		if ($layer_penduduk == "")
 			$_SESSION['layer_penduduk'] = 0;
-		else{
+		else
+		{
 			$_SESSION['layer_penduduk'] = 1;
 			$_SESSION['layer_keluarga'] = 0;
-			}
+		}
 		redirect('gis');
 	}
 
 	public function layer_wilayah()
 	{
-		$layer_wilayah = $this->input->post('layer_wilayah');
-		if ($layer_wilayah == "")
-			$_SESSION['layer_wilayah'] = 0;
-		else $_SESSION['layer_wilayah'] = 1;
+		$_SESSION['layer_wilayah'] = $this->input->post('layer_wilayah') ? 1 : 0;
 		redirect('gis');
 	}
 
 	public function layer_area()
 	{
-		$layer_area = $this->input->post('layer_area');
-		if ($layer_area == "")
-			$_SESSION['layer_area'] = 0;
-		else $_SESSION['layer_area'] = 1;
+		$_SESSION['layer_area'] = $this->input->post('layer_area') ? 1 : 0;
 		redirect('gis');
 	}
 
 	public function layer_lokasi()
 	{
-		$layer_lokasi = $this->input->post('layer_lokasi');
-		if ($layer_lokasi == "")
-			$_SESSION['layer_lokasi'] = 0;
-		else $_SESSION['layer_lokasi'] = 1;
+		$_SESSION['layer_lokasi'] = $this->input->post('layer_lokasi') ? 1 : 0;
 		redirect('gis');
 	}
 
@@ -214,15 +197,6 @@ class Gis extends Admin_Controller {
 			$_SESSION['layer_keluarga'] = 1;
 			$_SESSION['layer_penduduk'] = 0;
 		}
-		redirect('gis');
-	}
-
-	public function layer_desa()
-	{
-		$layer_desa = $this->input->post('layer_desa');
-		if ($layer_desa == "")
-			$_SESSION['layer_desa'] = 0;
-		else $_SESSION['layer_desa'] = 1;
 		redirect('gis');
 	}
 
@@ -243,7 +217,7 @@ class Gis extends Admin_Controller {
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
 		{
-			$_SESSION['dusun']=$dusun;
+			$_SESSION['dusun'] = $dusun;
 			if (empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
 				$_SESSION['layer_penduduk'] = 1;
 		}
@@ -308,7 +282,7 @@ class Gis extends Admin_Controller {
 		while ($i++ < count($adv_search))
 		{
 			$col[$i] = key($adv_search);
-				next($adv_search);
+			next($adv_search);
 		}
 		$i = 0;
 		while ($i++ < count($col))
@@ -319,9 +293,15 @@ class Gis extends Admin_Controller {
 			{
 				$_SESSION[$col[$i]] = $adv_search[$col[$i]];
 				if (empty($_SESSION['layer_penduduk']) AND empty($_SESSION['layer_keluarga']))
-				$_SESSION['layer_penduduk'] = 1;
+					$_SESSION['layer_penduduk'] = 1;
 			}
 		}
+		redirect('gis');
+	}
+
+	public function layer_garis()
+	{
+		$_SESSION['layer_garis'] = $this->input->post('layer_garis') ? 1 : 0;
 		redirect('gis');
 	}
 }

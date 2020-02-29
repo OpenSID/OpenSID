@@ -1,107 +1,141 @@
-<script>
-	<?php if (!empty($desa['lat'] && !empty($desa['lng']))): ?>
-		var posisi = [<?= $desa['lat'].",".$desa['lng']; ?>];
-		var zoom = <?= $desa['zoom'] ?: 10; ?>;
-	<?php else: ?>
-			var posisi = [-7.885619783139936,110.39893195996092];
-			var zoom = 10;
-	<?php endif; ?>
-
-		//Inisialisasi tampilan peta
-		var peta_area = L.map('map_area').setView(posisi, zoom);
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-		{
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-			id: 'peta_area'
-		}).addTo(peta_area);
-
-	<?php if (!empty($area['path'])): ?>
-
-		//Poligon wilayah desa yang tersimpan
-		var area_polygon = <?= $area['path']; ?>;
-
-		//Titik awal dan titik akhir poligon harus sama
-		area_polygon[0].push(area_polygon[0][0]);
-
-		//Tampilkan poligon desa untuk diedit
-		var area = L.polygon(area_polygon).addTo(peta_area);
-
-		//Event untuk mengecek perubahan poligon
-		area.on('pm:edit', function(e)
-		{
-			document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-		})
-
-		//Fokuskan peta ke poligon
-		peta_area.fitBounds(area.getBounds());
-		setTimeout(function() {peta_area.invalidateSize();peta_area.fitBounds(area.getBounds());}, 500);
-	<?php endif; ?>
-	//Tombol yang akan dimunculkan dipeta
-	var options = {
-		position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
-		drawMarker: false, // adds button to draw markers
-		drawPolyline: false, // adds button to draw a polyline
-		drawRectangle: false, // adds button to draw a rectangle
-		drawPolygon: true, // adds button to draw a polygon
-		drawCircle: false, // adds button to draw a cricle
-		cutPolygon: false, // adds button to cut a hole in a polygon
-		editMode: true, // adds button to toggle edit mode for all layers
-		removalMode: true, // adds a button to remove layers
-	};
-
-	//Menambahkan toolbar ke peta
-	peta_area.pm.addControls(options);
-
-	//Event untuk menangkap polygon yang dibuat
-	peta_area.on('pm:create', function(e)
-	{
-		//Ambil list poligon yang ada
-		var keys = Object.keys(peta_area._layers);
-		//Tambahkan event edit ke poligon yang telah dibuat
-		peta_area._layers[keys[2]].on('pm:edit', function(f)
-		{
-			document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
-		})
-		document.getElementById('path').value = getLatLong(e.shape, e.layer).toString();
-	});
-
-	function getLatLong(x, y)
-	{
-		var hasil;
-		if (x == 'Rectangle' || x == 'Line' || x == 'Poly')
-		{
-			hasil = JSON.stringify(y._latlngs);
-		}
-		else
-		{
-			hasil = JSON.stringify(y._latlng);
-		}
-
-		hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
-		return hasil
-	}
-</script>
 <style>
-  #map_area
+  #map
   {
-		z-index: 1;
-    width: 100%;
-    height: 320px;
-    border: 1px solid #000;
+    width:100%;
+    height:65vh
   }
+  .icon {
+    max-width: 70%;
+    max-height: 70%;
+    margin: 4px;
+  }
+  .leaflet-control-layers {
+  	display: block;
+  	position: relative;
+  }
+  .leaflet-control-locate a {
+  font-size: 2em;
+	}
 </style>
-<form action="<?= $form_action?>" method="post" id="validasi">
-	<div class='modal-body'>
-		<div class="row">
-			<div class="col-sm-12">
-				<div id="map_area"></div>
-				<input type="hidden" id="path" name="path" value="<?= $area['path']?>">
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
-	</div>
-</form>
+<!-- Menampilkan OpenStreetMap -->
+<div class="content-wrapper">
+  <section class="content-header">
+		<h1>Peta <?= $area['nama']?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url("area")?>"> Pengaturan Area </a></li>
+			<li class="active">Peta <?= $area['nama']?></li>
+		</ol>
+	</section>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-info">
+          <form action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div id="map">
+                    <input type="hidden" id="path" name="path" value="<?= $area['path']?>">
+                    <input type="hidden" name="id" id="id"  value="<?= $area['id']?>"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='box-footer'>
+              <div class='col-xs-12'>
+                <a href="<?= site_url("area")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+                <a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  var infoWindow;
+  window.onload = function()
+  {
+  	<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
+  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+  		var zoom = <?=$desa['zoom'] ?: 18?>;
+  	<?php else: ?>
+  		var posisi = [-1.0546279422758742,116.71875000000001];
+  		var zoom = 4;
+  	<?php endif; ?>
+
+  	//Inisialisasi tampilan peta
+  	var peta_area = L.map('map').setView(posisi, zoom);
+
+    //1. Menampilkan overlayLayers Peta Semua Wilayah
+    var marker_desa = [];
+    var marker_dusun = [];
+    var marker_rw = [];
+    var marker_rt = [];
+
+    //OVERLAY WILAYAH DESA
+    <?php if (!empty($desa['path'])): ?>
+      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+    <?php endif; ?>
+
+    //OVERLAY WILAYAH DUSUN
+    <?php if (!empty($dusun_gis)): ?>
+      set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+    <?php endif; ?>
+
+    //OVERLAY WILAYAH RW
+    <?php if (!empty($rw_gis)): ?>
+      set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+    <?php endif; ?>
+
+    //OVERLAY WILAYAH RT
+    <?php if (!empty($rt_gis)): ?>
+      set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+    <?php endif; ?>
+
+    //Menampilkan overlayLayers Peta Semua Wilayah
+    <?php if (!empty($wil_atas['path'])): ?>
+      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt);
+    <?php else: ?>
+      var overlayLayers = {};
+    <?php endif; ?>
+
+    //Menampilkan BaseLayers Peta
+    var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->google_key?>');
+
+    //Menampilkan Peta wilayah yg sudah ada
+    <?php if (!empty($area['path'])): ?>
+      var wilayah = <?=$area['path']?>;
+      showCurrentArea(wilayah, peta_area);
+    <?php endif; ?>
+
+    //Menambahkan zoom scale ke peta
+    L.control.scale().addTo(peta_area);
+
+    //Menambahkan toolbar ke peta
+    peta_area.pm.addControls(editToolbarPoly());
+
+    //Menambahkan Peta wilayah
+    addPetaPoly(peta_area);
+
+    //Export/Import Peta dari file GPX/KML
+    L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+    control = eximGpx(peta_area);
+
+    //Geolocation IP Route/GPS
+  	geoLocation(peta_area);
+
+    //Menghapus Peta wilayah
+    hapusPeta(peta_area);
+
+    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_area);
+
+  }; //EOF window.onload
+</script>
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>

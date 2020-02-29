@@ -71,7 +71,7 @@
 																		<td nowrap>
 																			<a href="#" data-href="<?=site_url("sms/anggota_delete/$data[id_grup_kontak]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
-                                    <td><a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>"><?=unpenetration($data['nama'])?></a></td>
+                                    <td><a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>"><?=$data['nama']?></a></td>
 																		<td><?=$data['sex']?></td>
 																		<td><?=$data['alamat_sekarang']?></td>
 																		<td><?=$data['no_hp']?></td>

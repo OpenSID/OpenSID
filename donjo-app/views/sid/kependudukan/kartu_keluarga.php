@@ -17,8 +17,8 @@
 							<a href="<?= site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Anggota</a>
 							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
-								<i class="fa fa-arrow-circle-left "></i>Daftar Anggota Keluarga
+							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Rincian Anggota Keluarga">
+								<i class="fa fa-list-ol  "></i>Rincian Daftar Anggota Keluarga
 							</a>
 							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
@@ -26,7 +26,7 @@
 						</div>
 						<div class="box-header">
 							<h3 class="text-center"><strong>SALINAN KARTU KELUARGA</strong></h3>
-							<h5 class="text-center"><strong>No.  <?= unpenetration($kepala_kk['no_kk'])?> </strong></h5>
+							<h5 class="text-center"><strong>No.  <?= $kepala_kk['no_kk']?> </strong></h5>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -46,13 +46,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">DESA / KELURAHAN</label>
 										<div class="col-sm-9">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_desa'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_desa']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label">KECAMATAN</label>
 										<div class="col-sm-9">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_kecamatan'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_kecamatan']) ?></p>
 										</div>
 									</div>
 								</div>
@@ -60,7 +60,7 @@
 									<div class="form-group">
 										<label class="col-sm-5 control-label">KABUPATEN</label>
 										<div class="col-sm-7">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_kabupaten'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_kabupaten']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
@@ -72,7 +72,7 @@
 									<div class="form-group">
 										<label class="col-sm-5 control-label">PROVINSI</label>
 										<div class="col-sm-7">
-											<p class="text-muted">: <?= strtoupper(unpenetration($desa['nama_propinsi'])) ?></p>
+											<p class="text-muted">: <?= strtoupper($desa['nama_propinsi']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
@@ -105,7 +105,7 @@
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
 													<td class="text-center" ><?= $key+1?></td>
-													<td><?= strtoupper(unpenetration($data['nama']))?></td>
+													<td><?= strtoupper($data['nama'])?></td>
 													<td><?= $data['nik']?></td>
 													<td><?= $data['sex']?></td>
 													<td><?= $data['tempatlahir']?></td>
@@ -161,7 +161,7 @@
 												<tr>
 													<td width="25%">&nbsp;</td>
 													<td width="50%">&nbsp;</td>
-													<td class="text-center" width="25%"><?= unpenetration($desa['nama_desa']) ?>, <?= tgl_indo(date("Y m d"))?></td>
+													<td class="text-center" width="25%"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date("Y m d"))?></td>
 												</tr>
 												<tr>
 													<td class="text-center">KEPALA KELUARGA</td>

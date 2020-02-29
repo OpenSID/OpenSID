@@ -23,5 +23,11 @@
 				?>
 			</div>
 		</div>
+		<?php if ($single_artikel): ?>
+			<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
+			<script>
+				$(".group2").colorbox({rel:'group2', transition:"fade"});
+			</script>
+		<?php endif ?>
 	</body>
 </html>

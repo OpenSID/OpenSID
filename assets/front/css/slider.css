@@ -1,0 +1,70 @@
+.slider img {
+	width: 100%;
+}
+.slider, .cycle-slideshow {
+	max-height: 300px;
+	margin-bottom: 10px;
+	border: 10px solid #e5e5e5;
+	display: block;
+	position: relative;
+	/*margin: 0px auto;*/
+	overflow: hidden;
+}
+.cycle-slideshow img {
+	width: 100%;
+}
+.cycle-slideshow-widget {
+	width: 100%;
+	max-width: 645px;
+	margin-left: 13px;
+	margin-bottom: 10px;
+	display: block;
+	position: relative;
+	/*margin: 0px auto;*/
+	overflow: hidden;
+}
+.cycle-prev, .cycle-next {
+	font-size: 200%;
+	color: #fff;
+	display: block;
+	position: absolute;
+	top: 50%;
+	z-index: 9999;
+	cursor: pointer;
+	margin-top: -16px;
+}
+.cycle-prev { left: 10px; }
+.cycle-next { right: 10px; }
+.cycle-pager {
+	position: absolute;
+	width: 100%;
+	height: 10px;
+	bottom: 10px;
+	z-index: 9999;
+	text-align: center;
+}
+.cycle-pager span {
+	text-indent: 100%;
+	top: 100px;
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	margin: 0 10px;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.cycle-pager-active { background-color: #fff; }
+
+/* caption */
+.cycle-caption { position: absolute; color: white; bottom: 10px; right: 15px; z-index: 700; }
+/* overlay */
+.cycle-overlay {
+	font-family: tahoma, arial;
+	position: absolute; bottom: 0; width: 100%; z-index: 600;
+	background: rgba(0, 0, 0, 0.5); color: white; padding: 10px;
+}
+.cycle-overlay-title {
+	color: cyan;
+}

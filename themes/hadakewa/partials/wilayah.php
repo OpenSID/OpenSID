@@ -26,8 +26,8 @@
 					foreach($main as $data){
 						echo "<tr>
 							<td>".$data['no']."</td>
-							<td>".strtoupper(unpenetration(ununderscore($data['dusun'])))."</td>
-							<td>".strtoupper(unpenetration($data['nama_kadus']))."</td>
+							<td>".strtoupper($data['dusun'])."</td>
+							<td>".strtoupper($data['nama_kadus'])."</td>
 							<td class=\"angka\">".$data['jumlah_rt']."</td>
 							<td class=\"angka\">".$data['jumlah_kk']."</td>
 							<td class=\"angka\">".$data['jumlah_warga']."</td>

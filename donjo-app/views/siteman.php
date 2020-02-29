@@ -5,7 +5,7 @@
 		<title>
 			<?=$this->setting->login_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . unpenetration($desa['nama_desa']): '')
+				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']: '')
 				. get_dynamic_title_page_from_path();
 			?>
 		</title>
@@ -27,13 +27,13 @@
 			<div class="inner-bg">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3 form-box">
+						<div class="col-sm-4 col-sm-offset-4 form-box">
 							<div class="form-top">
 								<a href="<?=site_url(); ?>first/"><img src="<?=LogoDesa($desa['logo']);?>" alt="<?=$desa['nama_desa']?>" class="img-responsive" /></a>
-								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=unpenetration($desa['nama_desa'])?></h1>
+								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$desa['nama_desa']?></h1>
 									<h3>
 										<br /><?=$desa['alamat_kantor']?><br />Kodepos <?=$desa['kode_pos']?>
-										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=unpenetration($desa['nama_kecamatan'])?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=unpenetration($desa['nama_kabupaten'])?>
+										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$desa['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$desa['nama_kabupaten']?>
 									</h3>
 								</div>
 								<hr />
@@ -46,29 +46,32 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input name="username" type="text" placeholder="Username" <?php if ($_SESSION['siteman_wait']==1): ?> disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+											<input name="username" type="text" placeholder="Nama pengguna" <?php if ($_SESSION['siteman_wait']==1): ?> disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
 										</div>
 										<div class="form-group">
-											<input name="password" type="password" placeholder="Password" <?php if ($_SESSION['siteman_wait']==1): ?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php if ($_SESSION['siteman_wait']==1): ?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+										</div>
+										<div class="form-group">
+											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
 										</div>
 										<hr />
-										<button type="submit" class="btn">LOGIN</button>
+										<button type="submit" class="btn">MASUK</button>
 										<?php if ($_SESSION['siteman']==-1): ?>
 											<div class="error">
-												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Username atau Password yang Anda masukkan salah!<br />
+												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
 												<?php if ($_SESSION['siteman_try']): ?>
 													Kesempatan mencoba <?= ($_SESSION['siteman_try']-1); ?> kali lagi.</p>
 												<?php endif; ?>
 											</div>
 										<?php elseif ($_SESSION['siteman']==-2): ?>
 											<div class="error">
-												Redaksi belum boleh login, SID belum memiliki sambungan internet!
+												Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
 											</div>
 										<?php endif; ?>
 									<?php endif; ?>
 								</form>
 								<hr/>
-								<div class="login-footer-bottom">powered by: <a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
 							</div>
 						</div>
 					</div>
@@ -77,3 +80,14 @@
 		</div>
 	</body>
 </html>
+<script>
+var x = document.getElementById("checkbox");
+var pass = document.getElementById("password");
+x.onclick = function(){
+	if (pass.type === "password"){
+		pass.type ='text';
+	} else {
+		pass.type ='password'
+	}
+}
+</script>

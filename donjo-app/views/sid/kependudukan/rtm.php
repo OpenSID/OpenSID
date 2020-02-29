@@ -45,7 +45,7 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('rtm/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper(unpenetration(ununderscore($data['dusun'])))?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
@@ -109,14 +109,14 @@
 														<tbody>
                               <?php foreach ($main as $data): ?>
                                 <tr>
-                                  <td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+                                  <td><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk']?>" /></td>
                                   <td><?= $data['no']?></td>
                                   <td nowrap>
                                     <a href="<?= site_url("rtm/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
                                     <a href="<?= site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
                                     <a href="<?= site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
                                     <?php if ($this->CI->cek_hak_akses('h')): ?>
-                                      <a href="#" data-href="<?= site_url("rtm/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                      <a href="#" data-href="<?= site_url("rtm/delete/$p/$o/$data[no_kk]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     <?php endif; ?>
                                   </td>
                                   <td>
@@ -128,7 +128,7 @@
                                     <a href="<?= site_url("rtm/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a>
                                   </td>
                                   <td><?= strtoupper($data['alamat'])?></td>
-                                  <td><?= strtoupper(ununderscore($data['dusun']))?></td>
+                                  <td><?= strtoupper($data['dusun'])?></td>
                                   <td><?= strtoupper($data['rw'])?></td>
                                   <td><?= strtoupper($data['rt'])?></td>
                                   <td nowrap><?= tgl_indo($data['tgl_daftar'])?></td>

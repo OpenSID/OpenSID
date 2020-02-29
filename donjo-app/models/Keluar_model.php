@@ -70,7 +70,7 @@
 		}
 	}
 
-	private function filterku_sql($nik=0)
+	private function filterku_sql($nik='')
 	{
 		if (empty($nik)) return "";
 		$kf = $nik;
@@ -128,7 +128,7 @@
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
+		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
 
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $order_sql;
@@ -157,13 +157,35 @@
 		return $data;
 	}
 
-	public function paging_perorangan($nik=0, $p=1, $o=0)
+	public function list_data_keterangan($id)
 	{
-		$sql = "SELECT count(*) as jml " . $this->list_data_perorangan_sql($nik);
+		$this->db->select('id, keterangan');
+		$this->db->from('log_surat');
+		$this->db->where('id', $id);
 
-		$query  = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		return $this->db->get()->row_array();
+	}
+
+	public function update_keterangan($id, $data)
+	{
+		$this->db->where('id', $id);
+		$outp = $this->db->update('log_surat', $data);
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+	public function paging_perorangan($nik='', $p=1, $o=0)
+	{
+		if (!empty($nik))
+		{
+			$sql = "SELECT count(*) as jml " . $this->list_data_perorangan_sql($nik);
+			$query  = $this->db->query($sql);
+			$row = $query->row_array();
+			$jml_data = $row['jml'];
+		}
+		else
+			$jml_data = 0;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -186,8 +208,10 @@
 		return $sql;
 	}
 
-	public function list_data_perorangan($nik=0, $o=0, $offset=0, $limit=500)
+	public function list_data_perorangan($nik='', $o=0, $offset=0, $limit=500)
 	{
+		if (empty($nik)) return array();
+
 		//Ordering SQL
 		switch ($o)
 		{

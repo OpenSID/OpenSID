@@ -49,6 +49,8 @@
 	{
 		$log = $this->db->where('id', $id_log)->get('log_penduduk')->row();
 		$data['status_dasar'] = 1; // status dasar hidup
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
 		if (!$this->db->where('id',$log->id_pend)->update('tweb_penduduk', $data))
 			$_SESSION['success'] = - 1;
 		// Hapus log penduduk

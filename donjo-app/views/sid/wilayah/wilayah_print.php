@@ -39,7 +39,7 @@
 						<?php foreach ($main as $data): ?>
 							<tr>
 								<td align="center" width="2"><?= $data['no']?></td>
-								<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+								<td><?= strtoupper($data['dusun'])?></td>
 								<td><?= $data['nama_kadus']?></td>
 								<td align="right"><?= $data['jumlah_rw']?></td>
 								<td align="right"><?= $data['jumlah_rt']?></td>

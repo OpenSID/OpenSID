@@ -8,10 +8,11 @@
 		plugins: [
 					"advlist autolink link image lists charmap print preview hr anchor pagebreak",
 					"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code keuangan_grafik laporan_realisasi"
 		],
 		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
 		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code | fontselect fontsizeselect",
+		toolbar3: "| laporan_realisasi | keuangan_grafik ",
 		image_advtab: true ,
 		external_filemanager_path:"<?= base_url()?>assets/filemanager/",
 		filemanager_title:"Responsive Filemanager" ,
@@ -30,7 +31,9 @@
 		content_css: [
 			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
 			'//www.tinymce.com/css/codepen.min.css'
-		]
+		],
+		relative_urls : false,
+		remove_script_host : false
 	});
 </script>
 <div class="content-wrapper">
@@ -51,6 +54,9 @@
 							<a href="<?=site_url("web/index/$cat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
             	</a>
+            	<?php if ($artikel['slug']): ?>
+            		<a href="<?= site_url('first/artikel/'.$artikel['thn'].'/'.$artikel['bln'].'/'.$artikel['hri'].'/'.$artikel['slug']) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+            	<?php endif; ?>
 						</div>
 						<div class="box-body">
 			  			<div class="form-group">
@@ -251,4 +257,3 @@
 		</form>
 	</section>
 </div>
-

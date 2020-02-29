@@ -35,7 +35,8 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "cara_kb_id" => "32",
   "hamil" => "33",
   "ktp_el" => "34",
-  "status_rekam" => "35")));
+  "status_rekam" => "35",
+  "alamat_sekarang" => "36")));
 
 class Import_model extends CI_Model {
 
@@ -169,7 +170,7 @@ class Import_model extends CI_Model {
 		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rt'])), "'");
 
 		$nama = trim($data->val($i, $kolom_impor_keluarga['nama']));
-		$nama = preg_replace('/[^a-zA-Z0-9,\.]/', ' ', $nama);
+		$nama = preg_replace('/[^a-zA-Z0-9,\.\']/', ' ', $nama);
 		$isi_baris['nama'] = $nama;
 
 		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
@@ -235,6 +236,7 @@ class Import_model extends CI_Model {
 		$isi_baris['hamil'] = trim($data->val($i, $kolom_impor_keluarga['hamil']));
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($data->val($i, $kolom_impor_keluarga['ktp_el'])));
 		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($data->val($i, $kolom_impor_keluarga['status_rekam'])));
+		$isi_baris['alamat_sekarang'] = trim($data->val($i, $kolom_impor_keluarga['alamat_sekarang']));
 		return $isi_baris;
 	}
 
@@ -326,7 +328,7 @@ class Import_model extends CI_Model {
 	protected function tulis_tweb_penduduk($isi_baris)
 	{
 		// Siapkan data penduduk
-		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'status_dasar');
+		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar');
 		foreach ($kolom_baris as $kolom)
 		{
 			$data[$kolom] = $isi_baris[$kolom];
@@ -355,6 +357,8 @@ class Import_model extends CI_Model {
 				if ($data['status_dasar'] != -1)
 				{
 					// Hanya update apabila status dasar valid (data SIAK)
+					$data['updated_at'] = date('Y-m-d H:i:s');
+					$data['updated_by'] = $this->session->user;
 					$id = $res['id'];
 					$this->db->where('id',$id);
 					$hasil = $this->db->update('tweb_penduduk', $data);
@@ -363,6 +367,7 @@ class Import_model extends CI_Model {
 			else
 			{
 				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+				$data['created_by'] = $this->session->user;
 				$hasil = $this->db->insert('tweb_penduduk', $data);
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
@@ -371,6 +376,7 @@ class Import_model extends CI_Model {
 		else
 		{
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+			$data['created_by'] = $this->session->user;
 			$hasil = $this->db->insert('tweb_penduduk', $data);
 			$id = $this->db->insert_id();
 			$penduduk_baru = $id;
@@ -557,6 +563,8 @@ class Import_model extends CI_Model {
 			{
 				$upd['id_rtm'] = $id_rtm;
 				$upd['rtm_level'] = $rtm_level;
+				$upd['updated_at'] = date('Y-m-d H:i:s');
+				$upd['updated_by'] = $this->session->user;
 
 				$this->db->where('nik', $nik);
 				$outp = $this->db->update('tweb_penduduk', $upd);
@@ -573,6 +581,7 @@ class Import_model extends CI_Model {
 				$penduduk['nik'] = $nik;
 				$penduduk['id_rtm']	= $id_rtm;
 				$penduduk['rtm_level'] = $rtm_level;
+				$penduduk['created_by'] = $this->session->user;
 
 				$outp = $this->db->insert('tweb_penduduk', $penduduk);
 
@@ -585,7 +594,7 @@ class Import_model extends CI_Model {
 		$a = "TRUNCATE tweb_rtm; ";
 		$this->db->query($a);
 
-		$a = "INSERT INTO tweb_rtm (id, no_kk, nik_kepala) SELECT distinct(id_rtm) AS no_kk,id_rtm,id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
+		$a = "INSERT INTO tweb_rtm (no_kk, nik_kepala) SELECT id_rtm, id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
 		$outp = $this->db->query($a);
 
 		$_SESSION['ggl'] = $gg;

@@ -1,8 +1,29 @@
-<?php class Referensi_model extends CI_Model {
+<?php
+
+define("KATEGORI_PUBLIK", serialize(array(
+	"Informasi Berkala" => "1",
+	"Informasi Serta-merta" => "2",
+	"Informasi Setiap Saat" => "3",
+	"Informasi Dikecualikan" => "4"
+)));
+
+
+class Referensi_model extends CI_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	public function list_nama($tabel)
+	{
+		$data = $this->list_data($tabel);
+		$list = array();
+		foreach ($data as $key => $value)
+		{
+			$list[$value['id']] = $value['nama'];
+		}
+		return $list;
 	}
 
 	public function list_data($tabel, $kecuali='')

@@ -1,5 +1,4 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 			<div id="contentwrapper">
 				<div id="contentcolumn">
@@ -16,6 +15,7 @@
 			</div>
 
 			<div id="footer">
+				<?php if (!is_null($transparansi)) $this->load->view($folder_themes. '/partials/apbdesa-tema.php', $transparansi);?>
 				<?php $this->load->view($folder_themes. '/partials/copywright.tpl.php');?>
 			</div>
 		</div>

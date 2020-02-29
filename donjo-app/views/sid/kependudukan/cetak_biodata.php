@@ -112,9 +112,9 @@
 					</tr>
 					<tr>
 						<td>Alamat</td><td >:</td>
-						<td><?= strtoupper(ununderscore($penduduk['alamat']))?><br>
+						<td><?= strtoupper($penduduk['alamat'])?><br>
 								RT. <?= strtoupper($penduduk['rt'])?> RW. <?= $penduduk['rw']?>
-							<?= ucwords($this->setting->sebutan_dusun)?> <?= strtoupper(ununderscore($penduduk['dusun']))?>
+							<?= ucwords($this->setting->sebutan_dusun)?> <?= strtoupper($penduduk['dusun'])?>
 						</td>
 					</tr>
 					<tr>

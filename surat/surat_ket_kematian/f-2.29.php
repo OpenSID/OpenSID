@@ -1177,14 +1177,14 @@
 			<td>:</td>
 			<?php for ($j=0; $j<2; $j++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['pekerjaanid_saksi1'][$j])): ?>
-						<?= $input['pekerjaanid_saksi1'][$j];?>
+					<?php if (isset($input['pekerjaanid_saksi2'][$j])): ?>
+						<?= $input['pekerjaanid_saksi2'][$j];?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
-			<td colspan="21" class="kotak"><?= $input['pekerjaansaksi1']?></td>
+			<td colspan="21" class="kotak"><?= $input['pekerjaansaksi2']?></td>
 			<td colspan="3" class="tengah">&nbsp;</td>
 		</tr>
 		<tr>

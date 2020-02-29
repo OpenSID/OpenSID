@@ -37,7 +37,7 @@
 											</tr>
 											<tr>
 												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Kepala Keluarga</td>
-												<td nowrap > :  <?= unpenetration($kepala_kk['nama'])?></td>
+												<td nowrap > :  <?= $kepala_kk['nama']?></td>
 											</tr>
 											<tr>
 												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
@@ -77,7 +77,7 @@
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['nik']?></td>
-																	<td nowrap width="45%"><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td nowrap width="45%"><?= strtoupper($data['nama'])?></td>
 																	<td nowrap><?= tgl_indo($data['tanggallahir'])?></td>
 																	<td><?= $data['sex']?></td>
 																	<td nowrap><?= $data['hubungan']?></td>

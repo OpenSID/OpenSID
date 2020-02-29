@@ -102,6 +102,7 @@
 		$bayi['id_cluster'] = $data['ibu']['id_cluster']; // Samakan dengan Dusun/RW/RT ibu
 		$bayi['tanggallahir'] = tgl_indo_in($_POST['tanggallahir']);
 		$bayi['status'] = 1;
+		$bayi['created_by'] = $this->session->user;
 		$this->db->insert('tweb_penduduk', $bayi);
 		$id_bayi = $this->db->insert_id();
 		$data['bayi'] = $this->surat_model->get_penduduk($id_bayi);

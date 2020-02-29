@@ -4,12 +4,23 @@
 	<div class="artikel" id="<?= 'artikel-'.$single_artikel['judul']?>">
 		<h2 class="judul"><?= $single_artikel["judul"]?></h2>
 		<h3 class="kecil">
-			<i class="fa fa-user"></i> <?= $single_artikel['owner']?>
-			<i class="fa fa-clock-o"></i><?= tgl_indo2($single_artikel['tgl_upload']);?>
+			<i class="fa fa-user"></i> <?= $single_artikel['owner']?> | 
+			<i class="fa fa-clock-o"></i><?= tgl_indo2($single_artikel['tgl_upload']);?>  | 
 			<?php if (trim($single_artikel['kategori']) != '') : ?>
-				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><?= $single_artikel['kategori']?></a>
-			<?php endif; ?>
+				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><?= $single_artikel['kategori']?></a> |
+			<?php endif; ?> | 
+			<i class="fa fa-eye"></i> <?= hit($single_artikel['hit']) ?>
 		</h3>
+
+		<?php if($single_artikel['id_kategori'] == 1000) : ?>
+			<div class="detail_agenda box box-info">
+				<div class="box-body">
+					<p>TANGGAL KEGIATAN : <?= tgl_indo2($detail_agenda['tgl_agenda'])?></p>
+					<p>KOORDINATOR KEGIATAN : <?= $detail_agenda['koordinator_kegiatan']?></p>
+					<p>LOKASI KEGIATAN : <?= $detail_agenda['lokasi_kegiatan']?>	</p>
+				</div>
+			</div>
+		<?php endif; ?>		
 
 		<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 			<div class="sampul">
@@ -34,12 +45,13 @@
 			<div class="sampul2"><a class="group2" href="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" title=""><img src="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>" /></a>
 			</div>
 		<?php endif; ?>
+
 		<div class="form-group" style="clear:both;">
 			<ul id="pageshare" title="Bagikan ke teman anda" class="pagination">
-				<li class="sbutton" id="fb"><a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url().'first/artikel/'.$single_artikel['id']?>" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;Share</a></li>
-				<li class="sbutton" id="rt"><a href="http://twitter.com/share?url=<?=site_url().'first/artikel/'.$single_artikel['id']?>" class="twitter-share-button" target="_blank"><i class="fa fa-twitter"></i>&nbsp;Tweet</a></li>
-				<li class="sbutton" id="gpshare"><a href="https://plus.google.com/share?url=<?= site_url().'first/artikel/'.$single_artikel['id'].'&hl=id'?>" target="_blank"><i class="fa fa-google-plus" style="color:red"></i>&nbsp;Bagikan</a></li>
-				<li class="sbutton" id="wa_share"><a href="https://api.whatsapp.com/send?text=<?= site_url().'first/artikel/'.$single_artikel['id']?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
+				<li class="sbutton" id="fb"><a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url('first/artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;Share</a></li>
+				<li class="sbutton" id="rt"><a href="http://twitter.com/share?url=<?= site_url('first/artikel/'.buat_slug($single_artikel)) ?>" class="twitter-share-button" target="_blank"><i class="fa fa-twitter"></i>&nbsp;Tweet</a></li>
+				<li class="sbutton" id="gpshare"><a href="https://plus.google.com/share?url=<?= site_url('first/artikel/'.buat_slug($single_artikel)).'&hl=id'?>" target="_blank"><i class="fa fa-google-plus" style="color:red"></i>&nbsp;Bagikan</a></li>
+				<li class="sbutton" id="wa_share"><a href="https://api.whatsapp.com/send?text=<?= site_url('first/artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
 			</ul>
 			<!--
 			<script src=\"http://static.ak.fbcdn.net/connect.php/js/FB.Share\" type=\"text/javascript\"></script>

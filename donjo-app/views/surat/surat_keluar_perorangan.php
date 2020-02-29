@@ -26,11 +26,10 @@
 											<td>
 												<div class="form-group">
               						<div class="col-sm-6 col-lg-6">
-              							<select class="form-control required input-sm select2-nik" id="nik" name="nik" onchange="formAction('main')">
-	               							<option value="">--  Cari NIK / Nama Penduduk --</option>
-                    						<?php foreach ($penduduk as $data): ?>
-                    					<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
-                    					<?php endforeach;?>
+              							<select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="<?= site_url('surat/list_penduduk_bersurat_ajax')?>" onchange="formAction('main')">
+															<?php if ($individu): ?>
+																<option value="<?= $individu['id']?>" selected><?= $individu['nik'].' - '.$individu['nama']?></option>
+															<?php endif;?>
                 						</select>
       	    							</div>
            	 						</div>
@@ -71,13 +70,14 @@
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th>No</th>
-																<th >Aksi</th>
+																<th>Aksi</th>
+																<th>Kode Surat</th>
 																<?php if ($o==2): ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/1")?>">Nomor Surat <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/1")?>">No Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o==1): ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/2")?>">Nomor Surat <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/2")?>">No Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/1")?>">Nomor Surat <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/1")?>">No Urut <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Jenis Surat</th>
 																<?php if ($o==4): ?>
@@ -87,6 +87,7 @@
 																<?php else: ?>
 																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/3")?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
+																<th>Keterangan</th>
 																<th>Ditandatangani Oleh</th>
 																<?php if ($o==6): ?>
 																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$nik['no']}/$p/5")?>">Tanggal <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -99,37 +100,40 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php
-																foreach ($main as $data):
-																if ($data['nama_surat']):
-																	$berkas = $data['nama_surat'];
-																else:
-																	$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
-																endif;
+															<?php foreach ($main as $data): ?>
+																<?php
+																	if ($data['nama_surat']):
+																		$berkas = $data['nama_surat'];
+																	else:
+																		$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
+																	endif;
 
-																$theFile = FCPATH.LOKASI_ARSIP.$berkas;
-																$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
-															?>
-															<tr>
-																<td><?= $data['no']?></td>
-																<td nowrap>
-																	<?php
-																		if (is_file($theFile)): ?>
-																			<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
-																		<?php	endif; ?>
-																	<?php
-																		if (is_file($lampiran)): ?>
-																			<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
-																		<?php	endif; ?>
-																	<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																</td>
-																<td><?= $data['no_surat']?></td>
-																<td><?= $data['format']?></td>
-																<td><?= unpenetration($data['nama'])?></td>
-																<td><?= $data['pamong']?></td>
-																<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
-																<td><?= $data['nama_user']?></td>
-															</tr>
+																	$theFile = FCPATH.LOKASI_ARSIP.$berkas;
+																	$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
+																?>
+																<tr>
+																	<td><?= $data['no']?></td>
+																	<td nowrap>
+																		<?php
+																			if (is_file($theFile)): ?>
+																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
+																			<?php	endif; ?>
+																		<?php
+																			if (is_file($lampiran)): ?>
+																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
+																			<?php	endif; ?>
+																		<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	</td>
+																	<td><?= $data['kode_surat']?></td>
+																	<td><?= $data['no_surat']?></td>
+																	<td><?= $data['format']?></td>
+																	<td><?= $data['nama']?></td>
+																	<td><?= $data['keterangan']?></td>
+																	<td><?= $data['pamong']?></td>
+																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
+																	<td><?= $data['nama_user']?></td>
+																</tr>
 															<?php endforeach; ?>
 														</tbody>
 													</table>

@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '19.04-pasca');
+define("VERSION", '20.03');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -18,6 +18,7 @@ define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
 define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widget/');
 define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widget/');
+define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
@@ -217,6 +218,13 @@ define("SASARAN", serialize(array(
 	"3" => "Rumah Tangga",
 	"4" => "Kelompok/Organisasi Kemasyarakatan"
 )));
+define("ASALDANA", serialize(array(
+	"Pusat" => "Pusat",
+	"Provinsi" => "Provinsi",
+	"Kab/Kota" => "Kab/Kota",
+	"Dana Desa" => "Dana Desa",
+	"Lain-lain (Hibah)" => "Lain-lain (Hibah)"
+)));
 define("KTP_EL", serialize(array(
 	strtolower("BELUM") => "1",
 	strtolower("KTP-EL") => "2"
@@ -283,6 +291,23 @@ function AmbilVersi()
 }
 
 /**
+ * favico_desa
+ *
+ * Mengembalikan path lengkap untuk file favico desa
+ *
+ * @access  public
+ * @return  string
+ */
+function favico_desa()
+{
+	$favico = 'favicon.ico';
+	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ? 
+		base_url() . LOKASI_LOGO_DESA . $favico : 
+		base_url() . $favico;
+	return $favico_desa;
+}
+
+/**
  * LogoDesa
  *
  * Mengembalikan path lengkap untuk file logo desa
@@ -292,7 +317,8 @@ function AmbilVersi()
  */
 function LogoDesa($nama_logo)
 {
-	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) {
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) 
+	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
 
@@ -576,20 +602,29 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
 	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-	if (!file_exists($pathBerkas)) {
+	if (!file_exists($pathBerkas))
+	{
 		$_SESSION['success'] = -1;
 		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
-		redirect($redirect_url);
+		if ($redirect_url)
+			redirect($redirect_url);
+		else
+		{
+			http_response_code(404);
+			include(FCPATH . 'donjo-app/views/errors/html/error_404.php'); 
+			die();			
+		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
-	$data         = file_get_contents($pathBerkas);
-	if(!is_null($unique_id)){
+	$data = file_get_contents($pathBerkas);
+	if (!is_null($unique_id))
+	{
 		// Buang unique id pada nama berkas download
-		$nama_berkas       = explode($unique_id, $nama_berkas);
-		$namaFile     = $nama_berkas[0];
+		$nama_berkas = explode($unique_id, $nama_berkas);
+		$namaFile = $nama_berkas[0];
 		$ekstensiFile = explode('.', end($nama_berkas));
 		$ekstensiFile = end($ekstensiFile);
-		$nama_berkas       = $namaFile . '.' . $ekstensiFile;
+		$nama_berkas = $namaFile . '.' . $ekstensiFile;
 	}
 	force_download($nama_berkas, $data);
 }
@@ -646,6 +681,62 @@ function bulan_romawi($bulan)
 function buang_nondigit($str)
 {
 	return preg_replace('/[^0-9]/', '', $str);
+}
+
+/**
+ * @param array 		$files = array($file1, $file2, ...)
+ * @return string 	path ke zip file
+
+	Masukkan setiap berkas ke dalam zip.
+
+	$file bisa:
+		- array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
+		- full-path-ke-berkas
+	Untuk membuat folder di dalam zip gunakan:
+		$file = array('nama' => 'dir', 'file' => nama-folder)
+*/
+function masukkan_zip($files=array())
+{
+  $zip = new ZipArchive();
+  # create a temp file & open it
+  $tmp_file = tempnam(sys_get_temp_dir(),'');
+  $zip->open($tmp_file, ZipArchive::CREATE);
+
+  foreach ($files as $file)
+  {
+		if (is_array($file))
+		{
+			if ($file['nama'] == 'dir')
+			{
+				$zip->addEmptyDir($file['file']);
+				continue;
+			}
+			else
+			{
+				$nama_file = $file['nama'];
+				$file = $file['file'];
+			}
+		}
+		else
+		{
+			$nama_file = basename($file);
+		}
+    $download_file = file_get_contents($file);
+    $zip->addFromString($nama_file, $download_file);
+  }
+  $zip->close();
+  return $tmp_file;
+}
+
+function alfanumerik_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
+function buat_slug($data_slug)
+{
+	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
+	return $slug;
 }
 
 ?>

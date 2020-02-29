@@ -41,24 +41,24 @@ body{
   margin: 6px 0px 6px 0px;
 }
 #footer{
-  padding: 3px 0;
-	background: rgba(32,124,229,1);
-	background: -moz-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(32,124,229,1)), color-stop(100%, rgba(75,182,232,1)));
-	background: -webkit-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: -o-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: -ms-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
+  padding: 0;
+  background: rgba(32,124,229,1);
+  background: -moz-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(32,124,229,1)), color-stop(100%, rgba(75,182,232,1)));
+  background: -webkit-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: -o-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: -ms-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
 #footer-left{
   text-align: left;
     padding: 10px;
-    width: 47%;
+    width: 53%;
 }
 #footer-right{
     padding: 10px;
-    width: 53%;
+    width: 47%;
     float: right;
     margin-top: -50px;
 }
@@ -375,7 +375,6 @@ h4 {
     color: #0c83c5;
     padding-top: 29px;
     font-weight: bold;
-    text-transform: uppercase;
     text-shadow: 0 1px 1px #777;
     margin-bottom: -20px;
     -webkit-text-stroke: 1px #fff;
@@ -388,7 +387,6 @@ h4 {
 	text-shadow: 4px 4px 4px #000;
     margin-top: 27px;
     margin-bottom: 13px;
-    text-transform: uppercase;
 } /* mengubah font judul web ( kecamatan dan kabupaten ) */
 #siteTitle h3{
 font-family: "Arial", sans-serif;
@@ -397,7 +395,6 @@ font-family: "Arial", sans-serif;
     font-weight: normal;
     text-shadow: 1px 1px 2px #000;
     margin-top: 15px;
-    text-transform: uppercase;
     margin-bottom: 8px;
 } /* mengubah font judul web ( alamat ) */
 #siteTitle h4{
@@ -407,7 +404,6 @@ font-family: "Arial", sans-serif;
     font-weight: bold;
     text-shadow: 1px 1px 2px #000;
     margin-top: -11px;
-    text-transform: uppercase;
     margin-bottom: 2px;
 } /* mengubah font kontak web ( alamat ) */
 

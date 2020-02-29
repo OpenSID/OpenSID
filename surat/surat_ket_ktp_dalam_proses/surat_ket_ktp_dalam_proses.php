@@ -32,13 +32,7 @@
 							<?php if ($individu): ?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 							<?php	endif; ?>
-							<div class="form-group">
-								<label for="nomor"  class="col-sm-3 control-label">Nomor Surat</label>
-								<div class="col-sm-8">
-									<input  id="nomor" class="form-control input-sm required" type="text" placeholder="Nomor Surat" name="nomor" value="<?= $surat_terakhir['no_surat_berikutnya'];?>">
-									<p class="help-block text-red small"><?= $surat_terakhir['ket_nomor']?><strong><?= $surat_terakhir['no_surat'];?></strong> (tgl: <?= $surat_terakhir['tanggal']?>)</p>
-								</div>
-							</div>
+							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
 						</form>
 					</div>

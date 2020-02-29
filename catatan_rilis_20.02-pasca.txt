@@ -1,0 +1,40 @@
+Di rilis ini, versi 20.02-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Zeppy Shiddiq, Il Ham, Nur Hidayat, ianskids, Ariandi Ryan Kahfi dan Riyandika Andhi yang terus berkontribusi. Terima kasih pula pada afa28 yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.02-pasca adalah sebagai berikut:
+
+1. Sekarang peta lokasi tempat tinggal penduduk dapat diubah walaupun sebelumnya belum ada. [bug-fix]
+2. #2641: Bisa langsung simpan peta wilayah setelah dibuat poligonnya. 
+3. #2627: Perbaiki tampilan dan isi pesan error 500 (kesalahan basis data). [teknis]
+4. #2627: Perbaiki tampilan error 500 untuk kesalahan script umum. [teknis]
+5. #2558, #2507, #2324, #2303: Perbaikan modul transparansi keuangan, memperbaiki laporan dan grafik keuangan secara menyeluruh. [bug-fix]
+6. #2654: Sekarang password yang diisi pada form login Admin dapat ditampilkan sebagai teks biasa.
+7. #2661: Dokumen yang sudah dihapus tidak tampil lagi di daftar dokumen/kelengkapan penduduk. [bug-fix]
+8. #2643: Tampilkan batas administratif desa/dusun/RW/RT di semua form peta.
+9. Sekarang faktor zoom di form peta bisa disimpan.
+10. Sediakan opsi menampilkan belanja kelompok atau bidang di laporan transparansi keuangan.
+11. Tampilkan grafik transparansi keuangan di bagian bawah halaman muka tema default. 
+12. Hapus fitur cetak langsung, termasuk menghapus semua template surat cetak langsung.
+13. #2561: Penampilan autocomplete di kotak cari di halaman Penduduk dan Keluarga sekarang menggunakan ajax, supaya dapat menangani jumlah penduduk yang besar. 
+14. Sekarang daftar pilihan penduduk tampil pada waktu menambah Rumah Tangga, pada kasus di mana data penduduk diimpor dengan kolom id_rtm kosong. [bug-fix]
+15. #2679: Sekarang tidak error pada waktu menambah Album baru walaupun sql_mode STRICT. [bug-fix]
+16. Judul di widget artikel dibuat rata kiri dan kanan.
+17. #2702: Agenda di widget agenda dibuat urut tanggal menurun di semua tab.
+18. Perbaiki tampilan daftar informasi publik supaya sesuai dengan daftar di halaman lainnya.
+19. #2695: Hapus kotak centang yg tidak digunakan di halaman Pengaturan > Modul dan Submodul.
+20. #2692: Tautan ke artikel di widget Agenda sekarang menggunakan url tulisan bukan id lagi.
+21. #2690: Artikel agenda sekarang tidak ditampilkan di daftar artikel terkini.
+22. #2650: Tabel informasi publik di web sekarang bisa discroll horizontal pada tampilan layar kecil.
+23. #2647: Gunakan tautan url tulisan di halaman Arsip Artikel di web.
+24. #2646: Bagi artikel sekarang menggunakan url tulisan bukan id. 
+25. #2704: Perbaiki script url artikel tulisan (slug) menggunakan helper. [teknis]
+26. #2667: Catat dan tampilkan berapa kali suatu artikel telah dibaca.
+27. #2706: Kotak cari di daftar Pengaturan > Modul sekarang menampilkan pilihan dari data yang ada. [bug-fix]
+28. #2710: Dari daftar Dokumen/Kelengkapan Penduduk, tampilkan dokumen kependudukan di tab browser terpisah.
+29. #2683: Sediakan tabel dan grafik statistik pengunjung website.
+30. Tampilan header info desa di tema hadakewa tidak lagi dipaksa huruf besar.
+31. #2723: Hapus folder tidak diperlukan. Tutup celah akses publik ke folder securimage. [security-fix]
+
+
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.02-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

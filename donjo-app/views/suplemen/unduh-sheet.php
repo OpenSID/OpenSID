@@ -38,6 +38,7 @@
 							<th><?= $suplemen["judul_terdata_info"]?></th>
 							<th>Tempat Lahir</th>
 							<th>Tanggal Lahir</th>
+							<th>Jenis Kelamin</th>
 							<th>Alamat</th>
 							<th>Keterangan</th>
 						</tr>
@@ -50,6 +51,7 @@
 								<td><?= $item["terdata_info"]?></td>
 								<td><?= $item["tempat_lahir"] ?></td>
 								<td><?= $item["tanggal_lahir"] ?></td>
+								<td><?= $item["sex"] ?></td>
 								<td><?= $item["info"]?></td>
 								<td><?= $item["keterangan"]?></td>
 							</tr>

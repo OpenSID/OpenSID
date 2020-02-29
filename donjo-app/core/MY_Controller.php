@@ -86,17 +86,18 @@ class MY_Controller extends CI_Controller {
 	    	$this->template = '../../themes/default/' . $template_file;
 		}
 
-
-		/* Set Breadcumbs
-		 * sometime, we want to have Breadcumbs different from page title
-		 * so, use this function
-		 * --------------------------------------
-		 * @author	Ahmad Afandi
-		 * @since	Version 0.0.1
-		 * @access	public
-		 * @param	string
-		 * @return	chained object
+		/**
+		 * Bersihkan session cluster wilayah
 		 */
+
+		public function clear_cluster_session()
+		{
+			$cluster_session = array('dusun', 'rw', 'rt');
+			foreach ($cluster_session as $session) 
+			{
+				$this->session->unset_userdata($session);
+			}
+		}
 
 }
 
@@ -129,6 +130,28 @@ class Web_Controller extends MY_Controller
 }
 
 /**
+	Untuk API read-only, seperti Api_informasi_publik
+*/
+class Api_Controller extends MY_Controller
+{
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	protected function log_request()
+	{
+		$message = 'API Request '.$this->input->server('REQUEST_URI').' dari '.$this->input->ip_address();
+		log_message('error', $message);
+	}
+
+}
+
+
+/**
  *
  */
 class Admin_Controller extends MY_Controller
@@ -143,6 +166,13 @@ class Admin_Controller extends MY_Controller
  		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
+
+		$this->load->model('modul_model');
+		if (!$this->modul_model->modul_aktif($this->controller))
+		{
+			session_error("Fitur ini tidak aktif");
+			redirect('/');
+		}
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))

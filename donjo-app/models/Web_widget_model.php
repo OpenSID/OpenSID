@@ -6,6 +6,7 @@
 		$this->load->model('first_gallery_m');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('pamong_model');
+		$this->load->model('keuangan_grafik_model');
 	}
 
 	public function autocomplete()
@@ -243,13 +244,14 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function get_setting($widget)
+	public function get_setting($widget, $opsi='')
 	{
 	  // Data di kolom setting dalam format json
 		$setting = $this->db->select('setting')->
 			where('isi',$widget.'.php')->
 			get('widget')->row_array();
-		return json_decode($setting['setting'], true);
+		$setting = json_decode($setting['setting'], true);
+		return empty($opsi) ? $setting : $setting[$opsi];
 	}
 
 	protected function filter_setting($k)
@@ -358,9 +360,11 @@
 		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['arsip'] = $this->first_artikel_m->arsip_show();
+		$data['arsip_rand'] = $this->first_artikel_m->arsip_rand();
 		$data['aparatur_desa'] = $this->pamong_model->list_data(true);
 		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
+	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
 
 }
