@@ -515,6 +515,4 @@ class First_artikel_m extends CI_Model {
 			//return $cek;
 		}
 	}
-
-
 }

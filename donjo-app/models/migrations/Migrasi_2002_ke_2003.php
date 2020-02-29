@@ -76,11 +76,12 @@ class Migrasi_2002_ke_2003 extends CI_model {
 			//jika ada ganti jdi slug dr artikel
 			$id = str_replace("artikel/", "", $menu['link']);
 			
-			$data = $this->db->where('id', $id)->get('artikel');
+
+			$data = $this->db->select('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where('id', $id)->get('artikel');
 			$artikel = $data->row_array();
 			$cek = $data->num_rows();
 			if($cek > 0){
-				$this->db->where('link', 'artikel/'.$artikel['id'])->update('menu', array('link' => 'artikel/'.$artikel['slug']));
+				$this->db->where('link', 'artikel/'.$artikel['id'])->update('menu', array('link' => 'artikel/'.buat_slug($artikel)));
 			}else{
 				//Hapus Menu Yg Link Ke id Artikel Tidak Ada(Jika Artikel Sudah Dihapus)
 				$this->db->where('id', $menu['id'])->delete('menu');
