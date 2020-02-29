@@ -28,7 +28,7 @@ class Program_bantuan_model extends CI_Model {
 	public function link_statistik_program_bantuan()
 	{
 		$strSQL = "
-			SELECT CONCAT('statistik/50',p.id) as id, p.nama, p.sasaran
+			SELECT CONCAT(p.nama) as nama, p.id, p.sasaran
 			FROM program p
 			WHERE 1 ORDER BY p.nama";
 		$query = $this->db->query($strSQL);
@@ -37,7 +37,7 @@ class Program_bantuan_model extends CI_Model {
 		$sasaran = unserialize(SASARAN);
 		foreach ($hasil as $program)
 		{
-			$data[$program['id']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
+			$data[$program['nama']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
 		}
 		return $data;
 	}

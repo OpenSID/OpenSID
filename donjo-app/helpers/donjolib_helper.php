@@ -152,8 +152,14 @@
 		$str = str_replace("-","'", $str);
 		return $str;
 	}
+
 	function spaceunpenetration($str){
 		$str = str_replace("-"," ", $str);
+		return $str;
+	}
+
+	function lowershyphen($str){
+		$str = strtolower(str_replace(" ","-", $str));
 		return $str;
 	}
 

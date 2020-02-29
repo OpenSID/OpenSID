@@ -219,7 +219,7 @@
 	public function link_statistik_keluarga()
 	{
 		$statistik = array(
-			"statistik/kelas-sosial" => "Kelas Sosial"
+			"statistik/klasifikasi-sosial" => "Klasifikasi Sosial"
 		);
 		return $statistik;
 	}
@@ -235,21 +235,11 @@
 	}
 
 	public function ambil_id($lap)
-	{
-		// Program bantuan berbentuk '50<program_id>'
-		//if ($lap > 50)
-		//{
-			//$program_id = preg_replace("/^50/", "", $lap);
-			//$this->db->select("nama");
-			//$this->db->where('id', $program_id);
-			//$q = $this->db->get('program');
-			//$program = $q->row_array();
-			//return $program['nama'];
-		//}
+	{		
 		//cek id statistik
 		switch ("$lap")
 		{
-			//case "kelas_sosial": return "Klasifikasi Sosial"; break;
+			case "klasifikasi-sosial": return "kelas_sosial"; break;
 			case "pendidikan-dalam-kk": return "0"; break;
 			case "pekerjaan": return "1"; break;
 			case "status-perkawinan": return "2"; break;
@@ -268,18 +258,65 @@
 			case "akte-kelahiran": return "17"; break;
 			case "kepemilikan-wajib-ktp": return "18"; break;
 			case "jenis-asuransi": return "19"; break;
-			//case "klasifikasi-sosial": return "21"; break;
-			//case "penerima-bos": return "24"; break;
+			case "klasifikasi-sosial": return "21"; break;
+			case "penerima-bos": return "24"; break;
 
-			case "calon-pemilih": return "1000"; break;
+			case "calon-pemilih": return "50"; break;
+			
+
 			default:
-				# code...
+				//Program bantuan
+				$nama = unslug($lap);
+				$this->db->select("id");
+				$this->db->where('nama', $nama);
+				$q = $this->db->get('program');
+				$program = $q->row_array();
+				return '50'.$program['id'];
 				break;
 			
 			//"dpt" => "Calon Pemilih",
 		}
 	}
 	
+	public function judul_statistik($lap)
+	{
+		// Program bantuan berbentuk '50<program_id>'
+		if ($lap > 50)
+		{
+			$program_id = preg_replace("/^50/", "", $lap);
+			$this->db->select("nama");
+			$this->db->where('id', $program_id);
+			$q = $this->db->get('program');
+			$program = $q->row_array();
+			return $program['nama'];
+		}
+
+		switch ("$lap")
+		{
+			case "kelas_sosial": return "Klasifikasi Sosial"; break;
+			case "0": return "Pendidikan Dalam KK"; break;
+			case "1": return "Pekerjaan"; break;
+			case "2": return "Status Perkawinan"; break;
+			case "3": return "Agama"; break;
+			case "4": return "Jenis Kelamin"; break;
+			case "5": return "Warga Negara"; break;
+			case "6": return "Status"; break;
+			case "7": return "Golongan Darah"; break;
+			case "9": return "Cacat"; break;
+			case "10": return "Sakit Menahun"; break;
+			case "13": return "Umur"; break;
+			case "14": return "Pendidikan Sedang Ditempuh"; break;
+			case "15": return "Umur"; break;
+			case "16": return "Akseptor KB"; break;
+			case "17": return "Akte Kelahiran"; break;
+			case "18": return "Kepemilikan Wajib KTP"; break;
+			case "19": return "Jenis Asuransi"; break;
+			case "21": return "Klasifikasi Sosial"; break;
+			case "24": return "Penerima BOS"; break;
+			default: return "Pendidikan";
+		}
+	}
+
 	public function jenis_laporan($lap)
 	{
 		$jenis_laporan = "penduduk";

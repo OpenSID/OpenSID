@@ -290,7 +290,9 @@ class First extends Web_Controller
 		$cek = $this->first_artikel_m->link_active($slug, 'statistik'); 
 		$id = $this->laporan_penduduk_model->ambil_id($slug);
 
-		if($id == 1000){
+		if($id == 50){
+			$this->dpt();
+		}else if($id == 70){
 			$this->dpt();
 		}else{
 			//link tidak aktif masih bisa diakses admin yg login

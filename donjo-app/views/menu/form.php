@@ -38,7 +38,7 @@
 								<label class="control-label col-sm-4" for="link">Jenis Link</label>
 								<div class="col-sm-6">
 									<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val());">
-										<option option value="">-- Pilih Jenis Link --</option>
+										<option value="" <?php selected($submenu['link_tipe'], "") ?>>Menu Utama</option>
 										<option value="1" <?php selected($submenu['link_tipe'], "1") ?>>Artikel Statis</option>
 										<option value="2" <?php selected($submenu['link_tipe'], "2") ?>>Statistik Penduduk</option>
 										<option value="3" <?php selected($submenu['link_tipe'], "3") ?>>Statistik Keluarga</option>
@@ -51,7 +51,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-4">Link</label>
-								<div class="col-sm-6" >
+								<div class="col-sm-6">
 									<select id="link" class="form-control input-sm jenis_link"  name="<?php if ($submenu['link_tipe']==1): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=1): ?>display:none<?php endif; ?>" <?php if ($submenu['link_tipe']!=1): ?>disabled="disabled"<?php endif; ?>>
 										<option value="">Pilih Artikel Statis</option>
 										<?php foreach ($link as $data): ?>
@@ -72,8 +72,8 @@
 									</select>
 									<select id="statistik_program_bantuan" class="form-control input-sm jenis_link"  name="<?php if ($submenu['link_tipe']==4): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=4): ?>display:none;<?php endif; ?>">
 										<option value="">Pilih Statistik Program Bantuan</option>
-										<?php foreach ($statistik_program_bantuan as $id => $nama): ?>
-											<option value="<?= $id?>" <?php selected($submenu['link'], $id) ?>><?= $nama?></option>
+										<?php foreach ($statistik_program_bantuan as $nama => $tampil): ?>
+											<option value="<?= 'statistik/'.lowershyphen($nama)?>" <?php selected($submenu['link'],'statistik/'.lowershyphen($nama)) ?>><?= $tampil?></option>
 										<?php endforeach; ?>
 									</select>
 									<select id="statis_lainnya" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==5): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=5): ?>display:none;<?php endif; ?>">
