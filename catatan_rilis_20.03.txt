@@ -1,4 +1,4 @@
-Di rilis ini, versi 20.03, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.03, tersedia tabel dan grafik statistik pengunjung website, serta perbaikan modul transparansi keuangan. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Zeppy Shiddiq, Il Ham, Nur Hidayat, ianskids, Ariandi Ryan Kahfi dan Riyandika Andhi yang terus berkontribusi. Terima kasih pula pada afa28 yang baru mulai berkontribusi.
 
