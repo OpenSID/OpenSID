@@ -1,7 +1,7 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class First extends Web_Controller {
-
+class First extends Web_Controller 
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -44,7 +44,7 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
-    $this->load->model('web_dokumen_model');
+    	$this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
@@ -192,7 +192,7 @@ class First extends Web_Controller {
 	*/
 	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
 	{
-		$cek = $this->first_artikel_m->link_active($slug, 'artikel'); 
+		$cek = $this->first_artikel_m->link_active('artikel', $slug); 
 		//link tidak aktif masih bisa diakses admin yg login
 		if($cek == 0 AND $_SESSION['siteman'] != 1){
 			$this->load->view('errors/html/error_404');
@@ -285,20 +285,20 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function statistik($stat='', $tipe='')
+	public function statistik($slug='', $tipe='')
 	{
-		$cek = $this->first_artikel_m->link_active($stat, 'statistik'); 
-		$id = $this->laporan_penduduk_model->ambil_id($stat);
+		$cek = $this->first_artikel_m->link_active($slug, 'statistik'); 
+		$id = $this->laporan_penduduk_model->ambil_id($slug);
 
 		if($id == 1000){
-			$this->dpt($stat);
+			$this->dpt();
 		}else{
 			//link tidak aktif masih bisa diakses admin yg login
 			if($cek == 0 AND $_SESSION['siteman'] != 1){
 				$this->load->view('errors/html/error_404');
 			}else{
 				$data = $this->includes;
-				$data['heading'] = unslug($stat);
+				$data['heading'] = unslug($slug);
 				
 				$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($id);
 				$data['stat'] = $this->laporan_penduduk_model->list_data($id);
@@ -310,7 +310,6 @@ class First extends Web_Controller {
 				$this->load->view($this->template, $data);
 			}
 		}
-		
 	}
 	
 	public function data_analisis($stat="", $sb=0, $per=0)
@@ -337,7 +336,7 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function dpt($stat)
+	public function dpt()
 	{
 		$cek = $this->first_artikel_m->link_active('calon-pemilih', 'statistik'); 
 		//link tidak aktif masih bisa diakses admin yg login
@@ -354,6 +353,32 @@ class First extends Web_Controller {
 			$this->set_template('layouts/stat.tpl.php');
 			$this->load->view($this->template, $data);
 		}
+	}
+
+	public function dokumen($slug)
+	{
+		$cek = $this->first_artikel_m->link_active($slug, 'dokumen'); 
+
+		if($cek == 0 AND $_SESSION['siteman'] != 1){
+			$this->load->view('errors/html/error_404');
+		}else{
+			$this->load->model('web_dokumen_model');
+				$data = $this->includes;
+				$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+				$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+			if($slug == 'informasi-publik'){
+				//Informasi Publik
+				$data['heading'] ="Informasi Publik";
+				$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
+			}else{
+				//Peraturan Desa
+				$data['heading']="Produk Hukum";
+				$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
+			}
+			$this->_get_common_data($data);
+			$this->set_template('layouts/halaman_statis.tpl.php');
+			$this->load->view($this->template, $data);
+		}	
 	}
 
 	public function wilayah()
@@ -379,67 +404,29 @@ class First extends Web_Controller {
 		}
 	}
 
-	public function peraturan_desa()
-	{
-		$cek = $this->first_artikel_m->link_active($stat, 'statistik');
-		
-		if($cek == 0 AND $_SESSION['siteman'] != 1){
-			$this->load->view('errors/html/error_404');
-		}else{
-			$this->first_artikel_m->link_active(null, 'peraturan_desa'); 
-			
-			$this->load->model('web_dokumen_model');
-			$data = $this->includes;
+  	public function ajax_table_peraturan()
+  	{
+    	$kategori_dokumen = '';
+    	$tahun_dokumen = '';
+    	$tentang_dokumen = '';
+    	$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    	echo json_encode($data);
+  	}
 
-			$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
-			$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-			$data['heading']="Produk Hukum";
-			$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
-			$this->_get_common_data($data);
+  	// function filter peraturan
+  	public function filter_peraturan()
+  	{
+    	$kategori_dokumen = $this->input->post('kategori');
+    	$tahun_dokumen = $this->input->post('tahun');
+    	$tentang_dokumen = $this->input->post('tentang');
 
-			$this->set_template('layouts/halaman_statis.tpl.php');
-			$this->load->view($this->template, $data);
-		}
-	}
+    	$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+    	echo json_encode($data);
+  	}
 
-  public function ajax_table_peraturan()
-  {
-    $kategori_dokumen = '';
-    $tahun_dokumen = '';
-    $tentang_dokumen = '';
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
-
-  // function filter peraturan
-  public function filter_peraturan()
-  {
-    $kategori_dokumen = $this->input->post('kategori');
-    $tahun_dokumen = $this->input->post('tahun');
-    $tentang_dokumen = $this->input->post('tentang');
-
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
-
-	public function informasi_publik()
-	{
-		$this->load->model('web_dokumen_model');
-		$data = $this->includes;
-
-		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
-		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-		$data['heading'] ="Informasi Publik";
-		$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
-		$this->_get_common_data($data);
-
-		$this->set_template('layouts/halaman_statis.tpl.php');
-		$this->load->view($this->template, $data);
-	}
-
-  public function ajax_informasi_publik()
-  {
-  	$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
+  	public function ajax_informasi_publik()
+  	{
+  		$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
 		$data = array();
 		$no = $_POST['start'];
 
@@ -456,13 +443,12 @@ class First extends Web_Controller {
 			$data[] = $row;
 		}
 
-		$output = array(
-     	"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
-      "recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
-			'data' => $data
-		);
-    echo json_encode($output);
-  }
+		$output = array('recordsTotal' => $this->web_dokumen_model->count_informasi_publik_all(),
+     					'recordsFiltered' => $this->web_dokumen_model->count_informasi_publik_filtered(),
+     					'data' => $data
+     					);
+    	echo json_encode($output);
+  	}
 
 	public function agenda($stat=0)
 	{

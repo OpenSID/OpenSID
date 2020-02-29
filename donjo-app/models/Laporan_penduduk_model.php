@@ -228,8 +228,8 @@
 	{
 		$statistik = array(
 			"wilayah" => "Wilayah Administratif",
-			"peraturan-desa" => "Produk Hukum",
-			"informasi_publik" => "Informasi Publik"
+			"dokumen/produk-hukum" => "Produk Hukum",
+			"dokumen/informasi-publik" => "Informasi Publik"
 		);
 		return $statistik;
 	}
@@ -722,7 +722,5 @@
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
-
 }
-
 ?>

@@ -45,7 +45,9 @@ class Migrasi_2002_ke_2003 extends CI_model {
 				";
 		$this->db->query($sql);
 		
-		// Update tabel menu yg sudah terisi agar tidak error
+		//Perubahan Ini Hanya berlaku 1 kali
+		if(VERSION != '20.02-pasca'){
+			// Update tabel menu yg sudah terisi agar tidak error
 		// Untuk Jenis Link : Statistik Penduduk
 		$this->db->where('link', 'statistik/0')->update('menu', array('link' => 'statistik/pendidikan-dalam-kk'));
 		$this->db->where('link', 'statistik/1')->update('menu', array('link' => 'statistik/pekerjaan'));
@@ -73,19 +75,14 @@ class Migrasi_2002_ke_2003 extends CI_model {
 		foreach ($list_menu as $menu)
 		{
 			$id = str_replace("artikel/", "", $menu['link']);
-			$data = $this->db->select('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where('id', $id)->get('artikel');
-			$artikel = $data->row_array();
-			$cek = $data->num_rows();
-			if($cek > 0){
-				$this->db->where('link', 'artikel/'.$artikel['id'])->update('menu', array('link' => 'artikel/'.buat_slug($artikel)));
-			}else{
-				//Hapus Menu Yg Link Ke id Artikel Tidak Ada(Jika Artikel Sudah Dihapus)
-				$this->db->where('id', $menu['id'])->delete('menu');
-			}			
+			$artikel = $this->db->select('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where('id', $id)->get('artikel')->row_array();
+			$this->db->where('link', 'artikel/'.$artikel['id'])->update('menu', array('link' => 'artikel/'.buat_slug($artikel)));			
 		}
-		str_replace("-", " ", $slug);
 
-		//ganti link dpt pada tabel menu menjadi statsitik/calon-pemilih
+		//ganti link pada tabel menu
 		$this->db->where('link', 'dpt')->update('menu', array('link' => 'calon-pemilih'));
+		$this->db->where('link', 'peraturan_desa')->update('menu', array('link' => 'dokumen/produk-hukum'));
+		$this->db->where('link', 'informasi_publik')->update('menu', array('link' => 'dokumen/informasi-publik'));
+		}
 	}
 }
