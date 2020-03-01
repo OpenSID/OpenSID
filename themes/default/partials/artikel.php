@@ -1,6 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<?php if($single_artikel["id"]) : ?>
 	<div class="artikel" id="<?= 'artikel-'.$single_artikel['judul']?>">
 		<h2 class="judul"><?= $single_artikel["judul"]?></h2>
 		<h3 class="kecil">
@@ -149,13 +148,3 @@
 			<?php endif; ?>
 		</div>
 	</div>
-<?php else: ?>
-	<div class="artikel" id="artikel-blank">
-		<div class="box box-danger box-solid">
-			<div class="box-header"><h3 class="box-title">Maaf, data tidak ditemukan</h3></div>
-			<div class="box-body">
-				Anda telah terdampar di halaman yang datanya tidak ada lagi di web ini. Mohon periksa kembali, atau laporkan kepada kami.
-			</div>
-		</div>
-	</div>
-<?php endif; ?>

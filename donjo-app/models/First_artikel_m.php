@@ -345,8 +345,14 @@ class First_artikel_m extends CI_Model {
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
-			->where('tgl_upload < NOW()');
-
+			->where('a.tgl_upload < NOW()');
+		
+		if ($_SESSION['siteman'] != 1)
+		{
+			// Agar admin yg login bisa view artikel
+			$this->db->where('a.enabled', 1);
+		}
+		
 		if ($is_id)
 		{
 			// $slug adalah id
@@ -356,6 +362,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$this->db->where('slug', $slug);
 		}
+
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
@@ -498,5 +505,4 @@ class First_artikel_m extends CI_Model {
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
 	}
-
 }

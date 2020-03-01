@@ -44,7 +44,7 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
-    $this->load->model('web_dokumen_model');
+		$this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
@@ -184,9 +184,8 @@ class First extends Web_Controller {
 			default:
 				break;
 		}
-
-		$this->load->view('web/mandiri/layout.mandiri.php', $data);
-	}
+			$this->load->view('web/mandiri/layout.mandiri.php', $data);
+		}
 
 	/*
 		Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. Url first/artikel/:id
@@ -197,6 +196,7 @@ class First extends Web_Controller {
 	{
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
+		$this->_get_common_data($data);
 
 		if (empty($slug))
 		{
@@ -208,24 +208,30 @@ class First extends Web_Controller {
 		{
 			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
 			$id = $data['single_artikel']['id'];
-		}
-		// replace isi artikel dengan shortcodify
-		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
-		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
-		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
-		$this->_get_common_data($data);
+		} 
 
-		// Validasi pengisian komentar di add_comment()
-		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
-		if (empty($_SESSION['validation_error']))
-		{
-			$_SESSION['post']['owner'] = '';
-			$_SESSION['post']['email'] = '';
-			$_SESSION['post']['no_hp'] = '';
-			$_SESSION['post']['komentar'] = '';
-			$_SESSION['post']['captcha_code'] = '';
+		if($id){
+			// replace isi artikel dengan shortcodify
+			$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
+			$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
+			$data['komentar'] = $this->first_artikel_m->list_komentar($id);
+
+			// Validasi pengisian komentar di add_comment()
+			// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
+			if (empty($_SESSION['validation_error']))
+			{
+				$_SESSION['post']['owner'] = '';
+				$_SESSION['post']['email'] = '';
+				$_SESSION['post']['no_hp'] = '';
+				$_SESSION['post']['komentar'] = '';
+				$_SESSION['post']['captcha_code'] = '';
+			}
+			$this->set_template('layouts/detail.tpl.php');
+			$data['tampil'] = 'artikel';
+		}else{
+			$this->set_template('layouts/detail.tpl.php');
+			$data['tampil'] = 'not_found';
 		}
-		$this->set_template('layouts/artikel.tpl.php');
 		$this->load->view($this->template,$data);
 	}
 
@@ -365,7 +371,7 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_table_peraturan()
+	public function ajax_table_peraturan()
   {
     $kategori_dokumen = '';
     $tahun_dokumen = '';
@@ -514,5 +520,4 @@ class First extends Web_Controller {
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
 	}
-
 }
