@@ -6468,7 +6468,7 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1432 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1433 DEFAULT CHARSET=latin1;
 
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2019-11-30 22:04:42', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (983, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
@@ -6920,6 +6920,7 @@ INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1429, 97, 46, 51, 37, '2020-02-29 23:04:48', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1430, 97, 46, 51, 37, '2020-02-29 23:04:48', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1431, 97, 46, 51, 37, '2020-02-29 23:04:48', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1432, 97, 46, 51, 37, '2020-03-01 11:22:18', 28, 9, 0, 0);
 
 
 #
@@ -12889,18 +12890,10 @@ INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampi
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (162, 'Keterangan Penghasilan Ayah', 'surat_ket_penghasilan_ayah', 'S-44', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (163, 'Keterangan Penghasilan Ibu', 'surat_ket_penghasilan_ibu', 'S-45', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (164, 'Raw', 'raw', '', NULL, 0, 0, 2);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (165, 'Baru', 'surat_baru', '', NULL, 0, 0, 2);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (166, 'Non Warga Baru', 'surat_non_warga_baru', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (167, 'Perintah Perjalanan Dinas', 'surat_perintah_perjalanan_dinas', 'S-46', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (168, 'Kuasa', 'surat_kuasa', 'S-47', NULL, 0, 0, 1);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (169, 'Kk', 'kk', '', NULL, 0, 0, 2);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (170, 'Permintaan Pembayaran', 'surat_permintaan_pembayaran', '', NULL, 0, 0, 2);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (171, 'Coba Lagi', 'surat_coba_lagi', '', NULL, 0, 0, 2);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (172, 'Keterangan Kepemilikan Kendaraan', 'surat_ket_kepemilikan_kendaraan', 'S-48', NULL, 0, 0, 1);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (173, 'Keterangan Kepemilikan Tanah', 'surat_ket_kepemilikan_tanah', 'S-49', NULL, 0, 0, 1);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (174, '<script>alert(\'hello\');<', 'surat_<script>alert(\'hello\');<', NULL, NULL, 0, 0, 2);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (175, 'Baru Lagi', 'surat_baru_lagi', NULL, NULL, 0, 0, 2);
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`) VALUES (176, 'Scriptalerthelloscriptwhat Is The Problem', 'surat_scriptalerthelloscriptwhat_is_the_problem', NULL, NULL, 0, 0, 2);
 
 
 #
