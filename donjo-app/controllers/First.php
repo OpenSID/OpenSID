@@ -493,7 +493,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
-		$data['desa'] = $this->first_m->get_data();
+		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
