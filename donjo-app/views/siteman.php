@@ -1,27 +1,3 @@
-<script type="text/javascript">
-
-
-	function start_countdown(){
-		var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
-		var menit = Math.floor(times / 60); 
-		var detik = times % 60;
-		timer = setInterval(function(){ 
-			detik--;
-			if (detik <= 0 && menit >=1){ 
-				detik = 60; 
-				menit--;
-			}
-			if (menit <= 0 && detik <= 0){ 
-				clearInterval(timer); 
-				location.reload();
-			} else {
-				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
-			}
-		}, 1000)
-	}
-
-</script>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -66,7 +42,6 @@
 								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<div class="error login-footer-top">
-											<script>start_countdown();</script>
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>
 										</div>
 									<?php else: ?>
@@ -105,14 +80,43 @@
 		</div>
 	</body>
 </html>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
-var x = document.getElementById("checkbox");
-var pass = document.getElementById("password");
-x.onclick = function(){
-	if (pass.type === "password"){
-		pass.type ='text';
-	} else {
-		pass.type ='password'
+
+	function start_countdown(){
+		var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
+		var menit = Math.floor(times / 60); 
+		var detik = times % 60;
+		timer = setInterval(function(){ 
+			detik--;
+			if (detik <= 0 && menit >=1){ 
+				detik = 60; 
+				menit--;
+			}
+			if (menit <= 0 && detik <= 0){ 
+				clearInterval(timer); 
+				location.reload();
+			} else {
+				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
+			}
+		}, 1000)
 	}
-}
+
+	$('document').ready(function()
+	{
+		var pass = $("#password");
+		$('#checkbox').click(function(){
+			if (pass.attr('type') === "password"){
+				pass.attr('type', 'text');
+			} else {
+				pass.attr('type', 'password')
+			}
+		});
+
+		if ($('#countdown').length)
+		{
+			start_countdown();
+		}
+	});
+
 </script>
