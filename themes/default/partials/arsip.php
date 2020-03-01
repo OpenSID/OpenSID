@@ -14,6 +14,7 @@
 							<td width="20%"><b>Tanggal Artikel</b></td>
 							<td><b>Judul Artikel</b></td>
 							<td width="20%"><b>Penulis</b></td>
+							<td width="10%"><b>Dibaca</b></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -26,10 +27,13 @@
 								<?= tgl_indo($data["tgl_upload"])?>
 							</td>
 							<td>
-								<a href="<?= site_url('first/artikel/'.$data[id])?>"><?= $data["judul"]?></a>
+								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"><?= $data["judul"]?></a>
 							</td>
 							<td style="text-align:center;">
 								<?= $data["owner"]?>
+							</td>
+							<td style="text-align:center;">
+								<?= hit($data['hit']) ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>

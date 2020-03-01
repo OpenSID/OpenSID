@@ -7,20 +7,18 @@
 		$this->load->model('penduduk_model');
 	}
 
-	public function autocomplete()
+	public function autocomplete($cari='')
 	{
-		$sql = "SELECT t.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1  ";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$this->db->select('t.nama')
+			->distinct()
+			->from('tweb_keluarga u')
+			->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
+			->order_by('t.nama');
+		if ($cari) $this->db->where("t.nama like '%$cari%'");
+		$data = $this->db->get()->result_array();
 
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ',"'.$data[$i]['nama'].'"';
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$str = autocomplete_data_ke_str($data);
+		return $str;
 	}
 
 	private function sex_sql()

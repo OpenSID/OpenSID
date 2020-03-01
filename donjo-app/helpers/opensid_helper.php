@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '20.02-pasca');
+define("VERSION", '20.03');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -726,6 +726,17 @@ function masukkan_zip($files=array())
   }
   $zip->close();
   return $tmp_file;
+}
+
+function alfanumerik_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
+function buat_slug($data_slug)
+{
+	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
+	return $slug;
 }
 
 ?>

@@ -95,12 +95,12 @@
 	public function insert()
 	{
 		$data = $_POST;
+		$this->validasi_surat($data);
 
 		$pemohon_surat = $data['pemohon_surat'];
 		unset($data['pemohon_surat']);
 		$data['url_surat'] = str_replace(" ", "_", $data['nama']);
 		$data['url_surat'] = "surat_".strtolower($data['url_surat']);
-		// $data['url_surat'] = "surat_".$data['url_surat'];
 		/** pastikan belum ada url suratnya */
 		if ($this->isExist($data['url_surat']))
 		{
@@ -165,9 +165,15 @@
 		else $_SESSION['success'] = -1;
 	}
 
+	private function validasi_surat(&$data)
+	{
+		$data['nama'] = alfanumerik_spasi($data['nama']);
+	}
+
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$this->validasi_surat($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_surat_format', $data);
 
