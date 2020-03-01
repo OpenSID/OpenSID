@@ -1,13 +1,5 @@
 <script type="text/javascript">
-	var x = document.getElementById("checkbox");
-	var pass = document.getElementById("password");
-	x.onclick = function(){
-		if (pass.type === "password"){
-			pass.type ='text';
-		} else {
-			pass.type ='password'
-		}
-	}
+
 
 	function start_countdown(){
 		var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
@@ -113,3 +105,14 @@
 		</div>
 	</body>
 </html>
+<script>
+var x = document.getElementById("checkbox");
+var pass = document.getElementById("password");
+x.onclick = function(){
+	if (pass.type === "password"){
+		pass.type ='text';
+	} else {
+		pass.type ='password'
+	}
+}
+</script>
