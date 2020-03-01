@@ -112,7 +112,7 @@ class Web_menu_model extends CI_Model {
 		if ($data['link']=="")
 			UNSET($data['link']);
 
-		$this->db->where('id', $id);
+		$this->db->where('linlllk', $id);
 		$outp = $this->db->update('menu', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -157,7 +157,7 @@ class Web_menu_model extends CI_Model {
 	public function list_link()
 	{
 		// '999' adalah id_kategori untuk artikel statis
-		$sql = "SELECT a.id,a.judul FROM artikel a WHERE a.id_kategori = '999'";
+		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri FROM artikel a WHERE id_kategori = '999'";
 
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
@@ -238,17 +238,17 @@ class Web_menu_model extends CI_Model {
 		return $data;
 	}
 
-  private function urut_max($tipe, $menu='')
-  {
-    $this->db->select_max('urut');
-    if ($menu != '')
-	    $this->db->where(array('tipe' => 3, 'parrent' => $menu));
-	  else
-	    $this->db->where('tipe', $tipe);
-    $query = $this->db->get('menu');
-    $menu = $query->row_array();
-    return $menu['urut'];
-  }
+  	private function urut_max($tipe, $menu='')
+  	{
+	    $this->db->select_max('urut');
+	    if ($menu != '')
+		    $this->db->where(array('tipe' => 3, 'parrent' => $menu));
+		  else
+		    $this->db->where('tipe', $tipe);
+	    $query = $this->db->get('menu');
+	    $menu = $query->row_array();
+	    return $menu['urut'];
+	}
 
 	private function urut_semua($tipe, $menu)
 	{
@@ -343,6 +343,5 @@ class Web_menu_model extends CI_Model {
 		$this->db->where('id', $menu1['id'])->
 			update('menu', array('urut' => $menu2['urut']));
 	}
-
 }
 ?>
