@@ -18,7 +18,7 @@
       <div align="center" style="height: 3.5em;"><h2><?= ($subdatas['laporan'])?></h2></div><hr/>
       <div align="center" style="height: 1em;"><h4>Realisasi | Anggaran</h4></div><hr/>
       <?php foreach ($subdatas as $key => $subdata): ?>
-        <?php if($subdata['judul'] != NULL and $key != 'laporan'): ?>
+        <?php if($subdata['judul'] != NULL and $key != 'laporan' and $subdata['realisasi'] != 0 and $subdata['anggaran'] != 0): ?>
           <div class="progress-group">
             <?= $subdata['judul']; ?><br>
             <b>Rp. <?= number_format($subdata['realisasi']); ?> | Rp. <?= number_format($subdata['anggaran']); ?></b>
