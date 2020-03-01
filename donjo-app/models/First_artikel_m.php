@@ -267,7 +267,7 @@ class First_artikel_m extends CI_Model {
 			LEFT JOIN agenda g ON g.id_artikel = a.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) = CURDATE()
-			ORDER BY a.tgl_upload DESC";
+			ORDER BY g.tgl_agenda";
 		$query = $this->db->query($sql);
 		$data['hari_ini'] = $query->result_array();
 		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
@@ -276,7 +276,7 @@ class First_artikel_m extends CI_Model {
 			LEFT JOIN agenda g ON g.id_artikel = a.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) > CURDATE()
-			ORDER BY a.tgl_upload DESC";
+			ORDER BY g.tgl_agenda";
 		$query = $this->db->query($sql);
 		$data['yad'] = $query->result_array();
 		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
@@ -285,7 +285,7 @@ class First_artikel_m extends CI_Model {
 			LEFT JOIN agenda g ON g.id_artikel = a.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
 			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) < CURDATE()
-			ORDER BY a.tgl_upload DESC";
+			ORDER BY g.tgl_agenda";
 		$query = $this->db->query($sql);
 		$data['lama'] = $query->result_array();
 		return $data;
