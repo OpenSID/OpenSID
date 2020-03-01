@@ -7,6 +7,7 @@ class Main extends CI_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('config_model');
+		$this->load->model('pamong_model');
 	}
 
 	public function maintenance_mode()
