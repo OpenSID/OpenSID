@@ -4,7 +4,7 @@
 	{
 		parent::__construct();
 		$this->load->model('first_gallery_m');
-		$this->load->model('laporan_penduduk_model');
+		$this->load->model('');
 		$this->load->model('pamong_model');
 		$this->load->model('keuangan_grafik_model');
 	}
@@ -366,6 +366,5 @@
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
-
 }
 ?>
