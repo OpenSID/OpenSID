@@ -104,6 +104,7 @@ class User_model extends CI_Model {
 				$_SESSION['grup'] = $row->id_grup;
 				$_SESSION['per_page'] = 10;
 				$_SESSION['siteman_wait'] = 0;
+				$_SESSION['siteman_try'] = 4;
 			}
 		}
 	}
