@@ -5,6 +5,7 @@ Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk 
 Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 
 1. Setelah gagal tiga kali, form login administrator sekarang menampilkan waktu sebelum bisa login lagi.
+2. #2717: Rapikan pengambilan data desa supaya konsisten di seluruh aplikasi. [teknis]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
