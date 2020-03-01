@@ -69,6 +69,8 @@ class User_model extends CI_Model {
 			else
 			{
 				$_SESSION['siteman_wait'] = 1;
+				unset($_SESSION['siteman_timeout']);
+				siteman_timer();
 			}
 		}
 		// Login sukses: ubah pass di db ke bcrypt jika masih md5 dan set session
@@ -101,7 +103,7 @@ class User_model extends CI_Model {
 				$_SESSION['user'] = $row->id;
 				$_SESSION['grup'] = $row->id_grup;
 				$_SESSION['per_page'] = 10;
-				unset($_SESSION['siteman_timeout']);
+				$_SESSION['siteman_wait'] = 0;
 			}
 		}
 	}
