@@ -30,7 +30,7 @@
 								<div class="col-sm-4 col-md-2">
 									<input type="text" class="form-control input-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
 								</div>
-							<?php $bln = date("m");?>
+								<?php $bln = date("m");?>
 								<label class="col-sm-2 col-md-2 control-label" for="laporan">Lap. Bulan</label>
 								<div class="col-sm-4 col-md-1">
 									<input type="text" class="form-control input-sm" value="<?= $bln?>" disabled/></input>
