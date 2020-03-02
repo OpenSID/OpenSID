@@ -45,6 +45,8 @@ class First extends Web_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
 		$this->load->model('web_dokumen_model');
+		$this->load->model('web_menu_model');
+
 	}
 
 	public function auth()
@@ -202,15 +204,15 @@ class First extends Web_Controller {
 		{
 			// Kalau slug kosong, parameter pertama adalah id artikel
 			$id = $thn;
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
+			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);			
 		}
 		else
 		{
 			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
-			$id = $data['single_artikel']['id'];
-		} 
-
-		if($id){
+			$id = $data['single_artikel']['id'];			
+		}
+		
+		if($data['single_artikel']){
 			// replace isi artikel dengan shortcodify
 			$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 			$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
@@ -226,12 +228,12 @@ class First extends Web_Controller {
 				$_SESSION['post']['komentar'] = '';
 				$_SESSION['post']['captcha_code'] = '';
 			}
-			$this->set_template('layouts/detail.tpl.php');
 			$data['tampil'] = 'artikel';
+			
 		}else{
-			$this->set_template('layouts/detail.tpl.php');
 			$data['tampil'] = 'not_found';
 		}
+		$this->set_template('layouts/artikel.tpl.php');
 		$this->load->view($this->template,$data);
 	}
 
@@ -290,18 +292,38 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
+		$this->load->model('dpt_model');
+
 		$data = $this->includes;
-
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
-		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
-		$data['tipe'] = $tipe;
-		$data['st'] = $stat;
-
 		$this->_get_common_data($data);
 
-		$this->set_template('layouts/stat.tpl.php');
-		$this->load->view($this->template, $data);
+		//cek menu aktif
+		$aktif = $this->web_menu_model->menu_aktif('statistik/', $stat);
+
+		if($aktif){
+			if($stat =='calon-pemilih'){
+				$data['main'] = $this->dpt_model->statistik_wilayah();
+				$data['total'] = $this->dpt_model->statistik_total();
+				$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+				$data['tipe'] = 4;
+				$this->set_template('layouts/stat.tpl.php');				
+			}else{
+				if($stat='kelas-sosial'){
+					$stat='kelas_sosial';
+				}
+				$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
+				$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
+				$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
+				$data['tipe'] = $tipe;
+				$data['st'] = $stat;
+				$data['tampil'] = 'statistik';
+				$this->set_template('layouts/stat.tpl.php');
+			}
+		}else{
+			$data['tampil'] = 'not_found';
+			$this->set_template('layouts/artikel.tpl.php');
+		}
+		$this->load->view($this->template,$data);	
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
@@ -327,47 +349,53 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function dpt()
-	{
-		$this->load->model('dpt_model');
-		$data = $this->includes;
-		$data['main'] = $this->dpt_model->statistik_wilayah();
-		$data['total'] = $this->dpt_model->statistik_total();
-		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
-		$this->_get_common_data($data);
-		$data['tipe'] = 4;
-		$this->set_template('layouts/stat.tpl.php');
-		$this->load->view($this->template, $data);
-	}
-
 	public function wilayah()
 	{
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
-
-		$data['main']    = $this->first_penduduk_m->wilayah();
-		$data['heading']="Populasi Per Wilayah";
-		$data['tipe'] = 3;
-		$data['total'] = $this->wilayah_model->total();
-		$data['st'] = 1;
 		$this->_get_common_data($data);
 
-		$this->set_template('layouts/stat.tpl.php');
+		//cek menu aktif
+		$aktif = $this->web_menu_model->menu_aktif('wilayah');
+
+		if($aktif){
+			$data['main']    = $this->first_penduduk_m->wilayah();
+			$data['heading']="Populasi Per Wilayah";
+			$data['tipe'] = 3;
+			$data['total'] = $this->wilayah_model->total();
+			$data['st'] = 1;
+			$this->set_template('layouts/stat.tpl.php');
+		}else{
+			$data['tampil'] = 'not_found';
+			$this->set_template('layouts/artikel.tpl.php');
+		}
 		$this->load->view($this->template, $data);
 	}
 
-	public function peraturan_desa()
+	public function dokumen($dok)
 	{
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
-
-		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
-		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-		$data['heading']="Produk Hukum";
-		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
 		$this->_get_common_data($data);
 
-		$this->set_template('layouts/halaman_statis.tpl.php');
+		//cek menu aktif
+		$aktif = $this->web_menu_model->menu_aktif('dokumen/', $dok);
+
+		if($aktif){
+			$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
+			$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
+			if($dok =='produk-hukum'){
+				$data['heading']="Produk Hukum";
+				$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
+			}else{
+				$data['heading'] ="Informasi Publik";
+				$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
+			}
+			$this->set_template('layouts/halaman_statis.tpl.php');
+		}else{
+			$data['tampil'] = 'not_found';
+			$this->set_template('layouts/artikel.tpl.php');
+		}		
 		$this->load->view($this->template, $data);
 	}
 
@@ -391,20 +419,7 @@ class First extends Web_Controller {
     echo json_encode($data);
   }
 
-	public function informasi_publik()
-	{
-		$this->load->model('web_dokumen_model');
-		$data = $this->includes;
-
-		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
-		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-		$data['heading'] ="Informasi Publik";
-		$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
-		$this->_get_common_data($data);
-
-		$this->set_template('layouts/halaman_statis.tpl.php');
-		$this->load->view($this->template, $data);
-	}
+	
 
   public function ajax_informasi_publik()
   {
@@ -515,8 +530,8 @@ class First extends Web_Controller {
 			'arsip',
 			'w_cos'
 		);
-			foreach ($list_kolom as $kolom``		{
+			foreach ($list_kolom as $kolom){
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
-	}	                                                                                                                                        hk                                                                                                                                                                                                                                                                                                                   0
-+11}
+	}
+}

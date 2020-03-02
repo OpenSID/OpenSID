@@ -344,5 +344,25 @@ class Web_menu_model extends CI_Model
 			update('menu', array('urut' => $menu2['urut']));
 	}
 
+	public function menu_aktif($kat, $slug='')
+	{
+		$this->db->where('link', $kat.''.$slug);
+
+		if ($_SESSION['siteman'] != 1)
+		{
+			// Agar admin yg login bisa view artikel
+			$this->db->where('enabled', 1);
+		}
+		
+		$query = $this->db->get('menu');
+
+		if ($query->num_rows() > 0)
+		{
+			$data = $query->row_array();
+		}else{
+			$data = false;
+		}
+		return $data;
+	}
 }
 ?>
