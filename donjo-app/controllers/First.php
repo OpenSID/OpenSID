@@ -515,9 +515,8 @@ class First extends Web_Controller {
 			'arsip',
 			'w_cos'
 		);
-		foreach ($list_kolom as $kolom)
-		{
+			foreach ($list_kolom as $kolom``		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
-	}
-}
+	}	                                                                                                                                        hk                                                                                                                                                                                                                                                                                                                   0
++11}
