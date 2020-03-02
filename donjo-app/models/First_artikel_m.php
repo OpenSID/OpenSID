@@ -260,16 +260,13 @@ class First_artikel_m extends CI_Model {
 	}
 
 	public function agenda_show()
-	{	
-		//tgl sekarang
-		$tgl = date('Y-m-d');
-
+	{
 		//Hari Ini
 		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda)' => $tgl))
+			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda)' => NOW()))
 			->order_by('g.tgl_agenda', ASC)
 			->get('artikel a');				
 				
@@ -280,7 +277,7 @@ class First_artikel_m extends CI_Model {
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda) > ' => $tgl))
+			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda) > ' => NOW()))
 			->order_by('g.tgl_agenda', ASC)
 			->get('artikel a');
 		$data['yad'] = $sql->result_array();
@@ -290,7 +287,7 @@ class First_artikel_m extends CI_Model {
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda) <' => $tgl))
+			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda) <' => NOW()))
 			->order_by('g.tgl_agenda', ASC)
 			->get('artikel a');
 		$data['lama'] = $sql->result_array();
