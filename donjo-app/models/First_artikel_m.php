@@ -261,33 +261,39 @@ class First_artikel_m extends CI_Model {
 
 	public function agenda_show()
 	{
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN agenda g ON g.id_artikel = a.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) = CURDATE()
-			ORDER BY a.tgl_upload DESC";
-		$query = $this->db->query($sql);
-		$data['hari_ini'] = $query->result_array();
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN agenda g ON g.id_artikel = a.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) > CURDATE()
-			ORDER BY a.tgl_upload DESC";
-		$query = $this->db->query($sql);
-		$data['yad'] = $query->result_array();
-		$sql = "SELECT a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN agenda g ON g.id_artikel = a.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE id_kategori='1000' AND a.enabled = 1 AND DATE(g.tgl_agenda) < CURDATE()
-			ORDER BY a.tgl_upload DESC";
-		$query = $this->db->query($sql);
-		$data['lama'] = $query->result_array();
+		//Tgl Hari Ini
+		$tgl = date('Y-m-d');
+
+		//Hari Ini
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->join('user u', 'u.id = a.id', 'LEFT')
+			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
+			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda)' => $tgl))
+			->order_by('g.tgl_agenda', ASC)
+			->get('artikel a');				
+				
+		$data['hari_ini'] = $sql->result_array();
+
+		//Yang Akan Datang
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->join('user u', 'u.id = a.id', 'LEFT')
+			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
+			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda) > ' => $tgl))
+			->order_by('g.tgl_agenda', ASC)
+			->get('artikel a');
+		$data['yad'] = $sql->result_array();
+
+		//Lama/Sudah Lewat
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->join('user u', 'u.id = a.id', 'LEFT')
+			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
+			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+			->where(array('a.enabled' => 1, 'a.id_kategori' => '1000', 'DATE(g.tgl_agenda) <' => $tgl))
+			->order_by('g.tgl_agenda', ASC)
+			->get('artikel a');
+		$data['lama'] = $sql->result_array();
 		return $data;
 	}
 

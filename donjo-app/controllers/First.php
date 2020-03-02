@@ -44,7 +44,7 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
-    $this->load->model('web_dokumen_model');
+    	$this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
