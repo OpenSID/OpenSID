@@ -417,9 +417,7 @@ class First extends Web_Controller {
 
     $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
     echo json_encode($data);
-  }
-
-	
+  }	
 
   public function ajax_informasi_publik()
   {
