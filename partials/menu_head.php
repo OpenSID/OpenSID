@@ -30,6 +30,7 @@
 			    <?php endif; ?>
 			</li>
 			<?php }?>
+			<li class=""><a href="<?= site_url()."siteman"?>">Login</a></li>
           </ul>
         </div>
       </div>
