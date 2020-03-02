@@ -6,6 +6,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 
 1. Setelah gagal tiga kali, form login administrator sekarang menampilkan waktu sebelum bisa login lagi.
 2. #2717: Rapikan pengambilan data desa supaya konsisten di seluruh aplikasi. [teknis]
+3. #2748: Kotak centang di header Log Penduduk sekarang mencentang semua data sekaligus, dan tombol Kembalikan Status hanya aktif apabila ada data yang dicentang. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
