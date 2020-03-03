@@ -5,7 +5,7 @@
 				<div id="contentcolumn">
 					<div class="innertube">
 						<?php
-						$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/artikel.php'));
+						$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/'.$tampil.'.php'));
 						?>
 					</div>
 				</div>
