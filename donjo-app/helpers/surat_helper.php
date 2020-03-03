@@ -41,8 +41,8 @@ function SuratExport($nama_surat)
 {
 	if (SuratExportDesa($nama_surat) != "") {
 		return SuratExportDesa($nama_surat);
-	} elseif (is_file("surat/$nama_surat/$nama_surat.rtf")) {
-		return "surat/$nama_surat/$nama_surat.rtf";
+	} elseif (is_file("template-surat/$nama_surat/$nama_surat.rtf")) {
+		return "template-surat/$nama_surat/$nama_surat.rtf";
 	} else {
 		return "";
 	}
