@@ -1,13 +1,14 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Siteman extends CI_Controller {
+class Siteman extends CI_Controller 
+{
 
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
 		siteman_timeout();
-		$this->load->model('header_model');
+		$this->load->model('config_model');
 		$this->load->model('user_model');
 		$this->load->model('track_model');
 	}
@@ -16,7 +17,7 @@ class Siteman extends CI_Controller {
 	{
 		unset($_SESSION['balik_ke']);
 		$this->user_model->logout();
-		$header = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 
 		//Initialize Session ------------
 		if (!isset($_SESSION['siteman']))
@@ -28,7 +29,7 @@ class Siteman extends CI_Controller {
 		$_SESSION['sesi'] = "kosong";
 		//-------------------------------
 
-		$this->load->view('siteman', $header);
+		$this->load->view('siteman', $data);
 		$_SESSION['siteman'] = 0;
 		$this->track_model->track_desa('main');
 	}
@@ -61,8 +62,8 @@ class Siteman extends CI_Controller {
 	public function login()
 	{
 		$this->user_model->login();
-		$header = $this->header_model->get_config();
-		$this->load->view('siteman', $header);
+		$data['header'] = $this->config_model->get_data();
+		$this->load->view('siteman', $data);
 	}
 
 	public function flash()

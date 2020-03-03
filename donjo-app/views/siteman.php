@@ -5,7 +5,7 @@
 		<title>
 			<?=$this->setting->login_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']: '')
+				. (($header['nama_desa']) ? ' ' . $header['nama_desa']: '')
 				. get_dynamic_title_page_from_path();
 			?>
 		</title>
@@ -29,11 +29,11 @@
 					<div class="row">
 						<div class="col-sm-4 col-sm-offset-4 form-box">
 							<div class="form-top">
-								<a href="<?=site_url(); ?>first/"><img src="<?=LogoDesa($desa['logo']);?>" alt="<?=$desa['nama_desa']?>" class="img-responsive" /></a>
-								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$desa['nama_desa']?></h1>
+								<a href="<?=site_url(); ?>first/"><img src="<?=LogoDesa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
+								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 									<h3>
-										<br /><?=$desa['alamat_kantor']?><br />Kodepos <?=$desa['kode_pos']?>
-										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$desa['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$desa['nama_kabupaten']?>
+										<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>
+										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
 									</h3>
 								</div>
 								<hr />
@@ -42,7 +42,7 @@
 								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<div class="error login-footer-top">
-										<p style="color:red; text-transform:uppercase">Gagal 3 kali, silakan coba kembali dalam <?= waktu_ind((time()- $_SESSION['siteman_timeout'])*(-1));?> lagi</p>
+											<p id="countdown" style="color:red; text-transform:uppercase"></p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
@@ -80,14 +80,43 @@
 		</div>
 	</body>
 </html>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
-var x = document.getElementById("checkbox");
-var pass = document.getElementById("password");
-x.onclick = function(){
-	if (pass.type === "password"){
-		pass.type ='text';
-	} else {
-		pass.type ='password'
+
+	function start_countdown(){
+		var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
+		var menit = Math.floor(times / 60); 
+		var detik = times % 60;
+		timer = setInterval(function(){ 
+			detik--;
+			if (detik <= 0 && menit >=1){ 
+				detik = 60; 
+				menit--;
+			}
+			if (menit <= 0 && detik <= 0){ 
+				clearInterval(timer); 
+				location.reload();
+			} else {
+				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
+			}
+		}, 1000)
 	}
-}
+
+	$('document').ready(function()
+	{
+		var pass = $("#password");
+		$('#checkbox').click(function(){
+			if (pass.attr('type') === "password"){
+				pass.attr('type', 'text');
+			} else {
+				pass.attr('type', 'password')
+			}
+		});
+
+		if ($('#countdown').length)
+		{
+			start_countdown();
+		}
+	});
+
 </script>

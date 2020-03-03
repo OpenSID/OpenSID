@@ -144,7 +144,7 @@ class Inventaris_peralatan extends Admin_Controller {
 
 	public function cetak($tahun, $penandatangan)
 	{
-		$data['header'] = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 		$data['total'] = $this->inventaris_peralatan_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_peralatan_model->cetak($tahun);
 		$data['pamong'] = $this->inventaris_peralatan_model->pamong($penandatangan);
@@ -153,7 +153,7 @@ class Inventaris_peralatan extends Admin_Controller {
 
 	public function download($tahun, $penandatangan)
 	{
-		$data['header'] = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 		$data['total'] = $this->inventaris_peralatan_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_peralatan_model->cetak($tahun);
 		$data['pamong'] = $this->inventaris_peralatan_model->pamong($penandatangan);

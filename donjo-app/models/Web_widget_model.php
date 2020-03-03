@@ -366,6 +366,5 @@
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
-
 }
 ?>
