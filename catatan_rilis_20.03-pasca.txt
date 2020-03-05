@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 3. #2748: Kotak centang di header Log Penduduk sekarang mencentang semua data sekaligus, dan tombol Kembalikan Status hanya aktif apabila ada data yang dicentang. [bug-fix]
 4. #2752: Perbaiki supaya urutan entri di widget agenda sesuai tanggal agenda menurun. 
 5. #2733: Artikel non-aktif sekarang tidak bisa diakses langsung menggunakan url artikel tersebut. [bug-fix]
+6. #2625: Sekarang ditampilkan error 'halaman tidak ditemukan' apabila pengunjung web memasukkan url statistik yang tidak disediakan. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

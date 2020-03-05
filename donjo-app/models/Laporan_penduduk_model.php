@@ -269,7 +269,7 @@
 			case "19": return "Jenis Asuransi"; break;
 			case "21": return "Klasifikasi Sosial"; break;
 			case "24": return "Penerima BOS"; break;
-			default: return "Pendidikan";
+			default: return NULL;
 		}
 	}
 
