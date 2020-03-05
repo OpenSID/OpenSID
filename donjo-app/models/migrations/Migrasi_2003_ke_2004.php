@@ -19,10 +19,15 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			);
 			$this->dbforge->add_column('gambar_gallery', $fields);
   	}
-    //ganti nama folder surat
-		$lama = "surat";
-		$baru = "template-surat";
-		rename($lama, $baru);
-		rename('desa/'.$lama, 'desa/'.$baru);	
+    	//ketika update akan ada folder surat dan template-surat
+		$folder = "surat";
+		//perubahan untuk sistem, tdk menggunakan fungsi rename krn hanya berlaku jika tdk ada penambahan folder baru saat update(template-surat)
+		$this->load->helper("file");
+		//1. Hapus Folder Surat dan Isinya
+		delete_files($folder, true , false, 1);
+		//2. Hapus Folder pada desa-contoh/surat
+		delete_files('desa-contoh/'.$folder, true , false, 1);
+		//perubahan untuk desa
+		rename('desa/'.$folder, 'desa/template-surat');	
 	}
 }
