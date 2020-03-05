@@ -8,5 +8,17 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		$this->db->where('panjang < 100')
 			->set('panjang', 'panjang * 1000', false)
 			->update('inventaris_jalan');
+  	// Urut tabel gambar_gallery
+  	if (!$this->db->field_exists('urut', 'gambar_gallery'))
+  	{
+			// Tambah kolom
+			$fields = array();
+			$fields['urut'] = array(
+					'type' => 'int',
+					'constraint' => 5
+			);
+			$this->dbforge->add_column('gambar_gallery', $fields);
+  	}
+
 	}
 }
