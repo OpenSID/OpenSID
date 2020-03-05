@@ -34,8 +34,7 @@
 		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => '20.01'),
 		'20.01' => array('migrate' => 'migrasi_2001_ke_2002', 'nextVersion' => '20.02'),
 		'20.02' => array('migrate' => 'migrasi_2002_ke_2003', 'nextVersion' => '20.03'),
-		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => '20.04'),
-		'20.04' => array('migrate' => NULL, 'nextVersion' => NULL)
+		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -101,7 +100,10 @@
 				$migrate = $versionMigrate[$nextVersion]['migrate'];
 				log_message('error', 'Jalankan '.$migrate);
 				$nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
-				call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
+				if (function_exists(__NAMESPACE__ .'\Database_model::'.$migrate))
+					call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
+				else
+					$this->jalankan_migrasi($migrate);					
 			}
 		}
 		else
@@ -198,34 +200,16 @@
 		$this->migrasi_1909_ke_1910();
 		$this->migrasi_1910_ke_1911();
 		$this->migrasi_1911_ke_1912();
-		$this->migrasi_1912_ke_2001();
-		$this->migrasi_2001_ke_2002();
-		$this->migrasi_2002_ke_2003();
-		$this->migrasi_2003_ke_2004();
+		$this->jalankan_migrasi('migrasi_1912_ke_2001');
+		$this->jalankan_migrasi('migrasi_2001_ke_2002');
+		$this->jalankan_migrasi('migrasi_2002_ke_2003');
+		$this->jalankan_migrasi('migrasi_2003_ke_2004');
   }
 
-  private function migrasi_2003_ke_2004()
+  private function jalankan_migrasi($migrasi)
   {
-  	$this->load->model('migrations/migrasi_2003_ke_2004');
-  	$this->migrasi_2003_ke_2004->up();
-  }
-  
-  private function migrasi_2002_ke_2003()
-  {
-  	$this->load->model('migrations/migrasi_2002_ke_2003');
-  	$this->migrasi_2002_ke_2003->up();
-  }
-
-  private function migrasi_2001_ke_2002()
-  {
-  	$this->load->model('migrations/migrasi_2001_ke_2002');
-  	$this->migrasi_2001_ke_2002->up();
-  }
-
-  private function migrasi_1912_ke_2001()
-  {
-  	$this->load->model('migrations/migrasi_1912_ke_2001');
-  	$this->migrasi_1912_ke_2001->up();
+  	$this->load->model('migrations/'.$migrasi);
+  	$this->$migrasi->up();
   }
 
   private function migrasi_1911_ke_1912()
