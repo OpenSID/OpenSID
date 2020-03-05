@@ -67,7 +67,7 @@
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			default:$order_sql = ' ORDER BY id';
+			default:$order_sql = ' ORDER BY urut';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -107,6 +107,7 @@
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
 		$data = $_POST;
+		$data['urut'] = $this->urut_max('') + 1;
 		// Bolehkan album tidak ada gambar cover
 		if (!empty($lokasi_file))
 		{
@@ -295,7 +296,7 @@
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			default:$order_sql = ' ORDER BY id';
+			default:$order_sql = ' ORDER BY urut';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -331,6 +332,7 @@
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
 		$data = $_POST;
+		$data['urut'] = $this->urut_max($parrent) + 1;
 		// Bolehkan isi album tidak ada gambar
 		if (!empty($lokasi_file))
 		{
@@ -385,5 +387,89 @@
 		$outp = $this->db->where('id', $id)->update('gambar_gallery', $data);
 		if (!$outp) $_SESSION['success'] = -1;
 	}
+
+  private function urut_max($gallery='')
+  {
+    $this->db->select_max('urut');
+    if ($gallery != '')
+	    $this->db->where('parrent', $gallery);
+	  else
+	    $this->db->where('parrent', 0);
+    $query = $this->db->get('gambar_gallery');
+    $gallery = $query->row_array();
+    return $gallery['urut'];
+  }
+
+	private function urut_semua($gallery)
+	{
+		if ($gallery != '')
+		{
+			$sql = "SELECT urut, COUNT(*) c
+				FROM gambar_gallery WHERE parrent = ?
+				GROUP BY urut HAVING c > 1";
+			$query = $this->db->query($sql, $gallery);
+			$urut_duplikat = $query->result_array();
+			$belum_diurut = $this->db->
+				where('parrent', $gallery)->
+				where('urut IS NULL')->
+				limit(1)->get('gambar_gallery')->row_array();
+			if ($urut_duplikat OR $belum_diurut)
+			{
+				$q = $this->db->select("id")
+					->where('parrent', $gallery)
+					->order_by("urut")
+					->get('gambar_gallery');
+				$daftar = $q->result_array();
+			}
+		}
+		else
+		{
+			$sql = "SELECT urut, COUNT(*) c
+				FROM gambar_gallery WHERE parrent = 0
+				GROUP BY urut HAVING c > 1";
+			$query = $this->db->query($sql);
+			$urut_duplikat = $query->result_array();
+			$belum_diurut = $this->db->
+				where('parrent', 0)->
+				where('urut IS NULL')->
+				limit(1)->get('gambar_gallery')->row_array();
+			if ($urut_duplikat OR $belum_diurut)
+			{
+				$q = $this->db->select("id")
+					->where("parrent", 0)
+					->order_by("urut")
+					->get('gambar_gallery');
+				$daftar = $q->result_array();
+			}
+		}
+		for ($i=0; $i<count($daftar); $i++)
+		{
+			$this->db->where('id', $daftar[$i]['id']);
+			$data['urut'] = $i + 1;
+			$this->db->update('gambar_gallery', $data);
+		}
+	}
+
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($id, $arah, $gallery='')
+	{
+		$this->urut_semua($gallery);
+		$this->db->where('id', $id);
+		$q = $this->db->get('gambar_gallery');
+		$unsur1 = $q->row_array();
+
+		$this->db->select("id, urut");
+		if ($gallery != '')
+			$this->db->where(array("parrent" => $gallery));
+		else
+			$this->db->where("parrent", 0);
+		$this->db->order_by("urut");
+		$q = $this->db->get('gambar_gallery');
+		$daftar = $q->result_array();
+		urut_daftar($id, $arah, 'gambar_gallery', $daftar, $unsur1);
+	}
+
 }
 ?>

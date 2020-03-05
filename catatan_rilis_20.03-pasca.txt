@@ -11,6 +11,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 5. #2733: Artikel non-aktif sekarang tidak bisa diakses langsung menggunakan url artikel tersebut. [bug-fix]
 6. #2625: Sekarang ditampilkan error 'halaman tidak ditemukan' apabila pengunjung web memasukkan url statistik yang tidak disediakan. [bug-fix]
 7. #2628: Ubah panjang Jalan, Irigasi dan Jaringan di Inventaris dari KM menjadi M.
+8. #1839: Album dan gambar album galeri sekarang bisa diurut.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
