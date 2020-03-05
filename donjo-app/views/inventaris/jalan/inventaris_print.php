@@ -78,7 +78,7 @@
 							<th class="text-center" rowspan="2">Nama Barang</th>
 							<th class="text-center" colspan="2">Nomor</th>
 							<th class="text-center" rowspan="2">Kontruksi</th>
-							<th class="text-center" rowspan="2">Panjang (KM)</th>
+							<th class="text-center" rowspan="2">Panjang (M)</th>
 							<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>
 							<th class="text-center" rowspan="2">Lebar (M)</th>
 							<th class="text-center" rowspan="2">Letak / Lokasi</th>

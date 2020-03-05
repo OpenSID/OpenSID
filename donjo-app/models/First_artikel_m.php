@@ -355,6 +355,7 @@ class First_artikel_m extends CI_Model {
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
+			->where('a.enabled', 1)
 			->where('tgl_upload < NOW()');
 
 		if ($is_id)
