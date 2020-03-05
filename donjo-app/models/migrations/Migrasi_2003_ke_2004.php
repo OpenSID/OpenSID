@@ -19,6 +19,8 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			);
 			$this->dbforge->add_column('gambar_gallery', $fields);
   	}
-
+	//hapus folder default dan isinya
+	$folder = 'themes/default';
+	delete_files($folder, true , false, 1);
 	}
 }
