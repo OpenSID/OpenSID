@@ -1,8 +1,12 @@
 <?php class Teks_berjalan_model extends CI_Model {
 
+	private $urut_model;
+
 	public function __construct()
 	{
 		parent::__construct();
+	  require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('teks_berjalan');
 	}
 
 	/*
@@ -79,34 +83,6 @@
 		return $data;
 	}
 
-  private function urut_max()
-  {
-    $this->db->select_max('urut');
-    $query = $this->db->get('teks_berjalan');
-    $teks = $query->row_array();
-    return $teks['urut'];
-  }
-
-	private function urut_semua()
-	{
-		$sql = "SELECT urut, COUNT(*) c FROM teks_berjalan GROUP BY urut HAVING c > 1";
-		$query = $this->db->query($sql);
-		$urut_duplikat = $query->result_array();
-		if ($urut_duplikat)
-		{
-			$this->db->select("id");
-			$this->db->order_by("urut");
-			$q = $this->db->get('teks_berjalan');
-			$teks = $q->result_array();
-			for ($i=0; $i<count($teks); $i++)
-			{
-				$this->db->where('id', $teks[$i]['id']);
-				$data['urut'] = $i + 1;
-				$this->db->update('teks_berjalan', $data);
-			}
-		}
-	}
-
 	/**
 	 * @param $id Id teks
 	 * @param $arah Arah untuk menukar dengan teks: 1) bawah, 2) atas
@@ -114,39 +90,7 @@
 	 */
 	public function urut($id, $arah)
 	{
-		$this->urut_semua();
-		$this->db->where('id', $id);
-		$q = $this->db->get('teks_berjalan');
-		$teks1 = $q->row_array();
-
-		$this->db->select("id, urut");
-		$this->db->order_by("urut");
-		$q = $this->db->get('teks_berjalan');
-		$teks = $q->result_array();
-		for ($i=0; $i<count($teks); $i++)
-		{
-			if ($teks[$i]['id'] == $id)
-				break;
-		}
-
-		if ($arah == 1)
-		{
-			if ($i >= count($teks) - 1) return;
-			$teks2 = $teks[$i + 1];
-		}
-		if ($arah == 2)
-		{
-			if ($i <= 0) return;
-			$teks2 = $teks[$i - 1];
-		}
-
-		// Tukar urutan
-		$this->db->where('id', $teks2['id'])->
-			update('teks_berjalan', array('urut' => $teks1['urut']));
-		$this->db->where('id', $teks1['id'])->
-			update('teks_berjalan', array('urut' => $teks2['urut']));
-
-		return (int)$teks2['urut'];
+  	return $this->urut_model->urut($id, $arah);
 	}
 
 	public function lock($id='', $val=0)
@@ -163,8 +107,9 @@
 		$data['status'] = 2;
 
 		// insert baru diberi urutan terakhir
-		$data['urut'] = $this->urut_max() + 1;
+		$data['urut'] = $this->urut_model->urut_max() + 1;
 		$data = $this->sanitise_data($data);
+		$data['created_by'] = $this->session->user;
 
 		$outp = $this->db->insert('teks_berjalan', $data);
 		if (!$outp) $this->session->success = -1;
@@ -183,8 +128,9 @@
 		$this->session->error_msg = '';
 
 		$data = $this->input->post();
-
 		$data = $this->sanitise_data($data);
+		$data['updated_by'] = $this->session->user;
+		$data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('teks_berjalan', $data);
 		if (!$outp) $this->session->success = -1;
