@@ -2,9 +2,13 @@
 
 class Web_menu_model extends CI_Model {
 
+	private $urut_model;
+
 	public function __construct()
 	{
 		parent::__construct();
+	  require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('menu');
 	}
 
 	public function autocomplete()
@@ -97,7 +101,7 @@ class Web_menu_model extends CI_Model {
 	{
 		$data = $_POST;
 		$data['tipe'] = $tip;
-		$data['urut'] = $this->urut_max($tip) + 1;
+		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
 		$data['nama'] = strip_tags($data['nama']);
 		$outp = $this->db->insert('menu',$data);
 		if ($outp) $_SESSION['success'] = 1;
@@ -174,7 +178,7 @@ class Web_menu_model extends CI_Model {
 		$data = $_POST;
 		$data['parrent'] = $menu;
 		$data['tipe'] = 3;
-		$data['urut'] = $this->urut_max(3, $menu) + 1;
+		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
 		$outp = $this->db->insert('menu', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -238,110 +242,13 @@ class Web_menu_model extends CI_Model {
 		return $data;
 	}
 
-  private function urut_max($tipe, $menu='')
-  {
-    $this->db->select_max('urut');
-    if ($menu != '')
-	    $this->db->where(array('tipe' => 3, 'parrent' => $menu));
-	  else
-	    $this->db->where('tipe', $tipe);
-    $query = $this->db->get('menu');
-    $menu = $query->row_array();
-    return $menu['urut'];
-  }
-
-	private function urut_semua($tipe, $menu)
-	{
-		if ($menu != '')
-		{
-			$sql = "SELECT urut, COUNT(*) c
-				FROM menu WHERE tipe = 3 AND parrent = ?
-				GROUP BY urut HAVING c > 1";
-			$query = $this->db->query($sql, $menu);
-			$urut_duplikat = $query->result_array();
-			$belum_diurut = $this->db->
-				where('tipe', 3)->
-				where('parrent', $menu)->
-				where('urut IS NULL')->
-				limit(1)->get('menu')->row_array();
-			if ($urut_duplikat OR $belum_diurut)
-			{
-				$q = $this->db->select("id")
-					->where("tipe", 3)
-					->where('parrent', $menu)
-					->order_by("urut")
-					->get('menu');
-				$menus = $q->result_array();
-			}
-		}
-		else
-		{
-			$sql = "SELECT urut, COUNT(*) c
-				FROM menu WHERE tipe = ?
-				GROUP BY urut HAVING c > 1";
-			$query = $this->db->query($sql, $tipe);
-			$urut_duplikat = $query->result_array();
-			$belum_diurut = $this->db->
-				where('tipe', $tipe)->
-				where('urut IS NULL')->
-				limit(1)->get('menu')->row_array();
-			if ($urut_duplikat OR $belum_diurut)
-			{
-				$q = $this->db->select("id")
-					->where("tipe", $tipe)
-					->order_by("urut")
-					->get('menu');
-				$menus = $q->result_array();
-			}
-		}
-		for ($i=0; $i<count($menus); $i++)
-		{
-			$this->db->where('id', $menus[$i]['id']);
-			$data['urut'] = $i + 1;
-			$this->db->update('menu', $data);
-		}
-	}
-
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
 	public function urut($id, $arah, $tipe=1, $menu='')
 	{
-		$this->urut_semua($tipe, $menu);
-		$this->db->where('id', $id);
-		$q = $this->db->get('menu');
-		$menu1 = $q->row_array();
-
-		$this->db->select("id, urut");
-		if ($menu != '')
-			$this->db->where(array("tipe" => 3, "parrent" => $menu));
-		else
-			$this->db->where("tipe", $tipe);
-		$this->db->order_by("urut");
-		$q = $this->db->get('menu');
-		$menus = $q->result_array();
-		for ($i=0; $i<count($menus); $i++)
-		{
-			if ($menus[$i]['id'] == $id)
-				break;
-		}
-
-		if ($arah == 1)
-		{
-			if ($i >= count($menus) - 1) return;
-			$menu2 = $menus[$i + 1];
-		}
-		if ($arah == 2)
-		{
-			if ($i <= 0) return;
-			$menu2 = $menus[$i - 1];
-		}
-
-		// Tukar urutan
-		$this->db->where('id', $menu2['id'])->
-			update('menu', array('urut' => $menu1['urut']));
-		$this->db->where('id', $menu1['id'])->
-			update('menu', array('urut' => $menu2['urut']));
+  	$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
+  	$this->urut_model->urut($id, $arah, $subset);
 	}
 
 }
