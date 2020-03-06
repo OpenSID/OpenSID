@@ -2,10 +2,14 @@
 
 class Urut_model extends CI_Model {
 
-	public function __construct($tabel)
+	private $tabel;
+	private $kolom_id;
+
+	public function __construct($tabel, $kolom_id='id')
 	{
 		parent::__construct();
 		$this->tabel = $tabel;
+		$this->kolom_id = $kolom_id;
 	}
 
 	/**
@@ -15,7 +19,7 @@ class Urut_model extends CI_Model {
 	 * @param		array		syarat kolom data yang akan diperiksa
 	 * @return	integer	nomor urut maksimum untuk subset
 	 */
-  public function urut_max($subset='1')
+  public function urut_max($subset=array('1' => '1'))
   {
     $urut = $this->db->select_max('urut')
 	  	->where($subset)
@@ -24,7 +28,7 @@ class Urut_model extends CI_Model {
     return $urut;
   }
 
-	private function urut_semua($subset='1')
+	private function urut_semua($subset=array('1' => '1'))
 	{
 		$urut_duplikat = $this->db->select('urut, COUNT(*) c')
 			->where($subset)
@@ -39,14 +43,14 @@ class Urut_model extends CI_Model {
 		$daftar = array();
 		if ($urut_duplikat OR $belum_diurut)
 		{
-			$daftar = $this->db->select("id")
+			$daftar = $this->db->select($this->kolom_id)
 				->where($subset)
 				->order_by("urut")
 				->get($this->tabel)->result_array();
 		}
 		for ($i=0; $i<count($daftar); $i++)
 		{
-			$this->db->where('id', $daftar[$i]['id']);
+			$this->db->where($this->kolom_id, $daftar[$i][$this->kolom_id]);
 			$data['urut'] = $i + 1;
 			$this->db->update($this->tabel, $data);
 		}
@@ -55,14 +59,14 @@ class Urut_model extends CI_Model {
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
-	public function urut($id, $arah, $subset='1')
+	public function urut($id, $arah, $subset=array('1' => '1'))
 	{
 		$this->urut_semua($subset);
-		$unsur1 = $this->db->where('id', $id)
+		$unsur1 = $this->db->where($this->kolom_id, $id)
 			->get($this->tabel)
 			->row_array();
 
-		$daftar = $this->db->select("id, urut")
+		$daftar = $this->db->select("{$this->kolom_id}, urut")
 			->where($subset)
 			->order_by("urut")
 			->get($this->tabel)
@@ -74,7 +78,7 @@ class Urut_model extends CI_Model {
 	{
 		for ($i=0; $i<count($daftar); $i++)
 		{
-			if ($daftar[$i]['id'] == $id)
+			if ($daftar[$i][$this->kolom_id] == $id)
 				break;
 		}
 
@@ -90,9 +94,9 @@ class Urut_model extends CI_Model {
 		}
 
 		// Tukar urutan
-		$this->db->where('id', $unsur2['id'])->
+		$this->db->where($this->kolom_id, $unsur2[$this->kolom_id])->
 			update($this->tabel, array('urut' => $unsur1['urut']));
-		$this->db->where('id', $unsur1['id'])->
+		$this->db->where($this->kolom_id, $unsur1[$this->kolom_id])->
 			update($this->tabel, array('urut' => $unsur2['urut']));		
 	}
 
