@@ -56,9 +56,11 @@ class Urut_model extends CI_Model {
 		}
 	}
 
-	// $arah:
-	//		1 - turun
-	// 		2 - naik
+	/**
+	 * @param $id Id data yg akan digeser
+	 * @param $arah Arah untuk menukar dengan unsur lain: 1) turun, 2) naik
+	 * @return int Nomer urut unsur lain yang ditukar
+	**/
 	public function urut($id, $arah, $subset=array('1' => '1'))
 	{
 		$this->urut_semua($subset);
@@ -71,7 +73,7 @@ class Urut_model extends CI_Model {
 			->order_by("urut")
 			->get($this->tabel)
 			->result_array();
-		$this->urut_daftar($id, $arah, $daftar, $unsur1);
+		return $this->urut_daftar($id, $arah, $daftar, $unsur1);
 	}
 
 	private function urut_daftar($id, $arah, $daftar, $unsur1)
@@ -98,6 +100,7 @@ class Urut_model extends CI_Model {
 			update($this->tabel, array('urut' => $unsur1['urut']));
 		$this->db->where($this->kolom_id, $unsur1[$this->kolom_id])->
 			update($this->tabel, array('urut' => $unsur2['urut']));		
+		return (int)$unsur2['urut'];
 	}
 
 }

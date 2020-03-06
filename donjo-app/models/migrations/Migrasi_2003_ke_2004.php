@@ -19,6 +19,8 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			);
 			$this->dbforge->add_column('gambar_gallery', $fields);
   	}
-
+	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		$this->db->query("ALTER TABLE widget MODIFY COLUMN form_admin VARCHAR(100) NULL DEFAULT NULL");
+		$this->db->query("ALTER TABLE widget MODIFY COLUMN setting TEXT NULL");	  
 	}
 }
