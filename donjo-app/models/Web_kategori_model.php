@@ -2,9 +2,13 @@
 
 class Web_kategori_model extends CI_Model {
 
+	private $urut_model;
+
 	public function __construct()
 	{
 		parent::__construct();
+	  require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('kategori');
 	}
 
 	public function autocomplete()
@@ -101,7 +105,7 @@ class Web_kategori_model extends CI_Model {
 	{
 		$data = $_POST;
 		$data['enabled'] = 1;
-		$data['urut'] = $this->urut_max() + 1;
+		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		$outp = $this->db->insert('kategori', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -204,7 +208,7 @@ class Web_kategori_model extends CI_Model {
 
 		$data['parrent'] = $kategori;
 		$data['enabled'] = 1;
-		$data['urut'] = $this->urut_max($kategori) + 1;
+		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $kategori)) + 1;
 		$outp = $this->db->insert('kategori', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -264,96 +268,13 @@ class Web_kategori_model extends CI_Model {
 		return $data;
 	}
 
-  private function urut_max($kategori='')
-  {
-    $this->db->select_max('urut');
-    if ($kategori != '')
-	    $this->db->where('parrent', $kategori);
-	  else
-	    $this->db->where('parrent', 0);
-    $query = $this->db->get('kategori');
-    $kategori = $query->row_array();
-    return $kategori['urut'];
-  }
-
-	private function urut_semua($kategori)
-	{
-		if ($kategori != '')
-		{
-			$sql = "SELECT urut, COUNT(*) c
-				FROM kategori
-				WHERE parrent = ?
-				GROUP BY urut HAVING c > 1";
-			$query = $this->db->query($sql, $kategori);
-		}
-		else
-		{
-			$sql = "SELECT urut, COUNT(*) c
-				FROM kategori
-				WHERE parrent = 0
-				GROUP BY urut HAVING c > 1";
-			$query = $this->db->query($sql);
-		}
-		$urut_duplikat = $query->result_array();
-		if ($urut_duplikat)
-		{
-			$this->db->select("id");
-			if ($kategori != '')
-				$this->db->where("parrent", $kategori);
-			else
-				$this->db->where("parrent", 0);
-			$this->db->order_by("urut");
-			$q = $this->db->get('kategori');
-			$kategoris = $q->result_array();
-			for ($i=0; $i<count($kategoris); $i++)
-			{
-				$this->db->where('id', $kategoris[$i]['id']);
-				$data['urut'] = $i + 1;
-				$this->db->update('kategori', $data);
-			}
-		}
-	}
-
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
 	public function urut($id, $arah, $kategori='')
 	{
-		$this->urut_semua($kategori);
-		$this->db->where('id', $id);
-		$q = $this->db->get('kategori');
-		$kategori1 = $q->row_array();
-
-		$this->db->select("id, urut");
-		if ($kategori != '')
-			$this->db->where(array("parrent" => $kategori));
-		else
-			$this->db->where(array("parrent" => 0));
-		$this->db->order_by("urut");
-		$q = $this->db->get('kategori');
-		$kategoris = $q->result_array();
-		for ($i=0; $i<count($kategoris); $i++)
-		{
-			if ($kategoris[$i]['id'] == $id)
-				break;
-		}
-
-		if ($arah == 1)
-		{
-			if ($i >= count($kategoris) - 1) return;
-			$kategori2 = $kategoris[$i + 1];
-		}
-		if ($arah == 2)
-		{
-			if ($i <= 0) return;
-			$kategori2 = $kategoris[$i - 1];
-		}
-
-		// Tukar urutan
-		$this->db->where('id', $kategori2['id'])->
-			update('kategori', array('urut' => $kategori1['urut']));
-		$this->db->where('id', $kategori1['id'])->
-			update('kategori', array('urut' => $kategori2['urut']));
+  	$subset = !empty($kategori) ? array('parrent' => $kategori) : array('parrent' => 0);
+  	$this->urut_model->urut($id, $arah, $subset);
 	}
 
 }
