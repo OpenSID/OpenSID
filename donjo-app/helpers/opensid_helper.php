@@ -739,31 +739,4 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
-function urut_daftar($id, $arah, $tabel, $daftar, $unsur1)
-{
-	for ($i=0; $i<count($daftar); $i++)
-	{
-		if ($daftar[$i]['id'] == $id)
-			break;
-	}
-
-	if ($arah == 1)
-	{
-		if ($i >= count($daftar) - 1) return;
-		$unsur2 = $daftar[$i + 1];
-	}
-	if ($arah == 2)
-	{
-		if ($i <= 0) return;
-		$unsur2 = $daftar[$i - 1];
-	}
-
-	// Tukar urutan
-	$CI =& get_instance();
-	$CI->load->database();
-	$CI->db->where('id', $unsur2['id'])->
-		update($tabel, array('urut' => $unsur1['urut']));
-	$CI->db->where('id', $unsur1['id'])->
-		update($tabel, array('urut' => $unsur2['urut']));		
-}
 ?>
