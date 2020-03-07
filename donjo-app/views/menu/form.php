@@ -23,7 +23,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$submenu['nama']?>"></input>
+									<input name="nama" class="form-control input-sm required" type="text" value="<?=$submenu['nama']?>"></input>
 								</div>
 							</div>
 							<?php if (!empty($submenu['link'])): ?>
@@ -89,7 +89,7 @@
 										<?php endforeach; ?>
 									</select>
 									<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">
-										<input  name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
+										<input  name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm url" type="text" value="<?=$submenu['link']?>"></input>
 										<span class="text-sm text-red">(misalnya: http://opensid.info)</span>
 									</span>
 								</div>

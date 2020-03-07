@@ -58,23 +58,26 @@
 		{
 			case '1':
 			case '4':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
-				break;
+			$("#akta_perkawinan").attr('disabled', true);
+			$("input[name=tanggalperkawinan]").attr('disabled', true);
+			$("#akta_perceraian").attr('disabled', true);
+			$("input[name=tanggalperceraian]").attr('disabled', true);
+			$("select[name=cara_kb_id]").attr('disabled', true);
+			break;
 			case '2':
-				$("#akta_perkawinan").attr('disabled', false);
-				$("input[name=tanggalperkawinan]").attr('disabled', false);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
-				break;
+			$("#akta_perkawinan").attr('disabled', false);
+			$("input[name=tanggalperkawinan]").attr('disabled', false);
+			$("#akta_perceraian").attr('disabled', true);
+			$("input[name=tanggalperceraian]").attr('disabled', true);
+			$("select[name=cara_kb_id]").attr('disabled', false);
+			break;
 			case '3':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("#akta_perceraian").attr('disabled', false);
-				$("input[name=tanggalperceraian]").attr('disabled', false);
-				break;
+			$("#akta_perkawinan").attr('disabled', true);
+			$("input[name=tanggalperkawinan]").attr('disabled', true);
+			$("#akta_perceraian").attr('disabled', false);
+			$("input[name=tanggalperceraian]").attr('disabled', false);
+			$("select[name=cara_kb_id]").attr('disabled', true);
+			break;
 		}
 	}
 	function ubah_dusun(dusun)
