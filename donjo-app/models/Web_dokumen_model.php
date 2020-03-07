@@ -294,10 +294,10 @@ class Web_dokumen_model extends CI_Model {
 		$data['nama'] = alfanumerik_spasi($data['nama']);
 		switch ($data['kategori'])
 		{
-			case 1:
+			case 1: //Informsi Publik
 				$data['tahun'] = $this->input->post('tahun');
 				break;
-			case 2:
+			case 2: //SK Kades
 				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_kep_kades']));
 				$data['kategori_info_publik'] = '3';
 				$data['attr']['uraian'] = strip_tags($data['attr']['uraian']);
@@ -305,7 +305,7 @@ class Web_dokumen_model extends CI_Model {
 				$data['attr']['no_lapor'] = nomor_surat_keputusan($data['attr']['no_lapor']);
 				$data['attr']['keterangan'] = strip_tags($data['attr']['keterangan']);
 				break;
-			case 3:
+			case 3: //Perdes
 				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_ditetapkan']));
 				$data['kategori_info_publik'] = '3';
 				$data['attr']['uraian'] = strip_tags($data['attr']['uraian']);
