@@ -565,7 +565,7 @@
 
 	private function sisipkan_kop_surat($buffer)
 	{
-		$kop_surat = file_get_contents('template-suratraw/kop_surat_auto.rtf');
+		$kop_surat = file_get_contents('template-surat/raw/kop_surat_auto.rtf');
 		$buffer = str_replace('[kop_surat]', $kop_surat, $buffer);
 		return $buffer;
 	}
