@@ -282,29 +282,38 @@ class Web_dokumen_model extends CI_Model {
 		$data = $_POST;
 		if ($this->upload_dokumen($data))
 		{
+			$this->validasi($data);
 			$data['attr'] = json_encode($data['attr']);
-			$tgl = json_decode($data['attr'], TRUE);
-			switch ($data['kategori'])
-			{
-				case 1:
-					$data['tahun'] = $this->input->post('tahun');
-					break;
-				case 2:
-					$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
-					$data['kategori_info_publik'] = '3';
-					break;
-				case 3:
-					$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
-					$data['kategori_info_publik'] = '3';
-					break;
-
-				default:
-					$data['tahun'] = date('Y');
-					break;
-			}
 			return $this->db->insert('dokumen', $data);
 		}
 		else return false;
+	}
+
+	private function validasi(&$data)
+	{
+		$data['nama'] = alfanumerik_spasi($data['nama']);
+		switch ($data['kategori'])
+		{
+			case 1:
+				$data['tahun'] = $this->input->post('tahun');
+				break;
+			case 2:
+				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_kep_kades']));
+				$data['kategori_info_publik'] = '3';
+				$data['attr']['uraian'] = strip_tags($data['attr']['uraian']);
+				$data['attr']['no_kep_kades'] = nomor_surat_keputusan($data['attr']['no_kep_kades']);
+				$data['attr']['no_lapor'] = nomor_surat_keputusan($data['attr']['no_lapor']);
+				$data['attr']['keterangan'] = strip_tags($data['attr']['keterangan']);
+				break;
+			case 3:
+				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_ditetapkan']));
+				$data['kategori_info_publik'] = '3';
+				break;
+
+			default:
+				$data['tahun'] = date('Y');
+				break;
+		}
 	}
 
 	public function update($id=0)
@@ -315,26 +324,8 @@ class Web_dokumen_model extends CI_Model {
 			unset($data['satuan']);
 			unset($data['old_file']);
 		}
+		$this->validasi($data);
 		$data['attr'] = json_encode($data['attr']);
-		$tgl = json_decode($data['attr'], TRUE);
-		switch ($data['kategori'])
-		{
-			case 1:
-				$data['tahun'] = $this->input->post('tahun');
-				break;
-			case 2:
-				$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
-				$data['kategori_info_publik'] = '3';
-				break;
-			case 3:
-				$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
-				$data['kategori_info_publik'] = '3';
-				break;
-
-			default:
-				$data['tahun'] = date('Y');
-				break;
-		}
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		return $this->db->where('id',$id)->update('dokumen', $data);
 	}

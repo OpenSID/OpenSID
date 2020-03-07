@@ -13,7 +13,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 7. #2628: Ubah panjang Jalan, Irigasi dan Jaringan di Inventaris dari KM menjadi M.
 8. #1839: Album dan gambar album galeri sekarang bisa diurut.
 9. #2047, #2642: Sekarang cetak dan unduh surat tidak error apabila menggunakan file .htaccess bawaan cPanel. [bug-fix]
-10. #2678: Tambahkan validasi untuk form surat keluar, sekalian menghindari serangan XSS. Perbaiki tombol Batal di form surat keluar.
+10. #2678: Tambahkan validasi untuk form Surat Keluar dan form SK Kades, sekalian menghindari serangan XSS. Perbaiki tombol Batal di form Surat Keluar.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
