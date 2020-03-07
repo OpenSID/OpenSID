@@ -122,9 +122,7 @@
 		$data = $this->input->post(NULL);
 		unset($data['url_remote']);
 		unset($data['nomor_urut_lama']);
-
-		// Normalkan tanggal
-		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		$this->validasi($data);
 
 		// Adakah lampiran yang disertakan?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
@@ -192,6 +190,16 @@
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 
+	private function validasi(&$data)
+	{
+		// Normalkan tanggal
+		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		// Bersihkan data
+		$data['nomor_surat'] = preg_replace('/[^a-zA-Z0-9-\/\s]/', '', strip_tags($data['nomor_surat']));
+		$data['tujuan'] = strip_tags($data['tujuan']);
+		$data['isi_singkat'] = strip_tags($data['isi_singkat']);
+	}
+
 	/**
 	 * Update data di tabel surat_keluar
 	 * @param   integer  $idSuratMasuk  Id berkas untuk query ke database
@@ -203,11 +211,9 @@
 		$data = $this->input->post(NULL);
 		unset($data['url_remote']);
 		unset($data['nomor_urut_lama']);
+		$this->validasi($data);
 
 		$_SESSION['error_msg'] = NULL;
-
-		// Normalkan tanggal
-		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
 
 		// Ambil nama berkas scan lama dari database
 		$berkasLama = $this->getNamaBerkasScan($idSuratMasuk);
