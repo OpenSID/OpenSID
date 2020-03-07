@@ -441,14 +441,15 @@ class First extends Web_Controller {
 		$this->load->view($this->template,$data);
 	}
 
-	public function kategori($kat=0, $p=1)
+	public function kategori($slug=0, $p=1)
 	{
 		$data = $this->includes;
 
 		$data['p'] = $p;
+		$kat = $this->first_artikel_m->kat_slug($slug);
 		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($kat);
 		$data['paging']  = $this->first_artikel_m->paging_kat($p, $kat);
-		$data['paging_page']  = 'kategori/'.$kat;
+		$data['paging_page']  = 'kategori/'.$slug;
 		$data['paging_range'] = 3;
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
