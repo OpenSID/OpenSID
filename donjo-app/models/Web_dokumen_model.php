@@ -308,6 +308,13 @@ class Web_dokumen_model extends CI_Model {
 			case 3:
 				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_ditetapkan']));
 				$data['kategori_info_publik'] = '3';
+				$data['attr']['uraian'] = strip_tags($data['attr']['uraian']);
+				$data['attr']['jenis_peraturan'] = strip_tags($data['attr']['jenis_peraturan']);
+				$data['attr']['no_ditetapkan'] = nomor_surat_keputusan($data['attr']['no_ditetapkan']);
+				$data['attr']['no_lapor'] = nomor_surat_keputusan($data['attr']['no_lapor']);
+				$data['attr']['no_lembaran_desa'] = nomor_surat_keputusan($data['attr']['no_lembaran_desa']);
+				$data['attr']['no_berita_desa'] = nomor_surat_keputusan($data['attr']['no_berita_desa']);
+				$data['attr']['keterangan'] = strip_tags($data['attr']['keterangan']);
 				break;
 
 			default:
