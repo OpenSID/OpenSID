@@ -33,10 +33,15 @@ Catatan pra rilis versi 4.1.9:
 31. Tambah tombol Cetak di setiap Artikel.
 32. Update apbdesa-contoh.php
 33. Update Widget Agenda. [bug-fix]
-34. #18 Lengkapi Title Browser di Homepage
-35. #19 Warna Widget Artikel
+34. #18 Lengkapi Title Browser di Homepage.
+35. #19 Warna Widget Artikel.
 36. Kini favicon.ico mengikuti hasil uplaod file logo.
 37. Tampilkan berapa kali suatu artikel telah dibaca.
 38. #33 Menampilkan Grafik Bar APBDesa Siskeudes.
+39. Memberi Link Menuju Halaman Arsip.
+40. Sembunyikan grafik keuangan yang bernilai 0
+41. Sediakan Tombol Login di Menu.
+42. Menampilkan berapa kali artikel dibagikan ke Facebook.
+43. #31 Menampilkan detail jadwal agenda pada artikel bersangkutan.
 
 ****************************************************************
