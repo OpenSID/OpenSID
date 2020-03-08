@@ -26,15 +26,13 @@
             			</h3>
             		</div>
             		<div class="box-body">
-            			<?php if ($headline["gambar"] != ""): ?>
-            				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
-            					<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
-            					    <img width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" />
-            					</a>
-            				<?php else: ?>
-            					<img width="300" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>"/>
-            				<?php endif; ?>
+            		    <a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
+        				<?php if($headline['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
+        				    <img src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" />
+        				<?php else: ?>
+        					<img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300" class="img-fluid img-thumbnail" />
             			<?php endif; ?>
+            			</a>
             			<div class="post">
             				<div style="text-align: justify;"><?= $abstrak_headline ?> ...
             				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
@@ -68,36 +66,19 @@
 		                            <?php endif; ?>
 		                            </span>
 		                        </div>
-		                        <?php if ($data['gambar']!=''): ?>
-		                        <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 		                        <div class="catgimg2_container">
-		                                <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
+		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
+		                            <?php if($data['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 		                                <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
-		                            </a><!--
-		                            <p style="text-align: justify;"><?= $abstrak ?> ...
-		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
-										<div class="readmore"> Selengkapnya <i class="fa fa-arrow-right"></i></div>
-									</a></p>-->
+		                                <!--
+										<p style="text-align: justify;"><?= $abstrak ?> ...
+											<div class="readmore"> Selengkapnya <i class="fa fa-arrow-right"></i></div>
+										</p>-->
+        		                    <?php else: ?>
+        		                        <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
+    		                        <?php endif; ?>
+    		                        </a>
 		                        </div>
-		                        <?php else: ?>
-		                        <div class="catgimg2_container">
-		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
-		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
-		                            </a>
-		                        </div>
-		                        <?php endif;?>
-		                        
-		                        <?php else: ?>
-		                        <div class="catgimg2_container">
-		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
-		                                <img width="300px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
-		                            </a><!--
-		                            <p style="text-align: justify;"><?= $abstrak ?> ...
-		                            <a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" title="Baca Selengkapnya">
-		                            	<div class="readmore"> Selengkapnya <i class="fa fa-arrow-right"></i></div>
-									</a></p>-->
-		                        </div>
-		                        <?php endif; ?>
 		                    </div>
 		                </li>
 		            </ul>

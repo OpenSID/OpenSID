@@ -24,23 +24,25 @@
 			<div class="fb-like" data-href="<?= site_url()?>first/artikel/<?= $single_artikel['id'];?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
 		</div>
 		<div class="single_page_content" style="margin-bottom:10px;">	
-		<?php if($single_artikel["isi"]!='<p>&nbsp;&nbsp;</p>'): ?>
-		<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 		<div class="sampul">
-    		    <a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
-				<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
-				</a>
-			</div>
-		<?php endif; ?>
-		<?php endif; ?>
-		<?php if($single_artikel["isi"]=='<p>&nbsp;&nbsp;</p>'): ?>
-			<div class="sampul">
-			    <a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
-				<img width="100%" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
-				</a>
-			</div>
-		<?php endif; ?>
-		
+		    <?php if($single_artikel["isi"]=='<p>&nbsp;&nbsp;</p>'): ?>
+		        <?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
+		        <a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
+		            <img width="100%" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
+			    </a>
+		        <?php else: ?>
+		            <img width="100%" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
+		        <?php endif;?>
+            <?php else: ?>
+                <?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
+		   		<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
+		            <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
+			    </a>
+		        <?php else: ?>
+		            <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
+		        <?php endif;?>
+	       	<?php endif; ?>
+		</div>		
 		<div class="teks"><?= $single_artikel["isi"]?></div>
 
 		<?php	if($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
