@@ -158,4 +158,28 @@ $(document).ready(function() {
 			});
 	});
 
+	jQuery.validator.addMethod("nama", function(value, element) {
+		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
+
+	$('.nama').each(function() {
+		$(this).rules("add",
+			{
+				nama: true,
+			});
+	});
+
+	jQuery.validator.addMethod("nomor_sk", function(value, element) {
+		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
+
+	$('.nomor_sk').each(function() {
+		$(this).rules("add",
+			{
+				nomor_sk: true,
+			});
+	});
+
 })
