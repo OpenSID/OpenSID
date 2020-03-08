@@ -43,6 +43,13 @@
 		        <?php endif;?>
 	       	<?php endif; ?>
 		</div>		
+		<?php if($single_artikel['id_kategori'] == 1000) : ?>
+		<table>
+		    <tr valign="top"><td width="90"><b>Waktu</b></td><td width="10">:</td><td><?= tgl_indo2($detail_agenda['tgl_agenda'])?><td></tr>
+		    <tr valign="top"><td><b>Lokasi</b></td><td>:</td><td><?= $detail_agenda['lokasi_kegiatan']?><td></tr>
+		    <tr valign="top"><td><b>Koordinator</b></td><td>:</td><td><?= $detail_agenda['koordinator_kegiatan']?><td></tr>
+		</table>
+		<?php endif; ?><p></p>
 		<div class="teks"><?= $single_artikel["isi"]?></div>
 
 		<?php	if($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
