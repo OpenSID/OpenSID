@@ -547,8 +547,21 @@
 				break;
 		}
 
+		// Sterilkan data
+		$data['no_kk_sebelumnya'] = preg_replace('/[^0-9\.]/', '', strip_tags($data['no_kk_sebelumnya']));
+		$data['akta_lahir'] =  nomor_surat_keputusan($data['akta_lahir']);
+		$data['tempatlahir'] = strip_tags($data['tempatlahir']);
+		$data['dokumen_pasport'] = nomor_surat_keputusan($data['dokumen_pasport']);
+		$data['nama_ayah'] = nama($data['nama_ayah']);
+		$data['nama_ibu'] = nama($data['nama_ibu']);
+		$data['telepon'] = preg_replace('/[^0-9 \-\+\.]/', '', strip_tags($data['telepon']));
+		$data['alamat_sebelumnya'] = strip_tags($data['alamat_sebelumnya']);
+		$data['alamat_sekarang'] = strip_tags($data['alamat_sebelumnya']);
+		$data['akta_perkawinan'] = nomor_surat_keputusan($data['akta_perkawinan']);
+		$data['akta_perceraian'] = nomor_surat_keputusan($data['akta_perceraian']);
+
 		$valid = array();
-		if (preg_match("/[^a-zA-Z '\.,-]/", $data['nama']))
+		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['nama']))
 		{
 			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 		}
