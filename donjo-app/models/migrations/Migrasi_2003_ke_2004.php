@@ -22,10 +22,9 @@ class Migrasi_2003_ke_2004 extends CI_model {
 	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE widget MODIFY COLUMN form_admin VARCHAR(100) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE widget MODIFY COLUMN setting TEXT NULL");	  
-  	//ketika update akan ada folder surat dan template-surat
-		$folder = "surat";
-		$this->load->helper("file");
 		//Ganti nama subfolder surat di folder desa
-		rename('desa/'.$folder, 'desa/template-surat');	
+		rename('desa/surat', 'desa/template-surat');	
+		//Ganti nama subfolder css/default di folder desa
+		rename('desa/css/default', 'desa/css/klasik');	
 	}
 }
