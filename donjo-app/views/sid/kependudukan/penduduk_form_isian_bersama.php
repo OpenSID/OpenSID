@@ -150,7 +150,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-						<input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm" maxlength="30" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper($penduduk['no_kk_sebelumnya'])?>"></input>
+						<input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm nik" maxlength="30" type="text" placeholder="No KK Sebelumnya" value="<?= strtoupper($penduduk['no_kk_sebelumnya'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4'>

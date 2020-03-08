@@ -349,12 +349,6 @@ class Keluarga extends Admin_Controller {
 		}
 	}
 
-	public function update($id='')
-	{
-		$this->keluarga_model->update($id);
-		redirect('keluarga');
-	}
-
 	public function update_nokk($id='')
 	{
 		$this->keluarga_model->update_nokk($id);

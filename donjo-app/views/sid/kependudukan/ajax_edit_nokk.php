@@ -35,13 +35,13 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="no_kk">Nomor KK</label>
-							<input class="form-control input-sm required" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
+							<input class="form-control input-sm required nik" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
 							<input name="id" type="hidden" value="<?= $kk['id']; ?>">
 							<input name="id_cluster_lama" type="hidden" value="<?= $kk['id_cluster']; ?>">
 						</div>
 						<div class="form-group">
 							<label>Alamat </label>
-							<input id="alamat" name="alamat" class="form-control input-sm" type="text" placeholder="Alamat Jalan/Perumahan" value="<?= $kk['alamat']?>"></input>
+							<input id="alamat" name="alamat" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Jalan/Perumahan" value="<?= $kk['alamat']?>"></input>
 						</div>
 						<div class="form-group">
 							<div class="form-group col-sm-6 horizontal">
