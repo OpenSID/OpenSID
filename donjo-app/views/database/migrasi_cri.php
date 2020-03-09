@@ -25,7 +25,7 @@
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
 																						<div class="col-sm-8 col-lg-4">
-																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Import" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
+																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Migrasi DB" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
 																						</div>
 																					</div>
 																					<div class="ajax-content"></div>
