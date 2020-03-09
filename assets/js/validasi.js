@@ -149,7 +149,7 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("nik", function(value, element) {
 		nik_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
 		return this.optional(element) || nik_valid;
-	}, "NIK harus 0 atau bilangan 16 digit");
+	}, "Harus 0 atau bilangan 16 digit");
 
 	$('.nik').each(function() {
 		$(this).rules("add",
@@ -161,7 +161,7 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("nama", function(value, element) {
 		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
 		return this.optional(element) || valid;
-	}, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
+	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 
 	$('.nama').each(function() {
 		$(this).rules("add",

@@ -208,17 +208,7 @@
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-		$error_validasi = $this->validasi_data_keluarga($data);
-		if (!empty($error_validasi))
-		{
-			foreach ($error_validasi as $error)
-			{
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
-			}
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success'] = -1;
-			return;
-		}
+		if (!$this->validasi_data_keluarga($data)) return;
 
 		$pend = $this->db->select('alamat_sekarang, id_cluster')->
 			where('id', $data['nik_kepala'])->
@@ -252,8 +242,16 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	private function validasi_data_keluarga($data)
+	private function validasi_data_keluarga(&$data)
 	{
+		// Sterilkan data
+		$data['alamat'] = strip_tags($data['alamat']);
+
+		if (!empty($data['id']))
+		{
+			$nokk_lama = $this->get_nokk($data['id']);
+			if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah		
+		}
 		$valid = array();
 		if (isset($data['no_kk']))
 		{
@@ -265,8 +263,17 @@
 				array_push($valid, "Nomor KK {$data['no_kk']} sudah digunakan");
 		}
 		if (!empty($valid))
+		{
 			$_SESSION['validation_error'] = true;
-		return $valid;
+			foreach ($valid as $error)
+			{
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
+			$_SESSION['post'] = $_POST;
+			$_SESSION['success'] = -1;
+			return false;
+		}
+		return true;
 	}
 
 	public function insert_new()
@@ -276,7 +283,9 @@
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
+		if (!$this->validasi_data_keluarga($data)) return;
+
+		$error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -714,7 +723,9 @@
 			$id_detail='5';
 		}
 
-		$error_validasi = array_merge($this->penduduk_model->validasi_data_penduduk($data), $this->validasi_data_keluarga($data));
+		if (!$this->validasi_data_keluarga($data)) return;
+
+		$error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -743,31 +754,12 @@
 		return $kk['no_kk'];
 	}
 
-	private function cek_nokk($data)
-	{
-		$nokk_lama = $this->get_nokk($data['id']);
-		if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah
-
-		$error_validasi = $this->validasi_data_keluarga($data);
-		if (!empty($error_validasi))
-		{
-			foreach ($error_validasi as $error)
-			{
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
-			}
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success'] = -1;
-			return false;
-		}
-		return true;
-	}
-
 	public function update_nokk($id=0)
 	{
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-		if (!$this->cek_nokk($data)) return;
+		if (!$this->validasi_data_keluarga($data)) return;
 
 		// Pindah dusun/rw/rt anggota keluarga kalau berubah
 		if ($data['id_cluster'] != $data['id_cluster_lama']){
