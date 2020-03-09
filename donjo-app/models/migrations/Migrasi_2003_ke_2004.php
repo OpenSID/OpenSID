@@ -26,6 +26,12 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		//Ganti nama subfolder surat di folder desa
 		rename('desa/surat', 'desa/template-surat');	
 		//Ganti nama subfolder css/default di folder desa
-		rename('desa/css/default', 'desa/css/klasik');	
+		rename('desa/css/default', 'desa/css/klasik');
+		$tema_aktif = $this->db->select('value')
+			->where('key', 'web_theme')	
+			->get('setting_aplikasi')->row()->value;
+		if ($tema_aktif == 'default')
+			$this->db->where('key', 'web_theme')
+				->update('setting_aplikasi', array('value' => 'klasik'));
 	}
 }
