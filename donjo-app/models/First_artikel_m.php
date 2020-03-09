@@ -47,18 +47,23 @@ class First_artikel_m extends CI_Model {
 
 	public function paging($p=1)
 	{
-		$sql = "SELECT COUNT(a.id) AS id FROM artikel a
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE ((a.enabled=1) AND (headline <> 1)) AND a.tgl_upload < NOW() ";
+		$this->db->select('COUNT(a.id) AS id')
+			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+			->where('a.enabled', 1)
+			->where('a.headline <>', 1)
+			->where('a.id_kategori !=', '1000')
+			->where('a.tgl_upload < CURDATE()');
+
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari))
 		{
 			$cari = $this->db->escape_like_str($cari);
-			$sql .= "AND (a.judul like '%$cari%' or a.isi like '%$cari%') ";
+			$this->db->like('a.judul', $cari)->or_like('a.isi like', $cari);
 			$cfg['suffix'] = "?cari=$cari";
 		}
-		$sql .= "ORDER BY a.tgl_upload DESC";
-		$query = $this->db->query($sql);
+		$this->db->order_by('a.tgl_upload', DESC);
+
+		$query = $this->db->get('artikel a');	
 		$row = $query->row_array();
 		$jml_data = $row['id'];
 
@@ -509,5 +514,4 @@ class First_artikel_m extends CI_Model {
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
 	}
-
 }
