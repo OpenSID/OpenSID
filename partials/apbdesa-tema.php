@@ -1,3 +1,10 @@
+<style type="text/css">
+  .progress-bar span
+  {
+    position: absolute;
+    right: 20px;
+  }
+</style>
 <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 10px;">
 <?php foreach ($data_widget as $subdata_name => $subdatas): ?>
 <div class="col-md-4">
