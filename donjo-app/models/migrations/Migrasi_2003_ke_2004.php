@@ -43,5 +43,13 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			$slug = url_title($kategori['kategori'], 'dash', TRUE);
 			$this->db->where('id', $kategori['id'])->update('kategori', array('slug' => $slug));
 		}
+		//sesuaikan tipe, parrent dan link_tipe
+		//jika parrent maka link_tipe = 0 dan link = ''
+		$list_submenu = $this->db->order_by('parrent')->get('menu')->result_array();
+		foreach ($list_submenu as $submenu) {
+			$this->db->where('id', $submenu['parrent'])->update('menu', array('link_tipe' => 0, 'link' => ''));
+		}
+		//hapus menu yg tdk digunakan (sampah) -> parrent menu sudah tdk ada
+		$this->db->where('tipe', 2)->or_where_in('parrent', array(18, 64, 66, 73))->delete('menu');
 	}
 }

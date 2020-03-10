@@ -113,11 +113,13 @@ class Web_menu_model extends CI_Model {
 	{
 		$data = $_POST;
 		$data['nama'] = strip_tags($data['nama']);
-		if ($data['link']=="")
-			UNSET($data['link']);
 
-		$this->db->where('id', $id);
-		$outp = $this->db->update('menu', $data);
+		if($data['link_tipe']=='0'){
+			$data['link'] = '';
+		}
+		$this->db->where('id', $id)->update('menu', $data);
+		
+		$outp = $this->db->delete('menu', array('parrent' => $id));
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
@@ -179,7 +181,10 @@ class Web_menu_model extends CI_Model {
 		$data['parrent'] = $menu;
 		$data['tipe'] = 3;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
-		$outp = $this->db->insert('menu', $data);
+		$this->db->insert('menu', $data);
+
+		$this->db->where('id', $menu);
+		$outp = $this->db->update('menu', array('link' => '', 'link_tipe' => 0));
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
@@ -187,9 +192,9 @@ class Web_menu_model extends CI_Model {
 	public function update_sub_menu($id=0)
 	{
 		$data = $_POST;
-		if ($data['link'] == "")
-		{
-			UNSET($data['link']);
+		$data['nama'] = strip_tags($data['nama']);
+		if($data['link_tipe']=='0'){
+			$data['link'] = '';
 		}
 
 		$this->db->where('id', $id);

@@ -124,6 +124,7 @@ class Menu extends Admin_Controller {
 		else
 		{
 			$data['submenu'] = NULL;
+			$data['submenu']['link_tipe'] = '1';
 			$data['form_action'] = site_url("menu/insert_sub_menu/$tip/$menu");
 		}
 
