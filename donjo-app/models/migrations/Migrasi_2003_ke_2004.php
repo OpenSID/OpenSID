@@ -28,5 +28,15 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		$this->load->helper("file");
 		//Ganti nama subfolder surat di folder desa
 		rename('desa/'.$folder, 'desa/template-surat');	
+		//tambah kolom slug di tabel kategori
+		if (!$this->db->field_exists('slug', 'kategori')) {
+			$this->db->query("ALTER TABLE kategori ADD COLUMN slug VARCHAR(100) NULL");
+		}
+		// Tambahkan slug untuk setiap artikel agenda yg belum memiliki
+		$list_kategori = $this->db->get('kategori')->result_array();
+		foreach ($list_kategori as $kategori) {
+			$slug = url_title($kategori['kategori'], 'dash', TRUE);
+			$this->db->where('id', $kategori['id'])->update('kategori', array('slug' => $slug));
+		}
 	}
 }
