@@ -264,8 +264,7 @@ class Web_kategori_model extends CI_Model {
 
 	public function get_kategori($id=0)
 	{
-		$sql = "SELECT * FROM kategori WHERE id = ?";
-		$query = $this->db->query($sql, $id);
+		$query = $this->db->get_where('kategori', array('id' => $id, 'slug' => $id));
 		$data  = $query->row_array();
 		return $data;
 	}

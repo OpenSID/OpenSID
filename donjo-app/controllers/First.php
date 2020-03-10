@@ -446,7 +446,7 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['p'] = $p;
-		$data["judul_kategori"] = ucwords(spaceunpenetration($slug));
+		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($slug);
 		$data['paging']  = $this->first_artikel_m->paging_kat($p, $slug);
 		$data['paging_page']  = 'kategori/'.$slug;
 		$data['paging_range'] = 3;
