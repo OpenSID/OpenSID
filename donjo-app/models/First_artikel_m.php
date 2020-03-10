@@ -497,7 +497,7 @@ class First_artikel_m extends CI_Model {
 	
 	public function hit($slug, $is_id=false)
 	{
-		$this->db->where($is_id ? 'a.id' : 'slug', $slug);
+		$this->db->where($is_id ? 'id' : 'slug', $slug);
 		$id = $this->db->select('id')->get('artikel')->row()->id;
 		//membatasi hit hanya satu kali dalam setiap session
 		if (in_array($id, $_SESSION['artikel'])) return;
