@@ -502,28 +502,6 @@
 		return $data;
 	}
 
-	public function artikel_show()
-	{
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled=? AND k.tipe = 1
-			ORDER BY a.tgl_upload DESC LIMIT 4";
-		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$id = $data[$i]['id'];
-			$pendek = str_split($data[$i]['isi'], 100);
-			$data[$i]['isi_short'] = $pendek[0];
-			$panjang = str_split($data[$i]['isi'], 150);
-			$data[$i]['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
-		}
-		return $data;
-	}
-
 	public function insert_kategori()
 	{
 		$data['kategori'] = $_POST['kategori'];
