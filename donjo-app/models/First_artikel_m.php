@@ -393,7 +393,7 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function list_artikel($offset=0, $limit=50, $id)
+	public function list_artikel($offset=0, $limit=50, $id=0)
 	{
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
