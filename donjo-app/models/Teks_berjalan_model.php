@@ -112,7 +112,8 @@
 		$data['created_by'] = $this->session->user;
 
 		$outp = $this->db->insert('teks_berjalan', $data);
-		if (!$outp) $this->session->success = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	private function sanitise_data($data)
@@ -133,13 +134,15 @@
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('teks_berjalan', $data);
-		if (!$outp) $this->session->success = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
 	{
 		$outp = $this->db->where('id', $id)->delete('teks_berjalan');
-		if (!$outp) $this->session->success = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()

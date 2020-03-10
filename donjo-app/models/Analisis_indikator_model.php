@@ -140,8 +140,7 @@
 		$data['id_master'] = $_SESSION['analisis_master'];
 		$outp = $this->db->insert('analisis_indikator', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	private function update_indikator_sistem($id)
@@ -177,8 +176,7 @@
 		$data['id_master'] = $_SESSION['analisis_master'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_indikator', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -189,8 +187,7 @@
 		$sql = "DELETE FROM analisis_indikator WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -209,8 +206,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function p_insert($in='')
@@ -222,8 +218,7 @@
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function p_update($id=0)
@@ -236,8 +231,7 @@
 		}
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_parameter', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function p_delete($id='')
@@ -248,8 +242,7 @@
 		$sql = "DELETE FROM analisis_parameter WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function p_delete_all()
@@ -268,8 +261,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function list_indikator($id=0)

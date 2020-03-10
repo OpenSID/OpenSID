@@ -69,14 +69,8 @@ class Mandiri extends Admin_Controller {
 	public function insert()
 	{
 		$pin = $this->mandiri_model->insert();
-		if ($pin)
-		{
-			$_SESSION['success'] = 1;
-		}
-		else
-		{
-			$_SESSION['success'] = -1;
-		}
+
+		pesan($pin); //Tampilkan Pesan
 
 		$_SESSION['pin'] = $pin;
 		redirect('mandiri');
@@ -86,8 +80,9 @@ class Mandiri extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('h', "mandiri");
 		$outp = $this->mandiri_model->delete($id);
-		if ($outp) $_SESSION['success'] = 1;
-			else $_SESSION['success'] = -1;
+
+		pesan($outp); //Tampilkan Pesan
+		
 		redirect("mandiri");
 	}
 }

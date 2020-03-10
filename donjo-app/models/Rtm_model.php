@@ -197,8 +197,7 @@
 		$this->db->where('id', $nik);
 		$this->db->update('tweb_penduduk', $default);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($no_kk='')
@@ -240,8 +239,7 @@
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update_anggota($id=0, $id_kk)
@@ -258,8 +256,7 @@
 			$this->db->where('id', $id_kk)->update('tweb_rtm', array('nik_kepala' => $id));
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function rem_anggota($kk=0, $id=0)
@@ -416,8 +413,7 @@
 		}
 		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 }

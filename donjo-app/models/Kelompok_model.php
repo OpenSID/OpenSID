@@ -126,8 +126,7 @@ class Kelompok_model extends CI_Model {
 			$outp = $this->db->insert('kelompok_anggota', $data);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -138,8 +137,8 @@ class Kelompok_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update_a($id=0, $id_a=0)
@@ -149,8 +148,8 @@ class Kelompok_model extends CI_Model {
 		$this->db->where('id_kelompok', $id);
 		$this->db->where('id_penduduk', $id_a);
 		$outp = $this->db->update('kelompok_anggota', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -158,8 +157,7 @@ class Kelompok_model extends CI_Model {
 		$sql = "DELETE FROM kelompok WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_a($id='')
@@ -167,8 +165,7 @@ class Kelompok_model extends CI_Model {
 		$sql = "DELETE FROM kelompok_anggota WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -185,8 +182,7 @@ class Kelompok_model extends CI_Model {
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_kelompok($id=0)

@@ -274,8 +274,7 @@
 		$sql = "DELETE FROM widget WHERE id = ? AND jenis_widget <> 1";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -292,8 +291,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	// pengambilan data yang akan ditampilkan di widget

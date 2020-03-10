@@ -113,10 +113,8 @@
 		$sql = "DELETE FROM setting_sms";
 		$query = $this->db->query($sql);
 		$outp = $this->db->insert('setting_sms', $data);
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_autoreply()
@@ -280,18 +278,12 @@
 		$data = $_POST;
 		$outp = $this->db->insert('outbox', $data);
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update($id = 0)
 	{
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($Class = 0, $ID = '')
@@ -427,10 +419,7 @@
 			}
 		}
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function list_grup()
@@ -689,10 +678,7 @@
 		else
 			$outp = false;
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function paging_grup($p = 1, $o = 0)
@@ -863,10 +849,8 @@
 		}
 		else
 			$outp = false;
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_anggota($id = 0)
@@ -889,10 +873,7 @@
 		else
 			$outp = false;
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function paging_polling($p = 1, $o = 0)
@@ -951,10 +932,8 @@
 			$this->db->where('id_polling', $id);
 			$outp = $this->db->update('polling', $data);
 		}
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_polling($id = 0)
@@ -978,10 +957,7 @@
 		} else
 			$outp = false;
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function paging_pertanyaan($id = 0, $p = 1, $o = 0)

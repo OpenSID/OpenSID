@@ -41,8 +41,7 @@ class Web_sosmed_model extends CI_Model {
 			$outp = $this->db->insert('media_sosial', $data);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	// Penanganan khusus sesuai jenis sosmed

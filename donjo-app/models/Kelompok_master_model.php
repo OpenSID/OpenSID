@@ -80,8 +80,7 @@ class Kelompok_master_model extends CI_Model {
 		$data = $_POST;
 		$outp = $this->db->insert('kelompok_master', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -89,8 +88,7 @@ class Kelompok_master_model extends CI_Model {
 		$data = $_POST;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok_master', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -98,8 +96,7 @@ class Kelompok_master_model extends CI_Model {
 		$sql = "DELETE FROM kelompok_master WHERE id = ?";
 		$outp = $this->db->query($sql,array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -116,8 +113,7 @@ class Kelompok_master_model extends CI_Model {
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_kelompok_master($id=0)

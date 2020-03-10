@@ -174,8 +174,8 @@ class Plan_garis_model extends CI_Model {
 			$this->db->where('id', $id);
 			$outp = $this->db->update('garis', $data);
 		}
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
   }
 
 	public function delete($id='')
@@ -183,8 +183,7 @@ class Plan_garis_model extends CI_Model {
 		$sql = "DELETE FROM garis WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -201,8 +200,7 @@ class Plan_garis_model extends CI_Model {
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function list_line()
@@ -242,8 +240,7 @@ class Plan_garis_model extends CI_Model {
 		$sql = "UPDATE garis SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_garis($id=0)
@@ -260,8 +257,7 @@ class Plan_garis_model extends CI_Model {
 		$this->db->where('id', $id);
 		$outp = $this->db->update('garis', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function list_dusun()

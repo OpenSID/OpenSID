@@ -186,7 +186,7 @@
 		$this->db->trans_complete();
 
 		// Set session berdasarkan hasil operasi
-		$_SESSION['success'] = $indikatorSukses ? 1 : -1;
+		pesan($indikatorSukses); //Tampilkan Pesan
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 

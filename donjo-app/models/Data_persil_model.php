@@ -471,8 +471,7 @@ class Data_persil_model extends CI_Model {
 			$outp = $this->db->insert('data_persil',$upd);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 }

@@ -232,8 +232,7 @@
 		$sql = "UPDATE gambar_gallery SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function gallery_slider($id='', $val=0)

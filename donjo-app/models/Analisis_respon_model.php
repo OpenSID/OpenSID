@@ -1061,9 +1061,7 @@
 
 		$this->pre_update();
 
-		if ($outp) $_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon)

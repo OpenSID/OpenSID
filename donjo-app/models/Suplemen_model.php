@@ -338,11 +338,8 @@
 	public function hapus($id)
 	{
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
-		if($hasil){
-			$_SESSION["success"] = 1;
-		}else{
-			$_SESSION["success"] = -1;
-		}
+		
+		pesan($hasil); //Tampilkan Pesan
 	}
 
 	public function update($id)
@@ -353,7 +350,8 @@
 			'keterangan' => $this->input->post('keterangan')
 		);
 		$hasil = $this->db->where('id',$id)->update('suplemen', $data);
-		$_SESSION["success"] = $hasil ? 1 : -1;
+
+		pesan($hasil); //Tampilkan Pesan
 	}
 
 	public function add_terdata($post, $id)

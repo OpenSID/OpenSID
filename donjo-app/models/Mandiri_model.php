@@ -163,7 +163,8 @@
 			foreach($id_cb as $id)
 			{
 				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
+				
+				pesan($outp); //Tampilkan Pesan
 			}
 		}
 	}

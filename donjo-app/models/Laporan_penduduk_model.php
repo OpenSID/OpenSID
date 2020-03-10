@@ -666,8 +666,7 @@
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->insert('tweb_penduduk_umur', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update_rentang($id=0)
@@ -678,16 +677,16 @@
 		else
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->where('id',$id)->update('tweb_penduduk_umur', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_rentang($id=0)
 	{
 		$sql = "DELETE FROM tweb_penduduk_umur WHERE id = '$id' ";
 		$outp = $this->db->query($sql);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_rentang()
@@ -704,8 +703,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 }

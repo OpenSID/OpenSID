@@ -166,8 +166,7 @@
 			$this->db->where('id', $id);
 			$outp = $this->db->update('lokasi', $data);
 		}
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -175,8 +174,7 @@
 		$sql = "DELETE FROM lokasi WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -193,8 +191,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function list_point()
@@ -235,8 +232,7 @@
 		$sql = "UPDATE lokasi SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_lokasi($id=0)
@@ -253,8 +249,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('lokasi', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function list_dusun()

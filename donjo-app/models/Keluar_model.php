@@ -171,8 +171,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('log_surat', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function paging_perorangan($nik='', $p=1, $o=0)
@@ -338,8 +337,7 @@
 
 	public function update($id=0)
 	{
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')

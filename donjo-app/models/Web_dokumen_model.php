@@ -371,8 +371,7 @@ class Web_dokumen_model extends CI_Model {
 		$sql = "UPDATE dokumen SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_dokumen($id=0)

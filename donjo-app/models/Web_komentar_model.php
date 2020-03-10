@@ -110,8 +110,8 @@
 		$data = $_POST;
 		$data['id_user'] = $_SESSION['user'];
 		$outp = $this->db->insert('komentar', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -120,8 +120,8 @@
 	  $data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('komentar', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -129,8 +129,7 @@
 		$sql = "DELETE FROM komentar WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -147,8 +146,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function komentar_lock($id='',$val=0)
@@ -157,8 +155,8 @@
 			->update('komentar', array(
 					'enabled' => $val,
 					'updated_at' => date('Y-m-d H:i:s')));
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 	public function get_komentar($id=0)

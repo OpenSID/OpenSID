@@ -750,4 +750,10 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
+function pesan($outp)
+{
+	$_SESSION["success"] = $outp ? 1 : -1;
+	return $_SESSION['success'];
+}
+
 ?>

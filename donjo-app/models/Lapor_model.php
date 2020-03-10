@@ -38,9 +38,8 @@
 			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
 			$_SESSION['success'] = -1;
 		}
-		if (!$outp)
-			$_SESSION['success'] = -1;
-		return ($_SESSION['success'] == 1);
+		
+		pesan($outp); //Tampilkan Pesan
 	}
 
 }
