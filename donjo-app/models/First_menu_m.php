@@ -44,12 +44,13 @@ class First_menu_m extends CI_Model{
 
 	public function list_menu_kiri()
 	{
-		$sql = "SELECT m.*, m.kategori as nama FROM kategori m WHERE m.parrent = 0 AND m.enabled = 1 AND m.kategori <> 'teks_berjalan' order by urut asc";
+		$sql = "SELECT m.*, m.kategori AS nama, m.kategori AS kat_slug FROM kategori m WHERE m.parrent = 0 AND m.enabled = 1 AND m.kategori <> 'teks_berjalan' order by urut asc";
 		$query = $this->db->query($sql);
 		$data	= $query->result_array();
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['submenu'] = $this->list_subkategori($data[$i]['id']);
+			$data[$i]['kat_slug'] = url_title($data[$i]['kat_slug'], 'dash', TRUE);
 		}
 		return $data;
 	}

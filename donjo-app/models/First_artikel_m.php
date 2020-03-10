@@ -72,12 +72,12 @@ class First_artikel_m extends CI_Model {
 	}
 
 	public function paging_kat($p=1, $slug)
-	{
+	{ 
 		$this->db->select('COUNT(a.id) AS id')
 			->join('user u', 'a.id_user = u.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT');				
 		if (!empty($slug)){
-			$sql = $this->db->where('k.slug', $slug);
+			$sql = $this->db->like('k.kategori', $slug);
 		}
 		$sql = $this->db->where(array('a.enabled' => 1, 'k.enabled' => 1))->get('artikel a');
 		$row = $sql->row_array();
@@ -96,7 +96,7 @@ class First_artikel_m extends CI_Model {
 	{
 		if ($id > 0)
 		{
-			$sql = "SELECT a.*,u.nama AS owner,k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
+			$sql = "SELECT a.*,u.nama AS owner,k.kategori, k.kategori AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 				FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND headline <> 1 AND a.id = ".$id;
@@ -104,7 +104,7 @@ class First_artikel_m extends CI_Model {
 		else
 		{
 			// Penampilan daftar artikel di halaman depan tidak terbatas pada artikel dinamis saja
-			$sql = "SELECT a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
+			$sql = "SELECT a.*, u.nama AS owner, k.kategori, k.kategori AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 				FROM artikel a
 				LEFT JOIN user u ON a.id_user = u.id
 				LEFT JOIN kategori k ON a.id_kategori = k.id
@@ -123,6 +123,7 @@ class First_artikel_m extends CI_Model {
 		for ($i=0; $i < count($data); $i++)
 		{
 			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+			$data[$i]['kat_slug'] = url_title($data[$i]['kat_slug'], 'dash', TRUE);
 			if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
 				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
 				// ganti shortcode menjadi icon
@@ -354,7 +355,7 @@ class First_artikel_m extends CI_Model {
 	public function get_artikel($slug, $is_id=false)
 	{
 		$this->hit($slug, $is_id); // catat artikel diakses
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.kategori AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -395,7 +396,7 @@ class First_artikel_m extends CI_Model {
 
 	public function list_artikel($offset=0, $limit=50, $slug)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.kategori AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -403,7 +404,7 @@ class First_artikel_m extends CI_Model {
 			->where('tgl_upload < NOW()');
 
 		if (!empty($slug)){
-			$this->db->where('k.slug', $slug);
+			$this->db->like('k.kategori', $slug);
 		}
 		$this->db->order_by('a.tgl_upload', DESC);
 		$this->db->limit($limit, $offset);

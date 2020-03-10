@@ -66,7 +66,7 @@
 									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
 									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
-										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
+										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kat_slug'] ?></a>
 									<?php endif; ?>
 								</div>
 								<div class="img">
