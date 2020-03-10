@@ -221,7 +221,6 @@ class Web_kategori_model extends CI_Model {
 		$data = $_POST;
 
 		$this->db->where('id', $id);
-		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
 		$outp = $this->db->update('kategori', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
