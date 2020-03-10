@@ -106,6 +106,7 @@ class Web_kategori_model extends CI_Model {
 		$data = $_POST;
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
+		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
 		$outp = $this->db->insert('kategori', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -209,6 +210,7 @@ class Web_kategori_model extends CI_Model {
 		$data['parrent'] = $kategori;
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $kategori)) + 1;
+		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
 		$outp = $this->db->insert('kategori', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -262,8 +264,7 @@ class Web_kategori_model extends CI_Model {
 
 	public function get_kategori($id=0)
 	{
-		$sql = "SELECT * FROM kategori WHERE id = ?";
-		$query = $this->db->query($sql, $id);
+		$query = $this->db->where('id', $id)->or_where('slug', $id)->get('kategori');
 		$data  = $query->row_array();
 		return $data;
 	}

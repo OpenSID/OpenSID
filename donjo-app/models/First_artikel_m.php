@@ -47,11 +47,15 @@ class First_artikel_m extends CI_Model {
 
 	public function paging_kat($p=1, $id=0)
 	{
-		$sql = "SELECT COUNT(a.id) AS id FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE 1 ";
-		if ($id!=0)
-			$sql .= "AND ((id_kategori = ".$id.") OR (parrent = ".$id."))";
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(a.id) AS id')
+			->join('user u', 'a.id_user = u.id', 'LEFT')
+			->join('kategori k', 'a.id_kategori = k.id', 'LEFT');
+
+		if (!empty($id)){
+			$sql = $this->db->or_where('k.id', $id)->or_where('k.slug', $id);
+		}
+		$sql = $this->db->where(array('a.enabled' => 1, 'k.enabled' => 1))->get('artikel a');
+		$row = $sql->row_array();
 		$jml_data = $row['id'];
 
 		$this->load->library('paging');
@@ -109,7 +113,7 @@ class First_artikel_m extends CI_Model {
 
 	public function artikel_show($offset, $limit)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
 		$this->paging_artikel_sql();
 		$data = $this->db->order_by('a.tgl_upload DESC')
 			->limit($limit, $offset)
@@ -135,7 +139,7 @@ class First_artikel_m extends CI_Model {
 	public function arsip_show($rand = false)
 	{
 		// Artikel agenda (kategori=1000) tidak ditampilkan
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, u.nama AS owner, k.kategori
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
@@ -185,7 +189,7 @@ class First_artikel_m extends CI_Model {
 	public function full_arsip($offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+		$sql = "SELECT a.*,u.nama AS owner,k.kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		ORDER BY a.tgl_upload DESC";
 
@@ -267,7 +271,7 @@ class First_artikel_m extends CI_Model {
 	{
 		$data = array();
 		//Hari Ini
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -280,7 +284,7 @@ class First_artikel_m extends CI_Model {
 		$data['hari_ini'] = $sql->result_array();
 
 		//Yang Akan Datang
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -292,7 +296,7 @@ class First_artikel_m extends CI_Model {
 		$data['yad'] = $sql->result_array();
 
 		//Lama/Sudah Lewat
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -326,16 +330,15 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
-
+	
 	public function get_kategori($id=0)
 	{
-		$sql = "SELECT a.kategori FROM kategori a WHERE a.id=?";
-		$query = $this->db->query($sql,$id);
-		if ($query->num_rows()>0)
-		{
-			$data  = $query->row_array();
-		}
-		else if (!empty($id))
+		$data = $this->db->select('kategori')
+			->where('id', $id)->or_where('slug', $id)
+			->limit(1)->get('kategori')
+			->row()->kategori;
+		
+		if (empty($data))
 		{
 			// untuk artikel jenis statis = "AGENDA"
 			$judul = array(
@@ -345,17 +348,16 @@ class First_artikel_m extends CI_Model {
 			);
 			$data = $judul[$id];
 		}
-		else
-		{
-			$data = false;
-		}
+		// Bukan kategori yg dikenal
+		if (empty($data))
+			$data = "Artikel Kategori '$id'";
 		return $data;
 	}
 
 	public function get_artikel($slug, $is_id=false)
 	{
 		$this->hit($slug, $is_id); // catat artikel diakses
-		$this->db->select('a.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -363,7 +365,7 @@ class First_artikel_m extends CI_Model {
 			->where('tgl_upload < NOW()');
 
 		// $slug adalah id atau slug
-		$this->db->where($is_id ? 'a.id' : 'slug', $slug);
+		$this->db->where($is_id ? 'a.id' : 'a.slug', $slug);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
@@ -387,17 +389,19 @@ class First_artikel_m extends CI_Model {
 
 	public function list_artikel($offset=0, $limit=50, $id=0)
 	{
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled = 1 AND a.tgl_upload < NOW() ";
-		if ($id!=0)
-			$sql .= "AND id_kategori = $id OR parrent = $id";
-		$sql .= " ORDER BY a.tgl_upload DESC ";
-		$sql .= $paging_sql;
-		$query = $this->db->query($sql);
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->from('artikel a')
+			->join('user u', 'a.id_user = u.id', 'left')
+			->join('kategori k', 'a.id_kategori = k.id', 'left')
+			->where('a.enabled', 1)
+			->where('tgl_upload < NOW()');
+
+		if (!empty($id)){
+			$this->db->where('k.id', $id)->or_where('k.slug', $id);
+		}
+		$this->db->order_by('a.tgl_upload', DESC);
+		$this->db->limit($limit, $offset);
+		$query = $this->db->get();
 		if ($query->num_rows()>0)
 		{
 			$data = $query->result_array();
@@ -491,11 +495,7 @@ class First_artikel_m extends CI_Model {
 	
 	public function hit($slug, $is_id=false)
 	{
-		if ($is_id)
-			// $slug adalah id
-			$this->db->where('id', $slug);
-		else
-			$this->db->where('slug', $slug);
+		$this->db->where($is_id ? 'id' : 'slug', $slug);
 		$id = $this->db->select('id')->get('artikel')->row()->id;
 		//membatasi hit hanya satu kali dalam setiap session
 		if (in_array($id, $_SESSION['artikel'])) return;
