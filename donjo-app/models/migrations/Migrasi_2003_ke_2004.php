@@ -23,11 +23,16 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		$this->db->query("ALTER TABLE widget MODIFY COLUMN form_admin VARCHAR(100) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE widget MODIFY COLUMN setting TEXT NULL");	  
 		$this->db->query("ALTER TABLE log_penduduk MODIFY COLUMN tgl_peristiwa DATETIME DEFAULT CURRENT_TIMESTAMP");
-  	//ketika update akan ada folder surat dan template-surat
-		$folder = "surat";
-		$this->load->helper("file");
 		//Ganti nama subfolder surat di folder desa
-		rename('desa/'.$folder, 'desa/template-surat');	
+		rename('desa/surat', 'desa/template-surat');	
+		//Ganti nama subfolder css/default di folder desa
+		rename('desa/css/default', 'desa/css/klasik');
+		$tema_aktif = $this->db->select('value')
+			->where('key', 'web_theme')	
+			->get('setting_aplikasi')->row()->value;
+		if ($tema_aktif == 'default')
+			$this->db->where('key', 'web_theme')
+				->update('setting_aplikasi', array('value' => 'klasik'));
 		//tambah kolom slug di tabel kategori
 		if (!$this->db->field_exists('slug', 'kategori')) {
 			$this->db->query("ALTER TABLE kategori ADD COLUMN slug VARCHAR(100) NULL");
