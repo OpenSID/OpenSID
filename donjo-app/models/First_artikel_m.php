@@ -113,7 +113,7 @@ class First_artikel_m extends CI_Model {
 
 	public function artikel_show($offset, $limit)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
 		$this->paging_artikel_sql();
 		$data = $this->db->order_by('a.tgl_upload DESC')
 			->limit($limit, $offset)
@@ -139,7 +139,7 @@ class First_artikel_m extends CI_Model {
 	public function arsip_show($rand = false)
 	{
 		// Artikel agenda (kategori=1000) tidak ditampilkan
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
+		$sql = "SELECT a.*, u.nama AS owner, k.kategori
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN kategori k ON a.id_kategori = k.id
@@ -189,7 +189,7 @@ class First_artikel_m extends CI_Model {
 	public function full_arsip($offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT a.*,u.nama AS owner,k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
+		$sql = "SELECT a.*,u.nama AS owner,k.kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
 			AND a.tgl_upload < NOW()
 		ORDER BY a.tgl_upload DESC";
 
@@ -271,7 +271,7 @@ class First_artikel_m extends CI_Model {
 	{
 		$data = array();
 		//Hari Ini
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -284,7 +284,7 @@ class First_artikel_m extends CI_Model {
 		$data['hari_ini'] = $sql->result_array();
 
 		//Yang Akan Datang
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -296,7 +296,7 @@ class First_artikel_m extends CI_Model {
 		$data['yad'] = $sql->result_array();
 
 		//Lama/Sudah Lewat
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori AS kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->join('user u', 'u.id = a.id', 'LEFT')
 			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
 			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -359,7 +359,7 @@ class First_artikel_m extends CI_Model {
 	public function get_artikel($slug, $is_id=false)
 	{
 		$this->hit($slug, $is_id); // catat artikel diakses
-		$this->db->select('a.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -367,7 +367,7 @@ class First_artikel_m extends CI_Model {
 			->where('tgl_upload < NOW()');
 
 		// $slug adalah id atau slug
-		$this->db->where($is_id ? 'a.id' : 'slug', $slug);
+		$this->db->where($is_id ? 'a.id' : 'a.slug', $slug);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
