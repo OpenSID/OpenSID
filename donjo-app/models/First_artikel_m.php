@@ -328,8 +328,8 @@ class First_artikel_m extends CI_Model {
 	
 	public function get_kategori($id=0)
 	{
-		$sql = "SELECT a.kategori FROM kategori a WHERE a.id=?";
-		$query = $this->db->query($sql,$id);
+		$query = $this->db->where('id', $id)->or_where('slug', $id)->get('kategori');
+		
 		if ($query->num_rows()>0)
 		{
 			$data  = $query->row_array();
@@ -393,7 +393,7 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function list_artikel($offset=0, $limit=50, $slug)
+	public function list_artikel($offset=0, $limit=50, $id)
 	{
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
@@ -402,8 +402,8 @@ class First_artikel_m extends CI_Model {
 			->where('a.enabled', 1)
 			->where('tgl_upload < NOW()');
 
-		if (!empty($slug)){
-			$this->db->where('k.slug', $slug);
+		if (!empty($id)){
+			$this->db->where('k.id', $id)->or_where('k.slug', $id);
 		}
 		$this->db->order_by('a.tgl_upload', DESC);
 		$this->db->limit($limit, $offset);
