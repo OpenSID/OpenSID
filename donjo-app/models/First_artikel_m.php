@@ -333,13 +333,12 @@ class First_artikel_m extends CI_Model {
 	
 	public function get_kategori($id=0)
 	{
-		$query = $this->db->where('id', $id)->or_where('slug', $id)->get('kategori');
+		$data = $this->db->select('kategori')
+			->where('id', $id)->or_where('slug', $id)
+			->limit(1)->get('kategori')
+			->row()->kategori;
 		
-		if ($query->num_rows()>0)
-		{
-			$data  = $query->row_array();
-		}
-		else if (!empty($id))
+		if (empty($data))
 		{
 			// untuk artikel jenis statis = "AGENDA"
 			$judul = array(
@@ -349,10 +348,9 @@ class First_artikel_m extends CI_Model {
 			);
 			$data = $judul[$id];
 		}
-		else
-		{
-			$data = false;
-		}
+		// Bukan kategori yg dikenal
+		if (empty($data))
+			$data = "Artikel Kategori '$id'";
 		return $data;
 	}
 
