@@ -104,9 +104,8 @@ class Web_menu_model extends CI_Model {
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
 		$data['nama'] = strip_tags($data['nama']);
 		$outp = $this->db->insert('menu',$data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-
+		
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -118,16 +117,16 @@ class Web_menu_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('menu', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
 	{
 		$sql = "DELETE FROM menu WHERE id = ? OR parrent = ?";
 		$outp = $this->db->query($sql, array($id, $id));
-
-		if (!$outp) $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -180,8 +179,8 @@ class Web_menu_model extends CI_Model {
 		$data['tipe'] = 3;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
 		$outp = $this->db->insert('menu', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_sub_menu($id=0)
@@ -194,44 +193,32 @@ class Web_menu_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('menu', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_sub_menu($id='')
 	{
 		$sql = "DELETE FROM menu WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_menu()
 	{
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM menu WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_sub_menu($id);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function menu_lock($id='',$val=0)
 	{
 		$sql = "UPDATE menu SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_menu($id=0)

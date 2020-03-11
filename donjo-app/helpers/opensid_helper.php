@@ -750,4 +750,13 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
+function pesan_sukses($outp, $gagal_saja=false)
+{
+	$CI =& get_instance();
+	if ($gagal_saja)
+		if (!$outp) $CI->session->success = -1;
+	else
+		$CI->session->success = $outp ? 1 : -1;
+}
+
 ?>
