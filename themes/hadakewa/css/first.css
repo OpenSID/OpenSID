@@ -4,7 +4,8 @@
  *     - latar belakang body yang ditempatkan di themes/hadakewa/css/images/img1.jpg
  *     - dan latar belakang header yang ditempatkan di themes/hadakewa/css/images/bg_header.jpg
  *
- * first.css ini berisi perubahan untuk styles yang ada di assets/front/css/first.css
+ * first.css ini berisi perubahan untuk styles yang ada di assets/front/css/first.css 
+ *     dan juga mengubah styles di file css lainnya seperti di bootstrap.bar.css
  *
 */
 
@@ -595,3 +596,10 @@ table.counter tr td {
 	margin: 0 1em;
     padding: 0 1em;
 }
+/* Mengubah styles dari bootstrap */
+@media (min-width: 768px) {
+  .navbar-nav {
+    text-transform: none !important;
+  }
+}
+
