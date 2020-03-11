@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 11. #2761: Ubah nama tema 'default' menjadi tema 'klasik'.
 12. #2785: Sekarang jumlah di paginasi daftar artikel di web tidak termasuk artikel non-aktif. [bug-fix]
 13. #1646: Sekarang kategori artikel (menu dinamis) web dapat diakses melalui url tulisan dan id.
+14. #2253: Sekarang url tulisan untuk artikel tidak diubah walaupun judul artikel berubah.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
