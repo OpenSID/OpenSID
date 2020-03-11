@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 12. #2785: Sekarang jumlah di paginasi daftar artikel di web tidak termasuk artikel non-aktif. [bug-fix]
 13. #1646: Sekarang kategori artikel (menu dinamis) web dapat diakses melalui url tulisan dan id.
 14. #2253: Sekarang url tulisan untuk artikel tidak diubah walaupun judul artikel berubah.
+15. #2794: Di Admin Web > Artikel > Kategori, sekarang kategori dapat dihapus tanpa harus memilih artikel dulu. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
