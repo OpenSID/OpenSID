@@ -599,7 +599,7 @@ class Import_model extends CI_Model {
 
 		$_SESSION['ggl'] = $gg;
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 
 		echo "<br>JUMLAH GAGAL : $gg</br>";
 		echo "<a href='".site_url()."database/import'>LANJUT</a>";

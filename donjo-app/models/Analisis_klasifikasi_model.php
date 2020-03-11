@@ -91,7 +91,7 @@
 		$data['id_master']=$_SESSION['analisis_master'];
 		$outp = $this->db->insert('analisis_klasifikasi', $data);
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -100,7 +100,7 @@
 		$data['id_master']=$_SESSION['analisis_master'];
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_klasifikasi', $data);
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -108,7 +108,7 @@
 		$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -125,7 +125,7 @@
 		}
 		else $outp = false;
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_analisis_klasifikasi($id=0)

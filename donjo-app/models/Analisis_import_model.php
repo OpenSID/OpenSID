@@ -103,7 +103,7 @@ class Analisis_import_Model extends CI_Model {
 			$this->db->insert('analisis_klasifikasi', $klasifikasi);
 		}
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 
 		return $id_master;
 	}

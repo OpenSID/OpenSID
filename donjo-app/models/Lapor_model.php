@@ -39,7 +39,7 @@
 			$_SESSION['success'] = -1;
 		}
 		
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 }

@@ -161,7 +161,7 @@
 			copy($raw_path."data_form_non_warga.raw", $folder_surat."data_form_".$data['url_surat'].".php");
 		}
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	private function validasi_surat(&$data)
@@ -176,7 +176,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_surat_format', $data);
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function upload($url="")
@@ -223,7 +223,7 @@
 		$sql = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id = ?";
 		$outp = $this->db->query($sql,array($id));
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -324,7 +324,7 @@
 
 		$outp = $this->db->query($sql, $id);
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function lock($id=0, $k=0)
@@ -336,7 +336,7 @@
 
 		$outp = $this->db->query($sql, $id);
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	// Tambahkan surat desa jika folder surat tidak ada di surat master

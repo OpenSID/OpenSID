@@ -113,7 +113,7 @@
 
 		$outp = $this->db->insert('teks_berjalan', $data);
 		
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	private function sanitise_data($data)
@@ -135,14 +135,14 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('teks_berjalan', $data);
 		
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
 	{
 		$outp = $this->db->where('id', $id)->delete('teks_berjalan');
 		
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()

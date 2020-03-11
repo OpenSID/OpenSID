@@ -159,7 +159,7 @@
 			$outp = $this->db->insert('area', $data);
 		}
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 
 	}
 
@@ -186,7 +186,7 @@
 			$this->db->where('id', $id);
 			$outp = $this->db->update('area', $data);
 		}
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
   }
 
 	public function delete($id='')
@@ -194,7 +194,7 @@
 		$sql = "DELETE FROM area WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -211,7 +211,7 @@
 		}
 		else $outp = false;
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_polygon()
@@ -251,7 +251,7 @@
 		$sql = "UPDATE area SET enabled=? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_area($id=0)
@@ -268,7 +268,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('area', $data);
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_dusun()

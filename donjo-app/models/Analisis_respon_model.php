@@ -1061,7 +1061,7 @@
 
 		$this->pre_update();
 
-		pesan($outp); //Tampilkan Pesan
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon)
