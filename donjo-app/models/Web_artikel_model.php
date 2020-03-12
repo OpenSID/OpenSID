@@ -277,8 +277,6 @@
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
-		// Gunakan judul untuk url artikel
-		$slug = url_title($data['judul'], 'dash', TRUE);
 
 	  $fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
@@ -368,7 +366,6 @@
 		else
 		{
 			$this->db->where('id', $id);
-			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->update('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
