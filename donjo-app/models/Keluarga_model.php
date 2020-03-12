@@ -911,7 +911,7 @@
 
 	private function buat_berkas_kk($data='')
 	{
-		$mypath="surat\\kk\\";
+		$mypath="template-surat\\kk\\";
 
 		$path = "".str_replace("\\","/", $mypath);
 		$path_arsip = LOKASI_ARSIP;
