@@ -37,8 +37,6 @@ $(document).ready(function()
         <?php if (in_array($kat, array('2', '3'))): ?>
   				<?php $this->load->view('dokumen/menu_dokumen'); ?>
   				<div class="col-md-9">
-        <?php else: ?>
-          <div class="col-md-12">
         <?php endif; ?>
 				<div class="col-md-12">
 					<div class="box box-info">

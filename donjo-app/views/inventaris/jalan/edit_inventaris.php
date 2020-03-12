@@ -107,7 +107,7 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text"/>
-												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Km</span>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
 									</div>

@@ -3,6 +3,7 @@
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('config_model');
 	}
 
 	public function autocomplete()
@@ -196,8 +197,7 @@
 		$this->db->where('id', $nik);
 		$this->db->update('tweb_penduduk', $default);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($no_kk='')
@@ -239,8 +239,7 @@
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_anggota($id=0, $id_kk)
@@ -257,8 +256,7 @@
 			$this->db->where('id', $id_kk)->update('tweb_rtm', array('nik_kepala' => $id));
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function rem_anggota($kk=0, $id=0)
@@ -316,9 +314,7 @@
 
 	private function get_kode_wilayah()
 	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$d = $query->row_array();
+		$d = $this->config_model->get_data();
 		$data = $d['kode_kabupaten'].$d['kode_kecamatan'].$d['kode_desa'];
 
 		return $data;
@@ -329,7 +325,7 @@
 		$sql = "SELECT p.id, p.nik, p.nama, h.nama as kk_level
 			FROM tweb_penduduk p
 			LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level = h.id
-			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND id_rtm = 0";
+			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND (id_rtm = 0 OR id_rtm IS NULL)";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
@@ -390,13 +386,6 @@
 		return $data;
 	}
 
-  public function get_desa()
-  {
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 	public function list_hubungan()
 	{
 		$sql = "SELECT id, nama as hubungan FROM tweb_rtm_hubungan WHERE 1";
@@ -424,8 +413,7 @@
 		}
 		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 }

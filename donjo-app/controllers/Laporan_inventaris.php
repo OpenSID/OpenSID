@@ -33,7 +33,7 @@ class Laporan_inventaris extends Admin_Controller {
 
 	public function cetak($tahun, $penandatangan)
 	{
-		$data['header'] = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
@@ -42,7 +42,7 @@ class Laporan_inventaris extends Admin_Controller {
 
 	public function download($tahun, $penandatangan)
 	{
-		$data['header'] = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
@@ -67,7 +67,7 @@ class Laporan_inventaris extends Admin_Controller {
 
 	public function cetak_mutasi($tahun, $penandatangan)
 	{
-		$data['header'] = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
@@ -76,7 +76,7 @@ class Laporan_inventaris extends Admin_Controller {
 
 	public function download_mutasi($tahun, $penandatangan)
 	{
-		$data['header'] = $this->header_model->get_config();
+		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
 		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));

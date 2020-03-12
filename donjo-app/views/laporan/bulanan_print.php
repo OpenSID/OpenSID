@@ -89,25 +89,23 @@
             <td colspan="2" class="text-bold"><span style="float: right; border: solid 1px black; font-size: 12pt; text-align: center; padding: 5px 20px;">LAMPIRAN A-9</span></td>
           </tr>
           <tr>
-            <td colspan="2" class="text"><span style="border-bottom: 2px solid;"><?= strtoupper($config[0]['nama_kabupaten'])?></span></td>
+            <td colspan="2" class="text"><span style="border-bottom: 2px solid;"><?= strtoupper($config['nama_kabupaten'])?></span></td>
             <td colspan="11">&nbsp;</td>
           </tr>
           <tr>
             <td colspan="3">&nbsp;</td>
             <td colspan="10" class="judul" style="padding-bottom: 10px;"><span style="border-bottom: 2px solid;">LAPORAN BULANAN DESA/KELURAHAN</span></td>
           <tr>
-          <?php foreach ($config as $data): ?>
             <tr>
               <td colspan="3" width="32%">&nbsp;</td>
               <td colspan="3" width="15%" class="text-bold">Desa/Kelurahan</td>
-              <td colspan="7" width="53%">: <?= strtoupper($data['nama_desa'])?></td>
+              <td colspan="7" width="53%">: <?= strtoupper($config['nama_desa'])?></td>
             </tr>
             <tr>
               <td colspan="3">&nbsp;</td>
               <td colspan="3" class="text-bold">Kecamatan</td>
-              <td colspan="7">: <?= strtoupper($data['nama_kecamatan'])?></td>
+              <td colspan="7">: <?= strtoupper($config['nama_kecamatan'])?></td>
             </tr>
-          <?php endforeach; ?>
           <tr>
             <td colspan="3">&nbsp;</td>
             <td colspan="3" class="text-bold">Laporan Bulan</td>
@@ -131,8 +129,8 @@
             <th colspan="3" class="text-center">KELUARGA (KK)</th>
             <td rowspan="7" colspan="2" width="30%" class="no-border-kecuali-kiri">&nbsp;</td>
             <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
-              <?= ucwords($this->setting->sebutan_desa)?> <?= $data['nama_desa']?>, <?= tgl_indo(date("Y m d"))?><br>
-              <?= str_ireplace($this->setting->sebutan_desa, '', $pamong_ttd['jabatan']).' '.ucwords($this->setting->sebutan_desa).' '.$data['nama_desa']?>
+              <?= ucwords($this->setting->sebutan_desa)?> <?= $config['nama_desa']?>, <?= tgl_indo(date("Y m d"))?><br>
+              <?= str_ireplace($this->setting->sebutan_desa, '', $pamong_ttd['jabatan']).' '.ucwords($this->setting->sebutan_desa).' '.$config['nama_desa']?>
             </td>
           </tr>
           <tr>

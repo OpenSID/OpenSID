@@ -9,7 +9,7 @@ class Sid_Core extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-                $this->load->library('form_validation');
+		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 	}
 
@@ -415,6 +415,9 @@ class Sid_Core extends Admin_Controller {
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
     $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = ucwords($this->setting->sebutan_dusun." ".$data['wil_ini']['dusun']." ".$sebutan_desa." ".$data['wil_atas']['nama_desa']);
     $data['wilayah'] = ucwords($this->setting->sebutan_dusun);
     $data['breadcrumb'] = array(
@@ -445,6 +448,9 @@ class Sid_Core extends Admin_Controller {
     $sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
     $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = ucwords($this->setting->sebutan_dusun." ".$data['wil_ini']['dusun']." ".$sebutan_desa." ".$data['wil_atas']['nama_desa']);
     $data['wilayah'] = ucwords($this->setting->sebutan_dusun);
     $data['breadcrumb'] = array(
@@ -512,10 +518,12 @@ class Sid_Core extends Admin_Controller {
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
-
     $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
 		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
     $data['breadcrumb'] = array(
     	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
@@ -546,10 +554,12 @@ class Sid_Core extends Admin_Controller {
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
-
     $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
 		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
     $data['breadcrumb'] = array(
     	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
@@ -615,6 +625,9 @@ class Sid_Core extends Admin_Controller {
     $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
 		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
     $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
     $data['breadcrumb'] = array(
     	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
@@ -651,6 +664,9 @@ class Sid_Core extends Admin_Controller {
     $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
 		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
     $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
     $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
     $data['breadcrumb'] = array(
     	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),

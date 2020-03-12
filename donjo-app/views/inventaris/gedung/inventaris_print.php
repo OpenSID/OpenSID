@@ -61,15 +61,9 @@
 				</div>
 				<div style="padding-bottom: 35px;">
 					<div class="pull-left">
-						<?php foreach ($header as $desa): ?>
-							<?= strtoupper($this->setting->sebutan_desa.' = '.$desa['nama_desa']) ?>
-						<?php endforeach; ?><br>
-						<?php foreach ($header as $desa): ?>
-							<?= strtoupper($this->setting->sebutan_kecamatan.' = '.$desa['nama_kecamatan']) ?>
-						<?php endforeach; ?><br>
-						<?php foreach ($header as $desa): ?>
-							<?= strtoupper($this->setting->sebutan_kabupaten.' = '.$desa['nama_kabupaten']) ?>
-						<?php endforeach; ?>
+						<?= strtoupper($this->setting->sebutan_desa.' = '.$header['nama_desa']) ?><br>
+						<?= strtoupper($this->setting->sebutan_kecamatan.' = '.$header['nama_kecamatan']) ?><br>
+						<?= strtoupper($this->setting->sebutan_kabupaten.' = '.$header['nama_kabupaten']) ?><br>
 					</div>
 					<div class="pull-right">
 						KODE LOKASI : _ _ . _ _ . _ _ . _ _ . _ _ . _ _ . _ _ _
@@ -145,8 +139,8 @@
 								Colspan untuk tampilan unduh.
 						-->
 						<td colspan="2" width="10%">&nbsp;</td>
-						<td colspan="3" width="30%"	></td>
-						<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].','.$desa['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="3" width="30%"></td>
+						<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$header['nama_desa'].','.$header['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 
@@ -154,14 +148,14 @@
 					<tr><td colspan="14">&nbsp;</td></tr>
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
-						<td colspan="3" width="30%"	>MENGETAHUI</td>
+						<td colspan="3" width="30%">MENGETAHUI</td>
 						<td colspan="5" width="55%"></td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
-						<td colspan="3" width="30%"	>KEPALA SKPD</td>
+						<td colspan="3" width="30%">KEPALA SKPD</td>
 						<td colspan="5" width="55%"><?= strtoupper($pamong->jabatan)?></td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
@@ -176,13 +170,13 @@
 					<tr><td colspan="14">&nbsp;</td></tr>
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
-						<td colspan="3" width="30%"	>(...................................)</td>
+						<td colspan="3" width="30%">(...................................)</td>
 						<td colspan="5" width="55%">( <?= strtoupper($pamong->pamong_nama)?>) </td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
-						<td colspan="3" width="30%"	>NIP ...................................</td>
+						<td colspan="3" width="30%">NIP ...................................</td>
 						<td colspan="5" width="55%"> <?= strtoupper($pamong->pamong_nip)?> </td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>

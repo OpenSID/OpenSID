@@ -1,13 +1,13 @@
 <?php
 
-define("VERSION", '20.02-pasca');
+define("VERSION", '20.03-pasca');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
-define("LOKASI_SURAT_DESA", 'desa/surat/');
-define("LOKASI_SURAT_FORM_DESA", 'desa/surat/form/');
-define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
-define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
+define("LOKASI_SURAT_DESA", 'desa/template-surat/');
+define("LOKASI_SURAT_FORM_DESA", 'desa/template-surat/form/');
+define("LOKASI_SURAT_PRINT_DESA", 'desa/template-surat/print/');
+define("LOKASI_SURAT_EXPORT_DESA", 'desa/template-surat/export/');
 define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
 define("LOKASI_GALERI", 'desa/upload/galeri/');
 define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
@@ -291,6 +291,23 @@ function AmbilVersi()
 }
 
 /**
+ * favico_desa
+ *
+ * Mengembalikan path lengkap untuk file favico desa
+ *
+ * @access  public
+ * @return  string
+ */
+function favico_desa()
+{
+	$favico = 'favicon.ico';
+	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ? 
+		base_url() . LOKASI_LOGO_DESA . $favico : 
+		base_url() . $favico;
+	return $favico_desa;
+}
+
+/**
  * LogoDesa
  *
  * Mengembalikan path lengkap untuk file logo desa
@@ -300,7 +317,8 @@ function AmbilVersi()
  */
 function LogoDesa($nama_logo)
 {
-	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) {
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) 
+	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
 
@@ -708,6 +726,37 @@ function masukkan_zip($files=array())
   }
   $zip->close();
   return $tmp_file;
+}
+
+function alfanumerik_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
+function nomor_surat_keputusan($str)
+{
+	return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', strip_tags($str));
+}
+
+// Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
+function nama($str)
+{
+	return preg_replace("/[^a-zA-Z '\.,\-]/", '', strip_tags($str));
+}
+
+function buat_slug($data_slug)
+{
+	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
+	return $slug;
+}
+
+function pesan_sukses($outp, $gagal_saja=false)
+{
+	$CI =& get_instance();
+	if ($gagal_saja)
+		if (!$outp) $CI->session->success = -1;
+	else
+		$CI->session->success = $outp ? 1 : -1;
 }
 
 ?>

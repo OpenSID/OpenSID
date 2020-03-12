@@ -28,29 +28,6 @@ function SuratExportDesa($nama_surat)
 }
 
 /**
- * SuratCetakDesa
- *
- * Mengembalikan path surat ubahan desa apabila ada
- *
- * @access  public
- * @return  string
- */
-function SuratCetakDesa($nama_surat)
-{
-	$surat_cetak_desa = LOKASI_SURAT_DESA . $nama_surat . "/print_" . $nama_surat . ".php";
-	if (is_file($surat_cetak_desa))
-		return $surat_cetak_desa;
-	else
-		$surat_cetak_desa = LOKASI_SURAT_PRINT_DESA . "print_" . $nama_surat . ".php";
-	if (is_file($surat_cetak_desa)) {
-		return $surat_cetak_desa;
-	} else {
-		return "";
-	}
-
-}
-
-/**
  * SuratExport
  *
  * Mengembalikan path surat export apabila ada, dengan prioritas:
@@ -62,43 +39,15 @@ function SuratCetakDesa($nama_surat)
  */
 function SuratExport($nama_surat)
 {
-	if (SuratExportDesa($nama_surat) != "") {
+	if (SuratExportDesa($nama_surat) != "") 
+	{
 		return SuratExportDesa($nama_surat);
-	} elseif (is_file("surat/$nama_surat/$nama_surat.rtf")) {
-		return "surat/$nama_surat/$nama_surat.rtf";
-	} else {
-		return "";
-	}
-}
-
-/**
- * SuratCetak
- *
- * Mengembalikan path surat cetak apabila ada, dengan prioritas:
- *    1. surat cetak ubahan desa
- *    2. surat cetak asli SID
- * Path surat hanya dikembalikan apabila setting tombol_cetak_surat bernilai TRUE
- *
- * @access  public
- * @return  string
- */
-function SuratCetak($nama_surat)
-{
-	$CI =& get_instance();
-	if (!$CI->setting->tombol_cetak_surat) return "";
-
-	if (SuratCetakDesa($nama_surat) != "")
+	} 
+	elseif (is_file("template-surat/$nama_surat/$nama_surat.rtf")) 
 	{
-		return SuratCetakDesa($nama_surat);
-	}
-	elseif (is_file("surat/$nama_surat/print_" . $nama_surat . ".php"))
-	{
-		return "surat/$nama_surat/print_" . $nama_surat . ".php";
-	}
-	else
-	{
-		return "";
-	}
+		return "template-surat/$nama_surat/$nama_surat.rtf";
+	} 
+	else return "";
 }
 
 function ikut_case($format, $str)
@@ -111,6 +60,7 @@ function ikut_case($format, $str)
 	else
 		return $str;
 }
+
 /**
  * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
  *

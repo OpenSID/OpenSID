@@ -74,8 +74,7 @@ class Surat extends Admin_Controller {
 		$this->get_data_untuk_form($url, $data);
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
-		$data['form_action'] = site_url("surat/cetak/$url");
-		$data['form_action2'] = site_url("surat/doc/$url");
+		$data['form_action'] = site_url("surat/doc/$url");
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
 		$header = $this->header_model->get_data();
@@ -84,37 +83,6 @@ class Surat extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view("surat/form_surat", $data);
 		$this->load->view('footer');
-	}
-
-	public function cetak($url = '')
-	{
-		$log_surat['url_surat'] = $url;
-		$log_surat['pamong_nama'] = $_POST['pamong'];
-		$log_surat['id_user'] = $_SESSION['user'];
-		$log_surat['no_surat'] = $_POST['nomor'];
-
-		$id = $_POST['nik'];
-		$log_surat['id_pend'] = $id;
-		$data['input'] = $_POST;
-		$data['input']['atas_nama'] = preg_replace('/\(.+\)/', '', $data['input']['pilih_atas_nama']);
-		$data['tanggal_sekarang'] = tgl_indo(date("Y m d"));
-
-		$data['data'] = $this->surat_model->get_data_surat($id);
-
-		$data['pribadi'] = $this->surat_model->get_data_pribadi($id);
-		$data['kk'] = $this->surat_model->get_data_kk($id);
-		$data['ayah'] = $this->surat_model->get_data_ayah($id);
-		$data['ibu'] = $this->surat_model->get_data_ibu($id);
-
-		$data['desa'] = $this->surat_model->get_data_desa();
-		$data['pamong'] = $this->surat_model->get_pamong($_POST['pamong']);
-
-		$data['pengikut'] = $this->surat_model->pengikut();
-		$data['anggota'] = $this->keluarga_model->list_anggota($data['kk']['id_kk']);
-		$this->keluar_model->log_surat($log_surat);
-
-		$data['url'] = $url;
-		$this->load->view("surat/print_surat", $data);
 	}
 
 	public function doc($url = '')

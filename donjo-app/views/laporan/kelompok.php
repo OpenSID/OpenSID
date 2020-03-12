@@ -17,22 +17,20 @@
 							<a href="<?= site_url("laporan_rentan/excel/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						</div>
 						<div class="box-header  with-border">
-							<?php foreach ($config as $data): ?>
-							<h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten'])?></strong></h4>
+							<h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($config['nama_kabupaten'])?></strong></h4>
 							<h5 class="text-center"><strong>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</strong></h5>
 						</div>
 						<div class="box-header  with-border">
 							<div class="form-group">
 								<label class="col-sm-2 col-md-1 control-label" for="kelurahan"><?= ucwords($this->setting->sebutan_desa)?>/Kel</label>
 								<div class="col-sm-4 col-md-2">
-									<input type="text" class="form-control input-sm" value="<?= $data['nama_desa']?>" disabled/></input>
+									<input type="text" class="form-control input-sm" value="<?= $config['nama_desa']?>" disabled/></input>
 								</div>
 								<label class="col-sm-2 col-md-1 control-label" for="kecamatan"><?= ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-4 col-md-2">
-									<input type="text" class="form-control input-sm" value="<?= $data['nama_kecamatan']?>" disabled/></input>
+									<input type="text" class="form-control input-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
 								</div>
-							<?php endforeach; ?>
-							<?php $bln = date("m");?>
+								<?php $bln = date("m");?>
 								<label class="col-sm-2 col-md-2 control-label" for="laporan">Lap. Bulan</label>
 								<div class="col-sm-4 col-md-1">
 									<input type="text" class="form-control input-sm" value="<?= $bln?>" disabled/></input>

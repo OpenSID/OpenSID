@@ -29,7 +29,9 @@ class First_gallery_m extends CI_Model {
 		// OPTIMIZE: benarkah butuh paging?
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT * FROM gambar_gallery WHERE enabled = 1 AND tipe ='0' ";
+		$sql = "SELECT * FROM gambar_gallery 
+			WHERE enabled = 1 AND tipe ='0' 
+			ORDER BY urut";
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
@@ -40,7 +42,7 @@ class First_gallery_m extends CI_Model {
 			if ($data[$i]['gambar'] == '')
 			{
 				$galeri = $data[$i]['id'];
-				$sql   = "SELECT gambar FROM gambar_gallery WHERE ((enabled = '1') AND ((parrent = '".$galeri."') OR (id = '".$galeri."')) AND (gambar<>'')) LIMIT 1";
+				$sql = "SELECT gambar FROM gambar_gallery WHERE ((enabled = '1') AND ((parrent = '".$galeri."') OR (id = '".$galeri."')) AND (gambar<>'')) LIMIT 1";
 				$query = $this->db->query($sql);
 				$row  = $query->row_array();
 				$data[$i]['gambar'] = $row['gambar'];
@@ -70,8 +72,10 @@ class First_gallery_m extends CI_Model {
 	public function sub_gallery_show($gal=0, $offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		// FIXME: cover juga ditampilkan di rincian. harusnya tidak?
-		$sql   = "SELECT * FROM gambar_gallery WHERE ((enabled = '1') AND ((parrent = '".$gal."') OR (id = '".$gal."'))) ";
+		$sql = "SELECT * FROM gambar_gallery 
+			WHERE ((enabled = '1') AND (parrent = '".$gal."')) 
+			ORDER BY urut
+			";
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);

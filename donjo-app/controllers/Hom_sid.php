@@ -8,7 +8,6 @@ class Hom_sid extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('header_model');
-		$this->load->model('config_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 1;

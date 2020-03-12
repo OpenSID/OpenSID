@@ -277,8 +277,6 @@
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
-		// Gunakan judul untuk url artikel
-		$slug = url_title($data['judul'], 'dash', TRUE);
 
 	  $fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
@@ -368,7 +366,6 @@
 		else
 		{
 			$this->db->where('id', $id);
-			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->update('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
@@ -433,8 +430,7 @@
 		$sql = "DELETE FROM kategori WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function artikel_lock($id='', $val=0)
@@ -442,8 +438,7 @@
 		$sql = "UPDATE artikel SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function komentar_lock($id='', $val=0)
@@ -502,36 +497,13 @@
 		return $data;
 	}
 
-	public function artikel_show()
-	{
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled=? AND k.tipe = 1
-			ORDER BY a.tgl_upload DESC LIMIT 4";
-		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$id = $data[$i]['id'];
-			$pendek = str_split($data[$i]['isi'], 100);
-			$data[$i]['isi_short'] = $pendek[0];
-			$panjang = str_split($data[$i]['isi'], 150);
-			$data[$i]['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
-		}
-		return $data;
-	}
-
 	public function insert_kategori()
 	{
 		$data['kategori'] = $_POST['kategori'];
 		$data['tipe'] = '2';
 		$outp = $this->db->insert('kategori', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function insert_comment($id=0)
@@ -541,8 +513,7 @@
 		$data['id_artikel'] = $id;
 		$outp = $this->db->insert('komentar', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_komentar($id=0)
@@ -561,8 +532,7 @@
 		$sql = "UPDATE artikel SET headline = 1 WHERE id = ?";
 		$outp = $this->db->query($sql, $id);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function slide($id=0)
@@ -582,8 +552,7 @@
 			$outp = $this->db->query($sql, $id);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function jml_artikel()

@@ -269,7 +269,7 @@
 			case "19": return "Jenis Asuransi"; break;
 			case "21": return "Klasifikasi Sosial"; break;
 			case "24": return "Penerima BOS"; break;
-			default: return "Pendidikan";
+			default: return NULL;
 		}
 	}
 
@@ -633,14 +633,6 @@
 		return $data;
 	}
 
-	public function get_config()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$data = $query->row_array();
-		return $data;
-	}
-
 	public function list_data_rentang()
 	{
 		$query = $this->db->where('status', 1)->order_by('dari')->get('tweb_penduduk_umur');
@@ -674,8 +666,7 @@
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->insert('tweb_penduduk_umur', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_rentang($id=0)
@@ -686,16 +677,16 @@
 		else
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->where('id',$id)->update('tweb_penduduk_umur', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_rentang($id=0)
 	{
 		$sql = "DELETE FROM tweb_penduduk_umur WHERE id = '$id' ";
 		$outp = $this->db->query($sql);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_rentang()
@@ -712,8 +703,7 @@
 		}
 		else $outp = false;
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 }

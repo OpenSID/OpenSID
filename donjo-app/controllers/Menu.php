@@ -203,6 +203,7 @@ class Menu extends Admin_Controller {
 	public function delete_sub_menu($tip = '', $menu = '', $id = 0)
 	{
 		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
+		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete($id);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
@@ -210,6 +211,7 @@ class Menu extends Admin_Controller {
 	public function delete_all_sub_menu($tip = 1, $menu = '')
 	{
 		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
+		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete_all();
 		redirect("menu/sub_menu/$tip/$menu");
 	}

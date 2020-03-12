@@ -44,7 +44,7 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
-    $this->load->model('web_dokumen_model');
+		$this->load->model('web_dokumen_model');
 	}
 
 	public function auth()
@@ -83,7 +83,7 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-		$data['artikel'] = $this->first_artikel_m->artikel_show(0, $data['paging']->offset, $data['paging']->per_page);
+		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
@@ -287,6 +287,12 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
+		if (is_null($data['heading']))
+		{
+			// Permintaan statistik tidak dikenal
+			show_404();
+		}
+
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
 		$data['tipe'] = $tipe;
@@ -365,25 +371,25 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_table_peraturan()
-  {
-    $kategori_dokumen = '';
-    $tahun_dokumen = '';
-    $tentang_dokumen = '';
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
+	public function ajax_table_peraturan()
+	{
+		$kategori_dokumen = '';
+		$tahun_dokumen = '';
+		$tentang_dokumen = '';
+		$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
-  // function filter peraturan
-  public function filter_peraturan()
-  {
-    $kategori_dokumen = $this->input->post('kategori');
-    $tahun_dokumen = $this->input->post('tahun');
-    $tentang_dokumen = $this->input->post('tentang');
+	// function filter peraturan
+	public function filter_peraturan()
+	{
+		$kategori_dokumen = $this->input->post('kategori');
+		$tahun_dokumen = $this->input->post('tahun');
+		$tentang_dokumen = $this->input->post('tentang');
 
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
+		$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
 	public function informasi_publik()
 	{
@@ -400,9 +406,9 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_informasi_publik()
-  {
-  	$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
+	public function ajax_informasi_publik()
+	{
+		$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
 		$data = array();
 		$no = $_POST['start'];
 
@@ -420,12 +426,12 @@ class First extends Web_Controller {
 		}
 
 		$output = array(
-     	"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
-      "recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
+			"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
+			"recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
 			'data' => $data
 		);
-    echo json_encode($output);
-  }
+		echo json_encode($output);
+	}
 
 	public function agenda($stat=0)
 	{
@@ -435,20 +441,20 @@ class First extends Web_Controller {
 		$this->load->view($this->template,$data);
 	}
 
-	public function kategori($kat=0, $p=1)
+	public function kategori($id, $p=1)
 	{
 		$data = $this->includes;
 
 		$data['p'] = $p;
-		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($kat);
-		$data['paging']  = $this->first_artikel_m->paging_kat($p, $kat);
-		$data['paging_page']  = 'kategori/'.$kat;
+		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($id);
+		$data['paging']  = $this->first_artikel_m->paging_kat($p, $id);
+		$data['paging_page']  = 'kategori/'.$id;
 		$data['paging_range'] = 3;
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
-		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $kat);
+		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
 		$this->_get_common_data($data);
 		$this->load->view($this->template, $data);
@@ -493,7 +499,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
-		$data['desa'] = $this->first_m->get_data();
+		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();

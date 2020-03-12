@@ -8,6 +8,8 @@ class Plan extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_lokasi_model');
+		$this->load->model('wilayah_model');
+		$this->load->model('config_model');
 		$this->load->database();
 		$this->modul_ini = 9;
 	}
@@ -69,13 +71,13 @@ class Plan extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		$data['desa'] = $this->plan_lokasi_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();;
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['dusun'] = $this->plan_lokasi_model->list_dusun();
 
 		if ($id)
 		{
-			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+			$data['lokasi'] = $this->config_model->get_data();
 			$data['form_action'] = site_url("plan/update/$id/$p/$o");
 		}
 		else
@@ -101,11 +103,16 @@ class Plan extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 		if ($id)
-			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+			$data['lokasi'] = $this->config_model->get_data();
 		else
 			$data['lokasi'] = NULL;
 
-		$data['desa'] = $this->plan_lokasi_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
 		$header= $this->header_model->get_data();
 		$this->load->view('header', $header);

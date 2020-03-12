@@ -134,9 +134,7 @@
 		// hapus data disposisi dari post
 		// surat masuk
 		unset($data['disposisi_kepada']);
-		// Normalkan tanggal
-		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
-		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		$this->validasi_surat_masuk($data);
 
 		// Adakah lampiran yang disertakan?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
@@ -208,6 +206,18 @@
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 
+	private function validasi_surat_masuk(&$data)
+	{
+		// Normalkan tanggal
+		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
+		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		// Bersihkan data
+		$data['nomor_surat'] = strip_tags($data['nomor_surat']);
+		$data['pengirim'] = alfanumerik_spasi($data['pengirim']);
+		$data['isi_singkat'] = strip_tags($data['isi_singkat']);
+		$data['isi_disposisi'] = strip_tags($data['isi_disposisi']);
+	}
+
 	/**
 	 * Update data di tabel surat_masuk
 	 * @param   integer  $idSuratMasuk  Id berkas untuk query ke database
@@ -229,9 +239,7 @@
 
 		$_SESSION['error_msg'] = NULL;
 
-		// Normalkan tanggal
-		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
-		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		$this->validasi_surat_masuk($data);
 
 		// Ambil nama berkas scan lama dari database
 		$berkasLama = $this->getNamaBerkasScan($idSuratMasuk);

@@ -33,9 +33,13 @@ class Shortcode_model extends Keuangan_grafik_model {
 		{
 			return $this->grafik_rp_apbd($type, $thn);
 		}
-		elseif($type == 'lap-RP-APBD')
+		elseif ($type == 'lap-RP-APBD')
 		{
 			return $this->tabel_rp_apbd($type, $thn);
+		}
+    elseif ($type == 'lap-RP-APBD-Bidang')
+		{
+			return $this->tabel_rp_apbd_bidang($type, $thn);
 		}
 	}
 
@@ -54,8 +58,24 @@ class Shortcode_model extends Keuangan_grafik_model {
 		$data = $this->lap_rp_apbd($thn);
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
+    $belanja_bidang = $data['belanja_bidang'];
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
+		ob_start();
+			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
+		$output = ob_get_clean();
+		return $output;
+	}
+
+  private function tabel_rp_apbd_bidang($type, $thn)
+	{
+		$data = $this->lap_rp_apbd($thn);
+		$pendapatan = $data['pendapatan'];
+		$belanja = $data['belanja'];
+    $belanja_bidang = $data['belanja_bidang'];
+		$pembiayaan = $data['pembiayaan'];
+    $pembiayaan_keluar = $data['pembiayaan_keluar'];
+    $jenis = 'bidang';
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
@@ -79,12 +99,17 @@ class Shortcode_model extends Keuangan_grafik_model {
 	{
 		if ($type == "lap-RP-APBD")
 		{
-			$output = "<i class='fa fa-table'></i> Tabel Laporan Realisasi Pelaksanaan APBDes TA. " . $thn . ", ";
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes TA. " . $thn . ", ";
+			return $output;
+		}
+    elseif ($type == "lap-RP-APBD-Bidang")
+		{
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes TA. " . $thn . ", ";
 			return $output;
 		}
 		elseif ($type == "grafik-RP-APBD")
 		{
-			$output = "<i class='fa fa-bar-chart'></i> Grafik Realisasi Pelaksanaan APBDes TA. " . $thn . ", ";
+			$output = "<i class='fa fa-bar-chart'></i> Grafik APBDes TA. " . $thn . ", ";
 			return $output;
 		}
 	}

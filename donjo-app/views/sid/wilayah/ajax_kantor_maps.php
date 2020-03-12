@@ -14,152 +14,50 @@ window.onload = function()
 	//Inisialisasi tampilan peta
 	var peta_kantor = L.map('mapx').setView(posisi, zoom);
 
+	//1. Menampilkan overlayLayers Peta Semua Wilayah
+	var marker_desa = [];
+	var marker_dusun = [];
+	var marker_rw = [];
+	var marker_rt = [];
+
+	//WILAYAH DESA
+	<?php if (!empty($desa['path'])): ?>
+    set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+	<?php endif; ?>
+
+	//WILAYAH DUSUN
+  <?php if (!empty($dusun_gis)): ?>
+    set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+  <?php endif; ?>
+
+  //WILAYAH RW
+  <?php if (!empty($rw_gis)): ?>
+    set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+  <?php endif; ?>
+
+  //WILAYAH RT
+  <?php if (!empty($rt_gis)): ?>
+    set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+  <?php endif; ?>
+
+	//2. Menampilkan overlayLayers Peta Semua Wilayah
+  <?php if (!empty($wil_atas['path'])): ?>
+    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt);
+  <?php else: ?>
+    var overlayLayers = {};
+  <?php endif; ?>
+
 	//Menampilkan BaseLayers Peta
-	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta_kantor);
+  var baseLayers = getBaseLayers(peta_kantor, '<?=$this->setting->google_key?>');
 
-	var baseLayers = {
-		'OpenStreetMap': defaultLayer,
-		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-		'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-	};
-
-	var lokasi_kantor = L.marker(posisi, {draggable: true}).addTo(peta_kantor);
-
-	lokasi_kantor.on('dragend', function(e){
-		$('#lat').val(e.target._latlng.lat);
-		$('#lng').val(e.target._latlng.lng);
-		$('#map_tipe').val("HYBRID");
-		$('#zoom').val(peta_kantor.getZoom());
-	})
-
-	peta_kantor.on('zoomstart zoomend', function(e){
-		$('#zoom').val(peta_kantor.getZoom());
-	})
-
-	$('#lat').on("input",function(e) {
-		if (!$('#validasi1').valid())
-		{
-			$("#simpan_kantor").attr('disabled', true);
-			return;
-		} else
-		{
-			$("#simpan_kantor").attr('disabled', false);
-		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		lokasi_kantor.setLatLng(latLng);
-		peta_kantor.setView(latLng,zoom);
-	})
-
-	$('#lng').on("input",function(e) {
-		if (!$('#validasi1').valid())
-		{
-			$("#simpan_kantor").attr('disabled', true);
-			return;
-		} else
-		{
-			$("#simpan_kantor").attr('disabled', false);
-		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		lokasi_kantor.setLatLng(latLng);
-		peta_kantor.setView(latLng, zoom);
-	})
-
-	//Unggah Peta dari file GPX/KML
+	//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
 	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
-
-	control = L.Control.fileLayerLoad({
-		addToMap: false,
-		formats: [
-			'.gpx',
-			'.kml'
-		],
-		fitBounds: true,
-		layerOptions: {
-			pointToLayer: function (data, latlng) {
-				return L.marker(latlng);
-			},
-
-		}
-	});
-	control.addTo(peta_kantor);
-
-	control.loader.on('data:loaded', function (e) {
-		peta_kantor.removeLayer(lokasi_kantor);
-		var type = e.layerType;
-		var layer = e.layer;
-		var coords=[];
-		var geojson = layer.toGeoJSON();
-		var shape_for_db = JSON.stringify(geojson);
-
-		var polygon =
-		L.geoJson(JSON.parse(shape_for_db), {
-			pointToLayer: function (feature, latlng) {
-				return L.marker(latlng);
-			},
-			onEachFeature: function (feature, layer) {
-				coords.push(feature.geometry.coordinates);
-			}
-		}).addTo(peta_kantor)
-
-		document.getElementById('lat').value = coords[0][1];
-		document.getElementById('lng').value = coords[0][0];
-	});
-
-	//Geolocation GPS
-	var lc = L.control.locate({
-		icon: 'fa fa-map-marker',
-    strings: {
-        title: "Lokasi Saya",
-				locateOptions: {enableHighAccuracy: true},
-				popup: "Anda berada disekitar {distance} {unit} dari titik ini"
-    }
-
-	}).addTo(peta_kantor);
-
-	peta_kantor.on('locationfound', function(e) {
-			$('#lat').val(e.latlng.lat);
-			$('#lng').val(e.latlng.lng);
-	    lokasi_kantor.setLatLng(e.latlng);
-	    peta_kantor.setView(e.latlng)
-	});
-
-	peta_kantor.on('startfollowing', function() {
-    peta_kantor.on('dragstart', lc._stopFollowing, lc);
-	}).on('stopfollowing', function() {
-    peta_kantor.off('dragstart', lc._stopFollowing, lc);
-	});
-
-	//Export ke GPX
-	var geojson = lokasi_kantor.toGeoJSON();
-	var shape_for_db = JSON.stringify(geojson);
-	var gpxData = togpx(JSON.parse(shape_for_db));
-
-	$("#exportGPX").on('click', function (event) {
-		data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
-		$(this).attr({
-			'href': data,
-			'target': '_blank'
-		});
-	});
+	showCurrentPoint(posisi, peta_kantor);
 
 	//Menambahkan zoom scale ke peta
 	L.control.scale().addTo(peta_kantor);
 
-	L.control.layers(baseLayers, null, {position: 'topleft', collapsed: true}).addTo(peta_kantor);
+	L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_kantor);
 
 }; //EOF window.onload
 </script>
@@ -273,33 +171,6 @@ window.onload = function()
 				dataType: 'json',
 				data: {lat: lat, lng: lng, zoom: zoom, map_tipe: map_tipe, id: id},
 			});
-		});
-	});
-</script>
-
-<script>
-	$(document).ready(function(){
-		$('#resetme').click(function(){
-			$("#validasi1").validate({
-				errorElement: "label",
-				errorClass: "error",
-				highlight:function (element){
-					$(element).closest(".form-group").addClass("has-error");
-				},
-				unhighlight:function (element){
-					$(element).closest(".form-group").removeClass("has-error");
-				},
-				errorPlacement: function (error, element) {
-					if (element.parent('.input-group').length) {
-						error.insertAfter(element.parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-
-			window.location.reload(false);
-
 		});
 	});
 </script>
