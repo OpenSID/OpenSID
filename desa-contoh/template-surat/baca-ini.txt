@@ -1,5 +1,5 @@
 *******************************
-Folder: desa/surat/
+Folder: desa/template-surat/
 *******************************
 
 Folder ini tempat menyimpan semua surat cetak yang telah disesuaikan

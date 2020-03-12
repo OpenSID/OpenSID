@@ -4311,9 +4311,9 @@ class Migrasi_1906_ke_1907 extends CI_model {
 			$this->db->insert('setting_aplikasi', $data);
 		}
 		// Tambah folder desa untuk menyimpan kop surat
-		if (!file_exists('/desa/surat/raw'))
+		if (!file_exists('/desa/template-surat/raw'))
 		{
-			mkdir('desa/surat/raw');
+			mkdir('desa/template-surat/raw');
 		}
 		// Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas
 		$data = array();

@@ -511,7 +511,7 @@
 		$file = SuratExportDesa($url);
 		if ($file == "")
 		{
-			$data['lokasi_rtf'] = "surat/$url/";
+			$data['lokasi_rtf'] = "template-surat/$url/";
 		}
 		else
 		{
