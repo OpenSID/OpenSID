@@ -768,11 +768,9 @@ function chmod_r($dir, $dirPermissions, $filePermissions) {
         $fullPath = $dir."/".$file;
  
          if(is_dir($fullPath)) {
-            echo('DIR:' . $fullPath . "\n");
             chmod($fullPath, $dirPermissions);
             chmod_r($fullPath, $dirPermissions, $filePermissions);
          } else {
-            echo('FILE:' . $fullPath . "\n");
             chmod($fullPath, $filePermissions);
          }
  
