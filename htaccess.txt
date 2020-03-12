@@ -10,7 +10,7 @@ RewriteBase /
 # RewriteBase /nama-sub-folder/
 
 # Prevent index dirs
-RewriteCond $1 ^(surat)
+RewriteCond $1 
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
 # General dirs / files
