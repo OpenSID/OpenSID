@@ -24,7 +24,8 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		$this->db->query("ALTER TABLE widget MODIFY COLUMN setting TEXT NULL");	  
 		$this->db->query("ALTER TABLE log_penduduk MODIFY COLUMN tgl_peristiwa DATETIME DEFAULT CURRENT_TIMESTAMP");
 		//Ganti nama subfolder surat di folder desa
-		rename('desa/surat', 'desa/template-surat');	
+		rename('desa/surat', 'desa/template-surat');
+		chmod_r('desa/template-surat', 0755, 0644);	
 		//Ganti nama subfolder css/default di folder desa
 		rename('desa/css/default', 'desa/css/klasik');
 		$tema_aktif = $this->db->select('value')

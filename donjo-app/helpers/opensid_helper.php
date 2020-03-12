@@ -759,4 +759,25 @@ function pesan_sukses($outp, $gagal_saja=false)
 		$CI->session->success = $outp ? 1 : -1;
 }
 
+function chmod_r($dir, $dirPermissions, $filePermissions) {
+      $dp = opendir($dir);
+       while($file = readdir($dp)) {
+         if (($file == ".") || ($file == ".."))
+            continue;
+ 
+        $fullPath = $dir."/".$file;
+ 
+         if(is_dir($fullPath)) {
+            echo('DIR:' . $fullPath . "\n");
+            chmod($fullPath, $dirPermissions);
+            chmod_r($fullPath, $dirPermissions, $filePermissions);
+         } else {
+            echo('FILE:' . $fullPath . "\n");
+            chmod($fullPath, $filePermissions);
+         }
+ 
+       }
+     closedir($dp);
+  }
+
 ?>
