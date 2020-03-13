@@ -197,7 +197,7 @@
 		$this->db->where('id', $nik);
 		$this->db->update('tweb_penduduk', $default);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($no_kk='')
@@ -239,7 +239,7 @@
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_anggota($id=0, $id_kk)
@@ -256,7 +256,7 @@
 			$this->db->where('id', $id_kk)->update('tweb_rtm', array('nik_kepala' => $id));
 		}
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function rem_anggota($kk=0, $id=0)
@@ -413,7 +413,7 @@
 		}
 		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 }

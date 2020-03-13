@@ -97,7 +97,7 @@
 		$data = $_POST;
 		$outp = $this->db->insert('point', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -106,7 +106,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('point', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -114,7 +114,7 @@
 		$sql = "DELETE FROM point WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -131,7 +131,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_point($point=1)
@@ -158,7 +158,7 @@
 		$data['parrent'] = $parrent;
 		$data['tipe'] = 2;
 		$outp = $this->db->insert('point', $data);
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_sub_point($id=0)
@@ -166,7 +166,7 @@
 	  $data = $_POST;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('point', $data);
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_sub_point($id='')
@@ -174,7 +174,7 @@
 		$sql = "DELETE FROM point WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_point()
@@ -191,7 +191,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function point_lock($id='', $val=0)
@@ -199,7 +199,7 @@
 		$sql = "UPDATE point SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_point($id=0)

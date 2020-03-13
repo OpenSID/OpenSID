@@ -114,7 +114,7 @@
 			$outp = $this->db->insert('line',$data);
 		}
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -139,7 +139,7 @@
 		$this->db->where('id',$id);
 		$outp = $this->db->update('line',$data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -147,7 +147,7 @@
 		$sql = "DELETE FROM line WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -164,7 +164,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_line($line=1)
@@ -217,7 +217,7 @@
 			$outp = $this->db->insert('line', $data);
 		}
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_sub_line($id=0)
@@ -253,7 +253,7 @@
 		$sql = "DELETE FROM line WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_line()
@@ -270,7 +270,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function line_lock($id='', $val=0)
@@ -278,7 +278,7 @@
 		$sql = "UPDATE line SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_line($id=0)

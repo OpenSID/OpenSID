@@ -164,7 +164,7 @@
 			{
 				$outp = $this->delete($id);
 				
-				pesan_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+				status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 			}
 		}
 	}

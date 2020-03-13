@@ -111,7 +111,7 @@
 		$data['id_user'] = $_SESSION['user'];
 		$outp = $this->db->insert('komentar', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -121,7 +121,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('komentar', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -129,7 +129,7 @@
 		$sql = "DELETE FROM komentar WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -146,7 +146,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function komentar_lock($id='',$val=0)
@@ -156,7 +156,7 @@
 					'enabled' => $val,
 					'updated_at' => date('Y-m-d H:i:s')));
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_komentar($id=0)

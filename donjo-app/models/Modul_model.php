@@ -154,7 +154,7 @@
 		if ($data['aktif'] != $aktif_lama)
 			$this->set_aktif_submodul($id, $data['aktif']);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	private function set_aktif_submodul($id, $aktif)
@@ -177,7 +177,7 @@
 		$sql = "DELETE FROM setting_modul WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -194,7 +194,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	/*

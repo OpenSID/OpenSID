@@ -339,7 +339,7 @@
 	{
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
 		
-		pesan_sukses($hasil); //Tampilkan Pesan
+		status_sukses($hasil); //Tampilkan Pesan
 	}
 
 	public function update($id)
@@ -351,7 +351,7 @@
 		);
 		$hasil = $this->db->where('id',$id)->update('suplemen', $data);
 
-		pesan_sukses($hasil); //Tampilkan Pesan
+		status_sukses($hasil); //Tampilkan Pesan
 	}
 
 	public function add_terdata($post, $id)

@@ -449,7 +449,7 @@
 		$sql = "DELETE FROM kategori WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function artikel_lock($id='', $val=0)
@@ -457,7 +457,7 @@
 		$sql = "UPDATE artikel SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function komentar_lock($id='', $val=0)
@@ -522,7 +522,7 @@
 		$data['tipe'] = '2';
 		$outp = $this->db->insert('kategori', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function insert_comment($id=0)
@@ -532,7 +532,7 @@
 		$data['id_artikel'] = $id;
 		$outp = $this->db->insert('komentar', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_komentar($id=0)
@@ -551,7 +551,7 @@
 		$sql = "UPDATE artikel SET headline = 1 WHERE id = ?";
 		$outp = $this->db->query($sql, $id);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function slide($id=0)
@@ -571,7 +571,7 @@
 			$outp = $this->db->query($sql, $id);
 		}
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function jml_artikel()

@@ -111,10 +111,17 @@ class Web_kategori_model extends CI_Model {
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
+		$this->sterilkan_kategori($data);
 		$outp = $this->db->insert('kategori', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 
+	}
+
+	private function sterilkan_kategori(&$data)
+	{
+		unset($data['kategori_lama']);
+		$data['kategori'] = strip_tags($data['kategori']);
 	}
 
 	private function cek_nama($kategori)
@@ -144,11 +151,11 @@ class Web_kategori_model extends CI_Model {
 			if (!$this->cek_nama($data['kategori']))
 				return;
 		}
-		unset($data['kategori_lama']);
+		$this->sterilkan_kategori($data);
 		$outp = $this->db->where('id', $id)
 			->update('kategori', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')
@@ -157,7 +164,7 @@ class Web_kategori_model extends CI_Model {
 		$outp = $this->db->query($sql, array($id));
 
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -175,7 +182,7 @@ class Web_kategori_model extends CI_Model {
 		else $outp = false;
 
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_kategori($kategori=1)
@@ -242,7 +249,7 @@ class Web_kategori_model extends CI_Model {
 		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
 		$outp = $this->db->insert('kategori', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_sub_kategori($id=0)
@@ -252,7 +259,7 @@ class Web_kategori_model extends CI_Model {
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kategori', $data);
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_sub_kategori($id='')
@@ -260,7 +267,7 @@ class Web_kategori_model extends CI_Model {
 		$sql = "DELETE FROM kategori WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_kategori()
@@ -277,7 +284,7 @@ class Web_kategori_model extends CI_Model {
 		}
 		else $outp = false;
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function kategori_lock($id='', $val=0)
@@ -285,7 +292,7 @@ class Web_kategori_model extends CI_Model {
 		$sql = "UPDATE kategori SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 		
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_kategori($id=0)

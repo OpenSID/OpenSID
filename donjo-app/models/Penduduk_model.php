@@ -689,7 +689,7 @@
 
 		$outp = $this->db->insert('log_perubahan_penduduk', $log1);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 
 		return $idku;
 	}
@@ -783,7 +783,7 @@
     $this->db->where('id', $id);
     $outp = $this->db->update('tweb_penduduk', $data);
 
-    pesan_sukses($outp); //Tampilkan Pesan
+    status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_position($id=0)
@@ -816,7 +816,7 @@
         $outp = $this->db->insert('tweb_penduduk_map', $data);
       }
     }
-    pesan_sukses($outp); //Tampilkan Pesan
+    status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_penduduk_map($id=0)
@@ -878,7 +878,7 @@
 		$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -895,7 +895,7 @@
 		}
 		else $outp = false;
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function adv_search_proses()

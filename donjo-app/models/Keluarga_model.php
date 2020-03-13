@@ -238,7 +238,7 @@
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($kk_id, $data['nik_kepala'], 1);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	private function validasi_data_keluarga(&$data)
@@ -336,7 +336,7 @@
 		$data['created_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		$id_pend = $this->db->insert_id();
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 
 		// Tulis keluarga baru
 		$data2['nik_kepala'] = $id_pend;
@@ -379,7 +379,7 @@
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($kk_id, $data2['nik_kepala'], 1);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	/* 	Hapus keluarga:
@@ -448,7 +448,7 @@
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_kk_level($id, $id_kk, $kk_level, $kk_level_lama)
@@ -494,7 +494,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function rem_anggota($kk=0, $id=0)
@@ -788,7 +788,7 @@
 		$this->db->where("id", $id);
 		$outp=$this->db->update("tweb_keluarga", $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function pindah_keluarga($id_kk, $id_cluster)

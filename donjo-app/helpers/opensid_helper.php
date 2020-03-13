@@ -750,7 +750,7 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
-function pesan_sukses($outp, $gagal_saja=false)
+function status_sukses($outp, $gagal_saja=false)
 {
 	$CI =& get_instance();
 	if ($gagal_saja)

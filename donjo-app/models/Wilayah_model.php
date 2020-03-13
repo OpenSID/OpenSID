@@ -106,7 +106,7 @@
 		$rt['rt'] = "-";
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id='')
@@ -139,7 +139,7 @@
     $sql = "DELETE FROM tweb_wil_clusterdesa WHERE dusun = '$dusun'";
     $outp = $this->db->query($sql);
 
-    pesan_sukses($outp); //Tampilkan Pesan
+    status_sukses($outp); //Tampilkan Pesan
   }
 
 	//Bagian RW
@@ -181,7 +181,7 @@
 		$rt['rt'] = "-";
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_rw($dusun='', $rw='')
@@ -198,7 +198,7 @@
                 $this->db->where('rt', '0');//rw pasti data rt 0
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_rw($id)
@@ -210,7 +210,7 @@
 		$sql = "DELETE FROM tweb_wil_clusterdesa WHERE rw = '$rw' and dusun = '$dusun'";
 		$outp = $this->db->query($sql, array($id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	//Bagian RT
@@ -245,7 +245,7 @@
 		$data['rw'] = $rw;
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_rt($id=0)
@@ -259,7 +259,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
   public function delete_rt($id=0)
@@ -267,7 +267,7 @@
 		$sql = "DELETE FROM tweb_wil_clusterdesa WHERE id = ?";
 		$outp = $this->db->query($sql, $id);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_penduduk($ex_id=0)
@@ -425,7 +425,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
   public function update_wilayah_dusun_map($id='')
@@ -435,7 +435,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_dusun_maps($id='')
@@ -452,7 +452,7 @@
     $this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_wilayah_rw_map($id='')
@@ -462,7 +462,7 @@
     $this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_rw_maps($dusun='', $rw='')
@@ -479,7 +479,7 @@
     $this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_wilayah_rt_map($id='')
@@ -489,7 +489,7 @@
     $this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_rt_maps($rt_id)

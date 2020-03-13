@@ -36,7 +36,7 @@
 		}
 		unset($data['file_logo']);
 		$outp = $this->db->insert('config', $data);
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	// TODO: tambahkan validasi di form Identitas Desa
@@ -145,7 +145,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('config', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_wilayah()
@@ -155,7 +155,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('config', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 }
