@@ -108,7 +108,7 @@
 			return;
 		}
 		$outp = $this->db->insert('tweb_surat_format', $data);
-		$raw_path = "surat/raw/";
+		$raw_path = "template-surat/raw/";
 
 		// Folder untuk surat ini
 		$folder_surat = LOKASI_SURAT_DESA.$data['url_surat']."/";
