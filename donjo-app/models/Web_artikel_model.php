@@ -157,8 +157,18 @@
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
+		
 		// Gunakan judul untuk url artikel
 		$slug = url_title($data['judul'], 'dash', TRUE);
+
+		//cek slug
+		$cek_slug = $this->db->where('slug', $slug)->get('artikel')->row_array();
+		if ($cek_slug)
+		{
+			$_SESSION['error_msg'].= " -> Slug tidak boleh sama";
+		  $_SESSION['success'] = -1;		  
+		  return;
+		}
 
 		$fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
