@@ -640,6 +640,7 @@ function autocomplete_str($kolom, $tabel)
 
 	return autocomplete_data_ke_str($data);
 }
+
 /**
  * @param array 		(0 => (kolom => teks), 1 => (kolom => teks), ..)
  * @return string 	dalam bentuk siap untuk autocomplete
@@ -748,6 +749,71 @@ function buat_slug($data_slug)
 {
 	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
 	return $slug;
+}
+
+function luas($int=0, $satuan="meter")
+{
+	if (($int / 10000) >= 1)
+	{
+		$ukuran = $int/10000;
+		$pisah = explode('.', $ukuran);
+		$luas['ha'] = number_format($pisah[0]);
+		$luas['meter'] = round(($ukuran-$luas["ha"])*10000, 2);
+	}
+	else
+	{
+		$luas['ha'] =0;
+		$luas['meter'] = round($int,2);	
+	}
+	$hasil = ($int!=0)?$luas[$satuan]:null;
+	return $hasil;
+}
+
+function list_mutasi($mutasi=[])
+{
+	if($mutasi)
+	{
+		foreach($mutasi as $item)
+		{
+			$div = ($item['jenis_mutasi'] == 2)? 'class="error"':null;
+			$hasil = "<p $div>";
+			$hasil .= $item['sebabmutasi'];
+			$hasil .= !empty($item['no_c_desa']) ? " ".ket_mutasi_persil($item['jenis_mutasi'])." C No ".sprintf("%04s",$item['no_c_desa']): null;
+			$hasil .= !empty($item['luasmutasi']) ? ", Seluas ".number_format($item['luasmutasi'])." m<sup>2</sup>, " : null;
+			$hasil .= !empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi'])."<br />" : null;
+			$hasil .= !empty($item['keterangan']) ? $item['keterangan']: null;
+			$hasil .= "</p>";
+
+			echo $hasil;
+		}
+	}		
+}
+
+function format_mutasi($mutasi=[])
+{
+	if($mutasi)
+	{
+		$div = ($mutasi['jenis_mutasi'] == 2)? 'class="out"':null;
+		$hasil = "<p $div>";
+		$hasil .= $mutasi['sebabmutasi'];
+		$hasil .= !empty($mutasi['no_c_desa']) ? " ".ket_mutasi_persil($mutasi['jenis_mutasi'])." C No ".sprintf("%04s",$mutasi['no_c_desa']): null;
+		$hasil .= !empty($mutasi['luasmutasi']) ? ", Seluas ".number_format($mutasi['luasmutasi'])." m<sup>2</sup>, " : null;
+		$hasil .= !empty($mutasi['tanggalmutasi']) ? tgl_indo_out($mutasi['tanggalmutasi'])."<br />" : null;
+		$hasil .= !empty($mutasi['keterangan']) ? $mutasi['keterangan']: null;
+		$hasil .= "</p>";
+
+		echo $hasil;
+
+	}		
+}
+
+function ket_mutasi_persil($id=0)
+{
+	if ($id==1) 
+		$ket = "dari";
+	else
+		$ket = "ke";
+	return $ket;
 }
 
 function status_sukses($outp, $gagal_saja=false)

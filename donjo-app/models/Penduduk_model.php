@@ -12,6 +12,7 @@
 		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
+
 	public function autocomplete($cari='')
 	{
 		$this->db->select('nama')

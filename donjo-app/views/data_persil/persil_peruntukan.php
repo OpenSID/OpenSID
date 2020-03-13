@@ -10,11 +10,11 @@
 ?>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengelolaan Data Peruntukan Persil</h1>
+		<h1>Pengelolaan Data Peruntukan Tanah</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
-			<li class="active">Pengelolaan Peruntukan Persil</li>
+			<li class="active">Pengelolaan Peruntukan Tanah</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -27,9 +27,9 @@
 					<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
 						<div class="box-body">
 							<div class="form-group">
-								<label class="control-label col-sm-3" for="nama">Nama Peruntukan Persil</label>
+								<label class="control-label col-sm-3" for="nama">Nama Peruntukan Tanah</label>
 								<div class="col-sm-8">
-									<input name="nama" class="form-control input-sm" type="text" placeholder="Tuliskan Peruntukan Persil" value="<?=$nama?>"></input>
+									<input name="nama" class="form-control input-sm" type="text" placeholder="Tuliskan Peruntukan Tanah" value="<?=$nama?>"></input>
 									<input type="hidden" name="id" value="<?=$id?>">
 								</div>
 							</div>
@@ -85,7 +85,7 @@
 											<h3 class="box-title">Belum Ada Data</h3>
 										</div>
 										<div class="box-body">
-										Silakan ditambahkan data Peruntukan Persil dengan menggunakan formulir dari menu <a href="<?php site_url("data_persil/persil_peruntukan")?>"><i class="icon-plus"></i> Tambah Data Peruntukan Persil</a>
+										Silakan ditambahkan data Peruntukan Tanah dengan menggunakan formulir dari menu <a href="<?php site_url("data_persil/persil_peruntukan")?>"><i class="icon-plus"></i> Tambah Data Peruntukan Tanah</a>
 										</div>
 									</div>
 								</div>

@@ -158,6 +158,16 @@ $(document).ready(function() {
 			});
 	});
 
+	jQuery.validator.addMethod("angka", function(value, element) {
+		angka_valid = /^\d*$/.test(value);
+		return this.optional(element) || angka_valid;
+	}, "Harus Berisi Angka");
+
+	jQuery.validator.addMethod("luas", function(value, element) {
+		luas_valid = /^\d+(\.\d+)*$/.test(value);
+		return this.optional(element) || luas_valid;
+	}, "Harus Berisi Angka dan untuk koma gunakan \"titik\"");
+
 	jQuery.validator.addMethod("nama", function(value, element) {
 		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
 		return this.optional(element) || valid;
@@ -181,5 +191,4 @@ $(document).ready(function() {
 				nomor_sk: true,
 			});
 	});
-
 })
