@@ -103,7 +103,11 @@ class Web_kategori_model extends CI_Model {
 
 	public function insert()
 	{
+		$this->session->unset_userdata('error_msg');
+		$this->session->set_userdata('success', 1);
 		$data = $_POST;
+		if (!$this->cek_nama($data['kategori']))
+			return;
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
@@ -113,11 +117,36 @@ class Web_kategori_model extends CI_Model {
 
 	}
 
+	private function cek_nama($kategori)
+	{
+		$ada_nama = $this->db->where('kategori', $kategori)
+			->get('kategori')->num_rows();
+		if ($ada_nama)
+		{
+			$_SESSION['error_msg'].= " -> Nama kategori tidak boleh sama";
+		  $_SESSION['success'] = -1;		  
+		  return false;
+		}
+		return true;
+	}
+
 	public function update($id=0)
 	{
+		$this->session->unset_userdata('error_msg');
+		$this->session->set_userdata('success', 1);
 		$data = $_POST;
-		$this->db->where('id',$id);
-		$outp = $this->db->update('kategori', $data);
+		if ($data['kategori'] == $data['kategori_lama'])
+		{
+			return; // Tidak ada yg diubah
+		}
+		else
+		{
+			if (!$this->cek_nama($data['kategori']))
+				return;
+		}
+		unset($data['kategori_lama']);
+		$outp = $this->db->where('id', $id)
+			->update('kategori', $data);
 		
 		pesan_sukses($outp); //Tampilkan Pesan
 	}

@@ -136,7 +136,10 @@ class Web extends Admin_Controller {
 			redirect("web/index/$cat/$p/$o");
 
 		$this->web_artikel_model->update($cat, $id);
-		redirect("web/form/$cat/$p/$o/$id");
+		if ($this->session->success == -1)
+			redirect("web/form/$cat/$p/$o/$id");
+		else
+			redirect("web/index/$cat");
 	}
 
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
