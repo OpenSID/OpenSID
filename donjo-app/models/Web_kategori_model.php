@@ -106,7 +106,18 @@ class Web_kategori_model extends CI_Model {
 		$data = $_POST;
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
-		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
+		$slug = url_title($this->input->post('kategori'), 'dash', TRUE);
+
+		//cek slug
+		$cek_slug = $this->db->where('slug', $slug)->get('kategori')->row_array();
+		if ($cek_slug)
+		{
+			$_SESSION['error_msg'].= " -> Slug tidak boleh sama";
+		  $_SESSION['success'] = -1;		  
+		  return;
+		}
+
+		$data['slug'] = $slug;
 		$outp = $this->db->insert('kategori', $data);
 		
 		pesan_sukses($outp); //Tampilkan Pesan
