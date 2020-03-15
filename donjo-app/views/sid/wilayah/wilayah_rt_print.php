@@ -27,7 +27,7 @@
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
 					<h3> DATA WILAYAH ADMINISTRASI </h3>
-					<h4>RT <?= strtoupper($this->setting->sebutan_dusun)?> <?= strtoupper(ununderscore($dusun))?></h4>
+					<h4>RT <?= strtoupper($this->setting->sebutan_dusun)?> <?= strtoupper($dusun)?></h4>
 				</div>
 				<br>
 					<table class="border thick">
@@ -38,9 +38,9 @@
 								<th width="100">NIK Ketua RT</th>
 								<th width="100">Nama Ketua RT</th>
 								<th width="50">Jumlah KK</th>
-								<th width="50">Jiwa</th>
-								<th width="50">LK</th>
-								<th width="50">PR</th>
+								<th width="50">L+P</th>
+								<th width="50">L</th>
+								<th width="50">P</th>
 							</tr>
 						</thead>
 						<tbody>

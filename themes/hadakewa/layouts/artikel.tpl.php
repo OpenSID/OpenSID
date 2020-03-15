@@ -13,7 +13,7 @@
 
 			<div id="rightcolumn">
 				<div class="innertube">
-					<?php $this->load->view($folder_themes.'/partials/side.right.php');?>
+					<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/side.right.php'));?>
 				</div>
 			</div>
 
@@ -23,5 +23,11 @@
 				?>
 			</div>
 		</div>
+		<?php if ($single_artikel): ?>
+			<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
+			<script>
+				$(".group2").colorbox({rel:'group2', transition:"fade"});
+			</script>
+		<?php endif ?>
 	</body>
 </html>

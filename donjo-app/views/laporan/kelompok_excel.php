@@ -1,6 +1,6 @@
 <?php
 header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=Penduduk.xls");
+header("Content-Disposition: attachment; filename=kelompok_rentan_".date('Y-m-d').".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 ?>
@@ -9,14 +9,13 @@ header("Expires: 0");
 	<!-- Print Body -->
 	<div id="body">
    	<table  width="100%">
-		 	<?php foreach ($config as $data):?>
+		 	<?php foreach ($config as $data): ?>
 				<tbody>
-					<tr>
-						<td width="37%"><h4>PEMERINTAH KABUPATEN/KOTA <?= $data['nama_kabupaten']?></h4></td>
-						<td align= "right" width="17%"><h4>LAMPIRAN A - 9</h4></td></tr>
-					<tr>
-						<td></td>
-						<td width="100%"><h3>LAPORAN BULANAN <?= strtoupper($this->setting->sebutan_desa)?>/KELURAHAN</h3></td>
+					<tr align="center">
+						<td width="100%" colspan="15"><h3>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten']) ?></h3></td>
+					</tr>
+					<tr align="center">
+						<td width="100%" colspan="15"><h4>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</h4></td>
 					</tr>
 				</tbody>
 			</table>
@@ -42,7 +41,7 @@ header("Expires: 0");
 						<td><?= $bln?> </td>
 						<td width="40%"></td>
 					</tr>
-					<?php if ($dusun):?>
+					<?php if ($dusun): ?>
 						<tr>
 							<td><?= ucwords($this->setting->sebutan_dusun)?></td>
 							<td width="3%">:</td>
@@ -51,14 +50,14 @@ header("Expires: 0");
 							</td>
 							<td width="40%"></td>
 						</tr>
-						<?php endif;?>
+						<?php endif; ?>
 					</tbody>
 				</table>
-			<?php endforeach;?>
+			<?php endforeach; ?>
 			<br>
 				<table class="border thick">
 					<thead>
-						<?php if ($_SESSION['dusun']!=''):?>
+						<?php if ($_SESSION['dusun']!=''): ?>
 							<tr>
 								<h3>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $_SESSION['dusun'] ?></h3>
 							</tr>
@@ -99,7 +98,7 @@ header("Expires: 0");
 							$sakit_P=0;
 							$hamil=0;
 						?>
-						<?php foreach ($main as $data):?>
+						<?php foreach ($main as $data): ?>
 							<tr>
 								<td align="right"><?= $data['dusunnya']?></td>
 								<td align="right"><?= $data['rw']?></td>

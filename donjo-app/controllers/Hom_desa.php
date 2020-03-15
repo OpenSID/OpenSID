@@ -1,64 +1,68 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Hom_desa extends CI_Controller{
+class Hom_desa extends Admin_Controller {
 
-	function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		session_start();
-		$this->load->model('user_model');
-		$grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-		if($grup!=1 AND $grup!=2) {
-			if(empty($grup))
-				$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-			else
-				unset($_SESSION['request_uri']);
-			redirect('siteman');
-		}
 		$this->load->model('header_model');
 		$this->load->model('config_model');
-		$this->modul_ini = 1;
+		$this->load->model('wilayah_model');
+		$this->modul_ini = 200;
+<<<<<<< HEAD
+=======
+		$this->sub_modul_ini = 17;
+>>>>>>> opensid/master
 	}
 
-	function index(){
-		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
-		$data['penduduk'] = $this->header_model->penduduk_total();
-		$data['keluarga'] = $this->header_model->keluarga_total();
-		$data['miskin'] = $this->header_model->miskin_total();
-		$data['kelompok'] = $this->header_model->kelompok_total();
-		$data['rtm'] = $this->header_model->rtm_total();
-		$data['dusun'] = $this->header_model->dusun_total();
-		// Menampilkan menu dan sub menu aktif
-		$nav['act']= 1;
-		$nav['act_sub'] = 16;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header',$header);
-		$this->load->view('nav',$nav);
-		$this->load->view('home/desa',$data);
-		$this->load->view('footer');
+	public function index()
+	{
+		redirect('hom_desa/konfigurasi');
 	}
 
-	function donasi(){
-		// Menampilkan menu dan sub menu aktif
-		$nav['act']= 1;
-		$nav['act_sub'] = 19;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header',$header);
-		$this->load->view('nav',$nav);
-		$this->load->view('home/donasi');
-		$this->load->view('footer');
-	}
-
-	function konfigurasi(){
+	public function konfigurasi()
+	{
 		$this->load->model('provinsi_model');
+<<<<<<< HEAD
 		// Menampilkan menu dan sub menu aktif
-		$nav['act']= 1;
+		$nav['act'] = 1;
 		$nav['act_sub'] = 17;
 		$header = $this->header_model->get_data();
 
 		$data['main'] = $this->config_model->get_data();
+		$this->load->view('header',$header);
+		$this->load->view('nav',$nav);
+		$data['list_provinsi'] = $this->provinsi_model->list_data();
+		$this->load->view('home/konfigurasi',$data);
+		$this->load->view('footer');
+	}
+
+  public function konfigurasi_form()
+	{
+		$this->load->model('provinsi_model');
+		// Menampilkan menu dan sub menu aktif
+		$header = $this->header_model->get_data();
+
+=======
+>>>>>>> opensid/master
+		$data['main'] = $this->config_model->get_data();
+		$data['list_provinsi'] = $this->provinsi_model->list_data();
+		$header = $this->header_model->get_data();
+		
+		$this->load->view('header',$header);
+		$this->load->view('nav',$nav);
+		$this->load->view('home/konfigurasi',$data);
+		$this->load->view('footer');
+	}
+
+  public function konfigurasi_form()
+	{
+		$this->load->model('provinsi_model');
+		$header = $this->header_model->get_data();
+		$data['main'] = $this->config_model->get_data();
+
 		$this->load->view('header',$header);
 		$this->load->view('nav',$nav);
 		// Buat row data desa di konfigurasi_form apabila belum ada data desa
@@ -69,36 +73,106 @@ class Hom_desa extends CI_Controller{
 		$this->load->view('footer');
 	}
 
-	function insert(){
+	public function insert()
+	{
 		$this->config_model->insert();
 		redirect('hom_desa/konfigurasi');
 	}
 
-	function update($id=''){
+	public function update($id='')
+	{
 		$this->config_model->update($id);
 		redirect("hom_desa/konfigurasi");
 	}
 
-	function ajax_kantor_maps(){
-		$data['desa'] = $this->config_model->get_data();
+	public function ajax_kantor_maps()
+	{
+		$data_desa = $this->config_model->get_data();
+
+		$data['wil_ini'] = $data_desa;
+    $data['wil_atas']['lat'] = -1.0546279422758742;
+    $data['wil_atas']['lng'] = 116.71875000000001;
+    $data['wil_atas']['zoom'] = 4;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+    $data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+    $data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+    $data['breadcrumb'] = array(
+    	array('link' => site_url("hom_desa/konfigurasi"), 'judul' => "Identitas ".ucwords($this->setting->sebutan_desa)),
+    );
 		$data['form_action'] = site_url("hom_desa/update_kantor_maps/");
-		$this->load->view("home/ajax_kantor_desa_maps", $data);
+
+    $header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view("sid/wilayah/ajax_kantor_maps", $data);
+		$this->load->view('footer');
 	}
 
-	function ajax_wilayah_maps(){
-		$data['desa'] = $this->config_model->get_data();
+	public function ajax_wilayah_maps()
+	{
+<<<<<<< HEAD
+		$nav['act_sub'] = 17;
+		$data_desa = $this->config_model->get_data();
+
+		$data['wil_ini'] = $data_desa;
+    $data['wil_atas']['lat'] = -1.0546279422758742;
+    $data['wil_atas']['lng'] = 116.71875000000001;
+    $data['wil_atas']['zoom'] = 4;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+    $data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+    $data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+    $data['breadcrumb'] = array(
+    	array('link' => site_url("hom_desa/konfigurasi"), 'judul' => "Identitas ".ucwords($this->setting->sebutan_desa)),
+    );
+=======
+		$data_desa = $this->config_model->get_data();
+		$data['wil_ini'] = $data_desa;
+		$data['wil_atas']['lat'] = -1.0546279422758742;
+		$data['wil_atas']['lng'] = 116.71875000000001;
+		$data['wil_atas']['zoom'] = 4;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+		$data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+		$data['breadcrumb'] = array(
+			array('link' => site_url("hom_desa/konfigurasi"), 'judul' => "Identitas ".ucwords($this->setting->sebutan_desa)),
+		);
+>>>>>>> opensid/master
 		$data['form_action'] = site_url("hom_desa/update_wilayah_maps/");
-		$this->load->view("home/ajax_wilayah_desa_maps", $data);
+<<<<<<< HEAD
+
+    $header = $this->header_model->get_data();
+=======
+		$header = $this->header_model->get_data();
+		
+>>>>>>> opensid/master
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
+		$this->load->view('footer');
 	}
 
-	function update_kantor_maps(){
+	public function update_kantor_maps()
+	{
 		$this->config_model->update_kantor();
 		redirect("hom_desa/konfigurasi");
 	}
 
-	function update_wilayah_maps(){
+	public function update_wilayah_maps()
+	{
 		$this->config_model->update_wilayah();
-			redirect("hom_desa/konfigurasi");
+		redirect("hom_desa/konfigurasi");
 	}
 
 }

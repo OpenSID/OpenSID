@@ -7,8 +7,8 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($tip==1): ?>class="active"<?php endif;?>><a href="<?=site_url('menu/index/1')?>">Menu Statis</a></li>
-     	<li <?php if ($tip==2): ?>class="active"<?php endif;?>><a href="<?=site_url('kategori/clear')?>">Menu Dinamis / Kategori</a></li>
+			<li <?php if ($tip==1): ?>class="active"<?php endif; ?>><a href="<?= site_url('menu/index/1')?>">Menu Statis</a></li>
+     	<li <?php if ($tip==2): ?>class="active"<?php endif; ?>><a href="<?= site_url('kategori/clear')?>">Menu Dinamis / Kategori</a></li>
 		</ul>
 	</div>
 </div>

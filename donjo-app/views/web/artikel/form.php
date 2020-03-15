@@ -8,10 +8,11 @@
 		plugins: [
 					"advlist autolink link image lists charmap print preview hr anchor pagebreak",
 					"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code keuangan_grafik laporan_realisasi"
 		],
 		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
-		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code | fontselect fontsizeselect",
+		toolbar3: "| laporan_realisasi | keuangan_grafik ",
 		image_advtab: true ,
 		external_filemanager_path:"<?= base_url()?>assets/filemanager/",
 		filemanager_title:"Responsive Filemanager" ,
@@ -30,14 +31,16 @@
 		content_css: [
 			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
 			'//www.tinymce.com/css/codepen.min.css'
-		]
+		],
+		relative_urls : false,
+		remove_script_host : false
 	});
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-    <h1>Form Artikel : <?php if ($kategori):?><?=$kategori['kategori'];?><?php else:?>Artikel Statis<?php endif;?></h1>
+    <h1>Form Artikel : <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url("web/index/$cat")?>"> Daftar Artikel</a></li>
 			<li class="active">Form Artikel</li>
 		</ol>
@@ -51,6 +54,9 @@
 							<a href="<?=site_url("web/index/$cat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
             	</a>
+            	<?php if ($artikel['slug']): ?>
+            		<a href="<?= site_url('first/artikel/'.$artikel['thn'].'/'.$artikel['bln'].'/'.$artikel['hri'].'/'.$artikel['slug']) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+            	<?php endif; ?>
 						</div>
 						<div class="box-body">
 			  			<div class="form-group">
@@ -59,7 +65,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Isi Artikel</label>
-								<textarea name="isi"  class="form-control input-sm" style="height:350px;">
+								<textarea name="isi"  class="form-control input-sm required" style="height:350px;">
 				  				<?=$artikel['isi']?>
 								</textarea>
 							</div>
@@ -77,13 +83,13 @@
 						<div class="box-body no-padding">
               <div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar']):?>
+									<?php if ($artikel['gambar']): ?>
 					          <input type="hidden" name="old_gambar" value="<?= $artikel['gambar']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $artikel['gambar']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar">Gambar Utama</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path">
@@ -96,13 +102,13 @@
 							</div>
               <div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar1']):?>
+									<?php if ($artikel['gambar1']): ?>
 					          <input type="hidden" name="old_gambar1" value="<?= $artikel['gambar1']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar1'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar1_hapus" value="<?= $artikel['gambar1']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar1">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path1">
@@ -115,13 +121,13 @@
 							</div>
 							<div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar2']):?>
+									<?php if ($artikel['gambar2']): ?>
 					          <input type="hidden" name="old_gambar2" value="<?= $artikel['gambar2']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar2'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar2_hapus" value="<?= $artikel['gambar2']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar2">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path2">
@@ -134,13 +140,13 @@
 							</div>
 							<div class="col-sm-12">
 				  			<div class="form-group">
-									<?php if ($artikel['gambar3']):?>
+									<?php if ($artikel['gambar3']): ?>
 					          <input type="hidden" name="old_gambar3" value="<?= $artikel['gambar3']?>">
 									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar3'], 'kecil')?>" alt="Gambar Utama">
 									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar3_hapus" value="<?= $artikel['gambar3']?>" /> Hapus Gambar</label></p>
-									<?php else:?>
+									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
-									<?php endif;?>
+									<?php endif; ?>
 									<label class="control-label" for="gambar3">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path3">
@@ -153,6 +159,47 @@
 							</div>
 						</div>
 					</div>
+					<?php if ($cat == 1000): ?>
+						<input type="hidden" name="id_agenda" value="<?= $artikel['id_agenda']?>">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Pengaturan Agenda Desa</h3>
+								<div class="box-tools">
+									<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+								</div>
+							</div>
+							<div class="box-body no-padding">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label class="control-label" for="tgl_agenda">Tanggal Kegiatan</label>
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar-check-o"></i>
+											</div>
+											<input class="form-control input-sm pull-right tgl_jam" name="tgl_agenda" type="text" value="<?= $artikel['tgl_agenda']?>">
+										</div>
+										<span class="help-block"><code>(Isikan Tanggal Kegiatan)</code></span>
+										<label class="control-label" for="lokasi_kegiatan">Lokasi Kegiatan</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-map-marker"></i>
+											</div>
+											<input class="form-control input-sm pull-right" name="lokasi_kegiatan" type="text" placeholder="Masukan lokasi tempat dilakukan kegiatan" value="<?= $artikel['lokasi_kegiatan']?>">
+										</div>
+										<span class="help-block"><code>(Isikan Lokasi Tempat Dilakukan Kegiatan)</code></span>
+										<label class="control-label" for="koordinator_kegiatan">Koordinator Kegiatan</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-user"></i>
+											</div>
+											<input class="form-control input-sm pull-right" name="koordinator_kegiatan" type="text" placeholder="Masukan nama koordinator" value="<?= $artikel['koordinator_kegiatan']?>">
+										</div>
+										<span class="help-block"><code>(Isikan Koordinator Kegiatan)</code></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<h3 class="box-title">Pengaturan Lainnya</h3>
@@ -162,13 +209,13 @@
 						</div>
 						<div class="box-body no-padding">
 							<div class="col-sm-12">
-								<?php if ($artikel['dokumen']):?>
+								<?php if ($artikel['dokumen']): ?>
 									<div class="form-group">
 										<div class="mailbox-attachment-info">
-											<a href="<?=base_url().LOKASI_DOKUMEN.$artikel['dokumen']?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
+											<a href="<?= base_url().LOKASI_DOKUMEN.$artikel['dokumen']?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
 										</div>
 									</div>
-								<?php endif;?>
+								<?php endif; ?>
 				  			<div class="form-group">
 									<label class="control-label" for="dokumen">Dokumen Lampiran</label>
 									<div class="input-group input-group-sm">
@@ -185,12 +232,12 @@
 									<span class="help-block"><code>(Nantinya akan menjadi link unduh/download)</code></span>
 								</div>
 								<div class="form-group">
-									<label class="control-label" for="tgl_post">Tanggal Posting</label>
+									<label class="control-label" for="tgl_upload">Tanggal Posting</label>
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_jam" name="tgl_upload" type="text" value="<?= $artikel['tgl_upload']?>">
+										<input class="form-control input-sm pull-right tgl_jam" name="tgl_upload" type="text" value="<?= $artikel['tgl_upload']?>">
 									</div>
 									<span class="help-block"><code>(Kosongkan jika ingin langsung di post, bisa digunakan untuk artikel terjadwal)</code></span>
               	</div>
@@ -210,4 +257,3 @@
 		</form>
 	</section>
 </div>
-

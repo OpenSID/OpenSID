@@ -33,7 +33,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 							<tr>
 								<td><?= $data['no']?></td>
 								<td><?= $data['nama']?></td>

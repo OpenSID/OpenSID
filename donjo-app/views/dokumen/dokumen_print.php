@@ -34,7 +34,7 @@
 							<th>No</th>
 							<th>Judul / Tentang</th>
 							<?php if ($kat == 1): ?>
-								<th>Diunggah Pada</th>
+								<th>Tahun</th>
 							<?php elseif ($kat == 2): ?>
 								<th>Nomor Dan Tanggal Keputusan</th>
 								<th>Uraian Singkat</th>
@@ -50,7 +50,7 @@
 							<td><?= $data['no']?></td>
 							<td><?= $data['nama']?></td>
 							<?php if ($kat == 1): ?>
-								<td align="center"><?= tgl_indo2($data['tgl_upload'])?></td>
+								<td align="center"><?= $data['tahun']?></td>
 							<?php elseif ($kat == 2): ?>
 								<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 								<td><?= $data['attr']['uraian']?></td>

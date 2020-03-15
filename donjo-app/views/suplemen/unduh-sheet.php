@@ -36,16 +36,22 @@
 							<th>No</th>
 							<th><?= $suplemen["judul_terdata_nama"]?></th>
 							<th><?= $suplemen["judul_terdata_info"]?></th>
+							<th>Tempat Lahir</th>
+							<th>Tanggal Lahir</th>
+							<th>Jenis Kelamin</th>
 							<th>Alamat</th>
 							<th>Keterangan</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php	$i=1;	foreach ($terdata as $key=>$item):?>
+						<?php	$i=1;	foreach ($terdata as $key=>$item): ?>
 							<tr>
 								<td><?= $i?></td>
 								<td class='textx'><?= $item["terdata_nama"]?></td>
 								<td><?= $item["terdata_info"]?></td>
+								<td><?= $item["tempat_lahir"] ?></td>
+								<td><?= $item["tanggal_lahir"] ?></td>
+								<td><?= $item["sex"] ?></td>
 								<td><?= $item["info"]?></td>
 								<td><?= $item["keterangan"]?></td>
 							</tr>

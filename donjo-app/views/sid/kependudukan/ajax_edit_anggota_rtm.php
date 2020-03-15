@@ -9,9 +9,9 @@
 						<div class="form-group">
 							<label for="rtm_level">Hubungan</label>
 							<select name="rtm_level" class="form-control input-sm required">
-								<?php foreach($hubungan as $data):?>
-									<option value="<?= $data['id']?>" <?php if($data['id']==$main['rtm_level']){?>selected<?php }?>><?php echo $data['hubungan']?></option>
-								<?php endforeach;?>
+								<?php foreach ($hubungan as $data): ?>
+									<option value="<?= $data['id']?>" <?php if ($data['id']==$main['rtm_level']): ?>selected<?php endif; ?>><?= $data['hubungan']?></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>

@@ -1,6 +1,6 @@
 			<footer class="main-footer">
 				<div class="pull-right hidden-xs">
-			  	<b>Version</b> <?= AmbilVersi()?>
+			  	<b>Versi</b> <?= AmbilVersi()?>
 				</div>
 				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a>, dikembangkan oleh <a href="https://www.facebook.com/groups/OpenSID/" target="_blank">Komunitas OpenSID</a>.</strong>
 			</footer>
@@ -38,13 +38,62 @@
 		<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 		<script src="<?= base_url()?>assets/js/validasi.js"></script>
 		<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+		<!-- Numeral js -->
+		<script src="<?= base_url()?>assets/js/numeral.min.js"></script>
 		<!-- Script-->
 		<script src="<?= base_url()?>assets/js/script.js"></script>
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
+
 			$('document').ready(function()
 			{
+
+				setTimeout(function()
+				{
+<<<<<<< HEAD
+					if ( $("#b_komentar").length )
+					{
+						$("#b_komentar").load("<?= site_url()?>notif/komentar");
+						var refreshKomentar = setInterval(function()
+						{
+							$("#b_komentar").load("<?= site_url()?>notif/komentar");
+						}, 3000);
+					}
+					if ( $("#b_lapor").length )
+					{
+						$("#b_lapor").load("<?= site_url()?>notif/lapor");
+						var refreshLapor = setInterval(function()
+						{
+							$("#b_lapor").load("<?= site_url()?>notif/lapor");
+						}, 3000);
+=======
+					if ( $("#b_permohonan_surat").length )
+					{
+						$("#b_permohonan_surat").load("<?= site_url()?>notif/permohonan_surat");
+						var refreshPermohonan = setInterval(function()
+						{
+							$("#b_permohonan_surat").load("<?= site_url()?>notif/permohonan_surat");
+						}, 10000);
+					}
+					if ( $("#b_komentar").length )
+					{
+						$("#b_komentar").load("<?= site_url()?>notif/komentar");
+						var refreshKomentar = setInterval(function()
+						{
+							$("#b_komentar").load("<?= site_url()?>notif/komentar");
+						}, 10000);
+					}
+					if ( $("#b_inbox").length )
+					{
+						$("#b_inbox").load("<?= site_url()?>notif/inbox");
+						var refreshInbox = setInterval(function()
+						{
+							$("#b_inbox").load("<?= site_url()?>notif/inbox");
+						}, 10000);
+>>>>>>> opensid/master
+					}
+				}, 500);
 				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';
@@ -58,12 +107,12 @@
 				else if ($('#success-code').val() == -2)
 				{
 					notify = 'error';
-					notify_msg = 'Data gagal diimpan, nama id sudah ada!';
+					notify_msg = 'Data gagal disimpan, nama id sudah ada!';
 				}
 				else if ($('#success-code').val() == -3)
 				{
 					notify = 'error';
-					notify_msg = 'Data gagal diimpan, nama id sudah ada!';
+					notify_msg = 'Data gagal disimpan, nama id sudah ada!';
 				}
 				else if ($('#success-code').val() == 4)
 				{
@@ -108,7 +157,7 @@
 					$('#pinBox').modal('show');
 				});
 				<?php unset($_SESSION['pin']) ?>
-			<?php endif?>
+			<?php endif ?>
 		</script>
 	</body>
 </html>

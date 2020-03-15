@@ -4,7 +4,7 @@
 		<title>Data Penduduk</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -17,6 +17,7 @@
 			td,th
 			{
 				font-size:6.5pt;
+				mso-number-format:"\@";
 			}
 		</style>
 	</head>
@@ -61,7 +62,7 @@
 							<td><?= strtoupper($data['nama'])?></td>
 							<td class="textx"><?= $data['nik']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
-							<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= $data['sex']?></td>

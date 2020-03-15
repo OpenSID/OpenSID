@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
 	$(function ()
 	{
@@ -15,8 +15,8 @@
 						<div class="form-group">
 							<label for="nik">NIK / Nama Penduduk</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
-								<option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
-								<?php foreach ($penduduk as $data):?>
+								<option option value="">-- Silakan Cari NIK / Nama Penduduk --</option>
+								<?php foreach ($penduduk as $data): ?>
 									<option value="<?=$data['id']?>">NIK :<?=$data['nik']." - ".$data['nama']?></option>
 								<?php endforeach; ?>
 							</select>

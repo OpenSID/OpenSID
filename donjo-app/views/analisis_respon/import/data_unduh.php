@@ -51,30 +51,30 @@
 					$w = "width='80'";
 				endif;
 			?>
-				<?php	if ($pt['id_tipe'] == 1):?>
+				<?php	if ($pt['id_tipe'] == 1): ?>
 					<td <?= $w?>>
 						<?= $pt['no']?><br><?=$pt['pertanyaan']?>
 						<?php if ($pt['par']):
-							foreach ($pt['par'] AS $jb):?>
+							foreach ($pt['par'] AS $jb): ?>
 								<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
 							<?php endforeach;
-						endif;?>
+						endif; ?>
 					</td>
 				<?php else:
-					if ($pt['id_tipe'] == 2):?>
+					if ($pt['id_tipe'] == 2): ?>
 						<td <?= $w?> style='background-color:#aaaafe;'>
 							<?= $pt['no']?><br><?= $pt['pertanyaan']?>
 							<?php if ($pt['par']):
-								foreach ($pt['par'] AS $jb):?>
+								foreach ($pt['par'] AS $jb): ?>
 									<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
 								<?php endforeach;
-							endif;?>
+							endif; ?>
 						</td>
-					<?php elseif ($pt['id_tipe'] == 3):?>
+					<?php elseif ($pt['id_tipe'] == 3): ?>
 						<td style='background-color:#00fe00;'>
 							<?= $pt['no']?><br><?=$pt['pertanyaan']?>
 						</td>
-					<?php else:?>
+					<?php else: ?>
 						<td style='background-color:#feaaaa;'>
 							<?= $pt['no']?><br><?= $pt['pertanyaan']?>
 						</td>
@@ -88,7 +88,7 @@
 			<th style="background-color:#fefe00"><?= $key?></th>
 			<?php
 			$tot = count($indikator);
-			foreach ($indikator as $pt):?>
+			foreach ($indikator as $pt): ?>
 				<td style='background-color:#fefe00'>
 					<?= $pt['nomor']?>
 				</td>
@@ -106,7 +106,7 @@
 			<td style="background-color:#fefe00"><?= $data['id']?></td>
 			<?php
 			if ($data['par']==null):
-				for ($j=0;$j<$tot;$j++):?>
+				for ($j=0;$j<$tot;$j++): ?>
 					<td></td>
 				<?php endfor;
 			else:
@@ -178,7 +178,7 @@
 					if ($pt['id_tipe'] == 2):
 						$jml = strlen($isi);
 						$isi = substr($isi,0,$jml-1);
-					endif;?>
+					endif; ?>
 
 					<?= $isi;?>
 					</td <?=$bx?>>

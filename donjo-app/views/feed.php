@@ -1,35 +1,32 @@
-<?php header("Content-Type: application/xml; charset=ISO-8859-1");
-	$details = "<rss xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\" xmlns:admin=\"http://webns.net/mvcb/\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\" version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
+﻿<?php header('Content-type: text/xml'); ?>
+<?php echo'<?xml version="1.0" encoding="UTF-8" ?>' ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
 	<channel>
-		<title>Desa ". $data_config["nama_desa"] ."</title>
-		<link>". base_url() ."</link>
-		<description>Situs Web Desa ". $data_config["nama_desa"] ." Kec. ". $data_config["nama_kecamatan"] ." <?= ucwords($this->setting->sebutan_kabupaten_singkat)?> ". $data_config["nama_kabupaten"] ." - ". $data_config["nama_propinsi"] ."</description>
+		<title>Desa <?= $data_config["nama_desa"] ?></title>
+		<link><?= base_url() ?></link>
+		<description>
+			Situs Web Desa <?= $data_config["nama_desa"] ." Kec. ".
+			$data_config["nama_kecamatan"] ."
+			". ucwords($this->setting->sebutan_kabupaten_singkat)."
+			". $data_config["nama_kabupaten"] ." - ". $data_config["nama_propinsi"] ?>
+		</description>
 		<language>ID</language>
 		<generator>Sistem Informasi Desa</generator>
-		<pubDate>".date(DATE_RFC2822)."</pubDate>
-		<image>
-			<title>Desa ". $data_config["nama_desa"] ."</title>
-			<url>". base_url("assets/files/logo/".$data_config["logo"]."") ."</url>
-			<link>". base_url() ."</link>
-		</image>
-		<atom:link href=\"".htmlspecialchars(site_url("feed"))."\" rel=\"self\" type=\"application/rss+xml\" />
-		";
-		foreach ($feeds as $key=>$item):
-			if (strlen(trim($item["judul"]))>0):
-				$kategori = (strlen(trim($item["kategori"]))==0)? "Artikel":$item["kategori"];
-				$details .= "
-				<item>
-					<title>".htmlspecialchars($item["judul"])."</title>
-					<link>".$item["url"]."</link>
-					<source url=\"".htmlspecialchars(site_url("feed"))."\">Situs Web Desa ". $data_config["nama_desa"] ."</source>
-					<pubDate>".date(DATE_RFC2822,strtotime($item["tgl"]))."</pubDate>
-					<dc:creator><![CDATA[ ".$item["author"]." ]]></dc:creator>
-					<category><![CDATA[ ".htmlspecialchars($kategori)." ]]></category>
-					<guid isPermaLink=\"false\">".htmlspecialchars($item["url"])."</guid>
-					<description><![CDATA[ ".htmlspecialchars($data_config["nama_desa"]).", ".htmlspecialchars($item["isi"])." ]]></description>
-				</item>\n";
-			endif;
-		endforeach;
-	$details .="</channel>
-</rss>";
-printf($details);
+	</channel>
+	<?php foreach ($feeds as $key): ?>
+		<item>
+			<title><?= htmlspecialchars($key->judul); ?></title>
+			<link><?= site_url("first/artikel/".$key->id);?></link>
+<<<<<<< HEAD
+=======
+			<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
+>>>>>>> opensid/master
+			<description>
+				<?= htmlspecialchars($data_config["nama_desa"]).", ".htmlspecialchars(substr($key->isi, 0, strpos($key->isi, " ", 260)))?>
+			</description>
+		</item>
+	<?php endforeach; ?>
+</rss>

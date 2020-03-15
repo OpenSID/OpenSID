@@ -17,6 +17,7 @@
 		td,th
 		{
 			font-size:6.5pt;
+		  mso-number-format:"\@";
 		}
 	</style>
 	</head>
@@ -59,11 +60,11 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td class="textx"><?= $data['no_kk']?> </td>
+							<td><?= $data['no_kk']?> </td>
 							<td><?= strtoupper($data['nama'])?></td>
-							<td class="textx"><?= $data['nik']?></td>
+							<td><?= $data['nik']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
-							<td><?= strtoupper(ununderscore($data['dusun']))?></td>
+							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= $data['sex']?></td>
@@ -77,7 +78,7 @@
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['nama_ayah']?></td>
 							<td><?= $data['nama_ibu']?></td>
-							<td><?php if ($data['status']==1):?>Tetap<?php else:?>Pendatang<?php endif;?></td>
+							<td><?php if ($data['status']==1): ?>Tetap<?php else: ?>Pendatang<?php endif; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

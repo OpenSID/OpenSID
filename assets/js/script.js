@@ -1,7 +1,33 @@
+
+// https://stackoverflow.com/questions/13261970/how-to-get-the-absolute-path-of-the-current-javascript-file-name/13262027#13262027
+// Untuk mendapatkan base_url, karena aplikasi bisa terinstall di subfolder
+var scripts = document.getElementsByTagName('script');
+var last_script = scripts[scripts.length - 1];
+var file_ini = last_script.src;
+// Harus mengetahui lokasi & nama file script ini
+var base_url = file_ini.replace('assets/js/script.js','');
+
+$( window ).on( "load", function() {
+	// Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
+	// Tidak bisa di document.ready
+	// preparing var for scroll via query selector
+	var activated_menu = $('li.treeview.active.menu-open')[0];
+	// autscroll to activated menu/sub menu
+	if (activated_menu){
+		activated_menu.scrollIntoView({behavior: 'smooth'});
+	}
+});
+
 $(document).ready(function()
 {
+
+
 	//CheckBox All Selected
 	checkAll();
+  $("input[name='id_cb[]'").click(function(){
+  	enableHapusTerpilih();
+  });
+	enableHapusTerpilih();
 
 	//Display Modal Box
 	modalBox();
@@ -36,10 +62,82 @@ $(document).ready(function()
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2();
-	$('button[type="reset"]').click(function()
-	{
-		$('.select2').select2('val', 'All');
+
+	$('.select2-nik-ajax').select2({
+	  ajax: {
+	    url: function () {
+	      return $(this).data('url');
+	    },
+	    dataType: 'json',
+	    delay: 250,
+	    data: function (params) {
+	      return {
+	        q: params.term || '', // search term
+	        page: params.page || 1,
+ 	        filter_sex: $(this).data('filter-sex')
+	      };
+	    },
+	    processResults: function (data, params) {
+	      // parse the results into the format expected by Select2
+	      // since we are using custom formatting functions we do not need to
+	      // alter the remote JSON data, except to indicate that infinite
+	      // scrolling can be used
+	      // params.page = params.page || 1;
+
+	      return {
+	        results: data.results,
+	        pagination: data.pagination
+	      };
+	    },
+	    cache: true
+	  },
+		templateResult: function (penduduk) {
+			if (!penduduk.id) {
+			  return penduduk.text;
+			}
+			var _tmpPenduduk = penduduk.text.split('\n');
+			var $penduduk = $(
+			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
+			);
+			return $penduduk;
+		},
+	  placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
+	  minimumInputLength: 0,
 	});
+
+	$('.select2-nik').select2({
+		templateResult: function (penduduk) {
+			if (!penduduk.id) {
+			  return penduduk.text;
+			}
+			var _tmpPenduduk = penduduk.text.split('\n');
+			var $penduduk = $(
+			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
+			);
+			return $penduduk;
+		}
+	});
+	// Select2 dengan fitur pencarian dan boleh isi sendiri
+	$('.select2-tags').select2(
+		{
+			tags: true
+		});
+	// Select2 untuk disposisi pada form
+	// surat masuk
+	$('#disposisi_kepada').select2({
+		placeholder: "Pilih tujuan disposisi"
+	});
+
+	// Reset select2 ke nilai asli
+	// https://stackoverflow.com/questions/10319289/how-to-execute-code-after-html-form-reset-with-jquery
+	$('button[type="reset"]').click(function(e)
+	{
+    e.preventDefault();
+    $(this).closest('form').get(0).reset();
+		// https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
+		$('.select2').trigger('change');
+	});
+
 	//File Upload
 	$('#file_browser').click(function(e)
 	{
@@ -49,6 +147,14 @@ $(document).ready(function()
 	$('#file').change(function()
 	{
 		$('#file_path').val($(this).val());
+		if ($(this).val() == '')
+		{
+			$('#'+$(this).data('submit')).attr('disabled','disabled');
+		}
+		else
+		{
+			$('#'+$(this).data('submit')).removeAttr('disabled');;
+		}
 	});
 	$('#file_path').click(function()
 	{
@@ -118,48 +224,66 @@ $(document).ready(function()
 		format: 'dd-mm-yyyy',
 		autoclose: true
 	});
-	$('#tgl_mulai,#tgl_akhir').datetimepicker({
+	$('#tgl_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
-		useCurrent: false
+		useCurrent: false,
+		date: moment(new Date())
+	});
+	$('#tgl_akhir').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
+		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
+		date: moment(new Date()).add(1, 'M')
 	});
 	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgl_akhir').data('DateTimePicker').minDate(incrementDay);
+		$('#tgl_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
 		$(this).data("DateTimePicker").hide();
-	});
-	$('#tgl_akhir').datetimepicker().on('dp.change', function (e) {
-		var decrementDay = moment(new Date(e.date));
-		decrementDay.subtract(1, 'days');
-		$('#tgl_mulai').data('DateTimePicker').maxDate(decrementDay);
-		 $(this).data("DateTimePicker").hide();
+		var tglAkhir = moment(new Date(e.date));
+		tglAkhir.add(1, 'M');
+		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
-	$('#tgljam_mulai,#tgljam_akhir').datetimepicker({
+	$('#tgljam_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY HH:mm',
 		useCurrent: false,
+		date: moment(new Date()),
+		sideBySide:true
+	});
+	$('#tgljam_akhir').datetimepicker({
+		locale:'id',
+		format: 'DD-MM-YYYY HH:mm',
+		useCurrent: false,
+		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
+		date: moment(new Date()).add(1, 'day'),
 		sideBySide:true
 	});
 	$('#tgljam_mulai').datetimepicker().on('dp.change', function (e) {
-		var incrementDay = moment(new Date(e.date));
-		incrementDay.add(1, 'days');
-		$('#tgljam_akhir').data('DateTimePicker').minDate(incrementDay);
-
-	});
-	$('#tgljam_akhir').datetimepicker().on('dp.change', function (e) {
-		var decrementDay = moment(new Date(e.date));
-		decrementDay.subtract(1, 'days');
-		$('#tgljam_mulai').data('DateTimePicker').maxDate(decrementDay);
+		$('#tgljam_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
+		var tglAkhir = moment(new Date(e.date));
+		tglAkhir.add(1, 'day');
+		$('#tgljam_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
-	$('#tgl_jam').datetimepicker(
+	$('.tgl_jam').datetimepicker(
 	{
 		format: 'DD-MM-YYYY HH:mm:ss',
 		locale:'id'
 	});
+	$('.tgl').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
+		locale:'id'
+	});
 	$('#tgl_1').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
+	$('.tgl_1').datetimepicker(
 	{
 		format: 'DD-MM-YYYY',
 		locale:'id'
@@ -227,8 +351,20 @@ $(document).ready(function()
 		html: true,
 		trigger:"hover"
 	});
-$('[checked="checked"]').parent().addClass('active')
-	//Fortmat Tabel
+
+	/* set otomatis hari */
+	$('.datepicker.data_hari').change(function()
+	{
+		var hari = {
+			0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
+		};
+		var t = $(this).datepicker('getDate');
+		var i = t.getDay();
+		$(this).closest('.form-group').find('.hari').val(hari[i]);
+	});
+
+	$('[checked="checked"]').parent().addClass('active');
+	//Format Tabel
   $('#tabel1').DataTable();
   $('#tabel2').DataTable({
 		'paging'      : false,
@@ -249,17 +385,117 @@ $('[checked="checked"]').parent().addClass('active')
 		'scrollX'			: true
 	});
 
+	// formatting datatable Program Bantuan
+	$('#table-program').DataTable({
+		"paging": false,
+    "info": false,
+    "searching": false,
+    "columnDefs": [
+      {
+			  "targets": [0,1,3,4,5,6,7],
+			  "orderable": false
+			},
+			{
+				"targets": [4],
+				"className": "text-center"
+			},
+			{
+				"targets": [7],
+				"render": function ( data, type, full, meta )
+				{
+					if (data == 0) {
+						return "Tidak Aktif"
+					}
+				return "Aktif"
+				}
+			}
+		]
+	});
+
 	//color picker with addon
   $('.my-colorpicker2').colorpicker();
 	//Text Editor with addon
 	$('#min-textarea').wysihtml5();
+
+	$('ul.sidebar-menu').on('expanded.tree', function(e){
+		// Manipulasi menu perlu ada tenggang waktu -- supaya dilakukan sesudah
+		// event lain selesai
+		e.stopImmediatePropagation();
+		setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
+	});
+
+	// ========== Tanda tangan laporan dan surat
+	$('select[name=pamong_ttd]').change(function(e)
+	{
+		$('input[name=jabatan_ttd]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ketahui]').change(function(e)
+	{
+		$('input[name=jabatan_ketahui]').val($(this).find(':selected').data('jabatan'));
+	});
+	$('select[name=pamong_ttd]').trigger('change');
+	$('select[name=pamong_ketahui]').trigger('change');
+
+	// Untuk input rupiah di form surat
+	// Tambahkan 'Rp.' pada saat form di ketik
+	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+	$('.rupiah').keyup(function(e) {
+		var nilai = formatRupiah($(this).val(), 'Rp. ');
+		$(this).val(nilai);
+	});
+
+	// Penggunaan datatable di inventaris
+	var t = $('#tabel4').DataTable({
+		'paging'      : true,
+    'lengthChange': true,
+    'searching'   : true,
+    'ordering'    : true,
+    'info'        : true,
+    'autoWidth'   : false,
+		'language' 		: {
+				'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+		}
+	});
+	t.on('order.dt search.dt', function()
+	{
+		t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+		{
+			cell.innerHTML = i+1;
+		});
+	}).draw();
+
 });
 
-function checkAll()
+/* Fungsi formatRupiah untuk form surat */
+function formatRupiah(angka, prefix, nol_sen=true)
 {
-	$("#checkall").click(function ()
+	var number_string = angka.replace(/[^,\d]/g, '').toString(),
+	split = number_string.split(','),
+	sisa = split[0].length % 3,
+	rupiah = split[0].substr(0, sisa),
+	ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+	// tambahkan titik jika yang di input sudah menjadi angka ribuan
+	if (ribuan)
 	{
-		if ($(".table #checkall").is(':checked'))
+		separator = sisa ? '.' : '';
+		rupiah += separator + ribuan.join('.');
+	}
+
+	rupiah = split[1] != undefined ? rupiah + (nol_sen ? '' : ',' + split[1]) : rupiah;
+	return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+}
+
+function scrollTampil(elem)
+{
+	elem.scrollIntoView({behavior: 'smooth'});
+}
+
+function checkAll(id = "#checkall")
+{
+	$(id).click(function ()
+	{
+		if ($(".table " + id).is(':checked'))
 		{
 			$(".table input[type=checkbox]").each(function ()
 			{
@@ -273,8 +509,24 @@ function checkAll()
 				$(this).prop("checked", false);
 			});
 		}
+		$(".table input[type=checkbox]").change();
+		enableHapusTerpilih();
 	});
 	$("[data-toggle=tooltip]").tooltip();
+}
+
+function enableHapusTerpilih()
+{
+  if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
+  {
+    $(".hapus-terpilih").addClass('disabled');
+    $(".hapus-terpilih").attr('href','#');
+  }
+  else
+  {
+    $(".hapus-terpilih").removeClass('disabled');
+    $(".hapus-terpilih").attr('href','#confirm-delete');
+  }
 }
 
 function deleteAllBox(idForm, action)
@@ -318,8 +570,12 @@ function mapBox()
 		$(this).find('.fetched-data').load(link.attr('href'));
 	});
 }
-function formAction(idForm, action)
+function formAction(idForm, action, target = '')
 {
+	if (target != '')
+	{
+		$('#'+idForm).attr('target', target);
+	}
 	$('#'+idForm).attr('action', action);
 	$('#'+idForm).submit();
 }
@@ -354,28 +610,104 @@ function cari_nik()
 	});
 }
 
-;(function()
+// Ganti pilihan RW dan RT di form penduduk
+function select_options(select, params)
 {
-	$(document).ready(updateCsrfToken)
-	$(document).ajaxComplete(updateCsrfToken)
+	var url_data = select.attr('data-source') + params;
+	select
+		.find('option').not('.placeholder')
+		.remove()
+		.end();
 
-	function updateCsrfToken()
+  $.ajax({
+    url: url_data,
+  }).then(function(options) {
+    JSON.parse(options).forEach((option) => {
+      var option_elem = $('<option>');
+
+      option_elem
+        .val(option[select.attr('data-valueKey')])
+        .text(option[select.attr('data-displayKey')]);
+
+      select.append(option_elem);
+    });
+  });
+}
+
+$(function(){
+	$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
+	$('#op_item input').change(function()
 	{
-		var csrf_param = $('meta[name=csrf-param]').attr('content')
-		var csrf_token = document.cookie.match(new RegExp(csrf_param +'=(\\w+)'))[1]
-		$('meta[name=csrf-token]').attr('content', csrf_token)
-		$('form').find('input[name='+ csrf_param +']').val(csrf_token)
-	}
-
-	// automatically send CSRF token for all AJAX requests
-	$.ajaxPrefilter(function (options, originalOptions, xhr)
-	{
-		var csrf_param = $('meta[name=csrf-param]').attr('content')
-		var csrf_token = $('meta[name=csrf-token]').attr('content')
-
-		if (!options.crossDomain && options.type !== 'GET')
+		if ($(this).is('input:checked'))
 		{
-			options.data = (options.data||'') + '&'+ csrf_param +'='+ csrf_token
+			$('#op_item input').parent().css({'background':'#fafafa'});
+			$('#op_item input:checked').parent().css({'background':'#c9cdff','border':'0.5px solid #7a82eb'});
+			$(this).parent().css({'background':'#c9cdff'});
 		}
+		else
+		{
+			$(this).parent().css({'background':'#fafafa','border':'0px'});
+		}
+	});
+	$('#op_item label').click(function()
+	{
+		$(this).prev().trigger('click');
 	})
-})()
+});
+
+function _calculateAge(birthday)
+{ // birthday is a date (dd-mm-yyyy)
+	if (birthday)
+	{
+		var parts = birthday.split('-');
+		// Ubah menjadi format ISO yyyy-mm-dd
+		// please put attention to the month (parts[0]), Javascript counts months from 0:
+		// January - 0, February - 1, etc
+		// https://stackoverflow.com/questions/5619202/converting-string-to-date-in-js
+		var birthdate = new Date(parts[2],parts[1]-1,parts[0]);
+		var ageDifMs = (new Date()).getTime() - birthdate.getTime();
+		var ageDate = new Date(ageDifMs); // miliseconds from epoch
+		return Math.abs(ageDate.getUTCFullYear() - 1970);
+	}
+}
+
+// https://stackoverflow.com/questions/332872/encode-url-in-javascript
+// Menyamakan dengan PHP urlencode supaya kurung '()' juga diencode
+// Digunakan untuk mengirim nama dusun sebagai parameter url query
+function urlencode(str) {
+  str = (str + '').toString();
+
+  // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
+  // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+  return encodeURIComponent(str)
+    .replace(/!/g, '%21')
+    .replace(/'/g, '%27')
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29')
+    .replace(/\*/g, '%2A');
+    // .replace(/%20/g, '+');
+}
+
+// https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
+$('document').ready(function()
+{
+  $('.table-responsive').on('show.bs.dropdown', function (e) {
+    var table = $(this),
+        menu = $(e.target).find('.dropdown-menu'),
+        tableOffsetHeight = table.offset().top + table.height(),
+        menuOffsetHeight = $(e.target).offset().top + $(e.target).outerHeight(true) + menu.outerHeight(true);
+
+    if (menuOffsetHeight > tableOffsetHeight)
+    {
+      table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight);
+	    $('.table-responsive')[0].scrollIntoView(false);
+    }
+
+  });
+
+  $('.table-responsive').on('hide.bs.dropdown', function () {
+    $(this).css("padding-bottom", 0);
+  })
+});
+
+

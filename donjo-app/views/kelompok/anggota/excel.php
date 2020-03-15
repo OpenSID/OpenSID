@@ -49,7 +49,7 @@
 								<td><?= $data['nama']?></td>
 								<td><?= $data['alamat']?></td>
 								<td><?= $data['umur']?></td>
-								<td><?php if ($data['sex']==1) echo "Laki-laki"; else echo "Perempuan";?></td>
+								<td><?php if ($data['sex']==1): ?>Laki-laki <?php else: ?>Perempuan <?php endif; ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

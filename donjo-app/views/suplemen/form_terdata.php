@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Formulir Penambahan Terdata</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
 			<li><a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>"> Rincian Data Suplemen</a></li>
 			<li class="active">Formulir Penambahan Terdata</li>
@@ -10,13 +10,11 @@
 	</section>
 	<section class="content">
 		<div class="row">
-			<div class="col-md-3">
-				<?php $this->load->view('suplemen/menu_kiri.php')?>
-			</div>
-			<div class="col-md-9">
+			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<div class="col-md-12">
+							<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
 							<a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Data Suplemen</a>
 						</div>
 					</div>
@@ -53,29 +51,29 @@
 									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
 										<?php if ($suplemen["sasaran"] == 1): ?>
 											<div class="form-group" >
-												<label class="col-sm-3 control-label required"  for="nik">NIK / Nama</label>
+												<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 												<div class="col-sm-8">
-													<select class="form-control select2" id="nik" name="nik"  onchange="formAction('main')" >
+													<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" >
 														<option value="">-- Silakan Masukan NIK / Nama--</option>
 														<?php foreach ($list_sasaran as $item):
-															if (strlen($item["id"])>0):?>
-																<option value="<?= $item['id']?>" <?php  if ($individu['nik']==$item['nik']):?>selected<?php endif;?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+															if (strlen($item["id"])>0): ?>
+																<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 															<?php endif;
-														endforeach;?>
+														endforeach; ?>
 													</select>
 												</div>
 											</div>
 										<?php elseif ($suplemen["sasaran"] == 2): ?>
 											<div class="form-group" >
-												<label for="no_id_kartu" class="col-sm-3 control-label">No. KK / Nama KK</label>
+												<label for="terdata" class="col-sm-3 control-label">No. KK / Nama KK</label>
 												<div class="col-sm-7">
-													<select class="form-control select2 required" id="nik" name="nik"  onchange="formAction('main')" >
-														<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
+													<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" >
+														<option selected="selected">-- Silakan Masukan No. KK / Nama KK --</option>
 														<?php foreach ($list_sasaran as $item):
-															if (strlen($item["id"])>0):?>
-																<option value="<?= $item['id']?>" <?php  if ($individu['nik']==$item['nik']):?>selected<?php endif;?>>Nama :<?= $item['nama']." - ".$item['info']?></option>
+															if (strlen($item["id"])>0): ?>
+																<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama :<?= $item['nama']." - ".$item['info']?></option>
 															<?php endif;
-														endforeach;?>
+														endforeach; ?>
 													</select>
 												</div>
 											</div>
@@ -86,12 +84,12 @@
 											<div class="form-group">
 												<label  class="col-sm-3 control-label"></label>
 												<div class="col-sm-8">
-													 <input type="hidden" name="nik" value="<?= $individu['nik']?>" class="form-control input-sm required">
+													 <input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required">
 												 </div>
 											</div>
-											<?php if ($individu):?>
+											<?php if ($individu): ?>
 												<?php include("donjo-app/views/suplemen/konfirmasi_terdata.php"); ?>
-											<?php endif;?>
+											<?php endif; ?>
 											<div class="form-group">
 												<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">

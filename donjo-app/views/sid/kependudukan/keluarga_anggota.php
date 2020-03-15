@@ -8,7 +8,7 @@
 	<section class="content-header">
 		<h1>Daftar Anggota Keluarga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
 			<li class="active">Daftar Anggota Keluarga</li>
 		</ol>
@@ -19,7 +19,7 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i>  Kartu Keluarga</a>
 						<a href="<?=site_url("keluarga/index/$p/$o")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Keluarga">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
@@ -37,7 +37,7 @@
 											</tr>
 											<tr>
 												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Kepala Keluarga</td>
-												<td nowrap > :  <?= unpenetration($kepala_kk['nama'])?></td>
+												<td nowrap > :  <?= $kepala_kk['nama']?></td>
 											</tr>
 											<tr>
 												<td nowrap style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
@@ -72,12 +72,12 @@
 																	<td nowrap>
 																		<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
 																		<a href="#" data-href="<?= site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Pecah KK" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-cut"></i></a>
-																		<?php if ($data['kk_level']!=0):?>
+																		<?php if ($data['kk_level']!=0): ?>
 																			<a href="<?= site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Keluarga" title="Ubah Hubungan Keluarga" class="btn bg-navy btn-flat btn-sm"><i class='fa fa-link'></i></a>
-																		<?php endif;?>
+																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['nik']?></td>
-																	<td nowrap width="45%"><?= strtoupper(unpenetration($data['nama']))?></td>
+																	<td nowrap width="45%"><?= strtoupper($data['nama'])?></td>
 																	<td nowrap><?= tgl_indo($data['tanggallahir'])?></td>
 																	<td><?= $data['sex']?></td>
 																	<td nowrap><?= $data['hubungan']?></td>
@@ -97,7 +97,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin menghapus data ini?
@@ -116,7 +116,7 @@
 								<div class='modal-content'>
 									<div class='modal-header'>
 										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 									</div>
 									<div class='modal-body btn-info'>
 										Apakah Anda yakin ingin memecah Data Keluarga ini?

@@ -18,7 +18,9 @@
 					<label align="left"><?= get_identitas()?></label>
 					<h3>
 						<span>AGENDA SURAT MASUK</span>
-						<?php if (!empty($_SESSION['filter'])) echo " TAHUN ".$_SESSION['filter'];?>
+						<?php if (!empty($_SESSION['filter'])): ?>
+							TAHUN <?= $_SESSION['filter']; ?>
+						<?php endif; ?>
 					</h3>
 					<br>
 				</div>
@@ -39,7 +41,7 @@
 							<td><?= $data['nomor_urut']?></td>
 							<td><?= tgl_indo($data['tanggal_penerimaan'])?> </td>
 							<td><?= $data['nomor_surat']?></td>
-							<td><?= $data['tanggal_surat']?></td>
+							<td><?= tgl_indo($data['tanggal_surat'])?></td>
 							<td><?= $data['pengirim']?></td>
 							<td><?= $data['isi_singkat']?></td>
 
@@ -57,13 +59,13 @@
 						<td colspan="1">&nbsp;</td>
 						<td colspan="2">Mengetahui</td>
 						<td colspan="2">&nbsp;</td>
-						<td><?= ucwords($this->setting->sebutan_desa)?> <?= unpenetration($desa['nama_desa'])?>, <?= tgl_indo(date("Y m d"))?></td>
+						<td><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
 					</tr>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2"><?= unpenetration($input['jabatan_ketahui'])?> <?= unpenetration($desa['nama_desa'])?></td>
+						<td colspan="2"><?= $pamong_ketahui['jabatan']?> <?= $desa['nama_desa']?></td>
 						<td colspan="2">&nbsp;</td>
-						<td><?= unpenetration($input['jabatan_ttd'])?> <?= unpenetration($desa['nama_desa'])?></td>
+						<td><?= $pamong_ttd['jabatan']?> <?= $desa['nama_desa']?></td>
 					</tr>
 					<tr><td colspan="6">&nbsp;</td>
 					<tr><td colspan="6">&nbsp;</td>
@@ -71,9 +73,9 @@
 					<tr><td colspan="6">&nbsp;</td>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2">( <?= unpenetration($input['pamong_ketahui'])?> )</td>
+						<td colspan="2">( <?= $pamong_ketahui['pamong_nama']?> )</td>
 						<td colspan="2">&nbsp;</td>
-						<td>( <?= unpenetration($input['pamong_ttd'])?> )</td>
+						<td>( <?= $pamong_ttd['pamong_nama']?> )</td>
 					</tr>
 				</table>
 			</div>

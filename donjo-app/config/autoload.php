@@ -89,7 +89,7 @@ $autoload['drivers'] = array('session');
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','donjolib','date','pict','opensid');
+$autoload['helper'] = array('url','donjolib','date','pict','opensid','database','surat');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('setting_model', 'folder_desa_model');
+$autoload['model'] = array('folder_desa_model', 'setting_model');

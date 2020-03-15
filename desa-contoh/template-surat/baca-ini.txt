@@ -1,0 +1,11 @@
+*******************************
+Folder: desa/template-surat/
+*******************************
+
+Folder ini tempat menyimpan semua surat cetak yang telah disesuaikan
+dengan kebutuhan desa.
+
+Semua komponen surat disimpan bersama-sama dalam sub-folder yang namanya sama
+dengan URL surat (misalnya surat_ket_pindah_penduduk).
+
+Komponen surat termasuk script form, template surat cetak langsung dan template surat RTF.

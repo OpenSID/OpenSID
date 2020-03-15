@@ -1,148 +1,141 @@
-<script type="text/javascript" src="<?= base_url()?>assets/js/polygon.min.js"></script>
-<script>
-	function PolygonCreator(map)
-	{
-		this.map=map;this.pen=new Pen(this.map);
-		var thisOjb=this;
-		var jalur = "";
-		this.event=google.maps.event.addListener(thisOjb.map,'click',function(event)
-		{
-			thisOjb.pen.draw(event.latLng);jalur+=event.latLng;jalur+=";";
-		});
-
-		this.showData=function()
-		{
-			return this.pen.getData();
-		}
-
-		this.showColor=function()
-		{
-			return this.pen.getColor();
-		}
-		this.showJalur=function()
-		{
-			return jalur;
-		}
-
-		this.destroy=function()
-		{
-			this.pen.deleteMis();
-			if (null!=this.pen.polygon)
-			{
-				this.pen.polygon.remove();
-			}
-		google.maps.event.removeListener(this.event);
-		}
-	}
-
-	$(function()
-	{
-		var options =
-		{
-			<?php if ($desa['lat']!=""):?>
-				center: new google.maps.LatLng(<?= $desa['lat']?>,<?= $desa['lng']?>),
-				zoom: <?= $desa['zoom']?>,
-				mapTypeId: google.maps.MapTypeId.<?= strtoupper($desa['map_tipe'])?>
-			<?php else:?>
-				center: new google.maps.LatLng(-7.885619783139936,110.39893195996092),
-				zoom: 14,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			<?php endif;?>
-    };
-    var map = new google.maps.Map(document.getElementById('map'), options);
-
-
-	<?php
-		$path = preg_split("/\;/", $garis['path']);?>
-		var path = [<?php foreach ($path AS $p): if ($p!=""):?> new google.maps.LatLng<?=$p?>, <?php endif; endforeach;?>]
-
-    // Creating the polyline object
-    var polyline = new google.maps.Polyline(
-		{
-      path: path,
-      strokeColor: "#00ff00",
-      strokeOpacity: 0.6,
-      strokeWeight: 5
-    });
-
-    // Adding the polyline to the map
-    polyline.setMap(map);
-
-
-	<?php /*
-		$path_desa = preg_split("/\;/", $desa['path']);
-		echo "var path_desa = [";foreach ($path_desa AS $p){if ($p!=""){echo"new google.maps.LatLng".$p.",";}}echo"];";?>
-		var desa = new google.maps.Polygon({
-		  paths: path_desa,
-		  map: map,
-		  strokeColor: '#11ddff',
-		  strokeOpacity: 0.6,
-		  strokeWeight: 1,
-		  fillColor: '#11ddff',
-		  fillOpacity: 0.25
-		});
-	*/?>
-		google.maps.event.addListener(polyline, 'mouseover', function(e)
-		{
-			polyline.setOptions(
-			{
-				fillColor: '#0000ff',
-				strokeColor: '#0000ff'
-			});
-		});
-
-		google.maps.event.addListener(polyline, 'mouseout', function(e)
-		{
-		  polyline.setOptions(
-			{
-				fillColor: '#11ff00',
-				strokeColor: '#11ff00'
-		 	});
-		});
-
-		var creator = new PolygonCreator(map);
-		 $('#reset').click(function()
-		 {
-		 		creator.destroy();
-		 		creator=null;
-
-		 		creator=new PolygonCreator(map);
-				document.getElementById('dataPanel').value = creator.showData();
-		 });
-
-		$('#showData').click(function()
-		{
-		 		$('#dataPanel').empty();
-		 		if (null==creator.showJalur()):
-					this.form.submit();
-		 		else:
-					document.getElementById('dataPanel').value = creator.showJalur();
-					this.form.submit();
-		 		endif;
-		 });
-
-	});
-</script>
 <style>
-	#map
-	{
-		z-index: 1;
-		width: 100%;
-		height: 320px;
-		border: 1px solid #000;
+  #map
+  {
+    width:100%;
+    height:65vh
+  }
+  .icon {
+    max-width: 70%;
+    max-height: 70%;
+    margin: 4px;
+  }
+  .leaflet-control-layers {
+  	display: block;
+  	position: relative;
+  }
+  .leaflet-control-locate a {
+  font-size: 2em;
 	}
 </style>
-<form action="<?= $form_action?>" method="post" id="validasi">
-	<div class='modal-body'>
-		<div class="row">
-			<div class="col-sm-12">
-				<div id="map"></div>
-				<input type="hidden" id="dataPanel" name="path"  value="<?= $garis['path']?>">
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
-	</div>
-</form>
+<!-- Menampilkan OpenStreetMap -->
+<div class="content-wrapper">
+  <section class="content-header">
+		<h1>Peta <?= $garis['nama']?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url("garis")?>"> Pengaturan garis </a></li>
+			<li class="active">Peta <?= $garis['nama']?></li>
+		</ol>
+	</section>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-info">
+          <form action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div id="map">
+                    <input type="hidden" id="path" name="path" value="<?= $garis['path']?>">
+                    <input type="hidden" name="id" id="id"  value="<?= $garis['id']?>"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='box-footer'>
+              <div class='col-xs-12'>
+                <a href="<?= site_url("garis")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+                <a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  var infoWindow;
+  window.onload = function()
+  {
+  	<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
+  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+  		var zoom = <?=$desa['zoom'] ?: 18?>;
+  	<?php else: ?>
+  		var posisi = [-1.0546279422758742,116.71875000000001];
+  		var zoom = 18;
+  	<?php endif; ?>
+
+  	//Inisialisasi tampilan peta
+  	var peta_garis = L.map('map').setView(posisi, zoom);
+
+    //1. Menampilkan overlayLayers Peta Semua Wilayah
+    var marker_desa = [];
+    var marker_dusun = [];
+    var marker_rw = [];
+    var marker_rt = [];
+
+    //OVERLAY WILAYAH DESA
+    <?php if (!empty($desa['path'])): ?>
+      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+    <?php endif; ?>
+
+    //OVERLAY WILAYAH DUSUN
+    <?php if (!empty($dusun_gis)): ?>
+      set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+    <?php endif; ?>
+
+    //OVERLAY WILAYAH RW
+    <?php if (!empty($rw_gis)): ?>
+      set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+    <?php endif; ?>
+
+    //OVERLAY WILAYAH RT
+    <?php if (!empty($rt_gis)): ?>
+      set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+    <?php endif; ?>
+
+    //Menampilkan overlayLayers Peta Semua Wilayah
+    <?php if (!empty($wil_atas['path'])): ?>
+      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt);
+    <?php else: ?>
+      var overlayLayers = {};
+    <?php endif; ?>
+
+    //Menampilkan BaseLayers Peta
+    var baseLayers = getBaseLayers(peta_garis, '<?=$this->setting->google_key?>');
+
+    //Menampilkan Peta wilayah yg sudah ada
+    <?php if (!empty($garis['path'])): ?>
+      var wilayah = <?=$garis['path']?>;
+      showCurrentLine(wilayah, peta_garis);
+    <?php endif; ?>
+
+    //Menambahkan zoom scale ke peta
+    L.control.scale().addTo(peta_garis);
+
+    //Menambahkan toolbar ke peta
+    peta_garis.pm.addControls(editToolbarLine());
+
+    //Menambahkan Peta wilayah
+    addPetaLine(peta_garis);
+
+    //Export/Import Peta dari file GPX/KML
+    L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+    control = eximGpx(peta_garis);
+
+    //Geolocation IP Route/GPS
+  	geoLocation(peta_garis);
+
+    //Menghapus Peta wilayah
+    hapusPeta(peta_garis);
+
+    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_garis);
+
+  }; //EOF window.onload
+</script>
+<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+<script src="<?= base_url()?>assets/js/togeojson.js"></script>

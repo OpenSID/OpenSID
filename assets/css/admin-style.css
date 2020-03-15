@@ -32,9 +32,9 @@
 	padding: 5px 10px;
 	font-size: 11px;
 	line-height: 1.2;
-	border-radius: 3px;
-			border-top-right-radius: 3px;
-			border-bottom-right-radius: 3px;
+	border-radius: 0;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 .input-group .form-control
 {
@@ -88,7 +88,7 @@
 }
 .user-panel
 {
-	padding: 10px 10px 25px 10px;
+	padding: 5px 0px 0px 0px;
 }
 .user-panel > .info
 {
@@ -263,3 +263,159 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 {
 	margin-bottom: 0px;
 }
+/* Modifikasi template AdminLTE: menambah scrollbar pada bagian sidebar menu*/
+.slimScrollBar
+{
+	background-color: white !important;
+	opacity: 0.3 !important;
+	width: 6px !important;
+}
+/* Supaya kolom tabel tidak wrap dan menggunakan spasi terkecil */
+td.nostretch, th.nostretch{
+  width:1%;
+  white-space:nowrap;
+}
+
+/* Style untuk isian checkbox berkolom (input analisis, surat masuk) */
+.form-horizontal .checkbox,
+.form-horizontal .checkbox-inline,
+.form-horizontal .radio,
+.form-horizontal .radio-inline
+{
+		padding: 4px;
+}
+.panel-fullscreen
+{
+	display: block;	z-index: 999999; position: fixed;	width: 100%;
+	height: 100%;	top: 0;	right: 0;	left: 0;bottom: 0;overflow: auto;
+}
+#op_item div
+{
+	margin:1px 0;
+	background:#fafafa;
+	border:1px solid #ddd;
+}
+#op_item input
+{
+	vertical-align:middle;
+	margin:0px 2px;
+}
+#op_item label
+{
+	width: 100%;
+	padding:4px 10px 0px 2px;
+	font-size:11px;
+	line-height:14px;
+	font-weight:normal;
+}
+table.head
+{
+	font-size:14px;
+	font-weight:bold;
+}
+.atas {vertical-align: top;}
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"],
+.radio input[type="radio"],
+.radio-inline input[type="radio"]
+{
+position: inherit;
+}
+#op_item div
+{
+	margin:1px 0;
+	background:#fafafa;
+	border:1px solid #ddd;
+}
+#op_item input
+{
+	vertical-align:middle;
+	margin:0px 2px;
+}
+#op_item label
+{
+	padding:4px 10px 0px 2px;
+	font-size:11px;
+	line-height:14px;
+	font-weight:normal;
+}
+table.head
+{
+	font-size:14px;
+	font-weight:bold;
+}
+.atas {vertical-align: top;}
+.form-horizontal .control-label {
+text-align: left;
+}
+img { margin-bottom: 5px; }
+.no-padding { padding: 0px; }
+
+/* Notif */
+.badge {
+  display: inline-block;
+	min-width: 10px;
+	padding: 4px;
+	margin-left: 3px;
+	font-size: 10px;
+	font-weight: normal;
+	margin-top: -11px;
+	line-height: 0.5;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: #ff0505;
+	border-radius: 6px
+}
+
+/* Penduduk */
+img.profile-user-img.penduduk
+{
+	width: auto;
+	max-height: 250px;
+	max-width: 200px;
+}
+
+/* Tabel umum */
+td.bilangan, th.bilangan, td.no_urut
+{
+	text-align: center;
+}
+
+.kecil{font-size:.8em;color:#888;font-style:italic;font-weight:400;margin-bottom:.5em;}
+
+/*
+Set Warna Bar untuk Anggaran dan Realisasi
+Source : https://www.highcharts.com/docs/chart-design-and-style/style-by-css
+*/
+
+/*
+Warna Bar Anggaran
+*/
+.highcharts-point.highcharts-color-0,
+.highcharts-legend-item.highcharts-color-0 .highcharts-point,
+.highcharts-tooltip .highcharts-color-0 {
+	fill: #34b4eb;
+}
+
+.highcharts-tooltip.highcharts-color-0,
+.highcharts-data-label-connector.highcharts-color-0 {
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
+}
+
+/*
+Warna Bar Realisasi
+*/
+.highcharts-point.highcharts-color-1,
+.highcharts-legend-item.highcharts-color-1 .highcharts-point,
+.highcharts-tooltip .highcharts-color-1 {
+	fill: #b4eb34;
+}
+.highcharts-tooltip.highcharts-color-1,
+.highcharts-data-label-connector.highcharts-color-1 {
+	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
+}
+
+
+

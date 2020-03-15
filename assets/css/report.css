@@ -91,3 +91,7 @@ td.top{
 table.noborder *{
     border:none!important;
 }
+td.bilangan, th.bilangan, td.no_urut
+{
+	text-align: center;
+}

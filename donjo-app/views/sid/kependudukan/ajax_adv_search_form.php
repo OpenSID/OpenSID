@@ -32,9 +32,9 @@
 									<label for="status_dasar">Pekerjaan</label>
 									<select class="form-control input-sm"  id="pekerjaan_id"  name="pekerjaan_id">
 										<option value=""> -- </option>
-										<?php foreach ($pekerjaan AS $data):?>
+										<?php foreach ($pekerjaan AS $data): ?>
 											<option value="<?= $data['id']?>" <?php selected($pekerjaan_id,$data['id']); ?> ><?= $data['nama']?></option>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -51,9 +51,9 @@
 									<label for="agama">Agama</label>
 									<select class="form-control  input-sm"  id="agama"  name="agama" >
 										<option value=""> -- </option>
-										<?php foreach ($list_agama AS $data):?>
+										<?php foreach ($list_agama AS $data): ?>
 											<option value="<?= $data['id']?>" <?php selected($agama,$data['id']); ?> ><?= $data['nama']?></option>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -62,7 +62,7 @@
 									<label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh</label>
 									<select class="form-control  input-sm"  id="pendidikan_sedang_id"  name="pendidikan_sedang_id" >
 										<option value=""> -- </option>
-										<?php foreach ($pendidikan AS $data):?>
+										<?php foreach ($pendidikan AS $data): ?>
 											<option value="<?= $data['id']?>" <?php selected($pendidikan_sedang_id,$data['id']); ?> ><?= $data['nama']?></option>
 										<?php endforeach;?>
 									</select>
@@ -73,9 +73,9 @@
 									<label for="pendidikan_kk_id">Pendidikan Dalam KK</label>
 									<select class="form-control  input-sm"  id="pendidikan_kk_id"  name="pendidikan_kk_id" >
 										<option value=""> -- </option>
-										<?php foreach ($pendidikan_kk AS $data):?>
+										<?php foreach ($pendidikan_kk AS $data): ?>
 											<option value="<?= $data['id']?>" <?php selected($pendidikan_kk_id,$data['id']); ?> ><?= $data['nama']?></option>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>

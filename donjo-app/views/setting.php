@@ -6,11 +6,11 @@
 			<div class="col-md-3">
 				<div class="box box-primary">
 					<div class="box-body box-profile">
-						<?php if ($main['foto']):?>
-							<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Photo">
-						<?php else:?>
-							<img class="profile-user-img img-responsive img-circle" src="<?=base_url()?>assets/files/user_pict/kuser.png" alt="Photo">
-						 <?php endif?>
+						<?php if ($main['foto']): ?>
+							<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Foto">
+						<?php else: ?>
+							<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 							<input class="form-control input-sm" type="password" name="pass_baru1" ></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Ganti Photo</label>
+							<label for="catatan">Ganti Foto</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="foto">
 								<input type="file" class="hidden" id="file" name="foto">

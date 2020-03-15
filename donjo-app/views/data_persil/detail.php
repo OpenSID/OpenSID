@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Rincian Data Persil <?=ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('data_persil/clear')?>"> Daftar Persil</a></li>
 			<li class="active">Rincian Data Persil</li>
 		</ol>
@@ -34,7 +34,7 @@
 														<tr>
 															<td width="300">Nama Penduduk</td>
 															<td width="1">:</td>
-															<td><?= strtoupper(unpenetration($persil_detail["namapemilik"]))?></td>
+															<td><?= strtoupper($persil_detail["namapemilik"])?></td>
 														</tr>
 														<tr>
 															<td>NIK</td>
@@ -53,7 +53,7 @@
 														<tr>
 															<td width="300">Nama Pemilik</td>
 															<td width="1">:</td>
-															<td><?= strtoupper(unpenetration($persil_detail["namapemilik"]))?></td>
+															<td><?= strtoupper($persil_detail["namapemilik"])?></td>
 														</tr>
 														<tr>
 															<td>Alamat</td>

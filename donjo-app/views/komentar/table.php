@@ -1,8 +1,19 @@
+<script type="text/javascript">
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Komentar</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Pengaturan Komentar</li>
 		</ol>
 	</section>
@@ -12,7 +23,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("komentar/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("komentar/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -23,16 +34,21 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('komentar/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1):?>selected<?php endif?>>Aktif</option>
-														<option value="2" <?php if ($filter==2):?>selected<?php endif?>>Tidak Aktif</option>
+<<<<<<< HEAD
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+=======
+														<option value="1" <?php if ($filter_status==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter_status==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+>>>>>>> opensid/master
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('komentar/search')?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("komentar/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -41,57 +57,67 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<th>Pengirim</th>
-																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("komentar/index/$p/1")?>">Isi Komentar <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("komentar/index/$p/2")?>">Isi Komentar <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php if ($o==6): ?>
+                                    <th><a href="<?= site_url("komentar/index/$p/5")?>">Isi Komentar <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php elseif ($o==5): ?>
+                                    <th><a href="<?= site_url("komentar/index/$p/6")?>">Isi Komentar <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("komentar/index/$p/1")?>">Isi Komentar <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("komentar/index/$p/5")?>">Isi Komentar <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
+                                  <th>No. HP Pengirim</th>
 																	<th>Email Pengirim</th>
 																	<th>Judul Artikel</th>
-                                  <?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("komentar/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("komentar/index/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                  <?php if ($o==8): ?>
+                                    <th nowrap><a href="<?= site_url("komentar/index/$p/7")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php elseif ($o==7): ?>
+                                    <th nowrap><a href="<?= site_url("komentar/index/$p/8")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("komentar/index/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("komentar/index/$p/7")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
-																	<?php if ($o==6): ?>
-                                    <th nowrap><a href="<?= site_url("komentar/index/$p/5")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==5): ?>
-                                    <th nowrap><a href="<?= site_url("komentar/index/$p/6")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php if ($o==10): ?>
+                                    <th nowrap><a href="<?= site_url("komentar/index/$p/9")?>">Dimuat Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                  <?php elseif ($o==9): ?>
+                                    <th nowrap><a href="<?= site_url("komentar/index/$p/10")?>">Dimuat Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("komentar/index/$p/5")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("komentar/index/$p/9")?>">Dimuat Pada <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data):?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("komentar/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if($data['enabled'] == '2'):?>
+<<<<<<< HEAD
+																			<?php if ($data['enabled'] == '2'): ?>
+=======
+																			<?php if ($data['status'] == '2'): ?>
+>>>>>>> opensid/master
 																			 <a href="<?= site_url('komentar/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Komentar"><i class="fa fa-lock">&nbsp;</i></a>
-																		 	<?php elseif($data['enabled'] == '1'): ?>
+<<<<<<< HEAD
+																		 	<?php elseif ($data['enabled'] == '1'): ?>
+=======
+																		 	<?php elseif ($data['status'] == '1'): ?>
+>>>>>>> opensid/master
 																			 <a href="<?= site_url('komentar/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Komentar"><i class="fa fa-unlock"></i></a>
-																		 	<?php endif?>
+																		 	<?php endif ?>
 																			<a href="#" data-href="<?= site_url("komentar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td nowrap><?= $data['owner']?></td>
 																		<td><?= $data['komentar']?></td>
+																		<td><?= $data['no_hp']?></td>
 																		<td><?= $data['email']?></td>
 																		<td>
-																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?php echo $data['artikel']?></a>
+																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>
 																		</td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
@@ -151,15 +177,15 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
-											Apakah Anda yakin ingin menghapus data ini?
+											Apakah Anda yakin ingin mengarsipkan data ini?
 										</div>
 										<div class='modal-footer'>
 											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 											<a class='btn-ok'>
-												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-file-archive-o'></i> Arsipkan</button>
 											</a>
 										</div>
 									</div>

@@ -91,16 +91,14 @@
 						<!-- Persen untuk tampilan cetak.
 								Colspan untuk tampilan unduh.
 						-->
-						<td colspan="1" width="35%">&nbsp;</td>
-						<td colspan="2" width="15%"	align="center">MENGETAHUI</td>
-						<td colspan="2" width="25%" align="center"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.$desa['nama_kecamatan'].', '.tgl_indo(date("Y m d")))?></span></td>
-						<td colspan="1" width="25%">&nbsp;</td>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="3">MENGETAHUI</td>
+						<td colspan="2"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.$desa['nama_kecamatan'].', '.tgl_indo(date("Y m d")))?></span></td>
 					</tr>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2" align="center"><?= strtoupper($input['jabatan_ketahui'])?></td>
-						<td colspan="2" align="center"><?= strtoupper($input['jabatan_ttd'])?></td>
-						<td colspan="1">&nbsp;</td>
+						<td colspan="3"><?= strtoupper($input['jabatan_ketahui'])?></td>
+						<td colspan="2"><?= strtoupper($input['jabatan_ttd'])?></td>
 					</tr>
 					<tr><td colspan="6">&nbsp;</td></tr>
 					<tr><td colspan="6">&nbsp;</td></tr>
@@ -110,9 +108,8 @@
 					<tr><td colspan="6">&nbsp;</td></tr>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2" align="center"><span class="underline"><?= strtoupper($input['pamong_ketahui'])?></span></td>
+						<td colspan="3" align="center"><span class="underline"><?= strtoupper($input['pamong_ketahui'])?></span></td>
 						<td colspan="2" align="center"><span class="underline"><?= strtoupper($input['pamong_ttd'])?></span></td>
-						<td colspan="1">&nbsp;</td>
 					</tr>
 				</table>
 			</div>

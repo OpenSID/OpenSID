@@ -1,4 +1,4 @@
-										<div class="tab-pane <?php if($act_tab==2):?> active<?php endif?>">
+										<div class="tab-pane <?php if ($act_tab==2): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
@@ -23,8 +23,8 @@
 																			<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
 																			<li>Data yang dibutuhkan untuk Impor dengan memenuhi aturan data berikut
 																				<div class="timeline-footer row">
-																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?=base_url()?>assets/import/ATURANDATA.xls"><i class="fa fa-download"></i>Unduh Aturan data</a>
-																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?=base_url()?>assets/import/ContohFormat.xls" ><i class="fa fa-download"></i>Unduh Contoh Urutan Format</a>
+																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ATURANDATA.xls"><i class="fa fa-download"></i>Unduh Aturan data</a>
+																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ContohFormat.xls" ><i class="fa fa-download"></i>Unduh Contoh Urutan Format</a>
 																				</div>
 																			</li>
 																		</ol>
@@ -74,7 +74,7 @@
 																				</td>
 																			</tr>
 																		</form>
-																		<?php if(isset($_SESSION['gagal'])):?>
+																		<?php if (isset($_SESSION['gagal'])): ?>
 																			<tr>
 																				<td>
 																					<dl class="dl-horizontal">
@@ -99,7 +99,7 @@
 																					</dl>
 																				</td>
 																			</tr>
-																		<?php endif?>
+																		<?php endif ?>
 																	</tbody>
 																</table>
 															</div>

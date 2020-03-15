@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Daftar Inventaris Jalan, Irigasi dan Jaringan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_jalan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_jalan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
 			<li class="active">Rincian</li>
 		</ol>
 	</section>
@@ -11,7 +11,7 @@
 		<form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="<?= $form_action?>">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/jalan/menu_kiri.php')?>
+					<?= $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -58,7 +58,7 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm" id="panjang" name="panjang" type="number" disabled/>
-												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Km</span>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
 									</div>

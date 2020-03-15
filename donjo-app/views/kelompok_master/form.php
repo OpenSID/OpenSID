@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengelolaan Kategori Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
       <li><a href="<?= site_url('kelompok_master')?>"> Daftar Ketegori Kelompok</a></li>
 			<li class="active">Pengelolaan Kategori Kelompok</li>

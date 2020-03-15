@@ -1,4 +1,4 @@
-<?php class Config_model extends CI_Model{
+<?php class Config_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -13,7 +13,7 @@
 
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->bersihkan_post();
 		$data['id'] = 1; // Hanya ada satu row data desa
 		// Data lokasi peta default. Diperlukan untuk menampilkan widget peta lokasi
 		$data['lat'] = '-8.488005310891758';
@@ -21,9 +21,33 @@
 		$data['zoom'] = '19';
 		$data['map_tipe'] = 'roadmap';
 		unset($data['old_logo']);
-		$outp = $this->db->insert('config',$data);
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		$data['logo'] = $this->uploadLogo();
+		if (!empty($data['logo']))
+		{
+			// Ada logo yang berhasil diunggah --> simpan ukuran 100 x 100
+			$tipe_file = TipeFile($_FILES['logo']);
+			$dimensi = array("width"=>100, "height"=>100);
+			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, $dimensi);
+			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, array("width"=>16, "height"=>16), LOKASI_LOGO_DESA.'favicon.ico');
+		}
+		else
+		{
+			unset($data['logo']);
+		}
+		unset($data['file_logo']);
+		$outp = $this->db->insert('config', $data);
+		status_sukses($outp); //Tampilkan Pesan
+	}
+
+	// TODO: tambahkan validasi di form Identitas Desa
+	private function bersihkan_post()
+	{
+		$data = array();
+		foreach ($this->input->post() as $key => $value)
+		{
+			$data[$key] = strip_tags($value);
+		}
+		return $data;
 	}
 
 	public function update($id=0)
@@ -31,29 +55,33 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = '';
 
-		$data = $_POST;
+		$data = $this->bersihkan_post();
 		$data['logo'] = $this->uploadLogo();
 
-		if (!empty($data['logo'])) {
+		if (!empty($data['logo']))
+		{
 			// Ada logo yang berhasil diunggah --> simpan ukuran 100 x 100
 			$tipe_file = TipeFile($_FILES['logo']);
 			$dimensi = array("width"=>100, "height"=>100);
 			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, $dimensi);
+			resizeImage(LOKASI_LOGO_DESA.$data['logo'], $tipe_file, array("width"=>16, "height"=>16), LOKASI_LOGO_DESA.'favicon.ico');
 			// Hapus berkas logo lama
 		  if (!empty($data['old_logo'])) unlink(LOKASI_LOGO_DESA.$data['old_logo']);
-		} else {
+		}
+		else
+		{
 			unset($data['logo']);
 		}
 		unset($data['file_logo']);
 		unset($data['old_logo']);
-		$this->db->where('id',$id)->update('config',$data);
+		$this->db->where('id',$id)->update('config', $data);
 
 		$pamong['pamong_nama'] = $data['nama_kepala_desa'];
 		$pamong['pamong_nip'] = $data['nip_kepala_desa'];
 		$this->db->where('pamong_id','707');
-		$outp = $this->db->update('tweb_desa_pamong',$pamong);
+		$outp = $this->db->update('tweb_desa_pamong', $pamong);
 
-		if(!$outp) $_SESSION['success']=-1;
+		if (!$outp) $_SESSION['success'] = -1;
 	}
 
 	/*
@@ -67,17 +95,19 @@
 		$this->uploadConfig = array(
 			'upload_path' => LOKASI_LOGO_DESA,
 			'allowed_types' => 'gif|jpg|jpeg|png',
-			'max_size' => max_upload()*1024,
+			'max_size' => max_upload() * 1024,
 		);
 		// Adakah berkas yang disertakan?
 		$adaBerkas = !empty($_FILES['logo']['name']);
-		if ($adaBerkas !== TRUE) {
+		if ($adaBerkas !== TRUE)
+		{
 			return NULL;
 		}
 		// Tes tidak berisi script PHP
-		if(isPHP($_FILES['logo']['tmp_name'], $_FILES['logo']['name'])){
-			$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-			$_SESSION['success']=-1;
+		if (isPHP($_FILES['logo']['tmp_name'], $_FILES['logo']['name']))
+		{
+			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+			$_SESSION['success'] = -1;
 			redirect('hom_desa/konfigurasi');
 		}
 
@@ -85,7 +115,8 @@
 		// Inisialisasi library 'upload'
 		$this->upload->initialize($this->uploadConfig);
 		// Upload sukses
-		if ($this->upload->do_upload('logo')) {
+		if ($this->upload->do_upload('logo'))
+		{
 			$uploadData = $this->upload->data();
 			// Buat nama file unik agar url file susah ditebak dari browser
 			$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
@@ -99,7 +130,8 @@
 			$uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
 		}
 		// Upload gagal
-		else {
+		else
+		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
 		}
@@ -110,22 +142,20 @@
 	{
 		$data = $_POST;
 		$id = "1";
-		$this->db->where('id',$id);
-		$outp = $this->db->update('config',$data);
+		$this->db->where('id', $id);
+		$outp = $this->db->update('config', $data);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_wilayah()
 	{
 		$data = $_POST;
 		$id = "1";
-		$this->db->where('id',$id);
-		$outp = $this->db->update('config',$data);
+		$this->db->where('id', $id);
+		$outp = $this->db->update('config', $data);
 
-		if($outp) $_SESSION['success']=1;
-			else $_SESSION['success']=-1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 }

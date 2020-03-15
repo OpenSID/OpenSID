@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Rincian Data Inventaris Kontruksi</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
 			<li class="active">Rincian Data</li>
 		</ol>
 	</section>
@@ -11,7 +11,7 @@
 		<form class="form-horizontal" id="validasi" name="form_kontruksi" method="post" action="<?= $form_action?>">
 			<div class="row">
 				<div class="col-md-3 ">
-          <?php	$this->load->view('inventaris/kontruksi/menu_kiri.php')?>
+					<?= $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -51,7 +51,7 @@
 										<label class="col-sm-3  control-label" style="text-align:left;" for="bahan">Kontruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="bahan" id="bahan" class="form-control input-sm" disabled>
-												<?php if($main->kontruksi_beton == 0): ?>
+												<?php if ($main->kontruksi_beton == 0): ?>
 													<option value='0'>Tidak</option>
 													<option value='1'>Ya</option>
 												<?php else: ?>

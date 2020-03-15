@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1>Isi Data Mutasi Inventaris Gedung Dan Bangunan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url() ?>inventaris_jalan"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url() ?>inventaris_jalan"><i class="fa fa-dashboard"></i>Daftar Inventaris Gedung Dan Bangunan</a></li>
 			<li class="active">Isi Data Mutasi</li>
 		</ol>
 	</section>
@@ -11,7 +11,7 @@
 		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_gedung/add_mutasi"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/gedung/menu_kiri.php')?>
+					<?= $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -87,7 +87,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ><?= $main->keterangan; ?></textarea>
+											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ></textarea>
 										</div>
 									</div>
 								</div>
@@ -105,7 +105,6 @@
 		</form>
 	</section>
 </div>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function()
 	{

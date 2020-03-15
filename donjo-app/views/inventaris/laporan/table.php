@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Laporan Keseluruhan Asset Desa</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Laporan Keseluruhan Asset Desa</li>
 		</ol>
 	</section>
@@ -10,7 +10,7 @@
 		<form id="mainformexcel" name="mainformexcel" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/laporan/menu_kiri.php')?>
+					<?= $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -30,7 +30,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table id="tabel4" class="table table-bordered dataTable table-hover">
+														<table id="tabel4-laporan" class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray">
 																<tr>
 																	<th class="text-center" rowspan="3">No</th>
@@ -226,7 +226,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -332,10 +332,9 @@
 		</form>
 	</section>
 </div>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 	$(document).ready(function(){
-		var t = $('#tabel4').DataTable( {
+		var t = $('#tabel4-laporan').DataTable( {
 			'paging'      : false,
       'lengthChange': false,
       'searching'   : false,

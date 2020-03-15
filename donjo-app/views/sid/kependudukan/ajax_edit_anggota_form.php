@@ -1,6 +1,7 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <form action="<?= $form_action?>" method="post" id="validasi">
+	<input type="hidden" name="kk_level_lama" value="<?= $main['kk_level']?>">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -20,11 +21,11 @@
 							<label for="kk_level">Hubungan</label>
 							<select name="kk_level" class="form-control input-sm required" style="width:100%;">
 								<option value=""> ----- Pilih Hubungan ----- </option>
-								<?php foreach ($hubungan as $data):?>
-									<?php if ($data['id']>0):?>
-										<option value="<?= $data['id']?>" <?php if($data['id']==$main['kk_level']){?>selected<?php }?>><?= $data['hubungan']?></option>
-									<?php endif;?>
-								<?php endforeach;?>
+								<?php foreach ($hubungan as $data): ?>
+									<?php if ($data['id']>0): ?>
+										<option value="<?= $data['id']?>" <?php if ($data['id']==$main['kk_level']): ?>selected<?php endif; ?>><?= $data['hubungan']?></option>
+									<?php endif; ?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>

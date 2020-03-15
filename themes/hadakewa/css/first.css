@@ -4,14 +4,11 @@
  *     - latar belakang body yang ditempatkan di themes/hadakewa/css/images/img1.jpg
  *     - dan latar belakang header yang ditempatkan di themes/hadakewa/css/images/bg_header.jpg
  *
- * first.css ini berisi perubahan untuk styles yang ada di assets/front/css/first.css
+ * first.css ini berisi perubahan untuk styles yang ada di assets/front/css/first.css 
+ *     dan juga mengubah styles di file css lainnya seperti di bootstrap.bar.css
  *
 */
 
-html{
-  <param name="quality" value="high" />
-  <embed src="http://www.4shared.com/embed/487028039/72ce44cf/preview.swf" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="147" height="34" ></embed>
-}
 a, a:active {
 	color: #0404fd;
 }
@@ -45,24 +42,24 @@ body{
   margin: 6px 0px 6px 0px;
 }
 #footer{
-  padding: 3px 0;
-	background: rgba(32,124,229,1);
-	background: -moz-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(32,124,229,1)), color-stop(100%, rgba(75,182,232,1)));
-	background: -webkit-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: -o-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: -ms-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
+  padding: 0;
+  background: rgba(32,124,229,1);
+  background: -moz-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(32,124,229,1)), color-stop(100%, rgba(75,182,232,1)));
+  background: -webkit-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: -o-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: -ms-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
 #footer-left{
   text-align: left;
     padding: 10px;
-    width: 47%;
+    width: 53%;
 }
 #footer-right{
     padding: 10px;
-    width: 53%;
+    width: 47%;
     float: right;
     margin-top: -50px;
 }
@@ -198,6 +195,10 @@ body{
 	background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
+.box-header.label-danger {
+  background-color: #d9534f;
+  background-image: none !important;
+}
 .box-header > .fa,
 .box-header > .glyphicon,
 .box-header > .ion,
@@ -301,13 +302,17 @@ body{
     box-shadow: 0px 1px 1px #ccc;
     border-radius: 2px;
 }
+.artikel.feed {
+    background-color: gold; 
+}
 .artikel .judul{
 	font-size: 1.1em;
     color: #333;
     font-family: Roboto, sans-serif;
     font-weight: normal;
-    margin-bottom: 0em;
-	margin-top: 0px;
+    margin-bottom: 5px;
+	margin-top: 5px;
+	text-transform: uppercase;
 }
 .artikel .kecil{
 	font-size:11px;
@@ -321,8 +326,7 @@ body{
 }
 .artikel .teks img{
 	margin-right: 7px;
-	max-width: 260px;
-    max-height: 155px;
+	max-width: 100%;
 }
 .artikel .teks p {
     margin: 0 0 0.5em 0;
@@ -375,7 +379,6 @@ h4 {
     color: #0c83c5;
     padding-top: 29px;
     font-weight: bold;
-    text-transform: uppercase;
     text-shadow: 0 1px 1px #777;
     margin-bottom: -20px;
     -webkit-text-stroke: 1px #fff;
@@ -388,7 +391,6 @@ h4 {
 	text-shadow: 4px 4px 4px #000;
     margin-top: 27px;
     margin-bottom: 13px;
-    text-transform: uppercase;
 } /* mengubah font judul web ( kecamatan dan kabupaten ) */
 #siteTitle h3{
 font-family: "Arial", sans-serif;
@@ -397,7 +399,6 @@ font-family: "Arial", sans-serif;
     font-weight: normal;
     text-shadow: 1px 1px 2px #000;
     margin-top: 15px;
-    text-transform: uppercase;
     margin-bottom: 8px;
 } /* mengubah font judul web ( alamat ) */
 #siteTitle h4{
@@ -407,7 +408,6 @@ font-family: "Arial", sans-serif;
     font-weight: bold;
     text-shadow: 1px 1px 2px #000;
     margin-top: -11px;
-    text-transform: uppercase;
     margin-bottom: 2px;
 } /* mengubah font kontak web ( alamat ) */
 
@@ -500,13 +500,30 @@ textarea {
     margin-top: 8px;
 }
 #ul-menu {
-    list-style-type: square;
+    list-style-type: disc;
 	margin-left: 20px;
 	margin-bottom: 0px;
 }
 ul.submenu {
     list-style: disc;
     margin-left: 20px;
+}
+#ul-agenda {
+    list-style-type: none;
+}
+#table-agenda {
+	margin-bottom: 10px;
+}
+#label-meta-agenda {
+    color: #ca0b0b;
+    font-size: 12px;
+	margin-bottom: 0px;
+}
+#isi-meta-agenda {
+    font-weight: bold;
+    color: #ca0b0b;
+    font-size: 11.3px;
+	margin-bottom: 0px;
 }
 #li-komentar {
     list-style: none;
@@ -549,5 +566,43 @@ table.counter {
 }
 table.counter tr td {
     border-right: silver 0px solid;
+	font:  12px Arial,Helvetica;
+	text-transform: uppercase;
 }
 }
+.post {
+	font-size: 15px;
+	line-height: 1.5em;
+}
+.readmore {
+	background: #03A9F4;
+    width: 130px;
+    text-align: center;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 27px;
+}
+.readmore a {
+    color: #fff;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+.artikel .teks ol li {
+    list-style: decimal;
+	padding-bottom: 5px;
+	margin: 0 1em;
+    padding: 0 1em;
+}
+.artikel .teks ul li {
+    list-style: disc;
+	padding-bottom: 5px;
+	margin: 0 1em;
+    padding: 0 1em;
+}
+/* Mengubah styles dari bootstrap */
+@media (min-width: 768px) {
+  .navbar-nav {
+    text-transform: none !important;
+  }
+}
+

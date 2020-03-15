@@ -1,8 +1,19 @@
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Kategori Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
 			<li class="active">Kategori Kelompok</li>
 		</ol>
@@ -14,7 +25,7 @@
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?= site_url('kelompok_master/form')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Kategori Kelompok Baru</a>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok_master/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok_master/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Kelompok</a>
 						</div>
 						<div class="box-body">
@@ -25,7 +36,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=$cari?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("kelompok_master/search")?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("kelompok_master/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
 															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("kelompok_master/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
@@ -35,7 +46,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover nowrap">
+														<table class="table table-bordered table-striped dataTable table-hover nowrap">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<th><input type="checkbox" id="checkall"/></th>
@@ -52,7 +63,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach($main as $data): ?>
+																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 																		<td><?= $data['no']?></td>
@@ -120,7 +131,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -139,7 +150,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin mengembalikan status data penduduk ini?

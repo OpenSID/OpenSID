@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
 	//File Upload
 	$('#file_browser').click(function(e)

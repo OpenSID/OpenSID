@@ -4,7 +4,7 @@
 		<title>Data Peraturan Desa</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -54,7 +54,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($main as $data): ?>
+						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $data['attr']['jenis_peraturan']?></td>
@@ -78,10 +78,10 @@
 						<!-- Persen untuk tampilan cetak.
 								Colspan untuk tampilan unduh.
 						-->
-						<td colspan="2" width="35%">&nbsp;</td>
-						<td colspan="3" width="15%"	align="center">MENGETAHUI</td>
-						<td colspan="3" width="25%" align="center"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.$desa['nama_kecamatan'].', '.tgl_indo(date("Y m d")))?></span></td>
-						<td colspan="2" width="25%">&nbsp;</td>
+						<td colspan="2">&nbsp;</td>
+						<td colspan="3">MENGETAHUI</td>
+						<td colspan="3"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.$desa['nama_kecamatan'].', '.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2">&nbsp;</td>

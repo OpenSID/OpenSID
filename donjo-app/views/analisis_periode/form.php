@@ -35,8 +35,8 @@
 	<section class="content-header">
 		<h1>Pengaturan Priode Analisis [ <?= $analisis_master['nama']?> ]</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_indikator">Indikator Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_periode">Pengaturan Priode</a></li>
 			<li class="active">Tambah Priode</li>
@@ -66,19 +66,6 @@
 												</div>
 											</div>
 										</div>
-                    <div class="col-sm-12">
-											<div class="form-group">
-												<label class="col-sm-3 control-label" for="act_analisis">Status</label>
-												<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-													<label id="ss3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] =='1' OR $analisis_periode['aktif'] ==NULL): ?>active<?php endif ?>">
-														<input id="g3" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if ($analisis_periode['aktif']=='1' OR $analisis_periode['aktif'] ==NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
-													</label>
-													<label id="ss4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] == '2' ):?>active<?php endif?>">
-														<input id="g4" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if ($analisis_periode['aktif'] == '2' ):?>checked<?php endif?> autocomplete="off"> Tidak AKtif
-													</label>
-												</div>
-											</div>
-										</div>
 										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="id_state">Tahap Pendataan</label>
@@ -103,7 +90,7 @@
 												</div>
 											</div>
 										</div>
-                    <?php if ($analisis_periode == null):?>
+                    <?php if ($analisis_periode == null): ?>
                       <div class="col-sm-12">
                         <div class="form-group">
                           <label class="col-sm-3 control-label" for="act_analisis">Duplikat data pendataan sebelumnya</label>
@@ -117,12 +104,25 @@
                           </div>
                         </div>
                       </div>
-                    <?php endif;?>
+                    <?php endif; ?>
                     <div class="col-sm-12">
 											<div class="form-group" id="delik">
 												<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">
 													<textarea  id="keterangan" class="form-control input-sm" placeholder="Keterangan" name="keterangan"><?= $analisis_periode['keterangan']?></textarea>
+												</div>
+											</div>
+										</div>
+                    <div class="col-sm-12">
+											<div class="form-group">
+												<label class="col-sm-3 control-label" for="act_analisis">Status</label>
+												<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+													<label id="ss3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] =='1' OR $analisis_periode['aktif'] ==NULL): ?>active<?php endif ?>">
+														<input id="g3" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if ($analisis_periode['aktif']=='1' OR $analisis_periode['aktif'] ==NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+													</label>
+													<label id="ss4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] == '2' ): ?>active<?php endif ?>">
+														<input id="g4" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if ($analisis_periode['aktif'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak AKtif
+													</label>
 												</div>
 											</div>
 										</div>

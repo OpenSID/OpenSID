@@ -71,8 +71,8 @@ function RWSel(dusun,str)
                 <label>Dusun</label>
                 <select class="form-control input-sm " name="dusun" nchange="DusSel(this.value)">
                   <option value=""><?=ucwords($this->setting->sebutan_dusun)?></option>
-                  <?php foreach ($dusun as $data):?>
-                    <option <?php if ($dusun==$data['dusun']):?>selected<?php endif?> value="<?=$data['dusun']?>"><?=$data['dusun']?></option>
+                  <?php foreach ($dusun as $data): ?>
+                    <option <?php if ($dusun==$data['dusun']): ?>selected<?php endif ?> value="<?=$data['dusun']?>"><?=$data['dusun']?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -94,7 +94,7 @@ function RWSel(dusun,str)
 								<label for="status_dasar">Pekerjaan</label>
 								<select class="form-control input-sm"  id="pekerjaan_id"  name="pekerjaan_id">
 									<option value=""> -- </option>
-									<?php foreach ($pekerjaan AS $data):?>
+									<?php foreach ($pekerjaan AS $data): ?>
 										<option value="<?= $data['id']?>"><?= $data['nama']?></option>
 									<?php endforeach;?>
 								</select>
@@ -113,7 +113,7 @@ function RWSel(dusun,str)
 								<label for="agama">Agama</label>
 								<select class="form-control  input-sm"  id="agama"  name="agama" >
 									<option value=""> -- </option>
-									<?php foreach ($list_agama AS $data):?>
+									<?php foreach ($list_agama AS $data): ?>
 										<option value="<?= $data['id']?>"><?= $data['nama']?></option>
 									<?php endforeach;?>
 								</select>
@@ -124,7 +124,7 @@ function RWSel(dusun,str)
 								<label for="pendidikan_kk_id">Pendidikan KK</label>
 								<select class="form-control  input-sm"  id="pendidikan_kk_id"  name="pendidikan_kk_id" >
 									<option value=""> -- </option>
-									<?php foreach ($pendidikan_kk AS $data):?>
+									<?php foreach ($pendidikan_kk AS $data): ?>
 										<option value="<?= $data['id']?>"><?= $data['nama']?></option>
 									<?php endforeach;?>
 								</select>

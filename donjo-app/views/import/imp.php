@@ -1,4 +1,4 @@
-											<div class="tab-pane <?php if($act_tab==2):?> active<?php endif?>">
+											<div class="tab-pane <?php if ($act_tab==2): ?> active<?php endif ?>">
 												<div class="row">
 													<div class="col-md-12">
 														<div class="box-header with-border">
@@ -66,7 +66,7 @@
 																					</div>
 																				</td>
 																			</tr>
-																			<?php if(isset($_SESSION['gagal'])):?>
+																			<?php if (isset($_SESSION['gagal'])): ?>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
@@ -91,7 +91,7 @@
 																						</dl>
 																					</td>
 																				</tr>
-																			<?php endif?>
+																			<?php endif ?>
 																		</tbody>
 																	</table>
 																</div>
@@ -101,7 +101,7 @@
 												</div>
 												<div class="col-md-12">
 													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Impor Pengelompokan Data Rumah Tanggal</strong></h3>
+														<h3 class="box-title"><strong>Impor Pengelompokan Data Rumah Tangga</strong></h3>
 													</div>
 													<div class="box-body">
 														<?=form_open($form_action3, 'id=kelompok enctype="multipart/form-data" class="form-horizontal"')?>
@@ -160,7 +160,7 @@
 																<div class='modal-body'>
 																	Harap tunggu sampai proses impor selesai. Proses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan.
 																	<div class='text-center'>
-																		<img src='<?=base_url()?>assets/images/background/loading.gif'>
+																		<img src='<?= base_url()?>assets/images/background/loading.gif'>
 																	</div>
 																</div>
 															</div>

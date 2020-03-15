@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Data Anggota Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
 			<li class="active">Data Anggota Kelompok</li>
 		</ol>
@@ -55,7 +55,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php  foreach($main as $data): ?>
+																<?php foreach ($main as $data): ?>
 																<tr>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
@@ -68,9 +68,9 @@
 																	<td nowrap><?= $data['nama']?></td>
 																	<td width="50%"><?= $data['alamat']?></td>
 																	<td><?= $data['umur']?></td>
-																	<td><?php if($data['sex']==1) echo "Laki-laki"; else echo "Perempuan";?></td>
+																	<td><?php if ($data['sex']==1): ?>Laki-laki <?php else: ?>Perempuan <?php endif; ?></td>
 																</tr>
-																	<?php  endforeach; ?>
+																	<?php endforeach; ?>
 															</tbody>
 														</table>
 													</div>
@@ -85,7 +85,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin menghapus data ini?
@@ -104,7 +104,7 @@
 									<div class='modal-content'>
 										<div class='modal-header'>
 											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-text-width text-yellow'></i> Konfirmasi</h4>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
 											Apakah Anda yakin ingin mengembalikan status data penduduk ini?

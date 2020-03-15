@@ -93,15 +93,33 @@
 		if($rp != 0){return "$rp";}else{return "-";}
 	}
 
+	function to_rupiah($inp=''){
+		$outp = str_replace('.', '', $inp);
+		$outp = str_replace(',', '.', $outp);
+		return $outp;
+	}
+
+	function rp($inp=0){
+		return number_format($inp, 2, ',', '.');
+	}
+
+	function rupiah24($angka)
+	{
+		$hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+		return $hasil_rupiah;
+	}
+
 	function jecho($a,$b,$str){
 		if($a==$b){
 			echo $str;
 		}
 	}
 
-	function selected($a,$b,$opt=0){
-		if($a==$b){
-			if($opt)
+	function selected($a, $b, $opt=0)
+	{
+		if ($a == $b)
+		{
+			if ($opt)
 				echo "checked='checked'";
 			else echo "selected='selected'";
 		}
@@ -149,105 +167,31 @@
 		return $str;
 	}
 
-	function bulan($bln){
-		$nm = '';
-		switch($bln){
-			case '1':
-				$nm = 'Januari';
-				break;
-			case '2':
-				$nm = 'Februari';
-				break;
-			case '3':
-				$nm = 'Maret';
-				break;
-			case '4':
-				$nm = 'April';
-				break;
-			case '5':
-				$nm = 'Mei';
-				break;
-			case '6':
-				$nm = 'Juni';
-				break;
-			case '7':
-				$nm = 'Juli';
-				break;
-			case '8':
-				$nm = 'Agustus';
-				break;
-			case '9':
-				$nm = 'September';
-				break;
-			case '10':
-				$nm = 'Oktober';
-				break;
-			case '11':
-				$nm = 'November';
-				break;
-			case '12':
-				$nm = 'Desember';
-				break;
-			default:
-				$nm = '';
-				break;
-		}
-		return $nm;
+	function bulan($bln)
+	{
+		$bulan = array(1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember');
+		return $bulan[(int)$bln];
 	}
 
-	function nama_bulan($tgl){
-		$ar=explode('-',$tgl);
+	function getBulan($bln)
+	{
+		return bulan($bln);
+	}	
 
-		$nm = '';
-		switch($ar[1]){
-			case '01':
-				$nm = 'Januari';
-				break;
-			case '02':
-				$nm = 'Februari';
-				break;
-			case '03':
-				$nm = 'Maret';
-				break;
-			case '04':
-				$nm = 'April';
-				break;
-			case '05':
-				$nm = 'Mei';
-				break;
-			case '06':
-				$nm = 'Juni';
-				break;
-			case '07':
-				$nm = 'Juli';
-				break;
-			case '08':
-				$nm = 'Agustus';
-				break;
-			case '09':
-				$nm = 'September';
-				break;
-			case '10':
-				$nm = 'Oktober';
-				break;
-			case '11':
-				$nm = 'November';
-				break;
-			case '12':
-				$nm = 'Desember';
-				break;
-		}
-
+	function nama_bulan($tgl)
+	{
+		$ar = explode('-', $tgl);
+		$nm = bulan($ar[1]);
 		$o = $ar[0] .' '. $nm .' '. $ar[2];
 		return $o;
 	}
 
 	function hari($tgl){
-    $hari = array(
-      0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'
-    );
+		$hari = array(
+			0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu'
+		);
 		$dayofweek = date('w', $tgl);
-    return $hari[$dayofweek];
+		return $hari[$dayofweek];
 	}
 
 	function dua_digit($i){
@@ -261,16 +205,6 @@
 		else if($i<100) $o='0'.$i;
 			else $o=$i;
 		return $o;
-	}
-
-	function to_rupiah($inp=''){
-		$outp = str_replace('.', '', $inp);
-		$outp = str_replace(',', '.', $outp);
-		return $outp;
-	}
-
-	function rp($inp=0){
-		return number_format($inp, 2, ',', '.');
 	}
 
 	function pertumbuhan($a=1,$b=1,$c=1,$d=1){
@@ -347,63 +281,21 @@
 
 	function waktu_ind($time){
 		$str ="";
-			if(($time/360)>1){
-				$jam = ($time/360);
-				$jam = explode('.',$jam);
-				$str .= $jam." Jam ";
-			}
-			if(($time/60)>1){
-				$menit = ($time/60);
-				$menit = explode('.',$menit);
-				$str .= $menit[0]." Menit ";
-			}
-			$detik = $time%60;
-			$str .= $detik;
-
-			return $str.' Detik';
-	}
-
-	function getBulan($bln){
-				switch ($bln){
-					case 1:
-						return "Januari";
-						break;
-					case 2:
-						return "Februari";
-						break;
-					case 3:
-						return "Maret";
-						break;
-					case 4:
-						return "April";
-						break;
-					case 5:
-						return "Mei";
-						break;
-					case 6:
-						return "Juni";
-						break;
-					case 7:
-						return "Juli";
-						break;
-					case 8:
-						return "Agustus";
-						break;
-					case 9:
-						return "September";
-						break;
-					case 10:
-						return "Oktober";
-						break;
-					case 11:
-						return "November";
-						break;
-					case 12:
-						return "Desember";
-						break;
-				}
-
+		if(($time/360)>1){
+			$jam = ($time/360);
+			$jam = explode('.',$jam);
+			$str .= $jam." Jam ";
 		}
+		if(($time/60)>1){
+			$menit = ($time/60);
+			$menit = explode('.',$menit);
+			$str .= $menit[0]." Menit ";
+		}
+		$detik = $time%60;
+		$str .= $detik;
+
+		return $str.' Detik';
+	}
 
 //time out
 function timer(){
@@ -442,25 +334,28 @@ function mandiri_timeout(){
 }
 
 //time out Admin set 3 login per 5 menit
-function siteman_timer(){
-	$time=300;  //300 detik
+function siteman_timer()
+{
+	$time = 300;  //300 detik
 	$_SESSION['siteman_try'] = 4;
-	$_SESSION['siteman_wait']=0;
-	$_SESSION['siteman_timeout']=time()+$time;
+	$_SESSION['siteman_timeout'] = time() + $time;
 }
 
-function siteman_timeout(){
-	(isset($_SESSION['siteman_timeout'])) ? $timeout=$_SESSION['siteman_timeout'] : $timeout = null;
-	if(time()>$timeout){
-		siteman_timer();
+function siteman_timeout()
+{
+	$timeout = (isset($_SESSION['siteman_timeout'])) ? $_SESSION['siteman_timeout'] : null;
+	if (time() > $timeout)
+	{
+		$_SESSION['siteman_wait'] = 0;
 	}
 }
 
-function get_identitas(){
+function get_identitas()
+{
 	$ci =& get_instance();
-	$sql="SELECT * FROM config";
-	$a=$ci->db->query($sql);
-	$hsl=$a->row_array();
+	$sql = "SELECT * FROM config";
+	$a = $ci->db->query($sql);
+	$hsl = $a->row_array();
 	//print_r($hsl);
 	$string = ucwords($ci->setting->sebutan_desa)." : ".$hsl['nama_desa']." ".ucwords($ci->setting->sebutan_kecamatan_singkat)." : ".$hsl['nama_kecamatan']." Kab : ".$hsl['nama_kabupaten'];
 	return $string;
@@ -494,7 +389,8 @@ function fixSQL($str, $encode_ent = false) {
 
 //baca data tanpa HTML Tags
 function fixTag($varString){
-	return strip_tags($varString);
+	// edited : filter <i> tag for exception
+	return strip_tags($varString, '<i>');
 }
 
 /*
@@ -526,6 +422,14 @@ function fTampilTgl($sdate,$edate){
 	return $tgl;
 }
 
+// https://stackoverflow.com/questions/19271381/correctly-determine-if-date-string-is-a-valid-date-in-that-format
+function validate_date($date, $format = 'd-m-Y')
+{
+	$d = DateTime::createFromFormat($format, $date);
+	// The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+	return $d && $d->format($format) === $date;
+}
+
 // Potong teks pada batasan kata
 function potong_teks($teks, $panjang) {
 	$abstrak = fixTag($teks);
@@ -535,10 +439,113 @@ function potong_teks($teks, $panjang) {
 	return $abstrak;
 }
 
-	function hash_pin($pin=""){
-		$pin = strrev($pin);
-		$pin = $pin*77;
-		$pin .= "!#@$#%";
-		$pin = md5($pin);
-		return $pin;
+function hash_pin($pin="")
+{
+	$pin = strrev($pin);
+	$pin = $pin*77;
+	$pin .= "!#@$#%";
+	$pin = md5($pin);
+	return $pin;
+}
+
+/*
+ * =======================================
+ * Rupiah terbilang
+ */
+function number_to_words($number, $nol_sen=true)
+{
+	$before_comma = trim(to_word($number));
+	$after_comma = trim(comma($number));
+	$result = $before_comma . ($nol_sen ? '' : ' koma ' . $after_comma);
+	return ucwords($result . ' Rupiah');
+}
+
+function to_word($number)
+{
+	$words = "";
+	$arr_number = array(
+		"",
+		"satu",
+		"dua",
+		"tiga",
+		"empat",
+		"lima",
+		"enam",
+		"tujuh",
+		"delapan",
+		"sembilan",
+		"sepuluh",
+		"sebelas");
+
+	if ($number < 12)
+	{
+		$words = " ".$arr_number[$number];
 	}
+	else if ($number < 20)
+	{
+		$words = to_word($number - 10)." belas";
+	}
+	else if ($number < 100)
+	{
+		$words = to_word($number / 10)." puluh".to_word($number % 10);
+	}
+	else if ($number < 200)
+	{
+		$words = "seratus ".to_word($number - 100);
+	}
+	else if ($number < 1000)
+	{
+		$words = to_word($number / 100)." ratus".to_word($number % 100);
+	}
+	else if ($number < 2000)
+	{
+		$words = "seribu ".to_word($number - 1000);
+	}
+	else if ($number < 1000000)
+	{
+		$words = to_word($number / 1000)." ribu".to_word($number % 1000);
+	}
+	else if ($number < 1000000000)
+	{
+		$words = to_word($number / 1000000)." juta".to_word($number % 1000000);
+	}
+	else
+	{
+		$words = "undefined";
+	}
+	return $words;
+}
+
+function comma($number)
+{
+	$after_comma = stristr($number, ',');
+	$arr_number = array(
+		"nol",
+		"satu",
+		"dua",
+		"tiga",
+		"empat",
+		"lima",
+		"enam",
+		"tujuh",
+		"delapan",
+		"sembilan");
+
+	$results = "";
+	$length = strlen($after_comma);
+	$i = 1;
+	while ($i < $length)
+	{
+		$get = substr($after_comma, $i, 1);
+		$results .= " ".$arr_number[$get];
+		$i++;
+	}
+	return $results;
+}
+
+function hit($angka)
+{	
+	$hasil = number_format($angka, 0, '.', '.')." Kali";
+	return $hasil;
+}
+// =======================================
