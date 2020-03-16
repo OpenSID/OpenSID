@@ -92,21 +92,34 @@
 		return $data;
 	}
 
+	private function cek_data($table, $data=[])
+	{
+		$query = $this->db->get_where($table, $data);
+		$count = $query->num_rows(); 
+		return $count;
+	}
+
 	public function insert()
 	{
 		$data = $this->bersihkan_data($_POST);
 		$data['dusun'] = $_POST['dusun'];
-		$this->db->insert('tweb_wil_clusterdesa', $data);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $data); 
+		if($cek_data)
+			$_SESSION['success'] = -2;
+		else
+		{
+			$this->db->insert('tweb_wil_clusterdesa', $data);
 
-		$rw = $data;
-		$rw['rw'] = "-";
-		$this->db->insert('tweb_wil_clusterdesa', $rw);
+			$rw = $data;
+			$rw['rw'] = "-";
+			$this->db->insert('tweb_wil_clusterdesa', $rw);
 
-		$rt = $rw;
-		$rt['rt'] = "-";
-		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
+			$rt = $rw;
+			$rt['rt'] = "-";
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
 
-		status_sukses($outp); //Tampilkan Pesan
+			status_sukses($outp); //Tampilkan Pesan
+		}
 	}
 
 	public function update($id='')
@@ -175,13 +188,19 @@
 		$data = $_POST;
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
-		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $data); 
+		if($cek_data)
+			$_SESSION['success'] = -2;
+		else
+		{
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
 
-		$rt = $data;
-		$rt['rt'] = "-";
-		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
+			$rt = $data;
+			$rt['rt'] = "-";
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
 
-		status_sukses($outp); //Tampilkan Pesan
+			status_sukses($outp); //Tampilkan Pesan
+		}
 	}
 
 	public function update_rw($dusun='', $rw='')
@@ -243,9 +262,15 @@
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$data['rw'] = $rw;
-		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $data); 
+		if($cek_data)
+			$_SESSION['success'] = -2;
+		else
+		{
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+			status_sukses($outp); //Tampilkan Pesan
+		}
 	}
 
 	public function update_rt($id=0)
