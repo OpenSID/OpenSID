@@ -13,6 +13,9 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url("sid_core/form_rw/$id_dusun")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah RW</a>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sid_core/delete_all/rw")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php endif; ?>
 						<a href="<?= site_url("sid_core/cetak_rw/$id_dusun")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("sid_core/excel_rw/$id_dusun")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<a href="<?= site_url("sid_core")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
@@ -49,7 +52,11 @@
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
+																	<td>
+																		<?php if ($data['rw']!="-"): ?>
+																			<input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" >
+																		<?php endif; ?>																		
+																	</td>
 																	<td><?= $data['no']?></td>
 
 																	<td nowrap>
@@ -58,7 +65,7 @@
 																			<a href="<?= site_url("sid_core/form_rw/$id_dusun/$data[rw]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php endif; ?>
 																		<?php if ($data['rw']!="-"): ?>
-																			<a href="#" data-href="<?= site_url("sid_core/delete_rw/$id_dusun/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("sid_core/delete/rw/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																		<?php if ($data['rw']!="-"): ?>
 																			<div class="btn-group">
@@ -134,4 +141,3 @@
 		</div>
 	</section>
 </div>
-

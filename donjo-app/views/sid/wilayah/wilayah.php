@@ -23,6 +23,9 @@
 				<div class="box box-info">
           <div class="box-header with-border">
 						<a href="<?= site_url('sid_core/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Dusun</a>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sid_core/delete_all/dusun")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php endif; ?>
 						<a href="<?= site_url('sid_core/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url('sid_core/excel')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 					</div>
@@ -80,7 +83,7 @@
 	                                  <a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
 																		<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("sid_core/delete/dusun/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 														        <div class="btn-group">
 																			<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
@@ -199,5 +202,3 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-
-

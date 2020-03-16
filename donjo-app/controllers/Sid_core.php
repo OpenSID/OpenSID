@@ -127,11 +127,22 @@ class Sid_Core extends Admin_Controller {
 		redirect('sid_core');
 	}
 
-	public function delete($id = '')
+	//Sederhanakan delete
+	public function delete($tipe = '', $id = '')
 	{
-		$this->redirect_hak_akses('h', 'sid_core');
-		$this->wilayah_model->delete($id);
-		redirect('sid_core');
+		$kembali = $_SERVER['HTTP_REFERER'];
+		$this->redirect_hak_akses('h', $kembali);
+		$this->wilayah_model->delete($tipe, $id);
+		redirect($kembali);
+	}
+
+	//Sederhanakan delete_all
+	public function delete_all($tipe= '')
+	{
+		$kembali = $_SERVER['HTTP_REFERER'];
+		$this->redirect_hak_akses('h', $kembali);
+		$this->wilayah_model->delete_all($tipe);
+		redirect($kembali);
 	}
 
 	public function sub_rw($id_dusun = '')
