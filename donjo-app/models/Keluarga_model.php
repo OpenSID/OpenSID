@@ -671,7 +671,7 @@
 		return $query->result_array();
 	}
 
-	// Tambah anggota keluarga
+	// Tambah anggota keluarga, penduduk baru
 	public function insert_a()
 	{
 		unset($_SESSION['validation_error']);
@@ -719,6 +719,7 @@
 		}
 
 		if (!$this->validasi_data_keluarga($data)) return;
+		unset($data['alamat']);
 
 		$error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
