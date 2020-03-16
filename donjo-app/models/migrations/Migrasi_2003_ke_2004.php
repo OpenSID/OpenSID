@@ -49,6 +49,20 @@ class Migrasi_2003_ke_2004 extends CI_model {
 
 	private function ubah_data_persil()
 	{
+		// Buat tabel baru
+		$this->buat_ref_persil_kelas();
+		$this->buat_ref_persil_mutasi();
+		$this->buat_ref_persil_jenis_mutasi();
+		$this->buat_cdesa();
+		$this->buat_cdesa_penduduk();
+		$this->buat_persil();
+		$this->buat_mutasi_cdesa();
+		// Pindahkan data lama ke tabel baru
+
+	}
+
+	private function buat_ref_persil_kelas()
+	{
 		// Buat tabel jenis Kelas Persil
 		if (!$this->db->table_exists('ref_persil_kelas'))
 		{
@@ -92,129 +106,10 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			['kode' => 'D-IV', 'tipe' => 'KERING', 'ndesc' => 'Lahan Kering Sanga Jauh dengan Pemukiman'],
 			];
 		$this->db->insert_batch('ref_persil_kelas', $data);
+	}
 
-		// Buat tabel id C-DESA
-		if (!$this->db->table_exists('data_persil_c_desa') )
-		{
-			$fields = array(
-				'id' => array(
-					'type' => 'INT',
-					'constraint' => 5,
-					'unsigned' => TRUE,
-					'auto_increment' => TRUE
-				),
-				'c_desa' => array(
-					'type' => 'INT',
-					'constraint' => 11,
-					'unique' => TRUE,
-				),
-				'id_pend' => array(
-					'type' => 'INT',
-					'constraint' => 11,
-					'null' => TRUE
-				)
-			);
-			$this->dbforge->add_key('id', TRUE);
-			$this->dbforge->add_field($fields);
-			$this->dbforge->create_table('data_persil_c_desa');
-		}
-
-		//tambahkan kolom untuk beberapa data persil
-		if (!$this->db->field_exists('id_c_desa','data_persil'))
-		{
-			$fields = array(
-				'id_c_desa' => array(
-					'type' => 'INT', 
-					'after' => 'id'
-				),
-				'pajak' => array(
-					'type' => 'INT',
-					'after' => 'persil_peruntukan_id',
-					'null' => TRUE					
-				),
-				'lokasi' => array(
-					'type' => 'TEXT',
-					'after' => 'pemilik_luar',
-					'null' => TRUE
-				)
-			);
-			$this->dbforge->add_column('data_persil', $fields);
-		}
-
-		// Buat tabel mutasi Persil
-		if (!$this->db->table_exists('data_persil_mutasi'))
-		{
-			$fields = array(
-				'id' => array(
-					'type' => 'INT',
-					'constraint' => 5,
-					'unsigned' => TRUE,
-					'auto_increment' => TRUE
-				),
-				'id_persil' => array(
-					'type' => 'INT',
-					'constraint' => 5,
-				),
-				'jenis_mutasi' => array(
-					'type' => 'TINYINT',
-					'constraint' => 2,
-				),
-				'tanggalmutasi' => array(
-					'type' => 'date',
-					'null' => TRUE
-				),
-				'sebabmutasi' => array(
-					'type' => 'VARCHAR',
-					'constraint' => 20,
-					'null' => TRUE					
-				),
-				'luasmutasi' => array(
-					'type' => 'decimal',
-					'constraint' => 7,
-					'null' => TRUE	
-				),
-				'no_c_desa' => array(
-					'type' => 'INT',
-					'constraint' => 5,
-					'null' => TRUE
-				),
-				'keterangan' => array(
-					'type' => 'TEXT',
-					'null' => TRUE	
-				),
-			);
-			$this->dbforge->add_key('id', TRUE);
-			$this->dbforge->add_field($fields);
-			$this->dbforge->create_table('data_persil_mutasi');
-		}
-
-		//Tambah kolom di data_persil_mutasi jenis_mutasi Jika Sebelumnya Sudah migrasi
-		if (!$this->db->field_exists('jenis_mutasi','data_persil_mutasi'))
-		{
-			$fields = array(
-				'jenis_mutasi' => array(
-					'type' => 'TINYINT',
-					'constraint' => 2,
-					'after' => 'id_persil'
-				)
-			);
-			$this->dbforge->add_column('data_persil_mutasi', $fields);
-		}
-
-		//Ganti kolom untuk di data_persil_mutasi c_desa_awal menjadi no_c_desa
-		if ($this->db->field_exists('c_desa_awal','data_persil_mutasi'))
-		{
-			$fields = array(
-				'c_desa_awal' => array(
-					'name' => 'no_c_desa',
-					'type' => 'INT',
-					'constraint' => 5,
-					'null' => TRUE
-				)
-			);
-			$this->dbforge->modify_column('data_persil_mutasi', $fields);
-		}
-
+	private function buat_ref_persil_mutasi()
+	{
 		// Buat tabel ref Mutasi Persil
 		if (!$this->db->table_exists('ref_persil_mutasi'))
 		{
@@ -248,8 +143,11 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			['nama' => 'Hibah', 'ndesc' => 'Didapat dari proses Hibah'],
 			['nama' => 'Waris', 'ndesc' => 'Didapat dari proses Waris'],
 			];
-		$this->db->insert_batch('ref_persil_mutasi', $data);
+		$this->db->insert_batch('ref_persil_mutasi', $data);		
+	}
 
+	private function buat_ref_persil_jenis_mutasi()
+	{
 		// Buat tabel Jenis Mutasi Persil
 		if (!$this->db->table_exists('ref_persil_jenis_mutasi'))
 		{
@@ -279,5 +177,191 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			['nama' => 'Pemecahan'],
 			];
 		$this->db->insert_batch('ref_persil_jenis_mutasi', $data);
+	}
+
+	private function buat_cdesa()
+	{
+		// Buat tabel C-DESA
+		if (!$this->db->table_exists('cdesa') )
+		{
+			$fields = array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 5,
+					'unsigned' => TRUE,
+					'auto_increment' => TRUE
+				),
+				'nomor' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'unique' => TRUE
+				),
+				'nama_kepemilikan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100,
+					'unique' => TRUE
+				),
+				'jenis_pemilik' => array(
+					'type' => 'TINYINT',
+					'constraint' => 1
+				),
+				'nama_pemilik_luar' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100
+				),
+				'alamat_pemilik_luar' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 200
+				)
+			);
+			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_field($fields);
+			$this->dbforge->create_table('cdesa');
+		}
+	}
+
+	private function buat_cdesa_penduduk()
+	{
+		// Buat tabel C-DESA
+		if (!$this->db->table_exists('cdesa_penduduk') )
+		{
+			$fields = array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'unsigned' => TRUE,
+					'auto_increment' => TRUE
+				),
+				'id_cdesa' => array(
+					'type' => 'INT',
+					'constraint' => 5,
+				),
+				'id_pend' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+			);
+			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_field($fields);
+			$this->dbforge->create_table('cdesa_penduduk');
+		}
+	}
+
+	private function buat_persil()
+	{
+		//tambahkan kolom untuk beberapa data persil
+		if (!$this->db->table_exists('persil'))
+		{
+			$fields = array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'unsigned' => TRUE,
+					'auto_increment' => TRUE
+				),
+				'nomor' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'unique' => TRUE,
+				),
+				'kelas' => array(
+					'type' => 'INT',
+					'constraint' => 5
+				),
+				'id_cluster' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'lokasi' => array(
+					'type' => 'TEXT',
+					'null' => TRUE
+				),
+				'path' => array(
+					'type' => 'TEXT',
+					'null' => TRUE
+				)
+			);
+			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_field($fields);
+			$this->dbforge->create_table('persil');
+		}
+	}
+
+	private function buat_mutasi_cdesa()
+	{
+		// Buat tabel mutasi Persil
+		if (!$this->db->table_exists('mutasi_cdesa'))
+		{
+			$fields = array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'unsigned' => TRUE,
+					'auto_increment' => TRUE
+				),
+				'id_cdesa_masuk' => array(
+					'type' => 'INT',
+					'constraint' => 5,
+					'null' => TRUE
+				),
+				'id_cdesa_keluar' => array(
+					'type' => 'INT',
+					'constraint' => 5,
+					'null' => TRUE
+				),
+				'jenis_mutasi' => array(
+					'type' => 'TINYINT',
+					'constraint' => 2,
+				),
+				'tanggal_mutasi' => array(
+					'type' => 'DATE',
+					'null' => TRUE
+				),
+				'sebab' => array(
+					'type' => 'TINYINT',
+					'constraint' => 5
+				),
+				'keterangan' => array(
+					'type' => 'TEXT',
+					'null' => TRUE	
+				),
+				'id_persil' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'no_bidang_persil' => array(
+					'type' => 'TINYINT',
+					'constraint' => 3
+				),
+				'luas' => array(
+					'type' => 'decimal',
+					'constraint' => 7,
+					'null' => TRUE	
+				),
+				'jenis_bidang_persil' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'peruntukan' => array(
+					'type' => 'INT',
+					'constraint' => 11
+				),
+				'no_objek_pajak' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 30
+				),
+				'no_sppt_pbb' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 30
+				),
+				'path' => array(
+					'type' => 'TEXT',
+					'null' => TRUE
+				)
+			);
+			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_field($fields);
+			$this->dbforge->create_table('mutasi_cdesa');
+		}
 	}
 }
