@@ -81,12 +81,12 @@
 				else if ($('#success-code').val() == -2)
 				{
 					notify = 'error';
-					notify_msg = 'Data gagal diimpan, nama id sudah ada!';
+					notify_msg = 'Data gagal disimpan, nama id sudah ada!';
 				}
 				else if ($('#success-code').val() == -3)
 				{
 					notify = 'error';
-					notify_msg = 'Data gagal diimpan, nama id sudah ada!';
+					notify_msg = 'Data gagal disimpan, nama id sudah ada!';
 				}
 				else if ($('#success-code').val() == 4)
 				{
