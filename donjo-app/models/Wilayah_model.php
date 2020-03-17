@@ -94,41 +94,43 @@
 
 	private function cek_data($table, $data=[])
 	{
-		$query = $this->db->get_where($table, $data);
-		$count = $query->num_rows(); 
+		$count = $this->db->get_where($table, $data)->num_rows(); 
 		return $count;
 	}
 
 	public function insert()
 	{
 		$data = $this->bersihkan_data($_POST);
-		$data['dusun'] = $_POST['dusun'];
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $data); 
-		if($cek_data)
-			$_SESSION['success'] = -2;
-		else
+		$wil = array('dusun' => $data['dusun']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
 		{
-			$this->db->insert('tweb_wil_clusterdesa', $data);
-
-			$rw = $data;
-			$rw['rw'] = "-";
-			$this->db->insert('tweb_wil_clusterdesa', $rw);
-
-			$rt = $rw;
-			$rt['rt'] = "-";
-			$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
-
-			status_sukses($outp); //Tampilkan Pesan
+			$_SESSION['success'] = -2;
+			return;
 		}
+		$this->db->insert('tweb_wil_clusterdesa', $data);
+
+		$rw = $data;
+		$rw['rw'] = "-";
+		$this->db->insert('tweb_wil_clusterdesa', $rw);
+
+		$rt = $rw;
+		$rt['rt'] = "-";
+		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
+
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id='')
 	{
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-			UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
-		$data['dusun']=$_POST['dusun'];
+		$data = $this->bersihkan_data($_POST);
+		$wil = array('dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
+		{
+			$_SESSION['success'] = -2;
+			return;
+		}
 		$temp = $this->wilayah_model->cluster_by_id($id);
 		$this->db->where('dusun',$temp['dusun']);
 		$this->db->where('rw', '0');
@@ -139,7 +141,7 @@
 		$outp2 = $this->db->where('dusun', $temp['dusun'])->
 			update('tweb_wil_clusterdesa', array('dusun' => $data['dusun']));
 
-		if( $outp1 AND $outp2) $_SESSION['success'] = 1;
+		if ( $outp1 AND $outp2) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
 
@@ -188,19 +190,20 @@
 		$data = $_POST;
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $data); 
-		if($cek_data)
-			$_SESSION['success'] = -2;
-		else
+		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
 		{
-			$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
-
-			$rt = $data;
-			$rt['rt'] = "-";
-			$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
-
-			status_sukses($outp); //Tampilkan Pesan
+			$_SESSION['success'] = -2;
+			return;
 		}
+		$outp1 = $this->db->insert('tweb_wil_clusterdesa', $data);
+
+		$rt = $data;
+		$rt['rt'] = "-";
+		$outp2 = $this->db->insert('tweb_wil_clusterdesa', $rt);
+
+		status_sukses($outp1 & $outp2); //Tampilkan Pesan
 	}
 
 	public function update_rw($dusun='', $rw='')
@@ -211,10 +214,17 @@
 		$data = $_POST;
 
 		$temp = $this->wilayah_model->cluster_by_id($dusun);
-		// print_r($rw);exit;
+		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $data['id_rw']);
+		unset($data['id_rw']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
+		{
+			$_SESSION['success'] = -2;
+			return;
+		}
 		$this->db->where('dusun', $temp['dusun']);
 		$this->db->where('rw', $rw);
-                $this->db->where('rt', '0');//rw pasti data rt 0
+    $this->db->where('rt', '0'); //rw pasti data rt 0
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -258,19 +268,20 @@
 		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
 			UNSET($_POST['id_kepala']);
 
-                $data = $_POST;
+    $data = $_POST;
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$data['rw'] = $rw;
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $data); 
-		if($cek_data)
-			$_SESSION['success'] = -2;
-		else
+		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
 		{
-			$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
-
-			status_sukses($outp); //Tampilkan Pesan
+			$_SESSION['success'] = -2;
+			return;
 		}
+
+		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_rt($id=0)
@@ -280,7 +291,14 @@
 			UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
-
+		$rt_lama = $this->db->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
+		$wil = array('dusun' => $rt_lama['dusun'], 'rw' => $rt_lama['rw'], 'rt' => $data['rt'], 'id <>' => $id);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
+		{
+			$_SESSION['success'] = -2;
+			return;
+		}
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
