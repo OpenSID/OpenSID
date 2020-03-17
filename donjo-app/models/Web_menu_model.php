@@ -122,16 +122,18 @@ class Web_menu_model extends CI_Model {
 	}
 
 	public function delete($id='')
-	{
-		$sql = "DELETE FROM menu WHERE id = ? OR parrent = ?";
-		$outp = $this->db->query($sql, array($id, $id));
-		
+	{		
+		$this->session->success = 1;
+
+		$outp = $this->db->where('id', $id)->where('parrent', $id)->delete('menu');
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
+
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id);
@@ -198,9 +200,10 @@ class Web_menu_model extends CI_Model {
 
 	public function delete_sub_menu($id='')
 	{
-		$sql = "DELETE FROM menu WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$_SESSION['success'] = 1;
 		
+		$outp = $this->db->where('id', $id)->delete('menu');
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 

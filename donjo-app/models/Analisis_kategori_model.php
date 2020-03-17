@@ -100,26 +100,21 @@
 
 	public function delete($id='')
 	{
-		$sql = "DELETE FROM analisis_kategori_indikator WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('analisis_kategori_indikator');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM analisis_kategori_indikator WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-		}
-		else $outp = false;
 
-		status_sukses($outp); //Tampilkan Pesan
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id);
+		}
 	}
 
 	public function get_analisis_kategori($id=0)

@@ -140,37 +140,25 @@ class Analisis_master_model extends CI_Model {
 
 	public function delete($id='')
 	{
+		$this->session->success = 1;
+		
 		if ($this->is_analisis_sistem($id)) return; // Jangan hapus analisis sistem
 
 		$this->sub_delete($id);
 
-		$sql = "DELETE FROM analisis_master WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$outp = $this->db->where('id', $id)->delete('analisis_master');
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
-			$outp = true;
+			$this->delete($id);
 		}
-		else $outp = false;
-
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
 	}
 
 	private function sub_delete($id='')

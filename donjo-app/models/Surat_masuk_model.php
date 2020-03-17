@@ -422,12 +422,10 @@
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
+
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id);
 		}
 	}
 
@@ -510,8 +508,11 @@
 
 	public function delete_disposisi_surat($id_surat_masuk)
 	{
-		$this->db->where('id_surat_masuk', $id_surat_masuk);
-		$this->db->delete('disposisi_surat_masuk');
+		$this->session->success = 1;
+
+		$outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 }

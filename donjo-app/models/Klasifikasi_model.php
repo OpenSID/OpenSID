@@ -121,22 +121,21 @@
 
 	public function delete($id='')
 	{
+		$this->session->success = 1;
+		
 		$outp = $this->db->where('id',$id)->delete('klasifikasi_surat');
-		if (!$outp)
-			$_SESSION['success'] = -1;
+		
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
+
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id);
 		}
-		else $_SESSION['success']=-1;
 	}
 
 	public function lock($id='', $val=0)

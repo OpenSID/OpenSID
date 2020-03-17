@@ -147,27 +147,21 @@
 
 	public function delete($id='')
 	{
-		$sql = "DELETE FROM polygon WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('polygon');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM polygon WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id);
 		}
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_polygon($polygon=1)
@@ -254,27 +248,21 @@
 
 	public function delete_sub_polygon($id='')
 	{
-		$sql = "DELETE FROM polygon WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('polygon');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_polygon()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach($id_cb as $id)
-			{
-				$sql = "DELETE FROM polygon WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_sub_polygon($id);
 		}
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function polygon_lock($id='', $val=0)

@@ -274,7 +274,6 @@ class Penduduk extends Admin_Controller {
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -282,7 +281,6 @@ class Penduduk extends Admin_Controller {
 	public function delete_all_dokumen($id_pend = 0)
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
 	}

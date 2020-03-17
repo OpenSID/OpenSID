@@ -160,29 +160,21 @@ class Web_kategori_model extends CI_Model {
 
 	public function delete($id='')
 	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
+		$this->session->success = 1;
 		
-		status_sukses($outp); //Tampilkan Pesan
+		$outp = $this->db->where('id', $id)->delete('kategori');
+		
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM kategori WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id);
 		}
-		else $outp = false;
-
-		
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_kategori($kategori=1)
@@ -274,17 +266,10 @@ class Web_kategori_model extends CI_Model {
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM kategori WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_sub_kategori($id);
 		}
-		else $outp = false;
-		
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function kategori_lock($id='', $val=0)

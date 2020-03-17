@@ -123,7 +123,6 @@ class Dokumen extends Admin_Controller {
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen/index/$kat/$p/$o");
 	}

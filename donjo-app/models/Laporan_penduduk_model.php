@@ -683,27 +683,21 @@
 
 	public function delete_rentang($id=0)
 	{
-		$sql = "DELETE FROM tweb_penduduk_umur WHERE id = '$id' ";
-		$outp = $this->db->query($sql);
+		$this->session->success = 1;
 		
-		status_sukses($outp); //Tampilkan Pesan
+		$outp = $this->db->where('id', $id)->delete('tweb_penduduk_umur');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_rentang()
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_penduduk_umur WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id);
 		}
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 }

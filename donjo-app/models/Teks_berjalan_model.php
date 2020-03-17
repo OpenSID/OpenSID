@@ -140,6 +140,8 @@
 
 	public function delete($id='')
 	{
+		$this->session->success = 1;
+		
 		$outp = $this->db->where('id', $id)->delete('teks_berjalan');
 		
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

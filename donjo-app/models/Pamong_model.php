@@ -223,29 +223,27 @@
 
 	public function delete($id='')
 	{
+		$this->session->success = 1;
+		
 		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
 		if (!empty($foto))
 		{
 			unlink(LOKASI_USER_PICT.$foto);
 			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
 		}
-		$sql = "DELETE FROM tweb_desa_pamong WHERE pamong_id = ?";
-		$outp = $this->db->query($sql,array($id));
-		return $outp;
+		
+		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
-			}
+			$this->delete($id);
 		}
 	}
 

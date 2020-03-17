@@ -340,6 +340,8 @@ class Web_dokumen_model extends CI_Model {
 	// Soft delete, tapi hapus berkas dokumen
 	public function delete($id='')
 	{
+		$this->session->success = 1;
+		
 		$old_dokumen = $this->db->select('satuan')->
 			where('id',$id)->
 			get('dokumen')->row()->satuan;
@@ -356,14 +358,11 @@ class Web_dokumen_model extends CI_Model {
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
+
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id);
 		}
-		else $_SESSION['success']=-1;
 	}
 
 	public function dokumen_lock($id='', $val=0)

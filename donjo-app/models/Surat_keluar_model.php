@@ -370,12 +370,13 @@
 		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
 	}
 
-	function delete_all(){
+	public function delete_all()
+	{
 		$id_cb = $_POST['id_cb'];
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$this->delete($id);
-			}
+
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id);
 		}
 	}
 

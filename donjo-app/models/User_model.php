@@ -369,15 +369,14 @@ class User_model extends CI_Model {
 
 	public function delete($idUser = '')
 	{
+		$this->session->success = 1;
 		// Jangan hapus admin
 		if ($idUser == 1)
 		{
 			return;
 		}
     $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
-		$sql = "DELETE FROM user WHERE id = ?";
-		$hasil = $this->db->query($sql, array($idUser));
-
+		$hasil = $this->db->where('id', $idUser)->delete('user');
     // Cek apakah pengguna berhasil dihapus
 		if ($hasil)
 		{
@@ -411,20 +410,12 @@ class User_model extends CI_Model {
 
 	public function delete_all()
 	{
-    $id_cb = $_POST['id_cb'];
-    // Cek apakah ada data yang dicentang atau dipilih
-    if (!is_null($id_cb))
-    {
-      foreach ($id_cb as $id)
-      {
-        $this->delete($id);
-      }
-    }
-    else
-    {
-      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
-      $_SESSION['success'] = -1;
-    }
+		$id_cb = $_POST['id_cb'];
+
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id);
+		}
 	}
 
 	public function user_lock($id = '', $val = 0)

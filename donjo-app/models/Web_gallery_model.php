@@ -172,6 +172,8 @@
 
 	public function delete_gallery($id='')
 	{
+		$this->session->success = 1;
+
 		$this->delete($id);
 		$sub_gallery = $this->db->select('id')->
 			where('parrent', $id)->
@@ -185,29 +187,32 @@
 	public function delete_all_gallery()
 	{
 		$id_cb = $_POST['id_cb'];
+
 		foreach ($id_cb as $id)
 		{
-			$outp = $this->delete_gallery($id);
+			$this->delete_gallery($id);
 		}
 	}
 
 	public function delete($id='')
 	{
+		$this->session->success = 1;
 		// Note:
 		// Gambar yang dihapus ada kemungkinan dipakai
 		// oleh gallery lain, karena ketika mengupload
 		// nama file nya belum diubah sesuai dengan
 		// judul gallery
 		$this->delete_gallery_image($id);
+		
+		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
-		$sql  = "DELETE FROM gambar_gallery WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-		if (!$outp) $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
+		
 		foreach ($id_cb as $id)
 		{
 			$outp = $this->delete($id);
