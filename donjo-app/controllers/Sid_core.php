@@ -202,6 +202,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$data['rw'] = $rw;
 			$temp = $this->wilayah_model->get_rw($dusun, $rw);
+			$data['id_rw'] = $temp['id'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
 			if (empty($data['individu']))
 				$data['individu'] = NULL;
