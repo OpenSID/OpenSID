@@ -373,8 +373,9 @@
 	 * @param   string  $idSuratMasuk  Id surat masuk
 	 * @return  void
 	 */
-	public function delete($idSuratMasuk)
+	public function delete($idSuratMasuk, $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
 		// Type check
 		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
 		// Redirect ke halaman surat masuk jika Id kosong
@@ -421,11 +422,12 @@
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -506,9 +508,9 @@
 		return $query;
 	}
 
-	public function delete_disposisi_surat($id_surat_masuk)
+	public function delete_disposisi_surat($id_surat_masuk, $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
 

@@ -269,9 +269,9 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
 
@@ -280,11 +280,12 @@
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 

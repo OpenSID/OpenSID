@@ -681,9 +681,9 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_rentang($id=0)
+	public function delete_rentang($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk_umur');
 
@@ -692,11 +692,12 @@
 
 	public function delete_all_rentang()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete_rentang($id, $semua=true);
 		}
 	}
 

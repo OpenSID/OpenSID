@@ -416,9 +416,9 @@
 		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 
 		$list_gambar = $this->db->
 			select('gambar, gambar1, gambar2, gambar3')->
@@ -436,20 +436,21 @@
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-		
 		foreach ($id_cb as $id)
 		{
 			if ($this->boleh_ubah($id, $_SESSION['user']))
 			{
-				$outp = $this->delete($id);
+				$this->delete($id, $semua=true);
 			}
 		}
 	}
 
-	public function hapus($id='')
+	public function hapus($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('kategori');
 

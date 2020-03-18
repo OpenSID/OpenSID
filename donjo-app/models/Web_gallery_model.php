@@ -170,9 +170,9 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function delete_gallery($id='')
+	public function delete_gallery($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 
 		$this->delete($id);
 		$sub_gallery = $this->db->select('id')->
@@ -186,17 +186,18 @@
 
 	public function delete_all_gallery()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete_gallery($id);
+			$this->delete_gallery($id, $semua=true);
 		}
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		// Note:
 		// Gambar yang dihapus ada kemungkinan dipakai
 		// oleh gallery lain, karena ketika mengupload
@@ -211,11 +212,12 @@
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-		
 		foreach ($id_cb as $id)
 		{
-			$outp = $this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 

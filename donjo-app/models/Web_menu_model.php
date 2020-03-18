@@ -121,9 +121,9 @@ class Web_menu_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
-	{		
-		$this->session->success = 1;
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->where('parrent', $id)->delete('menu');
 
@@ -132,11 +132,12 @@ class Web_menu_model extends CI_Model {
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -198,9 +199,9 @@ class Web_menu_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_sub_menu($id='')
+	public function delete_sub_menu($id='', $semua=false)
 	{
-		$_SESSION['success'] = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('menu');
 
@@ -209,10 +210,12 @@ class Web_menu_model extends CI_Model {
 
 	public function delete_all_sub_menu()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete_sub_menu($id);
+			$this->delete_sub_menu($id, $semua=true);
 		}
 	}
 

@@ -179,9 +179,9 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
@@ -190,13 +190,15 @@
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
+
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 

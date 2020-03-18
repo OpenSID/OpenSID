@@ -146,9 +146,9 @@
     }
   }
 
-	public function delete($id_pend='')
-	{		
-		$this->session->success = 1;
+	public function delete($id_pend='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
 
@@ -157,11 +157,12 @@
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 

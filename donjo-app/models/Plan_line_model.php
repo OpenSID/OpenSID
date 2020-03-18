@@ -142,9 +142,9 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('line');
 
@@ -153,11 +153,12 @@
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -242,9 +243,9 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete_sub_line($id='')
+	public function delete_sub_line($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('line');
 
@@ -253,11 +254,12 @@
 
 	public function delete_all_sub_line()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete_sub_line($id);
+			$this->delete_sub_line($id, $semua=true);
 		}
 	}
 

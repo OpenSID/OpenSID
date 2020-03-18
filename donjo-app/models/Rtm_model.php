@@ -200,9 +200,9 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($no_kk='')
+	public function delete($no_kk='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
@@ -218,11 +218,12 @@
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		foreach ($id_cb as $no_kk)
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			$this->delete($no_kk);
+			$this->delete($id, $semua=true);
 		}
 	}
 

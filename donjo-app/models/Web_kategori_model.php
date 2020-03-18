@@ -158,9 +158,9 @@ class Web_kategori_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$this->session->success = 1;
+		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('kategori');
 		
@@ -169,11 +169,12 @@ class Web_kategori_model extends CI_Model {
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -254,21 +255,23 @@ class Web_kategori_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_sub_kategori($id='')
+	public function delete_sub_kategori($id='', $semua=false)
 	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id', $id)->delete('kategori');
 		
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_kategori()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete_sub_kategori($id);
+			$this->delete_sub_kategori($id, $semua=true);
 		}
 	}
 
