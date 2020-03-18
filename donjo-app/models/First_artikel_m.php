@@ -121,19 +121,24 @@ class First_artikel_m extends CI_Model {
 		for ($i=0; $i < count($data); $i++)
 		{
 			$this->sterilkan_artikel($data[$i]);
+			$this->icon_keuangan($data[$i]);
 		}
 		return $data;
 	}
 
-	private function sterilkan_artikel(&$data, $table=null)
+	private function sterilkan_artikel(&$data)
 	{
 		$data['judul'] = $this->security->xss_clean($data['judul']);
 		$data['slug'] = $this->security->xss_clean($data['slug']);
 		// User terpecaya boleh menampilkan <iframe> dsbnya
 		if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
 			$data['isi'] = $this->security->xss_clean($data['isi']);
-		// ganti shortcode menjadi icon di list artikel
-		if(!$table) $data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
+	}
+
+	private function icon_keuangan(&$data)
+	{
+		// ganti shortcode menjadi icon
+		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
 	}
 
 	public function arsip_show($rand = false)
@@ -371,7 +376,7 @@ class First_artikel_m extends CI_Model {
 		if ($query->num_rows() > 0)
 		{
 			$data = $query->row_array();
-			$this->sterilkan_artikel($data, $table=1);
+			$this->sterilkan_artikel($data);
 		}
 		else
 		{
