@@ -113,7 +113,7 @@
 														</tbody>
 														<tfoot>
 															<tr>
-																<th colspan="5"><label>TOTAL</label></th>
+																<th colspan="4"><label>TOTAL</label></th>
 																<th class="bilangan"><?= $total['total_rw']?></th>
 																<th class="bilangan"><?= $total['total_rt']?></th>
 																<th class="bilangan"><?= $total['total_kk']?></th>

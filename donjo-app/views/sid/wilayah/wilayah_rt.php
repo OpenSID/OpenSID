@@ -80,7 +80,7 @@
 														</tbody>
 														<tfoot>
 															<tr>
-																<th colspan="6"><label>TOTAL</label></th>
+																<th colspan="5"><label>TOTAL</label></th>
 																<th><?= $total['jmlkk']?></th>
 																<th><?= $total['jmlwarga']?></th>
 																<th><?= $total['jmlwargal']?></th>
