@@ -224,7 +224,6 @@
 		}
 		$this->db->where('dusun', $temp['dusun']);
 		$this->db->where('rw', $rw);
-    $this->db->where('rt', '0'); //rw pasti data rt 0
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan

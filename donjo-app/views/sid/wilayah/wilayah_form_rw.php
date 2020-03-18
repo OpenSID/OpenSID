@@ -27,7 +27,9 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="rw">Nama RW</label>
 													<div class="col-sm-7">
-														<input type="hidden" name="id_rw" value="<?= $id_rw?>">
+														<?php if ($id_rw): ?>
+															<input type="hidden" name="id_rw" value="<?= $id_rw?>">
+														<?php endif; ?>
 														<input  id="rw" class="form-control input-sm required" type="text" placeholder="Nama RW" name="rw" value="<?= $rw?>">
 													</div>
 												</div>
