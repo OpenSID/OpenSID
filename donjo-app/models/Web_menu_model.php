@@ -125,7 +125,7 @@ class Web_menu_model extends CI_Model {
 	{
 		if (!$semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->where('parrent', $id)->delete('menu');
+		$outp = $this->db->where('id', $id)->or_where('parrent', $id)->delete('menu');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
