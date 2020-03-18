@@ -49,7 +49,6 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th><input type="checkbox" id="checkall"/></th>
 																<th>No</th>
 																<th>Aksi</th>
 																<th width="25%"> <?= ucwords($this->setting->sebutan_dusun)?></th>
@@ -74,13 +73,12 @@
 																foreach ($main as $data):
 															?>
 																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td class="no_urut"><?= $data['no']?></td>
 																	<td nowrap>
 	                                  <a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
 																		<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?= site_url("sid_core/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("sid_core/delete/dusun/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 														        <div class="btn-group">
 																			<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
