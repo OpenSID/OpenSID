@@ -127,7 +127,7 @@ class Sid_Core extends Admin_Controller {
 		redirect('sid_core');
 	}
 
-	//Sederhanakan delete
+	//Delete dusun/rw/rt tergantung tipe
 	public function delete($tipe = '', $id = '')
 	{
 		$kembali = $_SERVER['HTTP_REFERER'];

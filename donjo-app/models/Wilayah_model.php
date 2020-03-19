@@ -145,7 +145,7 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	//Sederhanakan delete
+	//Delete dusun/rw/rt tergantung tipe
 	public function delete($tipe = '', $id = '')
 	{
 		$this->session->success = 1;
@@ -156,7 +156,6 @@
 
 		switch ($type)
 		{
-
 			case 'dusun': 
 				$this->db->where('dusun', $dusun);
 				break; //dusun
