@@ -145,17 +145,32 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='')
+	//Delete dusun/rw/rt tergantung tipe
+	public function delete($tipe = '', $id = '')
 	{
+		$this->session->success = 1;
 		// Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
-    $temp = $this->cluster_by_id($id);
-    $dusun = $temp['dusun'];
+		$temp = $this->cluster_by_id($id);
+		$rw = $temp['rw'];
+		$dusun = $temp['dusun'];
 
-    $sql = "DELETE FROM tweb_wil_clusterdesa WHERE dusun = '$dusun'";
-    $outp = $this->db->query($sql);
+		switch ($type)
+		{
+			case 'dusun': 
+				$this->db->where('dusun', $dusun);
+				break; //dusun
+			case 'rw': 
+				$this->db->where('rw', $rw)->where('dusun', $dusun);
+				break; //rw
+			default: 
+				$this->db->where('id', $id);
+				break; //rt
+		}
 
-    status_sukses($outp); //Tampilkan Pesan
-  }
+		$outp = $this->db->delete('tweb_wil_clusterdesa');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
 
 	//Bagian RW
 	public function list_data_rw($id='')
@@ -229,18 +244,6 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_rw($id)
-	{
-		$temp = $this->cluster_by_id($id);
-		$rw = $temp['rw'];
-		$dusun = $temp['dusun'];
-
-		$sql = "DELETE FROM tweb_wil_clusterdesa WHERE rw = '$rw' and dusun = '$dusun'";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
 	//Bagian RT
 	public function list_data_rt($dusun='', $rw='')
 	{
@@ -300,14 +303,6 @@
 		}
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-  public function delete_rt($id=0)
-	{
-		$sql = "DELETE FROM tweb_wil_clusterdesa WHERE id = ?";
-		$outp = $this->db->query($sql, $id);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}

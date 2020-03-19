@@ -121,6 +121,7 @@ class First_artikel_m extends CI_Model {
 		for ($i=0; $i < count($data); $i++)
 		{
 			$this->sterilkan_artikel($data[$i]);
+			$this->icon_keuangan($data[$i]);
 		}
 		return $data;
 	}
@@ -132,6 +133,10 @@ class First_artikel_m extends CI_Model {
 		// User terpecaya boleh menampilkan <iframe> dsbnya
 		if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
 			$data['isi'] = $this->security->xss_clean($data['isi']);
+	}
+
+	private function icon_keuangan(&$data)
+	{
 		// ganti shortcode menjadi icon
 		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
 	}
