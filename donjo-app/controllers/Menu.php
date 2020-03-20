@@ -41,14 +41,11 @@ class Menu extends Admin_Controller {
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_menu_model->autocomplete();
 
-		$header = $this->header_model->get_data();
+		
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('menu/table', $data);
-		$this->load->view('footer');
+		
+		$this->render_view('menu/table', $data, $nav);
 	}
 
 	public function form($tip = 1, $id = '')
@@ -80,10 +77,8 @@ class Menu extends Admin_Controller {
 
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('menu/form', $data);
-		$this->load->view('footer');
+		
+		$this->render_view('menu/form', $data, $nav);
 	}
 
 	public function sub_menu($tip = 1, $menu = 1)
@@ -95,10 +90,7 @@ class Menu extends Admin_Controller {
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('menu/sub_menu_table', $data);
-		$this->load->view('footer');
+		$this->render_view('menu/sub_menu_table', $data, $nav);
 	}
 
 	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')

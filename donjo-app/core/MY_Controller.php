@@ -98,7 +98,15 @@ class MY_Controller extends CI_Controller {
 				$this->session->unset_userdata($session);
 			}
 		}
-
+		
+		function render_view($view, $data, $nav)
+		{
+			$header = $this->header_model->get_data();
+			$this->load->view('header', $header);
+			$this->load->view('nav', $nav);
+			$this->load->view($view, $data);
+			$this->load->view('footer');
+		}
 }
 
 class Web_Controller extends MY_Controller
