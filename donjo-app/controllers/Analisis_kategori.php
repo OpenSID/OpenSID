@@ -44,13 +44,10 @@ class Analisis_kategori extends Admin_Controller {
 		$data['main'] = $this->analisis_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_kategori_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_kategori_model->get_analisis_master();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 5;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_kategori/table',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_kategori/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id=''){

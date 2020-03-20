@@ -49,13 +49,10 @@ class Analisis_master extends Admin_Controller {
 		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 5;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_master/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -77,34 +74,27 @@ class Analisis_master extends Admin_Controller {
 		$data['list_format_impor'] = array('1' => 'BDT 2015');
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 5;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_master/form', $data, $nav, TRUE);
 	}
 
 	public function panduan()
 	{
-		$header['minsidebar'] = 1;
 		$nav['act'] = 5;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/panduan');
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_master/panduan', $data, $nav, TRUE);
 	}
 
 	public function import_analisis()
 	{
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act'] = 5;
 		$data['form_action'] = site_url("analisis_master/import");
-		$this->load->view('analisis_master/import', $data);
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_master/import', $data, $nav, TRUE);
 	}
 
 	public function menu($id='', $p=0){
@@ -138,7 +128,6 @@ class Analisis_master extends Admin_Controller {
 		}
 		$data['menu_respon'] = "analisis_respon";
 		$data['menu_laporan'] = "analisis_laporan";
-		$header = $this->header_model->get_data();
 
 		//PATCH
 		//if($p==1){
@@ -146,12 +135,10 @@ class Analisis_master extends Admin_Controller {
 		$this->analisis_respon_model->pre_update();
 		//}
 		//----
-		$header['minsidebar'] = 1;
 		$nav['act'] = 5;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/menu', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_master/menu', $data, $nav, TRUE);
 	}
 
 	public function search()

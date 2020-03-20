@@ -39,16 +39,12 @@ class Polygon extends Admin_Controller {
 		$data['paging'] = $this->plan_polygon_model->paging($p, $o);
 		$data['main'] = $this->plan_polygon_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_polygon_model->autocomplete();
-
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 5;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('polygon/table', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('polygon/table', $data, $nav, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -67,30 +63,23 @@ class Polygon extends Admin_Controller {
 			$data['form_action'] = site_url("polygon/insert");
 		}
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 5;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('polygon/form', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('polygon/form', $data, $nav, TRUE);
 	}
 
 	public function sub_polygon($polygon = 1)
 	{
 		$data['subpolygon'] = $this->plan_polygon_model->list_sub_polygon($polygon);
 		$data['polygon'] = $this->plan_polygon_model->get_polygon($polygon);
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 5;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('polygon/sub_polygon_table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('polygon/sub_polygon_table', $data, $nav, TRUE);
 	}
 
 	public function ajax_add_sub_polygon($polygon = 0, $id = 0)

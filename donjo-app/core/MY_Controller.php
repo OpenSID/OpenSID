@@ -99,9 +99,14 @@ class MY_Controller extends CI_Controller {
 			}
 		}
 		
-		function render_view($view, $data, $nav)
+		function render_view($view, $data = FALSE, $nav, $mini = FALSE)
 		{
 			$header = $this->header_model->get_data();
+			
+			if($mini == TRUE){
+				$header['minsidebar'] = 1;
+			}			
+			
 			$this->load->view('header', $header);
 			$this->load->view('nav', $nav);
 			$this->load->view($view, $data);

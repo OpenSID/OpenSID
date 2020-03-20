@@ -39,14 +39,11 @@ class Komentar extends Admin_Controller {
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 50;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('komentar/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('komentar/table', $data, $nav);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -67,14 +64,11 @@ class Komentar extends Admin_Controller {
 
 		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 13;
 		$nav['act_sub'] = 50;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('komentar/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('komentar/form', $data, $nav, TRUE);
 	}
 
 	public function search()

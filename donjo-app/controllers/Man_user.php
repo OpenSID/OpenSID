@@ -38,14 +38,11 @@ class Man_user extends Admin_Controller {
 		$data['main'] = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->user_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 11;
 		$nav['act_sub'] = 44;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('man_user/manajemen_user_table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('man_user/manajemen_user_table', $data, $nav);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -64,14 +61,11 @@ class Man_user extends Admin_Controller {
 			$data['form_action'] = site_url("man_user/insert");
 		}
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 11;
 		$nav['act_sub'] = 44;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('man_user/manajemen_user_form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('man_user/manajemen_user_form', $data, $nav);
 	}
 
 	public function search()

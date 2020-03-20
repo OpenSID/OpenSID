@@ -30,12 +30,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/table', $data, $nav, TRUE);
 	}
 
 	public function view($id)
@@ -44,12 +41,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/view_inventaris', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/view_inventaris', $data, $nav, TRUE);
 	}
 
 	public function view_mutasi($id)
@@ -58,12 +52,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/view_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/view_mutasi', $data, $nav, TRUE);
 	}
 
 	public function edit($id)
@@ -76,12 +67,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/edit_inventaris', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/edit_inventaris', $data, $nav, TRUE);
 	}
 
 	public function edit_mutasi($id)
@@ -90,12 +78,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/edit_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/edit_mutasi', $data, $nav, TRUE);
 	}
 
 	public function form()
@@ -103,15 +88,12 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
 		$data['main'] = $this->config_model->get_data();
 		$data['aset'] = $this->inventaris_gedung_model->list_aset();
-		$data['count_reg'] = $this->inventaris_gedung_model->count_reg();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/form_tambah', $data);
-		$this->load->view('footer');
+		$data['count_reg'] = $this->inventaris_gedung_model->count_reg();;
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/form_tambah', $data, $nav, TRUE);
 	}
 
 	public function form_mutasi($id)
@@ -120,12 +102,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/form_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/form_mutasi', $data, $nav, TRUE);
 	}
 
 	public function mutasi()
@@ -135,12 +114,9 @@ class Inventaris_gedung extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/gedung/table_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/gedung/table_mutasi', $data, $nav, TRUE);
 	}
 
 	public function cetak($tahun, $penandatangan)

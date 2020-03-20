@@ -16,14 +16,12 @@ class Setting extends Admin_Controller {
 	{
 		$nav['act'] = 11;
 		$nav['act_sub'] = 43;
-		$header = $this->header_model->get_data();
 		$data['list_tema'] = $this->theme_model->list_all();
 		$this->setting_model->load_options();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/setting_form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('setting/setting_form', $data, $nav);
 	}
 
 	public function update()
@@ -36,12 +34,9 @@ class Setting extends Admin_Controller {
 	{
 		$nav['act'] = 11;
 		$nav['act_sub'] = 46;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/info_php');
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('setting/info_php', $data, $nav, TRUE);
 	}
 
 }

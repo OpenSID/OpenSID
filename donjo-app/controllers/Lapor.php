@@ -41,14 +41,10 @@ class Lapor extends Admin_Controller {
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, 2);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 14;
 		$nav['act_sub'] = 55;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('lapor/table', $data);
-		$this->load->view('footer');
+		$this->render_view('lapor/table', $data, $nav);
 	}
 
 	public function search()

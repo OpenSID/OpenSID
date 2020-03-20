@@ -39,14 +39,11 @@ class Gallery extends Admin_Controller {
 		$data['main'] = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('gallery/table', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('gallery/table', $data, $nav);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -65,14 +62,11 @@ class Gallery extends Admin_Controller {
 			$data['form_action'] = site_url("gallery/insert");
 		}
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('gallery/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('gallery/form', $data, $nav);
 	}
 
 	public function search($gallery='')
@@ -191,14 +185,11 @@ class Gallery extends Admin_Controller {
 		$data['gallery'] = $gal;
 		$data['sub'] = $this->web_gallery_model->get_gallery($gal);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('gallery/sub_gallery_table', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('gallery/sub_gallery_table', $data, $nav);
 	}
 
 	public function form_sub_gallery($gallery=0, $id=0)
@@ -214,14 +205,12 @@ class Gallery extends Admin_Controller {
 			$data['form_action'] = site_url("gallery/insert_sub_gallery/$gallery");
 		}
 		$data['album']=$gallery;
-
-		$header = $this->header_model->get_data();
+		
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('gallery/form_sub_gallery', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('gallery/form_sub_gallery', $data, $nav);
 	}
 
 	public function insert_sub_gallery($gallery='')

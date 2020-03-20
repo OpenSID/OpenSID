@@ -30,12 +30,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/table', $data, $nav, TRUE);
 	}
 
 	public function view($id)
@@ -44,12 +41,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/view_inventaris', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/view_inventaris', $data, $nav, TRUE);
 	}
 
 	public function view_mutasi($id)
@@ -58,12 +52,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/view_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/view_mutasi', $data, $nav, TRUE);
 	}
 
 	public function edit($id)
@@ -72,12 +63,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/edit_inventaris', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/edit_inventaris', $data, $nav, TRUE);
 	}
 
 	public function edit_mutasi($id)
@@ -86,12 +74,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/edit_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/edit_mutasi', $data, $nav, TRUE);
 	}
 
 	public function form()
@@ -99,12 +84,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/form_tambah', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/form_tambah', $data, $nav, TRUE);
 	}
 
 	public function form_mutasi($id)
@@ -113,12 +95,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/form_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/form_mutasi', $data, $nav, TRUE);
 	}
 
 	public function mutasi()
@@ -127,12 +106,9 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/kontruksi/table_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/kontruksi/table_mutasi', $data, $nav, TRUE);
 	}
 
 	public function cetak($tahun, $penandatangan)

@@ -32,11 +32,9 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $lap);
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/penduduk', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('statistik/penduduk', $data, $nav);
 	}
 
 	private function get_cluster_session()
@@ -100,12 +98,9 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $lap);
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/penduduk_graph', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('statistik/penduduk_graph', $data, $nav);
 	}
 
 	public function pie($lap = 0)
@@ -121,12 +116,9 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $lap);
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/penduduk_pie', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('statistik/penduduk_pie', $data, $nav);
 	}
 
 	private function get_data_stat(&$data, $lap)
@@ -205,15 +197,11 @@ class Statistik extends Admin_Controller {
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-
-		$header = $this->header_model->get_data();
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/rentang_umur', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('statistik/rentang_umur', $data, $nav);
 	}
 
 	public function form_rentang($id = 0)

@@ -60,18 +60,14 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data['cat'] = $cat;
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] =1;
 		$nav['act'] = 13;
 		$nav['act_sub'] = 47;
 
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('web/artikel/table', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('web/artikel/table', $data, $nav, TRUE);
 	}
 
 	public function form($cat = 1, $p = 1, $o = 0, $id = '')
@@ -96,15 +92,12 @@ class Web extends Admin_Controller {
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act'] = 13;
 		$nav['act_sub'] = 47;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('web/artikel/form',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('web/artikel/form', $data, $nav, TRUE);
 	}
 
 	public function search($cat = 1)
@@ -278,13 +271,10 @@ class Web extends Admin_Controller {
 
 	public function slider()
 	{
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 54;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('slider/admin_slider.php');
-		$this->load->view('footer');
+		
+		$this->render_view('slider/admin_slider.php', $data, $nav);
 	}
 
 	public function update_slider()
@@ -302,13 +292,10 @@ class Web extends Admin_Controller {
 
 	public function teks_berjalan()
 	{
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 64;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('web/admin_teks_berjalan.php');
-		$this->load->view('footer');
+		
+		$this->render_view('web/admin_teks_berjalan.php', $data, $nav);
 	}
 
 	public function update_teks_berjalan()

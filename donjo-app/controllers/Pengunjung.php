@@ -23,14 +23,11 @@ class Pengunjung extends Admin_Controller {
 		
 		$data['main'] = $this->web_pengunjung_model->get_pengunjung($_SESSION['id']);		
 		
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 205;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('pengunjung/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('pengunjung/table', $data, $nav);
 	}
 	
 	public function detail($id='')

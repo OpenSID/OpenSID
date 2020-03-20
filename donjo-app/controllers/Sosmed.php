@@ -17,14 +17,11 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(1);
 		$id = $data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/1");
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 53;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/facebook', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sosmed/facebook', $data, $nav);
 	}
 
 	public function twitter()
@@ -32,69 +29,60 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(2);
 		$id = $data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/2/$id");
-		$header = $this->header_model->get_data();
 
 		$nav['act'] = 13;
 		$nav['act_sub'] = 53;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/twitter', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sosmed/twitter', $data, $nav);
 	}
 
 	public function instagram()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(5);
 		$data['form_action'] = site_url("sosmed/update/5");
-		$header = $this->header_model->get_data();
 
 		$nav['act'] = 13;
 		$nav['act_sub'] = 53;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/instagram', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sosmed/instagram', $data, $nav);
 	}
 
 	public function google()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(3);
 		$data['form_action'] = site_url("sosmed/update/3");
-		$header = $this->header_model->get_data();
 
 		$nav['act'] = 13;
 		$nav['act_sub'] = 53;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/google', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sosmed/google', $data, $nav);
 	}
 
 	public function youtube()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(4);
 		$data['form_action'] = site_url("sosmed/update/4");
-		$header = $this->header_model->get_data();
 
 		$nav['act'] = 13;
 		$nav['act_sub'] = 53;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/youtube', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sosmed/youtube', $data, $nav);
 	}
 
 	public function whatsapp()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(6);
 		$data['form_action'] = site_url("sosmed/update/6");
-		$header = $this->header_model->get_data();
+		
 		$nav['act'] = 13;
 		$nav['act_sub'] = 53;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/whatsapp', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sosmed/whatsapp', $data, $nav);
 	}
 
 	public function update($id = '')

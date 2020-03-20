@@ -97,16 +97,11 @@ class Penduduk_log extends Admin_Controller {
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 2;
 		$nav['act_sub'] = 21;
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/kependudukan/penduduk_log', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/kependudukan/penduduk_log', $data, $nav, TRUE);
 	}
 
 	public function search()

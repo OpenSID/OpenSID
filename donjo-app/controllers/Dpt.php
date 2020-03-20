@@ -135,13 +135,9 @@ class Dpt extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 26;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-
-		$this->load->view('nav',$nav);
-		$this->load->view('dpt/dpt', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('dpt/dpt', $data, $nav, TRUE);
 	}
 
 	public function search()

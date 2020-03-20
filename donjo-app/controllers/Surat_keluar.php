@@ -48,14 +48,11 @@ class Surat_keluar extends Admin_Controller {
 		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 15;
 		$nav['act_sub'] = 58;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_keluar/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_keluar/table', $data, $nav, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -76,7 +73,6 @@ class Surat_keluar extends Admin_Controller {
 			$data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
 			$data['form_action'] = site_url("surat_keluar/insert");
 		}
-		$header = $this->header_model->get_data();
 
 		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_keluar']['berkas_scan']);
@@ -86,12 +82,10 @@ class Surat_keluar extends Admin_Controller {
 		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
 		$nav['act'] = 15;
 		$nav['act_sub'] = 58;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
 		$nav['act'] = $this->tab_ini;
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_keluar/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_keluar/form', $data, $nav, TRUE);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')

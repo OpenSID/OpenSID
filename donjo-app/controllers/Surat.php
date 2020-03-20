@@ -19,7 +19,6 @@ class Surat extends Admin_Controller {
 
 	public function index()
 	{
-		$header = $this->header_model->get_data();
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
@@ -39,22 +38,18 @@ class Surat extends Admin_Controller {
 
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat/format_surat', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat/format_surat', $data, $nav, TRUE);
 	}
 
 	public function panduan()
 	{
 		$nav['act'] = 4;
 		$nav['act_sub'] = 33;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat/panduan');
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat/panduan', $data, $nav);
 	}
 
 	public function form($url = '', $clear = '')
@@ -77,12 +72,9 @@ class Surat extends Admin_Controller {
 		$data['form_action'] = site_url("surat/doc/$url");
 		$nav['act'] = 4;
 		$nav['act_sub'] = 31;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view("surat/form_surat", $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat/form_surat', $data, $nav, TRUE);
 	}
 
 	public function doc($url = '')

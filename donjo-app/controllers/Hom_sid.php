@@ -26,12 +26,9 @@ class Hom_sid extends Admin_Controller {
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 16;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/desa', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('home/desa', $data, $nav);
 	}
 
 	public function donasi()
@@ -39,12 +36,9 @@ class Hom_sid extends Admin_Controller {
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 19;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/donasi');
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('home/donasi', $data, $nav);
 	}
 
 	public function dialog_pengaturan()

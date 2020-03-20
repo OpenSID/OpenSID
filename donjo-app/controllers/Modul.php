@@ -30,12 +30,9 @@ class Modul extends Admin_Controller {
 		$data['keyword'] = $this->modul_model->autocomplete();
 		$nav['act'] = 11;
 		$nav['act_sub'] = 42;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/modul/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('setting/modul/table', $data, $nav);
 	}
 
 	public function form($id = '')
@@ -50,28 +47,24 @@ class Modul extends Admin_Controller {
 			$data['modul'] = NULL;
 			$data['form_action'] = site_url("modul/insert");
 		}
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
 
 		$nav['act'] = 11;
 		$nav['act_sub'] = 42;
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/modul/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('setting/modul/form', $data, $nav);
 	}
 
 	public function sub_modul($id = '')
 	{
 		$data['submodul'] = $this->modul_model->list_sub_modul($id);
 		$data['modul'] = $this->modul_model->get_data($id);
-		$header = $this->header_model->get_data();
+
 		$nav['act'] = 11;
 		$nav['act_sub'] = 42;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/modul/sub_modul_table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('setting/modul/sub_modul_table', $data, $nav);
 	}
 
 	public function filter()

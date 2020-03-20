@@ -44,13 +44,9 @@ class Kelompok_master extends Admin_Controller {
 		$data['keyword'] = $this->kelompok_master_model->autocomplete();
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kelompok_master/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok_master/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -71,13 +67,9 @@ class Kelompok_master extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kelompok_master/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok_master/form', $data, $nav, TRUE);
 	}
 
 	public function search()

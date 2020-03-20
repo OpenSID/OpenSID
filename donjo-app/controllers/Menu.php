@@ -71,8 +71,7 @@ class Menu extends Admin_Controller {
 			$data['submenu'] = NULL;
 			$data['form_action'] = site_url("menu/insert/$tip");
 		}
-
-		$header = $this->header_model->get_data();
+		
 		$data['tip'] = $tip;
 
 		$nav['act'] = 13;
@@ -86,7 +85,7 @@ class Menu extends Admin_Controller {
 		$data['submenu'] = $this->web_menu_model->list_sub_menu($menu);
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
-		$header = $this->header_model->get_data();
+		
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 

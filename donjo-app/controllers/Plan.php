@@ -56,14 +56,11 @@ class Plan extends Admin_Controller {
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('lokasi/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('lokasi/table', $data, $nav, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -86,16 +83,11 @@ class Plan extends Admin_Controller {
 			$data['form_action'] = site_url("plan/insert");
 		}
 
-		$header= $this->header_model->get_data();
-
-		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('lokasi/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('lokasi/form', $data, $nav, TRUE);
 	}
 
 	public function ajax_lokasi_maps($p = 1, $o = 0, $id = '')
@@ -114,11 +106,9 @@ class Plan extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
-		$header= $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view("lokasi/maps", $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('lokasi/maps', $data, $nav, TRUE);
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '')

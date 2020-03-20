@@ -41,14 +41,11 @@ class Surat_master extends Admin_Controller {
 		$data['paging'] = $this->surat_master_model->paging($p, $o);
 		$data['main'] = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->surat_master_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 4;
 		$nav['act_sub'] = 30;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_master/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_master/table', $data, $nav, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -68,14 +65,11 @@ class Surat_master extends Admin_Controller {
 			$data['form_action'] = site_url("surat_master/insert");
 		}
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 4;
 		$nav['act_sub'] = 30;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_master/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_master/form', $data, $nav, TRUE);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')
@@ -170,14 +164,11 @@ class Surat_master extends Admin_Controller {
 			$data['inputs'] = $this->surat_master_model->get_kode_isian($data['surat_master']);
 		}
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 4;
 		$nav['act_sub'] = 30;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_master/kode_isian', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_master/kode_isian', $data, $nav, TRUE);
 	}
 
 	public function lock($id = 0, $k = 0)

@@ -57,13 +57,10 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] =1;
 		$nav['act']= 5;
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_indikator/table',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_indikator/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -83,14 +80,11 @@ class Analisis_indikator extends Admin_Controller{
 		}
 
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-		$header['minsidebar'] = 1;
 		$nav['act'] = 5;
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_indikator/form',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_indikator/form', $data, $nav, TRUE);
 	}
 
 	public function parameter($id=''){
@@ -101,14 +95,10 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['main'] = $this->analisis_indikator_model->list_indikator($id);
-
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act'] = 5;
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_indikator/parameter/table',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('analisis_indikator/parameter/table', $data, $nav, TRUE);
 	}
 
 	public function form_parameter($in='', $id='')

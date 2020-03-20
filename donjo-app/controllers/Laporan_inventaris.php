@@ -18,17 +18,14 @@ class Laporan_inventaris extends Admin_Controller {
 	public function index()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-		$header = $this->header_model->get_data();
 
 		$data = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
 		$nav['act']= 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/laporan/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/laporan/table', $data, $nav, TRUE);
 	}
 
 	public function cetak($tahun, $penandatangan)
@@ -52,17 +49,13 @@ class Laporan_inventaris extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-		$header = $this->header_model->get_data();
 		$nav['act']= 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
-		$header['minsidebar'] = 1;
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('inventaris/laporan/table_mutasi', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('inventaris/laporan/table_mutasi', $data, $nav, TRUE);
 	}
 
 	public function cetak_mutasi($tahun, $penandatangan)

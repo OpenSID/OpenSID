@@ -53,15 +53,11 @@ class Area extends Admin_Controller {
 		$data['keyword'] = $this->plan_area_model->autocomplete();
 		$data['list_polygon'] = $this->plan_area_model->list_polygon();
 		$data['list_subpolygon'] = $this->plan_area_model->list_subpolygon();
-
-		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 4;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('area/table',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('area/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -83,16 +79,12 @@ class Area extends Admin_Controller {
 			$data['area'] = null;
 			$data['form_action'] = site_url("area/insert");
 		}
-
-		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 4;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('area/form', $data);
-		$this->load->view('footer');
-
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('area/form', $data, $nav, TRUE);
 	}
 
 	public function ajax_area_maps($p=1, $o=0, $id='')
@@ -111,12 +103,9 @@ class Area extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("area/update_maps/$p/$o/$id");
-
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view("area/maps", $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('area/maps', $data, $nav);
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

@@ -32,17 +32,13 @@ class Pengurus extends Admin_Controller {
 
 		$data['main'] = $this->pamong_model->list_data();
 		$data['keyword'] = $this->pamong_model->autocomplete();
-		$header = $this->header_model->get_data();
 
 		// Menampilkan menu dan sub menu aktif
-		$header['minsidebar'] = 1;
 		$nav['act'] = 1;
 		$nav['act_sub'] = 18;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/pengurus', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('home/pengurus', $data, $nav, TRUE);
 	}
 
 	public function form($id = '')
@@ -66,15 +62,11 @@ class Pengurus extends Admin_Controller {
 			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
 		else
 			$data['individu'] = NULL;
-		$header = $this->header_model->get_data();
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 18;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/pengurus_form', $data);
-		$this->load->view('footer');
+		$this->render_view('home/pengurus_form', $data, $nav);
 	}
 
 	public function filter()

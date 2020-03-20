@@ -53,15 +53,13 @@ class Dokumen_sekretariat extends Admin_Controller {
 				$_SESSION['kode_kategori'] = $s['id'];
 			}
 		}
-
-		$header = $this->header_model->get_data();
+		
 		$this->_set_tab($kat);
 		$nav['act_sub'] = 95;
-    $header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('dokumen/table', $data);
-		$this->load->view('footer');
+		$header['minsidebar'] = 1;
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('dokumen/table', $data, $nav);
 	}
 
 	public function clear($kat=2)
@@ -89,15 +87,12 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$data['form_action'] = site_url("dokumen_sekretariat/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
 		$nav['act'] = 15;
 		$nav['act_sub'] = $this->tab_ini;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/form', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('dokumen/form', $data, $nav);
 	}
 
 	public function search()

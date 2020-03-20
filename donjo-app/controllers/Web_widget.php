@@ -52,7 +52,6 @@ class Web_widget extends Admin_Controller {
 		$data['main'] = $this->web_widget_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_widget_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 48;
 
@@ -62,10 +61,7 @@ class Web_widget extends Admin_Controller {
 				'max' => $data['main'][count($data['main'])-1]['urut']
 		);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('web/artikel/widget', $data);
-		$this->load->view('footer');
+		$this->render_view('web/artikel/widget', $data, $nav);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -84,14 +80,10 @@ class Web_widget extends Admin_Controller {
 			$data['form_action'] = site_url("web_widget/insert");
 		}
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 48;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('web/artikel/widget-form', $data);
-		$this->load->view('footer');
+		$this->render_view('web/artikel/widget-form', $data, $nav);
 	}
 
 	public function search()
@@ -114,16 +106,13 @@ class Web_widget extends Admin_Controller {
 
 	public function admin($widget)
 	{
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act'] = 13;
 		$nav['act_sub'] = 48;
 		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
 		$data['setting'] = $this->web_widget_model->get_setting($widget);
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('widgets/admin_'.$widget, $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('widgets/admin_'.$widget, $data, $nav, TRUE);
 	}
 
 	public function update_setting($widget)

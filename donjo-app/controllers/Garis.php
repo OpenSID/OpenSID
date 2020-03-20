@@ -54,15 +54,11 @@ class Garis extends Admin_Controller {
 		$data['list_line'] = $this->plan_garis_model->list_line();
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
 
-		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('garis/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('garis/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -80,14 +76,11 @@ class Garis extends Admin_Controller {
 			$data['garis'] = null;
 			$data['form_action'] = site_url("garis/insert");
 		}
-		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('garis/form',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('garis/form', $data, $nav, TRUE);
 	}
 
 	public function ajax_garis_maps($p=1, $o=0, $id='')
@@ -106,12 +99,9 @@ class Garis extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
-
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view("garis/maps", $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('garis/maps', $data, $nav);
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

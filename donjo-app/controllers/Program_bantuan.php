@@ -29,18 +29,15 @@ class Program_bantuan extends Admin_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 
-		$header = $this->header_model->get_data();
 		$nav['act']= 6;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['per_page'] = $_SESSION['per_page'];
-
-		$this->load->view('program_bantuan/program', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('program_bantuan/program', $data, $nav);
 	}
 
 	public function form($program_id)
@@ -55,27 +52,20 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
-
-		$header = $this->header_model->get_data();
+		
 		$nav['act'] = 6;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-
 		$data['form_action'] = site_url("program_bantuan/add_peserta");
-		$this->load->view('program_bantuan/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('program_bantuan/form', $data, $nav);
 	}
 
 	public function panduan()
 	{
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
 		$nav['act'] = 6;
-
-		$this->load->view('nav', $nav);
-		$this->load->view('program_bantuan/panduan', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('program_bantuan/panduan', $data, $nav);
 	}
 
 	private function detail_clear()
@@ -95,12 +85,7 @@ class Program_bantuan extends Admin_Controller {
 			else $data['cari_peserta'] = '';
 		}
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 6;
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
@@ -108,37 +93,30 @@ class Program_bantuan extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['paging'] = $data['program'][0]['paging'];
-		$this->load->view('program_bantuan/detail', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('program_bantuan/detail', $data, $nav, TRUE);
 	}
 
 	public function peserta($cat = 0, $id = 0)
 	{
-		$header = $this->header_model->get_data();
 		$nav['act']= 6;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-
 		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
-
-		$this->load->view('program_bantuan/peserta', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('program_bantuan/peserta', $data, $nav);
 	}
 
 	public function data_peserta($id)
 	{
-		$header = $this->header_model->get_data();
 		$nav['act']= 6;
-		$header['minsidebar'] = 1;
-		
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
 		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
-		$this->load->view('program_bantuan/data_peserta', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('program_bantuan/data_peserta', $data, $nav, TRUE);
 	}
 
 	public function add_peserta($id)
@@ -180,14 +158,10 @@ class Program_bantuan extends Admin_Controller {
 		$this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 6;
 		$data['asaldana'] = unserialize(ASALDANA);
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 		if ($this->form_validation->run() === FALSE){
-			$this->load->view('program_bantuan/create', $data);
+			$tampil = 'program_bantuan/create';
 		}
 		else
 		{
@@ -195,6 +169,9 @@ class Program_bantuan extends Admin_Controller {
 			redirect("program_bantuan/");
 		}
 		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view($tampil, $data, $nav);
 	}
 
 	public function edit($id)
@@ -209,17 +186,13 @@ class Program_bantuan extends Admin_Controller {
 		$this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 6;
 		$data['asaldana'] = unserialize(ASALDANA);
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
 
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->load->view('program_bantuan/edit', $data);
+			$tampil = 'program_bantuan/edit';
 		}
 		else
 		{
@@ -227,7 +200,8 @@ class Program_bantuan extends Admin_Controller {
 			redirect("program_bantuan/");
 		}
 
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view($tampil, $data, $nav, TRUE);
 	}
 	public function update($id)
 	{

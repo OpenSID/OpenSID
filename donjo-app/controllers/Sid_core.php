@@ -44,12 +44,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/wilayah', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/wilayah', $data, $nav);
 	}
 
 	public function cetak()
@@ -98,12 +95,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/wilayah_form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/wilayah_form', $data, $nav);
 	}
 
 	public function search()
@@ -147,12 +141,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/wilayah_rw', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/wilayah_rw', $data, $nav, TRUE);
 	}
 
 
@@ -212,12 +203,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/wilayah_form_rw', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/wilayah_form_rw', $data, $nav);
 	}
 
   public function insert_rw($dusun = '')
@@ -246,12 +234,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/wilayah_rt', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/wilayah_rt', $data, $nav);
 	}
 
 	public function cetak_rt($id_dusun = '', $rw = '')
@@ -290,11 +275,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/list_dusun_rt', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/list_dusun_rt', $data, $nav);
 	}
 
 	public function form_rt($id_dusun = '', $rw = '', $rt = '')
@@ -330,12 +313,9 @@ class Sid_Core extends Admin_Controller {
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sid/wilayah/wilayah_form_rt', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sid/wilayah/wilayah_form_rt', $data, $nav, TRUE);
 	}
 
 	public function insert_rt($dusun = '', $rw = '')
@@ -410,15 +390,12 @@ class Sid_Core extends Admin_Controller {
     	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']),
     );
 		$data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
-    $header = $this->header_model->get_data();
     $namadesa =  $data['wil_atas']['nama_desa'];
 
     if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-      $this->load->view('footer');
+			// Isi nilai true jika menggunakan minisidebar
+			$this->render_view('sid/wilayah/ajax_kantor_maps', $data, $nav);
     }
 		else
 		{
@@ -443,14 +420,11 @@ class Sid_Core extends Admin_Controller {
     	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']),
     );
 		$data['form_action'] = site_url("sid_core/update_wilayah_dusun_map/$id");
-    $header = $this->header_model->get_data();
     $namadesa =  $data['wil_atas']['nama_desa'];
     if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-		$this->load->view('footer');
+			// Isi nilai true jika menggunakan minisidebar
+			$this->render_view('sid/wilayah/ajax_wilayah_maps', $data, $nav);
 		}
 		else
 		{
@@ -517,14 +491,11 @@ class Sid_Core extends Admin_Controller {
     );
     $data['wilayah'] = 'RW';
     $data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id_dusun/$rw");
-    $header = $this->header_model->get_data();
 
     if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-	    $this->load->view('footer');
+			// Isi nilai true jika menggunakan minisidebar
+			$this->render_view('sid/wilayah/ajax_kantor_maps', $data, $nav, TRUE);
     }
 		else
 		{
@@ -553,14 +524,11 @@ class Sid_Core extends Admin_Controller {
     );
     $data['wilayah'] = 'RW';
     $data['form_action'] = site_url("sid_core/update_wilayah_rw_map/$id_dusun/$rw");
-    $header = $this->header_model->get_data();
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-			$this->load->view('footer');
+			// Isi nilai true jika menggunakan minisidebar
+			$this->render_view('sid/wilayah/ajax_wilayah_maps', $data, $nav);
     }
 		else
 		{
@@ -622,14 +590,11 @@ class Sid_Core extends Admin_Controller {
     );
     $data['wilayah'] = 'RT';
     $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$rw/$id");
-    $header = $this->header_model->get_data();
 
     if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-	    $this->load->view('footer');
+			// Isi nilai true jika menggunakan minisidebar
+			$this->render_view('sid/wilayah/ajax_kantor_maps', $data, $nav, TRUE);
     }
 		else
 		{
@@ -661,14 +626,11 @@ class Sid_Core extends Admin_Controller {
     );
     $data['wilayah'] = 'RT';
     $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$rw/$id");
-    $header = $this->header_model->get_data();
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-			$this->load->view('footer');
+			// Isi nilai true jika menggunakan minisidebar
+			$this->render_view('sid/wilayah/ajax_wilayah_maps', $data, $nav, TRUE);
     }
 		else
 		{

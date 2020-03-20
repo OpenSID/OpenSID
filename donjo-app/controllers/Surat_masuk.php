@@ -49,14 +49,11 @@ class Surat_masuk extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$nav['act'] = 15;
 		$nav['act_sub'] = 57;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_masuk/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_masuk/table', $data, $nav, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -81,7 +78,6 @@ class Surat_masuk extends Admin_Controller {
 			$data['disposisi_surat_masuk'] = null;
 		}
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
-		$header = $this->header_model->get_data();
 
 		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_masuk']['berkas_scan']);
@@ -91,12 +87,10 @@ class Surat_masuk extends Admin_Controller {
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
 		$nav['act'] = 15;
 		$nav['act_sub'] = 57;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
 		$nav['act'] = $this->tab_ini;
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_masuk/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat_masuk/form', $data, $nav, TRUE);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')

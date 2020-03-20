@@ -41,13 +41,9 @@ class Laporan_rentan extends Admin_Controller {
 
 		$nav['act'] = 3;
 		$nav['act_sub'] = 29;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('laporan/kelompok', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('laporan/kelompok', $data, $nav, TRUE);
 	}
 
 	public function cetak()

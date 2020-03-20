@@ -45,12 +45,9 @@ class Kelompok extends Admin_Controller {
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kelompok/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok/table', $data, $nav, TRUE);
 	}
 
 	public function anggota($id=0)
@@ -60,13 +57,9 @@ class Kelompok extends Admin_Controller {
 		$data['main'] = $this->kelompok_model->list_anggota($id);
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kelompok/anggota/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok/anggota/table', $data, $nav, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -89,13 +82,9 @@ class Kelompok extends Admin_Controller {
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kelompok/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok/form', $data, $nav, TRUE);
 	}
 
 	public function form_anggota($id=0, $id_a=0)
@@ -115,23 +104,17 @@ class Kelompok extends Admin_Controller {
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kelompok/anggota/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok/anggota/form', $data, $nav, TRUE);
 	}
 
-	public function panduan()
+	public function panduan() // Kayaknya sudah tidak digunakan
 	{
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
 		$this->load->view('kelompok/nav2');
-		$this->load->view('kelompok/panduan');
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok/panduan', $data, $nav);
 	}
 
 	public function cetak()
@@ -168,7 +151,7 @@ class Kelompok extends Admin_Controller {
 		$this->load->view('kelompok/anggota/excel', $data);
 	}
 
-	public function menu($id='')
+	public function menu($id='') // Kayaknya sudah tidak digunakan
 	{
 		$_SESSION['kelompok'] = $id;
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
@@ -183,13 +166,11 @@ class Kelompok extends Admin_Controller {
 			case 4: $data['menu_respon'] = "kelompok_respon_kelompok"; break;
 			default:redirect('kelompok');
 		}
-
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
+		
 		$this->load->view('kelompok/nav');
-		$this->load->view('kelompok/menu', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kelompok/menu', $data, $nav, TRUE);
 	}
 
 	public function search()

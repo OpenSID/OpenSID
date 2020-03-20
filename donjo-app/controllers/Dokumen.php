@@ -45,14 +45,10 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/table', $data);
-		$this->load->view('footer');
+		
+		$this->render_view('dokumen/table', $data, $nav);
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')
@@ -73,14 +69,11 @@ class Dokumen extends Admin_Controller {
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
-		$header = $this->header_model->get_data();
 
 		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('dokumen/form', $data);
-		$this->load->view('footer');
+		
+		$this->render_view('dokumen/form', $data, $nav);
 	}
 
 	public function search()

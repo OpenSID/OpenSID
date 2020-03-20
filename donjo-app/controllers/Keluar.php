@@ -51,14 +51,11 @@ class Keluar extends Admin_Controller {
 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 4;
 		$nav['act_sub'] = 32;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat/surat_keluar',$data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat/surat_keluar', $data, $nav);
 	}
 
 	public function edit_keterangan($id=0)
@@ -131,26 +128,22 @@ class Keluar extends Admin_Controller {
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no'] = $nik;
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 4;
 		$nav['act_sub'] = 32;
-		$this->load->view('header',$header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat/surat_keluar_perorangan', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view(surat/surat_keluar_perorangan'', $data, $nav);
 	}
 
 	public function graph()
 	{
 		$nav['act'] = 4;
 		$nav['act_sub'] = 32;
-		$header = $this->header_model->get_data();
-
+		
 		$data['stat'] = $this->keluar_model->grafik();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat/surat_keluar_graph', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('surat/surat_keluar_graph', $data, $nav);
 	}
 
 	public function filter()

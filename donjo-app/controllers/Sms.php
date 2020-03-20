@@ -53,28 +53,11 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/manajemen_sms_table', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/manajemen_sms_table', $data, $nav);
 	}
 
 	public function setting($p = 1, $o = 0)
@@ -82,15 +65,11 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->get_autoreply();
 		$data['form_action'] = site_url("sms/insert_autoreply");
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 41;
 
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/setting', $data);
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/setting', $data, $nav);
 	}
 
 	public function insert_autoreply()
@@ -117,14 +96,11 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_polling($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 41;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/polling', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/polling', $data, $nav);
 	}
 
 	public function outbox($p = 1, $o = 0)
@@ -148,14 +124,9 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/create_sms', $data);
-		$this->load->view('footer');
+		
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		unset($_SESSION['cari1']);
@@ -170,6 +141,11 @@ class Sms extends Admin_Controller {
 		unset($_SESSION['status_penduduk1']);
 		unset($_SESSION['TextDecoded1']);
 		unset($_SESSION['grup1']);
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/create_sms', $data, $nav);
+
+		
 	}
 
 	public function sentitem($p = 1, $o = 0)
@@ -193,28 +169,11 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/berita_terkirim', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/berita_terkirim', $data, $nav);
 	}
 
 	public function pending($p = 1, $o = 0)
@@ -238,28 +197,11 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/pesan_tertunda', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/pesan_tertunda', $data, $nav);
 	}
 
 	public function form($p = 1, $o = 0, $tipe = 0, $id = 0)
@@ -556,14 +498,12 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_kontak($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 40;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/kontak', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/kontak', $data, $nav);
+		
 		unset($_SESSION['cari_kontak']);
 	}
 
@@ -628,14 +568,12 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_grup($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 40;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/group', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/group', $data, $nav);
+		
 		unset($_SESSION['cari_grup']);
 	}
 
@@ -700,14 +638,12 @@ class Sms extends Admin_Controller {
 		$data['grup']['nama_grup'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 40;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/group_detail', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/group_detail', $data, $nav);
+		
 		unset($_SESSION['cari_anggota']);
 	}
 
@@ -779,14 +715,11 @@ class Sms extends Admin_Controller {
 		$data['polling']['id_polling'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 10;
 		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/pertanyaan', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('sms/pertanyaan', $data, $nav);
 	}
 
 	public function form_pertanyaan($id = 0)

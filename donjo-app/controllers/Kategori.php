@@ -41,14 +41,11 @@ class Kategori extends Admin_Controller {
 		$data['main']    = $this->web_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_kategori_model->autocomplete();
 
-		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kategori/table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kategori/table', $data, $nav);
 	}
 
 	public function form($id='')
@@ -65,14 +62,11 @@ class Kategori extends Admin_Controller {
 			$data['form_action'] = site_url("kategori/insert");
 		}
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kategori/form', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kategori/form', $data, $nav);
 	}
 
 	public function sub_kategori($kategori=1)
@@ -80,14 +74,12 @@ class Kategori extends Admin_Controller {
 		$data['tip'] = 2;
 		$data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori);
 		$data['kategori'] = $kategori;
-		$header = $this->header_model->get_data();
+		
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('kategori/sub_kategori_table', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('kategori/sub_kategori_table', $data, $nav, TRUE);
 	}
 
 	public function ajax_add_sub_kategori($kategori='', $id='')

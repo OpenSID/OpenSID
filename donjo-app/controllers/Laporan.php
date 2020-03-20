@@ -67,12 +67,8 @@ class Laporan extends Admin_Controller {
 		$data['lap'] = $lap;
 		$nav['act'] = 3;
 		$nav['act_sub'] = 28;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('laporan/bulanan', $data);
-		$this->load->view('footer');
+		
+		$this->render_view('laporan/bulanan', $data, $nav);
 	}
 
 	public function dialog_cetak()

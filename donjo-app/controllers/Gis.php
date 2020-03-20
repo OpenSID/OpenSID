@@ -95,14 +95,11 @@ class Gis extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['list_lap'] = $this->list_lap();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 		$nav['act'] = 9;
 		$nav['act_sub'] = 62;
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('gis/maps', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('gis/maps', $data, $nav, TRUE);
 	}
 
 	private function list_lap()

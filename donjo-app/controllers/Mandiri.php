@@ -39,15 +39,11 @@ class Mandiri extends Admin_Controller {
 		$data['main'] = $this->mandiri_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->mandiri_model->autocomplete();
 
-		$header = $this->header_model->get_data();
-
 		$nav['act'] = 14;
 		$nav['act_sub'] = 56;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('mandiri/mandiri', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('mandiri/mandiri', $data, $nav);
 	}
 
 	public function search()

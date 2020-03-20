@@ -48,11 +48,7 @@ class Keuangan extends Admin_Controller {
 		);
 		$this->session->set_userdata( $sess );
 		$this->load->model('keuangan_grafik_model');
-		$header = $this->header_model->get_data();
 		$nav['act_sub'] = 203;
-		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
 
@@ -79,7 +75,8 @@ class Keuangan extends Admin_Controller {
 				break;
 		}
 
-		$this->load->view('footer');
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view($tampil, $data, $nav, TRUE);
 	}
 
 	private function rincian_realisasi($thn, $judul, $smt1=false)
@@ -89,7 +86,8 @@ class Keuangan extends Admin_Controller {
 		$data['ta'] = $this->session->userdata('set_tahun');
 		$data['sm'] = $smt1 ? '1' : '2';
 		$_SESSION['submenu'] = "Laporan Keuangan " . $judul;
-		$this->load->view('keuangan/rincian_realisasi', $data);
+		
+		$tampil = 'keuangan/rincian_realisasi';
 	}
 
 	private function grafik_rp_apbd($thn)
@@ -97,19 +95,19 @@ class Keuangan extends Admin_Controller {
 		$data = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$_SESSION['submenu'] = "Grafik Keuangan";
-		$this->load->view('keuangan/grafik_rp_apbd', $data);
+		
+		$tampil = 'keuangan/grafik_rp_apbd';
 	}
 
 	public function impor_data()
 	{
 		$data['main'] = $this->keuangan_model->list_data();
 		$data['form_action'] = site_url("keuangan/proses_impor");
-		$header = $this->header_model->get_data();
+		
 		$nav['act_sub'] = 202;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('keuangan/impor_data', $data);
-		$this->load->view('footer');
+		
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('keuangan/impor_data', $data, $nav);
 	}
 
 	public function proses_impor()
