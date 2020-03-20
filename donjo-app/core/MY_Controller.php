@@ -98,22 +98,6 @@ class MY_Controller extends CI_Controller {
 				$this->session->unset_userdata($session);
 			}
 		}
-		
-		function render_view($view, $data = FALSE, $nav, $mini = FALSE)
-		{
-			$this->load->model('header_model');
-			
-			$header = $this->header_model->get_data();
-			
-			if($mini == TRUE){
-				$header['minsidebar'] = 1;
-			}			
-			
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view($view, $data);
-			$this->load->view('footer');
-		}
 }
 
 class Web_Controller extends MY_Controller
@@ -221,6 +205,23 @@ class Admin_Controller extends MY_Controller
 		if (empty($controller))
 			$controller = $this->controller;
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
+	}
+
+
+	function render_view($view, $data = FALSE, $nav, $mini = FALSE)
+	{
+		$this->load->model('header_model');
+		
+		$header = $this->header_model->get_data();
+			
+		if($mini == TRUE){
+			$header['minsidebar'] = 1;
+		}			
+			
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view($view, $data);
+		$this->load->view('footer');
 	}
 }
 
