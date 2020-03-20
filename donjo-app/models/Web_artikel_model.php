@@ -448,6 +448,7 @@
 		}
 	}
 
+	// TODO: ubah supaya menggunakan web_kategori_model
 	public function hapus($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;

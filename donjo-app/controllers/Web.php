@@ -145,7 +145,7 @@ class Web extends Admin_Controller {
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
-		$outp = $this->web_artikel_model->delete($id);
+		$this->web_artikel_model->delete($id);
 		redirect("web/index/$cat/$p/$o");
 	}
 

@@ -140,10 +140,10 @@ class Analisis_master_model extends CI_Model {
 
 	public function delete($id='', $semua=false)
 	{
-		if (!$semua) $this->session->success = 1;
 		
 		if ($this->is_analisis_sistem($id)) return; // Jangan hapus analisis sistem
 
+		if (!$semua) $this->session->success = 1;
 		$this->sub_delete($id);
 
 		$outp = $this->db->where('id', $id)->delete('analisis_master');
@@ -162,6 +162,7 @@ class Analisis_master_model extends CI_Model {
 		}
 	}
 
+	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB 
 	private function sub_delete($id='')
 	{
 		$sql = "DELETE FROM analisis_parameter WHERE id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = ?)";

@@ -181,10 +181,10 @@
 
 	public function delete($id='', $semua=false)
 	{
-		if (!$semua) $this->session->success = 1;
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
+		if (!$semua) $this->session->success = 1;
 		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
