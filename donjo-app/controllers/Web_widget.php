@@ -14,8 +14,6 @@ class Web_widget extends Admin_Controller {
 			redirect('hom_desa');
 			exit;
 		}
-
-		$this->load->model('header_model');
 		$this->load->model('web_widget_model');
 		$this->modul_ini = 13;
 	}

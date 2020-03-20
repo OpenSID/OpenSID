@@ -8,7 +8,6 @@ class Keluar extends Admin_Controller {
 		session_start();
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
-		$this->load->model('header_model');
 		$this->load->helper('download');
 		$this->load->model('pamong_model');
 		$this->load->model('config_model');

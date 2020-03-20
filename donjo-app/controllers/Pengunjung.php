@@ -6,7 +6,6 @@ class Pengunjung extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('web_pengunjung_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 13;

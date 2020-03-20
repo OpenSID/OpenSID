@@ -8,7 +8,6 @@ class Analisis_respon extends Admin_Controller {
 		session_start();
 		UNSET($_SESSION['delik']);
 		$this->load->model('analisis_respon_model');
-		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
 		$this->modul_ini = 5;

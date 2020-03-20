@@ -8,7 +8,6 @@ class Analisis_master extends Admin_Controller {
 		session_start();
 		$this->load->model('analisis_master_model');
 		$this->load->model('analisis_import_model');
-		$this->load->model('header_model');
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
 		$this->modul_ini = 5;

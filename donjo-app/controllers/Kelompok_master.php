@@ -7,7 +7,6 @@ class Kelompok_master extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('kelompok_master_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 2;
 	}
 

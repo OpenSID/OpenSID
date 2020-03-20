@@ -7,7 +7,6 @@ class Mandiri extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('mandiri_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 14;
 	}
 

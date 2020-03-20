@@ -6,7 +6,6 @@ class Lapor extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->load->model('lapor_model');
 		$this->load->model('config_model');

@@ -7,7 +7,6 @@ class Analisis_kategori extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_kategori_model');
-		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Data Kategori";
 		$_SESSION['asubmenu'] = "analisis_kategori";
 		$this->modul_ini = 5;

@@ -6,7 +6,6 @@ class Keluarga extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('wilayah_model');

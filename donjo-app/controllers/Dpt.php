@@ -8,7 +8,6 @@ class Dpt extends Admin_Controller {
 		session_start();
 		$this->load->model('penduduk_model');
 		$this->load->model('dpt_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 2;
 	}
 

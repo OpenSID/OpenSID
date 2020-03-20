@@ -6,7 +6,6 @@ class Laporan_rentan extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('laporan_bulanan_model');
 		$this->load->model('config_model');
 

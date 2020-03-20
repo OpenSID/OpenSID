@@ -7,7 +7,6 @@ class Database extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->dbforge();
-		$this->load->model('header_model');
 		$this->load->model('import_model');
 		$this->load->model('export_model');
 		$this->load->model('database_model');

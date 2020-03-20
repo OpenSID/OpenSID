@@ -7,7 +7,6 @@ class Sms extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('sms_model');
-		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->modul_ini = 10;
 	}

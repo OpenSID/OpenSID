@@ -6,7 +6,6 @@ class Menu extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('web_menu_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->modul_ini = 13;

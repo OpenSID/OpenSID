@@ -7,7 +7,6 @@ class Analisis_indikator extends Admin_Controller{
 		parent::__construct();
 		session_start();
 		$this->load->model('analisis_indikator_model');
-		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Data Indikator";
 		$_SESSION['asubmenu'] = "analisis_indikator";
 		$this->modul_ini = 5;

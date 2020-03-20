@@ -6,7 +6,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 15;

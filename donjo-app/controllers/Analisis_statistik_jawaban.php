@@ -8,7 +8,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		session_start();
 		$this->load->model('analisis_statistik_jawaban_model');
 		$this->load->model('analisis_respon_model');
-		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
 		$this->modul_ini = 5;

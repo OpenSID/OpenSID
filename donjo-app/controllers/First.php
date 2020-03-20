@@ -27,7 +27,6 @@ class First extends Web_Controller {
 		}
 
 		mandiri_timeout();
-		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');

@@ -6,7 +6,6 @@ class Dokumen extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');

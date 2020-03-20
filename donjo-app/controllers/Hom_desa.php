@@ -7,7 +7,6 @@ class Hom_desa extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 200;

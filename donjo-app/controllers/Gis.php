@@ -11,7 +11,6 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
-		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 9;
 		$this->load->database();

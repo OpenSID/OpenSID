@@ -6,7 +6,6 @@ class User_setting extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 	}
 
 	public function index()

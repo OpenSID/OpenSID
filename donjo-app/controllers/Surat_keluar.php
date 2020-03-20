@@ -12,7 +12,6 @@ class Surat_keluar extends Admin_Controller {
 		$this->load->model('klasifikasi_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
-		$this->load->model('header_model');
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
 		$this->tab_ini = 2;

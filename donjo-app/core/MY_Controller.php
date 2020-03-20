@@ -101,6 +101,8 @@ class MY_Controller extends CI_Controller {
 		
 		function render_view($view, $data = FALSE, $nav, $mini = FALSE)
 		{
+			$this->load->model('header_model');
+			
 			$header = $this->header_model->get_data();
 			
 			if($mini == TRUE){

@@ -6,7 +6,6 @@ class Gallery extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('web_gallery_model');
 		$this->modul_ini = 13;
 	}

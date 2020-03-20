@@ -14,8 +14,6 @@ class Web extends Admin_Controller {
 			redirect('hom_desa');
 			exit;
 		}
-
-		$this->load->model('header_model');
 		$this->load->model('web_artikel_model');
 		$this->load->model('web_kategori_model');
 		$this->modul_ini = 13;

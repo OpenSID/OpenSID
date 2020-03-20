@@ -8,7 +8,6 @@ class Surat_master extends Admin_Controller {
 		session_start();
 		$this->load->model('surat_master_model');
 		$this->load->model('klasifikasi_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 4;
 	}
 

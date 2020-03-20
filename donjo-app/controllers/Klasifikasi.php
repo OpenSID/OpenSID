@@ -6,7 +6,6 @@ class Klasifikasi extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('klasifikasi_model');
 		$this->modul_ini = 15;
 	}

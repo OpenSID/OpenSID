@@ -6,8 +6,6 @@ class Teks_berjalan extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-
-		$this->load->model('header_model');
 		$this->load->model('teks_berjalan_model');
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 64;

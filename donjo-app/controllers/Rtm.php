@@ -6,7 +6,6 @@ class Rtm extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('header_model');
 		$this->load->model('rtm_model');
 		$this->load->model('config_model');
 		$this->load->model('penduduk_model');

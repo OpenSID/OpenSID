@@ -9,7 +9,6 @@ class Statistik extends Admin_Controller {
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');
-		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$_SESSION['per_page'] = 500;
 		$this->modul_ini = 3;

@@ -9,7 +9,6 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('penduduk_log_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 2;
 	}
 

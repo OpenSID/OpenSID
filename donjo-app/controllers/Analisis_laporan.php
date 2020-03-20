@@ -8,7 +8,6 @@ class Analisis_laporan extends Admin_Controller {
 		session_start();
 		$this->load->model('analisis_laporan_model');
 		$this->load->model('analisis_respon_model');
-		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Laporan Analisis";
 		$_SESSION['asubmenu'] = "analisis_laporan";
 		$this->modul_ini = 5;
