@@ -158,31 +158,24 @@ class Web_kategori_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
+		if (!$semua) $this->session->success = 1;
 		
-		status_sukses($outp); //Tampilkan Pesan
+		$outp = $this->db->where('id', $id)->delete('kategori');
+		
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM kategori WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_kategori($kategori=1)
@@ -262,29 +255,24 @@ class Web_kategori_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_sub_kategori($id='')
+	public function delete_sub_kategori($id='', $semua=false)
 	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id', $id)->delete('kategori');
 		
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_kategori()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM kategori WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_sub_kategori($id, $semua=true);
 		}
-		else $outp = false;
-		
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function kategori_lock($id='', $val=0)

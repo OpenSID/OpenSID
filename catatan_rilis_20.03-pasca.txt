@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 17. #2809: Url tulisan artikel sekarang selalu unik walaupun judul artikel sama.
 18. #2809: Nama kategori artikel sekarang tidak boleh sama atau kosong.
 19. #2815: Hapus kotak centang di halaman daftar Wilayah Administratif dusun/rw/rt.
+20. Sederhanakan script delete dan delete_all secara menyeluruh. [teknis]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

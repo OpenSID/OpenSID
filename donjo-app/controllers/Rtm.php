@@ -188,7 +188,6 @@ class Rtm extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->session->success = 1;
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
@@ -196,7 +195,6 @@ class Rtm extends Admin_Controller {
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->session->success = 1;
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
 		redirect('rtm');

@@ -79,10 +79,7 @@ class Mandiri extends Admin_Controller {
 	public function delete($p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "mandiri");
-		$outp = $this->mandiri_model->delete($id);
-
-		status_sukses($outp); //Tampilkan Pesan
-		
+		$this->mandiri_model->delete($id);		
 		redirect("mandiri");
 	}
 }

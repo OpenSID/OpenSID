@@ -146,26 +146,23 @@
     }
   }
 
-	public function delete($id_pend='')
+	public function delete($id_pend='', $semua=false)
 	{
-		$sql = "DELETE FROM tweb_penduduk_mandiri WHERE id_pend = ?";
-		$outp = $this->db->query($sql, array($id_pend));
-		return $outp;
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach($id_cb as $id)
-			{
-				$outp = $this->delete($id);
-				
-				status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 

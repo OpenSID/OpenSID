@@ -200,8 +200,10 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($no_kk='')
+	public function delete($no_kk='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+		
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
@@ -209,19 +211,19 @@
 
 		$this->db->where('id_rtm', $no_kk)->update('tweb_penduduk', $temp);
 
-		$outp = $this->db->where('no_kk', $no_kk)
-			->delete('tweb_rtm');
+		$outp = $this->db->where('no_kk', $no_kk)->delete('tweb_rtm');
 
-		if (!$outp) $this->session->success = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		foreach ($id_cb as $no_kk)
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			$this->delete($no_kk);
+			$this->delete($id, $semua=true);
 		}
 	}
 

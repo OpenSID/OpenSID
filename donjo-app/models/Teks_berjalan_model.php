@@ -138,8 +138,10 @@
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+		
 		$outp = $this->db->where('id', $id)->delete('teks_berjalan');
 		
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -147,11 +149,12 @@
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
+		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 

@@ -143,7 +143,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
@@ -151,7 +150,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}

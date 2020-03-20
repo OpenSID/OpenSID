@@ -179,34 +179,27 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		$sql = "DELETE FROM analisis_indikator WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
+
 
 	public function delete_all()
 	{
-		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
+		$this->session->success = 1;
 
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM analisis_indikator WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function p_insert($in='')
@@ -236,32 +229,23 @@
 
 	public function p_delete($id='')
 	{
+		$this->session->success = 1;
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		$sql = "DELETE FROM analisis_parameter WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		$outp = $this->db->where('id', $id)->delete('analisis_parameter');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function p_delete_all()
 	{
-		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
-
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM analisis_parameter WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-		}
-		else $outp = false;
 
-		status_sukses($outp); //Tampilkan Pesan
+		foreach ($id_cb as $id)
+		{
+			$this->p_delete($id);
+		}
 	}
 
 	public function list_indikator($id=0)

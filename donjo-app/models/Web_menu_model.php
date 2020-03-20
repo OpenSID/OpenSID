@@ -121,20 +121,23 @@ class Web_menu_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM menu WHERE id = ? OR parrent = ?";
-		$outp = $this->db->query($sql, array($id, $id));
-		
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id', $id)->or_where('parrent', $id)->delete('menu');
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -196,20 +199,23 @@ class Web_menu_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_sub_menu($id='')
+	public function delete_sub_menu($id='', $semua=false)
 	{
-		$sql = "DELETE FROM menu WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
 		
+		$outp = $this->db->where('id', $id)->delete('menu');
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_menu()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete_sub_menu($id);
+			$this->delete_sub_menu($id, $semua=true);
 		}
 	}
 

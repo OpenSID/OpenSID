@@ -217,25 +217,23 @@
 		}
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
 		// Surat jenis sistem (nilai 1) tidak bisa dihapus
-		$sql = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id = ?";
-		$outp = $this->db->query($sql,array($id));
+		$outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete('tweb_surat_format');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 

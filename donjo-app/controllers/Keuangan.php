@@ -176,9 +176,7 @@ class Keuangan extends Admin_Controller {
 	public function delete($id = '')
 	{
 		$this->redirect_hak_akses('h', 'keuangan');
-		$_SESSION['success'] = 1;
 		$outp = $this->keuangan_model->delete($id);
-		if (!$outp) $_SESSION['success'] = -1;
 		redirect('keuangan/impor_data');
 	}
 

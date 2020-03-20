@@ -142,29 +142,24 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM line WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('line');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM line WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_sub_line($line=1)
@@ -248,29 +243,24 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete_sub_line($id='')
+	public function delete_sub_line($id='', $semua=false)
 	{
-		$sql = "DELETE FROM line WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
 
-		status_sukses($outp); //Tampilkan Pesan
+		$outp = $this->db->where('id', $id)->delete('line');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_line()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM line WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_sub_line($id, $semua=true);
 		}
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function line_lock($id='', $val=0)

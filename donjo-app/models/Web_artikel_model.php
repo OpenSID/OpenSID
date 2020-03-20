@@ -416,8 +416,10 @@
 		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+
 		$list_gambar = $this->db->
 			select('gambar, gambar1, gambar2, gambar3')->
 			where('id', $id)->
@@ -426,30 +428,34 @@
 		{
 			HapusArtikel($gambar);
 		}
+		
 		$outp = $this->db->where('id', $id)->delete('artikel');
-		return $outp;
+		
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
 			if ($this->boleh_ubah($id, $_SESSION['user']))
 			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
+				$this->delete($id, $semua=true);
 			}
 		}
 	}
 
-	public function hapus($id='')
+	// TODO: ubah supaya menggunakan web_kategori_model
+	public function hapus($id='', $semua=false)
 	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('kategori');
 
-		status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function artikel_lock($id='', $val=0)
