@@ -6,16 +6,13 @@
 * Time: 06:59
 */
 
-class Api_inventaris_asset extends Admin_Controller {
-
+class Api_inventaris_asset extends Admin_Controller 
+{
 	public function __construct()
 	{
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_asset_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 5;
-		// $this->controller = 'Inventaris_asset';
 	}
 
 	function index(){

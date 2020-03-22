@@ -12,6 +12,8 @@ class Inventaris_gedung extends Admin_Controller {
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
 		$this->tab_ini = 3;
+
+		$this->tipe = 'inventaris_gedung';
 	}
 
 	public function clear()
@@ -27,7 +29,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['total'] = $this->inventaris_gedung_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$data['tip'] = 1;
-		
+
 		// Isi nilai true jika menggunakan minisidebar
 		$this->render_view('inventaris/gedung/table', $data, TRUE);
 	}
@@ -78,7 +80,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['main'] = $this->config_model->get_data();
 		$data['aset'] = $this->inventaris_gedung_model->list_aset();
 		$data['count_reg'] = $this->inventaris_gedung_model->count_reg();;
-		
+
 		// Isi nilai true jika menggunakan minisidebar
 		$this->render_view('inventaris/gedung/form_tambah', $data, TRUE);
 	}

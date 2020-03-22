@@ -13,6 +13,8 @@ class Inventaris_tanah extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 1;
+
+		$this->tipe = 'inventaris_tanah';
 	}
 
 	public function clear()

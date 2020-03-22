@@ -13,6 +13,8 @@ class Inventaris_jalan extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 4;
+
+		$this->tipe = 'inventaris_jalan';
 	}
 
 	public function clear()
@@ -29,7 +31,7 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['pamong'] = $this->surat_model->list_pamong();
 
 		$data['tip'] = 1;
-		
+
 		// Isi nilai true jika menggunakan minisidebar
 		$this->render_view('inventaris/jalan/table', $data, TRUE);
 	}

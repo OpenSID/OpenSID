@@ -14,9 +14,6 @@ class Api_inventaris_tanah extends Admin_Controller
 
 		session_start();
 		$this->load->model('inventaris_tanah_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 1;
-		// $this->controller = 'inventaris';
 	}
 
 	function index(){

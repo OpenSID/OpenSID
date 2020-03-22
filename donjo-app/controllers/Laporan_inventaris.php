@@ -13,14 +13,13 @@ class Laporan_inventaris extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 7;
+		$this->tipe = 'laporan_inventaris';
 	}
 
 	public function index()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-
 		$data = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
-
 		$data['tip'] = 1;
 		
 		// Isi nilai true jika menggunakan minisidebar
@@ -48,7 +47,6 @@ class Laporan_inventaris extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-
 		$data['tip'] = 2;
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 		
