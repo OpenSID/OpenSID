@@ -8,7 +8,9 @@
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<li <?php if ($tip==1): ?>class="active"<?php endif; ?>><a href="<?=site_url($this->tipe);?>"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
-      <li <?php if ($tip==2): ?>class="active"<?php endif; ?>><a href="<?=site_url($this->tipe.'/mutasi')?>"><i class="fa fa-share"></i> Mutasi Inventaris</a></li>
+			<?php if($this->tab_ini != 6):?>
+	  			<li <?php if ($tip==2): ?>class="active"<?php endif; ?>><a href="<?=site_url($this->tipe.'/mutasi')?>"><i class="fa fa-share"></i> Mutasi Inventaris</a></li>
+			<?php endif ?>
 		</ul>
 	</div>
 </div>
