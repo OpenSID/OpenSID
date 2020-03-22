@@ -16,6 +16,7 @@ class Laporan_rentan extends Admin_Controller {
 		//-------------------------------
 
 		$this->modul_ini = 3;
+		$this->sub_modul_ini = 29;
 	}
 
 	public function clear()
@@ -37,12 +38,9 @@ class Laporan_rentan extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_bulanan_model->list_dusun();
 		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
-
-		$nav['act'] = 3;
-		$nav['act_sub'] = 29;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('laporan/kelompok', $data, $nav, TRUE);
+		$this->render_view('laporan/kelompok', $data, TRUE);
 	}
 
 	public function cetak()

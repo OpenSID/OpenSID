@@ -10,6 +10,7 @@ class Rtm extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('penduduk_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 23;
 	}
 
 	public function clear()
@@ -73,12 +74,9 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 23;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/rtm', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/rtm', $data, TRUE);
 	}
 
 	public function cetak($o = 0)
@@ -204,12 +202,9 @@ class Rtm extends Admin_Controller {
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 23;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/rtm_anggota', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/rtm_anggota', $data, TRUE);
 	}
 
 	public function ajax_add_anggota($p = 1, $o = 0, $id = 0)
@@ -260,11 +255,8 @@ class Rtm extends Admin_Controller {
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/print");
 		
-		$nav['act'] = 2;
-		$nav['act_sub'] = 23;
-		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/kartu_rtm', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/kartu_rtm', $data, TRUE);
 	}
 
 	public function cetak_kk($id = 0)
@@ -274,7 +266,6 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
 		$data['desa'] = $this->config_model->get_data();
-		$nav['act'] = 3;
 		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 	}
 

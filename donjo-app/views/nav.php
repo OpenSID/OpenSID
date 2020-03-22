@@ -40,9 +40,9 @@
 						</a>
 						<ul class="treeview-menu <?php ($this->modul_ini==$mod['id']) and print('active')?>">
 							<?php foreach ($mod['submodul'] as $submod): ?>
-								<li class="<?php ($act_sub==$submod['id']) and print('active')?>">
+								<li class="<?php ($this->sub_modul_ini==$submod['id']) and print('active')?>">
 									<a href="<?= site_url()?><?=$submod['url']?>">
-										<i class="fa <?= ($submod['ikon'] != NULL) ? $submod['ikon'] : 'fa-circle-o'?> <?php ($act_sub==$submod['id']) and print('text-red')?>"></i>
+										<i class="fa <?= ($submod['ikon'] != NULL) ? $submod['ikon'] : 'fa-circle-o'?> <?php ($this->sub_modul_ini==$submod['id']) and print('text-red')?>"></i>
 										<?=$submod['modul']?>
 									</a>
 								</li>

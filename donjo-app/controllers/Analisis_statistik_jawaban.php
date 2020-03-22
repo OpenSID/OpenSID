@@ -93,10 +93,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
-		$nav['act']= 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_statistik_jawaban/table', $data, $nav, TRUE);
+		$this->render_view('analisis_statistik_jawaban/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -119,7 +118,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_statistik_jawaban/form', $data, $nav);
+		$this->render_view('analisis_statistik_jawaban/form', $data);
 	}
 
 	public function parameter($id='')
@@ -131,10 +130,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_statistik_jawaban/parameter/table', $data, $nav, TRUE);
+		$this->render_view('analisis_statistik_jawaban/parameter/table', $data, TRUE);
 	}
 
 	public function grafik_parameter($id='')
@@ -166,10 +164,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_statistik_jawaban/parameter/grafik_table', $data, $nav, TRUE);
+		$this->render_view('analisis_statistik_jawaban/parameter/grafik_table', $data, TRUE);
 	}
 
 	public function subjek_parameter($id='',$par='')
@@ -203,11 +200,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_subjek($par);
-
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_statistik_jawaban/parameter/subjek_table', $data, $nav, TRUE);
+		$this->render_view('analisis_statistik_jawaban/parameter/subjek_table', $data, TRUE);
 	}
 
 	public function cetak($o=0)

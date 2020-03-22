@@ -23,22 +23,9 @@ class Hom_sid extends Admin_Controller {
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
 		$data['jumlah_surat'] = $this->surat_model->surat_total();
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 16;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('home/desa', $data, $nav);
-	}
-
-	public function donasi()
-	{
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 19;
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('home/donasi', $data, $nav);
+		$this->render_view('home/desa', $data);
 	}
 
 	public function dialog_pengaturan()

@@ -11,6 +11,7 @@ class Area extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -52,11 +53,10 @@ class Area extends Admin_Controller {
 		$data['keyword'] = $this->plan_area_model->autocomplete();
 		$data['list_polygon'] = $this->plan_area_model->list_polygon();
 		$data['list_subpolygon'] = $this->plan_area_model->list_subpolygon();
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 4;
+		$data['tip'] = 4;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('area/table', $data, $nav, TRUE);
+		$this->render_view('area/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -79,11 +79,10 @@ class Area extends Admin_Controller {
 			$data['form_action'] = site_url("area/insert");
 		}
 		
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 4;
+		$data['tip'] = 4;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('area/form', $data, $nav, TRUE);
+		$this->render_view('area/form', $data, TRUE);
 	}
 
 	public function ajax_area_maps($p=1, $o=0, $id='')
@@ -104,7 +103,7 @@ class Area extends Admin_Controller {
 		$data['form_action'] = site_url("area/update_maps/$p/$o/$id");
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('area/maps', $data, $nav);
+		$this->render_view('area/maps', $data);
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

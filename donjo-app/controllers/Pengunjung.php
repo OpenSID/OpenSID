@@ -9,6 +9,7 @@ class Pengunjung extends Admin_Controller {
 		$this->load->model('web_pengunjung_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 205;
 	}
 
 	public function index()
@@ -22,11 +23,8 @@ class Pengunjung extends Admin_Controller {
 		
 		$data['main'] = $this->web_pengunjung_model->get_pengunjung($_SESSION['id']);		
 		
-		$nav['act'] = 13;
-		$nav['act_sub'] = 205;
-		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('pengunjung/table', $data, $nav);
+		$this->render_view('pengunjung/table', $data);
 	}
 	
 	public function detail($id='')

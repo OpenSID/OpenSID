@@ -16,6 +16,7 @@ class Web_widget extends Admin_Controller {
 		}
 		$this->load->model('web_widget_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 48;
 	}
 
 	public function clear()
@@ -50,16 +51,13 @@ class Web_widget extends Admin_Controller {
 		$data['main'] = $this->web_widget_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_widget_model->autocomplete();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 48;
-
 		$this->session->page = $data['p'];
 		$this->session->urut_range = array(
 				'min' => $data['main'][0]['urut'],
 				'max' => $data['main'][count($data['main'])-1]['urut']
 		);
 
-		$this->render_view('web/artikel/widget', $data, $nav);
+		$this->render_view('web/artikel/widget', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -78,10 +76,7 @@ class Web_widget extends Admin_Controller {
 			$data['form_action'] = site_url("web_widget/insert");
 		}
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 48;
-
-		$this->render_view('web/artikel/widget-form', $data, $nav);
+		$this->render_view('web/artikel/widget-form', $data);
 	}
 
 	public function search()
@@ -104,8 +99,6 @@ class Web_widget extends Admin_Controller {
 
 	public function admin($widget)
 	{
-		$nav['act'] = 13;
-		$nav['act_sub'] = 48;
 		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
 		$data['setting'] = $this->web_widget_model->get_setting($widget);
 		

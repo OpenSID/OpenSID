@@ -13,6 +13,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 22;
 	}
 
 	public function clear()
@@ -83,12 +84,9 @@ class Keluarga extends Admin_Controller {
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/keluarga', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/keluarga', $data, TRUE);
 	}
 
 	public function autocomplete()
@@ -140,10 +138,6 @@ class Keluarga extends Admin_Controller {
 			$data['penduduk'] = null;
 		$data['kk'] = null;
 		$data['form_action'] = site_url("keluarga/insert_new");
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-
 		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw'] = $this->penduduk_model->list_rw($data['penduduk']['dusun']);
@@ -170,7 +164,7 @@ class Keluarga extends Admin_Controller {
 		unset($_SESSION['dari_internal']);
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/keluarga_form', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/keluarga_form', $data, TRUE);
 	}
 
 	// Tambah anggota keluarga dari penduduk baru
@@ -184,9 +178,6 @@ class Keluarga extends Admin_Controller {
 		$data['id_kk'] = $id;
 		$data['kk'] = $this->keluarga_model->get_kepala_a($id);
 		$data['form_action'] = site_url("keluarga/insert_a");
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
@@ -215,7 +206,7 @@ class Keluarga extends Admin_Controller {
 		}
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/keluarga_form_a', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/keluarga_form_a', $data, TRUE);
 	}
 
 	public function edit_nokk($p=1, $o=0, $id=0)
@@ -365,12 +356,9 @@ class Keluarga extends Admin_Controller {
 
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/keluarga_anggota', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/keluarga_anggota', $data, TRUE);
 	}
 
 	public function ajax_add_anggota($p=1, $o=0, $id=0)
@@ -428,12 +416,9 @@ class Keluarga extends Admin_Controller {
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/print");
-		
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/kartu_keluarga', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/kartu_keluarga', $data, TRUE);
 	}
 
 	public function cetak_kk($id=0)

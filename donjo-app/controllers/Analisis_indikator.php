@@ -56,10 +56,9 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-		$nav['act']= 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_indikator/table', $data, $nav, TRUE);
+		$this->render_view('analisis_indikator/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -80,10 +79,9 @@ class Analisis_indikator extends Admin_Controller{
 
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_indikator/form', $data, $nav, TRUE);
+		$this->render_view('analisis_indikator/form', $data, TRUE);
 	}
 
 	public function parameter($id=''){
@@ -94,10 +92,9 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['main'] = $this->analisis_indikator_model->list_indikator($id);
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_indikator/parameter/table', $data, $nav, TRUE);
+		$this->render_view('analisis_indikator/parameter/table', $data, TRUE);
 	}
 
 	public function form_parameter($in='', $id='')

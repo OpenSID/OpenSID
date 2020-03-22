@@ -14,6 +14,7 @@ class Surat_masuk extends Admin_Controller {
 		$this->load->model('pamong_model');
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 57;
 		$this->tab_ini = 2;
 	}
 
@@ -48,11 +49,9 @@ class Surat_masuk extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 57;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('surat_masuk/table', $data, $nav, TRUE);
+		$this->render_view('surat_masuk/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -84,12 +83,9 @@ class Surat_masuk extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$nav['act'] = 15;
-		$nav['act_sub'] = 57;
-		$nav['act'] = $this->tab_ini;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('surat_masuk/form', $data, $nav, TRUE);
+		$this->render_view('surat_masuk/form', $data, TRUE);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')

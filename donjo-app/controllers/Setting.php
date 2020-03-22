@@ -9,18 +9,17 @@ class Setting extends Admin_Controller {
 		$this->load->model('setting_model');
 		$this->load->model('theme_model');
 		$this->modul_ini = 11;
+		$this->sub_modul_ini = 43;
 	}
 
 	public function index()
 	{
-		$nav['act'] = 11;
-		$nav['act_sub'] = 43;
 		$data['list_tema'] = $this->theme_model->list_all();
 		$this->setting_model->load_options();
 
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('setting/setting_form', $data, $nav);
+		$this->render_view('setting/setting_form', $data);
 	}
 
 	public function update()
@@ -31,11 +30,10 @@ class Setting extends Admin_Controller {
 
 	public function info_sistem()
 	{
-		$nav['act'] = 11;
-		$nav['act_sub'] = 46;
+		$this->sub_modul_ini = 46;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('setting/info_php', $data, $nav, TRUE);
+		$this->render_view('setting/info_php', $data, TRUE);
 	}
 
 }

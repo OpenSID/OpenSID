@@ -8,6 +8,7 @@ class Mandiri extends Admin_Controller {
 		session_start();
 		$this->load->model('mandiri_model');
 		$this->modul_ini = 14;
+		$this->sub_modul_ini = 56;
 	}
 
 	public function clear()
@@ -37,12 +38,9 @@ class Mandiri extends Admin_Controller {
 		$data['paging'] = $this->mandiri_model->paging($p, $o);
 		$data['main'] = $this->mandiri_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->mandiri_model->autocomplete();
-
-		$nav['act'] = 14;
-		$nav['act_sub'] = 56;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('mandiri/mandiri', $data, $nav);
+		$this->render_view('mandiri/mandiri', $data);
 	}
 
 	public function search()

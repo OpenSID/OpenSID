@@ -84,10 +84,9 @@ class Analisis_respon extends Admin_Controller {
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_respon/table', $data, $nav, TRUE);
+		$this->render_view('analisis_respon/table', $data, TRUE);
 	}
 
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
@@ -111,7 +110,6 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_bukti'] = $this->analisis_respon_model->list_bukti($id);
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
-		$nav['act'] = 5;
 		if (isset($_SESSION['fullscreen']))
 			$data['layarpenuh']= 1;
 		else
@@ -120,7 +118,7 @@ class Analisis_respon extends Admin_Controller {
 		}
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_respon/form', $data, $nav, TRUE);
+		$this->render_view('analisis_respon/form', $data, TRUE);
 	}
 
 	public function update_kuisioner($p=1, $o=0, $id='')

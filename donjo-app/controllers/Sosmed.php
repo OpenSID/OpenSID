@@ -9,6 +9,7 @@ class Sosmed extends Admin_Controller
 		session_start();
 		$this->load->model('web_sosmed_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 53;
 	}
 
 	public function index()
@@ -16,11 +17,9 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(1);
 		$id = $data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/1");
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sosmed/facebook', $data, $nav);
+		$this->render_view('sosmed/facebook', $data);
 	}
 
 	public function twitter()
@@ -28,48 +27,36 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(2);
 		$id = $data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/2/$id");
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sosmed/twitter', $data, $nav);
+		$this->render_view('sosmed/twitter', $data);
 	}
 
 	public function instagram()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(5);
 		$data['form_action'] = site_url("sosmed/update/5");
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sosmed/instagram', $data, $nav);
+		$this->render_view('sosmed/instagram', $data);
 	}
 
 	public function google()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(3);
 		$data['form_action'] = site_url("sosmed/update/3");
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sosmed/google', $data, $nav);
+		$this->render_view('sosmed/google', $data);
 	}
 
 	public function youtube()
 	{
 		$data['main'] = $this->web_sosmed_model->get_sosmed(4);
 		$data['form_action'] = site_url("sosmed/update/4");
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sosmed/youtube', $data, $nav);
+		$this->render_view('sosmed/youtube', $data);
 	}
 
 	public function whatsapp()
@@ -77,11 +64,8 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(6);
 		$data['form_action'] = site_url("sosmed/update/6");
 		
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
-		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sosmed/whatsapp', $data, $nav);
+		$this->render_view('sosmed/whatsapp', $data);
 	}
 
 	public function update($id = '')

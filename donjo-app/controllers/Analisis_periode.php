@@ -48,10 +48,9 @@ class Analisis_periode extends Admin_Controller {
 		$data['keyword'] = $this->analisis_periode_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
 		$data['list_state'] = $this->analisis_periode_model->list_state();
-		$nav['act']= 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_periode/table', $data, $nav, TRUE);
+		$this->render_view('analisis_periode/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -71,10 +70,9 @@ class Analisis_periode extends Admin_Controller {
 		}
 
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_periode/form', $data, $nav, TRUE);
+		$this->render_view('analisis_periode/form', $data, TRUE);
 	}
 
 	public function search()

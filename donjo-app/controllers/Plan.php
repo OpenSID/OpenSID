@@ -11,6 +11,7 @@ class Plan extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -55,11 +56,10 @@ class Plan extends Admin_Controller {
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
 
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 3;
+		$data['tip'] = 3;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('lokasi/table', $data, $nav, TRUE);
+		$this->render_view('lokasi/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -82,11 +82,10 @@ class Plan extends Admin_Controller {
 			$data['form_action'] = site_url("plan/insert");
 		}
 
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 3;
+		$data['tip'] = 3;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('lokasi/form', $data, $nav, TRUE);
+		$this->render_view('lokasi/form', $data, TRUE);
 	}
 
 	public function ajax_lokasi_maps($p = 1, $o = 0, $id = '')
@@ -107,7 +106,7 @@ class Plan extends Admin_Controller {
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('lokasi/maps', $data, $nav, TRUE);
+		$this->render_view('lokasi/maps', $data, TRUE);
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '')

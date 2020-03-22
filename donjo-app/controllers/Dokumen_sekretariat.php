@@ -9,6 +9,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 95;
 	}
 
 	public function index($kat=2, $p=1, $o=0)
@@ -54,11 +55,9 @@ class Dokumen_sekretariat extends Admin_Controller {
 		}
 		
 		$this->_set_tab($kat);
-		$nav['act_sub'] = 95;
-		$header['minsidebar'] = 1;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('dokumen/table', $data, $nav);
+		$this->render_view('dokumen/table', $data, TRUE);
 	}
 
 	public function clear($kat=2)
@@ -87,11 +86,9 @@ class Dokumen_sekretariat extends Admin_Controller {
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$this->_set_tab($kat);
-		$nav['act'] = 15;
-		$nav['act_sub'] = $this->tab_ini;
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('dokumen/form', $data, $nav);
+		$this->render_view('dokumen/form', $data);
 	}
 
 	public function search()

@@ -7,6 +7,7 @@ class Man_user extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->modul_ini = 11;
+		$this->sub_modul_ini = 44;
 	}
 
 	public function clear()
@@ -36,12 +37,9 @@ class Man_user extends Admin_Controller {
 		$data['paging'] = $this->user_model->paging($p, $o);
 		$data['main'] = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->user_model->autocomplete();
-
-		$nav['act'] = 11;
-		$nav['act_sub'] = 44;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('man_user/manajemen_user_table', $data, $nav);
+		$this->render_view('man_user/manajemen_user_table', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -59,12 +57,9 @@ class Man_user extends Admin_Controller {
 			$data['user'] = NULL;
 			$data['form_action'] = site_url("man_user/insert");
 		}
-
-		$nav['act'] = 11;
-		$nav['act_sub'] = 44;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('man_user/manajemen_user_form', $data, $nav);
+		$this->render_view('man_user/manajemen_user_form', $data);
 	}
 
 	public function search()

@@ -11,6 +11,7 @@ class Garis extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -52,12 +53,10 @@ class Garis extends Admin_Controller {
 		$data['keyword'] = $this->plan_garis_model->autocomplete();
 		$data['list_line'] = $this->plan_garis_model->list_line();
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
-
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 1;
+		$data['tip'] = 1;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('garis/table', $data, $nav, TRUE);
+		$this->render_view('garis/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -75,11 +74,10 @@ class Garis extends Admin_Controller {
 			$data['garis'] = null;
 			$data['form_action'] = site_url("garis/insert");
 		}
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 1;
+		$data['tip'] = 1;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('garis/form', $data, $nav, TRUE);
+		$this->render_view('garis/form', $data, TRUE);
 	}
 
 	public function ajax_garis_maps($p=1, $o=0, $id='')
@@ -100,7 +98,7 @@ class Garis extends Admin_Controller {
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('garis/maps', $data, $nav);
+		$this->render_view('garis/maps', $data);
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

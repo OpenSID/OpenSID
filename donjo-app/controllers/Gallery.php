@@ -8,6 +8,7 @@ class Gallery extends Admin_Controller {
 		session_start();
 		$this->load->model('web_gallery_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 51;
 	}
 
 	public function clear()
@@ -38,11 +39,8 @@ class Gallery extends Admin_Controller {
 		$data['main'] = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
-
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('gallery/table', $data, $nav);
+		$this->render_view('gallery/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -60,12 +58,9 @@ class Gallery extends Admin_Controller {
 			$data['gallery'] = null;
 			$data['form_action'] = site_url("gallery/insert");
 		}
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('gallery/form', $data, $nav);
+		$this->render_view('gallery/form', $data);
 	}
 
 	public function search($gallery='')
@@ -184,11 +179,9 @@ class Gallery extends Admin_Controller {
 		$data['gallery'] = $gal;
 		$data['sub'] = $this->web_gallery_model->get_gallery($gal);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('gallery/sub_gallery_table', $data, $nav);
+		$this->render_view('gallery/sub_gallery_table', $data);
 	}
 
 	public function form_sub_gallery($gallery=0, $id=0)
@@ -205,11 +198,8 @@ class Gallery extends Admin_Controller {
 		}
 		$data['album']=$gallery;
 		
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
-		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('gallery/form_sub_gallery', $data, $nav);
+		$this->render_view('gallery/form_sub_gallery', $data);
 	}
 
 	public function insert_sub_gallery($gallery='')

@@ -14,11 +14,8 @@ class Teks_berjalan extends Admin_Controller {
 	public function index()
 	{
 		$data['main'] = $this->teks_berjalan_model->list_data();
-		
-		$nav['act'] = $this->modul_ini;
-		$nav['act_sub'] = $this->sub_modul_ini;
 
-		$this->render_view('web/teks_berjalan/table', $data, $nav);
+		$this->render_view('web/teks_berjalan/table', $data);
 	}
 
 	public function form($id = '')
@@ -36,10 +33,7 @@ class Teks_berjalan extends Admin_Controller {
 			$data['form_action'] = site_url("teks_berjalan/insert");
 		}
 
-		$nav['act'] = $this->modul_ini;
-		$nav['act_sub'] = $this->sub_modul_ini;
-
-		$this->render_view('web/teks_berjalan/form', $data, $nav);
+		$this->render_view('web/teks_berjalan/form', $data);
 	}
 
 	public function insert()

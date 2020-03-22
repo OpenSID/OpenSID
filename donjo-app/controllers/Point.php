@@ -9,6 +9,7 @@ class Point extends Admin_Controller {
 		$this->load->model('plan_point_model');
 		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -39,11 +40,10 @@ class Point extends Admin_Controller {
 		$data['main'] = $this->plan_point_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_point_model->autocomplete();
 
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 0;
+		$data['tip'] = 0;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('point/table', $data, $nav, TRUE);
+		$this->render_view('point/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -63,12 +63,10 @@ class Point extends Admin_Controller {
 		}
 
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 0;
+		$data['tip'] = 0;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('point/form', $data, $nav, TRUE);
+		$this->render_view('point/form', $data, TRUE);
 	}
 
 	public function sub_point($point = 1)
@@ -76,11 +74,10 @@ class Point extends Admin_Controller {
 		$data['subpoint'] = $this->plan_point_model->list_sub_point($point);
 		$data['point'] = $this->plan_point_model->get_point($point);
 
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 0;
+		$data['tip'] = 0;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('point/sub_point_table', $data, $nav, TRUE);
+		$this->render_view('point/sub_point_table', $data, TRUE);
 	}
 
 	public function ajax_add_sub_point($point = 0, $id = 0)

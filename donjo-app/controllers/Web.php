@@ -17,6 +17,7 @@ class Web extends Admin_Controller {
 		$this->load->model('web_artikel_model');
 		$this->load->model('web_kategori_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 47;
 	}
 
 	public function clear()
@@ -57,15 +58,11 @@ class Web extends Admin_Controller {
 		$data['list_kategori'] = $this->web_artikel_model->list_kategori();
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data['cat'] = $cat;
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 47;
-
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('web/artikel/table', $data, $nav, TRUE);
+		$this->render_view('web/artikel/table', $data, TRUE);
 	}
 
 	public function form($cat = 1, $p = 1, $o = 0, $id = '')
@@ -89,13 +86,9 @@ class Web extends Admin_Controller {
 		}
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 47;
-
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('web/artikel/form', $data, $nav, TRUE);
+		$this->render_view('web/artikel/form', $data, TRUE);
 	}
 
 	public function search($cat = 1)
@@ -268,11 +261,10 @@ class Web extends Admin_Controller {
 	}
 
 	public function slider()
-	{
-		$nav['act'] = 13;
-		$nav['act_sub'] = 54;
-		
-		$this->render_view('slider/admin_slider.php', $data, $nav);
+	{	
+		$this->sub_modul_ini = 54;
+
+		$this->render_view('slider/admin_slider.php', $data);
 	}
 
 	public function update_slider()
@@ -289,11 +281,9 @@ class Web extends Admin_Controller {
 	}
 
 	public function teks_berjalan()
-	{
-		$nav['act'] = 13;
-		$nav['act_sub'] = 64;
-		
-		$this->render_view('web/admin_teks_berjalan.php', $data, $nav);
+	{	
+		$this->sub_modul_ini = 64;
+		$this->render_view('web/admin_teks_berjalan.php', $data);
 	}
 
 	public function update_teks_berjalan()

@@ -43,10 +43,9 @@ class Analisis_klasifikasi extends Admin_Controller {
 		$data['main'] = $this->analisis_klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_klasifikasi_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_klasifikasi_model->get_analisis_master();
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_klasifikasi/table', $data, $nav, TRUE);
+		$this->render_view('analisis_klasifikasi/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')

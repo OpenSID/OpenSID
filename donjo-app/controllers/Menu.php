@@ -9,6 +9,7 @@ class Menu extends Admin_Controller {
 		$this->load->model('web_menu_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 49;
 	}
 
 	public function clear()
@@ -39,12 +40,8 @@ class Menu extends Admin_Controller {
 		$data['paging'] = $this->web_menu_model->paging($tip, $p, $o);
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_menu_model->autocomplete();
-
 		
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
-		
-		$this->render_view('menu/table', $data, $nav);
+		$this->render_view('menu/table', $data);
 	}
 
 	public function form($tip = 1, $id = '')
@@ -72,11 +69,8 @@ class Menu extends Admin_Controller {
 		}
 		
 		$data['tip'] = $tip;
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 		
-		$this->render_view('menu/form', $data, $nav);
+		$this->render_view('menu/form', $data);
 	}
 
 	public function sub_menu($tip = 1, $menu = 1)
@@ -84,11 +78,8 @@ class Menu extends Admin_Controller {
 		$data['submenu'] = $this->web_menu_model->list_sub_menu($menu);
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
-		
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 
-		$this->render_view('menu/sub_menu_table', $data, $nav);
+		$this->render_view('menu/sub_menu_table', $data);
 	}
 
 	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')

@@ -10,6 +10,7 @@ class Lapor extends Admin_Controller {
 		$this->load->model('lapor_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 14;
+		$this->sub_modul_ini = 55;
 	}
 
 	public function clear()
@@ -40,10 +41,7 @@ class Lapor extends Admin_Controller {
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, 2);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
-		$nav['act'] = 14;
-		$nav['act_sub'] = 55;
-
-		$this->render_view('lapor/table', $data, $nav);
+		$this->render_view('lapor/table', $data);
 	}
 
 	public function search()

@@ -48,10 +48,9 @@ class Analisis_master extends Admin_Controller {
 		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_master/table', $data, $nav, TRUE);
+		$this->render_view('analisis_master/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -73,27 +72,23 @@ class Analisis_master extends Admin_Controller {
 		$data['list_format_impor'] = array('1' => 'BDT 2015');
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_master/form', $data, $nav, TRUE);
+		$this->render_view('analisis_master/form', $data, TRUE);
 	}
 
 	public function panduan()
-	{
-		$nav['act'] = 5;
-		
+	{		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_master/panduan', $data, $nav, TRUE);
+		$this->render_view('analisis_master/panduan', $data, TRUE);
 	}
 
 	public function import_analisis()
 	{
-		$nav['act'] = 5;
 		$data['form_action'] = site_url("analisis_master/import");
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_master/import', $data, $nav, TRUE);
+		$this->render_view('analisis_master/import', $data, TRUE);
 	}
 
 	public function menu($id='', $p=0){
@@ -134,10 +129,9 @@ class Analisis_master extends Admin_Controller {
 		$this->analisis_respon_model->pre_update();
 		//}
 		//----
-		$nav['act'] = 5;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('analisis_master/menu', $data, $nav, TRUE);
+		$this->render_view('analisis_master/menu', $data, TRUE);
 	}
 
 	public function search()

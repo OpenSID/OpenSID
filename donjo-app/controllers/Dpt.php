@@ -9,6 +9,7 @@ class Dpt extends Admin_Controller {
 		$this->load->model('penduduk_model');
 		$this->load->model('dpt_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 26;
 	}
 
 	public function clear()
@@ -131,12 +132,9 @@ class Dpt extends Admin_Controller {
 		$data['keyword'] = $this->dpt_model	->autocomplete();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 26;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('dpt/dpt', $data, $nav, TRUE);
+		$this->render_view('dpt/dpt', $data, TRUE);
 	}
 
 	public function search()

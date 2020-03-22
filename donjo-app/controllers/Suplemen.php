@@ -8,18 +8,19 @@ class Suplemen extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('suplemen_model');
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 25;
 	}
 
 	public function index()
 	{
 		$_SESSION['per_page'] = 50;
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data['suplemen'] = $this->suplemen_model->list_data();
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/daftar', $data, $nav);
+		$this->render_view('suplemen/daftar', $data);
 	}
 
 	public function form_terdata($id)
@@ -36,39 +37,29 @@ class Suplemen extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data['form_action'] = site_url("suplemen/add_terdata");
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/form_terdata', $data, $nav);
+		$this->render_view('suplemen/form_terdata', $data);
 	}
 
 	public function panduan()
-	{
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
-		
+	{	
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/panduan', $data, $nav);
+		$this->render_view('suplemen/panduan', $data);
 	}
 
 	public function sasaran($sasaran = 0)
 	{
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data['tampil'] = $sasaran;
 		$data['program'] = $this->suplemen_model->list_suplemen($sasaran);
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/suplemen', $data, $nav);
+		$this->render_view('suplemen/suplemen', $data);
 	}
 
 	public function rincian($p = 1, $id)
 	{
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
-
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data = $this->suplemen_model->get_rincian($p, $id);
@@ -76,29 +67,25 @@ class Suplemen extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/rincian', $data, $nav, TRUE);
+		$this->render_view('suplemen/rincian', $data, TRUE);
 	}
 
 	public function terdata($sasaran = 0, $id = 0)
 	{
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/terdata', $data, $nav);
+		$this->render_view('suplemen/terdata', $data);
 	}
 
 	public function data_terdata($id)
 	{
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data['terdata'] = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
 		$data['individu'] = $this->suplemen_model->get_terdata($data['terdata']['id_terdata'], $data['suplemen']['sasaran']);
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('suplemen/data_terdata', $data, $nav);
+		$this->render_view('suplemen/data_terdata', $data);
 	}
 
 	public function add_terdata($id)
@@ -130,13 +117,8 @@ class Suplemen extends Admin_Controller {
 
 	public function create()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
 		$this->form_validation->set_rules('cid', 'Sasaran', 'required');
 		$this->form_validation->set_rules('nama', 'Nama Data', 'required');
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data['form_action'] = "suplemen/create";
 		if ($this->form_validation->run() === FALSE)
 		{
@@ -155,14 +137,9 @@ class Suplemen extends Admin_Controller {
 
 	public function edit($id)
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
 		$this->form_validation->set_rules('cid', 'Sasaran', 'required');
 		$this->form_validation->set_rules('nama', 'Nama Data', 'required');
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 25;
 		$data['form_action'] = "suplemen/edit/$id";
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($id);
 

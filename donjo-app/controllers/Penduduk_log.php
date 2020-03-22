@@ -10,6 +10,7 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->model('penduduk_model');
 		$this->load->model('penduduk_log_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 21;
 	}
 
 	public function clear()
@@ -95,12 +96,9 @@ class Penduduk_log extends Admin_Controller {
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 21;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/penduduk_log', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/penduduk_log', $data, TRUE);
 	}
 
 	public function search()

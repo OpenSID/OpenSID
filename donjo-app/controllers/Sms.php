@@ -9,6 +9,7 @@ class Sms extends Admin_Controller {
 		$this->load->model('sms_model');
 		$this->load->model('penduduk_model');
 		$this->modul_ini = 10;
+		$this->sub_modul_ini = 39;
 	}
 
 	public function clear()
@@ -51,24 +52,20 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging($p, $o);
 		$data['main'] = $this->sms_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/manajemen_sms_table', $data, $nav);
+		$this->render_view('sms/manajemen_sms_table', $data);
 	}
 
 	public function setting($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 41;
+
 		$data['main'] = $this->sms_model->get_autoreply();
 		$data['form_action'] = site_url("sms/insert_autoreply");
 
-		$nav['act'] = 10;
-		$nav['act_sub'] = 41;
-
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/setting', $data, $nav);
+		$this->render_view('sms/setting', $data);
 	}
 
 	public function insert_autoreply()
@@ -79,6 +76,8 @@ class Sms extends Admin_Controller {
 
 	public function polling($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = ;
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -94,12 +93,9 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_polling($p, $o);
 		$data['main'] = $this->sms_model->list_data_polling($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 41;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/polling', $data, $nav);
+		$this->render_view('sms/polling', $data);
 	}
 
 	public function outbox($p = 1, $o = 0)
@@ -122,9 +118,6 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
 		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 		
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
@@ -142,7 +135,7 @@ class Sms extends Admin_Controller {
 		unset($_SESSION['grup1']);
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/create_sms', $data, $nav);
+		$this->render_view('sms/create_sms', $data);
 
 		
 	}
@@ -167,12 +160,9 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
 		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/berita_terkirim', $data, $nav);
+		$this->render_view('sms/berita_terkirim', $data);
 	}
 
 	public function pending($p = 1, $o = 0)
@@ -195,12 +185,9 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_tertunda($p, $o);
 		$data['main'] = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/pesan_tertunda', $data, $nav);
+		$this->render_view('sms/pesan_tertunda', $data);
 	}
 
 	public function form($p = 1, $o = 0, $tipe = 0, $id = 0)
@@ -477,6 +464,7 @@ class Sms extends Admin_Controller {
 
 	public function kontak($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 40;
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -496,12 +484,9 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_kontak($p, $o);
 		$data['main'] = $this->sms_model->list_data_kontak($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/kontak', $data, $nav);
+		$this->render_view('sms/kontak', $data);
 		
 		unset($_SESSION['cari_kontak']);
 	}
@@ -552,6 +537,8 @@ class Sms extends Admin_Controller {
 
 	public function group($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 40;
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -566,12 +553,9 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_grup($p, $o);
 		$data['main'] = $this->sms_model->list_data_grup($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/group', $data, $nav);
+		$this->render_view('sms/group', $data);
 		
 		unset($_SESSION['cari_grup']);
 	}
@@ -621,6 +605,8 @@ class Sms extends Admin_Controller {
 
 	public function anggota($id = 0, $p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 40;
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -637,11 +623,8 @@ class Sms extends Admin_Controller {
 		$data['grup']['nama_grup'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
 
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
-		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/group_detail', $data, $nav);
+		$this->render_view('sms/group_detail', $data);
 		
 		unset($_SESSION['cari_anggota']);
 	}
@@ -713,12 +696,9 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_pertanyaan($id, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['polling']['id_polling'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sms/pertanyaan', $data, $nav);
+		$this->render_view('sms/pertanyaan', $data);
 	}
 
 	public function form_pertanyaan($id = 0)

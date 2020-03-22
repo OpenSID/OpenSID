@@ -8,6 +8,7 @@ class Klasifikasi extends Admin_Controller {
 		session_start();
 		$this->load->model('klasifikasi_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 63;
 	}
 
 	public function clear()
@@ -38,10 +39,8 @@ class Klasifikasi extends Admin_Controller {
 		$data['paging'] = $this->klasifikasi_model->paging($p, $o);
 		$data['main'] = $this->klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->klasifikasi_model->autocomplete();
-
-		$nav['act_sub'] = 63;
 		
-		$this->render_view('klasifikasi/table', $data, $nav);
+		$this->render_view('klasifikasi/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -59,10 +58,8 @@ class Klasifikasi extends Admin_Controller {
 			$data['data'] = null;
 			$data['form_action'] = site_url("klasifikasi/insert");
 		}
-
-		$nav['act_sub'] = 63;
 		
-		$this->render_view('klasifikasi/form', $data, $nav);
+		$this->render_view('klasifikasi/form', $data);
 	}
 
 	public function search()

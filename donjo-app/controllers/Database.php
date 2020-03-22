@@ -7,6 +7,7 @@ class Database extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->dbforge();
+		$this->load->model('header_model');
 		$this->load->model('import_model');
 		$this->load->model('export_model');
 		$this->load->model('database_model');
@@ -35,11 +36,14 @@ class Database extends Admin_Controller {
 
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
-		
+		$nav['act_tab'] = 1;
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view('export/tab_menu');
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('export/exp', $data, $nav);
+		$this->load->view('export/exp');
+		$this->load->view('footer');
 	}
 
 	public function import()
@@ -49,11 +53,13 @@ class Database extends Admin_Controller {
 		$nav['act_tab'] = 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
-		
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view('export/tab_menu');
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('import/imp', $data, $nav);
+		$this->load->view('import/imp', $data);
+		$this->load->view('footer');
 	}
 
 	public function import_bip()
@@ -62,11 +68,13 @@ class Database extends Admin_Controller {
 		$nav['act_sub'] = 45;
 		$nav['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
+		$header = $this->header_model->get_data();
 
-		$this->load->view('export/tab_menu');		
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('import/bip', $data, $nav, TRUE);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('export/tab_menu');
+		$this->load->view('import/bip', $data);
+		$this->load->view('footer');
 	}
 
 	public function migrasi_cri()
@@ -75,11 +83,12 @@ class Database extends Admin_Controller {
 		$nav['act_sub'] = 45;
 		$nav['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
-
-		$this->load->view('export/tab_menu');		
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('database/migrasi_cri', $data, $nav);
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
+		$this->load->view('database/migrasi_cri', $data);
+		$this->load->view('footer');
 	}
 
 	public function backup()
@@ -88,11 +97,13 @@ class Database extends Admin_Controller {
 		$nav['act_sub'] = 45;
 		$nav['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
+		$header = $this->header_model->get_data();
 
-		$this->load->view('export/tab_menu');		
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('database/backup', $data, $nav);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('export/tab_menu');
+		$this->load->view('database/backup', $data);
+		$this->load->view('footer');
 	}
 
 	/*
@@ -189,11 +200,13 @@ class Database extends Admin_Controller {
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 		$nav['act_tab'] = 6;
+		$header = $this->header_model->get_data();
 
-		$this->load->view('export/tab_menu');		
-		
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('database/kosongkan', $data, $nav, TRUE);
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('export/tab_menu');
+		$this->load->view('database/kosongkan', $data);
+		$this->load->view('footer');
 	}
 
 	public function kosongkan_db()

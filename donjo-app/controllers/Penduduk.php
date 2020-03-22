@@ -13,6 +13,7 @@ class Penduduk extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 21;
 	}
 
 	private function clear_session()
@@ -102,12 +103,9 @@ class Penduduk extends Admin_Controller {
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 21;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/penduduk', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/penduduk', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -187,13 +185,11 @@ class Penduduk extends Admin_Controller {
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
 		unset($_SESSION['dari_internal']);
 		
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/penduduk_form', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/penduduk_form', $data, TRUE);
 	}
 
 	public function detail($p = 1, $o = 0, $id = '')
@@ -202,22 +198,18 @@ class Penduduk extends Admin_Controller {
 		$data['o'] = $o;
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/penduduk_detail', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/penduduk_detail', $data, TRUE);
 	}
 
 	public function dokumen($id = '')
 	{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/kependudukan/penduduk_dokumen', $data, $nav, TRUE);
+		$this->render_view('sid/kependudukan/penduduk_dokumen', $data, TRUE);
 	}
 
 	public function dokumen_form($id = 0, $id_dokumen = 0)
@@ -547,7 +539,7 @@ class Penduduk extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
 		
-		$this->render_view('sid/kependudukan/ajax_penduduk_maps', $data, $nav);
+		$this->render_view('sid/kependudukan/ajax_penduduk_maps', $data);
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '', $edit = '')

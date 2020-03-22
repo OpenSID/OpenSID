@@ -208,18 +208,17 @@ class Admin_Controller extends MY_Controller
 	}
 
 
-	function render_view($view, $data = FALSE, $nav, $mini = FALSE)
+	function render_view($view = FALSE, $data = FALSE, $mini = FALSE)
 	{
 		$this->load->model('header_model');
 		
 		$header = $this->header_model->get_data();
-			
+		
 		if($mini == TRUE){
 			$header['minsidebar'] = 1;
 		}			
-			
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view($view, $data);
 		$this->load->view('footer');
 	}

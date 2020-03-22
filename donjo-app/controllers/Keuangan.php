@@ -8,6 +8,7 @@ class Keuangan extends Admin_Controller {
 		session_start();
 		$this->load->model('keuangan_model');
 		$this->modul_ini = 201;
+		$sub_modul_ini;
 	}
 
 	public function setdata_laporan($tahun, $semester)
@@ -38,6 +39,8 @@ class Keuangan extends Admin_Controller {
 
 	public function grafik($jenis)
 	{
+		$this->sub_modul_ini = 203;
+
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
 		$semester = $this->session->userdata('set_semester') ? $this->session->userdata('set_semester') : 0;
@@ -47,7 +50,6 @@ class Keuangan extends Admin_Controller {
 		);
 		$this->session->set_userdata( $sess );
 		$this->load->model('keuangan_grafik_model');
-		$nav['act_sub'] = 203;
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
 
@@ -73,9 +75,6 @@ class Keuangan extends Admin_Controller {
 				$this->grafik_rp_apbd($thn);
 				break;
 		}
-
-		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view($tampil, $data, $nav, TRUE);
 	}
 
 	private function rincian_realisasi($thn, $judul, $smt1=false)
@@ -85,8 +84,9 @@ class Keuangan extends Admin_Controller {
 		$data['ta'] = $this->session->userdata('set_tahun');
 		$data['sm'] = $smt1 ? '1' : '2';
 		$_SESSION['submenu'] = "Laporan Keuangan " . $judul;
-		
-		$tampil = 'keuangan/rincian_realisasi';
+
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('keuangan/rincian_realisasi', $data, TRUE);
 	}
 
 	private function grafik_rp_apbd($thn)
@@ -95,18 +95,19 @@ class Keuangan extends Admin_Controller {
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$_SESSION['submenu'] = "Grafik Keuangan";
 		
-		$tampil = 'keuangan/grafik_rp_apbd';
+		// Isi nilai true jika menggunakan minisidebar
+		$this->render_view('keuangan/grafik_rp_apbd', $data, TRUE);
 	}
 
 	public function impor_data()
 	{
+		$this->sub_modul_ini = 202;
+
 		$data['main'] = $this->keuangan_model->list_data();
 		$data['form_action'] = site_url("keuangan/proses_impor");
 		
-		$nav['act_sub'] = 202;
-		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('keuangan/impor_data', $data, $nav);
+		$this->render_view('keuangan/impor_data', $data);
 	}
 
 	public function proses_impor()
@@ -181,6 +182,7 @@ class Keuangan extends Admin_Controller {
 	{
 		$data['desa_ganda'] = $this->keuangan_model->cek_desa($id_master);
 		$data['id_master'] = $id_master;
+		
 		$this->load->view('keuangan/pilih_desa', $data);
 	}
 

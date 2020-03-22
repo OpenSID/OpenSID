@@ -10,6 +10,7 @@ class Hom_desa extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 200;
+		$this->sub_modul_ini = 17;
 	}
 
 	public function index()
@@ -19,16 +20,12 @@ class Hom_desa extends Admin_Controller {
 
 	public function konfigurasi()
 	{
-		$this->load->model('provinsi_model');
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 17;
-		
+		$this->load->model('provinsi_model');	
 		$data['main'] = $this->config_model->get_data();
 		$data['list_provinsi'] = $this->provinsi_model->list_data();
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('home/konfigurasi', $data, $nav);
+		$this->render_view('home/konfigurasi', $data);
 	}
 
   public function konfigurasi_form()
@@ -42,7 +39,7 @@ class Hom_desa extends Admin_Controller {
 		$data['main'] = $this->config_model->get_data();
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('home/konfigurasi_form', $data, $nav);
+		$this->render_view('home/konfigurasi_form', $data);
 	}
 
 	public function insert()
@@ -78,12 +75,11 @@ class Hom_desa extends Admin_Controller {
 		$data['form_action'] = site_url("hom_desa/update_kantor_maps/");
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/wilayah/ajax_kantor_maps', $data, $nav);
+		$this->render_view('sid/wilayah/ajax_kantor_maps', $data);
 	}
 
 	public function ajax_wilayah_maps()
 	{
-		$nav['act_sub'] = 17;
 		$data_desa = $this->config_model->get_data();
 
 		$data['wil_ini'] = $data_desa;
@@ -103,7 +99,7 @@ class Hom_desa extends Admin_Controller {
 		$data['form_action'] = site_url("hom_desa/update_wilayah_maps/");
 
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('sid/wilayah/ajax_wilayah_maps', $data, $nav);
+		$this->render_view('sid/wilayah/ajax_wilayah_maps', $data);
 	}
 
 	public function update_kantor_maps()

@@ -9,6 +9,7 @@ class Line extends Admin_Controller {
 		$this->load->model('plan_line_model');
 		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -39,11 +40,10 @@ class Line extends Admin_Controller {
 		$data['main'] = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_line_model->autocomplete();
 
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 2;
+		$data['tip'] = 2;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('line/table', $data, $nav, TRUE);
+		$this->render_view('line/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -61,12 +61,10 @@ class Line extends Admin_Controller {
 			$data['line'] = NULL;
 			$data['form_action'] = site_url("line/insert");
 		}
-
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 2;
+		$data['tip'] = 2;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('line/form', $data, $nav, TRUE);
+		$this->render_view('line/form', $data, TRUE);
 	}
 
 	public function sub_line($line = 1)
@@ -74,11 +72,10 @@ class Line extends Admin_Controller {
 		$data['subline'] = $this->plan_line_model->list_sub_line($line);
 		$data['line'] = $this->plan_line_model->get_line($line);
 
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 2;
+		$data['tip'] = 2;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('line/sub_line_table', $data, $nav, TRUE);
+		$this->render_view('line/sub_line_table', $data, TRUE);
 	}
 
 	public function ajax_add_sub_line($line = 0, $id = 0)

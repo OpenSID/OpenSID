@@ -8,6 +8,7 @@ class Komentar extends Admin_Controller {
 		session_start();
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 50;
 	}
 
 	public function clear()
@@ -37,12 +38,9 @@ class Komentar extends Admin_Controller {
 		$data['paging'] = $this->web_komentar_model->paging($p,$o);
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('komentar/table', $data, $nav);
+		$this->render_view('komentar/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -62,12 +60,9 @@ class Komentar extends Admin_Controller {
 		}
 
 		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
 		
 		// Isi nilai true jika menggunakan minisidebar
-		$this->render_view('komentar/form', $data, $nav, TRUE);
+		$this->render_view('komentar/form', $data, TRUE);
 	}
 
 	public function search()
