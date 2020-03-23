@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 19. #2815: Hapus kotak centang di halaman daftar Wilayah Administratif dusun/rw/rt.
 20. Sederhanakan script delete dan delete_all secara menyeluruh. [teknis]
 21. Pasang setting default database supaya “Strict Mode”. [teknis]
+22. Tambah instruksi supaya halaman login admin tidak di-indeks oleh perayap web. [teknis]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
