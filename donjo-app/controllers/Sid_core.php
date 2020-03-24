@@ -79,13 +79,6 @@ class Sid_Core extends Admin_Controller {
 			$temp = $this->wilayah_model->cluster_by_id($id);
 			$data['dusun'] = $temp['dusun'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
 			$data['form_action'] = site_url("sid_core/update/$id");
 		}
 		else
@@ -93,8 +86,8 @@ class Sid_Core extends Admin_Controller {
 			$data['dusun'] = null;
 			$data['form_action'] = site_url("sid_core/insert");
 		}
-
-                $data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
+		
+		$data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 20;
@@ -195,13 +188,6 @@ class Sid_Core extends Admin_Controller {
 			$temp = $this->wilayah_model->get_rw($dusun, $rw);
 			$data['id_rw'] = $temp['id'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
 			$data['form_action'] = site_url("sid_core/update_rw/$id_dusun/$rw");
 		}
 		else
@@ -313,13 +299,6 @@ class Sid_Core extends Admin_Controller {
 			$id_cluster = $temp2['id'];
 			$data['rt'] = $temp2['rt'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp2['id_kepala']);
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
 			$data['form_action'] = site_url("sid_core/update_rt/$id_dusun/$rw/$id_cluster");
 		}
 		else
