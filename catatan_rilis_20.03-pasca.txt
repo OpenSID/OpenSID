@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 20. Sederhanakan script delete dan delete_all secara menyeluruh. [teknis]
 21. Pasang setting default database supaya “Strict Mode”. [teknis]
 22. Tambah instruksi supaya halaman login admin tidak di-indeks oleh perayap web. [teknis]
+23. #2811: Pilihan calon kepala dusun/rw/rt sekarang menghindari kemungkinan seorang penduduk rangkap jabatan.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

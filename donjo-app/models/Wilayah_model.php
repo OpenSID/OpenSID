@@ -154,7 +154,7 @@
 		$rw = $temp['rw'];
 		$dusun = $temp['dusun'];
 
-		switch ($type)
+		switch ($tipe)
 		{
 			case 'dusun': 
 				$this->db->where('dusun', $dusun);
@@ -309,23 +309,12 @@
 
 	public function list_penduduk()
 	{
-		$sql = "SELECT p.id, p.nik, p.nama, c.dusun
-			FROM tweb_penduduk p
-			LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-			WHERE p.status = 1 AND p.id NOT IN(SELECT id_kepala FROM tweb_wil_clusterdesa WHERE id_kepala != 0)";
-		
 		$data = $this->db->select('p.id, p.nik, p.nama, c.dusun')
 					->from('tweb_penduduk p')
 					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
 					->where('p.status', 1)
 					->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
 					->get()->result_array();
-
-		//Formating Output
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['alamat'] = "Alamat :".$data[$i]['nama'];
-		}
 		return $data;
 	}
 
