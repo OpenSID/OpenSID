@@ -307,16 +307,19 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function list_penduduk($ex_id=0)
+	public function list_penduduk()
 	{
 		$sql = "SELECT p.id, p.nik, p.nama, c.dusun
 			FROM tweb_penduduk p
 			LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-			WHERE p.status = 1";
-		if ($ex_id)
-			$sql .= ' AND p.id NOT IN(?)';
-		$query = $this->db->query($sql, $ex_id);
-		$data = $query->result_array();
+			WHERE p.status = 1 AND p.id NOT IN(SELECT id_kepala FROM tweb_wil_clusterdesa WHERE id_kepala != 0)";
+		
+		$data = $this->db->select('p.id, p.nik, p.nama, c.dusun')
+					->from('tweb_penduduk p')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+					->where('p.status', 1)
+					->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
+					->get()->result_array();
 
 		//Formating Output
 		for ($i=0; $i<count($data); $i++)
@@ -324,11 +327,6 @@
 			$data[$i]['alamat'] = "Alamat :".$data[$i]['nama'];
 		}
 		return $data;
-	}
-
-	public function list_penduduk_ex($id=0)
-	{
-		return $this->list_penduduk($id);
 	}
 
 	public function list_dusun_rt($dusun='')
