@@ -5,9 +5,9 @@ Tema ini awalnya dibuat oleh Ariandi Ryan Kahfi, dan merupakan pemenang Sayembar
 ******************************************************
 Silakan edit file commons/meta.php
 
-baris ke 15 --> content="147912828718"
+baris ke 18 --> content="147912828718"
 
-baris ke 109 --> appId=147912828718
+baris ke 116 --> appId=147912828718
 
 Ubah AppID "147912828718" sesuai dengan AppID
 Facebook yang anda buat, supaya Anda dapat menerima
@@ -26,8 +26,8 @@ https://www.natairaya.desa.id/first/artikel/79
 Untuk merubah Grafik Bar APBDesa Manual,
 Anda dapat edit file partials/apbdesa-contoh.php
 
-Dan untuk menerapkannya, edit file template.php baris
-ke 38: '/partials/apbdesa-tema.php' ubah menjadi
+Dan untuk menerapkannya, edit file footer_top.php baris
+ke 2: '/partials/apbdesa-tema.php' ubah menjadi
 '/partials/apbdesa-contoh.php'
 
 ******************************************************

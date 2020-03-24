@@ -43,5 +43,6 @@ Catatan pra rilis versi 4.1.9:
 41. Sediakan Tombol Login di Menu.
 42. Menampilkan berapa kali artikel dibagikan ke Facebook.
 43. #31 Menampilkan detail jadwal agenda pada artikel bersangkutan.
+44. #11 Sesuaikan lebar halaman web versi mobile.
 
 ****************************************************************
