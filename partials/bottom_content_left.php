@@ -1,6 +1,5 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <?php $title = (!empty($judul_kategori))? $judul_kategori : "Artikel Terkini" ?>
-
 <?php if (is_array($title)): ?>
 	<?php foreach ($title as $item): ?>
 		<?php $title= $item ?>
@@ -21,9 +20,9 @@
         	    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Berita Utama</span> </h2> 
             	<div id="headline" class="box box-danger" style="margin-bottom:20px;">
             		<div class="box-header with-border">
-            			<h3 class="catg_titile" style="font-family: Oswald">
+            			<div class="catg_titile" style="font-family: Oswald">
             				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
-            			</h3>
+            			</div>
             		</div>
             		<div class="box-body">
             		    <a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
@@ -34,9 +33,11 @@
             			<?php endif; ?>
             			</a>
             			<div class="post">
-            				<div style="text-align: justify;"><?= $abstrak_headline ?> ...
+            			    <div style="text-align: justify;"><?= $abstrak_headline ?> ...
             				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
-            				    <button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button></a></div>
+            				    <button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button>
+            				</a>
+            				</div>
             			</div>
             		</div>
             	</div>

@@ -1,3 +1,4 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <style type="text/css">
   .progress-bar span
   {
@@ -5,6 +6,7 @@
     right: 20px;
   }
 </style>
+<div class="row">
 <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 10px;">
 <?php foreach ($data_widget as $subdata_name => $subdatas): ?>
 <div class="col-md-4">
@@ -17,10 +19,10 @@
         <div class="progress progress-bar-striped" align="right" style="background-color: #27c8a2"><small></small>
             <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $subdata['persen'] ?>%" aria-valuenow="<?= $subdata['persen'] ?>" aria-valuemin="0" aria-valuemax="100"><span><?= $subdata['persen'] ?> %</span></div>
         </div>
-
     </div>
     <?php endif; ?>
     <?php endforeach; ?>
 </div>
 <?php endforeach; ?>
+</div>
 </div><hr>

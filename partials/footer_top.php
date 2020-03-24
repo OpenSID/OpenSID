@@ -1,18 +1,21 @@
-<div class="col-md-12" align="center">
-<div align="center"><h2>Statistik Desa</h2></div><hr>
-<div class="col-md-6">
-	<a href="<?= site_url(); ?>first/wilayah"><img alt="Statistik Wilayah" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_wil.png") ?>" /></a> 
-    <a href="<?= site_url(); ?>first/statistik/0"><img alt="Statistik Pendidikan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pend.png") ?>" /></a>
-	<a href="<?= site_url(); ?>first/statistik/1"><img alt="Statistik Pekerjaan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pekerjaan.png") ?>" /></a> 
-<hr></div>
-<div class="col-md-6">
-    <a href="<?= site_url(); ?>first/statistik/3"><img alt="Statistik Agama" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_agama.png") ?>" /></a>
-	<a href="<?= site_url(); ?>first/statistik/4"><img alt="Statistik Jenis Kelamin" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_kelamin.png") ?>" /></a>
-	<a href="<?= site_url(); ?>first/statistik/13"><img alt="Statistik Umur" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_umur.png") ?>" /></a>
-<hr></div>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if (!is_null($transparansi)) $this->load->view($folder_themes. '/partials/apbdesa-tema.php', $transparansi);?>
+<div class="row">
+    <div class="col-md-12" align="center">
+        <div align="center"><h2>Statistik Desa</h2></div><hr>
+        <div class="col-md-6">
+        	<a href="<?= site_url(); ?>first/wilayah"><img alt="Statistik Wilayah" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_wil.png") ?>" /></a> 
+            <a href="<?= site_url(); ?>first/statistik/0"><img alt="Statistik Pendidikan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pend.png") ?>" /></a>
+        	<a href="<?= site_url(); ?>first/statistik/1"><img alt="Statistik Pekerjaan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pekerjaan.png") ?>" /></a> 
+        <hr></div>
+        <div class="col-md-6">
+            <a href="<?= site_url(); ?>first/statistik/3"><img alt="Statistik Agama" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_agama.png") ?>" /></a>
+        	<a href="<?= site_url(); ?>first/statistik/4"><img alt="Statistik Jenis Kelamin" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_kelamin.png") ?>" /></a>
+        	<a href="<?= site_url(); ?>first/statistik/13"><img alt="Statistik Umur" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_umur.png") ?>" /></a>
+        <hr></div>
+    </div>
 </div>
-
-  <div class="footer_top">
+<div class="footer_top">
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -48,4 +51,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>

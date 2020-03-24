@@ -1,7 +1,7 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head>
     <?php $this->load->view("$folder_themes/commons/meta.php"); ?>
 </head>
 <body>
@@ -18,7 +18,8 @@
     <div id="navarea">
         <?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>
     </div>
-    <section id="mainContent">
+    <div class="row">
+        <section id="mainContent">
         <div class="content_middle"></div>
         <div class="content_bottom">
             <div class="col-lg-9 col-md-9">
@@ -30,7 +31,8 @@
                 <?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
             </div>
         </div>
-    </section>
+        </section>
+    </div>
 </div>
 <footer id="footer">
     <?php $this->load->view("$folder_themes/partials/footer_top.php"); ?>
