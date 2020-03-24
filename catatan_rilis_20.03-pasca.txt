@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.03-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
+Terima kasih pada afa28, Il Ham dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 
@@ -24,6 +24,9 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 18. #2809: Nama kategori artikel sekarang tidak boleh sama atau kosong.
 19. #2815: Hapus kotak centang di halaman daftar Wilayah Administratif dusun/rw/rt.
 20. Sederhanakan script delete dan delete_all secara menyeluruh. [teknis]
+21. Pasang setting default database supaya “Strict Mode”. [teknis]
+22. Tambah instruksi supaya halaman login admin tidak di-indeks oleh perayap web. [teknis]
+23. #2811: Pilihan calon kepala dusun/rw/rt sekarang menghindari kemungkinan seorang penduduk rangkap jabatan.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
