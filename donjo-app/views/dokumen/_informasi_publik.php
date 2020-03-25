@@ -12,6 +12,6 @@
 <div class="form-group">
 	<label class="control-label col-sm-4" for="nama">Tahun</label>
 	<div class="col-sm-6">
-		<input name="tahun" class="form-control input-sm required" type="text" value="<?=$dokumen['tahun']?>"></input>
+		<input name="tahun" maxlength="4" class="form-control input-sm number required" type="text" value="<?=$dokumen['tahun']?>"></input>
 	</div>
 </div>

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
+
 <script>
 (function()
 {
@@ -123,9 +125,7 @@
   </div>
 </div>
 
-<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
-<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
+
 <script src="<?= base_url()?>assets/js/peta.js"></script>
 <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>

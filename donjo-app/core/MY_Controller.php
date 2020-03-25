@@ -20,9 +20,9 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-				/* set default theme if not exist */
+				/* set klasik theme if not exist */
         if (empty($this->setting->web_theme)) {
-        	$this->theme = 'default';
+        	$this->theme = 'klasik';
         	$this->theme_folder = 'themes';
         } else {
 	        $this->theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
@@ -83,7 +83,7 @@ class MY_Controller extends CI_Controller {
 	    if (is_file($template_file_path))
 				$this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
 	    else
-	    	$this->template = '../../themes/default/' . $template_file;
+	    	$this->template = '../../themes/klasik/' . $template_file;
 		}
 
 		/**
@@ -112,7 +112,7 @@ class Web_Controller extends MY_Controller
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 	}
 
-	// Jika file theme/view tidak ada, gunakan file default/view
+	// Jika file theme/view tidak ada, gunakan file klasik/view
 	// Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
 	public static function fallback_default($theme, $view)
 	{
@@ -122,7 +122,7 @@ class Web_Controller extends MY_Controller
 
 		if (!is_file(APPPATH .'views/'. $theme_view))
 		{
-			$theme_view = "../../themes/default/$view";
+			$theme_view = "../../themes/klasik/$view";
 		}
 
 		return $theme_view;

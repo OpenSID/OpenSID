@@ -60,9 +60,9 @@
 								<div class="kecil">
 									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> | 
 									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
-									<i class="fa fa-eye"></i> <?= $data['hit'] ?> Kali
+									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
-										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['id_kategori']) ?>"><?= $data['kategori'] ?></a>
+										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
 									<?php endif; ?>
 								</div>
 								<div class="img">
@@ -98,8 +98,8 @@
 			</div>
 		<?php endif; ?>
 	</div>
-
-	<?php if ($artikel): ?>
+	
+	<?php if ($artikel AND $paging->num_rows > $paging->per_page): ?>
 		<div class="box-footer">
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
 			<ul class="pagination pagination-sm no-margin">

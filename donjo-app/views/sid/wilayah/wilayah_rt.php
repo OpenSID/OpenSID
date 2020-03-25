@@ -34,7 +34,6 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th width="2%"><input type="checkbox" id="checkall"/></th>
 																<th width="2%">No</th>
 																<th width="9%">Aksi</th>
 																<th>RT</th>
@@ -49,12 +48,11 @@
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
                                   <td nowrap>
 																		<?php if ($data['rt']!="-"): ?>
 																			<a href="<?= site_url("sid_core/form_rt/$id_dusun/$rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="#" data-href="<?= site_url("sid_core/delete_rt/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("sid_core/delete/rt/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
                                     <?php if ($data['rt']!="-"): ?>
 															        <div class="btn-group">
@@ -82,7 +80,7 @@
 														</tbody>
 														<tfoot>
 															<tr>
-																<th colspan="6"><label>TOTAL</label></th>
+																<th colspan="5"><label>TOTAL</label></th>
 																<th><?= $total['jmlkk']?></th>
 																<th><?= $total['jmlwarga']?></th>
 																<th><?= $total['jmlwargal']?></th>

@@ -65,7 +65,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Isi Artikel</label>
-								<textarea name="isi"  class="form-control input-sm" style="height:350px;">
+								<textarea name="isi"  class="form-control input-sm required" style="height:350px;">
 				  				<?=$artikel['isi']?>
 								</textarea>
 							</div>

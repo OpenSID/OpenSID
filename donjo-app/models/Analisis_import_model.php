@@ -103,8 +103,7 @@ class Analisis_import_Model extends CI_Model {
 			$this->db->insert('analisis_klasifikasi', $klasifikasi);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-			else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 
 		return $id_master;
 	}

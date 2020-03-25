@@ -6,6 +6,7 @@
 		$this->load->model('surat_master_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('penomoran_surat_model');
+		$this->load->model('config_model');
 	}
 
 	public function list_surat()
@@ -319,13 +320,6 @@
 		}
 	}
 
-	public function get_data_desa()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 	public function get_pamong($id=0)
 	{
 		$sql = "SELECT u.* FROM tweb_desa_pamong u WHERE pamong_id = ?";
@@ -517,7 +511,7 @@
 		$file = SuratExportDesa($url);
 		if ($file == "")
 		{
-			$data['lokasi_rtf'] = "surat/$url/";
+			$data['lokasi_rtf'] = "template-surat/$url/";
 		}
 		else
 		{
@@ -571,7 +565,7 @@
 
 	private function sisipkan_kop_surat($buffer)
 	{
-		$kop_surat = file_get_contents('surat/raw/kop_surat_auto.rtf');
+		$kop_surat = file_get_contents('template-surat/raw/kop_surat_auto.rtf');
 		$buffer = str_replace('[kop_surat]', $kop_surat, $buffer);
 		return $buffer;
 	}
@@ -609,7 +603,7 @@
 		if (is_file($data_form)) return $data_form;
 		else
 		{
-			$data_form = "surat/$surat/data_form_$surat.php";
+			$data_form = "template-surat/$surat/data_form_$surat.php";
 			if (is_file($data_form)) return $data_form;
 		}
 	}
@@ -620,7 +614,7 @@
 		if (is_file($data_rtf)) return $data_rtf;
 		else
 		{
-			$data_rtf = "surat/$surat/data_rtf_$surat.php";
+			$data_rtf = "template-surat/$surat/data_rtf_$surat.php";
 			if (is_file($data_rtf)) return $data_rtf;
 		}
 	}
@@ -630,7 +624,7 @@
 	{
 	  $lokasi = LOKASI_SURAT_DESA . $nama_surat . "/" . $komponen;
 		if ($this->surat['jenis'] == 1 AND !is_file($lokasi))
-			  $lokasi = "surat/$nama_surat/$komponen";
+			  $lokasi = "template-surat/$nama_surat/$komponen";
 		return $lokasi;
 	}
 
@@ -744,7 +738,7 @@
 		$file = SuratExportDesa($url);
 		if ($file == "")
 		{
-			$file = "surat/$url/$url.rtf";
+			$file = "template-surat/$url/$url.rtf";
 		}
 
 		if (is_file($file))
@@ -957,7 +951,7 @@
   {
   	$file = FCPATH.$lokasi_rtf.'get_data_lampiran.php';
   	if (!file_exists($file))
-  		$file = FCPATH.'surat/'.$url_surat.'/get_data_lampiran.php';
+  		$file = FCPATH.'template-surat/'.$url_surat.'/get_data_lampiran.php';
   	return $file;
   }
 
@@ -965,7 +959,7 @@
   {
   	$file = FCPATH.$lokasi_rtf.$format_lampiran;
   	if (!file_exists($file))
-  		$file = FCPATH.'surat/'.$url_surat.'/'.$format_lampiran;
+  		$file = FCPATH.'template-surat/'.$url_surat.'/'.$format_lampiran;
   	return $file;
   }
 
@@ -1012,7 +1006,7 @@
 	{
 		$data['input'] = $_POST;
 		// Ambil data
-		$data['config'] = $this->get_data_desa();
+		$data['config'] = $this->config_model->get_data();
 		$data['surat'] = $this->get_surat($url);
 		$data['surat']['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 		switch ($url)
@@ -1099,6 +1093,4 @@
 			->row()->jml;
 		return $jml;
 	}
-
-
 }

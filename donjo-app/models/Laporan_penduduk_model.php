@@ -270,7 +270,7 @@
 			case "19": return "Jenis Asuransi"; break;
 			case "21": return "Klasifikasi Sosial"; break;
 			case "24": return "Penerima BOS"; break;
-			default: return "Pendidikan";
+			default: return NULL;
 		}
 	}
 
@@ -634,14 +634,6 @@
 		return $data;
 	}
 
-	public function get_config()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		$data = $query->row_array();
-		return $data;
-	}
-
 	public function list_data_rentang()
 	{
 		$query = $this->db->where('status', 1)->order_by('dari')->get('tweb_penduduk_umur');
@@ -675,8 +667,7 @@
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->insert('tweb_penduduk_umur', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_rentang($id=0)
@@ -687,34 +678,28 @@
 		else
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->where('id',$id)->update('tweb_penduduk_umur', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete_rentang($id=0)
+	public function delete_rentang($id='', $semua=false)
 	{
-		$sql = "DELETE FROM tweb_penduduk_umur WHERE id = '$id' ";
-		$outp = $this->db->query($sql);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('tweb_penduduk_umur');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_rentang()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_penduduk_umur WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_rentang($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 }

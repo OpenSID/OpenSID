@@ -174,35 +174,28 @@ class Plan_garis_model extends CI_Model {
 			$this->db->where('id', $id);
 			$outp = $this->db->update('garis', $data);
 		}
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		status_sukses($outp); //Tampilkan Pesan
   }
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM garis WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('garis');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM garis WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function list_line()
@@ -242,8 +235,7 @@ class Plan_garis_model extends CI_Model {
 		$sql = "UPDATE garis SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_garis($id=0)
@@ -260,8 +252,7 @@ class Plan_garis_model extends CI_Model {
 		$this->db->where('id', $id);
 		$outp = $this->db->update('garis', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_dusun()
@@ -271,13 +262,5 @@ class Plan_garis_model extends CI_Model {
 		$data = $query->result_array();
 		return $data;
 	}
-
-	public function get_desa()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 }
 ?>

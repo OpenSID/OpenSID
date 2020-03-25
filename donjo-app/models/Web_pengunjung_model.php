@@ -100,6 +100,7 @@
 				break; //Minggu Ini
 			case 4: 
 				$this->db->where('MONTH(`Tanggal`) =', $bln);
+				$this->db->where('YEAR(Tanggal) =', $thn);
 				break; //Bulan Ini
 			case 5: 
 				$this->db->where('YEAR(Tanggal) =', $thn);

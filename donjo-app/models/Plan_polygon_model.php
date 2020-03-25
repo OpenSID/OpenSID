@@ -114,8 +114,8 @@
 			unset($data['simbol']);
 			$outp = $this->db->insert('polygon', $data);
 		}
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
@@ -145,31 +145,24 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM polygon WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('polygon');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM polygon WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function list_sub_polygon($polygon=1)
@@ -254,31 +247,24 @@
 		else $_SESSION['success'] = -1;
 	}
 
-	public function delete_sub_polygon($id='')
+	public function delete_sub_polygon($id='', $semua=false)
 	{
-		$sql = "DELETE FROM polygon WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('polygon');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_polygon()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach($id_cb as $id)
-			{
-				$sql = "DELETE FROM polygon WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete_sub_polygon($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function polygon_lock($id='', $val=0)
@@ -286,8 +272,7 @@
 		$sql = "UPDATE polygon SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_polygon($id=0)

@@ -7,13 +7,6 @@ class First_m extends CI_Model {
 		parent::__construct();
 	}
 
-	public function get_data()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 	public function siteman()
 	{
 		$_SESSION['mandiri'] = -1;
@@ -92,4 +85,3 @@ class First_m extends CI_Model {
 	}
 
 }
-

@@ -10,6 +10,7 @@ class Statistik extends Admin_Controller {
 		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('header_model');
+		$this->load->model('config_model');
 		$_SESSION['per_page'] = 500;
 		$this->modul_ini = 3;
 	}
@@ -175,7 +176,7 @@ class Statistik extends Admin_Controller {
 		}
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['config'] = $this->laporan_penduduk_model->get_config();
+		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['laporan_no'] = $this->input->post('laporan_no');
@@ -193,7 +194,7 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['filename'] = underscore($data['stat']);
-		$data['config']  = $this->laporan_penduduk_model->get_config();
+		$data['config']  = $this->config_model->get_data();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['laporan_no'] = $this->input->post('laporan_no');

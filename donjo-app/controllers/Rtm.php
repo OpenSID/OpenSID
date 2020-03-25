@@ -8,6 +8,7 @@ class Rtm extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('rtm_model');
+		$this->load->model('config_model');
 		$this->load->model('penduduk_model');
 		$this->modul_ini = 2;
 	}
@@ -187,7 +188,6 @@ class Rtm extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->session->success = 1;
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
@@ -195,7 +195,6 @@ class Rtm extends Admin_Controller {
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->session->success = 1;
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
 		redirect('rtm');
@@ -259,7 +258,7 @@ class Rtm extends Admin_Controller {
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$kk = $this->rtm_model->get_kepala_rtm($id);
-		$data['desa'] = $this->rtm_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 
 		if ($kk)
 			$data['kepala_kk'] = $kk;
@@ -284,11 +283,9 @@ class Rtm extends Admin_Controller {
 		$data['id_kk'] = $id;
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
-		$kk = $this->rtm_model->get_kepala_rtm($id);
-		$data['desa'] = $this->rtm_model->get_desa();
-		$data['kepala_kk'] = $kk;
+		$data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
+		$data['desa'] = $this->config_model->get_data();
 		$nav['act'] = 3;
-		$header = $this->header_model->get_data();
 		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 	}
 

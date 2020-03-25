@@ -149,12 +149,36 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("nik", function(value, element) {
 		nik_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
 		return this.optional(element) || nik_valid;
-	}, "NIK harus 0 atau bilangan 16 digit");
+	}, "Harus 0 atau bilangan 16 digit");
 
 	$('.nik').each(function() {
 		$(this).rules("add",
 			{
 				nik: true,
+			});
+	});
+
+	jQuery.validator.addMethod("nama", function(value, element) {
+		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
+
+	$('.nama').each(function() {
+		$(this).rules("add",
+			{
+				nama: true,
+			});
+	});
+
+	jQuery.validator.addMethod("nomor_sk", function(value, element) {
+		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
+
+	$('.nomor_sk').each(function() {
+		$(this).rules("add",
+			{
+				nomor_sk: true,
 			});
 	});
 

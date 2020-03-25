@@ -274,7 +274,6 @@ class Penduduk extends Admin_Controller {
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -282,7 +281,6 @@ class Penduduk extends Admin_Controller {
 	public function delete_all_dokumen($id_pend = 0)
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -555,7 +553,7 @@ class Penduduk extends Admin_Controller {
 		$data['edit'] = $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
-		$data['desa'] = $this->penduduk_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
