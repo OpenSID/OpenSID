@@ -27,6 +27,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 21. Pasang setting default database supaya “Strict Mode”. [teknis]
 22. Tambah instruksi supaya halaman login admin tidak di-indeks oleh perayap web. [teknis]
 23. #2811: Pilihan calon kepala dusun/rw/rt sekarang menghindari kemungkinan seorang penduduk rangkap jabatan.
+24. #2792: Sembunyikan tombol paginasi apabila jumlah artikel yg ditampilkan tidak melebih setting jumlah artikel per halaman.
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.

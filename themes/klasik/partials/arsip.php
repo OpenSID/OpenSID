@@ -43,7 +43,7 @@
 				Belum ada arsip konten web.
 			<?php endif; ?>
 		</div>
-		<?php if(count($farsip)>0): ?>
+		<?php if(count($farsip)>0 AND $paging->num_rows > $paging->per_page): ?>
 			<div class="box-footer">
 				<ul class="pagination pagination-sm no-margin">
 					<?php if($paging->start_link): ?>

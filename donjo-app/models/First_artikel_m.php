@@ -45,28 +45,6 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function paging_kat($p=1, $id=0)
-	{
-		$this->db->select('COUNT(a.id) AS id')
-			->join('user u', 'a.id_user = u.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT');
-
-		if (!empty($id)){
-			$sql = $this->db->or_where('k.id', $id)->or_where('k.slug', $id);
-		}
-		$sql = $this->db->where(array('a.enabled' => 1, 'k.enabled' => 1))->get('artikel a');
-		$row = $sql->row_array();
-		$jml_data = $row['id'];
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = 8;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
-	}
-
 	public function paging($p=1)
 	{
 		$this->db->select('COUNT(a.id) AS jml');
@@ -392,9 +370,25 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function list_artikel($offset=0, $limit=50, $id=0)
+	public function paging_kat($p=1, $id=0)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+		$this->list_artikel_sql($id);
+		$this->db->select('COUNT(a.id) AS jml');
+		$jml_data = $this->db->get()->row()->jml;
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->setting->web_artikel_per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	// Query sama untuk paging and ambil daftar artikel menurut kategori
+	private function list_artikel_sql($id)
+	{
+		$this->db
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
@@ -404,24 +398,22 @@ class First_artikel_m extends CI_Model {
 		if (!empty($id)){
 			$this->db->where('k.id', $id)->or_where('k.slug', $id);
 		}
+	}
+
+	public function list_artikel($offset=0, $limit=50, $id=0)
+	{
+		$this->list_artikel_sql($id);
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
 		$this->db->order_by('a.tgl_upload', DESC);
 		$this->db->limit($limit, $offset);
-		$query = $this->db->get();
-		if ($query->num_rows()>0)
+		$data = $this->db->get()->result_array();
+		for ($i=0; $i < count($data); $i++)
 		{
-			$data = $query->result_array();
-			for ($i=0; $i < count($data); $i++)
-			{
-				$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
-				if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
-					$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
-					// ganti shortcode menjadi icon
-					$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
-			}
-		}
-		else
-		{
-			$data = false;
+			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+			if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
+				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+				// ganti shortcode menjadi icon
+				$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 		}
 		return $data;
 	}
