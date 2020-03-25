@@ -98,11 +98,8 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	<p> Jumlah Artikel <?= $paging->num_rows ?>
-
-	<p> Jumlah Perhalaman <?= $paging->per_page ?>
 	
-	<?php if (($artikel) AND ($paging->num_rows <= $paging->per_page)): ?>
+	<?php if ($artikel AND $paging->num_rows > $paging->per_page): ?>
 		<div class="box-footer">
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
 			<ul class="pagination pagination-sm no-margin">
