@@ -16,34 +16,26 @@
 </style>
 <!-- widget Aparatur Desa -->
 <div class="modal-body" id="maincontent">
-			<div class="box box-warning box-solid">
-
-				<div class="box-body">
-					<div id="aparatur_wilayah" class="cycle-slideshow"
-						data-cycle-fx=scrollHorz
-						data-cycle-timeout=3000
-						data-cycle-caption-plugin=caption2
-						data-cycle-overlay-fx-out="slideUp"
-						data-cycle-overlay-fx-in="slideDown"
-						>
-
-							<div class="cycle-caption"></div>
-							<div class="cycle-overlay"></div>
-
-							<?php if ($penduduk['foto']): ?>
-								<img src="<?php echo AmbilFoto($penduduk['foto'],"besar") ?>"
-									data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
-									data-cycle-desc="<?= $jabatan ?>"
-								>
-							<?php else: ?>
-							<img src="<?= base_url("assets/files/user_pict/kuser.png") ?>"
-								data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
-								data-cycle-desc="<?= $jabatan ?>"
-							>
-							<?php endif; ?>
-					</div>
-				</div>
-
-				
+	<div class="box box-warning box-solid">
+		<div class="box-body">
+			<div id="aparatur_wilayah" class="cycle-slideshow"
+				data-cycle-fx=scrollHorz
+				data-cycle-timeout=3000
+				data-cycle-caption-plugin=caption2
+				data-cycle-overlay-fx-out="slideUp"
+				data-cycle-overlay-fx-in="slideDown">
+				<div class="cycle-caption"></div>
+				<div class="cycle-overlay"></div>
+				<?php if ($penduduk['foto']): ?>
+					<img src="<?php echo AmbilFoto($penduduk['foto'],"besar") ?>"
+						data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
+						data-cycle-desc="<?= $jabatan ?>">
+				<?php else: ?>
+					<img src="<?= base_url("assets/files/user_pict/kuser.png") ?>"
+						data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
+						data-cycle-desc="<?= $jabatan ?>">
+				<?php endif; ?>
 			</div>
+		</div>
+	</div>
 </div>

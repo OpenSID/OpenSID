@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
+<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
 
 <script>
 (function()

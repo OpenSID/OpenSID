@@ -39,13 +39,11 @@
 			  	<?php if(AmbilFoto($data['foto'],"besar") AND is_file(LOKASI_USER_PICT.$data['foto'])) : ?>
 						<img src="<?php echo AmbilFoto($data['foto'],"besar") ?>"
 							data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>"
-							data-cycle-desc="<?= $data['jabatan'] ?>"
-						>
+							data-cycle-desc="<?= $data['jabatan'] ?>">
 					<?php else: ?>
-					<img src="<?= base_url("assets/files/user_pict/kuser.png") ?>"
+						<img src="<?= base_url("assets/files/user_pict/kuser.png") ?>"
 						data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>"
-						data-cycle-desc="<?= $data['jabatan'] ?>"
-					>
+						data-cycle-desc="<?= $data['jabatan'] ?>">
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
