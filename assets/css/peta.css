@@ -3,12 +3,24 @@
   width:100%;
   height:73vh
 }
+#content { 
+  height: auto !important;
+}
+#bodyContent p {
+  margin: 18px 0;
+}
 .leaflet-popup-content {
   height: 245px;
   overflow-y: scroll;
 }
+.kantor_desa .leaflet-popup-content {
+  height: auto;
+}
+.leaflet-tooltip-content p {
+    margin: 18px 0 !important;
+}
 .leaflet-tooltip {
-  height: 245px;
+  /*height: 245px;*/
 }
 .leaflet-control-layers {
 	display: block;

@@ -47,7 +47,7 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
 
   var point_style = stylePointLogo(favico_desa);
   marker_desa.push(turf.polygon(daerah_desa, {content: judul, style: stylePolygonDesa(), style: L.icon(point_style)}))
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
+  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa", style: L.icon(point_style)}));
 }
 
 function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
@@ -63,8 +63,8 @@ function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents
 	content = $(contents).html();
 
   var point_style = stylePointLogo(favico_desa);
+  marker_desa.push(turf.point([desa['lng'], desa['lat']], {name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style)}));
   marker_desa.push(turf.polygon(daerah_desa, {content: content, style: stylePolygonDesa(), style: L.icon(point_style)}))
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
 }
 
 function set_marker_content(marker, daftar_path, warna, judul, nama_wil, contents)
@@ -120,7 +120,15 @@ function poligonWil(marker)
     pmIgnore: true,
 		showMeasurements: true,
     onEachFeature: function (feature, layer) {
-      layer.bindPopup(feature.properties.content);
+    	if (feature.properties.name == 'kantor_desa') 
+    	{
+    		// Beri classname berbeda, supaya bisa gunakan css berbeda
+	      layer.bindPopup(feature.properties.content, {'className' : 'kantor_desa'});
+    	} 
+    	else
+    	{
+	      layer.bindPopup(feature.properties.content);
+    	}
       layer.bindTooltip(feature.properties.content, {sticky: true, direction: 'top'});
     },
     style: function(feature)
