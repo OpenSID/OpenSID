@@ -110,13 +110,22 @@
 	public function insert()
 	{
 		$data = $_POST;
+		$this->sterilkan_data($data);
 		return $this->db->insert('klasifikasi_surat', $data);
+	}
+
+	private function sterilkan_data(&$data)
+	{
+		$data['kode'] = bilangan_titik($data['kode']);
+		$data['nama'] = alfa_spasi($data['nama']);
+		$data['uraian'] = strip_tags($data['uraian']);
 	}
 
 	public function update($id=0)
 	{
 		$data = $_POST;
-		return $this->db->where('id',$id)->update('klasifikasi_surat',$data);
+		$this->sterilkan_data($data);
+		return $this->db->where('id',$id)->update('klasifikasi_surat', $data);
 	}
 
 	public function delete($id='', $semua=false)

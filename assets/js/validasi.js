@@ -182,4 +182,15 @@ $(document).ready(function() {
 			});
 	});
 
+	jQuery.validator.addMethod("bilangan_titik", function(value, element) {
+		valid = /^[0-9\.]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter numerik dan titik");
+
+	$('.bilangan_titik').each(function() {
+		$(this).rules("add",
+			{
+				bilangan_titik: true,
+			});
+	});
 })
