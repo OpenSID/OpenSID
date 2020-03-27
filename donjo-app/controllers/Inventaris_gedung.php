@@ -14,6 +14,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 3;
+		$this->tipe = 'inventaris_gedung';
 	}
 
 	public function clear()

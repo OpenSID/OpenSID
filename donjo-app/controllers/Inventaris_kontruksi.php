@@ -14,6 +14,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 6;
+		$this->tipe = 'inventaris_kontruksi';
 	}
 
 	public function clear()
