@@ -202,7 +202,7 @@
         <button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#dokumen"><i class="fa fa-minus"></i></button>
       </div>
     </div>
-    <div class="box-body" id="dokumen">
+    <div class="box-body">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
         <thead>
           <tr>

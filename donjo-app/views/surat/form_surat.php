@@ -17,3 +17,36 @@
 	else
 	  include("template-surat/$nama_surat/$nama_surat.php");
 ?>
+<textarea id="isian_form" hidden="hidden"><?= $isian_form?></textarea>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    // Di form surat ubah isian admin menjadi disabled
+    $("#periksa-permohonan .readonly-periksa").attr('disabled', true);
+    if ($('#isian_form').val())
+    {
+      setTimeout(function() {isi_form();}, 100);
+    }
+  });
+
+  function isi_form()
+  {
+    var isian_form = JSON.parse($('#isian_form').val(), function(key, value)
+    {
+      if (key)
+      {
+        var elem = $('*[name=' + key + ']');
+        elem.val(value);
+        elem.change();
+        // Kalau isian hidden, akan ada isian lain untuk menampilkan datanya
+        if (elem.is(":hidden"))
+        {
+          var show = $('#' + key + '_show');
+          show.val(value);
+          show.change();
+        }
+      }
+    });
+  }
+</script>
+

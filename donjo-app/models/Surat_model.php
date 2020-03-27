@@ -34,6 +34,19 @@
 		return $data;
 	}
 
+	public function list_surat_mandiri()
+	{
+		$data = $this->db->where('kunci', 0)->
+			where('mandiri', 1)->
+			get('tweb_surat_format')->
+			result_array();
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
+		}
+		return $data;
+	}
+
 	public function list_surat_fav()
 	{
 		$data = $this->db->where('kunci', 0)->
@@ -100,7 +113,7 @@
 		}
 
     $endCount = $offset + $resultCount;
-    $morePages = $endCount > $count;
+    $morePages = $endCount < $jml;
 
     $hasil = array(
       "results" => $penduduk,

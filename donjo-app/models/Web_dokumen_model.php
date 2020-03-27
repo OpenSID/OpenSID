@@ -551,5 +551,6 @@ class Web_dokumen_model extends CI_Model {
 			->get()->result_array();
 		return $data;
 	}
+
 }
 ?>

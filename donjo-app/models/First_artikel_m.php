@@ -297,7 +297,7 @@ class First_artikel_m extends CI_Model {
 		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
 			FROM komentar a
 			INNER JOIN artikel b ON  a.id_artikel = b.id
-			WHERE a.enabled = ? AND a.id_artikel <> 775
+			WHERE a.status = ? AND a.id_artikel <> 775
 			ORDER BY a.tgl_upload DESC LIMIT 10 ";
 		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
@@ -437,7 +437,7 @@ class First_artikel_m extends CI_Model {
 
 		if ($this->form_validation->run() == TRUE)
 		{
-			$data['enabled'] = 2;
+			$data['status'] = 2;
 			$data['id_artikel'] = $id;
 			$outp = $this->db->insert('komentar',$data);
 		}
