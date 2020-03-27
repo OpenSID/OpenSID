@@ -9,6 +9,7 @@ class Klasifikasi extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('klasifikasi_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 63;
 	}
 
 	public function clear()
@@ -39,9 +40,8 @@ class Klasifikasi extends Admin_Controller {
 		$data['paging'] = $this->klasifikasi_model->paging($p, $o);
 		$data['main'] = $this->klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->klasifikasi_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act_sub'] = 63;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('klasifikasi/table', $data);
@@ -65,7 +65,6 @@ class Klasifikasi extends Admin_Controller {
 		}
 		$header = $this->header_model->get_data();
 
-		$nav['act_sub'] = 63;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('klasifikasi/form', $data);

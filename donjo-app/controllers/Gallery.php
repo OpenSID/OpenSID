@@ -9,6 +9,7 @@ class Gallery extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_gallery_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 51;
 	}
 
 	public function clear()
@@ -38,10 +39,7 @@ class Gallery extends Admin_Controller {
 		$data['paging'] = $this->web_gallery_model->paging($p,$o);
 		$data['main'] = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -67,8 +65,6 @@ class Gallery extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form', $data);
@@ -192,8 +188,6 @@ class Gallery extends Admin_Controller {
 		$data['sub'] = $this->web_gallery_model->get_gallery($gal);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -214,10 +208,8 @@ class Gallery extends Admin_Controller {
 			$data['form_action'] = site_url("gallery/insert_sub_gallery/$gallery");
 		}
 		$data['album']=$gallery;
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form_sub_gallery', $data);

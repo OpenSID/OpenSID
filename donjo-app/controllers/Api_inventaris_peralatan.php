@@ -13,9 +13,6 @@ class Api_inventaris_peralatan extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_peralatan_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 2;
-		// $this->controller = 'Inventaris_peralatan';
 	}
 
 	public function add()

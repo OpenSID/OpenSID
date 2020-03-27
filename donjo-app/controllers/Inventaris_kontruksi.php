@@ -12,6 +12,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 61;
 		$this->tab_ini = 6;
 	}
 
@@ -27,11 +28,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['main'] = $this->inventaris_kontruksi_model->list_inventaris();
 		$data['total'] = $this->inventaris_kontruksi_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/table', $data);
@@ -41,11 +41,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/view_inventaris', $data);
@@ -55,11 +54,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view_mutasi($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/view_mutasi', $data);
@@ -69,11 +67,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function edit($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/edit_inventaris', $data);
@@ -83,11 +80,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->edit_mutasi($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/edit_mutasi', $data);
@@ -96,11 +92,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 
 	public function form()
 	{
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/form_tambah', $data);
@@ -110,11 +105,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/form_mutasi', $data);
@@ -124,11 +118,10 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->list_mutasi_inventaris();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/kontruksi/table_mutasi', $data);
