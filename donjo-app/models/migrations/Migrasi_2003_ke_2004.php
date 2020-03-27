@@ -43,5 +43,9 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			$slug = url_title($kategori['kategori'], 'dash', TRUE);
 			$this->db->where('id', $kategori['id'])->update('kategori', array('slug' => $slug));
 		}
+		// Penyesuaian url menu dgn submenu setelah hapus file sekretariat.php
+		$this->db->where('id', 15)
+			->set('url', 'surat_keluar/clear')
+			->update('setting_modul');
 	}
 }
