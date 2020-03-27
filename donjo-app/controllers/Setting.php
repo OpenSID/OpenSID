@@ -6,7 +6,6 @@ class Setting extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('setting_model');
 		$this->load->model('header_model');
 		$this->load->model('theme_model');
 		$this->modul_ini = 11;

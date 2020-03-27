@@ -100,7 +100,6 @@ class Modul extends Admin_Controller {
 
 	public function ubah_server()
 	{
-		$this->load->model('setting_model');
 		$this->setting_model->update_penggunaan_server();
 		redirect('modul');
 	}
