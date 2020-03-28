@@ -7,6 +7,7 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		$this->surat_mandiri();
 		$this->surat_mandiri_tersedia();
 		$this->mailbox();
+		$this->ubah_surat_mandiri();
 		// ======================
 
 		// Ubah panjang jalan dari KM menjadi M.
@@ -345,4 +346,31 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		}
 	}
 
+	// Migrasi perubahan bagi yg sdh menggunakan fitur surat mandiri sebelumnya
+	private function ubah_surat_mandiri()
+	{
+		// Ubah penyimpanan syarat permohonan surat. 
+		// Tambahkan syarat_id
+		$list_permohonan = $this->db->select('id, id_surat, syarat')
+			->where('status < 2')
+			->get('permohonan_surat')->result_array();
+		foreach ($list_permohonan as $permohonan)
+		{
+			$syarat_surat = $this->db->select('ref_syarat_id')
+				->where('surat_format_id', $permohonan['id_surat'])
+				->get('syarat_surat')->result_array();
+			$syarat_surat = array_column($syarat_surat, 'ref_syarat_id');
+			$syarat_permohonan = json_decode($permohonan['syarat'], true);
+			// Jangan proses kalau sudah diubah
+			if (array_keys($syarat_permohonan)[0] != 0) return; // Tidak ada syarat_id dgn nilai 0;
+
+			$syarat_baru = array();
+			for ($i=0; $i<count($syarat_permohonan); $i++)
+			{
+				$syarat_baru[$syarat_surat[$i]] = $syarat_permohonan[$i];
+			}
+			$this->db->where('id', $permohonan['id'])
+				->update('permohonan_surat', array('syarat' => json_encode($syarat_baru)));
+		}
+	}
 }

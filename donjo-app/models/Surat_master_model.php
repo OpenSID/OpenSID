@@ -421,6 +421,7 @@
 			->where('surat_format_id', $id)
 			->from('syarat_surat s')
 			->join('ref_syarat_surat r', 's.ref_syarat_id = r.ref_syarat_id')
+			->order_by('ref_syarat_id')
 			->get()->result_array();
 		return $data;
 	}

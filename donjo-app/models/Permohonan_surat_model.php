@@ -192,12 +192,12 @@
 			->get('permohonan_surat')
 			->row_array();
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
-		$sql_syarat_permohonan = sql_in_list($syarat_permohonan);
+		$dok_syarat = array_values($syarat_permohonan);
+		$sql_syarat_permohonan = sql_in_list($dok_syarat);
   	$dokumen_kelengkapan = $this->db->select('id, nama')
   		->from('dokumen')
   		->where("id in ($sql_syarat_permohonan)")
   		->get()->result_array();
-
   	$dok_syarat = array();
   	foreach ($dokumen_kelengkapan as $dok)
   	{
@@ -206,8 +206,9 @@
   	$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
   	for ($i = 0; $i < count($syarat_surat); $i++)
   	{
-  		$syarat_surat[$i]['dok_id'] = $syarat_permohonan[$i];
-  		$syarat_surat[$i]['dok_nama'] = $dok_syarat[$syarat_permohonan[$i]];
+  		$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
+  		$syarat_surat[$i]['dok_id'] = $dok_id;
+  		$syarat_surat[$i]['dok_nama'] = $dok_syarat[$dok_id];
   	}
 		return $syarat_surat;
 	}

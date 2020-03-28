@@ -91,7 +91,7 @@
 	          <tr>
 	            <td align="center" width="2"><?= $no;?></td>
 	            <td><?= $syarat['ref_syarat_nama']?></td>
-	            <td><a href="<?= site_url('mandiri_web/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a></td>
+	            <td><a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a></td>
 	          </tr>
           <?php $no++; endforeach; ?>
 	      </table>
