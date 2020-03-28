@@ -7,7 +7,7 @@
 </style>
 <div class="box box-primary box-solid">
   <div class="box-header">
-    <h3 class="box-title"><a href="<?= site_url("first/arsip")?>"><i class="fa fa-archive"></i> Arsip Artikel</a></h3>
+    <h3 class="box-title"><a href="<?= site_url("arsip")?>"><i class="fa fa-archive"></i> Arsip Artikel</a></h3>
   </div>
   <div id="arsip_artikel" class="box-body">
     <ul class="nav nav-tabs">
@@ -19,14 +19,14 @@
         <table>
           <?php foreach ($arsip as $l): ?>
             <tr><td>
-              <a href="<?= site_url("first/artikel/$l[id]")?>">
+              <a href="<?= site_url("artikel/".buat_slug($l))?>">
                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$l[gambar]")): ?>
                   <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
                 <?php else: ?>
                   <img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
                 <?php endif;?>
                 <div align="justify">
-                  <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= $l['judul']?></font></small>
+                  <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= substr($l['judul'], 0, 50);?></font>...</small>
                 </div>
               </a>
             </td></tr>
@@ -37,14 +37,14 @@
         <table>
           <?php foreach ($arsip_rand as $l): ?>
             <tr><td>
-              <a href="<?= site_url("first/artikel/$l[id]")?>">
+            <a href="<?= site_url("artikel/".buat_slug($l))?>">
                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$l[gambar]")): ?>
                   <img class="img-fluid img-thumbnail" src="<?= base_url("desa/upload/artikel/sedang_$l[gambar]")?>"/>
                 <?php else: ?>
                   <img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
                 <?php endif;?>
                 <div align="justify">
-                  <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= $l['judul']?></font></small>
+                  <small><span class="meta_date"><?= tgl_indo2($l['tgl_upload']) ?></span><br><font color="green"><?= substr($l['judul'], 0, 50);?></font>...</small>
                 </div>
               </a>
             </td></tr>

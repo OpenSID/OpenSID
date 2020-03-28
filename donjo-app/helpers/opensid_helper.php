@@ -754,10 +754,48 @@ function nama($str)
 	return preg_replace("/[^a-zA-Z '\.,\-]/", '', strip_tags($str));
 }
 
+function get_setting($params)
+{
+	$CI = &get_instance();
+	$CI->load->database();
+
+	$data = $CI->db->where('key', $params)->get('setting_aplikasi')->row_array();
+
+	return $data['value'];
+}
 function buat_slug($data_slug)
 {
-	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
-	return $slug;
+	$CI = &get_instance();
+	$slug = get_setting('jenis_url');
+
+	switch ($slug) {
+		default: //first/artikel/url
+			$url = $data_slug['slug'];
+			break;
+		case 'tahun/slug': //first/artikel/thn/url
+			$url = $data_slug['thn'].'/'.$data_slug['slug'];
+			break;
+		case 'tahun/bulan/slug': //first/artikel/thn/bln/url
+			$url = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['slug'];
+			break;
+		case 'tahun/bulan/hari/slug': //first/artikel/thn/bln/hr/url
+			$url = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
+			break;
+		case 'id': //first/artikel/id
+			$url = $data_slug['id'];
+			break;
+		case 'tahun/id': //first/artikel/thn/id
+			$url = $data_slug['thn'].'/'.$data_slug['id'];
+			break;
+		case 'tahun/bulan/id': //first/artikel/thn/bln/id
+			$url = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['id'];
+			break;
+		case 'tahun/bulan/hari/id': //first/artikel/thn/bln/hr/id
+			$url = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['id'];
+			break;
+	}
+	
+	return $url;
 }
 
 function status_sukses($outp, $gagal_saja=false)

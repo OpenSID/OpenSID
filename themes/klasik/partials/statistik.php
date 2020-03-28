@@ -108,9 +108,9 @@ $(function(){
 			<div class=\"box-tools pull-right\">
 				<div class=\"btn-group-xs\">";
 					$strC = ($tipe==1)? "btn-primary":"btn-default";
-					echo "<a href=\"".site_url("first/statistik/$st/1")."\" class=\"btn ".$strC." btn-xs\">Bar Graph</a>";
+					echo "<a href=\"".site_url("statistik/$st/1")."\" class=\"btn ".$strC." btn-xs\">Bar Graph</a>";
 					$strC = ($tipe==0)? "btn-primary":"btn-default";
-					echo "<a href=\"".site_url("first/statistik/$st/0")."\" class=\"btn ".$strC." btn-xs\">Pie Cart</a>
+					echo "<a href=\"".site_url("statistik/$st/0")."\" class=\"btn ".$strC." btn-xs\">Pie Cart</a>
 				</div>
 			</div>
 		</div>

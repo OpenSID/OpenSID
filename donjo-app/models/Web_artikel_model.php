@@ -503,7 +503,7 @@
 
 	public function get_headline()
 	{
-		$sql = "SELECT a.*, u.nama AS owner
+		$sql = "SELECT a.*, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			WHERE headline = 1
@@ -517,7 +517,7 @@
 		{
 			$id = $data['id'];
 			$panjang = str_split($data['isi'], 300);
-			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
+			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url('artikel/'.buat_slug($data))."'>Baca Selengkapnya</a>";
 		}
 		return $data;
 	}

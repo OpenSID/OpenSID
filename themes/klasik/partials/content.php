@@ -9,7 +9,7 @@
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -24,7 +24,7 @@
 					<?php endif; ?>
 				<?php endif; ?>
 				<?= $abstrak_headline ?>
-				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">..selengkapnya</a>
+				<a href="<?= site_url('artikel/'.buat_slug($headline))?>">..selengkapnya</a>
 			</div>
 		</div>
 	<?php endif; ?>
@@ -53,7 +53,7 @@
 						<?php $abstrak = potong_teks($data['isi'], 300) ?>
 						<li class="artikel">
 							<h3 class="judul">
-								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
+								<a href="<?= site_url('artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
 							</h3>
 
 							<div class="teks">
@@ -62,7 +62,7 @@
 									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
 									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
-										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
+										| <i class='fa fa-tag'></i> <a href="<?= site_url('kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
 									<?php endif; ?>
 								</div>
 								<div class="img">
@@ -75,7 +75,7 @@
 										<?php endif; ?>
 									</div>
 									<?= $abstrak ?>
-									<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
+									<a href="<?= site_url('artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
 								</div>
 								<br class="clearboth gb"/>
 							</li>
@@ -104,23 +104,23 @@
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
 			<ul class="pagination pagination-sm no-margin">
 				<?php if ($paging->start_link): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 				<?php if ($paging->prev): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 
 				<?php foreach ($pages as $i): ?>
 					<li <?= ($p == $i) ? 'class="active"' : "" ?>>
-						<a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
+						<a href="<?= site_url("".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
 					</li>
 				<?php endforeach; ?>
 
 				<?php if ($paging->next): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 				<?php if ($paging->end_link): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

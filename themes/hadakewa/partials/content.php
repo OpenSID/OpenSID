@@ -9,7 +9,7 @@
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -25,7 +25,7 @@
 				<?php endif; ?>
 				<div class="post">
 					<?= $abstrak_headline ?>
-					<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">
+					<a href="<?= site_url('artikel/'.buat_slug($headline))?>">
 						<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
 					</a>
 				</div>
@@ -57,7 +57,7 @@
 						<?php $abstrak = potong_teks($data['isi'], 300) ?>
 						<li class="artikel">
 							<h3 class="judul">
-								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
+								<a href="<?= site_url('artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
 							</h3>
 
 							<div class="teks">
@@ -66,7 +66,7 @@
 									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
 									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
-										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
+										| <i class='fa fa-tag'></i> <a href="<?= site_url('kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
 									<?php endif; ?>
 								</div>
 								<div class="img">
@@ -80,7 +80,7 @@
 									</div>
 									<div class="post">
 										<?= $abstrak ?>
-										<a href="<?= site_url('first/artikel/'.buat_slug($data))?>">
+										<a href="<?= site_url('artikel/'.buat_slug($data))?>">
 											<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
 										</a>
 									</div>
