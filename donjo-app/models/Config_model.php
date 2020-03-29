@@ -11,6 +11,12 @@
 		return $query;
 	}
 
+	public function get_mark($id)
+	{
+		$query = $this->db->select('*')->limit(1)->get_where('lokasi', array('id', $id))->row_array();
+		return $query;
+	}
+
 	public function insert()
 	{
 		$data = $this->bersihkan_post();

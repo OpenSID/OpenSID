@@ -103,7 +103,7 @@ class Plan extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 		if ($id)
-			$data['lokasi'] = $this->config_model->get_data();
+			$data['lokasi'] = $this->config_model->get_mark($id);
 		else
 			$data['lokasi'] = NULL;
 
