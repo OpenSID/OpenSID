@@ -19,4 +19,5 @@ class Migrasi_2001_ke_2002 extends CI_model {
 			$this->db->where('id', $artikel['id'])->update('artikel', array('slug' => $slug));
 		}
 	}
+	
 }

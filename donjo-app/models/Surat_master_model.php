@@ -107,6 +107,7 @@
 			$_SESSION['success'] = -2;
 			return;
 		}
+		$data['mandiri'] = isset($data['mandiri']) ? 1 : 0;
 		$outp = $this->db->insert('tweb_surat_format', $data);
 		$raw_path = "template-surat/raw/";
 
@@ -172,6 +173,7 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data['mandiri'] = empty($data['mandiri']) ? 0 : 1;
 		$this->validasi_surat($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_surat_format', $data);
@@ -411,6 +413,17 @@
 				->where(array('url_surat' => $url_surat))
 				->get('tweb_surat_format')->row_array();
 		return $sudahAda['ada'];
+	}
+
+	public function get_syarat_surat($id=1)
+	{
+		$data = $this->db->select('r.ref_syarat_id, r.ref_syarat_nama')
+			->where('surat_format_id', $id)
+			->from('syarat_surat s')
+			->join('ref_syarat_surat r', 's.ref_syarat_id = r.ref_syarat_id')
+			->order_by('ref_syarat_id')
+			->get()->result_array();
+		return $data;
 	}
 }
 

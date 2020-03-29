@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Surat Keterangan Penduduk</h1>
-		<ol class="breadcrumb">
+		<ol class="breadcrumb tdk-permohonan tdk-periksa">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Keterangan Penduduk</li>
@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-body">
-						<div class="box-header with-border">
+						<div class="box-header with-border tdk-permohonan tdk-periksa">
 							<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
 							</a>
@@ -24,7 +24,7 @@
 							<input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
 							<div class="row jar_form">
-								<label for="nomor" class="col-sm-3"></label>
+								<label class="col-sm-3"></label>
 								<div class="col-sm-8">
 									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
 								</div>

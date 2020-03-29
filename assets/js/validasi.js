@@ -3,6 +3,7 @@ $(document).ready(function() {
 
 	// Untuk form surat memeriksa nomor surat secara remote/ajax
 	$("#validasi.form-surat").validate({
+		ignore: '#wrapper-mandiri input[name=nomor]',
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
