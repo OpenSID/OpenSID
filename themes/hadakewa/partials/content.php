@@ -22,12 +22,12 @@
 				<?php else: ?>
 					<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
 				<?php endif; ?>
-				<div class="post">
-					<?= $abstrak_headline ?>
-					<a href="<?= site_url('artikel/'.buat_slug($headline))?>">
-						<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
-					</a>
-				</div>
+			<?php endif; ?>
+			<div class="post">
+				<?= $abstrak_headline ?>
+				<a href="<?= site_url('artikel/'.buat_slug($headline))?>">
+					<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
+				</a>
 			</div>
 		</div>
 	</div>

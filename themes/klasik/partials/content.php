@@ -22,14 +22,18 @@
 				<?php else: ?>
 					<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
 				<?php endif; ?>
+			<?php endif; ?>
+			<div class="post">
 				<?= $abstrak_headline ?>
-				<a href="<?= site_url('artikel/'.buat_slug($headline))?>">..selengkapnya</a>
+				<a href="<?= site_url('artikel/'.buat_slug($headline))?>">
+					<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
+				</a>
 			</div>
 		</div>
 	</div>
 <?php endif; ?>
 
-<?php $this->load->view($folder_themes."/partials/feed.php") ?>
+<?php	$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/feed.php'));?>
 
 <!--
  List Konten
@@ -76,8 +80,12 @@
 											<?php endif;?>
 										<?php endif; ?>
 									</div>
-									<?= $abstrak ?>
-									<a href="<?= site_url('artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
+									<div class="post">
+										<?= $abstrak ?>
+										<a href="<?= site_url('artikel/'.buat_slug($data))?>">
+											<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
+										</a>
+									</div>
 								</div>
 								<br class="clearboth gb"/>
 							</li>
@@ -106,23 +114,23 @@
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
 			<ul class="pagination pagination-sm no-margin">
 				<?php if ($paging->start_link): ?>
-					<li><a href="<?= site_url("".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 				<?php if ($paging->prev): ?>
-					<li><a href="<?= site_url("".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 
 				<?php foreach ($pages as $i): ?>
 					<li <?= ($p == $i) ? 'class="active"' : "" ?>>
-						<a href="<?= site_url("".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
+						<a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
 					</li>
 				<?php endforeach; ?>
 
 				<?php if ($paging->next): ?>
-					<li><a href="<?= site_url("".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 				<?php if ($paging->end_link): ?>
-					<li><a href="<?= site_url("".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
+					<li><a href="<?= site_url("first/".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
 				<?php endif; ?>
 			</ul>
 		</div>
