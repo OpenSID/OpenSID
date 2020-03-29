@@ -26,7 +26,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("kategori/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Baru">
+							<a href="<?= site_url("web_kategori/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Baru">
 								<i class="fa fa-plus"></i>Tambah Kategori Baru
             	</a>
 						  <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("kategori/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -65,18 +65,18 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("kategori/index/$p/1")?>">Nama Kategori<i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("web_kategori/index/$p/1")?>">Nama Kategori<i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("kategori/index/$p/2")?>">Nama Kategori<i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("web_kategori/index/$p/2")?>">Nama Kategori<i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th><a href="<?= site_url("kategori/index/$p/1")?>">Nama Kategori<i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th><a href="<?= site_url("web_kategori/index/$p/1")?>">Nama Kategori<i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
                                   <?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("kategori/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("web_kategori/index/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("kategori/index/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("web_kategori/index/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                   <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("kategori/index/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+                                    <th nowrap><a href="<?= site_url("web_kategori/index/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
                                   <th>Link</th>
 																</tr>
@@ -87,17 +87,17 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("kategori/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																			<a href="<?= site_url("kategori/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
-																			<a href="<?= site_url("kategori/sub_kategori/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Sub Kategori"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("kategori/form/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("web_kategori/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																			<a href="<?= site_url("web_kategori/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																			<a href="<?= site_url("web_kategori/sub_kategori/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Sub Kategori"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url("web_kategori/form/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url("kategori/kategori_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?= site_url("web_kategori/kategori_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url("kategori/kategori_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-                                        <a href="<?= site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Kategori" title="Tambah Sub Kategori"><i class="fa fa-plus"></i></a>
+																				<a href="<?= site_url("web_kategori/kategori_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+                                        <a href="<?= site_url("web_kategori/ajax_add_sub_kategori/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Kategori" title="Tambah Sub Kategori"><i class="fa fa-plus"></i></a>
                                       <?php endif ?>
-																			<a href="#" data-href="<?= site_url("kategori/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("web_kategori/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
                                     <td width="50%"><?= $data['kategori']?></td>
                                     <td><?= $data['aktif']?></td>
@@ -113,7 +113,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("kategori")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("web_kategori")?>" method="post" class="form-horizontal">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

@@ -77,6 +77,9 @@ class Migrasi_2003_ke_2004 extends CI_model {
 				)
 			);
 		}
+
+		// Penyesuaian url backend agar tdk sma dengan url frontend
+		$this->db->where('id', 65)->update('setting_modul', array('url' => 'web_kategori/clear'));
 	}
 	
 	private function surat_mandiri()

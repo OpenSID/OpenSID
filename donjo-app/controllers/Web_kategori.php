@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Kategori extends Admin_Controller {
+class Web_kategori extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -16,7 +16,7 @@ class Kategori extends Admin_Controller {
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
 		$_SESSION['per_page'] = 20;
-		redirect('kategori');
+		redirect('web_kategori');
 	}
 
 	public function index($p=1,$o=0)
@@ -57,12 +57,12 @@ class Kategori extends Admin_Controller {
 		if ($id)
 		{
 			$data['kategori'] = $this->web_kategori_model->get_kategori($id);
-			$data['form_action'] = site_url("kategori/update/$id");
+			$data['form_action'] = site_url("web_kategori/update/$id");
 		}
 		else
 		{
 			$data['kategori'] = null;
-			$data['form_action'] = site_url("kategori/insert");
+			$data['form_action'] = site_url("web_kategori/insert");
 		}
 
 		$header = $this->header_model->get_data();
@@ -98,12 +98,12 @@ class Kategori extends Admin_Controller {
 		if ($id)
 		{
 			$data['subkategori'] = $this->web_kategori_model->get_kategori($id);
-			$data['form_action'] = site_url("kategori/update_sub_kategori/$kategori/$id");
+			$data['form_action'] = site_url("web_kategori/update_sub_kategori/$kategori/$id");
 		}
 		else
 		{
 			$data['subkategori'] = null;
-			$data['form_action'] = site_url("kategori/insert_sub_kategori/$kategori");
+			$data['form_action'] = site_url("web_kategori/insert_sub_kategori/$kategori");
 		}
 
 		$this->load->view('kategori/ajax_add_sub_kategori_form', $data);
@@ -115,7 +115,7 @@ class Kategori extends Admin_Controller {
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect("kategori/index");
+		redirect("web_kategori/index");
 	}
 
 	public function filter()
@@ -124,90 +124,90 @@ class Kategori extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['filter']=$filter;
 		else unset($_SESSION['filter']);
-		redirect('kategori');
+		redirect('web_kategori');
 	}
 
 	public function insert()
 	{
 		$this->web_kategori_model->insert($tip);
-		redirect("kategori/index");
+		redirect("web_kategori/index");
 	}
 
 	public function update($id='')
 	{
 		$this->web_kategori_model->update($id);
-		redirect("kategori/index");
+		redirect("web_kategori/index");
 	}
 
 	public function delete($id='')
 	{
-		$this->redirect_hak_akses('h', "kategori/index");
+		$this->redirect_hak_akses('h', "web_kategori/index");
 		$this->web_kategori_model->delete($id);
-		redirect("kategori/index");
+		redirect("web_kategori/index");
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h', "kategori/index/$p/$o");
+		$this->redirect_hak_akses('h', "web_kategori/index/$p/$o");
 		$this->web_kategori_model->delete_all();
-		redirect("kategori/index/$p/$o");
+		redirect("web_kategori/index/$p/$o");
 	}
 
 	public function kategori_lock($id='')
 	{
 		$this->web_kategori_model->kategori_lock($id, 1);
-		redirect("kategori/index/$p/$o");
+		redirect("web_kategori/index/$p/$o");
 	}
 
 	public function kategori_unlock($id='')
 	{
 		$this->web_kategori_model->kategori_lock($id, 2);
-		redirect("kategori/index/$p/$o");
+		redirect("web_kategori/index/$p/$o");
 	}
 
 	public function insert_sub_kategori($kategori='')
 	{
 		$this->web_kategori_model->insert_sub_kategori($kategori);
-		redirect("kategori/sub_kategori/$kategori");
+		redirect("web_kategori/sub_kategori/$kategori");
 	}
 
 	public function update_sub_kategori($kategori='', $id='')
 	{
 		$this->web_kategori_model->update_sub_kategori($id);
-		redirect("kategori/sub_kategori/$kategori");
+		redirect("web_kategori/sub_kategori/$kategori");
 	}
 
 	public function delete_sub_kategori($kategori='', $id=0)
 	{
 		$this->web_kategori_model->delete($id);
-		redirect("kategori/sub_kategori/$kategori");
+		redirect("web_kategori/sub_kategori/$kategori");
 	}
 
 	public function delete_all_sub_kategori($kategori='')
 	{
 		$this->web_kategori_model->delete_all();
-		redirect("kategori/sub_kategori/$kategori");
+		redirect("web_kategori/sub_kategori/$kategori");
 	}
 
 	public function kategori_lock_sub_kategori($kategori='', $id='')
 	{
 		$this->web_kategori_model->kategori_lock($id, 1);
-		redirect("kategori/sub_kategori/$kategori");
+		redirect("web_kategori/sub_kategori/$kategori");
 	}
 
 	public function kategori_unlock_sub_kategori($kategori='', $id='')
 	{
 		$this->web_kategori_model->kategori_lock($id, 2);
-		redirect("kategori/sub_kategori/$kategori");
+		redirect("web_kategori/sub_kategori/$kategori");
 	}
 
 	public function urut($id=0, $arah=0, $kategori='')
 	{
 		$this->web_kategori_model->urut($id,$arah,$kategori);
 		if ($kategori != '')
-			redirect("kategori/sub_kategori/$kategori");
+			redirect("web_kategori/sub_kategori/$kategori");
 		else
-			redirect("kategori/index");
+			redirect("web_kategori/index");
 	}
 
 }
