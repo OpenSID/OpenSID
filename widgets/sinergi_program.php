@@ -33,11 +33,11 @@
       ?>
       <?php foreach($baris as $baris_program) : ?>
         <tr>
-          <td>
+          <td >
             <?php $width = 100/count($baris_program)-count($baris_program)?>
             <?php foreach($baris_program as $key => $program) : ?>
               <span style="display: inline-block; width: <?= $width.'%'?>">
-                <a href="<?= $program['tautan']?>" rel="noopener noreferrer" target="_blank"><img src="<?= base_url()?>desa/upload/widget/<?= $program['gambar']?>" alt="<?= $program['judul']?>" /></a>
+                <a href="<?= $program['tautan']?>" rel="noopener noreferrer" target="_blank"><img src="<?= base_url()?>desa/upload/widget/<?= $program['gambar']?>" style="float:left; margin:0px 0px 0px 0px;" alt="<?= $program['judul']?>" /></a>
               </span>
             <?php endforeach; ?>
           </td>
