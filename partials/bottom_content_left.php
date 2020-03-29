@@ -14,6 +14,7 @@
 						<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
                     </marquee>
                     <?php endif; ?>
+					<?php $this->load->view($folder_themes.'/partials/corona-widget.php'); ?>
                 </div>
                 <?php if ($headline): ?>
             	<?php $abstrak_headline = potong_teks($headline['isi'], 500) ?>
