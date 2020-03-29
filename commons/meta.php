@@ -51,7 +51,7 @@ else echo $single_artikel["judul"].' - '.ucwords($this->setting->sebutan_desa).(
 	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
 	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
     <meta property="og:url" content="<?= site_url()?>"/>
-    <meta property="og:image" content="<?= base_url("$this->theme_folder/$this->theme/images/header.jpg"); ?>"/>
+    <!--<meta property="og:image" content="<?= base_url("$this->theme_folder/$this->theme/images/header.jpg"); ?>"/>-->
     <meta property="og:description" content="<?= $this->setting->website_title.' '
 	.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '
 	.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '
