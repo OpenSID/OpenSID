@@ -53,7 +53,7 @@
 				</div>
 			</div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-info">
+				<div class="panel panel-warning">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Dalam Perawatan</h4></div>
 					<div style="height: 40px;padding:1px" class="panel-body text-center">
 						<h4><?= number_format($perawatan); ?> <small>Orang</small></h4>
@@ -61,7 +61,7 @@
 				</div>
 			</div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-success">
+				<div class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh (<?= number_format($sembuh/$positif*100,2); ?>%)</h4></div>
 					<div style="height: 40px;padding:1px" class="panel-body text-center">
 						<h4><?= number_format($sembuh); ?> <small>Orang</small></h4>
@@ -69,7 +69,7 @@
 				</div>
 			</div>
             <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-warning">
+				<div class="panel panel-success">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal (<?= number_format($meninggal/$positif*100,2); ?>%)</h4></div>
 					<div style="height: 40px;padding:1px" class="panel-body text-center">
 						<h4><?= number_format($meninggal); ?> <small>Orang</small></h4>
