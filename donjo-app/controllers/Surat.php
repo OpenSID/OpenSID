@@ -14,6 +14,7 @@ class Surat extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('referensi_model');
 		$this->load->model('penomoran_surat_model');
+		$this->load->model('permohonan_surat_model');
 		$this->modul_ini = 4;
 	}
 
@@ -85,7 +86,19 @@ class Surat extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
+	public function periksa_doc($id, $url)
+	{
+		// Ganti status menjadi 'Menunggu Tandatangan'
+		$this->permohonan_surat_model->update_status($id, array('status' => 2));
+		$this->cetak_doc($url);
+	}
+
 	public function doc($url = '')
+	{
+		$this->cetak_doc($url);
+	}
+
+	private function cetak_doc($url)
 	{
 		$format = $this->surat_model->get_surat($url);
 		$log_surat['url_surat'] = $format['id'];
@@ -151,8 +164,6 @@ class Surat extends Admin_Controller {
 	    header('Content-disposition: attachment; filename='.$nama_file.'.zip');
 	    header('Content-type: application/zip');
 	    readfile($berkas_zip);
-
-
 		}
 		else
 		{

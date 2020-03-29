@@ -45,11 +45,11 @@
               <div class="form-group">
 								<label class="col-xs-12 col-sm-2 col-lg-2 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>active<?php endif ?>">
-										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>active<?php endif ?>">
+										<input id="sx1" type="radio" name="status" class="form-check-input" type="radio" value="1" <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($komentar['enabled'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2' ): ?>active<?php endif ?>">
+										<input id="sx2" type="radio" name="status" class="form-check-input" type="radio" value="2" <?php if ($komentar['status'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
@@ -70,11 +70,11 @@
 <script>
 	function reset_form()
 	{
-		<?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>
+		<?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
 		<?php endif ?>
-		<?php if ($komentar['enabled'] =='2'): ?>
+		<?php if ($komentar['status'] =='2'): ?>
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
 		<?php endif ?>

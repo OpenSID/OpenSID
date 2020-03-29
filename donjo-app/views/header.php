@@ -92,6 +92,13 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
+								<li>
+									<a href="<?=site_url()?>permohonan_surat_admin/clear">
+										<i class="fa fa-print fa-lg" title="Permohonan surat baru"></i><span class="badge" id="b_permohonan_surat"></span>
+									</a>
+								</li>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
 								<li>
 									<a href="<?=site_url()?>komentar">
@@ -99,10 +106,10 @@
 									</a>
 								</li>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'lapor')): ?>
+							<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
 								<li>
-									<a href="<?=site_url()?>lapor">
-										<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span>
+									<a href="<?=site_url()?>mailbox">
+										<i class="fa fa-envelope fa-lg" title="Pesan masuk baru"></i><span class="badge" id="b_inbox"></span>
 									</a>
 								</li>
 							<?php endif; ?>

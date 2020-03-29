@@ -276,6 +276,10 @@ define("ASAL_INVENTARIS", serialize(array(
 	"Bantuan Kabupaten" => "4",
 	"Sumbangan" => "5"
 )));
+define("KATEGORI_MAILBOX", serialize(array(
+	"Kotak Masuk" => "1",
+	"Kotak Keluar" => "2"
+)));
 
 /**
  * Ambil Versi
@@ -731,6 +735,22 @@ function masukkan_zip($files=array())
 function alfa_spasi($str)
 {
 	return preg_replace('/[^a-zA-Z ]/', '', strip_tags($str));
+}
+
+// https://www.php.net/manual/en/function.array-column.php
+function array_column_ext($array, $columnkey, $indexkey = null) {
+  $result = array();
+  foreach ($array as $subarray => $value) {
+    if (array_key_exists($columnkey,$value)) { $val = $array[$subarray][$columnkey]; }
+    else if ($columnkey === null) { $val = $value; }
+    else { continue; }
+       
+    if ($indexkey === null) { $result[] = $val; }
+    elseif ($indexkey == -1 || array_key_exists($indexkey,$value)) {
+      $result[($indexkey == -1)?$subarray:$array[$subarray][$indexkey]] = $val;
+    }
+  }
+  return $result;
 }
 
 function alfanumerik_spasi($str)

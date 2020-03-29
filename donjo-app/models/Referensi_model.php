@@ -6,6 +6,14 @@ define("KATEGORI_PUBLIK", serialize(array(
 	"Informasi Setiap Saat" => "3",
 	"Informasi Dikecualikan" => "4"
 )));
+define("STATUS_PERMOHONAN", serialize(array(
+	"Sedang diperiksa" => "0",
+	"Belum lengkap" => "1",
+	"Menunggu tandatangan" => "2",
+	"Siap diambil" => "3",
+	"Sudah diambil" => "4",
+	"Dibatalkan" => "9"
+)));
 
 
 class Referensi_model extends CI_Model {

@@ -49,7 +49,7 @@ class Setting_model extends CI_Model {
 	private function cek_migrasi()
 	{
 		// Paksa menjalankan migrasi kalau versi di setting sebelum versi rilis atau ada perubahan data yang harus dilakukan sebelum aplikasi bisa dibuka
-		$versi_harus_migrasi_dulu = array('20.03');
+		$versi_harus_migrasi_dulu = array('20.02', '20.03');
 		$versi_rilis = preg_replace('/[^\d\.]/', '', AmbilVersi());
 		if (version_compare($this->setting->current_version, $versi_rilis, '<') or (in_array($versi_rilis, $versi_harus_migrasi_dulu) and !$this->session->userdata('sudah_migrasi')))
 		{
