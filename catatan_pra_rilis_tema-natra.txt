@@ -44,5 +44,9 @@ Catatan pra rilis versi 4.1.9:
 42. Menampilkan berapa kali artikel dibagikan ke Facebook.
 43. #31 Menampilkan detail jadwal agenda pada artikel bersangkutan.
 44. #11 Sesuaikan lebar halaman web versi mobile.
-
+45. Sesuaikan judul widget Layanan Mandiri.
+46. Menampilkan info COVID19 Global & Indoensia.
+47. Hilangkan gambar property="og:image" halaman utama.
+48. Rapikan gambar pada widget Sinergi Program.
+49. Tambah dan buang file gambar yang tidak diperlukan.
 ****************************************************************
