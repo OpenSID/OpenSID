@@ -49,4 +49,6 @@ Catatan pra rilis versi 4.1.9:
 47. Hilangkan gambar property="og:image" halaman utama.
 48. Rapikan gambar pada widget Sinergi Program.
 49. Tambah dan buang file gambar yang tidak diperlukan.
+50. Tampilkan artikel dari https://www.covid19.go.id/feed.
+
 ****************************************************************

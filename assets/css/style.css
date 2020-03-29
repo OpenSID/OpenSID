@@ -1,3 +1,4 @@
+#feed{ /*display: none;*/ }
 @font-face{ font-family:'Oswald'; font-style:normal; font-weight:400; src:local('Oswald Regular'),local('Oswald-Regular'),url("../fonts/Oswald-Regular-400.woff") format('woff')}
 body{background-color:#fff; color:#333; overflow-x:hidden !important}
 ul{padding:0; margin:0; list-style:none}
@@ -5,6 +6,7 @@ a{text-decoration:none; color:#798992}
 a:hover{color:#646464; text-decoration:none}
 a:focus{outline:none; text-decoration:none}
 h2{font-family:'Oswald',sans-serif; line-height:23px}
+h5{font-family:'Oswald',sans-serif; line-height:23px}
 img{border:none}
 img:hover{opacity:0.75}
 .img-center{display:block; margin-left:auto; margin-right:auto; text-align:center}
