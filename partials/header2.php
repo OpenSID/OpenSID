@@ -36,22 +36,19 @@
     </div>
 	<div class="catgimg2_container" style="margin-bottom:3px;">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <!--
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
             </ol>   
-            -->
             <div class="carousel-inner">
                 <div class="item active">
-                    <img class="tlClogo" src="<?= base_url("$this->theme_folder/$this->theme/images/header.jpg") ?>">
+                    <img class="tlClogo" src="<?= base_url("$this->theme_folder/$this->theme/images/bg_header.jpg") ?>">
                 </div>
                 <div class="item">
-                    <img class="tlClogo" src="<?= base_url("$this->theme_folder/$this->theme/images/header2.jpeg") ?>">
+                    <img class="tlClogo" src="<?= base_url("$this->theme_folder/$this->theme/images/bg_header.jpg") ?>">
                 </div>
             </div>
-            <!-- Carousel controls -->
+
             <a class="carousel-control left" href="#myCarousel" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left"></span>
             </a>
