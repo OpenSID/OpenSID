@@ -3,7 +3,7 @@
 if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 	if($_SESSION['mandiri_wait']==1){ ?>
       <div class="single_bottom_rightbar wow fadeInDown">
-        <h2><i class="fa fa-user"></i> Layanan E - LAPOR</h2>
+        <h2><i class="fa fa-user"></i> Layanan Mandiri</h2>
       </div>
       <div id="note" align="center" style="margin-bottom:10px;">
           <font color="red">Gagal 3 kali, NIK atau PIN yang Anda masukkan salah!</font>
@@ -14,7 +14,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   <?php } else { ?>
 <div class="">
    <div class="single_bottom_rightbar wow fadeInDown">
-        <h2><i class="fa fa-user"></i> Layanan E - LAPOR</h2>
+        <h2><i class="fa fa-user"></i> Layanan Mandiri</h2>
             <ul role="tablist" class="nav nav-tabs custom-tabs">
               <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#mostPopular3">Login</a></li>
               <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#recentComent3">Daftar</a></li>
