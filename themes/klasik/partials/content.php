@@ -19,15 +19,17 @@
 			<?php if ($headline["gambar"] != ""): ?>
 				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
 					<a class="group2" href="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" title=""><img src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" /></a>
-					<?php else: ?>
-						<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
-					<?php endif; ?>
+				<?php else: ?>
+					<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
 				<?php endif; ?>
 				<?= $abstrak_headline ?>
 				<a href="<?= site_url('artikel/'.buat_slug($headline))?>">..selengkapnya</a>
 			</div>
 		</div>
-	<?php endif; ?>
+	</div>
+<?php endif; ?>
+
+<?php $this->load->view($folder_themes."/partials/feed.php") ?>
 
 <!--
  List Konten

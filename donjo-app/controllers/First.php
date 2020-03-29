@@ -88,6 +88,11 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
+		$data['feed'] = array(
+			'items' => $this->first_artikel_m->get_feed(),
+			'title' => 'BERITA COVID19.GO.ID',
+			'url' => 'https://www.covid19.go.id'
+		);
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
 		$cari = trim($this->input->get('cari'));
