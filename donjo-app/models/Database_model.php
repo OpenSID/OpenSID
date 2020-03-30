@@ -1,4 +1,6 @@
-<?php class Database_model extends CI_Model {
+<?php 
+
+class Database_model extends CI_Model {
 
 	private $engine = 'InnoDB';
 	/* define versi opensid dan script migrasi yang harus dijalankan */
@@ -125,7 +127,16 @@
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
+		$this->catat_versi_database();
 	 	$_SESSION['success'] = 1;
+  }
+
+  private function catat_versi_database()
+  {
+		// Catat migrasi ini telah dilakukan
+		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+			->get('migrasi')->num_rows();
+		if (!$sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
   }
 
   private function getCurrentVersion()
