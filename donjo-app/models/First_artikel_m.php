@@ -31,6 +31,17 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	public function get_feed()
+	{
+		$sumber_feed = 'https://www.covid19.go.id/feed/';
+		if (!cek_bisa_akses_site($sumber_feed)) return NULL;
+
+	  $this->load->library('Feed_Reader');
+		$feed = new Feed_Reader($sumber_feed);
+		$items = array_slice($feed->items, 0, 2);
+		return $items;
+	}
+
 	public function get_teks_berjalan()
 	{
 		$this->load->model('teks_berjalan_model');
