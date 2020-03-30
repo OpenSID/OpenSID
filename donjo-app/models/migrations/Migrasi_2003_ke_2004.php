@@ -50,8 +50,31 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			$slug = url_title($kategori['kategori'], 'dash', TRUE);
 			$this->db->where('id', $kategori['id'])->update('kategori', array('slug' => $slug));
 		}
+		$this->tambah_tabel_migrasi();
 	}
 	
+	private function tambah_tabel_migrasi()
+	{
+    // Table ref_syarat_surat tempat nama dokumen sbg syarat Permohonan surat
+		if (!$this->db->table_exists('migrasi') )
+		{
+	    $this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'auto_increment' => TRUE
+				),
+				'versi_database' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 10,
+					'null' => FALSE,
+				),
+			));
+			$this->dbforge->add_key("id",true);
+			$this->dbforge->create_table("migrasi", TRUE);
+		}
+	}
+
 	private function surat_mandiri()
 	{
     // Table ref_syarat_surat tempat nama dokumen sbg syarat Permohonan surat
