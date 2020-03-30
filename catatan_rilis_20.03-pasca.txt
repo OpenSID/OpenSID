@@ -1,8 +1,8 @@
 Di rilis versi 20.04 ini,  tersedia Tampilkan artikel dari https://www.covid19.go.id/feed sebagai bentuk kepedulian OpenSID dalam memberikan informasi yang benar dan akurat tentang perkembangan covid-19 di Indonesia.  Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Zeppy Shiddiq, Il Ham dan Nur Hidayat, Riyan Alkhafi, Rudi Purwanto,   yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
+Terima kasih pada Bung Eddie Ridwan, afa28, iankids, balongbesuk, dan Nur Hidayat, Rudi Purwanto,   yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.04 adalah sebagai berikut:
 
 1. Setelah gagal tiga kali, form login administrator sekarang menampilkan waktu sebelum bisa login lagi.
 2. #2717: Rapikan pengambilan data desa supaya konsisten di seluruh aplikasi. [teknis]
