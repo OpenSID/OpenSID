@@ -33,27 +33,22 @@
 		}
 	}
 
-	private function filter_nik_sql()
+	private function filter_user_sql()
 	{
-		if (isset($_SESSION['filter_nik']))
+		if (isset($_SESSION['filter_user']))
 		{
-			$kf = $_SESSION['filter_nik'];
-			$filter_sql= " AND k.email = $kf";
+			$kf = $_SESSION['filter_user'];
+			$filter_sql= " AND k.tipe = $kf";
+			if($_SESSION['grup'] != 1){
+				$filter_sql .= " AND (subjek = ".$_SESSION['user']." OR subjek = '')";
+			}
 			return $filter_sql;
 		}
 	}
 
-	private function filter_archived_sql()
+	public function paging($p=1, $o=0)
 	{
-		$kf = $_SESSION['filter_archived'] ?: 0;
-		$filter_sql= " AND k.is_archived = $kf";
-
-		return $filter_sql;
-	}
-
-	public function paging($p=1, $o=0, $kat=0)
-	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql($kat);
+		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['jml'];
@@ -67,24 +62,20 @@
 		return $this->paging;
 	}
 
-	private function list_data_sql($kat=0)
+	private function list_data_sql()
 	{
 		$sql = "FROM komentar k
 			LEFT JOIN artikel a ON k.id_artikel = a.id
 			WHERE 1";
-		if ($kat != 0) {
-			$sql .= " AND id_artikel = 775 AND tipe = $kat";
-			$sql .= $this->filter_nik_sql();
-			$sql .= $this->filter_archived_sql();
-		}
-		else
-			$sql .= " AND id_artikel <> 775";
+		
+		$sql .= " AND id_artikel <> 775";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_status_sql();
+		$sql .= $this->filter_user_sql();
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500, $kat=0)
+	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		switch ($o)
 		{
@@ -103,7 +94,7 @@
 		}
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT k.*, a.judul as artikel " . $this->list_data_sql($kat);
+		$sql = "SELECT k.*, a.judul as artikel, YEAR(a.tgl_upload) AS thn, MONTH(a.tgl_upload) AS bln, DAY(a.tgl_upload) AS hri, a.slug AS slug " . $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -131,6 +122,7 @@
 		$data 				= $_POST;
 		$data['id_artikel'] = $komentar['id_artikel']; //Id_artikel user yg login
 		$data['owner'] 		= $admin['nama']; //Nama user yg login
+		$data['subjek'] 	= $admin['user']; //Id user yg login
 		$data['email'] 		= $admin['email']; //Email user yg login
 		$data['no_hp'] 		= $admin['phone']; //No HP user yg login
 		$data['tipe'] 		= 9; //Tipe 9 adalah balasan komentar untuk website

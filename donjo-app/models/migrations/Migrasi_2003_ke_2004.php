@@ -8,6 +8,7 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		$this->surat_mandiri_tersedia();
 		$this->mailbox();
 		$this->ubah_surat_mandiri();
+		$this->komentar();
 		// ======================
 
 		// Ubah panjang jalan dari KM menjadi M.
@@ -372,5 +373,15 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			$this->db->where('id', $permohonan['id'])
 				->update('permohonan_surat', array('syarat' => json_encode($syarat_baru)));
 		}
+	}
+
+	// Migrasi perubahan modul komentar
+	private function komentar()
+	{
+		// Ubah tipe nilai NULL jadi 0
+		$this->db->where('tipe', NULL)
+			->set('tipe', '0')
+			->update('komentar');
+
 	}
 }

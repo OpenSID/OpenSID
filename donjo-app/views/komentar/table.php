@@ -37,6 +37,10 @@
 														<option value="1" <?php if ($filter_status==1): ?>selected<?php endif ?>>Aktif</option>
 														<option value="2" <?php if ($filter_status==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
+													<select class="form-control input-sm " name="filter_user" onchange="formAction('mainform', '<?=site_url('komentar/filter_user')?>')">
+														<option value="0" <?php if ($filter_user==0): ?>selected<?php endif ?>>Komentar User</option>
+														<option value="9" <?php if ($filter_user==9): ?>selected<?php endif ?>>Komentar Admin</option>
+													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
@@ -108,7 +112,7 @@
 																		<td><?= $data['no_hp']?></td>
 																		<td><?= $data['email']?></td>
 																		<td>
-																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>
+																			<a href="<?= site_url('first/artikel/'),buat_slug($data)?>" target="_blank"><?= $data['artikel']?></a>
 																		</td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>

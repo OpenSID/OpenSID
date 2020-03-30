@@ -60,23 +60,32 @@
 		</div>
 
 		<div class="form-group" id="kolom-komentar">
-			<?php if(is_array($komentar)): ?>
-				<div class="box box-default box-solid">
+			<?php if($komentar):?>
+			<div class="box box-default box-solid">
 					<div class="box-header">
 						<h3 class="box-title">Komentar atas <?= $single_artikel["judul"]?></h3>
 					</div>
 					<div class="box-body">
 						<?php foreach($komentar AS $data): ?>
-							<?php if($data['enabled']==1): ?>
-								<div class="kom-box">
-									<div style="font-size:.8em;font-color:#aaa;">
-										<i class="fa fa-user"></i><?= $data['owner']?> <i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload'])?>
-									</div>
-									<div>
-										<blockquote><?= $data['komentar']?></blockquote>
-									</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div style="font-size:.8em;font-color:#aaa;">
+									<i class="fa fa-user"></i> <?= $data['owner']?> <i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload'])?>
+									<blockquote><?= $data['komentar']?></blockquote>
+									<?php foreach($komentar_admin AS $data_admin): ?>
+										<?php if($data_admin['id_balas'] == $data['id']) : ?>
+										<div class="col-md-12"> 
+											<div style="font-size:.8em;font-color:#aaa;">
+												<i class="fa fa-user"></i> <?= $data_admin['owner']?> <i class="fa fa-clock-o"></i> <?= tgl_indo2($data_admin['tgl_upload'])?>
+												<blockquote><?= $data_admin['komentar']?></blockquote>
+											</div>
+										</div>
+										<?php endif; ?>
+									<?php endforeach; ?>
 								</div>
-							<?php endif; ?>
+							</div>
+						</div>
+						<hr>
 						<?php endforeach; ?>
 					</div>
 				</div>
@@ -90,7 +99,6 @@
 					<div class="box-header">
 						<h3 class="box-title">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3>
 					</div>
-
 					<!-- Tampilkan hanya jika 'flash_message' ada -->
 					<?php $label = !empty($_SESSION['validation_error']) ? 'label-danger' : 'label-info'; ?>
 					<?php if ($flash_message): ?>

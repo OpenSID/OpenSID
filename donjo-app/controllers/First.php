@@ -86,13 +86,12 @@ class First extends Web_Controller {
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
-
 		$data['headline'] = $this->first_artikel_m->get_headline();
-		$data['feed'] = array(
-			'items' => $this->first_artikel_m->get_feed(),
-			'title' => 'BERITA COVID19.GO.ID',
-			'url' => 'https://www.covid19.go.id'
-		);
+		//$data['feed'] = array(
+		//	'items' => $this->first_artikel_m->get_feed(),
+		//	'title' => 'BERITA COVID19.GO.ID',
+		//	'url' => 'https://www.covid19.go.id'
+		//);
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
 		$cari = trim($this->input->get('cari'));
@@ -289,7 +288,10 @@ class First extends Web_Controller {
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
+		$data['komentar_admin'] = $this->first_artikel_m->list_komentar($id, 9);
 		$this->_get_common_data($data);
+
+		var_dump($data['komentar']);
 
 		// Validasi pengisian komentar di add_comment()
 		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
