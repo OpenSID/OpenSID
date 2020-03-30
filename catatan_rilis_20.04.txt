@@ -1,6 +1,6 @@
 Di rilis versi 20.04 ini,  tersedia menu informasi Covid-19 di menu artikel Website serta  fitur Permohonan Surat Melalui layanan mandiri yang sebelumnya fitur premium.  Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Bung Eddie Ridwan, afa28, iankids, balongbesuk, dan Nur Hidayat, Rudi Purwanto,   yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
+Terima kasih pada afa28, Iankids, balongbesuk  Nur Hidayat dan Rudi Purwanto, yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.04 adalah sebagai berikut:
 
@@ -33,4 +33,4 @@ Lengkapnya, isi rilis versi 20.04 adalah sebagai berikut:
 26. #2832: Sekarang tambah KK memasukkan penduduk baru tidak error. [bug-fix]
 
 
-Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
