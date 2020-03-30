@@ -23,7 +23,7 @@
 					</div>
 				</div>
 			</div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
 				<div class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh</h4></div>
 					<div style="height: 40px;padding:1px" class="panel-body text-center">
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 			</div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
 				<div class="panel panel-success">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal</h4></div>
 					<div style="height: 40px;padding:1px" class="panel-body text-center">
