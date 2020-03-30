@@ -1,6 +1,10 @@
 <?php
 
 define("VERSION", '20.03-pasca');
+/* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
+   Versi database = [ddmmyyy][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
+*/
+define('VERSI_DATABASE', '202040101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -414,6 +418,21 @@ function httpPost($url, $params)
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
 	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+}
+
+function cek_bisa_akses_site($url)
+{
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  $content = curl_exec($ch);
+  $error = curl_error($ch);
+  
+  curl_close($ch);
+  return empty($error);
 }
 
 /**
