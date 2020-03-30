@@ -48,6 +48,7 @@ class Setting_model extends CI_Model {
 	// Cek apakah migrasi perlu dijalankan
 	private function cek_migrasi()
 	{
+		$this->cek_belum_migrasi();
 		// Paksa menjalankan migrasi kalau versi di setting sebelum versi rilis atau ada perubahan data yang harus dilakukan sebelum aplikasi bisa dibuka
 		$versi_harus_migrasi_dulu = array('20.02', '20.03');
 		$versi_rilis = preg_replace('/[^\d\.]/', '', AmbilVersi());
@@ -57,6 +58,16 @@ class Setting_model extends CI_Model {
 			$this->database_model->migrasi_db_cri();
 		}
 		$this->session->set_userdata('sudah_migrasi', true);
+	}
+
+	// File belum_migrasi digunakan sebagai tanda harus migrasi. File itu dihapus seteleh migrasi
+	private function cek_belum_migrasi()
+	{
+		if (file_exists('belum_migrasi'))
+		{
+			$this->session->unset_userdata('sudah_migrasi');
+			unlink('belum_migrasi');
+		}
 	}
 
 	// Setting untuk PHP
