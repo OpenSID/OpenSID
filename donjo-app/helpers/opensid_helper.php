@@ -420,6 +420,21 @@ function cek_koneksi_internet($sCheckHost = 'www.google.com')
 	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
 }
 
+function cek_bisa_akses_site($url)
+{
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  $content = curl_exec($ch);
+  $error = curl_error($ch);
+  
+  curl_close($ch);
+  return empty($error);
+}
+
 /**
  * Laporkan error PHP.
  * Script ini digunakan untuk mengatasi masalah di mana ada hosting (seperti indoreg.co.id)
