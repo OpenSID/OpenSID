@@ -123,17 +123,19 @@
 		return $data;
 	}
 
-	public function list_kategori($tipe=1)
+	public function insert($id)
 	{
-		$sql = "SELECT * FROM kategori WHERE tipe = ?";
-		$query = $this->db->query($sql, $tipe);
-		return  $query->result_array();
-	}
+		$admin 				= $this->db->where('id', $_SESSION['user'])->get('user')->row_array();
+		$komentar			= $this->get_komentar($id);
 
-	public function insert()
-	{
-		$data = $_POST;
-		$data['id_user'] = $_SESSION['user'];
+		$data 				= $_POST;
+		$data['id_artikel'] = $komentar['id_artikel']; //Id_artikel user yg login
+		$data['owner'] 		= $admin['nama']; //Nama user yg login
+		$data['email'] 		= $admin['email']; //Email user yg login
+		$data['no_hp'] 		= $admin['phone']; //No HP user yg login
+		$data['tipe'] 		= 9; //Tipe 9 adalah balasan komentar untuk website
+		$data['status']		= 1;
+		$data['id_balas'] 	= $id;
 		$outp = $this->db->insert('komentar', $data);
 		
 		status_sukses($outp); //Tampilkan Pesan
@@ -147,40 +149,6 @@
 		$outp = $this->db->update('komentar', $data);
 		
 		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function archive($id)
-	{
-		$archive = array(
-			'is_archived' => 1,
-			'updated_at' => date('Y-m-d H:i:s')
-		);
-		$outp = $this->db->where('id', $id)->update('komentar', $archive);
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-	public function archive_all()
-	{
-		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb)) 
-		{
-			foreach ($id_cb as $id) 
-			{
-				$archive = array(
-					'is_archived' => 1,
-					'updated_at' => date('Y-m-d H:i:s')
-				);
-				$outp = $this->db->where('id', $id)->update('komentar', $archive);
-			}
-		}
-		else
-			$outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function delete($id='', $semua=false)
@@ -215,9 +183,8 @@
 
 	public function get_komentar($id=0)
 	{
-		$sql = "SELECT a.* FROM komentar a WHERE a.id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
+		$data	= $this->db->where('id', $id)->get('komentar')->row_array();
+
 		return $data;
 	}
 

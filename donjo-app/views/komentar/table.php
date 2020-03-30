@@ -91,14 +91,18 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("komentar/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php if($data['id_balas'] == '0'): ?>	
+																			<a href="<?= site_url("komentar/balas/$data[id]")?>" class="btn bg-green btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Balas Komentar" title="Balas Komentar"><i class="fa fa-reply"></i></a>
+																			<?php else : ?>
+																			<a href="<?= site_url("komentar/ubah/$data[id]")?>" class="btn bg-yellow btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Komentar" title="Ubah Komentar"><i class="fa fa-edit"></i></a>
+																			<?php endif ?>
 																			<?php if ($data['status'] == '2'): ?>
 																			 <a href="<?= site_url('komentar/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Komentar"><i class="fa fa-lock">&nbsp;</i></a>
 																		 	<?php elseif ($data['status'] == '1'): ?>
 																			 <a href="<?= site_url('komentar/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Komentar"><i class="fa fa-unlock"></i></a>
 																		 	<?php endif ?>
 																			<a href="#" data-href="<?= site_url("komentar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                    </td>
+									</td>
                                     <td nowrap><?= $data['owner']?></td>
 																		<td><?= $data['komentar']?></td>
 																		<td><?= $data['no_hp']?></td>
@@ -167,12 +171,12 @@
 											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 										</div>
 										<div class='modal-body btn-info'>
-											Apakah Anda yakin ingin mengarsipkan data ini?
+											Apakah Anda yakin ingin menghapus data ini?
 										</div>
 										<div class='modal-footer'>
 											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 											<a class='btn-ok'>
-												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-file-archive-o'></i> Arsipkan</button>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
 											</a>
 										</div>
 									</div>

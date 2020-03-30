@@ -50,34 +50,33 @@ class Komentar extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function balas($id='')
 	{
-		$data['p'] = $p;
-		$data['o'] = $o;
+		$data['form_action'] 	= site_url("komentar/insert/".$id);
 
-		if ($id)
-		{
-			$data['komentar'] = $this->web_komentar_model->get_komentar($id);
-			$data['form_action'] = site_url("komentar/update/$id/$p/$o");
-		}
-		else
-		{
-			$data['komentar'] = null;
-			$data['form_action'] = site_url("komentar/insert");
-		}
-
-		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
-
-		$header = $this->header_model->get_data();
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('komentar/form', $data);
-		$this->load->view('footer');
+		$this->load->view('komentar/balas_komentar', $data);
 	}
 
+	public function ubah($id='')
+	{
+		$data['komentar'] 		= $this->web_komentar_model->get_komentar($id);
+		$data['form_action'] 	= site_url("komentar/balas_update/".$id);
+
+		$this->load->view('komentar/balas_komentar', $data);
+	}
+
+	public function insert($id='')
+	{
+		$this->web_komentar_model->insert($id);
+		redirect('komentar');
+	}
+
+	public function update($id='')
+	{
+		$this->web_komentar_model->update($id);
+		redirect('komentar');
+	}
+	
 	public function search()
 	{
 		$cari = $this->input->post('cari');
@@ -94,18 +93,6 @@ class Komentar extends Admin_Controller {
 			$_SESSION['filter_status'] = $filter;
 		else unset($_SESSION['filter_status']);
 		redirect('komentar');
-	}
-
-	public function insert()
-	{
-		$this->web_komentar_model->insert();
-		redirect('komentar');
-	}
-
-	public function update($id='', $p=1, $o=0)
-	{
-		$this->web_komentar_model->update($id);
-		redirect("komentar/index/$p/$o");
 	}
 
 	public function delete($p=1, $o=0, $id='')
