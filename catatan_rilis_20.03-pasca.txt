@@ -1,4 +1,4 @@
-Di rilis versi 20.04 ini,  tersedia Tampilkan artikel dari https://www.covid19.go.id/feed sebagai bentuk kepedulian OpenSID dalam memberikan informasi yang benar dan akurat tentang perkembangan covid-19 di Indonesia.  Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.04-pasca, tersedia Tampilkan artikel dari https://www.covid19.go.id/feed.. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Bung Eddie Ridwan, afa28, iankids, balongbesuk, dan Nur Hidayat, Rudi Purwanto,   yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
 
