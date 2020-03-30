@@ -30,6 +30,7 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 24. #2792: Sembunyikan tombol paginasi apabila jumlah artikel yg ditampilkan tidak melebihi setting jumlah artikel per halaman.
 25. #2235: Gabung fitur premium Permohonan Surat Melalui Layanan Mandiri.
 26. #2843: Tampilkan artikel dari https://www.covid19.go.id/feed.
+26. #2832: Sekarang tambah KK memasukkan penduduk baru tidak error. [bug-fix]
 
 
 Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
