@@ -1,4 +1,4 @@
-Di rilis versi 20.04 ini,  tersedia menu informasi Covid-19 di menu artikel Website serta  fitur Permohonan Surat Melalui layanan mandiri yang sebelumnya fitur premium.  Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis versi 20.04 ini,  tersedia informasi Covid-19 di menu artikel Website sebagai bentuk kepedulian OpenSID terhadap bencana kemanusiaan serta fitur Permohonan Surat Melalui layanan mandiri yang sebelumnya fitur premium.  Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Iankids, balongbesuk  Nur Hidayat dan Rudi Purwanto, yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
 
