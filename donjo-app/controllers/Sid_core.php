@@ -175,6 +175,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function form_rw($id_dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
@@ -214,12 +216,15 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_rw($dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$this->wilayah_model->update_rw($dusun, $rw);
 		redirect("sid_core/sub_rw/$dusun");
 	}
 
 	public function sub_rt($id_dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
 
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
@@ -242,6 +247,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function cetak_rt($id_dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
@@ -256,6 +263,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function excel_rt($id_dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
@@ -270,6 +279,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function list_dusun_rt($dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$data['dusun'] = $dusun;
 		$data['rw'] = $rw;
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
@@ -285,6 +296,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function form_rt($id_dusun = '', $rw = '', $rt = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 
 		$data['dusun'] = $temp['dusun'];
@@ -319,12 +332,16 @@ class Sid_Core extends Admin_Controller {
 
 	public function insert_rt($dusun = '', $rw = '')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$this->wilayah_model->insert_rt($dusun, $rw);
 		redirect("sid_core/sub_rt/$dusun/$rw");
 	}
 
 	public function update_rt($dusun = '', $rw = '', $id_cluster = 0)
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$this->wilayah_model->update_rt($id_cluster);
 		redirect("sid_core/sub_rt/$dusun/$rw");
 	}
@@ -479,6 +496,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function ajax_kantor_rw_maps($id_dusun = '',$rw='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
@@ -515,6 +534,8 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_rw_maps($id_dusun = '',$rw='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
@@ -551,6 +572,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_rw_map($id_dusun = '',$rw='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
     $update_kantor = $this->wilayah_model->update_kantor_rw_map($id);
 
     if ($update_kantor)
@@ -566,6 +589,8 @@ class Sid_Core extends Admin_Controller {
 
   public function update_wilayah_rw_map($id_dusun = '',$rw='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$update_wilayah = $this->wilayah_model->update_wilayah_rw_map($id);
 
 	  if ($update_wilayah)
@@ -581,6 +606,8 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_kantor_rt_maps($id_dusun = '',$rw='',$id='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
@@ -620,6 +647,8 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_rt_maps($id_dusun = '',$rw='',$id='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
 		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
@@ -659,6 +688,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_rt_map($id_dusun = '',$rw='',$id='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+
     $update_kantor = $this->wilayah_model->update_kantor_rt_map($id);
 
     if ($update_kantor)
@@ -674,6 +705,8 @@ class Sid_Core extends Admin_Controller {
 
   public function update_wilayah_rt_map($id_dusun = '',$rw='',$id='')
 	{
+		$rw = str_replace("%20"," ", $rw);
+		
     $update_kantor = $this->wilayah_model->update_wilayah_rt_map($id);
 
     if ($update_kantor)
