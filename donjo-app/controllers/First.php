@@ -291,15 +291,12 @@ class First extends Web_Controller {
 		$data['komentar_admin'] = $this->first_artikel_m->list_komentar($id, 9);
 		$this->_get_common_data($data);
 
-		var_dump($data['komentar']);
-
 		// Validasi pengisian komentar di add_comment()
 		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
 		if (empty($_SESSION['validation_error']))
 		{
 			$_SESSION['post']['owner'] = '';
 			$_SESSION['post']['email'] = '';
-			$_SESSION['post']['no_hp'] = '';
 			$_SESSION['post']['komentar'] = '';
 			$_SESSION['post']['captcha_code'] = '';
 		}

@@ -438,13 +438,13 @@ class First_artikel_m extends CI_Model {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
 		$this->form_validation->set_rules('owner', 'Nama', 'required');
-		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'valid_email');
 
 		if ($this->form_validation->run() == TRUE)
 		{
-			$data['status'] = 2;
+			$data['status'] 	= 2;
 			$data['id_artikel'] = $id;
+			$data['tipe'] 		= 0;
 			$outp = $this->db->insert('komentar',$data);
 		}
 		else

@@ -115,12 +115,6 @@
 									</td>
 								</tr>
 								<tr class="komentar alamat">
-									<td>No. HP</td>
-									<td>
-										<input type="text" name="no_hp" maxlength="30" value="<?= $_SESSION['post']['no_hp'] ?>">
-									</td>
-								</tr>
-								<tr class="komentar alamat">
 									<td>Alamat e-mail</td>
 									<td>
 										<input type="text" name="email" maxlength="30" value="<?= $_SESSION['post']['email'] ?>">

@@ -8,6 +8,7 @@ class Komentar extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
+		$this->modul = 'komentar';
 		$this->modul_ini = 13;
 	}
 
@@ -16,7 +17,7 @@ class Komentar extends Admin_Controller {
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter_status']);
 		$_SESSION['filter_user'] = 0;
-		redirect('komentar');
+		redirect($this->modul);
 	}
 
 	public function index($p=1, $o=0)
@@ -50,35 +51,35 @@ class Komentar extends Admin_Controller {
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('komentar/table', $data);
+		$this->load->view($this->modul.'/table', $data);
 		$this->load->view('footer');
 	}
 
 	public function balas($id='')
 	{
-		$data['form_action'] 	= site_url("komentar/insert/".$id);
+		$data['form_action'] 	= site_url($this->modul."/insert/".$id);
 
-		$this->load->view('komentar/balas_komentar', $data);
+		$this->load->view($this->modul.'/modal_balas', $data);
 	}
 
 	public function ubah($id='')
 	{
 		$data['komentar'] 		= $this->web_komentar_model->get_komentar($id);
-		$data['form_action'] 	= site_url("komentar/balas_update/".$id);
+		$data['form_action'] 	= site_url($this->modul."/update/".$id);
 
-		$this->load->view('komentar/balas_komentar', $data);
+		$this->load->view($this->modul.'/modal_balas', $data);
 	}
 
 	public function insert($id='')
 	{
 		$this->web_komentar_model->insert($id);
-		redirect('komentar');
+		redirect($this->modul);
 	}
 
 	public function update($id='')
 	{
 		$this->web_komentar_model->update($id);
-		redirect('komentar');
+		redirect($this->modul);
 	}
 	
 	public function search()
@@ -87,7 +88,7 @@ class Komentar extends Admin_Controller {
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect('komentar');
+		redirect($this->modul);
 	}
 
 	public function filter()
@@ -96,21 +97,21 @@ class Komentar extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['filter_status'] = $filter;
 		else unset($_SESSION['filter_status']);
-		redirect('komentar');
+		redirect($this->modul);
 	}
 
 	public function filter_user()
 	{
 		$filter_user = $this->input->post('filter_user');
 		$_SESSION['filter_user'] = $filter_user;
-		redirect('komentar');
+		redirect($this->modul);
 	}
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->web_komentar_model->delete($id);
-		redirect("komentar/index/$p/$o");
+		redirect($this->modul.'/index/$p/$o');
 	}
 
 	public function delete_all($p=1, $o=0)
@@ -120,15 +121,9 @@ class Komentar extends Admin_Controller {
 		redirect("komentar/index/$p/$o");
 	}
 
-	public function komentar_lock($id='')
+	public function status($id='', $status)
 	{
-		$this->web_komentar_model->komentar_lock($id, 1);
-		redirect("komentar/index/$p/$o");
-	}
-
-	public function komentar_unlock($id='')
-	{
-		$this->web_komentar_model->komentar_lock($id, 2);
-		redirect("komentar/index/$p/$o");
+		$this->web_komentar_model->komentar_lock($id, $status);
+		kembali();
 	}
 }
