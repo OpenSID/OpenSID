@@ -51,6 +51,12 @@ class Migrasi_2003_ke_2004 extends CI_model {
 			$this->db->where('id', $kategori['id'])->update('kategori', array('slug' => $slug));
 		}
 		$this->tambah_tabel_migrasi();
+		//Perbaikan data rw jd slug
+		$list_rw = $this->db->get('tweb_wil_clusterdesa')->result_array();
+		foreach ($list_rw as $rw) {
+			$slug_rw = url_title($rw['rw'], 'dash', TRUE);
+			$this->db->where('id', $rw['id'])->update('tweb_wil_clusterdesa', array('rw' => $slug_rw));
+		}
 	}
 	
 	private function tambah_tabel_migrasi()
