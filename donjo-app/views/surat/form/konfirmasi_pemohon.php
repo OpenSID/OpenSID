@@ -28,7 +28,7 @@
 		<input class="form-control input-sm" type="text" value=" <?= strtoupper($individu['agama']);?>" disabled="">
 	</div>
 </div>
-<div class="form-group konfirmasi">
+<div class="form-group konfirmasi tdk-permohonan tdk-periksa">
 	<label for="persyaratan"  class="col-sm-3 control-label">Dokumen Kelengkapan / Syarat</label>
 	<div class="col-sm-8">
 		<a href="<?= site_url("penduduk/dokumen_list/$individu[id]")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Daftar Dokumen">

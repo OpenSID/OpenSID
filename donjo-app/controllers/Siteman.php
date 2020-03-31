@@ -37,7 +37,6 @@ class Siteman extends CI_Controller
 	public function auth()
 	{
 		$this->user_model->siteman();
-
 		if ($_SESSION['siteman'] == 1)
 		{
 			$this->user_model->validate_admin_has_changed_password();

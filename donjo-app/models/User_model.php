@@ -756,8 +756,9 @@ class User_model extends CI_Model {
 				'surat' => array('b','u'),
 				'surat_master' => array('b','u'),
 				// layanan mandiri
-				'lapor' => array('b','u'),
+				'mailbox' => array('b','u'),
 				'mandiri' => array('b','u'),
+				'permohonan_surat_admin' => array('b', 'u'),
 				// notifikasi
 				'notif' => array('b','u'),
 				// wilayah

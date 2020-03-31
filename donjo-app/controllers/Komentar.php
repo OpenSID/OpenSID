@@ -14,7 +14,8 @@ class Komentar extends Admin_Controller {
 	public function clear()
 	{
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		unset($_SESSION['filter_status']);
+		unset($_SESSION['filter_nik']);
 		redirect('komentar');
 	}
 
@@ -27,9 +28,9 @@ class Komentar extends Admin_Controller {
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		if (isset($_SESSION['filter_status']))
+			$data['filter_status'] = $_SESSION['filter_status'];
+		else $data['filter_status'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -90,8 +91,8 @@ class Komentar extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+			$_SESSION['filter_status'] = $filter;
+		else unset($_SESSION['filter_status']);
 		redirect('komentar');
 	}
 

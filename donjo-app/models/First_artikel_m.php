@@ -31,6 +31,17 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	public function get_feed()
+	{
+		$sumber_feed = 'https://www.covid19.go.id/feed/';
+		if (!cek_bisa_akses_site($sumber_feed)) return NULL;
+
+	  $this->load->library('Feed_Reader');
+		$feed = new Feed_Reader($sumber_feed);
+		$items = array_slice($feed->items, 0, 2);
+		return $items;
+	}
+
 	public function get_teks_berjalan()
 	{
 		$this->load->model('teks_berjalan_model');
@@ -297,7 +308,7 @@ class First_artikel_m extends CI_Model {
 		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
 			FROM komentar a
 			INNER JOIN artikel b ON  a.id_artikel = b.id
-			WHERE a.enabled = ? AND a.id_artikel <> 775
+			WHERE a.status = ? AND a.id_artikel <> 775
 			ORDER BY a.tgl_upload DESC LIMIT 10 ";
 		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
@@ -437,7 +448,7 @@ class First_artikel_m extends CI_Model {
 
 		if ($this->form_validation->run() == TRUE)
 		{
-			$data['enabled'] = 2;
+			$data['status'] = 2;
 			$data['id_artikel'] = $id;
 			$outp = $this->db->insert('komentar',$data);
 		}
