@@ -52,7 +52,7 @@ class Migrasi_2003_ke_2004 extends CI_model {
 		}
 		$this->tambah_tabel_migrasi();
 		//Perbaikan data rw jd slug
-		$list_rw = $this->db->get('tweb_wil_clusterdesa')->result_array();
+		$list_rw = $this->db->where('rw !=', '-')->where('rw !=', '0')->get('tweb_wil_clusterdesa')->result_array();
 		foreach ($list_rw as $rw) {
 			$slug_rw = url_title($rw['rw'], 'dash', TRUE);
 			$this->db->where('id', $rw['id'])->update('tweb_wil_clusterdesa', array('rw' => $slug_rw));
