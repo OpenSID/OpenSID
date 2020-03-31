@@ -198,11 +198,12 @@
 
 	public function insert_rw($dusun='')
 	{
-
+		
     if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
 		  UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
+		$data['rw'] = url_title($this->input->post('rw'), 'dash', TRUE);
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
@@ -227,7 +228,7 @@
 		  UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
-
+		$data['rw'] = url_title($this->input->post('rw'), 'dash', TRUE);
 		$temp = $this->wilayah_model->cluster_by_id($dusun);
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $data['id_rw']);
 		unset($data['id_rw']);

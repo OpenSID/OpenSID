@@ -48,9 +48,15 @@
 							<?php foreach ($main as $data): ?>
 								<tr>
 									<td align="center"><?= $data['no']?></td>
-									<td align="center" class="textx"><?= $data['rw']?></td>
-									<td class="textx"><?= $data['nik_ketua']?></td>
-									<td><?= $data['nama_ketua']?></td>
+									<?php if ($data['rw']!="-"): ?>
+										<td align="center" class="textx"><?= strtoupper(spaceunpenetration($data['rw']))?></td>
+										<td class="textx"><?= $data['nik_ketua']?></td>
+										<td><?= $data['nama_ketua']?></td>
+									<?php else: ?>
+										<td align="center" class="textx"> - </td>
+										<td class="textx"> - </td>
+										<td> - </td>
+									<?php endif; ?>									
 									<td align="right"><?= $data['jumlah_rt']?></td>
 									<td align="right"><?= $data['jumlah_kk']?></td>
 									<td align="right"><?= $data['jumlah_warga']?></td>

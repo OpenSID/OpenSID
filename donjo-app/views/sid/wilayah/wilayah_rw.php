@@ -72,7 +72,7 @@
 																			</div>
 																		<?php endif; ?>
 																	</td>
-																	<td><?= $data['rw']?></td>
+																	<td><?= strtoupper(spaceunpenetration($data['rw']))?></td>
 																	<?php if ($data['rw']=="-"): ?>
 																		<td colspan="2">
 																			Pergunakan RW ini apabila RT berada langsung di bawah <?= ucwords($this->setting->sebutan_dusun)?>, yaitu tidak ada RW
