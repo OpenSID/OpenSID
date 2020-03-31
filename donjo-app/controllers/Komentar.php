@@ -109,16 +109,16 @@ class Komentar extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
+		$this->redirect_hak_akses('h', $this->modul."/index/$p/$o");
 		$this->web_komentar_model->delete($id);
 		redirect($this->modul.'/index/$p/$o');
 	}
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
+		$this->redirect_hak_akses('h', $this->modul."/index/$p/$o");
 		$this->web_komentar_model->delete_all();
-		redirect("komentar/index/$p/$o");
+		redirect($this->modul."/index/$p/$o");
 	}
 
 	public function status($id='', $status)
