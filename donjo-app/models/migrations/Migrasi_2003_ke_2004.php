@@ -401,6 +401,12 @@ class Migrasi_2003_ke_2004 extends CI_model {
 	// Migrasi perubahan modul komentar
 	private function komentar()
 	{
+		// Tambal field id_balas
+		if (!$this->db->field_exists('id_balas','komentar'))
+		{
+			$this->db->query("ALTER TABLE komentar ADD id_balas int(5) default 0");
+		}
+		
 		// Ubah tipe nilai NULL jadi 0
 		$this->db->where('tipe', NULL)
 			->set('tipe', '0')

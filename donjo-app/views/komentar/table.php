@@ -11,10 +11,10 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Komentar</h1>
+		<h1>Komentar</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Pengaturan Komentar</li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i>Home</a></li>
+			<li class="active">Komentar</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -95,7 +95,7 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<?php if($data['id_balas'] == '0'): ?>	
+																			<?php if($data['tipe'] == '0'): ?>	
 																			<a href="<?= site_url("komentar/balas/$data[id]")?>" class="btn bg-green btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Balas Komentar" title="Balas Komentar"><i class="fa fa-reply"></i></a>
 																			<?php else : ?>
 																			<a href="<?= site_url("komentar/ubah/$data[id]")?>" class="btn bg-yellow btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Komentar" title="Ubah Komentar"><i class="fa fa-edit"></i></a>
