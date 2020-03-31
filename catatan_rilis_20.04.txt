@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.03-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.04, tersedia fitur Permohonan Surat Melalui Layanan  Mandiri. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Zeppy Shiddiq, Il Ham dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada Mohamad Abdul Haris yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.04 adalah sebagai berikut:
 
 1. Setelah gagal tiga kali, form login administrator sekarang menampilkan waktu sebelum bisa login lagi.
 2. #2717: Rapikan pengambilan data desa supaya konsisten di seluruh aplikasi. [teknis]
@@ -33,4 +33,4 @@ Lengkapnya, isi rilis versi 20.03-pasca adalah sebagai berikut:
 26. #2832: Sekarang tambah KK memasukkan penduduk baru tidak error. [bug-fix]
 
 
-Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.03-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
