@@ -20,3 +20,8 @@
 // dapat membuat artikel berisi video yang aktif ditampilkan di Web.
 // Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
 	$config['user_admin'] = 0;
+	
+/*
+	Setting untuk tampilkan data Covid-19. Untuk menyembunyikan ganti menjadi nilai 0;
+*/
+	$config['covid_data'] = 1;
