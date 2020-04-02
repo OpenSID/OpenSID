@@ -60,22 +60,16 @@ $route ['ppid'] = "Api_informasi_publik/ppid";
 
 //Halaman Depan
 // - Artikel
-$route['artikel/([0-9-]+)/([0-9-]+)/([0-9-]+)/([a-z0-9-]+)'] = 'first/artikel/$4'; //first/artikel/thn/bln/hr/slug
-$route['artikel/([0-9-]+)/([0-9-]+)/([a-z0-9-]+)'] = 'first/artikel/$3'; //first/artikel/thn/bln/slug
-$route['artikel/([0-9-]+)/([a-z0-9-]+)'] = 'first/artikel/$2'; //first/artikel/thn/slug
-$route['artikel/([a-z0-9-]+)'] = 'first/artikel/$1'; //first/artikel/slug
-
-$route['artikel/([0-9-]+)/([0-9-]+)/([0-9-]+)/([0-9-]+)'] = 'first/artikel/$4'; //first/artikel/thn/bln/hr/id
-$route['artikel/([0-9-]+)/([0-9-]+)/([0-9-]+)'] = 'first/artikel/$3'; //first/artikel/thn/bln/id
-$route['index.php/artikel/([0-9-]+)/([0-9-]+)'] = 'first/artikel/$2'; //first/artikel/thn/id
-$route['artikel/([0-9-]+)'] = 'first/artikel/$1'; //first/artikel/id
+$route['artikel/([0-9-]+)/([0-9-]+)/([0-9-]+)/([a-z0-9-]+)'] = 'first/artikel/$4'; //first/artikel/thn/bln/hr/(slug/id)
+$route['artikel/([0-9-]+)/([0-9-]+)/([a-z0-9-]+)'] = 'first/artikel/$3'; //first/artikel/thn/bln/(slug/id)
+$route['artikel/([0-9-]+)/([a-z0-9-]+)'] = 'first/artikel/$2'; //first/artikel/thn/(slug/id)
+$route['artikel/([a-z0-9-]+)'] = 'first/artikel/$1'; //first/artikel/(slug/id)
 
 // - Statistik
-$route['statistik/([0-9-]+)'] = 'first/statistik/$1'; //first/statistik/id
+$route['statistik/([a-z0-9-]+)'] = 'first/statistik/$1'; //first/statistik/(slug/id)
 
 // - Kategori
-$route['kategori/([0-9-]+)'] = 'first/kategori/$1'; //first/statistik/slug
-$route['kategori/([a-z0-9-]+)'] = 'first/kategori/$1'; //first/statistik/id
+$route['kategori/([a-z0-9-]+)'] = 'first/kategori/$1'; //first/statistik/(slug/id)
 
 // - Wilayah
 $route['wilayah'] = 'first/wilayah'; //first/wilayah
