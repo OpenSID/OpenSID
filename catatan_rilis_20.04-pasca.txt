@@ -5,6 +5,7 @@ Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk 
 Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 
 1. #2793: Tombol 'Bersihkan Filter' ditambahkan di halaman kependudukan dan beberapa menu lainnya.
+2. Tampilkan statistik Covid-19 di tema 'klasik' dan 'hadakewa'.
 
 
 
