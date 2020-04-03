@@ -240,7 +240,8 @@
 
 	public function update_position($id=0)
 	{
-		$data = $_POST;
+		$data['lat'] = $this->input->post('lat');
+		$data['lng'] = $this->input->post('lng');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('lokasi', $data);
 
