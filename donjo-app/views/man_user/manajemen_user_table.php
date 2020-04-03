@@ -90,14 +90,14 @@
 															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td>
-																		<?php if ($data['username']!='siteman'): ?>
+																		<?php if ($data['id']!=1): ?>
 																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
 																		<a href="<?=site_url("Man_user/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																		<?php if ($data['username']!='admin'): ?>
+																		<?php if ($data['id']!=1): ?>
 																			<?php if ($data['active'] == '0'): ?>
 																				<a href="<?=site_url('Man_user/user_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['active'] == '1'): ?>
