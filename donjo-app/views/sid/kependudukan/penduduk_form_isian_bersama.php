@@ -87,7 +87,7 @@
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = urlencode(dusun) + '/' + rw;
+		var params = urlencode(dusun) + '/' + urlencode(rw);
 		select_options(rt, params);
 	}
 </script>

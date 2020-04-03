@@ -221,15 +221,15 @@
 		status_sukses($outp1 & $outp2); //Tampilkan Pesan
 	}
 
-	public function update_rw($dusun='', $rw='')
+	public function update_rw($id_rw='')
 	{
 		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
 		  UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
 
-		$temp = $this->wilayah_model->cluster_by_id($dusun);
-		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $data['id_rw']);
+		$temp = $this->wilayah_model->cluster_by_id($id_rw);
+		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
 		unset($data['id_rw']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
 		if ($cek_data)
@@ -237,11 +237,13 @@
 			$_SESSION['success'] = -2;
 			return;
 		}
-		$this->db->where('dusun', $temp['dusun']);
-		$this->db->where('rw', $rw);
-		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
-
-		status_sukses($outp); //Tampilkan Pesan
+		// Update data RW
+		$outp1 = $this->db->where('id', $id_rw)
+			->update('tweb_wil_clusterdesa', $data);
+		// Update nama RW di semua RT untuk RW ini
+		$outp2 = $this->db->where('rw', $temp['rw'])
+			->update('tweb_wil_clusterdesa', array('rw' => $data['rw']));
+		status_sukses($outp1 and $outp2); //Tampilkan Pesan
 	}
 
 	//Bagian RT
@@ -265,15 +267,16 @@
 		return $data;
 	}
 
-	public function insert_rt($dusun='', $rw='')
+	public function insert_rt($id_dusun='', $id_rw='')
 	{
 		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
 			UNSET($_POST['id_kepala']);
 
     $data = $_POST;
-		$temp = $this->cluster_by_id($dusun);
+		$temp = $this->cluster_by_id($id_dusun);
 		$data['dusun']= $temp['dusun'];
-		$data['rw'] = $rw;
+		$data_rw = $this->cluster_by_id($id_rw);
+		$data['rw'] = $data_rw['rw'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
 		if ($cek_data)
@@ -336,12 +339,10 @@
 
 	public function cluster_by_id($id='')
 	{
-		$sql = "SELECT w.*, c.id as id_dusun
-			FROM tweb_wil_clusterdesa w
-			LEFT JOIN tweb_wil_clusterdesa c ON w.dusun = c.dusun AND c.rw = 0 AND c.rt = 0
-			WHERE w.id = ?";
-		$query = $this->db->query($sql, $id);
-		return $query->row_array();
+		$data = $this->db->where('id', $id)
+			->get('tweb_wil_clusterdesa')
+			->row_array();
+		return $data;
 	}
 
 	public function list_dusun()
@@ -366,19 +367,12 @@
 		return $data;
 	}
 
-  public function get_rw($dusun='', $rw='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = '0'";
-		$query = $this->db->query($sql, array($dusun, $rw));
-		return $query->row_array();
-	}
-
 	public function list_rt($dusun='', $rw='')
 	{
 		$data = $this->db->
 			where('rt <>', '0')->
 			where('dusun', urldecode($dusun))->
-			where('rw', $rw)->
+			where('rw', urldecode($rw))->
 			order_by('rt')->
 			get('tweb_wil_clusterdesa')->
 			result_array();
