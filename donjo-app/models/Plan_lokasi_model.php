@@ -232,15 +232,15 @@
 
 	public function get_lokasi($id=0)
 	{
-		$sql = "SELECT * FROM lokasi WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
+		$data = $this->db->where('id', $id)
+			->get('lokasi')->row_array();
 		return $data;
 	}
 
 	public function update_position($id=0)
 	{
-		$data = $_POST;
+		$data['lat'] = $this->input->post('lat');
+		$data['lng'] = $this->input->post('lng');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('lokasi', $data);
 
