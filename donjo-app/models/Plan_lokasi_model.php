@@ -232,9 +232,8 @@
 
 	public function get_lokasi($id=0)
 	{
-		$sql = "SELECT * FROM lokasi WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
+		$data = $this->db->where('id', $id)
+			->get('lokasi')->row_array();
 		return $data;
 	}
 
