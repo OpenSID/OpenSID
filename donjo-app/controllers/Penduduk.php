@@ -51,6 +51,11 @@ class Penduduk extends Admin_Controller {
 		redirect('penduduk');
 	}
 
+	public function clear2()
+	{
+		
+	}
+
 	public function index($p = 1, $o = 0)
 	{
 		$data['p'] = $p;
