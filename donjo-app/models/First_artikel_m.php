@@ -305,23 +305,18 @@ class First_artikel_m extends CI_Model {
 
 	public function komentar_show()
 	{
-		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
-			FROM komentar a
-			INNER JOIN artikel b ON  a.id_artikel = b.id
-			WHERE a.status = ? AND a.id_artikel <> 775
-			ORDER BY a.tgl_upload DESC LIMIT 10 ";
-		$query = $this->db->query($sql, 1);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri')
+			->join('artikel b','a.id_artikel = b.id', 'left')
+			->where('b.enabled', 1)
+			->where('a.status', 1)
+			->where('a.id_artikel !=', 775)
+			->where('a.tipe', 0)
+			->order_by('a.tgl_upload', DESC)
+			->limit(10)
+			->get('komentar a')
+			->result_array();
 
-		for ($i=0; $i<count($data); $i++)
-		{
-			$id = $data[$i]['id_artikel'];
-			$pendek = str_split($data[$i]['komentar'], 25);
-			$pendek2 = str_split($pendek[0], 90);
-			$data[$i]['komentar_short'] = $pendek2[0]."...";
-			$panjang = str_split($data[$i]['komentar'], 50);
-			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
-		}
 		return $data;
 	}
 	
@@ -443,13 +438,13 @@ class First_artikel_m extends CI_Model {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
 		$this->form_validation->set_rules('owner', 'Nama', 'required');
-		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'valid_email');
 
 		if ($this->form_validation->run() == TRUE)
 		{
-			$data['status'] = 2;
+			$data['status'] 	= 2;
 			$data['id_artikel'] = $id;
+			$data['tipe'] 		= 0;
 			$outp = $this->db->insert('komentar',$data);
 		}
 		else
@@ -466,18 +461,15 @@ class First_artikel_m extends CI_Model {
 		return false;
 	}
 
-	public function list_komentar($id=0)
+	public function list_komentar($id=0, $tipe=0)
 	{
-		$sql = "SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC";
-		$query = $this->db->query($sql,$id);
-		if ($query->num_rows()>0)
-		{
-			$data = $query->result_array();
-		}
-		else
-		{
-			$data = false;
-		}
+		$data = $this->db
+			->where('id_artikel', $id)
+			->where('status', 1)
+			->where('tipe', $tipe)
+			->order_by('tgl_upload', DESC)
+			->get('komentar')->result_array();
+
 		return $data;
 	}
 
@@ -512,4 +504,5 @@ class First_artikel_m extends CI_Model {
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
 	}
+	
 }

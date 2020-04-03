@@ -8,9 +8,11 @@
       <ul class="sidebar-latest" id="li-komentar">
         <?php foreach($komen As $data){?>
           <li>
-            <i class="fa fa-comment"></i> <?php echo $data['owner']?> :<?php echo $data['komentar']?><br /><small>ditulis pada <?php echo tgl_indo2($data['tgl_upload'])?></small>
-            <br />
-            <br />
+            <i class="fa fa-comment"></i> <?php echo $data['owner']?> :
+                <?php echo $data['komentar']?>
+                <a href="<?= site_url("first/artikel/".buat_slug($data)) ?>">selengkapnya</a><br/>
+                <small>ditulis pada <?php echo tgl_indo2($data['tgl_upload'])?></small>
+            <br/><br/>
           </li>
         <?php }?>
       </ul>

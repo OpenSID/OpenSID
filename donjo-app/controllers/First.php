@@ -86,7 +86,6 @@ class First extends Web_Controller {
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
-
 		$data['headline'] = $this->first_artikel_m->get_headline();
 		$data['feed'] = array(
 			'items' => $this->first_artikel_m->get_feed(),
@@ -289,6 +288,7 @@ class First extends Web_Controller {
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
+		$data['komentar_admin'] = $this->first_artikel_m->list_komentar($id, 9);
 		$this->_get_common_data($data);
 
 		// Validasi pengisian komentar di add_comment()
@@ -297,7 +297,6 @@ class First extends Web_Controller {
 		{
 			$_SESSION['post']['owner'] = '';
 			$_SESSION['post']['email'] = '';
-			$_SESSION['post']['no_hp'] = '';
 			$_SESSION['post']['komentar'] = '';
 			$_SESSION['post']['captcha_code'] = '';
 		}

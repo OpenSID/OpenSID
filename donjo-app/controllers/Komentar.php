@@ -1,6 +1,8 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Komentar extends Admin_Controller {
+	
+	private $_kembali;
 
 	public function __construct()
 	{
@@ -9,13 +11,14 @@ class Komentar extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
+		$this->_kembali = $_SERVER['HTTP_REFERER'];
 	}
 
 	public function clear()
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter_status']);
-		unset($_SESSION['filter_nik']);
+		$_SESSION['filter_user'] = 0;
 		redirect('komentar');
 	}
 
@@ -31,6 +34,10 @@ class Komentar extends Admin_Controller {
 		if (isset($_SESSION['filter_status']))
 			$data['filter_status'] = $_SESSION['filter_status'];
 		else $data['filter_status'] = '';
+
+		if (isset($_SESSION['filter_user']))
+			$data['filter_user'] = $_SESSION['filter_user'];
+		else $data['filter_user'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -50,34 +57,33 @@ class Komentar extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function balas($id='')
 	{
-		$data['p'] = $p;
-		$data['o'] = $o;
+		$data['form_action'] 	= site_url("komentar/insert/".$id);
 
-		if ($id)
-		{
-			$data['komentar'] = $this->web_komentar_model->get_komentar($id);
-			$data['form_action'] = site_url("komentar/update/$id/$p/$o");
-		}
-		else
-		{
-			$data['komentar'] = null;
-			$data['form_action'] = site_url("komentar/insert");
-		}
-
-		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
-
-		$header = $this->header_model->get_data();
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('komentar/form', $data);
-		$this->load->view('footer');
+		$this->load->view('komentar/modal_balas', $data);
 	}
 
+	public function ubah($id='')
+	{
+		$data['komentar'] 		= $this->web_komentar_model->get_komentar($id);
+		$data['form_action'] 	= site_url("komentar/update/".$id);
+
+		$this->load->view('komentar/modal_balas', $data);
+	}
+
+	public function insert($id='')
+	{
+		$this->web_komentar_model->insert($id);
+		redirect('komentar');
+	}
+
+	public function update($id='')
+	{
+		$this->web_komentar_model->update($id);
+		redirect('komentar');
+	}
+	
 	public function search()
 	{
 		$cari = $this->input->post('cari');
@@ -96,41 +102,30 @@ class Komentar extends Admin_Controller {
 		redirect('komentar');
 	}
 
-	public function insert()
+	public function filter_user()
 	{
-		$this->web_komentar_model->insert();
+		$filter_user = $this->input->post('filter_user');
+		$_SESSION['filter_user'] = $filter_user;
 		redirect('komentar');
 	}
 
-	public function update($id='', $p=1, $o=0)
+	public function delete($id='')
 	{
-		$this->web_komentar_model->update($id);
-		redirect("komentar/index/$p/$o");
-	}
-
-	public function delete($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
+		$this->redirect_hak_akses('h', $this->_kembali);
 		$this->web_komentar_model->delete($id);
-		redirect("komentar/index/$p/$o");
+		redirect($this->_kembali);
 	}
 
-	public function delete_all($p=1, $o=0)
+	public function delete_all()
 	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
+		$this->redirect_hak_akses('h', $this->_kembali);
 		$this->web_komentar_model->delete_all();
-		redirect("komentar/index/$p/$o");
+		redirect($this->_kembali);
 	}
 
-	public function komentar_lock($id='')
+	public function status($id='', $status)
 	{
-		$this->web_komentar_model->komentar_lock($id, 1);
-		redirect("komentar/index/$p/$o");
-	}
-
-	public function komentar_unlock($id='')
-	{
-		$this->web_komentar_model->komentar_lock($id, 2);
-		redirect("komentar/index/$p/$o");
+		$this->web_komentar_model->komentar_lock($id, $status);
+		redirect($this->_kembali);
 	}
 }
