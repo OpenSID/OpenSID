@@ -105,7 +105,8 @@ class Analisis_master extends Admin_Controller {
 		$this->load->view('analisis_master/import', $data);
 	}
 
-	public function menu($id='', $p=0){
+	public function menu($id='')
+	{
 		$_SESSION['analisis_master'] = $id;
 		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($id);
 		$_SESSION['analisis_nama'] = $data['analisis_master']['nama'];
@@ -137,8 +138,9 @@ class Analisis_master extends Admin_Controller {
 		$data['menu_respon'] = "analisis_respon";
 		$data['menu_laporan'] = "analisis_laporan";
 		$header = $this->header_model->get_data();
-		$this->load->model('analisis_respon_model');
-		$this->analisis_respon_model->pre_update();
+		/* TODO: Periksa apakah perlu lakukan pre_update */
+		// $this->load->model('analisis_respon_model');
+		// $this->analisis_respon_model->pre_update();
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
