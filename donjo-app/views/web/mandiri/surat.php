@@ -45,7 +45,7 @@
       <div class="form-group">
         <label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
         <div class="col-sm-6 col-lg-8">
-          <input class="form-control input-sm digits required" type="text" name="no_hp_aktif" placeholder="Ketik No. HP" size="14" min="0" maxlength="12" value="<?= $permohonan['no_hp_aktif']?>"/>
+          <input class="form-control input-sm bilangan_spasi required" type="text" name="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']?>"/>
         </div>
       </div>
     </div>
