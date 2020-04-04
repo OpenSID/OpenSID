@@ -51,9 +51,9 @@
 																	<td><?= $data['no']?></td>
 
 																	<td nowrap>
-																		<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
+																		<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
 																		<?php if ($data['rw']!="-"): ?>
-																			<a href="<?= site_url("sid_core/form_rw/$id_dusun/$data[rw]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("sid_core/form_rw/$id_dusun/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php endif; ?>
 																		<?php if ($data['rw']!="-"): ?>
 																			<a href="#" data-href="<?= site_url("sid_core/delete/rw/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
@@ -63,10 +63,10 @@
 																				<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
 																				<ul class="dropdown-menu" role="menu">
 																					<li>
-																						<a href="<?= site_url("sid_core/ajax_kantor_rw_maps/$id_dusun/$data[rw]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RW</a>
+																						<a href="<?= site_url("sid_core/ajax_kantor_rw_maps/$id_dusun/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RW</a>
 																					</li>
 																					<li>
-																						<a href="<?= site_url("sid_core/ajax_wilayah_rw_maps/$id_dusun/$data[rw]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah RW</a>
+																						<a href="<?= site_url("sid_core/ajax_wilayah_rw_maps/$id_dusun/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah RW</a>
 																					</li>
 																				</ul>
 																			</div>

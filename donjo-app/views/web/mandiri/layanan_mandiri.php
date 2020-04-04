@@ -1,5 +1,13 @@
 <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
+    <td class="text-center">
+      <?php if ($penduduk['foto']): ?>
+       <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+       <?php else: ?>
+        <img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+        <?php endif; ?></td>
+      </tr>
+  <tr>
     <td class="text-center"><p style="font-size: larger; "><?= $_SESSION['nama'];?></p>
       NIK: <?= $_SESSION['nik'];?><br>
       No KK: <?= $_SESSION['no_kk']?></td>
