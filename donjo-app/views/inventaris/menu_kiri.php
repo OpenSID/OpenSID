@@ -15,7 +15,7 @@
 				<?php if($this->tab_ini != 6):?>
 	  			<li class="<?php ($tip==2) and print('active')?>"><a href="<?=site_url($this->tipe.'/mutasi')?>"><i class="fa fa-share"></i> Mutasi Inventaris</a></li>
 				<?php endif ?>
-			<?php endif ?>}
+			<?php endif ?>
 		</ul>
 	</div>
 </div>
