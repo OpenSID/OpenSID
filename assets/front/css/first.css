@@ -1532,7 +1532,11 @@ blockquote p {
 	background-color: #3c8dbc !important;
 	color: black;
 }
-#mandiri button { margin-bottom: 1px; }
+#mandiri button { 
+	margin-bottom: 1px;
+	overflow-wrap: break-word;
+	white-space: pre-line;
+}
 #mandiri td {
 	height: 30px;
 	padding: 0px 5px;

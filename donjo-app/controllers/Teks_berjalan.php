@@ -67,8 +67,6 @@ class Teks_berjalan extends Admin_Controller {
 	public function delete($id = '')
 	{
 		$this->redirect_hak_akses('h', "teks_berjalan");
-		$this->session->success = 1;
-		$this->session->error_msg = '';
 		$this->teks_berjalan_model->delete($id);
 		redirect("teks_berjalan");
 	}
@@ -76,8 +74,6 @@ class Teks_berjalan extends Admin_Controller {
 	public function delete_all()
 	{
 		$this->redirect_hak_akses('h', "teks_berjalan");
-		$this->session->success = 1;
-		$this->session->error_msg = '';
 		$this->teks_berjalan_model->delete_all();
 		redirect("teks_berjalan");
 	}

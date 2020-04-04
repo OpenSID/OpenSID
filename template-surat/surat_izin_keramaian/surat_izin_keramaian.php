@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Surat Pengantar Izin Keramaian</h1>
-		<ol class="breadcrumb">
+		<ol class="breadcrumb tdk-permohonan tdk-periksa">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Pengantar Izin Keramaian</li>
@@ -11,7 +11,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<div class="box-header with-border">
+					<div class="box-header with-border tdk-permohonan tdk-periksa">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
            	</a>
@@ -47,7 +47,7 @@
 							</div>
 							<div class="form-group">
 								<label for="berlaku_dari"  class="col-sm-3 control-label">Berlaku Dari - Sampai</label>
-								<div class="col-sm-3 col-lg-2">
+								<div class="col-sm-3">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
@@ -55,7 +55,7 @@
 										<input title="Pilih Tanggal" id="tgljam_mulai" class="form-control input-sm required" name="berlaku_dari" type="text"/>
 									</div>
 								</div>
-								<div class="col-sm-3 col-lg-2">
+								<div class="col-sm-3">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>

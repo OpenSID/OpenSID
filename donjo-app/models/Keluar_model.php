@@ -171,7 +171,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('log_surat', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function paging_perorangan($nik='', $p=1, $o=0)
@@ -337,7 +337,7 @@
 
 	public function update($id=0)
 	{
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='')

@@ -302,6 +302,9 @@ body{
     box-shadow: 0px 1px 1px #ccc;
     border-radius: 2px;
 }
+.artikel.feed {
+    background-color: gold; 
+}
 .artikel .judul{
 	font-size: 1.1em;
     color: #333;

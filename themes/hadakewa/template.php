@@ -1,6 +1,9 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 			<div id="contentwrapper">
+				<?php if (config_item('covid_data')) $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/covid.php')) ?>
+			</div>
+			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">
 						<?php	$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/content.php'));?>

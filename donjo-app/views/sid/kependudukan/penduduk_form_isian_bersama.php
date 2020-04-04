@@ -87,7 +87,7 @@
 	{
 		$('#isi_rt').show();
 		var rt = $('#id_cluster');
-		var params = urlencode(dusun) + '/' + rw;
+		var params = urlencode(dusun) + '/' + urlencode(rw);
 		select_options(rt, params);
 	}
 </script>
@@ -415,7 +415,7 @@
 					<div class='col-sm-12'>
 						<div class='form-group'>
 							<label for="telepon">Alamat KK </label>
-							<input id="alamat"  name="alamat"  class="form-control input-sm" maxlength="20" ype="text" placeholder="Alamat di Kartu Keluarga" size="20" value="<?= $penduduk['alamat']?>"></input>
+							<input id="alamat"  name="alamat"  class="form-control input-sm" maxlength="200" ype="text" placeholder="Alamat di Kartu Keluarga" size="20" value="<?= $penduduk['alamat']?>"></input>
 						</div>
 					</div>
 				<?php endif; ?>

@@ -338,8 +338,10 @@ class Web_dokumen_model extends CI_Model {
 	}
 
 	// Soft delete, tapi hapus berkas dokumen
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+		
 		$old_dokumen = $this->db->select('satuan')->
 			where('id',$id)->
 			get('dokumen')->row()->satuan;
@@ -355,15 +357,13 @@ class Web_dokumen_model extends CI_Model {
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $_SESSION['success']=-1;
 	}
 
 	public function dokumen_lock($id='', $val=0)
@@ -371,7 +371,7 @@ class Web_dokumen_model extends CI_Model {
 		$sql = "UPDATE dokumen SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_dokumen($id=0)
@@ -391,9 +391,9 @@ class Web_dokumen_model extends CI_Model {
 	public function get_nama_berkas($id, $id_pend=0)
 	{
 		// Ambil nama berkas dari database untuk dokumen yg aktif
+		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$nama_berkas = $this->db->select('satuan')
 			->where('id', $id)			
-			->where('id_pend', $id_pend)
 			->where('enabled', 1)
 			->get('dokumen')->row()->satuan;
 		return $nama_berkas;
@@ -551,5 +551,6 @@ class Web_dokumen_model extends CI_Model {
 			->get()->result_array();
 		return $data;
 	}
+
 }
 ?>

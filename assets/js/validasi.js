@@ -3,6 +3,7 @@ $(document).ready(function() {
 
 	// Untuk form surat memeriksa nomor surat secara remote/ajax
 	$("#validasi.form-surat").validate({
+		ignore: '#wrapper-mandiri input[name=nomor]',
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
@@ -179,6 +180,30 @@ $(document).ready(function() {
 		$(this).rules("add",
 			{
 				nomor_sk: true,
+			});
+	});
+
+	jQuery.validator.addMethod("bilangan_titik", function(value, element) {
+		valid = /^[0-9\.]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter numerik dan titik");
+
+	$('.bilangan_titik').each(function() {
+		$(this).rules("add",
+			{
+				bilangan_titik: true,
+			});
+	});
+
+	jQuery.validator.addMethod("bilangan_spasi", function(value, element) {
+		valid = /^[0-9 ]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter numerik dan spasi");
+
+	$('.bilangan_spasi').each(function() {
+		$(this).rules("add",
+			{
+				bilangan_spasi: true,
 			});
 	});
 

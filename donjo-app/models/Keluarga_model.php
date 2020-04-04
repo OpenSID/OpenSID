@@ -238,7 +238,7 @@
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($kk_id, $data['nik_kepala'], 1);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	private function validasi_data_keluarga(&$data)
@@ -336,7 +336,7 @@
 		$data['created_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		$id_pend = $this->db->insert_id();
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 
 		// Tulis keluarga baru
 		$data2['nik_kepala'] = $id_pend;
@@ -373,13 +373,13 @@
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
-		$log['tanggal'] = date("m-d-y");
+		$log['tanggal'] = date("Y-m-d H:i:s");
 		$outp = $this->db->insert('log_perubahan_penduduk', $log);
 
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($kk_id, $data2['nik_kepala'], 1);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	/* 	Hapus keluarga:
@@ -387,29 +387,31 @@
 			(2) Hapus keluarga
 			$id adalah id tweb_keluarga
 	*/
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+		
 		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
 		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
 		foreach ($list_anggota as $anggota)
 		{
 			$this->rem_anggota($id,$anggota['id']);
 		}
-		$this->db->where('id',$id)->delete('tweb_keluarga');
+		$outp = $this->db->where('id',$id)->delete('tweb_keluarga');
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($id, $nik_kepala, 2);
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -448,7 +450,7 @@
 		$this->db->where('id', $data['nik']);
 		$outp = $this->db->update('tweb_penduduk', $temp);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_kk_level($id, $id_kk, $kk_level, $kk_level_lama)
@@ -494,7 +496,7 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function rem_anggota($kk=0, $id=0)
@@ -671,7 +673,7 @@
 		return $query->result_array();
 	}
 
-	// Tambah anggota keluarga
+	// Tambah anggota keluarga, penduduk baru
 	public function insert_a()
 	{
 		unset($_SESSION['validation_error']);
@@ -719,6 +721,7 @@
 		}
 
 		if (!$this->validasi_data_keluarga($data)) return;
+		unset($data['alamat']);
 
 		$error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
@@ -788,7 +791,7 @@
 		$this->db->where("id", $id);
 		$outp=$this->db->update("tweb_keluarga", $data);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function pindah_keluarga($id_kk, $id_cluster)
@@ -911,7 +914,7 @@
 
 	private function buat_berkas_kk($data='')
 	{
-		$mypath="surat\\kk\\";
+		$mypath="template-surat\\kk\\";
 
 		$path = "".str_replace("\\","/", $mypath);
 		$path_arsip = LOKASI_ARSIP;

@@ -123,7 +123,6 @@ class Dokumen extends Admin_Controller {
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -131,7 +130,6 @@ class Dokumen extends Admin_Controller {
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -211,10 +209,10 @@ class Dokumen extends Admin_Controller {
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas($id_dokumen)
+	public function unduh_berkas($id_dokumen, $id_pend=0)
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 		if ($berkas)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else

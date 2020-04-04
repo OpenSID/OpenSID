@@ -6,7 +6,7 @@
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Surat Keterangan</h1>
-		<ol class="breadcrumb">
+		<ol class="breadcrumb tdk-permohonan tdk-periksa">
 			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Keterangan</li>
@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<div class="box-header with-border">
+					<div class="box-header with-border tdk-permohonan tdk-periksa">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
 						</a>
@@ -39,13 +39,13 @@
 							</div>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
-								<label for="keperluan"  class="col-sm-3 control-label">Keperluan</label>
+								<label for="keperluan" class="col-sm-3 control-label">Keperluan</label>
 								<div class="col-sm-8">
 									<textarea name="keperluan" class="form-control input-sm required" placeholder="Keperluan"></textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="keterangan"  class="col-sm-3 control-label">Keterangan</label>
+								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
 									<textarea  id="keterangan" class="form-control input-sm required" placeholder="Keterangan" name="keterangan"></textarea>
 								</div>

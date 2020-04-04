@@ -1,4 +1,6 @@
-<?php class Database_model extends CI_Model {
+<?php 
+
+class Database_model extends CI_Model {
 
 	private $engine = 'InnoDB';
 	/* define versi opensid dan script migrasi yang harus dijalankan */
@@ -34,7 +36,8 @@
 		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => '20.01'),
 		'20.01' => array('migrate' => 'migrasi_2001_ke_2002', 'nextVersion' => '20.02'),
 		'20.02' => array('migrate' => 'migrasi_2002_ke_2003', 'nextVersion' => '20.03'),
-		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => NULL)
+		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => '20.04'),
+		'20.04' => array('migrate' => NULL, 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -125,7 +128,16 @@
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
+		$this->catat_versi_database();
 	 	$_SESSION['success'] = 1;
+  }
+
+  private function catat_versi_database()
+  {
+		// Catat migrasi ini telah dilakukan
+		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+			->get('migrasi')->num_rows();
+		if (!$sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
   }
 
   private function getCurrentVersion()
@@ -3599,10 +3611,12 @@
 			"provinsi",
 			"ref_dokumen",
 			"ref_pindah",
+			"ref_syarat_surat",
 			"setting_modul",
 			"setting_aplikasi",
 			"setting_aplikasi_options",
 			"skin_sid",
+			"syarat_surat",
 			"tweb_aset",
 			"tweb_cacat",
 			"tweb_cara_kb",

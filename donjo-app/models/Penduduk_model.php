@@ -689,7 +689,7 @@
 
 		$outp = $this->db->insert('log_perubahan_penduduk', $log1);
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 
 		return $idku;
 	}
@@ -783,7 +783,7 @@
     $this->db->where('id', $id);
     $outp = $this->db->update('tweb_penduduk', $data);
 
-    pesan_sukses($outp); //Tampilkan Pesan
+    status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_position($id=0)
@@ -816,7 +816,7 @@
         $outp = $this->db->insert('tweb_penduduk_map', $data);
       }
     }
-    pesan_sukses($outp); //Tampilkan Pesan
+    status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_penduduk_map($id=0)
@@ -873,29 +873,24 @@
 			$_SESSION['success'] = - 1;
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		pesan_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function adv_search_proses()
@@ -1349,7 +1344,7 @@
 
 	public function list_dokumen($id="")
 	{
-		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? ";
+		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? AND deleted = 0";
 		$query = $this->db->query($sql, $id);
 		$data = null;
 		if ($query)

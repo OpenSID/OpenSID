@@ -136,16 +136,16 @@ class Web extends Admin_Controller {
 			redirect("web/index/$cat/$p/$o");
 
 		$this->web_artikel_model->update($cat, $id);
-		redirect("web/form/$cat/$p/$o/$id");
+		if ($this->session->success == -1)
+			redirect("web/form/$cat/$p/$o/$id");
+		else
+			redirect("web/index/$cat");
 	}
 
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
-
-		$_SESSION['success'] = 1;
-		$outp = $this->web_artikel_model->delete($id);
-		if (!$outp) $_SESSION['success'] = -1;
+		$this->web_artikel_model->delete($id);
 		redirect("web/index/$cat/$p/$o");
 	}
 

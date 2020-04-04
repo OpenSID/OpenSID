@@ -471,7 +471,7 @@ class Data_persil_model extends CI_Model {
 			$outp = $this->db->insert('data_persil',$upd);
 		}
 
-		pesan_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 }
