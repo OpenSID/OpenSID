@@ -10,7 +10,6 @@ class Siteman extends CI_Controller
 		siteman_timeout();
 		$this->load->model('config_model');
 		$this->load->model('user_model');
-		$this->load->model('track_model');
 	}
 
 	public function index()
@@ -35,13 +34,12 @@ class Siteman extends CI_Controller
 		//-------------------------------
 
 		$this->load->view('siteman', $data);
-		$_SESSION['siteman'] = 0;
-		$this->track_model->track_desa('main');
 	}
 
 	public function auth()
 	{
 		$this->user_model->siteman();
+
 		if ($_SESSION['siteman'] == 1)
 		{
 			$this->user_model->validate_admin_has_changed_password();

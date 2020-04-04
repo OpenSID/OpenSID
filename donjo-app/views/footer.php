@@ -57,7 +57,7 @@
 						var refreshPermohonan = setInterval(function()
 						{
 							$("#b_permohonan_surat").load("<?= site_url()?>notif/permohonan_surat");
-						}, 3000);
+						}, 10000);
 					}
 					if ( $("#b_komentar").length )
 					{
@@ -65,7 +65,7 @@
 						var refreshKomentar = setInterval(function()
 						{
 							$("#b_komentar").load("<?= site_url()?>notif/komentar");
-						}, 3000);
+						}, 10000);
 					}
 					if ( $("#b_inbox").length )
 					{
@@ -73,7 +73,7 @@
 						var refreshInbox = setInterval(function()
 						{
 							$("#b_inbox").load("<?= site_url()?>notif/inbox");
-						}, 3000);
+						}, 10000);
 					}
 				}, 500);
 				if ($('#success-code').val() == 1)
