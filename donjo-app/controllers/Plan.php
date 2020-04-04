@@ -10,8 +10,8 @@ class Plan extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -55,11 +55,10 @@ class Plan extends Admin_Controller {
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('lokasi/table', $data);
@@ -87,9 +86,7 @@ class Plan extends Admin_Controller {
 		}
 
 		$header= $this->header_model->get_data();
-
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
 
 		$this->load->view('header', $header);

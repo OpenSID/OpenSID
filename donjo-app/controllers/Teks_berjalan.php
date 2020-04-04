@@ -16,11 +16,8 @@ class Teks_berjalan extends Admin_Controller {
 	public function index()
 	{
 		$data['main'] = $this->teks_berjalan_model->list_data();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = $this->modul_ini;
-		$nav['act_sub'] = $this->sub_modul_ini;
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('web/teks_berjalan/table', $data);
@@ -43,8 +40,6 @@ class Teks_berjalan extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = $this->modul_ini;
-		$nav['act_sub'] = $this->sub_modul_ini;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

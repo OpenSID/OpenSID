@@ -11,6 +11,7 @@ class Pengurus extends Admin_Controller {
 		$this->load->model('penduduk_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 200;
+		$this->sub_modul_ini = 18;
 	}
 
 	public function clear()
@@ -33,11 +34,7 @@ class Pengurus extends Admin_Controller {
 		$data['main'] = $this->pamong_model->list_data();
 		$data['keyword'] = $this->pamong_model->autocomplete();
 		$header = $this->header_model->get_data();
-
-		// Menampilkan menu dan sub menu aktif
 		$header['minsidebar'] = 1;
-		$nav['act'] = 1;
-		$nav['act_sub'] = 18;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -67,9 +64,6 @@ class Pengurus extends Admin_Controller {
 		else
 			$data['individu'] = NULL;
 		$header = $this->header_model->get_data();
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 18;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

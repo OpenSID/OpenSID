@@ -10,6 +10,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 95;
 	}
 
 	public function index($kat=2, $p=1, $o=0)
@@ -56,8 +57,8 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		$nav['act_sub'] = 95;
-    $header['minsidebar'] = 1;
+		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/table', $data);
@@ -91,8 +92,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		$nav['act'] = 15;
-		$nav['act_sub'] = $this->tab_ini;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
