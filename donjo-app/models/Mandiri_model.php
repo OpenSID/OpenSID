@@ -69,7 +69,7 @@
 		{
 			case 1: $order_sql = ' ORDER BY u.last_login'; break;
 			case 2: $order_sql = ' ORDER BY u.last_login DESC'; break;
-			default:$order_sql = ' ORDER BY u.tanggal_buat';
+			default:$order_sql = ' ORDER BY u.tanggal_buat DESC';
 		}
 
 		//Paging SQL
