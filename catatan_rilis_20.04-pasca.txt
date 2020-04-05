@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 4. #2828: Sekarang tidak error pada waktu mengubah lokasi di Pemetaaan > Pengaturan Peta. [bug-fix]
 5. Sekarang bisa ubah data RW yang namanya berisi spasi. [bug-fix]
 6. Tampilkan foto warga pada Layanan Mandiri. Batasi pengisian No HP Aktif di form Permohonan Surat hanya boleh bilangan dan spasi.
+7. #2878: Sediakan tanggal posting pada RSS feed artikel yg disediakan OpenSID. 
 
 
 

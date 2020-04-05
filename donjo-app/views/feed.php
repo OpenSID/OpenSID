@@ -20,7 +20,7 @@
 		<item>
 			<title><?= htmlspecialchars($key->judul); ?></title>
 			<link><?= site_url("first/artikel/".$key->id);?></link>
-			<pubdate><?= htmlspecialchars($key->tgl_upload); ?></pubdate>
+			<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
 			<description>
 				<?= htmlspecialchars($data_config["nama_desa"]).", ".htmlspecialchars(substr($key->isi, 0, strpos($key->isi, " ", 260)))?>
 			</description>
