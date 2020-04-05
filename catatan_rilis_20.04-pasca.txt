@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 6. Tampilkan foto warga pada Layanan Mandiri. Batasi pengisian No HP Aktif di form Permohonan Surat hanya boleh bilangan dan spasi.
 7. #2878: Sediakan tanggal posting pada RSS feed artikel yg disediakan OpenSID. 
 8. #2874: Pada Layanan Mandiri > Pendaftar Layanan Mandiri, tampilkan pendaftar terbaru di atas.
+9. Pengguna Operator sekarang bisa akses Layanan Surat > Daftar Persyaratan dan Admin Web > Pengunjung. [bug-fix]
 
 
 
