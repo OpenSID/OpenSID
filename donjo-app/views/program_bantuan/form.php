@@ -102,7 +102,7 @@
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
-														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik']?>">
+														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik_peserta']?>">
 													</div>
 												</div>
 												<div class="form-group">

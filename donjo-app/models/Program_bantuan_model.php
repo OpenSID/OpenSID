@@ -123,17 +123,18 @@ class Program_bantuan_model extends CI_Model {
 			case 2:
 				# Data KK
 				$data = $this->keluarga_model->get_kepala_kk($peserta_id, true);
-				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
+				$data['nik_peserta'] = $data['nik']; // nik digunakan sebagai id peserta
+				$data['nik'] = $data['no_kk']; 
 				break;
 			case 3:
 				# Data RTM
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
-				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
+				$data['nik'] = $data['nik_peserta'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
 				break;
 			case 4:
 				# Data Kelompok
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
-				$data['nik'] = $data['nama_kelompok']; // nama_kelompok untuk tampilan, id_kelompok digunakan sebagai id peserta
+				$data['nik'] = $data['nik_peserta'] = $data['nama_kelompok']; // nama_kelompok untuk tampilan, id_kelompok digunakan sebagai id peserta
 				break;
 
 			default:
