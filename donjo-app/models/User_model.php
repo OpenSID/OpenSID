@@ -673,6 +673,8 @@ class User_model extends CI_Model {
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
+		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul 
+		// pada komponen Admin. 
 		$hak_akses = array(
 			// Operator
 			2 => array(
@@ -785,6 +787,8 @@ class User_model extends CI_Model {
 				'mailbox' => array('b','u'),
 				'mandiri' => array('b','u'),
 				
+				// --- Controller berikut diakses di luar menu navigasi modul 
+
 				// notifikasi
 				'notif' => array('b','u'),
 				
