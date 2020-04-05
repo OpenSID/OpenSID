@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 7. #2878: Sediakan tanggal posting pada RSS feed artikel yg disediakan OpenSID. 
 8. #2874: Pada Layanan Mandiri > Pendaftar Layanan Mandiri, tampilkan pendaftar terbaru di atas.
 9. Pengguna Operator sekarang bisa akses Layanan Surat > Daftar Persyaratan dan Admin Web > Pengunjung. [bug-fix]
+10. Sekarang peta Pemetaan > Pengaturan Peta > Lokasi dapat diubah dan disimpan dengan benar. [bug-fix]
 
 
 
