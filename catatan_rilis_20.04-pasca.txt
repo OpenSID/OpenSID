@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 8. #2874: Pada Layanan Mandiri > Pendaftar Layanan Mandiri, tampilkan pendaftar terbaru di atas.
 9. Pengguna Operator sekarang bisa akses Layanan Surat > Daftar Persyaratan dan Admin Web > Pengunjung. [bug-fix]
 10. Sekarang peta Pemetaan > Pengaturan Peta > Lokasi dapat diubah dan disimpan dengan benar. [bug-fix]
+11. #2880: Pada Program Bantuan, sekarang isi awal NIK pada Identitas Pada Kartu Peserta sudah benar. Juga data verifikasi peserta tampil benar untuk semua jenis sasaran. [bug-fix]
 
 
 
