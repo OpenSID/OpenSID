@@ -800,4 +800,16 @@ class Sms extends Admin_Controller {
 		$data['insert'] = $this->sms_model->insert_pertanyaan($id);
 		redirect("sms/pertanyaan/$id");
 	}
+
+	public function form_sinkronkan()
+	{
+		$data['form_action'] = site_url("sms/sinkronkan");
+		$this->load->view('sms/ajax_sinkronkan', $data);
+	}
+
+	public function sinkronkan()
+	{
+		$this->sms_model->sinkronkan($data);
+		redirect('sms/kontak');
+	}
 }

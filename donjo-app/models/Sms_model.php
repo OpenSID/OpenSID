@@ -362,9 +362,10 @@
 
 	public function list_nama()
 	{
-		$sql = "SELECT * FROM tweb_penduduk WHERE id NOT IN (SELECT id_pend FROM kontak)";
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$data = $this->db->where('id NOT IN (SELECT id_pend FROM kontak)')
+			->get('tweb_penduduk')
+			->result_array();
+
 		return $data;
 	}
 
@@ -1001,5 +1002,32 @@
 
 		return $data;
 	}
+
+	public function sinkronkan()
+	{
+		$tlp_penduduk = $this->db->where('telepon !=', NULL)
+			->where('telepon !=', '')
+			->get('tweb_penduduk')
+			->result_array();
+
+		foreach ($tlp_penduduk as $penduduk){
+			$tlp_kontak = $this->db->where('id_pend', $penduduk['id'])->get('kontak');
+
+			if ($tlp_kontak->num_rows() > 0)
+			{
+				// Jika ada
+				$data  = $tlp_kontak->row_array();
+				if($this->input->post('pilih')==1){
+					// *timpa
+					$outp = $this->db->where('id_pend', $data['id_pend'])->update('kontak', array('no_hp' => $penduduk['telepon']));
+				}				
+			}else{
+				// Jika belum ada
+				$outp = $this->db->insert('kontak', array('no_hp' => $penduduk['telepon'], 'id_pend' => $penduduk['id']));
+			}
+			
+		}
+	}
+
 }
 ?>
