@@ -113,7 +113,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="no_sertifikat">Nomor Sertifikat </label>
 									<div class="col-sm-8">
-										<input maxlength="50" class="form-control input-sm" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
+										<input maxlength="50" class="form-control input-sm required" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -160,7 +160,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 									<div class="col-sm-8">
-										<textarea rows="5" class="form-control input-sm" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
+										<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
 									</div>
 								</div>
 							</div>
@@ -198,6 +198,10 @@ $( document ).ready(function() {
 		$('#register').val($('#nama_barang').val().split("_").pop());
 		$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
 	});
+
+	$("#tahun_pengadaan").change();	
+	$("#penggunaan_barang").change();
+	$("#nama_barang").change();
 });
 
 function price() {
