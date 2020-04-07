@@ -776,7 +776,7 @@ class User_model extends CI_Model {
 				'menu' => array('b','u'),
 					// menu
 					'kategori' => array('b','u'),
-				'komentar' => array('b','u','h'),
+				'komentar' => array('b','u'),
 				'gallery' => array('b','u'),
 				'sosmed' => array('b','u'),
 				'teks_berjalan' => array('b','u'),
