@@ -99,90 +99,86 @@ $(function(){
 	});
 });
 </script>
-<?php
-
-	echo "
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Grafik Data Demografi Berdasar ". $heading."</h3>
-			<div class=\"box-tools pull-right\">
-				<div class=\"btn-group-xs\">";
-					$strC = ($tipe==1)? "btn-primary":"btn-default";
-					echo "<a href=\"".site_url("first/statistik/$st/1")."\" class=\"btn ".$strC." btn-xs\">Bar Graph</a>";
-					$strC = ($tipe==0)? "btn-primary":"btn-default";
-					echo "<a href=\"".site_url("first/statistik/$st/0")."\" class=\"btn ".$strC." btn-xs\">Pie Cart</a>
+<div class="box box-danger">
+		<div class="box-header with-border">
+			<h3 class="box-title">Grafik Data Demografi Berdasar <?= heading ?></h3>
+			<div class="box-tools pull-right">
+				<div class="btn-group-xs">
+					<?php $strC = ($tipe==1)? "btn-primary":"btn-default"; ?>
+					<a href="<?= site_url("first/statistik/$st/1") ?>" class="btn <?= $strC ?> btn-xs">Bar Graph</a>
+					<?php $strC = ($tipe==0)? "btn-primary":"btn-default";?>
+					<a href="<?= site_url("first/statistik/$st/0") ?>" class="btn <?= $strC ?> btn-xs">Pie Cart</a>
 				</div>
 			</div>
 		</div>
-		<div class=\"box-body\">
-			<div id=\"container\"></div>
-			<div id=\"contentpane\">
-				<div class=\"ui-layout-north panel top\"></div>
+		<div class="box-body">
+			<div id="container"></div>
+			<div id="contentpane">
+				<div class="ui-layout-north panel top"></div>
 			</div>
 		</div>
 	</div>
 
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Tabel Data Demografi Berdasar ". $heading."</h3>
+	<div class="box box-danger">
+		<div class="box-header with-border">
+			<h3 class="box-title">Tabel Data Demografi Berdasar <?= $heading ?></h3>
 		</div>
-		<div class=\"box-body\">
-			<div class=\"table-responsive\">
-			<table class=\"table table-striped\">
+		<div class="box-body">
+			<div class="table-responsive">
+			<table class="table table-striped">
 				<thead>
 				<tr>
-					<th rowspan=\"2\">No</th>
-					<th rowspan=\"2\" style='text-align:left;'>Kelompok</th>
-					<th colspan=\"2\">Jumlah</th>";
-          if($jenis_laporan == 'penduduk'){
-            echo "<th colspan=\"2\">Laki-laki</th>
-            <th colspan=\"2\">Perempuan</th>";
-          }
-					echo "
-        </tr>
+					<th rowspan="2">No</th>
+					<th rowspan="2" style='text-align:left;'>Kelompok</th>
+					<th colspan="2">Jumlah</th>
+					<?php if($jenis_laporan == 'penduduk'):?>
+						<th colspan="2">Laki-laki</th>
+						<th colspan="2">Perempuan</th>
+					<?php endif;?>
+				</tr>
 				<tr>
-					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>";
-          if($jenis_laporan == 'penduduk'){
-  					echo "<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-  					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>";
-          }
-          echo "
+					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+					<?php if($jenis_laporan == 'penduduk'):?>
+						<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+						<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+					<?php endif;?>
 				</tr>
 				</thead>
-				<tbody>";
-				$i=0; $l=0; $p=0;
-				$hide="";$h=0;
-				$jm = count($stat);
-				foreach($stat as $data){
-					$h++;
-					if($h > 10 AND $jm > 11)$hide="lebih";
-					echo "<tr class=\"$hide\">
-						<td class=\"angka\">".$data['no']."</td>
-						<td>".$data['nama']."</td>
-						<td class=\"angka\">".$data['jumlah']."</td>
-						<td class=\"angka\">".$data['persen']."</td>";
-          if($jenis_laporan == 'penduduk'){
-            echo "<td class=\"angka\">".$data['laki']."</td>
-            <td class=\"angka\">".$data['persen1']."</td>
-            <td class=\"angka\">".$data['perempuan']."</td>
-            <td class=\"angka\">".$data['persen2']."</td>";
-          }
-					echo "</tr>";
-					$i=$i+$data['jumlah'];
-					$l=$l+$data['laki']; $p=$p+$data['perempuan'];
-				}
-				echo "
+				<tbody>
+				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
+				<?php foreach($stat as $data):?>
+					<?php $jm1++; if(($data['laki'] + $data['perempuan'])>0):?>
+						<?php $h++; if($h > 12 AND $jm > 10): $hide="lebih"; ?>
+						<?php endif;?>
+						<tr class="<?=$hide?>">
+							<td class="angka"> 
+							<?php if($jm1 > $jm-2):?>
+								<?=$data['no']?>
+							<?php else:?>
+								<?=$h?>
+							<?php endif;?>
+							</td>
+							<td><?=$data['nama']?></td>
+							<td class="angka"><?=$data['jumlah']?></td>
+							<td class="angka"><?=$data['persen']?></td>
+							<?php if($jenis_laporan == 'penduduk'):?>
+								<td class="angka"><?=$data['laki']?></td>
+								<td class="angka"><?=$data['persen1']?></td>
+								<td class="angka"><?=$data['perempuan']?></td>
+								<td class="angka"><?=$data['persen2']?></td>
+							<?php endif;?>
+						</tr>
+						<?php $i=$i+$data['jumlah'];?>
+						<?php $l=$l+$data['laki']; $p=$p+$data['perempuan'];?>
+					<?php endif;?>
+				<?php endforeach;?>
 				</tbody>
-			</table>";
-			if($hide=="lebih"){
-				echo "
+			</table>
+			<?php if($hide=="lebih"):?>
 				<div style='margin-left:20px;'>
-				<button class='uibutton special' id='showData'>Selengkapnya...</button>
+					<button class='uibutton special' id='showData'>Selengkapnya...</button>
 				</div>
-				";
-			}
-
-		echo "
+			<?php endif;?>
 		</div>
 		</div>
-	</div>";
+	</div>
