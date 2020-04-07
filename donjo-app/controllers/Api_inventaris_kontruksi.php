@@ -31,7 +31,9 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-			'visible' => 1
+			'visible' => 1,
+			'created_by' => $this->session->user,
+			'updated_by' => $this->session->user
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -47,7 +49,9 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
-			'visible' => 1
+			'visible' => 1,
+			'created_by' => $this->session->user,
+			'updated_by' => $this->session->user
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -71,7 +75,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date("m/d/Y")
+			'updated_at' => date('Y-m-d H:i:s')
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -86,7 +90,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date("m/d/Y")
+			'updated_at' => date('Y-m-d H:i:s')
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

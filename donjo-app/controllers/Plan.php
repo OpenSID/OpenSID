@@ -99,10 +99,11 @@ class Plan extends Admin_Controller {
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-		if ($id)
-			$data['lokasi'] = $this->config_model->get_data();
-		else
+		if ($id){
+			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+		}else{
 			$data['lokasi'] = NULL;
+		}			
 
 		$data['desa'] = $this->config_model->get_data();;
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
@@ -112,6 +113,7 @@ class Plan extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
 		$header= $this->header_model->get_data();
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("lokasi/maps", $data);

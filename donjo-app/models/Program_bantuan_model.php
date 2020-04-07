@@ -119,21 +119,25 @@ class Program_bantuan_model extends CI_Model {
 				$query = $this->db->query($sql,$peserta_id);
 				$data  = $query->row_array();
 				$data['alamat_wilayah']= $this->surat_model->get_alamat_wilayah($data);
+				$data['nik_peserta'] = $data['nik'];
 				break;
 			case 2:
 				# Data KK
 				$data = $this->keluarga_model->get_kepala_kk($peserta_id, true);
-				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
+				$data['nik_peserta'] = $data['nik']; 
+				$data['nik'] = $peserta_id; // no_kk digunakan sebagai id peserta
 				break;
 			case 3:
 				# Data RTM
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
-				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
+				$data['nik_peserta'] = $data['nik'];
+				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
 				break;
 			case 4:
 				# Data Kelompok
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
-				$data['nik'] = $data['nama_kelompok']; // nama_kelompok untuk tampilan, id_kelompok digunakan sebagai id peserta
+				$data['nik_peserta'] = $data['nik'];
+				$data['nik'] = $peserta_id; // id_kelompok digunakan sebagai id peserta
 				break;
 
 			default:
@@ -772,23 +776,12 @@ class Program_bantuan_model extends CI_Model {
 	public function add_peserta($post, $id)
 	{
 		$nik = $post['nik'];
-		$strSQL = "SELECT sasaran FROM program WHERE id=".$id;
-		$hasil = $this->db->query($strSQL);
-		$row = $hasil->row_array();
-		$sasaran = $row['sasaran'];
-		// Untuk sasaran kelompok, $id adalah nama kelompok, jadi perlu mengambil
-		// id kelompok yang digunakan sebagai id peserta
-		if ($sasaran == 4)
-		{
-			$this->db->select('id');
-			$this->db->where('nama', $nik);
-			$query = $this->db->get('kelompok');
-			$kelompok = $query->row_array();
-			$nik = $kelompok['id'];
-		}
-		$strSQL = "SELECT id FROM `program_peserta` WHERE program_id='".fixSQL($id)."' AND peserta='".fixSQL($nik)."'";
-		$hasil = $this->db->query($strSQL);
-		if ($hasil->num_rows()>0)
+		$hasil = $this->db->select('id')
+			->from('program_peserta')
+			->where('program_id', $id)
+			->where('peserta', $nik)
+			->get();
+		if ($hasil->num_rows() > 0)
 		{
 			return false;
 		}
