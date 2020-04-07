@@ -168,9 +168,13 @@
 
 	public function list_penduduk()
 	{
-		$sql = "SELECT nik AS id, nik, nama FROM tweb_penduduk WHERE status = 1 AND nik <> '' AND nik <> 0";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->select('nik AS id, nik, nama')
+			->where('status', 1)
+			->where('nik <>', '')
+			->where('nik <>', 0)
+			->where('id NOT IN (SELECT id_pend FROM tweb_penduduk_mandiri)')
+			->get('tweb_penduduk')
+			->result_array();
 
 		//Formating Output AND nik NOT IN(SELECT nik FROM tweb_penduduk_mandiri)
 		for ($i=0; $i<count($data); $i++)
