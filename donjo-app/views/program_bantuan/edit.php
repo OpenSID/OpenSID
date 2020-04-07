@@ -23,15 +23,29 @@
 							<?php $data= $program[0]; $cid = $data["sasaran"]; ?>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Sasaran Program</label>
+								<?php if ($jml == 0): ?>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" name="cid" id="cid">
-										<option value="">Pilih Sasaran Program <?= $cid;?></option>
+										<option value="">Pilih Sasaran Program</option>
 										<option value="1" <?php selected($cid, 1); ?>>Penduduk Perorangan</option>
 										<option value="2" <?php selected($cid, 2); ?>>Keluarga - KK</option>
 										<option value="3" <?php selected($cid, 3); ?>>Rumah Tangga</option>
 										<option value="4" <?php selected($cid, 4); ?>>Kelompok / Organisasi</option>
 									</select>
 								</div>
+								<?php else:?>
+									<label class="col-sm-8 control-label">
+										<?php if($cid = 1):?>
+											Penduduk Perorangan
+										<?php elseif($cid = 2):?>
+											Keluarga - KK
+										<?php elseif($cid = 3):?>
+											Rumah Tangga
+										<?php else:?>
+											Kelompok / Organisasi
+										<?php endif;?>
+									</label>
+									<?php endif;?>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-3" for="nama">Nama Program</label>
@@ -100,4 +114,3 @@
 		</div>
 	</section>
 </div>
-

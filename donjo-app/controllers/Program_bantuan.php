@@ -216,7 +216,8 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
-
+		$data['jml'] = $this->program_bantuan_model->jml_peserta_program($id);
+		
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->load->view('program_bantuan/edit', $data);
