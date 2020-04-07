@@ -15,6 +15,8 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 9. Pengguna Operator sekarang bisa akses Layanan Surat > Daftar Persyaratan dan Admin Web > Pengunjung. [bug-fix]
 10. Sekarang peta Pemetaan > Pengaturan Peta > Lokasi dapat diubah dan disimpan dengan benar. [bug-fix]
 11. #2880: Pada Program Bantuan, sekarang isi awal NIK pada Identitas Pada Kartu Peserta sudah benar. Juga data verifikasi peserta tampil benar untuk semua jenis sasaran. [bug-fix]
+12. #2885: Perbaiki tampilan Sekretariat > Produk Hukum di layar kecil. 
+13. Sesuaikan modul inventaris dengan setting MySQL STRICT_TRANS_TABLE. Perbaiki pilihan nama barang pertama sekarang tidak error. Perbaiki nama barang untuk kode 4.00.00.00.000. Perbaiki sekarang 'Konstruksi dalam pengerjaan' bisa disimpan.
 
 
 
