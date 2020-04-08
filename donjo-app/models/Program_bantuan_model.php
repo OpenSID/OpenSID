@@ -912,7 +912,7 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
-	private function jml_peserta_program($id)
+	public function jml_peserta_program($id)
 	{
 		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
 		  from('program p')->
