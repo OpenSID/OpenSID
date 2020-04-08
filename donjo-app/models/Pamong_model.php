@@ -282,5 +282,18 @@
   	$this->urut_model->urut($id, $arah);
 	}
 
+	public function list_penduduk()
+	{
+		$data = $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+			->from('tweb_penduduk u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+			->where('status', 1)
+			->where('u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL)')
+			->get()
+			->result_array();
+
+		return $data;
+	}
+
 }
 ?>

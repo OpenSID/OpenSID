@@ -59,9 +59,9 @@ class Pengurus extends Admin_Controller {
 			$data['form_action'] = site_url("pengurus/insert");
 		}
 
+		$data['penduduk'] = $this->pamong_model->list_penduduk();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['penduduk'] = $this->penduduk_model->list_penduduk();
 		if (!empty($_POST['id_pend']))
 			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
 		else
