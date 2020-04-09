@@ -21,6 +21,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 15. #2897: Sekarang program bantuan yang sudah ada peserta tidak bisa diubah sasarannya.
 16. #272: Di tampilan statistik web, data bilangan nol dapat disembunyikan/ditampilkan.
 17. Hapus kolom urut yg tidak digunakan di tabel artikel. [teknis]
+18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong. 
 
 
 
