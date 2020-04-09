@@ -3,6 +3,10 @@ class Migrasi_2004_ke_2005 extends CI_model {
 
 	public function up()
 	{
+		// Penyesuaian url menu dgn submenu setelah hapus file sekretariat.php
+		$this->db->where('id', 15)
+			->set('url', 'surat_keluar/clear')
+			->update('setting_modul');
 	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE kelompok_anggota MODIFY COLUMN no_anggota VARCHAR(20) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE inventaris_kontruksi MODIFY COLUMN kontruksi_beton TINYINT(1) DEFAULT 0");

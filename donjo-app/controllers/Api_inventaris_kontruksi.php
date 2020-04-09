@@ -12,9 +12,6 @@ class Api_inventaris_kontruksi extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_kontruksi_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 6;
-		// $this->controller = 'inventaris_kontruksi';
 	}
 
 	public function add()

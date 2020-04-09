@@ -8,6 +8,7 @@ class Man_user extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->modul_ini = 11;
+		$this->sub_modul_ini = 44;
 	}
 
 	public function clear()
@@ -37,10 +38,7 @@ class Man_user extends Admin_Controller {
 		$data['paging'] = $this->user_model->paging($p, $o);
 		$data['main'] = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->user_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 11;
-		$nav['act_sub'] = 44;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -65,8 +63,6 @@ class Man_user extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 11;
-		$nav['act_sub'] = 44;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

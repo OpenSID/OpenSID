@@ -12,6 +12,7 @@ class Mailbox extends Admin_Controller {
 		$this->load->model('mailbox_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 14;
+		$this->sub_modul_ini = 55;
 	}
 
 	public function clear($kat = 1, $p = 1, $o = 0)
@@ -52,8 +53,6 @@ class Mailbox extends Admin_Controller {
 		$_SESSION['submenu'] = $kat;
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 14;
-		$nav['act_sub'] = 55;
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
@@ -71,10 +70,7 @@ class Mailbox extends Admin_Controller {
 			$data['subjek'] = $subjek;
 		}
 		$data['form_action'] = site_url("mailbox/kirim_pesan");
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 14;
-		$nav['act_sub'] = 55;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -104,8 +100,6 @@ class Mailbox extends Admin_Controller {
 		$data['pesan'] = $this->web_komentar_model->get_komentar($id);
 		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat); 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 14;
-		$nav['act_sub'] = 55;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

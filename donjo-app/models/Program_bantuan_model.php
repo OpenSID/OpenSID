@@ -3,7 +3,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-		$this->load->database();
+		
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
