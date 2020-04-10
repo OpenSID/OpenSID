@@ -75,11 +75,12 @@ class Import_model extends CI_Model {
 			$_SESSION['success'] = -1;
 			return false;
 		}
-
-		$mime_type_excel = array("application/vnd.ms-excel", "application/octet-stream");
-		if (!in_array($_FILES['userfile']['type'], $mime_type_excel))
+		// Filter dari mimetype tidak berguna, karena bisa berbeda pada setiap OS dan Browser,
+		// gunakan ekstensinya saja.
+		$extension = strtolower(pathinfo($_FILES['userfile']['name'], PATHINFO_EXTENSION));
+		if ($extension != 'xls')
 		{
-			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+			$_SESSION['error_msg'] .= " -> Jenis file salah";
 			$_SESSION['success'] = -1;
 			return false;
 		}
