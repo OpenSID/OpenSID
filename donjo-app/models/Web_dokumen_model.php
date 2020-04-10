@@ -284,9 +284,9 @@ class Web_dokumen_model extends CI_Model {
 		if ($this->upload_dokumen($data))
 		{
 			$this->validasi($data);
+			$data['attr'] = json_encode($data['attr']);
 
 			unset($data['anggota_kk']);
-
 			$retval = $this->db->insert('dokumen', $data);
 
 			if($retval)
