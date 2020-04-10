@@ -44,7 +44,7 @@
 							</div>
 							<div class="col-sm-12">
 								<div class="box-header with-border">
-									<h3 class="box-title">Tambahkan Warga Terdata</h3>
+									<h3 class="box-title">Tambahkan Warga Pemudik</h3>
 								</div>
 								<div class="box-body">
 									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
@@ -73,14 +73,11 @@
 												 </div>
 											</div>
 											<?php if ($individu): ?>
-												<?php include("donjo-app/views/covid19/konfirmasi_terdata.php"); ?>
+												<?php include("donjo-app/views/covid19/konfirmasi_pemudik.php"); ?>
 											<?php endif; ?>
-											<div class="form-group">
-												<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
-												<div class="col-sm-8">
-													 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"></textarea>
-												 </div>
-											</div>
+											
+											<?php include("donjo-app/views/covid19/form_isian_pemudik.php"); ?>
+
 										</form>
 									</div>
 									<div class="box-footer">
@@ -98,4 +95,3 @@
 		</div>
 	</section>
 </div>
-
