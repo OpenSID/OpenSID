@@ -3,14 +3,14 @@
 	public function __construct()
 	{
 		parent::__construct();
-    $this->load->model('user_model');
-    // Terpaksa menjalankan migrasi, karena apabila kolom parent
-    // belum ada, menu navigasi tidak bisa ditampilkan
-    if (!$this->db->field_exists('parent', 'setting_modul'))
-    {
-      $this->load->model('database_model');
-      $this->database_model->migrasi_db_cri();
-    }
+		$this->load->model('user_model');
+  	// Terpaksa menjalankan migrasi, karena apabila kolom parent
+  	// belum ada, menu navigasi tidak bisa ditampilkan
+  	if (!$this->db->field_exists('parent', 'setting_modul'))
+  	{
+			$this->load->model('database_model');
+  		$this->database_model->migrasi_db_cri();
+		}
 	}
 
 	function list_data()
@@ -101,19 +101,13 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT modul FROM setting_modul WHERE hidden = 0
-					UNION SELECT url FROM setting_modul WHERE  hidden = 0";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->select('modul')
+			->where('hidden', 0)
+			->where('parent', 0)
+			->get('setting_modul')->result_array();
 
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .$data[$i]['modul']. "'";
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$auto = autocomplete_data_ke_str($data);
+		return $auto;
 	}
 
 	private function search_sql()
@@ -159,8 +153,8 @@
 		$outp = $this->db->update('setting_modul', $data);
 		if ($data['aktif'] != $aktif_lama)
 			$this->set_aktif_submodul($id, $data['aktif']);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	private function set_aktif_submodul($id, $aktif)
@@ -178,31 +172,24 @@
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM setting_modul WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('setting_modul');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM setting_modul WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	/*

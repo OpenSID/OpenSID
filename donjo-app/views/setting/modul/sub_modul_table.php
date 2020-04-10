@@ -25,7 +25,6 @@
                     <table class="table table-bordered dataTable table-hover">
                       <thead class="bg-gray disabled color-palette">
                         <tr>
-                          <th><input type="checkbox" id="checkall"/></th>
                           <th>No</th>
                           <th>Aksi</th>
                           <th width="50%">Nama Sub Modul</th>
@@ -35,7 +34,6 @@
                       <tbody>
                         <?php foreach ($submodul as $data): ?>
                           <tr>
-                            <td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
                             <td><?=$data['no']?></td>
                             <td>
                               <a href="<?=site_url("modul/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a>

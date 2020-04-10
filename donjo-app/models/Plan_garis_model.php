@@ -1,4 +1,6 @@
-<?php class Plan_garis_model extends CI_Model {
+<?php
+
+class Plan_garis_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -38,7 +40,7 @@
 		if (isset($_SESSION['line']))
 		{
 			$kf = $_SESSION['line'];
-			$line_sql = " AND m.id = $kf";
+			$line_sql = " AND p.id = $kf";
 			return $line_sql;
 		}
 	}
@@ -48,14 +50,14 @@
 		if (isset($_SESSION['subline']))
 		{
 			$kf = $_SESSION['subline'];
-			$subline_sql = " AND p.id = $kf";
+			$subline_sql = " AND m.id = $kf";
 			return $subline_sql;
 		}
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
+		$sql = "SELECT COUNT(l.id) AS jml " . $this->list_data_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['jml'];
@@ -69,6 +71,7 @@
 		return $this->paging;
 	}
 
+	// Pastikan paging dan pencarian data berdasarkan filter yg sama
 	private function list_data_sql()
 	{
 		$sql = "FROM garis l
@@ -82,7 +85,7 @@
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o=0,$offset=0, $limit=500)
 	{
 		switch ($o)
 		{
@@ -94,9 +97,10 @@
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$select_sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol ";
 
+		$select_sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color ";
 		$sql = $select_sql . $this->list_data_sql();
+
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -144,6 +148,7 @@
 			$_SESSION['success'] = 1;
 		else
 			$_SESSION['success'] = -1;
+
 	}
 
 	public function update($id=0)
@@ -169,35 +174,28 @@
 			$this->db->where('id', $id);
 			$outp = $this->db->update('garis', $data);
 		}
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
+		
+		status_sukses($outp); //Tampilkan Pesan
+  }
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM garis WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('garis');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM garis WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function list_line()
@@ -224,7 +222,6 @@
 			$sqlx = "SELECT * FROM line WHERE id = ?";
 			$query = $this->db->query($sqlx, $_SESSION['line']);
 			$temp = $query->row_array();
-
 			$kf = $temp['parrent'];
 		}
 
@@ -233,19 +230,18 @@
 		return $data;
 	}
 
-	public function garis_lock($id='',$val=0)
+	public function garis_lock($id='', $val=0)
 	{
 		$sql = "UPDATE garis SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_garis($id=0)
 	{
 		$sql = "SELECT * FROM garis WHERE id = ?";
-		$query = $this->db->query($sql,$id);
+		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
 	}
@@ -253,11 +249,10 @@
 	public function update_position($id=0)
 	{
 		$data = $_POST;
-		$this->db->where('id',$id);
+		$this->db->where('id', $id);
 		$outp = $this->db->update('garis', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_dusun()
@@ -267,13 +262,5 @@
 		$data = $query->result_array();
 		return $data;
 	}
-
-	public function get_desa()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 }
 ?>

@@ -9,12 +9,14 @@ class Komentar extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 50;
 	}
 
 	public function clear()
 	{
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		unset($_SESSION['filter_status']);
+		unset($_SESSION['filter_nik']);
 		redirect('komentar');
 	}
 
@@ -27,9 +29,9 @@ class Komentar extends Admin_Controller {
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		if (isset($_SESSION['filter_status']))
+			$data['filter_status'] = $_SESSION['filter_status'];
+		else $data['filter_status'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -38,10 +40,7 @@ class Komentar extends Admin_Controller {
 		$data['paging'] = $this->web_komentar_model->paging($p,$o);
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -66,11 +65,8 @@ class Komentar extends Admin_Controller {
 		}
 
 		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
-
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('komentar/form', $data);
@@ -90,8 +86,8 @@ class Komentar extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+			$_SESSION['filter_status'] = $filter;
+		else unset($_SESSION['filter_status']);
 		redirect('komentar');
 	}
 

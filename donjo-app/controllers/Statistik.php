@@ -10,8 +10,10 @@ class Statistik extends Admin_Controller {
 		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('header_model');
+		$this->load->model('config_model');
 		$_SESSION['per_page'] = 500;
 		$this->modul_ini = 3;
+		$this->sub_modul_ini = 27;
 	}
 
 
@@ -29,9 +31,8 @@ class Statistik extends Admin_Controller {
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o'] = $o;
 		$this->get_data_stat($data, $lap);
-		$nav['act'] = 3;
-		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk', $data);
@@ -97,8 +98,6 @@ class Statistik extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
 		$this->get_data_stat($data, $lap);
-		$nav['act'] = 3;
-		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -118,10 +117,8 @@ class Statistik extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
 		$this->get_data_stat($data, $lap);
-		$nav['act'] = 3;
-		$nav['act_sub'] = 27;
 		$header = $this->header_model->get_data();
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_pie', $data);
@@ -175,7 +172,7 @@ class Statistik extends Admin_Controller {
 		}
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['config'] = $this->laporan_penduduk_model->get_config();
+		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['laporan_no'] = $this->input->post('laporan_no');
@@ -193,7 +190,7 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = $lap;
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['filename'] = underscore($data['stat']);
-		$data['config']  = $this->laporan_penduduk_model->get_config();
+		$data['config']  = $this->config_model->get_data();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['laporan_no'] = $this->input->post('laporan_no');
@@ -204,10 +201,7 @@ class Statistik extends Admin_Controller {
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 3;
-		$nav['act_sub'] = 27;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -230,7 +224,6 @@ class Statistik extends Admin_Controller {
 			$data['rentang'] = $this->laporan_penduduk_model->get_rentang($id);
 		}
 		$this->load->view('statistik/ajax_rentang_form', $data);
-
 	}
 
 	public function rentang_insert()
@@ -299,5 +292,60 @@ class Statistik extends Admin_Controller {
 	{
 		$tipe_stat = array('index', 'graph', 'pie');
 		return $tipe_stat[$index];
+	}
+
+	public function chart_gis_desa($chart = 'pie', $lap = 0, $desa = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
+		$this->session->unset_userdata('dusun');
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+
+		redirect("statistik/load_chart_gis/$lap/$chart");
+	}
+
+	public function load_chart_gis($lap = 0, $chart = 'pie')
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value)
+		{
+			$data[$key] = $value;
+		}
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$data['jenis_chart'] = $chart;
+		$this->get_data_stat($data, $lap);
+		$this->load->view('statistik/penduduk_gis', $data);
+	}
+
+	public function chart_gis_dusun($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+
+		redirect("statistik/load_chart_gis/$lap/$chart");
+	}
+
+	public function chart_gis_rw($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+
+		redirect("statistik/load_chart_gis/$lap/$chart");
+	}
+
+	public function chart_gis_rt($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
+		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
+
+		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
 }

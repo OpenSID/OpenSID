@@ -158,4 +158,3 @@ class First_m extends CI_Model {
 	}
 
 }
-

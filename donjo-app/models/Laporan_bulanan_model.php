@@ -142,14 +142,6 @@
 		return $data;
 	}
 
-	public function configku()
-	{
-		$sql = "SELECT * FROM config limit 1 ";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
-	}
-
 	public function penduduk_awal()
 	{
 		$bln = $this->db->escape($_SESSION['bulanku']-1);

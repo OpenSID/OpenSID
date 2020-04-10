@@ -8,8 +8,10 @@ class Garis extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_garis_model');
-		$this->load->database();
+		$this->load->model('wilayah_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -54,7 +56,6 @@ class Garis extends Admin_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
 
 		$this->load->view('header', $header);
@@ -65,7 +66,7 @@ class Garis extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
-		$data['desa'] = $this->plan_garis_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
 		$data['dusun'] = $this->plan_garis_model->list_dusun();
 		if ($id)
@@ -80,8 +81,8 @@ class Garis extends Admin_Controller {
 		}
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('garis/form',$data);
@@ -97,9 +98,19 @@ class Garis extends Admin_Controller {
 		else
 			$data['garis'] = null;
 
-		$data['desa'] = $this->plan_garis_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
+
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view("garis/maps", $data);
+		$this->load->view('footer');
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

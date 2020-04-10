@@ -90,6 +90,8 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
+																			<a href="<?= site_url("gallery/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																			<a href="<?= site_url("gallery/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																			<a href="<?= site_url("gallery/sub_gallery/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Album"><i class="fa fa-bars"></i></a>
 																			<a href="<?= site_url("gallery/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['slider'] == '1'): ?>
@@ -121,7 +123,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("gallery/pager")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("gallery")?>" method="post" class="form-horizontal">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

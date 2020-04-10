@@ -9,6 +9,7 @@ class Mandiri extends Admin_Controller {
 		$this->load->model('mandiri_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 14;
+		$this->sub_modul_ini = 56;
 	}
 
 	public function clear()
@@ -38,11 +39,7 @@ class Mandiri extends Admin_Controller {
 		$data['paging'] = $this->mandiri_model->paging($p, $o);
 		$data['main'] = $this->mandiri_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->mandiri_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-
-		$nav['act'] = 14;
-		$nav['act_sub'] = 56;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -69,14 +66,8 @@ class Mandiri extends Admin_Controller {
 	public function insert()
 	{
 		$pin = $this->mandiri_model->insert();
-		if ($pin)
-		{
-			$_SESSION['success'] = 1;
-		}
-		else
-		{
-			$_SESSION['success'] = -1;
-		}
+
+		status_sukses($pin); //Tampilkan Pesan
 
 		$_SESSION['pin'] = $pin;
 		redirect('mandiri');
@@ -85,9 +76,7 @@ class Mandiri extends Admin_Controller {
 	public function delete($p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "mandiri");
-		$outp = $this->mandiri_model->delete($id);
-		if ($outp) $_SESSION['success'] = 1;
-			else $_SESSION['success'] = -1;
+		$this->mandiri_model->delete($id);		
 		redirect("mandiri");
 	}
 }

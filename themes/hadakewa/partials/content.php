@@ -9,7 +9,7 @@
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -19,19 +19,21 @@
 			<?php if ($headline["gambar"] != ""): ?>
 				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
 					<a class="group2" href="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" title=""><img src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" /></a>
-					<?php else: ?>
-						<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
-					<?php endif; ?>
+				<?php else: ?>
+					<img style="margin-right: 10px; margin-bottom: 5px; float: left;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" width="300" height="180"/>
 				<?php endif; ?>
-				<div class="post">
-					<?= $abstrak_headline ?>
-					<a href="<?= site_url('first/artikel/'.$headline['thn'].'/'.$headline['bln'].'/'.$headline['hri'].'/'.$headline['slug']) ?>">
-						<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
-					</a>
-				</div>
+			<?php endif; ?>
+			<div class="post">
+				<?= $abstrak_headline ?>
+				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">
+					<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
+				</a>
 			</div>
 		</div>
-	<?php endif; ?>
+	</div>
+<?php endif; ?>
+
+<?php	$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/feed.php'));?>
 
 <!--
  List Konten
@@ -57,15 +59,16 @@
 						<?php $abstrak = potong_teks($data['isi'], 300) ?>
 						<li class="artikel">
 							<h3 class="judul">
-								<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>"><?= $data["judul"] ?></a>
+								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
 							</h3>
 
 							<div class="teks">
 								<div class="kecil">
-									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?>
-									<i class="fa fa-user"></i> <?= $data['owner'] ?>
+									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> | 
+									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
+									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
-										<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['id_kategori']) ?>"><?= $data['kategori'] ?></a>
+										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
 									<?php endif; ?>
 								</div>
 								<div class="img">
@@ -79,7 +82,7 @@
 									</div>
 									<div class="post">
 										<?= $abstrak ?>
-										<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>">
+										<a href="<?= site_url('first/artikel/'.buat_slug($data))?>">
 											<div class="readmore">Selengkapnya <i class="fa fa-arrow-right"></i></a></div>
 										</a>
 									</div>
@@ -105,8 +108,8 @@
 			</div>
 		<?php endif; ?>
 	</div>
-
-	<?php if ($artikel): ?>
+	
+	<?php if ($artikel AND $paging->num_rows > $paging->per_page): ?>
 		<div class="box-footer">
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
 			<ul class="pagination pagination-sm no-margin">

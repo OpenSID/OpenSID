@@ -19,6 +19,7 @@ class User_setting extends Admin_Controller {
 	public function update($id = '')
 	{
 		$this->user_model->update_setting($id);
+		$this->user_model->logout();
 		redirect("main");
 	}
 

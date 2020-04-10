@@ -12,11 +12,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<?php $this->load->view('keuangan/filter_laporan'); ?>
+			<?php $this->load->view('keuangan/filter_laporan', array('data' => $tahun_anggaran)); ?>
 			<div class="col-md-9">
 				<?php include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php"); ?>
 			</div>
 		</div>
 	</section>
 </div>
-

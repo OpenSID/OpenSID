@@ -11,7 +11,9 @@ class Penduduk extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('header_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 21;
 	}
 
 	private function clear_session()
@@ -98,14 +100,10 @@ class Penduduk extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$header = $this->header_model->get_data();
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 21;
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
@@ -192,11 +190,9 @@ class Penduduk extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
 		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/penduduk_form', $data);
@@ -211,8 +207,6 @@ class Penduduk extends Admin_Controller {
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -225,8 +219,6 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -274,7 +266,6 @@ class Penduduk extends Admin_Controller {
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -282,7 +273,6 @@ class Penduduk extends Admin_Controller {
 	public function delete_all_dokumen($id_pend = 0)
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -555,15 +545,28 @@ class Penduduk extends Admin_Controller {
 		$data['edit'] = $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
-		$data['desa'] = $this->penduduk_model->get_desa();
-		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id");
+		$data['desa'] = $this->config_model->get_data();
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
+		$header = $this->header_model->get_data();
 
-		$this->load->view("sid/kependudukan/maps", $data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view("sid/kependudukan/ajax_penduduk_maps", $data);
+		$this->load->view('footer');
 	}
 
-	public function update_maps($p = 1, $o = 0, $id = '')
+	public function update_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$this->penduduk_model->update_position($id);
+		if ($edit == 1)
+			redirect("penduduk/form/$p/$o/$id");
+		else
+			redirect("penduduk");
 	}
 
 	public function edit_status_dasar($p = 1, $o = 0, $id = 0)
@@ -779,4 +782,11 @@ class Penduduk extends Admin_Controller {
 		}
 		redirect("penduduk");
 	}
+
+	public function autocomplete()
+	{
+		$data = $this->penduduk_model->autocomplete($this->input->post('cari'));
+		echo json_encode($data);
+	}
+
 }

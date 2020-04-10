@@ -47,20 +47,28 @@
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-geoman.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Locate.min.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
+    <!-- Diperlukan untuk script jquery khusus halaman -->
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
     <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-geoman.min.js"></script>
     <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
     <script src="<?= base_url()?>assets/js/togeojson.js"></script>
-
-    <!-- Diperlukan untuk script jquery khusus halaman -->
-		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+		<script src="<?= base_url()?>assets/js/togpx.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
+		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
+		<script src="<?= base_url()?>assets/js/peta.js"></script>
+		
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
@@ -84,6 +92,13 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
+								<li>
+									<a href="<?=site_url()?>permohonan_surat_admin/clear">
+										<i class="fa fa-print fa-lg" title="Permohonan surat baru"></i><span class="badge" id="b_permohonan_surat"></span>
+									</a>
+								</li>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
 								<li>
 									<a href="<?=site_url()?>komentar">
@@ -91,10 +106,10 @@
 									</a>
 								</li>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'lapor')): ?>
+							<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
 								<li>
-									<a href="<?=site_url()?>lapor">
-										<i class="fa fa-envelope fa-lg" title="Laporan mandiri baru"></i><span class="badge" id="b_lapor"></span>
+									<a href="<?=site_url()?>mailbox">
+										<i class="fa fa-envelope fa-lg" title="Pesan masuk baru"></i><span class="badge" id="b_inbox"></span>
 									</a>
 								</li>
 							<?php endif; ?>
@@ -134,7 +149,7 @@
 				</nav>
 			</header>
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
-			<!-- Untuk menampilkan modal bootstrap info pengguna login  -->
+			<!-- Untuk menampilkan modal bootstrap umum  -->
 			<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class='modal-dialog'>
 					<div class='modal-content'>

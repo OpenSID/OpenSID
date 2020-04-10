@@ -3,7 +3,7 @@
 		<h1>Pengaturan <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-      <?php if ($this->modul_ini == 15): ?>
+      <?php if (in_array($kat, array('2', '3'))): ?>
   			<li><a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
       <?php else: ?>
         <li><a href="<?= site_url().$this->controller.'/index/'.$kat?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
@@ -17,7 +17,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-              <?php if ($this->modul_ini == 15): ?>
+              <?php if (in_array($kat, array('2', '3'))): ?>
   							<a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
   								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
               	</a>
@@ -47,7 +47,7 @@
 								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
 								<div class="col-sm-6">
 									<div class="input-group input-group-sm">
-										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path">
+										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path" name="satuan">
 										<input id="file" type="file" class="hidden" name="satuan">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
@@ -58,14 +58,14 @@
 									<?php endif; ?>
 								</div>
 							</div>
-							<input name="kategori" type="hidden" value="<?= $kat;?>">
+							<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat;?>">
 							<?php
-								if ($kat == 1)
-									include ("donjo-app/views/dokumen/_informasi_publik.php");
-								elseif ($kat == 2)
+								if ($kat == 2 or $dokumen['kategori'] == 2)
 									include ("donjo-app/views/dokumen/_sk_kades.php");
-								elseif ($kat == 3)
+								elseif ($kat == 3 or $dokumen['kategori'] == 3)
 									include ("donjo-app/views/dokumen/_perdes.php");
+								else
+									include ("donjo-app/views/dokumen/_informasi_publik.php");
 							?>
 						</div>
 						<div class='box-footer'>
@@ -80,3 +80,4 @@
 		</form>
 	</section>
 </div>
+

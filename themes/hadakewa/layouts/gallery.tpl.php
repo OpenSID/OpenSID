@@ -20,7 +20,6 @@
 			</div>
 		</div>
 		<?php if ($gallery): ?>
-			<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
 			<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
 			<script>
 				$(".group2").colorbox({rel:'group2', transition:"fade"});

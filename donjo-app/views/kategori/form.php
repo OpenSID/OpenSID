@@ -24,7 +24,10 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama Kategori</label>
 								<div class="col-sm-6">
-									<input name="kategori" class="form-control input-sm" type="text" value="<?=$kategori['kategori']?>"></input>
+									<?php if ($kategori): ?>
+										<input name="kategori_lama" type="hidden" value="<?=$kategori['kategori']?>">
+									<?php endif; ?>
+									<input name="kategori" class="form-control input-sm required" type="text" value="<?=$kategori['kategori']?>"></input>
 								</div>
 							</div>
 						</div>

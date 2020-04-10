@@ -31,7 +31,7 @@
 													$no_kk = $kk['no_kk'];
 												endif;
 											?>
-											<input id="no_kk"  name="no_kk"  class="form-control input-sm" type="text" placeholder="Nomor KK"  value="<?= $no_kk?>"></input>
+											<input id="no_kk"  name="no_kk"  class="form-control input-sm nik" type="text" placeholder="Nomor KK"  value="<?= $no_kk?>"></input>
 										</div>
 									</div>
 								</div>

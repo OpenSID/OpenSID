@@ -1,13 +1,22 @@
 <script>
-	$(function()
-	{
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
+  $( function() {
+	  $( "#cari" ).autocomplete({
+	    source: function( request, response ) {
+	      $.ajax( {
+					type: "POST",
+	        url: '<?= site_url("keluarga/autocomplete")?>',
+	        dataType: "json",
+	        data: {
+	          cari: request.term
+	        },
+	        success: function( data ) {
+	          response( JSON.parse( data ));
+	        }
+	      } );
+	    },
+	    minLength: 2,
+	  } );
+  } );
 </script>
 <style>
 	.input-sm
@@ -64,6 +73,7 @@
 								<?php endif; ?>
 							</ul>
 						</div>
+						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 					</div>
 					<div class="box-body">
 						<div class="row">

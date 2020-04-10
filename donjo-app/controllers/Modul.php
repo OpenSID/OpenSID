@@ -9,6 +9,7 @@ class Modul extends Admin_Controller {
 		$this->load->model('modul_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 11;
+		$this->sub_modul_ini = 42;
 	}
 
 	public function clear()
@@ -20,14 +21,14 @@ class Modul extends Admin_Controller {
 
 	public function index()
 	{
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		$list_session = array('cari', 'filter');
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
 
 		$data['main'] = $this->modul_model->list_data();
 		$data['keyword'] = $this->modul_model->autocomplete();
-		$nav['act'] = 11;
-		$nav['act_sub'] = 42;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -49,10 +50,8 @@ class Modul extends Admin_Controller {
 			$data['form_action'] = site_url("modul/insert");
 		}
 		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
 
-		$nav['act'] = 11;
-		$nav['act_sub'] = 42;
+		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('setting/modul/form', $data);
 		$this->load->view('footer');
@@ -63,8 +62,6 @@ class Modul extends Admin_Controller {
 		$data['submodul'] = $this->modul_model->list_sub_modul($id);
 		$data['modul'] = $this->modul_model->get_data($id);
 		$header = $this->header_model->get_data();
-		$nav['act'] = 11;
-		$nav['act_sub'] = 42;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -103,7 +100,6 @@ class Modul extends Admin_Controller {
 
 	public function ubah_server()
 	{
-		$this->load->model('setting_model');
 		$this->setting_model->update_penggunaan_server();
 		redirect('modul');
 	}

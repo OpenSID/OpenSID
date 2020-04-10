@@ -9,6 +9,19 @@
 			maxShowItems: 10,
 		});
 	});
+
+$(document).ready(function()
+{
+	$('#modalEkspor').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+});
+
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -21,13 +34,12 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-        <?php if ($this->modul_ini == 15): ?>
-  				<?php $this->load->view('dokumen/menu_dokumen'); ?>
-  				<div class="col-md-9">
-        <?php else: ?>
-          <div class="col-md-12">
-        <?php endif; ?>
-				<div class="col-md-12">
+        <?php if (in_array($kat, array('2', '3'))): ?>
+					<?php $this->load->view('dokumen/menu_dokumen'); ?>
+					<div class="col-md-9">
+				<?php else: ?>
+					<div class="col-md-12">
+				<?php endif; ?>
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?= site_url("{$this->controller}/form/$kat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Menu Baru">
@@ -42,6 +54,11 @@
 							<a href="<?= site_url("{$this->controller}/dialog_excel/$kat")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan">
 								<i class="fa fa-download"></i>Unduh
             	</a>
+            	<?php if ($kat == 1): ?>
+								<a href="<?= site_url("informasi_publik/ekspor")?>" class="btn btn-social btn-flat bg-blue btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Ekspor Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ekspor Data Informasi Publik">
+									<i class="fa fa-download"></i>Ekspor
+	            	</a>
+	            <?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -122,12 +139,12 @@
 																			<?php elseif ($data['enabled'] == '1'): ?>
 																				<a href="<?= site_url($this->controller.'/dokumen_unlock/'.$kat.'/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
                                       <?php endif ?>
-																			<a href="<?= base_url().LOKASI_DOKUMEN.underscore($data['satuan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
 																			<a href="#" data-href="<?= site_url("{$this->controller}/delete/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="30%"><?= $data['nama']?></td>
 																		<?php if ($kat == 1): ?>
-																			<td><?= $data['attr']['kategori_publik']?></td>
+																			<td><?= $data['kategori_info_publik']?></td>
 																			<td><?= $data['tahun']?></td>
 																		<?php elseif ($kat == 2): ?>
 																			<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>

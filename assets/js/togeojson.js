@@ -58,12 +58,12 @@ var toGeoJSON = (function() {
             heartRate = get1(x, 'gpxtpx:hr') || get1(x, 'hr'),
             time = get1(x, 'time'),
             e;
-        if (ele) {
-            e = parseFloat(nodeVal(ele));
-            if (!isNaN(e)) {
-                ll.push(e);
-            }
-        }
+        //if (ele) {
+        //    e = parseFloat(nodeVal(ele));
+        //    if (!isNaN(e)) {
+        //        ll.push(e);
+        //    }
+       // }
         return {
             coordinates: ll,
             time: time ? nodeVal(time) : null,

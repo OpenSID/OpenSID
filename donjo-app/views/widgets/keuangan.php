@@ -110,9 +110,9 @@
           <ul class="dropdown-menu dropdown-menu-left">
             <?php foreach ($widget_keuangan['tahun'] as $key):?>
               <li><a class="dropdown-item"><b><?= $key ?></b></a></li>
-              <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Realisasi Pelaksanaan APBDesa</a></li>
-              <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Realisasi Pendapatan Desa</a></li>
-              <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Realisasi Belanja Desa</a></li>
+              <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Pelaksanaan APBDes</a></li>
+              <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Pendapatan APBDes</a></li>
+              <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Belanja APBDes</a></li>
             <?php endforeach;?>
           </ul>
         </div>
@@ -141,17 +141,17 @@
     switch(tipe)
     {
       case "pelaksanaan":
-        var judulGrafik = 'Pelaksanaan APBDesa';
+        var judulGrafik = 'Pelaksanaan APBDes';
         var tipeGrafik = 'res_pelaksanaan';
         break;
 
       case "belanja":
-        var judulGrafik = 'Belanja Desa';
+        var judulGrafik = 'Belanja APBDes';
         var tipeGrafik = 'res_belanja';
         break;
 
       case "pendapatan":
-        var judulGrafik = 'Pendapatan Desa';
+        var judulGrafik = 'Pendapatan APBDes';
         var tipeGrafik = 'res_pendapatan';
         break;
     }

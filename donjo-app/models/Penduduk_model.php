@@ -12,9 +12,16 @@
 		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
-	public function autocomplete()
+	public function autocomplete($cari='')
 	{
-		$str = autocomplete_str('nama', 'tweb_penduduk');
+		$this->db->select('nama')
+			->distinct()
+			->order_by('nama')
+			->from('tweb_penduduk');
+		if ($cari) $this->db->where("nama like '%$cari%'");
+		$data = $this->db->get()->result_array();
+
+		$str = autocomplete_data_ke_str($data);
 		return $str;
 	}
 
@@ -540,8 +547,21 @@
 				break;
 		}
 
+		// Sterilkan data
+		$data['no_kk_sebelumnya'] = preg_replace('/[^0-9\.]/', '', strip_tags($data['no_kk_sebelumnya']));
+		$data['akta_lahir'] =  nomor_surat_keputusan($data['akta_lahir']);
+		$data['tempatlahir'] = strip_tags($data['tempatlahir']);
+		$data['dokumen_pasport'] = nomor_surat_keputusan($data['dokumen_pasport']);
+		$data['nama_ayah'] = nama($data['nama_ayah']);
+		$data['nama_ibu'] = nama($data['nama_ibu']);
+		$data['telepon'] = preg_replace('/[^0-9 \-\+\.]/', '', strip_tags($data['telepon']));
+		$data['alamat_sebelumnya'] = strip_tags($data['alamat_sebelumnya']);
+		$data['alamat_sekarang'] = strip_tags($data['alamat_sebelumnya']);
+		$data['akta_perkawinan'] = nomor_surat_keputusan($data['akta_perkawinan']);
+		$data['akta_perceraian'] = nomor_surat_keputusan($data['akta_perceraian']);
+
 		$valid = array();
-		if (preg_match("/[^a-zA-Z '\.,-]/", $data['nama']))
+		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['nama']))
 		{
 			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 		}
@@ -669,8 +689,7 @@
 
 		$outp = $this->db->insert('log_perubahan_penduduk', $log1);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 
 		return $idku;
 	}
@@ -764,8 +783,7 @@
     $this->db->where('id', $id);
     $outp = $this->db->update('tweb_penduduk', $data);
 
-    if ($outp) $_SESSION['success'] = 1;
-    else $_SESSION['success'] = -1;
+    status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_position($id=0)
@@ -798,8 +816,7 @@
         $outp = $this->db->insert('tweb_penduduk_map', $data);
       }
     }
-    if ($outp) $_SESSION['success'] = 1;
-    else $_SESSION['success'] = -1;
+    status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_penduduk_map($id=0)
@@ -856,31 +873,24 @@
 			$_SESSION['success'] = - 1;
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	public function adv_search_proses()
@@ -1237,13 +1247,6 @@
 		return $data;
 	}
 
-	public function get_desa()
-	{
-		$sql = "SELECT * FROM config WHERE 1";
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
-
 	public function is_anggota_keluarga($id)
 	{
 		$this->db->select('id_kk');
@@ -1341,7 +1344,7 @@
 
 	public function list_dokumen($id="")
 	{
-		$sql = "SELECT * FROM dokumen WHERE id_pend = ? ";
+		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? AND deleted = 0";
 		$query = $this->db->query($sql, $id);
 		$data = null;
 		if ($query)
@@ -1396,27 +1399,5 @@
 				get('tweb_penduduk')->row()->jml;
 		return $jml;
 	}
-
-	/*
-	 * Mengambil semua data penduduk untuk pilihan drop-down di form yang memerlukan
-	 */
-	public function list_penduduk()
-	{
-		$this->db
-				->select('u.id, nik, nama, w.dusun, w.rw, w.rt, u.sex')
-				->from('tweb_penduduk u')
-				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-				->where('status_dasar', '1');
-		$data = $this->db->get()->result_array();
-
-		//Formating Output untuk nilai variabel di javascript, di form surat
-		foreach($data as $i => $row)
-		{
-			$data[$i]['nama'] = addslashes($row['nama']);
-			$data[$i]['alamat'] = addslashes("Alamat: RT-{$row[rt]}, RW-{$row[rw]} {$row[dusun]}");
-		}
-		return $data;
-	}
-
 
 }

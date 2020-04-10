@@ -8,7 +8,6 @@ class Hom_sid extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('header_model');
-		$this->load->model('config_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 1;
@@ -24,27 +23,11 @@ class Hom_sid extends Admin_Controller {
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
 		$data['jumlah_surat'] = $this->surat_model->surat_total();
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 16;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('home/desa', $data);
-		$this->load->view('footer');
-	}
-
-	public function donasi()
-	{
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 19;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/donasi');
 		$this->load->view('footer');
 	}
 

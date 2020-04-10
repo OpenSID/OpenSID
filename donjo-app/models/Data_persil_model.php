@@ -1,11 +1,6 @@
 <?php
 class Data_persil_model extends CI_Model {
 
-	public function __construct()
-	{
-		$this->load->database();
-	}
-
 	public function autocomplete()
 	{
 		$sql = "SELECT pemilik_luar as nik
@@ -471,8 +466,7 @@ class Data_persil_model extends CI_Model {
 			$outp = $this->db->insert('data_persil',$upd);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 }

@@ -69,7 +69,7 @@
 		{
 			case 1: $order_sql = ' ORDER BY u.last_login'; break;
 			case 2: $order_sql = ' ORDER BY u.last_login DESC'; break;
-			default:$order_sql = ' ORDER BY u.tanggal_buat';
+			default:$order_sql = ' ORDER BY u.tanggal_buat DESC';
 		}
 
 		//Paging SQL
@@ -146,25 +146,23 @@
     }
   }
 
-	public function delete($id_pend='')
+	public function delete($id_pend='', $semua=false)
 	{
-		$sql = "DELETE FROM tweb_penduduk_mandiri WHERE id_pend = ?";
-		$outp = $this->db->query($sql, array($id_pend));
-		return $outp;
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach($id_cb as $id)
-			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -180,6 +178,68 @@
 			$data[$i]['alamat'] = "Alamat :".$data[$i]['nama'];
 		}
 		return $data;
+	}
+
+	private function list_data_ajax_sql($cari = '')
+	{
+		$this->db
+			->select('u.*, n.nama AS nama, n.nik AS nik')
+			->from('tweb_penduduk_mandiri u')
+			->join('tweb_penduduk n', 'u.id_pend = n.id', 'left')
+			->join('tweb_wil_clusterdesa w', 'n.id_cluster = w.id', 'left');
+		if ($cari) 
+		{
+			$this->db
+				->where("(nik like '%{$cari}%' or nama like '%{$cari}%')");
+		}
+	}
+
+	public function list_data_ajax($cari, $page)
+	{
+		$this->list_data_ajax_sql($cari);
+		$jml = $this->db->select('count(u.id_pend) as jml')
+				->get()->row()->jml;
+		$result_count = 25;
+		$offset = ($page - 1) * $result_count;
+
+		$this->list_data_ajax_sql($cari);
+		$this->db
+			->distinct()
+			->select('u.id_pend, nik, nama, w.dusun, w.rw, w.rt')
+			->limit($result_count, $offset);
+		$data = $this->db->get()->result_array();
+
+		foreach ($data as $row ) {
+			$nama = addslashes($row['nama']);
+			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
+			$outp = "{$row['nik']} - {$nama} \n {$alamat}";
+			$pendaftar_mandiri[] = array(
+				'id' => $row['nik'],
+				'text' => $outp
+			);
+		}
+
+		$end_count = $offset + $result_count;
+		$more_pages = $end_count < $jml;
+		
+		$result = array(
+			'results' => $pendaftar_mandiri,
+			"pagination" => array(
+        "more" => $more_pages
+      )
+		);
+		return $result;
+	}
+
+	public function get_pendaftar_mandiri($nik)
+	{
+		return $this->db
+			->select('id, nik, nama')
+			->from('tweb_penduduk')
+			->where('status', 1)
+			->where('nik', $nik)
+			->get()
+			->row_array();
 	}
 
 }

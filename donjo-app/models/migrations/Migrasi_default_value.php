@@ -4,13 +4,6 @@ class Migrasi_default_value extends CI_model {
 
 	public function up() {
 
-		// Proses ini lama. Jadi tes jangan diulangi kalau sudah dikerjakan sekali.
-		// $fields = $this->db->field_data('tweb_penduduk');
-		// $key = array_search('id_rtm', array_column($fields, 'name'));
-		// $kolom = $fields[$key];
-		// if ($kolom->default === NULL) return;
-
-
 		$this->dbforge->modify_column('tweb_penduduk', array('id_rtm' => array('id_rtm','type' => 'VARCHAR(30)', 'null' => true, 'default' => NULL)));
 		$this->dbforge->modify_column('tweb_penduduk', array('rtm_level' => array('rtm_level','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
 		$this->dbforge->modify_column('tweb_penduduk', array('tempatlahir' => array('tempatlahir','type' => 'VARCHAR(100)', 'null' => true, 'default' => NULL)));

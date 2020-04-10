@@ -1,13 +1,17 @@
 <?php
 
-define("VERSION", '19.11-pasca');
+define("VERSION", '20.04-pasca');
+/* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
+   Versi database = [ddmmyyy][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
+*/
+define('VERSI_DATABASE', '2020040401');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
-define("LOKASI_SURAT_DESA", 'desa/surat/');
-define("LOKASI_SURAT_FORM_DESA", 'desa/surat/form/');
-define("LOKASI_SURAT_PRINT_DESA", 'desa/surat/print/');
-define("LOKASI_SURAT_EXPORT_DESA", 'desa/surat/export/');
+define("LOKASI_SURAT_DESA", 'desa/template-surat/');
+define("LOKASI_SURAT_FORM_DESA", 'desa/template-surat/form/');
+define("LOKASI_SURAT_PRINT_DESA", 'desa/template-surat/print/');
+define("LOKASI_SURAT_EXPORT_DESA", 'desa/template-surat/export/');
 define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
 define("LOKASI_GALERI", 'desa/upload/galeri/');
 define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
@@ -276,6 +280,10 @@ define("ASAL_INVENTARIS", serialize(array(
 	"Bantuan Kabupaten" => "4",
 	"Sumbangan" => "5"
 )));
+define("KATEGORI_MAILBOX", serialize(array(
+	"Kotak Masuk" => "1",
+	"Kotak Keluar" => "2"
+)));
 
 /**
  * Ambil Versi
@@ -291,6 +299,23 @@ function AmbilVersi()
 }
 
 /**
+ * favico_desa
+ *
+ * Mengembalikan path lengkap untuk file favico desa
+ *
+ * @access  public
+ * @return  string
+ */
+function favico_desa()
+{
+	$favico = 'favicon.ico';
+	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ? 
+		base_url() . LOKASI_LOGO_DESA . $favico : 
+		base_url() . $favico;
+	return $favico_desa;
+}
+
+/**
  * LogoDesa
  *
  * Mengembalikan path lengkap untuk file logo desa
@@ -300,7 +325,8 @@ function AmbilVersi()
  */
 function LogoDesa($nama_logo)
 {
-	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) {
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) 
+	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
 
@@ -401,6 +427,21 @@ function httpPost($url, $params)
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
 	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+}
+
+function cek_bisa_akses_site($url)
+{
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  $content = curl_exec($ch);
+  $error = curl_error($ch);
+  
+  curl_close($ch);
+  return empty($error);
 }
 
 /**
@@ -593,20 +634,29 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
 	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-	if (!file_exists($pathBerkas)) {
+	if (!file_exists($pathBerkas))
+	{
 		$_SESSION['success'] = -1;
 		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
-		redirect($redirect_url);
+		if ($redirect_url)
+			redirect($redirect_url);
+		else
+		{
+			http_response_code(404);
+			include(FCPATH . 'donjo-app/views/errors/html/error_404.php'); 
+			die();			
+		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
-	$data         = file_get_contents($pathBerkas);
-	if(!is_null($unique_id)){
+	$data = file_get_contents($pathBerkas);
+	if (!is_null($unique_id))
+	{
 		// Buang unique id pada nama berkas download
-		$nama_berkas       = explode($unique_id, $nama_berkas);
-		$namaFile     = $nama_berkas[0];
+		$nama_berkas = explode($unique_id, $nama_berkas);
+		$namaFile = $nama_berkas[0];
 		$ekstensiFile = explode('.', end($nama_berkas));
 		$ekstensiFile = end($ekstensiFile);
-		$nama_berkas       = $namaFile . '.' . $ekstensiFile;
+		$nama_berkas = $namaFile . '.' . $ekstensiFile;
 	}
 	force_download($nama_berkas, $data);
 }
@@ -663,6 +713,108 @@ function bulan_romawi($bulan)
 function buang_nondigit($str)
 {
 	return preg_replace('/[^0-9]/', '', $str);
+}
+
+/**
+ * @param array 		$files = array($file1, $file2, ...)
+ * @return string 	path ke zip file
+
+	Masukkan setiap berkas ke dalam zip.
+
+	$file bisa:
+		- array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
+		- full-path-ke-berkas
+	Untuk membuat folder di dalam zip gunakan:
+		$file = array('nama' => 'dir', 'file' => nama-folder)
+*/
+function masukkan_zip($files=array())
+{
+  $zip = new ZipArchive();
+  # create a temp file & open it
+  $tmp_file = tempnam(sys_get_temp_dir(),'');
+  $zip->open($tmp_file, ZipArchive::CREATE);
+
+  foreach ($files as $file)
+  {
+		if (is_array($file))
+		{
+			if ($file['nama'] == 'dir')
+			{
+				$zip->addEmptyDir($file['file']);
+				continue;
+			}
+			else
+			{
+				$nama_file = $file['nama'];
+				$file = $file['file'];
+			}
+		}
+		else
+		{
+			$nama_file = basename($file);
+		}
+    $download_file = file_get_contents($file);
+    $zip->addFromString($nama_file, $download_file);
+  }
+  $zip->close();
+  return $tmp_file;
+}
+
+function alfa_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z ]/', '', strip_tags($str));
+}
+
+// https://www.php.net/manual/en/function.array-column.php
+function array_column_ext($array, $columnkey, $indexkey = null) {
+  $result = array();
+  foreach ($array as $subarray => $value) {
+    if (array_key_exists($columnkey,$value)) { $val = $array[$subarray][$columnkey]; }
+    else if ($columnkey === null) { $val = $value; }
+    else { continue; }
+       
+    if ($indexkey === null) { $result[] = $val; }
+    elseif ($indexkey == -1 || array_key_exists($indexkey,$value)) {
+      $result[($indexkey == -1)?$subarray:$array[$subarray][$indexkey]] = $val;
+    }
+  }
+  return $result;
+}
+
+function alfanumerik_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
+function bilangan_titik($str)
+{
+	return preg_replace('/[^0-9\.]/', '', strip_tags($str));
+}
+
+function nomor_surat_keputusan($str)
+{
+	return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', strip_tags($str));
+}
+
+// Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
+function nama($str)
+{
+	return preg_replace("/[^a-zA-Z '\.,\-]/", '', strip_tags($str));
+}
+
+function buat_slug($data_slug)
+{
+	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
+	return $slug;
+}
+
+function status_sukses($outp, $gagal_saja=false)
+{
+	$CI =& get_instance();
+	if ($gagal_saja)
+		if (!$outp) $CI->session->success = -1;
+	else
+		$CI->session->success = $outp ? 1 : -1;
 }
 
 ?>

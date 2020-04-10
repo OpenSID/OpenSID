@@ -45,13 +45,21 @@
     <link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. -->
     <link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="<?= base_url()?>assets/front/css/jquery-confirm.min.css">
+
     <!-- Style Admin Modification Css -->
     <link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
     <script type="text/javascript">
-      var BASE_URL = "<?= base_url(); ?>";
+      const BASE_URL = "<?= base_url(); ?>";
+      const SITE_URL = "<?= site_url(); ?>";
     </script>
+    <script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 
+    <!-- Diperlukan untuk script jquery khusus halaman -->
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+    
     <style type="text/css">
       #footer{
         padding: 3px 0;
@@ -128,15 +136,17 @@
               <ul class="nav navbar-nav">
                 <li><a href="<?= site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
                 <?php foreach ($menu_atas as $data): ?>
-                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?= $data['link']?>"><i class="fa fa-th-large"></i> <?= $data['nama'] ?><?php (count($data['submenu']) > 0) and print("<span class='caret'></span>") ?></a>
-                    <?php if (count($data['submenu']) > 0): ?>
+                  <?php if (count($data['submenu']) > 0): ?>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?= $data['link']?>"><i class="fa fa-th-large"></i> <?= $data['nama'] ?><span class='caret'></span></a>
                       <ul class="dropdown-menu">
                         <?php foreach ($data['submenu'] as $submenu): ?>
                           <li><a href="<?= $submenu['link']?>"><?= $submenu['nama']?></a></li>
                         <?php endforeach; ?>
                       </ul>
-                    <?php endif; ?>
-                  </li>
+                    </li>
+                  <?php else: ?>
+                    <li><a href="<?= $data['link']?>"><i class="fa fa-home fa-lg"></i> <?= $data['nama'] ?></a></li>                                   
+                  <?php endif; ?>
                 <?php endforeach; ?>
               </ul>
               <ul class="nav navbar-nav navbar-right">

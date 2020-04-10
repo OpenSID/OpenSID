@@ -98,7 +98,7 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT a.*, k.kategori AS kategori " . $this->list_data_sql($cat);
+		$sql = "SELECT a.*, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri " . $this->list_data_sql($cat);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -157,8 +157,9 @@
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
+		
 		// Gunakan judul untuk url artikel
-		$slug = url_title($data['judul'], 'dash', TRUE);
+		$slug = $this->str_slug($data['judul']);
 
 		$fp = time();
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
@@ -226,16 +227,34 @@
 			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
+		$data['slug'] = $slug; // insert slug
 		if ($cat == AGENDA)
 		{
 			$outp = $this->insert_agenda($data);
 		}
 		else
 		{
-			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->insert('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	//Buat slug unik
+	private function str_slug($str)
+	{
+		$slug = url_title($str, 'dash', $lowercase = true);
+		$cek_slug = true;
+		$n = 1;
+		$slug_unik = $slug;
+		while ($cek_slug)
+		{
+			$cek_slug = $this->db->where('slug', $slug_unik)->get('artikel')->num_rows();
+			if ($cek_slug)
+			{
+			  $slug_unik = $slug . '-' . $n++;
+			}
+		}
+		return $slug_unik;
 	}
 
 	private function ambil_data_agenda(&$data)
@@ -277,8 +296,6 @@
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
-		// Gunakan judul untuk url artikel
-		$slug = url_title($data['judul'], 'dash', TRUE);
 
 	  $fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
@@ -368,7 +385,6 @@
 		else
 		{
 			$this->db->where('id', $id);
-			$data['slug'] = $slug; // insert slug
 			$outp = $this->db->update('artikel', $data);
 		}
 		if (!$outp) $_SESSION['success'] = -1;
@@ -400,8 +416,10 @@
 		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+
 		$list_gambar = $this->db->
 			select('gambar, gambar1, gambar2, gambar3')->
 			where('id', $id)->
@@ -410,31 +428,34 @@
 		{
 			HapusArtikel($gambar);
 		}
+		
 		$outp = $this->db->where('id', $id)->delete('artikel');
-		return $outp;
+		
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
 			if ($this->boleh_ubah($id, $_SESSION['user']))
 			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
+				$this->delete($id, $semua=true);
 			}
 		}
 	}
 
-	public function hapus($id='')
+	// TODO: ubah supaya menggunakan web_kategori_model
+	public function hapus($id='', $semua=false)
 	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('kategori');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function artikel_lock($id='', $val=0)
@@ -442,8 +463,7 @@
 		$sql = "UPDATE artikel SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function komentar_lock($id='', $val=0)
@@ -455,7 +475,7 @@
 
 	public function get_artikel($id=0)
 	{
-		$sql = "SELECT a.*, g.*, g.id as id_agenda, u.nama AS owner
+		$sql = "SELECT a.*, g.*, g.id as id_agenda, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
 			FROM artikel a
 			LEFT JOIN user u ON a.id_user = u.id
 			LEFT JOIN agenda g ON g.id_artikel = a.id
@@ -502,36 +522,13 @@
 		return $data;
 	}
 
-	public function artikel_show()
-	{
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori AS kategori
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled=? AND k.tipe = 1
-			ORDER BY a.tgl_upload DESC LIMIT 4";
-		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$id = $data[$i]['id'];
-			$pendek = str_split($data[$i]['isi'], 100);
-			$data[$i]['isi_short'] = $pendek[0];
-			$panjang = str_split($data[$i]['isi'], 150);
-			$data[$i]['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
-		}
-		return $data;
-	}
-
 	public function insert_kategori()
 	{
 		$data['kategori'] = $_POST['kategori'];
 		$data['tipe'] = '2';
 		$outp = $this->db->insert('kategori', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function insert_comment($id=0)
@@ -541,8 +538,7 @@
 		$data['id_artikel'] = $id;
 		$outp = $this->db->insert('komentar', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function list_komentar($id=0)
@@ -561,8 +557,7 @@
 		$sql = "UPDATE artikel SET headline = 1 WHERE id = ?";
 		$outp = $this->db->query($sql, $id);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function slide($id=0)
@@ -582,8 +577,7 @@
 			$outp = $this->db->query($sql, $id);
 		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function jml_artikel()

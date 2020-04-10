@@ -134,9 +134,7 @@
 		// hapus data disposisi dari post
 		// surat masuk
 		unset($data['disposisi_kepada']);
-		// Normalkan tanggal
-		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
-		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		$this->validasi_surat_masuk($data);
 
 		// Adakah lampiran yang disertakan?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
@@ -208,6 +206,18 @@
 		$_SESSION['error_msg'] = $_SESSION['success'] === 1 ? NULL : ' -> '.$uploadError;
 	}
 
+	private function validasi_surat_masuk(&$data)
+	{
+		// Normalkan tanggal
+		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
+		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		// Bersihkan data
+		$data['nomor_surat'] = strip_tags($data['nomor_surat']);
+		$data['pengirim'] = alfanumerik_spasi($data['pengirim']);
+		$data['isi_singkat'] = strip_tags($data['isi_singkat']);
+		$data['isi_disposisi'] = strip_tags($data['isi_disposisi']);
+	}
+
 	/**
 	 * Update data di tabel surat_masuk
 	 * @param   integer  $idSuratMasuk  Id berkas untuk query ke database
@@ -229,9 +239,7 @@
 
 		$_SESSION['error_msg'] = NULL;
 
-		// Normalkan tanggal
-		$data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
-		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+		$this->validasi_surat_masuk($data);
 
 		// Ambil nama berkas scan lama dari database
 		$berkasLama = $this->getNamaBerkasScan($idSuratMasuk);
@@ -365,8 +373,13 @@
 	 * @param   string  $idSuratMasuk  Id surat masuk
 	 * @return  void
 	 */
-	public function delete($idSuratMasuk)
+	public function delete($idSuratMasuk, $semua=false)
 	{
+		if (!$semua) 
+		{
+			$this->session->success = 1;
+			$this->session->error_msg = '';
+		}
 		// Type check
 		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
 		// Redirect ke halaman surat masuk jika Id kosong
@@ -413,13 +426,13 @@
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+		$this->session->error_msg = '';
+
 		$id_cb = $_POST['id_cb'];
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -500,10 +513,13 @@
 		return $query;
 	}
 
-	public function delete_disposisi_surat($id_surat_masuk)
+	public function delete_disposisi_surat($id_surat_masuk, $semua=false)
 	{
-		$this->db->where('id_surat_masuk', $id_surat_masuk);
-		$this->db->delete('disposisi_surat_masuk');
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 }

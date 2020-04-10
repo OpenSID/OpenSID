@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group tdk-permohonan">
 	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
@@ -11,7 +11,7 @@
 		</select>
 	</div>
 </div>
-<div class="form-group">
+<div class="form-group tdk-permohonan">
 	<label class="col-sm-3 control-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control required input-sm" id="pamong" name="pamong" onchange="ambil_pamong($(this).find(':selected'))">
@@ -27,7 +27,7 @@
 		<input name="pamong_id" id="pamong_id" type="hidden" value="<?= $pamong_id; ?>"/>
 	</div>
 </div>
-<div class="form-group">
+<div class="form-group tdk-permohonan">
 	<label for="jabatan"  class="col-sm-3 control-label">Menjabat Sebagai</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm required" id="jabatan" name="jabatan">
