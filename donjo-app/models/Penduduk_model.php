@@ -5,6 +5,7 @@
 		parent::__construct();
 
 		$this->load->model('keluarga_model');
+		$this->load->model('web_dokumen_model');
 		$this->ktp_el = array_flip(unserialize(KTP_EL));
 		$this->status_rekam = array_flip(unserialize(STATUS_REKAM));
 		$this->tempat_dilahirkan = array_flip(unserialize(TEMPAT_DILAHIRKAN));
@@ -1353,6 +1354,16 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
+
+			//jika dokumen berelasi dengan dokumen kepala kk
+			$anggota_lain = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data[$i]['satuan']);
+			if(count($anggota_lain)>1) {
+				$penduduk = $this->get_penduduk($id);
+				if($penduduk['kk_level'] != '1') {
+					$data[$i]['hidden'] = true;
+				}
+			}
+			//jika dokumen berelasi dengan dokumen kepala kk end
 		}
 		return $data;
 	}

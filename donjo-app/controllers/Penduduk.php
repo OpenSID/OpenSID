@@ -7,6 +7,7 @@ class Penduduk extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('penduduk_model');
+		$this->load->model('keluarga_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
@@ -218,6 +219,7 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -229,6 +231,12 @@ class Penduduk extends Admin_Controller {
 	public function dokumen_form($id = 0, $id_dokumen = 0)
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+
+		if($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		{
+			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+		}
+
 		if ($id_dokumen)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
@@ -258,7 +266,7 @@ class Penduduk extends Admin_Controller {
 
 	public function dokumen_update($id = '')
 	{
-		$this->web_dokumen_model->update($id);
+		var_dump($this->web_dokumen_model->update($id));
 		$id = $_POST['id_pend'];
 		redirect("penduduk/dokumen/$id");
 	}

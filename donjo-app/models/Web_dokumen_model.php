@@ -279,14 +279,25 @@ class Web_dokumen_model extends CI_Model {
 
 	public function insert()
 	{
+		$retval = false;
 		$data = $_POST;
 		if ($this->upload_dokumen($data))
 		{
 			$this->validasi($data);
-			$data['attr'] = json_encode($data['attr']);
-			return $this->db->insert('dokumen', $data);
+
+			unset($data['anggota_kk']);
+
+			$retval = $this->db->insert('dokumen', $data);
+
+			if($retval)
+			{
+				foreach ($_POST['anggota_kk'] as $key => $value) {
+					$data['id_pend'] = $value;
+					$this->db->insert('dokumen', $data);
+				}
+			}
 		}
-		else return false;
+		else return $retval;
 	}
 
 	private function validasi(&$data)
@@ -325,7 +336,13 @@ class Web_dokumen_model extends CI_Model {
 
 	public function update($id=0)
 	{
+		$retval = false;
 		$data = $_POST;
+
+		//cek jika dokumen ini juga ada di anggota yang lain
+		$dokumen = $this->web_dokumen_model->get_dokumen($id);
+		$anggota_lain = $this->get_dokumen_di_anggota_lain($dokumen['satuan']);
+
 		if (empty($data['satuan']) or !$this->upload_dokumen($data, $data['old_file']))
 		{
 			unset($data['satuan']);
@@ -334,14 +351,33 @@ class Web_dokumen_model extends CI_Model {
 		$this->validasi($data);
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		return $this->db->where('id',$id)->update('dokumen', $data);
+
+		unset($data['anggota_kk']);
+
+		$retval = $this->db->where('id',$id)->update('dokumen', $data);
+
+		if($retval)
+		{
+			foreach ($anggota_lain as $item) {
+				if($item['id'] != $id) {
+					$data['id_pend'] = $item['id_pend'];
+					$this->db->where('id', $item['id'])->update('dokumen', $data);
+				}
+			}
+		}
+
+		return $retval;
 	}
 
 	// Soft delete, tapi hapus berkas dokumen
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
+		//cek jika dokumen ini juga ada di anggota yang lain
+		$dokumen = $this->web_dokumen_model->get_dokumen($id);
+		$anggota_lain = $this->get_dokumen_di_anggota_lain($dokumen['satuan']);
+
 		$old_dokumen = $this->db->select('satuan')->
 			where('id',$id)->
 			get('dokumen')->row()->satuan;
@@ -353,6 +389,14 @@ class Web_dokumen_model extends CI_Model {
 		if ($outp)
 			unlink(LOKASI_DOKUMEN . $old_dokumen);
 		else $_SESSION['success'] = -1;
+
+		//delete dokumen anggota lain jika ada
+		foreach ($anggota_lain as $item) {
+			if($item['id'] != $id) {
+				$this->db->where('id', $item['id'])->update('dokumen', $data);
+			}
+		}
+
 	}
 
 	public function delete_all()
@@ -382,6 +426,20 @@ class Web_dokumen_model extends CI_Model {
 		$data['attr'] = json_decode($data['attr'], true);
 		return $data;
 	}
+
+	public function get_dokumen_di_anggota_lain($satuan=0)
+	{
+		$data = $this->db->from($this->table)
+			->where('satuan', $satuan)
+			->get()->result_array();
+
+		foreach ($data as $key => $value) {
+			$data[$key]['attr'] = json_decode($data[$key]['attr'], true);
+		}
+		
+		return $data;
+	}
+	
 
 	/**
 	 * Ambil nama berkas dari database berdasarkan id dokumen

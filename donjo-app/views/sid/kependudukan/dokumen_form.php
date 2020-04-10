@@ -38,6 +38,43 @@ $('#file_path').click(function()
 							</div>
 							<p class="help-block">Kosongkan jika tidak ingin mengubah dokumen.</p>
 						</div>
+
+						<?php if(!empty($kk)): ?>
+						<hr>
+						<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-striped table-sm">
+							  	<thead>
+							    	<tr>
+							      		<th scope="col">#</th>
+							      		<th scope="col">NIK</th>
+							      		<th scope="col">Nama</th>
+							    	</tr>
+							  	</thead>
+							  	<tbody>
+							  		<?php
+							  		$disabled = "";
+							  		$checked = "";
+							  		if(!empty($dokumen['nama'])) {
+						  				$disabled = "disabled";
+						  				$checked = "checked";
+							  		}
+									foreach ($kk as $item) {
+										if($item['nik'] != $penduduk['nik'])
+										{
+											echo "<tr>";
+											echo "<td><input type='checkbox' name='anggota_kk[]' value='$item[id]' $disabled $checked /></td>";
+											echo "<td>$item[nik]</td>";
+											echo "<td>$item[nama]</td>";
+											echo "</tr>";
+										}
+									}
+							    	?>
+							  	</tbody>
+							</table>
+						</div>
+						<?php endif ?>
+
 					</div>
 				</div>
 			</div>
