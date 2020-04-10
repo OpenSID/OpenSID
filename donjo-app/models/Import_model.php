@@ -168,8 +168,8 @@ class Import_model extends CI_Model {
 		$dusun = str_replace('DUSUN ', '', $dusun);
 		$isi_baris['dusun'] = $dusun;
 
-		$isi_baris['rw'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rw'])), "'");
-		$isi_baris['rt'] = ltrim(trim($data->val($i, $kolom_impor_keluarga['rt'])), "'");
+		$isi_baris['rw'] = ltrim(trim($data->val_or_raw($i, $kolom_impor_keluarga['rw'])), "'");
+		$isi_baris['rt'] = ltrim(trim($data->val_or_raw($i, $kolom_impor_keluarga['rt'])), "'");
 
 		$nama = trim($data->val($i, $kolom_impor_keluarga['nama']));
 		$nama = preg_replace('/[^a-zA-Z0-9,\.\']/', ' ', $nama);
