@@ -10,6 +10,7 @@ class Sosmed extends Admin_Controller
 		$this->load->model('header_model');
 		$this->load->model('web_sosmed_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 53;
 	}
 
 	public function index()
@@ -18,8 +19,6 @@ class Sosmed extends Admin_Controller
 		$id = $data['main']['id'];
 		$data['form_action'] = site_url("sosmed/update/1");
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -34,8 +33,6 @@ class Sosmed extends Admin_Controller
 		$data['form_action'] = site_url("sosmed/update/2/$id");
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sosmed/twitter', $data);
@@ -47,9 +44,7 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(5);
 		$data['form_action'] = site_url("sosmed/update/5");
 		$header = $this->header_model->get_data();
-
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sosmed/instagram', $data);
@@ -62,8 +57,6 @@ class Sosmed extends Admin_Controller
 		$data['form_action'] = site_url("sosmed/update/3");
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sosmed/google', $data);
@@ -76,8 +69,6 @@ class Sosmed extends Admin_Controller
 		$data['form_action'] = site_url("sosmed/update/4");
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sosmed/youtube', $data);
@@ -89,8 +80,7 @@ class Sosmed extends Admin_Controller
 		$data['main'] = $this->web_sosmed_model->get_sosmed(6);
 		$data['form_action'] = site_url("sosmed/update/6");
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 53;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sosmed/whatsapp', $data);

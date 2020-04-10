@@ -9,6 +9,7 @@ class Kategori extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_kategori_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 49;
 	}
 
 	public function clear()
@@ -40,10 +41,7 @@ class Kategori extends Admin_Controller {
 		$data['paging']  = $this->web_kategori_model->paging($p,$o);
 		$data['main']    = $this->web_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_kategori_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -67,8 +65,6 @@ class Kategori extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('kategori/form', $data);
@@ -81,8 +77,6 @@ class Kategori extends Admin_Controller {
 		$data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori);
 		$data['kategori'] = $kategori;
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

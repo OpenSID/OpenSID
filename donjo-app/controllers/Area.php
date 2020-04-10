@@ -10,8 +10,8 @@ class Area extends Admin_Controller {
 		$this->load->model('plan_area_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -53,11 +53,10 @@ class Area extends Admin_Controller {
 		$data['keyword'] = $this->plan_area_model->autocomplete();
 		$data['list_polygon'] = $this->plan_area_model->list_polygon();
 		$data['list_subpolygon'] = $this->plan_area_model->list_subpolygon();
-
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 4;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('area/table',$data);
@@ -86,8 +85,8 @@ class Area extends Admin_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 4;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('area/form', $data);
@@ -111,8 +110,8 @@ class Area extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("area/update_maps/$p/$o/$id");
-
 		$header = $this->header_model->get_data();
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("area/maps", $data);

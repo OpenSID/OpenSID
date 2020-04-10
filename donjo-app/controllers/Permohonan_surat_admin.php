@@ -15,6 +15,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('lapor_model');
 		$this->modul_ini = 14;
+		$this->sub_modul_ini = 98;
 	}
 
 	public function clear()
@@ -45,10 +46,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$data['paging'] = $this->permohonan_surat_model->paging($p, $o);
 		$data['main'] = $this->permohonan_surat_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->permohonan_surat_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 14;
-		$nav['act_sub'] = 98;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

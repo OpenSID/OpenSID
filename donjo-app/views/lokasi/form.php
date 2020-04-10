@@ -30,7 +30,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3">Kategori</label>
 								<div class="col-sm-7">
-									<select class="form-control input-sm" id="ref_point" name="ref_point" style="width:100%;">
+									<select class="form-control input-sm required" id="ref_point" name="ref_point" style="width:100%;">
 									<option value="">Kategori</option>
 									<?php foreach ($list_point AS $data): ?>
 										<option <?php if ($lokasi['ref_point']==$data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
@@ -56,7 +56,7 @@
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
-									<p class="help-block small">Kosongi jika tidak ingin merubah Foto.</p>
+									<p class="help-block small text-red">Kosongkan jika tidak ingin mengubah foto.</p>
 								</div>
 							</div>
 							<div class="form-group">

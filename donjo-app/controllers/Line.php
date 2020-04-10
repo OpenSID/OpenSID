@@ -8,8 +8,8 @@ class Line extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_line_model');
-		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -39,10 +39,8 @@ class Line extends Admin_Controller {
 		$data['paging'] = $this->plan_line_model->paging($p, $o);
 		$data['main'] = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_line_model->autocomplete();
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 
 		$this->load->view('header', $header);
@@ -68,9 +66,7 @@ class Line extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 
 		$this->load->view('header', $header);
@@ -85,7 +81,6 @@ class Line extends Admin_Controller {
 		$data['line'] = $this->plan_line_model->get_line($line);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
