@@ -29,121 +29,57 @@ $config['provinsi_covid'] = 62; // kode provinsi. Comment baris ini untuk menamp
 $config['negara_covid'] = 89; // kode negara. Comment baris ini untuk menampilkan data Indonesia.
 -->
 <div class="archive_style_1" style="font-family: Oswald">
-    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">COVID-19 Global</span></h2>
+    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Statistik COVID-19</span></h2>
     <div class="row">
-		<div style="margin-top:5px;">
-            <div class="col-lg-4 col-md-4 col-sm-4">
+		<div style="margin-top:10px;">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-danger">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Positif</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= $data_positif['value']; ?> <small>Orang</small></h4>
+					<div style="height: 100px;padding:1px" class="panel-body text-center">
+						<h4><small>Global</small> <?= $data_positif['value']; ?> <small>Jiwa</small></h4>
+						<?php if (!empty(config_item('negara_covid'))): ?>
+						<h4><small>di <?= $name; ?></small> <?= number_format($positif); ?> <small>Jiwa</small></h4>
+						<?php endif; ?>
+						<?php if (!empty(config_item('provinsi_covid'))): ?>
+						<h4><small>di <?= $prov_name; ?></small> <?= number_format($prov_positif); ?> <small>Jiwa</small></h4>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= $data_sembuh['value']; ?> <small>Orang</small></h4>
+					<div style="height: 100px;padding:1px" class="panel-body text-center">
+						<h4><small>Global</small> <?= $data_sembuh['value']; ?> <small>Jiwa</small></h4>
+						<?php if (!empty(config_item('negara_covid'))): ?>
+						<h4><small>di <?= $name; ?></small> <?= number_format($sembuh); ?> <small>Jiwa (<?= number_format($sembuh/$positif*100,2); ?>%)</small></h4>
+						<?php endif; ?>
+						<?php if (!empty(config_item('provinsi_covid'))): ?>
+						<h4><small>di <?= $prov_name; ?></small> <?= number_format($prov_sembuh); ?> <small>Jiwa (<?= number_format($prov_sembuh/$prov_positif*100,2); ?>%)</small></h4>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-success">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= $data_meninggal['value']; ?> <small>Orang</small></h4>
+					<div style="height: 100px;padding:1px" class="panel-body text-center">
+						<h4><small>Global</small> <?= $data_meninggal['value']; ?> <small>Jiwa</small></h4>
+						<?php if (!empty(config_item('negara_covid'))): ?>
+						<h4><small>di <?= $name; ?></small> <?= number_format($meninggal); ?> <small>Jiwa (<?= number_format($meninggal/$positif*100,2); ?>%)</small></h4>
+						<?php endif; ?>
+						<?php if (!empty(config_item('provinsi_covid'))): ?>
+						<h4><small>di <?= $prov_name; ?></small> <?= number_format($prov_meninggal); ?> <small>Jiwa (<?= number_format($prov_meninggal/$prov_positif*100,2); ?>%)</small></h4>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
-		</div>
-    </div>
-	<?php if (!empty(config_item('negara_covid'))): ?>
-	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">COVID-19 di <?= $name; ?></span></h2>
-    <div class="row">
-		<div style="margin-top:5px;">
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-danger">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Konfirmasi</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($positif); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-warning">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Dalam Perawatan</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($perawatan); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-info">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh (<?= number_format($sembuh/$positif*100,2); ?>%)</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($sembuh); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-success">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal (<?= number_format($meninggal/$positif*100,2); ?>%)</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($meninggal); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div>
-	<?php endif; ?>
-	<?php if (!empty(config_item('provinsi_covid'))): ?>
-	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">COVID-19 di <?= $prov_name; ?></span></h2>
-    <div class="row">
-		<div style="margin-top:5px;">
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-danger">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Konfirmasi</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($prov_positif); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-warning">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Dalam Perawatan</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($prov_perawatan); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-info">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh (<?= number_format($prov_sembuh/$prov_positif*100,2); ?>%)</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($prov_sembuh); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-				<div class="panel panel-success">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal (<?= number_format($prov_meninggal/$prov_positif*100,2); ?>%)</h4></div>
-					<div style="height: 40px;padding:1px" class="panel-body text-center">
-						<h4><?= number_format($prov_meninggal); ?> <small>Orang</small></h4>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div>
-	<?php endif; ?>
-    <div class="row">
-		<div style="margin-top:5px; margin-bottom:5px;">
-            <div class="col-md-9">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         		<div class="panel panel-warning">
 					<div style="padding:3px" class="panel-heading text-center">Update : <?= date('d M Y H:i:s', gmdate($update));?> WIB</div>
 				</div>
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
         		<div class="panel panel-success">
 					<div style="padding:3px" class="panel-heading text-center">
 					<a href="https://kawalcorona.com/" rel="noopener noreferrer" target="_blank">Sumber : kawalcorona.com</a>
@@ -151,5 +87,5 @@ $config['negara_covid'] = 89; // kode negara. Comment baris ini untuk menampilka
 				</div>
             </div>
 		</div>
-	</div>
+    </div>
 </div>
