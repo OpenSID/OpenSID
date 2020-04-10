@@ -369,6 +369,18 @@ class Spreadsheet_Excel_Reader {
 	function raw($row,$col,$sheet=0) {
 		return $this->info($row,$col,'raw',$sheet);
 	}
+
+	/**
+	 * Fix LibreOffice Sheets 'General' value
+	 * See: https://stackoverflow.com/q/41106420/6682759
+	 */
+	function val_or_raw($row,$col,$sheet=0) {
+		$val = $this->val($row,$col,$sheet);
+		if($val == 'General'){
+			$val = $this->raw($row,$col,$sheet);
+		}
+		return $val;
+	}
 	function rowspan($row,$col,$sheet=0) {
 		$val = $this->info($row,$col,'rowspan',$sheet);
 		if ($val=="") { return 1; }

@@ -39,7 +39,8 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "alamat_sekarang" => "36")));
 
 class Import_model extends CI_Model {
-
+	/**	Log informasi perbaris kesalahan pada saat mengimport data */
+	private $baris_gagal = '';
 	public function __construct()
 	{
 		parent::__construct();
@@ -184,25 +185,24 @@ class Import_model extends CI_Model {
 		$nik = trim($data->val($i, $kolom_impor_keluarga['nik']));
 		$nik = preg_replace('/[^0-9]/', '', $nik);
 		$isi_baris['nik'] = $nik;
-
-		$isi_baris['sex'] = $this->get_konversi_kode($this->kode_sex, trim($data->val($i, $kolom_impor_keluarga['sex'])));
+		$isi_baris['sex'] = $this->get_konversi_kode($this->kode_sex, trim($data->val_or_raw($i, $kolom_impor_keluarga['sex'])));
 		$isi_baris['tempatlahir']= trim($data->val($i, $kolom_impor_keluarga['tempatlahir']));
 
 		$isi_baris['tanggallahir'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggallahir']));
 
-		$isi_baris['agama_id']= $this->get_konversi_kode($this->kode_agama, trim($data->val($i, $kolom_impor_keluarga['agama_id'])));
-		$isi_baris['pendidikan_kk_id']= $this->get_konversi_kode($this->kode_pendidikan, trim($data->val($i, $kolom_impor_keluarga['pendidikan_kk_id'])));
+		$isi_baris['agama_id']= $this->get_konversi_kode($this->kode_agama, trim($data->val_or_raw($i, $kolom_impor_keluarga['agama_id'])));
+		$isi_baris['pendidikan_kk_id']= $this->get_konversi_kode($this->kode_pendidikan, trim($data->val_or_raw($i, $kolom_impor_keluarga['pendidikan_kk_id'])));
 		// TODO: belum ada kode_pendudukan_sedang
-		$pendidikan_sedang_id= trim($data->val($i, $kolom_impor_keluarga['pendidikan_sedang_id']));
+		$pendidikan_sedang_id= trim($data->val_or_raw($i, $kolom_impor_keluarga['pendidikan_sedang_id']));
 		if ($pendidikan_sedang_id == "")
 			$pendidikan_sedang_id = 18;
 		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
 
-		$isi_baris['pekerjaan_id']= $this->get_konversi_kode($this->kode_pekerjaan, trim($data->val($i, $kolom_impor_keluarga['pekerjaan_id'])));
-		$isi_baris['status_kawin']= $this->get_konversi_kode($this->kode_status, trim($data->val($i, $kolom_impor_keluarga['status_kawin'])));
-		$isi_baris['kk_level']= $this->get_konversi_kode($this->kode_hubungan, trim($data->val($i, $kolom_impor_keluarga['kk_level'])));
+		$isi_baris['pekerjaan_id']= $this->get_konversi_kode($this->kode_pekerjaan, trim($data->val_or_raw($i, $kolom_impor_keluarga['pekerjaan_id'])));
+		$isi_baris['status_kawin']= $this->get_konversi_kode($this->kode_status, trim($data->val_or_raw($i, $kolom_impor_keluarga['status_kawin'])));
+		$isi_baris['kk_level']= $this->get_konversi_kode($this->kode_hubungan, trim($data->val_or_raw($i, $kolom_impor_keluarga['kk_level'])));
 		// TODO: belum ada kode_warganegara
-		$isi_baris['warganegara_id']= trim($data->val($i, $kolom_impor_keluarga['warganegara_id']));
+		$isi_baris['warganegara_id']= trim($data->val_or_raw($i, $kolom_impor_keluarga['warganegara_id']));
 
 		$nama_ayah = trim($data->val($i,$kolom_impor_keluarga['nama_ayah']));
 		if ($nama_ayah == "")
@@ -218,7 +218,7 @@ class Import_model extends CI_Model {
 		}
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
-		$isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id'])));
+		$isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, trim($data->val_or_raw($i, $kolom_impor_keluarga['golongan_darah_id'])));
 		$isi_baris['akta_lahir'] = trim($data->val($i, $kolom_impor_keluarga['akta_lahir']));
 		$isi_baris['dokumen_pasport'] = trim($data->val($i, $kolom_impor_keluarga['dokumen_pasport']));
 		$isi_baris['tanggal_akhir_paspor'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor']));
@@ -231,12 +231,12 @@ class Import_model extends CI_Model {
 		$isi_baris['akta_perceraian'] = trim($data->val($i, $kolom_impor_keluarga['akta_perceraian']));
 		$isi_baris['tanggalperceraian'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperceraian']));
 		// TODO: belum ada kode_cacat
-		$isi_baris['cacat_id'] = trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
+		$isi_baris['cacat_id'] = trim($data->val_or_raw($i, $kolom_impor_keluarga['cacat_id']));
 		// TODO: belum ada kode_cara_kb
-		$isi_baris['cara_kb_id'] = trim($data->val($i, $kolom_impor_keluarga['cara_kb_id']));
+		$isi_baris['cara_kb_id'] = trim($data->val_or_raw($i, $kolom_impor_keluarga['cara_kb_id']));
 		$isi_baris['hamil'] = trim($data->val($i, $kolom_impor_keluarga['hamil']));
-		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($data->val($i, $kolom_impor_keluarga['ktp_el'])));
-		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($data->val($i, $kolom_impor_keluarga['status_rekam'])));
+		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($data->val_or_raw($i, $kolom_impor_keluarga['ktp_el'])));
+		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($data->val_or_raw($i, $kolom_impor_keluarga['status_rekam'])));
 		$isi_baris['alamat_sekarang'] = trim($data->val($i, $kolom_impor_keluarga['alamat_sekarang']));
 		return $isi_baris;
 	}
@@ -460,7 +460,7 @@ class Import_model extends CI_Model {
 		if ($hapus) { $this->hapus_data_penduduk(); }
 
 		$gagal = 0;
-		$baris_gagal = "";
+		$this->baris_gagal = "";
 		$baris_kosong = 0;
 		// Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
 		for ($i=2; $i<=$baris; $i++)
@@ -490,19 +490,19 @@ class Import_model extends CI_Model {
 			else
 			{
 				$gagal++;
-				$baris_gagal .= $i." (".$error_validasi.")<br>";
+				$this->baris_gagal .= $i." (".$error_validasi.")<br>";
 			}
 		}
 
 		$sukses = $baris_data - $baris_kosong - $gagal - 1;
 
 		if ($gagal==0)
-			$baris_gagal = "tidak ada data yang gagal di import.";
+			$this->baris_gagal = "tidak ada data yang gagal di import.";
 		else $_SESSION['success'] = -1;
 
 		$_SESSION['gagal'] = $gagal;
 		$_SESSION['sukses'] = $sukses;
-		$_SESSION['baris'] = $baris_gagal;
+		$_SESSION['baris'] = $this->baris_gagal;
 	}
 
 	/* 	====================
