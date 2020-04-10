@@ -266,7 +266,7 @@ class Penduduk extends Admin_Controller {
 
 	public function dokumen_update($id = '')
 	{
-		var_dump($this->web_dokumen_model->update($id));
+		$this->web_dokumen_model->update($id);
 		$id = $_POST['id_pend'];
 		redirect("penduduk/dokumen/$id");
 	}
