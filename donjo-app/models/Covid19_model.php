@@ -1,9 +1,39 @@
-<?php class Covid19_model extends CI_Model {
+<?php 
+
+define("TUJUAN_MUDIK", serialize(array(
+	"Liburan" => "1",
+	"Menjenguk Keluarga" => "2",
+	"Pulang Kampung" => "3",
+	"Dll" => "4",
+)));
+
+define("STATUS_COVID", serialize(array(
+	"Orang Dalam Pemantauan (ODP)" => "ODP",
+	"Pasien Dalam Pengawasan (PDP)" => "PDP",
+	"Orang Dalam Resiko (ODR)" => "ODR",
+	"Orang Tanpa Gejala (OTG)" => "OTG",
+	"Positif Covid-19" => "POSITIF",
+	"Dll" => "DLL",
+)));
+
+class Covid19_model extends CI_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('session');
+	}
+
+	public function list_tujuan_mudik()
+	{
+		$status_rekam = array_flip(unserialize(TUJUAN_MUDIK));
+		return $status_rekam;
+	}
+
+	public function list_status_covid()
+	{
+		$status_rekam = array_flip(unserialize(STATUS_COVID));
+		return $status_rekam;
 	}
 
 	private function paging($p)
@@ -35,18 +65,9 @@
 
 		}
 
-		$this->db->select('s.*');
-		$this->db->select('s.id_terdata');
-		$this->db->select('o.nik as terdata_id');
-		$this->db->select('o.nama');
-		$this->db->select('o.tempatlahir');
-		$this->db->select('o.tanggallahir');
+		$this->db->select('s.*, s.id_terdata, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun');
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
-		$this->db->select('o.sex');
-		$this->db->select('w.rt');
-		$this->db->select('w.rw');
-		$this->db->select('w.dusun');
 		$this->db->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS `alamat`');
 		$this->db->from('covid19_pemudik s');
 		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
@@ -141,25 +162,9 @@
 
 	public function get_pemudik($id_pemudik)
 	{
-		$this->db->select('u.id AS id');
-		$this->db->select('u.nama AS nama');
-		$this->db->select('x.nama AS sex');
-		$this->db->select('u.id_kk AS id_kk');
-		$this->db->select('u.tempatlahir AS tempatlahir');
-		$this->db->select('u.tanggallahir AS tanggallahir');
+		$this->db->select('u.id, u.nama, x.nama AS sex, u.id_kk, u.tempatlahir, u.tanggallahir, w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik, c.rt, c.rw, c.dusun, k.no_kk, k.alamat');
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur");
-		$this->db->select('w.nama AS status_kawin');
-		$this->db->select('f.nama AS warganegara');
-		$this->db->select('a.nama AS agama');
-		$this->db->select('d.nama AS pendidikan');
-		$this->db->select('j.nama AS pekerjaan');
-		$this->db->select('u.nik AS nik');
-		$this->db->select('c.rt AS rt');
-		$this->db->select('c.rw AS rw');
-		$this->db->select('c.dusun AS dusun');
-		$this->db->select('k.no_kk AS no_kk');
-		$this->db->select('k.alamat AS alamat');
 		$this->db->select('(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk');
 
 		$this->db->from('tweb_penduduk u');

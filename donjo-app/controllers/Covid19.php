@@ -50,6 +50,10 @@ class Covid19 extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
+
+		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
+		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
+
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
@@ -76,6 +80,9 @@ class Covid19 extends Admin_Controller {
 	public function edit_pemudik_form($id = 0)
 	{
 		$data = $this->covid19_model->get_pemudik_by_id($id);	
+		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
+		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
+		
 		$data['form_action'] = site_url("covid19/edit_pemudik/$id");
 		$this->load->view('covid19/edit_pemudik', $data);
 	}
