@@ -7,10 +7,8 @@
 
 if($w_cos){
 	foreach($w_cos as $data){
-		if($data["jenis_widget"] == 1){
+		if(($data["jenis_widget"] == 1) OR ($data["jenis_widget"] == 2)){
 			include("$this->theme_folder/$this->theme/widgets/".trim($data['isi']));
-		} elseif($data["jenis_widget"] == 2){
-			include(LOKASI_WIDGET.trim($data['isi']));
 		} else {
 			echo "
 			<div class=\"single_bottom_rightbar\">
