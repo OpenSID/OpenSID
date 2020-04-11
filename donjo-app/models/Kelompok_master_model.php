@@ -91,7 +91,8 @@ class Kelompok_master_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 		$sql = "DELETE FROM kelompok_master WHERE id = ?";
@@ -99,6 +100,8 @@ class Kelompok_master_model extends CI_Model {
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
+=======
+
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -106,18 +109,27 @@ class Kelompok_master_model extends CI_Model {
 		$outp = $this->db->where('id', $id)->delete('kelompok_master');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+HEAD
+
+=======
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -130,14 +142,22 @@ class Kelompok_master_model extends CI_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function get_kelompok_master($id=0)

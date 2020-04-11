@@ -38,16 +38,22 @@ class Man_user extends Admin_Controller {
 		$data['paging'] = $this->user_model->paging($p, $o);
 		$data['main'] = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->user_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 44;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -72,11 +78,14 @@ class Man_user extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 44;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

@@ -89,11 +89,15 @@ class Inventaris_peralatan_model extends CI_Model
 
 	public function add_mutasi($data)
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->db->insert($this->table_mutasi, $data);
 =======
 		$this->db->insert($this->table_mutasi, array_filter($data));
->>>>>>> opensid/master
+
+=======
+		$this->db->insert($this->table_mutasi, array_filter($data));
+
 		$id = $this->db->insert_id();
 		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_peralatan']));
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();

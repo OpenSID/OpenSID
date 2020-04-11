@@ -39,18 +39,24 @@ class Mandiri extends Admin_Controller {
 		$data['paging'] = $this->mandiri_model->paging($p, $o);
 		$data['main'] = $this->mandiri_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->mandiri_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 14;
 		$nav['act_sub'] = 56;
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('mandiri/mandiri', $data);
@@ -86,14 +92,18 @@ class Mandiri extends Admin_Controller {
 	public function delete($p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "mandiri");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$outp = $this->mandiri_model->delete($id);
 
 		status_sukses($outp); //Tampilkan Pesan
 		
 =======
 		$this->mandiri_model->delete($id);		
->>>>>>> opensid/master
+
+=======
+		$this->mandiri_model->delete($id);		
+
 		redirect("mandiri");
 	}
 }

@@ -11,10 +11,14 @@ class Pengurus extends Admin_Controller {
 		$this->load->model('penduduk_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 200;
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->sub_modul_ini = 18;
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 18;
+
 	}
 
 	public function clear()
@@ -37,19 +41,26 @@ class Pengurus extends Admin_Controller {
 		$data['main'] = $this->pamong_model->list_data();
 		$data['keyword'] = $this->pamong_model->autocomplete();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$header['minsidebar'] = 1;
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$header['minsidebar'] = 1;
+
+
+HEAD
+HEAD
 		// Menampilkan menu dan sub menu aktif
 		$header['minsidebar'] = 1;
 		$nav['act'] = 1;
 		$nav['act_sub'] = 18;
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('home/pengurus', $data);
@@ -70,7 +81,8 @@ class Pengurus extends Admin_Controller {
 			$data['form_action'] = site_url("pengurus/insert");
 		}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['penduduk'] = $this->penduduk_model->list_penduduk();
@@ -78,18 +90,26 @@ class Pengurus extends Admin_Controller {
 		$data['penduduk'] = $this->pamong_model->list_penduduk();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['agama'] = $this->penduduk_model->list_agama();
->>>>>>> opensid/master
+
+=======
+		$data['penduduk'] = $this->pamong_model->list_penduduk();
+		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
+		$data['agama'] = $this->penduduk_model->list_agama();
+
 		if (!empty($_POST['id_pend']))
 			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
 		else
 			$data['individu'] = NULL;
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 18;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -130,15 +150,21 @@ class Pengurus extends Admin_Controller {
 	public function delete($id = '')
 	{
 		$this->redirect_hak_akses('h', 'pengurus');
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$outp = $this->pamong_model->delete($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		if (!$outp) $_SESSION['success'] = -1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		redirect('pengurus');
 	}
 

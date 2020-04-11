@@ -167,7 +167,8 @@
 		{
 			$sub = $this->db->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
 			$list_submodul = array_merge($list_submodul, array_column($sub, 'id'));
-<<<<<<< HEAD
+HEAD
+HEAD
 		}
 		$list_id = implode(",", $list_submodul);
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
@@ -193,13 +194,16 @@
 				$outp = $this->db->query($sql, array($id));
 			}
 =======
->>>>>>> opensid/master
+
+=======
+
 		}
 		$list_id = implode(",", $list_submodul);
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 =======
 	public function delete($id='', $semua=false)
@@ -220,7 +224,27 @@
 		{
 			$this->delete($id, $semua=true);
 		}
->>>>>>> opensid/master
+
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('setting_modul');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+		}
+
 	}
 
 	/*

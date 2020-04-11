@@ -45,7 +45,8 @@
     <link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. -->
     <link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
-<<<<<<< HEAD
+HEAD
+HEAD
     <!-- Style Admin Modification Css -->
     <link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
@@ -69,7 +70,24 @@
     <!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
     
->>>>>>> opensid/master
+
+=======
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="<?= base_url()?>assets/front/css/jquery-confirm.min.css">
+
+    <!-- Style Admin Modification Css -->
+    <link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
+    <!-- Diperlukan untuk global automatic base_url oleh external js file -->
+    <script type="text/javascript">
+      const BASE_URL = "<?= base_url(); ?>";
+      const SITE_URL = "<?= site_url(); ?>";
+    </script>
+    <script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+
+    <!-- Diperlukan untuk script jquery khusus halaman -->
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+    
+
     <style type="text/css">
       #footer{
         padding: 3px 0;

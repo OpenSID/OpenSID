@@ -10,13 +10,18 @@ class Plan extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->database();
 		$this->modul_ini = 9;
 =======
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
->>>>>>> opensid/master
+
+=======
+		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
+
 	}
 
 	public function clear()
@@ -60,7 +65,8 @@ class Plan extends Admin_Controller {
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -71,7 +77,13 @@ class Plan extends Admin_Controller {
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 3;
 
->>>>>>> opensid/master
+
+=======
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+		$nav['tip'] = 3;
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('lokasi/table', $data);
@@ -89,11 +101,15 @@ class Plan extends Admin_Controller {
 
 		if ($id)
 		{
-<<<<<<< HEAD
+HEAD
+HEAD
 			$data['lokasi'] = $this->config_model->get_data();
 =======
 			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
->>>>>>> opensid/master
+
+=======
+			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+
 			$data['form_action'] = site_url("plan/update/$id/$p/$o");
 		}
 		else
@@ -106,13 +122,16 @@ class Plan extends Admin_Controller {
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 3;
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 3;
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('lokasi/form', $data);
@@ -123,7 +142,8 @@ class Plan extends Admin_Controller {
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-<<<<<<< HEAD
+HEAD
+HEAD
 		if ($id)
 			$data['lokasi'] = $this->config_model->get_data();
 		else
@@ -134,7 +154,14 @@ class Plan extends Admin_Controller {
 		}else{
 			$data['lokasi'] = NULL;
 		}			
->>>>>>> opensid/master
+
+=======
+		if ($id){
+			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+		}else{
+			$data['lokasi'] = NULL;
+		}			
+
 
 		$data['desa'] = $this->config_model->get_data();;
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
@@ -144,10 +171,14 @@ class Plan extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
 		$header= $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("lokasi/maps", $data);

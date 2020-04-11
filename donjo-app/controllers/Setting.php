@@ -6,10 +6,13 @@ class Setting extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->model('setting_model');
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->model('header_model');
 		$this->load->model('theme_model');
 		$this->modul_ini = 11;
@@ -18,11 +21,14 @@ class Setting extends Admin_Controller {
 
 	public function index()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 43;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 		$data['list_tema'] = $this->theme_model->list_all();
 		$this->setting_model->load_options();
@@ -41,13 +47,18 @@ class Setting extends Admin_Controller {
 
 	public function info_sistem()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 46;
 =======
 		$this->sub_modul_ini = 46;
 		
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 46;
+		
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);

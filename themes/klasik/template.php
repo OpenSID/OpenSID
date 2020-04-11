@@ -1,10 +1,14 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 <?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/covid.php") ?>
->>>>>>> opensid/master
+
+=======
+<?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/covid.php") ?>
+
 			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">

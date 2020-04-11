@@ -49,11 +49,15 @@
 			<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
 		</div>
 	</div>
-<<<<<<< HEAD
+HEAD
+HEAD
 <?php elseif ($detail["sasaran"] == 4): ?>
 =======
 <?php elseif ($detail["sasaran"] == 3): ?>
->>>>>>> opensid/master
+
+=======
+<?php elseif ($detail["sasaran"] == 3): ?>
+
   <div class="form-group">
 		<label class="col-sm-4 col-lg-2 control-label">Alamat Kepala Rumah Tangga</label>
 		<div class="col-sm-7">

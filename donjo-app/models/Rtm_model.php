@@ -200,7 +200,8 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($no_kk='')
 	{
 =======
@@ -208,7 +209,13 @@
 	{
 		if (!$semua) $this->session->success = 1;
 		
->>>>>>> opensid/master
+
+=======
+	public function delete($no_kk='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
@@ -216,29 +223,43 @@
 
 		$this->db->where('id_rtm', $no_kk)->update('tweb_penduduk', $temp);
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$outp = $this->db->where('no_kk', $no_kk)
 			->delete('tweb_rtm');
 =======
 		$outp = $this->db->where('no_kk', $no_kk)->delete('tweb_rtm');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$outp = $this->db->where('no_kk', $no_kk)->delete('tweb_rtm');
+
+
+HEAD
+HEAD
 		if (!$outp) $this->session->success = -1;
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		foreach ($id_cb as $no_kk)
 		{
@@ -247,7 +268,12 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
 	}
 

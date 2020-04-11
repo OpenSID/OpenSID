@@ -141,11 +141,15 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 5;
 =======
 
->>>>>>> opensid/master
+
+=======
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/table', $data);
@@ -184,11 +188,15 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 5;
 =======
 
->>>>>>> opensid/master
+
+=======
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/grafik_table', $data);
@@ -229,11 +237,15 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 5;
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/subjek_table', $data);

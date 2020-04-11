@@ -103,11 +103,15 @@ class Header_model extends CI_Model {
 
 		$outp['desa'] = $this->config_model->get_data();
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND enabled = 2;";
 =======
 		$sql = "SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND status = 2;";
->>>>>>> opensid/master
+
+=======
+		$sql = "SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND status = 2;";
+
 		$query = $this->db->query($sql);
 		$lap = $query->row_array();
 		$outp['lapor'] = $lap['jml'];

@@ -1,10 +1,15 @@
-<<<<<<< HEAD
+HEAD
+HEAD
 <?php class Database_model extends CI_Model {
 =======
 <?php 
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+<?php 
+
+
+HEAD
+HEAD
 	private $engine = 'InnoDB';
 	/* define versi opensid dan script migrasi yang harus dijalankan */
 	private $versionMigrate = array(
@@ -43,9 +48,13 @@
 	);
 =======
 class Database_model extends CI_Model {
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+class Database_model extends CI_Model {
+
+
+HEAD
+HEAD
 	public function __construct()
 	{
 		parent::__construct();
@@ -87,9 +96,49 @@ class Database_model extends CI_Model {
 		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => '20.04'),
 		'20.04' => array('migrate' => 'migrasi_2004_ke_2005', 'nextVersion' => NULL)
 	);
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	private $engine = 'InnoDB';
+	/* define versi opensid dan script migrasi yang harus dijalankan */
+	private $versionMigrate = array(
+		'2.4' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
+		'pra-2.5' => array('migrate' => 'migrasi_24_ke_25','nextVersion' => '2.5'),
+		'2.5' => array('migrate' => 'migrasi_25_ke_26', 'nextVersion' => '2.6'),
+		'2.6' => array('migrate' => 'migrasi_26_ke_27', 'nextVersion' => '2.7'),
+		'2.7' => array('migrate' => 'migrasi_27_ke_28', 'nextVersion' => '2.8'),
+		'2.8' => array('migrate' => 'migrasi_28_ke_29', 'nextVersion' => '2.9'),
+		'2.9' => array('migrate' => 'migrasi_29_ke_210', 'nextVersion' => '2.10'),
+		'2.10' => array('migrate' => 'migrasi_210_ke_211', 'nextVersion' => '2.11'),
+		'2.11' => array('migrate' => 'migrasi_211_ke_1806', 'nextVersion' => '18.06'),
+		'2.12' => array('migrate' => 'migrasi_211_ke_1806', 'nextVersion' => '18.06'),
+		'18.06' => array('migrate' => 'migrasi_1806_ke_1807', 'nextVersion' => '18.08'),
+		'18.07' => array('migrate' => 'migrasi_1806_ke_1807', 'nextVersion' => '18.08'),
+		'18.08' => array('migrate' => 'migrasi_1808_ke_1809', 'nextVersion' => '18.09'),
+		'18.09' => array('migrate' => 'migrasi_1809_ke_1810', 'nextVersion' => '18.10'),
+		'18.10' => array('migrate' => 'migrasi_1810_ke_1811', 'nextVersion' => '18.11'),
+		'18.11' => array('migrate' => 'migrasi_1811_ke_1812', 'nextVersion' => '18.12'),
+		'18.12' => array('migrate' => 'migrasi_1812_ke_1901', 'nextVersion' => '19.01'),
+		'19.01' => array('migrate' => 'migrasi_1901_ke_1902', 'nextVersion' => '19.02'),
+		'19.02' => array('migrate' => 'nop', 'nextVersion' => '19.03'),
+		'19.03' => array('migrate' => 'migrasi_1903_ke_1904', 'nextVersion' => '19.04'),
+		'19.04' => array('migrate' => 'migrasi_1904_ke_1905', 'nextVersion' => '19.05'),
+		'19.05' => array('migrate' => 'migrasi_1905_ke_1906', 'nextVersion' => '19.06'),
+		'19.06' => array('migrate' => 'migrasi_1906_ke_1907', 'nextVersion' => '19.07'),
+		'19.07' => array('migrate' => 'migrasi_1907_ke_1908', 'nextVersion' => '19.08'),
+		'19.08' => array('migrate' => 'migrasi_1908_ke_1909', 'nextVersion' => '19.09'),
+		'19.09' => array('migrate' => 'migrasi_1909_ke_1910', 'nextVersion' => '19.10'),
+		'19.10' => array('migrate' => 'migrasi_1910_ke_1911', 'nextVersion' => '19.11'),
+		'19.11' => array('migrate' => 'migrasi_1911_ke_1912', 'nextVersion' => '19.12'),
+		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => '20.01'),
+		'20.01' => array('migrate' => 'migrasi_2001_ke_2002', 'nextVersion' => '20.02'),
+		'20.02' => array('migrate' => 'migrasi_2002_ke_2003', 'nextVersion' => '20.03'),
+		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => '20.04'),
+		'20.04' => array('migrate' => 'migrasi_2004_ke_2005', 'nextVersion' => NULL)
+	);
+
+
+HEAD
+HEAD
 		$this->cek_engine_db();
 		$this->load->dbforge();
 		$this->load->model('folder_desa_model');
@@ -100,9 +149,15 @@ class Database_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	public function __construct()
+	{
+		parent::__construct();
+
+
+HEAD
+HEAD
 =======
 		$this->cek_engine_db();
 		$this->load->dbforge();
@@ -110,7 +165,15 @@ class Database_model extends CI_Model {
 		$this->load->model('analisis_import_model');
 	}
 
->>>>>>> opensid/master
+
+=======
+		$this->cek_engine_db();
+		$this->load->dbforge();
+		$this->load->model('surat_master_model');
+		$this->load->model('analisis_import_model');
+	}
+
+
 	private function cek_engine_db()
 	{
 		$this->db->db_debug = FALSE; //disable debugging for queries
@@ -188,20 +251,29 @@ class Database_model extends CI_Model {
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->catat_versi_database();
->>>>>>> opensid/master
+
+=======
+		$this->catat_versi_database();
+
 	 	$_SESSION['success'] = 1;
   }
 
-<<<<<<< HEAD
+HEAD
+HEAD
   private function getCurrentVersion()
 =======
   private function catat_versi_database()
->>>>>>> opensid/master
+
+=======
+  private function catat_versi_database()
+
   {
-<<<<<<< HEAD
+HEAD
+HEAD
 		// Untuk kasus tabel setting_aplikasi belum ada
 		if (!$this->db->table_exists('setting_aplikasi')) return NULL;
 		$result = NULL;
@@ -216,16 +288,27 @@ class Database_model extends CI_Model {
 		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
 			->get('migrasi')->num_rows();
 		if (!$sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
->>>>>>> opensid/master
+
+=======
+		// Catat migrasi ini telah dilakukan
+		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+			->get('migrasi')->num_rows();
+		if (!$sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
+
   }
 
-<<<<<<< HEAD
+HEAD
+HEAD
   private function nop()
 =======
   private function getCurrentVersion()
->>>>>>> opensid/master
+
+=======
+  private function getCurrentVersion()
+
   {
-<<<<<<< HEAD
+HEAD
+HEAD
   	// Tidak lakukan apa-apa
   }
 
@@ -363,7 +446,84 @@ class Database_model extends CI_Model {
 		$this->jalankan_migrasi('migrasi_2002_ke_2003');
 		$this->jalankan_migrasi('migrasi_2003_ke_2004');
 		$this->jalankan_migrasi('migrasi_2004_ke_2005');
->>>>>>> opensid/master
+
+=======
+		// Untuk kasus tabel setting_aplikasi belum ada
+		if (!$this->db->table_exists('setting_aplikasi')) return NULL;
+		$result = NULL;
+		$_result = $this->db->where(array('key' => 'current_version'))->get('setting_aplikasi')->row();
+		if (!empty($_result))
+		{
+		  $result = $_result->value;
+		}
+		return $result;
+  }
+
+  private function nop()
+  {
+  	// Tidak lakukan apa-apa
+  }
+
+  private function _migrasi_db_cri()
+  {
+		$this->migrasi_cri_lama();
+		$this->migrasi_03_ke_04();
+		$this->migrasi_08_ke_081();
+		$this->migrasi_082_ke_09();
+		$this->migrasi_092_ke_010();
+		$this->migrasi_010_ke_10();
+		$this->migrasi_10_ke_11();
+		$this->migrasi_111_ke_12();
+		$this->migrasi_124_ke_13();
+		$this->migrasi_13_ke_14();
+		$this->migrasi_14_ke_15();
+		$this->migrasi_15_ke_16();
+		$this->migrasi_16_ke_17();
+		$this->migrasi_17_ke_18();
+		$this->migrasi_18_ke_19();
+		$this->migrasi_19_ke_110();
+		$this->migrasi_110_ke_111();
+		$this->migrasi_111_ke_112();
+		$this->migrasi_112_ke_113();
+		$this->migrasi_113_ke_114();
+		$this->migrasi_114_ke_115();
+		$this->migrasi_115_ke_116();
+		$this->migrasi_116_ke_117();
+		$this->migrasi_117_ke_20();
+		$this->migrasi_20_ke_21();
+		$this->migrasi_21_ke_22();
+		$this->migrasi_22_ke_23();
+		$this->migrasi_23_ke_24();
+		$this->migrasi_24_ke_25();
+		$this->migrasi_25_ke_26();
+		$this->migrasi_26_ke_27();
+		$this->migrasi_27_ke_28();
+		$this->migrasi_28_ke_29();
+		$this->migrasi_29_ke_210();
+		$this->migrasi_210_ke_211();
+		$this->migrasi_211_ke_1806();
+		$this->migrasi_1806_ke_1807();
+		$this->migrasi_1808_ke_1809();
+		$this->migrasi_1809_ke_1810();
+		$this->migrasi_1810_ke_1811();
+		$this->migrasi_1811_ke_1812();
+		$this->migrasi_1812_ke_1901();
+		$this->migrasi_1901_ke_1902();
+		$this->migrasi_1903_ke_1904();
+		$this->migrasi_1904_ke_1905();
+		$this->migrasi_1905_ke_1906();
+		$this->migrasi_1906_ke_1907();
+		$this->migrasi_1907_ke_1908();
+		$this->migrasi_1908_ke_1909();
+		$this->migrasi_1909_ke_1910();
+		$this->migrasi_1910_ke_1911();
+		$this->migrasi_1911_ke_1912();
+		$this->jalankan_migrasi('migrasi_1912_ke_2001');
+		$this->jalankan_migrasi('migrasi_2001_ke_2002');
+		$this->jalankan_migrasi('migrasi_2002_ke_2003');
+		$this->jalankan_migrasi('migrasi_2003_ke_2004');
+		$this->jalankan_migrasi('migrasi_2004_ke_2005');
+
   }
 
   private function jalankan_migrasi($migrasi)
@@ -3759,7 +3919,8 @@ class Database_model extends CI_Model {
 			"provinsi",
 			"ref_dokumen",
 			"ref_pindah",
-<<<<<<< HEAD
+HEAD
+HEAD
 			"setting_modul",
 			"setting_aplikasi",
 			"setting_aplikasi_options",
@@ -3771,7 +3932,15 @@ class Database_model extends CI_Model {
 			"setting_aplikasi_options",
 			"skin_sid",
 			"syarat_surat",
->>>>>>> opensid/master
+
+=======
+			"ref_syarat_surat",
+			"setting_modul",
+			"setting_aplikasi",
+			"setting_aplikasi_options",
+			"skin_sid",
+			"syarat_surat",
+
 			"tweb_aset",
 			"tweb_cacat",
 			"tweb_cara_kb",

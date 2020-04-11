@@ -873,9 +873,14 @@
 			$_SESSION['success'] = - 1;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
+=======
+	public function delete($id='', $semua=false)
+
 	{
+HEAD
 		$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 
@@ -885,7 +890,7 @@
 	public function delete_all()
 =======
 	public function delete($id='', $semua=false)
->>>>>>> opensid/master
+
 	{
 		if (!$semua) $this->session->success = 1;
 		
@@ -899,7 +904,7 @@
 		$this->session->success = 1;
 
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -912,14 +917,34 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function adv_search_proses()
@@ -1373,11 +1398,15 @@
 
 	public function list_dokumen($id="")
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? ";
 =======
 		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? AND deleted = 0";
->>>>>>> opensid/master
+
+=======
+		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? AND deleted = 0";
+
 		$query = $this->db->query($sql, $id);
 		$data = null;
 		if ($query)
@@ -1433,7 +1462,8 @@
 		return $jml;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	/*
 	 * Mengambil semua data penduduk untuk pilihan drop-down di form yang memerlukan
 	 */
@@ -1456,5 +1486,8 @@
 	}
 
 =======
->>>>>>> opensid/master
+
 }
+=======
+}
+

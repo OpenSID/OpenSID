@@ -51,17 +51,23 @@ class Keluar extends Admin_Controller {
 		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 4;
 		$nav['act_sub'] = 32;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/surat_keluar',$data);
@@ -137,17 +143,24 @@ class Keluar extends Admin_Controller {
 
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no'] = $nik;
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 4;
 		$nav['act_sub'] = 32;
 =======
 
->>>>>>> opensid/master
+
+=======
+
+
 		$this->load->view('header',$header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/surat_keluar_perorangan', $data);
@@ -156,18 +169,25 @@ class Keluar extends Admin_Controller {
 
 	public function graph()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 4;
 		$nav['act_sub'] = 32;
 =======
 		$data['stat'] = $this->keluar_model->grafik();
->>>>>>> opensid/master
+
+=======
+		$data['stat'] = $this->keluar_model->grafik();
+
 		$header = $this->header_model->get_data();
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$data['stat'] = $this->keluar_model->grafik();
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/surat_keluar_graph', $data);

@@ -42,11 +42,14 @@ class Menu extends Admin_Controller {
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_menu_model->autocomplete();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -81,11 +84,14 @@ class Menu extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$data['tip'] = $tip;
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('menu/form', $data);
@@ -98,11 +104,14 @@ class Menu extends Admin_Controller {
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -172,10 +181,13 @@ class Menu extends Admin_Controller {
 	public function delete($tip = 1, $id = '')
 	{
 		$this->redirect_hak_akses('h', "menu/index/$tip");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_menu_model->delete($id);
 		redirect("menu/index/$tip");
 	}
@@ -183,10 +195,13 @@ class Menu extends Admin_Controller {
 	public function delete_all($tip = 1, $p = 1, $o = 0)
 	{
 		$this->redirect_hak_akses('h', "menu/index/$tip/$p/$o");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_menu_model->delete_all();
 		redirect("menu/index/$tip/$p/$o");
 	}
@@ -218,10 +233,13 @@ class Menu extends Admin_Controller {
 	public function delete_sub_menu($tip = '', $menu = '', $id = 0)
 	{
 		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_menu_model->delete($id);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
@@ -229,10 +247,13 @@ class Menu extends Admin_Controller {
 	public function delete_all_sub_menu($tip = 1, $menu = '')
 	{
 		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_menu_model->delete_all();
 		redirect("menu/sub_menu/$tip/$menu");
 	}

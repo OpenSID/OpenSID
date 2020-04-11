@@ -75,7 +75,8 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 <script type="text/javascript">
 	setTimeout(function() {
@@ -84,4 +85,13 @@
 		})
 	}, 500);
 </script>
->>>>>>> opensid/master
+
+=======
+<script type="text/javascript">
+	setTimeout(function() {
+		$('#dusun').rules('add', {
+			maxlength: 50
+		})
+	}, 500);
+</script>
+

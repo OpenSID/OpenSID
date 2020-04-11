@@ -15,7 +15,8 @@ class Suplemen extends Admin_Controller {
 	public function index()
 	{
 		$_SESSION['per_page'] = 50;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
@@ -23,14 +24,22 @@ class Suplemen extends Admin_Controller {
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['suplemen'] = $this->suplemen_model->list_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
->>>>>>> opensid/master
+
+=======
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+
 		$this->load->view('suplemen/daftar', $data);
 		$this->load->view('footer');
 	}
@@ -49,41 +58,57 @@ class Suplemen extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$data['form_action'] = site_url("suplemen/add_terdata");
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
->>>>>>> opensid/master
+
+=======
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+
 		$this->load->view('suplemen/form_terdata', $data);
 		$this->load->view('footer');
 	}
 
 	public function panduan()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('nav', $nav);
 		$this->load->view('suplemen/panduan');
 		$this->load->view('footer');
@@ -91,107 +116,153 @@ class Suplemen extends Admin_Controller {
 
 	public function sasaran($sasaran = 0)
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tampil'] = $sasaran;
 		$data['program'] = $this->suplemen_model->list_suplemen($sasaran);
 
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
->>>>>>> opensid/master
+
+=======
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+
 		$this->load->view('suplemen/suplemen', $data);
 		$this->load->view('footer');
 	}
 
 	public function rincian($p = 1, $id)
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data = $this->suplemen_model->get_rincian($p, $id);
 		$data['sasaran'] = unserialize(SASARAN);
 		$data['per_page'] = $_SESSION['per_page'];
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
->>>>>>> opensid/master
+
+=======
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+
 		$this->load->view('suplemen/rincian', $data);
 		$this->load->view('footer');
 	}
 
 	public function terdata($sasaran = 0, $id = 0)
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
 
->>>>>>> opensid/master
+
+=======
+		$data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('suplemen/terdata', $data);
 		$this->load->view('footer');
 	}
 
 	public function data_terdata($id)
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['terdata'] = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
 		$data['individu'] = $this->suplemen_model->get_terdata($data['terdata']['id_terdata'], $data['suplemen']['sasaran']);
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
->>>>>>> opensid/master
+
+=======
+		
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+
 		$this->load->view('suplemen/data_terdata', $data);
 		$this->load->view('footer');
 	}
@@ -230,11 +301,14 @@ class Suplemen extends Admin_Controller {
 
 		$this->form_validation->set_rules('cid', 'Sasaran', 'required');
 		$this->form_validation->set_rules('nama', 'Nama Data', 'required');
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$this->load->view('header', $header);
@@ -259,12 +333,15 @@ class Suplemen extends Admin_Controller {
 
 		$this->form_validation->set_rules('cid', 'Sasaran', 'required');
 		$this->form_validation->set_rules('nama', 'Nama Data', 'required');
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 25;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

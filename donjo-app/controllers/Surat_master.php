@@ -35,7 +35,10 @@ class Surat_master extends Admin_Controller {
 		if (isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
+
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
@@ -45,9 +48,13 @@ class Surat_master extends Admin_Controller {
 		$data['main'] = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->surat_master_model->autocomplete();
 		$header = $this->header_model->get_data();
+HEAD
 		$nav['act'] = 4;
 		$nav['act_sub'] = 30;
+=======
+
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_master/table', $data);
@@ -59,6 +66,7 @@ class Surat_master extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
+HEAD
 
 		if ($id)
 		{
@@ -71,7 +79,7 @@ class Surat_master extends Admin_Controller {
 			$data['form_action'] = site_url("surat_master/insert");
 		}
 =======
->>>>>>> opensid/master
+
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
@@ -81,24 +89,24 @@ class Surat_master extends Admin_Controller {
 		$data['main'] = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->surat_master_model->autocomplete();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
 		$nav['act'] = 4;
 		$nav['act_sub'] = 30;
 =======
->>>>>>> opensid/master
+
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-<<<<<<< HEAD
+HEAD
 		$this->load->view('surat_master/form', $data);
 =======
 		$this->load->view('surat_master/table', $data);
->>>>>>> opensid/master
+
 		$this->load->view('footer');
 	}
 
-<<<<<<< HEAD
+HEAD
 =======
 	public function form($p = 1, $o = 0, $id = '')
 	{
@@ -132,7 +140,36 @@ class Surat_master extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
->>>>>>> opensid/master
+
+=======
+		$list_ref_syarat = $this->lapor_model->get_surat_ref_all();
+
+		if ($id)
+		{
+			$data['surat_master'] = $this->surat_master_model->get_surat_format($id);
+			$data['form_action'] = site_url("surat_master/update/$p/$o/$id");
+			$syarat_surat = $this->lapor_model->get_current_surat_ref($id);
+		}
+		else
+		{
+			$data['surat_master'] = NULL;
+			$data['form_action'] = site_url("surat_master/insert");
+			$syarat_surat = NULL;
+		}
+
+		$data['list_ref_syarat'] = $list_ref_syarat;
+		$data['syarat_surat'] = $syarat_surat;
+
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+		
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('surat_master/form', $data);
+		$this->load->view('footer');
+	}
+
+
 	public function form_upload($p = 1, $o = 0, $url = '')
 	{
 		$data['form_action'] = site_url("surat_master/upload/$p/$o/$url");
@@ -159,11 +196,16 @@ class Surat_master extends Admin_Controller {
 
 	public function insert()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$syarat = $this->input->post('syarat');
 		unset($_POST['syarat']);		
->>>>>>> opensid/master
+
+=======
+		$syarat = $this->input->post('syarat');
+		unset($_POST['syarat']);		
+
 		$this->surat_master_model->insert();
 		$surat_format_id = $this->db->insert_id();
 		if (!empty($syarat))
@@ -175,14 +217,22 @@ class Surat_master extends Admin_Controller {
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		if ($syarat_surat = $this->input->post('syarat'))
 		{
 			$this->update_surat_mohon($id, $syarat_surat);
 			unset($_POST['syarat']);
 		}
->>>>>>> opensid/master
+
+=======
+		if ($syarat_surat = $this->input->post('syarat'))
+		{
+			$this->update_surat_mohon($id, $syarat_surat);
+			unset($_POST['syarat']);
+		}
+
 		$this->surat_master_model->update($id);
 		redirect("surat_master/index/$p/$o");
 	}
@@ -244,11 +294,14 @@ class Surat_master extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 4;
 		$nav['act_sub'] = 30;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);

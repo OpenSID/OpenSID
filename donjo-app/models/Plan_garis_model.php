@@ -167,7 +167,9 @@ class Plan_garis_model extends CI_Model {
 				$this->db->where('id', $id);
 				$outp = $this->db->update('garis', $data);
 			}
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
 =======
 		}
 		else
@@ -175,9 +177,17 @@ class Plan_garis_model extends CI_Model {
 			unset($data['foto']);
 			$this->db->where('id', $id);
 			$outp = $this->db->update('garis', $data);
->>>>>>> opensid/master
+
 		}
-<<<<<<< HEAD
+HEAD
+		else
+		{
+			unset($data['foto']);
+			$this->db->where('id', $id);
+			$outp = $this->db->update('garis', $data);
+
+		}
+HEAD
 		else
 		{
 			unset($data['foto']);
@@ -185,12 +195,15 @@ class Plan_garis_model extends CI_Model {
 			$outp = $this->db->update('garis', $data);
 		}
 =======
->>>>>>> opensid/master
+
+=======
+
 		
 		status_sukses($outp); //Tampilkan Pesan
   }
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 		$sql = "DELETE FROM garis WHERE id = ?";
@@ -201,24 +214,36 @@ class Plan_garis_model extends CI_Model {
 		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('garis');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('garis');
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -231,14 +256,25 @@ class Plan_garis_model extends CI_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function list_line()

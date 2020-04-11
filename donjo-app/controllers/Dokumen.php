@@ -13,10 +13,14 @@ class Dokumen extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->helper('download');
 		$this->modul_ini = 15;
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->sub_modul_ini = 52;
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 52;
+
 	}
 
 	public function clear()
@@ -35,7 +39,9 @@ class Dokumen extends Admin_Controller {
 		if (isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
 =======
 
 		if (isset($_SESSION['filter']))
@@ -51,9 +57,25 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 		$header = $this->header_model->get_data();
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+
+HEAD
+		if (isset($_SESSION['filter']))
+			$data['filter'] = $_SESSION['filter'];
+		else $data['filter'] = '';
+
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
+
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
+		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
+		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
+		$data['keyword'] = $this->web_dokumen_model->autocomplete();
+		$header = $this->header_model->get_data();
+
+
+HEAD
 		if (isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
@@ -72,7 +94,9 @@ class Dokumen extends Admin_Controller {
 		$nav['act_sub'] = 52;
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/table', $data);
@@ -98,13 +122,17 @@ class Dokumen extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 15;
 		$nav['act_sub'] = 52;
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/form', $data);
@@ -151,10 +179,13 @@ class Dokumen extends Admin_Controller {
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -162,10 +193,13 @@ class Dokumen extends Admin_Controller {
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -245,7 +279,8 @@ class Dokumen extends Admin_Controller {
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function unduh_berkas($id_dokumen)
 	{
 		// Ambil nama berkas dari database
@@ -255,7 +290,13 @@ class Dokumen extends Admin_Controller {
 	{
 		// Ambil nama berkas dari database
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
->>>>>>> opensid/master
+
+=======
+	public function unduh_berkas($id_dokumen, $id_pend=0)
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
+
 		if ($berkas)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else

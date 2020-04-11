@@ -1,6 +1,7 @@
 <?php
 
-<<<<<<< HEAD
+HEAD
+HEAD
 define("VERSION", '20.03-pasca');
 =======
 define("VERSION", '20.04-pasca');
@@ -8,7 +9,14 @@ define("VERSION", '20.04-pasca');
    Versi database = [ddmmyyy][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
 define('VERSI_DATABASE', '2020040401');
->>>>>>> opensid/master
+
+=======
+define("VERSION", '20.04-pasca');
+/* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
+   Versi database = [ddmmyyy][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
+*/
+define('VERSI_DATABASE', '2020040401');
+
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -283,13 +291,20 @@ define("ASAL_INVENTARIS", serialize(array(
 	"Bantuan Provinsi" => "3",
 	"Bantuan Kabupaten" => "4",
 	"Sumbangan" => "5"
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 )));
 define("KATEGORI_MAILBOX", serialize(array(
 	"Kotak Masuk" => "1",
 	"Kotak Keluar" => "2"
->>>>>>> opensid/master
+
+=======
+)));
+define("KATEGORI_MAILBOX", serialize(array(
+	"Kotak Masuk" => "1",
+	"Kotak Keluar" => "2"
+
 )));
 
 /**
@@ -425,7 +440,8 @@ function httpPost($url, $params)
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
 	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 }
 
@@ -442,7 +458,24 @@ function cek_bisa_akses_site($url)
   
   curl_close($ch);
   return empty($error);
->>>>>>> opensid/master
+
+=======
+}
+
+function cek_bisa_akses_site($url)
+{
+  $ch = curl_init();
+  
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  $content = curl_exec($ch);
+  $error = curl_error($ch);
+  
+  curl_close($ch);
+  return empty($error);
+
 }
 
 /**
@@ -761,7 +794,8 @@ function masukkan_zip($files=array())
   return $tmp_file;
 }
 
-<<<<<<< HEAD
+HEAD
+HEAD
 function alfanumerik_spasi($str)
 {
 	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
@@ -795,7 +829,38 @@ function alfanumerik_spasi($str)
 function bilangan_titik($str)
 {
 	return preg_replace('/[^0-9\.]/', '', strip_tags($str));
->>>>>>> opensid/master
+
+=======
+function alfa_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z ]/', '', strip_tags($str));
+}
+
+// https://www.php.net/manual/en/function.array-column.php
+function array_column_ext($array, $columnkey, $indexkey = null) {
+  $result = array();
+  foreach ($array as $subarray => $value) {
+    if (array_key_exists($columnkey,$value)) { $val = $array[$subarray][$columnkey]; }
+    else if ($columnkey === null) { $val = $value; }
+    else { continue; }
+       
+    if ($indexkey === null) { $result[] = $val; }
+    elseif ($indexkey == -1 || array_key_exists($indexkey,$value)) {
+      $result[($indexkey == -1)?$subarray:$array[$subarray][$indexkey]] = $val;
+    }
+  }
+  return $result;
+}
+
+function alfanumerik_spasi($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
+function bilangan_titik($str)
+{
+	return preg_replace('/[^0-9\.]/', '', strip_tags($str));
+
 }
 
 function nomor_surat_keputusan($str)

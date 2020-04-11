@@ -58,7 +58,8 @@
 				(SELECT p.nama
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id) a
-<<<<<<< HEAD
+HEAD
+HEAD
 				UNION SELECT p.nik
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
@@ -68,12 +69,20 @@
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
 				UNION SELECT pamong_nik FROM tweb_desa_pamong
->>>>>>> opensid/master
+
+=======
+				UNION SELECT pamong_nama FROM tweb_desa_pamong
+				UNION SELECT p.nik
+					FROM tweb_desa_pamong u
+					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+				UNION SELECT pamong_nik FROM tweb_desa_pamong
+
 				UNION SELECT pamong_niap FROM tweb_desa_pamong
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$outp = '';
 		for ($i=0; $i<count($data); $i++)
@@ -85,7 +94,10 @@
 		return $outp;
 =======
 		return autocomplete_data_ke_str($data);
->>>>>>> opensid/master
+
+=======
+		return autocomplete_data_ke_str($data);
+
 	}
 
 	private function search_sql()
@@ -95,11 +107,15 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-<<<<<<< HEAD
+HEAD
+HEAD
 			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
 =======
 			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
->>>>>>> opensid/master
+
+=======
+			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
+
 			return $search_sql;
 		}
 	}
@@ -237,7 +253,8 @@
 		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 =======
@@ -245,14 +262,21 @@
 	{
 		if (!$semua) $this->session->success = 1;
 		
->>>>>>> opensid/master
+
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+
 		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
 		if (!empty($foto))
 		{
 			unlink(LOKASI_USER_PICT.$foto);
 			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "DELETE FROM tweb_desa_pamong WHERE pamong_id = ?";
 		$outp = $this->db->query($sql,array($id));
 		return $outp;
@@ -261,19 +285,31 @@
 		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		
+		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -286,7 +322,12 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
 	}
 
@@ -328,7 +369,8 @@
 	public function urut($id, $arah)
 	{
   	$this->urut_model->urut($id, $arah);
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 	}
 
@@ -345,7 +387,24 @@
 			->result_array();
 
 		return $data;
->>>>>>> opensid/master
+
+=======
+	}
+
+	/*
+	 * Mengambil semua data penduduk kecuali yg sdh menjadi pamong untuk pilihan drop-down form
+	 */
+	public function list_penduduk()
+	{
+		$data = $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+			->from('penduduk_hidup u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+			->where('u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL)')
+			->get()
+			->result_array();
+
+		return $data;
+
 	}
 
 }

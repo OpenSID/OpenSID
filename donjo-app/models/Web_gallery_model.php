@@ -170,7 +170,8 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete_gallery($id='')
 	{
 =======
@@ -178,7 +179,13 @@
 	{
 		if (!$semua) $this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+	public function delete_gallery($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+
+
 		$this->delete($id);
 		$sub_gallery = $this->db->select('id')->
 			where('parrent', $id)->
@@ -191,30 +198,45 @@
 
 	public function delete_all_gallery()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-<<<<<<< HEAD
+HEAD
+HEAD
 			$outp = $this->delete_gallery($id);
 =======
 			$this->delete_gallery($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+			$this->delete_gallery($id, $semua=true);
+
 		}
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 =======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
->>>>>>> opensid/master
+
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+
 		// Note:
 		// Gambar yang dihapus ada kemungkinan dipakai
 		// oleh gallery lain, karena ketika mengupload
@@ -224,30 +246,43 @@
 		
 		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql  = "DELETE FROM gambar_gallery WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 		if (!$outp) $_SESSION['success'] = -1;
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-<<<<<<< HEAD
+HEAD
+HEAD
 			$outp = $this->delete($id);
 =======
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+			$this->delete($id, $semua=true);
+
 		}
 	}
 

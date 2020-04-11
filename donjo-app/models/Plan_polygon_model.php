@@ -113,7 +113,8 @@
 	  {
 			unset($data['simbol']);
 			$outp = $this->db->insert('polygon', $data);
-<<<<<<< HEAD
+HEAD
+HEAD
 		}
 		
 		status_sukses($outp); //Tampilkan Pesan
@@ -166,18 +167,25 @@
 				$outp = $this->db->query($sql, array($id));
 			}
 =======
->>>>>>> opensid/master
+
+=======
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function list_sub_polygon($polygon=1)
 	{
 		$sql = "SELECT * FROM polygon WHERE parrent = ? AND tipe = 2 ";
@@ -200,18 +208,45 @@
 			}
 			$_SESSION['success'] = 1;
 	  }
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	public function update($id=0)
+	{
+	  $data = $_POST;
+	  $lokasi_file = $_FILES['simbol']['tmp_name'];
+	  $tipe_file = $_FILES['simbol']['type'];
+	  $nama_file = $_FILES['simbol']['name'];
+	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+	  if (!empty($lokasi_file))
+	  {
+			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
+			{
+				UploadSimbol($nama_file);
+				$data['simbol'] = $nama_file;
+				$this->db->where('id', $id);
+				$outp = $this->db->update('polygon', $data);
+			}
+			$_SESSION['success'] = 1;
+	  }
+
+
+HEAD
+HEAD
 		$query = $this->db->query($sql, $polygon);
 		$data = $query->result_array();
 =======
 		unset($data['simbol']);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('polygon', $data);
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		unset($data['simbol']);
+		$this->db->where('id', $id);
+		$outp = $this->db->update('polygon', $data);
+
+
+HEAD
+HEAD
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
@@ -219,10 +254,18 @@
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
->>>>>>> opensid/master
 
-<<<<<<< HEAD
 =======
+		if($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+
+HEAD
+HEAD
+=======
+=======
+
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -254,7 +297,10 @@
 		{
 			$data[$i]['no'] = $i + 1;
 
->>>>>>> opensid/master
+HEAD
+
+=======
+
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
 			else
@@ -321,12 +367,38 @@
 			unset($data['simbol']);
 			$this->db->where('id', $id);
 			$outp = $this->db->update('polygon', $data);
+HEAD
+=======
 		}
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
 
-<<<<<<< HEAD
+	public function delete_sub_polygon($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('polygon');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_all_sub_polygon()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete_sub_polygon($id, $semua=true);
+
+		}
+HEAD
+		if($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+HEAD
 	public function delete_sub_polygon($id='')
 	{
 		$sql = "DELETE FROM polygon WHERE id = ?";
@@ -351,9 +423,9 @@
 	{
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -366,14 +438,16 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete_sub_polygon($id, $semua=true);
->>>>>>> opensid/master
+
 		}
-<<<<<<< HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function polygon_lock($id='', $val=0)

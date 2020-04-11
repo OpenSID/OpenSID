@@ -179,31 +179,45 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 =======
 	public function delete($id='', $semua=false)
->>>>>>> opensid/master
+
+=======
+	public function delete($id='', $semua=false)
+
 	{
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "DELETE FROM analisis_indikator WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 =======
 		if (!$semua) $this->session->success = 1;
 		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		if (!$semua) $this->session->success = 1;
+		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete_all()
 	{
 		// Analisis sistem tidak boleh diubah
@@ -213,10 +227,17 @@
 	public function delete_all()
 	{
 		$this->session->success = 1;
->>>>>>> opensid/master
+
+=======
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
 
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 		if (count($id_cb))
 		{
 			foreach ($id_cb as $id)
@@ -228,14 +249,22 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function p_insert($in='')
@@ -265,39 +294,55 @@
 
 	public function p_delete($id='')
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "DELETE FROM analisis_parameter WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 =======
 		$outp = $this->db->where('id', $id)->delete('analisis_parameter');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$outp = $this->db->where('id', $id)->delete('analisis_parameter');
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
-<<<<<<< HEAD
+HEAD
+HEAD
 
 	public function p_delete_all()
 	{
 		// Analisis sistem tidak boleh diubah
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 	public function p_delete_all()
 	{
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 		if (count($id_cb))
 		{
 			foreach ($id_cb as $id)
@@ -310,14 +355,23 @@
 		foreach ($id_cb as $id)
 		{
 			$this->p_delete($id);
->>>>>>> opensid/master
+
+=======
+
+		foreach ($id_cb as $id)
+		{
+			$this->p_delete($id);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function list_indikator($id=0)

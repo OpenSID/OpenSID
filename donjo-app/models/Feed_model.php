@@ -1,7 +1,8 @@
 <?php class Feed_model extends CI_Model
 {
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function __construct()
 	{
 		parent::__construct();
@@ -9,7 +10,9 @@
 	}
 
 =======
->>>>>>> opensid/master
+
+=======
+
 	public function list_feeds()
 	{
 		$this->db->select('a.judul as judulnya, a.*, u.nama AS owner, k.kategori AS kategori')
@@ -22,4 +25,8 @@
     return $this->db->get()->result();
 	}
 }
+HEAD
 ?>
+=======
+?>
+

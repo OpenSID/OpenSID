@@ -51,14 +51,19 @@ class Surat_masuk extends Admin_Controller {
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 57;
 		$header['minsidebar'] = 1;
 =======
 		$header['minsidebar'] = 1;
 		
->>>>>>> opensid/master
+
+=======
+		$header['minsidebar'] = 1;
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_masuk/table', $data);
@@ -95,18 +100,24 @@ class Surat_masuk extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 57;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = $this->tab_ini;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_masuk/form', $data);
 		$this->load->view('footer');

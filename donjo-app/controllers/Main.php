@@ -8,10 +8,14 @@ class Main extends CI_Controller {
 		session_start();
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->load->model('track_model');
->>>>>>> opensid/master
+
+=======
+		$this->load->model('track_model');
+
 	}
 
 	public function maintenance_mode()
@@ -30,10 +34,14 @@ class Main extends CI_Controller {
 	{
 		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
 		{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 			$this->track_model->track_desa('main');
->>>>>>> opensid/master
+
+=======
+			$this->track_model->track_desa('main');
+
 			$this->load->model('user_model');
 			$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 			switch ($grup)

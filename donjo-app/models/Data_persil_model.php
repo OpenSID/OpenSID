@@ -1,14 +1,17 @@
 <?php
 class Data_persil_model extends CI_Model {
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function __construct()
 	{
 		$this->load->database();
 	}
 
 =======
->>>>>>> opensid/master
+
+=======
+
 	public function autocomplete()
 	{
 		$sql = "SELECT pemilik_luar as nik

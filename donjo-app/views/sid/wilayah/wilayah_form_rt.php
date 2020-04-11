@@ -5,11 +5,15 @@
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
 			<li><a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar RW</a></li>
-<<<<<<< HEAD
+HEAD
+HEAD
 			<li><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$rw")?>"> Daftar RT</a></li>
 =======
 			<li><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>"> Daftar RT</a></li>
->>>>>>> opensid/master
+
+=======
+			<li><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>"> Daftar RT</a></li>
+
 			<li class="active">Data RT</li>
 		</ol>
 	</section>
@@ -18,11 +22,15 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-<<<<<<< HEAD
+HEAD
+HEAD
 						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
 =======
 						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
->>>>>>> opensid/master
+
+=======
+						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
+
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
            	</a>
 					</div>
@@ -85,7 +93,8 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
 <script type="text/javascript">
@@ -95,4 +104,13 @@
 		})
 	}, 500);
 </script>
->>>>>>> opensid/master
+
+=======
+<script type="text/javascript">
+	setTimeout(function() {
+		$('#rt').rules('add', {
+			maxlength: 10
+		})
+	}, 500);
+</script>
+

@@ -283,13 +283,14 @@ $(document).ready(function()
 			$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
 			// alert('hello');
 		});
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 
 		$("#tahun_pengadaan").change();	
 		$("#penggunaan_barang").change();
 		$("#nama_barang").change();
->>>>>>> opensid/master
+
 	});
 
 	function price() {
@@ -302,3 +303,21 @@ $(document).ready(function()
 
 
 </script>
+=======
+
+		$("#tahun_pengadaan").change();	
+		$("#penggunaan_barang").change();
+		$("#nama_barang").change();
+	});
+
+	function price() {
+		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
+	}
+
+	$(function(){
+		$('.select2').select2();
+	})
+
+
+</script>
+

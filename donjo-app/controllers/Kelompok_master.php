@@ -43,11 +43,14 @@ class Kelompok_master extends Admin_Controller {
 		$data['paging']  = $this->kelompok_master_model->paging($p,$o);
 		$data['main']    = $this->kelompok_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_master_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -72,13 +75,17 @@ class Kelompok_master extends Admin_Controller {
 			$data['kelompok_master'] = null;
 			$data['form_action'] = site_url("kelompok_master/insert");
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 24;
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

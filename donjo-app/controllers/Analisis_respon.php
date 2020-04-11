@@ -86,13 +86,18 @@ class Analisis_respon extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 5;
 		$header['minsidebar'] = 1;
 =======
 		$header['minsidebar'] = 1;
 
->>>>>>> opensid/master
+
+=======
+		$header['minsidebar'] = 1;
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_respon/table', $data);
@@ -122,10 +127,13 @@ class Analisis_respon extends Admin_Controller {
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 5;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header['minsidebar'] = 1;
 		if (isset($_SESSION['fullscreen']))
 			$data['layarpenuh']= 1;

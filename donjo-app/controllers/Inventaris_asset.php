@@ -14,10 +14,14 @@ class Inventaris_asset extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 5;
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->tipe = 'inventaris_asset';
->>>>>>> opensid/master
+
+=======
+		$this->tipe = 'inventaris_asset';
+
 	}
 
 	public function clear()
@@ -32,11 +36,14 @@ class Inventaris_asset extends Admin_Controller {
 		$data['main'] = $this->inventaris_asset_model->list_inventaris();
 		$data['total'] = $this->inventaris_asset_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -50,11 +57,14 @@ class Inventaris_asset extends Admin_Controller {
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_asset_model->view($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -68,11 +78,14 @@ class Inventaris_asset extends Admin_Controller {
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_asset_model->view_mutasi($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -90,11 +103,14 @@ class Inventaris_asset extends Admin_Controller {
 		$data['aset'] = $this->inventaris_asset_model->list_aset();
 		$data['count_reg'] = $this->inventaris_asset_model->count_reg();
 		$data['kd_reg'] = $this->inventaris_asset_model->list_inventaris_kd_register();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -108,11 +124,14 @@ class Inventaris_asset extends Admin_Controller {
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_asset_model->edit_mutasi($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -125,7 +144,8 @@ class Inventaris_asset extends Admin_Controller {
 
 	public function form()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
@@ -142,7 +162,16 @@ class Inventaris_asset extends Admin_Controller {
 		$data['count_reg'] = $this->inventaris_asset_model->count_reg();
 		$header['minsidebar'] = 1;
 
->>>>>>> opensid/master
+
+=======
+		$data['tip'] = 1;
+		$header = $this->header_model->get_data();
+		$data['main'] = $this->config_model->get_data();
+		$data['aset'] = $this->inventaris_asset_model->list_aset();
+		$data['count_reg'] = $this->inventaris_asset_model->count_reg();
+		$header['minsidebar'] = 1;
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/asset/form_tambah', $data);
@@ -152,11 +181,14 @@ class Inventaris_asset extends Admin_Controller {
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_asset_model->view($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -170,12 +202,15 @@ class Inventaris_asset extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_asset_model->list_mutasi_inventaris();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -203,4 +238,8 @@ class Inventaris_asset extends Admin_Controller {
 		$data['pamong'] = $this->inventaris_asset_model->pamong($penandatangan);
 		$this->load->view('inventaris/asset/inventaris_excel', $data);
 	}
+HEAD
 }
+=======
+}
+

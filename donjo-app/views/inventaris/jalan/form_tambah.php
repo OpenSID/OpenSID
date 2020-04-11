@@ -226,13 +226,20 @@
 			$('#register').val($('#nama_barang').val().split("_").pop());
 			$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
 		});
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 
 		$("#tahun_pengadaan").change();	
 		$("#penggunaan_barang").change();
 		$("#nama_barang").change();
->>>>>>> opensid/master
+
+=======
+
+		$("#tahun_pengadaan").change();	
+		$("#penggunaan_barang").change();
+		$("#nama_barang").change();
+
 	});
 
 	function price() {

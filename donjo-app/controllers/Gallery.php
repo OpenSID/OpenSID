@@ -39,14 +39,18 @@ class Gallery extends Admin_Controller {
 		$data['paging'] = $this->web_gallery_model->paging($p,$o);
 		$data['main'] = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
 =======
 		$header = $this->header_model->get_data();
->>>>>>> opensid/master
+
+=======
+		$header = $this->header_model->get_data();
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -72,11 +76,14 @@ class Gallery extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form', $data);
@@ -129,10 +136,13 @@ class Gallery extends Admin_Controller {
 	public function delete($p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "gallery/index/$p/$o");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_gallery_model->delete_gallery($id);
 		redirect("gallery/index/$p/$o");
 	}
@@ -204,11 +214,14 @@ class Gallery extends Admin_Controller {
 		$data['sub'] = $this->web_gallery_model->get_gallery($gal);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -229,17 +242,23 @@ class Gallery extends Admin_Controller {
 			$data['form_action'] = site_url("gallery/insert_sub_gallery/$gallery");
 		}
 		$data['album']=$gallery;
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 51;
 =======
 
->>>>>>> opensid/master
+HEAD
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form_sub_gallery', $data);
@@ -261,10 +280,13 @@ class Gallery extends Admin_Controller {
 	public function delete_sub_gallery($gallery='', $id='')
 	{
 		$this->redirect_hak_akses('h', "gallery/sub_gallery/$gallery");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success']=1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_gallery_model->delete($id);
 		redirect("gallery/sub_gallery/$gallery");
 	}

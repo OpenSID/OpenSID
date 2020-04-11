@@ -172,4 +172,8 @@
 	</section>
 </div>
 <script>
+HEAD
 </script>
+=======
+</script>
+

@@ -152,7 +152,8 @@ class Kelompok_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 		$sql = "DELETE FROM kelompok WHERE id = ?";
@@ -161,16 +162,26 @@ class Kelompok_model extends CI_Model {
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 	}
 =======
 		$outp = $this->db->where('id', $id)->delete('kelompok');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$outp = $this->db->where('id', $id)->delete('kelompok');
+
+
+HEAD
+HEAD
 	public function delete_a($id='')
 	{
 		$sql = "DELETE FROM kelompok_anggota WHERE id = ?";
@@ -179,10 +190,14 @@ class Kelompok_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete_all()
 	{
 =======
@@ -199,9 +214,25 @@ class Kelompok_model extends CI_Model {
 	{
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+	public function delete_a($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -214,14 +245,22 @@ class Kelompok_model extends CI_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function get_kelompok($id=0)

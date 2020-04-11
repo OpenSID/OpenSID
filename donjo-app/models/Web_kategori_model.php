@@ -122,6 +122,8 @@ class Web_kategori_model extends CI_Model {
 	{
 		unset($data['kategori_lama']);
 		$data['kategori'] = strip_tags($data['kategori']);
+HEAD
+=======
 	}
 
 	private function cek_nama($kategori)
@@ -156,9 +158,65 @@ class Web_kategori_model extends CI_Model {
 			->update('kategori', $data);
 		
 		status_sukses($outp); //Tampilkan Pesan
+
 	}
 
-<<<<<<< HEAD
+HEAD
+	private function cek_nama($kategori)
+	{
+		$ada_nama = $this->db->where('kategori', $kategori)
+			->get('kategori')->num_rows();
+		if ($ada_nama)
+		{
+			$_SESSION['error_msg'].= " -> Nama kategori tidak boleh sama";
+		  $_SESSION['success'] = -1;		  
+		  return false;
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('kategori');
+		
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
+		}
+HEAD
+		return true;
+	}
+
+	public function update($id=0)
+	{
+		$this->session->unset_userdata('error_msg');
+		$this->session->set_userdata('success', 1);
+		$data = $_POST;
+		if ($data['kategori'] == $data['kategori_lama'])
+		{
+			return; // Tidak ada yg diubah
+		}
+		else
+		{
+			if (!$this->cek_nama($data['kategori']))
+				return;
+		}
+		$this->sterilkan_kategori($data);
+		$outp = $this->db->where('id', $id)
+			->update('kategori', $data);
+		
+		status_sukses($outp); //Tampilkan Pesan
+	}
+
+HEAD
 	public function delete($id='')
 	{
 		$sql = "DELETE FROM kategori WHERE id = ?";
@@ -174,18 +232,18 @@ class Web_kategori_model extends CI_Model {
 		$outp = $this->db->where('id', $id)->delete('kategori');
 		
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -198,15 +256,17 @@ class Web_kategori_model extends CI_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
 		}
-<<<<<<< HEAD
+HEAD
 		else $outp = false;
 
 		
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function list_sub_kategori($kategori=1)
@@ -286,31 +346,43 @@ class Web_kategori_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete_sub_kategori($id='')
 	{
 		$sql = "DELETE FROM kategori WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 =======
+=======
+
 	public function delete_sub_kategori($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kategori');
->>>>>>> opensid/master
+HEAD
+
+=======
+
 		
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_sub_kategori()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -323,14 +395,22 @@ class Web_kategori_model extends CI_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete_sub_kategori($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete_sub_kategori($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 		
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function kategori_lock($id='', $val=0)

@@ -10,13 +10,18 @@ class Garis extends Admin_Controller {
 		$this->load->model('plan_garis_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->database();
 		$this->modul_ini = 9;
 =======
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
->>>>>>> opensid/master
+
+=======
+		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
+
 	}
 
 	public function clear()
@@ -61,10 +66,13 @@ class Garis extends Admin_Controller {
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act_sub'] = 8;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['tip'] = 1;
 
 		$this->load->view('header', $header);
@@ -90,13 +98,18 @@ class Garis extends Admin_Controller {
 		}
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 1;
 =======
 		$nav['tip'] = 1;
 		
->>>>>>> opensid/master
+
+=======
+		$nav['tip'] = 1;
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('garis/form',$data);

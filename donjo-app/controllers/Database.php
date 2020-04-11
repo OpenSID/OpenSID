@@ -35,11 +35,14 @@ class Database extends Admin_Controller {
 			unset($_SESSION['siteman_timeout']);
 		}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['act_tab'] = 1;
 		$header = $this->header_model->get_data();
 
@@ -52,11 +55,14 @@ class Database extends Admin_Controller {
 
 	public function import()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['act_tab'] = 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
@@ -71,11 +77,14 @@ class Database extends Admin_Controller {
 
 	public function import_bip()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
 		$header = $this->header_model->get_data();
@@ -89,11 +98,14 @@ class Database extends Admin_Controller {
 
 	public function migrasi_cri()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 		$header = $this->header_model->get_data();
@@ -106,11 +118,14 @@ class Database extends Admin_Controller {
 
 	public function backup()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
@@ -213,11 +228,14 @@ class Database extends Admin_Controller {
 
 	public function kosongkan()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 45;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['act_tab'] = 6;
 		$header = $this->header_model->get_data();
 

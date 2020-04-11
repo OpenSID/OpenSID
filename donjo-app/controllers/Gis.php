@@ -14,11 +14,15 @@ class Gis extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 9;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->database();
 =======
 		$this->sub_modul_ini = 62;
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 62;
+
 	}
 
 	public function clear()
@@ -101,12 +105,16 @@ class Gis extends Admin_Controller {
 		$data['list_lap'] = $this->list_lap();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 9;
 		$nav['act_sub'] = 62;
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);
@@ -304,6 +312,15 @@ class Gis extends Admin_Controller {
 					$_SESSION['layer_penduduk'] = 1;
 			}
 		}
+HEAD
+		redirect('gis');
+	}
+
+	public function layer_garis()
+	{
+		$_SESSION['layer_garis'] = $this->input->post('layer_garis') ? 1 : 0;
+=======
+
 		redirect('gis');
 	}
 

@@ -75,18 +75,25 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 23;
 =======
->>>>>>> opensid/master
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+
 =======
 
->>>>>>> opensid/master
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+HEAD
+HEAD
+=======
+
+
+=======
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/rtm', $data);
@@ -196,10 +203,13 @@ class Rtm extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->session->success = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
@@ -207,10 +217,13 @@ class Rtm extends Admin_Controller {
 
 	public function delete_all($p = 1, $o = 0)
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->session->success = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
 		redirect('rtm');
@@ -224,12 +237,15 @@ class Rtm extends Admin_Controller {
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 23;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -285,20 +301,27 @@ class Rtm extends Admin_Controller {
 			$data['kepala_kk'] = NULL;
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 2;
 		$nav['act_sub'] = 23;
 =======
 		$data['form_action'] = site_url("rtm/print");
->>>>>>> opensid/master
+
+=======
+		$data['form_action'] = site_url("rtm/print");
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$data['form_action'] = site_url("rtm/print");
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -313,10 +336,13 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
 		$data['desa'] = $this->config_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 3;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 	}
 

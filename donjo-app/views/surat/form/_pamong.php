@@ -1,5 +1,9 @@
-<<<<<<< HEAD
+HEAD
+HEAD
 <div class="form-group">
+=======
+<div class="form-group tdk-permohonan">
+
 	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
@@ -12,14 +16,15 @@
 		</select>
 	</div>
 </div>
+HEAD
 <div class="form-group">
 	<label class="col-sm-3 control-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
 =======
 <div class="form-group tdk-permohonan">
 	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
->>>>>>> opensid/master
+
 	<div class="col-sm-6 col-lg-4">
-<<<<<<< HEAD
+HEAD
 		<select class="form-control required input-sm" id="pamong" name="pamong" onchange="ambil_pamong($(this).find(':selected'))">
 			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?>--</option>
 			<?php foreach ($pamong AS $data): ?>
@@ -32,17 +37,19 @@
 			<?php foreach ($atas_nama as $data): ?>
 				<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>>
 					<?= $data?>
->>>>>>> opensid/master
+
 				</option>
 			<?php endforeach; ?>
 		</select>
-<<<<<<< HEAD
+HEAD
 		<input name="pamong_nip" id="pamong_nip" type="hidden" value="<?= $pamong_nip; ?>"/>
 		<input name="pamong_id" id="pamong_id" type="hidden" value="<?= $pamong_id; ?>"/>
 =======
->>>>>>> opensid/master
+
 	</div>
 </div>
+=======
+
 <div class="form-group tdk-permohonan">
 	<label class="col-sm-3 control-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
 	<div class="col-sm-6 col-lg-4">
@@ -111,4 +118,8 @@
 		elem.closest('.box-body').find('select[name=jabatan]').val(elem.data('jabatan'));
 		$('#pamong_id').val(elem.data('pamong-id'));
 	}
+HEAD
 </script>
+=======
+</script>
+

@@ -8,13 +8,18 @@ class Point extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_point_model');
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->database();
 		$this->modul_ini = 9;
 =======
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
->>>>>>> opensid/master
+
+=======
+		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
+
 	}
 
 	public function clear()
@@ -44,7 +49,8 @@ class Point extends Admin_Controller {
 		$data['paging'] = $this->plan_point_model->paging($p, $o);
 		$data['main'] = $this->plan_point_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_point_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -59,7 +65,14 @@ class Point extends Admin_Controller {
 		$nav['tip'] = 0;
 
 		$this->load->view('header', $header);
->>>>>>> opensid/master
+
+=======
+		$header= $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+		$nav['tip'] = 0;
+
+		$this->load->view('header', $header);
+
 		$this->load->view('nav', $nav);
 		$this->load->view('point/table', $data);
 		$this->load->view('footer');
@@ -84,7 +97,8 @@ class Point extends Admin_Controller {
 
 		$data['simbol'] = $this->plan_point_model->list_simbol();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
@@ -105,21 +119,31 @@ class Point extends Admin_Controller {
 		$nav['act_sub'] = 8;
 =======
 		$header['minsidebar'] = 1;
->>>>>>> opensid/master
+
+=======
+		$header['minsidebar'] = 1;
+
 		$nav['tip'] = 0;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('point/sub_point_table', $data);
 =======
 		$this->load->view('point/form', $data);
->>>>>>> opensid/master
+
+=======
+		$this->load->view('point/form', $data);
+
 		$this->load->view('footer');
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
+=======
+
 	public function sub_point($point = 1)
 	{
 		$data['subpoint'] = $this->plan_point_model->list_sub_point($point);
@@ -134,7 +158,10 @@ class Point extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
->>>>>>> opensid/master
+HEAD
+
+=======
+
 	public function ajax_add_sub_point($point = 0, $id = 0)
 	{
 		if ($id)

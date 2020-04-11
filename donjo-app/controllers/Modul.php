@@ -29,11 +29,14 @@ class Modul extends Admin_Controller {
 
 		$data['main'] = $this->modul_model->list_data();
 		$data['keyword'] = $this->modul_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 11;
 		$nav['act_sub'] = 42;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -55,7 +58,8 @@ class Modul extends Admin_Controller {
 			$data['form_action'] = site_url("modul/insert");
 		}
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('header', $header);
 
 		$nav['act'] = 11;
@@ -73,19 +77,26 @@ class Modul extends Admin_Controller {
 		$nav['act'] = 11;
 		$nav['act_sub'] = 42;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->view('setting/modul/sub_modul_table', $data);
 =======
 		$this->load->view('setting/modul/form', $data);
->>>>>>> opensid/master
+
+=======
+		$this->load->view('setting/modul/form', $data);
+
 		$this->load->view('footer');
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 	public function sub_modul($id = '')
 	{
@@ -99,7 +110,21 @@ class Modul extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
->>>>>>> opensid/master
+
+=======
+	public function sub_modul($id = '')
+	{
+		$data['submodul'] = $this->modul_model->list_sub_modul($id);
+		$data['modul'] = $this->modul_model->get_data($id);
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('setting/modul/sub_modul_table', $data);
+		$this->load->view('footer');
+	}
+
+
 	public function filter()
 	{
 		$filter = $this->input->post('filter');
@@ -131,10 +156,13 @@ class Modul extends Admin_Controller {
 
 	public function ubah_server()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->model('setting_model');
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->setting_model->update_penggunaan_server();
 		redirect('modul');
 	}

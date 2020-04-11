@@ -11,10 +11,14 @@
 			?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		<meta name="robots" content="noindex">
->>>>>>> opensid/master
+
+=======
+		<meta name="robots" content="noindex">
+
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />

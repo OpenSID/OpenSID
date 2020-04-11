@@ -8,13 +8,18 @@ class Line extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_line_model');
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->database();
 		$this->modul_ini = 9;
 =======
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
->>>>>>> opensid/master
+
+=======
+		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
+
 	}
 
 	public function clear()
@@ -44,7 +49,8 @@ class Line extends Admin_Controller {
 		$data['paging'] = $this->plan_line_model->paging($p, $o);
 		$data['main'] = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_line_model->autocomplete();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -52,7 +58,11 @@ class Line extends Admin_Controller {
 =======
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
->>>>>>> opensid/master
+
+=======
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+
 		$nav['tip'] = 2;
 
 		$this->load->view('header', $header);
@@ -78,19 +88,27 @@ class Line extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 2;
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$header['minsidebar'] = 1;
+		$nav['tip'] = 2;
+
+
+HEAD
+HEAD
 		$header['minsidebar'] = 1;
 		$nav['act_sub'] = 8;
 		$nav['tip'] = 2;
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('line/form', $data);
@@ -103,10 +121,13 @@ class Line extends Admin_Controller {
 		$data['line'] = $this->plan_line_model->get_line($line);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act_sub'] = 8;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$nav['tip'] = 2;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

@@ -426,14 +426,21 @@
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 		$this->session->error_msg = '';
 
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+		$this->session->error_msg = '';
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 		if (count($id_cb))
 		{
 			foreach ($id_cb as $id)
@@ -444,7 +451,12 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
 	}
 
@@ -525,7 +537,8 @@
 		return $query;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete_disposisi_surat($id_surat_masuk)
 	{
 		$this->db->where('id_surat_masuk', $id_surat_masuk);
@@ -538,7 +551,16 @@
 		$outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+	public function delete_disposisi_surat($id_surat_masuk, $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 }

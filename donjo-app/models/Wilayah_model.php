@@ -92,13 +92,22 @@
 		return $data;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function insert()
 	{
 		$data = $this->bersihkan_data($_POST);
 		$data['dusun'] = $_POST['dusun'];
 		$this->db->insert('tweb_wil_clusterdesa', $data);
+=======
+	private function cek_data($table, $data=[])
+	{
+		$count = $this->db->get_where($table, $data)->num_rows(); 
+		return $count;
+	}
 
+
+HEAD
 		$rw = $data;
 		$rw['rw'] = "-";
 		$this->db->insert('tweb_wil_clusterdesa', $rw);
@@ -120,7 +129,9 @@
 		$count = $this->db->get_where($table, $data)->num_rows(); 
 		return $count;
 	}
->>>>>>> opensid/master
+
+
+=======
 
 	public function insert()
 	{
@@ -165,15 +176,20 @@
 		$outp2 = $this->db->where('dusun', $temp['dusun'])->
 			update('tweb_wil_clusterdesa', array('dusun' => $data['dusun']));
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		if( $outp1 AND $outp2) $_SESSION['success'] = 1;
 =======
 		if ( $outp1 AND $outp2) $_SESSION['success'] = 1;
->>>>>>> opensid/master
+
+=======
+		if ( $outp1 AND $outp2) $_SESSION['success'] = 1;
+
 		else $_SESSION['success'] = -1;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 		// Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
@@ -188,15 +204,28 @@
 		$temp = $this->cluster_by_id($id);
 		$rw = $temp['rw'];
 		$dusun = $temp['dusun'];
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	//Delete dusun/rw/rt tergantung tipe
+	public function delete($tipe = '', $id = '')
+	{
+		$this->session->success = 1;
+		// Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
+		$temp = $this->cluster_by_id($id);
+		$rw = $temp['rw'];
+		$dusun = $temp['dusun'];
+
+
+HEAD
+HEAD
     $sql = "DELETE FROM tweb_wil_clusterdesa WHERE dusun = '$dusun'";
     $outp = $this->db->query($sql);
 
     status_sukses($outp); //Tampilkan Pesan
   }
 =======
+=======
+
 		switch ($tipe)
 		{
 			case 'dusun': 
@@ -214,7 +243,7 @@
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
->>>>>>> opensid/master
+
 
 	//Bagian RW
 	public function list_data_rw($id='')
@@ -249,7 +278,8 @@
 		$data = $_POST;
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
-<<<<<<< HEAD
+HEAD
+HEAD
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
 =======
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
@@ -260,34 +290,57 @@
 			return;
 		}
 		$outp1 = $this->db->insert('tweb_wil_clusterdesa', $data);
->>>>>>> opensid/master
+
+=======
+		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
+		{
+			$_SESSION['success'] = -2;
+			return;
+		}
+		$outp1 = $this->db->insert('tweb_wil_clusterdesa', $data);
+
 
 		$rt = $data;
 		$rt['rt'] = "-";
-<<<<<<< HEAD
+HEAD
+HEAD
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
 =======
 		$outp2 = $this->db->insert('tweb_wil_clusterdesa', $rt);
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$outp2 = $this->db->insert('tweb_wil_clusterdesa', $rt);
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 =======
 		status_sukses($outp1 & $outp2); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp1 & $outp2); //Tampilkan Pesan
+
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function update_rw($dusun='', $rw='')
 =======
 	public function update_rw($id_rw='')
->>>>>>> opensid/master
+
+=======
+	public function update_rw($id_rw='')
+
 	{
 		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
 		  UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$temp = $this->wilayah_model->cluster_by_id($dusun);
 		// print_r($rw);exit;
@@ -296,9 +349,12 @@
                 $this->db->where('rt', '0');//rw pasti data rt 0
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 =======
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -313,6 +369,8 @@
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
+=======
+
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
 		unset($data['id_rw']);
@@ -329,7 +387,10 @@
 		$outp2 = $this->db->where('rw', $temp['rw'])
 			->update('tweb_wil_clusterdesa', array('rw' => $data['rw']));
 		status_sukses($outp1 and $outp2); //Tampilkan Pesan
->>>>>>> opensid/master
+HEAD
+
+=======
+
 	}
 
 	//Bagian RT
@@ -353,7 +414,8 @@
 		return $data;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function insert_rt($dusun='', $rw='')
 	{
 		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
@@ -369,9 +431,16 @@
 	{
 		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
 			UNSET($_POST['id_kepala']);
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	public function insert_rt($id_dusun='', $id_rw='')
+	{
+		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
+			UNSET($_POST['id_kepala']);
+
+
+HEAD
+HEAD
 =======
     $data = $_POST;
 		$temp = $this->cluster_by_id($id_dusun);
@@ -387,7 +456,23 @@
 		}
 
 		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
->>>>>>> opensid/master
+
+=======
+    $data = $_POST;
+		$temp = $this->cluster_by_id($id_dusun);
+		$data['dusun']= $temp['dusun'];
+		$data_rw = $this->cluster_by_id($id_rw);
+		$data['rw'] = $data_rw['rw'];
+		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
+		{
+			$_SESSION['success'] = -2;
+			return;
+		}
+
+		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -398,7 +483,8 @@
 			UNSET($_POST['id_kepala']);
 
 		$data = $_POST;
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
@@ -453,18 +539,45 @@
 					->where('p.status', 1)
 					->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
 					->get()->result_array();
->>>>>>> opensid/master
+
+=======
+		$rt_lama = $this->db->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
+		$wil = array('dusun' => $rt_lama['dusun'], 'rw' => $rt_lama['rw'], 'rt' => $data['rt'], 'id <>' => $id);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		if ($cek_data)
+		{
+			$_SESSION['success'] = -2;
+			return;
+		}
+		$this->db->where('id', $id);
+		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+		status_sukses($outp); //Tampilkan Pesan
+	}
+
+	public function list_penduduk()
+	{
+		$data = $this->db->select('p.id, p.nik, p.nama, c.dusun')
+					->from('tweb_penduduk p')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+					->where('p.status', 1)
+					->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
+					->get()->result_array();
+
 		return $data;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function list_penduduk_ex($id=0)
 	{
 		return $this->list_penduduk($id);
 	}
 
 =======
->>>>>>> opensid/master
+
+=======
+
 	public function list_dusun_rt($dusun='')
 	{
 		$sql = "SELECT * FROM tweb_clusterdesa WHERE dusun = ? AND rt <> '' ";
@@ -483,7 +596,8 @@
 
 	public function cluster_by_id($id='')
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "SELECT w.*, c.id as id_dusun
 			FROM tweb_wil_clusterdesa w
 			LEFT JOIN tweb_wil_clusterdesa c ON w.dusun = c.dusun AND c.rw = 0 AND c.rt = 0
@@ -534,11 +648,58 @@
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
 		$query = $this->db->query($sql, array($dusun, $rw, $rt));
->>>>>>> opensid/master
+
+=======
+		$data = $this->db->where('id', $id)
+			->get('tweb_wil_clusterdesa')
+			->row_array();
+		return $data;
+	}
+
+	public function list_dusun()
+	{
+		$data = $this->db->
+			where('rt', '0')->
+			where('rw', '0')->
+			get('tweb_wil_clusterdesa')->
+			result_array();
+		return $data;
+	}
+
+	public function list_rw($dusun='')
+	{
+		$data = $this->db->
+			where('rt', '0')->
+			where('dusun', urldecode($dusun))->
+			where('rw <>', '0')->
+			order_by('rw')->
+			get('tweb_wil_clusterdesa')->
+			result_array();
+		return $data;
+	}
+
+	public function list_rt($dusun='', $rw='')
+	{
+		$data = $this->db->
+			where('rt <>', '0')->
+			where('dusun', urldecode($dusun))->
+			where('rw', urldecode($rw))->
+			order_by('rt')->
+			get('tweb_wil_clusterdesa')->
+			result_array();
+		return $data;
+	}
+
+	public function get_rt($dusun='', $rw='', $rt='')
+	{
+		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
+		$query = $this->db->query($sql, array($dusun, $rw, $rt));
+
 		return $query->row_array();
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function list_dusun()
 	{
 		$data = $this->db->
@@ -588,7 +749,9 @@
 	}
 
 =======
->>>>>>> opensid/master
+
+=======
+
 	public function total()
 	{
 		$sql = "SELECT

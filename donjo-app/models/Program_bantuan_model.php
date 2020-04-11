@@ -3,11 +3,15 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$this->load->database();
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
@@ -134,12 +138,17 @@ class Program_bantuan_model extends CI_Model {
 			case 3:
 				# Data RTM
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
-<<<<<<< HEAD
+HEAD
+HEAD
 				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
 =======
 				$data['nik_peserta'] = $data['nik'];
 				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
->>>>>>> opensid/master
+
+=======
+				$data['nik_peserta'] = $data['nik'];
+				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
+
 				break;
 			case 4:
 				# Data Kelompok
@@ -784,7 +793,8 @@ class Program_bantuan_model extends CI_Model {
 	public function add_peserta($post, $id)
 	{
 		$nik = $post['nik'];
-<<<<<<< HEAD
+HEAD
+HEAD
 		$strSQL = "SELECT sasaran FROM program WHERE id=".$id;
 		$hasil = $this->db->query($strSQL);
 		$row = $hasil->row_array();
@@ -809,7 +819,15 @@ class Program_bantuan_model extends CI_Model {
 			->where('peserta', $nik)
 			->get();
 		if ($hasil->num_rows() > 0)
->>>>>>> opensid/master
+
+=======
+		$hasil = $this->db->select('id')
+			->from('program_peserta')
+			->where('program_id', $id)
+			->where('peserta', $nik)
+			->get();
+		if ($hasil->num_rows() > 0)
+
 		{
 			return false;
 		}
@@ -940,11 +958,15 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	private function jml_peserta_program($id)
 =======
 	public function jml_peserta_program($id)
->>>>>>> opensid/master
+
+=======
+	public function jml_peserta_program($id)
+
 	{
 		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
 		  from('program p')->

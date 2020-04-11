@@ -81,7 +81,8 @@ class MY_Security extends CI_Security {
 		}
 
 		return $matches[0];
-<<<<<<< HEAD
+HEAD
+HEAD
   }
 
 	/** @inheritdoc */
@@ -91,6 +92,8 @@ class MY_Security extends CI_Security {
 		set_status_header(400);
 		exit($message);
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 }

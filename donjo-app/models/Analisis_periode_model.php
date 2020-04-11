@@ -164,7 +164,8 @@
 		$outp = $this->db->update('analisis_periode', $data);
 		
 		status_sukses($outp); //Tampilkan Pesan
-<<<<<<< HEAD
+HEAD
+HEAD
 	}
 
 	public function delete($id='')
@@ -174,10 +175,13 @@
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete_all()
 	{
 =======
@@ -194,9 +198,25 @@
 	{
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->delete('analisis_periode');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -209,14 +229,22 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		status_sukses($outp); //Tampilkan Pesan
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
 	public function get_analisis_periode($id=0)

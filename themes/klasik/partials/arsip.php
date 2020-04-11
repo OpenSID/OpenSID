@@ -43,11 +43,15 @@
 				Belum ada arsip konten web.
 			<?php endif; ?>
 		</div>
-<<<<<<< HEAD
+HEAD
+HEAD
 		<?php if(count($farsip)>0): ?>
 =======
 		<?php if(count($farsip)>0 AND $paging->num_rows > $paging->per_page): ?>
->>>>>>> opensid/master
+
+=======
+		<?php if(count($farsip)>0 AND $paging->num_rows > $paging->per_page): ?>
+
 			<div class="box-footer">
 				<ul class="pagination pagination-sm no-margin">
 					<?php if($paging->start_link): ?>

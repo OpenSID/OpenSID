@@ -37,10 +37,14 @@
 									<i class="fa fa-arrows-h"></i>Rentang Umur
 								</a>
 							<?php endif; ?>
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 							<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
->>>>>>> opensid/master
+
+=======
+							<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+
 						</div>
 						<div class="box-body">
 							<div class="col-sm-12">

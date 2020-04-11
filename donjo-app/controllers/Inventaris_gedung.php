@@ -14,10 +14,14 @@ class Inventaris_gedung extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 3;
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->tipe = 'inventaris_gedung';
->>>>>>> opensid/master
+
+=======
+		$this->tipe = 'inventaris_gedung';
+
 	}
 
 	public function clear()
@@ -32,11 +36,14 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['main'] = $this->inventaris_gedung_model->list_inventaris();
 		$data['total'] = $this->inventaris_gedung_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -50,11 +57,14 @@ class Inventaris_gedung extends Admin_Controller {
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_gedung_model->view($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -68,11 +78,14 @@ class Inventaris_gedung extends Admin_Controller {
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_gedung_model->view_mutasi($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -90,11 +103,14 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['count_reg'] = $this->inventaris_gedung_model->count_reg();
 		$data['get_kode'] = $this->config_model->get_data();
 		$data['kd_reg'] = $this->inventaris_gedung_model->list_inventaris_kd_register();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -108,11 +124,14 @@ class Inventaris_gedung extends Admin_Controller {
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_gedung_model->edit_mutasi($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -125,11 +144,14 @@ class Inventaris_gedung extends Admin_Controller {
 
 	public function form()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$data['main'] = $this->config_model->get_data();
@@ -146,11 +168,14 @@ class Inventaris_gedung extends Admin_Controller {
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_gedung_model->view($id);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -164,12 +189,15 @@ class Inventaris_gedung extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_gedung_model->list_mutasi_inventaris();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 15;
 		$nav['act_sub'] = 61;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;

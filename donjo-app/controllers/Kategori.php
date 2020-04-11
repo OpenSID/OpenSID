@@ -42,11 +42,14 @@ class Kategori extends Admin_Controller {
 		$data['main']    = $this->web_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_kategori_model->autocomplete();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -70,11 +73,14 @@ class Kategori extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('kategori/form', $data);
@@ -87,11 +93,14 @@ class Kategori extends Admin_Controller {
 		$data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori);
 		$data['kategori'] = $kategori;
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 49;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

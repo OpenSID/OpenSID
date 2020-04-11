@@ -31,16 +31,23 @@ class Statistik extends Admin_Controller {
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o'] = $o;
 		$this->get_data_stat($data, $lap);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
 =======
->>>>>>> opensid/master
-		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+
 =======
 
->>>>>>> opensid/master
+		$header = $this->header_model->get_data();
+HEAD
+HEAD
+=======
+
+
+=======
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk', $data);
@@ -106,11 +113,14 @@ class Statistik extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
 		$this->get_data_stat($data, $lap);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -130,17 +140,24 @@ class Statistik extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
 		$this->get_data_stat($data, $lap);
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 =======
 		
->>>>>>> opensid/master
+
+=======
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_pie', $data);
@@ -200,7 +217,36 @@ class Statistik extends Admin_Controller {
 		$data['laporan_no'] = $this->input->post('laporan_no');
 		$this->load->view('statistik/penduduk_print', $data);
 	}
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
+
+
+	public function unduh($lap = 0)
+	{
+		$cluster_session = $this->get_cluster_session();
+		foreach ($cluster_session as $key => $value)
+		{
+			$data[$key] = $value;
+		}
+		$data['aksi'] = 'unduh';
+		$data['lap'] = $lap;
+		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		$data['filename'] = underscore($data['stat']);
+		$data['config']  = $this->config_model->get_data();
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['laporan_no'] = $this->input->post('laporan_no');
+		$this->load->view('statistik/penduduk_excel', $data);
+	}
+
+	public function rentang_umur()
+	{
+		$data['lap'] = 13;
+		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
+HEAD
+=======
+
 
 	public function unduh($lap = 0)
 	{
@@ -225,36 +271,16 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
 =======
->>>>>>> opensid/master
 
-	public function unduh($lap = 0)
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		$data['aksi'] = 'unduh';
-		$data['lap'] = $lap;
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['filename'] = underscore($data['stat']);
-		$data['config']  = $this->config_model->get_data();
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
-		$this->load->view('statistik/penduduk_excel', $data);
-	}
-
-	public function rentang_umur()
-	{
-		$data['lap'] = 13;
-		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 3;
 		$nav['act_sub'] = 27;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

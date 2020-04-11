@@ -300,4 +300,8 @@
 	});
 
 
+HEAD
 </script>
+=======
+</script>
+

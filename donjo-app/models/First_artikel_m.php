@@ -31,7 +31,8 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 	public function get_feed()
 	{
@@ -44,7 +45,20 @@ class First_artikel_m extends CI_Model {
 		return $items;
 	}
 
->>>>>>> opensid/master
+
+=======
+	public function get_feed()
+	{
+		$sumber_feed = 'https://www.covid19.go.id/feed/';
+		if (!cek_bisa_akses_site($sumber_feed)) return NULL;
+
+	  $this->load->library('Feed_Reader');
+		$feed = new Feed_Reader($sumber_feed);
+		$items = array_slice($feed->items, 0, 2);
+		return $items;
+	}
+
+
 	public function get_teks_berjalan()
 	{
 		$this->load->model('teks_berjalan_model');
@@ -59,7 +73,8 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function paging_kat($p=1, $id=0)
 	{
 		$this->db->select('COUNT(a.id) AS id')
@@ -83,7 +98,9 @@ class First_artikel_m extends CI_Model {
 	}
 
 =======
->>>>>>> opensid/master
+
+=======
+
 	public function paging($p=1)
 	{
 		$this->db->select('COUNT(a.id) AS jml');
@@ -138,10 +155,14 @@ class First_artikel_m extends CI_Model {
 		for ($i=0; $i < count($data); $i++)
 		{
 			$this->sterilkan_artikel($data[$i]);
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 			$this->icon_keuangan($data[$i]);
->>>>>>> opensid/master
+
+=======
+			$this->icon_keuangan($data[$i]);
+
 		}
 		return $data;
 	}
@@ -153,14 +174,18 @@ class First_artikel_m extends CI_Model {
 		// User terpecaya boleh menampilkan <iframe> dsbnya
 		if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
 			$data['isi'] = $this->security->xss_clean($data['isi']);
-<<<<<<< HEAD
+HEAD
+HEAD
 		// ganti shortcode menjadi icon
 		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function arsip_show($rand = false)
 	{
 		// Artikel agenda (kategori=1000) tidak ditampilkan
@@ -183,9 +208,17 @@ class First_artikel_m extends CI_Model {
 		// ganti shortcode menjadi icon
 		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
 	}
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+	private function icon_keuangan(&$data)
+	{
+		// ganti shortcode menjadi icon
+		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
+	}
+
+
+HEAD
+HEAD
 =======
 	public function arsip_show($rand = false)
 	{
@@ -204,7 +237,26 @@ class First_artikel_m extends CI_Model {
 		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
 
->>>>>>> opensid/master
+
+=======
+	public function arsip_show($rand = false)
+	{
+		// Artikel agenda (kategori=1000) tidak ditampilkan
+		$sql = "SELECT a.*, u.nama AS owner, k.kategori
+			FROM artikel a
+			LEFT JOIN user u ON a.id_user = u.id
+			LEFT JOIN kategori k ON a.id_kategori = k.id
+			WHERE a.enabled = ?
+			AND a.id_kategori NOT IN (1000)
+			AND a.tgl_upload < NOW() ";
+		if ($rand)
+			$sql .= "	ORDER BY RAND() DESC LIMIT 7 ";
+		else
+			$sql .= "	ORDER BY a.tgl_upload DESC LIMIT 7 ";
+		$query = $this->db->query($sql, 1);
+		$data = $query->result_array();
+
+
 		for ($i=0; $i<count($data); $i++)
 		{
 			$id = $data[$i]['id'];
@@ -366,11 +418,15 @@ class First_artikel_m extends CI_Model {
 		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
 			FROM komentar a
 			INNER JOIN artikel b ON  a.id_artikel = b.id
-<<<<<<< HEAD
+HEAD
+HEAD
 			WHERE a.enabled = ? AND a.id_artikel <> 775
 =======
 			WHERE a.status = ? AND a.id_artikel <> 775
->>>>>>> opensid/master
+
+=======
+			WHERE a.status = ? AND a.id_artikel <> 775
+
 			ORDER BY a.tgl_upload DESC LIMIT 10 ";
 		$query = $this->db->query($sql, 1);
 		$data = $query->result_array();
@@ -432,7 +488,9 @@ class First_artikel_m extends CI_Model {
 		else
 		{
 			$data = false;
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
 =======
 		}
 		return $data;
@@ -489,11 +547,11 @@ class First_artikel_m extends CI_Model {
 				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
 				// ganti shortcode menjadi icon
 				$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
->>>>>>> opensid/master
+
 		}
 		return $data;
 	}
-<<<<<<< HEAD
+HEAD
 	
 	public function get_agenda($id)
 =======
@@ -502,9 +560,74 @@ class First_artikel_m extends CI_Model {
 	 * Simpan komentar yang dikirim oleh pengunjung
 	 */
 	public function insert_comment($id=0)
->>>>>>> opensid/master
+
 	{
-<<<<<<< HEAD
+HEAD
+		$data = $this->db->where('id_artikel', $id)
+			->get('agenda')->row_array();
+		return $data;
+	}
+
+	public function paging_kat($p=1, $id=0)
+	{
+		$this->list_artikel_sql($id);
+		$this->db->select('COUNT(a.id) AS jml');
+		$jml_data = $this->db->get()->row()->jml;
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->setting->web_artikel_per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	// Query sama untuk paging and ambil daftar artikel menurut kategori
+	private function list_artikel_sql($id)
+	{
+		$this->db
+			->from('artikel a')
+			->join('user u', 'a.id_user = u.id', 'left')
+			->join('kategori k', 'a.id_kategori = k.id', 'left')
+			->where('a.enabled', 1)
+			->where('tgl_upload < NOW()');
+
+		if (!empty($id)){
+			$this->db->where('k.id', $id)->or_where('k.slug', $id);
+		}
+	}
+
+	public function list_artikel($offset=0, $limit=50, $id=0)
+	{
+		$this->list_artikel_sql($id);
+		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
+		$this->db->order_by('a.tgl_upload', DESC);
+		$this->db->limit($limit, $offset);
+		$data = $this->db->get()->result_array();
+		for ($i=0; $i < count($data); $i++)
+		{
+			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+			if (empty($this->setting->user_admin) or $data[$i]['id_user'] != $this->setting->user_admin)
+				$data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+				// ganti shortcode menjadi icon
+				$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
+
+		}
+		return $data;
+	}
+HEAD
+	
+	public function get_agenda($id)
+=======
+
+	/**
+	 * Simpan komentar yang dikirim oleh pengunjung
+	 */
+	public function insert_comment($id=0)
+
+	{
+HEAD
 		$data = $this->db->where('id_artikel', $id)
 			->get('agenda')->row_array();
 		return $data;
@@ -562,11 +685,50 @@ class First_artikel_m extends CI_Model {
 	{
 		$sql = "SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC";
 		$query = $this->db->query($sql,$id);
->>>>>>> opensid/master
+
+=======
+		$data['komentar'] = strip_tags($_POST["komentar"]);
+		$data['owner'] = strip_tags($_POST["owner"]);
+		$data['no_hp'] = strip_tags($_POST["no_hp"]);
+		$data['email'] = strip_tags($_POST["email"]);
+
+		// load library form_validation
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+		$this->form_validation->set_rules('owner', 'Nama', 'required');
+		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'valid_email');
+
+		if ($this->form_validation->run() == TRUE)
+		{
+			$data['status'] = 2;
+			$data['id_artikel'] = $id;
+			$outp = $this->db->insert('komentar',$data);
+		}
+		else
+		{
+			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
+		}
+		if ($outp)
+		{
+			$_SESSION['success'] = 1;
+			return true;
+		}
+
+		$_SESSION['success'] = -1;
+		return false;
+	}
+
+	public function list_komentar($id=0)
+	{
+		$sql = "SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC";
+		$query = $this->db->query($sql,$id);
+
 		if ($query->num_rows()>0)
 		{
 			$data = $query->result_array();
-<<<<<<< HEAD
+HEAD
+HEAD
 			for ($i=0; $i < count($data); $i++)
 			{
 				$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
@@ -576,7 +738,9 @@ class First_artikel_m extends CI_Model {
 					$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 			}
 =======
->>>>>>> opensid/master
+
+=======
+
 		}
 		else
 		{
@@ -585,7 +749,8 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	/**
 	 * Simpan komentar yang dikirim oleh pengunjung
 	 */
@@ -593,9 +758,14 @@ class First_artikel_m extends CI_Model {
 =======
 	// Tampilan di widget sosmed
 	public function list_sosmed()
->>>>>>> opensid/master
+
+=======
+	// Tampilan di widget sosmed
+	public function list_sosmed()
+
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$data['komentar'] = strip_tags($_POST["komentar"]);
 		$data['owner'] = strip_tags($_POST["owner"]);
 		$data['no_hp'] = strip_tags($_POST["no_hp"]);
@@ -647,7 +817,9 @@ class First_artikel_m extends CI_Model {
 	public function list_sosmed()
 	{
 =======
->>>>>>> opensid/master
+
+=======
+
 		$sql = "SELECT * FROM media_sosial WHERE enabled=1";
 		$query = $this->db->query($sql);
 		if ($query->num_rows()>0)
@@ -676,4 +848,8 @@ class First_artikel_m extends CI_Model {
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
 	}
+HEAD
 }
+=======
+}
+

@@ -11,10 +11,14 @@ class Hom_desa extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 200;
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->sub_modul_ini = 17;
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 17;
+
 	}
 
 	public function index()
@@ -25,13 +29,17 @@ class Hom_desa extends Admin_Controller {
 	public function konfigurasi()
 	{
 		$this->load->model('provinsi_model');
-<<<<<<< HEAD
+HEAD
+HEAD
 		// Menampilkan menu dan sub menu aktif
 		$nav['act'] = 1;
 		$nav['act_sub'] = 17;
 		$header = $this->header_model->get_data();
 
+=======
+
 		$data['main'] = $this->config_model->get_data();
+HEAD
 		$this->load->view('header',$header);
 		$this->load->view('nav',$nav);
 		$data['list_provinsi'] = $this->provinsi_model->list_data();
@@ -46,8 +54,10 @@ class Hom_desa extends Admin_Controller {
 		$header = $this->header_model->get_data();
 
 =======
->>>>>>> opensid/master
+
 		$data['main'] = $this->config_model->get_data();
+=======
+
 		$data['list_provinsi'] = $this->provinsi_model->list_data();
 		$header = $this->header_model->get_data();
 		
@@ -114,7 +124,8 @@ class Hom_desa extends Admin_Controller {
 
 	public function ajax_wilayah_maps()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act_sub'] = 17;
 		$data_desa = $this->config_model->get_data();
 
@@ -148,15 +159,37 @@ class Hom_desa extends Admin_Controller {
 		$data['breadcrumb'] = array(
 			array('link' => site_url("hom_desa/konfigurasi"), 'judul' => "Identitas ".ucwords($this->setting->sebutan_desa)),
 		);
->>>>>>> opensid/master
+
+=======
+		$data_desa = $this->config_model->get_data();
+		$data['wil_ini'] = $data_desa;
+		$data['wil_atas']['lat'] = -1.0546279422758742;
+		$data['wil_atas']['lng'] = 116.71875000000001;
+		$data['wil_atas']['zoom'] = 4;
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['nama_wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+		$data['wilayah'] = ucwords($this->setting->sebutan_desa." ".$data_desa['nama_desa']);
+		$data['breadcrumb'] = array(
+			array('link' => site_url("hom_desa/konfigurasi"), 'judul' => "Identitas ".ucwords($this->setting->sebutan_desa)),
+		);
+
 		$data['form_action'] = site_url("hom_desa/update_wilayah_maps/");
-<<<<<<< HEAD
+HEAD
+HEAD
 
     $header = $this->header_model->get_data();
 =======
 		$header = $this->header_model->get_data();
 		
->>>>>>> opensid/master
+
+=======
+		$header = $this->header_model->get_data();
+		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);

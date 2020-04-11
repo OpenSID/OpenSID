@@ -27,12 +27,18 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="rw">Nama RW</label>
 													<div class="col-sm-7">
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 														<?php if ($id_rw): ?>
 															<input type="hidden" name="id_rw" value="<?= $id_rw?>">
 														<?php endif; ?>
->>>>>>> opensid/master
+
+=======
+														<?php if ($id_rw): ?>
+															<input type="hidden" name="id_rw" value="<?= $id_rw?>">
+														<?php endif; ?>
+
 														<input  id="rw" class="form-control input-sm required" type="text" placeholder="Nama RW" name="rw" value="<?= $rw?>">
 													</div>
 												</div>
@@ -57,11 +63,15 @@
 														<select class="form-control select2" style="width: 100%;" id="id_kepala" name="id_kepala">
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 															<?php foreach ($penduduk as $data): ?>
-<<<<<<< HEAD
+HEAD
+HEAD
 																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['rw']?></option>
 =======
 																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
->>>>>>> opensid/master
+
+=======
+																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
+
 															<?php endforeach; ?>
 														</select>
 													</div>
@@ -86,7 +96,8 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 <script type="text/javascript">
 	setTimeout(function() {
@@ -95,4 +106,13 @@
 		})
 	}, 500);
 </script>
->>>>>>> opensid/master
+
+=======
+<script type="text/javascript">
+	setTimeout(function() {
+		$('#rw').rules('add', {
+			maxlength: 10
+		})
+	}, 500);
+</script>
+

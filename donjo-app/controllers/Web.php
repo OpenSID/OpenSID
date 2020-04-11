@@ -63,12 +63,15 @@ class Web extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] =1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 47;
 
 =======
->>>>>>> opensid/master
+
+=======
+
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
 
@@ -101,11 +104,14 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 47;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -146,7 +152,9 @@ class Web extends Admin_Controller {
 			redirect("web/form/$cat/$p/$o/$id");
 		else
 			redirect("web/index/$cat");
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
 =======
 	}
 
@@ -155,10 +163,19 @@ class Web extends Admin_Controller {
 		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
 		$this->web_artikel_model->delete($id);
 		redirect("web/index/$cat/$p/$o");
->>>>>>> opensid/master
+
 	}
 
-<<<<<<< HEAD
+HEAD
+	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
+	{
+		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
+		$this->web_artikel_model->delete($id);
+		redirect("web/index/$cat/$p/$o");
+
+	}
+
+HEAD
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
@@ -170,7 +187,9 @@ class Web extends Admin_Controller {
 	}
 
 =======
->>>>>>> opensid/master
+
+=======
+
 	// Hapus kategori
 	public function hapus($cat = 1, $p = 1, $o = 0)
 	{
@@ -300,17 +319,25 @@ class Web extends Admin_Controller {
 
 	public function slider()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->sub_modul_ini = 54;
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 54;
+
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act'] = 13;
 		$nav['act_sub'] = 54;
 =======
 
->>>>>>> opensid/master
+
+=======
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('slider/admin_slider.php');
@@ -332,7 +359,8 @@ class Web extends Admin_Controller {
 
 	public function teks_berjalan()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 		$header = $this->header_model->get_data();
 		$nav['act'] = 13;
 		$nav['act_sub'] = 64;
@@ -340,7 +368,12 @@ class Web extends Admin_Controller {
 		$this->sub_modul_ini = 64;
 		$header = $this->header_model->get_data();
 
->>>>>>> opensid/master
+
+=======
+		$this->sub_modul_ini = 64;
+		$header = $this->header_model->get_data();
+
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('web/admin_teks_berjalan.php');

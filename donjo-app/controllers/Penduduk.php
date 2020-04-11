@@ -104,12 +104,15 @@ class Penduduk extends Admin_Controller {
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act'] = 2;
 		$nav['act_sub'] = 21;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
@@ -196,12 +199,15 @@ class Penduduk extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-<<<<<<< HEAD
+HEAD
+HEAD
 
 		$nav['act']= 2;
 		$nav['act_sub'] = 21;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
 		
@@ -219,11 +225,14 @@ class Penduduk extends Admin_Controller {
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act']= 2;
 		$nav['act_sub'] = 21;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -236,11 +245,14 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-<<<<<<< HEAD
+HEAD
+HEAD
 		$nav['act']= 2;
 		$nav['act_sub'] = 21;
 =======
->>>>>>> opensid/master
+
+=======
+
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -288,10 +300,13 @@ class Penduduk extends Admin_Controller {
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -299,10 +314,13 @@ class Penduduk extends Admin_Controller {
 	public function delete_all_dokumen($id_pend = 0)
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-<<<<<<< HEAD
+HEAD
+HEAD
 		$_SESSION['success'] = 1;
 =======
->>>>>>> opensid/master
+
+=======
+
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
 	}

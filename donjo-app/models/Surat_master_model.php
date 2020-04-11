@@ -107,10 +107,14 @@
 			$_SESSION['success'] = -2;
 			return;
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$data['mandiri'] = isset($data['mandiri']) ? 1 : 0;
->>>>>>> opensid/master
+
+=======
+		$data['mandiri'] = isset($data['mandiri']) ? 1 : 0;
+
 		$outp = $this->db->insert('tweb_surat_format', $data);
 		$raw_path = "template-surat/raw/";
 
@@ -176,10 +180,14 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$data['mandiri'] = empty($data['mandiri']) ? 0 : 1;
->>>>>>> opensid/master
+
+=======
+		$data['mandiri'] = empty($data['mandiri']) ? 0 : 1;
+
 		$this->validasi_surat($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_surat_format', $data);
@@ -225,38 +233,53 @@
 		}
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 	public function delete($id='')
 	{
 =======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
->>>>>>> opensid/master
+
+=======
+	public function delete($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+
 		// Surat jenis sistem (nilai 1) tidak bisa dihapus
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id = ?";
 		$outp = $this->db->query($sql,array($id));
 =======
 		$outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete('tweb_surat_format');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete('tweb_surat_format');
+
+
+HEAD
+HEAD
 		status_sukses($outp); //Tampilkan Pesan
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -268,7 +291,15 @@
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
 	}
 
@@ -447,7 +478,8 @@
 				->get('tweb_surat_format')->row_array();
 		return $sudahAda['ada'];
 	}
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 
 	public function get_syarat_surat($id=1)
@@ -460,7 +492,20 @@
 			->get()->result_array();
 		return $data;
 	}
->>>>>>> opensid/master
+
+=======
+
+	public function get_syarat_surat($id=1)
+	{
+		$data = $this->db->select('r.ref_syarat_id, r.ref_syarat_nama')
+			->where('surat_format_id', $id)
+			->from('syarat_surat s')
+			->join('ref_syarat_surat r', 's.ref_syarat_id = r.ref_syarat_id')
+			->order_by('ref_syarat_id')
+			->get()->result_array();
+		return $data;
+	}
+
 }
 
 ?>

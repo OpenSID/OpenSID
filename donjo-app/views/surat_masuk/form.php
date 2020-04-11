@@ -155,8 +155,12 @@
 			maxShowItems: 10,
 		});
 	});
-<<<<<<< HEAD
+HEAD
+HEAD
 </script>
 =======
 </script>
->>>>>>> opensid/master
+
+=======
+</script>
+

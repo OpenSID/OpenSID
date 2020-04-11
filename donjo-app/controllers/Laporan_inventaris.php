@@ -79,4 +79,8 @@ class Laporan_inventaris extends Admin_Controller {
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
 		$this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
 	}
+HEAD
 }
+=======
+}
+

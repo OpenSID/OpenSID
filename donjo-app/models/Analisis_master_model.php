@@ -130,7 +130,10 @@ class Analisis_master_model extends CI_Model {
 		else
 			$_SESSION['success'] = -1;
 	}
-<<<<<<< HEAD
+HEAD
+HEAD
+=======
+
 
 	public function is_analisis_sistem($id)
 	{
@@ -139,11 +142,12 @@ class Analisis_master_model extends CI_Model {
 		return $jenis == 1;
 	}
 
+HEAD
 	public function delete($id='')
 	{
 		if ($this->is_analisis_sistem($id)) return; // Jangan hapus analisis sistem
 =======
->>>>>>> opensid/master
+
 
 	public function is_analisis_sistem($id)
 	{
@@ -151,6 +155,8 @@ class Analisis_master_model extends CI_Model {
 			->get('analisis_master')->row()->jenis;
 		return $jenis == 1;
 	}
+
+=======
 
 	public function delete($id='', $semua=false)
 	{
@@ -160,32 +166,41 @@ class Analisis_master_model extends CI_Model {
 		if (!$semua) $this->session->success = 1;
 		$this->sub_delete($id);
 
-<<<<<<< HEAD
+HEAD
+HEAD
 		$sql = "DELETE FROM analisis_master WHERE id = ?";
 		$outp = $this->db->query($sql, array($id));
 =======
 		$outp = $this->db->where('id', $id)->delete('analisis_master');
->>>>>>> opensid/master
 
-<<<<<<< HEAD
+=======
+		$outp = $this->db->where('id', $id)->delete('analisis_master');
+
+
+HEAD
+HEAD
 		if ($outp)
 			$_SESSION['success'] = 1;
 		else
 			$_SESSION['success'] = -1;
 =======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
->>>>>>> opensid/master
+
+=======
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+
 	}
 
 	public function delete_all()
 	{
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 		$this->session->success = 1;
 
->>>>>>> opensid/master
+
 		$id_cb = $_POST['id_cb'];
-<<<<<<< HEAD
+HEAD
 
 		if (count($id_cb))
 		{
@@ -198,9 +213,18 @@ class Analisis_master_model extends CI_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
->>>>>>> opensid/master
+
+=======
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete($id, $semua=true);
+
 		}
-<<<<<<< HEAD
+HEAD
+HEAD
 		else $outp = false;
 
 		if ($outp)
@@ -208,13 +232,19 @@ class Analisis_master_model extends CI_Model {
 		else
 			$_SESSION['success'] = -1;
 =======
->>>>>>> opensid/master
+
+=======
+
 	}
 
-<<<<<<< HEAD
+HEAD
+HEAD
 =======
 	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB 
->>>>>>> opensid/master
+
+=======
+	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB 
+
 	private function sub_delete($id='')
 	{
 		$sql = "DELETE FROM analisis_parameter WHERE id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = ?)";
