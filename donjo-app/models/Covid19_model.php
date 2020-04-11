@@ -41,6 +41,8 @@
 		$this->db->select('o.nama');
 		$this->db->select('o.tempatlahir');
 		$this->db->select('o.tanggallahir');
+		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
 		$this->db->select('o.sex');
 		$this->db->select('w.rt');
 		$this->db->select('w.rw');

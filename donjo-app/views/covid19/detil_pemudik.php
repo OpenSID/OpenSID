@@ -75,6 +75,10 @@
                     <td> <?= $terdata["email"]?></td>
                   </tr>
                   <tr>
+                    <td style="padding-top : 10px;padding-bottom : 10px;" >Status Covid-19</td>
+                    <td> <?= $terdata["status_covid"]?></td>
+                  </tr>
+                  <tr>
                     <td style="padding-top : 10px;padding-bottom : 10px;" >Keluhan Kesehatan</td>
                     <td> <?= $terdata["keluhan_kesehatan"]?></td>
                   </tr>

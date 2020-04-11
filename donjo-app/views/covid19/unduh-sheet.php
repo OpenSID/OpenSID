@@ -45,6 +45,7 @@
 							<th>Durasi Mudik</th>
 							<th>No HP</th>
 							<th>Email</th>
+							<th>Status Covid-19</th>
 							<th>Keluhan Kesehatan</th>
 							<th>Keterangan</th>
 						</tr>
@@ -65,6 +66,7 @@
 								<td><?= $item["durasi_mudik"]?></td>
 								<td><?= $item["no_hp"]?></td>
 								<td><?= $item["email"]?></td>
+								<td><?= $item["status_covid"]?></td>
 								<td><?= $item["keluhan_kesehatan"]?></td>
 								<td><?= $item["keterangan"]?></td>
 							</tr>

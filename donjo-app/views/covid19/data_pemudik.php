@@ -55,12 +55,14 @@
 																<th>Aksi</th>
 																<th>NIK</th>
 																<th>Nama</th>
-																<th>Tanggal Lahir</th>
+																<th>Usia</th>
 																<th>JK</th>
 																<th>Alamat</th>
 																<th>Asal Pemudik</th>
 																<th>Tanggal Tiba</th>
 																<th>Tujuan Pemudik</th>
+																<th>Kontak</th>
+																<th>Status</th>
 																<th>Keluhan</th>
 															</tr>
 														</thead>
@@ -81,7 +83,7 @@
 																	</td>
 																	<td><?= $item["terdata_nama"] ?></td>
 																	<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
-																	<td><?= $item["tanggal_lahir"] ?></td>
+																	<td><?= $item["umur"] ?></td>
 																	<?php
 																	$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
 																	?>
@@ -90,6 +92,8 @@
 																	<td><?= $item["asal_mudik"];?></td>
 																	<td><?= $item["tanggal_datang"];?></td>
 																	<td><?= $item["tujuan_mudik"];?></td>
+																	<td><?= $item["no_hp"];?> - <?= $item["email"];?> </td>
+																	<td><?= $item["status_covid"];?></td>
 																	<td><?= $item["keluhan_kesehatan"];?></td>
 																</tr>
 																	<?php
