@@ -209,6 +209,7 @@
 			'tujuan_mudik' => $tujuan,
 			'no_hp' => $post['hp_pemudik'],
 			'email' => $post['email_pemudik'],
+			'status_covid' => $post['status_covid'],
 			'keluhan_kesehatan' => $post['keluhan'],
 			'keterangan' => $post['keterangan']
 		);
@@ -225,7 +226,7 @@
 	{
 		$data = $this->db->where('id', $id)->get('covid19_pemudik')->row_array();
 		// Data tambahan untuk ditampilkan
-		$terdata = $this->get_terdata($data['id_terdata']);
+		$terdata = $this->get_pemudik($data['id_terdata']);
 		$data['judul_terdata_nama'] = 'NIK';
 		$data['judul_terdata_info'] = 'Nama Terdata';
 		$data['terdata_nama'] = $terdata['nik'];
@@ -260,6 +261,7 @@
 			'tujuan_mudik' => $tujuan,
 			'no_hp' => $post['hp_pemudik'],
 			'email' => $post['email_pemudik'],
+			'status_covid' => $post['status_covid'],
 			'keluhan_kesehatan' => $post['keluhan'],
 			'keterangan' => $post['keterangan']
 		);

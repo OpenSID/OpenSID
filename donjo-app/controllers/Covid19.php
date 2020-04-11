@@ -75,7 +75,7 @@ class Covid19 extends Admin_Controller {
 
 	public function edit_pemudik_form($id = 0)
 	{
-		$data = $this->covid19_model->get_pemudik_by_id($id);		
+		$data = $this->covid19_model->get_pemudik_by_id($id);	
 		$data['form_action'] = site_url("covid19/edit_pemudik/$id");
 		$this->load->view('covid19/edit_pemudik', $data);
 	}

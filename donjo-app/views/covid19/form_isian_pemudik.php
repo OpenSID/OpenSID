@@ -34,7 +34,7 @@
 			<option <?= $selected?> value="1">Liburan</option>
 
 			<?php if($tujuan_mudik === "Menjenguk Keluarga"): $selected = "selected"; else:  $selected = ""; endif ?>
-			<option <?= $selected?> <?= $selected?> value="2">Menjenguk Keluarga</option>
+			<option <?= $selected?> value="2">Menjenguk Keluarga</option>
 
 			<?php if($tujuan_mudik === "Pulang Kampung"): $selected = "selected"; else:  $selected = ""; endif ?>
 			<option <?= $selected?> value="3">Pulang Kampung</option>
@@ -56,6 +56,34 @@
 	<div class="col-sm-4">
 		<input class="form-control input-sm" type="text" name="email_pemudik" id="email_pemudik" value="<?= $email?>" placeholder="Email">
 	</div>
+</div>
+
+<div class="form-group">
+	<label  class="col-sm-3 control-label" for="status_covid">Status Covid-19</label>
+	<div class="col-sm-8">
+		<select class="form-control input-sm" name="status_covid" id="status_covid">
+			<?php if($status_covid === ""): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="" >-- Pilih Status Covid-19 --</option>
+
+			<?php if($status_covid === "ODP"): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="ODP">Orang Dalam Pemantauan (ODP)</option>
+
+			<?php if($status_covid === "PDP"): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="PDP">Pasien Dalam Pengawasan (PDP)</option>
+
+			<?php if($status_covid === "ODR"): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="ODR">Orang Dalam Resiko (ODR)</option>
+
+			<?php if($status_covid === "OTG"): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="OTG">Orang Tanpa Gejala (OTG)</option>
+
+			<?php if($status_covid === "POSITIF"): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="POSITIF">Positif</option>
+
+			<?php if($status_covid === "DLL"): $selected = "selected"; else:  $selected = ""; endif ?>
+			<option <?= $selected?> value="DLL">Dan Lain Lain</option>
+		</select>
+	 </div>
 </div>
 
 <div class="form-group">
