@@ -5,7 +5,8 @@ class Covid19 extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
+
+		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
 		$this->modul_ini = 206;
@@ -19,14 +20,13 @@ class Covid19 extends Admin_Controller {
 
 	public function data_pemudik($p = 1)
 	{
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
+		if (isset($_POST['per_page'])) 
+			$this->session->set_userdata('per_page', $_POST['per_page']);
 		else 
-			$_SESSION['per_page'] = 10;
-
+			$this->session->set_userdata('per_page', 10);
 		
 		$data = $this->covid19_model->get_rincian_pemudik($p);
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['per_page'] = $this->session->userdata('per_page');
 
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
@@ -93,7 +93,7 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$data['terdata'] = $this->covid19_model->get_detil_pemudik_by_id($id);
-		$data['individu'] = $this->covid19_model->get_terdata($data['terdata']['id_terdata']);
+		$data['individu'] = $this->covid19_model->get_pemudik($data['terdata']['id_terdata']);
 
 		$data['terdata']['judul_terdata_nama'] = 'NIK';
 		$data['terdata']['judul_terdata_info'] = 'Nama Terdata';
@@ -109,10 +109,10 @@ class Covid19 extends Admin_Controller {
 		/*
 		 * Print xls untuk data x
 		 * */
-		$_SESSION['per_page'] = 0; // Unduh semua data
+		$this->session->set_userdata('per_page', 0); // Unduh semua data
 		$data = $this->covid19_model->get_rincian_pemudik(1);
 		$data['desa'] = $this->header_model->get_data();
-		$_SESSION['per_page'] = 10; // Kembalikan ke paginasi default
+		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
 
 		$this->load->view('covid19/unduh-sheet', $data);
 	}

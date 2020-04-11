@@ -3,57 +3,59 @@
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->library('session');
 	}
 
-	private function paging($p, $get_terdata_sql)
+	private function paging($p)
 	{
-		$sql = "SELECT COUNT(*) as jumlah ".$get_terdata_sql;
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(*) as jumlah');
+		$this->db->from('covid19_pemudik s');
+		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+		$this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
+		$this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
+
+		$row = $this->db->get()->row_array();
 		$jml_data = $row['jumlah'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->userdata('per_page');
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
 		return $this->paging;
 	}
 
-	
-	private function get_penduduk_pemudik_sql()
-	{
-		# Data penduduk
-		$sql = " FROM covid19_pemudik s
-			LEFT JOIN tweb_penduduk o ON s.id_terdata = o.id
-			LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster";
-		return $sql;
-	}
-
 	private function get_penduduk_pemudik($p)
 	{
-
 		$hasil = array();
-		
-		$get_terdata_sql = $this->get_penduduk_pemudik_sql();
-		
-		$select_sql = "SELECT s.*, s.id_terdata, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
-			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
-		 ";
-
-		$sql = $select_sql.$get_terdata_sql;
-
-
-		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		if ($this->session->has_userdata('per_page') and $this->session->userdata('per_page') > 0)
 		{
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
-			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
-			$sql .= $paging_sql;
+			$hasil["paging"] = $this->paging($p);
+
 		}
-		$query = $this->db->query($sql);
-		
+
+		$this->db->select('s.*');
+		$this->db->select('s.id_terdata');
+		$this->db->select('o.nik as terdata_id');
+		$this->db->select('o.nama');
+		$this->db->select('o.tempatlahir');
+		$this->db->select('o.tanggallahir');
+		$this->db->select('o.sex');
+		$this->db->select('w.rt');
+		$this->db->select('w.rw');
+		$this->db->select('w.dusun');
+		$this->db->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS `alamat`');
+		$this->db->from('covid19_pemudik s');
+		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+		$this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
+		$this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
+
+		if(isset($hasil["paging"])) {
+			$this->db->limit($hasil["paging"]->per_page, $hasil["paging"]->offset);
+		}
+
+		$query = $this->db->get();		
 		if ($query->num_rows() > 0)
 		{
 			$data = $query->result_array();
@@ -70,16 +72,18 @@
 			}
 			$hasil['terdata'] = $data;
 		}
+		
 		return $hasil;
 	}
 
 	private function get_id_penduduk_pemudik()
 	{
+		$this->db->select('p.id');
+		$this->db->from('tweb_penduduk p');
+		$this->db->join('covid19_pemudik t', 'p.id = t.id_terdata', 'right');
+		$data = $this->db->get()->result_array();
+
 		$hasil = array();
-		$sql = "SELECT p.id
-			FROM tweb_penduduk p
-			RIGHT JOIN covid19_pemudik t ON p.id = t.id_terdata";
-		$data = $this->db->query($sql, $id_suplemen)->result_array();
 		foreach ($data as $item)
 		{
 			$hasil[] = $item['id'];
@@ -109,15 +113,14 @@
 			$terdata .= ",".$value;
 		}
 		$terdata = ltrim($terdata, ",");
-		
-		
 
 		$this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
 			->from('tweb_penduduk p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left');
 
-		if (!empty($terdata))
+		if (!empty($terdata)) {
 			$this->db->where("p.id NOT IN ($terdata)");
+		}
 
 		$data = $this->db->get()->result_array();
 
@@ -136,26 +139,44 @@
 
 	public function get_pemudik($id_pemudik)
 	{
-		$this->load->model('surat_model');
-		# Data penduduk
-		$sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
-		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-		w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
-		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
-		from tweb_penduduk u
-		left join tweb_penduduk_sex x on u.sex = x.id
-		left join tweb_penduduk_kawin w on u.status_kawin = w.id
-		left join tweb_penduduk_agama a on u.agama_id = a.id
-		left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
-		left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
-		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
-		left join tweb_keluarga k on u.id_kk = k.id
-		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-		WHERE u.id = ?";
-		$query = $this->db->query($sql, $id_pemudik);
+		$this->db->select('u.id AS id');
+		$this->db->select('u.nama AS nama');
+		$this->db->select('x.nama AS sex');
+		$this->db->select('u.id_kk AS id_kk');
+		$this->db->select('u.tempatlahir AS tempatlahir');
+		$this->db->select('u.tanggallahir AS tanggallahir');
+		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur");
+		$this->db->select('w.nama AS status_kawin');
+		$this->db->select('f.nama AS warganegara');
+		$this->db->select('a.nama AS agama');
+		$this->db->select('d.nama AS pendidikan');
+		$this->db->select('j.nama AS pekerjaan');
+		$this->db->select('u.nik AS nik');
+		$this->db->select('c.rt AS rt');
+		$this->db->select('c.rw AS rw');
+		$this->db->select('c.dusun AS dusun');
+		$this->db->select('k.no_kk AS no_kk');
+		$this->db->select('k.alamat AS alamat');
+		$this->db->select('(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk');
+
+		$this->db->from('tweb_penduduk u');
+
+		$this->db->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left');
+		$this->db->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left');
+		$this->db->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left');
+		$this->db->join('tweb_penduduk_pendidikan_kk d', 'u.pendidikan_kk_id = d.id', 'left');
+		$this->db->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left');
+		$this->db->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+		$this->db->join('tweb_keluarga k', 'u.id_kk = k.id', 'left');
+		$this->db->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left');
+
+		$this->db->where('u.id', $id_pemudik);
+
+		$query = $this->db->get();
 		$data  = $query->row_array();
+
+		$this->load->model('surat_model');
 		$data['alamat_wilayah']= $this->surat_model->get_alamat_wilayah($data);
 
 		return $data;
@@ -200,7 +221,6 @@
 		$this->db->delete('covid19_pemudik');
 	}
 
-
 	public function get_pemudik_by_id($id)
 	{
 		$data = $this->db->where('id', $id)->get('covid19_pemudik')->row_array();
@@ -210,33 +230,6 @@
 		$data['judul_terdata_info'] = 'Nama Terdata';
 		$data['terdata_nama'] = $terdata['nik'];
 		$data['terdata_info'] = $terdata['nama'];
-
-		return $data;
-	}
-
-	public function get_terdata($id_terdata)
-	{
-		$this->load->model('surat_model');
-		# Data penduduk
-		$sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
-		u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
-		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-		w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
-		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
-		from tweb_penduduk u
-		left join tweb_penduduk_sex x on u.sex = x.id
-		left join tweb_penduduk_kawin w on u.status_kawin = w.id
-		left join tweb_penduduk_agama a on u.agama_id = a.id
-		left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
-		left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
-		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
-		left join tweb_keluarga k on u.id_kk = k.id
-		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-		WHERE u.id = ?";
-		$query = $this->db->query($sql, $id_terdata);
-		$data  = $query->row_array();
-		$data['alamat_wilayah']= $this->surat_model->get_alamat_wilayah($data);
 
 		return $data;
 	}
