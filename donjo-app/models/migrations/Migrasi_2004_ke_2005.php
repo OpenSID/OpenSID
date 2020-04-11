@@ -105,6 +105,11 @@ class Migrasi_2004_ke_2005 extends CI_model {
 					'constraint' => 255,
 					'null' => TRUE,
 				),
+				'status_covid' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => TRUE,
+				),
 				'no_hp' => array(
 					'type' => 'VARCHAR',
 					'constraint' => 20,
