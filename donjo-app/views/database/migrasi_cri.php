@@ -7,7 +7,7 @@
 													<div class="box-body">
 														<div class="row">
 															<div class="col-sm-12">
-																<?=form_open($form_action, 'id=excell enctype="multipart/form-data" class="form-horizontal"')?>
+																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
 																	<p>Proses ini untuk mengubah database SID ke struktur database OpenSID <?=AmbilVersi()?>.</p>
 																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																		<small>

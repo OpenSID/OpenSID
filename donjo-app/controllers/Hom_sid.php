@@ -23,54 +23,6 @@ class Hom_sid extends Admin_Controller {
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
 		$data['jumlah_surat'] = $this->surat_model->surat_total();
-HEAD
-HEAD
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 16;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/desa', $data);
-		$this->load->view('footer');
-	}
-
-	public function donasi()
-	{
-		// Menampilkan menu dan sub menu aktif
-		$nav['act'] = 1;
-		$nav['act_sub'] = 19;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/donasi');
-=======
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/desa', $data);
-
-		$this->load->view('footer');
-	}
-
-	public function dialog_pengaturan()
-	{
-		$data['list_program_bantuan'] = $this->program_bantuan_model->list_program();
-		$data['sasaran'] = unserialize(SASARAN);
-		$data['form_action'] = site_url("hom_sid/ubah_program_bantuan");
-		$this->load->view('home/pengaturan_form', $data);
-	}
-
-	public function ubah_program_bantuan()
-	{
-		$this->db->where('key','dashboard_program_bantuan')->update('setting_aplikasi', array('value'=>$this->input->post('program_bantuan')));
-		redirect('hom_sid');
-	}
-}
-=======
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -93,4 +45,3 @@ HEAD
 		redirect('hom_sid');
 	}
 }
-

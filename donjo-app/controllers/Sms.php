@@ -55,15 +55,6 @@ class Sms extends Admin_Controller {
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
-
-=======
-
-=======
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/manajemen_sms_table', $data);
@@ -86,171 +77,6 @@ HEAD
 
 	public function setting($p = 1, $o = 0)
 	{
-HEAD
-HEAD
-		$data['main'] = $this->sms_model->get_autoreply();
-		$data['form_action'] = site_url("sms/insert_autoreply");
-
-		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 41;
-
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/setting', $data);
-		$this->load->view('footer');
-	}
-
-	public function insert_autoreply()
-	{
-		$this->sms_model->insert_autoreply();
-		redirect('sms/setting');
-	}
-
-	public function polling($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari_polling']))
-			$data['cari_polling'] = $_SESSION['cari_polling'];
-		else $data['cari_polling'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-
-		$data['paging'] = $this->sms_model->paging_polling($p, $o);
-		$data['main'] = $this->sms_model->list_data_polling($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 41;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/polling', $data);
-		$this->load->view('footer');
-	}
-
-	public function outbox($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
-		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/create_sms', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
-	}
-
-	public function sentitem($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
-		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/berita_terkirim', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
-	}
-
-	public function pending($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_tertunda($p, $o);
-		$data['main'] = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
-=======
 		$this->sub_modul_ini = 41;
 
 		$data['main'] = $this->sms_model->get_autoreply();
@@ -399,157 +225,6 @@ HEAD
 		$data['main'] = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 		$header = $this->header_model->get_data();
-
-=======
-		$this->sub_modul_ini = 41;
-
-		$data['main'] = $this->sms_model->get_autoreply();
-		$data['form_action'] = site_url("sms/insert_autoreply");
-
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/setting', $data);
-		$this->load->view('footer');
-	}
-
-	public function insert_autoreply()
-	{
-		$this->sms_model->insert_autoreply();
-		redirect('sms/setting');
-	}
-
-	public function polling($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari_polling']))
-			$data['cari_polling'] = $_SESSION['cari_polling'];
-		else $data['cari_polling'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-
-		$data['paging'] = $this->sms_model->paging_polling($p, $o);
-		$data['main'] = $this->sms_model->list_data_polling($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/polling', $data);
-		$this->load->view('footer');
-	}
-
-	public function outbox($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
-		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/create_sms', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
-	}
-
-	public function sentitem($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
-		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/berita_terkirim', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
-	}
-
-	public function pending($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_tertunda($p, $o);
-		$data['main'] = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-		$header = $this->header_model->get_data();
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -845,14 +520,7 @@ HEAD
 
 	public function kontak($p = 1, $o = 0)
 	{
-HEAD
-HEAD
-=======
 		$this->sub_modul_ini = 40;
-
-=======
-		$this->sub_modul_ini = 40;
-
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -873,14 +541,6 @@ HEAD
 		$data['main'] = $this->sms_model->list_data_kontak($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -935,28 +595,10 @@ HEAD
 
 	public function group($p = 1, $o = 0)
 	{
-HEAD
-HEAD
-		$data['p'] = $p;
-		$data['o'] = $o;
-=======
 		$this->sub_modul_ini = 40;
-
-=======
-		$this->sub_modul_ini = 40;
-
-
-HEAD
-HEAD
-=======
-=======
 
 		$data['p'] = $p;
 		$data['o'] = $o;
-
-HEAD
-
-=======
 
 		if (isset($_SESSION['cari_grup']))
 			$data['cari_grup'] = $_SESSION['cari_grup'];
@@ -970,14 +612,6 @@ HEAD
 		$data['main'] = $this->sms_model->list_data_grup($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -1031,28 +665,10 @@ HEAD
 
 	public function anggota($id = 0, $p = 1, $o = 0)
 	{
-HEAD
-HEAD
-		$data['p'] = $p;
-		$data['o'] = $o;
-=======
 		$this->sub_modul_ini = 40;
-
-=======
-		$this->sub_modul_ini = 40;
-
-
-HEAD
-HEAD
-=======
-=======
 
 		$data['p'] = $p;
 		$data['o'] = $o;
-
-HEAD
-
-=======
 
 		if (isset($_SESSION['cari_anggota']))
 			$data['cari_anggota'] = $_SESSION['cari_anggota'];
@@ -1067,14 +683,6 @@ HEAD
 		$data['grup']['nama_grup'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -1151,14 +759,6 @@ HEAD
 		$data['polling']['id_polling'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

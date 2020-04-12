@@ -10,18 +10,8 @@ class Plan extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-HEAD
-HEAD
-		$this->load->database();
-		$this->modul_ini = 9;
-=======
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
-
-=======
-		$this->modul_ini = 9;
-		$this->sub_modul_ini = 8;
-
 	}
 
 	public function clear()
@@ -65,24 +55,9 @@ HEAD
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-HEAD
-HEAD
-
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 3;
-=======
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 3;
-
-
-=======
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 3;
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -101,15 +76,7 @@ HEAD
 
 		if ($id)
 		{
-HEAD
-HEAD
-			$data['lokasi'] = $this->config_model->get_data();
-=======
 			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
-
-=======
-			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
-
 			$data['form_action'] = site_url("plan/update/$id/$p/$o");
 		}
 		else
@@ -122,16 +89,6 @@ HEAD
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 3;
 
-HEAD
-HEAD
-		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 3;
-
-=======
-
-=======
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('lokasi/form', $data);
@@ -142,26 +99,11 @@ HEAD
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-HEAD
-HEAD
-		if ($id)
-			$data['lokasi'] = $this->config_model->get_data();
-		else
-			$data['lokasi'] = NULL;
-=======
 		if ($id){
 			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
 		}else{
 			$data['lokasi'] = NULL;
 		}			
-
-=======
-		if ($id){
-			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
-		}else{
-			$data['lokasi'] = NULL;
-		}			
-
 
 		$data['desa'] = $this->config_model->get_data();;
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
@@ -171,14 +113,7 @@ HEAD
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
 		$header= $this->header_model->get_data();
-HEAD
-HEAD
-=======
 		
-
-=======
-		
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("lokasi/maps", $data);

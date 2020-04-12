@@ -20,18 +20,6 @@
 		<item>
 			<title><?= htmlspecialchars($key->judul); ?></title>
 			<link><?= site_url("first/artikel/".$key->id);?></link>
-HEAD
-HEAD
-=======
-			<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
-
-			<description>
-				<?= htmlspecialchars($data_config["nama_desa"]).", ".htmlspecialchars(substr($key->isi, 0, strpos($key->isi, " ", 260)))?>
-			</description>
-		</item>
-	<?php endforeach; ?>
-</rss>
-=======
 			<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
 			<description>
 				<?= htmlspecialchars($data_config["nama_desa"]).", ".htmlspecialchars(substr($key->isi, 0, strpos($key->isi, " ", 260)))?>
@@ -39,4 +27,3 @@ HEAD
 		</item>
 	<?php endforeach; ?>
 </rss>
-

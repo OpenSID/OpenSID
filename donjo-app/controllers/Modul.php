@@ -29,14 +29,6 @@ class Modul extends Admin_Controller {
 
 		$data['main'] = $this->modul_model->list_data();
 		$data['keyword'] = $this->modul_model->autocomplete();
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 42;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -58,46 +50,13 @@ HEAD
 			$data['form_action'] = site_url("modul/insert");
 		}
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$this->load->view('header', $header);
 
-		$nav['act'] = 11;
-		$nav['act_sub'] = 42;
+		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('setting/modul/form', $data);
 		$this->load->view('footer');
 	}
 
-	public function sub_modul($id = '')
-	{
-		$data['submodul'] = $this->modul_model->list_sub_modul($id);
-		$data['modul'] = $this->modul_model->get_data($id);
-		$header = $this->header_model->get_data();
-		$nav['act'] = 11;
-		$nav['act_sub'] = 42;
-=======
-
-=======
-
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-HEAD
-HEAD
-		$this->load->view('setting/modul/sub_modul_table', $data);
-=======
-		$this->load->view('setting/modul/form', $data);
-
-=======
-		$this->load->view('setting/modul/form', $data);
-
-		$this->load->view('footer');
-	}
-
-HEAD
-HEAD
-=======
 	public function sub_modul($id = '')
 	{
 		$data['submodul'] = $this->modul_model->list_sub_modul($id);
@@ -109,21 +68,6 @@ HEAD
 		$this->load->view('setting/modul/sub_modul_table', $data);
 		$this->load->view('footer');
 	}
-
-
-=======
-	public function sub_modul($id = '')
-	{
-		$data['submodul'] = $this->modul_model->list_sub_modul($id);
-		$data['modul'] = $this->modul_model->get_data($id);
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/modul/sub_modul_table', $data);
-		$this->load->view('footer');
-	}
-
 
 	public function filter()
 	{
@@ -156,13 +100,6 @@ HEAD
 
 	public function ubah_server()
 	{
-HEAD
-HEAD
-		$this->load->model('setting_model');
-=======
-
-=======
-
 		$this->setting_model->update_penggunaan_server();
 		redirect('modul');
 	}

@@ -14,14 +14,7 @@ class Surat extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('referensi_model');
 		$this->load->model('penomoran_surat_model');
-HEAD
-HEAD
-=======
 		$this->load->model('permohonan_surat_model');
-
-=======
-		$this->load->model('permohonan_surat_model');
-
 		$this->modul_ini = 4;
 		$this->sub_modul_ini = 31;
 	}
@@ -46,14 +39,6 @@ HEAD
 		unset($_SESSION['id_pemberi_kuasa']);
 		unset($_SESSION['id_penerima_kuasa']);
 
-HEAD
-HEAD
-		$nav['act'] = 4;
-		$nav['act_sub'] = 31;
-=======
-
-=======
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/format_surat', $data);
@@ -62,16 +47,7 @@ HEAD
 
 	public function panduan()
 	{
-HEAD
-HEAD
-		$nav['act'] = 4;
-		$nav['act_sub'] = 33;
-=======
 		$this->sub_modul_ini = 33;
-
-=======
-		$this->sub_modul_ini = 33;
-
 		$header = $this->header_model->get_data();
 		
 		$this->load->view('header', $header);
@@ -98,35 +74,14 @@ HEAD
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/doc/$url");
-HEAD
-HEAD
-		$nav['act'] = 4;
-		$nav['act_sub'] = 31;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-=======
-
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("surat/form_surat", $data);
 		$this->load->view('footer');
 	}
-
-HEAD
-HEAD
-	public function doc($url = '')
-=======
-=======
 
 	public function periksa_doc($id, $url)
 	{
@@ -141,10 +96,6 @@ HEAD
 	}
 
 	private function cetak_doc($url)
-HEAD
-
-=======
-
 	{
 		$format = $this->surat_model->get_surat($url);
 		$log_surat['url_surat'] = $format['id'];
@@ -210,14 +161,6 @@ HEAD
 	    header('Content-disposition: attachment; filename='.$nama_file.'.zip');
 	    header('Content-type: application/zip');
 	    readfile($berkas_zip);
-HEAD
-HEAD
-
-
-=======
-
-=======
-
 		}
 		else
 		{

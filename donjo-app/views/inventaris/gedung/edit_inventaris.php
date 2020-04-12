@@ -300,8 +300,4 @@
 	});
 
 
-HEAD
 </script>
-=======
-</script>
-

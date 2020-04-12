@@ -29,8 +29,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<?=form_open(null, 'id="mainform" name="mainform"')?>
-									<!-- <form id="mainform" name="mainform" action="" method="post"> -->
+									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-6">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('man_user/filter')?>')">
@@ -91,30 +90,14 @@
 															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td>
-HEAD
-HEAD
-																		<?php if ($data['username']!='siteman'): ?>
-=======
 																		<?php if ($data['id']!=1): ?>
-
-=======
-																		<?php if ($data['id']!=1): ?>
-
 																			<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
 																		<a href="<?=site_url("Man_user/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-HEAD
-HEAD
-																		<?php if ($data['username']!='admin'): ?>
-=======
 																		<?php if ($data['id']!=1): ?>
-
-=======
-																		<?php if ($data['id']!=1): ?>
-
 																			<?php if ($data['active'] == '0'): ?>
 																				<a href="<?=site_url('Man_user/user_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['active'] == '1'): ?>
@@ -203,3 +186,4 @@ HEAD
 		</div>
 	</section>
 </div>
+

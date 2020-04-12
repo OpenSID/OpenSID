@@ -1,4 +1,3 @@
-<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Setting Aplikasi</h1>

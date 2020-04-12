@@ -75,9 +75,6 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-HEAD
-HEAD
-=======
 <script type="text/javascript">
 	setTimeout(function() {
 		$('#dusun').rules('add', {
@@ -85,13 +82,3 @@ HEAD
 		})
 	}, 500);
 </script>
-
-=======
-<script type="text/javascript">
-	setTimeout(function() {
-		$('#dusun').rules('add', {
-			maxlength: 50
-		})
-	}, 500);
-</script>
-

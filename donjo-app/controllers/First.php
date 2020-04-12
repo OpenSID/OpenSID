@@ -45,16 +45,8 @@ class First extends Web_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
 		$this->load->model('web_dokumen_model');
-HEAD
-HEAD
-=======
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
-
-=======
-		$this->load->model('mailbox_model');
-		$this->load->model('lapor_model');
-
 	}
 
 	public function auth()
@@ -96,22 +88,11 @@ HEAD
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
-HEAD
-HEAD
-=======
 		$data['feed'] = array(
 			'items' => $this->first_artikel_m->get_feed(),
 			'title' => 'BERITA COVID19.GO.ID',
 			'url' => 'https://www.covid19.go.id'
 		);
-
-=======
-		$data['feed'] = array(
-			'items' => $this->first_artikel_m->get_feed(),
-			'title' => 'BERITA COVID19.GO.ID',
-			'url' => 'https://www.covid19.go.id'
-		);
-
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
 		$cari = trim($this->input->get('cari'));
@@ -173,15 +154,7 @@ HEAD
 			$this->load->view('program_bantuan/kartu_peserta',$data);
 	}
 
-HEAD
-HEAD
-	public function mandiri($p=1, $m=0)
-=======
 	public function mandiri($p=1, $m=0, $kat=1)
-
-=======
-	public function mandiri($p=1, $m=0, $kat=1)
-
 	{
 		if ($_SESSION['mandiri'] != 1)
 		{
@@ -213,10 +186,6 @@ HEAD
 				$data['tab'] = 2;
 				$data['m'] = 2;
 			case 2:
-HEAD
-HEAD
-				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
-=======
 				$this->load->model('permohonan_surat_model');
 				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
 				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
@@ -227,19 +196,6 @@ HEAD
 				$data['main_list'] = $kat == 1 ? $inbox : $outbox;
 				$data['submenu'] = $this->mailbox_model->list_menu();
 				$_SESSION['mailbox'] = $kat;
-
-=======
-				$this->load->model('permohonan_surat_model');
-				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
-				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
-				break;
-			case 3:
-				$inbox = $this->mailbox_model->get_inbox_user($_SESSION['nik']);
-				$outbox = $this->mailbox_model->get_outbox_user($_SESSION['nik']);
-				$data['main_list'] = $kat == 1 ? $inbox : $outbox;
-				$data['submenu'] = $this->mailbox_model->list_menu();
-				$_SESSION['mailbox'] = $kat;
-
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
@@ -251,21 +207,10 @@ HEAD
 			default:
 				break;
 		}
-HEAD
-HEAD
-
-=======
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
-
-=======
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
-
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
-HEAD
-HEAD
-=======
 	public function mandiri_surat($id_permohonan='')
 	{
 		if ($_SESSION['mandiri'] != 1)
@@ -318,62 +263,6 @@ HEAD
 		);
     echo json_encode($output);
   }
-
-
-=======
-	public function mandiri_surat($id_permohonan='')
-	{
-		if ($_SESSION['mandiri'] != 1)
-		{
-			redirect('first');
-		}
-
-		$this->load->model('permohonan_surat_model');
-		$data = $this->includes;
-		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
-		$data['menu_dokumen_mandiri'] = $this->lapor_model->get_surat_ref_all();
-		$data['m'] = 5;
-		$data['permohonan'] = $this->permohonan_surat_model->get_permohonan($id_permohonan);
-		$this->_get_common_data($data);
-		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
-
-		$this->load->view('web/mandiri/layout.mandiri.php', $data);
-	}
-
-  public function cek_syarat()
-  {
-  	$id_permohonan = $this->input->post('id_permohonan');
-		$permohonan = $this->db->where('id', $id_permohonan)
-			->get('permohonan_surat')
-			->row_array();
-		$syarat_permohonan = json_decode($permohonan['syarat'], true);
-  	$dokumen = $this->penduduk_model->list_dokumen($_SESSION['id']);
-  	$id = $this->input->post('id_surat');
-  	$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
-		$data = array();
-		$no = $_POST['start'];
-
-		foreach ($syarat_surat as $no_syarat => $baris)
-		{
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $baris['ref_syarat_nama'];
-			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-	  	$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id']), TRUE);
-			$row[] = $pilihan_dokumen;
-			$data[] = $row;
-		}
-
-		$output = array(
-     	"recordsTotal" => 10,
-      "recordsFiltered" => 10,
-			'data' => $data
-		);
-    echo json_encode($output);
-  }
-
 
 	/*
 		Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. Url first/artikel/:id
@@ -706,11 +595,6 @@ HEAD
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
-HEAD
-HEAD
-=======
-=======
-
 	}
 
 	public function ajax_table_surat_permohonan()
@@ -782,10 +666,6 @@ HEAD
 			$data['message'] = 'You are not authorized';
 
 		echo json_encode($data);
-HEAD
-
-=======
-
 	}
 
 }

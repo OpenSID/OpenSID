@@ -34,18 +34,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('komentar/filter')?>')">
 														<option value="">Semua</option>
-HEAD
-HEAD
-														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
-=======
 														<option value="1" <?php if ($filter_status==1): ?>selected<?php endif ?>>Aktif</option>
 														<option value="2" <?php if ($filter_status==2): ?>selected<?php endif ?>>Tidak Aktif</option>
-
-=======
-														<option value="1" <?php if ($filter_status==1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter_status==2): ?>selected<?php endif ?>>Tidak Aktif</option>
-
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -102,25 +92,9 @@ HEAD
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?= site_url("komentar/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-HEAD
-HEAD
-																			<?php if ($data['enabled'] == '2'): ?>
-=======
 																			<?php if ($data['status'] == '2'): ?>
-
-=======
-																			<?php if ($data['status'] == '2'): ?>
-
 																			 <a href="<?= site_url('komentar/komentar_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Komentar"><i class="fa fa-lock">&nbsp;</i></a>
-HEAD
-HEAD
-																		 	<?php elseif ($data['enabled'] == '1'): ?>
-=======
 																		 	<?php elseif ($data['status'] == '1'): ?>
-
-=======
-																		 	<?php elseif ($data['status'] == '1'): ?>
-
 																			 <a href="<?= site_url('komentar/komentar_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Komentar"><i class="fa fa-unlock"></i></a>
 																		 	<?php endif ?>
 																			<a href="#" data-href="<?= site_url("komentar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

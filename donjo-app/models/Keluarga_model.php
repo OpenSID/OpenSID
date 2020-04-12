@@ -373,15 +373,7 @@
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
-HEAD
-HEAD
-		$log['tanggal'] = date("m-d-y");
-=======
 		$log['tanggal'] = date("Y-m-d H:i:s");
-
-=======
-		$log['tanggal'] = date("Y-m-d H:i:s");
-
 		$outp = $this->db->insert('log_perubahan_penduduk', $log);
 
 		// Untuk statistik perkembangan keluarga
@@ -395,22 +387,10 @@ HEAD
 			(2) Hapus keluarga
 			$id adalah id tweb_keluarga
 	*/
-HEAD
-HEAD
-	public function delete($id='')
-	{
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
 		
-
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-
 		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
 		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
 		foreach ($list_anggota as $anggota)
@@ -426,36 +406,12 @@ HEAD
 
 	public function delete_all()
 	{
-HEAD
-HEAD
-		$id_cb = $_POST['id_cb'];
-=======
 		$this->session->success = 1;
 
-=======
-		$this->session->success = 1;
-
-
-HEAD
-HEAD
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
-=======
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
-=======
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
 		}
 	}
 
@@ -717,15 +673,7 @@ HEAD
 		return $query->result_array();
 	}
 
-HEAD
-HEAD
-	// Tambah anggota keluarga
-=======
 	// Tambah anggota keluarga, penduduk baru
-
-=======
-	// Tambah anggota keluarga, penduduk baru
-
 	public function insert_a()
 	{
 		unset($_SESSION['validation_error']);
@@ -773,14 +721,7 @@ HEAD
 		}
 
 		if (!$this->validasi_data_keluarga($data)) return;
-HEAD
-HEAD
-=======
 		unset($data['alamat']);
-
-=======
-		unset($data['alamat']);
-
 
 		$error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
 		if (!empty($error_validasi))

@@ -50,17 +50,7 @@ class Analisis_master extends Admin_Controller {
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 5;
 		$header['minsidebar'] = 1;
-=======
-		$header['minsidebar'] = 1;
-
-
-=======
-		$header['minsidebar'] = 1;
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -88,17 +78,7 @@ HEAD
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 5;
 		$header['minsidebar'] = 1;
-=======
-		$header['minsidebar'] = 1;
-
-
-=======
-		$header['minsidebar'] = 1;
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -109,13 +89,6 @@ HEAD
 	public function panduan()
 	{
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -128,28 +101,12 @@ HEAD
 	{
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
-
-=======
-
 		$data['form_action'] = site_url("analisis_master/import");
 		$this->load->view('analisis_master/import', $data);
 	}
 
-HEAD
-HEAD
-	public function menu($id='', $p=0){
-=======
 	public function menu($id='')
 	{
-
-=======
-	public function menu($id='')
-	{
-
 		$_SESSION['analisis_master'] = $id;
 		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($id);
 		$_SESSION['analisis_nama'] = $data['analisis_master']['nama'];
@@ -185,20 +142,6 @@ HEAD
 		// $this->load->model('analisis_respon_model');
 		// $this->analisis_respon_model->pre_update();
 		$header['minsidebar'] = 1;
-
-HEAD
-HEAD
-		//PATCH
-		//if($p==1){
-		$this->load->model('analisis_respon_model');
-		$this->analisis_respon_model->pre_update();
-		//}
-		//----
-		$header['minsidebar'] = 1;
-		$nav['act'] = 5;
-=======
-
-=======
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);

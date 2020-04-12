@@ -63,15 +63,6 @@ class Web extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] =1;
-HEAD
-HEAD
-		$nav['act'] = 13;
-		$nav['act_sub'] = 47;
-
-=======
-
-=======
-
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
 
@@ -104,14 +95,6 @@ HEAD
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 13;
-		$nav['act_sub'] = 47;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -152,10 +135,6 @@ HEAD
 			redirect("web/form/$cat/$p/$o/$id");
 		else
 			redirect("web/index/$cat");
-HEAD
-HEAD
-=======
-=======
 	}
 
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
@@ -163,32 +142,7 @@ HEAD
 		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
 		$this->web_artikel_model->delete($id);
 		redirect("web/index/$cat/$p/$o");
-
 	}
-
-HEAD
-	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
-	{
-		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
-		$this->web_artikel_model->delete($id);
-		redirect("web/index/$cat/$p/$o");
-
-	}
-
-HEAD
-	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
-	{
-		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
-
-		$_SESSION['success'] = 1;
-		$outp = $this->web_artikel_model->delete($id);
-		if (!$outp) $_SESSION['success'] = -1;
-		redirect("web/index/$cat/$p/$o");
-	}
-
-=======
-
-=======
 
 	// Hapus kategori
 	public function hapus($cat = 1, $p = 1, $o = 0)
@@ -319,24 +273,8 @@ HEAD
 
 	public function slider()
 	{
-HEAD
-HEAD
-=======
 		$this->sub_modul_ini = 54;
-
-=======
-		$this->sub_modul_ini = 54;
-
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 13;
-		$nav['act_sub'] = 54;
-=======
-
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -359,20 +297,8 @@ HEAD
 
 	public function teks_berjalan()
 	{
-HEAD
-HEAD
-		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 64;
-=======
 		$this->sub_modul_ini = 64;
 		$header = $this->header_model->get_data();
-
-
-=======
-		$this->sub_modul_ini = 64;
-		$header = $this->header_model->get_data();
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

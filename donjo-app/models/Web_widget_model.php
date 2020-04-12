@@ -269,81 +269,24 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM widget WHERE id = ? AND jenis_widget <> 1";
-		$outp = $this->db->query($sql, array($id));
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
 
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
-
-
-HEAD
-HEAD
-		status_sukses($outp); //Tampilkan Pesan
-=======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
 	public function delete_all()
 	{
-HEAD
-HEAD
-=======
 		$this->session->success = 1;
-
-
-=======
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
-HEAD
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM widget WHERE id = ? AND jenis_widget <> 1";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	// pengambilan data yang akan ditampilkan di widget

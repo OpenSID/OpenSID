@@ -130,10 +130,6 @@ class Analisis_master_model extends CI_Model {
 		else
 			$_SESSION['success'] = -1;
 	}
-HEAD
-HEAD
-=======
-
 
 	public function is_analisis_sistem($id)
 	{
@@ -141,22 +137,6 @@ HEAD
 			->get('analisis_master')->row()->jenis;
 		return $jenis == 1;
 	}
-
-HEAD
-	public function delete($id='')
-	{
-		if ($this->is_analisis_sistem($id)) return; // Jangan hapus analisis sistem
-=======
-
-
-	public function is_analisis_sistem($id)
-	{
-		$jenis = $this->db->select('jenis')->where('id', $id)
-			->get('analisis_master')->row()->jenis;
-		return $jenis == 1;
-	}
-
-=======
 
 	public function delete($id='', $semua=false)
 	{
@@ -166,85 +146,23 @@ HEAD
 		if (!$semua) $this->session->success = 1;
 		$this->sub_delete($id);
 
-HEAD
-HEAD
-		$sql = "DELETE FROM analisis_master WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-=======
 		$outp = $this->db->where('id', $id)->delete('analisis_master');
 
-=======
-		$outp = $this->db->where('id', $id)->delete('analisis_master');
-
-
-HEAD
-HEAD
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
-=======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
 	public function delete_all()
 	{
-HEAD
-HEAD
-=======
-		$this->session->success = 1;
-
-
-		$id_cb = $_POST['id_cb'];
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$this->delete($id);
-			}
-			$outp = true;
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
-=======
 		$this->session->success = 1;
 
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
-=======
-
-=======
-
 	}
 
-HEAD
-HEAD
-=======
 	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB 
-
-=======
-	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB 
-
 	private function sub_delete($id='')
 	{
 		$sql = "DELETE FROM analisis_parameter WHERE id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = ?)";

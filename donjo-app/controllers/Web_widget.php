@@ -54,20 +54,6 @@ class Web_widget extends Admin_Controller {
 		$data['keyword'] = $this->web_widget_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 13;
-		$nav['act_sub'] = 48;
-=======
-
-		$this->session->page = $data['p'];
-		$this->session->urut_range = array(
-				'min' => $data['main'][0]['urut'],
-				'max' => $data['main'][count($data['main'])-1]['urut']
-		);
-
-=======
-
 
 		$this->session->page = $data['p'];
 		$this->session->urut_range = array(
@@ -98,17 +84,7 @@ HEAD
 		}
 
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 13;
-		$nav['act_sub'] = 48;
-
-=======
 		
-
-=======
-		
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('web/artikel/widget-form', $data);
@@ -135,24 +111,8 @@ HEAD
 
 	public function admin($widget)
 	{
-HEAD
-HEAD
-=======
 		$header['minsidebar'] = 1;
-
-=======
-		$header['minsidebar'] = 1;
-
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$header['minsidebar'] = 1;
-		$nav['act'] = 13;
-		$nav['act_sub'] = 48;
-=======
-
-=======
-
 		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
 		$data['setting'] = $this->web_widget_model->get_setting($widget);
 

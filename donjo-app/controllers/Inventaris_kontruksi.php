@@ -14,14 +14,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 6;
-HEAD
-HEAD
-=======
 		$this->tipe = 'inventaris_kontruksi';
-
-=======
-		$this->tipe = 'inventaris_kontruksi';
-
 	}
 
 	public function clear()
@@ -36,14 +29,6 @@ HEAD
 		$data['main'] = $this->inventaris_kontruksi_model->list_inventaris();
 		$data['total'] = $this->inventaris_kontruksi_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -57,14 +42,6 @@ HEAD
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -78,14 +55,6 @@ HEAD
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view_mutasi($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -99,14 +68,6 @@ HEAD
 	public function edit($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -120,14 +81,6 @@ HEAD
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->edit_mutasi($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -140,24 +93,9 @@ HEAD
 
 	public function form()
 	{
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-=======
-		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-
-=======
-		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -168,14 +106,6 @@ HEAD
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -189,14 +119,6 @@ HEAD
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->list_mutasi_inventaris();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;

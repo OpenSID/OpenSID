@@ -3,15 +3,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-HEAD
-HEAD
-		$this->load->database();
-=======
 		
-
-=======
-		
-
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
@@ -138,17 +130,8 @@ HEAD
 			case 3:
 				# Data RTM
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
-HEAD
-HEAD
-				$data['nik'] = $data['no_kk']; // no_kk digunakan sebagai id peserta
-=======
 				$data['nik_peserta'] = $data['nik'];
 				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
-
-=======
-				$data['nik_peserta'] = $data['nik'];
-				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
-
 				break;
 			case 4:
 				# Data Kelompok
@@ -793,41 +776,12 @@ HEAD
 	public function add_peserta($post, $id)
 	{
 		$nik = $post['nik'];
-HEAD
-HEAD
-		$strSQL = "SELECT sasaran FROM program WHERE id=".$id;
-		$hasil = $this->db->query($strSQL);
-		$row = $hasil->row_array();
-		$sasaran = $row['sasaran'];
-		// Untuk sasaran kelompok, $id adalah nama kelompok, jadi perlu mengambil
-		// id kelompok yang digunakan sebagai id peserta
-		if ($sasaran == 4)
-		{
-			$this->db->select('id');
-			$this->db->where('nama', $nik);
-			$query = $this->db->get('kelompok');
-			$kelompok = $query->row_array();
-			$nik = $kelompok['id'];
-		}
-		$strSQL = "SELECT id FROM `program_peserta` WHERE program_id='".fixSQL($id)."' AND peserta='".fixSQL($nik)."'";
-		$hasil = $this->db->query($strSQL);
-		if ($hasil->num_rows()>0)
-=======
 		$hasil = $this->db->select('id')
 			->from('program_peserta')
 			->where('program_id', $id)
 			->where('peserta', $nik)
 			->get();
 		if ($hasil->num_rows() > 0)
-
-=======
-		$hasil = $this->db->select('id')
-			->from('program_peserta')
-			->where('program_id', $id)
-			->where('peserta', $nik)
-			->get();
-		if ($hasil->num_rows() > 0)
-
 		{
 			return false;
 		}
@@ -958,15 +912,7 @@ HEAD
 		}
 	}
 
-HEAD
-HEAD
-	private function jml_peserta_program($id)
-=======
 	public function jml_peserta_program($id)
-
-=======
-	public function jml_peserta_program($id)
-
 	{
 		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
 		  from('program p')->

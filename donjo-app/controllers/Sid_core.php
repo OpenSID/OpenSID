@@ -11,14 +11,7 @@ class Sid_Core extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
-HEAD
-HEAD
-=======
 		$this->sub_modul_ini = 20;
-
-=======
-		$this->sub_modul_ini = 20;
-
 	}
 
 	public function clear()
@@ -49,14 +42,6 @@ HEAD
 		$data['main'] = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->wilayah_model->autocomplete();
 		$data['total'] = $this->wilayah_model->total();
-
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
 
 		$header = $this->header_model->get_data();
 
@@ -93,19 +78,6 @@ HEAD
 			$temp = $this->wilayah_model->cluster_by_id($id);
 			$data['dusun'] = $temp['dusun'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
-HEAD
-HEAD
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
-=======
-
-=======
-
 			$data['form_action'] = site_url("sid_core/update/$id");
 		}
 		else
@@ -115,16 +87,6 @@ HEAD
 		}
 		
 		$data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
-
-HEAD
-HEAD
-                $data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
 
 		$header = $this->header_model->get_data();
 
@@ -155,14 +117,6 @@ HEAD
 		redirect('sid_core');
 	}
 
-HEAD
-HEAD
-	public function delete($id = '')
-	{
-		$this->redirect_hak_akses('h', 'sid_core');
-		$this->wilayah_model->delete($id);
-		redirect('sid_core');
-=======
 	//Delete dusun/rw/rt tergantung tipe
 	public function delete($tipe = '', $id = '')
 	{
@@ -170,16 +124,6 @@ HEAD
 		$this->redirect_hak_akses('h', $kembali);
 		$this->wilayah_model->delete($tipe, $id);
 		redirect($kembali);
-
-=======
-	//Delete dusun/rw/rt tergantung tipe
-	public function delete($tipe = '', $id = '')
-	{
-		$kembali = $_SERVER['HTTP_REFERER'];
-		$this->redirect_hak_akses('h', $kembali);
-		$this->wilayah_model->delete($tipe, $id);
-		redirect($kembali);
-
 	}
 
 	public function sub_rw($id_dusun = '')
@@ -190,14 +134,6 @@ HEAD
 		$data['id_dusun'] = $id_dusun;
 		$data['main'] = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total'] = $this->wilayah_model->total_rw($nama_dusun );
-
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
 
 		$header = $this->header_model->get_data();
 
@@ -232,15 +168,7 @@ HEAD
 		$this->load->view('sid/wilayah/wilayah_rw_excel', $data);
 	}
 
-HEAD
-HEAD
-	public function form_rw($id_dusun = '', $rw = '')
-=======
 	public function form_rw($id_dusun = '', $id_rw = '')
-
-=======
-	public function form_rw($id_dusun = '', $id_rw = '')
-
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
@@ -249,57 +177,19 @@ HEAD
 
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
-HEAD
-HEAD
-		if ($rw)
-		{
-			$data['rw'] = $rw;
-			$temp = $this->wilayah_model->get_rw($dusun, $rw);
-=======
 		if ($id_rw)
 		{
 			$temp = $this->wilayah_model->cluster_by_id($id_rw);
 			$data['id_rw'] = $id_rw;
 			$data['rw'] = $temp['rw'];
-
-=======
-		if ($id_rw)
-		{
-			$temp = $this->wilayah_model->cluster_by_id($id_rw);
-			$data['id_rw'] = $id_rw;
-			$data['rw'] = $temp['rw'];
-
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp['id_kepala']);
-HEAD
-HEAD
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
-			$data['form_action'] = site_url("sid_core/update_rw/$id_dusun/$rw");
-=======
 			$data['form_action'] = site_url("sid_core/update_rw/$id_dusun/$id_rw");
-
-=======
-			$data['form_action'] = site_url("sid_core/update_rw/$id_dusun/$id_rw");
-
 		}
 		else
 		{
 			$data['rw'] = NULL;
 			$data['form_action'] = site_url("sid_core/insert_rw/$id_dusun");
 		}
-
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
 
 		$header = $this->header_model->get_data();
 
@@ -315,74 +205,24 @@ HEAD
 		redirect("sid_core/sub_rw/$dusun");
 	}
 
-HEAD
-HEAD
-	public function update_rw($dusun = '', $rw = '')
-	{
-		$this->wilayah_model->update_rw($dusun, $rw);
-=======
 	public function update_rw($dusun = '', $id_rw = '')
 	{
 		$this->wilayah_model->update_rw($id_rw);
-
-=======
-	public function update_rw($dusun = '', $id_rw = '')
-	{
-		$this->wilayah_model->update_rw($id_rw);
-
 		redirect("sid_core/sub_rw/$dusun");
 	}
 
-HEAD
-HEAD
-	public function delete_rw($id_dusun = '', $id = '')
-	{
-		$this->redirect_hak_akses('h', "sid_core/sub_rw/$id_dusun");
-		$this->wilayah_model->delete_rw($id);
-		redirect("sid_core/sub_rw/$id_dusun");
-	}
-
-	public function sub_rt($id_dusun = '', $rw = '')
-	{
-
-=======
 	public function sub_rt($id_dusun = '', $id_rw = '')
 	{
-
-=======
-	public function sub_rt($id_dusun = '', $id_rw = '')
-	{
-
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
 
-HEAD
-HEAD
-		$data['rw'] = $rw;
-		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
-=======
 		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
 		$data['id_rw'] = $id_rw;
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $data['rw']);
-
-=======
-		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
-		$data['rw'] = $data_rw['rw'];
-		$data['id_rw'] = $id_rw;
-		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $data['rw']);
-
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $rw);
-
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
 
 		$header = $this->header_model->get_data();
 
@@ -392,31 +232,15 @@ HEAD
 		$this->load->view('footer');
 	}
 
-HEAD
-HEAD
-	public function cetak_rt($id_dusun = '', $rw = '')
-=======
 	public function cetak_rt($id_dusun = '', $id_rw = '')
-
-=======
-	public function cetak_rt($id_dusun = '', $id_rw = '')
-
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
 
-HEAD
-HEAD
-=======
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$rw = $temp['rw'];
-
-=======
-		$temp = $this->wilayah_model->cluster_by_id($id_rw);
-		$rw = $temp['rw'];
-
 		$data['rw'] = $rw;
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $rw);
@@ -424,31 +248,15 @@ HEAD
 		$this->load->view('sid/wilayah/wilayah_rt_print', $data);
 	}
 
-HEAD
-HEAD
-	public function excel_rt($id_dusun = '', $rw = '')
-=======
 	public function excel_rt($id_dusun = '', $id_rw = '')
-
-=======
-	public function excel_rt($id_dusun = '', $id_rw = '')
-
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
 
-HEAD
-HEAD
-=======
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$rw = $temp['rw'];
-
-=======
-		$temp = $this->wilayah_model->cluster_by_id($id_rw);
-		$rw = $temp['rw'];
-
 		$data['rw'] = $rw;
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $rw);
@@ -462,14 +270,6 @@ HEAD
 		$data['rw'] = $rw;
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
 
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -477,44 +277,15 @@ HEAD
 		$this->load->view('footer');
 	}
 
-HEAD
-HEAD
-	public function form_rt($id_dusun = '', $rw = '', $rt = '')
-=======
 	public function form_rt($id_dusun = '', $id_rw = '', $rt = '')
-
-=======
-	public function form_rt($id_dusun = '', $id_rw = '', $rt = '')
-
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-HEAD
-HEAD
-=======
 		$data['dusun'] = $temp['dusun'];
 		$data['id_dusun'] = $id_dusun;
 
-=======
-		$data['dusun'] = $temp['dusun'];
-		$data['id_dusun'] = $id_dusun;
-
-
-HEAD
-HEAD
-		$data['dusun'] = $temp['dusun'];
-		$data['id_dusun'] = $id_dusun;
-
-		$data['rw'] = $rw;
-=======
 		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
 		$data['id_rw'] = $data_rw['id'];
-
-=======
-		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
-		$data['rw'] = $data_rw['rw'];
-		$data['id_rw'] = $data_rw['id'];
-
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
 		if ($rt)
@@ -523,44 +294,13 @@ HEAD
 			$id_cluster = $temp2['id'];
 			$data['rt'] = $temp2['rt'];
 			$data['individu'] = $this->wilayah_model->get_penduduk($temp2['id_kepala']);
-HEAD
-HEAD
-			if (empty($data['individu']))
-				$data['individu'] = NULL;
-			else
-			{
-				$ex = $data['individu'];
-				$data['penduduk'] = $this->wilayah_model->list_penduduk_ex($ex['id']);
-			}
-			$data['form_action'] = site_url("sid_core/update_rt/$id_dusun/$rw/$id_cluster");
-=======
 			$data['form_action'] = site_url("sid_core/update_rt/$id_dusun/$id_rw/$id_cluster");
-
-=======
-			$data['form_action'] = site_url("sid_core/update_rt/$id_dusun/$id_rw/$id_cluster");
-
 		}
 		else
 		{
 			$data['rt'] = NULL;
-HEAD
-HEAD
-			$data['form_action'] = site_url("sid_core/insert_rt/$id_dusun/$rw");
-=======
 			$data['form_action'] = site_url("sid_core/insert_rt/$id_dusun/$id_rw");
-
-=======
-			$data['form_action'] = site_url("sid_core/insert_rt/$id_dusun/$id_rw");
-
 		}
-
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
-=======
-
-=======
 
 		$header = $this->header_model->get_data();
 
@@ -570,24 +310,10 @@ HEAD
 		$this->load->view('footer');
 	}
 
-HEAD
-HEAD
-	public function insert_rt($dusun = '', $rw = '')
-	{
-		$this->wilayah_model->insert_rt($dusun, $rw);
-		redirect("sid_core/sub_rt/$dusun/$rw");
-=======
 	public function insert_rt($id_dusun = '', $id_rw = '')
 	{
 		$this->wilayah_model->insert_rt($id_dusun, $id_rw);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-
-=======
-	public function insert_rt($id_dusun = '', $id_rw = '')
-	{
-		$this->wilayah_model->insert_rt($id_dusun, $id_rw);
-		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-
 	}
 
 	public function update_rt($dusun = '', $rw = '', $id_cluster = 0)
@@ -595,22 +321,6 @@ HEAD
 		$this->wilayah_model->update_rt($id_cluster);
 		redirect("sid_core/sub_rt/$dusun/$rw");
 	}
-
-HEAD
-HEAD
-	public function delete_rt($id_cluster = '')
-	{
-		$this->redirect_hak_akses('h', "sid_core/sub_rt/$id_dusun/$rw");
-		$temp = $this->wilayah_model->cluster_by_id($id_cluster);
-		$id_dusun = $temp['id_dusun'];
-		$rw = $temp['rw'];
-		$this->wilayah_model->delete_rt($id_cluster);
-		redirect("sid_core/sub_rt/$id_dusun/$rw");
-	}
-
-=======
-
-=======
 
 	public function warga($id = '')
 	{
@@ -659,13 +369,6 @@ HEAD
 
   public function ajax_kantor_dusun_maps($id='')
 	{
-HEAD
-HEAD
-		$nav['act_sub'] = 20;
-=======
-
-=======
-
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
     $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
@@ -698,13 +401,6 @@ HEAD
 
   public function ajax_wilayah_dusun_maps($id='')
 	{
-HEAD
-HEAD
-		$nav['act_sub'] = 20;
-=======
-
-=======
-
     $sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
     $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
@@ -772,215 +468,6 @@ HEAD
 		}
 	}
 
-HEAD
-HEAD
-	public function ajax_kantor_rw_maps($id_dusun = '',$rw='')
-	{
-		$nav['act_sub'] = 20;
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
-    );
-    $data['wilayah'] = 'RW';
-    $data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id_dusun/$rw");
-    $header = $this->header_model->get_data();
-
-    if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-	    $this->load->view('footer');
-    }
-		else
-		{
-			$_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Lokasi Kantor $sebutan_dusun $dusun Belum Dilengkapi";
-      redirect("sid_core/sub_rw/$id_dusun");
-		}
-	}
-
-  public function ajax_wilayah_rw_maps($id_dusun = '',$rw='')
-	{
-		$nav['act_sub'] = 20;
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
-    );
-    $data['wilayah'] = 'RW';
-    $data['form_action'] = site_url("sid_core/update_wilayah_rw_map/$id_dusun/$rw");
-    $header = $this->header_model->get_data();
-
-		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-			$this->load->view('footer');
-    }
-		else
-		{
-      $_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Peta Lokasi/Wilayah $sebutan_dusun $dusun Belum Dilengkapi";
-			redirect("sid_core/sub_rw/$id_dusun");
-		}
-	}
-
-	public function update_kantor_rw_map($id_dusun = '',$rw='')
-	{
-    $update_kantor = $this->wilayah_model->update_kantor_rw_map($id);
-
-    if ($update_kantor)
-		{
-	    $this->wilayah_model->update_kantor_rw_map($id);
-    }
-		else
-		{
-      redirect("sid_core/sub_rw/$id_dusun");
-      $_SESSION['success'] = 1;
-    }
-	}
-
-  public function update_wilayah_rw_map($id_dusun = '',$rw='')
-	{
-		$update_wilayah = $this->wilayah_model->update_wilayah_rw_map($id);
-
-	  if ($update_wilayah)
-    {
-			$this->wilayah_model->update_wilayah_rw_map($id);
-    }
-		else
-		{
-			redirect("sid_core/sub_rw/$id_dusun");
-      $_SESSION['success'] = 1;
-		}
-	}
-
-  public function ajax_kantor_rt_maps($id_dusun = '',$rw='',$id='')
-	{
-		$nav['act_sub'] = 20;
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-    $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
-    $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
-    	array('link' => site_url("sid_core/sub_rt/$id_dusun/{$data_rw['rw']}"), 'judul' => 'Daftar RT')
-    );
-    $data['wilayah'] = 'RT';
-    $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$rw/$id");
-    $header = $this->header_model->get_data();
-
-    if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-	    $this->load->view('footer');
-    }
-		else
-		{
-			$_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Lokasi Kantor $sebutan_dusun $dusun Belum Dilengkapi";
-			redirect("sid_core/sub_rt/$id_dusun/$rw");
-		}
-	}
-
-  public function ajax_wilayah_rt_maps($id_dusun = '',$rw='',$id='')
-	{
-		$nav['act_sub'] = 20;
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-    $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
-    $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
-    	array('link' => site_url("sid_core/sub_rt/$id_dusun/{$data_rw['rw']}"), 'judul' => 'Daftar RT')
-    );
-    $data['wilayah'] = 'RT';
-    $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$rw/$id");
-    $header = $this->header_model->get_data();
-
-		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-			$this->load->view('footer');
-    }
-		else
-		{
-			$_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Peta Lokasi/Wilayah $sebutan_dusun $dusun Belum Dilengkapi";
-			redirect("sid_core/sub_rt/$id_dusun/$rw");
-		}
-	}
-
-	public function update_kantor_rt_map($id_dusun = '',$rw='',$id='')
-	{
-    $update_kantor = $this->wilayah_model->update_kantor_rt_map($id);
-
-    if ($update_kantor)
-		{
-	    $this->wilayah_model->update_kantor_rt_map($id);
-    }
-		else
-		{
-	    redirect("sid_core/sub_rt/$id_dusun/$rw");
-	    $_SESSION['success'] = 1;
-    }
-	}
-
-  public function update_wilayah_rt_map($id_dusun = '',$rw='',$id='')
-	{
-    $update_kantor = $this->wilayah_model->update_wilayah_rt_map($id);
-
-    if ($update_kantor)
-		{
-	    $this->wilayah_model->update_wilayah_rt_map($id);
-    }
-		else
-		{
-	    redirect("sid_core/sub_rt/$id_dusun/$rw");
-=======
 	public function ajax_kantor_rw_maps($id_dusun = '', $id_rw='')
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
@@ -1193,221 +680,6 @@ HEAD
 		else
 		{
 	    redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-
-=======
-	public function ajax_kantor_rw_maps($id_dusun = '', $id_rw='')
-	{
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-		$temp = $this->wilayah_model->cluster_by_id($id_rw);
-		$rw = $temp['rw'];
-		$data['rw'] = $rw;
-		$data['id_rw'] = $id_rw;
-		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
-    );
-    $data['wilayah'] = 'RW';
-    $data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id_dusun/$id_rw");
-    $header = $this->header_model->get_data();
-
-    if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-	    $this->load->view('footer');
-    }
-		else
-		{
-			$_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Lokasi Kantor $sebutan_dusun $dusun Belum Dilengkapi";
-      redirect("sid_core/sub_rw/$id_dusun");
-		}
-	}
-
-  public function ajax_wilayah_rw_maps($id_dusun = '', $id_rw='')
-	{
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-		$temp = $this->wilayah_model->cluster_by_id($id_rw);
-		$rw = $temp['rw'];
-		$data['rw'] = $rw;
-		$data['id_rw'] = $id_rw;
-		$data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data['wil_ini'] = $this->wilayah_model->get_rw_maps($dusun, $rw);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
-    );
-    $data['wilayah'] = 'RW';
-    $data['form_action'] = site_url("sid_core/update_wilayah_rw_map/$id_dusun/$id_rw");
-    $header = $this->header_model->get_data();
-
-		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-			$this->load->view('footer');
-    }
-		else
-		{
-      $_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Peta Lokasi/Wilayah $sebutan_dusun $dusun Belum Dilengkapi";
-			redirect("sid_core/sub_rw/$id_dusun");
-		}
-	}
-
-	public function update_kantor_rw_map($id_dusun = '', $id_rw='')
-	{
-    $update_kantor = $this->wilayah_model->update_kantor_rw_map($id_rw);
-
-    if ($update_kantor)
-		{
-	    $this->wilayah_model->update_kantor_rw_map($id_rw);
-    }
-		else
-		{
-      redirect("sid_core/sub_rw/$id_dusun");
-      $_SESSION['success'] = 1;
-    }
-	}
-
-  public function update_wilayah_rw_map($id_dusun = '', $rw='')
-	{
-		$update_wilayah = $this->wilayah_model->update_wilayah_rw_map($id_rw);
-
-	  if ($update_wilayah)
-    {
-			$this->wilayah_model->update_wilayah_rw_map($id_rw);
-    }
-		else
-		{
-			redirect("sid_core/sub_rw/$id_dusun");
-      $_SESSION['success'] = 1;
-		}
-	}
-
-  public function ajax_kantor_rt_maps($id_dusun = '', $id_rw='', $id='')
-	{
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-		$temp_rw = $this->wilayah_model->cluster_by_id($id_rw);
-		$rw = $temp_rw['rw'];
-
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-    $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
-    $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
-    	array('link' => site_url("sid_core/sub_rt/$id_dusun/$id_rw"), 'judul' => 'Daftar RT')
-    );
-    $data['wilayah'] = 'RT';
-    $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$id_rw/$id");
-    $header = $this->header_model->get_data();
-
-    if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-			$this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-	    $this->load->view("sid/wilayah/ajax_kantor_maps", $data);
-	    $this->load->view('footer');
-    }
-		else
-		{
-			$_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Lokasi Kantor $sebutan_dusun $dusun Belum Dilengkapi";
-			redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-		}
-	}
-
-  public function ajax_wilayah_rt_maps($id_dusun = '', $id_rw='', $id='')
-	{
-		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
-		$dusun = $temp['dusun'];
-    $data['id_dusun'] = $id_dusun;
-
-    $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-    $data['wil_atas'] = $this->wilayah_model->get_dusun_maps($id_dusun);
-		$data_rw = $this->wilayah_model->get_rw_maps($dusun, $rw);
-    $data['wil_ini'] = $this->wilayah_model->get_rt_maps($id);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-    $data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-    $data['breadcrumb'] = array(
-    	array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-    	array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
-    	array('link' => site_url("sid_core/sub_rt/$id_dusun/$id_rw"), 'judul' => 'Daftar RT')
-    );
-    $data['wilayah'] = 'RT';
-    $data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$id_rw/$id");
-    $header = $this->header_model->get_data();
-
-		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
-		{
-      $this->load->view('header', $header);
-			$this->load->view('nav', $nav);
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
-			$this->load->view('footer');
-    }
-		else
-		{
-			$_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Peta Lokasi/Wilayah $sebutan_dusun $dusun Belum Dilengkapi";
-			redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-		}
-	}
-
-	public function update_kantor_rt_map($id_dusun = '', $id_rw='', $id='')
-	{
-    $update_kantor = $this->wilayah_model->update_kantor_rt_map($id);
-
-    if ($update_kantor)
-		{
-	    $this->wilayah_model->update_kantor_rt_map($id);
-    }
-		else
-		{
-	    redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-	    $_SESSION['success'] = 1;
-    }
-	}
-
-  public function update_wilayah_rt_map($id_dusun = '', $id_rw='', $id='')
-	{
-    $update_kantor = $this->wilayah_model->update_wilayah_rt_map($id);
-
-    if ($update_kantor)
-		{
-	    $this->wilayah_model->update_wilayah_rt_map($id);
-    }
-		else
-		{
-	    redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-
 	    $_SESSION['success'] = 1;
     }
 	}

@@ -10,14 +10,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 15;
-HEAD
-HEAD
-=======
 		$this->sub_modul_ini = 95;
-
-=======
-		$this->sub_modul_ini = 95;
-
 	}
 
 	public function index($kat=2, $p=1, $o=0)
@@ -64,17 +57,7 @@ HEAD
 
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-HEAD
-HEAD
-		$nav['act_sub'] = 95;
-    $header['minsidebar'] = 1;
-=======
 		$header['minsidebar'] = 1;
-
-
-=======
-		$header['minsidebar'] = 1;
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -109,14 +92,6 @@ HEAD
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = $this->tab_ini;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -167,13 +142,6 @@ HEAD
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
-HEAD
-HEAD
-		$_SESSION['success'] = 1;
-=======
-
-=======
-
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
@@ -181,13 +149,6 @@ HEAD
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
 		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
-HEAD
-HEAD
-		$_SESSION['success'] = 1;
-=======
-
-=======
-
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}

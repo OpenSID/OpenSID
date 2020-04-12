@@ -323,62 +323,6 @@
 				unset($data[$gambar]);
 		  }
 		}
-HEAD
-HEAD
-=======
-
-		foreach ($list_gambar as $gambar)
-		{
-			if (isset($data[$gambar.'_hapus']))
-			{
-				HapusArtikel($data[$gambar.'_hapus']);
-				$data[$gambar] = "";
-				unset($data[$gambar.'_hapus']);
-			}
-		}
-
-		// Upload dokumen lampiran
-
-
-HEAD
-		foreach ($list_gambar as $gambar)
-		{
-			if (isset($data[$gambar.'_hapus']))
-			{
-				HapusArtikel($data[$gambar.'_hapus']);
-				$data[$gambar] = "";
-				unset($data[$gambar.'_hapus']);
-			}
-		}
-=======
-		$lokasi_file = $_FILES['dokumen']['tmp_name'];
-		$tipe_file = TipeFile($_FILES['dokumen']);
-		$nama_file = $_FILES['dokumen']['name'];
-	  $ext = get_extension($nama_file);
-		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
-
-
-HEAD
-		// Upload dokumen lampiran
-=======
-		if ($nama_file AND !empty($lokasi_file))
-		{
-			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
-			{
-				unset($data['link_dokumen']);
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			}
-			else
-			{
-				$data['dokumen'] = $nama_file;
-				if ($data['link_dokumen'] == '')
-				$data['link_dokumen'] = $data['judul'];
-				UploadDocument2($nama_file);
-			}
-		}
-
-=======
 
 		foreach ($list_gambar as $gambar)
 		{
@@ -415,15 +359,6 @@ HEAD
 			}
 		}
 
-
-HEAD
-HEAD
-		$lokasi_file = $_FILES['dokumen']['tmp_name'];
-		$tipe_file = TipeFile($_FILES['dokumen']);
-		$nama_file = $_FILES['dokumen']['name'];
-	  $ext = get_extension($nama_file);
-		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
-=======
 		foreach ($list_gambar as $gambar)
 		{
 			unset($data['old_'.$gambar]);
@@ -443,46 +378,6 @@ HEAD
 			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
 		}
 
-=======
-		foreach ($list_gambar as $gambar)
-		{
-			unset($data['old_'.$gambar]);
-		}
-		if ($data['tgl_upload'] == '')
-			unset($data['tgl_upload']);
-		else
-		{
-			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
-			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
-		}
-		if ($data['tgl_agenda'] == '')
-			unset($data['tgl_agenda']);
-		else
-		{
-			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
-			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
-		}
-
-
-HEAD
-HEAD
-		if ($nama_file AND !empty($lokasi_file))
-		{
-			if (!in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) or !in_array($ext, unserialize(EXT_DOKUMEN)))
-			{
-				unset($data['link_dokumen']);
-				$_SESSION['error_msg'].= " -> Jenis file salah: " . $tipe_file;
-				$_SESSION['success']=-1;
-			}
-			else
-			{
-				$data['dokumen'] = $nama_file;
-				if ($data['link_dokumen'] == '')
-				$data['link_dokumen'] = $data['judul'];
-				UploadDocument2($nama_file);
-			}
-		}
-=======
 		if ($cat == AGENDA)
 		{
 			$outp = $this->update_agenda($id, $data);
@@ -495,41 +390,6 @@ HEAD
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-=======
-		if ($cat == AGENDA)
-		{
-			$outp = $this->update_agenda($id, $data);
-		}
-		else
-		{
-			$this->db->where('id', $id);
-			$outp = $this->db->update('artikel', $data);
-		}
-		if (!$outp) $_SESSION['success'] = -1;
-	}
-
-
-HEAD
-HEAD
-		foreach ($list_gambar as $gambar)
-		{
-			unset($data['old_'.$gambar]);
-		}
-		if ($data['tgl_upload'] == '')
-			unset($data['tgl_upload']);
-		else
-		{
-			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
-			$data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
-		}
-		if ($data['tgl_agenda'] == '')
-			unset($data['tgl_agenda']);
-		else
-		{
-			$tempTgl = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
-			$data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
-		}
-=======
 	private function update_agenda($id_artikel, $data)
 	{
 		$agenda = $this->ambil_data_agenda($data);
@@ -551,92 +411,15 @@ HEAD
 		return $outp;
 	}
 
-=======
-	private function update_agenda($id_artikel, $data)
-	{
-		$agenda = $this->ambil_data_agenda($data);
-		$id = $data['id_agenda'];
-		unset($data['id_agenda']);
-		$outp = $this->db->where('id', $id_artikel)->update('artikel', $data);
-		if ($outp)
-		{
-			if (empty($id))
-			{
-				$agenda['id_artikel'] = $id_artikel;
-				$this->agenda_model->insert($agenda);
-			}
-			else
-			{
-				$this->agenda_model->update($id, $agenda);
-			}
-		}
-		return $outp;
-	}
-
-
-HEAD
-HEAD
-		if ($cat == AGENDA)
-		{
-			$outp = $this->update_agenda($id, $data);
-		}
-		else
-		{
-			$this->db->where('id', $id);
-			$outp = $this->db->update('artikel', $data);
-		}
-		if (!$outp) $_SESSION['success'] = -1;
-=======
 	public function update_kategori($id, $id_kategori)
 	{
 		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
-
-=======
-	public function update_kategori($id, $id_kategori)
-	{
-		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
-
 	}
 
-HEAD
-HEAD
-	private function update_agenda($id_artikel, $data)
-	{
-		$agenda = $this->ambil_data_agenda($data);
-		$id = $data['id_agenda'];
-		unset($data['id_agenda']);
-		$outp = $this->db->where('id', $id_artikel)->update('artikel', $data);
-		if ($outp)
-		{
-			if (empty($id))
-			{
-				$agenda['id_artikel'] = $id_artikel;
-				$this->agenda_model->insert($agenda);
-			}
-			else
-			{
-				$this->agenda_model->update($id, $agenda);
-			}
-		}
-		return $outp;
-	}
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
 
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-
-HEAD
-HEAD
-	public function update_kategori($id, $id_kategori)
-	{
-		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
-=======
 		$list_gambar = $this->db->
 			select('gambar, gambar1, gambar2, gambar3')->
 			where('id', $id)->
@@ -649,88 +432,22 @@ HEAD
 		$outp = $this->db->where('id', $id)->delete('artikel');
 		
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-		$list_gambar = $this->db->
-			select('gambar, gambar1, gambar2, gambar3')->
-			where('id', $id)->
-			get('artikel')->row_array();
-		foreach ($list_gambar as $key => $gambar)
-		{
-			HapusArtikel($gambar);
-		}
-		
-		$outp = $this->db->where('id', $id)->delete('artikel');
-		
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-		$list_gambar = $this->db->
-			select('gambar, gambar1, gambar2, gambar3')->
-			where('id', $id)->
-			get('artikel')->row_array();
-		foreach ($list_gambar as $key => $gambar)
-		{
-			HapusArtikel($gambar);
-		}
-		$outp = $this->db->where('id', $id)->delete('artikel');
-		return $outp;
-	}
-=======
 	public function delete_all()
 	{
 		$this->session->success = 1;
 
-=======
-	public function delete_all()
-	{
-		$this->session->success = 1;
-
-
-HEAD
-HEAD
-	public function delete_all()
-	{
-		$_SESSION['success'] = 1;
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			if ($this->boleh_ubah($id, $_SESSION['user']))
-			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
-=======
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
 			if ($this->boleh_ubah($id, $_SESSION['user']))
 			{
 				$this->delete($id, $semua=true);
-
-=======
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			if ($this->boleh_ubah($id, $_SESSION['user']))
-			{
-				$this->delete($id, $semua=true);
-
 			}
 		}
 	}
 
-HEAD
-HEAD
-	public function hapus($id='')
-	{
-		$sql = "DELETE FROM kategori WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-=======
 	// TODO: ubah supaya menggunakan web_kategori_model
 	public function hapus($id='', $semua=false)
 	{
@@ -738,24 +455,7 @@ HEAD
 		
 		$outp = $this->db->where('id', $id)->delete('kategori');
 
-=======
-	// TODO: ubah supaya menggunakan web_kategori_model
-	public function hapus($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('kategori');
-
-
-HEAD
-HEAD
-		status_sukses($outp); //Tampilkan Pesan
-=======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
 	public function artikel_lock($id='', $val=0)
@@ -892,8 +592,4 @@ HEAD
 		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
 		return ($user == $id_user or $_SESSION['grup'] != 4);
 	}
-HEAD
 }
-=======
-}
-

@@ -14,14 +14,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 2;
-HEAD
-HEAD
-=======
 		$this->tipe = 'inventaris_peralatan';
-
-=======
-		$this->tipe = 'inventaris_peralatan';
-
 	}
 
 	public function clear()
@@ -36,14 +29,6 @@ HEAD
 		$data['main'] = $this->inventaris_peralatan_model->list_inventaris();
 		$data['total'] = $this->inventaris_peralatan_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -57,14 +42,6 @@ HEAD
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_peralatan_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -78,14 +55,6 @@ HEAD
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_peralatan_model->view_mutasi($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -103,14 +72,6 @@ HEAD
 		$data['aset'] = $this->inventaris_peralatan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
 		$data['kd_reg'] = $this->inventaris_peralatan_model->list_inventaris_kd_register();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -124,14 +85,6 @@ HEAD
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_peralatan_model->edit_mutasi($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -144,33 +97,12 @@ HEAD
 
 	public function form()
 	{
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$data['main'] = $this->config_model->get_data();
 		$data['aset'] = $this->inventaris_peralatan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
 		$header['minsidebar'] = 1;
-=======
-		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$data['main'] = $this->config_model->get_data();
-		$data['aset'] = $this->inventaris_peralatan_model->list_aset();
-		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
-		$header['minsidebar'] = 1;
-
-
-=======
-		$data['tip'] = 1;
-		$header = $this->header_model->get_data();
-		$data['main'] = $this->config_model->get_data();
-		$data['aset'] = $this->inventaris_peralatan_model->list_aset();
-		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
-		$header['minsidebar'] = 1;
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -181,14 +113,6 @@ HEAD
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_peralatan_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -202,14 +126,6 @@ HEAD
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_peralatan_model->list_mutasi_inventaris();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;

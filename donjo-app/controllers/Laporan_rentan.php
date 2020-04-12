@@ -39,15 +39,6 @@ class Laporan_rentan extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_bulanan_model->list_dusun();
 		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
-HEAD
-HEAD
-
-		$nav['act'] = 3;
-		$nav['act_sub'] = 29;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

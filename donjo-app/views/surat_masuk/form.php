@@ -155,12 +155,4 @@
 			maxShowItems: 10,
 		});
 	});
-HEAD
-HEAD
 </script>
-=======
-</script>
-
-=======
-</script>
-

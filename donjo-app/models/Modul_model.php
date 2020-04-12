@@ -167,45 +167,11 @@
 		{
 			$sub = $this->db->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
 			$list_submodul = array_merge($list_submodul, array_column($sub, 'id'));
-HEAD
-HEAD
 		}
 		$list_id = implode(",", $list_submodul);
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
 	}
 
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM setting_modul WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM setting_modul WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
-
-=======
-
-		}
-		$list_id = implode(",", $list_submodul);
-		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
-	}
-
-HEAD
-HEAD
-		status_sukses($outp); //Tampilkan Pesan
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -224,27 +190,6 @@ HEAD
 		{
 			$this->delete($id, $semua=true);
 		}
-
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('setting_modul');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$this->session->success = 1;
-
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
-
 	}
 
 	/*

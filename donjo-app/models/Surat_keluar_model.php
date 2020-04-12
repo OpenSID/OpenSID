@@ -324,61 +324,6 @@
 	 * @param   string  $idSuratMasuk  Id surat masuk
 	 * @return  void
 	 */
-HEAD
-HEAD
-	public function delete($idSuratMasuk)
-	{
-		// Type check
-		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
-		// Redirect ke halaman surat masuk jika Id kosong
-		if (empty($idSuratMasuk))
-		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Data yang anda minta tidak ditemukan';
-			redirect('surat_keluar');
-		}
-
-		$_SESSION['error_msg'] = NULL;
-
-		$namaBerkas = $this->getNamaBerkasScan($idSuratMasuk);
-
-		if (!is_null($namaBerkas))
-		{
-			$lokasiBerkasLama = $this->uploadConfig['upload_path'].$namaBerkas;
-			$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
-
-			if (file_exists($lokasiBerkasLama))
-			{
-				$hapusLampiranLama = unlink($lokasiBerkasLama);
-				$hapusLampiranLama = !file_exists($lokasiBerkasLama);
-				$_SESSION['error_msg'] = $hapusLampiranLama === TRUE
-					? NULL :' -> Gagal menghapus berkas dari disk';
-			}
-
-			if (is_null($_SESSION['error_msg']))
-			{
-				$hapusRecordDb = $this->db->where('id', $idSuratMasuk)->delete('surat_keluar');
-				$_SESSION['error_msg'] = $hapusRecordDb === TRUE
-					? NULL : ' -> Gagal menghapus record dari database';
-			}
-		}
-		else
-		{
-			$hapusRecordDb = $this->db->where('id', $idSuratMasuk)->delete('surat_keluar');
-			$_SESSION['error_msg'] = $hapusRecordDb === TRUE
-				? NULL : ' -> Gagal menghapus record dari database';
-		}
-
-		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
-	}
-
-	function delete_all(){
-		$id_cb = $_POST['id_cb'];
-		if(count($id_cb)){
-			foreach($id_cb as $id){
-				$this->delete($id);
-			}
-=======
 	public function delete($idSuratMasuk, $semua=false)
 	{
 		if (!$semua) 
@@ -439,69 +384,6 @@ HEAD
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
-=======
-	public function delete($idSuratMasuk, $semua=false)
-	{
-		if (!$semua) 
-		{
-			$this->session->success = 1;
-			$this->session->error_msg = '';
-		}
-		// Type check
-		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
-		// Redirect ke halaman surat masuk jika Id kosong
-		if (empty($idSuratMasuk))
-		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Data yang anda minta tidak ditemukan';
-			redirect('surat_keluar');
-		}
-
-		$_SESSION['error_msg'] = NULL;
-
-		$namaBerkas = $this->getNamaBerkasScan($idSuratMasuk);
-
-		if (!is_null($namaBerkas))
-		{
-			$lokasiBerkasLama = $this->uploadConfig['upload_path'].$namaBerkas;
-			$lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH.$lokasiBerkasLama);
-
-			if (file_exists($lokasiBerkasLama))
-			{
-				$hapusLampiranLama = unlink($lokasiBerkasLama);
-				$hapusLampiranLama = !file_exists($lokasiBerkasLama);
-				$_SESSION['error_msg'] = $hapusLampiranLama === TRUE
-					? NULL :' -> Gagal menghapus berkas dari disk';
-			}
-
-			if (is_null($_SESSION['error_msg']))
-			{
-				$hapusRecordDb = $this->db->where('id', $idSuratMasuk)->delete('surat_keluar');
-				$_SESSION['error_msg'] = $hapusRecordDb === TRUE
-					? NULL : ' -> Gagal menghapus record dari database';
-			}
-		}
-		else
-		{
-			$hapusRecordDb = $this->db->where('id', $idSuratMasuk)->delete('surat_keluar');
-			$_SESSION['error_msg'] = $hapusRecordDb === TRUE
-				? NULL : ' -> Gagal menghapus record dari database';
-		}
-
-		$_SESSION['success'] = is_null($_SESSION['error_msg']) ? 1 : -1;
-	}
-
-	public function delete_all()
-	{
-		$this->session->success = 1;
-		$this->session->error_msg = '';
-
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
 		}
 	}
 

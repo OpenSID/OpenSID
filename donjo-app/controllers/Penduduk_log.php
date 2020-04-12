@@ -98,15 +98,6 @@ class Penduduk_log extends Admin_Controller {
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 21;
-=======
-
-=======
-
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);

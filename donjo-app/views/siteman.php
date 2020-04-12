@@ -1,4 +1,3 @@
-<?php $this->load->helper('form') ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,14 +10,7 @@
 			?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-HEAD
-HEAD
-=======
 		<meta name="robots" content="noindex">
-
-=======
-		<meta name="robots" content="noindex">
-
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
@@ -48,7 +40,7 @@ HEAD
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<?=form_open(site_url('siteman/auth'), 'class=login-form')?>
+								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>

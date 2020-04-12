@@ -38,7 +38,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<?=form_open(null, 'id=mainform name=mainform')?>
+									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-6">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?= site_url('pengurus/filter')?>')">
@@ -189,3 +189,4 @@
 		</div>
 	</section>
 </div>
+

@@ -23,25 +23,11 @@ class Program_bantuan extends Admin_Controller {
 		$_SESSION[$filter] = $this->input->post($filter);
 		redirect('program_bantuan');
 	}
-HEAD
-HEAD
-=======
-
 
 	public function index($p = 1)
 	{
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
-HEAD
-=======
-
-
-	public function index($p = 1)
-	{
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-=======
-
 		
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
@@ -51,17 +37,6 @@ HEAD
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-HEAD
-HEAD
-		$data = $this->program_bantuan_model->get_program($p, FALSE);
-		$data['tampil'] = 0;
-		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['per_page'] = $_SESSION['per_page'];
-
-=======
-
-=======
-
 		$this->load->view('program_bantuan/program', $data);
 		$this->load->view('footer');
 	}
@@ -77,9 +52,6 @@ HEAD
 		else
 		{
 			$data['individu'] = NULL;
-HEAD
-HEAD
-=======
 		}
 		$data['form_action'] = site_url("program_bantuan/add_peserta");
 		$header = $this->header_model->get_data();
@@ -115,77 +87,7 @@ HEAD
 			if (isset($_SESSION['cari_peserta']))
 				$data['cari_peserta'] = $_SESSION['cari_peserta'];
 			else $data['cari_peserta'] = '';
-
 		}
-
-HEAD
-		$header = $this->header_model->get_data();
-		$nav['act'] = 6;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-
-		$data['form_action'] = site_url("program_bantuan/add_peserta");
-		$this->load->view('program_bantuan/form', $data);
-		$this->load->view('footer');
-	}
-
-	public function panduan()
-	{
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$nav['act'] = 6;
-
-=======
-		}
-		$data['form_action'] = site_url("program_bantuan/add_peserta");
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('program_bantuan/form', $data);
-		$this->load->view('footer');
-	}
-
-	public function panduan()
-	{
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-
-		$this->load->view('nav', $nav);
-		$this->load->view('program_bantuan/panduan', $data);
-		$this->load->view('footer');
-	}
-
-	private function detail_clear()
-	{
-		unset($_SESSION['cari_peserta']);
-		$_SESSION['per_page'] = 20;
-	}
-
-	public function detail($p = 1, $id, $clear=false)
-	{
-		if ($clear)
-			$this->detail_clear();
-		else
-		{
-			if (isset($_SESSION['cari_peserta']))
-				$data['cari_peserta'] = $_SESSION['cari_peserta'];
-			else $data['cari_peserta'] = '';
-		}
-
-HEAD
-		$header = $this->header_model->get_data();
-		$nav['act'] = 6;
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-
-=======
-
-=======
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
@@ -193,68 +95,21 @@ HEAD
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['paging'] = $data['program'][0]['paging'];
-HEAD
-HEAD
-=======
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-
-=======
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-
 		$this->load->view('program_bantuan/detail', $data);
 		$this->load->view('footer');
 	}
 
 	public function peserta($cat = 0, $id = 0)
 	{
-HEAD
-HEAD
-=======
 		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
-
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-HEAD
-		$this->load->view('nav', $nav);
-
-		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
-
-=======
-		$this->load->view('nav', $nav);		
-
-		$this->load->view('program_bantuan/peserta', $data);
-		$this->load->view('footer');
-	}
-
-	public function data_peserta($id)
-	{
-HEAD
-=======
-		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
-
-		$header = $this->header_model->get_data();
-HEAD
-		$nav['act']= 6;
-		$header['minsidebar'] = 1;
-		
-=======
-
-
-		$this->load->view('header', $header);
-HEAD
-		$this->load->view('nav', $nav);
-=======
-
-=======
 		$this->load->view('nav', $nav);		
 		$this->load->view('program_bantuan/peserta', $data);
 		$this->load->view('footer');
@@ -262,26 +117,14 @@ HEAD
 
 	public function data_peserta($id)
 	{
-
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
 		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
-HEAD
-HEAD
-=======
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-
-=======
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-
 		$this->load->view('program_bantuan/data_peserta', $data);
 		$this->load->view('footer');
 	}
@@ -326,14 +169,6 @@ HEAD
 		$this->form_validation->set_rules('status', 'Status', 'required');
 
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-
-		$nav['act'] = 6;
-=======
-
-=======
-
 		$data['asaldana'] = unserialize(ASALDANA);
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -361,29 +196,12 @@ HEAD
 		$this->form_validation->set_rules('status', 'Status', 'required');
 
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-
-		$nav['act'] = 6;
-=======
-
-=======
-
 		$data['asaldana'] = unserialize(ASALDANA);
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
-HEAD
-HEAD
-
-=======
 		$data['jml'] = $this->program_bantuan_model->jml_peserta_program($id);
 		
-
-=======
-		$data['jml'] = $this->program_bantuan_model->jml_peserta_program($id);
-		
-
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->load->view('program_bantuan/edit', $data);

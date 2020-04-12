@@ -13,15 +13,6 @@ class Api_inventaris_gedung extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_gedung_model');
-HEAD
-HEAD
-		$this->modul_ini = 16;
-		$this->tab_ini = 3;
-		// $this->controller = 'inventaris_gedung';
-=======
-
-=======
-
 	}
 
 	public function add()
@@ -43,19 +34,9 @@ HEAD
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'visible' => 1
-=======
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-
-=======
-			'visible' => 1,
-			'created_by' => $this->session->user,
-			'updated_by' => $this->session->user
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -71,19 +52,9 @@ HEAD
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'visible' => 1
-=======
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-
-=======
-			'visible' => 1,
-			'created_by' => $this->session->user,
-			'updated_by' => $this->session->user
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -109,15 +80,7 @@ HEAD
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'updated_at' => date("m/d/Y")
-=======
 			'updated_at' => date('Y-m-d H:i:s')
-
-=======
-			'updated_at' => date('Y-m-d H:i:s')
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -129,24 +92,10 @@ HEAD
 		$data = $this->inventaris_gedung_model->update_mutasi($id, array(
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
-HEAD
-HEAD
-			'harga_jual' => $this->input->post('harga_jual'),
-			'sumbangkan' => $this->input->post('sumbangkan'),
-			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date("m/d/Y")
-=======
 			'harga_jual' => $this->input->post('harga_jual') || null,
 			'sumbangkan' => $this->input->post('sumbangkan') || null,
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d H:i:s')
-
-=======
-			'harga_jual' => $this->input->post('harga_jual') || null,
-			'sumbangkan' => $this->input->post('sumbangkan') || null,
-			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date('Y-m-d H:i:s')
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -170,8 +119,4 @@ HEAD
 		else $_SESSION['success'] = -1;
 		redirect('inventaris_gedung/mutasi');
 	}
-HEAD
 }
-=======
-}
-

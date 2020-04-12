@@ -35,14 +35,6 @@ class Database extends Admin_Controller {
 			unset($_SESSION['siteman_timeout']);
 		}
 
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 45;
-=======
-
-=======
-
 		$nav['act_tab'] = 1;
 		$header = $this->header_model->get_data();
 
@@ -55,14 +47,6 @@ HEAD
 
 	public function import()
 	{
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 45;
-=======
-
-=======
-
 		$nav['act_tab'] = 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
@@ -77,14 +61,6 @@ HEAD
 
 	public function import_bip()
 	{
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 45;
-=======
-
-=======
-
 		$nav['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
 		$header = $this->header_model->get_data();
@@ -98,14 +74,6 @@ HEAD
 
 	public function migrasi_cri()
 	{
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 45;
-=======
-
-=======
-
 		$nav['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 		$header = $this->header_model->get_data();
@@ -118,14 +86,6 @@ HEAD
 
 	public function backup()
 	{
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 45;
-=======
-
-=======
-
 		$nav['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
 		$header = $this->header_model->get_data();
@@ -228,14 +188,6 @@ HEAD
 
 	public function kosongkan()
 	{
-HEAD
-HEAD
-		$nav['act'] = 11;
-		$nav['act_sub'] = 45;
-=======
-
-=======
-
 		$nav['act_tab'] = 6;
 		$header = $this->header_model->get_data();
 

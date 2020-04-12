@@ -152,55 +152,15 @@ class Kelompok_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM kelompok WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
 
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-
-HEAD
-HEAD
-		status_sukses($outp); //Tampilkan Pesan
-	}
-=======
 		$outp = $this->db->where('id', $id)->delete('kelompok');
 
-=======
-		$outp = $this->db->where('id', $id)->delete('kelompok');
-
-
-HEAD
-HEAD
-	public function delete_a($id='')
-	{
-		$sql = "DELETE FROM kelompok_anggota WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
-HEAD
-HEAD
-	public function delete_all()
-	{
-=======
 	public function delete_a($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -213,54 +173,12 @@ HEAD
 	public function delete_all()
 	{
 		$this->session->success = 1;
-
-
-=======
-	public function delete_a($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
-HEAD
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM kelompok WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function get_kelompok($id=0)

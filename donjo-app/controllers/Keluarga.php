@@ -85,15 +85,6 @@ class Keluarga extends Admin_Controller {
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -152,16 +143,6 @@ HEAD
 			$data['penduduk'] = null;
 		$data['kk'] = null;
 		$data['form_action'] = site_url("keluarga/insert_new");
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-
-=======
-
-=======
-
 		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw'] = $this->penduduk_model->list_rw($data['penduduk']['dusun']);
@@ -206,15 +187,6 @@ HEAD
 		$data['id_kk'] = $id;
 		$data['kk'] = $this->keluarga_model->get_kepala_a($id);
 		$data['form_action'] = site_url("keluarga/insert_a");
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-
-=======
-
-=======
-
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
@@ -397,15 +369,6 @@ HEAD
 
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -469,28 +432,9 @@ HEAD
 			$data['kepala_kk'] = $this->keluarga_model->get_keluarga($id);
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 22;
-
-=======
 		$data['form_action'] = site_url("keluarga/print");
-
-=======
-		$data['form_action'] = site_url("keluarga/print");
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$data['form_action'] = site_url("keluarga/print");
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

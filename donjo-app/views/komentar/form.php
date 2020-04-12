@@ -48,18 +48,8 @@
 									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>active<?php endif ?>">
 										<input id="sx1" type="radio" name="status" class="form-check-input" type="radio" value="1" <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-HEAD
-HEAD
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($komentar['enabled'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
-=======
 									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2' ): ?>active<?php endif ?>">
 										<input id="sx2" type="radio" name="status" class="form-check-input" type="radio" value="2" <?php if ($komentar['status'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
-
-=======
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2' ): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="status" class="form-check-input" type="radio" value="2" <?php if ($komentar['status'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
-
 									</label>
 								</div>
 							</div>

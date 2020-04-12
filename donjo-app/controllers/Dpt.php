@@ -133,15 +133,6 @@ class Dpt extends Admin_Controller {
 		$data['keyword'] = $this->dpt_model	->autocomplete();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 26;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

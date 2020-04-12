@@ -8,18 +8,8 @@ class Line extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_line_model');
-HEAD
-HEAD
-		$this->load->database();
-		$this->modul_ini = 9;
-=======
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
-
-=======
-		$this->modul_ini = 9;
-		$this->sub_modul_ini = 8;
-
 	}
 
 	public function clear()
@@ -49,20 +39,8 @@ HEAD
 		$data['paging'] = $this->plan_line_model->paging($p, $o);
 		$data['main'] = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_line_model->autocomplete();
-HEAD
-HEAD
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
-=======
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-=======
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
 		$nav['tip'] = 2;
 
 		$this->load->view('header', $header);
@@ -88,26 +66,8 @@ HEAD
 		}
 
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-=======
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 2;
-
-=======
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 2;
-
-
-HEAD
-HEAD
-		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
-		$nav['tip'] = 2;
-
-=======
-
-=======
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -121,13 +81,6 @@ HEAD
 		$data['line'] = $this->plan_line_model->get_line($line);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act_sub'] = 8;
-=======
-
-=======
-
 		$nav['tip'] = 2;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

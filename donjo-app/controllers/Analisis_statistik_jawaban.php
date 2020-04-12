@@ -141,14 +141,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
-
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav');
@@ -188,14 +180,6 @@ HEAD
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
-
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav');
@@ -237,15 +221,7 @@ HEAD
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
 		
-
-=======
-		
-
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/subjek_table', $data);

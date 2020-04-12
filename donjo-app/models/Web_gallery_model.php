@@ -170,21 +170,9 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-HEAD
-HEAD
-	public function delete_gallery($id='')
-	{
-=======
 	public function delete_gallery($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-
-
-=======
-	public function delete_gallery($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
 
 		$this->delete($id);
 		$sub_gallery = $this->db->select('id')->
@@ -198,45 +186,18 @@ HEAD
 
 	public function delete_all_gallery()
 	{
-HEAD
-HEAD
-=======
 		$this->session->success = 1;
-
-
-=======
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-HEAD
-HEAD
-			$outp = $this->delete_gallery($id);
-=======
 			$this->delete_gallery($id, $semua=true);
-
-=======
-			$this->delete_gallery($id, $semua=true);
-
 		}
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
 		// Note:
 		// Gambar yang dihapus ada kemungkinan dipakai
 		// oleh gallery lain, karena ketika mengupload
@@ -246,43 +207,17 @@ HEAD
 		
 		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
-HEAD
-HEAD
-		$sql  = "DELETE FROM gambar_gallery WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-		if (!$outp) $_SESSION['success'] = -1;
-=======
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
 	public function delete_all()
 	{
-HEAD
-HEAD
-=======
 		$this->session->success = 1;
-
-
-=======
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-HEAD
-HEAD
-			$outp = $this->delete($id);
-=======
 			$this->delete($id, $semua=true);
-
-=======
-			$this->delete($id, $semua=true);
-
 		}
 	}
 

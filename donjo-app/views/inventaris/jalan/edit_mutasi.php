@@ -8,15 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-HEAD
-HEAD
-		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update_mutasi"); ?>">
-=======
 		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update_mutasi/$main->id"); ?>">
-
-=======
-		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update_mutasi/$main->id"); ?>">
-
 			<div class="row">
 				<div class="col-md-3">
 					<?= $this->load->view('inventaris/menu_kiri.php')?>

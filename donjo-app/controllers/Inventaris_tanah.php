@@ -14,14 +14,7 @@ class Inventaris_tanah extends Admin_Controller {
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 1;
-HEAD
-HEAD
-=======
 		$this->tipe = 'inventaris_tanah';
-
-=======
-		$this->tipe = 'inventaris_tanah';
-
 	}
 
 	public function clear()
@@ -36,14 +29,6 @@ HEAD
 		$data['main'] = $this->inventaris_tanah_model->list_inventaris();
 		$data['total'] = $this->inventaris_tanah_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -57,14 +42,6 @@ HEAD
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -78,14 +55,6 @@ HEAD
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view_mutasi($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -103,14 +72,6 @@ HEAD
 		$data['count_reg'] = $this->inventaris_tanah_model->count_reg();
 		$data['get_kode'] = $this->config_model->get_data();
 		$data['kd_reg'] = $this->inventaris_tanah_model->list_inventaris_kd_register();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -124,14 +85,6 @@ HEAD
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->edit_mutasi($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -144,14 +97,6 @@ HEAD
 
 	public function form()
 	{
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$data['main'] = $this->config_model->get_data();
@@ -167,14 +112,6 @@ HEAD
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_tanah_model->view($id);
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -188,14 +125,6 @@ HEAD
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_tanah_model->list_mutasi_inventaris();
-HEAD
-HEAD
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
-=======
-
-=======
-
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;

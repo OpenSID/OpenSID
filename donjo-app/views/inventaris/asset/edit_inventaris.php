@@ -387,8 +387,4 @@
 	$("#view_modal").click(function(event){
 		$('#modal').modal("show");
 	});
-HEAD
 </script>
-=======
-</script>
-

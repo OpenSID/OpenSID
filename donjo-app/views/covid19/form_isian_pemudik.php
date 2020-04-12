@@ -1,0 +1,75 @@
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$('#tanggal_tiba').datetimepicker(
+		{
+			format: 'YYYY-MM-DD'
+		});
+	});
+</script>
+
+<div class="form-group">
+	<label for="asal_pemudik"  class="col-sm-3 control-label">Asal Pemudik (kota) / Tiba Tanggal</label>
+	<div class="col-sm-4">
+		<input class="form-control input-sm" type="text" name="asal_pemudik" id="asal_pemudik" value="<?= $asal_mudik?>" placeholder="Kota">
+	</div>
+
+	<div class="col-sm-4 input-group input-group-sm date">
+		<div class="input-group-addon">
+	        <i class="fa fa-calendar"></i>
+	    </div>
+	    <input type="text" class="form-control input-sm pull-right" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">
+	    
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="tujuan_pemudik"  class="col-sm-3 control-label">Tujuan Mudik / Durasi Mudik</label>
+	<div class="col-sm-4">
+		<select class="form-control input-sm" name="tujuan_pemudik" id="tujuan_pemudik">
+			<option value="">-- Pilih Tujuan Mudik --</option>
+			<?php foreach ($select_tujuan_mudik as $id => $nama): ?>
+		  	<option value="<?= $id?>" <?php selected($tujuan_mudik, $nama); ?> > <?= strtoupper($nama)?> </option>
+			<?php endforeach;?>
+		</select>
+	</div>
+	<div class="col-sm-4">
+		<input class="form-control input-sm" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Hari">
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="hp_pemudik"  class="col-sm-3 control-label">Kontak Pemudik (HP/Email)</label>
+	<div class="col-sm-4">
+		<input class="form-control input-sm" type="text" name="hp_pemudik" id="hp_pemudik" value="<?= $no_hp?>" placeholder="No HP">
+	</div>
+	<div class="col-sm-4">
+		<input class="form-control input-sm" type="text" name="email_pemudik" id="email_pemudik" value="<?= $email?>" placeholder="Email">
+	</div>
+</div>
+
+<div class="form-group">
+	<label  class="col-sm-3 control-label" for="status_covid">Status Covid-19</label>
+	<div class="col-sm-8">
+		<select class="form-control input-sm" name="status_covid" id="status_covid">
+			<option value="">-- Pilih Status Covid-19 --</option>
+			<?php foreach ($select_status_covid as $id => $nama): ?>
+		  	<option value="<?= $id?>" <?php selected($status_covid, $id); ?> > <?= strtoupper($nama)?> </option>
+			<?php endforeach;?>
+		</select>
+	 </div>
+</div>
+
+<div class="form-group">
+	<label  class="col-sm-3 control-label" for="keluhan">Keluhan Kesehatan</label>
+	<div class="col-sm-8">
+		 <textarea name="keluhan" id="keluhan" class="form-control input-sm" placeholder="Keluhan Kesehatan"  rows="3"><?= $keluhan_kesehatan?></textarea>
+	 </div>
+</div>
+
+<div class="form-group">
+	<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+	<div class="col-sm-8">
+		 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"><?= $keterangan?></textarea>
+	 </div>
+</div>

@@ -1,4 +1,3 @@
-<?php $this->load->helper('form') ?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<?php if ($modul['parent']!='0'): ?>

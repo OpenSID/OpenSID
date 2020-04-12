@@ -113,8 +113,6 @@
 	  {
 			unset($data['simbol']);
 			$outp = $this->db->insert('polygon', $data);
-HEAD
-HEAD
 		}
 		
 		status_sukses($outp); //Tampilkan Pesan
@@ -146,125 +144,6 @@ HEAD
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
-
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM polygon WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM polygon WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
-
-=======
-
-		}
-HEAD
-HEAD
-		else $outp = false;
-
-=======
-		
-
-=======
-		
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-HEAD
-HEAD
-	public function list_sub_polygon($polygon=1)
-	{
-		$sql = "SELECT * FROM polygon WHERE parrent = ? AND tipe = 2 ";
-=======
-	public function update($id=0)
-	{
-	  $data = $_POST;
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
-			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
-			{
-				UploadSimbol($nama_file);
-				$data['simbol'] = $nama_file;
-				$this->db->where('id', $id);
-				$outp = $this->db->update('polygon', $data);
-			}
-			$_SESSION['success'] = 1;
-	  }
-
-=======
-	public function update($id=0)
-	{
-	  $data = $_POST;
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
-			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
-			{
-				UploadSimbol($nama_file);
-				$data['simbol'] = $nama_file;
-				$this->db->where('id', $id);
-				$outp = $this->db->update('polygon', $data);
-			}
-			$_SESSION['success'] = 1;
-	  }
-
-
-HEAD
-HEAD
-		$query = $this->db->query($sql, $polygon);
-		$data = $query->result_array();
-=======
-		unset($data['simbol']);
-		$this->db->where('id', $id);
-		$outp = $this->db->update('polygon', $data);
-
-=======
-		unset($data['simbol']);
-		$this->db->where('id', $id);
-		$outp = $this->db->update('polygon', $data);
-
-
-HEAD
-HEAD
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-=======
-		if($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-=======
-		if($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-
-HEAD
-HEAD
-=======
-=======
 
 	public function delete($id='', $semua=false)
 	{
@@ -296,10 +175,6 @@ HEAD
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-
-HEAD
-
-=======
 
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
@@ -367,8 +242,6 @@ HEAD
 			unset($data['simbol']);
 			$this->db->where('id', $id);
 			$outp = $this->db->update('polygon', $data);
-HEAD
-=======
 		}
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -391,63 +264,7 @@ HEAD
 		foreach ($id_cb as $id)
 		{
 			$this->delete_sub_polygon($id, $semua=true);
-
 		}
-HEAD
-		if($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-HEAD
-	public function delete_sub_polygon($id='')
-	{
-		$sql = "DELETE FROM polygon WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_polygon()
-	{
-=======
-	public function delete_sub_polygon($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('polygon');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_polygon()
-	{
-		$this->session->success = 1;
-
-
-		$id_cb = $_POST['id_cb'];
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach($id_cb as $id)
-			{
-				$sql = "DELETE FROM polygon WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete_sub_polygon($id, $semua=true);
-
-		}
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function polygon_lock($id='', $val=0)

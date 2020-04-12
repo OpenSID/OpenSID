@@ -51,22 +51,7 @@ class Keluar extends Admin_Controller {
 		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
-HEAD
-HEAD
-
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
-
-HEAD
-HEAD
-		$nav['act'] = 4;
-		$nav['act_sub'] = 32;
-=======
-
-=======
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -143,23 +128,7 @@ HEAD
 
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no'] = $nik;
-HEAD
-HEAD
-
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 4;
-		$nav['act_sub'] = 32;
-=======
-
-
-=======
-
 
 		$this->load->view('header',$header);
 		$this->load->view('nav', $nav);
@@ -169,24 +138,8 @@ HEAD
 
 	public function graph()
 	{
-HEAD
-HEAD
-		$nav['act'] = 4;
-		$nav['act_sub'] = 32;
-=======
 		$data['stat'] = $this->keluar_model->grafik();
-
-=======
-		$data['stat'] = $this->keluar_model->grafik();
-
 		$header = $this->header_model->get_data();
-
-HEAD
-HEAD
-		$data['stat'] = $this->keluar_model->grafik();
-=======
-
-=======
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

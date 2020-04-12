@@ -109,19 +109,6 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM point WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -134,54 +121,12 @@ HEAD
 	public function delete_all()
 	{
 		$this->session->success = 1;
-
-
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('point');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
-HEAD
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM point WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function list_sub_point($point=1)
@@ -219,19 +164,6 @@ HEAD
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-HEAD
-HEAD
-	public function delete_sub_point($id='')
-	{
-		$sql = "DELETE FROM point WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_point()
-	{
-=======
 	public function delete_sub_point($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -244,54 +176,12 @@ HEAD
 	public function delete_all_sub_point()
 	{
 		$this->session->success = 1;
-
-
-=======
-	public function delete_sub_point($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-		$outp = $this->db->where('id', $id)->delete('point');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_point()
-	{
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
-HEAD
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM point WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
 		foreach ($id_cb as $id)
 		{
 			$this->delete_sub_point($id, $semua=true);
-
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete_sub_point($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function point_lock($id='', $val=0)

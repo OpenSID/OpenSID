@@ -142,49 +142,6 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM line WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('line');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$this->session->success = 1;
-
-
-		$id_cb = $_POST['id_cb'];
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM line WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -202,17 +159,7 @@ HEAD
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function list_sub_line($line=1)
@@ -291,8 +238,6 @@ HEAD
 			unset($data['simbol']);
 			$this->db->where('id', $id);
 			$outp = $this->db->update('line', $data);
-HEAD
-=======
 		}
 		if($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -315,63 +260,7 @@ HEAD
 		foreach ($id_cb as $id)
 		{
 			$this->delete_sub_line($id, $semua=true);
-
 		}
-HEAD
-		if($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-	}
-
-HEAD
-	public function delete_sub_line($id='')
-	{
-		$sql = "DELETE FROM line WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_line()
-	{
-=======
-	public function delete_sub_line($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-		$outp = $this->db->where('id', $id)->delete('line');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_line()
-	{
-		$this->session->success = 1;
-
-
-		$id_cb = $_POST['id_cb'];
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM line WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete_sub_line($id, $semua=true);
-
-		}
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function line_lock($id='', $val=0)

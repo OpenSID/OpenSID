@@ -12,15 +12,6 @@ class Api_inventaris_kontruksi extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_kontruksi_model');
-HEAD
-HEAD
-		$this->modul_ini = 16;
-		$this->tab_ini = 6;
-		// $this->controller = 'inventaris_kontruksi';
-=======
-
-=======
-
 	}
 
 	public function add()
@@ -40,19 +31,9 @@ HEAD
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'visible' => 1
-=======
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-
-=======
-			'visible' => 1,
-			'created_by' => $this->session->user,
-			'updated_by' => $this->session->user
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -68,19 +49,9 @@ HEAD
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'visible' => 1
-=======
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-
-=======
-			'visible' => 1,
-			'created_by' => $this->session->user,
-			'updated_by' => $this->session->user
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -104,15 +75,7 @@ HEAD
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'updated_at' => date("m/d/Y")
-=======
 			'updated_at' => date('Y-m-d H:i:s')
-
-=======
-			'updated_at' => date('Y-m-d H:i:s')
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -127,15 +90,7 @@ HEAD
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
-HEAD
-HEAD
-			'updated_at' => date("m/d/Y")
-=======
 			'updated_at' => date('Y-m-d H:i:s')
-
-=======
-			'updated_at' => date('Y-m-d H:i:s')
-
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -159,8 +114,4 @@ HEAD
 		else $_SESSION['success'] = -1;
 		redirect('inventaris_kontruksi/mutasi');
 	}
-HEAD
 }
-=======
-}
-

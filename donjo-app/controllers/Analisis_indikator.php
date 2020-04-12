@@ -86,14 +86,6 @@ class Analisis_indikator extends Admin_Controller{
 		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
-
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav');
@@ -112,15 +104,7 @@ HEAD
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act'] = 5;
-=======
 		
-
-=======
-		
-
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_indikator/parameter/table',$data);

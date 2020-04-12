@@ -873,52 +873,8 @@
 			$_SESSION['success'] = - 1;
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-=======
 	public function delete($id='', $semua=false)
-
 	{
-HEAD
-		$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-=======
-	public function delete($id='', $semua=false)
-
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all()
-	{
-		$this->session->success = 1;
-
-		$id_cb = $_POST['id_cb'];
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM tweb_penduduk WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
-=======
 		if (!$semua) $this->session->success = 1;
 		
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
@@ -934,17 +890,7 @@ HEAD
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function adv_search_proses()
@@ -1398,15 +1344,7 @@ HEAD
 
 	public function list_dokumen($id="")
 	{
-HEAD
-HEAD
-		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? ";
-=======
 		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? AND deleted = 0";
-
-=======
-		$sql = "SELECT * FROM dokumen_hidup WHERE id_pend = ? AND deleted = 0";
-
 		$query = $this->db->query($sql, $id);
 		$data = null;
 		if ($query)
@@ -1462,32 +1400,4 @@ HEAD
 		return $jml;
 	}
 
-HEAD
-HEAD
-	/*
-	 * Mengambil semua data penduduk untuk pilihan drop-down di form yang memerlukan
-	 */
-	public function list_penduduk()
-	{
-		$this->db
-				->select('u.id, nik, nama, w.dusun, w.rw, w.rt, u.sex')
-				->from('tweb_penduduk u')
-				->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-				->where('status_dasar', '1');
-		$data = $this->db->get()->result_array();
-
-		//Formating Output untuk nilai variabel di javascript, di form surat
-		foreach($data as $i => $row)
-		{
-			$data[$i]['nama'] = addslashes($row['nama']);
-			$data[$i]['alamat'] = addslashes("Alamat: RT-{$row[rt]}, RW-{$row[rw]} {$row[dusun]}");
-		}
-		return $data;
-	}
-
-=======
-
 }
-=======
-}
-

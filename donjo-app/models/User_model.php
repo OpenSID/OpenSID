@@ -367,32 +367,10 @@ class User_model extends CI_Model {
 		}
 	}
 
-HEAD
-HEAD
-	public function delete($idUser = '')
-=======
 	public function delete($idUser = '', $semua=false)
-
-=======
-	public function delete($idUser = '', $semua=false)
-
 	{
 		// Jangan hapus admin
-HEAD
-HEAD
-		if ($idUser == 1)
-		{
-			return;
-		}
-    $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
-		$sql = "DELETE FROM user WHERE id = ?";
-		$hasil = $this->db->query($sql, array($idUser));
-=======
 		if ($idUser == 1) return;
-
-=======
-		if ($idUser == 1) return;
-
 
 		if (!$semua) 
 		{
@@ -411,37 +389,12 @@ HEAD
         // Ambil nama foto
         $foto = basename(AmbilFoto($foto));
         // Cek penghapusan foto pengguna
-HEAD
-HEAD
-        if(unlink(LOKASI_USER_PICT.$foto))
-        {
-            $_SESSION['success'] = 1;
-        }
-        else
-=======
         if (!unlink(LOKASI_USER_PICT.$foto))
-
-=======
-        if (!unlink(LOKASI_USER_PICT.$foto))
-
         {
           $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
           $_SESSION['success'] = -1;
         }
-HEAD
-HEAD
-=======
-
 	    }
-HEAD
-	    else
-	    {
-	      $_SESSION['success'] = 1;
-=======
-
-	    }
-=======
-
 		}
 		else
 		{
@@ -452,23 +405,6 @@ HEAD
 
 	public function delete_all()
 	{
-HEAD
-HEAD
-    $id_cb = $_POST['id_cb'];
-    // Cek apakah ada data yang dicentang atau dipilih
-    if (!is_null($id_cb))
-    {
-      foreach ($id_cb as $id)
-      {
-        $this->delete($id);
-      }
-    }
-    else
-    {
-      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
-      $_SESSION['success'] = -1;
-    }
-=======
 		$this->session->success = 1;
 		$this->session->error_msg = '';
 
@@ -477,17 +413,6 @@ HEAD
 		{
 			$this->delete($id, $semua=true);
 		}
-
-=======
-		$this->session->success = 1;
-		$this->session->error_msg = '';
-
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
-
 	}
 
 	public function user_lock($id = '', $val = 0)
@@ -748,112 +673,6 @@ HEAD
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
-HEAD
-HEAD
-		$hak_akses = array(
-			// Operator
-			2 => array(
-				// home
-				'hom_sid' => array('b','u'),
-				// info desa
-				'hom_desa' => array('b','u'),
-				'pengurus' => array('b','u'),
-				'sid_core' => array('b','u'),
-				// kependudukan
-				'dpt' => array('b','u'),
-				'keluarga' => array('b','u'),
-				'kelompok' => array('b','u'),
-				'kelompok_master' => array('b','u'),
-				'penduduk' => array('b','u'),
-				'penduduk_log' => array('b','u'),
-				'rtm' => array('b','u'),
-				'suplemen' => array('b','u'),
-				// statistik
-				'laporan' => array('b','u'),
-				'laporan_rentan' => array('b','u'),
-				'statistik' => array('b','u'),
-				// analisis
-				'analisis_indikator' => array('b','u'),
-				'analisis_kategori' => array('b','u'),
-				'analisis_klasifikasi' => array('b','u'),
-				'analisis_laporan' => array('b','u'),
-				'analisis_master' => array('b','u'),
-				'analisis_periode' => array('b','u'),
-				'analisis_respon' => array('b','u'),
-				'analisis_statistik_jawaban' => array('b','u'),
-				// keuangan
-				'keuangan' => array('b','u'),
-				// bantuan
-				'program_bantuan' => array('b','u'),
-				// inventaris
-				'api_inventaris_asset' => array('b','u'),
-				'api_inventaris_gedung' => array('b','u'),
-				'api_inventaris_jalan' => array('b','u'),
-				'api_inventaris_kontruksi' => array('b','u'),
-				'api_inventaris_peralatan' => array('b','u'),
-				'api_inventaris_tanah' => array('b','u'),
-				'inventaris_asset' => array('b','u'),
-				'inventaris_gedung' => array('b','u'),
-				'inventaris_jalan' => array('b','u'),
-				'inventaris_kontruksi' => array('b','u'),
-				'inventaris_peralatan' => array('b','u'),
-				'inventaris_tanah' => array('b','u'),
-				'laporan_inventaris' => array('b','u'),
-				// pemetaan
-				'area' => array('b','u'),
-				'garis' => array('b','u'),
-				'gis' => array('b','u'),
-				'line' => array('b','u'),
-				'plan' => array('b','u'),
-				'point' => array('b','u'),
-				'polygon' => array('b','u'),
-				// sms
-				'sms' => array('b','u'),
-				// pertanahan
-				'data_persil' => array('b','u'),
-				// admin web
-				'dokumen' => array('b','u'),
-				'gallery' => array('b','u'),
-				'kategori' => array('b','u'),
-				'komentar' => array('b','u','h'),
-				'menu' => array('b','u'),
-				'sosmed' => array('b','u'),
-				'teks_berjalan' => array('b','u'),
-				'web' => array('b','u'),
-				'web_widget' => array('b','u'),
-				// pengaturan
-				'modul' => array('b','u'),
-				// sekretariat
-				'sekretariat' => array('b','u'),
-				'surat_masuk' => array('b','u'),
-				'surat_keluar' => array('b','u'),
-				'dokumen_sekretariat' => array('b','u'),
-				// layanan surat
-				'keluar' => array('b','u'),
-				'surat' => array('b','u'),
-				'surat_master' => array('b','u'),
-				// layanan mandiri
-				'lapor' => array('b','u'),
-				'mandiri' => array('b','u'),
-				// notifikasi
-				'notif' => array('b','u'),
-				// wilayah
-				'wilayah' => array('b')
-			),
-			// Redaktur
-			3 => array(
-				// admin web
-				'komentar' => array('b','u'),
-				'web' => array('b','u'),
-				// notifikasi
-				'notif' => array('b','u')
-			),
-			// Kontributor
-			4 => array(
-				// admin web
-				'komentar' => array('b','u'),
-				'web' => array('b','u'),
-=======
 		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul 
 		// pada komponen Admin. 
 		$hak_akses = array(
@@ -991,146 +810,6 @@ HEAD
 				'web' => array('b','u'),
 				'komentar' => array('b','u'),
 				
-
-=======
-		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul 
-		// pada komponen Admin. 
-		$hak_akses = array(
-			// Operator
-			2 => array(
-				// home
-				'hom_sid' => array('b','u'),
-				// info desa
-				'hom_desa' => array('b','u'),
-				'sid_core' => array('b','u'),
-				'pengurus' => array('b','u'),
-				
-				// kependudukan
-				'penduduk' => array('b','u'),
-					// Penduduk
-					'penduduk_log' => array('b','u'), 
-				'keluarga' => array('b','u'),
-				'rtm' => array('b','u'),
-				'kelompok' => array('b','u'),
-					// kelompok
-					'kelompok_master' => array('b','u'), 
-				'suplemen' => array('b','u'),
-				'dpt' => array('b','u'),
-
-				// statistik
-				'statistik' => array('b','u'),
-				'laporan' => array('b','u'),
-				'laporan_rentan' => array('b','u'),
-				
-				// layanan surat
-				'surat_master' => array('b','u'),
-				'surat' => array('b','u'),
-				'keluar' => array('b','u'),
-				'surat_mohon' => array('b','u'),
-
-				// sekretariat
-				'sekretariat' => array('b','u'),
-				'surat_masuk' => array('b','u'),
-				'surat_keluar' => array('b','u'),
-				'dokumen_sekretariat' => array('b','u'),
-				'dokumen' => array('b','u'),
-					// inventaris
-					'api_inventaris_asset' => array('b','u'), 
-					'api_inventaris_gedung' => array('b','u'), 
-					'api_inventaris_jalan' => array('b','u'), 
-					'api_inventaris_kontruksi' => array('b','u'), 
-					'api_inventaris_peralatan' => array('b','u'), 
-					'api_inventaris_tanah' => array('b','u'), 
-					'inventaris_asset' => array('b','u'), 
-					'inventaris_gedung' => array('b','u'), 
-					'inventaris_jalan' => array('b','u'), 
-					'inventaris_kontruksi' => array('b','u'), 
-					'inventaris_peralatan' => array('b','u'), 
-					'inventaris_tanah' => array('b','u'), 
-					'laporan_inventaris' => array('b','u'), 
-				'klasifikasi' => array('b','u'),
-
-				// keuangan
-				'keuangan' => array('b','u'),
-
-				// analisis
-				'analisis_master' => array('b','u'),
-					// pengaturan analisis
-					'analisis_kategori' => array('b','u'),
-					'analisis_indikator' => array('b','u'),
-					'analisis_klasifikasi' => array('b','u'),
-					'analisis_periode' => array('b','u'),
-
-					// input data analisis
-					'analisis_respon' => array('b','u'),
-
-					// laporan analisis
-					'analisis_laporan' => array('b','u'),
-					'analisis_statistik_jawaban' => array('b','u'),
-				
-				// bantuan
-				'program_bantuan' => array('b','u'),
-				
-				// pertanahan
-				'data_persil' => array('b','u'),
-
-				// pemetaan
-				'gis' => array('b','u'),
-				//pengaturan peta
-				'plan' => array('b','u'),
-				'point' => array('b','u'),
-				'garis' => array('b','u'),
-				'line' => array('b','u'),
-				'area' => array('b','u'),
-				'polygon' => array('b','u'),
-				
-				// sms
-				'sms' => array('b','u'),
-				
-				// pengaturan
-				'modul' => array('b','u'),
-
-				// admin web
-				'web' => array('b','u'),
-				'web_widget' => array('b','u'),
-				'menu' => array('b','u'),
-					// menu
-					'kategori' => array('b','u'),
-				'komentar' => array('b','u'),
-				'gallery' => array('b','u'),
-				'sosmed' => array('b','u'),
-				'teks_berjalan' => array('b','u'),
-				'pengunjung' => array('b','u'),
-
-				// layanan mandiri				
-				'permohonan_surat_admin' => array('b', 'u'),
-				'mailbox' => array('b','u'),
-				'mandiri' => array('b','u'),
-				
-				// --- Controller berikut diakses di luar menu navigasi modul 
-
-				// notifikasi
-				'notif' => array('b','u'),
-				
-				// wilayah
-				'wilayah' => array('b')
-			),
-			// Redaktur
-			3 => array(
-				// admin web
-				'web' => array('b','u'),
-				'komentar' => array('b','u'),
-				
-				// notifikasi
-				'notif' => array('b','u')
-			),
-			// Kontributor
-			4 => array(
-				// admin web
-				'web' => array('b','u'),
-				'komentar' => array('b','u'),
-				
-
 				// notifikasi
 				'notif' => array('b','u')
 			)

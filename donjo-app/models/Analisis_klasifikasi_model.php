@@ -103,15 +103,6 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-HEAD
-HEAD
-	public function delete($id='')
-	{
-		$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
@@ -119,61 +110,17 @@ HEAD
 		$outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
-=======
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-		
-		$outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-
 	}
 
 	public function delete_all()
 	{
-HEAD
-HEAD
-=======
 		$this->session->success = 1;
-
-
-=======
-		$this->session->success = 1;
-
 
 		$id_cb = $_POST['id_cb'];
-HEAD
-HEAD
-
-		if (count($id_cb))
-		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
-				$outp = $this->db->query($sql, array($id));
-			}
-=======
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
-
-=======
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-
 		}
-HEAD
-HEAD
-		else $outp = false;
-
-		status_sukses($outp); //Tampilkan Pesan
-=======
-
-=======
-
 	}
 
 	public function get_analisis_klasifikasi($id=0)

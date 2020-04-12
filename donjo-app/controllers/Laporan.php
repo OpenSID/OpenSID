@@ -66,14 +66,6 @@ class Laporan extends Admin_Controller {
 		$data['pindah'] = $this->laporan_bulanan_model->pindah();
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
 		$data['lap'] = $lap;
-HEAD
-HEAD
-		$nav['act'] = 3;
-		$nav['act_sub'] = 28;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);

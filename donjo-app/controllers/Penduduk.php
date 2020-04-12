@@ -104,15 +104,6 @@ class Penduduk extends Admin_Controller {
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 21;
-=======
-
-=======
-
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
@@ -199,15 +190,6 @@ HEAD
 		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-HEAD
-HEAD
-
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
-=======
-
-=======
-
 		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
 		
@@ -225,14 +207,6 @@ HEAD
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -245,14 +219,6 @@ HEAD
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$header = $this->header_model->get_data();
-HEAD
-HEAD
-		$nav['act']= 2;
-		$nav['act_sub'] = 21;
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -300,13 +266,6 @@ HEAD
 	public function delete_dokumen($id_pend = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-HEAD
-HEAD
-		$_SESSION['success'] = 1;
-=======
-
-=======
-
 		$this->web_dokumen_model->delete($id);
 		redirect("penduduk/dokumen/$id_pend");
 	}
@@ -314,13 +273,6 @@ HEAD
 	public function delete_all_dokumen($id_pend = 0)
 	{
 		$this->redirect_hak_akses('h', "penduduk/dokumen/$id_pend");
-HEAD
-HEAD
-		$_SESSION['success'] = 1;
-=======
-
-=======
-
 		$this->web_dokumen_model->delete_all();
 		redirect("penduduk/dokumen/$id_pend");
 	}

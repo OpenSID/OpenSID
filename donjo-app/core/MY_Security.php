@@ -81,19 +81,5 @@ class MY_Security extends CI_Security {
 		}
 
 		return $matches[0];
-HEAD
-HEAD
-  }
-
-	/** @inheritdoc */
-	public function csrf_show_error()
-	{
-		$message = 'Bad Request<br>CSRF Verification Failed';
-		set_status_header(400);
-		exit($message);
-=======
-
-=======
-
 	}
 }

@@ -75,24 +75,8 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 23;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-=======
-
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -203,13 +187,6 @@ HEAD
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-HEAD
-HEAD
-		$this->session->success = 1;
-=======
-
-=======
-
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
@@ -217,13 +194,6 @@ HEAD
 
 	public function delete_all($p = 1, $o = 0)
 	{
-HEAD
-HEAD
-		$this->session->success = 1;
-=======
-
-=======
-
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
 		redirect('rtm');
@@ -237,15 +207,6 @@ HEAD
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
-HEAD
-HEAD
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 23;
-=======
-
-=======
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -301,27 +262,9 @@ HEAD
 			$data['kepala_kk'] = NULL;
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
-HEAD
-HEAD
-		$nav['act'] = 2;
-		$nav['act_sub'] = 23;
-=======
 		$data['form_action'] = site_url("rtm/print");
-
-=======
-		$data['form_action'] = site_url("rtm/print");
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-HEAD
-HEAD
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$data['form_action'] = site_url("rtm/print");
-=======
-
-=======
-
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -336,13 +279,6 @@ HEAD
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
 		$data['desa'] = $this->config_model->get_data();
-HEAD
-HEAD
-		$nav['act'] = 3;
-=======
-
-=======
-
 		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 	}
 
