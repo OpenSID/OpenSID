@@ -71,19 +71,19 @@
 									<?php if ($data['gambar']!=''): ?>
 										<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])): ?>
 											<img src="<?= AmbilFotoArtikel($data['gambar'],'kecil') ?>" alt="<?= $data["judul"] ?>"/>
-											<?php else: ?>
-												<img src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="<?= $data["judul"] ?>" />
-											<?php endif;?>
-										<?php endif; ?>
-									</div>
-									<?= $abstrak ?>
-									<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
+										<?php else: ?>
+											<img src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="<?= $data["judul"] ?>" />
+										<?php endif;?>
+									<?php endif; ?>
 								</div>
-								<br class="clearboth gb"/>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
+								<?= $abstrak ?>
+								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
+							</div>
+							<br class="clearboth gb"/>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
 
 		<!--
 			Pengaturan halaman

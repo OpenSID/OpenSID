@@ -9,7 +9,6 @@ class Informasi_publik extends Admin_Controller
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
 		$this->load->model('log_ekspor_model');
-		$this->modul_ini = 13;
 	}
 
 	public function ekspor()

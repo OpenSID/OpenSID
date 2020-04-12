@@ -35,10 +35,11 @@ $(document).ready(function()
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
         <?php if (in_array($kat, array('2', '3'))): ?>
-  				<?php $this->load->view('dokumen/menu_dokumen'); ?>
-  				<div class="col-md-9">
-        <?php endif; ?>
-				<div class="col-md-12">
+					<?php $this->load->view('dokumen/menu_dokumen'); ?>
+					<div class="col-md-9">
+				<?php else: ?>
+					<div class="col-md-12">
+				<?php endif; ?>
 					<div class="box box-info">
             <div class="box-header with-border">
 							<a href="<?= site_url("{$this->controller}/form/$kat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Menu Baru">
