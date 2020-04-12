@@ -194,11 +194,11 @@ $(function(){
 	{
 		if (tampilkan)
 		{
-			$(".nol").parent().show();
+			$(".jumlah:contains('0')").parent().show();
 		} 
 		else 
 		{
-			$(".nol").parent().hide();
+			$(".jumlah:contains('0')").parent().hide();
 		}
 	}
 	function toggle_tampilkan()
@@ -290,7 +290,7 @@ $(function(){
 								<?php endif;?>
 							</td>
 							<td><?=$data['nama']?></td>
-							<td class="angka <?php ($jm1 <= $jm - 2) and ($data['jumlah'] == 0) and print('nol')?>"><?=$data['jumlah']?></td>
+							<td class="angka <?php ($jm1 <= $jm - 2) and print('jumlah')?>"><?=$data['jumlah']?></td>
 							<td class="angka"><?=$data['persen']?></td>
 							<?php if ($jenis_laporan == 'penduduk'):?>
 								<td class="angka"><?=$data['laki']?></td>
