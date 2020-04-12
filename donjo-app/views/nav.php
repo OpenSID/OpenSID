@@ -24,6 +24,7 @@
 		</div>
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MENU UTAMA</li>
+
 			<?php foreach ($modul AS $mod): ?>
 				<?php if (count($mod['submodul'])==0): ?>
 					<li class="<?php ($this->modul_ini==$mod['id']) and print('active')?>">
