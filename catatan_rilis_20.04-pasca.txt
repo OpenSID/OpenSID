@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.04-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview yang baru mulai berkontribusi.
+Terima kasih pada afa28 dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview dan Arif F Lazuardi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 
@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 17. Hapus kolom urut yg tidak digunakan di tabel artikel. [teknis]
 18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong. 
 19. Sederhanakan dan rapikan berbagai bagian script, untuk memudahkan perubahan selanjutnya. [teknis]
+20. #2856: Sediakan pencatatan pendatang terkait siaga Covid-19.
 
 
 
