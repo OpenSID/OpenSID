@@ -6,7 +6,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// MODUL BARU BEGIN
 		$this->covid19();
 		// MODUL BARU END
-		
+
 		// Penyesuaian url menu dgn submenu setelah hapus file sekretariat.php
 		$this->db->where('id', 15)
 			->set('url', 'surat_keluar/clear')
@@ -31,7 +31,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
 	}
-	
+
 	private function covid19()
 	{
 		// Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
@@ -123,6 +123,16 @@ class Migrasi_2004_ke_2005 extends CI_model {
 				'keterangan' => array(
 					'type' => 'VARCHAR',
 					'constraint' => 255,
+					'null' => TRUE,
+				),
+				'lat' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'lng' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
 					'null' => TRUE,
 				),
 			));
