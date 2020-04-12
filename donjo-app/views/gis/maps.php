@@ -241,6 +241,47 @@
 			}
 		<?php endif; ?>
 
+    //pemudik
+    <?php if ($layer_pemudik==1 AND !empty($pemudik)): ?>
+      //Data pemudik
+      var pemudik = JSON.parse('<?=addslashes(json_encode($pemudik))?>');
+      var jml = pemudik.length;
+      var foto;
+      var content;
+      var point_style = L.icon({
+        iconUrl: '<?= base_url()."assets/images/gis/point/pend.png"?>',
+        iconSize: [22, 27],
+        iconAnchor: [11, 27],
+        popupAnchor: [0, -28],
+      });
+      for (var x = 0; x < jml; x++)
+      {
+        if (pemudik[x].lat || pemudik[x].lng)
+        {
+          //Jika pemudik ada foto, maka pakai foto tersebut
+          //Jika tidak, pakai foto default
+          if (pemudik[x].foto)
+          {
+            foto = '<td><img src="'+AmbilFoto(pemudik[x].foto)+'" class="foto_pend"/></td>';
+          }
+          else
+            foto = '<td><img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="foto_pend"/></td>';
+
+          //Konten yang akan ditampilkan saat marker diklik
+          content =
+          '<table border=0><tr>' + foto +
+          '<td style="padding-left:2px"><font size="2.5" style="bold">'+pemudik[x].nama+'</font> - '+pemudik[x].sex+
+          '<p>'+pemudik[x].umur+' Tahun '+pemudik[x].agama+'</p>'+
+          '<p>'+pemudik[x].alamat+'</p>'+
+          '<p>'+'Status Covid19 : ' + pemudik[x].status_covid+'</p>'+
+          '<p><a href="<?=site_url("covid19/detil_pemudik/")?>'+pemudik[x].id+'" target="ajax-modalx" rel="content" header="Rincian Data '+pemudik[x].nama+'" >Data Rincian</a></p></td>'+
+          '</tr></table>';
+          //Menambahkan point ke marker
+          semua_marker.push(turf.point([Number(pemudik[x].lng), Number(pemudik[x].lat)], {content: content, style: point_style}));
+        }
+      }
+    <?php endif; ?>
+
 		//Jika tidak ada centang yang dipilih, maka tidak perlu memproses geojson
 		if (semua_marker.length != 0)
 		{
@@ -432,6 +473,10 @@
 									<input type="checkbox" name="layer_garis" value="1"onchange="handle_garis(this);" <?php if ($layer_garis==1): ?>checked<?php endif; ?>>
 									<span> Garis </span>
 							  </label>
+                <label>
+									<input type="checkbox" name="layer_pemudik" value="1"onchange="handle_pemudik(this);" <?php if ($layer_pemudik==1): ?>checked<?php endif; ?>>
+									<span> Pemudik </span>
+							  </label>
 							</div>
 					  </div>
 					</div>
@@ -461,6 +506,10 @@
   function handle_garis(cb)
 	{
 	  formAction('mainform_map', '<?=site_url('gis')?>/layer_garis');
+	}
+  function handle_pemudik(cb)
+	{
+	  formAction('mainform_map', '<?=site_url('gis')?>/layer_pemudik');
 	}
 	function AmbilFoto(foto, ukuran = "kecil_")
 	{

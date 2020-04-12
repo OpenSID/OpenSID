@@ -13,6 +13,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
+		$this->load->model('covid19_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 62;
 	}
@@ -43,6 +44,8 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['layer_wilayah']);
 		unset($_SESSION['layer_lokasi']);
 		unset($_SESSION['layer_area']);
+		unset($_SESSION['layer_garis']);
+		unset($_SESSION['layer_pemudik']);
 		$_SESSION['layer_keluarga'] == 0;
 		redirect('gis');
 	}
@@ -75,7 +78,7 @@ class Gis extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$variabel_sesi = array('layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis');
+		$variabel_sesi = array('layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis', 'layer_pemudik');
 		foreach ($variabel_sesi as $variabel)
 		{
 			$data[$variabel] = $this->session->userdata($variabel) ?: 0;
@@ -95,9 +98,11 @@ class Gis extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['list_lap'] = $this->list_lap();
+		$data['pemudik'] = $this->covid19_model->list_pemudik_gis();
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);
@@ -301,6 +306,12 @@ class Gis extends Admin_Controller {
 	public function layer_garis()
 	{
 		$_SESSION['layer_garis'] = $this->input->post('layer_garis') ? 1 : 0;
+		redirect('gis');
+	}
+
+	public function layer_pemudik()
+	{
+		$_SESSION['layer_pemudik'] = $this->input->post('layer_pemudik') ? 1 : 0;
 		redirect('gis');
 	}
 }

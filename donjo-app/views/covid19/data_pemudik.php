@@ -12,7 +12,7 @@
 			<li class="active">Data Pemudik</li>
 		</ol>
 	</section>
-	
+
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
@@ -78,6 +78,7 @@
 																	<td nowrap>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<a href="<?= site_url("covid19/edit_pemudik_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																			<a href="<?=site_url("covid19/lokasi_pemudik/$item[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Lokasi <?= $item['terdata_info']?>"><i class="fa fa-map"></i></a>
 																			<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
@@ -85,7 +86,7 @@
 																	<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
 																	<td><?= $item["umur"] ?></td>
 																	<?php
-																	$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
+																	$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk";
 																	?>
 																	<td><?= $jk?></td>
 																	<td><?= $item["info"];?></td>
@@ -156,7 +157,7 @@
 						                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
 						                            </li>
 					                          	<?php endif; ?>
-					                         
+
 					                        	</ul>
 					                     	 </div>
                     					</div>
@@ -206,7 +207,7 @@
 </div>
 
 						<!--
-						
+
 						<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 							<div class='modal-dialog'>
 								<div class='modal-content'>
@@ -227,4 +228,3 @@
 							</div>
 						</div>
 						-->
-
