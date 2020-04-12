@@ -9,10 +9,12 @@ class Covid19 extends Admin_Controller {
 		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
+		$this->load->model('wilayah_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 206;
 	}
 
-	
+
 	public function index()
 	{
 		$this->data_pemudik(1);
@@ -20,11 +22,11 @@ class Covid19 extends Admin_Controller {
 
 	public function data_pemudik($p = 1)
 	{
-		if (isset($_POST['per_page'])) 
+		if (isset($_POST['per_page']))
 			$this->session->set_userdata('per_page', $_POST['per_page']);
-		else 
+		else
 			$this->session->set_userdata('per_page', 10);
-		
+
 		$data = $this->covid19_model->get_rincian_pemudik($p);
 		$data['per_page'] = $this->session->userdata('per_page');
 
@@ -39,7 +41,7 @@ class Covid19 extends Admin_Controller {
 
 	public function form_pemudik()
 	{
-		
+
 		$data['list_penduduk'] = $this->covid19_model->list_penduduk_pemudik();
 
 		if (isset($_POST['terdata']))
@@ -50,6 +52,10 @@ class Covid19 extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
+
+		$data['desa'] = $this->config_model->get_data();
+		$data['dusun'] = $this->covid19_model->list_dusun();
+		$data['lokasi'] = $this->covid19_model->get_lokasi($id);
 
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
@@ -79,10 +85,10 @@ class Covid19 extends Admin_Controller {
 
 	public function edit_pemudik_form($id = 0)
 	{
-		$data = $this->covid19_model->get_pemudik_by_id($id);	
+		$data = $this->covid19_model->get_pemudik_by_id($id);
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
-		
+
 		$data['form_action'] = site_url("covid19/edit_pemudik/$id");
 		$this->load->view('covid19/edit_pemudik', $data);
 	}
@@ -122,6 +128,37 @@ class Covid19 extends Admin_Controller {
 		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
 
 		$this->load->view('covid19/unduh-sheet', $data);
+	}
+
+	public function lokasi_pemudik($id = '')
+	{
+		$data['lokasi'] = $this->covid19_model->get_lokasi($id);
+
+		$data['terdata'] = $this->covid19_model->get_detil_pemudik_by_id($id);
+		$data['individu'] = $this->covid19_model->get_pemudik($data['terdata']['id_terdata']);
+
+		$data['terdata']['terdata_nama'] = $data['individu']['nik'];
+		$data['terdata']['terdata_info'] = $data['individu']['nama'];
+
+		$data['desa'] = $this->config_model->get_data();
+		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['wil_atas'] = $this->config_model->get_data();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['form_action'] = site_url("covid19/update_maps/$id");
+		$header= $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view("covid19/maps", $data);
+		$this->load->view('footer');
+	}
+
+	public function update_maps($id = '')
+	{
+		$this->covid19_model->update_position($id);
+		redirect("covid19");
 	}
 
 }
