@@ -21,38 +21,45 @@ class Mailbox_model extends CI_Model {
 
 	public function list_data($o=0, $offset=0, $limit=500, $kat=0)
 	{
-		// var o = pengurutan
-		// var kat = pesan masuk / keluar
 		$this->db->select('k.*, p.nik, p.nama');
 		$this->list_data_sql($kat);
+		
+		switch ($o)
+		{
+			case 1: $this->db->order_by('p.nama', DESC); break;
+			case 2: $this->db->order_by('p.nama', ASC);; break;
+			case 3: $this->db->order_by('p.nik', DESC);; break;
+			case 4: $this->db->order_by('p.nik', ASC); break;
+			case 5: $this->db->order_by('k.baca', DESC); break;
+			case 6: $this->db->order_by('k.baca', ASC); break;
+			case 7: $this->db->order_by('created_at', DESC); break;
+			case 8: $this->db->order_by('created_at', ASC); break;
+
+			default: $this->db->order_by('created_at', DESC); break;
+		}
 
 		$data = $this->db->limit($limit, $offset)->get()->result_array();
-
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-			if ($data[$i]['status'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
 			$j++;
 		}
 		return $data;
 	}
 
-	private function list_data_sql($kat=0)
+	private function list_data_sql($kat=1)
 	{
-		$this->db->from('kotak_pesan k')
-			->join('tweb_penduduk p','p.id = k.id_pengirim', 'left');
+		$this->db->from('kotak_pesan k');
 
-		if ($kat != 0) {
-			$this->db->where('tipe', $kat);
-			$this->filter_nik_sql();
-			$this->filter_status_sql();
+		if ($kat == 1) {
+			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('tipe', 1); //pengirim
+		}else{			
+			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('tipe', 2); //penerima
 		}
+		$this->filter_nik_sql();
 		$this->search_sql();
-		$this->filter_status_sql();
+		$this->filter_sql();
 	}
 
 	private function filter_nik_sql()
@@ -74,19 +81,23 @@ class Mailbox_model extends CI_Model {
 		}
 	}
 
-	private function filter_baca_sql()
-	{
-		if (isset($_SESSION['filter_baca']))
+	private function filter_sql()
+	{		
+		if (isset($_SESSION['filter']))
 		{
-			$kf = $_SESSION['filter_baca'];
-			$this->db->where('k.baca', $kf);
+			$kf = $_SESSION['filter'];
+			if ($kf == 3) {
+				$this->db->where('k.status', 1);
+			}
+			else 
+			{
+				$this->db->where('k.baca', $kf);
+			}
 		}
-	}
-
-	private function filter_status_sql()
-	{
-		$kf = $_SESSION['filter_status'] ?: 0;
-		$this->db->where('k.status', $kf);
+		else
+		{
+			$this->db->where('k.status !=', 1);
+		}
 	}
 
 	public function paging($p=1, $o=0, $kat=0)
@@ -222,6 +233,16 @@ class Mailbox_model extends CI_Model {
 			->where('tipe', 2)
 			->where('id', 775)
 			->update('komentar', array('status' => $status));
+	}
+
+	// Perbaikan afa28
+	public function get_mailbox($id=0)
+	{
+		$data = $this->db->where('id', $id)
+			->get('mailbox')
+			->row_array();
+
+		return $data;
 	}
 }
 ?>

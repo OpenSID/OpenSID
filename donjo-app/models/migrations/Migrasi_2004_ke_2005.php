@@ -30,6 +30,8 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
+		// Perbaikan modul mail_box
+		$this->kotak_pesan();
 	}
 	
 	private function covid19()

@@ -7,7 +7,6 @@ class Mailbox extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('mandiri_model');
 		$this->load->model('mailbox_model');
@@ -20,8 +19,7 @@ class Mailbox extends Admin_Controller {
 	public function clear($kat = 1, $p = 1, $o = 0)
 	{
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter_status']);
-		unset($_SESSION['filter_baca']);
+		unset($_SESSION['filter']);
 		unset($_SESSION['filter_nik']);
 		redirect("mailbox/index/$kat/$p/$o");
 	}
@@ -32,7 +30,7 @@ class Mailbox extends Admin_Controller {
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 
-		$list_session = array('cari', 'filter_baca','filter_status', 'filter_nik');
+		$list_session = array('cari', 'filter', 'filter_nik');
 
 		foreach ($list_session as $session) {
 			$data[$session] = $this->session->userdata($session) ?: '';
@@ -46,6 +44,7 @@ class Mailbox extends Admin_Controller {
 			$this->session->set_userdata('per_page', $per_page);
 		}
 
+		
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->mailbox_model->paging($p, $o, $kat);
 		$data['main'] = $this->mailbox_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, $kat);//terpakai
@@ -93,13 +92,13 @@ class Mailbox extends Admin_Controller {
 	public function baca_pesan($kat = 1, $id)
 	{
 		if ($kat == 1) {
-			$this->mailbox_model->komentar_lock($id, 1);
+			$this->mailbox_model->lock($id, 1);
 			unset($_SESSION['success']);
 		}
 		
 		$data['kat'] = $kat;
 		$data['owner'] = $kat == 1 ? 'Pengirim' : 'Penerima';
-		$data['pesan'] = $this->mailbox_model->get_komentar($id);
+		$data['pesan'] = $this->mailbox_model->get_mailbox($id);
 		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat); 
 		$header = $this->header_model->get_data();
 
@@ -107,34 +106,6 @@ class Mailbox extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('mailbox/detail', $data);
 		$this->load->view('footer');
-	}
-
-	public function search($kat = 1)
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect("mailbox/index/{$kat}");
-	}
-
-	public function filter($kat = 1)
-	{
-		$status = $this->input->post('status');
-		if ($status != 0){
-			if ($status == 3) {
-				$_SESSION['filter_baca'] = true;
-				unset($_SESSION['filter_status']);
-			} else {
-				$_SESSION['filter_status'] = $status;
-				unset($_SESSION['filter_baca']);
-			}
-		}
-		else {
-			unset($_SESSION['filter_status']);
-			unset($_SESSION['filter_baca']);
-		} 
-		redirect("mailbox/index/{$kat}");
 	}
 
 	public function filter_nik($kat = 1)
@@ -145,6 +116,24 @@ class Mailbox extends Admin_Controller {
 		else unset($_SESSION['filter_nik']);
 		redirect("mailbox/index/{$kat}");
 	}
+
+	public function filter($kat = 1)
+	{
+		$filter = $this->input->post('filter');
+		if ($filter != '')
+			$_SESSION['filter'] = $filter;
+		else unset($_SESSION['filter']);
+		redirect("mailbox/index/{$kat}");
+	}
+
+	public function search($kat = 1)
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['filter_nik'] = $nik;
+		else unset($_SESSION['filter_nik']);
+		redirect("mailbox/index/{$kat}");
+	}	
 
 	public function list_pendaftar_mandiri_ajax()
 	{
@@ -187,22 +176,21 @@ class Mailbox extends Admin_Controller {
 		redirect("first/mandiri/1/3");
 	}
 
-	public function archive($id = '')
+	public function archive($id = '')// beres
 	{
 		$this->redirect_hak_akses('h', $this->kembali);
 		$this->mailbox_model->archive($id);
 		redirect($this->kembali);
 	}
 
-	public function archive_all()
+	public function archive_all()// beres
 	{
 		$this->redirect_hak_akses('h', $this->kembali);
 		$this->mailbox_model->archive_all();
 		redirect($this->kembali);
 	}
 
-	// beres
-	public function baca($id = '', $baca)
+	public function baca($id = '', $baca)// beres
 	{
 		$this->mailbox_model->baca($id, $baca);
 		redirect("mailbox");
