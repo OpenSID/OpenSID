@@ -11,9 +11,9 @@
 				<div class="box-body">
 					<form action="<?= $form_action ?>" class="form form-horizontal" id="validasi" method="POST">
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="email">NIK</label>
+							<label class="control-label col-sm-2" for="nik">NIK</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control input-sm required" id="email" name="email" value="<?= $individu['nik'] ?>" readonly>
+								<input type="text" class="form-control input-sm required" id="nik" name="nik" value="<?= $individu['nik'] ?>" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -29,9 +29,9 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label" for="komentar">Pesan</label>
+							<label class="col-sm-2 control-label" for="isi_pesan">Pesan</label>
 							<div class="col-sm-9">
-								<textarea class="form-control input-sm required" name="komentar" id="komentar"></textarea>
+								<textarea class="form-control input-sm required" name="isi_pesan" id="isi_pesan"></textarea>
 							</div>
 						</div>
 						

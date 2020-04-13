@@ -81,6 +81,8 @@ class Mailbox extends Admin_Controller {
 
 	public function kirim_pesan()
 	{
+		$data['id_pengirim'] = $_SESSION['user'];
+		$data['id_penerima'] = $this->input->post('id_penerima');
 		$this->mailbox_model->insert($data);
 		redirect('mailbox/index/2');
 	}

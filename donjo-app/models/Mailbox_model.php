@@ -151,9 +151,8 @@ class Mailbox_model extends CI_Model {
 
 	
 
-	public function insert($data)
+	public function insert()
 	{
-		$data = $data;
 		$data = array(
 				'id_pengirim' => $_SESSION['user'],
 				'id_penerima' => $this->input->post('id_penerima'),
@@ -161,7 +160,6 @@ class Mailbox_model extends CI_Model {
 				'isi_pesan' => $this->input->post('isi_pesan'),
 				'tipe' => 2,
 				'status' => 0,
-				'tipe' => 2,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s')
 				);
@@ -182,77 +180,83 @@ class Mailbox_model extends CI_Model {
 		return $data;
 	}
 
-	/**
-	 * Tipe 1: Inbox untuk admin, Outbox untuk pengguna layanan mandiri
-	 * Tipe 2: Outbox untuk admin, Inbox untuk pengguna layanan mandiri
-	 */
-
-	public function get_inbox_user($nik)
-	{
-		$outp = $this->db
-			->where('nik', $nik)
-			->where('tipe', 2)
-			->where('id', 775)
-			->from('komentar')
-			->order_by('id', 'DESC')
-			->get()
-			->result_array();
-		$j = 1;
-		for ($i=0; $i < count($outp); $i++) 
-		{ 
-			$outp[$i]['no'] = $j++;
-		}
-		return $outp;
-	}
-
-	public function get_outbox_user($nik)
-	{
-		$outp = $this->db
-			->where('nik', $nik)
-			->where('tipe', 1)
-			->where('id', 775)
-			->from('komentar')
-			->order_by('id','DESC')
-			->get()
-			->result_array();
-		$j = 1;
-		for ($i=0; $i < count($outp); $i++) 
-		{ 
-			$outp[$i]['no'] = $j++;
-		}
-		return $outp;
-	}
-
-	public function get_pesan($nik, $id)
-	{
-		return $this->db
-			->where('nik', $nik)
-			->where('id', $id)
-			->where('id', 775)
-			->from('komentar')
-			->get()
-			->row_array();
-	}
-
-	public function ubah_status_pesan($nik, $id, $status)
-	{
-		return $this->db
-			->where('nik', $nik)
-			->where('id', $id)
-			->where('tipe', 2)
-			->where('id', 775)
-			->update('komentar', array('status' => $status));
-	}
-
 	public function get_mailbox($id=0, $kat=1)
 	{
-		$this->db->select('k.*, p.nik, p.nama')->from('kotak_pesan k');
+		$this->db->select('k.*, p.nik, p.nama');
 		if ($kat == 1) {
 			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('k.tipe', 1); //pengirim
 		}else{			
 			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('k.tipe', 2); //penerima
 		}
-		$data = $this->db->where('k.id', $id)
+		$data = $this->db->from('kotak_pesan k')->where('k.id', $id)
+			->get()
+			->row_array();
+
+		return $data;
+	}
+
+
+	// Bagian ini untuk web
+	
+	/**
+	 * Tipe 1: Inbox untuk admin, Outbox untuk pengguna layanan mandiri
+	 * Tipe 2: Outbox untuk admin, Inbox untuk pengguna layanan mandiri
+	 */
+
+	public function get_inbox_user($id)
+	{
+		$outp = $this->db
+			->where('id_penerima', $id)
+			->where('status', 0)
+			->order_by('created_at', 'DESC')
+			->get('kotak_pesan')
+			->result_array();
+			
+		$j = 1;
+		for ($i=0; $i < count($outp); $i++) 
+		{ 
+			$outp[$i]['no'] = $j++;
+		}
+		return $outp;
+	}
+
+	public function get_outbox_user($id)
+	{
+		$outp = $this->db
+			->where('id_pengirim', $id)
+			->where('status', 0)
+			->order_by('created_at', 'DESC')
+			->get('kotak_pesan')
+			->result_array();
+
+		$j = 1;
+		for ($i=0; $i < count($outp); $i++) 
+		{ 
+			$outp[$i]['no'] = $j++;
+		}
+		return $outp;
+	}
+
+	public function insert_web()
+	{
+		$data = array(
+				'id_pengirim' => $this->session->userdata('id'),
+				'id_penerima' => 1,
+				'subjek' => $this->input->post('subjek'),
+				'isi_pesan' => $this->input->post('isi_pesan'),
+				'tipe' => 1,
+				'status' => 0,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s')
+				);
+		$outp = $this->db->insert('kotak_pesan', $data);
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+	public function get_pesan($id=0)
+	{
+		$data = $this->db->where('id', $id)
 			->get('kotak_pesan')
 			->row_array();
 
