@@ -38,9 +38,9 @@
 										<a href="<?=site_url("mailbox_web/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Baca pesan"><i class="fa fa-list">&nbsp;</i></a>
 										<?php if($kat != 2) : ?>
 											<?php if ($data['baca'] == 1): ?>
-												<a href="<?=site_url('mailbox_web/baca/'.$data['id'].'/2')?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
-												<?php else : ?>
-													<a href="<?=site_url('mailbox_web/baca/'.$data['id'].'/1')?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
+												<a href="<?=site_url('mailbox_web/baca/'.$data['id'].'/2')?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o">&nbsp;</i></a>
+											<?php else : ?>
+												<a href="<?=site_url('mailbox_web/baca/'.$data['id'].'/1')?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o">&nbsp;</i></a>
 											<?php endif; ?>
 										<?php endif ?>
 									</td>

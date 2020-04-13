@@ -159,6 +159,7 @@ class Mailbox_model extends CI_Model {
 				'subjek' => $this->input->post('subjek'),
 				'isi_pesan' => $this->input->post('isi_pesan'),
 				'tipe' => 2,
+				'baca' => 2,
 				'status' => 0,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s')
@@ -245,6 +246,7 @@ class Mailbox_model extends CI_Model {
 				'subjek' => $this->input->post('subjek'),
 				'isi_pesan' => $this->input->post('isi_pesan'),
 				'tipe' => 1,
+				'baca' => 2,
 				'status' => 0,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s')
