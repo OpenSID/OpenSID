@@ -282,5 +282,20 @@
   	$this->urut_model->urut($id, $arah);
 	}
 
+	/*
+	 * Mengambil semua data penduduk kecuali yg sdh menjadi pamong untuk pilihan drop-down form
+	 */
+	public function list_penduduk()
+	{
+		$data = $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+			->from('penduduk_hidup u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+			->where('u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL)')
+			->get()
+			->result_array();
+
+		return $data;
+	}
+
 }
 ?>

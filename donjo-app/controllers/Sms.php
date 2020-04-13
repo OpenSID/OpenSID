@@ -10,6 +10,7 @@ class Sms extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->modul_ini = 10;
+		$this->sub_modul_ini = 39;
 	}
 
 	public function clear()
@@ -54,9 +55,6 @@ class Sms extends Admin_Controller {
 		$data['keyword'] = $this->sms_model->autocomplete();
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/manajemen_sms_table', $data);
@@ -79,14 +77,12 @@ class Sms extends Admin_Controller {
 
 	public function setting($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 41;
+
 		$data['main'] = $this->sms_model->get_autoreply();
 		$data['form_action'] = site_url("sms/insert_autoreply");
 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 41;
-
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/setting', $data);
@@ -116,10 +112,7 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_polling($p, $o);
 		$data['main'] = $this->sms_model->list_data_polling($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 41;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -147,10 +140,7 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
 		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -192,10 +182,7 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
 		$data['main'] = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -237,10 +224,7 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_tertunda($p, $o);
 		$data['main'] = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -536,6 +520,7 @@ class Sms extends Admin_Controller {
 
 	public function kontak($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 40;
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -555,10 +540,7 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_kontak($p, $o);
 		$data['main'] = $this->sms_model->list_data_kontak($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -613,6 +595,8 @@ class Sms extends Admin_Controller {
 
 	public function group($p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 40;
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -627,10 +611,7 @@ class Sms extends Admin_Controller {
 		$data['paging'] = $this->sms_model->paging_grup($p, $o);
 		$data['main'] = $this->sms_model->list_data_grup($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -684,6 +665,8 @@ class Sms extends Admin_Controller {
 
 	public function anggota($id = 0, $p = 1, $o = 0)
 	{
+		$this->sub_modul_ini = 40;
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -699,10 +682,7 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_anggota($id, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['grup']['nama_grup'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 40;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -778,10 +758,7 @@ class Sms extends Admin_Controller {
 		$data['main'] = $this->sms_model->list_data_pertanyaan($id, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['polling']['id_polling'] = $id;
 		$data['keyword'] = $this->sms_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 10;
-		$nav['act_sub'] = 39;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

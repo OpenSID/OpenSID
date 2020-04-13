@@ -46,7 +46,6 @@ class Database_model extends CI_Model {
 
 		$this->cek_engine_db();
 		$this->load->dbforge();
-		$this->load->model('folder_desa_model');
 		$this->load->model('surat_master_model');
 		$this->load->model('analisis_import_model');
 	}

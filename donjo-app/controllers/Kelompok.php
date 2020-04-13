@@ -9,6 +9,7 @@ class Kelompok extends Admin_Controller {
 		$this->load->model('kelompok_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 24;
 	}
 
 	public function clear()
@@ -43,10 +44,9 @@ class Kelompok extends Admin_Controller {
 		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
-		$nav['act'] = 2;
-		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('kelompok/table', $data);
@@ -58,8 +58,6 @@ class Kelompok extends Admin_Controller {
 		$data['kel'] = $id;
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
-		$nav['act'] = 2;
-		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -87,8 +85,6 @@ class Kelompok extends Admin_Controller {
 
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-		$nav['act'] = 2;
-		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -113,8 +109,6 @@ class Kelompok extends Admin_Controller {
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-		$nav['act'] = 2;
-		$nav['act_sub'] = 24;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
