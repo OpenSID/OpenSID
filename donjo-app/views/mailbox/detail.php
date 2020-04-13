@@ -18,16 +18,16 @@
 						</div>
 						<div class="box-body">
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="owner"><?= $owner ?></label>
+								<label class="control-label col-sm-2" for="nama"><?= $owner ?></label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['owner']?></div>
+									<div class="form-control input-sm"><?= $pesan['nama']?></div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="email">NIK</label>
+								<label class="control-label col-sm-2" for="nik">NIK</label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['email']?></div>
-									<input type="hidden" name="nik" value="<?= $pesan['email']?>">
+									<div class="form-control input-sm"><?= $pesan['nik']?></div>
+									<input type="hidden" name="nik" value="<?= $pesan['nik']?>">
 								</div>
 							</div>
 							<div class="form-group">
@@ -38,9 +38,9 @@
 								</div>
 							</div>
               <div class="form-group">
-								<label class="col-sm-2 control-label" for="pesan">Pesan</label>
+								<label class="col-sm-2 control-label" for="isi_pesan">Pesan</label>
 								<div class="col-sm-9">
-									<textarea class="form-control input-sm" readonly id="pesan"><?= $pesan['komentar']?></textarea>
+									<textarea class="form-control input-sm" readonly id="isi_pesan"><?= $pesan['isi_pesan']?></textarea>
 								</div>
 							</div  
 						</div>

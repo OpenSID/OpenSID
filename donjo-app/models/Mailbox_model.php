@@ -53,9 +53,9 @@ class Mailbox_model extends CI_Model {
 		$this->db->from('kotak_pesan k');
 
 		if ($kat == 1) {
-			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('tipe', 1); //pengirim
+			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('k.tipe', 1); //pengirim
 		}else{			
-			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('tipe', 2); //penerima
+			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('k.tipe', 2); //penerima
 		}
 		$this->filter_nik_sql();
 		$this->search_sql();
@@ -92,6 +92,7 @@ class Mailbox_model extends CI_Model {
 			else 
 			{
 				$this->db->where('k.baca', $kf);
+				$this->db->where('k.status !=', 1);
 			}
 		}
 		else
@@ -153,10 +154,18 @@ class Mailbox_model extends CI_Model {
 	public function insert($data)
 	{
 		$data = $data;
-		$data['id'] = 775;
-		$data['created_at'] = date('Y-m-d H:i:s');
-		$data['updated_at'] = date('Y-m-d H:i:s');
-		$outp = $this->db->insert('komentar', $data);
+		$data = array(
+				'id_pengirim' => $_SESSION['user'],
+				'id_penerima' => $this->input->post('id_penerima'),
+				'subjek' => $this->input->post('subjek'),
+				'isi_pesan' => $this->input->post('isi_pesan'),
+				'tipe' => 2,
+				'status' => 0,
+				'tipe' => 2,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s')
+				);
+		$outp = $this->db->insert('kotak_pesan', $data);
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
@@ -235,11 +244,16 @@ class Mailbox_model extends CI_Model {
 			->update('komentar', array('status' => $status));
 	}
 
-	// Perbaikan afa28
-	public function get_mailbox($id=0)
+	public function get_mailbox($id=0, $kat=1)
 	{
-		$data = $this->db->where('id', $id)
-			->get('mailbox')
+		$this->db->select('k.*, p.nik, p.nama')->from('kotak_pesan k');
+		if ($kat == 1) {
+			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('k.tipe', 1); //pengirim
+		}else{			
+			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('k.tipe', 2); //penerima
+		}
+		$data = $this->db->where('k.id', $id)
+			->get('kotak_pesan')
 			->row_array();
 
 		return $data;

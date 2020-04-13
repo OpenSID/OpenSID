@@ -81,24 +81,17 @@ class Mailbox extends Admin_Controller {
 
 	public function kirim_pesan()
 	{
-		$data = $this->input->post();
-		$data['tipe'] = 2;
-		$data['status'] = 2;
-		unset($data['nik']);
 		$this->mailbox_model->insert($data);
-		redirect('mailbox');
+		redirect('mailbox/index/2');
 	}
 
 	public function baca_pesan($kat = 1, $id)
-	{
-		if ($kat == 1) {
-			$this->mailbox_model->lock($id, 1);
-			unset($_SESSION['success']);
-		}
+	{	
+		$this->mailbox_model->baca($id, 1);
 		
 		$data['kat'] = $kat;
 		$data['owner'] = $kat == 1 ? 'Pengirim' : 'Penerima';
-		$data['pesan'] = $this->mailbox_model->get_mailbox($id);
+		$data['pesan'] = $this->mailbox_model->get_mailbox($id, $kat);
 		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat); 
 		$header = $this->header_model->get_data();
 

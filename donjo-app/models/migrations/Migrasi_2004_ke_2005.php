@@ -164,12 +164,12 @@ class Migrasi_2004_ke_2005 extends CI_model {
 				'tipe' => array(
 					'type' => 'TINYINT',
 					'constraint' => 1,
-					'default,' => 0
+					'default' => 0
 				),
 				'baca' => array(
 					'type' => 'TINYINT',
 					'constraint' => 1,
-					'default,' => 1
+					'default' => 1
 				),
 				'status' => array(
 					'type' => 'TINYINT',

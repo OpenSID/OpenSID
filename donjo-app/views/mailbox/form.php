@@ -30,9 +30,9 @@
 						</form>
 						<form action="<?= $form_action ?>" class="form form-horizontal" id="validasi" method="POST">
 							<div class="row jar_form">
-								<label for="nik" class="col-sm-2"></label>
+								<label for="id" class="col-sm-2"></label>
 								<div class="col-sm-9">
-									<input class="required" type="hidden" name="nik" value="<?= $individu['nik']?>">
+									<input class="required" type="hidden" name="id_penerima" value="<?= $individu['id']?>">
 								</div>
 							</div>
 							<?php if($individu) : ?>
@@ -57,9 +57,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label" for="komentar">Pesan</label>
+								<label class="col-sm-2 control-label" for="isi_pesan">Isi Pesan</label>
 								<div class="col-sm-9">
-									<textarea class="form-control input-sm required" name="komentar" id="komentar"></textarea>
+									<textarea class="form-control input-sm required" name="isi_pesan" id="isi_pesan"></textarea>
 								</div>
 							</div>
 							
