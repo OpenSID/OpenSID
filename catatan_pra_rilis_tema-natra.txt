@@ -50,5 +50,11 @@ Catatan pra rilis versi 4.1.9:
 48. Rapikan gambar pada widget Sinergi Program.
 49. Tambah dan buang file gambar yang tidak diperlukan.
 50. Tampilkan artikel dari https://www.covid19.go.id/feed.
+51. Sesuaikan informasi data penduduk di widget. [bug-fix]
+52. Sesuaikan menu Widget Layanan Mandiri.
+53. Tampilkan statistik COVID-19 untuk provinsi.
+54. Sesuaikan Sumber Jenis Widget. [bug-fix]
+55. Menampilkan Jadwal Sholat & Imsak.
+56. Sekarang komentar artikel web kembali tampil. [bug-fix]
 
 ****************************************************************
