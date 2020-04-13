@@ -9,7 +9,6 @@ class Covid19 extends Admin_Controller {
 		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
-		$this->modul_ini = 206;
 	}
 
 	
@@ -28,7 +27,6 @@ class Covid19 extends Admin_Controller {
 		$data = $this->covid19_model->get_rincian_pemudik($p);
 		$data['per_page'] = $this->session->userdata('per_page');
 
-		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -122,6 +120,24 @@ class Covid19 extends Admin_Controller {
 		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
 
 		$this->load->view('covid19/unduh-sheet', $data);
+	}
+
+	public function pantau()
+	{
+		if (isset($_POST['per_page'])) 
+			$this->session->set_userdata('per_page', $_POST['per_page']);
+		else 
+			$this->session->set_userdata('per_page', 10);
+		
+		$data = $this->covid19_model->get_rincian_pemudik($p);
+		$data['per_page'] = $this->session->userdata('per_page');
+
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('covid19/pantau_pemudik', $data);
+		$this->load->view('footer');
 	}
 
 }
