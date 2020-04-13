@@ -92,11 +92,10 @@
 		    <div class="fb-comments" data-href="<?= site_url().'first/artikel/'.$single_artikel['id']?>" width="100%" data-numposts="5"></div>
 		<?php endif; ?>
 		<div class="contact_bottom">
-			<?php if(is_array($komentar)): ?>
+			<?php if(!empty($komentar)): ?>
 				<div class="contact_bottom">
 					<div class="box-body">
 						<?php foreach($komentar AS $data): ?>
-							<?php if($data['enabled']==1): ?>
 								<table class="table table-bordered table-striped dataTable table-hover nowrap">
                                     <thead class="bg-gray disabled color-palette">
                                         <tr>
@@ -111,7 +110,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-							<?php endif; ?>
 						<?php endforeach; ?>
 					</div>
 				</div>
