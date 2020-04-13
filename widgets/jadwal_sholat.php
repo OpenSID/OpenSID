@@ -10,26 +10,7 @@ $kode = json_decode(file_get_contents('https://api.banghasan.com/sholat/format/j
 $nama = $kode['kota'][0]['nama'];
 
 $waktu = json_decode(file_get_contents('https://api.banghasan.com/sholat/format/json/jadwal/kota/'.$kota.'/tanggal/'.$tgl), true);
-$hari = $waktu['jadwal']['data']['tanggal'];
-$imsak = $waktu['jadwal']['data']['imsak'];
-$subuh = $waktu['jadwal']['data']['subuh'];
-$terbit = $waktu['jadwal']['data']['terbit'];
-$dhuha = $waktu['jadwal']['data']['dhuha'];
-$dzuhur = $waktu['jadwal']['data']['dzuhur'];
-$ashar = $waktu['jadwal']['data']['ashar'];
-$maghrib = $waktu['jadwal']['data']['maghrib'];
-$isya = $waktu['jadwal']['data']['isya'];
-
 $waktu2 = json_decode(file_get_contents('https://api.banghasan.com/sholat/format/json/jadwal/kota/'.$kota.'/tanggal/'.$besok), true);
-$hari2 = $waktu2['jadwal']['data']['tanggal'];
-$imsak2 = $waktu2['jadwal']['data']['imsak'];
-$subuh2 = $waktu2['jadwal']['data']['subuh'];
-$terbit2 = $waktu2['jadwal']['data']['terbit'];
-$dhuha2 = $waktu2['jadwal']['data']['dhuha'];
-$dzuhur2 = $waktu2['jadwal']['data']['dzuhur'];
-$ashar2 = $waktu2['jadwal']['data']['ashar'];
-$maghrib2 = $waktu2['jadwal']['data']['maghrib'];
-$isya2 = $waktu2['jadwal']['data']['isya'];
 ?>
 <style>
 	.data-case-container {
@@ -71,40 +52,40 @@ $isya2 = $waktu2['jadwal']['data']['isya'];
                 <li class="info-case">
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td colspan="3" class="description"><li class="info-region"><?= $hari ?></li></td>
-                            <td colspan="3" class="description"><li class="info-region"><?= $hari2 ?></li></td>
+                            <td colspan="3" class="description"><li class="info-region"><?= $waktu['jadwal']['data']['tanggal'] ?></li></td>
+                            <td colspan="3" class="description"><li class="info-region"><?= $waktu2['jadwal']['data']['tanggal'] ?></li></td>
                         </tr>
                         <tr>
-                            <td class="description">Imsak</td><td class="dot">:</td><td class="case"><?= $imsak ?></td>
-                            <td class="description">Imsak</td><td class="dot">:</td><td class="case"><?= $imsak2 ?></td>
+                            <td class="description">Imsak</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['imsak'] ?></td>
+                            <td class="description">Imsak</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['imsak'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Subuh</td><td class="dot">:</td><td class="case"><?= $subuh ?></td>
-                            <td class="description">Subuh</td><td class="dot">:</td><td class="case"><?= $subuh2 ?></td>
+                            <td class="description">Subuh</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['subuh'] ?></td>
+                            <td class="description">Subuh</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['subuh'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Terbit</td><td class="dot">:</td><td class="case"><?= $terbit ?></td>
-                            <td class="description">Terbit</td><td class="dot">:</td><td class="case"><?= $terbit2 ?></td>
+                            <td class="description">Terbit</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['terbit'] ?></td>
+                            <td class="description">Terbit</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['terbit'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Dhuha</td><td class="dot">:</td><td class="case"><?= $dhuha ?></td>
-                            <td class="description">Dhuha</td><td class="dot">:</td><td class="case"><?= $dhuha2 ?></td>
+                            <td class="description">Dhuha</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['dhuha'] ?></td>
+                            <td class="description">Dhuha</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['dhuha'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Dzuhur</td><td class="dot">:</td><td class="case"><?= $dzuhur ?></td>
-                            <td class="description">Dzuhur</td><td class="dot">:</td><td class="case"><?= $dzuhur2 ?></td>
+                            <td class="description">Dzuhur</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['dzuhur'] ?></td>
+                            <td class="description">Dzuhur</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['dzuhur'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Ashar</td><td class="dot">:</td><td class="case"><?= $ashar ?></td>
-                            <td class="description">Ashar</td><td class="dot">:</td><td class="case"><?= $ashar2 ?></td>
+                            <td class="description">Ashar</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['ashar'] ?></td>
+                            <td class="description">Ashar</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['ashar'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Maghrib</td><td class="dot">:</td><td class="case"><?= $maghrib ?></td>
-                            <td class="description">Maghrib</td><td class="dot">:</td><td class="case"><?= $maghrib2 ?></td>
+                            <td class="description">Maghrib</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['maghrib'] ?></td>
+                            <td class="description">Maghrib</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['maghrib'] ?></td>
                         </tr>
                         <tr>
-                            <td class="description">Isya</td><td class="dot">:</td><td class="case"><?= $isya ?></td>
-                            <td class="description">Isya</td><td class="dot">:</td><td class="case"><?= $isya2 ?></td>
+                            <td class="description">Isya</td><td class="dot">:</td><td class="case"><?= $waktu['jadwal']['data']['isya'] ?></td>
+                            <td class="description">Isya</td><td class="dot">:</td><td class="case"><?= $waktu2['jadwal']['data']['isya'] ?></td>
                         </tr>
             		</table>
             	</li>
