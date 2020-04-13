@@ -6,7 +6,7 @@
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pantau Isolasi Mandiri Saat Pandemi Covid-19</h1>
+		<h1>Pemantauan Isolasi Mandiri Saat Pandemi Covid-19</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Data Pemudik</li>

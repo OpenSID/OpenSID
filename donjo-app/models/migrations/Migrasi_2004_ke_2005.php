@@ -181,5 +181,59 @@ class Migrasi_2004_ke_2005 extends CI_model {
 	    }
 
 	
+		// Tambah Tabel Pemantauan Covid-19 
+	    if (!$this->db->table_exists('covid19_pantau') )
+		{
+	    	$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'null' => FALSE,
+					'auto_increment' => TRUE
+				),
+				'id_pemudik' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'tanggal_jam' => array(
+					'type' => 'DATETIME',
+					'null' => TRUE,
+				),
+				'suhu_tubuh' => array(
+					'type' => 'DECIMAL',
+					'constraint' => '4,2',
+					'null' => TRUE,
+				),
+				'batuk' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'flu' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'sesak_nafas' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'keluhan_lain' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 255,
+					'null' => TRUE,
+				),
+				'status_covid' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => TRUE,
+				),
+			));
+			$this->dbforge->add_key("id",true);
+			$this->dbforge->create_table("covid19_pantau", TRUE);
+		}
+
 	}
 }
