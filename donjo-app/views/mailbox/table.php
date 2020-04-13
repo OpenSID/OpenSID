@@ -47,8 +47,10 @@
 													<div class="form-group">
 														<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?=site_url("mailbox/filter/$kat")?>')">
 															<option value="">Semua</option>
+															<?php if($kat != 2) : ?>
 															<option value="1" <?php selected($filter, 1); ?>>Sudah Dibaca</option>
 															<option value="2" <?php selected($filter, 2); ?>>Belum Dibaca</option>
+															<?php endif;?>
 															<option value="3" <?php selected($filter, 3); ?>>Diarsipkan</option>
 														</select>
 													</div>						
@@ -128,9 +130,9 @@
 																		<?php else : ?>
 																			<?=$data['nama']?></td>
 																		<?php endif ?>
-																	<td><?=$data['nik']?></td>
+																	<td nowrap><?=$data['nik']?></td>
 																	<td width="40%"><?=$data['subjek']?></td>
-																	<td><?=$data['baca'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
+																	<td nowrap><?=$data['baca'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
 																	<td nowrap><?=tgl_indo2($data['created_at'])?></td>
 																</tr>
 																<?php endforeach; ?>
