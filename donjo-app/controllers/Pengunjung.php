@@ -10,6 +10,7 @@ class Pengunjung extends Admin_Controller {
 		$this->load->model('web_pengunjung_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 205;
 	}
 
 	public function index()
@@ -20,12 +21,8 @@ class Pengunjung extends Admin_Controller {
 		$data['bulan_ini'] = $this->web_pengunjung_model->get_count('4');
 		$data['tahun_ini'] = $this->web_pengunjung_model->get_count('5');
 		$data['jumlah'] = $this->web_pengunjung_model->get_count('');
-		
 		$data['main'] = $this->web_pengunjung_model->get_pengunjung($_SESSION['id']);		
-		
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 205;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

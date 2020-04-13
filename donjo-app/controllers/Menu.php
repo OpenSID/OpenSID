@@ -10,6 +10,7 @@ class Menu extends Admin_Controller {
 		$this->load->model('web_menu_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 49;
 	}
 
 	public function clear()
@@ -40,10 +41,7 @@ class Menu extends Admin_Controller {
 		$data['paging'] = $this->web_menu_model->paging($tip, $p, $o);
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_menu_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -78,8 +76,6 @@ class Menu extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$data['tip'] = $tip;
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('menu/form', $data);
@@ -92,8 +88,6 @@ class Menu extends Admin_Controller {
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 49;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

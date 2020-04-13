@@ -11,6 +11,8 @@ class Data_persil extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
 		$this->load->model('penduduk_model');
+		$this->load->helper('form');
+		$this->load->library('form_validation');
 		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 	}
@@ -28,8 +30,6 @@ class Data_persil extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['mana'] = $mana;
 
-		$this->load->view('header', $header);
-
 		if (isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
@@ -44,7 +44,8 @@ class Data_persil extends Admin_Controller {
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
-		$nav['act'] = 7;
+
+		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/persil', $data);
 		$this->load->view('footer');
@@ -67,13 +68,12 @@ class Data_persil extends Admin_Controller {
 	public function detail($id=0)
 	{
 		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-		$nav['act'] = 7;
+
+		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('data_persil/detail', $data);
 		$this->load->view('footer');
@@ -81,13 +81,10 @@ class Data_persil extends Admin_Controller {
 
 	public function create($id=0)
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
+		
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 
 		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
 		if ($id > 0)
@@ -106,7 +103,8 @@ class Data_persil extends Admin_Controller {
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-		$nav['act'] = 7;
+
+		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/create', $data);
 		$this->load->view('footer');
@@ -114,19 +112,15 @@ class Data_persil extends Admin_Controller {
 
 	public function create_ext($id=0)
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
-
 		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-
 		$data["penduduk"] = $this->data_persil_model->list_penduduk();
 		$data["persil_detail"] = $this->data_persil_model->get_persil($id);
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_peruntukan"] = $this->data_persil_model->list_persil_peruntukan();
 		$data["persil_jenis"] = $this->data_persil_model->list_persil_jenis();
-		$nav['act'] = 7;
+		
+		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/create_ext', $data);
 		$this->load->view('footer');
@@ -134,26 +128,18 @@ class Data_persil extends Admin_Controller {
 
 	public function simpan_persil($page=1)
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
+		$this->data_persil_model->simpan_persil();
 
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-
-		$data["hasil"] = $this->data_persil_model->simpan_persil();
 		redirect("data_persil/clear");
 	}
 
 	public function persil_jenis($id=0)
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$nav['act'] = 7;
 		$this->load->view('nav', $nav);
 		$data["id"] = $id;
 		if ($this->form_validation->run() === FALSE)
@@ -183,13 +169,10 @@ class Data_persil extends Admin_Controller {
 
 	public function persil_peruntukan($id=0)
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Persil', 'required');
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$nav['act'] = 7;
 		$this->load->view('nav', $nav);
 		$data["id"] = $id;
 		if ($this->form_validation->run() === FALSE)
@@ -213,12 +196,9 @@ class Data_persil extends Admin_Controller {
 
 	public function panduan()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-
 		$header = $this->header_model->get_data();
+
 		$this->load->view('header', $header);
-		$nav['act'] = 7;
 		$this->load->view('nav', $nav);
 		$this->load->view('data_persil/panduan');
 		$this->load->view('footer');

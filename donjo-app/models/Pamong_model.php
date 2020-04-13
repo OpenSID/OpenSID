@@ -58,22 +58,16 @@
 				(SELECT p.nama
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id) a
+				UNION SELECT pamong_nama FROM tweb_desa_pamong
 				UNION SELECT p.nik
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+				UNION SELECT pamong_nik FROM tweb_desa_pamong
 				UNION SELECT pamong_niap FROM tweb_desa_pamong
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
-
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .addslashes($data[$i]['nama']). "'";
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-		return $outp;
+		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
@@ -83,7 +77,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
+			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -286,6 +280,21 @@
 	public function urut($id, $arah)
 	{
   	$this->urut_model->urut($id, $arah);
+	}
+
+	/*
+	 * Mengambil semua data penduduk kecuali yg sdh menjadi pamong untuk pilihan drop-down form
+	 */
+	public function list_penduduk()
+	{
+		$data = $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+			->from('penduduk_hidup u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+			->where('u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL)')
+			->get()
+			->result_array();
+
+		return $data;
 	}
 
 }

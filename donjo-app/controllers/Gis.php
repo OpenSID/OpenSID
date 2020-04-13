@@ -14,7 +14,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 9;
-		$this->load->database();
+		$this->sub_modul_ini = 62;
 	}
 
 	public function clear()
@@ -97,8 +97,7 @@ class Gis extends Admin_Controller {
 		$data['list_lap'] = $this->list_lap();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 9;
-		$nav['act_sub'] = 62;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);

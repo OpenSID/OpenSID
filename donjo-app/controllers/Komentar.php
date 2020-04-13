@@ -11,6 +11,7 @@ class Komentar extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 50;
 		$this->_kembali = $_SERVER['HTTP_REFERER'];
 	}
 
@@ -46,10 +47,7 @@ class Komentar extends Admin_Controller {
 		$data['paging'] = $this->web_komentar_model->paging($p,$o);
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 50;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -72,16 +70,16 @@ class Komentar extends Admin_Controller {
 		$this->load->view('komentar/modal_balas', $data);
 	}
 
-	public function insert($id='')
+	public function insert()
 	{
-		$this->web_komentar_model->insert($id);
+		$this->web_komentar_model->insert();
 		redirect('komentar');
 	}
 
-	public function update($id='')
+	public function update($id='', $p=1, $o=0)
 	{
 		$this->web_komentar_model->update($id);
-		redirect('komentar');
+		redirect("komentar/index/$p/$o");
 	}
 	
 	public function search()

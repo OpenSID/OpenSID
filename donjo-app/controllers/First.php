@@ -178,7 +178,6 @@ class First extends Web_Controller {
 		switch ($m)
 		{
 			case 1:
-				$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
 				break;
@@ -207,7 +206,7 @@ class First extends Web_Controller {
 			default:
 				break;
 		}
-
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
@@ -226,6 +225,7 @@ class First extends Web_Controller {
 		$data['permohonan'] = $this->permohonan_surat_model->get_permohonan($id_permohonan);
 		$this->_get_common_data($data);
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
@@ -301,7 +301,7 @@ class First extends Web_Controller {
 			$_SESSION['post']['captcha_code'] = '';
 		}
 		$this->set_template('layouts/artikel.tpl.php');
-		$this->load->view($this->template,$data);
+		$this->load->view($this->template, $data);
 	}
 
 	public function arsip($p=1)

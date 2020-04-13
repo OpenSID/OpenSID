@@ -463,13 +463,12 @@ class First_artikel_m extends CI_Model {
 
 	public function list_komentar($id=0, $tipe=0)
 	{
-		$data = $this->db
+		$data = $this->db->from('komentar')
 			->where('id_artikel', $id)
 			->where('status', 1)
-			->where('tipe', $tipe)
-			->order_by('tgl_upload', DESC)
-			->get('komentar')->result_array();
-
+			->order_by('tgl_upload DESC')
+			->get()->result_array();
+			
 		return $data;
 	}
 
