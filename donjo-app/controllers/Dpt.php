@@ -10,6 +10,7 @@ class Dpt extends Admin_Controller {
 		$this->load->model('dpt_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
+		$this->sub_modul_ini = 26;
 	}
 
 	public function clear()
@@ -132,13 +133,10 @@ class Dpt extends Admin_Controller {
 		$data['keyword'] = $this->dpt_model	->autocomplete();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-
-		$nav['act'] = 2;
-		$nav['act_sub'] = 26;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$this->load->view('header', $header);
 
+		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('dpt/dpt', $data);
 		$this->load->view('footer');

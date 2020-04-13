@@ -87,8 +87,8 @@ class Analisis_laporan extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_laporan_model->get_periode();
 		$header = $this->header_model->get_data();
-		$nav['act'] = 5;
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_laporan/table', $data);
@@ -108,10 +108,9 @@ class Analisis_laporan extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
 		$data['form_action'] = site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 5;
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_laporan/form', $data);

@@ -16,6 +16,7 @@ class Surat extends Admin_Controller {
 		$this->load->model('penomoran_surat_model');
 		$this->load->model('permohonan_surat_model');
 		$this->modul_ini = 4;
+		$this->sub_modul_ini = 31;
 	}
 
 	public function index()
@@ -38,8 +39,6 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['id_pemberi_kuasa']);
 		unset($_SESSION['id_penerima_kuasa']);
 
-		$nav['act'] = 4;
-		$nav['act_sub'] = 31;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/format_surat', $data);
@@ -48,10 +47,9 @@ class Surat extends Admin_Controller {
 
 	public function panduan()
 	{
-		$nav['act'] = 4;
-		$nav['act_sub'] = 33;
+		$this->sub_modul_ini = 33;
 		$header = $this->header_model->get_data();
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/panduan');
@@ -76,10 +74,9 @@ class Surat extends Admin_Controller {
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/doc/$url");
-		$nav['act'] = 4;
-		$nav['act_sub'] = 31;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view("surat/form_surat", $data);

@@ -78,7 +78,7 @@
 <script type="text/javascript">
 	setTimeout(function() {
 		$('#dusun').rules('add', {
-			maxlength: 10
+			maxlength: 50
 		})
 	}, 500);
 </script>

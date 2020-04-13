@@ -72,7 +72,6 @@ class Mailbox extends Admin_Controller {
 			$data['subjek'] = $subjek;
 		}
 		$data['form_action'] = site_url("mailbox/kirim_pesan");
-
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -103,8 +102,6 @@ class Mailbox extends Admin_Controller {
 		$data['pesan'] = $this->mailbox_model->get_komentar($id);
 		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat); 
 		$header = $this->header_model->get_data();
-		$nav['act'] = 14;
-		$nav['act_sub'] = 55;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);

@@ -10,7 +10,7 @@
 		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/tanah/menu_kiri.php')?>
+					<?= $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
