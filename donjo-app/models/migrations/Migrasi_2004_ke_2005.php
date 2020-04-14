@@ -128,14 +128,14 @@ class Migrasi_2004_ke_2005 extends CI_model {
 					'null' => TRUE,
 				),
 			));
-			$this->dbforge->add_key("id",true);
+			$this->dbforge->add_key("id", true);
 			$this->dbforge->create_table("covid19_pemudik", TRUE);
 		}
 	}
 
 	private function kotak_pesan()
 	{
-        if (!$this->db->table_exists('kotak_pesan') )
+    if (!$this->db->table_exists('kotak_pesan') )
 		{
 			// .buat tabel kotak_pesan
 			$this->dbforge->add_field(array(
@@ -175,16 +175,12 @@ class Migrasi_2004_ke_2005 extends CI_model {
 					'type' => 'TINYINT',
 					'constraint' => 1,
 					'default' => 1
-				),
-				'created_at' => array(
-					'type' => 'TIMESTAMP'
-				),
-				'updated_at' => array(
-					'type' => 'TIMESTAMP'
-				),
+				)
 			));
+			$this->dbforge->add_field("created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
+			$this->dbforge->add_field("updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP");
 			$this->dbforge->add_key('id', TRUE);
-			$this->dbforge->create_table('kotak_pesan');
+			$this->dbforge->create_table('kotak_pesan', TRUE);
 		}
 
 		if ($this->db->table_exists('kotak_pesan') )
