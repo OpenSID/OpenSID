@@ -5,18 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function addCsrfField(form) {
 		if (form.method.toUpperCase() !== 'GET') {
-      const input = document.createElement('input')
-      input.type = 'hidden'
-      input.name = csrfParam
+			const input = document.createElement('input')
+			input.type = 'hidden'
+			input.name = csrfParam
 			form[csrfParam] || form.append(input)
 			form[csrfParam].value = csrfToken
 		}
 	}
 
 	document.querySelectorAll('form').forEach((form) => {
-    form.addEventListener('submit', (e) => {
-      addCsrfField(e.target)
-  	})
+		addCsrfField(form)
+		form.addEventListener('submit', (e) => {
+			addCsrfField(e.target)
+  		})
 	})
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
