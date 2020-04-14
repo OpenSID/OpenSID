@@ -187,15 +187,19 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		{
 			// salin data kotak_pesan(775) dari tabel komentar
 			$list_pesan = $this->db->where('id_artikel', 775)->get('komentar')->result_array();
-			foreach ($list_pesan as $pesan) {
+			foreach ($list_pesan as $pesan) 
+			{
 				$id = $this->db->where('nik', $pesan['email'])->get('tweb_penduduk')->row()->id;
 				// karena tabel komentar tdk membedakan pengirim dan penerima maka perlu penyesuaian pd kotak_pesan
 				// id_penerima penerima nilai 1 (admin) default
 				// sebelumnya tipe 1 = kiriman dr user dan 2 = kiriman dari admin
-				if($pesan['tipe']==1){
+				if ($pesan['tipe']==1)
+				{
 					$id_pengirim = $id;
 					$id_penerima = 1; // default 1 krn belum ada pembagian sebelumnya di tabel komentar
-				}else{
+				}
+				else
+				{
 					$id_pengirim = 1; // default 1 krn belum ada pembagian sebelumnya di tabel komentar
 					$id_penerima = $id; 
 				}
@@ -214,7 +218,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 				$this->db->insert('kotak_pesan', $data);
 
 				// hapus data(775) pd tabel komentar jika data sudah tersalin ke tabel kotak pesan
-				// jika ditemuka komentar id_artikel 775 tp id_pengirim tdk ditemuka maka tetap akan dihapus agar tdk menjadi sampah pd dr tabel komentar
+				// jika ditemukan komentar id_artikel 775 tp id_pengirim tdk ditemukan maka tetap akan dihapus agar tdk menjadi sampah pd dr tabel komentar
 				$this->db->where('id', $pesan['id'])->delete('komentar');
 			}
 		}

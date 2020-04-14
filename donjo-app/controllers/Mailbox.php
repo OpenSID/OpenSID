@@ -47,10 +47,10 @@ class Mailbox extends Admin_Controller {
 		
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->mailbox_model->paging($p, $o, $kat);
-		$data['main'] = $this->mailbox_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, $kat);//terpakai
-		$data['owner'] = $kat == 1 ? 'Pengirim' : 'Penerima';//terpakai
-		$data['keyword'] = $this->mailbox_model->autocomplete();//terpakai
-		$data['submenu'] = $this->mailbox_model->list_menu();//terpakai
+		$data['main'] = $this->mailbox_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, $kat);
+		$data['owner'] = $kat == 1 ? 'Pengirim' : 'Penerima';
+		$data['keyword'] = $this->mailbox_model->autocomplete();
+		$data['submenu'] = $this->mailbox_model->list_menu();
 		$_SESSION['submenu'] = $kat;
 
 		$header = $this->header_model->get_data();
@@ -157,7 +157,7 @@ class Mailbox extends Admin_Controller {
 		// cek kalau berhasil disimpan dalam database
 		if ($res)
 		{
-			$this->session->set_flashdata('flash_message', 'mailboxan anda telah berhasil dikirim dan akan segera diproses.');
+			$this->session->set_flashdata('flash_message', 'pesan anda telah berhasil dikirim dan akan segera diproses.');
 		}
 		else
 		{
@@ -165,27 +165,27 @@ class Mailbox extends Admin_Controller {
 			if (!empty($_SESSION['validation_error']))
 				$this->session->set_flashdata('flash_message', validation_errors());
 			else
-				$this->session->set_flashdata('flash_message', 'mailboxan anda gagal dikirim. Silakan ulangi lagi.');
+				$this->session->set_flashdata('flash_message', 'pesan anda gagal dikirim. Silakan ulangi lagi.');
 		}
 
 		redirect("first/mandiri/1/3");
 	}
 
-	public function archive($id = '')// beres
+	public function archive($id = '')
 	{
 		$this->redirect_hak_akses('h', $this->kembali);
 		$this->mailbox_model->archive($id);
 		redirect($this->kembali);
 	}
 
-	public function archive_all()// beres
+	public function archive_all()
 	{
 		$this->redirect_hak_akses('h', $this->kembali);
 		$this->mailbox_model->archive_all();
 		redirect($this->kembali);
 	}
 
-	public function baca($id = '', $baca)// beres
+	public function baca($id = '', $baca)
 	{
 		$this->mailbox_model->baca($id, $baca);
 		redirect("mailbox");
