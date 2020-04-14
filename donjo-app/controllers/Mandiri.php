@@ -61,12 +61,14 @@ class Mandiri extends Admin_Controller {
 	public function ajax_pin($id_pend = '')
 	{
 		if($id_pend){
+			$data['penduduk'] = $this->mandiri_model->get_penduduk($id_pend);
 			$data['id_pend'] = $id_pend;
 			$data['form_action'] = site_url("mandiri/update/$id_pend");	
 		}
 		else
 		{
 			$data['penduduk'] = $this->mandiri_model->list_penduduk();
+			$data['id_pend'] = NULL;
 			$data['form_action'] = site_url("mandiri/insert");
 			
 		}

@@ -12,16 +12,18 @@
 			<div class="col-sm-12">
 				<div class="box box-danger">
 					<div class="box-body">
-						<?php if($id_pend): ?>
-							<input type="hidden" name="id_pend" id="id_pend" value="<?=$id_pend?>">
-						<?php endif; ?>
 						<div class="form-group">
 							<label for="nik">NIK / Nama Penduduk</label>
-							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
-								<option option value="">-- Silakan Cari NIK / Nama Penduduk --</option>
-								<?php foreach ($penduduk as $data): ?>
-									<option value="<?=$data['id']?>">NIK :<?=$data['nik']." - ".$data['nama']?></option>
-								<?php endforeach; ?>
+							<?php if($id_pend):?>
+									<select class="form-control input-sm" disabled>
+									<option value="<?=$id_pend?>"selected><?=$penduduk['nik']." | ".$penduduk['nama']?></option>
+								<?php else: ?>
+									<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
+									<option option value="">-- Silakan Cari NIK | Nama Penduduk --</option>
+									<?php foreach ($penduduk as $data): ?>
+										<option value="<?=$data['id']?>" <?php if ($id_pend == $data['id']): ?>selected<?php endif ?>><?=$data['nik']." | ".$data['nama']?></option>
+									<?php endforeach; ?>
+								<?php endif;?>
 							</select>
 						</div>
 						<div class="form-group">

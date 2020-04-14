@@ -121,8 +121,9 @@
 	    $this->form_validation->set_rules('pin', 'Pin', 'trim|numeric|required|min_length[6]|max_length[6]');
 	    if ($this->form_validation->run() !== true)
 	    {
-	    	$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
-	    	return;
+	    	$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
+			redirect('mandiri');
 	    }
 	    $rpin = $_POST['pin'];
     }
@@ -181,6 +182,16 @@
 		{
 			$data[$i]['alamat'] = "Alamat :".$data[$i]['nama'];
 		}
+		return $data;
+	}
+
+	public function get_penduduk($id)
+	{
+		$data = $this->db->select('nik AS id, nik, nama')
+			->where('id', $id)
+			->get('tweb_penduduk')
+			->row_array();
+
 		return $data;
 	}
 
@@ -248,9 +259,11 @@
 	
 	public function update($id_pend)
 	{		
-		if (empty($_POST['pin']))
+		$pin = $this->input->post('pin');
+
+		if (empty($pin))
 		{
-			$rpin = $this->generate_pin($_POST['pin']);
+			$rpin = $this->generate_pin($pin);
 		}
 		else
 		{
@@ -259,16 +272,17 @@
 			$this->form_validation->set_rules('pin', 'Pin', 'trim|numeric|required|min_length[6]|max_length[6]');
 			if ($this->form_validation->run() !== true)
 			{
+				$_SESSION['success'] = -1;
 				$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
-				return;
+				redirect('mandiri');
 			}
-			$rpin = $_POST['pin'];
+			$rpin = $pin;
 		}
 
 		$hash_pin = hash_pin($rpin);
     	$data['pin'] = $hash_pin;
 		$data['tanggal_buat'] = date("Y-m-d H:i:s");
-		$this->db->where('id_pend',$id_pend);
+		$this->db->where('id_pend', $id_pend);
 		$this->db->update('tweb_penduduk_mandiri', $data);	
 	}
 }
