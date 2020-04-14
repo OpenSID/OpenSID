@@ -114,8 +114,8 @@
 	    if ($this->form_validation->run() !== true)
 	    {
 	    	$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
-			redirect('mandiri');
+				$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
+				redirect('mandiri');
 	    }
 	    $rpin = $_POST['pin'];
     }
@@ -162,11 +162,10 @@
 	public function list_penduduk()
 	{
 		$data = $this->db->select('nik AS id, nik, nama')
-			->where('status', 1)
 			->where('nik <>', '')
 			->where('nik <>', 0)
 			->where('id NOT IN (SELECT id_pend FROM tweb_penduduk_mandiri)')
-			->get('tweb_penduduk')
+			->get('penduduk_hidup')
 			->result_array();
 
 		//Formating Output AND nik NOT IN(SELECT nik FROM tweb_penduduk_mandiri)
@@ -181,7 +180,7 @@
 	{
 		$data = $this->db->select('nik AS id, nik, nama')
 			->where('id', $id)
-			->get('tweb_penduduk')
+			->get('penduduk_hidup')
 			->row_array();
 
 		return $data;
@@ -272,9 +271,11 @@
 		}
 
 		$hash_pin = hash_pin($rpin);
-    	$data['pin'] = $hash_pin;
+  	$data['pin'] = $hash_pin;
 		$data['tanggal_buat'] = date("Y-m-d H:i:s");
 		$this->db->where('id_pend', $id_pend);
 		$this->db->update('tweb_penduduk_mandiri', $data);	
+
+    return $rpin;
 	}
 }
