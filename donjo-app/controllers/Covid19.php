@@ -122,15 +122,21 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('covid19/unduh-sheet', $data);
 	}
 
-	public function pantau()
+	public function pantau($h_plus=null)
 	{
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
 		else 
 			$this->session->set_userdata('per_page', 10);
-		
-		$data = $this->covid19_model->get_rincian_pemudik($p);
 		$data['per_page'] = $this->session->userdata('per_page');
+		
+		$data = $this->covid19_model->get_rincian_pemudik($p, true, $h_plus);
+
+		$data['select_h_plus'] = $this->covid19_model->list_h_plus();
+
+		$data['this_url'] = site_url("covid19/pantau");
+		$data['h_plus'] =$h_plus;
+		$data['form_action'] = site_url("covid19/add_pantau");
 
 		$header = $this->header_model->get_data();
 
@@ -138,6 +144,12 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('covid19/pantau_pemudik', $data);
 		$this->load->view('footer');
+	}
+
+	public function add_pantau()
+	{
+		$this->covid19_model->add_pemantauan($_POST);
+		redirect("covid19/pantau");
 	}
 
 }

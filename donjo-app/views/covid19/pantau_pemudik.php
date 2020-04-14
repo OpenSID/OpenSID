@@ -22,24 +22,36 @@
 						
 					</div>
 					<div class="box-body">
-						<form>
+						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+
+							<input type="hidden" id="this_url" value="<?= $this_url ?>" >
+							<input type="hidden" name="status_covid" id="status_covid" >
 							<div class="form-group">
 								<label for="nama">Data H+</label>
-								<select class="form-control input-sm" name="nama">
-									<option>-- Pilih Waktu Pasca Kedatangan --</option>
+								<select class="form-control input-sm" name="data_h_plus" id="data_h_plus">
+									<option>-- Semua Data --</option>
+									<?php foreach ($select_h_plus as $id => $nama): ?>
+									<option value="<?= $id?>" <?php selected($h_plus, $id); ?> > <?= strtoupper($nama)?> </option>
+									<?php endforeach;?>
 								</select>
 								<small id="nama_msg" class="form-text text-muted"></small>
 							</div>
+							
 							<div class="form-group">
 								<label for="nama">NIK/Nama</label>
-								<select class="form-control input-sm" name="nama">
-									<option>-- Pilih Warga Pemudik --</option>
+								<select class="form-control select2" id="terdata" name="terdata"  >
+									<option value="">-- Silakan Masukan NIK / Nama--</option>
+									<?php foreach ($terdata as $item):
+										if (strlen($item["id"])>0): ?>
+											<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?> data-statuscovid="<?= $item['status_covid']?>" >Nama : <?= $item['nama']." - ".$item['info']?></option>
+										<?php endif;
+									endforeach; ?>
 								</select>
 								<small id="nama_msg" class="form-text text-muted"></small>
 							</div>
 						  	<div class="form-group">
 						    	<label for="tgl_jam">Tanggal/Jam</label>
-						    	<input type="text" class="form-control input-sm" name="tgl_jam">
+						    	<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam">
 						    	<small id="tgl_jam_msg" class="form-text text-muted"></small>
 						  	</div>
 						  	<div class="form-group">
@@ -57,19 +69,19 @@
 								  	<tbody>
 								    	<tr>
 								      		<td width="20%" class="text-center">
-								      			<input type="checkbox" class="form-check-input" >
+								      			<input type="checkbox" class="form-check-input" name="batuk">
 								      		</td>
 								      		<td>Batuk</td>
 							    		</tr>
 							    		<tr>
 								      		<td width="20%" class="text-center">
-								      			<input type="checkbox" class="form-check-input" >
+								      			<input type="checkbox" class="form-check-input" name="flu">
 								      		</td>
 								      		<td>Flu</td>
 							    		</tr>
 							    		<tr>
 								      		<td width="20%" class="text-center">
-								      			<input type="checkbox" class="form-check-input" >
+								      			<input type="checkbox" class="form-check-input" name="sesak">
 								      		</td>
 								      		<td>Sesak nafas</td>
 							    		</tr>
@@ -87,7 +99,7 @@
 
 					<div class="box-footer">
 						<div class="box-tools pull-right">
-							<button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
 						</div>
 			 	 	</div>
 
@@ -252,3 +264,24 @@
 		</div>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$("#data_h_plus").change(function() {
+			url = $("#this_url").val()+"/"+($(this).val());
+			$(location).attr('href',url);
+		});
+
+		$('#tgl_jam').datetimepicker(
+		{
+			format: 'YYYY-MM-DD LT',
+		});
+
+		$("#terdata").change(function() {
+			$("#status_covid").val($(this).find(':selected').data('statuscovid'));
+		});
+
+	});
+</script>

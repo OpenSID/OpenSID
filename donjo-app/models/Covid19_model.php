@@ -16,6 +16,13 @@ define("STATUS_COVID", serialize(array(
 	"Dll" => "DLL",
 )));
 
+$h_plus_array = array();
+for($i=1; $i<=31; $i++) {
+	$h_plus_array["H+$i"] = "$i";
+}
+define("H_PLUS", serialize($h_plus_array));
+
+
 class Covid19_model extends CI_Model {
 
 	public function __construct()
@@ -36,13 +43,22 @@ class Covid19_model extends CI_Model {
 		return $status_rekam;
 	}
 
-	private function paging($p)
+	public function list_h_plus()
+	{
+		$status_rekam = array_flip(unserialize(H_PLUS));
+		return $status_rekam;
+	}
+
+	private function paging($p, $is_pantau_covid_page = false)
 	{
 		$this->db->select('COUNT(*) as jumlah');
 		$this->db->from('covid19_pemudik s');
 		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
 		$this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
 		$this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
+
+		if($is_pantau_covid_page)
+			$this->db->where('s.is_wajib_pantau', '1');
 
 		$row = $this->db->get()->row_array();
 		$jml_data = $row['jumlah'];
@@ -56,10 +72,12 @@ class Covid19_model extends CI_Model {
 		return $this->paging;
 	}
 
-	private function get_penduduk_pemudik($p)
+	private function get_penduduk_pemudik($p, $is_pantau_covid_page = false, $h_plus = null)
 	{
 		$hasil = array();
-		if ($this->session->has_userdata('per_page') and $this->session->userdata('per_page') > 0)
+
+
+		if (!$is_pantau_covid_page and $this->session->has_userdata('per_page') and $this->session->userdata('per_page') > 0)
 		{
 			$hasil["paging"] = $this->paging($p);
 
@@ -74,10 +92,17 @@ class Covid19_model extends CI_Model {
 		$this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
 		$this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
 
-		if(isset($hasil["paging"])) {
-			$this->db->limit($hasil["paging"]->per_page, $hasil["paging"]->offset);
+		if($is_pantau_covid_page) {
+			$this->db->where('s.is_wajib_pantau', '1');
+
+			if(isset($h_plus))
+				$this->db->where("TO_DAYS(s.tanggal_datang) = TO_DAYS(NOW())-$h_plus");
+
 		}
 
+		if(isset($hasil["paging"])) 
+			$this->db->limit($hasil["paging"]->per_page, $hasil["paging"]->offset);
+		
 		$query = $this->db->get();		
 		if ($query->num_rows() > 0)
 		{
@@ -114,12 +139,12 @@ class Covid19_model extends CI_Model {
 		return $hasil;
 	}
 
-	public function get_rincian_pemudik($p)
+	public function get_rincian_pemudik($p, $is_pantau_covid_page = false, $h_plus = null)
 	{
 		$covid19['judul_terdata_nama'] = 'NIK';
 		$covid19['judul_terdata_info'] = 'Nama Penduduk';
 		
-		$data = $this->get_penduduk_pemudik($p);
+		$data = $this->get_penduduk_pemudik($p, $is_pantau_covid_page, $h_plus);
 		$data['covid19'] = $covid19;
 
 		return $data;
@@ -283,5 +308,22 @@ class Covid19_model extends CI_Model {
 		return $data;
 	}
 	
+
+	public function add_pemantauan($post)
+	{
+		$data = array(
+			'id_pemudik' => $post['terdata'],
+			'tanggal_jam' => $post['tgl_jam'],
+			'suhu_tubuh' => $post['suhu'],
+			'batuk' => (isset($post['batuk']) ? '1':'0'),
+			'flu' => (isset($post['flu']) ? '1':'0'),
+			'sesak_nafas' => (isset($post['sesak']) ? '1':'0'),
+			'keluhan_lain' => $post['keluhan'],
+			'status_covid' => $post['status_covid'],
+		);
+		return $this->db->insert('covid19_pantau', $data);
+	}
+
+
 }
 ?>
