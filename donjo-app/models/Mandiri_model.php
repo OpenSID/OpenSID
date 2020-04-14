@@ -245,5 +245,30 @@
 			->get()
 			->row_array();
 	}
+	
+	public function update($id_pend)
+	{		
+		if (empty($_POST['pin']))
+		{
+			$rpin = $this->generate_pin($_POST['pin']);
+		}
+		else
+		{
+			// load library form_validation
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('pin', 'Pin', 'trim|numeric|required|min_length[6]|max_length[6]');
+			if ($this->form_validation->run() !== true)
+			{
+				$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
+				return;
+			}
+			$rpin = $_POST['pin'];
+		}
 
+		$hash_pin = hash_pin($rpin);
+    	$data['pin'] = $hash_pin;
+		$data['tanggal_buat'] = date("Y-m-d H:i:s");
+		$this->db->where('id_pend',$id_pend);
+		$this->db->update('tweb_penduduk_mandiri', $data);	
+	}
 }

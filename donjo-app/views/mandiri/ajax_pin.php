@@ -12,6 +12,9 @@
 			<div class="col-sm-12">
 				<div class="box box-danger">
 					<div class="box-body">
+						<?php if($id_pend): ?>
+							<input type="hidden" name="id_pend" id="id_pend" value="<?=$id_pend?>">
+						<?php endif; ?>
 						<div class="form-group">
 							<label for="nik">NIK / Nama Penduduk</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
