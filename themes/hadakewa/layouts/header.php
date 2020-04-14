@@ -66,6 +66,7 @@
     <script type="text/javascript">
       var BASE_URL = "<?= base_url(); ?>";
     </script>
+    <?php $this->load->view('head_tags_front') ?>
 	</head>
 	<body>
 		<div id="maincontainer">

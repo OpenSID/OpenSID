@@ -10,22 +10,25 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 4. #2828: Sekarang tidak error pada waktu mengubah lokasi di Pemetaaan > Pengaturan Peta. [bug-fix]
 5. Sekarang bisa ubah data RW yang namanya berisi spasi. [bug-fix]
 6. Tampilkan foto warga pada Layanan Mandiri. Batasi pengisian No HP Aktif di form Permohonan Surat hanya boleh bilangan dan spasi.
-7. #2878: Sediakan tanggal posting pada RSS feed artikel yg disediakan OpenSID. 
+7. #2878: Sediakan tanggal posting pada RSS feed artikel yg disediakan OpenSID.
 8. #2874: Pada Layanan Mandiri > Pendaftar Layanan Mandiri, tampilkan pendaftar terbaru di atas.
 9. Pengguna Operator sekarang bisa akses Layanan Surat > Daftar Persyaratan dan Admin Web > Pengunjung. [bug-fix]
 10. Sekarang peta Pemetaan > Pengaturan Peta > Lokasi dapat diubah dan disimpan dengan benar. [bug-fix]
 11. #2880: Pada Program Bantuan, sekarang isi awal NIK pada Identitas Pada Kartu Peserta sudah benar. Juga data verifikasi peserta tampil benar untuk semua jenis sasaran. [bug-fix]
-12. #2885: Perbaiki tampilan Sekretariat > Produk Hukum di layar kecil. 
+12. #2885: Perbaiki tampilan Sekretariat > Produk Hukum di layar kecil.
 13. Sesuaikan modul inventaris dengan setting MySQL STRICT_TRANS_TABLE. Perbaiki pilihan nama barang pertama sekarang tidak error. Perbaiki nama barang untuk kode 4.00.00.00.000. Perbaiki sekarang 'Konstruksi dalam pengerjaan' bisa disimpan.
 14. Perbaiki autocomplete kotak cari di Info Desa > Pemerintahan Desa, bisa cari berdasarkan NIP/NIAP/NIK atau nama pamong. [bug-fix]
 15. #2897: Sekarang program bantuan yang sudah ada peserta tidak bisa diubah sasarannya.
 16. #272: Di tampilan statistik web, data bilangan nol dapat disembunyikan/ditampilkan.
 17. Hapus kolom urut yg tidak digunakan di tabel artikel. [teknis]
-18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong. 
+18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong.
 19. Sederhanakan dan rapikan berbagai bagian script, untuk memudahkan perubahan selanjutnya. [teknis]
 20. #2856: Sediakan pencatatan pendatang terkait siaga Covid-19.
 21. #2906: Sekarang komentar artikel web kembali tampil. [bug-fix]
+22. #2925: Aktifkan Anti CSRF [security-fix]
 
 
 
-Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca, struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+Selalu diingatkan apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca
+- Struktur database dan/atau folder desa perlu diubah dengan menjalankan fitur Database > Migrasi DB. Fitur migrasi ini melakukan perubahan database dan/atau folder desa yang diperlukan.
+- Jika meng-custom thema, tambahkan kode `<?php $this->load->view('head_tags_front') ?>` pada `[NAMA_TEMA]/layouts/header.php` seperti contoh yang bisa dilihat di file `themes/klasik/layouts/header.php`
