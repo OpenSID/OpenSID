@@ -1,7 +1,7 @@
-<script>
+<script type="text/javascript">	
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
+		var keyword = <?=$keyword?> ;
 		$( "#cari" ).autocomplete(
 		{
 			source: keyword,

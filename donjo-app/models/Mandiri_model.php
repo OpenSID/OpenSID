@@ -7,21 +7,13 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT p.nik
-			FROM tweb_penduduk_mandiri m
-			LEFT JOIN tweb_penduduk p ON m.id_pend = p.id";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->select('p.nik, p.nama')
+			->join('tweb_penduduk p','p.id = m.id_pend', 'left')
+			->from('tweb_penduduk_mandiri m')
+			->get()
+			->result_array();
 
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .$data[$i]['nik']. "'";
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-
-		return $outp;
+		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
