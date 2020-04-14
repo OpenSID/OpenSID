@@ -17,6 +17,14 @@
 							</a>
 						</div>
 						<div class="box-body">
+						<?php if($kat == 2 AND $_SESSION['grup'] == 1) : ?>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="nama_user">Pengirim </label>
+								<div class="col-sm-9">
+									<div class="form-control input-sm"><?= $pesan['nama_user']?></div>
+								</div>
+							</div>
+							<?php endif ?>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="nama"><?= $owner ?></label>
 								<div class="col-sm-9">

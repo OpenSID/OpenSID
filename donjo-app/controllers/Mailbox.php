@@ -49,7 +49,7 @@ class Mailbox extends Admin_Controller {
 		$data['paging'] = $this->mailbox_model->paging($p, $o, $kat);
 		$data['main'] = $this->mailbox_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, $kat);
 		$data['owner'] = $kat == 1 ? 'Pengirim' : 'Penerima';
-		$data['keyword'] = $this->mailbox_model->autocomplete();
+		$data['keyword'] = $this->mailbox_model->autocomplete($kat);
 		$data['submenu'] = $this->mailbox_model->list_menu();
 		$_SESSION['submenu'] = $kat;
 
@@ -125,8 +125,8 @@ class Mailbox extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['filter_nik'] = $nik;
-		else unset($_SESSION['filter_nik']);
+			$_SESSION['cari'] = $cari;
+		else unset($_SESSION['cari']);
 		redirect("mailbox/index/{$kat}");
 	}	
 

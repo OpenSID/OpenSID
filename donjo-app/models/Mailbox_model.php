@@ -13,23 +13,26 @@ class Mailbox_model extends CI_Model {
 		
 	}
 
-	public function autocomplete()
+	public function autocomplete($kat=1)
 	{
-		$str = autocomplete_str('isi_pesan', 'kotak_pesan');
-		return $str;
+		$this->db->select('k.*, p.nik, p.nama, k.subjek');
+		$this->list_data_sql($kat);
+		$data = $this->db->get()->result_array();
+		
+		return autocomplete_data_ke_str($data);
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500, $kat=0)
+	public function list_data($o=0, $offset=0, $limit=500, $kat=1)
 	{
-		$this->db->select('k.*, p.nik, p.nama');
+		$this->db->select('k.*, p.nik, p.nama, u.nama as nama_user');
 		$this->list_data_sql($kat);
 		
 		switch ($o)
 		{
-			case 1: $this->db->order_by('p.nama', DESC); break;
-			case 2: $this->db->order_by('p.nama', ASC);; break;
-			case 3: $this->db->order_by('p.nik', DESC);; break;
-			case 4: $this->db->order_by('p.nik', ASC); break;
+			case 1: $this->db->order_by('u.nama', DESC); break;
+			case 2: $this->db->order_by('u.nama', ASC);; break;
+			case 3: $this->db->order_by('p.nama', DESC); break;
+			case 4: $this->db->order_by('p.nama', ASC);; break;
 			case 5: $this->db->order_by('k.baca', DESC); break;
 			case 6: $this->db->order_by('k.baca', ASC); break;
 			case 7: $this->db->order_by('created_at', DESC); break;
@@ -50,16 +53,31 @@ class Mailbox_model extends CI_Model {
 
 	private function list_data_sql($kat=1)
 	{
-		$this->db->from('kotak_pesan k');
+		/* Alur untuk dashboar/admin
+			1. Inbox : Semua yg memiliki akses modul ini dpt melihat semua inbox
+			2. Outbox : Selain admin (1) masing2 hanya bisa melihat pesan yg dia kirim
+		*/
 
 		if ($kat == 1) {
-			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('k.tipe', 1); //pengirim
+			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left') //pengirim
+				->join('user u','u.id = k.id_penerima', 'left') //penerima
+				->where('k.tipe', 1); 
 		}else{			
-			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('k.tipe', 2); //penerima
+			$this->db->join('user u','u.id = k.id_pengirim', 'left') //pengirim
+				->join('tweb_penduduk p','p.id = k.id_penerima', 'left') //penerima
+				->where('k.tipe', 2); 
+			
+			$id_group = $_SESSION['grup']; // Yg mempunyai akses ke modul
+			$id_user = $_SESSION['user']; // Admin (user 1) dpt melihat pesan yg dikirim operator/yg mempunyai akses ke modul ini
+			if ($id_group !=1){
+				$this->db->where('k.id_group', $id_group)->where('k.id_pengirim', $id_user);
+			}
 		}
-		$this->filter_nik_sql();
+
 		$this->search_sql();
 		$this->filter_sql();
+		$this->filter_nik_sql();
+		$this->db->from('kotak_pesan k');
 	}
 
 	private function filter_nik_sql()
@@ -77,7 +95,7 @@ class Mailbox_model extends CI_Model {
 		{
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
-			$this->db->like('isi_pesan', $kw)->or_like('subjek', $kw);
+			$this->db->like('p.nik', $kw)->or_like('p.nama', $kw)->or_like('k.subjek', $kw);
 		}
 	}
 
@@ -92,16 +110,17 @@ class Mailbox_model extends CI_Model {
 			else 
 			{
 				$this->db->where('k.baca', $kf);
-				$this->db->where('k.status !=', 1);
+				$this->db->where('k.status', 0);				
 			}
 		}
 		else
 		{
-			$this->db->where('k.status !=', 1);
+			unset($_SESSION['filter']);
+			$this->db->where('k.status', 0);
 		}
 	}
 
-	public function paging($p=1, $o=0, $kat=0)
+	public function paging($p=1, $o=0, $kat=1)
 	{
 		$this->db->select('COUNT(*) AS jml');
 		$this->list_data_sql($kat);
@@ -149,8 +168,6 @@ class Mailbox_model extends CI_Model {
 		}
 	}
 
-	
-
 	public function insert()
 	{
 		$data = array(
@@ -183,13 +200,10 @@ class Mailbox_model extends CI_Model {
 
 	public function get_mailbox($id=0, $kat=1)
 	{
-		$this->db->select('k.*, p.nik, p.nama');
-		if ($kat == 1) {
-			$this->db->join('tweb_penduduk p','p.id = k.id_pengirim', 'left')->where('k.tipe', 1); //pengirim
-		}else{			
-			$this->db->join('tweb_penduduk p','p.id = k.id_penerima', 'left')->where('k.tipe', 2); //penerima
-		}
-		$data = $this->db->from('kotak_pesan k')->where('k.id', $id)
+		$this->db->select('k.*, p.nik, p.nama, u.nama as nama_user');
+		$this->list_data_sql($kat);
+
+		$data = $this->db->where('k.id', $id)
 			->get()
 			->row_array();
 
@@ -242,7 +256,7 @@ class Mailbox_model extends CI_Model {
 	{
 		$data = array(
 				'id_pengirim' => $this->session->userdata('id'),
-				'id_penerima' => 1,
+				'id_penerima' => 1, // id_penerima selalu ditujukan ke admin namun pd inbox dpt dilihat oleh operator/yg memiliki akses ke modul
 				'subjek' => $this->input->post('subjek'),
 				'isi_pesan' => $this->input->post('isi_pesan'),
 				'tipe' => 1,

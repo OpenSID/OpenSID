@@ -1,7 +1,7 @@
 <script type="text/javascript">	
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
+		var keyword = <?=$keyword?> ;
 		$( "#cari" ).autocomplete(
 		{
 			source: keyword,
@@ -72,7 +72,7 @@
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
-																	<?php if($kat == 2) : ?>
+																	<?php if($kat == 2 AND $_SESSION['grup'] == 1) : ?>
 																		<?php if ($o==2): ?>
 																			<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>">Pengirim <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																		<?php elseif ($o==1): ?>
