@@ -37,11 +37,8 @@
 												<div class="col-sm-9">
 													<div class="form-group">
 														<select class="form-control input-sm select2-nik-ajax" id="nik" style="width:100%" name="nik" data-url="<?= site_url('mailbox/list_pendaftar_mandiri_ajax')?>" onchange="formAction('mainform', '<?=site_url("mailbox/filter_nik/$kat")?>')">
-														<?php if ($individu): ?>
-															<option value="<?= $individu['nik']?>" selected><?= $individu['nik'] .' - '.$individu['nama']?></option>
-														<?php else : ?>
-															<option value="0" selected>Semua Pendaftar Layanan Mandiri</option>
-														<?php endif;?>
+															<option value="">Semua Pendaftar Layanan Mandiri</option>
+															<option value="<?= $individu['nik']?>" <?php selected($filter_nik, $individu['nik']); ?>><?= $individu['nik'] .' - '.$individu['nama']?></option>
 														</select>
 													</div>
 													<div class="form-group">
@@ -75,23 +72,24 @@
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
-																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>"><?= $owner ?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("mailbox/index/$kat/$p/2")?>"><?= $owner ?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																	<?php else: ?>
-																		<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>"><?= $owner ?> <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php if($kat == 2) : ?>
+																		<?php if ($o==2): ?>
+																			<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>">Pengirim <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<?php elseif ($o==1): ?>
+																			<th><a href="<?= site_url("mailbox/index/$kat/$p/2")?>">Pengirim <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<?php else: ?>
+																			<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>">Pengirim <i class='fa fa-sort fa-sm'></i></a></th>
+																		<?php endif; ?>
 																	<?php endif; ?>
 																	<?php if ($o==4): ?>
-																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/3")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/3")?>"><?= $owner ?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
-																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/4")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/4")?>"><?= $owner ?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/3")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/3")?>"><?= $owner ?> <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<th>Subjek Pesan</th>
 																	<?php if($kat != 2) : ?>
-																	<th>Status Pesan</th>
 																		<?php if ($o==6): ?>
 																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																		<?php elseif ($o==5): ?>
@@ -127,13 +125,17 @@
 																		<?php endif; ?>
 																	<?php endif ?>
 																	</td>
+																	<?php if($kat == 2 AND $_SESSION['grup'] == 1) : ?>
+																		<td nowrap><?=$data['nama_user']?></td>
+																	<?php endif ?>
 																	<td nowrap>
+																		<?=$data['nik']?> | 
 																		<?php if($data['tipe'] == 1) : ?> 
-																			<?=$data['nama']?></td>
+																			<?=$data['nama']?>
 																		<?php else : ?>
-																			<?=$data['nama']?></td>
+																			<?=$data['nama']?>
 																		<?php endif ?>
-																	<td nowrap><?=$data['nik']?></td>
+																	</td>
 																	<td width="40%"><?=$data['subjek']?></td>
 																	<?php if($kat !=2) : ?> 
 																	<td nowrap><?=$data['baca'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>

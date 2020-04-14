@@ -37,19 +37,20 @@
 									<input type="hidden" name="subjek" value="<?= $pesan['subjek']?>">
 								</div>
 							</div>
-              <div class="form-group">
+							<div class="form-group">
 								<label class="col-sm-2 control-label" for="isi_pesan">Pesan</label>
 								<div class="col-sm-9">
 									<textarea class="form-control input-sm" readonly id="isi_pesan"><?= $pesan['isi_pesan']?></textarea>
 								</div>
 							</div  
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<button type="submit" class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-reply'></i> Balas Pesan</button>
+						<?php if($kat != 2) : ?>
+							<div class='box-footer'>
+								<div class='col-xs-12'>
+									<button type="submit" class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-reply'></i> Balas Pesan</button>
+								</div>
 							</div>
-						</div>
-
+						<?php endif ?>
 					</div>
 				</div>
 			</div>
