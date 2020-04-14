@@ -26,13 +26,13 @@
 								<th>No</th>
 								<th>Aksi</th>
 								<th>Subjek Pesan</th>
-								<th>Status Pesan</th>
+								<?php if($kat != 2) : ?><th>Status Pesan</th><?php endif; ?>
 								<th>Dikirimkan Pada</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach($main_list as $data) : ?>
-								<tr class="<?php ($data['baca']!=1) and print('unread')?>">
+								<tr class="<?php ($data['baca']!=1 AND $kat != 2) and print('unread')?>">
 									<td><?=$data['no']?></td>
 									<td nowrap>
 										<a href="<?=site_url("mailbox_web/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Baca pesan"><i class="fa fa-list">&nbsp;</i></a>
@@ -45,7 +45,9 @@
 										<?php endif ?>
 									</td>
 									<td width="40%"><?=$data['subjek']?></td>
+									<?php if($kat !=2) : ?> 
 									<td nowrap><?=$data['baca'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
+									<?php endif ?>
 									<td nowrap><?=tgl_indo2($data['created_at'])?></td>
 								</tr>
 							<?php endforeach ?>

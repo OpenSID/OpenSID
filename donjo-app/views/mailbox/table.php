@@ -90,12 +90,15 @@
 																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/3")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<th>Subjek Pesan</th>
-																	<?php if ($o==6): ?>
-																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																	<?php elseif ($o==5): ?>
-																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/6")?>">Status Pesan <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php if($kat != 2) : ?>
+																	<th>Status Pesan</th>
+																		<?php if ($o==6): ?>
+																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<?php elseif ($o==5): ?>
+																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/6")?>">Status Pesan <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<?php else: ?>
+																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort fa-sm'></i></a></th>
+																		<?php endif; ?>
 																	<?php endif; ?>
 																	<?php if ($o==8): ?>
 																		<th><a href="<?= site_url("mailbox/index/$kat/$p/7")?>">Dikirimkan Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -108,7 +111,7 @@
 															</thead>
 															<tbody>
 															<?php foreach ($main as $data): ?>
-																<tr <?php if ($data['baca']!=1): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
+																<tr <?php if ($data['baca']!=1 AND $kat !=2): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
 																	<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
@@ -132,7 +135,9 @@
 																		<?php endif ?>
 																	<td nowrap><?=$data['nik']?></td>
 																	<td width="40%"><?=$data['subjek']?></td>
+																	<?php if($kat !=2) : ?> 
 																	<td nowrap><?=$data['baca'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
+																	<?php endif ?>
 																	<td nowrap><?=tgl_indo2($data['created_at'])?></td>
 																</tr>
 																<?php endforeach; ?>
