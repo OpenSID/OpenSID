@@ -21,8 +21,8 @@
 				<?= $message; ?>
 
 				<?php if ($status_code >= 500): ?>
-          Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
-          Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
+					Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
+					Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
 				<?php endif ?>
 			</p>
 		</div>
