@@ -30,6 +30,22 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
+		// Tambah media sosial telegram		
+		$data = array(
+			'id' => '7',
+			'gambar' => 'tg.png',
+			'link' => '',
+			'nama' => 'Telegram',
+			'enabled' => '2'
+			);
+		$sql = $this->db->insert_string('media_sosial', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				gambar = VALUES(gambar),
+				link = VALUES(link),
+				nama = VALUES(nama),
+				enabled = VALUES(enabled)
+				";
+		$this->db->query($sql);
 	}
 	
 	private function covid19()

@@ -54,6 +54,10 @@ class Web_sosmed_model extends CI_Model {
 				// Whatsapp. $link adalah nomor telpon WA seperti +6281234567890
 				$link = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $link);
 				break;
+			case '7':
+				// Telegram. $link adalah username Telegram seperti opensid
+				$link = "https://t.me/" . preg_replace('/[^A-Za-z0-9_]/', '', $link);
+				break;
 			default:
 				break;
 		}
