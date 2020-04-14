@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.04-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview yang baru mulai berkontribusi.
+Terima kasih pada afa28 dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview dan Arif F Lazuardi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 
@@ -18,6 +18,13 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 12. #2885: Perbaiki tampilan Sekretariat > Produk Hukum di layar kecil. 
 13. Sesuaikan modul inventaris dengan setting MySQL STRICT_TRANS_TABLE. Perbaiki pilihan nama barang pertama sekarang tidak error. Perbaiki nama barang untuk kode 4.00.00.00.000. Perbaiki sekarang 'Konstruksi dalam pengerjaan' bisa disimpan.
 14. Perbaiki autocomplete kotak cari di Info Desa > Pemerintahan Desa, bisa cari berdasarkan NIP/NIAP/NIK atau nama pamong. [bug-fix]
+15. #2897: Sekarang program bantuan yang sudah ada peserta tidak bisa diubah sasarannya.
+16. #272: Di tampilan statistik web, data bilangan nol dapat disembunyikan/ditampilkan.
+17. Hapus kolom urut yg tidak digunakan di tabel artikel. [teknis]
+18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong. 
+19. Sederhanakan dan rapikan berbagai bagian script, untuk memudahkan perubahan selanjutnya. [teknis]
+20. #2856: Sediakan pencatatan pendatang terkait siaga Covid-19.
+21. #2906: Sekarang komentar artikel web kembali tampil. [bug-fix]
 
 
 

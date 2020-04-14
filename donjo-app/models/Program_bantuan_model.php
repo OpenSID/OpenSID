@@ -3,7 +3,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-		$this->load->database();
+		
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
@@ -912,7 +912,7 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
-	private function jml_peserta_program($id)
+	public function jml_peserta_program($id)
 	{
 		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
 		  from('program p')->

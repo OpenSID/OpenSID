@@ -15,7 +15,7 @@ class Surat_keluar extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
-		$this->tab_ini = 2;
+		$this->sub_modul_ini = 58;
 	}
 
 	public function clear($id = 0)
@@ -49,9 +49,8 @@ class Surat_keluar extends Admin_Controller {
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 58;
 		$header['minsidebar'] = 1;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_keluar/table', $data);
@@ -84,11 +83,9 @@ class Surat_keluar extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$nav['act'] = 15;
-		$nav['act_sub'] = 58;
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
-		$nav['act'] = $this->tab_ini;
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_keluar/form', $data);
 		$this->load->view('footer');

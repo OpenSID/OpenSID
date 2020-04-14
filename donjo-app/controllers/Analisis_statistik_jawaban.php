@@ -96,7 +96,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] =1;
-		$nav['act']= 5;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('analisis_statistik_jawaban/table', $data);
@@ -141,7 +141,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 5;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/table', $data);
@@ -180,7 +180,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 5;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/grafik_table', $data);
@@ -221,7 +221,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 5;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/subjek_table', $data);

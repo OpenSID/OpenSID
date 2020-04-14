@@ -12,7 +12,9 @@ class Inventaris_jalan extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 61;
 		$this->tab_ini = 4;
+		$this->tipe = 'inventaris_jalan';
 	}
 
 	public function clear()
@@ -27,11 +29,10 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['main'] = $this->inventaris_jalan_model->list_inventaris();
 		$data['total'] = $this->inventaris_jalan_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/table', $data);
@@ -41,11 +42,10 @@ class Inventaris_jalan extends Admin_Controller {
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/view_inventaris', $data);
@@ -55,11 +55,10 @@ class Inventaris_jalan extends Admin_Controller {
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view_mutasi($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/view_mutasi', $data);
@@ -73,11 +72,10 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
 		$data['get_kode'] = $this->config_model->get_data();
 		$data['kd_reg'] = $this->inventaris_jalan_model->list_inventaris_kd_register();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/edit_inventaris', $data);
@@ -87,11 +85,10 @@ class Inventaris_jalan extends Admin_Controller {
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->edit_mutasi($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/edit_mutasi', $data);
@@ -100,14 +97,13 @@ class Inventaris_jalan extends Admin_Controller {
 
 	public function form()
 	{
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$data['main'] = $this->config_model->get_data();
 		$data['aset'] = $this->inventaris_jalan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/form_tambah', $data);
@@ -117,11 +113,10 @@ class Inventaris_jalan extends Admin_Controller {
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view($id);
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/form_mutasi', $data);
@@ -131,11 +126,10 @@ class Inventaris_jalan extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_jalan_model->list_mutasi_inventaris();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/table_mutasi', $data);

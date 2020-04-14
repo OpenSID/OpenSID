@@ -13,9 +13,6 @@ class Api_inventaris_jalan extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_jalan_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 4;
-		// $this->controller = 'inventaris_jalan';
 	}
 
 	public function add()

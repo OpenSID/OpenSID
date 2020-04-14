@@ -13,9 +13,6 @@ class Api_inventaris_gedung extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_gedung_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 3;
-		// $this->controller = 'inventaris_gedung';
 	}
 
 	public function add()

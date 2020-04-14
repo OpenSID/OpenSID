@@ -24,13 +24,18 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Sasaran Program</label>
 								<div class="col-sm-8">
-									<select class="form-control input-sm required" name="cid" id="cid">
-										<option value="">Pilih Sasaran Program <?= $cid;?></option>
-										<option value="1" <?php selected($cid, 1); ?>>Penduduk Perorangan</option>
-										<option value="2" <?php selected($cid, 2); ?>>Keluarga - KK</option>
-										<option value="3" <?php selected($cid, 3); ?>>Rumah Tangga</option>
-										<option value="4" <?php selected($cid, 4); ?>>Kelompok / Organisasi</option>
-									</select>
+									<?php if ($jml <> 0): ?>
+										<input type="hidden" name="cid" value="<?= $cid ?>">
+										<select class="form-control input-sm" disabled>
+									<?php else: ?>
+										<select class="form-control input-sm required" name="cid" id="cid">
+									<?php endif;?>
+											<option value="">Pilih Sasaran Program</option>
+											<option value="1" <?php selected($cid, 1); ?>>Penduduk Perorangan</option>
+											<option value="2" <?php selected($cid, 2); ?>>Keluarga - KK</option>
+											<option value="3" <?php selected($cid, 3); ?>>Rumah Tangga</option>
+											<option value="4" <?php selected($cid, 4); ?>>Kelompok / Organisasi</option>
+										</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -100,4 +105,3 @@
 		</div>
 	</section>
 </div>
-

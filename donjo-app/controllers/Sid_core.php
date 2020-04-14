@@ -11,6 +11,7 @@ class Sid_Core extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
+		$this->sub_modul_ini = 20;
 	}
 
 	public function clear()
@@ -42,8 +43,6 @@ class Sid_Core extends Admin_Controller {
 		$data['keyword'] = $this->wilayah_model->autocomplete();
 		$data['total'] = $this->wilayah_model->total();
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -89,8 +88,6 @@ class Sid_Core extends Admin_Controller {
 		
 		$data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -138,8 +135,6 @@ class Sid_Core extends Admin_Controller {
 		$data['main'] = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total'] = $this->wilayah_model->total_rw($nama_dusun );
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -196,8 +191,6 @@ class Sid_Core extends Admin_Controller {
 			$data['form_action'] = site_url("sid_core/insert_rw/$id_dusun");
 		}
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -231,8 +224,6 @@ class Sid_Core extends Admin_Controller {
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $data['rw']);
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $rw);
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -279,8 +270,6 @@ class Sid_Core extends Admin_Controller {
 		$data['rw'] = $rw;
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -313,8 +302,6 @@ class Sid_Core extends Admin_Controller {
 			$data['form_action'] = site_url("sid_core/insert_rt/$id_dusun/$id_rw");
 		}
 
-		$nav['act'] = 2;
-		$nav['act_sub'] = 20;
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -382,7 +369,6 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_kantor_dusun_maps($id='')
 	{
-		$nav['act_sub'] = 20;
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
     $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
@@ -415,7 +401,6 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_dusun_maps($id='')
 	{
-		$nav['act_sub'] = 20;
     $sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
     $data['wil_ini'] = $this->wilayah_model->get_dusun_maps($id);
@@ -485,7 +470,6 @@ class Sid_Core extends Admin_Controller {
 
 	public function ajax_kantor_rw_maps($id_dusun = '', $id_rw='')
 	{
-		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
@@ -525,7 +509,6 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_rw_maps($id_dusun = '', $id_rw='')
 	{
-		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
@@ -595,7 +578,6 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_kantor_rt_maps($id_dusun = '', $id_rw='', $id='')
 	{
-		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
@@ -636,7 +618,6 @@ class Sid_Core extends Admin_Controller {
 
   public function ajax_wilayah_rt_maps($id_dusun = '', $id_rw='', $id='')
 	{
-		$nav['act_sub'] = 20;
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
     $data['id_dusun'] = $id_dusun;
