@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	document.querySelectorAll('form').forEach((form) => {
+		addCsrfField(form)
 		form.addEventListener('submit', (e) => {
 			addCsrfField(e.target)
   		})
