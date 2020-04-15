@@ -135,6 +135,8 @@ class Covid19_model extends CI_Model {
 		if(isset($limit))
 			$this->db->limit($limit["per_page"], $limit["offset"]);
 
+		$this->db->order_by('s.tanggal_datang', 'DESC');
+
 		return $this->db->get();
 	}
 
