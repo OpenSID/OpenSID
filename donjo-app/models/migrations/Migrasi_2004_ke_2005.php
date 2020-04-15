@@ -29,10 +29,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		$this->db->where('id', 79)->update('setting_modul', array('url'=>'api_inventaris_kontruksi', 'aktif'=>'1'));
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
-			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');		
-		
-		// Perbaikan modul sms
-		$this->sms();
+			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
 	}
 	
 	private function covid19()
@@ -131,34 +128,6 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			));
 			$this->dbforge->add_key("id",true);
 			$this->dbforge->create_table("covid19_pemudik", TRUE);
-		}
-	}
-
-	private function sms()
-	{
-		// Buat field id_pend pd tabel anggota_group_kontak untuk menyimpan data dari tabel kontak
-		if (!$this->db->field_exists('id_pend', 'anggota_grup_kontak')) {
-			$this->db->query("ALTER TABLE `anggota_grup_kontak` ADD COLUMN `id_pend` INT(11) NOT NULL, ADD INDEX `id_pend` (`id_pend`)");
-		}
-		
-		// Pindahkan data tabel kontak (field no_hp, id_pend) ke tabel tweb_penduduk (filed telepon) dan tabel anggota_group_kontak (field id_kontak)
-		$list_telepon = $this->db->get('kontak')->result_array();
-		foreach ($list_telepon as $telepon) {
-			$this->db->where('id', $telepon['id_pend'])->update('tweb_penduduk', array('telepon' => $telepon['no_hp']));
-			$this->db->where('id_kontak', $telepon['id_kontak'])->update('anggota_grup_kontak', array('id_pend' => $telepon['id_pend']));
-		}
-
-		// Hapus field dan tabel yg sudah tdk dibutuhkan
-		// Tabel kontak
-		if ($this->db->table_exists('kontak'))
-		{
-			// Hapus foreign key agar bisa menghapus tabel kontak
-			$this->db->query('ALTER TABLE `anggota_grup_kontak` DROP FOREIGN KEY `anggota_grup_kontak_ke_kontak`');
-			$this->dbforge->drop_table('kontak', TRUE);
-		}		
-		// Field id_kontak pd tabel anggota_grup_kontak
-		if ($this->db->field_exists('id_kontak', 'anggota_grup_kontak')){
-			$this->db->query('ALTER TABLE `anggota_grup_kontak` DROP COLUMN `id_kontak`');
 		}
 	}
 }

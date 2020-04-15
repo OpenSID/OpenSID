@@ -52,7 +52,8 @@
 	private function list_data_sql()
 	{
 		$sql = " FROM inbox u
-			LEFT JOIN tweb_penduduk p on u.SenderNumber = p.telepon WHERE 1";
+			LEFT JOIN kontak k on u.SenderNumber = k.no_hp
+			LEFT JOIN tweb_penduduk p on k.id_pend = p.id WHERE 1";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		return $sql;
@@ -217,7 +218,8 @@
 	private function list_data_tertunda_sql()
 	{
 		$sql = " FROM outbox u
-			LEFT JOIN tweb_penduduk p on u.DestinationNumber = p.no_hp
+			LEFT JOIN kontak k on u.DestinationNumber = k.no_hp
+			LEFT JOIN tweb_penduduk p on k.id_pend = p.id
 			WHERE 1";
 		$sql .= $this->filter_sql();
 		return $sql;
@@ -360,7 +362,7 @@
 
 	public function list_nama()
 	{
-		$data = $this->db->where('id !=', '')->or_where('id !=', NULL)
+		$data = $this->db->where('id NOT IN (SELECT id_pend FROM kontak)')
 			->get('tweb_penduduk')
 			->result_array();
 
@@ -377,7 +379,7 @@
 
 	public function get_kontak($id = 0)
 	{
-		$sql = "SELECT * FROM daftar_kontak WHERE id_pend = '$id'";
+		$sql = "SELECT * FROM daftar_kontak WHERE id_kontak = '$id'";
 
 		$query = $this->db->query($sql);
 		$data  = $query->row_array();
@@ -530,7 +532,7 @@
 		if (isset($_SESSION['grup1']))
 		{
 			$kf = $_SESSION['grup1'];
-			$grup_sql = " AND k.id IN (SELECT id_pend FROM kontak_grup WHERE nama_grup = '$kf')";
+			$grup_sql = " AND k.id IN (SELECT id_kontak FROM kontak_grup WHERE nama_grup = '$kf')";
 			return $grup_sql;
 		}
 	}
@@ -649,20 +651,20 @@
 	public function insert_kontak()
 	{
 		$data = $_POST;
-		$outp = $this->db->insert('kontak', $data);//ini ganti jadi update
+		$outp = $this->db->insert('kontak', $data);
 	}
 
 	public function update_kontak()
 	{
 		$data = $_POST;
-		$outp = $this->db->where('id_pend', $data['id_pend'])->update('tweb_penduduk', array(
+		$outp = $this->db->where('id_kontak', $data['id_kontak'])->update('kontak', array(
 			'no_hp' => $data['no_hp']
 		));
 	}
 
 	public function delete_kontak($id = 0)
 	{
-		$this->db->query("DELETE FROM tweb_penduduk WHERE id_pend=$id");//ini ganti jdi update set null
+		$this->db->query("DELETE FROM kontak WHERE id_kontak=$id");
 	}
 
 	public function delete_all_kontak()
@@ -671,7 +673,7 @@
 		if (count($id_cb))
 		{
 			$list_id = implode(",", $id_cb);
-			$this->db->query("DELETE FROM kontak WHERE id_pend IN (" . $list_id . ")");//ini ganti jdi update set null
+			$this->db->query("DELETE FROM kontak WHERE id_kontak IN (" . $list_id . ")");
 			$outp = true;
 		}
 		else
@@ -829,7 +831,7 @@
 
 	public function list_data_nama($id = 0)
 	{
-		$sql = "SELECT * FROM daftar_kontak WHERE id_pend NOT IN (SELECT id_pend FROM anggota_grup_kontak WHERE id_grup = $id) ";
+		$sql = "SELECT * FROM daftar_kontak WHERE id_kontak NOT IN (SELECT id_kontak FROM anggota_grup_kontak WHERE id_grup = $id) ";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 		return $data;
@@ -842,7 +844,7 @@
 		{
 			foreach ($id_cb as $a)
 			{
-				$sql  = "INSERT INTO anggota_grup_kontak(id_grup, id_pend) VALUES($grup,$a)";
+				$sql  = "INSERT INTO anggota_grup_kontak(id_grup, id_kontak) VALUES($grup,$a)";
 				$outp = $this->db->query($sql);
 			}
 		}
@@ -978,9 +980,9 @@
 	private function list_data_pertanyaan_sql($id)
 	{
 		$sql = " FROM kontak_grup a
-			LEFT JOIN kontak b ON a.id_pend = b.id
+			LEFT JOIN kontak b ON a.id_kontak = b.id
 			LEFT JOIN tweb_penduduk c ON b.id_pend = c.id
-			WHERE a.id_pend <> '0' AND nama_grup = '$id' ";
+			WHERE a.id_kontak <> '0' AND nama_grup = '$id' ";
 		$sql .= $this->search_anggota_sql();
 		return $sql;
 	}
@@ -1000,5 +1002,32 @@
 
 		return $data;
 	}
+
+	public function sinkronkan()
+	{
+		$tlp_penduduk = $this->db->where('telepon !=', NULL)
+			->where('telepon !=', '')
+			->get('tweb_penduduk')
+			->result_array();
+
+		foreach ($tlp_penduduk as $penduduk){
+			$tlp_kontak = $this->db->where('id_pend', $penduduk['id'])->get('kontak');
+
+			if ($tlp_kontak->num_rows() > 0)
+			{
+				// Jika ada
+				$data  = $tlp_kontak->row_array();
+				if($this->input->post('pilih')==1){
+					// *timpa
+					$outp = $this->db->where('id_pend', $data['id_pend'])->update('kontak', array('no_hp' => $penduduk['telepon']));
+				}				
+			}else{
+				// Jika belum ada
+				$outp = $this->db->insert('kontak', array('no_hp' => $penduduk['telepon'], 'id_pend' => $penduduk['id']));
+			}
+			
+		}
+	}
+
 }
 ?>
