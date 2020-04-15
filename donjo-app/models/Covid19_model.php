@@ -207,6 +207,7 @@ class Covid19_model extends CI_Model {
 			'no_hp' => $post['hp_pemudik'],
 			'email' => $post['email_pemudik'],
 			'status_covid' => $post['status_covid'],
+			'is_wajib_pantau' => $post['wajib_pantau'],
 			'keluhan_kesehatan' => $post['keluhan'],
 			'keterangan' => $post['keterangan']
 		);
@@ -225,6 +226,7 @@ class Covid19_model extends CI_Model {
 			'no_hp' => $post['hp_pemudik'],
 			'email' => $post['email_pemudik'],
 			'status_covid' => $post['status_covid'],
+			'is_wajib_pantau' => $post['wajib_pantau'],
 			'keluhan_kesehatan' => $post['keluhan'],
 			'keterangan' => $post['keterangan']
 		);

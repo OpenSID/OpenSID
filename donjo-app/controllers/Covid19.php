@@ -38,7 +38,7 @@ class Covid19 extends Admin_Controller {
 	{
 		$d = new DateTime('NOW');
 		$data['tanggal_datang'] = $d->format('Y-m-d H:i:s');
-		
+
 		$data['list_penduduk'] = $this->covid19_model->get_penduduk_not_in_pemudik();
 
 		if (isset($_POST['terdata']))
@@ -52,7 +52,6 @@ class Covid19 extends Admin_Controller {
 
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
-
 
 
 		$nav['act'] = 206;

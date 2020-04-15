@@ -48,6 +48,7 @@
 							<th>Status Covid-19</th>
 							<th>Keluhan Kesehatan</th>
 							<th>Keterangan</th>
+							<th>Wajib Pantau</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -69,6 +70,7 @@
 								<td><?= $item["status_covid"]?></td>
 								<td><?= $item["keluhan_kesehatan"]?></td>
 								<td><?= $item["keterangan"]?></td>
+								<td><?= ($item["is_wajib_pantau"] === '1' ? "Ya" : "Tidak"); ?></td>
 							</tr>
 						<?php $i++;	endforeach;	?>
 					</tbody>

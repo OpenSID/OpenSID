@@ -64,6 +64,7 @@
 																<th>Kontak</th>
 																<th>Status</th>
 																<th>Keluhan</th>
+																<th>Wajib Pantau</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -94,6 +95,7 @@
 																<td><?= $item["no_hp"];?> - <?= $item["email"];?> </td>
 																<td><?= $item["status_covid"];?></td>
 																<td><?= $item["keluhan_kesehatan"];?></td>
+																<td><?= ($item["is_wajib_pantau"] === '1' ? "Ya" : "Tidak"); ?></td>
 															</tr>
 															<?php endforeach; ?>
 														</tbody>

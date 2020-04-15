@@ -138,6 +138,19 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			->set('url', '')
 			->update('setting_modul');
 
+		
+		// Tambah field wajib pantau di pemudik
+	  	if (!$this->db->field_exists('is_wajib_pantau', 'covid19_pemudik'))
+	  	{
+	  		$this->dbforge->add_column('covid19_pemudik', array(
+				'is_wajib_pantau' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+			));	
+	  	}
+
 		// Add Menu Child 'Pendataan' & 'Pemantauan'
 		$data[] = array(
 	      'id'=>'207',

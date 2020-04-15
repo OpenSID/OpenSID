@@ -62,6 +62,16 @@
 </div>
 
 <div class="form-group">
+	<label  class="col-sm-3 control-label" for="wajib_pantau">Apakah Wajib Dipantau</label>
+	<div class="col-sm-8">
+		 <select class="form-control input-sm" name="wajib_pantau" id="wajib_pantau">
+			<option value="0" <?php selected($is_wajib_pantau, '0'); ?> >Tidak</option>
+			<option value="1" <?php selected($is_wajib_pantau, '1'); ?> >Ya</option>
+		</select>
+	 </div>
+</div>
+
+<div class="form-group">
 	<label  class="col-sm-3 control-label" for="keluhan">Keluhan Kesehatan</label>
 	<div class="col-sm-8">
 		 <textarea name="keluhan" id="keluhan" class="form-control input-sm" placeholder="Keluhan Kesehatan"  rows="3"><?= $keluhan_kesehatan?></textarea>
