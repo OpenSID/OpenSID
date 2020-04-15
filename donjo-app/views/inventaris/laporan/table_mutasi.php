@@ -72,7 +72,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('inventaris_tanah/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_tanah/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -97,7 +97,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('inventaris_peralatan/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_peralatan/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -122,7 +122,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('inventaris_gedung/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_gedung/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -147,7 +147,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('inventaris_jalan/'.$data->id.'/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_jalan/'.$data->id.'/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -172,7 +172,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('inventaris_asset/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_asset/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -197,7 +197,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= base_url('inventaris_kontruksi/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_kontruksi/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
