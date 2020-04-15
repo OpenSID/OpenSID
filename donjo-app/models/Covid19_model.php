@@ -145,8 +145,7 @@ class Covid19_model extends CI_Model {
 		return $data;
 	}
 
-	public function get_list_pemudik($page)
-	{
+	public function get_list_pemudik($page) {
 		$retval = array();
 
 		// paging
@@ -189,9 +188,12 @@ class Covid19_model extends CI_Model {
 		}
 		return $retval;
 	}
+
+	public function get_list_pemudik_wajib_pantau($h_plus = NULL, $is_wajib_pantau = NULL) {
+		return $this->get_pemudik(NULL, $h_plus, $is_wajib_pantau, NULL)->result_array();
+	}
 	
-	public function add_pemudik($post)
-	{
+	public function add_pemudik($post) {
 		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
 
 		$data = array(
@@ -210,8 +212,7 @@ class Covid19_model extends CI_Model {
 		return $this->db->insert('covid19_pemudik', $data);
 	}
 	
-	public function update_pemudik_by_id($post, $id)
-	{
+	public function update_pemudik_by_id($post, $id) {
 		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
 
 		$data = array(
@@ -230,8 +231,7 @@ class Covid19_model extends CI_Model {
 		$this->db->update('covid19_pemudik', $data);
 	}
 	
-	public function delete_pemudik_by_id($id)
-	{
+	public function delete_pemudik_by_id($id) {
 		$this->db->where('id', $id);
 		$this->db->delete('covid19_pemudik');
 	}
@@ -239,13 +239,51 @@ class Covid19_model extends CI_Model {
 
 
 	// TABEL PEMANTAUAN
+	private function get_pantau_pemudik($limit=NULL) {
+		$this->db->select('p.*, o.nik, o.nama, o.sex');
+		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
+		$this->db->from('covid19_pantau p');
+		$this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
+		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+		$this->db->order_by('p.tanggal_jam', 'DESC');
 
+		if(isset($limit))
+			$this->db->limit($limit["per_page"], $limit["offset"]);
 
-	// TABEL PEMANTAUAN END
-	
+		return  $this->db->get();
+	}
 
-	/*
-	public function add_pemantauan($post)
+	public function get_list_pantau_pemudik($page) {
+		$retval = array();
+
+		// paging
+		if ($this->session->has_userdata('per_page') and $this->session->userdata('per_page') > 0) {
+			
+			$this->load->library('paging');
+			
+			$cfg['page'] = $page;
+			$cfg['per_page'] = $this->session->userdata('per_page');
+			$cfg['num_rows'] = $this->get_pantau_pemudik()->num_rows();
+			
+			$this->paging->init($cfg);
+			$retval["paging"] = $this->paging;
+		}
+		// paging end
+		
+		// get list
+		$limit = null;
+		if(isset($retval["paging"])) {
+			$limit["per_page"] = $retval["paging"]->per_page;
+			$limit["offset"] = $retval["paging"]->offset;
+		}
+
+		$query = $this->get_pantau_pemudik($limit);	
+		$retval["query_array"] = $query->result_array();
+		return $retval;
+	}
+
+	public function add_pantau_pemudik($post)
 	{
 		$data = array(
 			'id_pemudik' => $post['terdata'],
@@ -259,33 +297,13 @@ class Covid19_model extends CI_Model {
 		);
 		return $this->db->insert('covid19_pantau', $data);
 	}
-
-	public function get_pantau_pemudik($p)
-	{
-		$retval = array();
-
-		$this->db->select('p.*');
-		$this->db->from('covid19_pantau p');
-		$this->db->order_by('p.tanggal_jam', 'DESC');
-		$query = $this->db->get();
-		$retval["query_array"]  = $query->result_array();
-
-		//PAGING
-		$jml_data = $query->num_rows();
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->userdata('per_page');
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-		$retval["paging"] = $this->paging;
-		
-		if(isset($retval["paging"])) 
-			$this->db->limit($retval["paging"]->per_page, $retval["paging"]->offset);
-		//PAGING END
-		
-		return $retval;
+	
+	public function delete_pantau_pemudik_by_id($id) {
+		$this->db->where('id', $id);
+		$this->db->delete('covid19_pantau');
 	}
-	*/
+	// TABEL PEMANTAUAN END
+
+	
 }
 ?>

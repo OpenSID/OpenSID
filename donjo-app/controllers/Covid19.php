@@ -117,44 +117,60 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('covid19/unduh-sheet', $data);
 	}
 
-	/*
-	public function pantau($h_plus=null, $page=1)
+	public function pantau($page=1, $h_plus=null)
 	{
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
 		else 
 			$this->session->set_userdata('per_page', 10);
 		$data['per_page'] = $this->session->userdata('per_page');
+		$data['page'] = $page;
 		
 		// get list pemudik
-		$data['pemudik'] = $this->covid19_model->get_rincian_pemudik($page, true, $h_plus);
+		$data['pemudik_array'] = $this->covid19_model->get_list_pemudik_wajib_pantau($h_plus, true);
 		// get list pemudik end
 
 		// get list pemantauan
-		$get_pantau_pemudik = $this->covid19_model->get_pantau_pemudik($page);
-		$data['paging'] = $get_pantau_pemudik["paging"];
-		$data['pantau_array'] = $get_pantau_pemudik["query_array"];
+		$pantau_pemudik = $this->covid19_model->get_list_pantau_pemudik($page);
+		$data['paging'] = $pantau_pemudik["paging"];
+		$data['pantau_pemudik_array'] = $pantau_pemudik["query_array"];
 		// get list pemantauan end
+		
+		$data['select_h_plus'] = $this->covid19_model->list_h_plus();
+		$data['this_url'] = site_url("covid19/pantau");
+		$data['h_plus'] =$h_plus;
+		$data['form_action'] = site_url("covid19/add_pantau");
+
+
+		$url_delete_front = "covid19/hapus_pantau";
+		$url_delete_rare = "$page";
+		$url_delete_rare .= (isset($h_plus) ? "/$h_plus" : "");	
+		$data['url_delete_front'] = $url_delete_front;
+		$data['url_delete_rare'] = $url_delete_rare;
 
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('covid19/pantau_pemudik', $data);
 		$this->load->view('footer');
-
-		$data['select_h_plus'] = $this->covid19_model->list_h_plus();
-
-		$data['this_url'] = site_url("covid19/pantau");
-		$data['h_plus'] =$h_plus;
-		$data['form_action'] = site_url("covid19/add_pantau");
-
-		
 	}
-
+	
 	public function add_pantau()
 	{
-		$this->covid19_model->add_pemantauan($_POST);
-		redirect("covid19/pantau");
+		$this->covid19_model->add_pantau_pemudik($_POST);
+		$url = "covid19/pantau/".$_POST["page"]."/".$_POST["data_h_plus"];
+		redirect($url);
 	}
-	*/
+
+	public function hapus_pantau($id_pantau_pemudik, $page=NULL, $h_plus=NULL)
+	{
+		$this->redirect_hak_akses('h', "covid19");
+		$this->covid19_model->delete_pantau_pemudik_by_id($id_pantau_pemudik);
+
+		$url = "covid19/pantau";
+		$url .= (isset($page) ? "/$page" : "");
+		$url .= (isset($h_plus) ? "/$h_plus" : "");
+		redirect($url);
+	}
+	
 }

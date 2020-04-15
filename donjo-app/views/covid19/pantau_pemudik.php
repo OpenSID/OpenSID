@@ -26,6 +26,8 @@
 
 							<input type="hidden" id="this_url" value="<?= $this_url ?>" >
 							<input type="hidden" name="status_covid" id="status_covid" >
+							<input type="hidden" id="page" name="page" value="<?= $page ?>" >
+
 							<div class="form-group">
 								<label for="nama">Data H+</label>
 								<select class="form-control input-sm" name="data_h_plus" id="data_h_plus">
@@ -41,11 +43,9 @@
 								<label for="nama">NIK/Nama</label>
 								<select class="form-control select2" id="terdata" name="terdata"  >
 									<option value="">-- Silakan Masukan NIK / Nama--</option>
-									<?php foreach ($terdata as $item):
-										if (strlen($item["id"])>0): ?>
-											<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?> data-statuscovid="<?= $item['status_covid']?>" >Nama : <?= $item['nama']." - ".$item['info']?></option>
-										<?php endif;
-									endforeach; ?>
+									<?php foreach ($pemudik_array as $item): ?>
+									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['status_covid']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
+									<?php endforeach; ?>
 								</select>
 								<small id="nama_msg" class="form-text text-muted"></small>
 							</div>
@@ -139,23 +139,25 @@
 														<tbody>
 															<?php
 															$nomer = $paging->offset;
-															foreach ($pantau_array as $key=>$item):
+															foreach ($pantau_pemudik_array as $key=>$item):
 																$nomer++;
 															?>
 															<tr>
 																<td align="center" width="2"><?= $nomer; ?></td>
 																<td nowrap>
-																	
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																	<a href="#" data-href="<?= site_url("$url_delete_front/$item[id]/$url_delete_rare")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif; ?>
 																</td>
 																<td><?= $item["tanggal_jam"] ?></td>
-																<td nowrap></td>
-																<td><?= $item["id_pemudik"] ?></td>
-																<td></td>
-																<td></td>
+																<td><?= $item["nik"] ?></td>
+																<td><?= $item["nama"] ?></td>
+																<td><?= $item["umur"] ?></td>
+																<td><?= $item["sex"] ?></td>
 																<td><?= $item["suhu_tubuh"];?></td>
-																<td><?= $item["batuk"];?></td>
-																<td><?= $item["flu"];?></td>
-																<td><?= $item["sesak_nafas"];?></td>
+																<td><?= ($item["batuk"]==='1' ? 'Ya' : 'Tidak');?></td>
+																<td><?= ($item["flu"]==='1' ? 'Ya' : 'Tidak');?></td>
+																<td><?= ($item["sesak_nafas"]==='1' ? 'Ya' : 'Tidak');?></td>
 																<td><?= $item["keluhan_lain"];?></td>
 																<td><?= $item["status_covid"];?></td>
 															</tr>
@@ -189,31 +191,31 @@
 					                        	<ul class="pagination">
 				                        		<?php if ($paging->start_link): ?>
 						                            <li>
-						                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
+						                            	<a href="<?=site_url('covid19/pantau/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
 						                            </li>
 					                          	<?php endif; ?>
 
 					                          	<?php if ($paging->prev): ?>
 						                            <li>
-						                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+						                            	<a href="<?=site_url('covid19/pantau/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 						                            </li>
 					                          	<?php endif; ?>
 
 					                          	<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
 						               	            <li <?=jecho($p, $i, "class='active'")?>>
-						               	            	<a href="<?= site_url('covid19/data_pemudik/'.$i)?>"><?= $i?></a>
+						               	            	<a href="<?= site_url('covid19/pantau/'.$i)?>"><?= $i?></a>
 					               	            	</li>
 					                          	<?php endfor; ?>
 
 					                          	<?php if ($paging->next): ?>
 						                            <li>
-						                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+						                            	<a href="<?=site_url('covid19/pantau/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
 						                            </li>
 					                          	<?php endif; ?>
 
 					                          	<?php if ($paging->end_link): ?>
 						                            <li>
-						                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
+						                            	<a href="<?=site_url('covid19/pantau/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
 						                            </li>
 					                          	<?php endif; ?>
 					                         
@@ -253,24 +255,12 @@
 	</div>
 </div>
 
-<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class='modal-dialog'>
-		<div class='modal-content'>
-			<div class='modal-header'>
-				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'></h4>
-			</div>
-			<div class="fetched-data"></div>
-		</div>
-	</div>
-</div>
-
 
 <script type="text/javascript">
 	$(document).ready(function()
 	{
 		$("#data_h_plus").change(function() {
-			url = $("#this_url").val()+"/"+($(this).val());
+			url = $("#this_url").val()+"/"+$("#page").val()+"/"+($(this).val());
 			$(location).attr('href',url);
 		});
 
