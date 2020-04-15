@@ -30,19 +30,23 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
+		// Tambahkan field tipe di tabel media_sosial
+		if (!$this->db->field_exists('tipe', 'media_sosial')){
+			$this->db->query('ALTER TABLE media_sosial ADD COLUMN tipe TINYINT(1) NULL DEFAULT 1 AFTER nama');
+		}
 		// Tambah media sosial telegram		
 		$data = array(
 			'id' => '7',
 			'gambar' => 'tg.png',
-			'link' => '',
 			'nama' => 'Telegram',
+			'tipe' => '1',
 			'enabled' => '2'
 			);
 		$sql = $this->db->insert_string('media_sosial', $data);
 		$sql .= " ON DUPLICATE KEY UPDATE
 				gambar = VALUES(gambar),
-				link = VALUES(link),
 				nama = VALUES(nama),
+				tipe = VALUES(tipe),
 				enabled = VALUES(enabled)
 				";
 		$this->db->query($sql);

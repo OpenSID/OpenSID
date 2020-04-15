@@ -486,7 +486,7 @@ class First_artikel_m extends CI_Model {
 			$data  = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link']);
+				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
 			}
 		}
 		else

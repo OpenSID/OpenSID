@@ -18,6 +18,15 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
+										<label class="col-sm-3 control-label">Tipe</label>
+										<div class="col-sm-9">
+											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%;">
+												<option value="1" <?php selected($main['tipe'], 1) ?>>Personal Chat</option>
+												<option value="2" <?php selected($main['tipe'], 2) ?>>Group Chat</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-sm-3 control-label">Link Nomor WhatsApp</label>
 										<div class="col-sm-9">
 											<textarea id="link" name="link" class="form-control input-sm" placeholder="Nomor WhatsApp Pelayanan (Misal : +6281234567890)" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>

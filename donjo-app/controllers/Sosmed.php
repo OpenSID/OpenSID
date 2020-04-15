@@ -89,7 +89,7 @@ class Sosmed extends Admin_Controller
 	
 	public function telegram()
 	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(7);
+		$data['main'] = $this->web_sosmed_model->get_sosmed(7);	
 		$data['form_action'] = site_url("sosmed/update/7");
 		$header = $this->header_model->get_data();
 
