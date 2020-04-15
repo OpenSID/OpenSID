@@ -35,7 +35,6 @@
 									<option value="<?= $id?>" <?php selected($h_plus, $id); ?> > <?= strtoupper($nama)?> </option>
 									<?php endforeach;?>
 								</select>
-								<small id="nama_msg" class="form-text text-muted"></small>
 							</div>
 							
 							<div class="form-group">
@@ -46,17 +45,14 @@
 									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['status_covid']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
 									<?php endforeach; ?>
 								</select>
-								<small id="nama_msg" class="form-text text-muted"></small>
 							</div>
 						  	<div class="form-group">
 						    	<label for="tgl_jam">Tanggal/Jam</label>
 						    	<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam" value="<?= $datetime_now; ?>">
-						    	<small id="tgl_jam_msg" class="form-text text-muted"></small>
 						  	</div>
 						  	<div class="form-group">
 						    	<label for="suhu">Suhu Tubuh</label>
-						    	<input type="text" class="form-control input-sm" name="suhu">
-						    	<small id="suhu_msg" class="form-text text-muted"></small>
+						    	<input type="text" class="form-control input-sm" name="suhu" id="suhu">
 						  	</div>
 						  	<div class="table-responsive-sm">
 						  		<table class="table table-borderless table-sm">
@@ -90,7 +86,6 @@
 							<div class="form-group">
 						    	<label for="keluhan">Keluhan Lain</label>
 						    	<textarea name="keluhan" class="form-control input-sm" rows="2"></textarea>
-						    	<small id="keluhan_msg" class="form-text text-muted"></small>
 						  	</div>
 
 						</form>
@@ -321,6 +316,31 @@
 			url += "/"+$("#unique_nik_select").val();
 			$(location).attr('href',url);
 		});
+
+		$("#validasi").validate({
+		    rules: {
+				terdata: "required",
+				tgl_jam: "required",
+				tanggal_tiba: "required",
+				suhu: {
+					required: true,
+					number: true
+				},
+		    },
+		    // Specify validation error messages
+		    messages: {
+				terdata: "Harus memilih NIK/Nama",
+				tgl_jam: "Tanggal/Jam harus diisi",
+				tanggal_tiba: "Tanggal harus diisi",
+				suhu: {
+					required: "Suhu harus tercatat",
+					number: "Harus diisi angka",
+				},
+		    },
+		    submitHandler: function(form) {
+		      form.submit();
+		    }
+	  	});
 
 		
 	});

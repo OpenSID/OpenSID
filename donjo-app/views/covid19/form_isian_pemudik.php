@@ -35,7 +35,7 @@
 		</select>
 	</div>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Hari">
+		<input class="form-control input-sm" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Jumlah Hari (angka)">
 	</div>
 </div>
 
