@@ -68,38 +68,34 @@
 														</thead>
 														<tbody>
 															<?php
-																$nomer = $paging->offset;
-																if (is_array($terdata)):
-																	foreach ($terdata as $key=>$item):
-																		$nomer++;
+															$nomer = $paging->offset;
+															foreach ($pemudik_list as $key=>$item):
+																$nomer++;
 															?>
-																<tr>
-																	<td align="center" width="2"><?= $nomer; ?></td>
-																	<td nowrap>
-																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="<?= site_url("covid19/edit_pemudik_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-																			<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif; ?>
-																	</td>
-																	<td><?= $item["terdata_nama"] ?></td>
-																	<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
-																	<td><?= $item["umur"] ?></td>
-																	<?php
-																	$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
-																	?>
-																	<td><?= $jk?></td>
-																	<td><?= $item["info"];?></td>
-																	<td><?= $item["asal_mudik"];?></td>
-																	<td><?= $item["tanggal_datang"];?></td>
-																	<td><?= $item["tujuan_mudik"];?></td>
-																	<td><?= $item["no_hp"];?> - <?= $item["email"];?> </td>
-																	<td><?= $item["status_covid"];?></td>
-																	<td><?= $item["keluhan_kesehatan"];?></td>
-																</tr>
-																	<?php
-																	endforeach;
-																endif;
-															?>
+															<tr>
+																<td align="center" width="2"><?= $nomer; ?></td>
+																<td nowrap>
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																		<a href="<?= site_url("covid19/edit_pemudik_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif; ?>
+																</td>
+																<td><?= $item["terdata_nama"] ?></td>
+																<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
+																<td><?= $item["umur"] ?></td>
+																<?php
+																$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
+																?>
+																<td><?= $jk?></td>
+																<td><?= $item["info"];?></td>
+																<td><?= $item["asal_mudik"];?></td>
+																<td><?= $item["tanggal_datang"];?></td>
+																<td><?= $item["tujuan_mudik"];?></td>
+																<td><?= $item["no_hp"];?> - <?= $item["email"];?> </td>
+																<td><?= $item["status_covid"];?></td>
+																<td><?= $item["keluhan_kesehatan"];?></td>
+															</tr>
+															<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>

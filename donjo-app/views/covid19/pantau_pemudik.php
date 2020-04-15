@@ -123,43 +123,43 @@
 															<tr>
 																<th>No</th>
 																<th>Aksi</th>
+																<th>Tanggal/Jam</th>
 																<th>NIK</th>
 																<th>Nama</th>
 																<th>Usia</th>
 																<th>JK</th>
-																<th>Kondisi Pemantauan Terakhir</th>
+																<th>Suhu</th>
+																<th>Batuk</th>
+																<th>Flu</th>
+																<th>Sesak</th>
+																<th>Keluhan</th>
 																<th>Status</th>
 															</tr>
 														</thead>
 														<tbody>
-														<?php
+															<?php
 															$nomer = $paging->offset;
-															if (is_array($terdata)):
-																foreach ($terdata as $key=>$item):
-																	$nomer++;
-														?>
+															foreach ($pantau_array as $key=>$item):
+																$nomer++;
+															?>
 															<tr>
 																<td align="center" width="2"><?= $nomer; ?></td>
 																<td nowrap>
-																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																		<a href="<?= site_url("covid19/edit_pemudik_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-xs"><i class="fa fa-list"></i></a>
-																		<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/$item[id]")?>" class="btn bg-green btn-flat btn-xs" title="Unduh Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-download"></i></a>
-																	<?php endif; ?>
+																	
 																</td>
-																<td><?= $item["terdata_nama"] ?></td>
-																<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
-																<td><?= $item["umur"] ?></td>
-																<?php
-																$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
-																?>
-																<td><?= $jk?></td>
-																<td><?= $item["tanggal_datang"];?></td>
+																<td><?= $item["tanggal_jam"] ?></td>
+																<td nowrap></td>
+																<td><?= $item["id_pemudik"] ?></td>
+																<td></td>
+																<td></td>
+																<td><?= $item["suhu_tubuh"];?></td>
+																<td><?= $item["batuk"];?></td>
+																<td><?= $item["flu"];?></td>
+																<td><?= $item["sesak_nafas"];?></td>
+																<td><?= $item["keluhan_lain"];?></td>
 																<td><?= $item["status_covid"];?></td>
 															</tr>
-														<?php
-															endforeach;
-															endif;
-														?>
+															<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>

@@ -33,8 +33,8 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th><?= $suplemen["judul_terdata_nama"]?></th>
-							<th><?= $suplemen["judul_terdata_info"]?></th>
+							<th>NIK</th>
+							<th>Nama</th>
 							<th>Tempat Lahir</th>
 							<th>Tanggal Lahir</th>
 							<th>Jenis Kelamin</th>
@@ -51,7 +51,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php	$i=1;	foreach ($terdata as $key=>$item): ?>
+						<?php	$i=1;	foreach ($pemudik_list as $key=>$item): ?>
 							<tr>
 								<td><?= $i?></td>
 								<td class='textx'><?= $item["terdata_nama"]?></td>

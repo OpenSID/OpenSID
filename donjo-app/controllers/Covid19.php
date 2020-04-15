@@ -17,18 +17,17 @@ class Covid19 extends Admin_Controller {
 		$this->data_pemudik(1);
 	}
 
-	public function data_pemudik($p = 1)
+	public function data_pemudik($page = 1)
 	{
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
 		else 
 			$this->session->set_userdata('per_page', 10);
 		
-		$data = $this->covid19_model->get_rincian_pemudik($p);
+		$data = $this->covid19_model->get_list_pemudik($page);
 		$data['per_page'] = $this->session->userdata('per_page');
 
 		$header = $this->header_model->get_data();
-
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('covid19/data_pemudik', $data);
@@ -37,12 +36,11 @@ class Covid19 extends Admin_Controller {
 
 	public function form_pemudik()
 	{
-		
-		$data['list_penduduk'] = $this->covid19_model->list_penduduk_pemudik();
+		$data['list_penduduk'] = $this->covid19_model->get_penduduk_not_in_pemudik();
 
 		if (isset($_POST['terdata']))
 		{
-			$data['individu'] = $this->covid19_model->get_pemudik($_POST['terdata']);
+			$data['individu'] = $this->covid19_model->get_penduduk_by_id($_POST['terdata']);
 		}
 		else
 		{
@@ -67,11 +65,11 @@ class Covid19 extends Admin_Controller {
 		$this->covid19_model->add_pemudik($_POST);
 		redirect("covid19");
 	}
-
+	
 	public function hapus_pemudik($id_pemudik)
 	{
 		$this->redirect_hak_akses('h', "covid19");
-		$this->covid19_model->hapus_pemudik($id_pemudik);
+		$this->covid19_model->delete_pemudik_by_id($id_pemudik);
 		redirect("covid19");
 	}
 
@@ -87,18 +85,18 @@ class Covid19 extends Admin_Controller {
 
 	public function edit_pemudik($id)
 	{
-		$this->covid19_model->edit_pemudik($_POST, $id);
+		$this->covid19_model->update_pemudik_by_id($_POST, $id);
 		redirect("covid19");
 	}
-
+	
 	public function detil_pemudik($id)
 	{
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$data['terdata'] = $this->covid19_model->get_detil_pemudik_by_id($id);
-		$data['individu'] = $this->covid19_model->get_pemudik($data['terdata']['id_terdata']);
+		$data['terdata'] = $this->covid19_model->get_pemudik_by_id($id);
+		$data['individu'] = $this->covid19_model->get_penduduk_by_id($data['terdata']['id_terdata']);
 
 		$data['terdata']['judul_terdata_nama'] = 'NIK';
 		$data['terdata']['judul_terdata_info'] = 'Nama Terdata';
@@ -111,18 +109,16 @@ class Covid19 extends Admin_Controller {
 
 	public function unduhsheet()
 	{
-		/*
-		 * Print xls untuk data x
-		 * */
 		$this->session->set_userdata('per_page', 0); // Unduh semua data
-		$data = $this->covid19_model->get_rincian_pemudik(1);
+		$data = $this->covid19_model->get_list_pemudik(1);
 		$data['desa'] = $this->header_model->get_data();
 		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
 
 		$this->load->view('covid19/unduh-sheet', $data);
 	}
 
-	public function pantau($h_plus=null)
+	/*
+	public function pantau($h_plus=null, $page=1)
 	{
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
@@ -130,7 +126,21 @@ class Covid19 extends Admin_Controller {
 			$this->session->set_userdata('per_page', 10);
 		$data['per_page'] = $this->session->userdata('per_page');
 		
-		$data = $this->covid19_model->get_rincian_pemudik($p, true, $h_plus);
+		// get list pemudik
+		$data['pemudik'] = $this->covid19_model->get_rincian_pemudik($page, true, $h_plus);
+		// get list pemudik end
+
+		// get list pemantauan
+		$get_pantau_pemudik = $this->covid19_model->get_pantau_pemudik($page);
+		$data['paging'] = $get_pantau_pemudik["paging"];
+		$data['pantau_array'] = $get_pantau_pemudik["query_array"];
+		// get list pemantauan end
+
+		$header = $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('covid19/pantau_pemudik', $data);
+		$this->load->view('footer');
 
 		$data['select_h_plus'] = $this->covid19_model->list_h_plus();
 
@@ -138,12 +148,7 @@ class Covid19 extends Admin_Controller {
 		$data['h_plus'] =$h_plus;
 		$data['form_action'] = site_url("covid19/add_pantau");
 
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('covid19/pantau_pemudik', $data);
-		$this->load->view('footer');
+		
 	}
 
 	public function add_pantau()
@@ -151,5 +156,5 @@ class Covid19 extends Admin_Controller {
 		$this->covid19_model->add_pemantauan($_POST);
 		redirect("covid19/pantau");
 	}
-
+	*/
 }
