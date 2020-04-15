@@ -291,6 +291,7 @@
 			$(location).attr('href',url);
 		});
 
+		//https://momentjs.com/docs/#/parsing/string-format/
 		$('#tgl_jam').datetimepicker(
 		{
 			format: 'YYYY-MM-DD HH:mm:ss',
