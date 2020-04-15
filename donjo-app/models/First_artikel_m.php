@@ -468,16 +468,11 @@ class First_artikel_m extends CI_Model {
 
 	public function list_komentar($id=0)
 	{
-		$sql = "SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC";
-		$query = $this->db->query($sql,$id);
-		if ($query->num_rows()>0)
-		{
-			$data = $query->result_array();
-		}
-		else
-		{
-			$data = false;
-		}
+		$data = $this->db->from('komentar')
+			->where('id_artikel', $id)
+			->where('status', 1)
+			->order_by('tgl_upload DESC')
+			->get()->result_array();
 		return $data;
 	}
 

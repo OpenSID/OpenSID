@@ -24,6 +24,9 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong. 
 19. Sederhanakan dan rapikan berbagai bagian script, untuk memudahkan perubahan selanjutnya. [teknis]
 20. #2856: Sediakan pencatatan pendatang terkait siaga Covid-19.
+21. #2906: Sekarang komentar artikel web kembali tampil. [bug-fix]
+22. #2901, #134: Tambah pendaftar layanan mandiri tidak lagi ada pilihan penduduk yg sudah terdaftar. Sekarang ada aksi untuk mengubah PIN pendaftar.
+23. #2922: Perbaiki halaman modul Inventaris tidak tampil konsisten di offline dan online. [bug-fix]
 
 
 

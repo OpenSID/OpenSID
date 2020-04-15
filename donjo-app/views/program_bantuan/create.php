@@ -1,4 +1,5 @@
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<?php if ($tampil == 0): ?>
