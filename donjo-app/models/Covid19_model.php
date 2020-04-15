@@ -17,7 +17,8 @@ define("STATUS_COVID", serialize(array(
 )));
 
 $h_plus_array = array();
-for($i=1; $i<=31; $i++) {
+$h_plus_array["-- Semua Data --"] = "99";
+for($i=0; $i<=31; $i++) {
 	$h_plus_array["H+$i"] = "$i";
 }
 define("H_PLUS", serialize($h_plus_array));
@@ -123,8 +124,10 @@ class Covid19_model extends CI_Model {
 		if(isset($id))
 			$this->db->where('s.id', $id);
 		
-		if(isset($h_plus))
-			$this->db->where("TO_DAYS(s.tanggal_datang) = TO_DAYS(NOW())-$h_plus");
+		if(isset($h_plus)) {
+			if($h_plus != '99')
+				$this->db->where("TO_DAYS(s.tanggal_datang) = TO_DAYS(NOW())-$h_plus");
+		}
 
 		if($is_pantau_covid_page) 
 			$this->db->where('s.is_wajib_pantau', '1');
@@ -135,7 +138,6 @@ class Covid19_model extends CI_Model {
 		return $this->db->get();
 	}
 
-	
 	public function get_pemudik_by_id($id) {
 		$data = $this->get_pemudik($id)->row_array();
 		$data['judul_terdata_nama'] = 'NIK';
@@ -239,7 +241,7 @@ class Covid19_model extends CI_Model {
 
 
 	// TABEL PEMANTAUAN
-	private function get_pantau_pemudik($limit=NULL) {
+	private function get_pantau_pemudik($filter_tgl=null, $filter_nik=null, $limit=NULL) {
 		$this->db->select('p.*, o.nik, o.nama, o.sex');
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
@@ -248,13 +250,23 @@ class Covid19_model extends CI_Model {
 		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
 		$this->db->order_by('p.tanggal_jam', 'DESC');
 
+		if(isset($filter_tgl)) {
+			if($filter_tgl != '0')
+				$this->db->where('DATE(p.tanggal_jam)', $filter_tgl);
+		}
+
+		if(isset($filter_nik)) {
+			if($filter_nik != '0')
+				$this->db->where('p.id_pemudik', $filter_nik);
+		}
+
 		if(isset($limit))
 			$this->db->limit($limit["per_page"], $limit["offset"]);
 
 		return  $this->db->get();
 	}
 
-	public function get_list_pantau_pemudik($page) {
+	public function get_list_pantau_pemudik($page, $filter_tgl=null, $filter_nik=null) {
 		$retval = array();
 
 		// paging
@@ -264,7 +276,7 @@ class Covid19_model extends CI_Model {
 			
 			$cfg['page'] = $page;
 			$cfg['per_page'] = $this->session->userdata('per_page');
-			$cfg['num_rows'] = $this->get_pantau_pemudik()->num_rows();
+			$cfg['num_rows'] = $this->get_pantau_pemudik($filter_tgl, $filter_nik)->num_rows();
 			
 			$this->paging->init($cfg);
 			$retval["paging"] = $this->paging;
@@ -278,10 +290,29 @@ class Covid19_model extends CI_Model {
 			$limit["offset"] = $retval["paging"]->offset;
 		}
 
-		$query = $this->get_pantau_pemudik($limit);	
+		$query = $this->get_pantau_pemudik($filter_tgl, $filter_nik, $limit);	
 		$retval["query_array"] = $query->result_array();
 		return $retval;
 	}
+
+	public function get_unique_date_pantau_pemudik() {
+		$this->db->select('DATE(p.tanggal_jam) as tanggal');
+		$this->db->from('covid19_pantau p');
+		$this->db->group_by("DATE(p.tanggal_jam)"); 
+
+		return $this->db->get()->result_array();
+	}
+
+	public function get_unique_nik_pantau_pemudik() {
+		$this->db->select('p.id_pemudik, o.nik, o.nama');
+		$this->db->from('covid19_pantau p');
+		$this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
+		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+		$this->db->group_by("o.nik"); 
+
+		return $this->db->get()->result_array();
+	}
+
 
 	public function add_pantau_pemudik($post)
 	{

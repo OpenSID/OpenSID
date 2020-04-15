@@ -31,7 +31,6 @@
 							<div class="form-group">
 								<label for="nama">Data H+</label>
 								<select class="form-control input-sm" name="data_h_plus" id="data_h_plus">
-									<option>-- Semua Data --</option>
 									<?php foreach ($select_h_plus as $id => $nama): ?>
 									<option value="<?= $id?>" <?php selected($h_plus, $id); ?> > <?= strtoupper($nama)?> </option>
 									<?php endforeach;?>
@@ -51,7 +50,7 @@
 							</div>
 						  	<div class="form-group">
 						    	<label for="tgl_jam">Tanggal/Jam</label>
-						    	<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam">
+						    	<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam" value="<?= $datetime_now; ?>">
 						    	<small id="tgl_jam_msg" class="form-text text-muted"></small>
 						  	</div>
 						  	<div class="form-group">
@@ -108,9 +107,34 @@
 			<div class="col-md-9">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url("covid19/unduhsheet")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+						<a href="<?= site_url("covid19/unduhpantau/$filter_tgl/$filter_nik")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 					</div>
 					<div class="box-body">
+						<div class="row">
+							<form id="filterform" name="filterform" action="" method="post">
+
+								<div class="col-sm-3">
+									<input type="hidden" id="hidden_unique_date_select" value="<?= $filter_tgl ?>" >
+									<select class="form-control select2 input-sm" name="unique_date_select" id="unique_date_select">
+										<option value="0">-- Pilih Tanggal --</option>
+										<?php foreach ($unique_date as $row): ?>
+										<option value="<?= $row[tanggal] ?>" > <?= $row[tanggal] ?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+
+								<div class="col-sm-5">
+									<input type="hidden" id="hidden_unique_nik_select" value="<?= $filter_nik ?>" >
+									<select class="form-control select2 input-sm" name="unique_nik_select" id="unique_nik_select">
+										<option value="0">-- Pilih NIK/Nama --</option>
+										<?php foreach ($unique_nik as $row): ?>
+										<option value="<?= $row[id_pemudik] ?>" > <?= $row[nik]." - ".$row[nama] ?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+
+							</form>
+						</div>
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -153,9 +177,9 @@
 																<td><?= $item["nik"] ?></td>
 																<td><?= $item["nama"] ?></td>
 																<td><?= $item["umur"] ?></td>
-																<td><?= $item["sex"] ?></td>
+																<td><?= ($item["sex"]==='1' ? 'Lk' : 'Pr'); ?></td>
 																<td><?= $item["suhu_tubuh"];?></td>
-																<td><?= ($item["batuk"]==='1' ? 'Ya' : 'Tidak');?></td>
+																<td><?= ($item["batuk"]==='1' ? 'Ya' : 'Tidak'); ?></td>
 																<td><?= ($item["flu"]==='1' ? 'Ya' : 'Tidak');?></td>
 																<td><?= ($item["sesak_nafas"]==='1' ? 'Ya' : 'Tidak');?></td>
 																<td><?= $item["keluhan_lain"];?></td>
@@ -259,6 +283,9 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		$("#unique_date_select").val($("#hidden_unique_date_select").val());
+		$("#unique_nik_select").val($("#hidden_unique_nik_select").val());
+
 		$("#data_h_plus").change(function() {
 			url = $("#this_url").val()+"/"+$("#page").val()+"/"+($(this).val());
 			$(location).attr('href',url);
@@ -266,12 +293,34 @@
 
 		$('#tgl_jam').datetimepicker(
 		{
-			format: 'YYYY-MM-DD LT',
+			format: 'YYYY-MM-DD HH:mm:ss',
+		});
+
+		$("#terdata").change(function() {
 		});
 
 		$("#terdata").change(function() {
 			$("#status_covid").val($(this).find(':selected').data('statuscovid'));
 		});
 
+		$("#unique_date_select").change(function() {
+			url  = $("#this_url").val();
+			url += "/"+$("#page").val();
+			url += "/"+$("#data_h_plus").val();
+			url += "/"+$("#unique_date_select").val();
+			url += "/"+$("#unique_nik_select").val();
+			$(location).attr('href',url);
+		});
+
+		$("#unique_nik_select").change(function() {
+			url  = $("#this_url").val();
+			url += "/"+$("#page").val();
+			url += "/"+$("#data_h_plus").val();
+			url += "/"+$("#unique_date_select").val();
+			url += "/"+$("#unique_nik_select").val();
+			$(location).attr('href',url);
+		});
+
+		
 	});
 </script>

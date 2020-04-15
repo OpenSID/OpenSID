@@ -117,7 +117,7 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('covid19/unduh-sheet', $data);
 	}
 
-	public function pantau($page=1, $h_plus=null)
+	public function pantau($page=1, $h_plus=null, $filter_tgl=null, $filter_nik=null)
 	{
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
@@ -131,14 +131,23 @@ class Covid19 extends Admin_Controller {
 		// get list pemudik end
 
 		// get list pemantauan
-		$pantau_pemudik = $this->covid19_model->get_list_pantau_pemudik($page);
+		$pantau_pemudik = $this->covid19_model->get_list_pantau_pemudik($page, $filter_tgl, $filter_nik);
+		$data['unique_nik'] = $this->covid19_model->get_unique_nik_pantau_pemudik();
+		$data['unique_date'] = $this->covid19_model->get_unique_date_pantau_pemudik();
+		$data['filter_tgl'] = isset($filter_tgl) ? $filter_tgl : '0';
+		$data['filter_nik'] = isset($filter_nik) ? $filter_nik : '0';
+
 		$data['paging'] = $pantau_pemudik["paging"];
 		$data['pantau_pemudik_array'] = $pantau_pemudik["query_array"];
 		// get list pemantauan end
 		
+		// datetime now
+		$d = new DateTime('NOW');
+		$data['datetime_now'] = $d->format('Y-m-d H:i:s');
+
 		$data['select_h_plus'] = $this->covid19_model->list_h_plus();
 		$data['this_url'] = site_url("covid19/pantau");
-		$data['h_plus'] =$h_plus;
+		$data['h_plus'] = (isset($h_plus) ? $h_plus : '99');
 		$data['form_action'] = site_url("covid19/add_pantau");
 
 
@@ -171,6 +180,16 @@ class Covid19 extends Admin_Controller {
 		$url .= (isset($page) ? "/$page" : "");
 		$url .= (isset($h_plus) ? "/$h_plus" : "");
 		redirect($url);
+	}
+
+	public function unduhpantau($filter_tgl, $filter_nik)
+	{
+		$this->session->set_userdata('per_page', 0); // Unduh semua data
+		$data = $this->covid19_model->get_list_pantau_pemudik(1, $filter_tgl, $filter_nik);
+		$data['desa'] = $this->header_model->get_data();
+		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
+
+		$this->load->view('covid19/unduh-pantau', $data);
 	}
 	
 }
