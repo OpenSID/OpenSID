@@ -13,4 +13,10 @@ $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = 'opensid';
+
+/*
+| Whether to force 'Strict Mode' connections, good for ensuring strict SQL while developing an application.
+| Sesuaikan dengan ketentuan hosting
+*/ 
+$db['default']['stricton'] = TRUE;
 ?>

@@ -82,6 +82,8 @@ if(is_file($konfigurasi_db)) {
 	$db['default']['username'] = 'root';
 	$db['default']['password'] = '';
 	$db['default']['database'] = 'opensid';
+
+	$db['default']['stricton'] = TRUE;
 }
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
@@ -93,7 +95,6 @@ $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = TRUE;
 $db['default']['encrypt'] = FALSE;
 $db['default']['compress'] = FALSE;
 $db['default']['failover'] = array();
