@@ -9,6 +9,8 @@ class Covid19 extends Admin_Controller {
 		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
+
+		$this->modul_ini = 206;
 	}
 
 	
@@ -19,6 +21,8 @@ class Covid19 extends Admin_Controller {
 
 	public function data_pemudik($page = 1)
 	{
+		$this->sub_modul_ini = 207;
+
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
 		else 
@@ -36,6 +40,8 @@ class Covid19 extends Admin_Controller {
 
 	public function form_pemudik()
 	{
+		$this->sub_modul_ini = 207;
+		
 		$d = new DateTime('NOW');
 		$data['tanggal_datang'] = $d->format('Y-m-d H:i:s');
 
@@ -123,6 +129,8 @@ class Covid19 extends Admin_Controller {
 
 	public function pantau($page=1, $h_plus=null, $filter_tgl=null, $filter_nik=null)
 	{
+		$this->sub_modul_ini = 208;
+
 		if (isset($_POST['per_page'])) 
 			$this->session->set_userdata('per_page', $_POST['per_page']);
 		else 
