@@ -10,7 +10,7 @@
 		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<?= $this->load->view('inventaris/menu_kiri.php')?>
+					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -39,10 +39,10 @@
 																<td></td>
 																<td nowrap>
 																	<?php if ($data->status == "0"): ?>
-																		<a href="<?= base_url('index.php/inventaris_asset/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																		<a href="<?= site_url('inventaris_asset/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
-																	<a href="<?= base_url('index.php/inventaris_asset/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<a href="<?= base_url('index.php/inventaris_asset/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="<?= site_url('inventaris_asset/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_asset/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																	<a href="#" data-href="<?= site_url("api_inventaris_asset/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
