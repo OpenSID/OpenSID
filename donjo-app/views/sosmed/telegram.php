@@ -29,7 +29,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Link Username Telegram</label>
 										<div class="col-sm-9">
-											<textarea id="link" name="link" class="form-control input-sm" placeholder="Username Telegram Pelayanan (Misal : opensid)" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+											<textarea id="link" name="link" class="form-control input-sm" placeholder="<?= ($main['tipe']=1)?'Username Telegram Pelayanan (Misal : opensid)':'Username Telegram Pelayanan (Misal : asdasdasdad)'?>" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
