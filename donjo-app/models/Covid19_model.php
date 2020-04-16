@@ -303,6 +303,7 @@ class Covid19_model extends CI_Model {
 		$this->db->select('DATE(p.tanggal_jam) as tanggal');
 		$this->db->from('covid19_pantau p');
 		$this->db->group_by("DATE(p.tanggal_jam)"); 
+		$this->db->order_by('p.tanggal_jam', 'DESC');
 
 		return $this->db->get()->result_array();
 	}
