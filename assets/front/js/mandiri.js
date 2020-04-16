@@ -69,6 +69,7 @@ $(document).ready(function() {
 				$('#unggah_dokumen').validate().resetForm();
 				$('#id_dokumen').val(data.id);
 				$('#nama_dokumen').val(data.nama);
+				$('#id_syarat').val(data.id_syarat);
 				$('#old_file').val(data.satuan);
 				$('#modal .modal-body').LoadingOverlay('hide');
 			},
