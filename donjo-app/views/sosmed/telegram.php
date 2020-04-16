@@ -20,7 +20,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Tipe</label>
 										<div class="col-sm-9">
-											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%;">
+											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onclick="tipe();">
 												<option value="1" <?php selected($main['tipe'], 1) ?>>Personal Chat</option>
 												<option value="2" <?php selected($main['tipe'], 2) ?>>Group Chat</option>
 											</select>
@@ -29,7 +29,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Link Username Telegram</label>
 										<div class="col-sm-9">
-											<textarea id="link" name="link" class="form-control input-sm" placeholder="<?= ($main['tipe']=1)?'Username Telegram Pelayanan (Misal : opensid)':'Username Telegram Pelayanan (Misal : asdasdasdad)'?>" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+											<textarea id="link" name="link" class="form-control input-sm" placeholder="" style="height: 200px;"><?php $main and print($main['link']) ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
@@ -59,6 +59,21 @@
 	</section>
 </div>
 <script>
+	tipe(); // Load pertama
+	
+	function tipe() {
+		var tipe_link = document.getElementById("tipe").value;
+		if (tipe_link=="1")
+		{
+			document.getElementById("link").placeholder = ' Personal   : https://t.me/@opensid \n Username : opensid';
+			
+		}
+	  else
+		{
+		   document.getElementById("link").placeholder = ' Group    : https://t.me/joinchat/I5antRHvea8ohaU7_RsYYQ \n Username : I5antRHvea8ohaU7_RsYYQ';
+		}
+	};
+	
 	function reset_form()
 	{
 		<?php if ($main['enabled'] == '1'): ?>
