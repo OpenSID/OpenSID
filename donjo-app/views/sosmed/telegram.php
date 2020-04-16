@@ -20,7 +20,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Tipe</label>
 										<div class="col-sm-9">
-											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onclick="tipe();">
+											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onclick="tipe_link();">
 												<option value="1" <?php selected($main['tipe'], 1) ?>>Personal Chat</option>
 												<option value="2" <?php selected($main['tipe'], 2) ?>>Group Chat</option>
 											</select>
@@ -59,19 +59,19 @@
 	</section>
 </div>
 <script>
-	tipe(); // Load pertama
+	tipe_link();// Load pertama
 	
-	function tipe() {
-		var tipe_link = document.getElementById("tipe").value;
-		if (tipe_link=="1")
+	function tipe_link(){
+		var tipe=document.getElementById("validasi").tipe.value;
+		if (tipe=="1")
 		{
-			document.getElementById("link").placeholder = ' Personal   : https://t.me/@opensid \n Username : opensid';
-			
+			document.getElementById("link").placeholder = ' Personal   : https://t.me/@opensid \n\n Username : opensid';
 		}
-	  else
+		else
 		{
-		   document.getElementById("link").placeholder = ' Group    : https://t.me/joinchat/I5antRHvea8ohaU7_RsYYQ \n Username : I5antRHvea8ohaU7_RsYYQ';
-		}
+			document.getElementById("link").placeholder = ' Group    : https://t.me/joinchat/I5antRHvea8ohaU7_RsYYQ \n\n Username : I5antRHvea8ohaU7_RsYYQ';
+		};
+		
 	};
 	
 	function reset_form()
