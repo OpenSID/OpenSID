@@ -145,7 +145,10 @@ $(document).ready(function() {
 							show_alert('green', 'Sukses',data.message);
 							break;
 					}
-				}
+				},
+			  error: function(e) {
+			    console.log(e);
+			  },
 			})
 		}
 	});

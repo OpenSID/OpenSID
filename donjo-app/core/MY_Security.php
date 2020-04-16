@@ -10,7 +10,7 @@ class MY_Security extends CI_Security {
 			'iframe', 'input', 'button', 'select', 'isindex', 'layer', 'link', 'meta', 'keygen', 'object',
 			'plaintext', 'style', 'script', 'textarea', 'title', 'math', 'video', 'svg', 'xml', 'xss'
 		);
-    
+
     //attribut style dihilangkan disini, dampak issue #761
 		static $evil_attributes = array(
 			'on\w+', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'
@@ -81,5 +81,13 @@ class MY_Security extends CI_Security {
 		}
 
 		return $matches[0];
+	}
+
+	/** @inheritdoc */
+	public function csrf_show_error()
+	{
+		$heading = 'Bad Request';
+		$message = 'CSRF Verification Failed.';
+		show_error($message, 400, $heading);
 	}
 }
