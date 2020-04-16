@@ -27,7 +27,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 21. #2906: Sekarang komentar artikel web kembali tampil. [bug-fix]
 22. #2901, #134: Tambah pendaftar layanan mandiri tidak lagi ada pilihan penduduk yg sudah terdaftar. Sekarang ada aksi untuk mengubah PIN pendaftar.
 23. #2922: Perbaiki halaman modul Inventaris tidak tampil konsisten di offline dan online. [bug-fix]
-24. #1176: Aktifkan Anti CSRF [security-fix]
+24. #1176, #1734: Aktifkan Anti CSRF. [security-fix]
 
 
 
