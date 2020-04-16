@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
   		})
 	})
 
+	document.addEventListener('submit', (e) => {
+		if (e.target.nodeName === 'FORM') {
+			addCsrfField(e.target)
+  		}
+	})
+
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
 		if (!opts.crossDomain && opts.type !== 'GET') {
 			opts.data = `${opts.data||''}&${csrfParam}=${csrfToken}`
