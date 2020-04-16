@@ -619,6 +619,19 @@ class First extends Web_Controller {
 
 	public function ajax_upload_dokumen_pendukung()
 	{
+
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('nama', 'Nama Dokumen', 'required');
+    if ($this->form_validation->run() !== true)
+    {
+    	$data['success'] = -1;
+			$data['message'] = validation_errors();
+			echo json_encode($data);
+			return;
+		}
+
 		$this->session->unset_userdata('success');
 		$this->session->unset_userdata('error_msg');
 		$success_msg = 'Berhasil menyimpan data';

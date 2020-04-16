@@ -30,6 +30,9 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
+		// Perbaharui view
+		$this->db->query("DROP VIEW dokumen_hidup");
+		$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
 		// Perbaikan modul mail_box
 		$this->kotak_pesan();
 	}

@@ -15,32 +15,37 @@
 		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa <?= $desa['nama_desa'];?>">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:site_name" content="<?= $desa['nama_desa'];?>"/>
-    <meta property="og:type" content="article"/>
+		<meta property="og:site_name" content="<?= $desa['nama_desa'];?>"/>
+		<meta property="og:type" content="article"/>
+
 		<?php if(isset($single_artikel)): ?>
-	    <meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
-	    <meta property="og:url" content="<?= base_url()?>index.php/first/artikel/<?= $single_artikel['id'];?>"/>
-	    <meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
-	    <meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
+			<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
+    			<meta property="og:url" content="<?= base_url()?>index.php/first/artikel/<?= $single_artikel['id'];?>"/>
+			<meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
+	    		<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 			<meta name="description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
-	  <?php else: ?>
+	  	<?php else: ?>
 			<meta name="description" content="Website <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
+
 		<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
-	  <link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
-      <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 
-	  <!-- Styles untuk tema dan penyesuaiannya di folder desa -->
-	  <link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
+		<link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
+
+		<!-- Styles untuk tema dan penyesuaiannya di folder desa -->
+		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
 		<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?= base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
+
 		<?php if ($single_artikel OR $gallery): ?>
 			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<?php endif ?>
+
 		<?php if (is_file("desa/css/".$this->theme."/desa-web.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
@@ -51,21 +56,22 @@
 		<script src="<?= base_url()?>assets/front/js/bootstrap.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 
-    <!-- Datatables -->
-    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
-    <script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
-    <script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
-    <!-- Charts -->
-    <script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
-    <script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+		<!-- Datatables -->
+		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
+		<script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
+		<!-- Charts -->
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
-    <!-- Diperlukan untuk javascript yg mengakses resources -->
-    <script type="text/javascript">
-      var BASE_URL = "<?= base_url(); ?>";
-    </script>
+		<!-- Diperlukan untuk javascript yg mengakses resources -->
+		<script type="text/javascript">
+			var BASE_URL = "<?= base_url(); ?>";
+		</script>
+		<?php $this->load->view('head_tags_front') ?>
 	</head>
 	<body>
 		<div id="maincontainer">
