@@ -15,7 +15,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="nama">Nama</label>
-							<select class="form-control input-sm select2 required"  id="id_pend" name="id_pend" style="width:100%;">
+							<select class="form-control input-sm select2 required"  id="id_pend" name="id_pend" style="width:100%;" data-url="<?= site_url('kontak/data_penduduk')?>" onchange="formAction('main')">
 								<?php foreach ($nama AS $data): ?>
 									<option value="<?=$data['id'] ?>" ><?= $data['nama']?></option>
 								<?php endforeach; ?>
@@ -23,7 +23,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="hp">No HP</label>
-							<input name="no_hp" class="form-control input-sm required" type="text"></input>
+							<input name="telepon" class="form-control input-sm required" type="text"></input>
 						</div>
 					</div>
 				</div>

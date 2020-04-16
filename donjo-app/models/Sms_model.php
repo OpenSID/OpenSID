@@ -593,9 +593,9 @@
 
 	public function paging_kontak($p = 1, $o = 0)
 	{
-		$sql = "SELECT COUNT(*) as jml " . $this->list_data_kontak_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(*) AS jml');
+		$this->list_data_kontak_sql();
+		$row = $this->db->get()->row_array();
 		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
@@ -609,26 +609,21 @@
 
 	private function list_data_kontak_sql()
 	{
-		$sql = " FROM daftar_kontak WHERE 1 ";
-		$sql .= $this->search_kontak_sql();
-		return $sql;
+		$this->db->join('tweb_penduduk p','p.id = k.id_pend', 'left')
+			->join('tweb_penduduk_sex x','p.sex = x.id', 'left');
+
+		$this->search_kontak_sql();
+		$this->db->from('kontak k');
 	}
 
 	public function list_data_kontak($o = 0, $offset = 0, $limit = 500)
 	{
-		//Paging SQL
-		$paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+		$this->db->select('p.*, k.*, p.alamat_sebelumnya AS alamat, x.nama AS sex');
+		$this->list_data_kontak_sql();
 
-		//Main Query
-		$sql = "SELECT * " . $this->list_data_kontak_sql();
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
-
-		//Formating Output
+		$data = $this->db->limit($limit, $offset)->get()->result_array();
 		$j = $offset;
-		for ($i = 0; $i < count($data); $i++)
+		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
 			$j++;
@@ -642,29 +637,35 @@
 		{
 			$cari = $_SESSION['cari_kontak'];
 			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' . $kw . '%';
-			$search_kontak_sql = " AND nama LIKE '$kw' OR no_hp LIKE '$kw' ";
-			return $search_kontak_sql;
+			$this->db->like('p.nik', $kw)->or_like('p.nama', $kw)->or_like('p.telepon', $kw);
 		}
 	}
 
 	public function insert_kontak()
 	{
-		$data = $_POST;
+		$id_pend = $this->input->post('id_pend');
+		$telepon = $this->input->post('telepon');
+
+		// Jika input telepon, maka data telepon tweb_penduduk di update
+		$this->update_kontak($id_pend, $telepon);
+
+		// Menyimpan data ke kontak
+		$data['id_pend'] = $id_pend;
 		$outp = $this->db->insert('kontak', $data);
+
+		status_sukses($outp); //Tampilkan Pesan		
 	}
 
-	public function update_kontak()
+	public function update_kontak($id, $telepon)
 	{
-		$data = $_POST;
-		$outp = $this->db->where('id_kontak', $data['id_kontak'])->update('kontak', array(
-			'no_hp' => $data['no_hp']
-		));
+		$outp = $this->db->where('id', $id)->set('telepon', $telepon)->update('tweb_penduduk');
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_kontak($id = 0)
 	{
-		$this->db->query("DELETE FROM kontak WHERE id_kontak=$id");
+		$outp = $this->db->where('id', $id)->delete('kontak');
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_all_kontak()
@@ -1002,32 +1003,5 @@
 
 		return $data;
 	}
-
-	public function sinkronkan()
-	{
-		$tlp_penduduk = $this->db->where('telepon !=', NULL)
-			->where('telepon !=', '')
-			->get('tweb_penduduk')
-			->result_array();
-
-		foreach ($tlp_penduduk as $penduduk){
-			$tlp_kontak = $this->db->where('id_pend', $penduduk['id'])->get('kontak');
-
-			if ($tlp_kontak->num_rows() > 0)
-			{
-				// Jika ada
-				$data  = $tlp_kontak->row_array();
-				if($this->input->post('pilih')==1){
-					// *timpa
-					$outp = $this->db->where('id_pend', $data['id_pend'])->update('kontak', array('no_hp' => $penduduk['telepon']));
-				}				
-			}else{
-				// Jika belum ada
-				$outp = $this->db->insert('kontak', array('no_hp' => $penduduk['telepon'], 'id_pend' => $penduduk['id']));
-			}
-			
-		}
-	}
-
 }
 ?>

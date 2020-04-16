@@ -76,6 +76,7 @@
 	</section>
 </div>
 <script>
+	
 	$(document).ready(function() {
 		const sHeight = parseInt($("#komentar").get(0).scrollHeight) + 30;
 		$('#komentar').attr('style', `height:${sHeight}px;`);

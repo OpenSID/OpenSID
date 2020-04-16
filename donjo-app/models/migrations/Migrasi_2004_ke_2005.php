@@ -30,6 +30,8 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
+		// Perbaikan modul sms
+		$this->sms();
 	}
 	
 	private function covid19()
@@ -128,6 +130,33 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			));
 			$this->dbforge->add_key("id",true);
 			$this->dbforge->create_table("covid19_pemudik", TRUE);
+		}
+	}
+
+	private function sms()
+	{	
+		// Pindahkan data tabel kontak field no_hp ke tabel tweb_penduduk (field telepon)
+		$list_telepon = $this->db->get('kontak')->result_array();
+		foreach ($list_telepon as $telepon) 
+		{
+			$this->db->where('id', $telepon['id_pend'])->update('tweb_penduduk', array('telepon' => $telepon['no_hp']));
+		}
+		
+		// Hapus field no_hp pd tabel kontak
+		if ($this->db->field_exists('no_hp', 'kontak'))
+		{
+			$this->db->query('ALTER TABLE `kontak` DROP COLUMN `no_hp`');
+		}
+
+		// Tambah field created_at dan updated_at
+		if (!$this->db->field_exists('created_at','kontak'))
+		{
+			$this->db->query("ALTER TABLE `kontak` ADD COLUMN `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP()");
+		}
+
+		if (!$this->db->field_exists('updated_at','kontak'))
+		{
+			$this->db->query("ALTER TABLE `kontak` ADD COLUMN `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP()");
 		}
 	}
 }

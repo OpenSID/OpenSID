@@ -5,7 +5,6 @@ class Sms extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('sms_model');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
@@ -29,12 +28,12 @@ class Sms extends Admin_Controller {
 		unset($_SESSION['status_penduduk1']);
 		unset($_SESSION['TextDecoded1']);
 		unset($_SESSION['grup1']);
-		redirect('sms');
 	}
 
 	public function index($p = 1, $o = 0)
 	{
-
+		$this->clear();
+		
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -59,20 +58,6 @@ class Sms extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/manajemen_sms_table', $data);
 		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
 	}
 
 	public function setting($p = 1, $o = 0)
@@ -122,6 +107,8 @@ class Sms extends Admin_Controller {
 
 	public function outbox($p = 1, $o = 0)
 	{
+		$this->clear();
+		
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -146,24 +133,12 @@ class Sms extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/create_sms', $data);
 		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
 	}
 
 	public function sentitem($p = 1, $o = 0)
 	{
+		$this->clear();
+		
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -188,24 +163,12 @@ class Sms extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/berita_terkirim', $data);
 		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
 	}
 
 	public function pending($p = 1, $o = 0)
 	{
+		$this->clear();
+		
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -230,20 +193,6 @@ class Sms extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('sms/pesan_tertunda', $data);
 		$this->load->view('footer');
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['cari1']);
-		unset($_SESSION['sex1']);
-		unset($_SESSION['dusun1']);
-		unset($_SESSION['rw1']);
-		unset($_SESSION['rt1']);
-		unset($_SESSION['agama1']);
-		unset($_SESSION['pekerjaan1']);
-		unset($_SESSION['status1']);
-		unset($_SESSION['pendidikan1']);
-		unset($_SESSION['status_penduduk1']);
-		unset($_SESSION['TextDecoded1']);
-		unset($_SESSION['grup1']);
 	}
 
 	public function form($p = 1, $o = 0, $tipe = 0, $id = 0)
