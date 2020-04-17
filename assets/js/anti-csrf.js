@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	})
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
-		if (!opts.crossDomain && opts.type !== 'GET') {
+		if (!opts.crossDomain && opts.type !== 'GET' && !(opts.data instanceof FormData)) {
 			opts.data = `${opts.data||''}&${csrfParam}=${csrfToken}`
 		}
 	})
