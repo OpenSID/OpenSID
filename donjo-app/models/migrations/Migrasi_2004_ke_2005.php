@@ -5,6 +5,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 	{
 		// MODUL BARU BEGIN
 		$this->covid19();
+		$this->covid19Monitoring();
 		// MODUL BARU END
 		
 		// Penyesuaian url menu dgn submenu setelah hapus file sekretariat.php
@@ -59,7 +60,6 @@ class Migrasi_2004_ke_2005 extends CI_model {
 	private function covid19()
 	{
 		// Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
-	    $data = array();
 	    $data[] = array(
 	      'id'=>'206',
 	      'modul' => 'Siaga Covid-19',
@@ -153,5 +153,124 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			$this->dbforge->add_key("id",true);
 			$this->dbforge->create_table("covid19_pemudik", TRUE);
 		}
+	}
+
+	private function covid19Monitoring()
+	{
+		// Update Menu Siaga Covid-19 Menjadi Menu Parent
+		$this->db->where('id', 206)
+			->set('url', '')
+			->update('setting_modul');
+
+		
+		// Tambah field wajib pantau di pemudik
+	  	if (!$this->db->field_exists('is_wajib_pantau', 'covid19_pemudik'))
+	  	{
+	  		$this->dbforge->add_column('covid19_pemudik', array(
+				'is_wajib_pantau' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+			));	
+	  	}
+
+		// Add Menu Child 'Pendataan' & 'Pemantauan'
+		$data[] = array(
+	      'id'=>'207',
+	      'modul' => 'Pendataan',
+	      'url' => 'covid19',
+	      'aktif' => '1',
+	      'ikon' => 'fa-list',
+	      'urut' => '1',
+	      'level' => '2',
+	      'hidden' => '0',
+	      'ikon_kecil' => 'fa fa-list',
+	      'parent' => 206);
+
+		$data[] = array(
+	      'id'=>'208',
+	      'modul' => 'Pemantauan',
+	      'url' => 'covid19/pantau',
+	      'aktif' => '1',
+	      'ikon' => 'fa-check',
+	      'urut' => '2',
+	      'level' => '2',
+	      'hidden' => '0',
+	      'ikon_kecil' => 'fa fa-check',
+	      'parent' => 206);
+
+	    foreach ($data as $modul)
+	    {
+	      $sql = $this->db->insert_string('setting_modul', $modul);
+	      $sql .= " ON DUPLICATE KEY UPDATE
+	      id = VALUES(id),
+	      modul = VALUES(modul),
+	      url = VALUES(url),
+	      aktif = VALUES(aktif),
+	      ikon = VALUES(ikon),
+	      urut = VALUES(urut),
+	      level = VALUES(level),
+	      hidden = VALUES(hidden),
+	      ikon_kecil = VALUES(ikon_kecil),
+	      parent = VALUES(parent)";
+	      $this->db->query($sql);
+	    }
+
+	
+		// Tambah Tabel Pemantauan Covid-19 
+	    if (!$this->db->table_exists('covid19_pantau') )
+		{
+	    	$this->dbforge->add_field(array(
+				'id' => array(
+					'type' => 'INT',
+					'constraint' => 11,
+					'null' => FALSE,
+					'auto_increment' => TRUE
+				),
+				'id_pemudik' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'tanggal_jam' => array(
+					'type' => 'DATETIME',
+					'null' => TRUE,
+				),
+				'suhu_tubuh' => array(
+					'type' => 'DECIMAL',
+					'constraint' => '4,2',
+					'null' => TRUE,
+				),
+				'batuk' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'flu' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'sesak_nafas' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 20,
+					'null' => TRUE,
+				),
+				'keluhan_lain' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 255,
+					'null' => TRUE,
+				),
+				'status_covid' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => TRUE,
+				),
+			));
+			$this->dbforge->add_key("id",true);
+			$this->dbforge->create_table("covid19_pantau", TRUE);
+		}
+
 	}
 }

@@ -64,42 +64,40 @@
 																<th>Kontak</th>
 																<th>Status</th>
 																<th>Keluhan</th>
+																<th>Wajib Pantau</th>
 															</tr>
 														</thead>
 														<tbody>
 															<?php
-																$nomer = $paging->offset;
-																if (is_array($terdata)):
-																	foreach ($terdata as $key=>$item):
-																		$nomer++;
+															$nomer = $paging->offset;
+															foreach ($pemudik_list as $key=>$item):
+																$nomer++;
 															?>
-																<tr>
-																	<td align="center" width="2"><?= $nomer; ?></td>
-																	<td nowrap>
-																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="<?= site_url("covid19/edit_pemudik_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-																			<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif; ?>
-																	</td>
-																	<td><?= $item["terdata_nama"] ?></td>
-																	<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
-																	<td><?= $item["umur"] ?></td>
-																	<?php
-																	$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
-																	?>
-																	<td><?= $jk?></td>
-																	<td><?= $item["info"];?></td>
-																	<td><?= $item["asal_mudik"];?></td>
-																	<td><?= $item["tanggal_datang"];?></td>
-																	<td><?= $item["tujuan_mudik"];?></td>
-																	<td><?= $item["no_hp"];?> - <?= $item["email"];?> </td>
-																	<td><?= $item["status_covid"];?></td>
-																	<td><?= $item["keluhan_kesehatan"];?></td>
-																</tr>
-																	<?php
-																	endforeach;
-																endif;
-															?>
+															<tr>
+																<td align="center" width="2"><?= $nomer; ?></td>
+																<td nowrap>
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																		<a href="<?= site_url("covid19/edit_pemudik_form/$item[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif; ?>
+																</td>
+																<td><?= $item["terdata_nama"] ?></td>
+																<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
+																<td><?= $item["umur"] ?></td>
+																<?php
+																$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
+																?>
+																<td><?= $jk?></td>
+																<td><?= $item["info"];?></td>
+																<td><?= $item["asal_mudik"];?></td>
+																<td><?= $item["tanggal_datang"];?></td>
+																<td><?= $item["tujuan_mudik"];?></td>
+																<td><?= $item["no_hp"];?> - <?= $item["email"];?> </td>
+																<td><?= $item["status_covid"];?></td>
+																<td><?= $item["keluhan_kesehatan"];?></td>
+																<td><?= ($item["is_wajib_pantau"] === '1' ? "Ya" : "Tidak"); ?></td>
+															</tr>
+															<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>
@@ -205,26 +203,4 @@
 	</div>
 </div>
 
-						<!--
 						
-						<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-							<div class='modal-dialog'>
-								<div class='modal-content'>
-									<div class='modal-header'>
-										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-									</div>
-									<div class='modal-body btn-info'>
-										Apakah Anda yakin ingin memecah Data Keluarga ini?
-									</div>
-									<div class='modal-footer'>
-										<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-										<a class='btn-ok'>
-											<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-delete"><i class='fa fa-check'></i> Simpan</button>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						-->
-

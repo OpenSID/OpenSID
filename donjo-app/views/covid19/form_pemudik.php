@@ -95,3 +95,32 @@
 		</div>
 	</section>
 </div>
+
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+
+		$("#validasi").validate({
+		    rules: {
+				terdata: "required",
+				asal_pemudik: "required",
+				tanggal_tiba: "required",
+				durasi_pemudik: {
+					number: true
+				},
+		    },
+		    // Specify validation error messages
+		    messages: {
+				terdata: "Harus memilik NIK/Nama",
+				asal_pemudik: "Isi kota asal pemudik",
+				tanggal_tiba: "Tanggal harus diisi",
+				durasi_pemudik: "Harus diisi angka",
+		    },
+		    submitHandler: function(form) {
+		      form.submit();
+		    }
+	  	});
+				
+	});
+</script>

@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		//https://momentjs.com/docs/#/parsing/string-format/
 		$('#tanggal_tiba').datetimepicker(
 		{
 			format: 'YYYY-MM-DD'
@@ -34,7 +35,7 @@
 		</select>
 	</div>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Hari">
+		<input class="form-control input-sm" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Jumlah Hari (angka)">
 	</div>
 </div>
 
@@ -56,6 +57,16 @@
 			<?php foreach ($select_status_covid as $id => $nama): ?>
 		  	<option value="<?= $id?>" <?php selected($status_covid, $id); ?> > <?= strtoupper($nama)?> </option>
 			<?php endforeach;?>
+		</select>
+	 </div>
+</div>
+
+<div class="form-group">
+	<label  class="col-sm-3 control-label" for="wajib_pantau">Apakah Wajib Dipantau</label>
+	<div class="col-sm-8">
+		 <select class="form-control input-sm" name="wajib_pantau" id="wajib_pantau">
+			<option value="0" <?php selected($is_wajib_pantau, '0'); ?> >Tidak</option>
+			<option value="1" <?php selected($is_wajib_pantau, '1'); ?> >Ya</option>
 		</select>
 	 </div>
 </div>
