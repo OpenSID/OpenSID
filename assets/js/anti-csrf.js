@@ -27,8 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	})
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
-		if (!opts.crossDomain && opts.type !== 'GET') {
-			opts.data = `${opts.data||''}&${csrfParam}=${csrfToken}`
+		if (opts.crossDomain) {
+			return
+		}
+		if (opts.type !== 'POST' && opts.type !== 'PUT') {
+			if (opts.data instanceof FormData) {
+				opts.data.append(csrfParam, csrfToken)
+			} else {
+				opts.data = `${opts.data||''}&${csrfParam}=${csrfToken}`
+			}
 		}
 	})
 })
