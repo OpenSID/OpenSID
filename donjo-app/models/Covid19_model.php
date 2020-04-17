@@ -255,6 +255,11 @@ class Covid19_model extends CI_Model
 	
 	public function delete_pemudik_by_id($id) 
 	{
+		//delete warga pemudik di menu pemantau
+		$this->db->where('id_pemudik', $id);
+		$this->db->delete('covid19_pantau');
+		
+		//delete warga pemudik
 		$this->db->where('id', $id);
 		$this->db->delete('covid19_pemudik');
 	}
