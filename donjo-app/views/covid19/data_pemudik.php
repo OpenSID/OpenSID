@@ -4,6 +4,7 @@
 		padding: 4px 4px;
 	}
 </style>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Data Pemudik Saat Pandemi Covid-19</h1>

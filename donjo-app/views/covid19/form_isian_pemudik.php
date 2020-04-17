@@ -19,8 +19,7 @@
 		<div class="input-group-addon">
 	        <i class="fa fa-calendar"></i>
 	    </div>
-	    <input type="text" class="form-control input-sm pull-right" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">
-	    
+	    <input type="text" class="form-control input-sm pull-right" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">    
 	</div>
 </div>
 

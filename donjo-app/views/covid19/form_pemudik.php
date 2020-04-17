@@ -1,4 +1,5 @@
 <div class="content-wrapper">
+
 	<section class="content-header">
 		<h1>Formulir Penambahan Terdata</h1>
 		<ol class="breadcrumb">
@@ -94,6 +95,7 @@
 			</div>
 		</div>
 	</section>
+	
 </div>
 
 
@@ -101,23 +103,28 @@
 	$(document).ready(function()
 	{
 
-		$("#validasi").validate({
-		    rules: {
+		$("#validasi").validate(
+		{
+		    rules: 
+		    {
 				terdata: "required",
 				asal_pemudik: "required",
 				tanggal_tiba: "required",
-				durasi_pemudik: {
+				durasi_pemudik: 
+				{
 					number: true
 				},
 		    },
 		    // Specify validation error messages
-		    messages: {
+		    messages: 
+		    {
 				terdata: "Harus memilik NIK/Nama",
 				asal_pemudik: "Isi kota asal pemudik",
 				tanggal_tiba: "Tanggal harus diisi",
 				durasi_pemudik: "Harus diisi angka",
 		    },
-		    submitHandler: function(form) {
+		    submitHandler: function(form) 
+		    {
 		      form.submit();
 		    }
 	  	});

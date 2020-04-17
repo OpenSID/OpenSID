@@ -4,6 +4,7 @@
 		padding: 4px 4px;
 	}
 </style>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pemantauan Isolasi Mandiri Saat Pandemi Covid-19</h1>
@@ -281,7 +282,8 @@
 		$("#unique_date_select").val($("#hidden_unique_date_select").val());
 		$("#unique_nik_select").val($("#hidden_unique_nik_select").val());
 
-		$("#data_h_plus").change(function() {
+		$("#data_h_plus").change(function() 
+		{
 			url = $("#this_url").val()+"/"+$("#page").val()+"/"+($(this).val());
 			$(location).attr('href',url);
 		});
@@ -292,14 +294,14 @@
 			format: 'YYYY-MM-DD HH:mm:ss',
 		});
 
-		$("#terdata").change(function() {
-		});
 
-		$("#terdata").change(function() {
+		$("#terdata").change(function() 
+		{
 			$("#status_covid").val($(this).find(':selected').data('statuscovid'));
 		});
 
-		$("#unique_date_select").change(function() {
+		$("#unique_date_select").change(function() 
+		{
 			url  = $("#this_url").val();
 			url += "/"+$("#page").val();
 			url += "/"+$("#data_h_plus").val();
@@ -308,7 +310,8 @@
 			$(location).attr('href',url);
 		});
 
-		$("#unique_nik_select").change(function() {
+		$("#unique_nik_select").change(function() 
+		{
 			url  = $("#this_url").val();
 			url += "/"+$("#page").val();
 			url += "/"+$("#data_h_plus").val();
@@ -317,27 +320,33 @@
 			$(location).attr('href',url);
 		});
 
-		$("#validasi").validate({
-		    rules: {
+		$("#validasi").validate(
+		{
+		    rules: 
+		    {
 				terdata: "required",
 				tgl_jam: "required",
 				tanggal_tiba: "required",
-				suhu: {
+				suhu: 
+				{
 					required: true,
 					number: true
 				},
 		    },
 		    // Specify validation error messages
-		    messages: {
+		    messages: 
+		    {
 				terdata: "Harus memilih NIK/Nama",
 				tgl_jam: "Tanggal/Jam harus diisi",
 				tanggal_tiba: "Tanggal harus diisi",
-				suhu: {
+				suhu: 
+				{
 					required: "Suhu harus tercatat",
 					number: "Harus diisi angka",
 				},
 		    },
-		    submitHandler: function(form) {
+		    submitHandler: function(form) 
+		    {
 		      form.submit();
 		    }
 	  	});
