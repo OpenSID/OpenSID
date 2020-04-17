@@ -335,7 +335,9 @@
 				suhu: 
 				{
 					required: true,
-					number: true
+					number: true,
+					min: 10,
+					max: 50,
 				},
 		    },
 		    // Specify validation error messages
@@ -348,6 +350,8 @@
 				{
 					required: "Suhu harus tercatat",
 					number: "Harus diisi angka",
+					min: "Suhu minimal 10 derajat celcius",
+					max: "Suhu maksimal 50 derajat celcius",
 				},
 		    },
 		    submitHandler: function(form) 
