@@ -22,6 +22,7 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="login">
 		<div class="top-content">

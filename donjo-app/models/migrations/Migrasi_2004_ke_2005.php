@@ -30,6 +30,30 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
+		// Perbaharui view
+		$this->db->query("DROP VIEW dokumen_hidup");
+		$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
+		// Tambahkan field tipe di tabel media_sosial
+		if (!$this->db->field_exists('tipe', 'media_sosial')){
+			$this->db->query('ALTER TABLE media_sosial ADD COLUMN tipe TINYINT(1) NULL DEFAULT 1 AFTER nama');
+		}
+		// Tambah media sosial telegram		
+		$this->db->query('ALTER TABLE media_sosial MODIFY COLUMN link TEXT NULL');
+		$data = array(
+			'id' => '7',
+			'gambar' => 'tg.png',
+			'nama' => 'Telegram',
+			'tipe' => '1',
+			'enabled' => '2'
+			);
+		$sql = $this->db->insert_string('media_sosial', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				gambar = VALUES(gambar),
+				nama = VALUES(nama),
+				tipe = VALUES(tipe),
+				enabled = VALUES(enabled)
+				";
+		$this->db->query($sql);
 		// Perbaikan modul sms
 		$this->sms();
 	}

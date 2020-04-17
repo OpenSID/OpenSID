@@ -224,7 +224,7 @@ class Web_dokumen_model extends CI_Model {
 		return $semua_ext;
 	}
 
-	private function upload_dokumen(&$data, $file_lama="")
+	private function upload_dokumen($data, $file_lama="")
 	{
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
@@ -233,14 +233,14 @@ class Web_dokumen_model extends CI_Model {
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] .= ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
-			return false;
+			return null;
 		}
 
 		$lokasi_file = $_FILES['satuan']['tmp_name'];
 		if (empty($lokasi_file))
 		{
 			$_SESSION['success'] = -1;
-			return false;
+			return null;
 		}
 		if (function_exists('finfo_open'))
 		{
@@ -257,13 +257,13 @@ class Web_dokumen_model extends CI_Model {
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $tipe_file . " " . $ext;
 			$_SESSION['success'] = -1;
-			return false;
+			return null;
 		}
 		elseif (isPHP($lokasi_file, $nama_file))
 		{
 			$_SESSION['error_msg'].= " -> File berisi script ";
 			$_SESSION['success']=-1;
-			return false;
+			return null;
 		}
 
 		$nama = $data['nama'];
@@ -273,65 +273,75 @@ class Web_dokumen_model extends CI_Model {
 			$nama_file = $nama."_".generator(6)."_".$nama_file;
 		$nama_file = bersihkan_namafile($nama_file);
 		UploadDocument($nama_file, $file_lama);
-		$data['satuan'] = $nama_file;
-		return true;
+		return $nama_file;
 	}
 
 	public function insert()
 	{
-		$data = $_POST;
-		if ($this->upload_dokumen($data))
+		$post = $this->input->post();
+		$satuan = $this->upload_dokumen($post);
+		if ($satuan)
 		{
-			$this->validasi($data);
+			$data = $this->validasi($post);
+			$data['satuan'] = $satuan;
 			$data['attr'] = json_encode($data['attr']);
 			return $this->db->insert('dokumen', $data);
 		}
 		else return false;
 	}
 
-	private function validasi(&$data)
+	private function validasi($post)
 	{
-		$data['nama'] = alfanumerik_spasi($data['nama']);
+		$data = array();
+		$data['nama'] = alfanumerik_spasi($post['nama']);
+		$data['kategori'] = $post['kategori'] ?: 1;
+		$data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
+		$data['id_syarat'] = $post['id_syarat'] ?: null;
+		$data['id_pend'] = $post['id_pend'] ?: 0;
 		switch ($data['kategori'])
 		{
 			case 1: //Informsi Publik
-				$data['tahun'] = $this->input->post('tahun');
+				$data['tahun'] = $post['tahun'];
 				break;
 			case 2: //SK Kades
-				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_kep_kades']));
+				$data['tahun'] = date('Y', strtotime($post['attr']['tgl_kep_kades']));
 				$data['kategori_info_publik'] = '3';
-				$data['attr']['uraian'] = strip_tags($data['attr']['uraian']);
-				$data['attr']['no_kep_kades'] = nomor_surat_keputusan($data['attr']['no_kep_kades']);
-				$data['attr']['no_lapor'] = nomor_surat_keputusan($data['attr']['no_lapor']);
-				$data['attr']['keterangan'] = strip_tags($data['attr']['keterangan']);
+				$data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
+				$data['attr']['uraian'] = strip_tags($post['attr']['uraian']);
+				$data['attr']['no_kep_kades'] = nomor_surat_keputusan($post['attr']['no_kep_kades']);
+				$data['attr']['no_lapor'] = nomor_surat_keputusan($post['attr']['no_lapor']);
+				$data['attr']['tgl_lapor'] = $post['attr']['tgl_lapor'];
+				$data['attr']['keterangan'] = strip_tags($post['attr']['keterangan']);
 				break;
 			case 3: //Perdes
-				$data['tahun'] = date('Y', strtotime($data['attr']['tgl_ditetapkan']));
+				$data['tahun'] = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
 				$data['kategori_info_publik'] = '3';
-				$data['attr']['uraian'] = strip_tags($data['attr']['uraian']);
-				$data['attr']['jenis_peraturan'] = strip_tags($data['attr']['jenis_peraturan']);
-				$data['attr']['no_ditetapkan'] = nomor_surat_keputusan($data['attr']['no_ditetapkan']);
-				$data['attr']['no_lapor'] = nomor_surat_keputusan($data['attr']['no_lapor']);
-				$data['attr']['no_lembaran_desa'] = nomor_surat_keputusan($data['attr']['no_lembaran_desa']);
-				$data['attr']['no_berita_desa'] = nomor_surat_keputusan($data['attr']['no_berita_desa']);
-				$data['attr']['keterangan'] = strip_tags($data['attr']['keterangan']);
+				$data['attr']['tgl_ditetapkan'] = $post['attr']['tgl_ditetapkan'];
+				$data['attr']['tgl_lapor'] = $post['attr']['tgl_lapor'];
+				$data['attr']['tgl_kesepakatan'] = $post['attr']['tgl_kesepakatan'];
+				$data['attr']['uraian'] = strip_tags($post['attr']['uraian']);
+				$data['attr']['jenis_peraturan'] = strip_tags($post['attr']['jenis_peraturan']);
+				$data['attr']['no_ditetapkan'] = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
+				$data['attr']['no_lapor'] = nomor_surat_keputusan($post['attr']['no_lapor']);
+				$data['attr']['no_lembaran_desa'] = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
+				$data['attr']['no_berita_desa'] = nomor_surat_keputusan($post['attr']['no_berita_desa']);
+				$data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
+				$data['attr']['tgl_berita_desa'] = $post['attr']['tgl_berita_desa'];
+				$data['attr']['keterangan'] = strip_tags($post['attr']['keterangan']);
 				break;
 
 			default:
 				$data['tahun'] = date('Y');
 				break;
 		}
+		return $data;
 	}
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		if (empty($data['satuan']) or !$this->upload_dokumen($data, $data['old_file']))
-		{
-			unset($data['satuan']);
-			unset($data['old_file']);
-		}
-		$this->validasi($data);
+		$post = $this->input->post();
+		$data = $this->validasi($post);
+		if (!empty($post['satuan'])) $data['satuan'] = $this->upload_dokumen($post, $post['old_file']);
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		return $this->db->where('id',$id)->update('dokumen', $data);
