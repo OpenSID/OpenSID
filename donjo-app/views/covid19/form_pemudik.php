@@ -61,6 +61,9 @@
 														<?php endif;
 													endforeach; ?>
 												</select>
+												<small id="data_h_plus_msg" class="form-text text-muted">
+													Untuk warga pendatang/tidak tetap. Masukkan data terlebih dahulu di menu 'Kependudukan' => 'Penduduk' => '+Penduduk Domisili' dengan pilihan Status Penduduk 'Tidak Tetap'/'Pendatang'
+												</small>
 											</div>
 										</div>
 										
