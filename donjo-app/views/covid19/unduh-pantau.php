@@ -34,6 +34,8 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
+							<th>Data H+</th>
+							<th>Tanggal Tiba</th>
 							<th>Tanggal Jam</th>
 							<th>NIK</th>
 							<th>Nama</th>
@@ -51,6 +53,8 @@
 						<?php	$i=1;	foreach ($query_array as $key=>$item): ?>
 							<tr>
 								<td><?= $i?></td>
+								<td><?= "H+".$item["date_diff"] ?></td>
+								<td><?= $item["tanggal_datang"] ?></td>
 								<td><?= $item["tanggal_jam"]?></td>
 								<td><?= $item["nik"] ?></td>
 								<td class='textx'><?= $item["nama"]?></td>

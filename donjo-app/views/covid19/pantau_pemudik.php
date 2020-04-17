@@ -144,7 +144,9 @@
 															<tr>
 																<th>No</th>
 																<th>Aksi</th>
-																<th>Tanggal/Jam</th>
+																<th>Data H+</th>
+																<th>Tanggal Tiba</th>
+																<th>Waktu Pantau</th>
 																<th>NIK</th>
 																<th>Nama</th>
 																<th>Usia</th>
@@ -170,6 +172,8 @@
 																	<a href="#" data-href="<?= site_url("$url_delete_front/$item[id]/$url_delete_rare")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>
+																<td><?= "H+".$item["date_diff"] ?></td>
+																<td><?= $item["tanggal_datang"] ?></td>
 																<td><?= $item["tanggal_jam"] ?></td>
 																<td><?= $item["nik"] ?></td>
 																<td><?= $item["nama"] ?></td>

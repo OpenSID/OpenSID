@@ -264,7 +264,8 @@ class Covid19_model extends CI_Model
 	// TABEL PEMANTAUAN
 	private function get_pantau_pemudik($filter_tgl=null, $filter_nik=null, $limit=NULL) 
 	{
-		$this->db->select('p.*, o.nik, o.nama, o.sex');
+		$this->db->select('p.*, o.nik, o.nama, o.sex, s.tanggal_datang');
+		$this->db->select('DATEDIFF(p.tanggal_jam, s.tanggal_datang) AS date_diff');
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
 		$this->db->from('covid19_pantau p');
