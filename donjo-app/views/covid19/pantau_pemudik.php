@@ -36,6 +36,7 @@
 									<option value="<?= $id?>" <?php selected($h_plus, $id); ?> > <?= strtoupper($nama)?> </option>
 									<?php endforeach;?>
 								</select>
+								<small id="data_h_plus_msg" class="form-text text-muted">Mengambil data warga pemudik H+ sejak tanggal tiba. Misal H+3, akan mengambil data pemudik yang tiba 3 hari lalu.</small>
 							</div>
 							
 							<div class="form-group">
