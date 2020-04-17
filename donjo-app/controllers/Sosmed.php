@@ -86,6 +86,18 @@ class Sosmed extends Admin_Controller
 		$this->load->view('sosmed/whatsapp', $data);
 		$this->load->view('footer');
 	}
+	
+	public function telegram()
+	{
+		$data['main'] = $this->web_sosmed_model->get_sosmed(7);	
+		$data['form_action'] = site_url("sosmed/update/7");
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sosmed/telegram', $data);
+		$this->load->view('footer');
+	}
 
 	public function update($id = '')
 	{
@@ -109,6 +121,9 @@ class Sosmed extends Admin_Controller
 				break;
 			case '6':
 				redirect("sosmed/whatsapp");
+				break;
+			case '7':
+				redirect("sosmed/telegram");
 				break;
 			default:
 				redirect("sosmed");
