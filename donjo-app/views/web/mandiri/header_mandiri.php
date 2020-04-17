@@ -116,7 +116,7 @@
       }
       i.fa {margin-right: 10px;}
     </style>
-
+    <?php $this->load->view('head_tags_front') ?>
   </head>
 
   <body class="skin-blue layout-top-nav">

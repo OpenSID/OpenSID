@@ -145,7 +145,7 @@
                   <select class="form-control required input-sm" name="id_syarat" id="id_syarat">
                     <option> -- Pilih Jenis Dokumen -- </option>
                     <?php foreach ($menu_dokumen_mandiri AS $data): ?>
-                      <option value="<?= $data['ref_syarat_id']?>"><?= $data['ref_syarat_nama']?></option>
+                      <option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']?></option>
                     <?php endforeach;?>
                   </select>
                   </div>
