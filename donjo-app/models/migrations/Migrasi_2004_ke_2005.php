@@ -38,6 +38,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			$this->db->query('ALTER TABLE media_sosial ADD COLUMN tipe TINYINT(1) NULL DEFAULT 1 AFTER nama');
 		}
 		// Tambah media sosial telegram		
+		$this->db->query('ALTER TABLE media_sosial MODIFY COLUMN link TEXT NULL');
 		$data = array(
 			'id' => '7',
 			'gambar' => 'tg.png',

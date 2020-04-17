@@ -493,6 +493,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$data = false;
 		}
+
 		return $data;
 	}
 	

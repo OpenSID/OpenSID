@@ -20,7 +20,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Tipe</label>
 										<div class="col-sm-9">
-											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onclick="tipe_link();">
+											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onchange="ubah_pesan(this.value);">
 												<option value="1" <?php selected($main['tipe'], 1) ?>>Personal Chat</option>
 												<option value="2" <?php selected($main['tipe'], 2) ?>>Group Chat</option>
 											</select>
@@ -59,19 +59,21 @@
 	</section>
 </div>
 <script>
-	tipe_link();// Load pertama
-	
-	function tipe_link(){
-		var tipe=document.getElementById("validasi").tipe.value;
-		if (tipe=="1")
+	$('document').ready(function()
+	{
+		$('#tipe').change(); // Pertama kali buka form
+	});
+
+	function ubah_pesan(tipe)
+	{
+		if (tipe == 1)
 		{
-			document.getElementById("link").placeholder = ' Personal   : 0851234567890 (Nomor HP)';
+			$('#link').attr('placeholder', ' Personal chat, contoh : 0851234567890 (Nomor HP)); \n\n Isi kolom ini dengan nomor HP 0851234567890');
 		}
 		else
 		{
-			document.getElementById("link").placeholder = ' Group    : https://chat.whatsapp.com/ \n\n Username : I5antRHvea8ohaU7_RsYYQ';
-		};
-		
+			$('#link').attr('placeholder', ' Group chat, contoh : https://chat.whatsapp.com/BeHlxYwFPr8E4yibTFZjKx \n\n Isi kolom ini dengan id chat : BeHlxYwFPr8E4yibTFZjKx');
+		}
 	};
 	
 	function reset_form()

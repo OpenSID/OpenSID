@@ -52,16 +52,16 @@ class Web_sosmed_model extends CI_Model {
 
 		switch (true)
 		{
-			case ($id == 6 && tipe == 1) :
+			case ($id == 6 && $tipe == 1) :
 				$link = "https://api.whatsapp.com/send?phone=" . $link;
 				break;
-			case ($id == 6 && tipe == 2) :
+			case ($id == 6 && $tipe == 2) :
 				$link = "https://chat.whatsapp.com/" . $link;
 				break;
-			case ($id == 7 && tipe == 1) :
+			case ($id == 7 && $tipe == 1) :
 				$link = "https://t.me/" . $link;
 				break;
-			case ($id == 7 && tipe == 2) :
+			case ($id == 7 && $tipe == 2) :
 				$link = "https://t.me/joinchat/" . $link;
 				break;
 			default:
