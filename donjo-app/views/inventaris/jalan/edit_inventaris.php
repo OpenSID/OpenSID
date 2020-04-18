@@ -41,7 +41,7 @@
 		<form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update/$main->id"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/jalan/menu_kiri.php')?>
+					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -107,7 +107,7 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text"/>
-												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Km</span>
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
 									</div>

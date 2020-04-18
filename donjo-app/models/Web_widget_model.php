@@ -1,5 +1,7 @@
 <?php class Web_widget_model extends CI_Model {
 
+	private $urut_model;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -7,6 +9,8 @@
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('pamong_model');
 		$this->load->model('keuangan_grafik_model');
+	  require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('widget');
 	}
 
 	public function autocomplete()
@@ -118,34 +122,6 @@
 		return $data;
 	}
 
-  private function urut_max()
-  {
-    $this->db->select_max('urut');
-    $query = $this->db->get('widget');
-    $widget = $query->row_array();
-    return $widget['urut'];
-  }
-
-	private function urut_semua()
-	{
-		$sql = "SELECT urut, COUNT(*) c FROM widget GROUP BY urut HAVING c > 1";
-		$query = $this->db->query($sql);
-		$urut_duplikat = $query->result_array();
-		if ($urut_duplikat)
-		{
-			$this->db->select("id");
-			$this->db->order_by("urut");
-			$q = $this->db->get('widget');
-			$widgets = $q->result_array();
-			for ($i=0; $i<count($widgets); $i++)
-			{
-				$this->db->where('id', $widgets[$i]['id']);
-				$data['urut'] = $i + 1;
-				$this->db->update('widget', $data);
-			}
-		}
-	}
-
 	/**
 	 * @param $id Id widget
 	 * @param $arah Arah untuk menukar dengan widget: 1) bawah, 2) atas
@@ -153,39 +129,7 @@
 	 */
 	public function urut($id, $arah)
 	{
-		$this->urut_semua();
-		$this->db->where('id', $id);
-		$q = $this->db->get('widget');
-		$widget1 = $q->row_array();
-
-		$this->db->select("id, urut");
-		$this->db->order_by("urut");
-		$q = $this->db->get('widget');
-		$widgets = $q->result_array();
-		for ($i=0; $i<count($widgets); $i++)
-		{
-			if ($widgets[$i]['id'] == $id)
-				break;
-		}
-
-		if ($arah == 1)
-		{
-			if ($i >= count($widgets) - 1) return;
-			$widget2 = $widgets[$i + 1];
-		}
-		if ($arah == 2)
-		{
-			if ($i <= 0) return;
-			$widget2 = $widgets[$i - 1];
-		}
-
-		// Tukar urutan
-		$this->db->where('id', $widget2['id'])->
-			update('widget', array('urut' => $widget1['urut']));
-		$this->db->where('id', $widget1['id'])->
-			update('widget', array('urut' => $widget2['urut']));
-
-		return (int)$widget2['urut'];
+  	return $this->urut_model->urut($id, $arah);
 	}
 
 	public function lock($id='', $val=0)
@@ -203,7 +147,7 @@
 		$data['enabled'] = 2;
 
 		// Widget diberi urutan terakhir
-		$data['urut'] = $this->urut_max() + 1;
+		$data['urut'] = $this->urut_model->urut_max() + 1;
 		if ($data['jenis_widget'] == 2)
 		{
 			$data['isi'] = $data['isi-statis'];
@@ -325,31 +269,24 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
-		$sql = "DELETE FROM widget WHERE id = ? AND jenis_widget <> 1";
-		$outp = $this->db->query($sql, array($id));
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
-
-		if (count($id_cb))
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$sql = "DELETE FROM widget WHERE id = ? AND jenis_widget <> 1";
-				$outp = $this->db->query($sql, array($id));
-			}
+			$this->delete($id, $semua=true);
 		}
-		else $outp = false;
-
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
 	}
 
 	// pengambilan data yang akan ditampilkan di widget
@@ -366,6 +303,5 @@
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
-
 }
 ?>

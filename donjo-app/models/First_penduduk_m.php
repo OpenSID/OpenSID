@@ -5,7 +5,6 @@ class First_penduduk_m extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('laporan_penduduk_model');
 	}
 
 	public function wilayah()

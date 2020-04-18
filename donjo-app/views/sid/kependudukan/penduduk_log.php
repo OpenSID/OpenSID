@@ -26,7 +26,7 @@
 						<div class="box-header with-border">
 							<div class="row">
 								<div class="col-sm-12">
-									<a href="#confirm-status" title="Kembalikan Status" onclick="aksiBorongan('mainform','<?= site_url("penduduk_log/kembalikan_status_all")?>')" class="btn btn-social btn-flat	btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-undo'></i> Kembalikan Status</a>
+									<a href="#confirm-status" title="Kembalikan Status" onclick="aksiBorongan('mainform', '<?=site_url("penduduk_log/kembalikan_status_all")?>')" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-undo'></i> Kembalikan Status Terpilih</a>
 									<a href="<?= site_url("penduduk_log/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 									<a href="<?= site_url("penduduk_log/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 									<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
@@ -97,7 +97,7 @@
 														<thead class="bg-gray disabled color-palette">
                               <tr>
                              		<th>No</th>
-                    	     			<th><input type="checkbox" class="checkall"/></th>
+                    	     			<th><input type="checkbox" id="checkall"/></th>
                            			<th width="85">Aksi</th>
                            			<?php if ($o==2): ?>
                              			<th><a href="<?= site_url("penduduk_log/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>

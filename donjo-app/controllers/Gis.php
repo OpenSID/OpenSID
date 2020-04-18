@@ -14,7 +14,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 9;
-		$this->load->database();
+		$this->sub_modul_ini = 62;
 	}
 
 	public function clear()
@@ -85,7 +85,7 @@ class Gis extends Admin_Controller {
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['desa'] = $this->penduduk_model->get_desa();
+		$data['desa'] = $this->config_model->get_data();
 		$data['lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['garis'] = $this->plan_garis_model->list_data();
 		$data['area'] = $this->plan_area_model->list_data();
@@ -97,8 +97,7 @@ class Gis extends Admin_Controller {
 		$data['list_lap'] = $this->list_lap();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 9;
-		$nav['act_sub'] = 62;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);

@@ -19,6 +19,7 @@ class Web extends Admin_Controller {
 		$this->load->model('web_artikel_model');
 		$this->load->model('web_kategori_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 47;
 	}
 
 	public function clear()
@@ -62,9 +63,6 @@ class Web extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] =1;
-		$nav['act'] = 13;
-		$nav['act_sub'] = 47;
-
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
 
@@ -95,11 +93,8 @@ class Web extends Admin_Controller {
 		}
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act'] = 13;
-		$nav['act_sub'] = 47;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -136,16 +131,16 @@ class Web extends Admin_Controller {
 			redirect("web/index/$cat/$p/$o");
 
 		$this->web_artikel_model->update($cat, $id);
-		redirect("web/form/$cat/$p/$o/$id");
+		if ($this->session->success == -1)
+			redirect("web/form/$cat/$p/$o/$id");
+		else
+			redirect("web/index/$cat");
 	}
 
 	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
-
-		$_SESSION['success'] = 1;
-		$outp = $this->web_artikel_model->delete($id);
-		if (!$outp) $_SESSION['success'] = -1;
+		$this->web_artikel_model->delete($id);
 		redirect("web/index/$cat/$p/$o");
 	}
 
@@ -278,9 +273,9 @@ class Web extends Admin_Controller {
 
 	public function slider()
 	{
+		$this->sub_modul_ini = 54;
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 54;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('slider/admin_slider.php');
@@ -302,9 +297,9 @@ class Web extends Admin_Controller {
 
 	public function teks_berjalan()
 	{
+		$this->sub_modul_ini = 64;
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 64;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('web/admin_teks_berjalan.php');

@@ -1,6 +1,4 @@
-<?php
-
-class Suplemen_model extends CI_Model {
+<?php class Suplemen_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -340,11 +338,8 @@ class Suplemen_model extends CI_Model {
 	public function hapus($id)
 	{
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
-		if($hasil){
-			$_SESSION["success"] = 1;
-		}else{
-			$_SESSION["success"] = -1;
-		}
+		
+		status_sukses($hasil); //Tampilkan Pesan
 	}
 
 	public function update($id)
@@ -355,7 +350,8 @@ class Suplemen_model extends CI_Model {
 			'keterangan' => $this->input->post('keterangan')
 		);
 		$hasil = $this->db->where('id',$id)->update('suplemen', $data);
-		$_SESSION["success"] = $hasil ? 1 : -1;
+
+		status_sukses($hasil); //Tampilkan Pesan
 	}
 
 	public function add_terdata($post, $id)
@@ -495,6 +491,5 @@ class Suplemen_model extends CI_Model {
 			return null;
 		}
 	}
-
 }
 ?>

@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/script.js"></script>
 <script>
 	$('#tgl_1').datetimepicker(
@@ -22,6 +23,7 @@
 		select_options(rt, params);
 	}
 </script>
+
 <style type="text/css">
 	.horizontal {
 		padding-left: 0px; width: auto; padding-right: 30px;
@@ -35,13 +37,13 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="no_kk">Nomor KK</label>
-							<input class="form-control input-sm required" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
+							<input class="form-control input-sm required nik" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
 							<input name="id" type="hidden" value="<?= $kk['id']; ?>">
 							<input name="id_cluster_lama" type="hidden" value="<?= $kk['id_cluster']; ?>">
 						</div>
 						<div class="form-group">
 							<label>Alamat </label>
-							<input id="alamat" name="alamat" class="form-control input-sm" type="text" placeholder="Alamat Jalan/Perumahan" value="<?= $kk['alamat']?>"></input>
+							<input id="alamat" name="alamat" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Jalan/Perumahan" value="<?= $kk['alamat']?>"></input>
 						</div>
 						<div class="form-group">
 							<div class="form-group col-sm-6 horizontal">

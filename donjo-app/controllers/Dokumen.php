@@ -13,6 +13,7 @@ class Dokumen extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->helper('download');
 		$this->modul_ini = 15;
+		$this->sub_modul_ini = 52;
 	}
 
 	public function clear()
@@ -44,10 +45,7 @@ class Dokumen extends Admin_Controller {
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 15;
-		$nav['act_sub'] = 52;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -74,9 +72,7 @@ class Dokumen extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
 		$header = $this->header_model->get_data();
-
-		$nav['act'] = 15;
-		$nav['act_sub'] = 52;
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/form', $data);
@@ -123,7 +119,6 @@ class Dokumen extends Admin_Controller {
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -131,7 +126,6 @@ class Dokumen extends Admin_Controller {
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -211,10 +205,10 @@ class Dokumen extends Admin_Controller {
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas($id_dokumen)
+	public function unduh_berkas($id_dokumen, $id_pend=0)
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 		if ($berkas)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else

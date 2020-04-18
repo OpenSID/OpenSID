@@ -2,6 +2,8 @@
 
 class Mandiri extends Admin_Controller {
 
+	private $kembali;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -9,12 +11,13 @@ class Mandiri extends Admin_Controller {
 		$this->load->model('mandiri_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 14;
+		$this->sub_modul_ini = 56;
+		$this->kembali = $_SERVER['HTTP_REFERER'];
 	}
 
 	public function clear()
 	{
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
 		redirect('mandiri');
 	}
 
@@ -38,11 +41,7 @@ class Mandiri extends Admin_Controller {
 		$data['paging'] = $this->mandiri_model->paging($p, $o);
 		$data['main'] = $this->mandiri_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->mandiri_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-
-		$nav['act'] = 14;
-		$nav['act_sub'] = 56;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
@@ -59,35 +58,48 @@ class Mandiri extends Admin_Controller {
 		redirect('mandiri');
 	}
 
-	public function ajax_pin($p = 1, $o = 0, $id = 0)
+	public function ajax_pin($id_pend = '')
 	{
-		$data['penduduk'] = $this->mandiri_model->list_penduduk();
-		$data['form_action'] = site_url("mandiri/insert/$id");
+		if ($id_pend)
+		{
+			$data['penduduk'] = $this->mandiri_model->get_penduduk($id_pend);
+			$data['id_pend'] = $id_pend;
+			$data['form_action'] = site_url("mandiri/update/$id_pend");	
+		}
+		else
+		{
+			$data['penduduk'] = $this->mandiri_model->list_penduduk();
+			$data['id_pend'] = NULL;
+			$data['form_action'] = site_url("mandiri/insert");
+			
+		}
 		$this->load->view('mandiri/ajax_pin', $data);
 	}
 
 	public function insert()
 	{
 		$pin = $this->mandiri_model->insert();
-		if ($pin)
-		{
-			$_SESSION['success'] = 1;
-		}
-		else
-		{
-			$_SESSION['success'] = -1;
-		}
+
+		status_sukses($pin); //Tampilkan Pesan
 
 		$_SESSION['pin'] = $pin;
 		redirect('mandiri');
 	}
 
-	public function delete($p = 1, $o = 0, $id = '')
+	public function update($id_pend)
 	{
-		$this->redirect_hak_akses('h', "mandiri");
-		$outp = $this->mandiri_model->delete($id);
-		if ($outp) $_SESSION['success'] = 1;
-			else $_SESSION['success'] = -1;
-		redirect("mandiri");
+		$pin = $this->mandiri_model->update($id_pend);
+
+		status_sukses($pin); //Tampilkan Pesan
+
+		$_SESSION['pin'] = $pin;
+		redirect('mandiri');
+	}
+
+	public function delete($id = '')
+	{
+		$this->redirect_hak_akses('h', $this->kembali);
+		$this->mandiri_model->delete($id);		
+		redirect($this->kembali);
 	}
 }

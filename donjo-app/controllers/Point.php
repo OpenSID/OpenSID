@@ -8,8 +8,8 @@ class Point extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_point_model');
-		$this->load->database();
 		$this->modul_ini = 9;
+		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -39,14 +39,11 @@ class Point extends Admin_Controller {
 		$data['paging'] = $this->plan_point_model->paging($p, $o);
 		$data['main'] = $this->plan_point_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_point_model->autocomplete();
-
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 0;
 
 		$this->load->view('header', $header);
-
 		$this->load->view('nav', $nav);
 		$this->load->view('point/table', $data);
 		$this->load->view('footer');
@@ -71,12 +68,10 @@ class Point extends Admin_Controller {
 
 		$data['simbol'] = $this->plan_point_model->list_simbol();
 		$header = $this->header_model->get_data();
-
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 0;
-		$this->load->view('header', $header);
 
+		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('point/form', $data);
 		$this->load->view('footer');
@@ -88,7 +83,6 @@ class Point extends Admin_Controller {
 		$data['point'] = $this->plan_point_model->get_point($point);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		$nav['act_sub'] = 8;
 		$nav['tip'] = 0;
 
 		$this->load->view('header', $header);

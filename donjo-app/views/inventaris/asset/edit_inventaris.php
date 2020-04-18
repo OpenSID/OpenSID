@@ -41,7 +41,7 @@
 		<form class="form-horizontal" id="validasi" name="form_asset" method="post" action="<?= site_url("api_inventaris_asset/update/$main->id"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/asset/menu_kiri.php')?>
+					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">

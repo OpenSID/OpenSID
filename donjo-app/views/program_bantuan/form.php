@@ -83,7 +83,7 @@
 												<div class="form-group">
 													<label for="no_id_kartu" class="col-sm-4 col-lg-2  control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-7">
-								  					<input  id="no_id_kartu" class="form-control input-sm" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" required="" >
+								  					<input  id="no_id_kartu" class="form-control input-sm required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" >
 													</div>
 												</div>
 												<div class="form-group">
@@ -96,13 +96,13 @@
 																<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 															</span>
 														</div>
-														<p class="help-block">Kosongkan jika tidak ingin mengunggah gambar.</p>
+														<p class="help-block text-red">Kosongkan jika tidak ingin mengunggah gambar.</p>
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
-														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik']?>">
+														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik_peserta']?>">
 													</div>
 												</div>
 												<div class="form-group">

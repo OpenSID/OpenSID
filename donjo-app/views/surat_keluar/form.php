@@ -27,14 +27,14 @@
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Surat Keluar
            	</a>
 					</div>
-					<div class="box-body">
-						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal nomor-urut">
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal nomor-urut">
+						<div class="box-body">
 							<input type="hidden" id="nomor_urut_lama" name="nomor_urut_lama" value="<?= $surat_keluar['nomor_urut']?>">
 							<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat_keluar/nomor_surat_duplikat')?>">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_urut">Nomor Urut</label>
 								<div class="col-sm-8">
-									<input id="nomor_urut" name="nomor_urut" class="form-control input-sm required" type="text" placeholder="Nomor Urut" value="<?= $surat_keluar['nomor_urut']?>"></input>
+									<input id="nomor_urut" name="nomor_urut" class="form-control input-sm number required" type="text" placeholder="Nomor Urut" value="<?= $surat_keluar['nomor_urut']?>"></input>
 								</div>
 							</div>
 							<?php if (!is_null($surat_keluar['berkas_scan']) && $surat_keluar['berkas_scan'] != '.'): ?>

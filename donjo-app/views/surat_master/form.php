@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Format Surat Desa</h1>
@@ -8,7 +7,7 @@
 			<li class="active">Pengaturan Format Surat</li>
 		</ol>
 	</section>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
@@ -50,6 +49,12 @@
 												</div>
 											</div>
 										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label" >Disediakan pada Layanan Mandiri</label>
+											<div class="col-sm-7">
+												<input type="checkbox" id="mandiri" name="mandiri" onclick="myFunction1()" style="font-size: larger;" <?php selected($surat_master['mandiri'], 1, 1)?>/>
+											</div>
+										</div>
 									</div>
 									<?php if (strpos($form_action, 'insert') !== false): ?>
 										<div class="col-sm-12">
@@ -66,9 +71,32 @@
 									<?php endif; ?>
 								</div>
 							</div>
+							<div id="atur_syarat">
+								<div class="box-header with-border">
+									<h4>Persyaratan Permohonan Surat</h4>
+								</div>
+								<div class="box-body" id="surat">
+									<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped form">
+										<tr>
+											<th width="2">No</th>
+											<th width="5"><center><input type="checkbox" id="checkall0[]" onclick="myFunction0()"/></center></th>
+											<th>Nama Dokumen</th>
+											<th> &nbsp;</th>
+										</tr>
+										<?php foreach($list_ref_syarat as $no => $ref_syarat): ?>
+											<tr>
+												<td align="center" width="2"><?= $no + 1;?></td>
+												<td><center><input type="checkbox" name="syarat[]" value="<?=$ref_syarat['ref_syarat_id']?>" <?php in_array($ref_syarat['ref_syarat_id'], array_column($syarat_surat, 'ref_syarat_id')) and print('checked');?>></center></td>
+												<td><?= $ref_syarat['ref_syarat_nama']?></td>
+												<td></td>
+											</tr>
+										<?php endforeach; ?>
+									</table>
+								</div>
+							</div>
 							<div class="box-footer">
 								<div class="col-xs-12">
-									<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+									<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm invisible"><i class="fa fa-times"></i> Batal</button>
 									<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 								</div>
 							</div>
@@ -79,3 +107,39 @@
 		</div>
 	</section>
 </div>
+
+<script type="text/javascript">
+var checkBox = document.getElementById("mandiri");
+if (checkBox.checked == true){
+	$('#atur_syarat').show();
+} else {
+	$('#atur_syarat').hide();
+}
+
+function myFunction0() {
+	var checkBox = document.getElementById("checkall0[]");
+	if (checkBox.checked == true){
+		var items=document.getElementsByName('syarat[]');
+		for(var i=0; i<items.length; i++){
+			if(items[i].type=='checkbox')
+			items[i].checked=true;
+		}
+	} else {
+		var items=document.getElementsByName('syarat[]');
+		for(var i=0; i<items.length; i++){
+			if(items[i].type=='checkbox')
+			items[i].checked=false;
+		}
+	}
+};
+
+function myFunction1() {
+	var checkBox = document.getElementById("mandiri");
+	if (checkBox.checked == true){
+		$('#atur_syarat').show();
+	} else {
+		$('#atur_syarat').hide();
+	}
+};
+
+</script>

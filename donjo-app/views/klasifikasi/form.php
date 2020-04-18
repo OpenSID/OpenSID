@@ -21,7 +21,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="kode">Kode</label>
 								<div class="col-sm-6">
-									<input name="kode" class="form-control input-sm required" type="text" placeholder="Kode" value="<?=$data['kode']?>"></input>
+									<input name="kode" class="form-control input-sm bilangan_titik required" type="text" placeholder="Kode" value="<?=$data['kode']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

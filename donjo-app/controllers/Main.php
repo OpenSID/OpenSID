@@ -7,15 +7,14 @@ class Main extends CI_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('config_model');
+		$this->load->model('pamong_model');
+		$this->load->model('track_model');
 	}
 
 	public function maintenance_mode()
 	{
 		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
 			redirect('main');
-
-		$this->load->model('config_model');
-		$this->load->model('pamong_model');
 		$data['main'] = $this->config_model->get_data();
 		$data['pamong_kades'] = $this->pamong_model->get_ttd();
 		if (file_exists(FCPATH.'desa/offline_mode.php'))
@@ -28,6 +27,7 @@ class Main extends CI_Controller {
 	{
 		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
 		{
+			$this->track_model->track_desa('main');
 			$this->load->model('user_model');
 			$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 			switch ($grup)

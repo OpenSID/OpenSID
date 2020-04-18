@@ -1,8 +1,12 @@
 <?php class Web_gallery_model extends CI_Model {
 
+	private $urut_model;
+
 	public function __construct()
 	{
 		parent::__construct();
+	  require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('gambar_gallery');
 	}
 
 	public function autocomplete()
@@ -67,7 +71,7 @@
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			default:$order_sql = ' ORDER BY id';
+			default:$order_sql = ' ORDER BY urut';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -107,6 +111,7 @@
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
 		$data = $_POST;
+		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		// Bolehkan album tidak ada gambar cover
 		if (!empty($lokasi_file))
 		{
@@ -165,8 +170,10 @@
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
-	public function delete_gallery($id='')
+	public function delete_gallery($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+
 		$this->delete($id);
 		$sub_gallery = $this->db->select('id')->
 			where('parrent', $id)->
@@ -179,33 +186,38 @@
 
 	public function delete_all_gallery()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$outp = $this->delete_gallery($id);
+			$this->delete_gallery($id, $semua=true);
 		}
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
 		// Note:
 		// Gambar yang dihapus ada kemungkinan dipakai
 		// oleh gallery lain, karena ketika mengupload
 		// nama file nya belum diubah sesuai dengan
 		// judul gallery
 		$this->delete_gallery_image($id);
+		
+		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
-		$sql  = "DELETE FROM gambar_gallery WHERE id = ?";
-		$outp = $this->db->query($sql, array($id));
-		if (!$outp) $_SESSION['success'] = -1;
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
+		$this->session->success = 1;
+
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$outp = $this->delete($id);
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -227,8 +239,7 @@
 		$sql = "UPDATE gambar_gallery SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function gallery_slider($id='', $val=0)
@@ -295,7 +306,7 @@
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			default:$order_sql = ' ORDER BY id';
+			default:$order_sql = ' ORDER BY urut';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -331,6 +342,7 @@
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
 		$data = $_POST;
+		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $parrent)) + 1;
 		// Bolehkan isi album tidak ada gambar
 		if (!empty($lokasi_file))
 		{
@@ -385,5 +397,15 @@
 		$outp = $this->db->where('id', $id)->update('gambar_gallery', $data);
 		if (!$outp) $_SESSION['success'] = -1;
 	}
+
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($id, $arah, $gallery='')
+	{
+  	$subset = !empty($gallery) ? array('parrent' => $gallery) : array('parrent' => 0);
+  	$this->urut_model->urut($id, $arah, $subset);
+	}
+
 }
 ?>

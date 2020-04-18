@@ -44,7 +44,9 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
-    $this->load->model('web_dokumen_model');
+		$this->load->model('web_dokumen_model');
+		$this->load->model('mailbox_model');
+		$this->load->model('lapor_model');
 	}
 
 	public function auth()
@@ -83,9 +85,14 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-		$data['artikel'] = $this->first_artikel_m->artikel_show(0, $data['paging']->offset, $data['paging']->per_page);
+		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
+		$data['feed'] = array(
+			'items' => $this->first_artikel_m->get_feed(),
+			'title' => 'BERITA COVID19.GO.ID',
+			'url' => 'https://www.covid19.go.id'
+		);
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
 		$cari = trim($this->input->get('cari'));
@@ -147,7 +154,7 @@ class First extends Web_Controller {
 			$this->load->view('program_bantuan/kartu_peserta',$data);
 	}
 
-	public function mandiri($p=1, $m=0)
+	public function mandiri($p=1, $m=0, $kat=1)
 	{
 		if ($_SESSION['mandiri'] != 1)
 		{
@@ -156,8 +163,9 @@ class First extends Web_Controller {
 
 		$data = $this->includes;
 		$data['p'] = $p;
-		$data['menu_surat2'] = $this->surat_model->list_surat2();
+		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
 		$data['m'] = $m;
+		$data['kat'] = $kat;
 
 		$this->_get_common_data($data);
 
@@ -166,27 +174,95 @@ class First extends Web_Controller {
 			2 untuk menu layanan
 			3 untuk menu lapor
 			4 untuk menu bantuan
+			5 untuk menu surat mandiri
 		*/
 		switch ($m)
 		{
 			case 1:
-				$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
 				break;
+			case 21:
+				$data['tab'] = 2;
+				$data['m'] = 2;
 			case 2:
+				$this->load->model('permohonan_surat_model');
 				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
+				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
+				break;
+			case 3:
+				$inbox = $this->mailbox_model->get_inbox_user($_SESSION['nik']);
+				$outbox = $this->mailbox_model->get_outbox_user($_SESSION['nik']);
+				$data['main_list'] = $kat == 1 ? $inbox : $outbox;
+				$data['submenu'] = $this->mailbox_model->list_menu();
+				$_SESSION['mailbox'] = $kat;
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
 				$data['daftar_bantuan'] = $this->pb->daftar_bantuan_yang_diterima($_SESSION['nik']);
 				break;
+			case 5:
+				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+				break;
 			default:
 				break;
 		}
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+		$this->load->view('web/mandiri/layout.mandiri.php', $data);
+	}
+
+	public function mandiri_surat($id_permohonan='')
+	{
+		if ($_SESSION['mandiri'] != 1)
+		{
+			redirect('first');
+		}
+
+		$this->load->model('permohonan_surat_model');
+		$data = $this->includes;
+		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
+		$data['menu_dokumen_mandiri'] = $this->lapor_model->get_surat_ref_all();
+		$data['m'] = 5;
+		$data['permohonan'] = $this->permohonan_surat_model->get_permohonan($id_permohonan);
+		$this->_get_common_data($data);
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
+
+  public function cek_syarat()
+  {
+  	$id_permohonan = $this->input->post('id_permohonan');
+		$permohonan = $this->db->where('id', $id_permohonan)
+			->get('permohonan_surat')
+			->row_array();
+		$syarat_permohonan = json_decode($permohonan['syarat'], true);
+  	$dokumen = $this->penduduk_model->list_dokumen($_SESSION['id']);
+  	$id = $this->input->post('id_surat');
+  	$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($syarat_surat as $no_syarat => $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['ref_syarat_nama'];
+			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
+	  	$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id']), TRUE);
+			$row[] = $pilihan_dokumen;
+			$data[] = $row;
+		}
+
+		$output = array(
+     	"recordsTotal" => 10,
+      "recordsFiltered" => 10,
+			'data' => $data
+		);
+    echo json_encode($output);
+  }
 
 	/*
 		Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. Url first/artikel/:id
@@ -226,7 +302,7 @@ class First extends Web_Controller {
 			$_SESSION['post']['captcha_code'] = '';
 		}
 		$this->set_template('layouts/artikel.tpl.php');
-		$this->load->view($this->template,$data);
+		$this->load->view($this->template, $data);
 	}
 
 	public function arsip($p=1)
@@ -287,6 +363,12 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
+		if (is_null($data['heading']))
+		{
+			// Permintaan statistik tidak dikenal
+			show_404();
+		}
+
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
 		$data['tipe'] = $tipe;
@@ -365,25 +447,25 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_table_peraturan()
-  {
-    $kategori_dokumen = '';
-    $tahun_dokumen = '';
-    $tentang_dokumen = '';
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
+	public function ajax_table_peraturan()
+	{
+		$kategori_dokumen = '';
+		$tahun_dokumen = '';
+		$tentang_dokumen = '';
+		$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
-  // function filter peraturan
-  public function filter_peraturan()
-  {
-    $kategori_dokumen = $this->input->post('kategori');
-    $tahun_dokumen = $this->input->post('tahun');
-    $tentang_dokumen = $this->input->post('tentang');
+	// function filter peraturan
+	public function filter_peraturan()
+	{
+		$kategori_dokumen = $this->input->post('kategori');
+		$tahun_dokumen = $this->input->post('tahun');
+		$tentang_dokumen = $this->input->post('tentang');
 
-    $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-    echo json_encode($data);
-  }
+		$data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
+		echo json_encode($data);
+	}
 
 	public function informasi_publik()
 	{
@@ -400,9 +482,9 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-  public function ajax_informasi_publik()
-  {
-  	$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
+	public function ajax_informasi_publik()
+	{
+		$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
 		$data = array();
 		$no = $_POST['start'];
 
@@ -420,12 +502,12 @@ class First extends Web_Controller {
 		}
 
 		$output = array(
-     	"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
-      "recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
+			"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
+			"recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
 			'data' => $data
 		);
-    echo json_encode($output);
-  }
+		echo json_encode($output);
+	}
 
 	public function agenda($stat=0)
 	{
@@ -435,20 +517,20 @@ class First extends Web_Controller {
 		$this->load->view($this->template,$data);
 	}
 
-	public function kategori($kat=0, $p=1)
+	public function kategori($id, $p=1)
 	{
 		$data = $this->includes;
 
 		$data['p'] = $p;
-		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($kat);
-		$data['paging']  = $this->first_artikel_m->paging_kat($p, $kat);
-		$data['paging_page']  = 'kategori/'.$kat;
+		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($id);
+		$data['paging']  = $this->first_artikel_m->paging_kat($p, $id);
+		$data['paging_page']  = 'kategori/'.$id;
 		$data['paging_range'] = 3;
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
-		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $kat);
+		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
 		$this->_get_common_data($data);
 		$this->load->view($this->template, $data);
@@ -493,7 +575,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
-		$data['desa'] = $this->first_m->get_data();
+		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
@@ -513,6 +595,90 @@ class First extends Web_Controller {
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
+	}
+
+	public function ajax_table_surat_permohonan()
+  {
+		$data = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		for ($i=0; $i < count($data); $i++)
+		{
+			$berkas = $data[$i]['satuan'];
+			$list_dokumen[$i][] = $data[$i]['no'];
+			$list_dokumen[$i][] = "<a href='".site_url("mandiri_web/unduh_berkas/".$data[$i][id])."/{$data[$i][id_pend]}"."'>".$data[$i]["nama"].'</a>';
+			$list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
+			$list_dokumen[$i][] = $data[$i]['nama'];
+			$list_dokumen[$i][] = $data[$i]['id'];
+		}
+		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
+
+    echo json_encode($list);
+	}
+
+	public function ajax_upload_dokumen_pendukung()
+	{
+
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('nama', 'Nama Dokumen', 'required');
+    if ($this->form_validation->run() !== true)
+    {
+    	$data['success'] = -1;
+			$data['message'] = validation_errors();
+			echo json_encode($data);
+			return;
+		}
+
+		$this->session->unset_userdata('success');
+		$this->session->unset_userdata('error_msg');
+		$success_msg = 'Berhasil menyimpan data';
+
+		if ($_SESSION['id'])
+		{
+			$id_dokumen = $this->input->post('id');
+			unset($_POST['id']);
+
+			if ($id_dokumen)
+				$this->web_dokumen_model->update($id_dokumen);
+			else
+				$this->web_dokumen_model->insert();
+
+			$data['success'] = $this->session->userdata('success');
+			$data['message'] = $data['success'] == -1 ? $this->session->userdata('error_msg') : $success_msg;
+
+		}
+		else
+			$data['message'] = 'You are not authorized';
+
+		echo json_encode($data);
+	}
+
+	public function ajax_get_dokumen_pendukung()
+	{
+		if($_SESSION['id'])
+		{
+			$id_dokumen = $this->input->post('id_dokumen');
+			$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+		}
+		else
+			$data['message'] = 'You are not authorized';
+
+		echo json_encode($data);
+	}
+
+	public function ajax_hapus_dokumen_pendukung()
+	{
+		if ($_SESSION['id'])
+		{
+			$id_dokumen = $this->input->post('id_dokumen');
+			if ($id_dokumen)
+				$this->web_dokumen_model->delete($id_dokumen);
+			$data['success'] = $this->session->userdata('success') ? : '1';
+		}
+		else
+			$data['message'] = 'You are not authorized';
+
+		echo json_encode($data);
 	}
 
 }

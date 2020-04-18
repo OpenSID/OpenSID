@@ -13,9 +13,6 @@ class Api_inventaris_gedung extends Admin_Controller
 		parent::__construct();
 		session_start();
 		$this->load->model('inventaris_gedung_model');
-		$this->modul_ini = 16;
-		$this->tab_ini = 3;
-		// $this->controller = 'inventaris_gedung';
 	}
 
 	public function add()
@@ -37,7 +34,9 @@ class Api_inventaris_gedung extends Admin_Controller
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-			'visible' => 1
+			'visible' => 1,
+			'created_by' => $this->session->user,
+			'updated_by' => $this->session->user
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -53,7 +52,9 @@ class Api_inventaris_gedung extends Admin_Controller
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
-			'visible' => 1
+			'visible' => 1,
+			'created_by' => $this->session->user,
+			'updated_by' => $this->session->user
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -79,7 +80,7 @@ class Api_inventaris_gedung extends Admin_Controller
 			'asal' => $this->input->post('asal'),
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date("m/d/Y")
+			'updated_at' => date('Y-m-d H:i:s')
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
@@ -91,10 +92,10 @@ class Api_inventaris_gedung extends Admin_Controller
 		$data = $this->inventaris_gedung_model->update_mutasi($id, array(
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
-			'harga_jual' => $this->input->post('harga_jual'),
-			'sumbangkan' => $this->input->post('sumbangkan'),
+			'harga_jual' => $this->input->post('harga_jual') || null,
+			'sumbangkan' => $this->input->post('sumbangkan') || null,
 			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date("m/d/Y")
+			'updated_at' => date('Y-m-d H:i:s')
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;

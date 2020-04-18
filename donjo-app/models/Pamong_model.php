@@ -1,8 +1,12 @@
 <?php class Pamong_model extends CI_Model {
 
+	private $urut_model;
+
 	public function __construct()
 	{
 		parent::__construct();
+	  require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
 	}
 
 	public function list_data($aktif = false)
@@ -54,22 +58,16 @@
 				(SELECT p.nama
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id) a
+				UNION SELECT pamong_nama FROM tweb_desa_pamong
 				UNION SELECT p.nik
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+				UNION SELECT pamong_nik FROM tweb_desa_pamong
 				UNION SELECT pamong_niap FROM tweb_desa_pamong
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
-
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .addslashes($data[$i]['nama']). "'";
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-		return $outp;
+		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
@@ -79,7 +77,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR p.nik LIKE '$kw')";
+			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -148,7 +146,7 @@
 		$data['foto'] = $nama_file;
 		$data = $this->siapkan_data($data);
 		// Beri urutan terakhir
-		$data['urut'] = $this->urut_max() + 1;
+		$data['urut'] = $this->urut_model->urut_max() + 1;
 		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
 		$outp = $this->db->insert('tweb_desa_pamong', $data);
@@ -217,31 +215,30 @@
 		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
 
-	public function delete($id='')
+	public function delete($id='', $semua=false)
 	{
+		if (!$semua) $this->session->success = 1;
+		
 		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
 		if (!empty($foto))
 		{
 			unlink(LOKASI_USER_PICT.$foto);
 			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
 		}
-		$sql = "DELETE FROM tweb_desa_pamong WHERE pamong_id = ?";
-		$outp = $this->db->query($sql,array($id));
-		return $outp;
+		
+		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach ($id_cb as $id)
-			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 
@@ -277,70 +274,27 @@
 		return $ub;
 	}
 
-  private function urut_max()
-  {
-    $this->db->select_max('urut');
-    $query = $this->db->get('tweb_desa_pamong');
-    $data = $query->row_array();
-    return $data['urut'];
-  }
-
-	private function urut_semua()
-	{
-		$sql = "SELECT urut, COUNT(*) c FROM tweb_desa_pamong GROUP BY urut HAVING c > 1";
-		$query = $this->db->query($sql);
-		$urut_duplikat = $query->result_array();
-		if ($urut_duplikat)
-		{
-			$this->db->select("pamong_id");
-			$this->db->order_by("urut");
-			$q = $this->db->get('tweb_desa_pamong');
-			$pamong = $q->result_array();
-			for ($i=0; $i<count($pamong); $i++)
-			{
-				$this->db->where('pamong_id', $pamong[$i]['pamong_id']);
-				$data['urut'] = $i + 1;
-				$this->db->update('tweb_desa_pamong', $data);
-			}
-		}
-	}
-
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
 	public function urut($id, $arah)
 	{
-		$this->urut_semua();
-		$this->db->where('pamong_id', $id);
-		$q = $this->db->get('tweb_desa_pamong');
-		$pamong1 = $q->row_array();
+  	$this->urut_model->urut($id, $arah);
+	}
 
-		$this->db->select("pamong_id, urut");
-		$this->db->order_by("urut");
-		$q = $this->db->get('tweb_desa_pamong');
-		$pamong = $q->result_array();
-		for ($i=0; $i<count($pamong); $i++)
-		{
-			if ($pamong[$i]['pamong_id'] == $id)
-				break;
-		}
+	/*
+	 * Mengambil semua data penduduk kecuali yg sdh menjadi pamong untuk pilihan drop-down form
+	 */
+	public function list_penduduk()
+	{
+		$data = $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+			->from('penduduk_hidup u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+			->where('u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL)')
+			->get()
+			->result_array();
 
-		if ($arah == 1)
-		{
-			if ($i >= count($pamong) - 1) return;
-			$pamong2 = $pamong[$i + 1];
-		}
-		if ($arah == 2)
-		{
-			if ($i <= 0) return;
-			$pamong2 = $pamong[$i - 1];
-		}
-
-		// Tukar urutan
-		$this->db->where('pamong_id', $pamong2['pamong_id'])->
-			update('tweb_desa_pamong', array('urut' => $pamong1['urut']));
-		$this->db->where('pamong_id', $pamong1['pamong_id'])->
-			update('tweb_desa_pamong', array('urut' => $pamong2['urut']));
+		return $data;
 	}
 
 }

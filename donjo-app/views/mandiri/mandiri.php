@@ -1,7 +1,7 @@
-<script>
+<script type="text/javascript">	
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
+		var keyword = <?=$keyword?> ;
 		$( "#cari" ).autocomplete(
 		{
 			source: keyword,
@@ -23,7 +23,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Hasilkan PIN</a>
+							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Tambah Pengguna Layanan Mandiri</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -61,7 +61,8 @@
 																	<tr>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="#" data-href="<?=site_url("mandiri/delete/$p/$o/$data[id_pend]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="<?=site_url('mandiri/ajax_pin/'.$data[id_pend])?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ganti PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
+																			<a href="#" data-href="<?=site_url('mandiri/delete/'.$data[id_pend])?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<td>
 																			<?=$data['nik'];?>

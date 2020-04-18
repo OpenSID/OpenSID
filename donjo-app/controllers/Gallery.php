@@ -9,6 +9,7 @@ class Gallery extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_gallery_model');
 		$this->modul_ini = 13;
+		$this->sub_modul_ini = 51;
 	}
 
 	public function clear()
@@ -38,10 +39,7 @@ class Gallery extends Admin_Controller {
 		$data['paging'] = $this->web_gallery_model->paging($p,$o);
 		$data['main'] = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -67,8 +65,6 @@ class Gallery extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form', $data);
@@ -121,7 +117,6 @@ class Gallery extends Admin_Controller {
 	public function delete($p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "gallery/index/$p/$o");
-		$_SESSION['success'] = 1;
 		$this->web_gallery_model->delete_gallery($id);
 		redirect("gallery/index/$p/$o");
 	}
@@ -193,8 +188,6 @@ class Gallery extends Admin_Controller {
 		$data['sub'] = $this->web_gallery_model->get_gallery($gal);
 		$data['keyword'] = $this->web_gallery_model->autocomplete();
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
@@ -215,10 +208,8 @@ class Gallery extends Admin_Controller {
 			$data['form_action'] = site_url("gallery/insert_sub_gallery/$gallery");
 		}
 		$data['album']=$gallery;
-
 		$header = $this->header_model->get_data();
-		$nav['act'] = 13;
-		$nav['act_sub'] = 51;
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gallery/form_sub_gallery', $data);
@@ -240,7 +231,6 @@ class Gallery extends Admin_Controller {
 	public function delete_sub_gallery($gallery='', $id='')
 	{
 		$this->redirect_hak_akses('h', "gallery/sub_gallery/$gallery");
-		$_SESSION['success']=1;
 		$this->web_gallery_model->delete($id);
 		redirect("gallery/sub_gallery/$gallery");
 	}
@@ -263,5 +253,14 @@ class Gallery extends Admin_Controller {
 	{
 		$this->web_gallery_model->gallery_lock($id, 2);
 		redirect("gallery/sub_gallery/$gallery");
+	}
+
+	public function urut($id, $arah = 0, $gallery='')
+	{
+		$this->web_gallery_model->urut($id, $arah, $gallery);
+		if ($gallery != '')
+			redirect("gallery/sub_gallery/$gallery");
+		else
+			redirect("gallery/index");
 	}
 }

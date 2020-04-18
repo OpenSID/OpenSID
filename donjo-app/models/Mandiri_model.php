@@ -7,21 +7,13 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT p.nik
-			FROM tweb_penduduk_mandiri m
-			LEFT JOIN tweb_penduduk p ON m.id_pend = p.id";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->select('p.nik, p.nama')
+			->join('tweb_penduduk p','p.id = m.id_pend', 'left')
+			->from('tweb_penduduk_mandiri m')
+			->get()
+			->result_array();
 
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ",'" .$data[$i]['nik']. "'";
-		}
-		$outp = substr($outp, 1);
-		$outp = '[' .$outp. ']';
-
-		return $outp;
+		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
@@ -69,7 +61,7 @@
 		{
 			case 1: $order_sql = ' ORDER BY u.last_login'; break;
 			case 2: $order_sql = ' ORDER BY u.last_login DESC'; break;
-			default:$order_sql = ' ORDER BY u.tanggal_buat';
+			default:$order_sql = ' ORDER BY u.tanggal_buat DESC';
 		}
 
 		//Paging SQL
@@ -121,8 +113,9 @@
 	    $this->form_validation->set_rules('pin', 'Pin', 'trim|numeric|required|min_length[6]|max_length[6]');
 	    if ($this->form_validation->run() !== true)
 	    {
-	    	$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
-	    	return;
+	    	$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
+				redirect('mandiri');
 	    }
 	    $rpin = $_POST['pin'];
     }
@@ -146,33 +139,34 @@
     }
   }
 
-	public function delete($id_pend='')
+	public function delete($id_pend='', $semua=false)
 	{
-		$sql = "DELETE FROM tweb_penduduk_mandiri WHERE id_pend = ?";
-		$outp = $this->db->query($sql, array($id_pend));
-		return $outp;
+		if (!$semua) $this->session->success = 1;
+		
+		$outp = $this->db->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
-		$_SESSION['success'] = 1;
-		$id_cb = $_POST['id_cb'];
+		$this->session->success = 1;
 
-		if (count($id_cb))
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			foreach($id_cb as $id)
-			{
-				$outp = $this->delete($id);
-				if (!$outp) $_SESSION['success'] = -1;
-			}
+			$this->delete($id, $semua=true);
 		}
 	}
 
 	public function list_penduduk()
 	{
-		$sql = "SELECT nik AS id, nik, nama FROM tweb_penduduk WHERE status = 1 AND nik <> '' AND nik <> 0";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->select('nik AS id, nik, nama')
+			->where('nik <>', '')
+			->where('nik <>', 0)
+			->where('id NOT IN (SELECT id_pend FROM tweb_penduduk_mandiri)')
+			->get('penduduk_hidup')
+			->result_array();
 
 		//Formating Output AND nik NOT IN(SELECT nik FROM tweb_penduduk_mandiri)
 		for ($i=0; $i<count($data); $i++)
@@ -182,4 +176,106 @@
 		return $data;
 	}
 
+	public function get_penduduk($id)
+	{
+		$data = $this->db->select('nik AS id, nik, nama')
+			->where('id', $id)
+			->get('penduduk_hidup')
+			->row_array();
+
+		return $data;
+	}
+
+	private function list_data_ajax_sql($cari = '')
+	{
+		$this->db
+			->select('u.*, n.nama AS nama, n.nik AS nik')
+			->from('tweb_penduduk_mandiri u')
+			->join('tweb_penduduk n', 'u.id_pend = n.id', 'left')
+			->join('tweb_wil_clusterdesa w', 'n.id_cluster = w.id', 'left');
+		if ($cari) 
+		{
+			$this->db
+				->where("(nik like '%{$cari}%' or nama like '%{$cari}%')");
+		}
+	}
+
+	public function list_data_ajax($cari, $page)
+	{
+		$this->list_data_ajax_sql($cari);
+		$jml = $this->db->select('count(u.id_pend) as jml')
+				->get()->row()->jml;
+		$result_count = 25;
+		$offset = ($page - 1) * $result_count;
+
+		$this->list_data_ajax_sql($cari);
+		$this->db
+			->distinct()
+			->select('u.id_pend, nik, nama, w.dusun, w.rw, w.rt')
+			->limit($result_count, $offset);
+		$data = $this->db->get()->result_array();
+
+		foreach ($data as $row ) {
+			$nama = addslashes($row['nama']);
+			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
+			$outp = "{$row['nik']} - {$nama} \n {$alamat}";
+			$pendaftar_mandiri[] = array(
+				'id' => $row['nik'],
+				'text' => $outp
+			);
+		}
+
+		$end_count = $offset + $result_count;
+		$more_pages = $end_count < $jml;
+		
+		$result = array(
+			'results' => $pendaftar_mandiri,
+			"pagination" => array(
+        "more" => $more_pages
+      )
+		);
+		return $result;
+	}
+
+	public function get_pendaftar_mandiri($nik)
+	{
+		return $this->db
+			->select('id, nik, nama')
+			->from('tweb_penduduk')
+			->where('status', 1)
+			->where('nik', $nik)
+			->get()
+			->row_array();
+	}
+	
+	public function update($id_pend)
+	{		
+		$pin = $this->input->post('pin');
+
+		if (empty($pin))
+		{
+			$rpin = $this->generate_pin($pin);
+		}
+		else
+		{
+			// load library form_validation
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('pin', 'Pin', 'trim|numeric|required|min_length[6]|max_length[6]');
+			if ($this->form_validation->run() !== true)
+			{
+				$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = 'PIN harus 6 (enam) digit angka.';
+				redirect('mandiri');
+			}
+			$rpin = $pin;
+		}
+
+		$hash_pin = hash_pin($rpin);
+  	$data['pin'] = $hash_pin;
+		$data['tanggal_buat'] = date("Y-m-d H:i:s");
+		$this->db->where('id_pend', $id_pend);
+		$this->db->update('tweb_penduduk_mandiri', $data);	
+
+    return $rpin;
+	}
 }

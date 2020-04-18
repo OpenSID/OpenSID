@@ -11,7 +11,7 @@
 		<form class="form-horizontal" id="validasi" name="form_peralatan" method="post" action="<?= site_url("api_inventaris_peralatan/add"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/peralatan/menu_kiri.php')?>
+					<?php $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -193,6 +193,10 @@
 			$('#register').val($('#nama_barang').val().split("_").pop());
 			$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
 		});
+
+		$("#tahun_pengadaan").change();	
+		$("#penggunaan_barang").change();
+		$("#nama_barang").change();
 	});
 
 	function price() {
