@@ -268,6 +268,7 @@ class Covid19_model extends CI_Model
 		$this->db->from('covid19_pantau p');
 		$this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
 		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+		$this->db->order_by('o.nik', 'ASC');
 		$this->db->order_by('p.tanggal_jam', 'DESC');
 
 		if(isset($filter_tgl)) 
