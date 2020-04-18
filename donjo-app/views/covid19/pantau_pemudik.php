@@ -30,65 +30,74 @@
 							<input type="hidden" id="page" name="page" value="<?= $page ?>" >
 
 							<div class="form-group">
-								<label for="nama">Data H+</label>
-								<select class="form-control input-sm" name="data_h_plus" id="data_h_plus">
-									<?php foreach ($select_h_plus as $id => $nama): ?>
-									<option value="<?= $id?>" <?php selected($h_plus, $id); ?> > <?= strtoupper($nama)?> </option>
-									<?php endforeach;?>
-								</select>
-								<small id="data_h_plus_msg" class="form-text text-muted">Mengambil data warga pemudik H+ sejak tanggal tiba. Misal H+3, akan mengambil data pemudik yang tiba 3 hari lalu.</small>
-							</div>
-							
-							<div class="form-group">
 								<label for="nama">NIK/Nama</label>
 								<select class="form-control select2" id="terdata" name="terdata"  >
 									<option value="">-- Silakan Masukan NIK / Nama--</option>
 									<?php foreach ($pemudik_array as $item): ?>
-									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['status_covid']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
+									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['status_covid']?>" data-tgltiba="<?= $item['tanggal_datang']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
-						  	<div class="form-group">
-						    	<label for="tgl_jam">Tanggal/Jam</label>
-						    	<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam" value="<?= $datetime_now; ?>">
-						  	</div>
-						  	<div class="form-group">
-						    	<label for="suhu">Suhu Tubuh</label>
-						    	<input type="text" class="form-control input-sm" name="suhu" id="suhu">
-						  	</div>
-						  	<div class="table-responsive-sm">
-						  		<table class="table table-borderless table-sm">
-								  	<thead>
-								    	<tr>
-								      		<th colspan="2" class="text-left">Centang jika mengalami kondisi berikut</th>
-							    		</tr>
-								  	</thead>
-								  	<tbody>
-								    	<tr>
-								      		<td width="20%" class="text-center">
-								      			<input type="checkbox" class="form-check-input" name="batuk">
-								      		</td>
-								      		<td>Batuk</td>
-							    		</tr>
-							    		<tr>
-								      		<td width="20%" class="text-center">
-								      			<input type="checkbox" class="form-check-input" name="flu">
-								      		</td>
-								      		<td>Flu</td>
-							    		</tr>
-							    		<tr>
-								      		<td width="20%" class="text-center">
-								      			<input type="checkbox" class="form-check-input" name="sesak">
-								      		</td>
-								      		<td>Sesak nafas</td>
-							    		</tr>
+
+							<div class="form-group">
+					    	<label for="tgl_jam">Tanggal/Jam</label>
+					    	<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam" value="<?= $datetime_now; ?>">
+					  	</div>
+
+					  	<div class="row">
+					  		<div class="col-sm-6">
+					  			<div class="form-group">
+							    	<label for="tgl_jam">Tanggal Tiba</label>
+							    	<input type="text" class="form-control input-sm" name="tgl_tiba" id="tgl_tiba" value="<?= $datetime_now; ?>" disabled>
+							  	</div>
+					  		</div>
+					  		<div class="col-sm-6">
+					  			<div class="form-group">
+							    	<label for="tgl_jam">Data H+</label>
+							    	<input type="text" class="form-control input-sm" name="h_plus" id="h_plus" value="3" disabled>
+							  	</div>
+					  		</div>
+					  	</div>
+
+					  	<div class="form-group">
+					    	<label for="suhu">Suhu Tubuh</label>
+					    	<input type="text" class="form-control input-sm" name="suhu" id="suhu" placeholder="36.75">
+					  	</div>
+
+					  	<div class="table-responsive-sm">
+					  		<table class="table table-borderless table-sm">
+							  	<thead>
+							    	<tr>
+							      		<th colspan="2" class="text-left">Centang jika mengalami kondisi berikut</th>
+						    		</tr>
+							  	</thead>
+							  	<tbody>
+							    	<tr>
+							      		<td width="20%" class="text-center">
+							      			<input type="checkbox" class="form-check-input" name="batuk">
+							      		</td>
+							      		<td>Batuk</td>
+						    		</tr>
+						    		<tr>
+							      		<td width="20%" class="text-center">
+							      			<input type="checkbox" class="form-check-input" name="flu">
+							      		</td>
+							      		<td>Flu</td>
+						    		</tr>
+						    		<tr>
+							      		<td width="20%" class="text-center">
+							      			<input type="checkbox" class="form-check-input" name="sesak">
+							      		</td>
+							      		<td>Sesak nafas</td>
+						    		</tr>
 									</tbody>
 								</table>
 							</div>
+
 							<div class="form-group">
-						    	<label for="keluhan">Keluhan Lain</label>
-						    	<textarea name="keluhan" class="form-control input-sm" rows="2"></textarea>
-						  	</div>
+					    	<label for="keluhan">Keluhan Lain</label>
+					    	<textarea name="keluhan" class="form-control input-sm" rows="2"></textarea>
+					  	</div>
 
 						</form>
 					</div>
@@ -287,29 +296,61 @@
 		$("#unique_date_select").val($("#hidden_unique_date_select").val());
 		$("#unique_nik_select").val($("#hidden_unique_nik_select").val());
 
-		$("#data_h_plus").change(function() 
-		{
-			url = $("#this_url").val()+"/"+$("#page").val()+"/"+($(this).val());
-			$(location).attr('href',url);
-		});
-
 		//https://momentjs.com/docs/#/parsing/string-format/
 		$('#tgl_jam').datetimepicker(
 		{
 			format: 'YYYY-MM-DD HH:mm:ss',
 		});
 
+		function change_arrival_date() {
+			var retval = 0;
+			if($("#terdata").val() != "") 
+			{
+				$("#status_covid").val($("#terdata").find(':selected').data('statuscovid'));
+				var temp1 = new Date($("#terdata").find(':selected').data('tgltiba'));
+				var tgl_tiba = new Date(temp1.getFullYear()+"-"+(temp1.getMonth()+1)+"-"+temp1.getDate());
 
+				var temp2 = new Date($('#tgl_jam').val());
+				var tgl_catat = new Date(temp2.getFullYear()+"-"+(temp2.getMonth()+1)+"-"+temp2.getDate());
+			
+				var timediff = tgl_catat - tgl_tiba;
+				var diffdays = Math.floor(timediff / 86400000);
+
+				$("#tgl_tiba").val($("#terdata").find(':selected').data('tgltiba'));
+				$("#h_plus").val(diffdays);
+
+				retval = diffdays;
+			}
+			else
+			{
+				$("#tgl_tiba").val("");
+				$("#h_plus").val("");
+			}	
+
+			return retval;
+		}
+
+		$("#tgl_tiba").val("");
+		$("#h_plus").val("");
 		$("#terdata").change(function() 
 		{
-			$("#status_covid").val($(this).find(':selected').data('statuscovid'));
+			var diff_day = change_arrival_date();
+
+			var tgl_tiba = moment().subtract(diff_day, 'days').millisecond(0).second(0).minute(0).hour(0);
+			var date_now = moment();
+
+			$('#tgl_jam').data("DateTimePicker").options({minDate: tgl_tiba, maxDate:date_now});
+		});
+
+		$('#tgl_jam').on('dp.change', function(e){ 
+	    //var formatedValue = e.date.format(e.date._f);
+	    change_arrival_date();
 		});
 
 		$("#unique_date_select").change(function() 
 		{
 			url  = $("#this_url").val();
 			url += "/"+$("#page").val();
-			url += "/"+$("#data_h_plus").val();
 			url += "/"+$("#unique_date_select").val();
 			url += "/"+$("#unique_nik_select").val();
 			$(location).attr('href',url);
@@ -319,7 +360,6 @@
 		{
 			url  = $("#this_url").val();
 			url += "/"+$("#page").val();
-			url += "/"+$("#data_h_plus").val();
 			url += "/"+$("#unique_date_select").val();
 			url += "/"+$("#unique_nik_select").val();
 			$(location).attr('href',url);

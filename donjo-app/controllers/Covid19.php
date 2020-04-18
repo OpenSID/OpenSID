@@ -126,7 +126,7 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('covid19/unduh-sheet', $data);
 	}
 
-	public function pantau($page=1, $h_plus=null, $filter_tgl=null, $filter_nik=null)
+	public function pantau($page=1, $filter_tgl=null, $filter_nik=null)
 	{
 		$this->sub_modul_ini = 208;
 
@@ -138,7 +138,7 @@ class Covid19 extends Admin_Controller {
 		$data['page'] = $page;
 		
 		// get list pemudik
-		$data['pemudik_array'] = $this->covid19_model->get_list_pemudik_wajib_pantau($h_plus, true);
+		$data['pemudik_array'] = $this->covid19_model->get_list_pemudik_wajib_pantau(true);
 		// get list pemudik end
 
 		// get list pemantauan
@@ -156,15 +156,12 @@ class Covid19 extends Admin_Controller {
 		$d = new DateTime('NOW');
 		$data['datetime_now'] = $d->format('Y-m-d H:i:s');
 
-		$data['select_h_plus'] = $this->covid19_model->list_h_plus();
 		$data['this_url'] = site_url("covid19/pantau");
-		$data['h_plus'] = (isset($h_plus) ? $h_plus : '99');
 		$data['form_action'] = site_url("covid19/add_pantau");
 
 
 		$url_delete_front = "covid19/hapus_pantau";
 		$url_delete_rare = "$page";
-		$url_delete_rare .= (isset($h_plus) ? "/$h_plus" : "");	
 		$data['url_delete_front'] = $url_delete_front;
 		$data['url_delete_rare'] = $url_delete_rare;
 
