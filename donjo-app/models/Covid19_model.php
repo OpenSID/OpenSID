@@ -17,9 +17,7 @@ define("STATUS_COVID", serialize(array(
 
 $h_plus_array = array();
 $h_plus_array["-- Semua Data --"] = "99";
-for($i=0; $i<=31; $i++) {
-	$h_plus_array["H+$i"] = "$i";
-}
+for ($i=0; $i<=31; $i++, $h_plus_array["H+$i"] = "$i");
 define("H_PLUS", serialize($h_plus_array));
 
 
