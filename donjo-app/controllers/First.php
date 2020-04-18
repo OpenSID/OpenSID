@@ -635,6 +635,7 @@ class First extends Web_Controller {
 
 		if ($_SESSION['id'])
 		{
+      $_POST['id_pend'] = $_SESSION['id'];
 			$id_dokumen = $this->input->post('id');
 			unset($_POST['id']);
 
