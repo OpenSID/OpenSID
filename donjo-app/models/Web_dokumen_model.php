@@ -341,7 +341,13 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$post = $this->input->post();
 		$data = $this->validasi($post);
-		if (!empty($post['satuan'])) $data['satuan'] = $this->upload_dokumen($post, $post['old_file']);
+		if (!empty($post['satuan'])) 
+		{
+			$old_file = $this->db->select('satuan')
+				->where('id', $id)
+				->get('dokumen')->row()->satuan;
+			$data['satuan'] = $this->upload_dokumen($post, $old_file);
+		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		return $this->db->where('id',$id)->update('dokumen', $data);
