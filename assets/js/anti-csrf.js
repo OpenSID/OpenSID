@@ -13,9 +13,7 @@ function addCsrfField(form) {
 $('document').ready(function() {
 	document.querySelectorAll('form').forEach((form) => {
 		addCsrfField(form)
-		form.addEventListener('submit', (e) => {
-			addCsrfField(e.target)
-  	})
+		form.addEventListener('submit', (e) => addCsrfField(e.target))
 	})
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
