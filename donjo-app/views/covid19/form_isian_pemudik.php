@@ -19,8 +19,7 @@
 		<div class="input-group-addon">
 	        <i class="fa fa-calendar"></i>
 	    </div>
-	    <input type="text" class="form-control input-sm pull-right" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">
-	    
+	    <input type="text" class="form-control input-sm pull-right" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">    
 	</div>
 </div>
 
@@ -68,6 +67,9 @@
 			<option value="0" <?php selected($is_wajib_pantau, '0'); ?> >Tidak</option>
 			<option value="1" <?php selected($is_wajib_pantau, '1'); ?> >Ya</option>
 		</select>
+		<small id="wajib_pantau_plus_msg" class="form-text text-muted">
+			Jika ya, daftar warga ini masuk dalam daftar warga yang dipantau di menu Pemantauan
+		</small>
 	 </div>
 </div>
 

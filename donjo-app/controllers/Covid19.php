@@ -13,7 +13,6 @@ class Covid19 extends Admin_Controller {
 		$this->modul_ini = 206;
 	}
 
-	
 	public function index()
 	{
 		$this->data_pemudik(1);

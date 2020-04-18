@@ -4,6 +4,7 @@
 		padding: 4px 4px;
 	}
 </style>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pemantauan Isolasi Mandiri Saat Pandemi Covid-19</h1>
@@ -35,6 +36,7 @@
 									<option value="<?= $id?>" <?php selected($h_plus, $id); ?> > <?= strtoupper($nama)?> </option>
 									<?php endforeach;?>
 								</select>
+								<small id="data_h_plus_msg" class="form-text text-muted">Mengambil data warga pemudik H+ sejak tanggal tiba. Misal H+3, akan mengambil data pemudik yang tiba 3 hari lalu.</small>
 							</div>
 							
 							<div class="form-group">
@@ -142,7 +144,9 @@
 															<tr>
 																<th>No</th>
 																<th>Aksi</th>
-																<th>Tanggal/Jam</th>
+																<th>Data H+</th>
+																<th>Tanggal Tiba</th>
+																<th>Waktu Pantau</th>
 																<th>NIK</th>
 																<th>Nama</th>
 																<th>Usia</th>
@@ -168,6 +172,8 @@
 																	<a href="#" data-href="<?= site_url("$url_delete_front/$item[id]/$url_delete_rare")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>
+																<td><?= "H+".$item["date_diff"] ?></td>
+																<td><?= $item["tanggal_datang"] ?></td>
 																<td><?= $item["tanggal_jam"] ?></td>
 																<td><?= $item["nik"] ?></td>
 																<td><?= $item["nama"] ?></td>
@@ -281,7 +287,8 @@
 		$("#unique_date_select").val($("#hidden_unique_date_select").val());
 		$("#unique_nik_select").val($("#hidden_unique_nik_select").val());
 
-		$("#data_h_plus").change(function() {
+		$("#data_h_plus").change(function() 
+		{
 			url = $("#this_url").val()+"/"+$("#page").val()+"/"+($(this).val());
 			$(location).attr('href',url);
 		});
@@ -292,14 +299,14 @@
 			format: 'YYYY-MM-DD HH:mm:ss',
 		});
 
-		$("#terdata").change(function() {
-		});
 
-		$("#terdata").change(function() {
+		$("#terdata").change(function() 
+		{
 			$("#status_covid").val($(this).find(':selected').data('statuscovid'));
 		});
 
-		$("#unique_date_select").change(function() {
+		$("#unique_date_select").change(function() 
+		{
 			url  = $("#this_url").val();
 			url += "/"+$("#page").val();
 			url += "/"+$("#data_h_plus").val();
@@ -308,7 +315,8 @@
 			$(location).attr('href',url);
 		});
 
-		$("#unique_nik_select").change(function() {
+		$("#unique_nik_select").change(function() 
+		{
 			url  = $("#this_url").val();
 			url += "/"+$("#page").val();
 			url += "/"+$("#data_h_plus").val();
@@ -317,27 +325,37 @@
 			$(location).attr('href',url);
 		});
 
-		$("#validasi").validate({
-		    rules: {
+		$("#validasi").validate(
+		{
+		    rules: 
+		    {
 				terdata: "required",
 				tgl_jam: "required",
 				tanggal_tiba: "required",
-				suhu: {
+				suhu: 
+				{
 					required: true,
-					number: true
+					number: true,
+					min: 10,
+					max: 50,
 				},
 		    },
 		    // Specify validation error messages
-		    messages: {
+		    messages: 
+		    {
 				terdata: "Harus memilih NIK/Nama",
 				tgl_jam: "Tanggal/Jam harus diisi",
 				tanggal_tiba: "Tanggal harus diisi",
-				suhu: {
+				suhu: 
+				{
 					required: "Suhu harus tercatat",
 					number: "Harus diisi angka",
+					min: "Suhu minimal 10 derajat celcius",
+					max: "Suhu maksimal 50 derajat celcius",
 				},
 		    },
-		    submitHandler: function(form) {
+		    submitHandler: function(form) 
+		    {
 		      form.submit();
 		    }
 	  	});
