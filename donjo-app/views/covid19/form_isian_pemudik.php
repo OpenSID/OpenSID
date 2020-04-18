@@ -65,8 +65,8 @@
 	<label  class="col-sm-3 control-label" for="wajib_pantau">Apakah Wajib Dipantau</label>
 	<div class="col-sm-8">
 		 <select class="form-control input-sm" name="wajib_pantau" id="wajib_pantau">
-			<option value="0" <?php selected($is_wajib_pantau, '0'); ?> >Tidak</option>
 			<option value="1" <?php selected($is_wajib_pantau, '1'); ?> >Ya</option>
+			<option value="0" <?php selected($is_wajib_pantau, '0'); ?> >Tidak</option>
 		</select>
 		<small id="wajib_pantau_plus_msg" class="form-text text-muted">
 			Jika ya, daftar warga ini masuk dalam daftar warga yang dipantau di menu Pemantauan
