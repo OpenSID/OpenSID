@@ -6,7 +6,7 @@ function addCsrfField(form) {
 		input.type = 'hidden'
 		input.name = csrfParam
 		form[csrfParam] || form.append(input)
-		form[csrfParam].value = csrfToken
+		form[csrfParam].value = getCsrfToken()
 	}
 }
 
@@ -15,12 +15,12 @@ $('document').ready(function() {
 		addCsrfField(form)
 		form.addEventListener('submit', (e) => {
 			addCsrfField(e.target)
-  		})
+  	})
 	})
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
 		if (!opts.crossDomain && opts.type !== 'GET' && !(opts.data instanceof FormData)) {
-			opts.data = `${opts.data||''}&${csrfParam}=${csrfToken}`
+			opts.data = `${opts.data||''}&${csrfParam}=${getCsrfToken()}`
 		}
 	})
 })
