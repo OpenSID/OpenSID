@@ -212,46 +212,46 @@
 											</div>
 										</div>
 										<div class="col-sm-6">
-					                      	<div class="dataTables_paginate paging_simple_numbers">
-					                        	<ul class="pagination">
-				                        		<?php if ($paging->start_link): ?>
-						                            <li>
-						                            	<a href="<?=site_url('covid19/pantau/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
-						                            </li>
-					                          	<?php endif; ?>
+                    	<div class="dataTables_paginate paging_simple_numbers">
+                      	<ul class="pagination">
+                    		<?php if ($paging->start_link): ?>
+                          <li>
+                          	<a href="<?=site_url('covid19/pantau/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
+                          </li>
+                      	<?php endif; ?>
 
-					                          	<?php if ($paging->prev): ?>
-						                            <li>
-						                            	<a href="<?=site_url('covid19/pantau/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-						                            </li>
-					                          	<?php endif; ?>
+                      	<?php if ($paging->prev): ?>
+                          <li>
+                          	<a href="<?=site_url('covid19/pantau/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                          </li>
+                      	<?php endif; ?>
 
-					                          	<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-						               	            <li <?=jecho($p, $i, "class='active'")?>>
-						               	            	<a href="<?= site_url('covid19/pantau/'.$i)?>"><?= $i?></a>
-					               	            	</li>
-					                          	<?php endfor; ?>
+                      	<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+             	            <li <?=jecho($p, $i, "class='active'")?>>
+             	            	<a href="<?= site_url('covid19/pantau/'.$i)?>"><?= $i?></a>
+           	            	</li>
+                      	<?php endfor; ?>
 
-					                          	<?php if ($paging->next): ?>
-						                            <li>
-						                            	<a href="<?=site_url('covid19/pantau/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-						                            </li>
-					                          	<?php endif; ?>
+                      	<?php if ($paging->next): ?>
+                          <li>
+                          	<a href="<?=site_url('covid19/pantau/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                          </li>
+                      	<?php endif; ?>
 
-					                          	<?php if ($paging->end_link): ?>
-						                            <li>
-						                            	<a href="<?=site_url('covid19/pantau/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
-						                            </li>
-					                          	<?php endif; ?>
+                      	<?php if ($paging->end_link): ?>
+                          <li>
+                          	<a href="<?=site_url('covid19/pantau/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
+                          </li>
+                      	<?php endif; ?>
 					                         
-					                        	</ul>
-					                     	 </div>
-                    					</div>
-                					</div>
-                				</div>
-                			</div>
-                		</div>
-                	</div>
+                    		</ul>
+                   	 	</div>
+          					</div>
+        					</div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
 				</div>
 			</div>
 		</div>
