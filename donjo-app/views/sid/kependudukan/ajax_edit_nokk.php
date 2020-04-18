@@ -23,6 +23,7 @@
 		select_options(rt, params);
 	}
 </script>
+
 <style type="text/css">
 	.horizontal {
 		padding-left: 0px; width: auto; padding-right: 30px;
