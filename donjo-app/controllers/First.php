@@ -536,7 +536,6 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
 		$this->_get_common_data($data);
@@ -552,6 +551,7 @@ class First extends Web_Controller {
 		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
 		$_SESSION['validation_error'] = false;
+		
 		if ($securimage->check($_POST['captcha_code']) == false)
 		{
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
@@ -666,32 +666,37 @@ class First extends Web_Controller {
 
 	public function ajax_get_dokumen_pendukung()
 	{
-		if($_SESSION['id'])
+		$id_dokumen = $this->input->post('id_dokumen');
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+		
+		if(!$data)
 		{
-			$id_dokumen = $this->input->post('id_dokumen');
-			$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+			$data = ['message' => 'Tidak ditemukan'];
 		}
-		else
+		elseif ($_SESSION['id'] != $data['id_pend'])
 		{
-			$data['message'] = 'You are not authorized';
+			$data = ['message' => 'You are not authorized'];
 		}
 		echo json_encode($data);
 	}
 
 	public function ajax_hapus_dokumen_pendukung()
 	{
-		if ($_SESSION['id'])
+		$id_dokumen = $this->input->post('id_dokumen');
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+		
+		if (!$data)
 		{
-			$id_dokumen = $this->input->post('id_dokumen');
-			if ($id_dokumen)
-			{
-				$this->web_dokumen_model->delete($id_dokumen);
-				$data['success'] = $this->session->userdata('success') ? : '1';
-			}
+			$data = ['message' => 'Tidak ditemukan'];
+		}
+		elseif($_SESSION['id'] != $data['id_pend'])
+		{
+			$data['message'] = 'You are not authorized';
 		}
 		else
 		{
-			$data['message'] = 'You are not authorized';
+			$this->web_dokumen_model->delete($id_dokumen);
+			$data['success'] = $this->session->userdata('success') ? : '1';
 		}
 
 		echo json_encode($data);
