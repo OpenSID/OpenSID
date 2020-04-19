@@ -30,6 +30,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 24. #1176, #1734: Aktifkan Anti CSRF. [security-fix]
 25. Tutup celah bisa ubah nama file dokumen web yang diunggah dan celah bisa hapus sembarang file. [security-fix]
 26. #2895: Tambahkan pilihan Telegram untuk widget Media Sosial.
+27. Setting STRICT_TRANS_TABlE untuk koneksi database sekarang bisa diubah di konfigurasi di folder desa. 
 
 
 
