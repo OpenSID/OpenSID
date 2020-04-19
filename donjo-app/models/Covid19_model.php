@@ -207,39 +207,34 @@ class Covid19_model extends CI_Model
 	{
 		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
 
-		$data = array(
-			'id_terdata' => $post['id_terdata'],
-			'tanggal_datang' => $post['tanggal_tiba'],
-			'asal_mudik' => $this->security->xss_clean($post['asal_pemudik']),
-			'durasi_mudik' => $post['durasi_pemudik'],
-			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
-			'no_hp' => $this->security->xss_clean($post['hp_pemudik']),
-			'email' => $this->security->xss_clean($post['email_pemudik']),
-			'status_covid' => $post['status_covid'],
-			'is_wajib_pantau' => $post['wajib_pantau'],
-			'keluhan_kesehatan' => $this->security->xss_clean($post['keluhan']),
-			'keterangan' => $this->security->xss_clean($post['keterangan'])
-		);
+		$data = $this->sterilkan($post);
+		$data['id_terdata'] = $post['id_terdata']; 
 
 		return $this->db->insert('covid19_pemudik', $data);
+	}
+
+	private function sterilkan($post)
+	{
+		$data = array(
+			'tanggal_datang' => $post['tanggal_tiba'],
+			'asal_mudik' => alfanumerik_spasi($post['asal_pemudik']),
+			'durasi_mudik' => $post['durasi_pemudik'],
+			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
+			'no_hp' => bilangan_spasi($post['hp_pemudik']),
+			'email' => strip_tags($post['email_pemudik']),
+			'status_covid' => $post['status_covid'],
+			'is_wajib_pantau' => $post['wajib_pantau'],
+			'keluhan_kesehatan' => alfanumerik_spasi($post['keluhan']),
+			'keterangan' => alfanumerik_spasi($post['keterangan'])
+		);
+		return $data;		
 	}
 	
 	public function update_pemudik_by_id($post, $id) 
 	{
 		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
 
-		$data = array(
-			'tanggal_datang' => $post['tanggal_tiba'],
-			'asal_mudik' => $this->security->xss_clean($post['asal_pemudik']),
-			'durasi_mudik' => $post['durasi_pemudik'],
-			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
-			'no_hp' => $this->security->xss_clean($post['hp_pemudik']),
-			'email' => $this->security->xss_clean($post['email_pemudik']),
-			'status_covid' => $post['status_covid'],
-			'is_wajib_pantau' => $post['wajib_pantau'],
-			'keluhan_kesehatan' => $this->security->xss_clean($post['keluhan']),
-			'keterangan' => $this->security->xss_clean($post['keterangan'])
-		);
+		$data = $this->sterilkan($post);
 
 		$this->db->where('id',$id);
 		$this->db->update('covid19_pemudik', $data);
