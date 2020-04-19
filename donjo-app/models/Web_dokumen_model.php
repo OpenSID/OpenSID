@@ -337,7 +337,7 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
-	public function update($id=0)
+	public function update($id=0, $id_pend=null)
 	{
 		$post = $this->input->post();
 		$data = $this->validasi($post);
@@ -350,7 +350,11 @@ class Web_dokumen_model extends CI_Model {
 		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		return $this->db->where('id',$id)->update('dokumen', $data);
+		if ($id_pend) $this->db->where('id_pend', $id_pend);
+		$this->db->where('id',$id)->update('dokumen', $data);
+		$retval = $this->db->affected_rows();
+		status_sukses($retval);
+		return $retval;
 	}
 
 	// Soft delete, tapi hapus berkas dokumen
@@ -390,12 +394,14 @@ class Web_dokumen_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_dokumen($id=0)
+	public function get_dokumen($id=0, $id_pend=null)
 	{
+		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$data = $this->db->from($this->table)
 			->where('id', $id)
 			->get()->row_array();
 		$data['attr'] = json_decode($data['attr'], true);
+		$data = array_filter($data);
 		return $data;
 	}
 
