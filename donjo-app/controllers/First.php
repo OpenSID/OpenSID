@@ -56,9 +56,13 @@ class First extends Web_Controller {
 			$this->first_m->siteman();
 		}
 		if ($_SESSION['mandiri'] == 1)
+		{
 			redirect('first/mandiri/1/1');
+		}
 		else
+		{
 			redirect('first');
+		}
 	}
 
 	public function logout()
@@ -151,7 +155,9 @@ class First extends Web_Controller {
 		// Hanya boleh menampilkan data pengguna yang login
 		// ** Bagi program sasaran pendududk **
 		if ($data['peserta'] == $_SESSION['nik'])
+		{
 			$this->load->view('program_bantuan/kartu_peserta',$data);
+		}
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)
