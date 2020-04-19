@@ -4,7 +4,7 @@ define("VERSION", '20.04-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [ddmmyyy][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020040102');
+define('VERSI_DATABASE', '2020040401');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -770,6 +770,11 @@ function array_column_ext($array, $columnkey, $indexkey = null) {
     }
   }
   return $result;
+}
+
+function nama_file($str)
+{
+	return preg_replace('/[^a-zA-Z0-9\s]\./', '', strip_tags($str));
 }
 
 function alfanumerik_spasi($str)

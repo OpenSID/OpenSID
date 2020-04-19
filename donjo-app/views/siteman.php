@@ -22,6 +22,8 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="login">
 		<div class="top-content">

@@ -38,6 +38,7 @@
 		<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 		<script src="<?= base_url()?>assets/js/validasi.js"></script>
 		<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+		<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 		<!-- Numeral js -->
 		<script src="<?= base_url()?>assets/js/numeral.min.js"></script>
 		<!-- Script-->

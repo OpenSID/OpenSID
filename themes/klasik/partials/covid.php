@@ -3,13 +3,27 @@
  // $data_positif = json_decode(file_get_contents('https://api.kawalcorona.com/positif'), true);
  // $data_sembuh = json_decode(file_get_contents('https://api.kawalcorona.com/sembuh'), true);
  // $data_meninggal = json_decode(file_get_contents('https://api.kawalcorona.com/meninggal'), true);
- $data = json_decode(file_get_contents('https://api.kawalcorona.com/indonesia'), true);
- 
- $name = $data[0]['name'];
- $positif = str_replace(",","",$data[0]['positif']);
- $sembuh = str_replace(",","",$data[0]['sembuh']);
- $meninggal = str_replace(",","",$data[0]['meninggal']);
- $perawatan = $positif-($sembuh+$meninggal);
+
+ if (empty(config_item('provinsi_covid')))
+ {
+	 $data = json_decode(file_get_contents('https://api.kawalcorona.com/indonesia'), true);
+ 	 $name = $data[0]['name'];
+	 $positif = str_replace(",","",$data[0]['positif']);
+	 $sembuh = str_replace(",","",$data[0]['sembuh']);
+	 $meninggal = str_replace(",","",$data[0]['meninggal']);
+ }
+ else
+ {
+	 // Kode provinsi sesuai dengan yg di http://pusatkrisis.kemkes.go.id/daftar-kode-provinsi
+	 $data = json_decode(file_get_contents('https://api.kawalcorona.com/indonesia/provinsi'), true);
+	 $data = array_column($data, 'attributes');
+	 $provinsi = array_search(config_item('provinsi_covid'), array_column($data, 'Kode_Provi'));
+ 	 $name = $data[$provinsi]['Provinsi'];
+	 $positif = str_replace(",","",$data[$provinsi]['Kasus_Posi']);
+	 $sembuh = str_replace(",","",$data[$provinsi]['Kasus_Semb']);
+	 $meninggal = str_replace(",","",$data[$provinsi]['Kasus_Meni']);
+ }
+ $perawatan = $positif - ($sembuh + $meninggal);
 
  /*
  	 Untuk memudahkan testing tampilan, gunakan data berikut dan comment pengambilan data di atas.
