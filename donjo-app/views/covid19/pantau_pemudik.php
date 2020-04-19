@@ -371,7 +371,6 @@
 		    {
 				terdata: "required",
 				tgl_jam: "required",
-				tanggal_tiba: "required",
 				suhu: 
 				{
 					required: true,
@@ -385,7 +384,6 @@
 		    {
 				terdata: "Harus memilih NIK/Nama",
 				tgl_jam: "Tanggal/Jam harus diisi",
-				tanggal_tiba: "Tanggal harus diisi",
 				suhu: 
 				{
 					required: "Suhu harus tercatat",
