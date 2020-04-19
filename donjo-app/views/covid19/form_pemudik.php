@@ -117,6 +117,7 @@
 				{
 					number: true
 				},
+				status_covid: "required",
 		    },
 		    // Specify validation error messages
 		    messages: 
@@ -125,6 +126,7 @@
 				asal_pemudik: "Isi kota asal pemudik",
 				tanggal_tiba: "Tanggal harus diisi",
 				durasi_pemudik: "Harus diisi angka",
+				status_covid: "Status Covid-19 harus diisi",
 		    },
 		    submitHandler: function(form) 
 		    {
