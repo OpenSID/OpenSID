@@ -139,7 +139,6 @@
                     <label for="nama_dokumen">Nama / Jenis Dokumen</label>
                     <input id="nama_dokumen" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Dokumen" value=""/>
                     <input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
-                    <input type="hidden" name="id_pend" value="<?= $this->session->userdata('id'); ?>">
                   </div>
                   <div class="form-group">
                   <select class="form-control required input-sm" name="id_syarat" id="id_syarat">
