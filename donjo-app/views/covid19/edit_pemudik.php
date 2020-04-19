@@ -1,3 +1,7 @@
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/script.js"></script>
 <div class='modal-body'>
 	<div class="row">
 		<div class="col-sm-12">
@@ -33,36 +37,3 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
 	</div>
 </div>
-
-<script type="text/javascript">
-	$(document).ready(function()
-	{
-
-		$("#validasi").validate(
-		{
-		    rules: 
-		    {
-				asal_pemudik: "required",
-				tanggal_tiba: "required",
-				durasi_pemudik: 
-				{
-					number: true
-				},
-				status_covid: "required",
-		    },
-		    // Specify validation error messages
-		    messages: 
-		    {
-				asal_pemudik: "Isi kota asal pemudik",
-				tanggal_tiba: "Tanggal harus diisi",
-				durasi_pemudik: "Harus diisi angka",
-				status_covid: "Status Covid-19 harus diisi",
-		    },
-		    submitHandler: function(form) 
-		    {
-		      form.submit();
-		    }
-	  	});
-				
-	});
-</script>
