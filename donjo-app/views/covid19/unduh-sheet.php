@@ -4,6 +4,7 @@
 	header("Pragma: no-cache");
 	header("Expires: 0");
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -33,8 +34,8 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th><?= $suplemen["judul_terdata_nama"]?></th>
-							<th><?= $suplemen["judul_terdata_info"]?></th>
+							<th>NIK</th>
+							<th>Nama</th>
 							<th>Tempat Lahir</th>
 							<th>Tanggal Lahir</th>
 							<th>Jenis Kelamin</th>
@@ -48,10 +49,11 @@
 							<th>Status Covid-19</th>
 							<th>Keluhan Kesehatan</th>
 							<th>Keterangan</th>
+							<th>Wajib Pantau</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php	$i=1;	foreach ($terdata as $key=>$item): ?>
+						<?php	$i=1;	foreach ($pemudik_list as $key=>$item): ?>
 							<tr>
 								<td><?= $i?></td>
 								<td class='textx'><?= $item["terdata_nama"]?></td>
@@ -69,6 +71,7 @@
 								<td><?= $item["status_covid"]?></td>
 								<td><?= $item["keluhan_kesehatan"]?></td>
 								<td><?= $item["keterangan"]?></td>
+								<td><?= ($item["is_wajib_pantau"] === '1' ? "Ya" : "Tidak"); ?></td>
 							</tr>
 						<?php $i++;	endforeach;	?>
 					</tbody>
