@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
 			<?=$this->setting->admin_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
@@ -55,21 +55,21 @@
 		<?php if (is_file("desa/css/siteman.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
-    <!-- Diperlukan untuk script jquery khusus halaman -->
+		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-    <script src="<?= base_url()?>assets/js/turf.min.js"></script>
+		<script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-geoman.min.js"></script>
-    <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-    <script src="<?= base_url()?>assets/js/togeojson.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+		<script src="<?= base_url()?>assets/js/togeojson.js"></script>
 		<script src="<?= base_url()?>assets/js/togpx.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
 		
-    <!-- Diperlukan untuk global automatic base_url oleh external js file -->
+		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
 		</script>
@@ -78,6 +78,7 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
@@ -135,7 +136,7 @@
 									<li class="user-footer">
 										<div class="pull-left">
 											<a href="<?=site_url()?>user_setting/" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox">
-												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
+												<button data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
 											</a>
 										</div>
 										<div class="pull-right">
@@ -150,7 +151,7 @@
 			</header>
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
 			<!-- Untuk menampilkan modal bootstrap umum  -->
-			<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class='modal-dialog'>
 					<div class='modal-content'>
 						<div class='modal-header'>
@@ -162,7 +163,7 @@
 				</div>
 			</div>
 			<!-- Untuk menampilkan modal / pemberitahuan perubahan password default  -->
-			<div  class="modal fade" id="massageBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="massageBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class='modal-dialog'>
 					<div class='modal-content'>
 						<div class='modal-header btn-info'>
