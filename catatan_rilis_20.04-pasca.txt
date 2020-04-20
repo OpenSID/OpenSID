@@ -23,13 +23,16 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 17. Hapus kolom urut yg tidak digunakan di tabel artikel. [teknis]
 18. #2909: Untuk menghindari duplikasi, sekarang penambahan pamong di form Info Desa > Pemerintahan Desa hanya bisa dari penduduk yang belum tercatat sebagai pamong.
 19. Sederhanakan dan rapikan berbagai bagian script, untuk memudahkan perubahan selanjutnya. [teknis]
-20. #2856: Sediakan pencatatan pendatang terkait siaga Covid-19.
+20. #2856: Sediakan pencatatan dan pemantauan pendatang terkait siaga Covid-19.
 21. #2906: Sekarang komentar artikel web kembali tampil. [bug-fix]
 22. #2901, #134: Tambah pendaftar layanan mandiri tidak lagi ada pilihan penduduk yg sudah terdaftar. Sekarang ada aksi untuk mengubah PIN pendaftar.
 23. #2922: Perbaiki halaman modul Inventaris tidak tampil konsisten di offline dan online. [bug-fix]
 24. #1176, #1734: Aktifkan Anti CSRF. [security-fix]
-25. Tutup celah bisa ubah nama file dokumen web yang diunggah. [security-fix]
-
+25. Tutup celah bisa ubah nama file dokumen web yang diunggah dan celah bisa hapus sembarang file. [security-fix]
+26. #2895: Tambahkan pilihan Telegram untuk widget Media Sosial.
+27. Setting STRICT_TRANS_TABlE untuk koneksi database sekarang bisa diubah di konfigurasi di folder desa. 
+28. Tutup celah bisa mengubah dan menghapus dokumen oleh pengguna Layanan Mandiri yg tidak berhak. [security-fix]
+29. Sederhanakan hilangkan duplikasi modal dialog konfirmasi hapus. Juga hapus dialog konfirmasi yg tidak digunakan. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

@@ -1,3 +1,7 @@
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/script.js"></script>
 <div class='modal-body'>
 	<div class="row">
 		<div class="col-sm-12">
@@ -21,11 +25,9 @@
 		<div class="col-sm-12">
 			<div class="box box-danger">
 				<div class="box-body">
-
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<?php include("donjo-app/views/covid19/form_isian_pemudik.php"); ?>
 					</form>
-					
 				</div>
 			</div>
 		</div>
@@ -35,4 +37,3 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
 	</div>
 </div>
-

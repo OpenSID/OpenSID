@@ -782,6 +782,11 @@ function alfanumerik_spasi($str)
 	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
 }
 
+function bilangan_spasi($str)
+{
+	return preg_replace('/[^0-9\s]/', '', strip_tags($str));
+}
+
 function bilangan_titik($str)
 {
 	return preg_replace('/[^0-9\.]/', '', strip_tags($str));
