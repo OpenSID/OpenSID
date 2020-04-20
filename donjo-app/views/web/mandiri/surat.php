@@ -139,13 +139,12 @@
                     <label for="nama_dokumen">Nama / Jenis Dokumen</label>
                     <input id="nama_dokumen" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Dokumen" value=""/>
                     <input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
-                    <input type="hidden" name="id_pend" value="<?= $this->session->userdata('id'); ?>">
                   </div>
                   <div class="form-group">
                   <select class="form-control required input-sm" name="id_syarat" id="id_syarat">
                     <option> -- Pilih Jenis Dokumen -- </option>
                     <?php foreach ($menu_dokumen_mandiri AS $data): ?>
-                      <option value="<?= $data['ref_syarat_id']?>"><?= $data['ref_syarat_nama']?></option>
+                      <option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']?></option>
                     <?php endforeach;?>
                   </select>
                   </div>
@@ -154,7 +153,6 @@
                     <div class="input-group input-group-sm">
                       <input type="text" class="form-control" id="file_path" name="satuan">
                       <input type="file" class="hidden" id="file" name="satuan">
-                      <input type="text" class="hidden" name="old_file" id="old_file" value="">
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                       </span>

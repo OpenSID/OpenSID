@@ -678,6 +678,8 @@ class User_model extends CI_Model {
 		$hak_akses = array(
 			// Operator
 			2 => array(
+				// covid-19
+				'covid19' => array('b','u','h'),
 				// home
 				'hom_sid' => array('b','u'),
 				// info desa

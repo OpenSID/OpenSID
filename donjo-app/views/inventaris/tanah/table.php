@@ -10,12 +10,12 @@
 		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<?= $this->load->view('inventaris/menu_kiri'); ?>
+					<?php $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= base_url('index.php/inventaris_tanah/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
+							<a href="<?= site_url('inventaris_tanah/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Data
             	</a>
 							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
@@ -56,10 +56,10 @@
 																<td></td>
 																<td nowrap>
 																	<?php if ($data->status == "0"): ?>
-																		<a href="<?= base_url('index.php/inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																		<a href="<?= site_url('inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
-																	<a href="<?= base_url('index.php/inventaris_tanah/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<a href="<?= base_url('index.php/inventaris_tanah/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="<?= site_url('inventaris_tanah/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_tanah/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																	<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>

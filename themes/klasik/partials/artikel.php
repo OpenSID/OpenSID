@@ -60,23 +60,21 @@
 		</div>
 
 		<div class="form-group" id="kolom-komentar">
-			<?php if(is_array($komentar)): ?>
+			<?php if(!empty($komentar)): ?>
 				<div class="box box-default box-solid">
 					<div class="box-header">
 						<h3 class="box-title">Komentar atas <?= $single_artikel["judul"]?></h3>
 					</div>
 					<div class="box-body">
 						<?php foreach($komentar AS $data): ?>
-							<?php if($data['enabled']==1): ?>
-								<div class="kom-box">
-									<div style="font-size:.8em;font-color:#aaa;">
-										<i class="fa fa-user"></i><?= $data['owner']?> <i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload'])?>
-									</div>
-									<div>
-										<blockquote><?= $data['komentar']?></blockquote>
-									</div>
+							<div class="kom-box">
+								<div style="font-size:.8em;font-color:#aaa;">
+									<i class="fa fa-user"></i><?= $data['owner']?> <i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload'])?>
 								</div>
-							<?php endif; ?>
+								<div>
+									<blockquote><?= $data['komentar']?></blockquote>
+								</div>
+							</div>
 						<?php endforeach; ?>
 					</div>
 				</div>

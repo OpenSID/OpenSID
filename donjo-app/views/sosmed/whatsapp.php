@@ -18,9 +18,18 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label">Link Nomor WhatsApp</label>
+										<label class="col-sm-3 control-label">Tipe</label>
 										<div class="col-sm-9">
-											<textarea id="link" name="link" class="form-control input-sm" placeholder="Nomor WhatsApp Pelayanan (Misal : +6281234567890)" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+											<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onchange="ubah_pesan(this.value);">
+												<option value="1" <?php selected($main['tipe'], 1) ?>>Personal Chat</option>
+												<option value="2" <?php selected($main['tipe'], 2) ?>>Group Chat</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Link Username WhatsApp</label>
+										<div class="col-sm-9">
+											<textarea id="link" name="link" class="form-control input-sm" placeholder="" style="height: 200px;"><?php $main and print($main['link']) ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
@@ -50,6 +59,23 @@
 	</section>
 </div>
 <script>
+	$('document').ready(function()
+	{
+		$('#tipe').change(); // Pertama kali buka form
+	});
+
+	function ubah_pesan(tipe)
+	{
+		if (tipe == 1)
+		{
+			$('#link').attr('placeholder', ' Personal chat, contoh : 0851234567890 (Nomor HP)); \n\n Isi kolom ini dengan nomor HP 0851234567890');
+		}
+		else
+		{
+			$('#link').attr('placeholder', ' Group chat, contoh : https://chat.whatsapp.com/BeHlxYwFPr8E4yibTFZjKx \n\n Isi kolom ini dengan id chat : BeHlxYwFPr8E4yibTFZjKx');
+		}
+	};
+	
 	function reset_form()
 	{
 		<?php if ($main['enabled'] == '1'): ?>
