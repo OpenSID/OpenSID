@@ -1,9 +1,11 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		//https://momentjs.com/docs/#/parsing/string-format/
 		$('#tanggal_tiba').datetimepicker(
 		{
-			format: 'YYYY-MM-DD'
+			format: 'YYYY-MM-DD',
+			maxDate: moment(),
 		});
 	});
 </script>
@@ -11,15 +13,14 @@
 <div class="form-group">
 	<label for="asal_pemudik"  class="col-sm-3 control-label">Asal Pemudik (kota) / Tiba Tanggal</label>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" name="asal_pemudik" id="asal_pemudik" value="<?= $asal_mudik?>" placeholder="Kota">
+		<input class="form-control input-sm required" type="text" name="asal_pemudik" id="asal_pemudik" value="<?= $asal_mudik?>" placeholder="Kota">
 	</div>
 
 	<div class="col-sm-4 input-group input-group-sm date">
 		<div class="input-group-addon">
 	        <i class="fa fa-calendar"></i>
 	    </div>
-	    <input type="text" class="form-control input-sm pull-right" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">
-	    
+	    <input type="text" class="form-control input-sm pull-right required" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">    
 	</div>
 </div>
 
@@ -34,7 +35,7 @@
 		</select>
 	</div>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Hari">
+		<input class="form-control input-sm number" type="text" name="durasi_pemudik" id="durasi_pemudik" value="<?= $durasi_mudik?>" placeholder="Jumlah Hari (angka)">
 	</div>
 </div>
 
@@ -51,12 +52,25 @@
 <div class="form-group">
 	<label  class="col-sm-3 control-label" for="status_covid">Status Covid-19</label>
 	<div class="col-sm-8">
-		<select class="form-control input-sm" name="status_covid" id="status_covid">
+		<select class="form-control input-sm required" name="status_covid" id="status_covid">
 			<option value="">-- Pilih Status Covid-19 --</option>
 			<?php foreach ($select_status_covid as $id => $nama): ?>
 		  	<option value="<?= $id?>" <?php selected($status_covid, $id); ?> > <?= strtoupper($nama)?> </option>
 			<?php endforeach;?>
 		</select>
+	 </div>
+</div>
+
+<div class="form-group">
+	<label  class="col-sm-3 control-label" for="wajib_pantau">Apakah Wajib Dipantau</label>
+	<div class="col-sm-8">
+		 <select class="form-control input-sm" name="wajib_pantau" id="wajib_pantau">
+			<option value="1" <?php selected($is_wajib_pantau, '1'); ?> >Ya</option>
+			<option value="0" <?php selected($is_wajib_pantau, '0'); ?> >Tidak</option>
+		</select>
+		<small id="wajib_pantau_plus_msg" class="form-text text-muted">
+			Jika ya, daftar warga ini masuk dalam daftar warga yang dipantau di menu Pemantauan
+		</small>
 	 </div>
 </div>
 

@@ -151,7 +151,7 @@
 			</header>
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
 			<!-- Untuk menampilkan modal bootstrap umum  -->
-			<div class="modal fade here" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class='modal-dialog'>
 					<div class='modal-content'>
 						<div class='modal-header'>
