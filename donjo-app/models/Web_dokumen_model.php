@@ -348,7 +348,7 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
-	public function update($id=0)
+	public function update($id=0, $id_pend=null)
 	{
 		$retval = false;
 
@@ -369,19 +369,21 @@ class Web_dokumen_model extends CI_Model {
 		$data['updated_at'] = date('Y-m-d H:i:s');
 
 		unset($data['anggota_kk']);
+		
+		if ($id_pend) $this->db->where('id_pend', $id_pend);
+		$this->db->where('id',$id)->update('dokumen', $data);
 
-		$retval = $this->db->where('id',$id)->update('dokumen', $data);
-
-		if($retval)
+		foreach ($anggota_lain as $item) 
 		{
-			foreach ($anggota_lain as $item) {
-				if($item['id'] != $id) {
-					$data['id_pend'] = $item['id_pend'];
-					$this->db->where('id', $item['id'])->update('dokumen', $data);
-				}
+			if($item['id'] != $id) 
+			{
+				$data['id_pend'] = $item['id_pend'];
+				$this->db->where('id', $item['id'])->update('dokumen', $data);
 			}
 		}
 
+		$retval = $this->db->affected_rows();
+		status_sukses($retval);
 		return $retval;
 	}
 
@@ -434,12 +436,14 @@ class Web_dokumen_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_dokumen($id=0)
+	public function get_dokumen($id=0, $id_pend=null)
 	{
+		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$data = $this->db->from($this->table)
 			->where('id', $id)
 			->get()->row_array();
 		$data['attr'] = json_decode($data['attr'], true);
+		$data = array_filter($data);
 		return $data;
 	}
 

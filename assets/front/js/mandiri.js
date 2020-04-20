@@ -72,6 +72,14 @@ $(document).ready(function() {
 				$('#id_syarat').val(data.id_syarat);
 				$('#old_file').val(data.satuan);
 				$('#modal .modal-body').LoadingOverlay('hide');
+				switch (data.success) {
+					case -1:
+						show_alert('red', 'Error', data.message);
+						$('#modal').modal('hide');
+						break;
+					default:
+						break;
+				}
 			},
 			error: function(err) {
 				console.log(err);
@@ -102,7 +110,7 @@ $(document).ready(function() {
 								$('#modal .modal-body').LoadingOverlay('hide');
 								switch (data.success) {
 									case -1:
-										show_alert('red', 'Error', 'Gagal menghapus');
+										show_alert('red', 'Error', data.message);
 										break;
 									default:
 										show_alert('green', 'Sukses', 'Berhasil menghapus');

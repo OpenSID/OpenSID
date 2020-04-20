@@ -31,7 +31,8 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 25. Tutup celah bisa ubah nama file dokumen web yang diunggah dan celah bisa hapus sembarang file. [security-fix]
 26. #2895: Tambahkan pilihan Telegram untuk widget Media Sosial.
 27. Setting STRICT_TRANS_TABlE untuk koneksi database sekarang bisa diubah di konfigurasi di folder desa. 
-
+28. Tutup celah bisa mengubah dan menghapus dokumen oleh pengguna Layanan Mandiri yg tidak berhak. [security-fix]
+29. Sederhanakan hilangkan duplikasi modal dialog konfirmasi hapus. Juga hapus dialog konfirmasi yg tidak digunakan. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

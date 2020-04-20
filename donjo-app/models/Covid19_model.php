@@ -207,50 +207,41 @@ class Covid19_model extends CI_Model
 	{
 		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
 
-		$data = array(
-			'id_terdata' => $post['id_terdata'],
-			'tanggal_datang' => $post['tanggal_tiba'],
-			'asal_mudik' => $post['asal_pemudik'],
-			'durasi_mudik' => $post['durasi_pemudik'],
-			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
-			'no_hp' => $post['hp_pemudik'],
-			'email' => $post['email_pemudik'],
-			'status_covid' => $post['status_covid'],
-			'is_wajib_pantau' => $post['wajib_pantau'],
-			'keluhan_kesehatan' => $post['keluhan'],
-			'keterangan' => $post['keterangan']
-		);
+		$data = $this->sterilkan($post);
+		$data['id_terdata'] = $post['id_terdata']; 
 
 		return $this->db->insert('covid19_pemudik', $data);
+	}
+
+	private function sterilkan($post)
+	{
+		$data = array(
+			'tanggal_datang' => $post['tanggal_tiba'],
+			'asal_mudik' => alfanumerik_spasi($post['asal_pemudik']),
+			'durasi_mudik' => $post['durasi_pemudik'],
+			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
+			'no_hp' => bilangan_spasi($post['hp_pemudik']),
+			'email' => strip_tags($post['email_pemudik']),
+			'status_covid' => $post['status_covid'],
+			'is_wajib_pantau' => $post['wajib_pantau'],
+			'keluhan_kesehatan' => alfanumerik_spasi($post['keluhan']),
+			'keterangan' => alfanumerik_spasi($post['keterangan'])
+		);
+		return $data;		
 	}
 	
 	public function update_pemudik_by_id($post, $id) 
 	{
 		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
 
-		$data = array(
-			'tanggal_datang' => $post['tanggal_tiba'],
-			'asal_mudik' => $post['asal_pemudik'],
-			'durasi_mudik' => $post['durasi_pemudik'],
-			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
-			'no_hp' => $post['hp_pemudik'],
-			'email' => $post['email_pemudik'],
-			'status_covid' => $post['status_covid'],
-			'is_wajib_pantau' => $post['wajib_pantau'],
-			'keluhan_kesehatan' => $post['keluhan'],
-			'keterangan' => $post['keterangan']
-		);
+		$data = $this->sterilkan($post);
 
 		$this->db->where('id',$id);
 		$this->db->update('covid19_pemudik', $data);
 	}
 	
 	public function delete_pemudik_by_id($id) 
-	{
-		//delete warga pemudik di menu pemantau
-		$this->db->where('id_pemudik', $id);
-		$this->db->delete('covid19_pantau');
-		
+	{		
 		//delete warga pemudik
 		$this->db->where('id', $id);
 		$this->db->delete('covid19_pemudik');
@@ -352,8 +343,8 @@ class Covid19_model extends CI_Model
 			'batuk' => (isset($post['batuk']) ? '1':'0'),
 			'flu' => (isset($post['flu']) ? '1':'0'),
 			'sesak_nafas' => (isset($post['sesak']) ? '1':'0'),
-			'keluhan_lain' => $post['keluhan'],
-			'status_covid' => $post['status_covid'],
+			'keluhan_lain' => $this->security->xss_clean($post['keluhan']),
+			'status_covid' => $this->security->xss_clean($post['status_covid']),
 		);
 		return $this->db->insert('covid19_pantau', $data);
 	}
