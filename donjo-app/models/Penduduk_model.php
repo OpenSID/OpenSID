@@ -1354,6 +1354,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
+			$data[$i]['hidden'] = false;
 
 			//jika dokumen berelasi dengan dokumen kepala kk
 			$anggota_lain = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data[$i]['satuan']);

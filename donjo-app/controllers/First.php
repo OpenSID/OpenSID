@@ -621,6 +621,7 @@ class First extends Web_Controller {
 			$list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
 			$list_dokumen[$i][] = $data[$i]['nama'];
 			$list_dokumen[$i][] = $data[$i]['id'];
+			$list_dokumen[$i][] = $data[$i]['hidden'];
 		}
 		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
 		echo json_encode($list);

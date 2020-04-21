@@ -40,8 +40,12 @@ $(document).ready(function() {
 				'aTargets': [3],
 				'mData': 'aksi',
 				'mRender': function (data, type, row) {
-						return `<button type="button" class="btn bg-orange btn-flat btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[4]}"><i class="fa fa-edit"></i> Ubah</button>
-						<button type="button" class="btn bg-red btn-flat btn-sm delete text-center" title="Delete Data" data-id="${row[4]}"><i class="fa fa-trash"></i> Hapus</button>`
+					let action = ``;
+					if(!row[5])
+						action = `<button type="button" class="btn bg-orange btn-flat btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[4]}"><i class="fa fa-edit"></i> Ubah</button>
+						<button type="button" class="btn bg-red btn-flat btn-sm delete text-center" title="Delete Data" data-id="${row[4]}"><i class="fa fa-trash"></i> Hapus</button>`;
+					
+					return action;
 				}
 			 }
 		]
