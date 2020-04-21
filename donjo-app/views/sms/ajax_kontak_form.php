@@ -15,15 +15,15 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="nama">Nama</label>
-							<select class="form-control input-sm select2 required"  id="id_pend" name="id_pend" style="width:100%;" data-url="<?= site_url('kontak/data_penduduk')?>" onchange="formAction('main')">
-								<?php foreach ($nama AS $data): ?>
-									<option value="<?=$data['id'] ?>" ><?= $data['nama']?></option>
-								<?php endforeach; ?>
+							<select class="form-control input-sm select2 required"  id="pilih" name="pilih" style="width:100%;" onchange="pilih_telepon(this.value);">
+							<?php foreach ($nama AS $data): ?>
+								<option value="<?=$data['id'].'|'.$data['telepon']?>"><?= $data['nama']?></option>
+							<?php endforeach; ?>
 							</select>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="hp">No HP</label>
-							<input name="telepon" class="form-control input-sm required" type="text"></input>
+							<input id="telepon" name="telepon" class="form-control input-sm required" type="text"></input>
 						</div>
 					</div>
 				</div>
@@ -35,3 +35,15 @@
 		</div>
 	</div>
 </form>
+<script>
+	$('document').ready(function()
+	{
+		$('#pilih').change();
+	});
+
+	function pilih_telepon(tlp)
+	{
+		tlp = tlp.split("|");
+		$('#telepon').attr('value', tlp[1]);
+	};
+</script>

@@ -467,66 +467,14 @@ class Sms extends Admin_Controller {
 		redirect("sms/index/$p/$o");
 	}
 
-	public function kontak($p = 1, $o = 0)
+	public function get_telpon($id = 0)
 	{
-		$this->sub_modul_ini = 40;
-
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari_kontak']))
-			$data['cari_kontak'] = $_SESSION['cari_kontak'];
-		else $data['cari_kontak'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->sms_model->paging_kontak($p, $o);
-		$data['main'] = $this->sms_model->list_data_kontak($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sms/kontak', $data);
-		$this->load->view('footer');
-		unset($_SESSION['cari_kontak']);
+		$data['telepon'] = $this->sms_model->get_telepon($id);
 	}
 
-	public function form_kontak($id = 0)
-	{
-		if ($id == 0)
-		{
-			$data['nama'] = $this->sms_model->list_nama();
-			$data['form_action'] = site_url("sms/kontak_insert");
-			$this->load->view('sms/ajax_kontak_form', $data);
-		}
-		else
-		{
-			$data['form_action'] = site_url("sms/kontak_update");
-			$data['kontak'] = $this->sms_model->get_kontak($id);
-			$this->load->view('sms/ajax_kontak_form_edit', $data);
-		}
-	}
+	
 
-	public function kontak_insert()
-	{
-		$data = $_POST;
-		$this->sms_model->insert_kontak($data);
-		redirect('sms/kontak');
-	}
-
-	public function kontak_update()
-	{
-		$data = $_POST;
-		$this->sms_model->update_kontak($data);
-		redirect('sms/kontak');
-	}
+	
 
 	public function kontak_delete($id = 0)
 	{
@@ -738,4 +686,68 @@ class Sms extends Admin_Controller {
 		$this->sms_model->sinkronkan($data);
 		redirect('sms/kontak');
 	}
+
+	// Daftar Kontak
+	public function kontak($p = 1, $o = 0)
+	{
+		$this->sub_modul_ini = 40;
+
+		$data['p'] = $p;
+		$data['o'] = $o;
+
+		/*
+		if (isset($_SESSION['cari_kontak']))
+			$data['cari_kontak'] = $_SESSION['cari_kontak'];
+		else $data['cari_kontak'] = '';
+
+		if (isset($_SESSION['filter']))
+			$data['filter'] = $_SESSION['filter'];
+		else $data['filter'] = '';
+
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
+		*/
+		
+		$data['per_page'] = $_SESSION['per_page'];
+		$data['paging'] = $this->sms_model->paging_kontak($p, $o);
+		$data['main'] = $this->sms_model->list_data_kontak($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['keyword'] = $this->sms_model->autocomplete();
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sms/kontak', $data);
+		$this->load->view('footer');
+	}
+
+	public function form_kontak($id = 0)
+	{
+		if ($id == 0)
+		{
+			$data['nama'] = $this->sms_model->list_nama();
+			$data['form_action'] = site_url("sms/kontak_insert");
+			$this->load->view('sms/ajax_kontak_form', $data);
+		}
+		else
+		{
+			$data['form_action'] = site_url("sms/kontak_update");
+			$data['kontak'] = $this->sms_model->get_kontak($id);
+			$this->load->view('sms/ajax_kontak_form_edit', $data);
+		}
+	}
+
+	public function kontak_insert()
+	{
+		$data = $_POST;
+		$this->sms_model->insert_kontak($data);
+		redirect('sms/kontak');
+	}
+
+	public function kontak_update()
+	{
+		$data = $_POST;
+		$this->sms_model->update_kontak($data);
+		redirect('sms/kontak');
+	}
+
 }
