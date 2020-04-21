@@ -576,6 +576,7 @@ function mapBox()
 }
 function formAction(idForm, action, target = '')
 {
+	csrf_semua_form();
 	if (target != '')
 	{
 		$('#'+idForm).attr('target', target);

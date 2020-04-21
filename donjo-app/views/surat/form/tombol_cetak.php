@@ -13,9 +13,27 @@
 				<button type="button" onclick="$('#validasi').attr('action', '<?= site_url('permohonan_surat/kirim/'.$permohonan[id])?>'); $('#validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Kirim</button>
 			<?php else: ?>
 				<?php if (SuratExport($url)): ?>
-					<button type="button" onclick="$('#'+'validasi').submit();" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
+					<button type="button" onclick="ekspor_dok()" class="btn btn-social btn-flat btn-success btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-text"></i> Ekspor Dok</button>
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function ekspor_dok()
+	{
+		if ($('#validasi').valid())
+		{
+			setTimeout(function() {
+				csrf_semua_form();
+				$('#'+'validasi').submit();
+			}, 500);
+		}
+		else
+		{
+			setTimeout(function() {
+				csrf_semua_form();
+			}, 500);
+		}
+	}
+</script>

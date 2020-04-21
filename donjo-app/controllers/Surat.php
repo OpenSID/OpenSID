@@ -160,10 +160,12 @@ class Surat extends Admin_Controller {
 	    # Unduh berkas zip
 	    header('Content-disposition: attachment; filename='.$nama_file.'.zip');
 	    header('Content-type: application/zip');
+			header($this->security->get_csrf_token_name().':'.$this->security->get_csrf_hash());
 	    readfile($berkas_zip);
 		}
 		else
 		{
+			header($this->security->get_csrf_token_name().':'.$this->security->get_csrf_hash());
 			header("location:".base_url(LOKASI_ARSIP.$nama_surat));
 		}
 	}
