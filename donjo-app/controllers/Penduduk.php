@@ -232,14 +232,43 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 
+		// Ambil data anggota KK
 		if($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
 		{
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+			foreach ($data['kk'] as $key => $value) {
+				$data['kk'][$key]['checked'] = '';
+				$data['kk'][$key]['disabled'] = '';
+			}
 		}
 
 		if ($id_dokumen)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
+			
+			// Ambil data dokumen anggota keluarga yang lain
+			$data['dokumen_anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data['dokumen']['satuan']);
+			
+			if(count($data['dokumen_anggota'])>1)
+			{
+				$id_pend_anggota = array();
+				foreach ($data['dokumen_anggota'] as $item_dokumen) 
+				{
+					if($item_dokumen['id_pend'] != $id)
+						$id_pend_anggota[] = $item_dokumen['id_pend'];
+				}
+
+				foreach ($data['kk'] as $key => $value) 
+				{
+					$data['kk'][$key]['disabled'] = 'disabled';
+					if(in_array($value['id'], $id_pend_anggota))
+					{
+						$data['kk'][$key]['checked'] = 'checked';
+					}
+					
+				}
+			}
+
 			$data['form_action'] = site_url("penduduk/dokumen_update/$id_dokumen");
 		}
 		else

@@ -1,20 +1,23 @@
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
-$('#file_browser').click(function(e)
-{
-    e.preventDefault();
-    $('#file').click();
+$(document).ready(function() {
+	$('#file_browser').click(function(e)
+	{
+	    e.preventDefault();
+	    $('#file').click();
+	});
+
+	$('#file').change(function()
+	{
+	    $('#file_path').val($(this).val());
+	});
+
+	$('#file_path').click(function()
+	{
+	    $('#file_browser').click();
+	});
 });
 
-$('#file').change(function()
-{
-    $('#file_path').val($(this).val());
-});
-
-$('#file_path').click(function()
-{
-    $('#file_browser').click();
-});
 </script>
 <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
 	<div class='modal-body'>
@@ -52,24 +55,17 @@ $('#file_path').click(function()
 							    	</tr>
 							  	</thead>
 							  	<tbody>
-							  		<?php
-							  		$disabled = "";
-							  		$checked = "";
-							  		if(!empty($dokumen['nama'])) {
-						  				$disabled = "disabled";
-						  				$checked = "checked";
-							  		}
-									foreach ($kk as $item) {
-										if($item['nik'] != $penduduk['nik'])
-										{
-											echo "<tr>";
-											echo "<td><input type='checkbox' name='anggota_kk[]' value='$item[id]' $disabled $checked /></td>";
-											echo "<td>$item[nik]</td>";
-											echo "<td>$item[nama]</td>";
-											echo "</tr>";
-										}
-									}
-							    	?>
+						  		<?php
+								foreach ($kk as $item):
+									if($item['nik'] != $penduduk['nik']):
+										echo "<tr>";
+										echo "<td><input type='checkbox' name='anggota_kk[]' value='$item[id]' $item[disabled] $item[checked] /></td>";
+										echo "<td>$item[nik]</td>";
+										echo "<td>$item[nama]</td>";
+										echo "</tr>";
+									endif;
+								endforeach;
+						    	?>
 							  	</tbody>
 							</table>
 						</div>

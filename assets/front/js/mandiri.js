@@ -11,6 +11,7 @@ function show_alert(type, title, content) {
 }
 
 $(document).ready(function() {
+	
 	$('#unggah_dokumen').validate();
 	
 	$('.datatable-polos').DataTable({
@@ -49,6 +50,8 @@ $(document).ready(function() {
 	$('#tambah_dokumen').click(function(){
 		$('#unggah_dokumen').trigger('reset');
 		$('#file').addClass('required');
+		$('.anggota_kk').attr("disabled", false);
+		$('.anggota_kk').attr("checked", false);
 		$('#myModalLabel').text('Tambah Dokumen');
 	})
 
@@ -72,6 +75,16 @@ $(document).ready(function() {
 				$('#id_syarat').val(data.id_syarat);
 				$('#old_file').val(data.satuan);
 				$('#modal .modal-body').LoadingOverlay('hide');
+				
+				//anggota lain
+				$('.anggota_kk').attr("disabled", true);
+				for (let [key, value] of Object.entries(data.anggota)) {
+					if(value.id_pend != data.id_pend) {
+						let id_anggota = '#anggota_'+value.id_pend;
+						$(id_anggota).attr("checked", true);
+					}
+				}
+
 				switch (data.success) {
 					case -1:
 						show_alert('red', 'Error', data.message);
@@ -80,6 +93,8 @@ $(document).ready(function() {
 					default:
 						break;
 				}
+				
+				
 			},
 			error: function(err) {
 				console.log(err);

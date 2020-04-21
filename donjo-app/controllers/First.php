@@ -234,6 +234,12 @@ class First extends Web_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 
+		// Ambil data anggota KK
+		if($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		{
+			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+		}
+		
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
@@ -673,6 +679,7 @@ class First extends Web_Controller {
 	{
 		$id_dokumen = $this->input->post('id_dokumen');
 		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->userdata('id'));
+		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data['satuan']);
 		
 		if (empty($data))
 		{

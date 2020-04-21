@@ -1357,9 +1357,11 @@
 
 			//jika dokumen berelasi dengan dokumen kepala kk
 			$anggota_lain = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data[$i]['satuan']);
-			if(count($anggota_lain)>1) {
+			if(count($anggota_lain)>1) 
+			{
 				$penduduk = $this->get_penduduk($id);
-				if($penduduk['kk_level'] != '1') {
+				if($penduduk['kk_level'] != '1') 
+				{
 					$data[$i]['hidden'] = true;
 				}
 			}
