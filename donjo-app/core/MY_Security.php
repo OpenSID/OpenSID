@@ -86,8 +86,13 @@ class MY_Security extends CI_Security {
 	/** @inheritdoc */
 	public function csrf_show_error()
 	{
+		/* ==== Uncomment berikut untuk debugging masalah CSRF */
+		// print("<pre>".print_r(getallheaders(),true)."</pre>");
+		// print("<pre>".print_r($_POST, true)."</pre>");
+		// die();
+
 		$heading = 'Bad Request';
-		$message = 'CSRF Verification Failed.';
+		$message = 'Verifikasi CSRF Gagal.';
 		show_error($message, 400, $heading);
 	}
 }
