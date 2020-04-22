@@ -211,7 +211,8 @@
 			"statistik/13" => "Umur",
 			"statistik/18" => "Kepemilikan Wajib KTP",
 			"statistik/5"  => "Warga Negara",
-			"statistik/19" => "Asuransi"
+			"statistik/19" => "Asuransi",
+			"statistik/covid" => "Status Covid"
 		);
 		return $statistik;
 	}
@@ -267,6 +268,7 @@
 			case "17": return "Akte Kelahiran"; break;
 			case "18": return "Kepemilikan Wajib KTP"; break;
 			case "19": return "Jenis Asuransi"; break;
+			case "covid": return "Status Covid"; break;
 			case "21": return "Klasifikasi Sosial"; break;
 			case "24": return "Penerima BOS"; break;
 			default: return NULL;
@@ -466,9 +468,21 @@
 		switch ("$lap")
 		{
 			//Bagian Keluarga
-			case 'kelas_sosial': $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 1) AS laki,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 2) AS perempuan FROM tweb_keluarga_sejahtera u"; break;
-			case "21": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'"; break;
-			case "24": $sql   = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_bos = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_bos u WHERE 1 "; break;
+			case 'kelas_sosial': $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 1) AS laki,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 2) AS perempuan FROM tweb_keluarga_sejahtera u"; 
+				break;
+			case "21": $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'"; 
+				break;
+			case "24": $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_bos = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_bos u WHERE 1 "; 
+				break;
+
+			//STATUS_COVID
+			case 'covid': $sql =
+				"SELECT u.*,
+				(SELECT COUNT(id_terdata) FROM covid19_pemudik WHERE status_covid = u.nama) AS jumlah,
+				(SELECT COUNT(k.id_terdata) FROM covid19_pemudik k INNER JOIN tweb_penduduk p ON k.id_terdata=p.id WHERE status_covid = u.nama AND p.sex = 1) AS laki,
+				(SELECT COUNT(k.id_terdata) FROM covid19_pemudik k INNER JOIN tweb_penduduk p ON k.id_terdata=p.id WHERE status_covid = u.nama AND p.sex = 2) AS perempuan
+				FROM ref_status_covid u"; 
+				break;
 
 			// Bagian Penduduk
 			case "0":
@@ -558,7 +572,7 @@
 			$sql3 .= $this->get_laki_sql(false, true, $where);
 			$sql3 .= $this->get_perempuan_sql(false, false, $where);
 		}
-		elseif ($lap<=20 AND "$lap" <> 'kelas_sosial')
+		elseif (($lap<=20 OR $lap=='covid') AND "$lap" <> 'kelas_sosial')
 		{
 			$sql3 = "SELECT ";
 			$sql3 .= $this->get_jumlah_sql(false, true);
@@ -677,14 +691,14 @@
 		else
 			$data['nama'] = 'Di atas '.$data['dari'].' Tahun';
 		$outp = $this->db->where('id',$id)->update('tweb_penduduk_umur', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete_rentang($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk_umur');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

@@ -130,7 +130,7 @@
 											<tr>
 												<th width='5%'>No</th>
 												<th width='50%'>Jenis Kelompok</th>
-												<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)): ?>
+												<?php if ($jenis_laporan == 'penduduk'): ?>
 													<th width='15%' colspan="2">Laki-Laki</th>
 													<th width='15%' colspan="2">Perempuan</th>
 												<?php endif; ?>
@@ -143,7 +143,7 @@
 												<tr>
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
-													<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)): ?>
+													<?php if ($jenis_laporan == 'penduduk'): ?>
 														<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
 														<td><a href="<?= $tautan_jumlah?>/1"><?= $data['laki']?></a></td>
 														<td><?= $data['persen1'];?></td>
@@ -172,4 +172,3 @@
 		</form>
 	</section>
 </div>
-

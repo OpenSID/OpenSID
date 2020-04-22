@@ -79,7 +79,7 @@
 											<th class="thick">No</th>
 											<th class="thick"><?= $stat?></th>
 											<th class="thick">Jumlah</th>
-											<?php if ($lap<20): ?>
+											<?php if ($lap<=20): ?>
 												<th class="thick" width="60">Laki-laki</th>
 												<th class="thick" width="60">Perempuan</th>
 											<?php endif; ?>
@@ -91,7 +91,7 @@
 												<td class="thick" align="center" width="2"><?= $data['no']?></td>
 												<td class="thick"><?= strtoupper($data['nama'])?></td>
 												<td class="thick"><?= $data['jumlah']?></td>
-												<?php if ($lap<20): ?>
+												<?php if ($lap<=20): ?>
 													<td class="thick"><?= $data['laki']?></td>
 													<td class="thick"><?= $data['perempuan']?></td>
 												<?php endif; ?>
