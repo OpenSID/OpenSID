@@ -318,8 +318,8 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			));
 		}
 
-		// Tambah Tabel tweb_status_covid
-		if (!$this->db->table_exists('tweb_status_covid'))
+		// Tambah Tabel ref_status_covid
+		if (!$this->db->table_exists('ref_status_covid'))
 		{
 			$this->dbforge->add_field(array(
 				'id' => array(
@@ -335,10 +335,10 @@ class Migrasi_2004_ke_2005 extends CI_model {
 				)
 			));
 			$this->dbforge->add_key("id",true);
-			$this->dbforge->create_table("tweb_status_covid", TRUE);
+			$this->dbforge->create_table("ref_status_covid", TRUE);
 		}
 
-		// Tambah Data di Tabel tweb_status_covid
+		// Tambah Data di Tabel ref_status_covid
 		$data[] = array(
 			'id'=>'1',
 			'nama' => 'ODP');
@@ -365,7 +365,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 
 		foreach ($data as $modul)
 		{
-			$sql = $this->db->insert_string('tweb_status_covid', $modul);
+			$sql = $this->db->insert_string('ref_status_covid', $modul);
 			$sql .= " ON DUPLICATE KEY UPDATE
 			id = VALUES(id),
 			nama = VALUES(nama)";
