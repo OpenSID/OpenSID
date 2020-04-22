@@ -507,7 +507,7 @@
 		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
 		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
 		$data['hamil'] = $data['hamil'] ?: NULL;
-		
+
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
@@ -876,7 +876,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -1315,6 +1315,7 @@
 				case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
 				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
 				case 19: $sql = "SELECT * FROM tweb_penduduk_asuransi WHERE id = ?"; break;
+				case 20: $sql = "SELECT * FROM tweb_status_covid WHERE id = ?"; break;
 			}
 			$query = $this->db->query($sql, $nomor);
 			$judul = $query->row_array();

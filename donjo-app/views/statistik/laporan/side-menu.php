@@ -24,6 +24,7 @@
       <li class="<?php ($lap==17) and print('active') ?>"><a href="<?=site_url('statistik/clear/17')?>">Akte Kelahiran</a></li>
 			<li class="<?php ($lap==18) and print('active') ?>"><a href="<?=site_url('statistik/clear/18')?>">Kepemilikan KTP</a></li>
 			<li class="<?php ($lap==19) and print('active') ?>"><a href="<?=site_url('statistik/clear/19')?>">Jenis Asuransi</a></li>
+			<li class="<?php ($lap==20) and print('active') ?>"><a href="<?=site_url('statistik/clear/20')?>">Status Covid</a></li>
 		</ul>
 	</div>
 </div>

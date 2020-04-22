@@ -192,7 +192,7 @@ class Penduduk extends Admin_Controller {
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/penduduk_form', $data);
@@ -655,6 +655,9 @@ class Penduduk extends Admin_Controller {
 				break;
 			case 19:
 				$_SESSION['id_asuransi'] = $nomor; $pre = "JENIS ASURANSI : ";
+				break;
+			case 20:
+				$_SESSION['status_covid'] = $nomor; $pre = "STATUS COVID : ";
 				break;
 		}
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
