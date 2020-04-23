@@ -96,7 +96,7 @@
                           <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/5")?>">Jumlah <i class='fa fa-sort fa-sm'></i></a></th>
                         <?php endif; ?>
 
-												<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)): ?>
+												<?php if ($jenis_laporan == 'penduduk'): ?>
 													<?php if ($o==4): ?>
                             <th nowrap colspan="2"><a href="<?= site_url("statistik/index/$lap/3")?>">Laki-Laki <i class='fa fa-sort-asc fa-sm'></i></a></th>
                           <?php elseif ($o==3): ?>
@@ -133,7 +133,7 @@
 															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
 															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
 													?>
-													<?php if ($lap<20 OR ($lap>50 AND $program['sasaran']==1)): ?>
+													<?php if ($jenis_laporan == 'penduduk'): ?>
 														<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
 														<td><?= $data['persen1'];?></td>
 														<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['perempuan']?></a></td>
@@ -152,4 +152,3 @@
 		</form>
 	</section>
 </div>
-

@@ -34,8 +34,7 @@ $(document).ready(function() {
 					data:{
 						url: function() {
 							return $('#url_surat').val()
-						},
-						csrfParam: getCsrfToken()
+						}
 					}
 				}
 			}
