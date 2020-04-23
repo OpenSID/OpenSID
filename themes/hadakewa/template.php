@@ -1,7 +1,17 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 			<div id="contentwrapper">
-				<?php if (config_item('covid_data')) $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/covid.php')) ?>
+
+			<?php
+			//Uncomment (beri awalan //) untuk API kawalcorona
+			//if (config_item('covid_data')) $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/covid.php'));
+			?>
+
+			<?php
+			//Uncomment (beri awalan //) dibawah ini untuk API Local
+			if (config_item('covid_data')) $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/covid_local.php'));
+			?>
+
 			</div>
 			<div id="contentwrapper">
 				<div id="contentcolumn">
