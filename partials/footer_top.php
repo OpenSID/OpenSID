@@ -39,7 +39,7 @@
 	            <?php if (!empty($data["link"])): ?>
 	            <a href="<?= $data['link']?>" rel="noopener noreferrer" target="_blank">
 	                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?>-square fa-3x"></i></span>
-	                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram'): ?>
+	                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram' OR strtolower($data["nama"]) == 'telegram'): ?>
 	                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?> fa-3x"></i></span>
 	                <?php endif; ?>
 	            </a>
