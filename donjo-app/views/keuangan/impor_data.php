@@ -131,6 +131,7 @@
 			{
 				file =$(this).prop('files')[0];
 				formdata.append("keuangan", file);
+				formdata.append(csrfParam, getCsrfToken());
 			}
 		});
 	});
@@ -156,6 +157,7 @@
 				success: function(response) {
 					if (response == 0)
 					{
+						addCsrfField($('#validasi')[0]);
 						$('#validasi').submit();
 					}
 					else if (response == 1)
@@ -187,6 +189,7 @@
 	function simpanDataUpdate()
 	{
 		$("#jenis_impor").val('update');
+		addCsrfField($('#validasi')[0]);
 		$('#validasi').submit();
 	}
 </script>

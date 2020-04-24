@@ -34,7 +34,8 @@ $(document).ready(function() {
 					data:{
 						url: function() {
 							return $('#url_surat').val()
-						}
+						},
+						csrfParam: getCsrfToken()
 					}
 				}
 			}
@@ -43,7 +44,10 @@ $(document).ready(function() {
 			nomor: {
 				remote: "Nomor surat itu sudah digunakan",
 			},
-		}
+		},
+    success: function() {
+	    csrf_semua_form();
+    }
 	});
 
 	// Untuk form surat masuk/keluar memeriksa nomor urut secara remote/ajax

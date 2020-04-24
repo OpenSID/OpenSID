@@ -42,6 +42,7 @@ class Penduduk extends Admin_Controller {
 		unset($_SESSION['akta_kelahiran']);
 		unset($_SESSION['status_ktp']);
 		unset($_SESSION['id_asuransi']);
+		unset($_SESSION['status_covid']);
 	}
 
 	public function clear()
@@ -57,7 +58,7 @@ class Penduduk extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		$list_session = array('cari', 'judul_statistik', 'filter', 'sex', 'agama', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'status_ktp', 'id_asuransi');
+		$list_session = array('cari', 'judul_statistik', 'filter', 'sex', 'agama', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'status_ktp', 'id_asuransi', 'status_covid');
 		foreach ($list_session as $session)
 		{
 			$data[$session] = $this->session->userdata($session) ?: '';
@@ -192,7 +193,7 @@ class Penduduk extends Admin_Controller {
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/penduduk_form', $data);
@@ -623,7 +624,7 @@ class Penduduk extends Admin_Controller {
 
 		switch ($tipe)
 		{
-			case 0: $_SESSION['pendidikan_kk_id'] = $nomor; $pre = "PENDIDIKAN DALAM KK : "; break;
+			case '0': $_SESSION['pendidikan_kk_id'] = $nomor; $pre = "PENDIDIKAN DALAM KK : "; break;
 			case 1: $_SESSION['pekerjaan_id'] = $nomor; $pre = "PEKERJAAN : "; break;
 			case 2: $_SESSION['status'] = $nomor; $pre = "STATUS PERKAWINAN : "; break;
 			case 3: $_SESSION['agama'] = $nomor; $pre = "AGAMA : "; break;
@@ -655,6 +656,9 @@ class Penduduk extends Admin_Controller {
 				break;
 			case 19:
 				$_SESSION['id_asuransi'] = $nomor; $pre = "JENIS ASURANSI : ";
+				break;
+			case 'covid':
+				$_SESSION['status_covid'] = $nomor; $pre = "STATUS COVID : ";
 				break;
 		}
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);

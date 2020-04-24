@@ -232,7 +232,7 @@
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
-		$log['tanggal'] = date("m-d-y");
+		$log['tanggal'] = date('Y-m-d H:i:s');
 		$outp = $this->db->insert('log_perubahan_penduduk', $log);
 
 		// Untuk statistik perkembangan keluarga

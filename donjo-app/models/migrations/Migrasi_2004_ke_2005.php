@@ -7,7 +7,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		$this->covid19();
 		$this->covid19Monitoring();
 		// MODUL BARU END
-		
+
 		// Penyesuaian url menu dgn submenu setelah hapus file sekretariat.php
 		$this->db->where('id', 15)
 			->set('url', 'surat_keluar/clear')
@@ -38,7 +38,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		if (!$this->db->field_exists('tipe', 'media_sosial')){
 			$this->db->query('ALTER TABLE media_sosial ADD COLUMN tipe TINYINT(1) NULL DEFAULT 1 AFTER nama');
 		}
-		// Tambah media sosial telegram		
+		// Tambah media sosial telegram
 		$this->db->query('ALTER TABLE media_sosial MODIFY COLUMN link TEXT NULL');
 		$data = array(
 			'id' => '7',
@@ -58,7 +58,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		// Perbaikan modul mail_box
 		$this->kotak_pesan();
 	}
-	
+
 	private function covid19()
 	{
 		// Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
@@ -156,8 +156,8 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			$this->dbforge->create_table("covid19_pemudik", TRUE);
 		}
 
-		// add relational constraint antara covid19_pemudik dan tweb_penduduk 
-		if ($this->db->field_exists('id_terdata', 'covid19_pemudik')) 
+		// add relational constraint antara covid19_pemudik dan tweb_penduduk
+		if ($this->db->field_exists('id_terdata', 'covid19_pemudik'))
 		{
 			$this->dbforge->modify_column('covid19_pemudik', array(
 				'id_terdata' => array(
@@ -188,7 +188,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			->set('url', '')
 			->update('setting_modul');
 
-		
+
 		// Tambah field wajib pantau di pemudik
   	if (!$this->db->field_exists('is_wajib_pantau', 'covid19_pemudik'))
   	{
@@ -198,7 +198,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 					'constraint' => 20,
 					'null' => TRUE,
 				),
-			));	
+			));
   	}
 
 		// Add Menu Child 'Pendataan' & 'Pemantauan'
@@ -243,7 +243,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			$this->db->query($sql);
 		}
 
-		// Tambah Tabel Pemantauan Covid-19 
+		// Tambah Tabel Pemantauan Covid-19
 		if (!$this->db->table_exists('covid19_pantau'))
 		{
 			$this->dbforge->add_field(array(
@@ -297,8 +297,8 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			$this->dbforge->create_table("covid19_pantau", TRUE);
 		}
 
-		// add relational constraint antara covid19_pantau dan covid19_pemudik 
-		if ($this->db->field_exists('id_pemudik', 'covid19_pantau')) 
+		// add relational constraint antara covid19_pantau dan covid19_pemudik
+		if ($this->db->field_exists('id_pemudik', 'covid19_pantau'))
 		{
 			$this->dbforge->modify_column('covid19_pantau', array(
 				'id_pemudik' => array(
@@ -318,6 +318,60 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			$this->dbforge->add_column('covid19_pantau', array(
 				"CONSTRAINT `fk_pantau_pemudik` FOREIGN KEY (`id_pemudik`) REFERENCES `covid19_pemudik`(`id`) ON DELETE CASCADE ON UPDATE CASCADE"
 			));
+		}
+
+		// Tambah Tabel ref_status_covid
+		if (!$this->db->table_exists('ref_status_covid'))
+		{
+			$this->dbforge->add_field(array(
+				'id' => array(
+				'type' => 'INT',
+					'constraint' => 10,
+					'null' => FALSE,
+					'auto_increment' => TRUE
+				),
+				'nama' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100,
+					'null' => FALSE,
+				)
+			));
+			$this->dbforge->add_key("id",true);
+			$this->dbforge->create_table("ref_status_covid", TRUE);
+		}
+
+		// Tambah Data di Tabel ref_status_covid
+		$data[] = array(
+			'id'=>'1',
+			'nama' => 'ODP');
+
+		$data[] = array(
+			'id'=>'2',
+			'nama' => 'PDP');
+
+		$data[] = array(
+			'id'=>'3',
+			'nama' => 'ODR');
+
+		$data[] = array(
+			'id'=>'4',
+			'nama' => 'OTG');
+
+		$data[] = array(
+			'id'=>'5',
+			'nama' => 'POSITIF');
+
+		$data[] = array(
+			'id'=>'6',
+			'nama' => 'DLL');
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('ref_status_covid', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+			id = VALUES(id),
+			nama = VALUES(nama)";
+			$this->db->query($sql);
 		}
 
 	}
