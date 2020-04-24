@@ -303,5 +303,20 @@
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
+
+	// widget statis di ambil dari folder desa/widget
+	public function list_widget()
+	{
+		$widget_desa = glob(LOKASI_WIDGET.'*.php');
+		$list_widget = array();
+			
+		foreach ($widget_desa as $widget){
+			$widget = str_replace(LOKASI_WIDGET, '', $widget);
+			$list_widget[] = $widget;
+		}
+
+		return $list_widget;	
+	}
+	
 }
 ?>
