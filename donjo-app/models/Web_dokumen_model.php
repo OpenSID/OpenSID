@@ -402,7 +402,7 @@ class Web_dokumen_model extends CI_Model {
 			foreach ($diff_id_pend as $key => $value) {
 				$data["id_pend"] = $value;
 				$data["id_parent"] = $id;
-				$this->db->insert('dokumen', $data);																					// insert new data
+				$this->db->insert('dokumen', $data);	// insert new data
 			}
 		}
 
@@ -434,6 +434,11 @@ class Web_dokumen_model extends CI_Model {
 		foreach ($anggota_lain as $item) 
 			$this->db->where('id', $item['id'])->update('dokumen', $data);
 
+	}
+
+	public function hard_delete_dokumen_bersama($id_pend)
+	{
+		$this->db->delete('dokumen', array('id_pend' => $id_pend, 'id_parent >' => '0'));
 	}
 
 	public function delete_all()

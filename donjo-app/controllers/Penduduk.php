@@ -233,6 +233,11 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 
+		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		{
+			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+		}
+		
 		if ($id_dokumen)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
@@ -240,7 +245,6 @@ class Penduduk extends Admin_Controller {
 			// Ambil data anggota KK
 			if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
 			{
-				$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 				$data['dokumen_anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 
 				if (count($data['dokumen_anggota'])>0)
