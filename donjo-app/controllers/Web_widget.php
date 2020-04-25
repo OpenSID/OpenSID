@@ -72,7 +72,7 @@ class Web_widget extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		$data['list_widget'] = $this->web_widget_model->list_widget();
+		$data['list_widget'] = $this->web_widget_model->list_widget_baru();
 		
 		if ($id)
 		{

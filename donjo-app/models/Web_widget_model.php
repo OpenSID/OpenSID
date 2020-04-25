@@ -305,17 +305,26 @@
 	}
 
 	// widget statis di ambil dari folder desa/widget
-	public function list_widget()
+	public function list_widget_baru()
 	{
+		$widget_statis = $this->list_widget_statis();
 		$widget_desa = glob(LOKASI_WIDGET.'*.php');
 		$list_widget = array();
 			
 		foreach ($widget_desa as $widget){
 			$widget = str_replace(LOKASI_WIDGET, '', $widget);
-			$list_widget[] = $widget;
+			if (array_search($widget, $widget_statis) === false) $list_widget[] = $widget;
 		}
 
 		return $list_widget;	
+	}
+
+	private function list_widget_statis()
+	{
+		$data = $this->db->select('isi')
+			->where('jenis_widget', 2)
+			->get('widget')->result_array();
+		return array_column($data, 'isi');
 	}
 	
 }

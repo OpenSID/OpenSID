@@ -47,14 +47,14 @@
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">
 									<?php if($list_widget):?>
-									<select id="isi-statis" name="isi-statis" class="form-control input-sm required">
-										<option value="">-- Pilih Widget --</option>
-										<?php foreach($list_widget as $list):?>
-											<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
-										<?php endforeach;?>
-									</select>
+										<select id="isi-statis" name="isi-statis" class="form-control input-sm required">
+											<option value="">-- Pilih Widget --</option>
+											<?php foreach ($list_widget as $list):?>
+												<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
+											<?php endforeach;?>
+										</select>
 									<?php else:?>
-										<span class="text-sm text-red">Widget tidak tersedia (desa/widget)</span>
+										<span class="text-sm text-red">Widget tidak tersedia atau sudah ditambahkan semua (desa/widget)</span>
 									<?php endif;?>
 								</div>
 							</div>
