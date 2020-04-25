@@ -1,5 +1,7 @@
 <h1 align="center">Selamat datang di OpenSID! 👋</h1>
+
 ![OpenSID](https://res.cloudinary.com/dc0rn8rch/image/upload/v1587820518/Screenshot_857_gziaoc.png "OpenSID")
+
 ### 🤔 Apa itu OpenSID?
 OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
