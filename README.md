@@ -1,37 +1,39 @@
-# OpenSID
+<h1 align="center">Selamat datang di OpenSID! 👋</h1>
+
+### 🤔 Apa itu OpenSID?
 OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
-SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:
+**SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:**
 
-- kantor desa lebih efisien dan efektif
-- pemerintah desa lebih transparan dan akuntabel
-- layanan publik lebih baik
-- warga mendapat akses lebih baik pada informasi desa
+- Kantor Desa lebih efisien dan efektif
+- Pemerintah Desa lebih transparan dan akuntabel
+- Layanan Publik lebih baik
+- Warga mendapat akses lebih baik pada informasi desa
 
-OpenSID diharapkan dapat turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
+###### OpenSID diharapkan dapat turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
 
-Strategi pengembangan OpenSID adalah untuk:
-- memudahkan pengguna untuk mendapatkan SID secara bebas, tanpa proses birokrasi
-- memudahkan pengguna menyerap rilis SID baru
-- memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
+**Strategi pengembangan OpenSID adalah untuk:**
+- Memudahkan pengguna untuk mendapatkan SID secara bebas, tanpa proses birokrasi
+- Memudahkan pengguna menyerap rilis SID baru
+- Memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
 
-OpenSID dikelola di Github untuk:
-- merekam semua perubahan yg dibuat
-- memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
-- memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
-- backup online _source code_ SID yg dapat diaskses setiap saat
+**OpenSID dikelola di Github untuk:**
+- Merekam semua perubahan yg dibuat
+- Memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
+- Memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
+- Backup online _source code_ SID yg dapat diakses setiap saat
 
-## PEDOMAN PENGGUNAAN
+## 📃 PEDOMAN PENGGUNAAN
 Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/opensid/opensid/wiki.
 
-## OpenSID v SID CRI
+## 💻 OpenSID v SID CRI
 OpenSID dikembangkan sejak Mei 2016 bermula dari versi SID CRI 3.04 yang diperoleh dari Andi Anwar.
 
 SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang di-share oleh anggota https://www.facebook.com/groups/OpenSID/ pada tanggal 15 Pebruari 2017. OpenSID akan terus menggabung versi baru yang mungkin sewaktu-waktu dirilis oleh CRI.
 
 Untuk melihat perbedaan antara OpenSID dan SID-CRI, silakan klik [Tanya-Jawab OpenSID vs SID-CRI](https://github.com/OpenSID/OpenSID/wiki/Tanya-Jawab-OpenSID-vs-SID-CRI).
 
-## HAK CIPTA, SYARAT, DAN KETENTUAN
+## 📑 HAK CIPTA, SYARAT, DAN KETENTUAN
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/).
 
 Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3 (http://www.gnu.org/licenses/gpl.html).
