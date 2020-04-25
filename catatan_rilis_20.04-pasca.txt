@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.04-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Yusup Hambali, Zeppy Shiddiq dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview dan Arif F Lazuardi yang baru mulai berkontribusi.
+Terima kasih pada afa28, Yusup Hambali, Zeppy Shiddiq, Diki Siswanto dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview dan Arif F Lazuardi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 
