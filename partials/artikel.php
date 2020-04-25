@@ -23,7 +23,44 @@
 		    </span>
 			<div class="fb-like" data-href="<?= site_url()?>first/artikel/<?= $single_artikel['id'];?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
 		</div>
-		<div class="single_page_content" style="margin-bottom:10px;">	
+		<div class="single_page_content" style="margin-bottom:10px;">
+		<?php if($single_artikel['id_kategori'] == 1000) : ?>
+		<div class="row">
+                <div class="col-md-4 col-xs-12">
+                    <div class="info-box bg-info">
+                        <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Tanggal & Jam</span>
+                            <span class="progress-description">
+                                <?= tgl_indo2($detail_agenda['tgl_agenda'])?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <div class="info-box bg-success box-primary-shadow">
+                        <span class="info-box-icon"><i class="fa fa-map-marker"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Lokasi</span>
+                            <span class="progress-description">
+                                <?= $detail_agenda['lokasi_kegiatan']?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <div class="info-box bg-danger">
+                        <span class="info-box-icon"><i class="fa fa-bullhorn"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Koordinator</span>
+                            <span class="progress-description">
+                                <?= $detail_agenda['koordinator_kegiatan']?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		<?php endif; ?>
 		<div class="sampul">
 		    <?php if($single_artikel["isi"]=='<p>&nbsp;&nbsp;</p>'): ?>
 		        <?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
@@ -43,16 +80,8 @@
 		        <?php endif;?>
 	       	<?php endif; ?>
 		</div>		
-		<?php if($single_artikel['id_kategori'] == 1000) : ?>
-		<table>
-		    <tr valign="top"><td width="90"><b>Waktu</b></td><td width="10">:</td><td><?= tgl_indo2($detail_agenda['tgl_agenda'])?><td></tr>
-		    <tr valign="top"><td><b>Lokasi</b></td><td>:</td><td><?= $detail_agenda['lokasi_kegiatan']?><td></tr>
-		    <tr valign="top"><td><b>Koordinator</b></td><td>:</td><td><?= $detail_agenda['koordinator_kegiatan']?><td></tr>
-		</table>
-		<?php endif; ?><p></p>
 		<div class="teks"><?= $single_artikel["isi"]?></div>
-
-		<?php	if($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
+		<?php if($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
 			<p>Download Lampiran:<br><a href="<?= base_url().LOKASI_DOKUMEN.$single_artikel['dokumen']?>" title=""><?= $single_artikel['link_dokumen']?></a></p>
 			<br/>
 		<?php endif; ?>

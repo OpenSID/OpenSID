@@ -1,0 +1,58 @@
+.info-box {
+    display: block;
+    min-height: 53px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+.info-box-icon {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    display: block;
+    float: left;
+    height: 53px;
+    width: 53px;
+    padding-top: 8px;
+    text-align: center;
+    font-size: 35px;
+    line-height: 0px;
+    background: rgba(0,0,0,0.2);
+}
+.info-box-content {
+    padding: 5px 10px;
+    margin-left: 53px;
+}
+.info-box-text {
+    text-transform: uppercase;
+}
+.info-box .progress {
+    background: rgba(0,0,0,0.2);
+    margin: 5px -10px 5px -10px;
+    height: 2px;
+}
+.info-box .progress, .info-box .progress .progress-bar {
+    border-radius: 0;
+}
+.info-box .progress .progress-bar {
+    background: #fff;
+}
+.info-box .progress, .info-box .progress .progress-bar {
+    border-radius: 0;
+}
+.info-box-text {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+}
+.progress-description {
+    margin: 0;
+    display: block;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+}

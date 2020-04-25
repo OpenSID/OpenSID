@@ -35,6 +35,7 @@ else echo $single_artikel["judul"].' - '.ucwords($this->setting->sebutan_desa).(
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/slick.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.css"); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.css"); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css"); ?>">
 
 <!-- nambah baru lagi 
 <link type='text/css' href="<?= base_url()?>Xassets/bootstrap/css/bootstrap.min.css" rel='stylesheet' />-->
