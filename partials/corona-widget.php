@@ -2,7 +2,7 @@
 
 <script>
 	const COVID_API_URL = 'https://api.kawalcorona.com/';
-	const KODE_PROVINSI = <?= config_item('provinsi_covid') ? : 'undefined' ?> ;
+	const KODE_PROVINSI = <?= config_item('covid_provinsi') ? : 'undefined' ?> ;
 	const ENDPOINT = KODE_PROVINSI ? 'indonesia/provinsi/' : 'indonesia/';
 
 	function numberFormat(num) {
@@ -54,7 +54,7 @@
 </script>
 <script>
 	const COVID_API = 'https://api.kawalcorona.com/';
-	const KODE_NEGARA = <?= config_item('negara_covid') ? : 'undefined' ?> ;
+	const KODE_NEGARA = <?= config_item('covid_negara') ? : 'undefined' ?> ;
 
 	function numberFormat(num) {
 		return new Intl.NumberFormat('id-ID').format(num);
@@ -112,11 +112,15 @@
 				<div class="panel panel-danger">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Positif</h4></div>
 					<div style="height: 70px;padding:1px" class="panel-body text-center">
-						<?php if (!empty(config_item('negara_covid'))): ?>
+						<?php if (!empty(config_item('covid_negara'))): ?>
+						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif2"></span> <small>Jiwa</small></h4>
+						</div>
 						<?php endif; ?>
-						<?php if (!empty(config_item('provinsi_covid'))): ?>
+						<?php if (!empty(config_item('covid_provinsi'))): ?>
+						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif"></span> <small>Jiwa</small></h4>
+						</div>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -124,34 +128,40 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh</h4></div>
-					<div style="height: 70px;padding:1px" class="panel-body text-center">
-						<?php if (!empty(config_item('negara_covid'))): ?>
+						<?php if (!empty(config_item('covid_negara'))): ?>
+						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="sembuh2"></span> <small>Jiwa</small></h4>
+						</div>
 						<?php endif; ?>
-						<?php if (!empty(config_item('provinsi_covid'))): ?>
+						<?php if (!empty(config_item('covid_provinsi'))): ?>
+						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="sembuh"></span> <small>Jiwa</small></h4>
+						</div>
 						<?php endif; ?>
-					</div>
 				</div>
 			</div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-success">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal</h4></div>
 					<div style="height: 70px;padding:1px" class="panel-body text-center">
-						<?php if (!empty(config_item('negara_covid'))): ?>
+						<?php if (!empty(config_item('covid_negara'))): ?>
+						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal2"></span> <small>Jiwa</small></h4>
+						</div>
 						<?php endif; ?>
-						<?php if (!empty(config_item('provinsi_covid'))): ?>
+						<?php if (!empty(config_item('covid_provinsi'))): ?>
+						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal"></span> <small>Jiwa</small></h4>
+						</div>
 						<?php endif; ?>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        		<div class="panel panel-warning">
-					<div style="padding:3px" class="panel-heading text-center">
-					<a href="https://kawalcorona.com/" rel="noopener noreferrer" target="_blank">Sumber : kawalcorona.com</a>
-					</div>
+        		<div class="progress-group">
+					<a href="https://kawalcorona.com/" rel="noopener noreferrer" target="_blank">
+					<button type="button" class="btn btn-success btn-block">Sumber kawalcorona.com</button>
+					</a>
 				</div>
             </div>
 		</div>

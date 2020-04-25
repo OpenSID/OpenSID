@@ -8,7 +8,8 @@
             </marquee>
             <?php endif; ?>
         </div>
-		<?php $this->load->view($folder_themes.'/partials/corona-widget.php') ?>
+		<?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/corona-widget.php")?>
+		<?php if (config_item('covid_desa')) $this->load->view($folder_themes."/partials/corona-local.php");?>
         <?php if ($headline): ?>
         <?php $abstrak_headline = potong_teks($headline['isi'], 500) ?>
         <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Berita Utama</span> </h2>
