@@ -42,7 +42,7 @@ Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Ver
 
 **Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.**
 
-##💻 DEMO
+## 💻 DEMO
 Demo aplikasi OpenSID dapat dilihat di http://demo.opensid.my.id. Versi yang terlihat di demo itu adalah rilis terkini. Versi beta dapat diujicoba di https://beta.opensid.my.id sebelum dirilis resmi pada bulan berikutnya.
 
 Modul administrasi OpenSID demo dapat diaskses pada http://demo.opensid.my.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
@@ -51,7 +51,7 @@ Modul administrasi OpenSID demo dapat diaskses pada http://demo.opensid.my.id/in
 
 Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook atau di [Telegram](http://bit.ly/2DG6Beb). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
 
-##🤝 KEMBANGKAN BERSAMA
+## 🤝 KEMBANGKAN BERSAMA
 
 Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Issues ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
 
