@@ -59,7 +59,7 @@ $(document).ready(function() {
 								foreach ($kk as $item):
 									if ($item['nik'] != $penduduk['nik']):
 										echo "<tr>";
-										echo "<td><input type='checkbox' name='anggota_kk[]' value='$item[id]' $item[disabled] $item[checked] /></td>";
+										echo "<td><input type='checkbox' name='anggota_kk[]' value='$item[id]' $item[checked] /></td>";
 										echo "<td>$item[nik]</td>";
 										echo "<td>$item[nama]</td>";
 										echo "</tr>";

@@ -289,9 +289,11 @@ class Web_dokumen_model extends CI_Model {
 
 			unset($data['anggota_kk']);
 			$retval = $this->db->insert('dokumen', $data);
+			$insert_id = $this->db->insert_id();
 
 			if ($retval)
 			{
+				$data['id_parent'] = $insert_id;
 				foreach ($post['anggota_kk'] as $key => $value) 
 				{
 					$data['id_pend'] = $value;
@@ -353,33 +355,54 @@ class Web_dokumen_model extends CI_Model {
 	{
 		$retval = false;
 
-		//cek jika dokumen ini juga ada di anggota yang lain
-		$dokumen = $this->web_dokumen_model->get_dokumen($id);
-		$anggota_lain = $this->get_dokumen_di_anggota_lain($dokumen['satuan']);
-
 		$post = $this->input->post();
 		$data = $this->validasi($post);
-		if (!empty($post['satuan'])) 
-		{
-			$old_file = $this->db->select('satuan')
+		$old_file = $this->db->select('satuan')
 				->where('id', $id)
 				->get('dokumen')->row()->satuan;
+		$data['satuan'] = $old_file;
+		if (!empty($post['satuan'])) 
+		{	
 			$data['satuan'] = $this->upload_dokumen($post, $old_file);
 		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 
 		unset($data['anggota_kk']);
-		
+
 		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$this->db->where('id',$id)->update('dokumen', $data);
-
-		foreach ($anggota_lain as $item) 
+	
+		// cek jika dokumen ini juga ada di anggota yang lain
+		$anggota_kk = $post['anggota_kk'];
+		$anggota_lain = array_column($this->get_dokumen_di_anggota_lain($id), 'id_pend');
+		
+		// cari intersect anggota
+		unset($data['id_pend']);
+		$intersect_id_pend = array_intersect($anggota_kk, $anggota_lain);
+		foreach ($intersect_id_pend as $key => $value) 
 		{
-			if ($item['id'] != $id) 
-			{
-				$data['id_pend'] = $item['id_pend'];
-				$this->db->where('id', $item['id'])->update('dokumen', $data);
+			$this->db->where('id_pend',$value);
+			$this->db->where('id_parent',$id);
+			$this->db->update('dokumen', $data);
+		}
+
+		// cari diff anggota	
+		if (count($anggota_kk) < count($anggota_lain))		
+		{
+			$diff_id_pend = array_diff($anggota_lain, $anggota_kk);
+			foreach ($diff_id_pend as $key => $value) 
+				$this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
+		}
+		elseif (count($anggota_kk) > count($anggota_lain))
+		{
+			unset($data['updated_at']);
+
+			$diff_id_pend = array_diff($anggota_kk, $anggota_lain);
+			foreach ($diff_id_pend as $key => $value) {
+				$data["id_pend"] = $value;
+				$data["id_parent"] = $id;
+				$this->db->insert('dokumen', $data);																					// insert new data
 			}
 		}
 
@@ -393,10 +416,6 @@ class Web_dokumen_model extends CI_Model {
 	{
 		if (!$semua) $this->session->success = 1;
 
-		//cek jika dokumen ini juga ada di anggota yang lain
-		$dokumen = $this->web_dokumen_model->get_dokumen($id);
-		$anggota_lain = $this->get_dokumen_di_anggota_lain($dokumen['satuan']);
-
 		$old_dokumen = $this->db->select('satuan')->
 			where('id',$id)->
 			get('dokumen')->row()->satuan;
@@ -409,12 +428,11 @@ class Web_dokumen_model extends CI_Model {
 			unlink(LOKASI_DOKUMEN . $old_dokumen);
 		else $_SESSION['success'] = -1;
 
-		//delete dokumen anggota lain jika ada
-		foreach ($anggota_lain as $item) {
-			if ($item['id'] != $id) {
-				$this->db->where('id', $item['id'])->update('dokumen', $data);
-			}
-		}
+		// cek jika dokumen ini juga ada di anggota yang lain
+		$anggota_lain = $this->get_dokumen_di_anggota_lain($id);
+		// soft delete dokumen anggota lain jika ada
+		foreach ($anggota_lain as $item) 
+			$this->db->where('id', $item['id'])->update('dokumen', $data);
 
 	}
 
@@ -448,14 +466,15 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
-	public function get_dokumen_di_anggota_lain($satuan=0)
+	public function get_dokumen_di_anggota_lain($id_dokumen=0)
 	{
 		$data = $this->db->from($this->table)
-			->where('satuan', $satuan)
+			->where('id_parent', $id_dokumen)
 			->get()->result_array();
 
 		foreach ($data as $key => $value) {
 			$data[$key]['attr'] = json_decode($data[$key]['attr'], true);
+			$data[$key] = array_filter($data[$key]);
 		}
 		
 		return $data;

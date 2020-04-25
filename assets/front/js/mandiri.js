@@ -81,7 +81,7 @@ $(document).ready(function() {
 				$('#modal .modal-body').LoadingOverlay('hide');
 				
 				//anggota lain
-				$('.anggota_kk').attr("disabled", true);
+				$('.anggota_kk').attr("checked", false);
 				for (let [key, value] of Object.entries(data.anggota)) {
 					if(value.id_pend != data.id_pend) {
 						let id_anggota = '#anggota_'+value.id_pend;

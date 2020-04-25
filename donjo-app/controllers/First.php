@@ -682,7 +682,7 @@ class First extends Web_Controller {
 		$id_dokumen = $this->input->post('id_dokumen');
 		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->userdata('id'));
 
-		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data['satuan']);
+		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 		
 		if (empty($data))
 		{

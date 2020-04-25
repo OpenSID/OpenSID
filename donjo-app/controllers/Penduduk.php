@@ -233,41 +233,28 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 
-		// Ambil data anggota KK
-		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
-		{
-			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
-			foreach ($data['kk'] as $key => $value) 
-			{
-				$data['kk'][$key]['checked'] = '';
-				$data['kk'][$key]['disabled'] = '';
-			}
-		}
-
 		if ($id_dokumen)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
 			
-			// Ambil data dokumen anggota keluarga yang lain
-			$data['dokumen_anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data['dokumen']['satuan']);
-			
-			if (count($data['dokumen_anggota'])>1)
+			// Ambil data anggota KK
+			if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
 			{
-				$id_pend_anggota = array();
-				foreach ($data['dokumen_anggota'] as $item_dokumen) 
-				{
-					if ($item_dokumen['id_pend'] != $id)
-						$id_pend_anggota[] = $item_dokumen['id_pend'];
-				}
+				$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+				$data['dokumen_anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 
-				foreach ($data['kk'] as $key => $value) 
+				if (count($data['dokumen_anggota'])>0)
 				{
-					$data['kk'][$key]['disabled'] = 'disabled';
-					if (in_array($value['id'], $id_pend_anggota))
+					$id_pend_anggota = array();
+					foreach ($data['dokumen_anggota'] as $item_dokumen) 
+						$id_pend_anggota[] = $item_dokumen['id_pend'];
+
+					foreach ($data['kk'] as $key => $value)  
 					{
-						$data['kk'][$key]['checked'] = 'checked';
+						if (in_array($value['id'], $id_pend_anggota))
+							$data['kk'][$key]['checked'] = 'checked';
 					}
-					
+
 				}
 			}
 

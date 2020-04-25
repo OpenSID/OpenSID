@@ -1360,17 +1360,9 @@
 			$data[$i]['no'] = $i + 1;
 			$data[$i]['hidden'] = false;
 
-			//jika dokumen berelasi dengan dokumen kepala kk
-			$anggota_lain = $this->web_dokumen_model->get_dokumen_di_anggota_lain($data[$i]['satuan']);
-			if(count($anggota_lain)>1) 
-			{
-				$penduduk = $this->get_penduduk($id);
-				if($penduduk['kk_level'] != '1') 
-				{
-					$data[$i]['hidden'] = true;
-				}
-			}
-			//jika dokumen berelasi dengan dokumen kepala kk end
+			// jika dokumen berelasi dengan dokumen kepala kk
+			if (isset($data[$i]['id_parent'])) 
+				$data[$i]['hidden'] = true;
 		}
 		return $data;
 	}
