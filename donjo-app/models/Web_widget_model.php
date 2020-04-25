@@ -304,16 +304,27 @@
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
 
-	// widget statis di ambil dari folder desa/widget
+	// widget statis di ambil dari folder desa/widget dan desa/themes/tema_aktif/widgets
 	public function list_widget_baru()
 	{
+		// Tema aktif
+		$widget_tema_aktif = $this->theme_folder.'/'.$this->theme.'/widgets/';
+
 		$widget_statis = $this->list_widget_statis();
 		$widget_desa = glob(LOKASI_WIDGET.'*.php');
+		$widget_themes = glob($widget_tema_aktif.'*.php');
+		$widget_semua = array_merge($widget_desa, $widget_themes);
 		$list_widget = array();
 			
-		foreach ($widget_desa as $widget){
-			$widget = str_replace(LOKASI_WIDGET, '', $widget);
-			if (array_search($widget, $widget_statis) === false) $list_widget[] = $widget;
+		foreach ($widget_semua as $widget){
+			$widget = str_replace(LOKASI_WIDGET, '', $widget); 
+			if($this->theme !== 'klasik' OR $this->theme !== 'hadakewa'){
+				$widget = str_replace($widget_tema_aktif, $this->theme.'/', $widget);
+			}
+
+			if (array_search($widget, $widget_statis) === false)
+
+			$list_widget[] = $widget;
 		}
 
 		return $list_widget;	
