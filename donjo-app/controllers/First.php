@@ -183,6 +183,9 @@ class First extends Web_Controller {
 			4 untuk menu bantuan
 			5 untuk menu surat mandiri
 		*/
+
+		$user_id = $this->session->userdata('id');
+		
 		switch ($m)
 		{
 			case 1:
@@ -194,12 +197,12 @@ class First extends Web_Controller {
 				$data['m'] = 2;
 			case 2:
 				$this->load->model('permohonan_surat_model');
-				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
-				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
+				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($user_id);
+				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($user_id);
 				break;
 			case 3:
-				$inbox = $this->mailbox_model->get_inbox_user($_SESSION['nik']);
-				$outbox = $this->mailbox_model->get_outbox_user($_SESSION['nik']);
+				$inbox = $this->mailbox_model->get_inbox_user($_SESSION['id']);
+				$outbox = $this->mailbox_model->get_outbox_user($_SESSION['id']);
 				$data['main_list'] = $kat == 1 ? $inbox : $outbox;
 				$data['submenu'] = $this->mailbox_model->list_menu();
 				$_SESSION['mailbox'] = $kat;

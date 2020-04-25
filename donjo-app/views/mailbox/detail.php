@@ -11,23 +11,31 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?= site_url("mailbox/index/$kat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke <?= $tipe_mailbox ?>
-            	</a>
+							</a>
 						</div>
 						<div class="box-body">
+						<?php if($kat == 2 AND $_SESSION['grup'] == 1) : ?>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="owner"><?= $owner ?></label>
+								<label class="control-label col-sm-2" for="nama_user">Pengirim </label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['owner']?></div>
+									<div class="form-control input-sm"><?= $pesan['nama_user']?></div>
+								</div>
+							</div>
+							<?php endif ?>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="nama"><?= $owner ?></label>
+								<div class="col-sm-9">
+									<div class="form-control input-sm"><?= $pesan['nama']?></div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="email">NIK</label>
+								<label class="control-label col-sm-2" for="nik">NIK</label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['email']?></div>
-									<input type="hidden" name="nik" value="<?= $pesan['email']?>">
+									<div class="form-control input-sm"><?= $pesan['nik']?></div>
+									<input type="hidden" name="nik" value="<?= $pesan['nik']?>">
 								</div>
 							</div>
 							<div class="form-group">
@@ -37,19 +45,20 @@
 									<input type="hidden" name="subjek" value="<?= $pesan['subjek']?>">
 								</div>
 							</div>
-              <div class="form-group">
-								<label class="col-sm-2 control-label" for="pesan">Pesan</label>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="isi_pesan">Pesan</label>
 								<div class="col-sm-9">
-									<textarea class="form-control input-sm" readonly id="pesan"><?= $pesan['komentar']?></textarea>
+									<textarea class="form-control input-sm" readonly id="isi_pesan"><?= $pesan['isi_pesan']?></textarea>
 								</div>
 							</div  
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<button type="submit" class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-reply'></i> Balas Pesan</button>
+						<?php if($kat != 2) : ?>
+							<div class='box-footer'>
+								<div class='col-xs-12'>
+									<button type="submit" class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-reply'></i> Balas Pesan</button>
+								</div>
 							</div>
-						</div>
-
+						<?php endif ?>
 					</div>
 				</div>
 			</div>

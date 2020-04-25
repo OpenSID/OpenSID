@@ -1,3 +1,14 @@
+<script type="text/javascript">	
+	$(function()
+	{
+		var keyword = <?=$keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Kotak Pesan</h1>
@@ -12,9 +23,9 @@
 				<?php $this->load->view('mailbox/menu_mailbox') ?>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?= site_url('mailbox/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
-							<a href="#confirm-delete" title="Arsipkan Data" <?php if(!$filter_archived) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all/$kat/$p/$o")?>')"<?php endif ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_archived and print('disabled') ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>
+							<a href="#confirm-delete" title="Arsipkan Data" <?php if(!$filter_status) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all")?>')"<?php endif ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_status and print('disabled') ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>
 							<a href="<?= site_url("mailbox/clear/$kat/$p/$o") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 						</div>
 						<div class="box-body">
@@ -26,22 +37,20 @@
 												<div class="col-sm-9">
 													<div class="form-group">
 														<select class="form-control input-sm select2-nik-ajax" id="nik" style="width:100%" name="nik" data-url="<?= site_url('mailbox/list_pendaftar_mandiri_ajax')?>" onchange="formAction('mainform', '<?=site_url("mailbox/filter_nik/$kat")?>')">
-															<?php if ($individu): ?>
-																<option value="<?= $individu['nik']?>" selected><?= $individu['nik'] .' - '.$individu['nama']?></option>
-																<?php else : ?>
-																	<option value="0" selected>Semua Pendaftar Layanan Mandiri</option>
-															<?php endif;?>
+															<option value="">Semua Pendaftar Layanan Mandiri</option>
+															<option value="<?= $individu['nik']?>" <?php selected($filter_nik, $individu['nik']); ?>><?= $individu['nik'] .' - '.$individu['nama']?></option>
 														</select>
 													</div>
 													<div class="form-group">
-														<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?=site_url("mailbox/filter_status/$kat")?>')">
+														<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?=site_url("mailbox/filter/$kat")?>')">
 															<option value="">Semua</option>
-															<option value="1" <?php if ($filter_status==1): ?>selected<?php endif ?>>Sudah Dibaca</option>
-															<option value="2" <?php if ($filter_status==2): ?>selected<?php endif ?>>Belum Dibaca</option>
-															<option value="3" <?php if ($filter_archived): ?>selected<?php endif ?>>Diarsipkan</option>
+															<?php if($kat != 2) : ?>
+															<option value="1" <?php selected($filter, 1); ?>>Sudah Dibaca</option>
+															<option value="2" <?php selected($filter, 2); ?>>Belum Dibaca</option>
+															<?php endif;?>
+															<option value="3" <?php selected($filter, 3); ?>>Diarsipkan</option>
 														</select>
-													</div>
-													
+													</div>						
 												</div>
 												<div class="col-sm-3">
 													<div class="box-tools">
@@ -63,65 +72,76 @@
 																	<th><input type="checkbox" id="checkall"/></th>
 																	<th>No</th>
 																	<th>Aksi</th>
-																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>"><?= $owner ?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("mailbox/index/$kat/$p/2")?>"><?= $owner ?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>"><?= $owner ?> <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php if($kat == 2 AND $_SESSION['grup'] == 1) : ?>
+																		<?php if ($o==2): ?>
+																			<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>">Pengirim <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<?php elseif ($o==1): ?>
+																			<th><a href="<?= site_url("mailbox/index/$kat/$p/2")?>">Pengirim <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<?php else: ?>
+																			<th><a href="<?= site_url("mailbox/index/$kat/$p/1")?>">Pengirim <i class='fa fa-sort fa-sm'></i></a></th>
+																		<?php endif; ?>
 																	<?php endif; ?>
-
 																	<?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/3")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/4")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/3")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/3")?>"><?= $owner ?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<?php elseif ($o==3): ?>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/4")?>"><?= $owner ?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php else: ?>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/3")?>"><?= $owner ?> <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
-																	
-                                  <th>Subjek Pesan</th>
-
-                                  <?php if ($o==8): ?>
-                                    <th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/7")?>">Status Pesan <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==7): ?>
-                                    <th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/8")?>">Status Pesan <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/7")?>">Status Pesan <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php endif; ?>
-
-                                  <?php if ($o==10): ?>
-                                    <th><a href="<?= site_url("mailbox/index/$kat/$p/9")?>">Dikirimkan Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==9): ?>
-                                    <th><a href="<?= site_url("mailbox/index/$kat/$p/10")?>">Dikirimkan Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th><a href="<?= site_url("mailbox/index/$kat/$p/9")?>">Dikirimkan Pada <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php endif; ?>
+																	<th>Subjek Pesan</th>
+																	<?php if($kat != 2) : ?>
+																		<?php if ($o==6): ?>
+																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<?php elseif ($o==5): ?>
+																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/6")?>">Status Pesan <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<?php else: ?>
+																			<th nowrap><a href="<?= site_url("mailbox/index/$kat/$p/5")?>">Status Pesan <i class='fa fa-sort fa-sm'></i></a></th>
+																		<?php endif; ?>
+																	<?php endif; ?>
+																	<?php if ($o==8): ?>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/7")?>">Dikirimkan Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<?php elseif ($o==7): ?>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/8")?>">Dikirimkan Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php else: ?>
+																		<th><a href="<?= site_url("mailbox/index/$kat/$p/7")?>">Dikirimkan Pada <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php endif; ?>
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data): ?>
-																	<tr <?php if ($data['status']!=1): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
-																		<td><?=$data['no']?></td>
-																		<td nowrap>
-                                      <?php if($data['is_archived'] == 0) : ?>
-																				<a href="#" data-href="<?=site_url("mailbox/archive/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Arsipkan" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a>
-																			<?php endif ?>
-                                      <a href="<?=site_url("mailbox/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Lihat detail pesan"><i class="fa fa-list">&nbsp;</i></a>
-                                      <?php if($kat != 2 AND $data['is_archived'] != 1) : ?>
-																				<?php if ($data['status'] == 1): ?>
-																					<a href="<?=site_url('mailbox/pesan_unread/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
-																					<?php else : ?>
-																						<a href="<?=site_url('mailbox/pesan_read/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
-																				<?php endif; ?>
-																			<?php endif ?>
-                                    </td>
-                                    <td nowrap><?=$data['owner']?></td>
-                                    <td><?=$data['email']?></td>
-                                    <td width="40%"><?=$data['subjek']?></td>
-                                    <td><?=$data['status'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
-                                    <td nowrap><?=tgl_indo2($data['tgl_upload'])?></td>
-																	</tr>
+															<?php foreach ($main as $data): ?>
+																<tr <?php if ($data['baca']!=1 AND $kat !=2): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
+																	<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																	<td><?=$data['no']?></td>
+																	<td nowrap>
+																	<?php if($data['status'] == 0) : ?>
+																		<a href="#" data-href="<?=site_url("mailbox/archive/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Arsipkan" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a>
+																	<?php endif ?>
+																		<a href="<?=site_url("mailbox/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Lihat detail pesan"><i class="fa fa-list">&nbsp;</i></a>
+																	<?php if($kat != 2 AND $data['status'] == 0) : ?>
+																		<?php if ($data['baca'] == 1): ?>
+																			<a href="<?=site_url('mailbox/baca/'.$data['id'].'/2')?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
+																		<?php else : ?>
+																			<a href="<?=site_url('mailbox/baca/'.$data['id'].'/1')?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
+																		<?php endif; ?>
+																	<?php endif ?>
+																	</td>
+																	<?php if($kat == 2 AND $_SESSION['grup'] == 1) : ?>
+																		<td nowrap><?=$data['nama_user']?></td>
+																	<?php endif ?>
+																	<td nowrap>
+																		<?=$data['nik']?> | 
+																		<?php if($data['tipe'] == 1) : ?> 
+																			<?=$data['nama']?>
+																		<?php else : ?>
+																			<?=$data['nama']?>
+																		<?php endif ?>
+																	</td>
+																	<td width="40%"><?=$data['subjek']?></td>
+																	<?php if($kat !=2) : ?> 
+																	<td nowrap><?=$data['baca'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
+																	<?php endif ?>
+																	<td nowrap><?=tgl_indo2($data['created_at'])?></td>
+																</tr>
 																<?php endforeach; ?>
 															</tbody>
 														</table>
@@ -198,4 +218,3 @@
 		</form>
 	</section>
 </div>
-
