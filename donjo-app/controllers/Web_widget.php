@@ -72,6 +72,8 @@ class Web_widget extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
+		$data['list_widget'] = $this->web_widget_model->list_widget();
+		
 		if ($id)
 		{
 			$data['widget'] = $this->web_widget_model->get_widget($id);
