@@ -28,4 +28,5 @@
 */
 	$config['covid_data'] = 1;
 	$config['provinsi_covid'] = 51; // kode provinsi. Comment baris ini untuk menampilkan data Indonesia
+	$config['covid_desa'] = 1; // Tampilkan status COVID-19 dari data OpenSID desa
 	

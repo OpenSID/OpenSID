@@ -98,6 +98,7 @@ class First extends Web_Controller {
 			'url' => 'https://www.covid19.go.id'
 		);
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari))
@@ -550,7 +551,7 @@ class First extends Web_Controller {
 		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
 		$_SESSION['validation_error'] = false;
-		
+
 		if ($securimage->check($_POST['captcha_code']) == false)
 		{
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
@@ -625,7 +626,7 @@ class First extends Web_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Dokumen', 'required');
-		
+
 		if ($this->form_validation->run() !== true)
 		{
 			$data['success'] = -1;
@@ -673,7 +674,7 @@ class First extends Web_Controller {
 	{
 		$id_dokumen = $this->input->post('id_dokumen');
 		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->userdata('id'));
-		
+
 		if (empty($data))
 		{
 			$data['success'] = -1;
