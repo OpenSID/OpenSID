@@ -200,6 +200,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
   	}
 
 		// Add Menu Child 'Pendataan' & 'Pemantauan'
+		$data = array();
 		$data[] = array(
 			'id'=>'207',
 			'modul' => 'Pendataan',
@@ -227,6 +228,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		foreach ($data as $modul)
 		{
 			$sql = $this->db->insert_string('setting_modul', $modul);
+
 			$sql .= " ON DUPLICATE KEY UPDATE
 			id = VALUES(id),
 			modul = VALUES(modul),
@@ -339,6 +341,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		}
 
 		// Tambah Data di Tabel ref_status_covid
+		$data = array();
 		$data[] = array(
 			'id'=>'1',
 			'nama' => 'ODP');
@@ -363,9 +366,9 @@ class Migrasi_2004_ke_2005 extends CI_model {
 			'id'=>'6',
 			'nama' => 'DLL');
 
-		foreach ($data as $modul)
+		foreach ($data as $status)
 		{
-			$sql = $this->db->insert_string('ref_status_covid', $modul);
+			$sql = $this->db->insert_string('ref_status_covid', $status);
 			$sql .= " ON DUPLICATE KEY UPDATE
 			id = VALUES(id),
 			nama = VALUES(nama)";
