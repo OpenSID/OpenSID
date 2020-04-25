@@ -30,8 +30,8 @@
 								<div class="col-sm-6">
 									<select id="jenis_widget" name="jenis_widget" class="form-control input-sm">
 										<option value="">-- Pilih Jenis Widget --</option>
-										<option value="2" <?php if ($widget['jenis_widget'] == 2): ?>selected<?php endif; ?>>Statis</option>
-										<option value="3" <?php if ($widget['jenis_widget'] == 3): ?>selected<?php endif; ?>>Dinamis</option>
+										<option value="2" <?php selected($widget['jenis_widget'], 2);?>>Statis</option>
+										<option value="3" <?php selected($widget['jenis_widget'], 3);?>>Dinamis</option>
 									 </select>
 								</div>
 							</div>
@@ -39,14 +39,23 @@
 								<div id="dinamis" class="form-group" <?php if (!$dinamis): ?>style="display:none;"<?php endif; ?>>
 								<label class="col-sm-4 control-label" for="alamat_kantor">Kode Widget</label>
 								<div class="col-sm-6">
-									<textarea id="isi-dinamis" name="isi-dinamis" class="form-control input-sm"><?=$widget['isi']?></textarea>
+									<textarea style="resize:none;height:150px;" id="isi-dinamis" name="isi-dinamis" class="form-control input-sm" placeholder="Kode Widget"><?=$widget['isi']?></textarea>
 								</div>
 							</div>
    			 			<?php if ($widget['jenis_widget'] AND $widget['jenis_widget'] ==2) $statis = true; ?>
 								<div id="statis" class="form-group" <?php if (!$statis): ?>style="display:none;"<?php endif; ?>>
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">
-									<input id="isi-statis" name="isi-statis" class="form-control input-sm" type="text" placeholder="Judul Widget" value="<?= $widget['isi']?>"></input>
+									<?php if($list_widget):?>
+										<select id="isi-statis" name="isi-statis" class="form-control input-sm required">
+											<option value="">-- Pilih Widget --</option>
+											<?php foreach ($list_widget as $list):?>
+												<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
+											<?php endforeach;?>
+										</select>
+									<?php else:?>
+										<span class="text-sm text-red">Widget tidak tersedia atau sudah ditambahkan semua (desa/widget)</span>
+									<?php endif;?>
 								</div>
 							</div>
 						</div>

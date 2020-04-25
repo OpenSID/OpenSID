@@ -103,9 +103,9 @@
 		{
 			$kf = $_SESSION[$kode_session];
 			if ($kf == BELUM_MENGISI)
-				$sql = " AND (u.".$kode_kolom." IS NULL OR u.".$kode_kolom." = '')";
+				$sql = " AND (".$kode_kolom." IS NULL OR ".$kode_kolom." = '')";
 			else
-				$sql = " AND u.".$kode_kolom." = $kf";
+				$sql = " AND ".$kode_kolom." = $kf";
 			return $sql;
 		}
 	}
@@ -301,6 +301,8 @@
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
+		LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
+		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
 		WHERE 1 ";
 
 		$sql .= $this->search_sql();
@@ -312,17 +314,18 @@
 		$sql .= $this->rt_sql();
 
 		$kolom_kode = array(
-			array('cacat','cacat_id'),
-			array('cara_kb_id','cara_kb_id'),
-			array('status','status_kawin'),
-			array('pendidikan_kk_id','pendidikan_kk_id'),
-			array('pendidikan_sedang_id','pendidikan_sedang_id'),
-			array('status_penduduk','status'),
-			array('pekerjaan_id','pekerjaan_id'),
-			array('agama','agama_id'),
-			array('warganegara','warganegara_id'),
-			array('golongan_darah','golongan_darah_id'),
-			array('id_asuransi', 'id_asuransi')
+			array('cacat','u.cacat_id'),
+			array('cara_kb_id','u.cara_kb_id'),
+			array('status','u.status_kawin'),
+			array('pendidikan_kk_id','u.pendidikan_kk_id'),
+			array('pendidikan_sedang_id','u.pendidikan_sedang_id'),
+			array('status_penduduk','u.status'),
+			array('pekerjaan_id','u.pekerjaan_id'),
+			array('agama','u.agama_id'),
+			array('warganegara','u.warganegara_id'),
+			array('golongan_darah','u.golongan_darah_id'),
+			array('id_asuransi', 'u.id_asuransi'),
+			array('status_covid', 'rc.id')
 		);
 		foreach ($kolom_kode as $kolom)
 		{
@@ -342,7 +345,7 @@
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at,
+		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else
@@ -466,17 +469,17 @@
 		$sql .= $this->pendidikan_kk_sql();
 
 		$kolom_kode = array(
-			array('cacat','cacat_id'),
-			array('cara_kb_id','cara_kb_id'),
-			array('menahun','sakit_menahun_id'),
-			array('status','status_kawin'),
-			array('pendidikan_kk_id','pendidikan_kk_id'),
-			array('pendidikan_sedang_id','pendidikan_sedang_id'),
-			array('status_penduduk','status'),
-			array('pekerjaan_id','pekerjaan_id'),
-			array('agama','agama_id'),
-			array('warganegara','warganegara_id'),
-			array('golongan_darah','golongan_darah_id')
+			array('cacat','u.cacat_id'),
+			array('cara_kb_id','u.cara_kb_id'),
+			array('menahun','u.sakit_menahun_id'),
+			array('status','u.status_kawin'),
+			array('pendidikan_kk_id','u.pendidikan_kk_id'),
+			array('pendidikan_sedang_id','u.pendidikan_sedang_id'),
+			array('status_penduduk','u.status'),
+			array('pekerjaan_id','u.pekerjaan_id'),
+			array('agama','u.agama_id'),
+			array('warganegara','u.warganegara_id'),
+			array('golongan_darah','u.golongan_darah_id')
 		);
 		foreach ($kolom_kode as $kolom)
 		{
@@ -508,7 +511,7 @@
 		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
 		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
 		$data['hamil'] = $data['hamil'] ?: NULL;
-		
+
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
@@ -877,7 +880,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -1300,7 +1303,7 @@
 		{
 			switch ($tipe)
 			{
-				case 0: $sql = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id = ?";break;
+				case '0': $sql = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id = ?";break;
 				case 1: $sql = "SELECT * FROM tweb_penduduk_pekerjaan WHERE id = ?";break;
 				case 2: $sql = "SELECT * FROM tweb_penduduk_kawin WHERE id = ?";break;
 				case 3: $sql = "SELECT * FROM tweb_penduduk_agama WHERE id = ?";break;
@@ -1316,6 +1319,7 @@
 				case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
 				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
 				case 19: $sql = "SELECT * FROM tweb_penduduk_asuransi WHERE id = ?"; break;
+				case 'covid': $sql = "SELECT * FROM ref_status_covid WHERE id = ?"; break;
 			}
 			$query = $this->db->query($sql, $nomor);
 			$judul = $query->row_array();
