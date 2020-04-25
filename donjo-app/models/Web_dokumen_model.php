@@ -290,9 +290,10 @@ class Web_dokumen_model extends CI_Model {
 			unset($data['anggota_kk']);
 			$retval = $this->db->insert('dokumen', $data);
 
-			if($retval)
+			if ($retval)
 			{
-				foreach ($post['anggota_kk'] as $key => $value) {
+				foreach ($post['anggota_kk'] as $key => $value) 
+				{
 					$data['id_pend'] = $value;
 					$this->db->insert('dokumen', $data);
 				}
@@ -375,7 +376,7 @@ class Web_dokumen_model extends CI_Model {
 
 		foreach ($anggota_lain as $item) 
 		{
-			if($item['id'] != $id) 
+			if ($item['id'] != $id) 
 			{
 				$data['id_pend'] = $item['id_pend'];
 				$this->db->where('id', $item['id'])->update('dokumen', $data);
@@ -410,7 +411,7 @@ class Web_dokumen_model extends CI_Model {
 
 		//delete dokumen anggota lain jika ada
 		foreach ($anggota_lain as $item) {
-			if($item['id'] != $id) {
+			if ($item['id'] != $id) {
 				$this->db->where('id', $item['id'])->update('dokumen', $data);
 			}
 		}

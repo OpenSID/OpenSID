@@ -236,7 +236,7 @@ class First extends Web_Controller {
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 
 		// Ambil data anggota KK
-		if($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
 		{
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
