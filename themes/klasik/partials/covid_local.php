@@ -42,7 +42,7 @@ $positif = $covid[4]; //"Positif Covid-19" => "POSITIF",
     			  <div class="row">
     		      <div class="col-lg-3 col-md-3 col-sm-3">
     						<div class="panel panel-danger">
-    							<div style="padding:1px" class="panel-heading text-center"><h4>POSITIF<br>&nbsp;</h4></div>
+    							<div style="padding:1px" class="panel-heading text-center"><h4>Positif<br>&nbsp;</h4></div>
     							<div style="height: 40px;padding:1px" class="panel-body text-center">
     								<h4><?= number_format($positif['jumlah']); ?> <small>Orang</small></h4>
     							</div>

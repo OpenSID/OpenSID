@@ -101,7 +101,7 @@
 		<div class="panel">
 			<div class="box-header with-border">
 			  <h3 class="box-title"> 
-			  	<span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">COVID-19 di <?= $name; ?></span>
+			  	<span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Status COVID-19 di <?= $name; ?></span>
 			  </h3>
 			</div>
 			<div class="panel-body sub">
