@@ -1,3 +1,31 @@
+.data-case-container {
+	background-color: #FFF8DC; width:100%; height: 100%; padding: 0px; margin: 0px;
+}
+.data-case-container li,
+.data-case-container li p,
+.data-case-container li td {
+	font-family: "ants-thin", "Century Gothic", Arial; font-size: 12px;
+}
+.data-case-container li.info-date {
+	font-family: "ants-strong", "Century Gothic", Arial; font-size: 14px;
+	font-weight: bold; padding: 5px; text-align: center;
+}
+.data-case-container li.info-region {
+	padding: 4px 5px; background-color: #e64946; color: #fff; text-align: center;
+	font-family: "ants-strong", "Century Gothic", Arial; font-size: 10px; font-weight: bold;
+}
+.data-case-container table td {
+	padding: 3px 5px; border-bottom: 1px solid #e4bd2e;
+}
+.data-case-container table tr:last-child td {
+	border-bottom: none;
+}
+.data-case-container table td.dot {
+	width: 5px; white-space: nowrap; text-align: center;
+}
+.data-case-container table td.case {
+	width: 5px; white-space: nowrap; text-align: right;
+}
 .info-box {
     display: block;
     min-height: 53px;
