@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.04-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Yusup Hambali, Zeppy Shiddiq dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview dan Arif F Lazuardi yang baru mulai berkontribusi.
+Terima kasih pada afa28, Yusup Hambali, Zeppy Shiddiq, Diki Siswanto dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada asalreview dan Arif F Lazuardi yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 
@@ -34,6 +34,8 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 28. Tutup celah bisa mengubah dan menghapus dokumen oleh pengguna Layanan Mandiri yg tidak berhak. [security-fix]
 29. Sederhanakan hilangkan duplikasi modal dialog konfirmasi hapus. Juga hapus dialog konfirmasi yg tidak digunakan. [teknis]
 30. #2924: Tambahkan statistik untuk data Siaga Covid-19 di Admin dan di Web.
+31. #2955: Penambahan widget statis sekarang menyediakan pilihan widget yg ada di folder desa/widget.
+32. #2864: Tambahkan validasi form supaya judul artikel tidak lebih dari 100 karakter. [bug-fix] 
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
