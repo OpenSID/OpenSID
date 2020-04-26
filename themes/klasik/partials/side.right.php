@@ -17,12 +17,7 @@ if($w_cos):
 		if($data["jenis_widget"] == 1):
 			include("donjo-app/views/widgets/".$widget);
 		elseif($data["jenis_widget"] == 2):
-			$cek = explode('/', $widget);
-			if($cek[1] != NULL):
-				include($this->theme_folder.'/'.$cek[0].'/widgets/'.$cek[1]);
-			else:
-				include(LOKASI_WIDGET.$cek[0]);
-			endif;
+			include($data['isi']);
 		else: ?>
 			<div class="box box-primary box-solid">
 				<div class="box-header">

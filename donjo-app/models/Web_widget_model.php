@@ -304,30 +304,43 @@
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
 
-	// widget statis di ambil dari folder desa/widget dan desa/themes/tema_aktif/widgets
+	// widget statis di ambil dari folder desa/widget dan desa/themes/nama_tema/widgets
 	public function list_widget_baru()
 	{
-		// Tema aktif
-		$widget_tema_aktif = $this->theme_folder.'/'.$this->theme.'/widgets/';
-
-		$widget_statis = $this->list_widget_statis();
-		$widget_desa = glob(LOKASI_WIDGET.'*.php');
-		$widget_themes = glob($widget_tema_aktif.'*.php');
-		$widget_semua = array_merge($widget_desa, $widget_themes);
+		$this->load->model('theme_model');
+		$tema_desa = $this->theme_model->list_all();
 		$list_widget = array();
-			
-		foreach ($widget_semua as $widget){
-			$widget = str_replace(LOKASI_WIDGET, '', $widget); 
-			if($this->theme !== 'klasik' OR $this->theme !== 'hadakewa'){
-				$widget = str_replace($widget_tema_aktif, $this->theme.'/', $widget);
-			}
+		$widget_desa = $this->widget('desa/widget/*.php');
+		$list_widget = array_merge($list_widget, $widget_desa);
+		
+		foreach ($tema_desa as $tema)
+		{
+			$tema = str_replace('desa/', '', $tema);
 
+			if($tema !== 'klasik' OR $tema !== 'hadakewa')
+				$list = $this->widget('desa/themes/'.$tema.'/widgets/*.php');
+			
+			$list_widget = array_merge($list_widget, $list);
+		}		
+		
+		return $list_widget;
+	}
+
+	
+	public function widget($lokasi)
+	{	
+		$widget_statis = $this->list_widget_statis();
+		$list_widget = glob($lokasi);
+		$l_widget = array();
+			
+		foreach ($list_widget as $widget)
+		{
 			if (array_search($widget, $widget_statis) === false)
 
-			$list_widget[] = $widget;
+			$l_widget[] = $widget;
 		}
 
-		return $list_widget;	
+		return $l_widget;	
 	}
 
 	private function list_widget_statis()

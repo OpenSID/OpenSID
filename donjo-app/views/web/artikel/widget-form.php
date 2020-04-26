@@ -54,7 +54,7 @@
 											<?php endforeach;?>
 										</select>
 									<?php else:?>
-										<span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widget atau desa/themes/<?= $this->theme ?>/widgets)</code></span>
+										<span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widget atau desa/themes/nama_tema/widgets)</code></span>
 									<?php endif;?>
 								</div>
 							</div>
