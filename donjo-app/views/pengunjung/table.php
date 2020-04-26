@@ -98,7 +98,7 @@
 								<div class="col-lg-2 col-xs-6">
 									<div class="small-box bg-red">
 										<div class="inner">
-										  <h3><?= $hari_ini; ?><sup style="font-size: 20px"></sup></h3>
+										  <h3><?= ribuan($hari_ini); ?><sup style="font-size: 20px"></sup></h3>
 										  <p>Hari Ini</p>
 										</div>
 										<div class="icon">
@@ -110,7 +110,7 @@
 								<div class="col-lg-2 col-xs-6">
 									<div class="small-box bg-purple">
 										<div class="inner">
-										  <h3><?= $kemarin;?><sup style="font-size: 20px"></sup></h3>
+										  <h3><?= ribuan($kemarin); ?><sup style="font-size: 20px"></sup></h3>
 										  <p>Kemarin</p>
 										</div>
 										<div class="icon">
@@ -122,7 +122,7 @@
 								<div class="col-lg-2 col-xs-6">
 									<div class="small-box bg-green">
 										<div class="inner">
-										  <h3><?= $minggu_ini;?><sup style="font-size: 20px"></sup></h3>
+										  <h3><?= ribuan($minggu_ini); ?><sup style="font-size: 20px"></sup></h3>
 										  <p>Minggu Ini</p>
 										</div>
 										<div class="icon">
@@ -134,7 +134,7 @@
 								<div class="col-lg-2 col-xs-6">
 									<div class="small-box bg-yellow">
 										<div class="inner">
-										  <h3><?= $bulan_ini;?><sup style="font-size: 20px"></sup></h3>
+										  <h3><?= ribuan($bulan_ini); ?><sup style="font-size: 20px"></sup></h3>
 										  <p>Bulan Ini</p>
 										</div>
 										<div class="icon">
@@ -146,7 +146,7 @@
 								<div class="col-lg-2 col-xs-6">
 									<div class="small-box bg-gray">
 										<div class="inner">
-										  <h3><?= $tahun_ini;?><sup style="font-size: 20px"></sup></h3>
+										  <h3><?= ribuan($tahun_ini); ?><sup style="font-size: 20px"></sup></h3>
 										  <p>Tahun Ini</p>
 										</div>
 										<div class="icon">
@@ -158,7 +158,7 @@
 								<div class="col-lg-2 col-xs-6">
 									<div class="small-box bg-blue">
 										<div class="inner">
-										  <h3><?= $jumlah;?><sup style="font-size: 20px"></sup></h3>
+										  <h3><?= ribuan($jumlah); ?><sup style="font-size: 20px"></sup></h3>
 										  <p>Jumlah</p>
 										</div>
 										<div class="icon">
@@ -203,14 +203,14 @@
 																<td class="text-center">
 																	<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>
 																</td>
-																<td class="text-center"><?= $data['Jumlah'];?></td>
+																<td class="text-center"><?= ribuan($data['Jumlah']);?></td>
 															</tr>
 														<?php endforeach;?>
 														</tbody>
 														<tfoot class="bg-gray disabled color-palette">
 															<tr>
 																<th colspan="2" class="text-center">Total</th>
-																<th class="text-center"><?= $main['Total']?></th>
+																<th class="text-center"><?= ribuan($main['Total']);?></th>
 															</tr>
 														</tfoot>
 													</table>

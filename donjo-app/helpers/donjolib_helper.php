@@ -545,7 +545,11 @@ function comma($number)
 
 function hit($angka)
 {	
-	$hasil = number_format($angka, 0, '.', '.')." Kali";
-	return $hasil;
+	return ribuan($angka)." Kali";
+}
+
+function ribuan($angka)
+{	
+	return number_format($angka, 0, '.', '.');
 }
 // =======================================
