@@ -310,7 +310,7 @@
 		$this->load->model('theme_model');
 		$tema_desa = $this->theme_model->list_all();
 		$list_widget = array();
-		$widget_desa = $this->widget('desa/widget/*.php');
+		$widget_desa = $this->widget(LOKASI_WIDGET.'*.php');
 		$list_widget = array_merge($list_widget, $widget_desa);
 		
 		foreach ($tema_desa as $tema)
@@ -326,7 +326,6 @@
 		return $list_widget;
 	}
 
-	
 	public function widget($lokasi)
 	{	
 		$widget_statis = $this->list_widget_statis();
