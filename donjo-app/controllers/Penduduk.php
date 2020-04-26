@@ -20,7 +20,7 @@ class Penduduk extends Admin_Controller {
 	{
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		unset($_SESSION['filter']);// ini status_penduduk
 		unset($_SESSION['status_dasar']);
 		unset($_SESSION['sex']);
 		unset($_SESSION['warganegara']);
@@ -64,13 +64,13 @@ class Penduduk extends Admin_Controller {
 			$data[$session] = $this->session->userdata($session) ?: '';
 		}
 
+		if (isset($_SESSION['filter']))
+			$data['filter'] = $_SESSION['filter'];
+		else $data['filter'] = '';
+		
 		if (isset($_SESSION['status_dasar']))
 			$data['status_dasar'] = $_SESSION['status_dasar'];
-		else
-		{
-			$data['status_dasar'] = '1';
-			$_SESSION['status_dasar'] = '1';
-		}
+		else $data['status_dasar'] = '';
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -101,9 +101,10 @@ class Penduduk extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['list_agama'] = $this->penduduk_model->list_agama();
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -466,6 +467,7 @@ class Penduduk extends Admin_Controller {
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['status_kawin'] = $this->penduduk_model->list_status_kawin();
+		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("penduduk/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);

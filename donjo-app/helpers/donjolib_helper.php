@@ -548,4 +548,10 @@ function hit($angka)
 	$hasil = number_format($angka, 0, '.', '.')." Kali";
 	return $hasil;
 }
+
+function set_ucwords($data)
+{
+	return ucwords(strtolower($data));
+}
+
 // =======================================

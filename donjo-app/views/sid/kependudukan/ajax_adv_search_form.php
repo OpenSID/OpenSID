@@ -83,7 +83,10 @@
 								<div class="form-group">
 									<label for="status_penduduk">Status Penduduk</label>
 									<select class="form-control input-sm"  id="status_penduduk"  name="status_penduduk">
-										<option value=""> -- </option><option value="1">AKTIF</option><option value="2">TIDAK AKTIF</option>
+										<option value=""> -- </option>
+										<?php foreach ($status_penduduk AS $data): ?>
+											<option value="<?= $data['id']?>" <?php selected($status_penduduk_id, $data['id']); ?>><?= $data['nama']?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 
