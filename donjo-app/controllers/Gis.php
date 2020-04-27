@@ -13,6 +13,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 62;
 	}
@@ -83,8 +84,6 @@ class Gis extends Admin_Controller {
 
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
-		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['list_pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['desa'] = $this->config_model->get_data();
 		$data['lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['garis'] = $this->plan_garis_model->list_data();
@@ -265,10 +264,13 @@ class Gis extends Admin_Controller {
 
 	public function ajax_adv_search()
 	{
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
+		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
+		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
+		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
+		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
+		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("gis/adv_search_proses");
 
 		$this->load->view("gis/ajax_adv_search_form", $data);
