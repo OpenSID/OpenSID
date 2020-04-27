@@ -33,7 +33,7 @@ Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh
 
 Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Version 3** (http://www.gnu.org/licenses/gpl.html).
 
-**Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.**
+**Versi di Github ini dikembangkan sejak Mei 2016, gratis dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa. Hak Cipta OpenSID sekarang dipegang oleh Perkumpulan Desa Digital Terbuka (https://opendesa.id), lembaga hukum yang sengaja dibentuk untuk mengelola OpenSID.**
 
 ## 💻 DEMO
 Demo aplikasi OpenSID dapat dilihat di https://demo.opensid.my.id. Versi yang terlihat di demo itu adalah rilis terkini. Versi beta dapat diujicoba di https://beta.opensid.my.id sebelum dirilis resmi pada bulan berikutnya.
