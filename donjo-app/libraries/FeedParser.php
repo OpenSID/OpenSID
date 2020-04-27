@@ -236,21 +236,27 @@ class FeedParser{
 			foreach($segments as $index=>$data)
 			{
 				$lastPiese = ((count($segments)-1) == $index)? true : false;
-				xml_parse($this->xmlParser, $data, $lastPiese)
-				   or die(sprintf("XML error: %s at line %d",  
+				$result = xml_parse($this->xmlParser, $data, $lastPiese);
+				if (!$result)
+				{
+				   log_message('error', sprintf("XML error: %s at line %d",  
 				   xml_error_string(xml_get_error_code($this->xmlParser)),  
 				   xml_get_current_line_number($this->xmlParser)));
+				   return false;
+				}
 			}
 			xml_parser_free($this->xmlParser);   
 		}
 		else
 		{
-			die('Sorry! cannot load the feed url.');	
+			log_message('error', 'Sorry! cannot load the feed url.');	
+			return false;
 		}
 		
 		if(empty($this->version))
 		{
-			die('Sorry! cannot detect the feed version.');
+			log_message('error', 'Sorry! cannot detect the feed version.');
+			return false;
 		}
 	}   
    
