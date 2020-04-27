@@ -136,7 +136,7 @@
 								<select class="form-control input-sm" id="status_penduduk" name="status_penduduk">
 									<option value=""> -- </option>
 									<?php foreach ($list_status_penduduk AS $data): ?>
-										<option value="<?= $data['id']?>" <?php selected($status_penduduk_id, $data['id']); ?>><?= $data['nama']?></option>
+										<option value="<?= $data['id']?>" <?php selected($status_penduduk, $data['id']); ?>><?= $data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
