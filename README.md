@@ -1,6 +1,6 @@
 <h1 align="center">Selamat datang di OpenSID! 👋</h1>
 
-![OpenSID](https://res.cloudinary.com/dc0rn8rch/image/upload/v1587820518/Screenshot_857_gziaoc.png "OpenSID")
+![readme-image](https://user-images.githubusercontent.com/249563/80325903-6891e180-887a-11ea-8471-6635dc6aa619.png "OpenSID membantu penanggulangan COVID-19")
 
 ### 🤔 Apa itu OpenSID?
 OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
@@ -12,7 +12,7 @@ OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) 
 - Layanan Publik lebih baik
 - Warga mendapat akses lebih baik pada informasi desa
 
-###### OpenSID diharapkan dapat turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
+> OpenSID bertujuan agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya. 
 
 **Strategi pengembangan OpenSID adalah untuk:**
 - Memudahkan pengguna untuk mendapatkan SID secara bebas, tanpa proses birokrasi
@@ -28,13 +28,6 @@ OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) 
 ## 📃 PEDOMAN PENGGUNAAN
 Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/opensid/opensid/wiki.
 
-## ⚫️ OpenSID v SID CRI
-OpenSID dikembangkan sejak Mei 2016 bermula dari versi SID CRI 3.04 yang diperoleh dari **Andi Anwar.**
-
-SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang di-share oleh anggota https://www.facebook.com/groups/OpenSID/ pada tanggal 15 Pebruari 2017. OpenSID akan terus menggabung versi baru yang mungkin sewaktu-waktu dirilis oleh CRI.
-
-Untuk melihat perbedaan antara OpenSID dan SID-CRI, silakan klik [Tanya-Jawab OpenSID vs SID-CRI](https://github.com/OpenSID/OpenSID/wiki/Tanya-Jawab-OpenSID-vs-SID-CRI).
-
 ## 📑 HAK CIPTA, SYARAT, DAN KETENTUAN
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/).
 
@@ -43,9 +36,9 @@ Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Ver
 **Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.**
 
 ## 💻 DEMO
-Demo aplikasi OpenSID dapat dilihat di http://demo.opensid.my.id. Versi yang terlihat di demo itu adalah rilis terkini. Versi beta dapat diujicoba di https://beta.opensid.my.id sebelum dirilis resmi pada bulan berikutnya.
+Demo aplikasi OpenSID dapat dilihat di https://demo.opensid.my.id. Versi yang terlihat di demo itu adalah rilis terkini. Versi beta dapat diujicoba di https://beta.opensid.my.id sebelum dirilis resmi pada bulan berikutnya.
 
-Modul administrasi OpenSID demo dapat diaskses pada http://demo.opensid.my.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+Modul administrasi OpenSID demo dapat diaskses pada https://demo.opensid.my.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 
 ### 💬 FORUM
 
@@ -53,7 +46,7 @@ Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.face
 
 ## 🤝 KEMBANGKAN BERSAMA
 
-Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Issues ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
+Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Laporan ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
 
 Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada panduan OpenSID di https://github.com/OpenSID/OpenSID/wiki, dan pada script OpenSID di (https://github.com/OpenSID/OpenSID).
 
@@ -67,7 +60,7 @@ Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada pan
 Peduli dengan OpenSID dan misinya membangun desa? [Jadilah pendudukung OpenSID](https://opencollective.com/OpenSID#backer).
 <a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/backers.svg?width=890"></a>
 
-Atau bisa donasi langsung ke rekening bank. Lihat detailnya [di sini](https://opendesa.id/donasi).
+> Atau bisa donasi langsung ke rekening bank. Lihat informasi lengkap [di sini](https://opendesa.id/donasi).
 
 ### ⭐️ Sponsor
 
