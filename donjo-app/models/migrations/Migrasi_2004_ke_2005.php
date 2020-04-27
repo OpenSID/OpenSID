@@ -55,12 +55,25 @@ class Migrasi_2004_ke_2005 extends CI_model {
 				enabled = VALUES(enabled)
 				";
 		$this->db->query($sql);
+		//Ganti nama folder widget menjadi widgets
+		rename('desa/widget', 'desa/widgets');
+		rename('desa/upload/widget', 'desa/upload/widgets');
+		// Tambahkan slug untuk setiap artikel agenda yg belum memiliki
+		$list_widgets = $this->db->where('jenis_widget', 2)->get('widget')->result_array();
+		foreach ($list_widgets as $widgets) {
+			$ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']); // Untuk versi 20.04-pasca ke atas
+			$cek = explode('/', $ganti); // Untuk versi 20.04 ke bawah
+			if($cek[0] !== 'desa' AND $cek[1] === NULL){ // agar migrasi bisa dijalankan berulang kali
+				$this->db->where('id', $widgets['id'])->update('widget', array('isi' => 'desa/widgets/'.$widgets['isi']));
+			}
+		}
+		
 	}
 
 	private function covid19()
 	{
 		// Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
-    $data[] = array(
+		$data[] = array(
 			'id'=>'206',
 			'modul' => 'Siaga Covid-19',
 			'url' => 'covid19',
