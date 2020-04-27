@@ -463,11 +463,11 @@ class Penduduk extends Admin_Controller {
 		else $data['status_penduduk'] = '';
 
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		$data['pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
-		$data['pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
-		$data['pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
-		$data['status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['list_pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
+		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
+		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
+		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("penduduk/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
