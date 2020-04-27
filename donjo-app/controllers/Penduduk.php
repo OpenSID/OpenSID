@@ -20,8 +20,8 @@ class Penduduk extends Admin_Controller {
 	{
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);// ini status_penduduk
-		unset($_SESSION['status_dasar']);
+		unset($_SESSION['filter']); // ini status_penduduk
+		$_SESSION['status_dasar'] = 1; // default status dasar = hidup
 		unset($_SESSION['sex']);
 		unset($_SESSION['warganegara']);
 		unset($_SESSION['cacat']);
