@@ -387,24 +387,33 @@ class Web_dokumen_model extends CI_Model {
 			$this->db->update('dokumen', $data);
 		}
 
-		// cari diff anggota	
-		if (count($anggota_kk) < count($anggota_lain))		
+		// cari diff anggota (jika ada anggota yang diuncheck - delete)	
+		if (isset($anggota_kk))
 		{
 			$diff_id_pend = array_diff($anggota_lain, $anggota_kk);
 			foreach ($diff_id_pend as $key => $value) 
 				$this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
 		}
-		elseif (count($anggota_kk) > count($anggota_lain))
+		else 
+		{
+			foreach ($anggota_lain as $key => $value) 
+				$this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
+		}	
+		
+		// cari diff anggota (jika ada anggota tambahan yang dicheck -> insert)	
+		$diff_id_pend = array_diff($anggota_kk, $anggota_lain);
+		if (isset($diff_id_pend)) 
 		{
 			unset($data['updated_at']);
 
-			$diff_id_pend = array_diff($anggota_kk, $anggota_lain);
-			foreach ($diff_id_pend as $key => $value) {
+			foreach ($diff_id_pend as $key => $value) 
+			{
 				$data["id_pend"] = $value;
 				$data["id_parent"] = $id;
 				$this->db->insert('dokumen', $data);	// insert new data
 			}
 		}
+		
 
 		$retval = $this->db->affected_rows();
 		status_sukses($retval);
