@@ -36,6 +36,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 30. #2924: Tambahkan statistik untuk data Siaga Covid-19 di Admin dan di Web.
 31. #2955: Penambahan widget statis sekarang menyediakan pilihan widget yg ada di folder desa/widget.
 32. #2864: Tambahkan validasi form supaya judul artikel tidak lebih dari 100 karakter. [bug-fix] 
+33. #2732: Tampilkan statistik Admin Web > Pengunjung dengan format ribuan menggunakan titik.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
