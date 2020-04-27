@@ -13,9 +13,7 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="form-group">
-									<label for="nama">Umur</label>
-								</div>
+								<label for="nama">Umur</label>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
@@ -42,7 +40,10 @@
 								<div class="form-group">
 									<label for="status_dasar">Status Perkawinan</label>
 									<select class="form-control input-sm"  id="status"  name="status" >
-										<option value=""> -- </option><option value="1">BELUM KAWIN</option><option value="2">KAWIN</option><option value="3">CERAI HIDUP</option><option value="4">CERAI MATI</option><option value="5">TIDAK KAWIN</option>
+										<option value=""> -- </option>
+										<?php foreach ($status_kawin AS $data): ?>
+											<option value="<?= $data['id']?>" <?php selected($kawin_id,$data['id']); ?> ><?= $data['nama']?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
