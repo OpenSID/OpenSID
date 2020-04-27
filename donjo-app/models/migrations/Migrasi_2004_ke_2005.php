@@ -25,6 +25,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		$this->db->query("ALTER TABLE mutasi_inventaris_peralatan MODIFY COLUMN sumbangkan VARCHAR(255) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE mutasi_inventaris_tanah MODIFY COLUMN harga_jual DOUBLE NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE mutasi_inventaris_tanah MODIFY COLUMN sumbangkan VARCHAR(255) NULL DEFAULT NULL");
+		$this->db->query("ALTER TABLE polygon MODIFY COLUMN tipe INT(4) NULL DEFAULT 0");
 		// Perbaiki nama aset salah
 		$this->db->where('id_aset', 3423)->update('tweb_aset', array('nama' => 'JALAN'));
 		$this->db->where('id', 79)->update('setting_modul', array('url'=>'api_inventaris_kontruksi', 'aktif'=>'1'));
