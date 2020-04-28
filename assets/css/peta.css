@@ -1,0 +1,48 @@
+#map
+{
+  width:100%;
+  height:73vh
+}
+#content { 
+  height: auto !important;
+}
+#bodyContent p {
+  margin: 18px 0;
+}
+.leaflet-popup-content {
+  height: 245px;
+  overflow-y: scroll;
+}
+.kantor_desa .leaflet-popup-content {
+  height: auto;
+}
+.leaflet-tooltip-content p {
+    margin: 18px 0 !important;
+}
+.leaflet-tooltip {
+  /*height: 245px;*/
+}
+.leaflet-control-layers {
+	display: block;
+	position: relative;
+}
+.leaflet-control-locate a{font-size:2em;color:#444;cursor:pointer}
+.leaflet-control-locate.active a{color:#2074b6}
+.leaflet-control-locate.active.following a{color:#fc8428}
+.leaflet-control-locate-location circle{animation:leaflet-control-locate-throb 4s ease infinite}@keyframes leaflet-control-locate-throb{0%{stroke-width:1}50%{stroke-width:3;transform:scale(0.8, 0.8)}100%{stroke-width:1}}
+
+.btn-social {
+  position: relative;
+  padding-left: 44px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-social.btn-sm {
+  padding-left: 38px;
+}
+.bg-navy {
+  background-color: #001f3f !important;
+  color: #fff !important;
+}

@@ -605,6 +605,64 @@ class First extends Web_Controller {
 		}
 	}
 
+	public function peta()
+	{
+		$this->load->model('wilayah_model');
+		$data = $this->includes;
+
+		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['wilayah'] = $this->penduduk_model->list_wil();
+		$data['desa'] = $this->config_model->get_data();
+		$data['penduduk'] = $this->penduduk_model->list_data_map();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['list_lap'] = $this->referensi_model->list_lap();
+
+		$data['halaman_peta'] = 'web/halaman_statis/peta';
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/peta_statis.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function load_apbdes()
+	{
+		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+
+		$this->_get_common_data($data);
+		$this->load->view('gis/apbdes_web', $data);
+	}
+
+	public function load_aparatur_desa()
+	{
+		$this->_get_common_data($data);
+		$this->load->view('gis/aparatur_desa_web', $data);
+	}
+
+	public function load_aparatur_wilayah($id='', $kd_jabatan=0)
+	{
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+
+		switch ($kd_jabatan)
+		{
+			case '1':
+				$data['jabatan'] = "Kepala Dusun";
+				break;
+			case '2':
+				$data['jabatan'] = "Ketua RW";
+				break;
+			case '3':
+				$data['jabatan'] = "Ketua RT";
+				break;
+			default:
+				$data['jabatan'] = "Kepala Dusun";
+				break;
+		}
+
+		$this->load->view('gis/aparatur_wilayah',$data);
+	}
+
 	public function ajax_table_surat_permohonan()
 	{
 		$data = $this->penduduk_model->list_dokumen($_SESSION['id']);

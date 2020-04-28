@@ -47,7 +47,7 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
 
   var point_style = stylePointLogo(favico_desa);
   marker_desa.push(turf.polygon(daerah_desa, {content: judul, style: stylePolygonDesa(), style: L.icon(point_style)}))
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
+  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa", style: L.icon(point_style)}));
 }
 
 function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
@@ -63,8 +63,8 @@ function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents
 	content = $(contents).html();
 
   var point_style = stylePointLogo(favico_desa);
+  marker_desa.push(turf.point([desa['lng'], desa['lat']], {name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style)}));
   marker_desa.push(turf.polygon(daerah_desa, {content: content, style: stylePolygonDesa(), style: L.icon(point_style)}))
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa",style: L.icon(point_style)}));
 }
 
 function set_marker_content(marker, daftar_path, warna, judul, nama_wil, contents)
@@ -118,9 +118,18 @@ function poligonWil(marker)
 {
 	var poligon_wil = L.geoJSON(turf.featureCollection(marker), {
     pmIgnore: true,
+		showMeasurements: true,
     onEachFeature: function (feature, layer) {
-      layer.bindPopup(feature.properties.content);
-      layer.bindTooltip(feature.properties.content);
+    	if (feature.properties.name == 'kantor_desa') 
+    	{
+    		// Beri classname berbeda, supaya bisa gunakan css berbeda
+	      layer.bindPopup(feature.properties.content, {'className' : 'kantor_desa'});
+    	} 
+    	else
+    	{
+	      layer.bindPopup(feature.properties.content);
+    	}
+      layer.bindTooltip(feature.properties.content, {sticky: true, direction: 'top'});
     },
     style: function(feature)
     {
@@ -298,7 +307,8 @@ function eximGpx(layerpeta)
 				coords.push(feature.geometry.coordinates);
 			},
 
-		}).addTo(layerpeta);
+		})
+		.addTo(layerpeta)
 
 		var jml = coords[0].length;
 		coords[0].push(coords[0][0]);
@@ -376,12 +386,14 @@ function addPetaPoly(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 }).addTo(layerpeta);
+		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		.addTo(layerpeta)
+		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
 			document.getElementById('path').value = getLatLong('Poly', e.target).toString();
-			document.getElementById('zoom').value = peta_wilayah.getZoom();
+			document.getElementById('zoom').value = layerpeta.getZoom();
 		});
 
 		layerpeta.fitBounds(polygon.getBounds());
@@ -408,7 +420,9 @@ function addPetaLine(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 }).addTo(layerpeta);
+		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		.addTo(layerpeta)
+		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
@@ -427,7 +441,10 @@ function showCurrentPolygon(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah).addTo(layerpeta);
+	var poligon_wilayah = L.polygon(wilayah)
+	.addTo(layerpeta)
+	.showMeasurements();
+
 	poligon_wilayah.on('pm:edit', function(e)
 	{
 		document.getElementById('path').value = getLatLong('Poly', e.target).toString();
@@ -588,7 +605,10 @@ function showCurrentPoint(posisi1, layerpeta)
 
 function showCurrentLine(wilayah, layerpeta)
 {
-	var poligon_wilayah = L.polyline(wilayah).addTo(layerpeta);
+	var poligon_wilayah = L.polyline(wilayah)
+	.addTo(layerpeta)
+	.showMeasurements();
+
 	poligon_wilayah.on('pm:edit', function(e)
 	{
 		document.getElementById('path').value = getLatLong('Line', e.target).toString();
@@ -619,7 +639,10 @@ function showCurrentArea(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah).addTo(layerpeta);
+	var poligon_wilayah = L.polygon(wilayah)
+	.addTo(layerpeta)
+	.showMeasurements();
+
 	poligon_wilayah.on('pm:edit', function(e)
 	{
 		document.getElementById('path').value = getLatLong('Poly', e.target).toString();
@@ -645,3 +668,34 @@ function showCurrentArea(wilayah, layerpeta)
 
 	return showCurrentArea;
 }
+
+$(document).ready(function()
+{
+	$('#modalKecil').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+
+  $('#modalSedang').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+
+  $('#modalBesar').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var modal = $(this)
+		modal.find('.modal-title').text(title)
+		$(this).find('.fetched-data').load(link.attr('href'));
+	});
+	return false;
+})
