@@ -120,6 +120,7 @@ class Statistik_web extends Web_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
 		$data['jenis_chart'] = $chart;
+		$data['untuk_web'] = true; // Untuk me-nonaktfikan tautan di tabel statistik kependudukan
 		$this->get_data_stat($data, $lap);
 		$this->load->view('gis/penduduk_gis', $data);
 	}

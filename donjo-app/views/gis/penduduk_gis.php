@@ -1,6 +1,7 @@
 <div class="modal-body" id="maincontent">
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
+			<input type="hidden" id="untuk_web" value="<?= $untuk_web?>">
 			<div class="row">
 				<div class="col-md-12">
 					<div id="chart"> </div>
@@ -52,6 +53,17 @@
 	</section>
 </div>
 
+<script type="text/javascript">
+	$('document').ready(function()
+	{
+		// Nonaktfikan tautan di tabel statistik kependudukan untuk tampilan Web
+		if ($('#untuk_web').val() == 1)
+		{
+			$('tbody a').removeAttr('href');
+		}
+	});
+
+</script>
 <?php if ($jenis_chart == 'bar'): ?>
 	<!-- Pengaturan Grafik (Graph) Data Statistik-->
 	<script type="text/javascript">
