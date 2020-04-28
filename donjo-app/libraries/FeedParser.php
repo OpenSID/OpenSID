@@ -469,6 +469,19 @@ class FeedParser{
 	*/   
 	private function findVersion($tagName, $attrs)
 	{
+		// Ambil versi RSS kalau ada
+		if ($tagName == 'RSS')
+		{
+			foreach ($attrs as $attr => $value)
+			{
+				if ($attr == 'VERSION')
+				{
+					$this->version = 'RSS '.$value;
+					return;
+				}
+			}
+		}
+
 		$namespace = array_values($attrs);
 		foreach($this->namespaces as $value =>$version)
 		{
