@@ -134,3 +134,4 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   }
 }
 ?>
+<?php $this->load->view('head_tags_front') ?>
