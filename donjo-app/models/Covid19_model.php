@@ -28,6 +28,7 @@ class Covid19_model extends CI_Model
 	{
 		parent::__construct();
 		$this->load->library('session');
+		$this->load->model('referensi_model');
 	}
 
 	public function list_tujuan_mudik() 
@@ -205,8 +206,6 @@ class Covid19_model extends CI_Model
 	
 	public function add_pemudik($post) 
 	{
-		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
-
 		$data = $this->sterilkan($post);
 		$data['id_terdata'] = $post['id_terdata']; 
 
@@ -215,11 +214,12 @@ class Covid19_model extends CI_Model
 
 	private function sterilkan($post)
 	{
+		$tujuan_mudik = $this->referensi_model->list_kode_array(TUJUAN_MUDIK);
 		$data = array(
 			'tanggal_datang' => $post['tanggal_tiba'],
 			'asal_mudik' => alfanumerik_spasi($post['asal_pemudik']),
 			'durasi_mudik' => $post['durasi_pemudik'],
-			'tujuan_mudik' => $tujuan_mudik["$post[tujuan_pemudik]"],
+			'tujuan_mudik' => $tujuan_mudik[$post['tujuan_pemudik']],
 			'no_hp' => bilangan_spasi($post['hp_pemudik']),
 			'email' => strip_tags($post['email_pemudik']),
 			'status_covid' => $post['status_covid'],
@@ -232,8 +232,6 @@ class Covid19_model extends CI_Model
 	
 	public function update_pemudik_by_id($post, $id) 
 	{
-		$tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
-
 		$data = $this->sterilkan($post);
 
 		$this->db->where('id',$id);
