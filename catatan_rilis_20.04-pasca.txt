@@ -39,6 +39,7 @@ Lengkapnya, isi rilis versi 20.04-pasca adalah sebagai berikut:
 33. #2732: Tampilkan statistik Admin Web > Pengunjung dengan format ribuan menggunakan titik.
 34. Sesuaikan pembuatan Pemetaan > Pengaturan Peta > Tipe Area dengan setting MySQL STRICT_TRANS_TABLE.
 35. Tampilkan peta desa termasuk wilayah dusun/rw/rt dan statistik kependudukan di website desa.
+36. #2916: Sediakan dokumen kelengkapan administrasi kependudukan, seperti fotokopi kartu keluarga, yang diberlakukan bagi beberapa anggota keluarga.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.04-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
