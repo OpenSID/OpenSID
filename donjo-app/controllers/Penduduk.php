@@ -7,6 +7,7 @@ class Penduduk extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('penduduk_model');
+		$this->load->model('keluarga_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('referensi_model');
 		$this->load->model('web_dokumen_model');
@@ -219,6 +220,7 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -230,9 +232,35 @@ class Penduduk extends Admin_Controller {
 	public function dokumen_form($id = 0, $id_dokumen = 0)
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+
+		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		{
+			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+		}
+		
 		if ($id_dokumen)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
+			
+			// Ambil data anggota KK
+			if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+			{
+				$data['dokumen_anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
+
+				if (count($data['dokumen_anggota'])>0)
+				{
+					$id_pend_anggota = array();
+					foreach ($data['dokumen_anggota'] as $item_dokumen) 
+						$id_pend_anggota[] = $item_dokumen['id_pend'];
+
+					foreach ($data['kk'] as $key => $value)  
+					{
+						if (in_array($value['id'], $id_pend_anggota))
+							$data['kk'][$key]['checked'] = 'checked';
+					}
+				}
+			}
+
 			$data['form_action'] = site_url("penduduk/dokumen_update/$id_dokumen");
 		}
 		else

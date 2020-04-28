@@ -1,20 +1,23 @@
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
-$('#file_browser').click(function(e)
-{
-    e.preventDefault();
-    $('#file').click();
+$(document).ready(function() {
+	$('#file_browser').click(function(e)
+	{
+		e.preventDefault();
+		$('#file').click();
+	});
+
+	$('#file').change(function()
+	{
+		$('#file_path').val($(this).val());
+	});
+
+	$('#file_path').click(function()
+	{
+		$('#file_browser').click();
+	});
 });
 
-$('#file').change(function()
-{
-    $('#file_path').val($(this).val());
-});
-
-$('#file_path').click(function()
-{
-    $('#file_browser').click();
-});
 </script>
 <form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
 	<div class='modal-body'>
@@ -38,6 +41,32 @@ $('#file_path').click(function()
 							</div>
 							<p class="help-block">Kosongkan jika tidak ingin mengubah dokumen.</p>
 						</div>
+						<?php if (!empty($kk)): ?>
+							<hr>
+							<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover table-striped table-sm">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">NIK</th>
+											<th scope="col">Nama</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach ($kk as $item): ?>
+											<?php if ($item['nik'] != $penduduk['nik']): ?>
+												<tr>
+													<td><input type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>" <?=$item['checked']?> /></td>
+													<td><?=$item['nik']?></td>
+													<td><?=$item['nama']?></td>
+												</tr>
+											<?php endif; ?>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
+							</div>
+						<?php endif ?>
 					</div>
 				</div>
 			</div>

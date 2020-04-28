@@ -158,7 +158,33 @@
                       </span>
                     </div>
                     <p class="help-block">Kosongkan jika tidak ingin mengubah dokumen.</p>
-                  </div>
+                  </div>                  
+                  <?php if (!empty($kk)): ?>
+                    <hr>
+                    <p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped table-sm">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">NIK</th>
+                            <th scope="col">Nama</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php foreach ($kk as $item): ?>
+                            <?php if ($item['nik'] != $penduduk['nik']): ?>
+                              <tr>
+                                <td><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
+                                <td><?=$item['nik']?></td>
+                                <td><?=$item['nama']?></td>
+                              </tr>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  <?php endif ?>
                 </div>
               </div>
             </div>
