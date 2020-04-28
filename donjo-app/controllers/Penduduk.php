@@ -258,7 +258,6 @@ class Penduduk extends Admin_Controller {
 						if (in_array($value['id'], $id_pend_anggota))
 							$data['kk'][$key]['checked'] = 'checked';
 					}
-
 				}
 			}
 

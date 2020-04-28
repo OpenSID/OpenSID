@@ -83,7 +83,7 @@ $(document).ready(function() {
 				//anggota lain
 				$('.anggota_kk').attr("checked", false);
 				for (let [key, value] of Object.entries(data.anggota)) {
-					if(value.id_pend != data.id_pend) {
+					if (value.id_pend != data.id_pend) {
 						let id_anggota = '#anggota_'+value.id_pend;
 						$(id_anggota).attr("checked", true);
 					}
@@ -96,9 +96,7 @@ $(document).ready(function() {
 						break;
 					default:
 						break;
-				}
-				
-				
+				}				
 			},
 			error: function(err) {
 				console.log(err);

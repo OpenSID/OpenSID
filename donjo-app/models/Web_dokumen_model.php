@@ -372,7 +372,16 @@ class Web_dokumen_model extends CI_Model {
 
 		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$this->db->where('id',$id)->update('dokumen', $data);
+
+		$this->update_dok_anggota($id, $post, $data);
+
+		$retval = $this->db->affected_rows();
+		status_sukses($retval);
+		return $retval;
+	}
 	
+	private function update_dok_anggota($id, $post, $data)
+	{
 		// cek jika dokumen ini juga ada di anggota yang lain
 		$anggota_kk = $post['anggota_kk'];
 		$anggota_lain = array_column($this->get_dokumen_di_anggota_lain($id), 'id_pend');
@@ -413,11 +422,6 @@ class Web_dokumen_model extends CI_Model {
 				$this->db->insert('dokumen', $data);	// insert new data
 			}
 		}
-		
-
-		$retval = $this->db->affected_rows();
-		status_sukses($retval);
-		return $retval;
 	}
 
 	// Soft delete, tapi hapus berkas dokumen
@@ -442,7 +446,6 @@ class Web_dokumen_model extends CI_Model {
 		// soft delete dokumen anggota lain jika ada
 		foreach ($anggota_lain as $item) 
 			$this->db->where('id', $item['id'])->update('dokumen', $data);
-
 	}
 
 	public function hard_delete_dokumen_bersama($id_pend)
