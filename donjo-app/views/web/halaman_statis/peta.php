@@ -62,6 +62,39 @@
     //Menambahkan zoom scale ke peta
     L.control.scale().addTo(mymap);
 
+    //loading Peta Covid - data geoJSON dari BNPB- https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
+    <?php if(config_item('covid_peta')) : ?>
+    $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
+    	// add GeoJSON layer to the map once the file is loaded
+    	var datalayer = L.geoJson(data ,{
+    		onEachFeature: function (feature, layer) {
+    			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>assets/images/gis/point/covid.png"});
+    			layer.setIcon(custom_icon);
+
+    			var popup_0 = L.popup({"maxWidth": "100%"});
+
+    			var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+          + '<h4><b>' + feature.properties.Provinsi + '</b></h4>'
+          + '<table><tr>'
+          + '<th style="color:red">Positif&nbsp;&nbsp;</th>'
+          + '<th style="color:green">Sembuh&nbsp;&nbsp;</th>'
+          + '<th style="color:black">Meninggal&nbsp;&nbsp;</th>'
+          + '</tr><tr>'
+          + '<td><center><b style="color:red">' + feature.properties.Kasus_Posi + '</b></center></td>'
+          + '<td><center><b style="color:green">' + feature.properties.Kasus_Semb + '</b></center></td>'
+          + '<td><center><b>' + feature.properties.Kasus_Meni + '</b></center></td>'
+          + '</tr></table></div>')[0];
+
+    			popup_0.setContent(html_a);
+
+    			layer.bindPopup(popup_0);
+    			layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
+    		},
+    	}).addTo(mymap);
+    	mymap.fitBounds(datalayer.getBounds());
+    });
+    <?php endif; ?>
+
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
 
 		$('#isi_popup_dusun').remove();
@@ -78,11 +111,12 @@
 		<div class="row">
 		  <div class="col-md-12">
 				<div id="map">
-				  <div class="leaflet-top leaflet-right">
+				  <div class="leaflet-top leaflet-left">
 					<?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
 					<?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
 					<?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
 					<?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+          <?php $this->load->view("gis/covid_peta.php") ?>
 				  </div>
 				</div>
 		  </div>
