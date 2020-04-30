@@ -41,6 +41,7 @@ Lengkapnya, isi rilis versi 20.05 adalah sebagai berikut:
 35. Tampilkan peta desa termasuk wilayah dusun/rw/rt dan statistik kependudukan di website desa.
 36. #2916: Sediakan dokumen kelengkapan administrasi kependudukan, seperti fotokopi kartu keluarga, yang diberlakukan bagi beberapa anggota keluarga.
 37. #2974: Perbaiki tampilan jumlah status COVID lokal di web. [bug-fix]
+38. Perbaiki tampilan dropdown di pengaturan program bantuan di halaman Home waktu pertama kali dibuka
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
