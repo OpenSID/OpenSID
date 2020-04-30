@@ -1,10 +1,10 @@
 <?php
 
-define("VERSION", '20.04-pasca');
+define("VERSION", '20.05');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [ddmmyyy][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020040401');
+define('VERSI_DATABASE', '2020010501');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
