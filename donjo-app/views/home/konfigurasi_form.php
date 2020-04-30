@@ -132,7 +132,7 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
-								<div class="col-sm-5">
+								<div class="col-sm-4">
 									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));" style="width: 100%;">
 										<option value="">Pilih Provinsi</option>
 										<?php foreach ($list_provinsi AS $data): ?>

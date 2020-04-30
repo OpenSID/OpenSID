@@ -35,18 +35,22 @@
 									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
-													<option value="">Tahun</option>
-													<?php foreach ($tahun_surat as $tahun): ?>
-														<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
-													<?php endforeach; ?>
-												</select>
-												<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')">
-													<option value="">Pilih Jenis Surat</option>
-													<?php foreach ($jenis_surat as $data): ?>
-														<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
-													<?php endforeach; ?>
-												</select>
+												<div class="form-group">
+													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
+														<option value="">Tahun</option>
+														<?php foreach ($tahun_surat as $tahun): ?>
+															<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
+														<?php endforeach; ?>
+													</select>
+												</div>
+												<div class="form-group">
+													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')" style="width: 100%;">
+														<option value="">Pilih Jenis Surat</option>
+														<?php foreach ($jenis_surat as $data): ?>
+															<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
+														<?php endforeach; ?>
+													</select>
+												</div>
 											</div>
 											<div class="col-sm-3">
 												<div class="box-tools">
@@ -162,26 +166,26 @@
 											</div>
 										</div>
 										<div class="col-sm-6">
-                      <div class="dataTables_paginate paging_simple_numbers">
-                        <ul class="pagination">
-                          <?php if ($paging->start_link): ?>
-                            <li><a href="<?=site_url("keluar/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                          <?php endif; ?>
-                          <?php if ($paging->prev): ?>
-                            <li><a href="<?=site_url("keluar/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                          <?php endif; ?>
-                          <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/index/$i/$o")?>"><?= $i?></a></li>
-                          <?php endfor; ?>
-                          <?php if ($paging->next): ?>
-                            <li><a href="<?=site_url("keluar/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                          <?php endif; ?>
-                          <?php if ($paging->end_link): ?>
-                            <li><a href="<?=site_url("keluar/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                          <?php endif; ?>
-                        </ul>
-                      </div>
-                    </div>
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<?php if ($paging->start_link): ?>
+														<li><a href="<?=site_url("keluar/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->prev): ?>
+														<li><a href="<?=site_url("keluar/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+													<?php endif; ?>
+													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/index/$i/$o")?>"><?= $i?></a></li>
+													<?php endfor; ?>
+													<?php if ($paging->next): ?>
+														<li><a href="<?=site_url("keluar/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->end_link): ?>
+														<li><a href="<?=site_url("keluar/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+													<?php endif; ?>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
