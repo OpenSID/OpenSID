@@ -111,7 +111,6 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-danger">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Positif</h4></div>
-					<div style="height: 70px;padding:1px" class="panel-body text-center">
 						<?php if (!empty(config_item('covid_negara'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif2"></span> <small>Jiwa</small></h4>
@@ -122,7 +121,6 @@
 						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif"></span> <small>Jiwa</small></h4>
 						</div>
 						<?php endif; ?>
-					</div>
 				</div>
 			</div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -143,7 +141,6 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-success">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal</h4></div>
-					<div style="height: 70px;padding:1px" class="panel-body text-center">
 						<?php if (!empty(config_item('covid_negara'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
 						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal2"></span> <small>Jiwa</small></h4>
@@ -154,7 +151,6 @@
 						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal"></span> <small>Jiwa</small></h4>
 						</div>
 						<?php endif; ?>
-					</div>
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
