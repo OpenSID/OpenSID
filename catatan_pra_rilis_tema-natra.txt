@@ -56,5 +56,13 @@ Catatan pra rilis versi 4.1.9:
 54. Sesuaikan Sumber Jenis Widget. [bug-fix]
 55. Menampilkan Jadwal Sholat & Imsak.
 56. Sekarang komentar artikel web kembali tampil. [bug-fix]
+57. Tambah Sosmed Telegram di Widget Sosial Media.
+58. Solusi Gagal tampilkan Menu Informasi Publik [bug-fix]
+59. Tampilkan jadwal agenda pada artikel.
+60. Implementasi ajax untuk mengambil data COVID-19.
+61. Ubah tampilan Widget Statistik Pengunjung.
+62. Implementasi ajax untuk mengambil Jadwal Sholat.
+63. Tampilkan Status COVID-19 di Desa.
+64. Perbaiki Gagal Login Layanan Mandiri [bux-fix]
 
 ****************************************************************
