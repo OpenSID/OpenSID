@@ -33,15 +33,14 @@ class Migrasi_2005_ke_2006 extends CI_model {
 			'nama' => 'Satgas Covid-19',
 		);
 
-    foreach ($data as $modul)
-    {
+		foreach ($data as $modul)
+		{
 			$sql = $this->db->insert_string('user_grup', $modul);
 			$sql .= " ON DUPLICATE KEY UPDATE
-				id = VALUES(id),
-				nama = VALUES(nama)";
+			id = VALUES(id),
+			nama = VALUES(nama)";
 			$this->db->query($sql);
-    }
-
-    
+		}
 	}
+	
 }
