@@ -1,11 +1,11 @@
 <div class="content-wrapper">
 
 	<section class="content-header">
-		<h1>Formulir Penambahan Terdata</h1>
+		<h1>Penambahan Pemudik Covid-19</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('covid19')?>"> Data Pemudik Saat Covid-19</a></li>
-			<li class="active">Formulir Penambahan Terdata</li>
+			<li><a href="<?= site_url('covid19')?>"> Daftar Pemudik Saat Covid-19</a></li>
+			<li class="active">Penambahan Pemudik Covid-19</li>
 		</ol>
 	</section>
 	
@@ -15,34 +15,11 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<div class="col-md-12">
-							<a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Pemudik Saat Covid-19</a>
+							<a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pemudik Saat Covid-19"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Pemudik Saat Covid-19</a>
 						</div>
 					</div>
 					<div class="box-body">
 						<div class="row">
-							<div class="col-md-12">
-								<div class="box-header with-border">
-									<h3 class="box-title"Rincian Data Suplemen</h3>
-								</div>
-								<div class="box-body ">
-									<table class="table table-bordered table-striped table-hover" >
-										<tbody>
-											<tr>
-												<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Nama Data</td>
-												<td> : Covid-19</td>
-											</tr>
-											<tr>
-												<td style="padding-top : 10px;padding-bottom : 10px;" >Sasaran Terdata</td>
-												<td> :  Penduduk</td>
-											</tr>
-											<tr>
-												<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
-												<td> : Pemudik</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
 							<div class="col-sm-12">
 								<div class="box-header with-border">
 									<h3 class="box-title">Tambahkan Warga Pemudik</h3>
@@ -53,11 +30,11 @@
 										<div class="form-group" >
 											<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 											<div class="col-sm-4">
-												<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" >
+												<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" style="width: 100%;">
 													<option value="">-- Silakan Masukan NIK / Nama--</option>
 													<?php foreach ($list_penduduk as $item):
 														if (strlen($item["id"])>0): ?>
-															<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+															<option value="<?= $item['id']?>" <?php selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 														<?php endif;
 													endforeach; ?>
 												</select>
@@ -67,9 +44,9 @@
 													<i class="fa fa-plus"></i> 
 													Tambah Penduduk Non Domisili
 												</a>
-												<small id="data_h_plus_msg" class="form-text text-muted">
+												<span id="data_h_plus_msg" class="help-block">
 													Untuk penduduk pendatang/tidak tetap. Masukkan data di sini.
-												</small>
+												</span>
 											</div>
 										</div>
 										

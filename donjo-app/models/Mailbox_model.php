@@ -13,15 +13,20 @@ class Mailbox_model extends CI_Model {
 		
 	}
 
-	public function insert($data)
+	public function insert($post)
 	{
-		$data = $data;
+		$data = array();
+		$data['email'] = $post['email'];
+		$data['owner'] = $post['owner']; 
+		$data['tipe'] = $post['tipe'];
+		$data['status'] = $post['status'];
+		$data['subjek'] = strip_tags($post['subjek']);
+		$data['komentar'] = strip_tags($post['komentar']);
 		$data['id_artikel'] = 775;
 		$data['tgl_upload'] = date('Y-m-d H:i:s');
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$outp = $this->db->insert('komentar', $data);
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp);
 	}
 
 	public function list_menu()

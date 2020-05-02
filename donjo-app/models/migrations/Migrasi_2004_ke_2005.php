@@ -67,7 +67,7 @@ class Migrasi_2004_ke_2005 extends CI_model {
 	private function covid19()
 	{
 		// Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
-    $data[] = array(
+		$data[] = array(
 			'id'=>'206',
 			'modul' => 'Siaga Covid-19',
 			'url' => 'covid19',
