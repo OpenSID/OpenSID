@@ -138,26 +138,26 @@
 											</div>
 										</div>
 										<div class="col-sm-6">
-                      <div class="dataTables_paginate paging_simple_numbers">
-                        <ul class="pagination">
-                          <?php if ($paging->start_link): ?>
-                            <li><a href="<?=site_url("surat_master/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                          <?php endif; ?>
-                          <?php if ($paging->prev): ?>
-                            <li><a href="<?=site_url("surat_master/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                          <?php endif; ?>
-                          <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("surat_master/index/$i/$o")?>"><?= $i?></a></li>
-                          <?php endfor; ?>
-                          <?php if ($paging->next): ?>
-                            <li><a href="<?=site_url("surat_master/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                          <?php endif; ?>
-                          <?php if ($paging->end_link): ?>
-                            <li><a href="<?=site_url("surat_master/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                          <?php endif; ?>
-                        </ul>
-                      </div>
-                    </div>
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<?php if ($paging->start_link): ?>
+														<li><a href="<?=site_url("surat_master/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->prev): ?>
+														<li><a href="<?=site_url("surat_master/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+													<?php endif; ?>
+													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("surat_master/index/$i/$o")?>"><?= $i?></a></li>
+													<?php endfor; ?>
+													<?php if ($paging->next): ?>
+														<li><a href="<?=site_url("surat_master/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->end_link): ?>
+														<li><a href="<?=site_url("surat_master/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+													<?php endif; ?>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -168,3 +168,5 @@
 		</div>
 	</section>
 </div>
+
+<?php $this->load->view('global/confirm_delete');?>
