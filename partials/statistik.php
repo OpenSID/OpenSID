@@ -36,7 +36,7 @@ $(function () {
                 data: [
 						<?php  foreach($stat as $data){?>
 							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
-								['<?= $data['nama']?>',<?= $data['jumlah']?>],
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
                 ]
@@ -75,7 +75,7 @@ $(function () {
                 data: [
 						<?php  foreach($stat as $data){?>
 							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
-								['<?= $data['nama']?>',<?= $data['jumlah']?>],
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
                 ]
@@ -85,10 +85,33 @@ $(function () {
 
 });
 </script>
+<script type="text/javascript">
+	function tampilkan_nol(tampilkan=false)
+	{
+		if (tampilkan)
+		{
+			$(".nol").parent().show();
+		} 
+		else 
+		{
+			$(".nol").parent().hide();
+		}
+	}
+	function toggle_tampilkan()
+	{
+		$('#showData').click();
+		tampilkan_nol(status_tampilkan);
+		status_tampilkan = !status_tampilkan;
+		if (status_tampilkan) $('#tampilkan').text('Tampilkan Nol');
+		else $('#tampilkan').text('Sembunyikan Nol');
+	}
+	var status_tampilkan = true;
+  $(document).ready(function () {
+  	tampilkan_nol(false);
+  });	
+</script>
+
 <?php }?>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 <style>
 	tr.lebih{
 		display:none;
@@ -99,93 +122,89 @@ $(function(){
 	$('#showData').click(function(){
 		$('tr.lebih').show();
 		$('#showData').hide();
+		tampilkan_nol(false);
 	});
 });
 </script>
-<?php
-
-	echo "
-	<div class=\"single_page_area\">
-		<div class=\"single_page_area\">
-			<h2 class=\"post_titile\">Grafik Data Demografi Berdasar ". $heading."</h2>
-			<div class=\"box-tools pull-right\">
-				<div class=\"btn-group-xs\">";
-					$strC = ($tipe==1)? "btn-primary":"btn-default";
-					echo "<a href=\"".site_url("first/statistik/$st/1")."\" class=\"btn ".$strC." btn-xs\">Bar Graph</a>";
-					$strC = ($tipe==0)? "btn-primary":"btn-default";
-					echo "<a href=\"".site_url("first/statistik/$st/0")."\" class=\"btn ".$strC." btn-xs\">Pie Cart</a>
-				</div>
-			</div>
-		</div>
-		<div class=\"box-body\">
-			<div id=\"container\"></div>
-			<div id=\"contentpane\">
-				<div class=\"ui-layout-north panel top\"></div>
-			</div>
+<div class="single_page_area">
+	<h2 class="post_titile">Grafik Data Demografi Berdasar <?= $heading ?></h2>
+	<div class="box-tools pull-right">
+		<div class="btn-group-xs">
+			<?php $strC = ($tipe==1)? "btn-primary":"btn-default"; ?>
+			<a href="<?= site_url("first/statistik/$st/1") ?>" class="btn <?= $strC ?> btn-xs">Bar Graph</a>
+			<?php $strC = ($tipe==0)? "btn-primary":"btn-default";?>
+			<a href="<?= site_url("first/statistik/$st/0") ?>" class="btn <?= $strC ?> btn-xs">Pie Cart</a>
 		</div>
 	</div>
+</div>
+<div class="box-body">
+	<div id="container"></div>
+	<div id="contentpane">
+		<div class="ui-layout-north panel top"></div>
+	</div>
+</div>
 
-	<div class=\"single_page_area\">
-		<div class=\"\">
-			<h2 class=\"post_titile\">Tabel ". $heading."</h2>
-		</div>
-		<div class=\"box-body\">
-			<div class=\"table-responsive\">
-			<table class=\"table table-striped\">
-				<thead>
-				<tr>
-					<th rowspan=\"2\" style='text-align:center'>No</th>
-					<th rowspan=\"2\" style='text-align:center;'>Kelompok</th>
-					<th colspan=\"2\" style='text-align:center'>Jumlah</th>";
-          if($jenis_laporan == 'penduduk'){
-            echo "<th colspan=\"2\" style='text-align:center'>Laki-laki</th>
-            <th colspan=\"2\" style='text-align:center'>Perempuan</th>";
-          }
-					echo "
-        </tr>
-				<tr>
-					<th style='text-align:center'>n</th><th style='text-align:center'>%</th>";
-          if($jenis_laporan == 'penduduk'){
-  					echo "<th style='text-align:center'>n</th><th style='text-align:center'>%</th>
-  					<th style='text-align:center'>n</th><th style='text-align:center'>%</th>";
-          }
-          echo "
-				</tr>
-				</thead>
-				<tbody>";
-				$i=0; $l=0; $p=0;
-				$hide="";$h=0;
-				$jm = count($stat);
-				foreach($stat as $data){
-					$h++;
-					if($h > 10 AND $jm > 11)$hide="lebih";
-					echo "<tr class=\"$hide\">
-						<td class=\"angka\" style='text-align:center'>".$data['no']."</td>
-						<td>".$data['nama']."</td>
-						<td class=\"angka\" style='text-align:center'>".$data['jumlah']."</td>
-						<td class=\"angka\" style='text-align:center'>".$data['persen']."</td>";
-          if($jenis_laporan == 'penduduk'){
-            echo "<td class=\"angka\" style='text-align:center'>".$data['laki']."</td>
-            <td class=\"angka\" style='text-align:center'>".$data['persen1']."</td>
-            <td class=\"angka\" style='text-align:center'>".$data['perempuan']."</td>
-            <td class=\"angka\" style='text-align:center'>".$data['persen2']."</td>";
-          }
-					echo "</tr>";
-					$i=$i+$data['jumlah'];
-					$l=$l+$data['laki']; $p=$p+$data['perempuan'];
-				}
-				echo "
-				</tbody>
-			</table>";
-			if($hide=="lebih"){
-				echo "
-				<div style='margin-left:20px;'>
+<div class="box-header with-border">
+	<h2 class="post_titile">Tabel <?= $heading ?></h2>
+</div>
+<div class="box-body">
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th rowspan="2">Kode</th>
+				<th rowspan="2" style='text-align:left;'>Kelompok</th>
+				<th colspan="2">Jumlah</th>
+				<?php if ($jenis_laporan == 'penduduk'):?>
+					<th colspan="2">Laki-laki</th>
+					<th colspan="2">Perempuan</th>
+				<?php endif;?>
+			</tr>
+			<tr>
+				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+				<?php if ($jenis_laporan == 'penduduk'):?>
+					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+				<?php endif;?>
+			</tr>
+			</thead>
+			<tbody>
+			<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
+			<?php foreach ($stat as $data):?>
+				<?php $jm1++; if (1):?>
+					<?php $h++; if ($h > 12 AND $jm > 10): $hide="lebih"; ?>
+					<?php endif;?>
+					<tr class="<?=$hide?>">
+						<td class="angka">
+							<?php if ($jm1 > $jm - 2):?>
+								<?=$data['no']?>
+							<?php else:?>
+								<?=$h?>
+							<?php endif;?>
+						</td>
+						<td><?=$data['nama']?></td>
+						<td class="angka <?php ($jm1 <= $jm - 2) and ($data['jumlah'] == 0) and print('nol')?>"><?=$data['jumlah']?></td>
+						<td class="angka"><?=$data['persen']?></td>
+						<?php if ($jenis_laporan == 'penduduk'):?>
+							<td class="angka"><?=$data['laki']?></td>
+							<td class="angka"><?=$data['persen1']?></td>
+							<td class="angka"><?=$data['perempuan']?></td>
+							<td class="angka"><?=$data['persen2']?></td>
+						<?php endif;?>
+					</tr>
+					<?php $i += $data['jumlah'];?>
+					<?php $l += $data['laki']; $p += $data['perempuan'];?>
+				<?php endif;?>
+			<?php endforeach;?>
+			</tbody>
+		</table>
+		<?php if($hide=="lebih"):?>
+			<div style='float: left;'>
 				<button class='uibutton special' id='showData'>Selengkapnya...</button>
 				</div>
-				";
-			}
-
-		echo "
+		<?php endif;?>
+		<div style="float: right;">
+			<button id='tampilkan' onclick="toggle_tampilkan();" class="uibutton special">Tampilkan Nol</button>
 		</div>
-		</div>
-	</div>";
+	</div>
+</div>
