@@ -64,5 +64,7 @@ Catatan pra rilis versi 4.1.9:
 62. Implementasi ajax untuk mengambil Jadwal Sholat.
 63. Tampilkan Status COVID-19 di Desa.
 64. Perbaiki Gagal Login Layanan Mandiri [bux-fix]
+65. Penyesuaian dan Perbaikan Script Saat Menampilkan Jenis Widget Statis (2)
+66. Perbaikan Link Detait Widget Statistik Dari 4 (Pekerjaan) Menjadi 1 (Jenis Kelamin)
 
 ****************************************************************
