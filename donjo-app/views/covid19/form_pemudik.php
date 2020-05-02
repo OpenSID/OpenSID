@@ -45,7 +45,7 @@
 													Tambah Penduduk Non Domisili
 												</a>
 												<span id="data_h_plus_msg" class="help-block">
-													Untuk penduduk pendatang/tidak tetap. Masukkan data di sini.
+													<code>Untuk penduduk pendatang/tidak tetap. Masukkan data di sini.</code>
 												</span>
 											</div>
 										</div>

@@ -73,10 +73,20 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('nav', $nav);
 
 		$data['form_action'] = site_url("covid19/add_pemudik");
-		$data['form_action_penduduk'] = site_url("penduduk/insert");
-		$data['callback_url'] = "covid19/form_pemudik";
+		$data['form_action_penduduk'] = site_url("covid19/insert_penduduk");
 		$this->load->view('covid19/form_pemudik', $data);
 		$this->load->view('footer');
+	}
+
+	public function insert_penduduk()
+	{
+		$callback_url = $_POST['callback_url'];
+		unset($_POST['callback_url']);
+
+		$id = $this->penduduk_model->insert();
+		if ($_SESSION['success'] == -1)
+			$_SESSION['dari_internal'] = true;
+		redirect("covid19/form_pemudik");
 	}
 
 	public function add_pemudik()
@@ -122,7 +132,6 @@ class Covid19 extends Admin_Controller {
 		$data['terdata']['terdata_info'] = $data['individu']['nama'];
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($data['terdata']['id_terdata']);
-		//$data['penduduk']['tanggallahir'] = tgl_indo_in($data['penduduk']['tanggallahir']);
 		$this->session->set_userdata('nik_lama', $data['penduduk']['nik']);
 
 		$data['dusun'] = $this->wilayah_model->list_dusun();
@@ -131,13 +140,20 @@ class Covid19 extends Admin_Controller {
 		$data['agama'] = $this->penduduk_model->list_agama();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 
-		$data['form_action_penduduk'] = site_url("penduduk/update/1/0/".$data['terdata']['id_terdata']);
-		$data['callback_url'] = "covid19/detil_pemudik/$id";
+		$data['form_action_penduduk'] = site_url("covid19/update_penduduk/".$data['terdata']['id_terdata']."/".$id);
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('covid19/detil_pemudik', $data);
 		$this->load->view('footer');
+	}
+
+	public function update_penduduk($id_pend, $id_pemudik)
+	{		
+		$this->penduduk_model->update($id_pend);
+		if ($_SESSION['success'] == -1)
+			$_SESSION['dari_internal'] = true;
+		redirect("covid19/detil_pemudik/$id_pemudik");
 	}
 
 	public function unduhsheet()

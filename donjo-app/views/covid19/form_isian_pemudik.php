@@ -4,8 +4,7 @@
 		//https://momentjs.com/docs/#/parsing/string-format/
 		$('#tanggal_tiba').datetimepicker(
 		{
-			format: 'YYYY-MM-DD',
-			maxDate: moment(),
+			format: 'YYYY-MM-DD'
 		});
 	});
 </script>

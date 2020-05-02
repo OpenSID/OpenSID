@@ -1,6 +1,4 @@
 <form id="form_penduduk" action="<?= $form_action_penduduk ?>" method="POST">
-	<input type="hidden" name="callback_url" value="<?= $callback_url ?>"/>
-
 	<div class="col-sm-6">
 		<div class="form-group">
 	    <label for="nik">NIK</label>

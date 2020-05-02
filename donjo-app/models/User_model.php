@@ -822,6 +822,10 @@ class User_model extends CI_Model {
 				'covid19' => array('b','u','h'),
 				// statistik
 				'statistik' => array('b','u'),
+				// notifikasi
+				'notif' => array('b','u'),
+				// wilayah
+				'wilayah' => array('b')
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller[0]]);
