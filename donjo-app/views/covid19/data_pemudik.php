@@ -7,7 +7,7 @@
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Data Pemudik Saat Pandemi Covid-19</h1>
+		<h1>Daftar Pemudik Saat Pandemi Covid-19</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Data Pemudik</li>
@@ -25,25 +25,6 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="table-responsive">
-									<table class="table table-bordered table-striped table-hover">
-										<tbody>
-											<tr>
-												<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Nama Data</td>
-												<td> : Covid-19</td>
-											</tr>
-											<tr>
-												<td style="padding-top : 10px;padding-bottom : 10px;" >Sasaran Terdata</td>
-												<td> : Penduduk</td>
-											</tr>
-											<tr>
-												<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
-												<td> : Pemudik</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
