@@ -17,7 +17,7 @@ if ($w_cos):
 		if ($data["jenis_widget"] == 1):
 			include("donjo-app/views/widgets/".$widget);
 		elseif ($data["jenis_widget"] == 2):
-			include($data['isi']);
+			include($widget);
 		else: ?>
 			<div class="box box-primary box-solid">
 				<div class="box-header">

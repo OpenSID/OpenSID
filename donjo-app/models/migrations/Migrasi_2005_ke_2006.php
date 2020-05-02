@@ -12,7 +12,8 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		rename('desa/upload/widget', 'desa/upload/widgets');
 		// Arahkan semua widget statis ubahan desa ke folder desa/widgets
 		$list_widgets = $this->db->where('jenis_widget', 2)->get('widget')->result_array();
-		foreach ($list_widgets as $widgets) {
+		foreach ($list_widgets as $widgets) 
+		{
 			$ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']); // Untuk versi 20.04-pasca ke atas
 			$cek = explode('/', $ganti); // Untuk versi 20.04 ke bawah
 			if ($cek[0] !== 'desa' AND $cek[1] === NULL)
