@@ -9,6 +9,8 @@ class Covid19 extends Admin_Controller {
 		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
+		$this->load->model('wilayah_model');
+		$this->load->model('penduduk_model');
 
 		$this->modul_ini = 206;
 	}
@@ -58,6 +60,12 @@ class Covid19 extends Admin_Controller {
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
 
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
+		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+
 
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
@@ -65,6 +73,8 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('nav', $nav);
 
 		$data['form_action'] = site_url("covid19/add_pemudik");
+		$data['form_action_penduduk'] = site_url("penduduk/insert");
+		$data['callback_url'] = "covid19/form_pemudik";
 		$this->load->view('covid19/form_pemudik', $data);
 		$this->load->view('footer');
 	}
@@ -102,8 +112,7 @@ class Covid19 extends Admin_Controller {
 	{
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		
 		$data['terdata'] = $this->covid19_model->get_pemudik_by_id($id);
 		$data['individu'] = $this->covid19_model->get_penduduk_by_id($data['terdata']['id_terdata']);
 
@@ -112,6 +121,21 @@ class Covid19 extends Admin_Controller {
 		$data['terdata']['terdata_nama'] = $data['individu']['nik'];
 		$data['terdata']['terdata_info'] = $data['individu']['nama'];
 
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($data['terdata']['id_terdata']);
+		//$data['penduduk']['tanggallahir'] = tgl_indo_in($data['penduduk']['tanggallahir']);
+		$this->session->set_userdata('nik_lama', $data['penduduk']['nik']);
+
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
+		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+
+		$data['form_action_penduduk'] = site_url("penduduk/update/1/0/".$data['terdata']['id_terdata']);
+		$data['callback_url'] = "covid19/detil_pemudik/$id";
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view('covid19/detil_pemudik', $data);
 		$this->load->view('footer');
 	}

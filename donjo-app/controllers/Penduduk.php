@@ -391,6 +391,9 @@ class Penduduk extends Admin_Controller {
 
 	public function insert()
 	{
+		$callback_url = $_POST['callback_url'];
+		unset($_POST['callback_url']);
+
 		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1)
 		{
@@ -399,12 +402,15 @@ class Penduduk extends Admin_Controller {
 		}
 		else
 		{
-			redirect("penduduk/detail/1/0/$id");
+			isset($callback_url) ? redirect($callback_url) : redirect("penduduk/detail/1/0/$id");
 		}
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
-	{
+	{		
+		$callback_url = $_POST['callback_url'];
+		unset($_POST['callback_url']);
+
 		$this->penduduk_model->update($id);
 		if ($_SESSION['success'] == -1)
 		{
@@ -413,7 +419,7 @@ class Penduduk extends Admin_Controller {
 		}
 		else
 		{
-			redirect("penduduk/detail/1/0/$id");
+			isset($callback_url) ? redirect($callback_url) : redirect("penduduk/detail/1/0/$id");
 		}
 	}
 

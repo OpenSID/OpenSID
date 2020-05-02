@@ -13,6 +13,12 @@
 				<div class="box box-info">
           <div class="box-header with-border">
 						<a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Pemudik</a>
+            <?php if ($penduduk['id_status'] === '2' OR $penduduk['id_status'] === '3'): ?>
+              <a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">
+                <i class="fa fa-edit"></i> 
+                Ubah Data Penduduk Non Domisili
+              </a>
+            <?php endif ?>
 					</div>
 					<div class="box-header with-border">
 						<h3 class="box-title">Detil Pemudik</h3>
@@ -95,3 +101,24 @@
 	</section>
 </div>
 
+<div class='modal fade' id='edit-warga' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+        <h4 class='modal-title' id='myModalLabel'><i class='fa fa-plus text-green'></i> Ubah Penduduk Pendatang / Tidak Tetap</h4>
+      </div>
+      <div class='modal-body'>
+        <div class="row">
+          <?php include("donjo-app/views/covid19/form_isian_penduduk.php"); ?>    
+        </div>
+      </div>
+      <div class='modal-footer'>
+        <button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+        <a class='btn-ok'>
+          <button type="submit" class="btn btn-social btn-flat btn-success btn-sm" onclick="$('#'+'form_penduduk').submit();"><i class='fa fa-trash-o'></i> Simpan</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

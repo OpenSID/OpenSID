@@ -16,11 +16,13 @@
 		<input class="form-control input-sm required" type="text" name="asal_pemudik" id="asal_pemudik" value="<?= $asal_mudik?>" placeholder="Kota">
 	</div>
 
-	<div class="col-sm-4 input-group input-group-sm date">
-		<div class="input-group-addon">
-	        <i class="fa fa-calendar"></i>
-	    </div>
-	    <input type="text" class="form-control input-sm pull-right required" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">    
+	<div class="col-sm-4">
+		<div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+		        <i class="fa fa-calendar"></i>
+		    </div>
+		    <input type="text" class="form-control input-sm pull-right required" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>"> 
+	    </div>  
 	</div>
 </div>
 
