@@ -53,17 +53,17 @@
 										<div class="form-group" >
 											<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 											<div class="col-sm-8">
-												<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" >
-													<option value="">-- Silakan Masukan NIK / Nama--</option>
+												<select class="form-control select2" id="terdata" name="terdata" onchange="formAction('main')" style="width: 100%;">
+													<option value="">-- Silakan Masukan NIK / Nama --</option>
 													<?php foreach ($list_penduduk as $item):
 														if (strlen($item["id"])>0): ?>
-															<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+															<option value="<?= $item['id']?>" <?php selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 														<?php endif;
 													endforeach; ?>
 												</select>
-												<small id="data_h_plus_msg" class="form-text text-muted">
-													Untuk warga pendatang/tidak tetap. Masukkan data terlebih dahulu di menu 'Kependudukan' => 'Penduduk' => '+Penduduk Domisili' dengan pilihan Status Penduduk 'Tidak Tetap'/'Pendatang'
-												</small>
+												<span id="data_h_plus_msg" class="help-block">
+													<code>Untuk warga pendatang/tidak tetap. Masukkan data terlebih dahulu di menu 'Kependudukan' => 'Penduduk' => '+Penduduk Domisili' dengan pilihan Status Penduduk 'Tidak Tetap'/'Pendatang'</code>
+												</span>
 											</div>
 										</div>
 										
