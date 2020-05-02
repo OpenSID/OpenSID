@@ -1,0 +1,5 @@
+Catatan pasca rilis versi 4.1.9:
+
+1. Kini data statistik support menampilkan/menyembunyikan nilai 0.
+
+****************************************************************
