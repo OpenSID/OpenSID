@@ -3,6 +3,8 @@ class Migrasi_2005_ke_2006 extends CI_model {
 
 	public function up()
 	{
+		$this->grup_akses_covid19();
+
 		// Ubah nama kode status penduduk
 		$this->db->where('id', 2)
 			->update('tweb_penduduk_status', array('nama' => 'TIDAK TETAP'));
@@ -23,4 +25,23 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		}
 	}
 
+	private function grup_akses_covid19()
+	{
+		// Menambahkan menu 'Group / Hak Akses' covid19 table 'user_grup'
+		$data[] = array(
+			'id'=>'5',
+			'nama' => 'Satgas Covid-19',
+		);
+
+    foreach ($data as $modul)
+    {
+			$sql = $this->db->insert_string('user_grup', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+				id = VALUES(id),
+				nama = VALUES(nama)";
+			$this->db->query($sql);
+    }
+
+    
+	}
 }
