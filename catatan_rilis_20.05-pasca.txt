@@ -1,0 +1,11 @@
+Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
+
+1. #2982: Tutup celah XSS di Layanan Mandiri > Kotak Pesan [security-fix].
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+
