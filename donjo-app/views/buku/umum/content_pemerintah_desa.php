@@ -1,0 +1,129 @@
+<style type="text/css">
+	td.nowrap { white-space: nowrap; }
+</style>
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
+
+<div class="box box-info">
+	<div class="box-header with-border">
+		<a href="<?= site_url("{$this->controller}/dialog_cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print "></i> Cetak</a>
+		<a href="<?= site_url("{$this->controller}/dialog_unduh/$o")?>" title="Unduh Data" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
+	</div>
+	<div class="box-body">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+					<form id="mainform" name="mainform" action="" method="post">
+						<div class="row">
+							<div class="col-sm-6">
+								<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?= site_url('pengurus/filter')?>')">
+									<option value="">Semua</option>
+									<option value="1" <?php if ($filter==1 ): ?>selected<?php endif ?>>Aktif</option>
+									<option value="2" <?php if ($filter==2 ): ?>selected<?php endif ?>>Tidak Aktif</option>
+								</select>
+							</div>
+							<div class="col-sm-6">
+								<div class="box-tools">
+									<div class="input-group input-group-sm pull-right">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?= site_url('pengurus/search')?>');$('#'+'mainform').submit();}">
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("pengurus/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="table-responsive">
+									<table  class="table table-bordered table-striped dataTable table-hover">
+										<thead class="bg-gray disabled color-palette">
+											<tr>
+												<th>No</th>
+												<th class="text-center">Foto</th>
+												<th>Nama, NIP/NIAP, NIK</th>
+												<th>Tempat, Tanggal Lahir</th>
+												<th>Jenis Kelamin</th>
+												<th>Agama</th>
+												<th>Pangkat / Golongan</th>
+												<th>Jabatan</th>
+												<th>Pendidikan Terakhir</th>
+												<th>Nomor SK Pengangkatan</th>
+												<th>Tanggal SK Pengangkatan</th>
+												<th>Nomor SK Pemberhentian</th>
+												<th>Tanggal SK Pemberhentian</th>
+												<th>Masa/Periode Jabatan</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php foreach ($main as $data): ?>
+												<tr>
+													<td><?=$data['no']?></td>
+													<td class="text-center">
+														<div class="user-panel">
+															<div class="image2">
+																<?php if ($data['foto']): ?>
+																	<img src="<?=AmbilFoto($data['foto'])?>" class="img-circle" alt="User Image"/>
+																<?php else: ?>
+																	<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
+																<?php endif ?>
+															</div>
+														</div>
+													</td>
+													<td class="nowrap">
+														<?= $data['nama']?>
+														<p class='text-blue'>
+															<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
+																<i>NIP :<?=$data['pamong_nip']?></i></br>
+															<?php else: ?>
+																<i>NIAP :<?=$data['pamong_niap']?></i></br>
+															<?php endif; ?>
+															<i>NIK :<?=$data['nik']?></i>
+														</p>
+													</td>
+
+													<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
+													<td><?= $data['sex']?></td>
+													<td><?= $data['agama']?></td>
+													<td><?= $data['pamong_pangkat']?></td>
+													<td><?= $data['jabatan']?></td>
+													<td><?= $data['pendidikan_kk']?></td>
+													<td><?= $data['pamong_nosk']?></td>
+													<td><?= tgl_indo_out($data['pamong_tglsk'])?></td>
+													<td><?= $data['pamong_nohenti']?></td>
+													<td><?= tgl_indo_out($data['pamong_tglhenti'])?></td>
+													<td><?= $data['pamong_masajab']?></td>
+													<td>
+														<?php if ($data['pamong_status'] == '1'): ?>
+															<div title="Aktif">
+																<center><i class='fa fa-unlock fa-lg text-yellow'></i></center>
+															</div>
+														<?php else: ?>
+															<div title="Tidak Aktif">
+																<center><i class='fa fa-lock fa-lg text-green'></i></center>
+															</div>
+														<?php endif; ?>
+													</td>
+												</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
