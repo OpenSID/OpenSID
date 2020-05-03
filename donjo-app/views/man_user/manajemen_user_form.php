@@ -42,13 +42,13 @@
 								<label class="col-sm-3 control-label" for="group">Group</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
-										<?php if ($user['id_grup'] != '1'): ?>
-											<option <?php selected($user['id_grup'], '5'); ?> value="5">Satgas Covid-19</option>
-											<option <?php selected($user['id_grup'], '4'); ?> value="4">Kontributor</option>
-											<option <?php selected($user['id_grup'], '3'); ?> value="3">Redaksi</option>
-											<option <?php selected($user['id_grup'], '4'); ?> value="2">Operator</option>
+										<?php if ($user['id_grup'] == '1'): ?>
+											<option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
+										<?php else: ?>
+											<?php foreach ($user_group as $item): ?>
+												<option <?php selected($user['id_grup'], $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
+											<?php endforeach ?>
 										<?php endif ?>
-										<option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
 									</select>
 								</div>
 							</div>

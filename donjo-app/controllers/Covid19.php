@@ -9,6 +9,7 @@ class Covid19 extends Admin_Controller {
 		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
+		$this->load->model('referensi_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('penduduk_model');
 
@@ -63,8 +64,8 @@ class Covid19 extends Admin_Controller {
 		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+		$data['agama'] = $this->referensi_model->list_data("tweb_penduduk_agama");
+		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
 
 
 		$nav['act'] = 206;
@@ -137,8 +138,9 @@ class Covid19 extends Admin_Controller {
 		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+		$data['agama'] = $this->referensi_model->list_data("tweb_penduduk_agama");
+		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
+
 
 		$data['form_action_penduduk'] = site_url("covid19/update_penduduk/".$data['terdata']['id_terdata']."/".$id);
 
