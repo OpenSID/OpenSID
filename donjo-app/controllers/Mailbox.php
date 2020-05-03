@@ -80,11 +80,10 @@ class Mailbox extends Admin_Controller {
 
 	public function kirim_pesan()
 	{
-		$data = $this->input->post();
-		$data['tipe'] = 2;
-		$data['status'] = 2;
-		unset($data['nik']);
-		$this->mailbox_model->insert($data);
+		$post = $this->input->post();
+		$post['tipe'] = 2;
+		$post['status'] = 2;
+		$this->mailbox_model->insert($post);
 		redirect('mailbox');
 	}
 
@@ -150,39 +149,6 @@ class Mailbox extends Admin_Controller {
 		$page = $this->input->get('page');
 		$list_pendaftar_mandiri = $this->mandiri_model->list_data_ajax($cari, $page);
 		echo json_encode($list_pendaftar_mandiri);
-	}
-
-	/**
-	 * Kirim mailboxan pengguna layanan mandiri
-	 *
-	 * Diakses dari web untuk pengguna layanan mandiri
-	 * Tidak memerlukan login pengguna modul admin
-	 */
-	public function insert()
-	{
-		if ($_SESSION['mandiri'] != 1)
-		{
-			redirect('first');
-		}
-
-		$_SESSION['success'] = 1;
-		$res = $this->mailbox_model->insert();
-		$data['data_config'] = $this->config_model->get_data();
-		// cek kalau berhasil disimpan dalam database
-		if ($res)
-		{
-			$this->session->set_flashdata('flash_message', 'mailboxan anda telah berhasil dikirim dan akan segera diproses.');
-		}
-		else
-		{
-			$_SESSION['post'] = $_POST;
-			if (!empty($_SESSION['validation_error']))
-				$this->session->set_flashdata('flash_message', validation_errors());
-			else
-				$this->session->set_flashdata('flash_message', 'mailboxan anda gagal dikirim. Silakan ulangi lagi.');
-		}
-
-		redirect("first/mandiri/1/3");
 	}
 
 	public function archive($kat = 1, $p = 1, $o = 0, $id = '')
