@@ -125,6 +125,11 @@
 		}
 	}
 
+	function compared_return($a, $b, $retval=null)
+	{
+		echo (($a == $b) ? $retval : "");
+	}
+
 	function date_is_empty($tgl) {
 		return (is_null($tgl) || substr($tgl, 0, 10)=='0000-00-00');
 	}
