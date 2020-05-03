@@ -19,8 +19,9 @@
 			<label for="sex">Jenis Kelamin</label>
 			<select class="form-control input-sm required" name="sex" >
 				<option value="">-- Pilih Jenis Kelamin --</option>
-				<option <?php selected($penduduk['id_sex'], '1'); ?> value="1">Laki-Laki</option>
-				<option <?php selected($penduduk['id_sex'], '2'); ?> value="2">Perempuan</option>
+				<?php foreach ($jenis_kelamin as $data): ?>
+					<option <?php selected($penduduk['id_sex'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
+				<?php endforeach;?>
 			</select>
 		</div>
 	</div>
@@ -72,8 +73,11 @@
 		<div class="form-group">
 			<label for="status">Status Penduduk </label>
 			<select class="form-control input-sm required" name="status">
-				<option <?php selected($penduduk['id_status'], '2'); ?> value="2">Tidak Tetap</option>
-				<option <?php selected($penduduk['id_status'], '3'); ?> value="3">Pendatang</option>
+				<?php foreach ($status_penduduk as $data): ?>
+					<?php if ($data['id'] != '1'): ?>
+						<option <?php selected($penduduk['id_status'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
+					<?php endif;?>
+				<?php endforeach;?>
 			</select>
 		</div>
 	</div>

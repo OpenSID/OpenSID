@@ -66,7 +66,8 @@ class Covid19 extends Admin_Controller {
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->referensi_model->list_data("tweb_penduduk_agama");
 		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
-
+		$data['jenis_kelamin'] = $this->referensi_model->list_data("tweb_penduduk_sex");
+		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
 
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
@@ -140,7 +141,8 @@ class Covid19 extends Admin_Controller {
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->referensi_model->list_data("tweb_penduduk_agama");
 		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
-
+		$data['jenis_kelamin'] = $this->referensi_model->list_data("tweb_penduduk_sex");
+		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
 
 		$data['form_action_penduduk'] = site_url("covid19/update_penduduk/".$data['terdata']['id_terdata']."/".$id);
 
