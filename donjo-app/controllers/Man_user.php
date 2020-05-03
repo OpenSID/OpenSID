@@ -7,6 +7,7 @@ class Man_user extends Admin_Controller {
 		parent::__construct();
 		session_start();
 		$this->load->model('header_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 44;
 	}
@@ -40,6 +41,8 @@ class Man_user extends Admin_Controller {
 		$data['keyword'] = $this->user_model->autocomplete();
 		$header = $this->header_model->get_data();
 
+		$data['user_group'] = $this->referensi_model->list_data("user_grup");
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('man_user/manajemen_user_table', $data);
@@ -62,6 +65,7 @@ class Man_user extends Admin_Controller {
 			$data['form_action'] = site_url("man_user/insert");
 		}
 
+		$data['user_group'] = $this->referensi_model->list_data("user_grup");
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);

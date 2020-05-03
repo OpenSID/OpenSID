@@ -560,7 +560,7 @@
 		$data['nama_ibu'] = nama($data['nama_ibu']);
 		$data['telepon'] = preg_replace('/[^0-9 \-\+\.]/', '', strip_tags($data['telepon']));
 		$data['alamat_sebelumnya'] = strip_tags($data['alamat_sebelumnya']);
-		$data['alamat_sekarang'] = strip_tags($data['alamat_sebelumnya']);
+		$data['alamat_sekarang'] = strip_tags($data['alamat_sekarang']);
 		$data['akta_perkawinan'] = nomor_surat_keputusan($data['akta_perkawinan']);
 		$data['akta_perceraian'] = nomor_surat_keputusan($data['akta_perceraian']);
 
@@ -935,7 +935,7 @@
 
 	public function get_penduduk($id=0)
 	{
-		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
+		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar, polis.nama AS asuransi,
 			(CASE when u.status_kawin <> 2
 				then k.nama
@@ -1361,7 +1361,7 @@
 			$data[$i]['hidden'] = false;
 
 			// jika dokumen berelasi dengan dokumen kepala kk
-			if (isset($data[$i]['id_parent'])) 
+			if (isset($data[$i]['id_parent']))
 				$data[$i]['hidden'] = true;
 		}
 		return $data;
