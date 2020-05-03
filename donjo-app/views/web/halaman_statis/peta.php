@@ -63,7 +63,7 @@
     L.control.scale().addTo(mymap);
 
     //loading Peta Covid - data geoJSON dari BNPB- https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
-    <?php if(config_item('covid_peta')) : ?>
+    <?php if (config_item('covid_peta')) : ?>
     $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
     	// add GeoJSON layer to the map once the file is loaded
     	var datalayer = L.geoJson(data ,{
