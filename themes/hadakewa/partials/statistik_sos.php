@@ -2,6 +2,15 @@
 
 <script type="text/javascript">
 	let chart;
+	const rawData = Object.values(<?= json_encode($main) ?>);
+	let categories = [];
+	let data = [];
+
+	for (const tempData of rawData) {
+		categories.push(tempData.nama);
+		data.push(tempData.jumlah);
+	}
+
 	$(document).ready(function () {
 		chart = new Highcharts.Chart({
 			chart: {
@@ -13,11 +22,7 @@
 				title: {
 					text: 'Kelas Sosial'
 				},
-				categories: [ 
-					<?php foreach($main as $data) {
-						echo "'$data[nama]',";
-					} ?>
-				]
+				categories: categories
 			},
 			yAxis: {
 				title: {
@@ -52,12 +57,7 @@
 			},
 			series: [{
 				name: 'Populasi',
-				data: [ 
-					<?php foreach($main as $data) {
-						echo "'$data[jumlah]',";
-					} ?>
-				]
-
+				data: data
 			}]
 		});
 
