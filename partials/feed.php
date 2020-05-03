@@ -20,11 +20,8 @@
                         <div class="single_page_content">
                             <div class="post">
                                 <div style="text-align: justify;">
-                                    <?php
-                                    $pecah = explode('[...]', $item['DESCRIPTION']);
-                                    $pecah2 = str_replace("=","",$pecah[0]);
-                                    ?>
-                                    <?= $data['DESCRIPTION'] ?> ...
+                                    <?php $deskripsi = substr($data['DESCRIPTION'], 0, 450); ?>
+                                    <?= $deskripsi ?> ...
                                     <a href="<?= $data['LINK'] ?>" rel="noopener noreferrer" target="_blank" >
                                         <button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button>
                                     </a>
