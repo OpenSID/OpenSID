@@ -85,9 +85,7 @@
 	<div class="col-sm-12">
 		<div class="form-group">
 			<label for="alamat">Alamat</label>
-			<textarea name="alamat_sekarang" class="form-control input-sm" rows="2">
-				<?= strtoupper($penduduk['alamat_sekarang'])?>
-			</textarea>
+			<textarea name="alamat_sekarang" class="form-control input-sm" rows="2"><?= strtoupper($penduduk['alamat_sekarang'])?></textarea>
 		</div>
 	</div>
 
@@ -108,7 +106,7 @@
 			<label>RW</label>
 			<select
 			id="rw"
-			class="form-control input-sm required" 
+			class="form-control input-sm required"
 			name="rw"
 			data-source="<?= site_url()?>wilayah/list_rw/"
 			data-valueKey="rw"
@@ -144,7 +142,7 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
-		$("#dusun").change(function() 
+		$("#dusun").change(function()
 		{
 			let dusun = $(this).val();
 			$('#isi_rt').hide();
@@ -152,7 +150,7 @@
 			select_options(rw, urlencode(dusun));
 		});
 
-		$("#rw").change(function() 
+		$("#rw").change(function()
 		{
 			let dusun = $("#dusun").val();
 			let rw = $(this).val();
@@ -170,7 +168,7 @@
 
 		$("#form_penduduk").validate(
 		{
-			submitHandler: function(form) 
+			submitHandler: function(form)
 			{
 				form.submit();
 			}

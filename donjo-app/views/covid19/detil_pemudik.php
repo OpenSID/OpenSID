@@ -16,7 +16,7 @@
             <a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Pemudik</a>
             <?php if ($penduduk['id_status'] === '2' OR $penduduk['id_status'] === '3'): ?>
               <a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">
-                <i class="fa fa-edit"></i> 
+                <i class="fa fa-edit"></i>
                 Ubah Data Penduduk Non Domisili
               </a>
             <?php endif ?>
@@ -106,7 +106,7 @@
 
       <div class='modal-body'>
         <div class="row">
-          <?php include("donjo-app/views/covid19/form_isian_penduduk.php"); ?>    
+          <?php include("donjo-app/views/covid19/form_isian_penduduk.php"); ?>
         </div>
       </div>
 

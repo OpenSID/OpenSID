@@ -704,7 +704,7 @@
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-		
+
     // Jangan update nik apabila tidak berubah
     if ($data['nik_lama'] == $data['nik'])
     {
@@ -1361,7 +1361,7 @@
 			$data[$i]['hidden'] = false;
 
 			// jika dokumen berelasi dengan dokumen kepala kk
-			if (isset($data[$i]['id_parent'])) 
+			if (isset($data[$i]['id_parent']))
 				$data[$i]['hidden'] = true;
 		}
 		return $data;
