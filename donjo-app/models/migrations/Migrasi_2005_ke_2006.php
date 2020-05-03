@@ -23,6 +23,8 @@ class Migrasi_2005_ke_2006 extends CI_model {
 				$this->db->where('id', $widgets['id'])->update('widget', array('isi' => 'desa/widgets/'.$widgets['isi']));
 			}
 		}
+  	// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		$this->db->query("ALTER TABLE outbox MODIFY COLUMN CreatorID text NULL");
 	}
 
 	private function grup_akses_covid19()
