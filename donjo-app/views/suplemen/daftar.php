@@ -30,7 +30,7 @@
 														<table class="table table-bordered table-striped dataTable table-hover nowrap">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th>#</th>
+																	<th>No</th>
 																	<th>Aksi</th>
 																	<th>Nama Data</th>
 																	<th>Sasaran</th>
