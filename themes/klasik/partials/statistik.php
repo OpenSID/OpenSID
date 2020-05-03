@@ -35,7 +35,6 @@
 	}
 
 	$(document).ready(function () {
-		console.log(data);
 		tampilkan_nol(false);
 		chart = new Highcharts.Chart({
 			chart: {
