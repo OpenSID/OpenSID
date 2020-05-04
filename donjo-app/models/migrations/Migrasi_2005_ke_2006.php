@@ -15,7 +15,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		rename('desa/upload/widget', 'desa/upload/widgets');
 		// Arahkan semua widget statis ubahan desa ke folder desa/widgets
 		$list_widgets = $this->db->where('jenis_widget', 2)->get('widget')->result_array();
-		foreach ($list_widgets as $widgets) 
+		foreach ($list_widgets as $widgets)
 		{
 			$ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']); // Untuk versi 20.04-pasca ke atas
 			$cek = explode('/', $ganti); // Untuk versi 20.04 ke bawah
@@ -34,7 +34,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		$menu[0] = array(
 			'id'=>'301',
 			'modul' => 'Buku Administrasi Desa',
-			'url' => 'buku',
+			'url' => '',
 			'aktif' => '1',
 			'ikon' => 'fa-paste',
 			'urut' => '6',
@@ -46,7 +46,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		$menu[1] = array(
 			'id'=>'302',
 			'modul' => 'Administrasi Umum',
-			'url' => 'buku/umum',
+			'url' => 'bumindes_umum',
 			'aktif' => '1',
 			'ikon' => 'fa-bookmark',
 			'urut' => '1',
@@ -55,7 +55,55 @@ class Migrasi_2005_ke_2006 extends CI_model {
 			'ikon_kecil' => 'fa fa-bookmark',
 			'parent' => 301
 		);
-		foreach ($menu as $modul) 
+		$menu[2] = array(
+			'id'=>'303',
+			'modul' => 'Administrasi Penduduk',
+			'url' => 'bumindes_penduduk',
+			'aktif' => '1',
+			'ikon' => 'fa-users',
+			'urut' => '2',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-users',
+			'parent' => 301
+		);
+		$menu[3] = array(
+			'id'=>'304',
+			'modul' => 'Administrasi Keuangan',
+			'url' => 'bumindes_keuangan',
+			'aktif' => '1',
+			'ikon' => 'fa-money',
+			'urut' => '3',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-money',
+			'parent' => 301
+		);
+		$menu[4] = array(
+			'id'=>'305',
+			'modul' => 'Administrasi Pembangunan',
+			'url' => 'bumindes_pembangunan',
+			'aktif' => '1',
+			'ikon' => 'fa-university',
+			'urut' => '4',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-university',
+			'parent' => 301
+		);
+		$menu[5] = array(
+			'id'=>'306',
+			'modul' => 'Administrasi Lainnya',
+			'url' => 'bumindes_lain',
+			'aktif' => '1',
+			'ikon' => 'fa-archive',
+			'urut' => '5',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-archive',
+			'parent' => 301
+		);
+		foreach ($menu as $modul)
 		{
 			$sql = $this->db->insert_string('setting_modul', $modul);
 			$sql .= " ON DUPLICATE KEY UPDATE
@@ -72,7 +120,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 			$this->db->query($sql);
 		}
 		// Menu parent Buku Administrasi Desa. END
-		
+
 	}
 
 	private function grup_akses_covid19()
@@ -92,5 +140,5 @@ class Migrasi_2005_ke_2006 extends CI_model {
 			$this->db->query($sql);
 		}
 	}
-	
+
 }

@@ -115,6 +115,11 @@
 		}
 	}
 
+	function compared_return($a, $b, $retval=null)
+	{
+		($a===$b) and print('active');
+	}
+
 	function selected($a, $b, $opt=0)
 	{
 		if ($a == $b)
@@ -123,11 +128,6 @@
 				echo "checked='checked'";
 			else echo "selected='selected'";
 		}
-	}
-
-	function compared_return($a, $b, $retval=null)
-	{
-		echo (($a == $b) ? $retval : "");
 	}
 
 	function date_is_empty($tgl) {
@@ -181,7 +181,7 @@
 	function getBulan($bln)
 	{
 		return bulan($bln);
-	}	
+	}
 
 	function nama_bulan($tgl)
 	{
@@ -549,12 +549,12 @@ function comma($number)
 }
 
 function hit($angka)
-{	
+{
 	return ribuan($angka)." Kali";
 }
 
 function ribuan($angka)
-{	
+{
 	return number_format($angka, 0, '.', '.');
 }
 
