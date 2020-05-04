@@ -193,76 +193,76 @@
 														</tr>
 														</thead>
 														<tbody>
-														<?php foreach ($main as $data): ?>
-															<tr>
-																<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
-																<td><?= $data['no']?></td>
-																<td nowrap>
-																	<div class="btn-group">
-																		<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi</button>
-																		<ul class="dropdown-menu" role="menu">
-																			<li>
-																				<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
-																			</li>
-																			<?php if ($data['status_dasar']==9): ?>
+															<?php foreach ($main as $data): ?>
+																<tr>
+																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
+																	<td><?= $data['no']?></td>
+																	<td nowrap>
+																		<div class="btn-group">
+																			<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi</button>
+																			<ul class="dropdown-menu" role="menu">
 																				<li>
-																					<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
+																					<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
 																				</li>
-																			<?php endif; ?>
-																			<?php if ($data['status_dasar']==1): ?>
-																				<li>
-																					<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
-																				</li>
-																				<li>
-																					<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
-																				</li>
-																				<li>
-																					<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
-																				</li>
-																				<li>
-																					<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
-																				</li>
-																				<li>
-																					<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
-																				</li>
-																				<?php if ($this->CI->cek_hak_akses('h')): ?>
+																				<?php if ($data['status_dasar']==9): ?>
 																					<li>
-																						<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+																						<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
 																					</li>
 																				<?php endif; ?>
-																			<?php endif; ?>
-																		</ul>
-																	</div>
-																</td>
-																<td nowrap>
-																	<div class="user-panel">
-																		<div class="image2">
-																			<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																				<?php if ($data['status_dasar']==1): ?>
+																					<li>
+																						<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
+																					</li>
+																					<li>
+																						<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
+																					</li>
+																					<?php if ($this->CI->cek_hak_akses('h')): ?>
+																						<li>
+																							<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+																						</li>
+																					<?php endif; ?>
+																				<?php endif; ?>
+																			</ul>
 																		</div>
-																	</div>
-																</td>
-																<td>
-																	<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
-																</td>
-																<td nowrap><?= $data['tag_id_card']?></td>
-																<td nowrap><?= strtoupper($data['nama'])?></td>
-																<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
-																<!-- tambah kolom orang tua-->
-																<td><?= $data['nama_ayah']?></td>
-																<td><?= $data['nama_ibu']?></td>
-																<!-- tambah kolom orang tua-->
-																<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
-																<td><?= strtoupper($data['alamat'])?></td>
-																<td><?= strtoupper($data['dusun'])?></td>
-																<td><?= $data['rw']?></td>
-																<td><?= $data['rt']?></td>
-																<td><?= $data['pendidikan']?></td>
-																<td><?= $data['umur']?></td>
-																<td><?= $data['pekerjaan']?></td>
-																<td><?= $data['kawin']?></td>
-																<td><?= tgl_indo($data['created_at'])?></td>
-															</tr>
-														<?php endforeach; ?>
+																	</td>
+																	<td nowrap>
+																		<div class="user-panel">
+																			<div class="image2">
+																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																			</div>
+																		</div>
+																	</td>
+																	<td>
+																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
+																	</td>
+																	<td nowrap><?= $data['tag_id_card']?></td>
+																	<td nowrap><?= strtoupper($data['nama'])?></td>
+																	<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a></td>
+																	<!-- tambah kolom orang tua-->
+																	<td><?= $data['nama_ayah']?></td>
+																	<td><?= $data['nama_ibu']?></td>
+																	<!-- tambah kolom orang tua-->
+																	<td><a href="<?= site_url("rtm/anggota/$p/$o/$data[id_rtm]")?>"><?= $data['no_rtm']?></a></td>
+																	<td><?= strtoupper($data['alamat'])?></td>
+																	<td><?= strtoupper($data['dusun'])?></td>
+																	<td><?= $data['rw']?></td>
+																	<td><?= $data['rt']?></td>
+																	<td><?= $data['pendidikan']?></td>
+																	<td><?= $data['umur']?></td>
+																	<td><?= $data['pekerjaan']?></td>
+																	<td><?= $data['kawin']?></td>
+																	<td><?= tgl_indo($data['created_at'])?></td>
+																</tr>
+															<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>
@@ -324,7 +324,7 @@
 		<div class='modal-content'>
 			<div class='modal-header'>
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+				<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
 			</div>
 			<div class='modal-body btn-info'>
 				Apakah Anda yakin ingin mengembalikan status data penduduk ini?

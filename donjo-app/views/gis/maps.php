@@ -372,7 +372,7 @@
 													<?php foreach ($list_rw as $data): ?>
 														<option value="<?=$data['rw']?>" <?php selected($rw, $data['rw']); ?>><?=$data['rw']?></option>
 													<?php endforeach; ?>
-											</select>
+												</select>
 											</div>
 											<?php if ($rw): ?>
 												<div class="form-group">
@@ -383,20 +383,20 @@
 															<option value="<?=$data['rt']?>" <?php selected($rt, $data['rt']); ?>><?=$data['rt']?></option>
 														<?php endforeach; ?>
 													</select>
-											</div>
+												</div>
 											<?php endif; ?>
 										<?php endif; ?>
 										<div class="col-sm-12">
 											<div class="form-group row">
-											<label>Cari</label>
-											<div class="box-tools">
+												<label>Cari</label>
+												<div class="box-tools">
 													<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();endif">
-													<div class="input-group-btn">
+														<input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();endif">
+														<div class="input-group-btn">
 															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
+														</div>
 													</div>
-													</div>
-											</div>
+												</div>
 											</div>
 										</div>
 										<div class="form-group">
