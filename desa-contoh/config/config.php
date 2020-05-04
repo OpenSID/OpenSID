@@ -28,11 +28,11 @@
 */
 	$config['covid_data'] = 1;
 	$config['provinsi_covid'] = 51; // kode provinsi. Comment baris ini untuk menampilkan data Indonesia
-	$config['covid_desa'] = 1; // Tampilkan status COVID-19 dari data OpenSID desa
-	$config['covid_peta'] = 1; // Tampilkan status COVID-19 di peta
+	$config['covid_desa'] = 1; // Tampilkan status Covid-19 dari data OpenSID desa
+	$config['covid_peta'] = 1; // Tampilkan status Covid-19 di peta
 
 /*
 	Setting untuk tampilkan grafik APBDes di Footer Halaman Muka atau Semua Halaman web. Untuk menyembunyikan ganti menjadi nilai 0;
 */
-	$config['apbdes_footer'] = 1; // Tampilkan grafik APBDes di Halaman Muka Saja
-	$config['apbdes_footer_all'] = 0; // Tampilkan grafik APBDes Semua Halaman
+	$config['apbdes_footer'] = 1; // Tampilkan grafik APBDes di halaman muka saja
+	$config['apbdes_footer_all'] = 0; // Tampilkan grafik APBDes di semua halaman

@@ -88,7 +88,7 @@
 
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk', 'agenda',
-			'syarat_surat');
+			'syarat_surat', 'covid19_pemudik', 'covid19_pantau');
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $ada_foreign_key,
@@ -125,8 +125,8 @@
 		// Hilangkan ketentuan user dan baris-baris lain yang
 		// dihasilkan oleh dbutil->backup untuk view karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
-		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER /", "", $backup);
-		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;/", "", $backup);
+		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /", "", $backup);
+		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $backup);
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;
@@ -186,6 +186,8 @@
 			// Abaikan baris apabila kosong atau komentar
 			$sql_line = trim($sql_line);
 			$sql_line = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /", "", $sql_line);
+			$sql_line = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $sql_line);
+
 		  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
 		  {
 				$query .= $sql_line;
@@ -196,9 +198,9 @@
 				  {
 				  	$_SESSION['success'] = -1;
 				  	$error = $this->db->error();
-				  	echo "<br><br>[".$key."]>>>>>>>> Error: ".$query.'<br>';
-				  	echo $error['message'].'<br>'; // (mysql_error equivalent)
-						echo $error['code'].'<br>'; // (mysql_errno equivalent)
+				  	log_message('error', "<br><br>[".$key."]>>>>>>>> Error: ".$query.'<br>');
+				  	log_message('error', $error['message'].'<br>'); // (mysql_error equivalent)
+						log_message('error', $error['code'].'<br>'); // (mysql_errno equivalent)
 				  }
 				  $query = "";
 				}

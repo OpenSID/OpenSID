@@ -167,3 +167,9 @@ ul.submenu {
   background-color: #dffed9;
 }
 
+/* Tampilan APBDesa */
+.judul-apbdesa {
+  height: 2.5em;
+  text-align: center;
+}
+

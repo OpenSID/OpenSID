@@ -237,11 +237,11 @@ class Penduduk extends Admin_Controller {
 		{
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
-		
+
 		if ($id_dokumen)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
-			
+
 			// Ambil data anggota KK
 			if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
 			{
@@ -250,10 +250,10 @@ class Penduduk extends Admin_Controller {
 				if (count($data['dokumen_anggota'])>0)
 				{
 					$id_pend_anggota = array();
-					foreach ($data['dokumen_anggota'] as $item_dokumen) 
+					foreach ($data['dokumen_anggota'] as $item_dokumen)
 						$id_pend_anggota[] = $item_dokumen['id_pend'];
 
-					foreach ($data['kk'] as $key => $value)  
+					foreach ($data['kk'] as $key => $value)
 					{
 						if (in_array($value['id'], $id_pend_anggota))
 							$data['kk'][$key]['checked'] = 'checked';
