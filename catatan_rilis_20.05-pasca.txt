@@ -15,6 +15,8 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 9. Perbaiki penulisan script tampilan web sesuai aturan. Sederhanakan dan gabung script tema klasik dan hadakewa. Sederhanakan script js di halaman statistik web. [teknis]
 10. #2831: Sekarang grafik APDDes dapat dimunculkan pada beranda saja atau pada semua halaman web.
 10. Berita Covid-19 dapat disembunyikan/ditampilkan melalui setting di desa/config/config.php.
+11. #2788: Perbaiki filter Status Penduduk di halaman Kependudukan > Penduduk. [bug-fix]
+12. Perbaiki dan sederhanakan script, termasuk pencarian spesifik penduduk di Kependudukan > Penduduk dan di Pemetaan > Peta. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
