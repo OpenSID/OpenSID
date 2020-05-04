@@ -36,6 +36,7 @@ class Main extends CI_Controller {
 				case 2 : redirect('hom_sid'); break;
 				case 3 : redirect('web'); break;
 				case 4 : redirect('web'); break;
+				case 5 : redirect('covid19'); break;
 				default : redirect('siteman');
 			}
 

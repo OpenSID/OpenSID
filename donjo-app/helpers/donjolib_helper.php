@@ -557,4 +557,10 @@ function ribuan($angka)
 {	
 	return number_format($angka, 0, '.', '.');
 }
+
+function set_ucwords($data)
+{
+	return ucwords(strtolower($data));
+}
+
 // =======================================

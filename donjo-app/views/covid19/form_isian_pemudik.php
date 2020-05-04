@@ -4,8 +4,7 @@
 		//https://momentjs.com/docs/#/parsing/string-format/
 		$('#tanggal_tiba').datetimepicker(
 		{
-			format: 'YYYY-MM-DD',
-			maxDate: moment(),
+			format: 'YYYY-MM-DD'
 		});
 	});
 </script>
@@ -19,10 +18,10 @@
 	<div class="col-sm-4">
 		<div class="input-group input-group-sm date">
 			<div class="input-group-addon">
-				<i class="fa fa-calendar"></i>
-			</div>
-			<input type="text" class="form-control input-sm pull-right required" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">
-		</div>
+		        <i class="fa fa-calendar"></i>
+		    </div>
+		    <input type="text" class="form-control input-sm pull-right required" id="tanggal_tiba" name="tanggal_tiba" value="<?= $tanggal_datang?>">
+	    </div>
 	</div>
 </div>
 
