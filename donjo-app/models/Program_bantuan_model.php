@@ -775,35 +775,23 @@ class Program_bantuan_model extends CI_Model {
 
 		public function add_peserta($post, $id)
 		{
-			$nik = $post['nik'];
-			$hasil = $this->db->select('id')
-			->from('program_peserta')
-			->where('program_id', $id)
-			->where('peserta', $nik)
-			->get();
-			if ($hasil->num_rows() > 0)
-			{
-				return false;
-			}
-			else
-			{
-				$data = array(
-					'program_id' => $id,
-					'peserta' => $nik,
-					'no_id_kartu' => $post['no_id_kartu'],
-					'kartu_nik' => $post['kartu_nik'],
-					'kartu_nama' => $post['kartu_nama'],
-					'kartu_tempat_lahir' => $post['kartu_tempat_lahir'],
-					'kartu_tanggal_lahir' => date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']),
-					'kartu_alamat' => $post['kartu_alamat']
-				);
-				$file_gambar = $this->_upload_gambar();
-				if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
-				return $this->db->insert('program_peserta', $data);
-			}
+			$data['program_id'] = $id;
+			$data['peserta'] = $post['nik'];
+			$data['no_id_kartu'] = $post['no_id_kartu'];
+			$data['kartu_nik'] = $post['kartu_nik'];
+			$data['kartu_nama'] = $post['kartu_nama'];
+			$data['kartu_tempat_lahir'] = $post['kartu_tempat_lahir'];
+			$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
+			$data['kartu_alamat'] = $post['kartu_alamat'];
+
+			$file_gambar = $this->_upload_gambar();
+			if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
+				$outp = $this->db->insert('program_peserta', $data);
+
+			status_sukses($outp);
 		}
 
-	// $id = program_peserta.id
+		// $id = program_peserta.id
 		public function edit_peserta($post,$id)
 		{
 			$data = $post;
