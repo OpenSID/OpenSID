@@ -94,15 +94,16 @@ class First extends Web_Controller {
 		$data['headline'] = $this->first_artikel_m->get_headline();
 		if (config_item('covid_rss'))
 		{
-		$data['feed'] = array(
-			'items' => $this->first_artikel_m->get_feed(),
-			'title' => 'BERITA COVID19.GO.ID',
-			'url' => 'https://covid19.go.id/feed/');
+			$data['feed'] = array(
+				'items' => $this->first_artikel_m->get_feed(),
+				'title' => 'BERITA COVID19.GO.ID',
+				'url' => 'https://www.covid19.go.id'
+			);
 		}
 
 		if (config_item('apbdes_footer'))
 		{
-		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
 
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
@@ -602,13 +603,14 @@ class First extends Web_Controller {
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
-		$data['w_cos']  = $this->web_widget_model->get_widget_aktif();
+		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
 		{
-		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..

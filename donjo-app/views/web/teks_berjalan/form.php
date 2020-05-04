@@ -11,23 +11,23 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?= site_url().$this->controller?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Teks
-            	</a>
+							</a>
 						</div>
 						<div class="box-body">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="control-label" for="isi_teks_berjalan">Isi teks berjalan</label>
-									<textarea id="teks" class="form-control input-sm required" placeholder="Isi teks berjalan" name="teks"><?= $teks['teks']?></textarea>
+									<textarea id="teks" class="form-control input-sm required" placeholder="Isi teks berjalan" name="teks" rows="3" style="resize:none;"><?= $teks['teks']?></textarea>
 								</div>
 							</div>
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label class="control-label">Tautan ke artikel</label>
-									<select class="form-control select2 " id="tautan" name="tautan">
-										<option value="">-- Cari Judul Artikel--</option>
+									<select class="form-control select2 " id="tautan" name="tautan" style="width: 100%;">
+										<option value="">-- Cari Judul Artikel --</option>
 										<?php foreach ($list_artikel as $artikel): ?>
 											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'],$teks['tautan']); ?>><?= $artikel['id'].' ('.tgl_indo($artikel['tgl_upload']).'): '.$artikel['judul']?></option>
 										<?php endforeach; ?>
@@ -53,4 +53,3 @@
 		</form>
 	</section>
 </div>
-
