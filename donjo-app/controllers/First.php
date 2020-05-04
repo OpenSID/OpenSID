@@ -97,7 +97,12 @@ class First extends Web_Controller {
 			'title' => 'BERITA COVID19.GO.ID',
 			'url' => 'https://www.covid19.go.id'
 		);
-		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+
+		if (config_item('apbdes_footer'))
+		{
+			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		}
+
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
 		$cari = trim($this->input->get('cari'));
@@ -240,7 +245,7 @@ class First extends Web_Controller {
 		{
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
-		
+
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
@@ -600,6 +605,10 @@ class First extends Web_Controller {
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
+		if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+		{
+			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
 		$list_kolom = array(
@@ -742,7 +751,7 @@ class First extends Web_Controller {
 		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->userdata('id'));
 
 		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
-		
+
 		if (empty($data))
 		{
 			$data['success'] = -1;

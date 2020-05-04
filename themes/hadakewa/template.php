@@ -20,7 +20,6 @@
 			</div>
 
 			<div id="footer">
-				<?php if (!is_null($transparansi)) $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/apbdesa-tema.php'), $transparansi);?>
 				<?php $this->load->view($folder_themes. '/partials/copywright.tpl.php');?>
 			</div>
 		</div>
