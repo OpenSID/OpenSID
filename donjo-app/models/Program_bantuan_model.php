@@ -789,7 +789,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$data = array(
 				'program_id' => $id,
-				'peserta' => $nik
+				'peserta' => $nik,
 				'no_id_kartu' => $post['no_id_kartu'],
 				'kartu_nik' => $post['kartu_nik'],
 				'kartu_nama' => $post['kartu_nama'],
