@@ -28,7 +28,7 @@ class Program_bantuan extends Admin_Controller {
 	{
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
-		
+
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
@@ -53,7 +53,7 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
-		$data['form_action'] = site_url("program_bantuan/add_peserta");
+		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -110,7 +110,7 @@ class Program_bantuan extends Admin_Controller {
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);		
+		$this->load->view('nav', $nav);
 		$this->load->view('program_bantuan/peserta', $data);
 		$this->load->view('footer');
 	}
@@ -122,7 +122,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('program_bantuan/data_peserta', $data);
@@ -201,7 +201,7 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
 		$data['jml'] = $this->program_bantuan_model->jml_peserta_program($id);
-		
+
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->load->view('program_bantuan/edit', $data);
