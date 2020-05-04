@@ -1,3 +1,5 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <style type="text/css">
   .progress-bar span
   {
@@ -15,10 +17,10 @@
   <div class="box box-info">
     <?php foreach ($data_widget as $subdata_name => $subdatas): ?>
       <div class="col-md-4">
-      <div align="center" style="height: 0.5em;"><h4><?= ($subdatas['laporan'])?></h4></div><hr/>
-      <div align="center" style="height: 0.5em;"><h5>Realisasi | Anggaran</h5></div><hr/>
+      <div class="judul-apbdesa"><h2><?= ($subdatas['laporan'])?></h2></div><hr/>
+      <div align="center" style="height: 1em;"><h4>Realisasi | Anggaran</h4></div><hr/>
       <?php foreach ($subdatas as $key => $subdata): ?>
-        <?php if($subdata['judul'] != NULL and $key != 'laporan'): ?>
+        <?php if($subdata['judul'] != NULL and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
           <div class="progress-group">
             <?= $subdata['judul']; ?><br>
             <b>Rp. <?= number_format($subdata['realisasi']); ?> | Rp. <?= number_format($subdata['anggaran']); ?></b>
