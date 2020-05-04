@@ -34,10 +34,9 @@
 											<div class="col-sm-6">
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('man_user/filter')?>')">
 													<option value="">Semua</option>
-													<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Administrator</option>
-													<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Operator</option>
-													<option value="3" <?php if ($filter==3): ?>selected<?php endif ?>>Redaksi</option>
-													<option value="4" <?php if ($filter==4): ?>selected<?php endif ?>>Kontributor</option>
+													<?php foreach ($user_group as $item): ?>
+														<option <?php selected($filter, $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
+													<?php endforeach ?>
 												</select>
 											</div>
 											<div class="col-sm-6">

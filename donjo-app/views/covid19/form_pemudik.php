@@ -8,7 +8,7 @@
 			<li class="active">Penambahan Pemudik Covid-19</li>
 		</ol>
 	</section>
-	
+
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
@@ -29,21 +29,27 @@
 
 										<div class="form-group" >
 											<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
-											<div class="col-sm-8">
-												<select class="form-control select2" id="terdata" name="terdata" onchange="formAction('main')" style="width: 100%;">
-													<option value="">-- Silakan Masukan NIK / Nama --</option>
+											<div class="col-sm-4">
+												<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" style="width: 100%;">
+													<option value="">-- Silakan Masukan NIK / Nama--</option>
 													<?php foreach ($list_penduduk as $item):
 														if (strlen($item["id"])>0): ?>
 															<option value="<?= $item['id']?>" <?php selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 														<?php endif;
 													endforeach; ?>
 												</select>
+											</div>
+											<div class="col-sm-4">
+												<a href="#" class="btn btn-social btn-block btn-success btn-sm" data-toggle="modal" data-target="#add-warga">
+													<i class="fa fa-plus"></i>
+													Tambah Penduduk Non Domisili
+												</a>
 												<span id="data_h_plus_msg" class="help-block">
-													<code>Untuk warga pendatang/tidak tetap. Masukkan data terlebih dahulu di menu 'Kependudukan' => 'Penduduk' => '+Penduduk Domisili' dengan pilihan Status Penduduk 'Tidak Tetap'/'Pendatang'</code>
+													<code>Untuk penduduk pendatang/tidak tetap. Masukkan data di sini.</code>
 												</span>
 											</div>
 										</div>
-										
+
 									</form>
 									<div id="form-melengkapi-data-peserta">
 										<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
@@ -56,7 +62,7 @@
 											<?php if ($individu): ?>
 												<?php include("donjo-app/views/covid19/konfirmasi_pemudik.php"); ?>
 											<?php endif; ?>
-											
+
 											<?php include("donjo-app/views/covid19/form_isian_pemudik.php"); ?>
 
 										</form>
@@ -75,39 +81,28 @@
 			</div>
 		</div>
 	</section>
-	
+
 </div>
 
+<div class='modal fade' id='add-warga' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='myModalLabel'><i class='fa fa-plus text-green'></i> Tambah Penduduk Pendatang / Tidak Tetap</h4>
+			</div>
+			<div class='modal-body'>
+				<div class="row">
+					<?php include("donjo-app/views/covid19/form_isian_penduduk.php"); ?>
+				</div>
+			</div>
+			<div class='modal-footer'>
+				<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<a class='btn-ok'>
+					<button type="submit" class="btn btn-social btn-flat btn-success btn-sm" onclick="$('#'+'form_penduduk').submit();"><i class='fa fa-trash-o'></i> Simpan</button>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 
-<script type="text/javascript">
-	$(document).ready(function()
-	{
-
-		$("#validasi").validate(
-		{
-		    rules: 
-		    {
-					terdata: "required",
-					asal_pemudik: "required",
-					tanggal_tiba: "required",
-					durasi_pemudik: 
-					{
-						number: true
-					}
-		    },
-		    // Specify validation error messages
-		    messages: 
-		    {
-					terdata: "Harus memilik NIK/Nama",
-					asal_pemudik: "Isi kota asal pemudik",
-					tanggal_tiba: "Tanggal harus diisi",
-					durasi_pemudik: "Harus diisi angka"
-		    },
-		    submitHandler: function(form) 
-		    {
-		      form.submit();
-		    }
-	  	});
-				
-	});
-</script>
