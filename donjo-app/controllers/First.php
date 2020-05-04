@@ -92,11 +92,14 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
-		$data['feed'] = array(
-			'items' => $this->first_artikel_m->get_feed(),
-			'title' => 'BERITA COVID19.GO.ID',
-			'url' => 'https://www.covid19.go.id'
-		);
+		if (config_item('covid_rss'))
+		{
+			$data['feed'] = array(
+				'items' => $this->first_artikel_m->get_feed(),
+				'title' => 'BERITA COVID19.GO.ID',
+				'url' => 'https://www.covid19.go.id'
+			);
+		}
 
 		if (config_item('apbdes_footer'))
 		{
