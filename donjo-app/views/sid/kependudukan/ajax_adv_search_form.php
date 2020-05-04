@@ -2,7 +2,7 @@
 <style>
 	.form-group
 	{
-    margin-bottom: 10px;
+		margin-bottom: 10px;
 	}
 </style>
 <form method="post" action="<?= $form_action?>">
@@ -27,7 +27,7 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="status_dasar">Pekerjaan</label>
+									<label for="pekerjaan">Pekerjaan</label>
 									<select class="form-control input-sm" id="pekerjaan_id" name="pekerjaan_id">
 										<option value=""> -- </option>
 										<?php foreach ($list_pekerjaan AS $data): ?>

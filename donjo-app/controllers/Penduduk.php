@@ -68,7 +68,7 @@ class Penduduk extends Admin_Controller {
 		if (isset($_SESSION['filter']))
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
-		
+
 		if (isset($_SESSION['status_dasar']))
 			$data['status_dasar'] = $_SESSION['status_dasar'];
 		else $data['status_dasar'] = '';
@@ -503,6 +503,8 @@ class Penduduk extends Admin_Controller {
 
 	public function adv_search_proses()
 	{
+		$_SESSION['filter'] = $_POST['status_penduduk'];
+
 		$adv_search = $_POST;
 		$i = 0;
 		while ($i++ < count($adv_search))
@@ -533,10 +535,10 @@ class Penduduk extends Admin_Controller {
 		$rw = $this->penduduk_model->list_rw($dusun);
 		echo"<div class='form-group'><label>RW</label>
 		<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
-			<option value=''>Pilih RW</option>";
-			foreach ($rw as $data):
-				echo "<option>".$data['rw']."</option>";
-			endforeach;
+		<option value=''>Pilih RW</option>";
+		foreach ($rw as $data):
+			echo "<option>".$data['rw']."</option>";
+		endforeach;
 		echo "</select></div>";
 	}
 
@@ -546,10 +548,10 @@ class Penduduk extends Admin_Controller {
 		$rt = $this->penduduk_model->list_rt($dusun, $rw);
 		echo"<div class='form-group'><label>RT</label>
 		<select class='form-control input-sm' name='id_cluster'>
-			<option value=''>Pilih RT</option>";
-			foreach ($rt as $data):
-				echo "<option value=".$data['id'].">".$data['rt']."</option>";
-			endforeach;
+		<option value=''>Pilih RT</option>";
+		foreach ($rt as $data):
+			echo "<option value=".$data['id'].">".$data['rt']."</option>";
+		endforeach;
 		echo "</select></div>";
 	}
 
