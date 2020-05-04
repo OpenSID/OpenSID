@@ -9,6 +9,9 @@ class Covid19 extends Admin_Controller {
 		$this->load->library('session');
 		$this->load->model('header_model');
 		$this->load->model('covid19_model');
+		$this->load->model('referensi_model');
+		$this->load->model('wilayah_model');
+		$this->load->model('penduduk_model');
 
 		$this->modul_ini = 206;
 	}
@@ -58,6 +61,13 @@ class Covid19 extends Admin_Controller {
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
 
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
+		$data['agama'] = $this->referensi_model->list_data("tweb_penduduk_agama");
+		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
+		$data['jenis_kelamin'] = $this->referensi_model->list_data("tweb_penduduk_sex");
+		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
 
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
@@ -65,8 +75,20 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('nav', $nav);
 
 		$data['form_action'] = site_url("covid19/add_pemudik");
+		$data['form_action_penduduk'] = site_url("covid19/insert_penduduk");
 		$this->load->view('covid19/form_pemudik', $data);
 		$this->load->view('footer');
+	}
+
+	public function insert_penduduk()
+	{
+		$callback_url = $_POST['callback_url'];
+		unset($_POST['callback_url']);
+
+		$id = $this->penduduk_model->insert();
+		if ($_SESSION['success'] == -1)
+			$_SESSION['dari_internal'] = true;
+		redirect("covid19/form_pemudik");
 	}
 
 	public function add_pemudik()
@@ -102,8 +124,7 @@ class Covid19 extends Admin_Controller {
 	{
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		
 		$data['terdata'] = $this->covid19_model->get_pemudik_by_id($id);
 		$data['individu'] = $this->covid19_model->get_penduduk_by_id($data['terdata']['id_terdata']);
 
@@ -112,8 +133,31 @@ class Covid19 extends Admin_Controller {
 		$data['terdata']['terdata_nama'] = $data['individu']['nik'];
 		$data['terdata']['terdata_info'] = $data['individu']['nama'];
 
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($data['terdata']['id_terdata']);
+		$this->session->set_userdata('nik_lama', $data['penduduk']['nik']);
+
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
+		$data['agama'] = $this->referensi_model->list_data("tweb_penduduk_agama");
+		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
+		$data['jenis_kelamin'] = $this->referensi_model->list_data("tweb_penduduk_sex");
+		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
+
+		$data['form_action_penduduk'] = site_url("covid19/update_penduduk/".$data['terdata']['id_terdata']."/".$id);
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$this->load->view('covid19/detil_pemudik', $data);
 		$this->load->view('footer');
+	}
+
+	public function update_penduduk($id_pend, $id_pemudik)
+	{		
+		$this->penduduk_model->update($id_pend);
+		if ($_SESSION['success'] == -1)
+			$_SESSION['dari_internal'] = true;
+		redirect("covid19/detil_pemudik/$id_pemudik");
 	}
 
 	public function unduhsheet()

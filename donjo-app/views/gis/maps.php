@@ -246,6 +246,8 @@
 		{
 		  //Menjalankan geojson menggunakan leaflet
 		  var geojson = L.geoJSON(turf.featureCollection(semua_marker), {
+        pmIgnore: true,
+    		showMeasurements: true,
 			//Method yang dijalankan ketika marker diklik
 			onEachFeature: function (feature, layer) {
 			  //Menampilkan pesan berisi content pada saat diklik

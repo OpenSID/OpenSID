@@ -11,6 +11,7 @@ function show_alert(type, title, content) {
 }
 
 $(document).ready(function() {
+	
 	$('#unggah_dokumen').validate();
 	
 	$('.datatable-polos').DataTable({
@@ -39,8 +40,12 @@ $(document).ready(function() {
 				'aTargets': [3],
 				'mData': 'aksi',
 				'mRender': function (data, type, row) {
-						return `<button type="button" class="btn bg-orange btn-flat btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[4]}"><i class="fa fa-edit"></i> Ubah</button>
-						<button type="button" class="btn bg-red btn-flat btn-sm delete text-center" title="Delete Data" data-id="${row[4]}"><i class="fa fa-trash"></i> Hapus</button>`
+					let action = ``;
+					if(!row[5])
+						action = `<button type="button" class="btn bg-orange btn-flat btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[4]}"><i class="fa fa-edit"></i> Ubah</button>
+						<button type="button" class="btn bg-red btn-flat btn-sm delete text-center" title="Delete Data" data-id="${row[4]}"><i class="fa fa-trash"></i> Hapus</button>`;
+					
+					return action;
 				}
 			 }
 		]
@@ -49,6 +54,8 @@ $(document).ready(function() {
 	$('#tambah_dokumen').click(function(){
 		$('#unggah_dokumen').trigger('reset');
 		$('#file').addClass('required');
+		$('.anggota_kk').attr("disabled", false);
+		$('.anggota_kk').attr("checked", false);
 		$('#myModalLabel').text('Tambah Dokumen');
 	})
 
@@ -72,6 +79,16 @@ $(document).ready(function() {
 				$('#id_syarat').val(data.id_syarat);
 				$('#old_file').val(data.satuan);
 				$('#modal .modal-body').LoadingOverlay('hide');
+				
+				//anggota lain
+				$('.anggota_kk').attr("checked", false);
+				for (let [key, value] of Object.entries(data.anggota)) {
+					if (value.id_pend != data.id_pend) {
+						let id_anggota = '#anggota_'+value.id_pend;
+						$(id_anggota).attr("checked", true);
+					}
+				}
+
 				switch (data.success) {
 					case -1:
 						show_alert('red', 'Error', data.message);
@@ -79,7 +96,7 @@ $(document).ready(function() {
 						break;
 					default:
 						break;
-				}
+				}				
 			},
 			error: function(err) {
 				console.log(err);

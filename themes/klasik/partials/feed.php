@@ -22,7 +22,7 @@
 									<i class="fa fa-user"></i> <?= $data['DC:CREATOR'] ?> | 
 									<i class='fa fa-tag'></i> <?= $data['CATEGORY'] ?>
 								</div>
-								<?= $data['DESCRIPTION'] ?>
+								<?= str_split($data['DESCRIPTION'], 300)[0] ?>
 								<a href="<?= $data['LINK'] ?>"> ..selengkapnya</a>
 							</div>
 							<br class="clearboth gb"/>

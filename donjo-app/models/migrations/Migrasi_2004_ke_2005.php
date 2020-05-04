@@ -25,15 +25,13 @@ class Migrasi_2004_ke_2005 extends CI_model {
 		$this->db->query("ALTER TABLE mutasi_inventaris_peralatan MODIFY COLUMN sumbangkan VARCHAR(255) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE mutasi_inventaris_tanah MODIFY COLUMN harga_jual DOUBLE NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE mutasi_inventaris_tanah MODIFY COLUMN sumbangkan VARCHAR(255) NULL DEFAULT NULL");
+		$this->db->query("ALTER TABLE polygon MODIFY COLUMN tipe INT(4) NULL DEFAULT 0");
 		// Perbaiki nama aset salah
 		$this->db->where('id_aset', 3423)->update('tweb_aset', array('nama' => 'JALAN'));
 		$this->db->where('id', 79)->update('setting_modul', array('url'=>'api_inventaris_kontruksi', 'aktif'=>'1'));
 		// Hapus field urut di tabel artikel krn tdk dibutuhkan
 		if ($this->db->field_exists('urut', 'artikel'))
 			$this->db->query('ALTER TABLE `artikel` DROP COLUMN `urut`');
-		// Perbaharui view
-		$this->db->query("DROP VIEW dokumen_hidup");
-		$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
 		// Tambahkan field tipe di tabel media_sosial
 		if (!$this->db->field_exists('tipe', 'media_sosial')){
 			$this->db->query('ALTER TABLE media_sosial ADD COLUMN tipe TINYINT(1) NULL DEFAULT 1 AFTER nama');
@@ -55,12 +53,21 @@ class Migrasi_2004_ke_2005 extends CI_model {
 				enabled = VALUES(enabled)
 				";
 		$this->db->query($sql);
+
+		// tambah field id_parent di tabel dokumen untuk merelasikan dokumen bersama anggota dengan kepala KK
+		if (!$this->db->field_exists('id_parent', 'dokumen'))
+		{
+			$this->db->query('ALTER TABLE dokumen ADD COLUMN id_parent INT(11) NULL DEFAULT NULL AFTER id_syarat');
+		}
+		// Perbaharui view (digunakan juga untuk tambah field id_parent)
+		$this->db->query("DROP VIEW dokumen_hidup");
+		$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
 	}
 
 	private function covid19()
 	{
 		// Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
-    $data[] = array(
+		$data[] = array(
 			'id'=>'206',
 			'modul' => 'Siaga Covid-19',
 			'url' => 'covid19',

@@ -25,31 +25,33 @@
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MENU UTAMA</li>
 
-			<?php foreach ($modul AS $mod): ?>
-				<?php if (count($mod['submodul'])==0): ?>
-					<li class="<?php ($this->modul_ini==$mod['id']) and print('active')?>">
-						<a href="<?= site_url()?><?=$mod['url']?>">
-							<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
-							<span class="pull-right-container"></span>
-						</a>
-					</li>
-				<?php else : ?>
-					<li class="treeview <?php ($this->modul_ini==$mod['id']) and print('active')?>">
-						<a href="<?= site_url()?><?=$mod['url']?>">
-							<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
-							<span class="pull-right-container"><i class='fa fa-angle-left pull-right'></i></span>
-						</a>
-						<ul class="treeview-menu <?php ($this->modul_ini==$mod['id']) and print('active')?>">
-							<?php foreach ($mod['submodul'] as $submod): ?>
-								<li class="<?php ($this->sub_modul_ini==$submod['id']) and print('active')?>">
-									<a href="<?= site_url()?><?=$submod['url']?>">
-										<i class="fa <?= ($submod['ikon'] != NULL) ? $submod['ikon'] : 'fa-circle-o'?> <?php ($this->sub_modul_ini==$submod['id']) and print('text-red')?>"></i>
-										<?=$submod['modul']?>
-									</a>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					</li>
+			<?php foreach ($modul AS $mod): 
+				if ($this->CI->cek_hak_akses('b', $mod['url'])): ?>
+					<?php if (count($mod['submodul'])==0): ?>
+						<li class="<?php ($this->modul_ini==$mod['id']) and print('active')?>">
+							<a href="<?= site_url()?><?=$mod['url']?>">
+								<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
+								<span class="pull-right-container"></span>
+							</a>
+						</li>
+					<?php else : ?>
+						<li class="treeview <?php ($this->modul_ini==$mod['id']) and print('active')?>">
+							<a href="<?= site_url()?><?=$mod['url']?>">
+								<i class="fa <?= $mod['ikon']?> <?php ($this->modul_ini==$mod['id']) and print('text-aqua')?>"></i> <span><?=$mod['modul']?></span>
+								<span class="pull-right-container"><i class='fa fa-angle-left pull-right'></i></span>
+							</a>
+							<ul class="treeview-menu <?php ($this->modul_ini==$mod['id']) and print('active')?>">
+								<?php foreach ($mod['submodul'] as $submod): ?>
+									<li class="<?php ($this->sub_modul_ini==$submod['id']) and print('active')?>">
+										<a href="<?= site_url()?><?=$submod['url']?>">
+											<i class="fa <?= ($submod['ikon'] != NULL) ? $submod['ikon'] : 'fa-circle-o'?> <?php ($this->sub_modul_ini==$submod['id']) and print('text-red')?>"></i>
+											<?=$submod['modul']?>
+										</a>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</li>
+					<?php endif; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

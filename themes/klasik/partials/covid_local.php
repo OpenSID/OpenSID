@@ -60,7 +60,7 @@ $positif = $covid[4]; //"Positif Covid-19" => "POSITIF",
     						<div class="panel panel-info">
                   <div style="padding:1px" class="panel-heading text-center"><h4>Orang Dalam Pemantauan (ODP)<br>&nbsp;</h4></div>
     							<div style="height: 40px;padding:1px" class="panel-body text-center">
-    								<h4><?= number_format($odr['jumlah']); ?> <small>Orang</small></h4>
+    								<h4><?= number_format($odp['jumlah']); ?> <small>Orang</small></h4>
     							</div>
     						</div>
     					</div>
@@ -68,7 +68,7 @@ $positif = $covid[4]; //"Positif Covid-19" => "POSITIF",
     						<div class="panel panel-success">
                   <div style="padding:1px" class="panel-heading text-center"><h4>Orang Dalam Resiko (ODR)<br>&nbsp;</h4></div>
     							<div style="height: 40px;padding:1px" class="panel-body text-center">
-    								<h4><?= number_format($otg['jumlah']); ?> <small>Orang</small></h4>
+    								<h4><?= number_format($odr['jumlah']); ?> <small>Orang</small></h4>
     							</div>
     						</div>
     					</div>
