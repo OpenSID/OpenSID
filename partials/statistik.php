@@ -1,130 +1,148 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php if($tipe==1){?>
-<script type="text/javascript">
-$(function () {
-    var chart;
-    $(document).ready(function () {
-
-        chart = new Highcharts.Chart({
-            chart: { renderTo: 'container'},
-            title:0,
-					xAxis: {
-                        categories: [
-						<?php  $i=0;foreach($stat as $data){$i++;?>
-						  <?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){echo "'$i',";}?>
+	<script type="text/javascript">
+		$(function ()
+		{
+			var chart;
+			$(document).ready(function ()
+			{
+				chart = new Highcharts.Chart(
+				{
+					chart:
+					{
+						renderTo: 'container'
+					},
+					title:0,
+					xAxis:
+					{
+						categories: [
+						<?php $i=0;foreach($stat as $data){$i++;?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){echo "'$i',";}?>
 						<?php }?>
 						]
 					},
-				plotOptions: {
-					series: {
-						colorByPoint: true
+					plotOptions:
+					{
+						series:
+						{
+							colorByPoint: true
+						},
+						column:
+						{
+							pointPadding: -0.1,
+							borderWidth: 0
+						}
 					},
-					column: {
-						pointPadding: -0.1,
-						borderWidth: 0
+					legend:
+					{
+						enabled:false
+					},
+					series: [
+					{
+						type: 'column',
+						name: 'Jumlah Populasi',
+						shadow:1,
+						border:1,
+						data: [
+						<?php foreach($stat as $data){?>
+							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
+								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
+							<?php }?>
+						<?php }?>
+						]
+					}]
+				});
+			});
+
+		});
+	</script>
+<?php }else{?>
+	<script type="text/javascript">
+		$(function ()
+		{
+			var chart;
+			$(document).ready(function ()
+			{
+
+			// Build the chart
+			chart = new Highcharts.Chart(
+			{
+				chart:
+				{
+					renderTo: 'container'
+				},
+				title:0,
+				plotOptions:
+				{
+					pie:
+					{
+						allowPointSelect: true,
+						cursor: 'pointer',
+						showInLegend: true
 					}
 				},
-					legend: {
-                        enabled:false
-					},
-            series: [{
-                type: 'column',
-                name: 'Jumlah Populasi',
-				shadow:1,
-				border:1,
-                data: [
-						<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
-								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
-							<?php }?>
+				series: [
+				{
+					type: 'pie',
+					name: 'Jumlah Populasi',
+					shadow:1,
+					border:1,
+					data: [
+					<?php foreach($stat as $data){?>
+						<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
+							['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 						<?php }?>
-                ]
-            }]
-        });
-    });
+					<?php }?>
+					]
+				}]
+			});
+		});
 
-});
-</script>
-<?php }else{?>
-
-<script type="text/javascript">
-$(function () {
-    var chart;
-
-    $(document).ready(function () {
-
-    	// Build the chart
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container'
-            },
-            title:0,
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Jumlah Populasi',
-				shadow:1,
-				border:1,
-                data: [
-						<?php  foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
-								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
-							<?php }?>
-						<?php }?>
-                ]
-            }]
-        });
-    });
-
-});
-</script>
-<script type="text/javascript">
-	function tampilkan_nol(tampilkan=false)
-	{
-		if (tampilkan)
+		});
+	</script>
+	<script type="text/javascript">
+		function tampilkan_nol(tampilkan=false)
 		{
-			$(".nol").parent().show();
-		} 
-		else 
-		{
-			$(".nol").parent().hide();
+			if (tampilkan)
+			{
+				$(".nol").parent().show();
+			}
+			else
+			{
+				$(".nol").parent().hide();
+			}
 		}
-	}
-	function toggle_tampilkan()
-	{
-		$('#showData').click();
-		tampilkan_nol(status_tampilkan);
-		status_tampilkan = !status_tampilkan;
-		if (status_tampilkan) $('#tampilkan').text('Tampilkan Nol');
-		else $('#tampilkan').text('Sembunyikan Nol');
-	}
-	var status_tampilkan = true;
-  $(document).ready(function () {
-  	tampilkan_nol(false);
-  });	
-</script>
-
+		function toggle_tampilkan()
+		{
+			$('#showData').click();
+			tampilkan_nol(status_tampilkan);
+			status_tampilkan = !status_tampilkan;
+			if (status_tampilkan) $('#tampilkan').text('Tampilkan Nol');
+			else $('#tampilkan').text('Sembunyikan Nol');
+		}
+		var status_tampilkan = true;
+		$(document).ready(function ()
+		{
+			tampilkan_nol(false);
+		});
+	</script>
 <?php }?>
 <style>
-	tr.lebih{
+	tr.lebih
+	{
 		display:none;
 	}
 </style>
 <script>
-$(function(){
-	$('#showData').click(function(){
-		$('tr.lebih').show();
-		$('#showData').hide();
-		tampilkan_nol(false);
+	$(function(){
+		$('#showData').click(function()
+		{
+			$('tr.lebih').show();
+			$('#showData').hide();
+			tampilkan_nol(false);
+		});
 	});
-});
 </script>
 <div class="single_page_area">
 	<h2 class="post_titile">Grafik Data Demografi Berdasar <?= $heading ?></h2>
@@ -151,33 +169,33 @@ $(function(){
 	<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>
-			<tr>
-				<th rowspan="2">Kode</th>
-				<th rowspan="2" style='text-align:left;'>Kelompok</th>
-				<th colspan="2">Jumlah</th>
-				<?php if ($jenis_laporan == 'penduduk'):?>
-					<th colspan="2">Laki-laki</th>
-					<th colspan="2">Perempuan</th>
-				<?php endif;?>
-			</tr>
-			<tr>
-				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-				<?php if ($jenis_laporan == 'penduduk'):?>
+				<tr>
+					<th rowspan="2">Kode</th>
+					<th rowspan="2" style='text-align:left;'>Kelompok</th>
+					<th colspan="2">Jumlah</th>
+					<?php if ($jenis_laporan == 'penduduk'):?>
+						<th colspan="2">Laki-laki</th>
+						<th colspan="2">Perempuan</th>
+					<?php endif;?>
+				</tr>
+				<tr>
 					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-				<?php endif;?>
-			</tr>
+					<?php if ($jenis_laporan == 'penduduk'):?>
+						<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+						<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+					<?php endif;?>
+				</tr>
 			</thead>
 			<tbody>
-			<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
-			<?php foreach ($stat as $data):?>
-				<?php $jm1++; if (1):?>
+				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
+				<?php foreach ($stat as $data):?>
+					<?php $jm1++; if (1):?>
 					<?php $h++; if ($h > 12 AND $jm > 10): $hide="lebih"; ?>
-					<?php endif;?>
-					<tr class="<?=$hide?>">
-						<td class="angka">
-							<?php if ($jm1 > $jm - 2):?>
-								<?=$data['no']?>
+				<?php endif;?>
+				<tr class="<?=$hide?>">
+					<td class="angka">
+						<?php if ($jm1 > $jm - 2):?>
+							<?=$data['no']?>
 							<?php else:?>
 								<?=$h?>
 							<?php endif;?>
@@ -196,15 +214,15 @@ $(function(){
 					<?php $l += $data['laki']; $p += $data['perempuan'];?>
 				<?php endif;?>
 			<?php endforeach;?>
-			</tbody>
-		</table>
-		<?php if($hide=="lebih"):?>
-			<div style='float: left;'>
-				<button class='uibutton special' id='showData'>Selengkapnya...</button>
-				</div>
-		<?php endif;?>
-		<div style="float: right;">
-			<button id='tampilkan' onclick="toggle_tampilkan();" class="uibutton special">Tampilkan Nol</button>
+		</tbody>
+	</table>
+	<?php if($hide=="lebih"):?>
+		<div style='float: left;'>
+			<button class='uibutton special' id='showData'>Selengkapnya...</button>
 		</div>
+	<?php endif;?>
+	<div style="float: right;">
+		<button id='tampilkan' onclick="toggle_tampilkan();" class="uibutton special">Tampilkan Nol</button>
 	</div>
+</div>
 </div>

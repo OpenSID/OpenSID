@@ -5,13 +5,16 @@
 	const KODE_PROVINSI = <?= config_item('covid_provinsi') ? : 'undefined' ?> ;
 	const ENDPOINT = KODE_PROVINSI ? 'indonesia/provinsi/' : 'indonesia/';
 
-	function numberFormat(num) {
+	function numberFormat(num)
+	{
 		return new Intl.NumberFormat('id-ID').format(num);
 	}
-	function parseToNum(data) {
+	function parseToNum(data)
+	{
 		return parseFloat(data.toString().replace(/,/g, ''));
 	}
-	function showData(result) {
+	function showData(result)
+	{
 		const data = result[0];
 		const wilayah = KODE_PROVINSI ? data.attributes.Provinsi : data.name;
 		const meninggal = parseToNum(KODE_PROVINSI ? data.attributes.Kasus_Meni : data.meninggal);
@@ -22,19 +25,23 @@
 		const attributes = ['positif', 'perawatan', 'sembuh', 'meninggal'];
 
 		$('.nama-wilayah').html(`di ${wilayah}`);
-		attributes.forEach(function (attr) {
+		attributes.forEach(function (attr)
+		{
 			$(`[data-status=${attr}]`).html(numberFormat(eval(attr)));
 		})
-
 	}
-	function showError() {
+	function showError()
+	{
 		$('.nama-wilayah').html('');
 		$('#covid .panel-body.text-center').html('<span class="text-small">Gagal mengambil data</span>');
 	}
 
-	$(document).ready(function () {
-		try {
-			$.ajax({
+	$(document).ready(function ()
+	{
+		try
+		{
+			$.ajax(
+			{
 				async: true,
 				cache: true,
 				url: COVID_API_URL + ENDPOINT,
@@ -43,11 +50,13 @@
 						data);
 					showData(result);
 				},
-				error: function (err) {
+				error: function (err)
+				{
 					showError();
 				}
 			});
-		} catch (error) {
+		} catch (error)
+		{
 			showError()
 		}
 	})
@@ -77,89 +86,95 @@
 		attributes.forEach(function (attr) {
 			$(`[data-status=${attr}]`).html(numberFormat(eval(attr)));
 		})
-
 	}
-	function showError() {
+	function showError()
+	{
 		$('.nama-wilayah2').html('');
 		$('#covid .panel-body.text-center').html('<span class="text-small">Gagal mengambil data</span>');
 	}
 
-	$(document).ready(function () {
-		try {
-			$.ajax({
+	$(document).ready(function ()
+	{
+		try
+		{
+			$.ajax(
+			{
 				async: true,
 				cache: true,
 				url: COVID_API,
-				success: function (response) {
+				success: function (response)
+				{
 					const result = response.filter(data => KODE_NEGARA ? data.attributes.OBJECTID == KODE_NEGARA :
 						data);
 					showData2(result);
 				},
-				error: function (err) {
+				error: function (err)
+				{
 					showError();
 				}
 			});
-		} catch (error) {
+		} catch (error)
+		{
 			showError()
 		}
 	})
 </script>
 <div class="archive_style_1" style="font-family: Oswald">
-    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Statistik COVID-19</span></h2>
-    <div class="row">
+	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Statistik COVID-19</span></h2>
+	<div class="row">
 		<div style="margin-top:10px;">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-danger">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Positif</h4></div>
-						<?php if (!empty(config_item('covid_negara'))): ?>
+					<?php if (!empty(config_item('covid_negara'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
-						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif2"></span> <small>Jiwa</small></h4>
+							<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif2"></span> <small>Jiwa</small></h4>
 						</div>
-						<?php endif; ?>
-						<?php if (!empty(config_item('covid_provinsi'))): ?>
+					<?php endif; ?>
+					<?php if (!empty(config_item('covid_provinsi'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
-						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif"></span> <small>Jiwa</small></h4>
+							<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="positif"></span> <small>Jiwa</small></h4>
 						</div>
-						<?php endif; ?>
+					<?php endif; ?>
 				</div>
 			</div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Sembuh</h4></div>
-						<?php if (!empty(config_item('covid_negara'))): ?>
+					<?php if (!empty(config_item('covid_negara'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
-						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="sembuh2"></span> <small>Jiwa</small></h4>
+							<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="sembuh2"></span> <small>Jiwa</small></h4>
 						</div>
-						<?php endif; ?>
-						<?php if (!empty(config_item('covid_provinsi'))): ?>
+					<?php endif; ?>
+					<?php if (!empty(config_item('covid_provinsi'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
-						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="sembuh"></span> <small>Jiwa</small></h4>
+							<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="sembuh"></span> <small>Jiwa</small></h4>
 						</div>
-						<?php endif; ?>
+					<?php endif; ?>
 				</div>
 			</div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 				<div class="panel panel-success">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4>Meninggal</h4></div>
-						<?php if (!empty(config_item('covid_negara'))): ?>
+					<?php if (!empty(config_item('covid_negara'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
-						<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal2"></span> <small>Jiwa</small></h4>
+							<h4><small><span class="nama-wilayah2"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal2"></span> <small>Jiwa</small></h4>
 						</div>
-						<?php endif; ?>
-						<?php if (!empty(config_item('covid_provinsi'))): ?>
+					<?php endif; ?>
+					<?php if (!empty(config_item('covid_provinsi'))): ?>
 						<div style="height: 35px;padding:1px" class="panel-body text-center">
-						<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal"></span> <small>Jiwa</small></h4>
+							<h4><small><span class="nama-wilayah"><i class="fa fa-spinner fa-pulse"></i></span></small> <span data-status="meninggal"></span> <small>Jiwa</small></h4>
 						</div>
-						<?php endif; ?>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        		<div class="progress-group">
+				<div class="progress-group">
 					<a href="https://kawalcorona.com/" rel="noopener noreferrer" target="_blank">
-					<button type="button" class="btn btn-success btn-block">Sumber kawalcorona.com</button>
+						<button type="button" class="btn btn-success btn-block">Sumber kawalcorona.com</button>
 					</a>
 				</div>
-            </div>
+			</div>
 		</div>
-    </div>
+	</div>
 </div>

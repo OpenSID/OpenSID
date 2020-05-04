@@ -1,7 +1,6 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php
-
 	echo "
 	<div style=\"content_bottom_left\">
 			<div class=\"single_page_area\"><h2>Arsip Galeri ".$desa["nama_desa"]."</h2></div>

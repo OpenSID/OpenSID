@@ -56,7 +56,7 @@ $positif = $covid[4]; //"Positif Covid-19" => "POSITIF",
 			<div class="col-md-12">
 				<div class="progress-group">
 					<a href="<?= site_url('first/statistik/covid')?>">
-					<button type="button" class="btn btn-info btn-block">Lihat info lengkap di Statistik COVID19</button>
+						<button type="button" class="btn btn-info btn-block">Lihat info lengkap di Statistik COVID19</button>
 					</a>
 				</div>
 			</div>
