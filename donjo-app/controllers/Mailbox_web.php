@@ -33,19 +33,13 @@ class Mailbox_web extends Web_Controller
 
 	public function kirim_pesan()
 	{
-		$data = $this->input->post();
-		$field_remove = array('email', 'owner');
-		foreach ($field_remove as $field) {
-			unset($data[$field]);
-		}
+		$post = $this->input->post();
 		$individu = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
-		$data['email'] = $individu['nik'];
-		$data['owner'] = $individu['nama']; 
-		$data['tipe'] = 1;
-		$data['status'] = 2;
-		
-		$this->mailbox_model->insert($data);
-		$this->session->unset_userdata('success');
+		$post['email'] = $individu['nik'];
+		$post['owner'] = $individu['nama']; 
+		$post['tipe'] = 1;
+		$post['status'] = 2;
+		$this->mailbox_model->insert($post);
 		redirect('first/mandiri/1/3/2');
 	}
 
