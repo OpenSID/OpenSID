@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Arif F Lazuardi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 
@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 6. Tampilkan sebaran COVID-19 di provinsi Indonesia di peta web.
 7. #2954: Sediakan pengguna khusus pendataan pemudik Covid-19 dan sediakan fitur untuk memasukkan data pendatang langsung di menu Siaga Covid-19.
 8. Sembunyikan Data Anggaran/Realisasi di Grafik Keuangan yang bernilai 0.
+9. Perbaiki penulisan script tampilan web sesuai aturan. Sederhanakan dan gabung script tema klasik dan hadakewa. Sederhanakan script js di halaman statistik web. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

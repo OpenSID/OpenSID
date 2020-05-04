@@ -75,7 +75,7 @@
 			$('#showData').hide();
 			tampilkan_nol(false);
 		});
-				
+
 	});
 </script>
 <style>
@@ -89,10 +89,8 @@
 		<h3 class="box-title">Grafik Data Demografi Berdasar <?= $heading ?></h3>
 		<div class="box-tools pull-right">
 			<div class="btn-group-xs">
-				<?php $strC = ($tipe==1)? "btn-primary":"btn-default"; ?>
-				<a href="<?= site_url("first/statistik/$st/1") ?>" class="btn <?= $strC ?> btn-xs">Bar Graph</a>
-				<?php $strC = ($tipe==0)? "btn-primary":"btn-default";?>
-				<a href="<?= site_url("first/statistik/$st/0") ?>" class="btn <?= $strC ?> btn-xs">Pie Cart</a>
+				<a href="<?= site_url("first/statistik/$st/1") ?>" class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs">Bar Graph</a>
+				<a href="<?= site_url("first/statistik/$st/0") ?>" class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs">Pie Cart</a>
 			</div>
 		</div>
 	</div>
@@ -130,10 +128,12 @@
 			</tr>
 			</thead>
 			<tbody>
-			<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
-			<?php foreach ($stat as $data):?>
-				<?php $jm1++; if (1):?>
-					<?php $h++; if ($h > 12 AND $jm > 10): $hide="lebih"; ?>
+				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
+				<?php foreach ($stat as $data):?>
+					<?php $jm1++; ?>
+					<?php $h++; ?>
+					<?php if ($h > 12 AND $jm > 10): ?>
+						<?php $hide = "lebih"; ?>
 					<?php endif;?>
 					<tr class="<?=$hide?>">
 						<td class="angka">
@@ -154,12 +154,12 @@
 						<?php endif;?>
 					</tr>
 					<?php $i += $data['jumlah'];?>
-					<?php $l += $data['laki']; $p += $data['perempuan'];?>
-				<?php endif;?>
-			<?php endforeach;?>
+					<?php $l += $data['laki'];?>
+					<?php $p += $data['perempuan'];?>
+				<?php endforeach;?>
 			</tbody>
 		</table>
-		<?php if($hide=="lebih"):?>
+		<?php if ($hide=="lebih"):?>
 			<div style='float: left;'>
 				<button class='uibutton special' id='showData'>Selengkapnya...</button>
 			</div>
