@@ -52,10 +52,10 @@
 			<tbody>
 				<?php foreach($main as $m): ?>
 					<tr>
-						<td><a href="<?= base_url('desa/upload/dokumen/') . $m['satuan'] ?>"><?= $m['nama'] ?></a></td>
+						<td><a href="<?= base_url(LOKASI_DOKUMEN) . $m['satuan'] ?>"><?= $m['nama'] ?></a></td>
 						<td><?= $m['kategori'] ?></td>
 						<td><?= $m['tahun'] ?></td>
-						<td><a href="<?= base_url('desa/upload/dokumen/') . $m['satuan'] ?>"><i class="fa fa-download"></i> Unduh</a></td>
+						<td><a href="<?= base_url(LOKASI_DOKUMEN) . $m['satuan'] ?>"><i class="fa fa-download"></i> Unduh</a></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
