@@ -6,11 +6,11 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="tab_1">
-      <?php $this->load->view('buku/umum/content_agenda_masuk') ?>
+      <?php $this->load->view('bumindes/umum/content_agenda_masuk') ?>
     </div>
     <!-- /.tab-pane -->
     <div class="tab-pane" id="tab_2">
-      <?php $this->load->view('buku/umum/content_agenda_keluar') ?>
+      <?php $this->load->view('bumindes/umum/content_agenda_keluar') ?>
     </div>
     <!-- /.tab-pane -->
   </div>

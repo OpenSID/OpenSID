@@ -18,52 +18,11 @@ class Bumindes_umum extends Admin_Controller {
 
 	public function index()
 	{
-		$this->peraturan();
+		$this->tables("peraturan");
 	}
 
-	// Menu Buku Peraturan di Desa #2773
-	public function peraturan($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("peraturan", $page_number, $offset);
-	}
-
-	// Menu Buku Keputusan Kepala Desa #2773
-	public function keputusan($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("keputusan", $page_number, $offset);
-	}
-
-	// Menu Buku Aparat Pemerintah Desa #2773
-	public function aparat($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("aparat", $page_number, $offset);
-	}
-
-	// Menu Buku Agenda #2773
-	public function agenda($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("agenda", $page_number, $offset);
-	}
-
-	// Menu Buku Ekspedisi #2774
-	public function ekspedisi($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("ekspedisi", $page_number, $offset);
-	}
-
-	// Menu Buku Lembaran Desa dan Berita Desa #2775
-	public function berita($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("berita", $page_number, $offset);
-	}
-
-	private function load_data_tables($page=null, $page_number=1, $offset=0)
+	// TABLES
+	public function tables($page="peraturan", $page_number=1, $offset=0)
 	{
 		$this->sub_modul_ini = 302;
 
@@ -81,6 +40,20 @@ class Bumindes_umum extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		// set session END
 
+		// load data for displaying at tables
+		$data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
+
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav');
+		$this->load->view('bumindes/umum/main', $data);
+		$this->load->view('footer');
+	}
+
+	private function load_data_tables($page, $page_number, $offset)
+	{
 		$data['selected_nav'] = $page;
 		switch (strtolower($page))
 		{
@@ -113,18 +86,12 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 		}
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('buku/umum/main', $data);
-		$this->load->view('footer');
+		return $data;
 	}
 
-	private function load_peraturan_data_tables($page_number=1, $offset=0)
+	private function load_peraturan_data_tables($page_number, $offset)
 	{
-		$data['main_content'] = "buku/umum/content_dokumen_desa";
+		$data['main_content'] = "bumindes/umum/content_dokumen_desa";
 		$data['subtitle'] = "Buku Peraturan Desa";
 
 		$data['kat'] = '3';
@@ -136,9 +103,9 @@ class Bumindes_umum extends Admin_Controller {
 		return $data;
 	}
 
-	private function load_keputusan_data_tables($page_number=1, $offset=0)
+	private function load_keputusan_data_tables($page_number, $offset)
 	{
-		$data['main_content'] = "buku/umum/content_dokumen_desa";
+		$data['main_content'] = "bumindes/umum/content_dokumen_desa";
 		$data['subtitle'] = "Buku Keputusan Kepala Desa";
 
 		$data['kat'] = '2';
@@ -150,9 +117,9 @@ class Bumindes_umum extends Admin_Controller {
 		return $data;
 	}
 
-	private function load_aparat_data_tables($page_number=1, $offset=0)
+	private function load_aparat_data_tables($page_number, $offset)
 	{
-		$data['main_content'] = "buku/umum/content_pemerintah_desa";
+		$data['main_content'] = "bumindes/umum/content_pemerintah_desa";
 		$data['subtitle'] = "Buku Aparat Pemerintah Desa";
 
 		$data['main'] = $this->pamong_model->list_data();
@@ -161,9 +128,9 @@ class Bumindes_umum extends Admin_Controller {
 		return $data;
 	}
 
-	private function load_agenda_data_tables($page_number=1, $offset=0)
+	private function load_agenda_data_tables($page_number, $offset)
 	{
-		$data['main_content'] = "buku/umum/content_agenda_desa";
+		$data['main_content'] = "bumindes/umum/content_agenda_desa";
 		$data['subtitle'] = "Buku Agenda";
 
 		$data['p'] = $page_number;
@@ -186,7 +153,7 @@ class Bumindes_umum extends Admin_Controller {
 
 	private function load_ekspedisi_data_tables($page_number=1, $offset=0)
 	{
-		$data['main_content'] = "buku/umum/content_ekspedisi";
+		$data['main_content'] = "bumindes/umum/content_ekspedisi";
 		$data['subtitle'] = "Buku Ekspedisi";
 
 		return $data;
@@ -194,10 +161,18 @@ class Bumindes_umum extends Admin_Controller {
 
 	private function load_berita_data_tables($page_number=1, $offset=0)
 	{
-		$data['main_content'] = "buku/umum/content_berita";
+		$data['main_content'] = "bumindes/umum/content_berita";
 		$data['subtitle'] = "Buku Lembaran Desa dan Berita Desa";
 
 		return $data;
 	}
+	// TABLES END
 
+	// FORM
+	public function form($page="peraturan")
+	{
+
+	}
+
+	// FORM END
 }
