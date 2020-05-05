@@ -299,6 +299,7 @@ class Web_dokumen_model extends CI_Model {
 					$data['id_pend'] = $value;
 					$this->db->insert('dokumen', $data);
 				}
+				return $retval;
 			}
 		}
 		else return $retval;
