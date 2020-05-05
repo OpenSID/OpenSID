@@ -99,6 +99,7 @@ class Kelompok_model extends CI_Model {
 	public function insert()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$datax = array();
 
 		$outpa = $this->db->insert('kelompok', $data);
@@ -115,6 +116,7 @@ class Kelompok_model extends CI_Model {
 	public function insert_a($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['id_kelompok'] = $id;
 
 		$sql = "SELECT id FROM kelompok_anggota WHERE id_kelompok = ? AND id_penduduk = ?";
@@ -132,6 +134,7 @@ class Kelompok_model extends CI_Model {
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if ($data['id_ketua'] == "")
 		unset($data['id_ketua']);
 
@@ -144,7 +147,7 @@ class Kelompok_model extends CI_Model {
 	public function update_a($id=0, $id_a=0)
 	{
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		$this->db->where('id_kelompok', $id);
 		$this->db->where('id_penduduk', $id_a);
 		$outp = $this->db->update('kelompok_anggota', $data);

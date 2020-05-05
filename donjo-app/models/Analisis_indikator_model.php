@@ -131,6 +131,7 @@
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if ($data['id_tipe'] != 1)
 		{
 			$data['act_analisis'] = 2;
@@ -160,6 +161,7 @@
 		}
 
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if ($data['id_tipe'] != 1)
 		{
 			$data['act_analisis'] = 2;
@@ -208,6 +210,7 @@
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
@@ -217,6 +220,7 @@
 	public function p_update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		// Analisis sistem hanya kolom tertentu boleh diubah
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])){
 			unset($data['kode_jawaban']);

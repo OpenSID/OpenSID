@@ -674,6 +674,7 @@
 	public function insert_rentang()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['status'] = 1;
 		if ($data['sampai'] != '99999')
 			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
@@ -687,6 +688,7 @@
 	public function update_rentang($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if ($data['sampai'] != '99999')
 			$data['nama'] = $data['dari'].' s/d '.$data['sampai'].' Tahun';
 		else

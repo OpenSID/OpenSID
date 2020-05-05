@@ -88,6 +88,7 @@
 	public function insert()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['id_master']=$_SESSION['analisis_master'];
 		$outp = $this->db->insert('analisis_klasifikasi', $data);
 
@@ -97,6 +98,7 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['id_master']=$_SESSION['analisis_master'];
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_klasifikasi', $data);

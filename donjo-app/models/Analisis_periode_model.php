@@ -103,6 +103,7 @@
 	public function insert()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$dp = $data['duplikasi'];
 		unset($data['duplikasi']);
 
@@ -150,6 +151,7 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$akt = array();
 
 		$data['id_master'] = $_SESSION['analisis_master'];

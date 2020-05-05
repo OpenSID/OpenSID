@@ -164,6 +164,7 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$this->db->where('ref_syarat_id', $id);
 		$outp = $this->db->update('ref_syarat_surat', $data);
 

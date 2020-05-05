@@ -78,6 +78,7 @@ class Kelompok_master_model extends CI_Model {
 	public function insert()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$outp = $this->db->insert('kelompok_master', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -86,6 +87,7 @@ class Kelompok_master_model extends CI_Model {
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok_master', $data);
 		status_sukses($outp); //Tampilkan Pesan

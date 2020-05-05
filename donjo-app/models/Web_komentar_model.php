@@ -133,6 +133,7 @@
 	public function insert()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['id_user'] = $_SESSION['user'];
 		$outp = $this->db->insert('komentar', $data);
 		
@@ -142,6 +143,7 @@
 	public function update($id=0)
 	{
 	  $data = $_POST;
+	  $data = $this->security->xss_clean($data);
 	  $data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('komentar', $data);

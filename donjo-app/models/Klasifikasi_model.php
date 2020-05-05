@@ -111,6 +111,7 @@
 	{
 		$data = $_POST;
 		$this->sterilkan_data($data);
+		$data = $this->security->xss_clean($data);
 		return $this->db->insert('klasifikasi_surat', $data);
 	}
 
@@ -125,6 +126,7 @@
 	{
 		$data = $_POST;
 		$this->sterilkan_data($data);
+		$data = $this->security->xss_clean($data);
 		return $this->db->where('id',$id)->update('klasifikasi_surat', $data);
 	}
 
