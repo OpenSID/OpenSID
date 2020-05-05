@@ -11,7 +11,6 @@
       ?>
     </title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <?php var_dump(is_file(LOKASI_LOGO_DESA . "favicon.ico"))?>
     <?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
       <link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
     <?php else: ?>
