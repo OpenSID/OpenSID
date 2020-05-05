@@ -26,6 +26,7 @@ define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
+define('JUMLAH', 778);
 
 // Kode laporan mandiri di tabel komentar
 define('LAPORAN_MANDIRI', 775);
@@ -309,8 +310,8 @@ function AmbilVersi()
 function favico_desa()
 {
 	$favico = 'favicon.ico';
-	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ? 
-		base_url() . LOKASI_LOGO_DESA . $favico : 
+	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ?
+		base_url() . LOKASI_LOGO_DESA . $favico :
 		base_url() . $favico;
 	return $favico_desa;
 }
@@ -325,7 +326,7 @@ function favico_desa()
  */
 function LogoDesa($nama_logo)
 {
-	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) 
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo))
 	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
@@ -423,14 +424,14 @@ function cek_koneksi_internet($sCheckHost = 'www.google.com')
 function cek_bisa_akses_site($url)
 {
   $ch = curl_init();
-  
+
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_HEADER, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
   $content = curl_exec($ch);
   $error = curl_error($ch);
-  
+
   curl_close($ch);
   return empty($error);
 }
@@ -634,8 +635,8 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 		else
 		{
 			http_response_code(404);
-			include(FCPATH . 'donjo-app/views/errors/html/error_404.php'); 
-			die();			
+			include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
+			die();
 		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
@@ -763,7 +764,7 @@ function array_column_ext($array, $columnkey, $indexkey = null) {
     if (array_key_exists($columnkey,$value)) { $val = $array[$subarray][$columnkey]; }
     else if ($columnkey === null) { $val = $value; }
     else { continue; }
-       
+
     if ($indexkey === null) { $result[] = $val; }
     elseif ($indexkey == -1 || array_key_exists($indexkey,$value)) {
       $result[($indexkey == -1)?$subarray:$array[$subarray][$indexkey]] = $val;
