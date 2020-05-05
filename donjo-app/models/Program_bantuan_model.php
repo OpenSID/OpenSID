@@ -3,7 +3,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-		
+
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
@@ -124,7 +124,7 @@ class Program_bantuan_model extends CI_Model {
 			case 2:
 				# Data KK
 				$data = $this->keluarga_model->get_kepala_kk($peserta_id, true);
-				$data['nik_peserta'] = $data['nik']; 
+				$data['nik_peserta'] = $data['nik'];
 				$data['nik'] = $peserta_id; // no_kk digunakan sebagai id peserta
 				break;
 			case 3:
@@ -790,7 +790,7 @@ class Program_bantuan_model extends CI_Model {
 			$data = array(
 				'program_id' => $id,
 				'peserta' => $nik,
-				'sasaran' => $row["sasaran"],
+				'sasaran' => $post['sasaran'],
 				'no_id_kartu' => $post['no_id_kartu'],
 				'kartu_nik' => $post['kartu_nik'],
 				'kartu_nama' => $post['kartu_nama'],
