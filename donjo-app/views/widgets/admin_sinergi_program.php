@@ -89,55 +89,56 @@
 																	</tr>
 																<?php endforeach; ?>
 																<?php for ($s=count($setting)+1; $s <count($setting)+$kosong; $s++): ?>
-																<tr>
-																	<td>
-																		<a href="#" class="btn bg-olive btn-flat btn-sm" title="Kosongkan" onclick="kosongkan(<?= $s; ?>)"><i class='fa fa-refresh'></i> </a>
-																	</td>
-																	<td>
-																		<div class="form-group">
-																			<select class="form-control input-sm" name="setting[<?= $s?>][baris]">
-																				<option value="">-- Pilih Baris --</option>
-																				<?php for ($i=1; $i<11; $i++): ?>
-																					<option value="<?= $i;?>"><?= $i;?></option>
-																				<?php endfor?>
-																			</select>
-																		</div>
-																	</td>
-																	<td>
-																		<div class="form-group">
-																			<select class="form-control input-sm" name="setting[<?= $s?>][kolom]">
-																				<option value="">-- Pilih Kolom --</option>
-																				<?php for ($i=1; $i<4; $i++): ?>
-																					<option value="<?= $i;?>"><?= $i;?></option>
-																				<?php endfor?>
-																			</select>
-																		</div>
-																	</td>
-																	<td>
-																		<input class="form-control input-sm" type="text" placeholder="Judul" name="setting[<?= $s?>][judul]" value="" size="40">
-																	</td>
-																	<td>
-																		<input type="file" name="setting[<?= $s?>][gambar]"/>
-																	</td>
-																	<td>
-																		<input class="form-control input-sm" type="text" placeholder="Tautan" name="setting[<?= $s?>][tautan]" value="" size="40">
-																	</td>
-																</tr>
-															<?php endfor; ?>
-														</tbody>
-													</table>
+																	<tr>
+																		<td>
+																			<a href="#" class="btn bg-olive btn-flat btn-sm" title="Kosongkan" onclick="kosongkan(<?= $s; ?>)"><i class='fa fa-refresh'></i> </a>
+																		</td>
+																		<td>
+																			<div class="form-group">
+																				<select class="form-control input-sm" name="setting[<?= $s?>][baris]">
+																					<option value="">-- Pilih Baris --</option>
+																					<?php for ($i=1; $i<11; $i++): ?>
+																						<option value="<?= $i;?>"><?= $i;?></option>
+																					<?php endfor?>
+																				</select>
+																			</div>
+																		</td>
+																		<td>
+																			<div class="form-group">
+																				<select class="form-control input-sm" name="setting[<?= $s?>][kolom]">
+																					<option value="">-- Pilih Kolom --</option>
+																					<?php for ($i=1; $i<4; $i++): ?>
+																						<option value="<?= $i;?>"><?= $i;?></option>
+																					<?php endfor?>
+																				</select>
+																			</div>
+																		</td>
+																		<td>
+																			<input class="form-control input-sm" type="text" placeholder="Judul" name="setting[<?= $s?>][judul]" value="" size="40">
+																		</td>
+																		<td>
+																			<input type="file" name="setting[<?= $s?>][gambar]"/>
+																		</td>
+																		<td>
+																			<input class="form-control input-sm" type="text" placeholder="Tautan" name="setting[<?= $s?>][tautan]" value="" size="40">
+																		</td>
+																	</tr>
+																<?php endfor; ?>
+															</tbody>
+															</table>
+													</div>
 												</div>
 											</div>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="box-footer">
-						<div class="col-xs-12">
-							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+						<div class="box-footer">
+							<div class="col-xs-12">
+								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							</div>
 						</div>
 					</div>
 				</div>

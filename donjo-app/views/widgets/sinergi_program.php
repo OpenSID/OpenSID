@@ -2,10 +2,10 @@
 
 <style>
 	#sinergi_program
-	{ 
-		text-align: center; 
+	{
+		text-align: center;
 	}
-	
+
 	#sinergi_program table
 	{
 		margin: auto;
@@ -20,7 +20,6 @@
 		-moz-transition: all 0.5s;
 		-webkit-transition: all 0.5s;
 	}
-
 
 	#sinergi_program img:hover
 	{
@@ -41,11 +40,9 @@
 	</div>
 	<div id="sinergi_program" class="box-body">
 		<table>
-			<?php 
-				foreach($sinergi_program as $key => $program) :
-					$baris[$program['baris']][$program['kolom']] = $program;
-				endforeach; 
-			?>
+			<?php foreach($sinergi_program as $key => $program) : ?>
+				<?php $baris[$program['baris']][$program['kolom']] = $program; ?>
+			<?php endforeach; ?>
 
 			<?php foreach($baris as $baris_program) : ?>
 				<tr>
