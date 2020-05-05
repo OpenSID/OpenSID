@@ -77,6 +77,7 @@
                       </form>
                       <form id="validasi" action="<?= $form_action?>/<?= $detail['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 												<input type="hidden" name="nik" value="<?= $individu['nik']?>"  >
+												<input type="hidden" name="sasaran" value="<?= $detail["sasaran"]?>"  >
 												<div class="form-group">
 													<label for="kartu_nik" class="col-sm-11 control-label text-left">IDENTITAS PADA KARTU PESERTA</label>
 												</div>
@@ -153,4 +154,3 @@
 		</div>
 	</section>
 </div>
-
