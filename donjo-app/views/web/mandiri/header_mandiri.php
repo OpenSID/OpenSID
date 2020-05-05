@@ -131,8 +131,11 @@
               <p class="navbar-brand">
                 <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'] ?>
               </p>
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                <i class="fa fa-bars"></i>
+              </button>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse collapse" id="navbar-collapse">
               <ul class="nav navbar-nav">
                 <li><a href="<?= site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
                 <?php foreach ($menu_atas as $data): ?>
