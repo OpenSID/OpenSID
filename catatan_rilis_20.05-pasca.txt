@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 10. Berita Covid-19 dapat disembunyikan/ditampilkan melalui setting di desa/config/config.php.
 11. #2788: Perbaiki filter Status Penduduk di halaman Kependudukan > Penduduk. [bug-fix]
 12. Perbaiki dan sederhanakan script, termasuk pencarian spesifik penduduk di Kependudukan > Penduduk dan di Pemetaan > Peta. [teknis]
+13. Di widget Aparatur Desa, tampilkan semua aparatur desa terlepas apakah mempunyai foto atau tidak. Nama pejabat di widget sekarang juga tampil untuk aparatur dari data penduduk.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
