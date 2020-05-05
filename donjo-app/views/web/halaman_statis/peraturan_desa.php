@@ -121,7 +121,7 @@ function formAction()
       }
       for (var i = 0; i < data.length; i++)
       {
-        html += "<tr>"+"<td><a href='<?= base_url(LOKASI_DOKUMEN)?>"+data[i].satuan+"'>"+data[i].nama+"</a></td>"+
+        html += "<tr>"+"<td><a href='<?= site_url('dokumen_web/unduh_berkas/')?>"+data[i].id+"'>"+data[i].nama+"</a></td>"+
         "<td>"+data[i].kategori+"</td>"+
         "<td>"+data[i].tahun+"</td>";
       }
