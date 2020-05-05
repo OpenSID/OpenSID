@@ -230,6 +230,7 @@
 	public function add_anggota($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$no_rtm = $this->db->select('no_kk')
 			->where('id', $id)
 			->get('tweb_rtm')->row()->no_kk;
@@ -247,7 +248,7 @@
 	public function update_anggota($id=0, $id_kk)
 	{
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
 		$this->db->where('id', $id);

@@ -105,6 +105,7 @@ class Analisis_master_model extends CI_Model {
 	public function insert()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$outp = $this->db->insert('analisis_master', $data);
 
 		if ($outp)
@@ -116,6 +117,7 @@ class Analisis_master_model extends CI_Model {
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		// Kolom yang tidak boleh diubah untuk analisis sistem
 		if ($this->is_analisis_sistem($id))
 		{

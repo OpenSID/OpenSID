@@ -167,6 +167,7 @@ class Data_persil_model extends CI_Model {
 				$data['kelas'] = $_POST["kelas"];
 				$data['no_sppt_pbb'] = $_POST["sppt"];
 				$data['userID'] = $_SESSION['user'];
+				$data = $this->security->xss_clean($data);
 				$outp = $this->db->where('id', $_POST['id'])->update('data_persil', $data);
 			}
 			else
@@ -187,6 +188,7 @@ class Data_persil_model extends CI_Model {
 					$data['kelas'] = $_POST["kelas"];
 					$data['no_sppt_pbb'] = $_POST["sppt"];
 					$data['userID'] = $_SESSION['user'];
+					$data = $this->security->xss_clean($data);
 					$outp = $this->db->insert('data_persil', $data);
 				}
 				else
@@ -203,6 +205,7 @@ class Data_persil_model extends CI_Model {
 					$data['kelas'] = $_POST["kelas"];
 					$data['no_sppt_pbb'] = $_POST["sppt"];
 					$data['userID'] = $_SESSION['user'];
+					$data = $this->security->xss_clean($data);
 					$outp = $this->db->insert('data_persil', $data);
 				}
 			}

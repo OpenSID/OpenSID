@@ -106,6 +106,7 @@ class Web_kategori_model extends CI_Model {
 		$this->session->unset_userdata('error_msg');
 		$this->session->set_userdata('success', 1);
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if (!$this->cek_nama($data['kategori']))
 			return;
 		$data['enabled'] = 1;
@@ -142,6 +143,7 @@ class Web_kategori_model extends CI_Model {
 		$this->session->unset_userdata('error_msg');
 		$this->session->set_userdata('success', 1);
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if ($data['kategori'] == $data['kategori_lama'])
 		{
 			return; // Tidak ada yg diubah
@@ -235,7 +237,7 @@ class Web_kategori_model extends CI_Model {
 	public function insert_sub_kategori($kategori=0)
 	{
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		$data['parrent'] = $kategori;
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $kategori)) + 1;
@@ -248,7 +250,7 @@ class Web_kategori_model extends CI_Model {
 	public function update_sub_kategori($id=0)
 	{
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kategori', $data);
 		

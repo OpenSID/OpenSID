@@ -149,6 +149,7 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if (empty($data['judul'])  || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
@@ -287,7 +288,8 @@
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
-	  $data = $_POST;
+		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		if (empty($data['judul']) || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";

@@ -603,7 +603,7 @@
 		$_SESSION['error_msg'] = '';
 
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
 		{
@@ -704,6 +704,7 @@
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 
     // Jangan update nik apabila tidak berubah
     if ($data['nik_lama'] == $data['nik'])
@@ -801,7 +802,8 @@
       $_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
       return;
     }
-    $data = $_POST;
+	$data = $_POST;
+	$data = $this->security->xss_clean($data);
     unset($data['zoom']);
     unset($data['map_tipe']);
     if ($cek['id'] == $id)
@@ -919,6 +921,7 @@
 		}
 
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$this->db->where($data);
 		return $this->db->get('tweb_penduduk');
 	}

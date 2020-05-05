@@ -143,6 +143,7 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$data['modul'] = strip_tags($data['modul']);
 		$data['ikon'] = strip_tags($data['ikon']);
 		$aktif_lama = $this->db->select('aktif')

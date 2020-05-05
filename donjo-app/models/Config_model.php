@@ -141,6 +141,7 @@
 	public function update_kantor()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$id = "1";
 		$this->db->where('id', $id);
 		$outp = $this->db->update('config', $data);
@@ -151,6 +152,7 @@
 	public function update_wilayah()
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$id = "1";
 		$this->db->where('id', $id);
 		$outp = $this->db->update('config', $data);

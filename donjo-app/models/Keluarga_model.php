@@ -208,7 +208,7 @@
 	{
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		if (!$this->validasi_data_keluarga($data)) return;
 
 		$pend = $this->db->select('alamat_sekarang, id_cluster')->
@@ -282,7 +282,7 @@
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		if (!$this->validasi_data_keluarga($data)) return;
 
 		$error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
@@ -441,6 +441,7 @@
 	public function add_anggota($id=0)
 	{
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$this->update_kk_level($data['nik'], $id, $data['kk_level'], null);
 
 		$temp['id_kk'] = $id;
@@ -484,7 +485,7 @@
 	public function update_anggota($id=0)
 	{
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		$sql = "SELECT id_kk FROM tweb_penduduk WHERE id = ?";
 		$query = $this->db->query($sql, $id);
 		$pend = $query->row_array();
@@ -685,6 +686,7 @@
 		unset($_SESSION['error_msg']);
 
 		$data = $_POST;
+		$data = $this->security->xss_clean($data);
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file = $_FILES['foto']['type'];
 		$nama_file = $_FILES['foto']['name'];
@@ -760,7 +762,7 @@
 	{
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
+		$data = $this->security->xss_clean($data);
 		if (!$this->validasi_data_keluarga($data)) return;
 
 		// Pindah dusun/rw/rt anggota keluarga kalau berubah
