@@ -1,6 +1,8 @@
 <link type='text/css' href="<?= base_url()?>assets/front/css/slider.css" rel='Stylesheet' />
-<script type="text/javascript" src= "<?= base_url()?>assets/front/js/jquery.cycle2.min.js" type= "text/javascript"></script>
-<script type="text/javascript" src= "<?= base_url()?>assets/front/js/jquery.cycle2.caption2.min.js" type= "text/javascript"></script>
+<script src="<?= base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
+<script src="<?= base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
+<script src="<?= base_url()?>assets/front/js/jquery.cycle2.caption2.min.js"></script>
+
 <style type="text/css">
 	#aparatur_desa .cycle-pager span
 	{
