@@ -364,6 +364,8 @@ class Web_dokumen_model extends CI_Model {
 		if (!empty($post['satuan']))
 		{
 			$data['satuan'] = $this->upload_dokumen($post, $old_file);
+			$retval &= !(empty($data['satuan']));
+			if (!$retval) return $retval;
 		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
