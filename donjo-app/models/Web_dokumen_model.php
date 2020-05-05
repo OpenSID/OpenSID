@@ -294,7 +294,7 @@ class Web_dokumen_model extends CI_Model {
 			if ($retval)
 			{
 				$data['id_parent'] = $insert_id;
-				foreach ($post['anggota_kk'] as $key => $value) 
+				foreach ($post['anggota_kk'] as $key => $value)
 				{
 					$data['id_pend'] = $value;
 					$this->db->insert('dokumen', $data);
@@ -354,7 +354,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function update($id=0, $id_pend=null)
 	{
-		$retval = false;
+		$retval = true;
 
 		$post = $this->input->post();
 		$data = $this->validasi($post);
@@ -362,9 +362,11 @@ class Web_dokumen_model extends CI_Model {
 				->where('id', $id)
 				->get('dokumen')->row()->satuan;
 		$data['satuan'] = $old_file;
-		if (!empty($post['satuan'])) 
-		{	
+		if (!empty($post['satuan']))
+		{
 			$data['satuan'] = $this->upload_dokumen($post, $old_file);
+			$retval &= !(empty($data['satuan']));
+			if (!$retval) return $retval;
 		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
@@ -372,57 +374,59 @@ class Web_dokumen_model extends CI_Model {
 		unset($data['anggota_kk']);
 
 		if ($id_pend) $this->db->where('id_pend', $id_pend);
-		$this->db->where('id',$id)->update('dokumen', $data);
+		$retval &= $this->db->where('id',$id)->update('dokumen', $data);
 
-		$this->update_dok_anggota($id, $post, $data);
+		$retval &= $this->update_dok_anggota($id, $post, $data);
 
-		$retval = $this->db->affected_rows();
 		status_sukses($retval);
 		return $retval;
 	}
-	
+
 	private function update_dok_anggota($id, $post, $data)
 	{
+		$retval = true;
+
 		// cek jika dokumen ini juga ada di anggota yang lain
 		$anggota_kk = $post['anggota_kk'];
 		$anggota_lain = array_column($this->get_dokumen_di_anggota_lain($id), 'id_pend');
-		
+
 		// cari intersect anggota
 		unset($data['id_pend']);
 		$intersect_id_pend = array_intersect($anggota_kk, $anggota_lain);
-		foreach ($intersect_id_pend as $key => $value) 
+		foreach ($intersect_id_pend as $key => $value)
 		{
 			$this->db->where('id_pend',$value);
 			$this->db->where('id_parent',$id);
-			$this->db->update('dokumen', $data);
+			$retval &= $this->db->update('dokumen', $data);
 		}
 
-		// cari diff anggota (jika ada anggota yang diuncheck - delete)	
+		// cari diff anggota (jika ada anggota yang diuncheck - delete)
 		if (isset($anggota_kk))
 		{
 			$diff_id_pend = array_diff($anggota_lain, $anggota_kk);
-			foreach ($diff_id_pend as $key => $value) 
-				$this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
+			foreach ($diff_id_pend as $key => $value)
+				$retval &= $this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
 		}
-		else 
+		else
 		{
-			foreach ($anggota_lain as $key => $value) 
-				$this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
-		}	
-		
-		// cari diff anggota (jika ada anggota tambahan yang dicheck -> insert)	
+			foreach ($anggota_lain as $key => $value)
+				$retval &= $this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
+		}
+
+		// cari diff anggota (jika ada anggota tambahan yang dicheck -> insert)
 		$diff_id_pend = array_diff($anggota_kk, $anggota_lain);
-		if (isset($diff_id_pend)) 
+		if (isset($diff_id_pend))
 		{
 			unset($data['updated_at']);
 
-			foreach ($diff_id_pend as $key => $value) 
+			foreach ($diff_id_pend as $key => $value)
 			{
 				$data["id_pend"] = $value;
 				$data["id_parent"] = $id;
-				$this->db->insert('dokumen', $data);	// insert new data
+				$retval &= $this->db->insert('dokumen', $data);	// insert new data
 			}
 		}
+		return $retval;
 	}
 
 	// Soft delete, tapi hapus berkas dokumen
@@ -445,7 +449,7 @@ class Web_dokumen_model extends CI_Model {
 		// cek jika dokumen ini juga ada di anggota yang lain
 		$anggota_lain = $this->get_dokumen_di_anggota_lain($id);
 		// soft delete dokumen anggota lain jika ada
-		foreach ($anggota_lain as $item) 
+		foreach ($anggota_lain as $item)
 			$this->db->where('id', $item['id'])->update('dokumen', $data);
 	}
 
@@ -494,10 +498,10 @@ class Web_dokumen_model extends CI_Model {
 			$data[$key]['attr'] = json_decode($data[$key]['attr'], true);
 			$data[$key] = array_filter($data[$key]);
 		}
-		
+
 		return $data;
 	}
-	
+
 
 	/**
 	 * Ambil nama berkas dari database berdasarkan id dokumen
@@ -509,7 +513,7 @@ class Web_dokumen_model extends CI_Model {
 		// Ambil nama berkas dari database untuk dokumen yg aktif
 		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$nama_berkas = $this->db->select('satuan')
-			->where('id', $id)			
+			->where('id', $id)
 			->where('enabled', 1)
 			->get('dokumen')->row()->satuan;
 		return $nama_berkas;
