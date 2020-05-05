@@ -85,7 +85,6 @@ class Bumindes_umum extends Admin_Controller {
 				$data = array_merge($data, $this->load_peraturan_data_tables($page_number, $offset));
 				break;
 		}
-
 		return $data;
 	}
 
@@ -94,7 +93,10 @@ class Bumindes_umum extends Admin_Controller {
 		$data['main_content'] = "bumindes/umum/content_dokumen_desa";
 		$data['subtitle'] = "Buku Peraturan Desa";
 
-		$data['kat'] = '3';
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+		$data['kat_id'] = "3";
+		$data['kat'] = 'peraturan';
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama('3');
 		$data['paging'] = $this->web_dokumen_model->paging('3', $page_number, $offset);
 		$data['main'] = $this->web_dokumen_model->list_data('3', $o, $data['paging']->offset, $data['paging']->per_page);
@@ -108,7 +110,10 @@ class Bumindes_umum extends Admin_Controller {
 		$data['main_content'] = "bumindes/umum/content_dokumen_desa";
 		$data['subtitle'] = "Buku Keputusan Kepala Desa";
 
-		$data['kat'] = '2';
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+		$data['kat_id'] = "2";
+		$data['kat'] = 'keputusan';
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama('2');
 		$data['paging'] = $this->web_dokumen_model->paging('2', $page_number, $offset);
 		$data['main'] = $this->web_dokumen_model->list_data('2', $o, $data['paging']->offset, $data['paging']->per_page);
@@ -169,10 +174,309 @@ class Bumindes_umum extends Admin_Controller {
 	// TABLES END
 
 	// FORM
-	public function form($page="peraturan")
+	public function form($page="peraturan", $page_number=1, $offset=0, $key=null)
+	{
+		$this->sub_modul_ini = 302;
+
+		$data = array();
+		$data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
+
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('bumindes/umum/main', $data);
+		$this->load->view('footer');
+	}
+
+	private function load_form($page, $page_number, $offset, $key)
+	{
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		$data['selected_nav'] = $page;
+		switch (strtolower($page))
+		{
+			case 'peraturan':
+				$data = array_merge($data, $this->load_form_peraturan($page_number, $offset, $key));
+				break;
+
+			case 'keputusan':
+				$data = array_merge($data, $this->load_form_keputusan($page_number, $offset, $key));
+				break;
+
+			case 'aparat':
+				$data = array_merge($data, $this->load_form_aparat($page_number, $offset, $key));
+				break;
+
+			case 'agenda':
+				$data = array_merge($data, $this->load_form_agenda($page_number, $offset, $key));
+				break;
+
+			case 'ekspedisi':
+				$data = array_merge($data, $this->load_form_ekspedisi($page_number, $offset, $key));
+				break;
+
+			case 'berita':
+				$data = array_merge($data, $this->load_form_berita($page_number, $offset, $key));
+				break;
+
+			default:
+				$data = array_merge($data, $this->load_form_peraturan($page_number, $offset, $key));
+				break;
+		}
+		return $data;
+	}
+
+	function load_form_peraturan($page_number, $offset, $key)
+	{
+		$data['main_content'] = "bumindes/umum/form_dokumen_desa";
+		$data['subtitle'] = "Form Peraturan Desa";
+
+		$data['kat_id'] = "3";
+		$data['kat'] = "peraturan";
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama("3");
+		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
+
+		if ($key)
+		{
+			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($key);
+			$data['form_action'] = site_url("bumindes_umum/update/peraturan/$key/$page_number/$offset");
+		}
+		else
+		{
+			$data['dokumen'] = null;
+			$data['form_action'] = site_url("bumindes_umum/insert/peraturan");
+		}
+		return $data;
+	}
+
+	function load_form_keputusan($page_number, $offset, $key)
+	{
+		$data['main_content'] = "bumindes/umum/form_dokumen_desa";
+		$data['subtitle'] = "Form Keputusan Kepala Desa";
+
+		$data['kat_id'] = "2";
+		$data['kat'] = "keputusan";
+		$data['kat_nama'] = $this->web_dokumen_model->kat_nama("2");
+		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
+
+		if ($key)
+		{
+			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($key);
+			$data['form_action'] = site_url("bumindes_umum/update/keputusan/$key/$page_number/$offset");
+		}
+		else
+		{
+			$data['dokumen'] = null;
+			$data['form_action'] = site_url("bumindes_umum/insert/keputusan");
+		}
+		return $data;
+	}
+
+	function load_form_aparat($page_number, $offset, $key)
+	{
+
+	}
+
+	function load_form_agenda($page_number, $offset, $key)
+	{
+
+	}
+
+	function load_form_ekspedisi($page_number, $offset, $key)
+	{
+
+	}
+
+	function load_form_berita($page_number, $offset, $key)
 	{
 
 	}
 
 	// FORM END
+
+	// INSERT
+	public function insert($page)
+	{
+		switch (strtolower($page))
+		{
+			case 'peraturan':
+			case 'keputusan':
+				$_SESSION['success'] = 1;
+				$kat = $this->input->post('kategori');
+				$outp = $this->web_dokumen_model->insert();
+
+				if (!$outp) $_SESSION['success'] = -1;
+
+				redirect("bumindes_umum/tables/$page");
+				break;
+
+			case 'aparat':
+
+				break;
+
+			case 'agenda':
+
+				break;
+
+			case 'ekspedisi':
+
+				break;
+
+			case 'berita':
+
+				break;
+
+			default:
+
+				break;
+		}
+	}
+	// INSERT END
+
+	// DELETE
+	public function delete($page, $p=1, $o=0, $id='')
+	{
+		switch (strtolower($page))
+		{
+			case 'peraturan':
+			case 'keputusan':
+				$this->redirect_hak_akses('h', "dokumen_sekretariat");
+				$this->web_dokumen_model->delete($id);
+				redirect("bumindes_umum/tables/$page/$p/$o");
+				break;
+
+			case 'aparat':
+
+				break;
+
+			case 'agenda':
+
+				break;
+
+			case 'ekspedisi':
+
+				break;
+
+			case 'berita':
+
+				break;
+
+			default:
+
+				break;
+		}
+	}
+
+	public function delete_all($page, $p=1, $o=0)
+	{
+		switch (strtolower($page))
+		{
+			case 'peraturan':
+			case 'keputusan':
+				$this->redirect_hak_akses('h', "dokumen_sekretariat");
+				$this->web_dokumen_model->delete_all();
+				redirect("bumindes_umum/tables/$page/$p/$o");
+				break;
+
+			case 'aparat':
+
+				break;
+
+			case 'agenda':
+
+				break;
+
+			case 'ekspedisi':
+
+				break;
+
+			case 'berita':
+
+				break;
+
+			default:
+
+				break;
+		}
+	}
+
+	// UPDATE
+	public function update($page, $id='', $p=1, $o=0)
+	{
+		switch (strtolower($page))
+		{
+			case 'peraturan':
+			case 'keputusan':
+				$_SESSION['success'] = 1;
+				$kategori = $this->input->post('kategori');
+				if (!empty($kategori))
+					$kat = $this->input->post('kategori');
+		  		$outp = $this->web_dokumen_model->update($id);
+				if (!$outp) $_SESSION['success'] = -1;
+				redirect("bumindes_umum/tables/$page/$p/$o");
+				break;
+
+			case 'aparat':
+
+				break;
+
+			case 'agenda':
+
+				break;
+
+			case 'ekspedisi':
+
+				break;
+
+			case 'berita':
+
+				break;
+
+			default:
+
+				break;
+		}
+
+
+	}
+	// UPDATE END
+
+	// DOKUMEN UNLOCK
+	public function dokumen_lock($page, $id='')
+	{
+		$this->web_dokumen_model->dokumen_lock($id, 1);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	public function dokumen_unlock($page, $id='')
+	{
+		$this->web_dokumen_model->dokumen_lock($id, 2);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	// FILTER
+	public function filter()
+	{
+		$filter = $this->input->post('filter');
+		$page = $this->input->post('kategori');
+		if ($filter != 0)
+			$_SESSION['filter']=$filter;
+		else unset($_SESSION['filter']);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	// SEARCH
+	public function search()
+	{
+		$cari = $this->input->post('cari');
+		$page = $this->input->post('kategori');
+		if ($cari != '')
+			$_SESSION['cari']=$cari;
+		else unset($_SESSION['cari']);
+		redirect("bumindes_umum/tables/$page");
+	}
+
 }
