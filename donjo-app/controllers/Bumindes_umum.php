@@ -12,6 +12,7 @@ class Bumindes_umum extends Admin_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('surat_masuk_model');
 		$this->load->model('surat_keluar_model');
+		$this->load->model('penduduk_model');
 
 		$this->modul_ini = 301;
 	}
@@ -277,7 +278,33 @@ class Bumindes_umum extends Admin_Controller {
 
 	function load_form_aparat($page_number, $offset, $key)
 	{
+		$data['main_content'] = "bumindes/umum/form_aparat";
+		$data['subtitle'] = "Form Aparat Pemerintah Desa";
 
+		// Select penduduk
+		if (!empty($_POST['id_pend']))
+			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
+		else
+			$data['individu'] = null;
+
+		// Form update
+		if ($key)
+		{
+			$data['pamong'] = $this->pamong_model->get_data($key);
+			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
+			$data['form_action'] = site_url("bumindes_umum/update/aparat/$key");
+		}
+		else
+		{
+			$data['pamong'] = null;
+			$data['form_action'] = site_url("bumindes_umum/insert/aparat");
+		}
+
+		$data['penduduk'] = $this->pamong_model->list_penduduk();
+		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
+		$data['agama'] = $this->penduduk_model->list_agama();
+
+		return $data;
 	}
 
 	function load_form_agenda($page_number, $offset, $key)
@@ -314,7 +341,8 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 
 			case 'aparat':
-
+				$this->pamong_model->insert();
+				redirect("bumindes_umum/tables/$page");
 				break;
 
 			case 'agenda':
@@ -349,7 +377,9 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 
 			case 'aparat':
-
+				$this->redirect_hak_akses('h', 'pengurus');
+				$outp = $this->pamong_model->delete($id);
+				redirect("bumindes_umum/tables/$page");
 				break;
 
 			case 'agenda':
@@ -382,7 +412,9 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 
 			case 'aparat':
-
+				$this->redirect_hak_akses('h', 'pengurus');
+				$this->pamong_model->delete_all();
+				redirect("bumindes_umum/tables/$page");
 				break;
 
 			case 'agenda':
@@ -420,7 +452,72 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 
 			case 'aparat':
+				$this->pamong_model->update($id);
+				redirect("bumindes_umum/tables/$page");
+				break;
 
+			case 'agenda':
+
+				break;
+
+			case 'ekspedisi':
+
+				break;
+
+			case 'berita':
+
+				break;
+
+			default:
+
+				break;
+		}
+	}
+	// UPDATE END
+
+	// DOKUMEN UNLOCK
+	public function dokumen_lock($page, $id='')
+	{
+		$this->web_dokumen_model->dokumen_lock($id, 1);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	public function dokumen_unlock($page, $id='')
+	{
+		$this->web_dokumen_model->dokumen_lock($id, 2);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	// FILTER
+	public function filter($page)
+	{
+		$filter = $this->input->post('filter');
+		if ($filter != 0)
+			$_SESSION['filter']=$filter;
+		else unset($_SESSION['filter']);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	// SEARCH
+	public function search($page)
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari']=$cari;
+		else unset($_SESSION['cari']);
+		redirect("bumindes_umum/tables/$page");
+	}
+
+	// CETAK
+	public function dialog_cetak($page, $o = 0)
+	{
+		switch (strtolower($page))
+		{
+			case 'aparat':
+				$data['aksi'] = "Cetak";
+				$data['pamong'] = $this->pamong_model->list_data(true);
+				$data['form_action'] = site_url("pengurus/cetak/$o");
+				$this->load->view('home/ajax_cetak_pengurus', $data);
 				break;
 
 			case 'agenda':
@@ -440,43 +537,66 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 		}
 
-
 	}
-	// UPDATE END
 
-	// DOKUMEN UNLOCK
-	public function dokumen_lock($page, $id='')
+	public function dialog_unduh($page, $o = 0)
 	{
-		$this->web_dokumen_model->dokumen_lock($id, 1);
-		redirect("bumindes_umum/tables/$page");
+		switch (strtolower($page))
+		{
+			case 'aparat':
+				$data['aksi'] = "Unduh";
+				$data['pamong'] = $this->pamong_model->list_data(true);
+				$data['form_action'] = site_url("pengurus/unduh/$o");
+				$this->load->view('home/ajax_cetak_pengurus', $data);
+				break;
+
+			case 'agenda':
+
+				break;
+
+			case 'ekspedisi':
+
+				break;
+
+			case 'berita':
+
+				break;
+
+			default:
+
+				break;
+		}
 	}
 
-	public function dokumen_unlock($page, $id='')
+	public function urut($id = 0, $arah = 0)
 	{
-		$this->web_dokumen_model->dokumen_lock($id, 2);
-		redirect("bumindes_umum/tables/$page");
+		$this->pamong_model->urut($id, $arah);
+		redirect("bumindes_umum/tables/aparat");
 	}
 
-	// FILTER
-	public function filter()
+	public function ttd_on($id = '')
 	{
-		$filter = $this->input->post('filter');
-		$page = $this->input->post('kategori');
-		if ($filter != 0)
-			$_SESSION['filter']=$filter;
-		else unset($_SESSION['filter']);
-		redirect("bumindes_umum/tables/$page");
+		$this->pamong_model->ttd($id, 1);
+		redirect("bumindes_umum/tables/aparat");
 	}
 
-	// SEARCH
-	public function search()
+	public function ttd_off($id = '')
 	{
-		$cari = $this->input->post('cari');
-		$page = $this->input->post('kategori');
-		if ($cari != '')
-			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
-		redirect("bumindes_umum/tables/$page");
+		$this->pamong_model->ttd($id, 0);
+		redirect("bumindes_umum/tables/aparat");
 	}
+
+	public function ub_on($id = '')
+	{
+		$this->pamong_model->ub($id, 1);
+		redirect("bumindes_umum/tables/aparat");
+	}
+
+	public function ub_off($id = '')
+	{
+		$this->pamong_model->ub($id, 0);
+		redirect("bumindes_umum/tables/aparat");
+	}
+
 
 }
