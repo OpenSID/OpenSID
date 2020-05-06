@@ -229,7 +229,7 @@ class Web_dokumen_model extends CI_Model {
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 		unset($data['old_file']);
-		if (empty($_FILES['satuan']['tmp_name']))
+		if (empty($_FILES['satuan']['tmp_name']) or (int)$_FILES['satuan']['size'] > convertToBytes(max_upload().'MB'))
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] .= ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';

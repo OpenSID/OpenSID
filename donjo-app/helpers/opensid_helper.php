@@ -309,8 +309,8 @@ function AmbilVersi()
 function favico_desa()
 {
 	$favico = 'favicon.ico';
-	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ? 
-		base_url() . LOKASI_LOGO_DESA . $favico : 
+	$favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ?
+		base_url() . LOKASI_LOGO_DESA . $favico :
 		base_url() . $favico;
 	return $favico_desa;
 }
@@ -325,7 +325,7 @@ function favico_desa()
  */
 function LogoDesa($nama_logo)
 {
-	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo)) 
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo))
 	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
@@ -423,14 +423,14 @@ function cek_koneksi_internet($sCheckHost = 'www.google.com')
 function cek_bisa_akses_site($url)
 {
   $ch = curl_init();
-  
+
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_HEADER, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
   $content = curl_exec($ch);
   $error = curl_error($ch);
-  
+
   curl_close($ch);
   return empty($error);
 }
@@ -634,8 +634,8 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 		else
 		{
 			http_response_code(404);
-			include(FCPATH . 'donjo-app/views/errors/html/error_404.php'); 
-			die();			
+			include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
+			die();
 		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
@@ -763,7 +763,7 @@ function array_column_ext($array, $columnkey, $indexkey = null) {
     if (array_key_exists($columnkey,$value)) { $val = $array[$subarray][$columnkey]; }
     else if ($columnkey === null) { $val = $value; }
     else { continue; }
-       
+
     if ($indexkey === null) { $result[] = $val; }
     elseif ($indexkey == -1 || array_key_exists($indexkey,$value)) {
       $result[($indexkey == -1)?$subarray:$array[$subarray][$indexkey]] = $val;
@@ -818,4 +818,22 @@ function status_sukses($outp, $gagal_saja=false)
 		$CI->session->success = $outp ? 1 : -1;
 }
 
+// https://stackoverflow.com/questions/11807115/php-convert-kb-mb-gb-tb-etc-to-bytes
+function convertToBytes(string $from): ?int {
+  $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  $number = substr($from, 0, -2);
+  $suffix = strtoupper(substr($from,-2));
+
+  //B or no suffix
+  if(is_numeric(substr($suffix, 0, 1))) {
+      return preg_replace('/[^\d]/', '', $from);
+  }
+
+  $exponent = array_flip($units)[$suffix] ?? null;
+  if($exponent === null) {
+      return null;
+  }
+
+  return $number * (1024 ** $exponent);
+}
 ?>
