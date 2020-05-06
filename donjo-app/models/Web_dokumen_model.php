@@ -278,7 +278,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function insert()
 	{
-		$retval = false;
+		$retval = true;
 		$post = $this->input->post();
 		$satuan = $this->upload_dokumen($post);
 		if ($satuan)
@@ -288,7 +288,7 @@ class Web_dokumen_model extends CI_Model {
 			$data['attr'] = json_encode($data['attr']);
 
 			unset($data['anggota_kk']);
-			$retval = $this->db->insert('dokumen', $data);
+			$retval &= $this->db->insert('dokumen', $data);
 			$insert_id = $this->db->insert_id();
 
 			if ($retval)
@@ -297,12 +297,11 @@ class Web_dokumen_model extends CI_Model {
 				foreach ($post['anggota_kk'] as $key => $value)
 				{
 					$data['id_pend'] = $value;
-					$this->db->insert('dokumen', $data);
+					$retval &= $this->db->insert('dokumen', $data);
 				}
-				return $retval;
 			}
 		}
-		else return $retval;
+		return $retval;
 	}
 
 	private function validasi($post)
