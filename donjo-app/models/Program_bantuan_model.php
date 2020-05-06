@@ -3,7 +3,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-		
+
 		$this->load->model('rtm_model');
 		$this->load->model('kelompok_model');
 	}
@@ -124,7 +124,7 @@ class Program_bantuan_model extends CI_Model {
 			case 2:
 				# Data KK
 				$data = $this->keluarga_model->get_kepala_kk($peserta_id, true);
-				$data['nik_peserta'] = $data['nik']; 
+				$data['nik_peserta'] = $data['nik'];
 				$data['nik'] = $peserta_id; // no_kk digunakan sebagai id peserta
 				break;
 			case 3:
@@ -157,7 +157,6 @@ class Program_bantuan_model extends CI_Model {
 			return $search_sql;
 		}
 	}
-
 
 	// Query dibuat pada satu tempat, supaya penghitungan baris untuk paging selalu
 	// konsisten dengan data yang diperoleh
@@ -654,7 +653,7 @@ class Program_bantuan_model extends CI_Model {
 		$strSQL = "SELECT p.id as id, o.peserta as nik, p.nama as nama, p.sdate, p.edate, p.ndesc
 			FROM program_peserta o
 			LEFT JOIN program p ON p.id = o.program_id
-			WHERE ((o.peserta='".fixSQL($id)."') AND (o.sasaran='".fixSQL($cat)."'))";
+			WHERE ((o.peserta='".fixSQL($id)."') AND (p.sasaran='".fixSQL($cat)."'))";
 		$query = $this->db->query($strSQL);
 		if ($query->num_rows() > 0)
 		{
@@ -820,7 +819,6 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
-
 	public function hapus_peserta_program($peserta_id, $program_id)
 	{
 		$this->db->where(array('peserta' => $peserta_id, 'program_id' => $program_id));
@@ -838,9 +836,11 @@ class Program_bantuan_model extends CI_Model {
 	*/
 	public function get_program_peserta_by_id($id)
 	{
-		$this->db->where('id', $id);
-		$query = $this->db->get('program_peserta');
-		$data = $query->row_array();
+		$data = $this->db->select('pp.*, p.sasaran')
+			->from('program_peserta pp')
+			->join('program p', 'pp.program_id = p.id')
+			->where('pp.id', $id)
+			->get()->row_array();
 		// Data tambahan untuk ditampilkan
 		$peserta = $this->get_peserta($data['peserta'], $data['sasaran']);
 		switch ($data['sasaran'])
