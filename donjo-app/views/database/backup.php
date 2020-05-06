@@ -49,14 +49,8 @@
 																	<?php if (strlen(@$_SESSION["SIAK"])>1): ?>
 																			<?=$_SESSION["SIAK"]?>
 																	<?php endif ?>
-																	<?php
-																	  $_SESSION["SIAK"] = "";
-																	  $max_upload = (int)(ini_get('upload_max_filesize'));
-																	  $max_post = (int)(ini_get('post_max_size'));
-																	  $memory_limit = (int)(ini_get('memory_limit'));
-																		$upload_mb = min($max_upload, $max_post, $memory_limit);
-																	?>
-																	<p>Batas maksimal pengunggahan berkas <strong><?=$upload_mb?> MB.</strong></p>
+																	<?php $_SESSION["SIAK"] = ""; ?>
+																	<p>Batas maksimal pengunggahan berkas <strong><?= max_upload() ?> MB.</strong></p>
 																	<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi
 																	  komputer server SID dan sambungan internet yang tersedia.</p>
 																	<p></p>
