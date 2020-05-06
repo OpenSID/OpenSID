@@ -7,6 +7,7 @@ class Mailbox_web extends Web_Controller
 		parent::__construct();
 		$this->load->model('mailbox_model');
 		$this->load->model('mandiri_model');
+		$this->load->model('config_model');
 		
 		if (!isset($_SESSION['mandiri'])) {
 			redirect('first');
@@ -23,6 +24,7 @@ class Mailbox_web extends Web_Controller
 		if (!empty($subjek = $this->input->post('subjek'))) {
 			$data['subjek'] = $subjek;
 		}
+		$data['desa'] = $this->config_model->get_data();
 
 		$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
 		$data['form_action'] = site_url("mailbox_web/kirim_pesan");
