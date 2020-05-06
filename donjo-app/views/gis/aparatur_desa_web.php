@@ -15,10 +15,14 @@
 		margin-bottom: 0px;
 		border: 0px;
 	}
+	.cycle-next, .cycle-prev
+	{
+		mix-blend-mode: difference;
+	}
 </style>
 <!-- widget Aparatur Desa -->
 <div class="modal-body" id="maincontent">
-	<div class="box box-warning box-solid">
+	<div class="box box-info box-solid">
 
 			<div class="box-body">
 				<div id="aparatur_desa" class="cycle-slideshow"
@@ -32,6 +36,8 @@
 				>
 
 				<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
+					<span class="cycle-prev"><img src="<?= base_url()?>assets/images/back_button.png" alt="Back"></span>
+			    <span class="cycle-next"><img src="<?= base_url()?>assets/images/next_button.png" alt="Next"></span>
 					<div class="cycle-caption"></div>
 					<div class="cycle-overlay"></div>
 				<?php else: ?>
