@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
+Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 
@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 18. #3010: Di widget Aparatur Desa sekarang hanya tampilkan aparatur aktif dan diurut sesuai dengan di Info Desa > Pemerintahan Desa. [bug-fix]
 19. Hapus kolom yg tidak digunakan di tabel program_peserta. Sederhanakan script program bantuan [teknis]
 20. Beri informasi cara penanggulangan di tampilan error gagal verifikasi CSRF.
+21. Geser lambang desa di menu navigasi di sisi kiri supaya tidak terlalu rapat ke kiri.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
