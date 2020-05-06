@@ -24,8 +24,11 @@ class Migrasi_2005_ke_2006 extends CI_model {
 				$this->db->where('id', $widgets['id'])->update('widget', array('isi' => 'desa/widgets/'.$widgets['isi']));
 			}
 		}
-  	// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE outbox MODIFY COLUMN CreatorID text NULL");
+		// Hapus field sasaran
+		if ($this->db->field_exists('sasaran', 'program_peserta'))
+			$this->db->query('ALTER TABLE `program_peserta` DROP COLUMN `sasaran`');
 	}
 
 	private function buku_administrasi_desa()

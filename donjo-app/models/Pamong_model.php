@@ -307,6 +307,8 @@
 			ELSE p.nama END AS nama', FALSE)
 			->from('tweb_desa_pamong dp')
 			->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
+			->where('dp.pamong_status', '1')
+			->order_by('dp.urut')
 			->get()
 			->result_array();
 
