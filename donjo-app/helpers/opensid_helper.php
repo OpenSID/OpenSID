@@ -556,9 +556,9 @@ function get_extension($filename)
 
 function max_upload()
 {
-	$max_filesize = (int) (ini_get('upload_max_filesize'));
-	$max_post     = (int) (ini_get('post_max_size'));
-	$memory_limit = (int) (ini_get('memory_limit'));
+	$max_filesize = (int) bilangan(ini_get('upload_max_filesize'));
+	$max_post     = (int) bilangan(ini_get('post_max_size'));
+	$memory_limit = (int) bilangan(ini_get('memory_limit'));
 	return min($max_filesize, $max_post, $memory_limit);
 }
 
@@ -780,6 +780,11 @@ function nama_file($str)
 function alfanumerik_spasi($str)
 {
 	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+}
+
+function bilangan($str)
+{
+	return preg_replace('/[^0-9]/', '', strip_tags($str));
 }
 
 function bilangan_spasi($str)
