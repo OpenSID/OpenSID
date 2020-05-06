@@ -1,6 +1,6 @@
 <!-- widget Statistik Pengunjung -->
 
-<div class="box box-success">
+<div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Statistik Pengunjung</h3>
   </div>

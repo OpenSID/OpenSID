@@ -1,8 +1,4 @@
 <link type='text/css' href="<?= base_url()?>assets/front/css/slider.css" rel='Stylesheet' />
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.caption2.min.js"></script>
-
 <style type="text/css">
 #aparatur_desa .cycle-pager span
 {
@@ -15,9 +11,13 @@
 	margin-bottom: 0px;
 	border: 0px;
 }
+.cycle-next, .cycle-prev
+{
+	mix-blend-mode: difference;
+}
 </style>
 <!-- widget Aparatur Desa -->
-<div class="box box-info box-solid">
+<div class="box box-primary box-solid">
 
 	<div class="box-header">
 		<h3 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h3>

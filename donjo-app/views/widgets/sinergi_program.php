@@ -34,7 +34,7 @@
 		box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 	}
 </style>
-<div class="box box-warning box-solid">
+<div class="box box-primary box-solid">
 	<div class="box-header">
 		<h3 class="box-title"><i class="fa fa-external-link"></i> Sinergi Program</h3>
 	</div>

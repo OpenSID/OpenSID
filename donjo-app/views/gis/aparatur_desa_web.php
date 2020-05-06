@@ -15,6 +15,10 @@
 		margin-bottom: 0px;
 		border: 0px;
 	}
+	.cycle-next, .cycle-prev
+	{
+		mix-blend-mode: difference;
+	}
 </style>
 <!-- widget Aparatur Desa -->
 <div class="modal-body" id="maincontent">
