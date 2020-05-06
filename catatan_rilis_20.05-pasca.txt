@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 15. #2875: Sekarang nama desa tampil di form Layanan Mandiri > Kotak Pesan > Tulis Pesan. [bug-fix]
 16. #3002: Menu Siaga Covid-19 > Pemantauan sekarang tidak error untuk setting MySQL sql_mode ONLY_FULL_GROUP_BY. [bug-fix]
 17. Perbaiki tampilan aparatur desa di PetaSID di web, sesuai dengan widget Aparatur Desa.
+18. #3010: Di widget Aparatur Desa sekarang hanya tampilkan aparatur aktif dan diurut sesuai dengan di Info Desa > Pemerintahan Desa. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
