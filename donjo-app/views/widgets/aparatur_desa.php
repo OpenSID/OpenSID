@@ -17,7 +17,7 @@
 }
 </style>
 <!-- widget Aparatur Desa -->
-<div class="box box-warning box-solid">
+<div class="box box-info box-solid">
 
 	<div class="box-header">
 		<h3 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h3>
@@ -35,6 +35,8 @@
 		>
 
 		<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
+			<span class="cycle-prev"><img src="<?= base_url()?>assets/images/back_button.png" alt="Back"></span>
+	    <span class="cycle-next"><img src="<?= base_url()?>assets/images/next_button.png" alt="Next"></span>
 			<div class="cycle-caption"></div>
 			<div class="cycle-overlay"></div>
 		<?php else: ?>
