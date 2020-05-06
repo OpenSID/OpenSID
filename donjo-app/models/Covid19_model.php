@@ -128,13 +128,13 @@ class Covid19_model extends CI_Model
 		$this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
 		$this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
 
-		if(isset($id))
+		if (isset($id))
 			$this->db->where('s.id', $id);
 
-		if($is_pantau_covid_page)
+		if ($is_pantau_covid_page)
 			$this->db->where('s.is_wajib_pantau', '1');
 
-		if(isset($limit))
+		if (isset($limit))
 			$this->db->limit($limit["per_page"], $limit["offset"]);
 
 		$this->db->order_by('s.tanggal_datang', 'DESC');
@@ -173,7 +173,7 @@ class Covid19_model extends CI_Model
 
 		// get list
 		$limit = null;
-		if(isset($retval["paging"]))
+		if (isset($retval["paging"]))
 		{
 			$limit["per_page"] = $retval["paging"]->per_page;
 			$limit["offset"] = $retval["paging"]->offset;
@@ -260,19 +260,19 @@ class Covid19_model extends CI_Model
 		$this->db->order_by('o.nik', 'ASC');
 		$this->db->order_by('p.tanggal_jam', 'DESC');
 
-		if(isset($filter_tgl))
+		if (isset($filter_tgl))
 		{
-			if($filter_tgl != '0')
+			if ($filter_tgl != '0')
 				$this->db->where('DATE(p.tanggal_jam)', $filter_tgl);
 		}
 
-		if(isset($filter_nik))
+		if (isset($filter_nik))
 		{
-			if($filter_nik != '0')
+			if ($filter_nik != '0')
 				$this->db->where('p.id_pemudik', $filter_nik);
 		}
 
-		if(isset($limit))
+		if (isset($limit))
 			$this->db->limit($limit["per_page"], $limit["offset"]);
 
 		return  $this->db->get();
@@ -285,7 +285,6 @@ class Covid19_model extends CI_Model
 		// paging
 		if ($this->session->has_userdata('per_page') and $this->session->userdata('per_page') > 0)
 		{
-
 			$this->load->library('paging');
 
 			$cfg['page'] = $page;
@@ -299,7 +298,7 @@ class Covid19_model extends CI_Model
 
 		// get list
 		$limit = null;
-		if(isset($retval["paging"]))
+		if (isset($retval["paging"]))
 		{
 			$limit["per_page"] = $retval["paging"]->per_page;
 			$limit["offset"] = $retval["paging"]->offset;
@@ -333,7 +332,6 @@ class Covid19_model extends CI_Model
 		return $this->db->get()->result_array();
 	}
 
-
 	public function add_pantau_pemudik($post)
 	{
 		$data = array(
@@ -355,7 +353,6 @@ class Covid19_model extends CI_Model
 		$this->db->delete('covid19_pantau');
 	}
 	// TABEL PEMANTAUAN END
-
 
 }
 ?>
