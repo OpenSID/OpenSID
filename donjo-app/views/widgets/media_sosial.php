@@ -1,6 +1,6 @@
 <!-- widget SocMed -->
 
-<div class="box box-default">
+<div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><i class="fa fa-globe"></i> Info Media Sosial</h3>
   </div>
