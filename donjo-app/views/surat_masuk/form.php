@@ -145,15 +145,14 @@
 			</div>
 		</div>
 	</section>
-</div>
-<script type="text/javascript">
-	$(function()
-	{
-		var keyword = <?= $pengirim?> ;
-		$( "#pengirim" ).autocomplete(
+	<script type="text/javascript">
+		$(function()
 		{
-			source: keyword,
-			maxShowItems: 10,
+			var keyword = <?= $pengirim?> ;
+			$( "#pengirim" ).autocomplete(
+			{
+				source: keyword,
+				maxShowItems: 10,
+			});
 		});
-	});
-</script>
+	</script>
