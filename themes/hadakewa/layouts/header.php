@@ -81,9 +81,6 @@
 							<div id="menuwrapper">
 								<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
 							</div>
-						<!-- apakah menu ini dipakai ?
-						<div id="menu_vert2">
-						</div> -->
 					</div>
 				</div>
 				<div id="headleft">
