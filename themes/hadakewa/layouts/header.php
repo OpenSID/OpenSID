@@ -81,8 +81,9 @@
 							<div id="menuwrapper">
 								<?php $this->load->view($folder_themes.'/partials/menu.tpl.php');?>
 							</div>
+						<!-- apakah menu ini dipakai ?
 						<div id="menu_vert2">
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div id="headleft">
@@ -115,11 +116,11 @@
 
 					<br class="clearboth"/>
 				</div>
-				<?php if($teks_berjalan) : ?>
-					<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
-				<?php endif ?>
 				<div class="innertube">
 
 				</div>
 			</div>
+			<?php if($teks_berjalan) : ?>
+					<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
+				<?php endif ?>
 			<br class="clearboth"/>
