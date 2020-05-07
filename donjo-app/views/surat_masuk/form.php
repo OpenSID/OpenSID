@@ -58,7 +58,7 @@
 											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
-									<p class="help-block small">(Kosongkan jika tidak ingin mengubah berkas)</p>
+									<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></span>
 								</div>
 							</div>
 							<div class="form-group">
