@@ -14,7 +14,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		rename('desa/upload/widget', 'desa/upload/widgets');
 		// Arahkan semua widget statis ubahan desa ke folder desa/widgets
 		$list_widgets = $this->db->where('jenis_widget', 2)->get('widget')->result_array();
-		foreach ($list_widgets as $widgets) 
+		foreach ($list_widgets as $widgets)
 		{
 			$ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']); // Untuk versi 20.04-pasca ke atas
 			$cek = explode('/', $ganti); // Untuk versi 20.04 ke bawah
@@ -23,8 +23,11 @@ class Migrasi_2005_ke_2006 extends CI_model {
 				$this->db->where('id', $widgets['id'])->update('widget', array('isi' => 'desa/widgets/'.$widgets['isi']));
 			}
 		}
-  	// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE outbox MODIFY COLUMN CreatorID text NULL");
+		// Hapus field sasaran
+		if ($this->db->field_exists('sasaran', 'program_peserta'))
+			$this->db->query('ALTER TABLE `program_peserta` DROP COLUMN `sasaran`');
 	}
 
 	private function grup_akses_covid19()
@@ -44,5 +47,5 @@ class Migrasi_2005_ke_2006 extends CI_model {
 			$this->db->query($sql);
 		}
 	}
-	
+
 }

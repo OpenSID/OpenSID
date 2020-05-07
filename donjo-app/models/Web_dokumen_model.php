@@ -229,7 +229,7 @@ class Web_dokumen_model extends CI_Model {
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 		unset($data['old_file']);
-		if (empty($_FILES['satuan']['tmp_name']))
+		if (empty($_FILES['satuan']['tmp_name']) or (int)$_FILES['satuan']['size'] > convertToBytes(max_upload().'MB'))
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] .= ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
@@ -278,7 +278,7 @@ class Web_dokumen_model extends CI_Model {
 
 	public function insert()
 	{
-		$retval = false;
+		$retval = true;
 		$post = $this->input->post();
 		$satuan = $this->upload_dokumen($post);
 		if ($satuan)
@@ -288,7 +288,7 @@ class Web_dokumen_model extends CI_Model {
 			$data['attr'] = json_encode($data['attr']);
 
 			unset($data['anggota_kk']);
-			$retval = $this->db->insert('dokumen', $data);
+			$retval &= $this->db->insert('dokumen', $data);
 			$insert_id = $this->db->insert_id();
 
 			if ($retval)
@@ -297,11 +297,11 @@ class Web_dokumen_model extends CI_Model {
 				foreach ($post['anggota_kk'] as $key => $value)
 				{
 					$data['id_pend'] = $value;
-					$this->db->insert('dokumen', $data);
+					$retval &= $this->db->insert('dokumen', $data);
 				}
 			}
 		}
-		else return $retval;
+		return $retval;
 	}
 
 	private function validasi($post)

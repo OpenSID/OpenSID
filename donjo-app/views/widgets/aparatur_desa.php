@@ -1,8 +1,4 @@
 <link type='text/css' href="<?= base_url()?>assets/front/css/slider.css" rel='Stylesheet' />
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
-<script src="<?= base_url()?>assets/front/js/jquery.cycle2.caption2.min.js"></script>
-
 <style type="text/css">
 #aparatur_desa .cycle-pager span
 {
@@ -15,9 +11,13 @@
 	margin-bottom: 0px;
 	border: 0px;
 }
+.cycle-next, .cycle-prev
+{
+	mix-blend-mode: difference;
+}
 </style>
 <!-- widget Aparatur Desa -->
-<div class="box box-warning box-solid">
+<div class="box box-primary box-solid">
 
 	<div class="box-header">
 		<h3 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h3>
@@ -35,6 +35,8 @@
 		>
 
 		<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
+			<span class="cycle-prev"><img src="<?= base_url()?>assets/images/back_button.png" alt="Back"></span>
+	    <span class="cycle-next"><img src="<?= base_url()?>assets/images/next_button.png" alt="Next"></span>
 			<div class="cycle-caption"></div>
 			<div class="cycle-overlay"></div>
 		<?php else: ?>

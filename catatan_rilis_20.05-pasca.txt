@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 
@@ -18,6 +18,16 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 11. #2788: Perbaiki filter Status Penduduk di halaman Kependudukan > Penduduk. [bug-fix]
 12. Perbaiki dan sederhanakan script, termasuk pencarian spesifik penduduk di Kependudukan > Penduduk dan di Pemetaan > Peta. [teknis]
 13. Di widget Aparatur Desa, tampilkan semua aparatur desa terlepas apakah mempunyai foto atau tidak. Nama pejabat di widget sekarang juga tampil untuk aparatur dari data penduduk.
+14. #3008: Sekarang tidak tampil notifikasi gagal kalau berhasil unggah Produk Hukum. [bug-fix]
+15. #2875: Sekarang nama desa tampil di form Layanan Mandiri > Kotak Pesan > Tulis Pesan. [bug-fix]
+16. #3002: Menu Siaga Covid-19 > Pemantauan sekarang tidak error untuk setting MySQL sql_mode ONLY_FULL_GROUP_BY. [bug-fix]
+17. Perbaiki tampilan aparatur desa di PetaSID di web, sesuai dengan widget Aparatur Desa.
+18. #3010: Di widget Aparatur Desa sekarang hanya tampilkan aparatur aktif dan diurut sesuai dengan di Info Desa > Pemerintahan Desa. [bug-fix]
+19. Hapus kolom yg tidak digunakan di tabel program_peserta. Sederhanakan script program bantuan [teknis]
+20. Beri informasi cara penanggulangan di tampilan error gagal verifikasi CSRF.
+21. Geser lambang desa di menu navigasi di sisi kiri supaya tidak terlalu rapat ke kiri.
+22. #2869: Perbaiki tampilan tema 'hadakewa' di layar kecil. [bug-fix]
+23. #3000: Tambahkan validasi untuk form Analisis Master dan cegah serangan XSS. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
