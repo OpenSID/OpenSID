@@ -45,7 +45,7 @@
 
 .square {
   position: relative;
-  height: 65px;
+  height: 70px;
   width: 100%;
   border-radius: 10px;
   color: #efefef;
@@ -57,11 +57,12 @@
   justify-content: center;
   padding: 3px 15px;
   overflow: hidden;
-  right: -270px;
+  margin-left: 280px;
 }
 
 .covid {
-  height: 65px;
+  height: 70px;
+  z-index: 10;
 }
 
 .covid span:nth-child(1) {
@@ -89,13 +90,12 @@
   height: 17px;
   width: auto;
   border-radius: 5px;
-  margin-left: 0px;
-  right: -270px;
+  margin-left: 280px;
   font-size: 14px;
 }
 
 .line-short {
-  width: 200px;
+  width: 100px;
 }
 
 .covid::before {
@@ -107,7 +107,7 @@
   background-size: contain;
   width: 100%;
   height: 100%;
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .covid.shimmer::before {
