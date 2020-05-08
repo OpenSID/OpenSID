@@ -26,6 +26,12 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 19. Hapus kolom yg tidak digunakan di tabel program_peserta. Sederhanakan script program bantuan [teknis]
 20. Beri informasi cara penanggulangan di tampilan error gagal verifikasi CSRF.
 21. Geser lambang desa di menu navigasi di sisi kiri supaya tidak terlalu rapat ke kiri.
+22. #2869: Perbaiki tampilan tema 'hadakewa' di layar kecil. [bug-fix]
+23. #3000: Tambahkan validasi untuk form Analisis Master dan cegah serangan XSS. [security-fix]
+24. #1748: Perbaiki tampilan form Tambah Surat Keluar dan Tambah Surat Masuk. [bug-fix]
+25. #2239: Perbaiki tampilan widget Statistik Pengunjung untuk bilangan besar. [bug-fix]
+26. Seragamkan judul widget di tema 'klasik' dan 'hadakewa'.
+30. #2877: Perbaiki tampilkan form di Layanan Mandiri pada layar kecil.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

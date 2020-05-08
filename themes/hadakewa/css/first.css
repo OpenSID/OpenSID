@@ -39,7 +39,7 @@ body{
 #topsection{
   height: 288px;
   background: url(images/bg_header.jpg);
-  margin: 6px 0px 6px 0px;
+  margin: 6px 0px 0px 0px;
 }
 #footer{
   padding: 0;
@@ -71,17 +71,15 @@ body{
 	width: 100%;
 }
 #scroller {
-	margin-top: 23px;
+	margin-top: 0px;
 	margin-left: 0px;
 	width: 100%;
 	background: #17b514;
 	border-right: 0px solid;
 }
+
 #headleft{
-	float: left;
 	width: 100%;
-	margin-left: 0;
-	margin-top: -80px;
 }
 
 #menu_vert{
@@ -113,9 +111,14 @@ body{
 	height: 91px;
 }
 
+#divlogo{
+	width:100%;
+}
+
 #divlogo-img {
 	margin-left: auto;
 	margin-right: auto;
+	margin-top:75px;
 	float: none;
 }
 #divlogo-img img{
@@ -255,7 +258,8 @@ body{
 	background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
-.box.box-solid.box-info > .box-header {;
+
+.box.box-solid.box-info > .box-header {
 	border-bottom: 0px;
 	border-top: 0px;
 	background: rgba(32,124,229,1);

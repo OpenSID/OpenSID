@@ -102,20 +102,30 @@ class Analisis_master_model extends CI_Model {
 		return $data;
 	}
 
+	private function sterilkan_data($post)
+	{
+		$data = array();
+    $data['nama'] = alfanumerik_spasi($post['nama']);
+    $data['subjek_tipe'] = $post['subjek_tipe'];
+    $data['id_kelompok'] = $post['id_kelompok'] ?: null;
+    $data['lock'] = $post['lock'] ?: null;
+    $data['format_impor'] = $post['format_impor'] ?: null;
+    $data['pembagi'] = bilangan_titik($post['pembagi']);
+    $data['id_child'] = $post['id_child'] ?: null;
+    $data['deskripsi'] = strip_tags($post['deskripsi']);
+    return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->sterilkan_data($this->input->post());
 		$outp = $this->db->insert('analisis_master', $data);
-
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		status_sukses($outp);
 	}
 
 	public function update($id=0)
 	{
-		$data = $_POST;
+		$data = $this->sterilkan_data($this->input->post());
 		// Kolom yang tidak boleh diubah untuk analisis sistem
 		if ($this->is_analisis_sistem($id))
 		{
@@ -125,10 +135,7 @@ class Analisis_master_model extends CI_Model {
 		}
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_master', $data);
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		status_sukses($outp);
 	}
 
 	public function is_analisis_sistem($id)
@@ -140,7 +147,7 @@ class Analisis_master_model extends CI_Model {
 
 	public function delete($id='', $semua=false)
 	{
-		
+
 		if ($this->is_analisis_sistem($id)) return; // Jangan hapus analisis sistem
 
 		if (!$semua) $this->session->success = 1;
@@ -162,7 +169,7 @@ class Analisis_master_model extends CI_Model {
 		}
 	}
 
-	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB 
+	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB
 	private function sub_delete($id='')
 	{
 		$sql = "DELETE FROM analisis_parameter WHERE id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = ?)";
