@@ -4,7 +4,6 @@
 <script>
 	const KODE_PROVINSI = "<?= config_item('provinsi_covid') ?: 'undefined' ?>";
 </script>
-<script src="<?= base_url()?>assets/js/peta.js"></script>
 
 	<section id="covid-nasional" class="py-4 bg-white">
 		<p class="font-weight-bold line line-short shimmer" data-name="wilayah"></p>
