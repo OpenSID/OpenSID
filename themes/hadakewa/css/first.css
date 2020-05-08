@@ -39,7 +39,7 @@ body{
 #topsection{
   height: 288px;
   background: url(images/bg_header.jpg);
-  margin: 6px 0px 6px 0px;
+  margin: 6px 0px 0px 0px;
 }
 #footer{
   padding: 0;
@@ -71,7 +71,7 @@ body{
 	width: 100%;
 }
 #scroller {
-	margin-top: 23px;
+	margin-top: 0px;
 	margin-left: 0px;
 	width: 100%;
 	background: #17b514;
