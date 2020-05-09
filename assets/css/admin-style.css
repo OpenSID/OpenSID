@@ -420,7 +420,7 @@ Warna Bar Realisasi
 /*
 Agar Logo Desa di menu navigasi Admin di sisi kiri tidak terlalu rapat ke kiri
 */
-.pull-left {
+.main-sidebar .pull-left.image {
     padding: 0px 10px 10px 10px;
 }
 

@@ -62,10 +62,13 @@
     //Menambahkan zoom scale ke peta
     L.control.scale().addTo(mymap);
 
+    var mylayer = L.featureGroup();
+    var layerControl = {
+      "Peta Sebaran Covid19": mylayer, // opsi untuk show/hide Peta Sebaran covid19 dari geojson dibawah
+    }
+
     //loading Peta Covid - data geoJSON dari BNPB- https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
-    <?php if (config_item('covid_peta')) : ?>
     $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
-    	// add GeoJSON layer to the map once the file is loaded
     	var datalayer = L.geoJson(data ,{
     		onEachFeature: function (feature, layer) {
     			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>assets/images/gis/point/covid.png"});
@@ -90,17 +93,37 @@
     			layer.bindPopup(popup_0);
     			layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
     		},
-    	}).addTo(mymap);
-    	mymap.fitBounds(datalayer.getBounds());
+    	});
+      mylayer.addLayer(datalayer);
     });
-    <?php endif; ?>
 
-    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
+    mymap.on('layeradd layerremove', function () {
+      var bounds = new L.LatLngBounds();
+      mymap.eachLayer(function (layer) {
+        if(mymap.hasLayer(mylayer)) {
+          $('#covid_status').show();
+        } else {
+          $('#covid_status').hide();
+        }
+        if (layer instanceof L.FeatureGroup) {
+          bounds.extend(layer.getBounds());
+        }
+      });
+      if (bounds.isValid()) {
+        mymap.fitBounds(bounds);
+      } else {
+        mymap.fitBounds(<?=$desa['path']?>);
+      }
+    });
+
+    var mainlayer = L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
+    var covidlayer = L.control.layers('', layerControl, {position: 'topleft', collapsed: false}).addTo(mymap);
 
 		$('#isi_popup_dusun').remove();
 		$('#isi_popup_rw').remove();
 		$('#isi_popup_rt').remove();
     $('#isi_popup').remove();
+    $('#covid_status').hide();
 
   }; //EOF window.onload
 
@@ -112,11 +135,13 @@
 		  <div class="col-md-12">
 				<div id="map">
 				  <div class="leaflet-top leaflet-left">
-					<?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
-					<?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-					<?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-					<?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-          <?php $this->load->view("gis/covid_peta.php") ?>
+  					<?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
+  					<?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+  					<?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+  					<?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <div id="covid_status">
+              <?php $this->load->view("gis/covid_peta.php") ?>
+            </div>
 				  </div>
 				</div>
 		  </div>
@@ -159,7 +184,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="<?= base_url()?>assets/js/peta.js"></script>
 <script src="<?= base_url()?>assets/js/turf.min.js"></script>
