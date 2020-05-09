@@ -201,6 +201,9 @@
 													<td>Nomor Telepon</td><td >:</td><td><?= strtoupper($penduduk['telepon'])?></td>
 												</tr>
 												<tr>
+													<td>Alamat Email</td><td >:</td><td><?= strtoupper($penduduk['email'])?></td>
+												</tr>
+												<tr>
 													<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 												</tr>
 												<tr>
