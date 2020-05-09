@@ -33,6 +33,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 26. Seragamkan judul widget di tema 'klasik' dan 'hadakewa'.
 30. #2877: Perbaiki tampilkan form di Layanan Mandiri pada layar kecil.
 31. #3039: Bisa akses api.kawalcorona.com kembali menghindari pembatasan CORS.
+32. #3004: Sediakan statistik penerima bantuan sasaran penduduk, dan bisa tampilkan semua penduduk yg bukan penerima bantuan sasaran penduduk apapun.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
