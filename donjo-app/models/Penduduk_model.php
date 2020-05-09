@@ -303,7 +303,7 @@
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
 		LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
 		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
-		LEFT JOIN program_peserta bt ON bt.kartu_nik = u.nik
+		LEFT JOIN program_peserta bt ON bt.peserta = u.nik
 		LEFT JOIN program rcb ON bt.program_id = rcb.id
 		WHERE 1 ";
 

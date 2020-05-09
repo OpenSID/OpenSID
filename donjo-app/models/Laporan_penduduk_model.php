@@ -83,7 +83,7 @@
 		}
 	}
 
-	private function get_jumlah_sql($fk = false, $delimiter = false, $where = 0)
+	protected function get_jumlah_sql($fk = false, $delimiter = false, $where = 0)
 	{
 		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
@@ -99,7 +99,7 @@
 		return $sql;
 	}
 
-	private function get_laki_sql($fk = false, $delimiter = false, $where = 0)
+	protected function get_laki_sql($fk = false, $delimiter = false, $where = 0)
 	{
 		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
@@ -115,7 +115,7 @@
 		return $sql;
 	}
 
-	private function get_perempuan_sql($fk = false, $delimiter = false, $where = 0)
+	protected function get_perempuan_sql($fk = false, $delimiter = false, $where = 0)
 	{
 		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
@@ -449,6 +449,13 @@
 
 	public function list_data($lap=0, $o=0)
 	{
+		// Penerima program bantuan secara menyeluruh
+		if ($lap == 'bantuan')
+		{
+			$this->load->model('statistik_penduduk_model');
+			return $this->statistik_penduduk_model->list_data($o);
+		}
+
 		// Laporan program bantuan
 		if ($lap > 50)
 		{
