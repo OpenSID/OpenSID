@@ -32,9 +32,9 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		if (!$this->db->field_exists('email', 'tweb_penduduk'))
 			$this->dbforge->add_column('tweb_penduduk', array(
 				'email' => array(
-					'type' => 'VARCHAR',
-					'constraint' => 25,
-					'null' => TRUE,
+				'type' => 'VARCHAR',
+				'constraint' => 25,
+				'null' => TRUE,
 				),
 			));
 	
