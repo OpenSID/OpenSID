@@ -481,6 +481,12 @@
 						<input id="telepon"  name="telepon"  class="form-control input-sm" type="text" placeholder="Nomor Telepon" size="20" value="<?= $penduduk['telepon']?>"></input>
 					</div>
 				</div>
+					<div class='col-sm-12'>
+					<div class='form-group'>
+						<label for="email"> Alamat Email </label>
+						<input id="email"  name="email"  class="form-control input-sm" type="text" placeholder="Alamat Email" size="20" value="<?= $penduduk['email']?>"></input>
+					</div>
+				</div>
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="alamat_sebelumnya">Alamat Sebelumnya </label>
