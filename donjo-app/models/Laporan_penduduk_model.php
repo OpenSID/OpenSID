@@ -83,7 +83,7 @@
 		}
 	}
 
-	private function get_jumlah_sql($fk = false, $delimiter = false, $where = 0)
+	protected function get_jumlah_sql($fk = false, $delimiter = false, $where = 0)
 	{
 		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
@@ -99,7 +99,7 @@
 		return $sql;
 	}
 
-	private function get_laki_sql($fk = false, $delimiter = false, $where = 0)
+	protected function get_laki_sql($fk = false, $delimiter = false, $where = 0)
 	{
 		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
@@ -115,7 +115,7 @@
 		return $sql;
 	}
 
-	private function get_perempuan_sql($fk = false, $delimiter = false, $where = 0)
+	protected function get_perempuan_sql($fk = false, $delimiter = false, $where = 0)
 	{
 		$sql = "(SELECT COUNT(b.id) FROM penduduk_hidup b
 						LEFT JOIN tweb_wil_clusterdesa a ON b.id_cluster = a.id
@@ -212,7 +212,8 @@
 			"statistik/18" => "Kepemilikan Wajib KTP",
 			"statistik/5"  => "Warga Negara",
 			"statistik/19" => "Asuransi",
-			"statistik/covid" => "Status Covid"
+			"statistik/covid" => "Status Covid",
+			"statistik/bantuan" => "Penerima Bantuan"
 		);
 		return $statistik;
 	}
@@ -272,6 +273,7 @@
 			case "covid": return "Status Covid"; break;
 			case "21": return "Klasifikasi Sosial"; break;
 			case "24": return "Penerima BOS"; break;
+			case "bantuan": return "Penerima Bantuan"; break;
 			default: return NULL;
 		}
 	}
@@ -447,6 +449,13 @@
 
 	public function list_data($lap=0, $o=0)
 	{
+		// Penerima program bantuan secara menyeluruh
+		if ($lap == 'bantuan')
+		{
+			$this->load->model('statistik_penduduk_model');
+			return $this->statistik_penduduk_model->list_data($o);
+		}
+
 		// Laporan program bantuan
 		if ($lap > 50)
 		{
@@ -469,11 +478,11 @@
 		switch ("$lap")
 		{
 			//Bagian Keluarga
-			case 'kelas_sosial': $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 1) AS laki,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 2) AS perempuan FROM tweb_keluarga_sejahtera u"; 
+			case 'kelas_sosial': $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 1) AS laki,(SELECT COUNT(k.id) FROM tweb_keluarga k INNER JOIN tweb_penduduk p ON k.nik_kepala=p.id  WHERE kelas_sosial = u.id AND p.sex = 2) AS perempuan FROM tweb_keluarga_sejahtera u";
 				break;
-			case "21": $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'"; 
+			case "21": $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE kelas_sosial = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM klasifikasi_analisis_keluarga u WHERE jenis='1'";
 				break;
-			case "24": $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_bos = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_bos u WHERE 1 "; 
+			case "24": $sql = "SELECT u.*,(SELECT COUNT(id) FROM tweb_keluarga WHERE id_bos = u.id) AS jumlah,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS laki,(SELECT COUNT(id) FROM tweb_keluarga WHERE 0) AS perempuan FROM ref_bos u WHERE 1 ";
 				break;
 
 			//STATUS_COVID
@@ -482,7 +491,16 @@
 				(SELECT COUNT(id_terdata) FROM covid19_pemudik WHERE status_covid = u.nama) AS jumlah,
 				(SELECT COUNT(k.id_terdata) FROM covid19_pemudik k INNER JOIN tweb_penduduk p ON k.id_terdata=p.id WHERE status_covid = u.nama AND p.sex = 1) AS laki,
 				(SELECT COUNT(k.id_terdata) FROM covid19_pemudik k INNER JOIN tweb_penduduk p ON k.id_terdata=p.id WHERE status_covid = u.nama AND p.sex = 2) AS perempuan
-				FROM ref_status_covid u"; 
+				FROM ref_status_covid u";
+				break;
+
+			//penerima_bantuan
+			case 'bantuan': $sql =
+				"SELECT u.*,
+				(SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id) AS jumlah,
+				(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1) AS laki,
+				(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2) AS perempuan
+				FROM program u";
 				break;
 
 			// Bagian Penduduk
@@ -573,7 +591,7 @@
 			$sql3 .= $this->get_laki_sql(false, true, $where);
 			$sql3 .= $this->get_perempuan_sql(false, false, $where);
 		}
-		elseif (($lap<=20 OR $lap=='covid') AND "$lap" <> 'kelas_sosial')
+		elseif (($lap<=20 OR $lap=='covid' OR $lap=='bantuan') AND "$lap" <> 'kelas_sosial')
 		{
 			$sql3 = "SELECT ";
 			$sql3 .= $this->get_jumlah_sql(false, true);
@@ -606,7 +624,14 @@
 
 		$data[$i]['no'] = "";
 		$data[$i]['id'] = JUMLAH;
-		$data[$i]['nama'] = "JUMLAH";
+		if ($lap == 'bantuan')
+		{
+		$data[$i]['nama'] = "PENERIMA";
+		}
+		else
+		{
+			$data[$i]['nama'] = "JUMLAH";
+		}
 		$data[$i]['jumlah'] = $total['jumlah'];
 		$data[$i]['perempuan'] = $total['perempuan'];
 		$data[$i]['laki'] = $total['laki'];
@@ -614,7 +639,15 @@
 		$i++;
 		$data[$i]['no'] = "";
 		$data[$i]['id'] = BELUM_MENGISI;
+		if ($lap == 'bantuan')
+		{
+		$data[$i]['nama'] = "BUKAN PENERIMA";
+		}
+		else
+		{
 		$data[$i]['nama'] = "BELUM MENGISI";
+		}
+
 		$data[$i]['jumlah'] = $bel['jumlah'] - $total['jumlah'];
 		$data[$i]['perempuan'] = $bel['perempuan'] - $total['perempuan'];
 		$data[$i]['laki'] = $bel['laki'] - $total['laki'];
