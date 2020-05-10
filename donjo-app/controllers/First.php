@@ -788,4 +788,13 @@ class First extends Web_Controller {
 		}
 		echo json_encode($data);
 	}
+
+	public function ambil_data_covid()
+	{
+		if ($content = getUrlContent($this->input->post('endpoint')))
+		{
+			echo $content;
+		}
+	}
+
 }

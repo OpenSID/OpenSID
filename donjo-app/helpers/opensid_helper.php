@@ -841,4 +841,50 @@ function convertToBytes(string $from): ?int {
 
   return $number * (1024 ** $exponent);
 }
+
+  /**
+  * Disalin dari FeedParser.php
+	* Load the whole contents of a web page
+	*
+	* @access   public
+	* @param    string
+	* @return   string
+	*/
+	function getUrlContent($url)
+	{
+		if (empty($url))
+		{
+			throw new Exception("URL to parse is empty!.");
+			return false;
+		}
+
+		if ($content = @file_get_contents($url))
+		{
+			return $content;
+		}
+		else
+		{
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_HEADER, false);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+			$content = curl_exec($ch);
+			$error = curl_error($ch);
+
+			curl_close($ch);
+
+			if (empty($error))
+			{
+				return $content;
+			}
+			else
+			{
+				log_message('error', "Error occured while loading url by cURL. <br />\n" . $error) ;
+				return false;
+			}
+		}
+	}
+
 ?>

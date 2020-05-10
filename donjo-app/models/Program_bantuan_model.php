@@ -943,6 +943,7 @@ class Program_bantuan_model extends CI_Model {
 					->get('program_peserta pp')
 					->result_array();
 	}
+
 }
 
 ?>
