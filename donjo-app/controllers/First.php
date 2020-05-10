@@ -104,7 +104,7 @@ class First extends Web_Controller {
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = html_escape("Hasil pencarian:". substr($cari, 0, 50));
+			$data["judul_kategori"] = html_escape("Hasil pencarian : ". substr($cari, 0, 50));
 		}
 
 		$this->_get_common_data($data);
