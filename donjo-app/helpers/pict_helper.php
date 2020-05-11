@@ -740,4 +740,38 @@ function bersihkan_namafile($nama)
   return strtolower($nama.$ext);
 }
 
+function periksa_file($upload, $mime_types, $exts)
+{
+  if (empty($_FILES[$upload]['tmp_name']) or (int)$_FILES[$upload]['size'] > convertToBytes(max_upload().'MB'))
+  {
+    return ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
+  }
+
+  $lokasi_file = $_FILES[$upload]['tmp_name'];
+  if (empty($lokasi_file))
+  {
+    return ' -> File tidak berhasil diunggah';
+  }
+  if (function_exists('finfo_open'))
+  {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $tipe_file = finfo_file($finfo, $lokasi_file);
+  }
+  else
+    $tipe_file = $_FILES[$upload]['type'];
+  $nama_file = $_FILES[$upload]['name'];
+  $nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
+  $ext = get_extension($nama_file);
+
+  if (!in_array($tipe_file, $mime_types) OR !in_array($ext, $exts))
+  {
+    return " -> Jenis file salah: " . $tipe_file . " " . $ext;
+  }
+  elseif (isPHP($lokasi_file, $nama_file))
+  {
+    return " -> File berisi script ";
+  }
+  return '';
+}
+
 ?>

@@ -2,7 +2,7 @@
 <style type="text/css">
   .highcharts-xaxis-labels tspan {font-size: 8px;}
 </style>
-<div class="box box-info box-solid">
+<div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><a href="<?= site_url("first/statistik/4")?>"><i class="fa fa-bar-chart"></i> Statistik <?= ucwords($this->setting->sebutan_desa),' ', $desa["nama_desa"];?></a></h3>
   </div>

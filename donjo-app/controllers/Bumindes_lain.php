@@ -14,17 +14,10 @@ class Bumindes_lain extends Admin_Controller {
 
 	public function index()
 	{
-		$this->inventaris();
+		$this->tables("inventaris");
 	}
 
-	// Menu Buku Inventaris dan Kekayaan Desa #2838, Ikut menu apa?
-	public function inventaris($page_number=1, $offset=0)
-	{
-		// load data for displaying at tables
-		$this->load_data_tables("inventaris", $page_number, $offset);
-	}
-
-	private function load_data_tables($page=null, $page_number=1, $offset=0)
+	public function tables($page="inventaris", $page_number=1, $offset=0)
 	{
 		$this->sub_modul_ini = 306;
 
@@ -42,6 +35,20 @@ class Bumindes_lain extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		// set session END
 
+		// load data for displaying at tables
+		$data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
+
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav');
+		$this->load->view('bumindes/lain/main', $data);
+		$this->load->view('footer');
+	}
+
+	private function load_data_tables($page=null, $page_number=1, $offset=0)
+	{
 		$data['selected_nav'] = $page;
 		switch (strtolower($page))
 		{
@@ -53,19 +60,12 @@ class Bumindes_lain extends Admin_Controller {
 				$data = array_merge($data, $this->load_inventaris_data_tables($page_number, $offset));
 				break;
 		}
-
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('buku/lain/main', $data);
-		$this->load->view('footer');
+		return $data;
 	}
 
 	private function load_inventaris_data_tables($page_number=1, $offset=0)
 	{
-		$data['main_content'] = "buku/lain/content_inventaris";
+		$data['main_content'] = "Bumindes_lain/lain/content_inventaris";
 		$data['subtitle'] = "Buku Inventaris dan Kekayaan Desa";
 
 		return $data;

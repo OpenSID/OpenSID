@@ -92,7 +92,10 @@ class MY_Security extends CI_Security {
 		// die();
 
 		$heading = 'Bad Request';
-		$message = 'Verifikasi CSRF Gagal.';
+		$message = "Verifikasi CSRF Gagal. <br><br>
+			Kembali ke halaman sebelumnya di <a href='".$_SERVER['HTTP_REFERER']."'>sini</a>, dan ulangi.<br><br>
+			Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
+			Kalau masih bermasalah, silakan laporkan.";
 		show_error($message, 400, $heading);
 	}
 }

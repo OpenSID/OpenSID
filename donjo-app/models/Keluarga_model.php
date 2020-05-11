@@ -250,7 +250,7 @@
 		if (!empty($data['id']))
 		{
 			$nokk_lama = $this->get_nokk($data['id']);
-			if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah		
+			if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah
 		}
 		$valid = array();
 		if (isset($data['no_kk']))
@@ -391,7 +391,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
 		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
 		foreach ($list_anggota as $anggota)
@@ -519,7 +519,7 @@
 
 		// hapus dokumen bersama dengan kepala KK sebelumnya
 		$this->web_dokumen_model->hard_delete_dokumen_bersama($id);
-		
+
 		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
 	}
 
@@ -854,12 +854,6 @@
 			{
 				case 'kelas_sosial':
 					$sql = "SELECT * FROM tweb_keluarga_sejahtera WHERE id = ? ";
-					break;
-				case 21:
-					$sql = "SELECT * FROM klasifikasi_analisis_keluarga WHERE id = ? and jenis = '1'  ";
-					break;
-				case 24:
-					$sql = "SELECT * FROM ref_bos WHERE id = ?";
 					break;
 			}
 			$query = $this->db->query($sql, $nomor);

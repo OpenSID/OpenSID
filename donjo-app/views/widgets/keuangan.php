@@ -93,7 +93,7 @@
     padding: 8px;
   }
 </style>
-<div class="box box-info box-solid">
+<div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title"><a href="<?= base_url('index.php/first/kategori/1001') ?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
   </div>

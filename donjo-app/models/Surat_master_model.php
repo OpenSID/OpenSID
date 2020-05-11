@@ -342,10 +342,10 @@
 	// Tambahkan surat desa jika folder surat tidak ada di surat master
 	public function impor_surat_desa()
 	{
-		$folder_surat_desa = glob('desa/template-surat/*' , GLOB_ONLYDIR);
+		$folder_surat_desa = glob(LOKASI_SURAT_DESA.'*' , GLOB_ONLYDIR);
 		foreach ($folder_surat_desa as $surat)
 		{
-			$surat = str_replace('desa/template-surat/', '', $surat);
+			$surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
 			$hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
 			if ($hasil->num_rows() == 0)
 			{
