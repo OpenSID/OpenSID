@@ -163,7 +163,7 @@ ul.submenu {
 }
 
 /* Khusus widget Covid */
-#covid {
+#covid, #covid_local {
   background-color: #dffed9;
 }
 
