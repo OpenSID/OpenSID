@@ -77,15 +77,6 @@ class Dpt extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function filter($session)
-	{
-		$session = $this->input->post($session);
-		if ($session != '')
-			$_SESSION['cari']=$session;
-		else unset($_SESSION[$session]);
-		redirect('dpt');
-	}
-
 	public function search()
 	{
 		$cari = $this->input->post('cari');
@@ -102,24 +93,6 @@ class Dpt extends Admin_Controller {
 			$_SESSION['sex'] = $sex;
 		else unset($_SESSION['sex']);
 		redirect("dpt/index/$p/$o");
-	}
-
-	public function agama()
-	{
-		$agama = $this->input->post('agama');
-		if ($agama != "")
-			$_SESSION['agama'] = $agama;
-		else unset($_SESSION['agama']);
-		redirect('dpt');
-	}
-
-	public function warganegara()
-	{
-		$warganegara = $this->input->post('warganegara');
-		if ($warganegara != "")
-			$_SESSION['warganegara']=$warganegara;
-		else unset($_SESSION['warganegara']);
-		redirect('dpt');
 	}
 
 	public function dusun($p=1, $o=0)
