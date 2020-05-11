@@ -44,6 +44,7 @@ class Penduduk extends Admin_Controller {
 		unset($_SESSION['status_ktp']);
 		unset($_SESSION['id_asuransi']);
 		unset($_SESSION['status_covid']);
+		unset($_SESSION['penerima_bantuan']);
 	}
 
 	public function clear()
@@ -59,7 +60,7 @@ class Penduduk extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		$list_session = array('cari', 'judul_statistik', 'filter', 'status_dasar', 'umur_min', 'umur_max', 'sex', 'agama', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'status_ktp', 'id_asuransi', 'status_covid');
+		$list_session = array('cari', 'judul_statistik', 'filter', 'status_dasar', 'umur_min', 'umur_max', 'sex', 'agama', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan');
 		foreach ($list_session as $session)
 		{
 			$data[$session] = $this->session->userdata($session) ?: '';
@@ -635,6 +636,9 @@ class Penduduk extends Admin_Controller {
 				break;
 			case 'covid':
 				$_SESSION['status_covid'] = $nomor; $pre = "STATUS COVID : ";
+				break;
+			case 'bantuan':
+				$_SESSION['penerima_bantuan'] = $nomor; $pre = "PENERIMA BANTUAN : ";
 				break;
 		}
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
