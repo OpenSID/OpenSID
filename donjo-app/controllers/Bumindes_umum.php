@@ -13,6 +13,10 @@ class Bumindes_umum extends Admin_Controller {
 		$this->load->model('surat_masuk_model');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('surat_masuk_model');
+		$this->load->model('surat_keluar_model');
+		$this->load->model('klasifikasi_model');
+		$this->load->model('penomoran_surat_model');
 
 		$this->modul_ini = 301;
 	}
@@ -70,7 +74,15 @@ class Bumindes_umum extends Admin_Controller {
 				$data = array_merge($data, $this->load_aparat_data_tables($page_number, $offset));
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$data['selected_nav'] = "agenda";
+				$data['selected_tab'] = $page;
+				$data = array_merge($data, $this->load_agenda_data_tables($page_number, $offset));
+				break;
+
+			case 'agenda_keluar':
+				$data['selected_nav'] = "agenda";
+				$data['selected_tab'] = $page;
 				$data = array_merge($data, $this->load_agenda_data_tables($page_number, $offset));
 				break;
 
@@ -211,8 +223,14 @@ class Bumindes_umum extends Admin_Controller {
 				$data = array_merge($data, $this->load_form_aparat($page_number, $offset, $key));
 				break;
 
-			case 'agenda':
-				$data = array_merge($data, $this->load_form_agenda($page_number, $offset, $key));
+			case 'agenda_masuk':
+				$data['selected_nav'] = 'agenda';
+				$data = array_merge($data, $this->load_form_agenda_masuk($page_number, $offset, $key));
+				break;
+
+			case 'agenda_keluar':
+				$data['selected_nav'] = 'agenda';
+				$data = array_merge($data, $this->load_form_agenda_keluar($page_number, $offset, $key));
 				break;
 
 			case 'ekspedisi':
@@ -243,7 +261,7 @@ class Bumindes_umum extends Admin_Controller {
 		if ($key)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($key);
-			$data['form_action'] = site_url("bumindes_umum/update/peraturan/$key/$page_number/$offset");
+			$data['form_action'] = site_url("bumindes_umum/update/peraturan/$page_number/$offset/$key");
 		}
 		else
 		{
@@ -266,7 +284,7 @@ class Bumindes_umum extends Admin_Controller {
 		if ($key)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($key);
-			$data['form_action'] = site_url("bumindes_umum/update/keputusan/$key/$page_number/$offset");
+			$data['form_action'] = site_url("bumindes_umum/update/keputusan/$page_number/$offset/$key");
 		}
 		else
 		{
@@ -292,7 +310,7 @@ class Bumindes_umum extends Admin_Controller {
 		{
 			$data['pamong'] = $this->pamong_model->get_data($key);
 			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
-			$data['form_action'] = site_url("bumindes_umum/update/aparat/$key");
+			$data['form_action'] = site_url("bumindes_umum/update/aparat/$page_number/$offset/$key");
 		}
 		else
 		{
@@ -307,9 +325,71 @@ class Bumindes_umum extends Admin_Controller {
 		return $data;
 	}
 
-	function load_form_agenda($page_number, $offset, $key)
+	function load_form_agenda_masuk($page_number, $offset, $key)
 	{
+		$data['main_content'] = "bumindes/umum/form_surat_masuk";
+		$data['subtitle'] = "Form Surat Masuk";
 
+		$data['pengirim'] = $this->surat_masuk_model->autocomplete();
+		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		if ($key)
+		{
+			$data['surat_masuk'] = $this->surat_masuk_model->get_surat_masuk($key);
+			$data['form_action'] = site_url("bumindes_umum/update/agenda_masuk/$page_number/$offset/$key");
+			$data['disposisi_surat_masuk'] = $this->surat_masuk_model->get_disposisi_surat_masuk($key);
+		}
+		else
+		{
+			$last_surat = $this->penomoran_surat_model->get_surat_terakhir('surat_masuk');
+			$data['surat_masuk']['nomor_urut'] = $last_surat['no_surat'] + 1;
+			$data['form_action'] = site_url("bumindes_umum/insert/agenda_masuk");
+			$data['disposisi_surat_masuk'] = null;
+		}
+		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
+
+		// Buang unique id pada link nama file
+		$berkas = explode('__sid__', $data['surat_masuk']['berkas_scan']);
+		$namaFile = $berkas[0];
+		$ekstensiFile = explode('.', end($berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
+
+		return $data;
+	}
+
+	function load_form_agenda_keluar($page_number, $offset, $key)
+	{
+		$data['main_content'] = "bumindes/umum/form_surat_keluar";
+		$data['subtitle'] = "Form Surat Keluar";
+
+		$data['tujuan'] = $this->surat_keluar_model->autocomplete();
+		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		if ($key)
+		{
+			$data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($key);
+			$data['form_action'] = site_url("bumindes_umum/update/agenda_keluar/$page_number/$offset/$key");
+		}
+		else
+		{
+			$last_surat = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
+			$data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
+			$data['form_action'] = site_url("bumindes_umum/insert/agenda_keluar");
+		}
+
+		// Buang unique id pada link nama file
+		$berkas = explode('__sid__', $data['surat_keluar']['berkas_scan']);
+		$namaFile = $berkas[0];
+		$ekstensiFile = explode('.', end($berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
+
+		return $data;
 	}
 
 	function load_form_ekspedisi($page_number, $offset, $key)
@@ -345,8 +425,14 @@ class Bumindes_umum extends Admin_Controller {
 				redirect("bumindes_umum/tables/$page");
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$this->surat_masuk_model->insert();
+				redirect('bumindes_umum/tables/agenda_masuk');
+				break;
 
+			case 'agenda_keluar':
+				$this->surat_keluar_model->insert();
+				redirect('bumindes_umum/tables/agenda_keluar');
 				break;
 
 			case 'ekspedisi':
@@ -382,8 +468,16 @@ class Bumindes_umum extends Admin_Controller {
 				redirect("bumindes_umum/tables/$page");
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$this->redirect_hak_akses('h', "surat_masuk");
+				$this->surat_masuk_model->delete($id);
+				redirect("bumindes_umum/tables/agenda_masuk");
+				break;
 
+			case 'agenda_keluar':
+				$this->redirect_hak_akses('h', "surat_keluar");
+				$this->surat_keluar_model->delete($id);
+				redirect("bumindes_umum/tables/agenda_keluar");
 				break;
 
 			case 'ekspedisi':
@@ -417,8 +511,16 @@ class Bumindes_umum extends Admin_Controller {
 				redirect("bumindes_umum/tables/$page");
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$this->redirect_hak_akses('h', "surat_masuk");
+				$this->surat_masuk_model->delete_all();
+				redirect("bumindes_umum/tables/agenda_masuk");
+				break;
 
+			case 'agenda_keluar':
+				$this->redirect_hak_akses('h', "surat_masuk");
+				$this->surat_masuk_model->delete_all();
+				redirect("bumindes_umum/tables/agenda_keluar");
 				break;
 
 			case 'ekspedisi':
@@ -436,7 +538,7 @@ class Bumindes_umum extends Admin_Controller {
 	}
 
 	// UPDATE
-	public function update($page, $id='', $p=1, $o=0)
+	public function update($page, $p=1, $o=0, $id='')
 	{
 		switch (strtolower($page))
 		{
@@ -456,8 +558,14 @@ class Bumindes_umum extends Admin_Controller {
 				redirect("bumindes_umum/tables/$page");
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$this->surat_masuk_model->update($id);
+				redirect("bumindes_umum/tables/agenda_masuk");
+				break;
 
+			case 'agenda_keluar':
+				$this->surat_keluar_model->update($id);
+				redirect("bumindes_umum/tables/agenda_keluar");
 				break;
 
 			case 'ekspedisi':
@@ -520,8 +628,20 @@ class Bumindes_umum extends Admin_Controller {
 				$this->load->view('home/ajax_cetak_pengurus', $data);
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$data['aksi'] = "Cetak";
+				$data['pamong'] = $this->pamong_model->list_data(true);
+				$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
+				$data['form_action'] = site_url("surat_masuk/cetak/$o");
+				$this->load->view('surat_masuk/ajax_cetak', $data);
+				break;
 
+			case 'agenda_keluar':
+				$data['aksi'] = "Cetak";
+				$data['pamong'] = $this->pamong_model->list_data(true);
+				$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
+				$data['form_action'] = site_url("surat_keluar/cetak/$o");
+				$this->load->view('surat_keluar/ajax_cetak', $data);
 				break;
 
 			case 'ekspedisi':
@@ -550,8 +670,20 @@ class Bumindes_umum extends Admin_Controller {
 				$this->load->view('home/ajax_cetak_pengurus', $data);
 				break;
 
-			case 'agenda':
+			case 'agenda_masuk':
+				$data['aksi'] = "Unduh";
+				$data['pamong'] = $this->pamong_model->list_data(true);
+				$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
+				$data['form_action'] = site_url("surat_masuk/unduh/$o");
+				$this->load->view('surat_masuk/ajax_cetak', $data);
+				break;
 
+			case 'agenda_keluar':
+				$data['aksi'] = "Unduh";
+				$data['pamong'] = $this->pamong_model->list_data(true);
+				$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
+				$data['form_action'] = site_url("surat_keluar/unduh/$o");
+				$this->load->view('surat_keluar/ajax_cetak', $data);
 				break;
 
 			case 'ekspedisi':
@@ -598,5 +730,11 @@ class Bumindes_umum extends Admin_Controller {
 		redirect("bumindes_umum/tables/aparat");
 	}
 
+	public function unduh_berkas_scan($idSuratMasuk)
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->surat_keluar_model->getNamaBerkasScan($idSuratMasuk);
+		ambilBerkas($berkas, 'surat_keluar', '__sid__');
+	}
 
 }
