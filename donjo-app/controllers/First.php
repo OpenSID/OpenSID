@@ -112,7 +112,7 @@ class First extends Web_Controller {
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = html_escape("Hasil pencarian:". substr($cari, 0, 50));
+			$data["judul_kategori"] = html_escape("Hasil pencarian : ". substr($cari, 0, 50));
 		}
 
 		$this->_get_common_data($data);
@@ -637,6 +637,7 @@ class First extends Web_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['list_lap'] = $this->referensi_model->list_lap();
+		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
 		$this->_get_common_data($data);

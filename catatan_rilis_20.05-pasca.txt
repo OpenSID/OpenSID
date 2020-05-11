@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
+Terima kasih pada afa28, Diki Siswanto, Nur Hidayat, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 
@@ -34,6 +34,9 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 30. #2877: Perbaiki tampilkan form di Layanan Mandiri pada layar kecil.
 31. #3039: Bisa akses api.kawalcorona.com kembali menghindari pembatasan CORS.
 32. #3004: Sediakan statistik penerima bantuan sasaran penduduk, dan bisa tampilkan semua penduduk yg bukan penerima bantuan sasaran penduduk apapun.
+33. Tampilkan status Covid-19 desa di tampilan sebaran Covid-19 di PetaSID.
+34. #3025: Tambahkan kolom email di data penduduk.
+35. #3049: Tutup celah supaya form peserta program bantuan hanya bisa unggah file gambar. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
