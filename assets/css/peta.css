@@ -57,7 +57,7 @@
   justify-content: center;
   padding: 3px 15px;
   overflow: hidden;
-  margin-left: 280px;
+  margin-left: 230px;
 }
 
 .covid {
@@ -135,4 +135,27 @@
   100% {
     background-position: 468px 0;
   }
+}
+
+#covid_local_peta {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+#covid_local_peta .panel {
+  background-color: inherit;
+  margin-bottom: 0px;
+}
+#covid_local_peta .panel-body {
+  background-color: white;
+}
+#covid_local_peta .panel-body-lg {
+  background-color: none;
+}
+#covid_local_peta .panel-body.sub {
+  background-color: inherit;
+  padding-top: 10px;
+}
+#covid_local_peta .row .panel-heading {
+  height: 50px;
+  padding: 1px;
 }

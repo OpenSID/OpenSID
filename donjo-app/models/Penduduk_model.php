@@ -195,7 +195,7 @@
 
 	protected function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if (!empty($_SESSION['filter']))
 		{
 			$kf = $_SESSION['filter'];
 			$filter_sql = " AND u.status = $kf";
@@ -205,7 +205,7 @@
 
 	protected function status_dasar_sql()
 	{
-		if (isset($_SESSION['status_dasar']))
+		if (!empty($_SESSION['status_dasar']))
 		{
 			$kf = $_SESSION['status_dasar'];
 				$status_dasar = " AND u.status_dasar = $kf";
@@ -525,6 +525,7 @@
 		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
 		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
 		$data['kk_level'] = $data['kk_level'] ?: 0;
+		$data['email'] = strip_tags($data['email']);
 		if (empty($data['id_asuransi']) or $data['id_asuransi'] == 1)
 			$data['no_asuransi'] = NULL;
 		if (empty($data['warganegara_id'])) $data['warganegara_id'] = 1; //default WNI
