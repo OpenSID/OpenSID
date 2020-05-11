@@ -809,14 +809,17 @@ class Program_bantuan_model extends CI_Model {
 
 	private function _upload_gambar($old_document='')
 	{
-		$lokasi_file = $_FILES['satuan']['tmp_name'];
-		if (!empty($lokasi_file))
+		$error = periksa_file('satuan', unserialize(MIME_TYPE_GAMBAR), unserialize(EXT_GAMBAR));
+		if ($error != '')
 		{
-			$nama_file = $_FILES['satuan']['name'];
-			$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
-			UploadDocument($nama_file,$old_document);
-			return $nama_file;
+			$this->session->set_userdata('success', -1);
+			$this->session->set_userdata('error_msg', $error);
+			return null;
 		}
+		$nama_file = $_FILES['satuan']['name'];
+		$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
+		UploadDocument($nama_file, $old_document);
+		return $nama_file;
 	}
 
 	public function hapus_peserta_program($peserta_id, $program_id)
