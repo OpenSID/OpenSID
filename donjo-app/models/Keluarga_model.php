@@ -146,6 +146,8 @@
 		$sql = "FROM tweb_keluarga u
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+			LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
+			LEFT JOIN program rcb ON bt.program_id = rcb.id
 			WHERE 1 ";
 
 		$sql .=	$this->search_sql();
@@ -155,9 +157,31 @@
 		$sql .=	$this->rt_sql();
 		$sql .=	$this->sex_sql();
 		$sql .= $this->kelas_sql();
+		
 		$sql .= $this->bos_sql();
+		$kolom_kode = array(
+			array('bantuan_keluarga', 'rcb.id'),
+		);
+		foreach ($kolom_kode as $kolom)
+		{
+			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+		}
 		return $sql;
 	}
+
+	protected function get_sql_kolom_kode($kode_session, $kode_kolom)
+	{
+		if (isset($_SESSION[$kode_session]))
+		{
+			$kf = $_SESSION[$kode_session];
+			if ($kf == BELUM_MENGISI)
+				$sql = " AND (".$kode_kolom." IS NULL OR ".$kode_kolom." = '')";
+			else
+				$sql = " AND ".$kode_kolom." = $kf";
+			return $sql;
+		}
+	}
+
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
@@ -176,7 +200,7 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.id as id_pend,
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.id as id_pend, rcb.id as bantuan_keluarga,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
@@ -792,6 +816,7 @@
 		if (!empty($data['tgl_cetak_kk'])) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s", strtotime($data['tgl_cetak_kk']));
 		else $data['tgl_cetak_kk'] = NULL;
 		if (empty($data['kelas_sosial'])) $data['kelas_sosial'] = NULL;
+		if (empty($data['bantuan_keluarga'])) $data['bantuan_keluarga'] = NULL;
 		$this->db->where("id", $id);
 		$outp=$this->db->update("tweb_keluarga", $data);
 
@@ -854,6 +879,9 @@
 			{
 				case 'kelas_sosial':
 					$sql = "SELECT * FROM tweb_keluarga_sejahtera WHERE id = ? ";
+					break;
+				case 'bantuan_keluarga':
+					$sql = "SELECT * FROM program WHERE id = ? ";
 					break;
 			}
 			$query = $this->db->query($sql, $nomor);

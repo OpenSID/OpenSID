@@ -1323,7 +1323,7 @@
 				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
 				case 19: $sql = "SELECT * FROM tweb_penduduk_asuransi WHERE id = ?"; break;
 				case 'covid': $sql = "SELECT * FROM ref_status_covid WHERE id = ?"; break;
-				case 'bantuan': $sql = "SELECT * FROM program WHERE id = ?"; break;
+				case 'bantuan_penduduk': $sql = "SELECT * FROM program WHERE id = ?"; break;
 			}
 			$query = $this->db->query($sql, $nomor);
 			$judul = $query->row_array();

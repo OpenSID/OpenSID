@@ -1,4 +1,4 @@
-<?php class Statistik_penduduk_model extends Laporan_penduduk_model {
+<?php class Statistik_keluarga_model extends Laporan_penduduk_model {
 
 /* Gunakan model ini untuk mulai refactor statistik penduduk
  * Mungkin bisa gunakan anonymous classes yg disediakan di PHP 7.x
@@ -29,27 +29,28 @@
 
 	private function jml_per_kategori()
 	{
-		// Ambil data sasaran penduduk
-		$this->db->select('u.id, u.nama')
-			->select('COUNT(pp.id) AS jumlah')
-		  ->select('COUNT(CASE WHEN p.sex = 1 THEN pp.id END) AS laki')
-		  ->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
-			->from('program u')
-			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
-			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
-			->where('u.sasaran', '1')
-			->group_by('u.id');
-		$this->$order_sql;
-		$penduduk = $this->db->get_compiled_select();
-		$data = $this->db->query($penduduk)->result_array();
-		return $data;
+		// Ambil data sasaran keluarga
+		 $this->db->select('u.id, u.nama')
+			 ->select('u.*, COUNT(pp.peserta) as jumlah')
+			 ->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END) AS laki')
+			 ->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
+			 ->from('program u')
+			 ->join('program_peserta pp', 'pp.program_id = u.id', 'left')
+			 ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+			 ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+			 ->where('u.sasaran', '2')
+			 ->group_by('u.id');
+		 $this->$order_sql;
+		 $kepala_keluarga = $this->db->get_compiled_select();
+		 $data = $this->db->query($kepala_keluarga)->result_array();
+		 return $data;
 	}
 
 	public function list_data($o)
 	{
 		$data = $this->jml_per_kategori($o);
 
-		$semua = $this->data_jml_semua_penduduk();
+		$semua = $this->data_jml_semua_keluarga();
 		$semua = $this->persentase_semua($semua);
 
 		$total = $this->hitung_total($data);
