@@ -8,7 +8,8 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li class="<?php ($lap==13) and print('active') ?>"><a href="<?=site_url('statistik/clear/13')?>">Umur</a></li>
+			<li class="<?php ($lap==13) and print('active') ?>"><a href="<?=site_url('statistik/clear/13')?>">Umur (Rentang)</a></li>
+			<li class="<?php ($lap==15) and print('active') ?>"><a href="<?=site_url('statistik/clear/15')?>">Umur (Kategori)</a></li>
       <li class="<?php ($lap=='0') and print('active') ?>"><a href="<?=site_url('statistik/clear/0')?>">Pendidikan dalam KK</a></li>
       <li class="<?php ($lap==14) and print('active') ?>"><a href="<?=site_url('statistik/clear/14')?>">Pendidikan sedang Ditempuh</a></li>
       <li class="<?php ($lap==1) and print('active') ?>"><a href="<?=site_url('statistik/clear/1')?>">Pekerjaan</a></li>
