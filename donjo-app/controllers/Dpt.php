@@ -8,6 +8,7 @@ class Dpt extends Admin_Controller {
 		session_start();
 		$this->load->model('penduduk_model');
 		$this->load->model('dpt_model');
+		$this->load->model('referensi_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 26;
@@ -15,33 +16,10 @@ class Dpt extends Admin_Controller {
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['warganegara']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['cacatx']);
-		unset($_SESSION['menahunx']);
-		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_sedang_id']);
-		unset($_SESSION['pendidikan_kk_id']);
-		unset($_SESSION['umurx']);
-		unset($_SESSION['status_penduduk']);
-		unset($_SESSION['judul_statistik']);
-		unset($_SESSION['hamil']);
-		unset($_SESSION['cara_kb_id']);
-		unset($_SESSION['akta_kelahiran']);
-		unset($_SESSION['tanggal_pemilihan']);
-		$_SESSION['per_page'] = 50;
+		$list_session = array('cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+
+		$this->session->unset_userdata($list_session);
+		$this->session->set_userdata('per_page', 50);
 		redirect('dpt');
 	}
 
@@ -50,21 +28,13 @@ class Dpt extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		// Session yg diload index
+		$list_session = array('cari', 'per_page', 'sex', 'tanggal_pemilihan');
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -88,51 +58,13 @@ class Dpt extends Admin_Controller {
 			$data['rt'] = '';
 		}
 
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-    if (isset($_SESSION['cacat']))
-			$data['cacat'] = $_SESSION['cacat'];
-		else $data['cacat'] = '';
-
-    if (isset($_SESSION['cara_kb_id']))
-			$data['cara_kb_id'] = $_SESSION['cara_kb_id'];
-		else $data['cara_kb_id'] = '';
-
-    if (isset($_SESSION['akta_kelahiran']))
-			$data['akta_kelahiran'] = $_SESSION['akta_kelahiran'];
-		else $data['akta_kelahiran'] = '';
-
-		if (isset($_SESSION['pekerjaan_id']))
-			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
-		else $data['pekerjaan_id'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['pendidikan_sedang_id']))
-			$data['pendidikan_sedang_id'] = $_SESSION['pendidikan_sedang_id'];
-		else $data['pendidikan_sedang_id'] = '';
-
-		if (isset($_SESSION['pendidikan_kk_id']))
-			$data['pendidikan_kk_id'] = $_SESSION['pendidikan_kk_id'];
-		else $data['pendidikan_kk_id'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
+		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
 		$data['paging'] = $this->dpt_model->paging($p, $o);
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->dpt_model	->autocomplete();
-		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -140,6 +72,15 @@ class Dpt extends Admin_Controller {
 		$this->load->view('nav',$nav);
 		$this->load->view('dpt/dpt', $data);
 		$this->load->view('footer');
+	}
+
+	public function filter($session)
+	{
+		$session = $this->input->post($session);
+		if ($session != '')
+			$_SESSION['cari']=$session;
+		else unset($_SESSION[$session]);
+		redirect('dpt');
 	}
 
 	public function search()
