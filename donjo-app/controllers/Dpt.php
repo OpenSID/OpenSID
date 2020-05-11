@@ -29,7 +29,7 @@ class Dpt extends Admin_Controller {
 		$data['o'] = $o;
 
 		// Session yg diload index
-		$list_session = array('cari', 'per_page', 'sex', 'tanggal_pemilihan');
+		$list_session = array('cari', 'sex', 'tanggal_pemilihan');
 
 		foreach ($list_session as $session)
 		{
