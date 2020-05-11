@@ -8,26 +8,30 @@
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('program_bantuan_model');
 	}
 
-	private function order_sql($o)
+	public function statistik()
 	{
-		//Ordering SQL
-		switch ($o)
-		{
-			case 1: $this->db->order_by('u.id'); break;
-			case 2: $this->db->order_by('u.id DESC'); break;
-			case 3: $this->db->order_by('laki'); break;
-			case 4: $this->db->order_by('laki DESC'); break;
-			case 5: $this->db->order_by('jumlah'); break;
-			case 6: $this->db->order_by('jumlah DESC'); break;
-			case 7: $this->db->order_by('perempuan'); break;
-			case 8: $this->db->order_by('perempuan DESC'); break;
-		}
+		$penduduk_penerima_bantuan = new Penduduk_penerima_bantuan();
+		return $penduduk_penerima_bantuan;
 	}
+}
 
-	private function jml_per_kategori()
+/*
+ * Semua pengaturan untuk statistik penduduk penerima bantuan.
+ * Dipanggil dari donjo-app/models/Laporan_penduduk_model.php
+ */
+class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
+
+	public $judul_jumlah = 'PENERIMA';
+	public $judul_belum = 'BUKAN PENERIMA';
+
+  function __construct()
+  {
+    parent::__construct();
+  }
+
+	public function select_per_kategori()
 	{
 		// Ambil data sasaran penduduk
 		$this->db->select('u.id, u.nama')
@@ -39,25 +43,11 @@
 			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
 			->where('u.sasaran', '1')
 			->group_by('u.id');
-		$this->$order_sql;
-		$penduduk = $this->db->get_compiled_select();
-		$data = $this->db->query($penduduk)->result_array();
-		return $data;
 	}
 
-	public function list_data($o)
+	public function get_data_jml()
 	{
-		$data = $this->jml_per_kategori($o);
-
-		$semua = $this->data_jml_semua_penduduk();
-		$semua = $this->persentase_semua($semua);
-
-		$total = $this->hitung_total($data);
-		$data[] = $this->baris_jumlah($total, 'PENERIMA');
-		$data[] = $this->baris_belum($semua, $total, 'BUKAN PENERIMA');
-		$this->hitung_persentase($data, $semua);
-
-		return $data;
+		return $this->data_jml_semua_penduduk();
 	}
 
 }

@@ -8,57 +8,47 @@
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('program_bantuan_model');
 	}
 
-	private function order_sql($o)
+	public function statistik()
 	{
-		//Ordering SQL
-		switch ($o)
-		{
-			case 1: $this->db->order_by('u.id'); break;
-			case 2: $this->db->order_by('u.id DESC'); break;
-			case 3: $this->db->order_by('laki'); break;
-			case 4: $this->db->order_by('laki DESC'); break;
-			case 5: $this->db->order_by('jumlah'); break;
-			case 6: $this->db->order_by('jumlah DESC'); break;
-			case 7: $this->db->order_by('perempuan'); break;
-			case 8: $this->db->order_by('perempuan DESC'); break;
-		}
+		$keluarga_penerima_bantuan = new Keluarga_penerima_bantuan();
+		return $keluarga_penerima_bantuan;
+	}
+}
+
+/*
+ * Semua pengaturan untuk statistik penduduk penerima bantuan.
+ * Dipanggil dari donjo-app/models/Laporan_penduduk_model.php
+ */
+class Keluarga_penerima_bantuan extends Statistik_keluarga_model {
+
+	public $judul_jumlah = 'PENERIMA';
+	public $judul_belum = 'BUKAN PENERIMA';
+
+  function __construct()
+  {
+    parent::__construct();
+  }
+
+	public function select_per_kategori()
+	{
+		// Ambil data sasaran penduduk
+		$this->db->select('u.id, u.nama')
+			->select('u.*, COUNT(pp.peserta) as jumlah')
+			->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END) AS laki')
+			->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
+			->from('program u')
+			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
+			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+			->where('u.sasaran', '2')
+			->group_by('u.id');
 	}
 
-	private function jml_per_kategori()
+	public function get_data_jml()
 	{
-		// Ambil data sasaran keluarga
-		 $this->db->select('u.id, u.nama')
-			 ->select('u.*, COUNT(pp.peserta) as jumlah')
-			 ->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END) AS laki')
-			 ->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
-			 ->from('program u')
-			 ->join('program_peserta pp', 'pp.program_id = u.id', 'left')
-			 ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
-			 ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
-			 ->where('u.sasaran', '2')
-			 ->group_by('u.id');
-		 $this->$order_sql;
-		 $kepala_keluarga = $this->db->get_compiled_select();
-		 $data = $this->db->query($kepala_keluarga)->result_array();
-		 return $data;
-	}
-
-	public function list_data($o)
-	{
-		$data = $this->jml_per_kategori($o);
-
-		$semua = $this->data_jml_semua_keluarga();
-		$semua = $this->persentase_semua($semua);
-
-		$total = $this->hitung_total($data);
-		$data[] = $this->baris_jumlah($total, 'PENERIMA');
-		$data[] = $this->baris_belum($semua, $total, 'BUKAN PENERIMA');
-		$this->hitung_persentase($data, $semua);
-
-		return $data;
+		return $this->data_jml_semua_keluarga();
 	}
 
 }

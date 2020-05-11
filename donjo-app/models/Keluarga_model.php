@@ -157,7 +157,6 @@
 		$sql .=	$this->rt_sql();
 		$sql .=	$this->sex_sql();
 		$sql .= $this->kelas_sql();
-		
 		$sql .= $this->bos_sql();
 		$kolom_kode = array(
 			array('bantuan_keluarga', 'rcb.id'),
@@ -181,7 +180,6 @@
 			return $sql;
 		}
 	}
-
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
@@ -816,7 +814,6 @@
 		if (!empty($data['tgl_cetak_kk'])) $data['tgl_cetak_kk'] = date("Y-m-d H:i:s", strtotime($data['tgl_cetak_kk']));
 		else $data['tgl_cetak_kk'] = NULL;
 		if (empty($data['kelas_sosial'])) $data['kelas_sosial'] = NULL;
-		if (empty($data['bantuan_keluarga'])) $data['bantuan_keluarga'] = NULL;
 		$this->db->where("id", $id);
 		$outp=$this->db->update("tweb_keluarga", $data);
 
