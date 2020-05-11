@@ -5,7 +5,6 @@ class Dpt extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('penduduk_model');
 		$this->load->model('dpt_model');
 		$this->load->model('referensi_model');
@@ -16,7 +15,7 @@ class Dpt extends Admin_Controller {
 
 	public function clear()
 	{
-		$list_session = array('cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+		$list_session = array('cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
 
 		$this->session->unset_userdata($list_session);
 		$_SESSION['per_page'] = 50;
@@ -168,34 +167,6 @@ class Dpt extends Admin_Controller {
 			}
 		}
 		redirect("dpt/index/1/$o");
-	}
-
-	public function ajax_penduduk_cari_rw($dusun='')
-	{
-		$rw = $this->penduduk_model->list_rw($dusun);
-
-		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
-		<option value=''>Pilih RW&nbsp;</option>";
-		foreach ($rw as $data)
-		{
-			echo "<option>".$data['rw']."</option>";
-		}
-		echo"</select></td>";
-	}
-
-	public function ajax_penduduk_cari_rt($dusun='', $rw='')
-	{
-		$rt = $this->penduduk_model->list_rt($dusun,$rw);
-
-		echo "<td>RT</td>
-		<td><select name='rt'>
-		<option value=''>Pilih RT&nbsp;</option>";
-		foreach ($rt as $data)
-		{
-			echo "<option value=".$data['rt'].">".$data['rt']."</option>";
-		}
-		echo"</select></td>";
 	}
 
 	public function cetak($o=0)

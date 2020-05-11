@@ -63,10 +63,8 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
 									<form id="mainform" name="mainform" action="" method="post">
 										<input type="hidden" name="rt" value="">
-
 										<div class="row">
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('dpt/sex')?>')">
