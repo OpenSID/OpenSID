@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Diki Siswanto, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
+Terima kasih pada afa28, Diki Siswanto, Nur Hidayat, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 
