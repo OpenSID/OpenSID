@@ -94,8 +94,9 @@ class Referensi_model extends CI_Model {
 	public function list_dusun()
 	{
 		$data = $this->db->
-			where('rt', 0)->
-			where('rw', 0)->
+			where('rt', '0')->
+			where('rw', '0')->
+			order_by('dusun')->
 			get('tweb_wil_clusterdesa')->
 			result_array();
 
@@ -104,11 +105,14 @@ class Referensi_model extends CI_Model {
 
 	public function list_rw($dusun='')
 	{
-		if($dusun != '') $this->db->where('dusun', $dusun);
+		if($dusun != '')
+			// Semua RW
+			$this->db->where('dusun', $dusun);
 
 		$data = $this->db->
 			where('rt', '0')->
-			where("rw <> '0'")->
+			where('rw <>', '0')->
+			order_by('rw')->
 			get('tweb_wil_clusterdesa')->
 			result_array();
 
@@ -117,11 +121,16 @@ class Referensi_model extends CI_Model {
 
 	public function list_rt($dusun='', $rw='')
 	{
-		if($dusun != '') $this->db->where('dusun', $dusun)->where('rw', $rw);
+		if($dusun != '' OR $rw != '')
+			// Semua RT
+			$this->db->where('dusun', $dusun)->where('rw', $rw);
+		else
+			// Filter RT
+			$this->db->where('rw <>', '-');
 
 		$data = $this->db->
-			where('rt', '0')->
-			where("rw <> '0'")->
+			where('rt <>', '0')->
+			order_by('rt')->
 			get('tweb_wil_clusterdesa')->
 			result_array();
 

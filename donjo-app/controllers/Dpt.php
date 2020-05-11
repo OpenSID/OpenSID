@@ -19,7 +19,7 @@ class Dpt extends Admin_Controller {
 		$list_session = array('cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
 
 		$this->session->unset_userdata($list_session);
-		$this->session->set_userdata('per_page', 50);
+		$_SESSION['per_page'] = 50;
 		redirect('dpt');
 	}
 
@@ -39,12 +39,12 @@ class Dpt extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->referensi_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
+				$data['list_rt'] = $this->referensi_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -58,12 +58,15 @@ class Dpt extends Admin_Controller {
 			$data['rt'] = '';
 		}
 
+		if (isset($_POST['per_page']))
+			$data['per_page'] = $_SESSION['per_page'] = $_POST['per_page'];
+
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->referensi_model->list_dusun();
 
 		$data['paging'] = $this->dpt_model->paging($p, $o);
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->dpt_model	->autocomplete();
+		$data['keyword'] = $this->dpt_model->autocomplete();
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
