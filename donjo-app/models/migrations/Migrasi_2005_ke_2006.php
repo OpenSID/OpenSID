@@ -28,6 +28,15 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		// Hapus field sasaran
 		if ($this->db->field_exists('sasaran', 'program_peserta'))
 			$this->db->query('ALTER TABLE `program_peserta` DROP COLUMN `sasaran`');
+		//tambah kolom email di tabel tweb_penduduk
+		if (!$this->db->field_exists('email', 'tweb_penduduk'))
+			$this->dbforge->add_column('tweb_penduduk', array(
+				'email' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 25,
+				'null' => TRUE,
+				),
+			));
 	}
 
 	private function grup_akses_covid19()
