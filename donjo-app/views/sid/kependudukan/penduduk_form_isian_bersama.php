@@ -470,9 +470,9 @@
 						<label for="lokasi">Lokasi Tempat Tinggal </label>
 						<div class='row'>
 							<div class='col-sm-12'>
-								<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>	
-							</div>							
-						</div>									
+								<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class='col-sm-12'>
@@ -484,7 +484,7 @@
 					<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="email"> Alamat Email </label>
-						<input id="email"  name="email"  class="form-control input-sm" type="text" placeholder="Alamat Email" size="20" value="<?= $penduduk['email']?>"></input>
+						<input id="email"  name="email"  class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" size="20" value="<?= $penduduk['email']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
