@@ -121,7 +121,7 @@ class Statistik extends Admin_Controller {
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_pie', $data);
@@ -140,7 +140,7 @@ class Statistik extends Admin_Controller {
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
 		}
-		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')
+		elseif ($lap > 20 OR "$lap" == 'kelas_sosial' OR "$lap" == 'bantuan_penduduk' OR "$lap" == 'bantuan_keluarga')
 		{
 			$data['kategori'] = 'keluarga';
 		}

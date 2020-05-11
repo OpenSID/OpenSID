@@ -637,8 +637,8 @@ class Penduduk extends Admin_Controller {
 			case 'covid':
 				$_SESSION['status_covid'] = $nomor; $pre = "STATUS COVID : ";
 				break;
-			case 'bantuan':
-				$_SESSION['penerima_bantuan'] = $nomor; $pre = "PENERIMA BANTUAN : ";
+			case 'bantuan_penduduk':
+				$_SESSION['penerima_bantuan'] = $nomor; $pre = "PENERIMA BANTUAN (PENDUDUK) : ";
 				break;
 		}
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
