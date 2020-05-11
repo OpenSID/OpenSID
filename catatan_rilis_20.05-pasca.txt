@@ -35,6 +35,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 31. #3039: Bisa akses api.kawalcorona.com kembali menghindari pembatasan CORS.
 32. #3004: Sediakan statistik penerima bantuan sasaran penduduk, dan bisa tampilkan semua penduduk yg bukan penerima bantuan sasaran penduduk apapun.
 33. Tampilkan status Covid-19 desa di tampilan sebaran Covid-19 di PetaSID.
+34. #3025: Tambahkan kolom email di data penduduk.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
