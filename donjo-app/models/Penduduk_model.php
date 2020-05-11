@@ -195,7 +195,7 @@
 
 	protected function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if (!empty($_SESSION['filter']))
 		{
 			$kf = $_SESSION['filter'];
 			$filter_sql = " AND u.status = $kf";
@@ -205,7 +205,7 @@
 
 	protected function status_dasar_sql()
 	{
-		if (isset($_SESSION['status_dasar']))
+		if (!empty($_SESSION['status_dasar']))
 		{
 			$kf = $_SESSION['status_dasar'];
 				$status_dasar = " AND u.status_dasar = $kf";
