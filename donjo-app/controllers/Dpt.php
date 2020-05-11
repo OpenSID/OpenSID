@@ -210,67 +210,19 @@ class Dpt extends Admin_Controller {
 
 	public function ajax_adv_search()
 	{
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
 
-		if (isset($_SESSION['judul_statistik']))
-			$data['judul_statistik'] = $_SESSION['judul_statistik'];
-		else $data['judul_statistik'] = '';
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
-
-		if (isset($_SESSION['umur_min']))
-			$data['umur_min'] = $_SESSION['umur_min'];
-		else $data['umur_min'] = '';
-
-		if (isset($_SESSION['umur_max']))
-			$data['umur_max'] = $_SESSION['umur_max'];
-		else $data['umur_max'] = '';
-
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['tahun']))
-			$data['tahun'] = $_SESSION['tahun'];
-		else $data['tahun'] = date("Y");
-
-    if (isset($_SESSION['cacat']))
-			$data['cacat'] = $_SESSION['cacat'];
-		else $data['cacat'] = '';
-
-		if (isset($_SESSION['pekerjaan_id']))
-			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
-		else $data['pekerjaan_id'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['pendidikan_sedang_id']))
-			$data['pendidikan_sedang_id'] = $_SESSION['pendidikan_sedang_id'];
-		else $data['pendidikan_sedang_id'] = '';
-
-		if (isset($_SESSION['pendidikan_kk_id']))
-			$data['pendidikan_kk_id'] = $_SESSION['pendidikan_kk_id'];
-		else $data['pendidikan_kk_id'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
-		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
-		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
-		$data['status_kawin'] = $this->penduduk_model->list_status_kawin();
+		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
+		$data['list_pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
+		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
+		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
+		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("dpt/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
