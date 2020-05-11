@@ -5,7 +5,7 @@
 	const KODE_PROVINSI = "<?= config_item('provinsi_covid') ?: 'undefined' ?>";
 </script>
 
-	<section id="covid-nasional" class="py-4 bg-white">
+	<section id="covid-nasional">
 		<p class="font-weight-bold line line-short shimmer" data-name="wilayah"></p>
 		<div class="row">
 			<div class="col-lg-2 col-12 px-2 py-1">
@@ -33,7 +33,7 @@
 	</section>
 
 	<?php if(config_item('provinsi_covid')) : ?>
-	<section id="covid-provinsi" class="py-2 bg-white">
+	<section id="covid-provinsi">
 		<p class="font-weight-bold line line-short shimmer" data-name="wilayah"></p>
 		<div class="row">
 			<div class="col-lg-2 col-12 px-2 py-1">
