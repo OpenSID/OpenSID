@@ -16,7 +16,6 @@ class Statistik extends Admin_Controller {
 		$this->sub_modul_ini = 27;
 	}
 
-
 	public function index($lap = 0, $o = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
@@ -121,7 +120,7 @@ class Statistik extends Admin_Controller {
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_pie', $data);
@@ -138,6 +137,10 @@ class Statistik extends Admin_Controller {
 			$program_id = preg_replace('/^50/', '', $lap);
 			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
+			$data['kategori'] = 'bantuan';
+		}
+		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
+		{
 			$data['kategori'] = 'bantuan';
 		}
 		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')

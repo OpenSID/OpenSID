@@ -29,6 +29,7 @@ class Keluarga extends Admin_Controller {
 		unset($_SESSION['kelas']);
 		unset($_SESSION['id_bos']);
 		unset($_SESSION['judul_statistik']);
+		unset($_SESSION['bantuan_keluarga']);
 		$_SESSION['per_page'] = 100;
 		redirect('keluarga');
 	}
@@ -499,6 +500,7 @@ class Keluarga extends Admin_Controller {
 		unset($_SESSION['rt']);
 		unset($_SESSION['sex']);
 		unset($_SESSION['kelas']);
+		unset($_SESSION['bantuan_keluarga']);
 		unset($_SESSION['id_bos']);
 
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
@@ -520,6 +522,10 @@ class Keluarga extends Admin_Controller {
 			case 'kelas_sosial':
 				$_SESSION['kelas'] = $nomor;
 				$pre = "KLASIFIKASI SOSIAL : ";
+				break;
+			case 'bantuan_keluarga':
+				$_SESSION['bantuan_keluarga'] = $nomor;
+				$pre = "PENERIMA BANTUAN (KELUARGA): ";
 				break;
 		}
 		$judul = $this->keluarga_model->get_judul_statistik($tipe,$nomor,$sex);

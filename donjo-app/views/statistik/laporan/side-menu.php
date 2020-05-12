@@ -3,7 +3,7 @@
 	<div class="box-header with-border">
 		<h3 class="box-title">Statistik Penduduk</h3>
 		<div class="box-tools">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 		</div>
 	</div>
 	<div class="box-body no-padding">
@@ -26,7 +26,6 @@
 			<li class="<?php ($lap==18) and print('active') ?>"><a href="<?=site_url('statistik/clear/18')?>">Kepemilikan KTP</a></li>
 			<li class="<?php ($lap==19) and print('active') ?>"><a href="<?=site_url('statistik/clear/19')?>">Jenis Asuransi</a></li>
 			<li class="<?php ($lap=='covid') and print('active') ?>"><a href="<?=site_url('statistik/clear/covid')?>">Status Covid</a></li>
-			<li class="<?php ($lap=='bantuan') and print('active') ?>"><a href="<?=site_url('statistik/clear/bantuan')?>">Penerima Bantuan</a></li>
 		</ul>
 	</div>
 </div>
@@ -39,7 +38,7 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<li <?php if ($lap=='kelas_sosial'): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/kelas_sosial')?>">Klasifikasi Sosial</a></li>
+			<li class="<?php ($lap=='kelas_sosial') and print('active') ?>"><a href="<?=site_url('statistik/index/kelas_sosial')?>">Klasifikasi Sosial</a></li>
 		</ul>
 	</div>
 </div>
@@ -53,10 +52,12 @@
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
       <?php foreach ($list_bantuan as $bantuan): ?>
-        <li <?php if ($lap==$bantuan['lap']): ?>class="active"<?php endif; ?>>
+        <li class="<?php ($lap==$bantuan['lap']) and print('active') ?>">
           <a href="<?= site_url()?>statistik/index/<?= $bantuan['lap']?>"><?= $bantuan['nama']." (".$bantuan['lap'].")"?></a>
         </li>
       <?php endforeach; ?>
+			<li class="<?php ($lap=='bantuan_penduduk') and print('active') ?>"><a href="<?=site_url('statistik/clear/bantuan_penduduk')?>">Penerima Bantuan (Penduduk)</a></li>
+			<li class="<?php ($lap=='bantuan_keluarga') and print('active') ?>"><a href="<?=site_url('statistik/index/bantuan_keluarga')?>">Penerima Bantuan (Keluarga)</a></li>
 		</ul>
 	</div>
 </div>
