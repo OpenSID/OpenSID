@@ -46,7 +46,7 @@
 								<?php else: ?>
 									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 								<?php endif; ?>
-								<?php if($lap <= 20 AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_penduduk' AND $lap <> 'bantuan_keluarga') : ?>
+								<?php if (($lap <= 20 OR $lap == 'bantuan_penduduk') AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga') : ?>
 									<div class="row">
 										<div class="col-sm-12 form-inline">
 											<form action="" id="mainform" method="post">

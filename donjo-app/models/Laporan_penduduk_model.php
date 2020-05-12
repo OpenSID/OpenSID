@@ -673,7 +673,7 @@
 			$this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
 			$semua = $this->data_jml_semua_penduduk();
 		}
-		elseif (($lap<=20 OR $lap=='covid') AND ("$lap" <> 'kelas_sosial' OR "$lap" <> 'bantuan_penduduk' OR "$lap" <> 'bantuan_keluarga'))
+		elseif (($lap<=20 OR $lap=='covid' OR "$lap" =='bantuan_penduduk') AND ("$lap" <> 'kelas_sosial' OR "$lap" <> 'bantuan_keluarga'))
 		{
 			$semua = $this->data_jml_semua_penduduk();
 		}
@@ -694,19 +694,10 @@
 			return $this->statistik_program_bantuan($lap, $o);
 		}
 
-		// Penerima program bantuan sasaran penduduk
-		if ($lap == 'bantuan_penduduk')
+		$this->load->model('statistik_penduduk_model');
+		if ($statistik = $this->statistik_penduduk_model->statistik($lap))
 		{
-			$this->load->model('statistik_penduduk_model');
-			$statistik = $this->statistik_penduduk_model->statistik();
-			$namespace = $statistik;
-			$judul_belum = $statistik->judul_belum;
-			$judul_jumlah = $statistik->judul_jumlah;
-		}
-		elseif ($lap == 'bantuan_keluarga')
-		{
-			$this->load->model('Statistik_keluarga_model');
-			$statistik = $this->Statistik_keluarga_model->statistik();
+			// Statistik yg sudah di-refactor
 			$namespace = $statistik;
 			$judul_belum = $statistik->judul_belum;
 			$judul_jumlah = $statistik->judul_jumlah;

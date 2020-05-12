@@ -302,11 +302,19 @@
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
 		LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
-		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
-		LEFT JOIN program_peserta bt ON bt.peserta = u.nik
-		LEFT JOIN program rcb ON bt.program_id = rcb.id
-		WHERE 1 ";
+		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama";
 
+		// TODO: ubah ke query builder
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		if ($_SESSION['penerima_bantuan'])
+		{
+			$sql .= "
+				LEFT JOIN program_peserta bt ON bt.peserta = u.nik
+				LEFT JOIN program rcb ON bt.program_id = rcb.id
+			";
+		}
+
+		$sql .= " WHERE 1 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
 		$sql .= $this->status_dasar_sql();
@@ -327,9 +335,12 @@
 			array('warganegara','u.warganegara_id'),
 			array('golongan_darah','u.golongan_darah_id'),
 			array('id_asuransi', 'u.id_asuransi'),
-			array('status_covid', 'rc.id'),
-			array('penerima_bantuan', 'rcb.id')
+			array('status_covid', 'rc.id')
 		);
+		if ($_SESSION['penerima_bantuan'])
+		{
+			$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
+		}
 		foreach ($kolom_kode as $kolom)
 		{
 			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
@@ -348,7 +359,13 @@
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$select_sql = "SELECT DISTINCT u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, rcb.id as penerima_bantuan,
+		$select_sql = "SELECT DISTINCT ";
+		if ($_SESSION['penerima_bantuan'])
+		{
+			$select_sql .= 'rcb.id as penerima_bantuan,';
+		}
+
+		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid,
 			(CASE when u.status_kawin <> 2
 				then k.nama
 				else

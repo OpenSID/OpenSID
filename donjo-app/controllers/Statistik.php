@@ -16,7 +16,6 @@ class Statistik extends Admin_Controller {
 		$this->sub_modul_ini = 27;
 	}
 
-
 	public function index($lap = 0, $o = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
@@ -140,7 +139,11 @@ class Statistik extends Admin_Controller {
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
 		}
-		elseif ($lap > 20 OR "$lap" == 'kelas_sosial' OR "$lap" == 'bantuan_penduduk' OR "$lap" == 'bantuan_keluarga')
+		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
+		{
+			$data['kategori'] = 'bantuan';
+		}
+		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')
 		{
 			$data['kategori'] = 'keluarga';
 		}
