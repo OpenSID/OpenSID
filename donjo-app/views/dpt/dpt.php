@@ -67,7 +67,7 @@
 										<input type="hidden" name="rt" value="">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('dpt/sex')?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/sex/1/'.$o)?>')">
 													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_jenis_kelamin AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
@@ -113,38 +113,38 @@
 															<tr>
 																<th>No</th>
 																<?php if ($o==2): ?>
-                                  <th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                 <?php elseif ($o==1): ?>
-                                  <th><a href="<?= site_url("dpt/index/$p/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
-                                <?php if ($o==4): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                <?php elseif ($o==3): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
+																	<th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==1): ?>
+																	<th><a href="<?= site_url("dpt/index/$p/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
+																<?php if ($o==4): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==3): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<?php if ($o==6): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                <?php elseif ($o==5): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/6")?>">No. KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==5): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/6")?>">No. KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<th>Alamat</th>
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>
 																<th>RT</th>
 																<th nowrap>Pendidikan dalam KK</th>
 																<?php if ($o==8): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                <?php elseif ($o==7): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/8")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==7): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/8")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<th nowrap>Pekerjaan</th>
 																<th nowrap>Kawin</th>
 															</tr>
@@ -222,4 +222,3 @@
 		</div>
 	</section>
 </div>
-
