@@ -10,7 +10,7 @@
 	let i = 1;
 	let status_tampilkan = true;
 	for (const stat of rawData) {
-		if (stat.nama !== 'BELUM MENGISI' && stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH') {
+		if (stat.nama !== 'BELUM MENGISI' && stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH' && stat.nama != 'PENERIMA') {
 			let filteredData = [stat.nama, parseInt(stat.jumlah)];
 			categories.push(i);
 			data.push(filteredData);

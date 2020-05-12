@@ -342,21 +342,6 @@
 			$total['perempuan'] += $data[$i]['perempuan'];
 		}
 
-		$data[$i]['no'] = "";
-		$data[$i]['id'] = JUMLAH;
-		$data[$i]['nama'] = "JUMLAH";
-		$data[$i]['jumlah'] = $total['jumlah'];
-		$data[$i]['perempuan'] = $total['perempuan'];
-		$data[$i]['laki'] = $total['laki'];
-
-		$i++;
-		$data[$i]['no'] = "";
-		$data[$i]['id'] = BELUM_MENGISI;
-		$data[$i]['nama'] = "BELUM MENGISI";
-		$data[$i]['jumlah'] = $bel['jumlah'] - $total['jumlah'];
-		$data[$i]['perempuan'] = $bel['perempuan'] - $total['perempuan'];
-		$data[$i]['laki'] = $bel['laki'] - $total['laki'];
-
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['persen'] = $data[$i]['jumlah']/$bel['jumlah']*100;
