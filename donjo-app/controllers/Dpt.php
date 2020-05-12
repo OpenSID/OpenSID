@@ -8,6 +8,7 @@ class Dpt extends Admin_Controller {
 		$this->load->model('penduduk_model');
 		$this->load->model('dpt_model');
 		$this->load->model('referensi_model');
+		$this->load->model('wilayah_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 26;
@@ -38,12 +39,12 @@ class Dpt extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->referensi_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->referensi_model->list_rt($data['dusun'], $data['rw']);
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -61,7 +62,7 @@ class Dpt extends Admin_Controller {
 			$data['per_page'] = $_SESSION['per_page'] = $_POST['per_page'];
 
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$data['list_dusun'] = $this->referensi_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 
 		$data['paging'] = $this->dpt_model->paging($p, $o);
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
