@@ -9,8 +9,17 @@
 #bodyContent p {
   margin: 18px 0;
 }
+.leaflet-popup-content {
+  height: 245px;
+  overflow-y: scroll;
+}
 .kantor_desa .leaflet-popup-content {
   height: auto;
+  overflow-y: auto;
+}
+.covid_pop .leaflet-popup-content {
+  height: auto;
+  overflow-y: auto;
 }
 .leaflet-tooltip-content p {
     margin: 18px 0 !important;
@@ -90,12 +99,12 @@
   height: 17px;
   width: auto;
   border-radius: 5px;
-  margin-left: 280px;
+  margin-left: 230px;
   font-size: 14px;
 }
 
 .line-short {
-  width: 100px;
+  width: auto;
 }
 
 .covid::before {
@@ -158,4 +167,9 @@
 #covid_local_peta .row .panel-heading {
   height: 50px;
   padding: 1px;
+}
+
+#html_a .leaflet-popup-content {
+  height: 100px;
+  overflow-y: scroll;
 }
