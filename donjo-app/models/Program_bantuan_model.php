@@ -774,6 +774,8 @@ class Program_bantuan_model extends CI_Model {
 
 	public function add_peserta($post, $id)
 	{
+		$this->session->success = 1;
+		$this->session->error_msg = '';
 		$data['program_id'] = $id;
 		$data['peserta'] = $post['nik'];
 		$data['no_id_kartu'] = $post['no_id_kartu'];
@@ -786,12 +788,14 @@ class Program_bantuan_model extends CI_Model {
 		$file_gambar = $this->_upload_gambar();
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
 			$outp = $this->db->insert('program_peserta', $data);
-		status_sukses($outp);
+		status_sukses($outp, true);
 	}
 
 	// $id = program_peserta.id
 	public function edit_peserta($post,$id)
 	{
+		$this->session->success = 1;
+		$this->session->error_msg = '';
 		$data = $post;
 		if ($data['gambar_hapus'])
 		{
@@ -805,10 +809,13 @@ class Program_bantuan_model extends CI_Model {
 		$this->db->where('id',$id);
 		$data['kartu_tanggal_lahir'] = tgl_indo_in($data['kartu_tanggal_lahir']);
 		$outp = $this->db->update('program_peserta', $data);
+		status_sukses($outp, true);
 	}
 
 	private function _upload_gambar($old_document='')
 	{
+		if ($_FILES['satuan']['error'] == UPLOAD_ERR_NO_FILE) return null;
+
 		$error = periksa_file('satuan', unserialize(MIME_TYPE_GAMBAR), unserialize(EXT_GAMBAR));
 		if ($error != '')
 		{
