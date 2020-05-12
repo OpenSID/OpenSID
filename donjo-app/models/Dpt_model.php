@@ -36,7 +36,7 @@
 	{
 		if (isset($_SESSION['umur_max']))
 		{
-      $tanggal_pemilihan = $this->tanggal_pemilihan();
+			$tanggal_pemilihan = $this->tanggal_pemilihan();
 			$kf = $_SESSION['umur_max'];
 			$umur_max_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
 			return $umur_max_sql;
@@ -47,7 +47,7 @@
 	{
 		if (isset($_SESSION['umur_min']))
 		{
-      $tanggal_pemilihan = $this->tanggal_pemilihan();
+			$tanggal_pemilihan = $this->tanggal_pemilihan();
 			$kf = $_SESSION['umur_min'];
 			$umur_min_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
 			return $umur_min_sql;
@@ -270,8 +270,8 @@
 	{
 		$sql = "SELECT dusun, rw,
 			count(*) as jumlah_warga,
-      sum(case when sex = 1 then 1 else 0 end) jumlah_warga_l,
-      sum(case when sex = 2 then 1 else 0 end) jumlah_warga_p
+			sum(case when sex = 1 then 1 else 0 end) jumlah_warga_l,
+			sum(case when sex = 2 then 1 else 0 end) jumlah_warga_p
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
 			WHERE 1 ";
@@ -292,8 +292,8 @@
 	{
 		$sql = "SELECT
 			count(*) as total_warga,
-      sum(case when sex = 1 then 1 else 0 end) total_warga_l,
-      sum(case when sex = 2 then 1 else 0 end) total_warga_p
+			sum(case when sex = 1 then 1 else 0 end) total_warga_l,
+			sum(case when sex = 2 then 1 else 0 end) total_warga_p
 			FROM tweb_penduduk u
 			WHERE 1 ";
 		$sql .= $this->syarat_dpt_sql();
