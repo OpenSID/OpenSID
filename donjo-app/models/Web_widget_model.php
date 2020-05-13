@@ -293,7 +293,9 @@
 	public function get_widget_data(&$data)
 	{
 		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
+		$data['hari_ini'] = $this->first_artikel_m->agenda_show('hari_ini');
+		$data['yad'] = $this->first_artikel_m->agenda_show('yad');
+		$data['lama'] = $this->first_artikel_m->agenda_show('lama');
 		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['arsip_terkini'] = $this->first_artikel_m->arsip_show('terkini');
