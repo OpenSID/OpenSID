@@ -227,7 +227,17 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/");
 	}
 
-	public function unduhsheet($id = 0)
+	public function cetak($id = 0)
+	{
+		$this->sheet($id, 'cetak');
+	}
+
+	public function unduh($id = 0)
+	{
+		$this->sheet($id, 'unduh');
+	}
+
+	private function sheet($id = 0, $aksi)
 	{
 		if ($id > 0)
 		{
@@ -242,12 +252,14 @@ class Program_bantuan extends Admin_Controller {
 				"3" => "Rumah Tangga",
 				"4" => "Kelompok/Organisasi Kemasyarakatan"
 			);
-			$data['desa'] = $this->header_model->get_data();
+
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
 			$_SESSION['per_page'] = $temp;
-			$this->load->view('program_bantuan/unduh-sheet', $data);
+
+			$this->load->view('program_bantuan/'.$aksi, $data);
 		}
 	}
+
 
 	public function search_peserta()
 	{
