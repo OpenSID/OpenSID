@@ -67,7 +67,7 @@ class First_artikel_m extends CI_Model {
 			$cfg['suffix'] = "?cari=$cari";
 		}
 		$jml = $this->db->get()
-			->row()->jml;	
+			->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -261,45 +261,32 @@ class First_artikel_m extends CI_Model {
 		return $slider_gambar;
 	}
 
-	public function agenda_show()
+	public function agenda_show($type = '')
 	{
-		$data = array();
-		//Hari Ini
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+		$this->db
+			->select('a.*, g.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->join('artikel a', 'a.id = g.id_artikel', 'LEFT')
 			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) = CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');				
-				
-		$data['hari_ini'] = $sql->result_array();
+			->where('a.id_kategori', '1000');
 
-		//Yang Akan Datang
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) > CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
-		$data['yad'] = $sql->result_array();
+		switch ($type)
+		{
+			default:
+				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
+				break;
+			case 'yad':
+				$this->db->where('DATE(g.tgl_agenda) > CURDATE()')
+					->order_by('g.tgl_agenda');
+				break;
+			case 'lama':
+				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
+				break;
+		}
 
-		//Lama/Sudah Lewat
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) < CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
-		$data['lama'] = $sql->result_array();
+		$data = $this->db
+			->get('agenda g')
+			->result_array();
+
 		return $data;
 	}
 
@@ -324,14 +311,14 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
-	
+
 	public function get_kategori($id=0)
 	{
 		$data = $this->db->select('kategori')
 			->where('id', $id)->or_where('slug', $id)
 			->limit(1)->get('kategori')
 			->row()->kategori;
-		
+
 		if (empty($data))
 		{
 			// untuk artikel jenis statis = "AGENDA"
@@ -373,7 +360,7 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
-	
+
 	public function get_agenda($id)
 	{
 		$data = $this->db->where('id_artikel', $id)
@@ -496,7 +483,7 @@ class First_artikel_m extends CI_Model {
 
 		return $data;
 	}
-	
+
 	public function hit($slug, $is_id=false)
 	{
 		$this->db->where($is_id ? 'id' : 'slug', $slug);
