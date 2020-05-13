@@ -279,7 +279,8 @@ class First_artikel_m extends CI_Model {
 					->order_by('g.tgl_agenda');
 				break;
 			case 'lama':
-				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
+				$this->db->where('DATE(g.tgl_agenda) < CURDATE()')
+					->limit(7);
 				break;
 		}
 
