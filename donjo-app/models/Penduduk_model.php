@@ -1052,7 +1052,7 @@
 		return $data;
 	}
 
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
+	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
 	public function list_dusun()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
@@ -1061,7 +1061,7 @@
 		return $data;
 	}
 
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
+	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
 	public function list_wil()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE zoom > '0'";
@@ -1070,7 +1070,7 @@
 		return $data;
 	}
 
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
+	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
 	public function list_rw($dusun='')
 	{
 		$data = $this->db->
@@ -1082,7 +1082,7 @@
 		return $data;
 	}
 
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
+	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
 	public function list_rw_all()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw <> '0'";
@@ -1091,7 +1091,7 @@
 		return $data;
 	}
 
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
+	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
 	public function list_rt($dusun='', $rw='')
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rw = ? AND dusun = ? AND rt <> '0'";
@@ -1100,19 +1100,10 @@
 		return $data;
 	}
 
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
+	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
 	public function list_rt_all()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt <> '0' AND rw <> '-'";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
-	}
-
-	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
-	public function list_agama()
-	{
-		$sql = "SELECT * FROM tweb_penduduk_agama WHERE 1";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;

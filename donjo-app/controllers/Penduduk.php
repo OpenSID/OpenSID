@@ -169,7 +169,7 @@ class Penduduk extends Admin_Controller {
 		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
