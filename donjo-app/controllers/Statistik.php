@@ -33,6 +33,19 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
 
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		if ($data['heading'] == 'Penerima Bantuan (Penduduk)')
+		{
+		$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 1);
+		}
+		elseif ($data['heading'] == 'Penerima Bantuan (Keluarga)')
+		{
+			$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 2);
+		}
+		else {
+			$data['program_peserta'] = '';
+		}
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk', $data);
@@ -101,6 +114,19 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
 
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		if ($data['heading'] == 'Penerima Bantuan (Penduduk)')
+		{
+		$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 1);
+		}
+		elseif ($data['heading'] == 'Penerima Bantuan (Keluarga)')
+		{
+			$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 2);
+		}
+		else {
+			$data['program_peserta'] = '';
+		}
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_graph', $data);
@@ -120,6 +146,19 @@ class Statistik extends Admin_Controller {
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
+
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		if ($data['heading'] == 'Penerima Bantuan (Penduduk)')
+		{
+		$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 1);
+		}
+		elseif ($data['heading'] == 'Penerima Bantuan (Keluarga)')
+		{
+			$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 2);
+		}
+		else {
+			$data['program_peserta'] = '';
+		}
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
