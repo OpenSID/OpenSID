@@ -141,14 +141,14 @@ class First_artikel_m extends CI_Model {
 
 		switch ($type)
 		{
-			default:
-				$this->db->order_by('a.tgl_upload', DESC);
-				break;
-			case 'random':
+			case 'acak':
 				$this->db->order_by('rand()');
 				break;
 			case 'populer':
 				$this->db->order_by('a.hit', DESC);
+				break;
+			default:
+				$this->db->order_by('a.tgl_upload', DESC);
 				break;
 		}
 

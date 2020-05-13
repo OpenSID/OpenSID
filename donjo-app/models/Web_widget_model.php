@@ -298,7 +298,7 @@
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
 		$data['arsip_terkini'] = $this->first_artikel_m->arsip_show('terkini');
 		$data['arsip_populer'] = $this->first_artikel_m->arsip_show('populer');
-		$data['arsip_random'] = $this->first_artikel_m->arsip_show('random');
+		$data['arsip_acak'] = $this->first_artikel_m->arsip_show('acak');
 		$data['aparatur_desa'] = $this->pamong_model->list_aparatur_desa();
 		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');

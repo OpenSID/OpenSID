@@ -16,66 +16,29 @@
 			<li><a data-toggle="tab" href="#acak">Acak</a></li>
 		</ul>
 		<div class="tab-content">
-			<div id="terkini" class="tab-pane fade in active">
-				<table>
-					<?php foreach ($arsip_terkini as $arsip): ?>
-						<tr>
-							<td>
-								<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
-									<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$arsip[gambar]")): ?>
-										<img class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>"/>
-									<?php else: ?>
-										<img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
-									<?php endif;?>
-									<div align="justify">
-										<small><span class="meta_date"><?= tgl_indo($arsip['tgl_upload']) ?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']) ?></span><br><font color="green"><?= $arsip['judul']?></font></small>
-									</div>
-								</a>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			</div>
-			<div id="populer" class="tab-pane fade">
-				<table>
-					<?php foreach ($arsip_populer as $arsip): ?>
-						<tr>
-							<td>
-								<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
-									<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$arsip[gambar]")): ?>
-										<img class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>"/>
-									<?php else: ?>
-										<img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
-									<?php endif;?>
-									<div align="justify">
-										<small><span class="meta_date"><?= tgl_indo($arsip['tgl_upload']) ?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']) ?></span><br><font color="green"><?= $arsip['judul']?></font></small>
-									</div>
-								</a>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			</div>
-			<div id="acak" class="tab-pane fade">
-				<table>
-					<?php foreach ($arsip_random as $arsip): ?>
-						<tr>
-							<td>
-								<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
-									<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$arsip[gambar]")): ?>
-										<img class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>"/>
-									<?php else: ?>
-										<img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
-									<?php endif;?>
-									<div align="justify">
-										<small><span class="meta_date"><?= tgl_indo($arsip['tgl_upload']) ?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']) ?></span><br><font color="green"><?= $arsip['judul']?></font></small>
-									</div>
-								</a>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			</div>
+
+			<?php foreach (array('terkini' => 'arsip_terkini', 'populer' => 'arsip_populer', 'acak' => 'arsip_acak') as $jenis => $jenis_arsip) : ?>
+				<div id="<?= $jenis ?>" class="tab-pane fade in <?php ($jenis == 'terkini') and print('active') ?>">
+					<table>
+						<?php foreach ($$jenis_arsip as $arsip): ?>
+							<tr>
+								<td>
+									<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
+										<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$arsip[gambar]")): ?>
+											<img class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>"/>
+										<?php else: ?>
+											<img class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
+										<?php endif;?>
+										<div align="justify">
+											<small><span class="meta_date"><?= tgl_indo($arsip['tgl_upload']) ?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']) ?></span><br><font color="green"><?= $arsip['judul']?></font></small>
+										</div>
+									</a>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</table>
+				</div>
+			<?php endforeach ?>
 		</div>
 	</div>
 </div>
