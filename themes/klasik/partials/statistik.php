@@ -196,7 +196,7 @@
 									<td class="text-center"><?= $nomer?></td>
 									<td><?= strtoupper($item['program_plus']);?></td>
 									<td nowrap><?= $item["peserta_info"]?></td>
-									<td nowrap><?= $item["info"];?></td>
+									<td nowrap><?= $item["kartu_alamat"];?></td>
 								</tr>
 							<?php endforeach; ?>
 						<?php endif; ?>
