@@ -270,15 +270,15 @@ class First_artikel_m extends CI_Model {
 
 		switch ($type)
 		{
-			default:
-				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
-				break;
 			case 'yad':
 				$this->db->where('DATE(g.tgl_agenda) > CURDATE()')
 					->order_by('g.tgl_agenda');
 				break;
 			case 'lama':
 				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
+				break;
+			default:
+				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
 				break;
 		}
 
