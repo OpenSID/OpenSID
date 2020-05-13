@@ -24,10 +24,10 @@
 				<label><?= get_identitas()?></label>
 				<h3> Daftar Peserta Program <?= $peserta[0]["nama"];?></h3>
 				<p>
-					<strong>Sasaran Peserta: </strong><?= $sasaran[$peserta[0]["sasaran"]];?><br>
-					<strong>Masa Berlaku: </strong><?= fTampilTgl($peserta[0]["sdate"],$peserta[0]["edate"]);?>
+					<strong>Sasaran Peserta : </strong><?= $sasaran[$peserta[0]["sasaran"]];?><br>
+					<strong>Masa Berlaku : </strong><?= fTampilTgl($peserta[0]["sdate"],$peserta[0]["edate"]);?><br>
+					<strong>Keterangan : </strong><?= $peserta[0]["ndesc"];?>
 				</p>
-				<div><?= $peserta[0]["ndesc"];?></div>
 			</div>
 			<div id="table">
 				<table class="border thick">
@@ -56,7 +56,7 @@
 									<td class='textx'><?=$item["no_id_kartu"]?></td>
 									<td><?=$item["nama"]?></td>
 									<td><?=$item["info"]?></td>
-									<td class='textx'>"<?=$item["kartu_nik"]?></td>
+									<td class='textx'><?=$item["kartu_nik"]?></td>
 									<td><?=$item["kartu_nama"]?></td>
 									<td><?=$item["kartu_tempat_lahir"]?></td>
 									<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
