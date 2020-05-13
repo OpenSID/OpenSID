@@ -395,6 +395,18 @@ class First extends Web_Controller {
 		$data['tipe'] = $tipe;
 		$data['st'] = $stat;
 
+		if ($data['heading'] == 'Penerima Bantuan (Penduduk)')
+		{
+		$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 1);
+		}
+		elseif ($data['heading'] == 'Penerima Bantuan (Keluarga)')
+		{
+			$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 2);
+		}
+		else {
+			$data['program_peserta'] = '';
+		}
+
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/stat.tpl.php');
