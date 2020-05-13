@@ -47,6 +47,10 @@ class Statistik_web extends Web_Controller {
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
 		}
+		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
+		{
+			$data['kategori'] = 'bantuan';
+		}
 		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')
 		{
 			$data['kategori'] = 'keluarga';
