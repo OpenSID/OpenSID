@@ -148,7 +148,7 @@ class Keluarga extends Admin_Controller {
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['rw'] = $this->penduduk_model->list_rw($data['penduduk']['dusun']);
 		$data['rt'] = $this->penduduk_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
@@ -188,7 +188,7 @@ class Keluarga extends Admin_Controller {
 		$data['id_kk'] = $id;
 		$data['kk'] = $this->keluarga_model->get_kepala_a($id);
 		$data['form_action'] = site_url("keluarga/insert_a");
-		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();

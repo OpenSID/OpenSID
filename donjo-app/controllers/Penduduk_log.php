@@ -95,7 +95,7 @@ class Penduduk_log extends Admin_Controller {
 		$data['main'] = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
-		$data['list_agama'] = $this->penduduk_model->list_agama();
+		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
