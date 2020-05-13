@@ -8,6 +8,7 @@ class Program_bantuan extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 6;
 	}
 
@@ -227,17 +228,7 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/");
 	}
 
-	public function cetak($id = 0)
-	{
-		$this->sheet($id, 'cetak');
-	}
-
-	public function unduh($id = 0)
-	{
-		$this->sheet($id, 'unduh');
-	}
-
-	private function sheet($id = 0, $aksi)
+	public function sheet($id = 0, $aksi = '')
 	{
 		if ($id > 0)
 		{
@@ -253,6 +244,7 @@ class Program_bantuan extends Admin_Controller {
 				"4" => "Kelompok/Organisasi Kemasyarakatan"
 			);
 
+			$data['config'] = $this->config_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
 			$_SESSION['per_page'] = $temp;
 
