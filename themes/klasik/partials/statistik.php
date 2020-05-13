@@ -10,7 +10,7 @@
 	let i = 1;
 	let status_tampilkan = true;
 	for (const stat of rawData) {
-		if (stat.nama !== 'BELUM MENGISI' && stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH' && stat.nama != 'PENERIMA') {
+		if (stat.nama !== 'BELUM MENGISI' && stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH' && stat.nama != 'PENERIMA' && stat.nama != 'BUKAN PENERIMA') {
 			let filteredData = [stat.nama, parseInt(stat.jumlah)];
 			categories.push(i);
 			data.push(filteredData);
@@ -86,7 +86,7 @@
 
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title">Grafik Data Demografi Berdasar <?= $heading ?></h3>
+		<h3 class="box-title">Grafik <?= $heading ?></h3>
 		<div class="box-tools pull-right">
 			<div class="btn-group-xs">
 				<a href="<?= site_url("first/statistik/$st/1") ?>" class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs">Bar Graph</a>
@@ -104,7 +104,7 @@
 
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title">Tabel Data Demografi Berdasar <?= $heading ?></h3>
+		<h3 class="box-title">Tabel <?= $heading ?></h3>
 	</div>
 	<div class="box-body">
 		<div class="table-responsive">
@@ -170,3 +170,39 @@
 	</div>
 	</div>
 </div>
+
+<?php if ($program_peserta):?>
+	<div class="box box-danger">
+		<div class="box-header with-border">
+			<h3 class="box-title">Daftar Peserta Program <?=$heading?></h3>
+		</div>
+		<div class="box-body">
+			<?php $peserta = $program_peserta[1];?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped dataTable table-hover">
+					<thead class="bg-gray disabled color-palette">
+						<tr>
+							<th rowspan="2" class="text-center">No</th>
+							<th rowspan="2" nowrap class="text-center">Program</th>
+							<th rowspan="2" nowrap class="text-center">Nama</th>
+							<th rowspan="2" class="text-center">Alamat</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php $nomer = $paging->offset;?>
+						<?php if (is_array($peserta)): ?>
+							<?php foreach ($peserta as $key=>$item): $nomer++;?>
+								<tr>
+									<td class="text-center"><?= $nomer?></td>
+									<td><?= strtoupper($item['program_plus']);?></td>
+									<td nowrap><?= $item["peserta_info"]?></td>
+									<td nowrap><?= $item["info"];?></td>
+								</tr>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<?php endif;?>
