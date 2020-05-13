@@ -19,7 +19,7 @@
 					<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
 						<div class="box-body">
 							<div class="form-group">
-								<label  class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
+								<label class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
 								<div class="col-sm-7">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">-- Pilih Sasaran Data Suplemen --</option>
@@ -29,15 +29,15 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label  class="col-sm-3 control-label" for="nama">Nama Data Suplemen</label>
+								<label class="col-sm-3 control-label" for="nama">Nama Data Suplemen</label>
 								<div class="col-sm-7">
-									<input  class="form-control input-sm required" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
+									<input class="form-control input-sm required" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
-								<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+								<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 								<div class="col-sm-7">
-									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"><?= $suplemen['keterangan']?></textarea>
+									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
 								 </div>
 							</div>
 						</div>
