@@ -260,7 +260,7 @@ class Gis extends Admin_Controller {
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("gis/adv_search_proses");
 
-		$this->load->view("gis/ajax_adv_search_form", $data);
+		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
 	}
 
 	public function adv_search_proses()
