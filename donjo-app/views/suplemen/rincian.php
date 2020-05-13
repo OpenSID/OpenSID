@@ -19,7 +19,8 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
-						<a href="<?= site_url("suplemen/unduhsheet/$suplemen[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
+						<a href="<?= site_url("suplemen/sheet/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+						<a href="<?= site_url("suplemen/sheet/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 						<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Data Suplemen">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 						</a>
@@ -116,26 +117,26 @@
 											</div>
 										</div>
 										<div class="col-sm-6">
-                      <div class="dataTables_paginate paging_simple_numbers">
-                        <ul class="pagination">
-                          <?php if ($paging->start_link): ?>
-                            <li><a href="<?=site_url('suplemen/rincian/'.$paging->start_link.'/'.$suplemen['id'])?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                          <?php endif; ?>
-                          <?php if ($paging->prev): ?>
-                            <li><a href="<?=site_url('suplemen/rincian/'.$paging->prev.'/'.$suplemen['id'])?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                          <?php endif; ?>
-                          <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url('suplemen/rincian/'.$i.'/'.$suplemen['id'])?>"><?= $i?></a></li>
-                          <?php endfor; ?>
-                          <?php if ($paging->next): ?>
-                            <li><a href="<?=site_url('suplemen/rincian/'.$paging->next.'/'.$suplemen['id'])?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                          <?php endif; ?>
-                          <?php if ($paging->end_link): ?>
-                            <li><a href="<?=site_url('suplemen/rincian/'.$paging->end_link.'/'.$suplemen['id'])?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                          <?php endif; ?>
-                        </ul>
-                      </div>
-                    </div>
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<?php if ($paging->start_link): ?>
+														<li><a href="<?=site_url('suplemen/rincian/'.$paging->start_link.'/'.$suplemen['id'])?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->prev): ?>
+														<li><a href="<?=site_url('suplemen/rincian/'.$paging->prev.'/'.$suplemen['id'])?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+													<?php endif; ?>
+													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url('suplemen/rincian/'.$i.'/'.$suplemen['id'])?>"><?= $i?></a></li>
+													<?php endfor; ?>
+													<?php if ($paging->next): ?>
+														<li><a href="<?=site_url('suplemen/rincian/'.$paging->next.'/'.$suplemen['id'])?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+													<?php endif; ?>
+													<?php if ($paging->end_link): ?>
+														<li><a href="<?=site_url('suplemen/rincian/'.$paging->end_link.'/'.$suplemen['id'])?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+													<?php endif; ?>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
