@@ -260,45 +260,32 @@ class First_artikel_m extends CI_Model {
 		return $slider_gambar;
 	}
 
-	public function agenda_show()
+	public function agenda_show($type = '')
 	{
-		$data = array();
-		//Hari Ini
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+		$this->db
+			->select('a.*, g.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->join('artikel a', 'a.id = g.id_artikel', 'LEFT')
 			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) = CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
+			->where('a.id_kategori', '1000');
 
-		$data['hari_ini'] = $sql->result_array();
+		switch ($type)
+		{
+			case 'yad':
+				$this->db->where('DATE(g.tgl_agenda) > CURDATE()')
+					->order_by('g.tgl_agenda');
+				break;
+			case 'lama':
+				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
+				break;
+			default:
+				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
+				break;
+		}
 
-		//Yang Akan Datang
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) > CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
-		$data['yad'] = $sql->result_array();
+		$data = $this->db
+			->get('agenda g')
+			->result_array();
 
-		//Lama/Sudah Lewat
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) < CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
-		$data['lama'] = $sql->result_array();
 		return $data;
 	}
 

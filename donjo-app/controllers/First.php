@@ -530,14 +530,6 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
-	public function agenda($stat=0)
-	{
-		$data = $this->includes;
-		$data['artikel'] = $this->first_artikel_m->agenda_show();
-		$this->_get_common_data($data);
-		$this->load->view($this->template,$data);
-	}
-
 	public function kategori($id, $p=1)
 	{
 		$data = $this->includes;
