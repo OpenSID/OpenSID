@@ -1052,7 +1052,7 @@
 		return $data;
 	}
 
-
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_dusun()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
@@ -1061,6 +1061,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_wil()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE zoom > '0'";
@@ -1069,6 +1070,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_rw($dusun='')
 	{
 		$data = $this->db->
@@ -1080,6 +1082,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_rw_all()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw <> '0'";
@@ -1088,6 +1091,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_rt($dusun='', $rw='')
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rw = ? AND dusun = ? AND rt <> '0'";
@@ -1096,6 +1100,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_rt_all()
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt <> '0' AND rw <> '-'";
@@ -1104,6 +1109,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_agama()
 	{
 		$sql = "SELECT * FROM tweb_penduduk_agama WHERE 1";
@@ -1139,6 +1145,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_pendidikan()
 	{
 		$sql = "SELECT * FROM tweb_penduduk_pendidikan WHERE 1";
@@ -1164,6 +1171,7 @@
 		return $data;
 	}
 
+	// Hapus jika tdk ada modul yg gunakan, untuk selanjutnya penanganan wilayah terdapat pd wilayah_model.php
 	public function list_pendidikan_kk()
 	{
 		$sql = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE 1";

@@ -90,6 +90,6 @@ class Referensi_model extends CI_Model {
 		$list_lap = unserialize(LIST_LAP);
 		return $list_lap;
 	}
-}
 
+}
 ?>
