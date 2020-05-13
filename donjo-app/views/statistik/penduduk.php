@@ -144,6 +144,101 @@
 										</tbody>
 									</table>
 								</div>
+
+                <?php if ($program_peserta):?>
+                		<div class="row">
+                			<div class="col-md-12">
+                				<?php $detail = $program_peserta[0];?>
+                				<div class="box box-info">
+                					<div class="box-body">
+                						<div class="row">
+                							<div class="col-sm-12">
+                								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                								<form id="mainform" name="mainform" action="" method="post">
+                								<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
+                									<div class="row">
+                										<div class="col-sm-12">
+                											<div class="row">
+                												<div class="col-sm-9">
+                													<div class="box-header with-border">
+                														<h3 class="box-title">Daftar Peserta Program <?=$heading?></h3>
+                													</div>
+                												</div>
+                											</div>
+                										</div>
+                										<div class="col-sm-12">
+                										<?php $peserta = $program_peserta[1];?>
+                											<div class="table-responsive">
+                												<table class="table table-bordered table-striped dataTable table-hover">
+                													<thead class="bg-gray disabled color-palette">
+                														<tr>
+                															<th rowspan="2" class="text-center">No</th>
+                															<th rowspan="2" class="text-center">Program</th>
+                															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta"]?></th>
+                															<?php if (!empty($detail['judul_peserta_plus'])): ?>
+                																<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
+                															<?php endif ;?>
+                															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_info"]?></th>
+                															<th colspan="6" class="text-center">Identitas di Kartu Peserta</th>
+                														</tr>
+                														<tr>
+                															<th class="text-center">Nama</th>
+                															<th class="text-center">Alamat</th>
+                														</tr>
+                													</thead>
+                													<tbody>
+                														<?php $nomer = $paging->offset;?>
+                														<?php if (is_array($peserta)): ?>
+                															<?php foreach ($peserta as $key=>$item): $nomer++;?>
+                																<tr>
+                																	<td class="text-center"><?= $nomer?></td>
+                																	<td nowrap><?= strtoupper($item['program_plus']);?></td>
+                																	<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
+                																	<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta/")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
+                																	<?php if (!empty($item['peserta_plus'])): ?>
+                																		<td nowrap><?= $item["peserta_plus"]?></td>
+                																	<?php endif; ?>
+                																	<td nowrap><?= $item["peserta_info"]?></td>
+                																	<td><?= $item["kartu_nama"];?></td>
+                																	<td><?= $item["kartu_alamat"];?></td>
+                																</tr>
+                															<?php endforeach; ?>
+                														<?php endif; ?>
+                													</tbody>
+                												</table>
+                											</div>
+                										</div>
+
+                									</div>
+                                  <div class="row">
+                                    <div class="col-sm-6">
+                                      <div class="dataTables_length">
+                                        <form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="form-horizontal">
+                                         <label>
+                                            Tampilkan
+                                            <select name="per_page" class="form-control input-sm" onchange="$('#mainform').submit();" id="per_page_input">
+                      	                      <option value="20" <?php selected($per_page, 20); ?> >20</option>
+                                              <option value="50" <?php selected($per_page, 50); ?> >50</option>
+                                              <option value="100" <?php selected($per_page, 100); ?> >100</option>
+                                            </select>
+                        	                  Dari
+                                            <strong><?= $paging->num_rows?></strong>
+                                            Total Data
+                                          </label>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                								</form>
+                								</div>
+                							</div>
+                						</div>
+                					</div>
+                				</div>
+                			</div>
+                		</div>
+                <?php endif;?>
+
 							</div>
 						</div>
 					</div>
@@ -151,4 +246,4 @@
 			</div>
 		</form>
 	</section>
-</div>
+  </div>
