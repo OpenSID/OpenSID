@@ -67,7 +67,7 @@ class First_artikel_m extends CI_Model {
 			$cfg['suffix'] = "?cari=$cari";
 		}
 		$jml = $this->db->get()
-			->row()->jml;	
+			->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -130,38 +130,37 @@ class First_artikel_m extends CI_Model {
 		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
 	}
 
-	public function arsip_show($rand = false)
+	public function arsip_show($type = '')
 	{
 		// Artikel agenda (kategori=1000) tidak ditampilkan
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled = ?
-			AND a.id_kategori NOT IN (1000)
-			AND a.tgl_upload < NOW() ";
-		if ($rand)
-			$sql .= "	ORDER BY RAND() DESC LIMIT 7 ";
-		else
-			$sql .= "	ORDER BY a.tgl_upload DESC LIMIT 7 ";
-		$query = $this->db->query($sql, 1);
-		$data = $query->result_array();
+		$this->db
+			->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->where('a.enabled', 1)
+			->where('a.id_kategori NOT IN (1000)')
+			->where('a.tgl_upload < NOW()');
 
-		for ($i=0; $i<count($data); $i++)
+		switch ($type)
 		{
-			$id = $data[$i]['id'];
-			$pendek = str_split($data[$i]['isi'], 100);
-			$pendek2 = str_split($pendek[0], 90);
-			$data[$i]['isi_short'] = $pendek2[0]."...";
-			$panjang = str_split($data[$i]['isi'], 150);
-			$data[$i]['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>baca selengkapnya</a>";
+			case 'acak':
+				$this->db->order_by('rand()');
+				break;
+			case 'populer':
+				$this->db->order_by('a.hit', DESC);
+				break;
+			default:
+				$this->db->order_by('a.tgl_upload', DESC);
+				break;
 		}
-		return $data;
-	}
 
-	public function arsip_rand()
-	{
-		return $this->arsip_show($rand = true);
+		$this->db->limit(7);
+		$data = $this->db->get('artikel a')->result_array();
+
+		for ($i=0; $i < count($data); $i++)
+		{
+			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+		}
+
+		return $data;
 	}
 
 	public function paging_arsip($p=1)
@@ -273,8 +272,8 @@ class First_artikel_m extends CI_Model {
 			->where('a.id_kategori', '1000')
 			->where('DATE(g.tgl_agenda) = CURDATE()')
 			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');				
-				
+			->get('artikel a');
+
 		$data['hari_ini'] = $sql->result_array();
 
 		//Yang Akan Datang
@@ -324,14 +323,14 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
-	
+
 	public function get_kategori($id=0)
 	{
 		$data = $this->db->select('kategori')
 			->where('id', $id)->or_where('slug', $id)
 			->limit(1)->get('kategori')
 			->row()->kategori;
-		
+
 		if (empty($data))
 		{
 			// untuk artikel jenis statis = "AGENDA"
@@ -373,7 +372,7 @@ class First_artikel_m extends CI_Model {
 		}
 		return $data;
 	}
-	
+
 	public function get_agenda($id)
 	{
 		$data = $this->db->where('id_artikel', $id)
@@ -496,7 +495,7 @@ class First_artikel_m extends CI_Model {
 
 		return $data;
 	}
-	
+
 	public function hit($slug, $is_id=false)
 	{
 		$this->db->where($is_id ? 'id' : 'slug', $slug);
