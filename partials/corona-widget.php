@@ -10,11 +10,11 @@
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<?php if(config_item('negara_covid')) : ?>
 				<div id="covid-nasional" class="panel panel-info">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><?= ucwords('<span data-name="wilayah">Loading...</span>') ?></h4></div>
+					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><span data-name="wilayah"><i class="fa fa-spinner fa-pulse"></i></span></h4></div>
 					<div style="height: 100px;padding:1px" class="panel-body text-center">
-						<h4><small>Positif</small> <span data-name="positif">...</span> <small>Jiwa</small></h4>
-						<h4><small>Sembuh</small> <span data-name="sembuh">...</span> <small>Jiwa</small></h4>
-						<h4><small>Meninggal</small> <span data-name="meninggal">...</span> <small>Jiwa</small></h4>
+						<h4><small>Positif</small> <span data-name="positif"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
+						<h4><small>Sembuh</small> <span data-name="sembuh"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
+						<h4><small>Meninggal</small> <span data-name="meninggal"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -22,11 +22,11 @@
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<?php if(config_item('provinsi_covid')) : ?>
 				<div id="covid-provinsi" class="panel panel-info">
-					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><?= ucwords('<span data-name="wilayah">Loading...</span>') ?></h4></div>
+					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><span data-name="wilayah"><i class="fa fa-spinner fa-pulse"></i></span></h4></div>
 					<div style="height: 100px;padding:1px" class="panel-body text-center">
-						<h4><small>Positif</small> <span data-name="positif">...</span> <small>Jiwa</small></h4>
-						<h4><small>Sembuh</small> <span data-name="sembuh">...</span> <small>Jiwa</small></h4>
-						<h4><small>Meninggal</small> <span data-name="meninggal">...</span> <small>Jiwa</small></h4>
+						<h4><small>Positif</small> <span data-name="positif"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
+						<h4><small>Sembuh</small> <span data-name="sembuh"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
+						<h4><small>Meninggal</small> <span data-name="meninggal"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -77,7 +77,7 @@ function showCovidData(data, region) {
 }
 
 function showError(elem = '') {
-	$(`${elem} .shimmer`).html('<span class="small"><i class="fa fa-exclamation-triangle"></i> Gagal memuat...</span>');
+	$(`${elem} .shimmer`).html('<span class="small"><i class="fa fa-exclamation-triangle"></i> Gagal memuat<i class="fa fa-spinner fa-pulse"></i></span>');
 	$(`${elem} .shimmer`).removeClass('shimmer');
 }
 
