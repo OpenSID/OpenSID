@@ -16,13 +16,13 @@
 						<?php foreach ($$jenis_arsip as $arsip): ?>
 							<tr>
 								<td colspan="2">
-								<span class="meta_date"><?= tgl_indo($l['tgl_upload']);?> | <i class="fa fa-eye"></i> <?= hit($l['hit']) ?></span>
+								<span class="meta_date"><?= tgl_indo($arsip['tgl_upload']);?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']) ?></span>
 								</td>
 							</tr>
 							<tr>
 								<td valign="top" align="justify">
 									<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
-										<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_$l[gambar]")): ?>
+										<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")): ?>
 											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>"/>
 										<?php else: ?>
 											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("assets/images/404-image-not-found.jpg")?>"/>
