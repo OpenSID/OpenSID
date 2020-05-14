@@ -33,7 +33,7 @@
 											</tr>
 											<tr>
 												<td style="padding-top : 10px;padding-bottom : 10px;" >Sasaran Terdata</td>
-												<td> :  <?= $sasaran[$suplemen["sasaran"]]?></td>
+												<td> : <?= $sasaran[$suplemen["sasaran"]]?></td>
 											</tr>
 											<tr>
 												<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
@@ -48,13 +48,13 @@
 									<h3 class="box-title">Tambahkan Warga Terdata</h3>
 								</div>
 								<div class="box-body">
-									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
+									<form action="" id="main" name="main" method="POST" class="form-horizontal">
 										<?php if ($suplemen["sasaran"] == 1): ?>
 											<div class="form-group" >
-												<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
+												<label class="col-sm-3 control-label required" for="terdata">NIK / Nama</label>
 												<div class="col-sm-8">
-													<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" >
-														<option value="">-- Silakan Masukan NIK / Nama--</option>
+													<select class="form-control select2" id="terdata" name="terdata" onchange="formAction('main')" style="width:100%;">
+														<option value="">-- Silakan Masukan NIK / Nama --</option>
 														<?php foreach ($list_sasaran as $item):
 															if (strlen($item["id"])>0): ?>
 																<option value="<?= $item['id']?>" <?php if ($individu['id']==$item['id']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
@@ -67,7 +67,7 @@
 											<div class="form-group" >
 												<label for="terdata" class="col-sm-3 control-label">No. KK / Nama KK</label>
 												<div class="col-sm-7">
-													<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" >
+													<select class="form-control select2 required" id="terdata" name="terdata" onchange="formAction('main')" style="width:100%;">
 														<option selected="selected">-- Silakan Masukan No. KK / Nama KK --</option>
 														<?php foreach ($list_sasaran as $item):
 															if (strlen($item["id"])>0): ?>
@@ -82,7 +82,7 @@
 									<div id="form-melengkapi-data-peserta">
 										<form id="validasi" action="<?= $form_action?>/<?= $suplemen['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 											<div class="form-group">
-												<label  class="col-sm-3 control-label"></label>
+												<label class="col-sm-3 control-label"></label>
 												<div class="col-sm-8">
 													 <input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required">
 												 </div>
@@ -91,9 +91,9 @@
 												<?php include("donjo-app/views/suplemen/konfirmasi_terdata.php"); ?>
 											<?php endif; ?>
 											<div class="form-group">
-												<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+												<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">
-													 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"></textarea>
+													 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan" rows="3" style="resize:none;"></textarea>
 												 </div>
 											</div>
 										</form>
