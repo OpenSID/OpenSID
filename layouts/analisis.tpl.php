@@ -1,4 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
@@ -25,45 +26,44 @@
 				<div class="col-lg-9 col-md-9">
 					<div class="content_bottom_left">
 						<div class="single_page_area">
-							<?php
-							if($list_jawab){
-								echo "<div class='box'>";
-								$this->load->view($folder_themes.'/partials/analisis.php');
-								echo "</div>"; }else{ ?>
-									<div class="">
-										<div class="single_page_area">
-											<h2 class="post_titile">DAFTAR AGREGASI DATA ANALISIS DESA</h2>
-											<div class="single_bottom_rightbar wow fadeInDown animated">
-												<h2>Klik untuk melihat lebih detail</h2>
-											</div>
+							<?php if($list_jawab): ?>
+								<div class='box'>";
+									<?php $this->load->view($folder_themes.'/partials/analisis.php'); ?>
+								</div>
+							<?php else: ?>
+								<div class="">
+									<div class="single_page_area">
+										<h2 class="post_titile">DAFTAR AGREGASI DATA ANALISIS DESA</h2>
+										<div class="single_bottom_rightbar wow fadeInDown animated">
+											<h2>Klik untuk melihat lebih detail</h2>
 										</div>
-										<?php foreach($list_indikator AS $data){ ?>
-											<div class="box-header">
-												<a href="<?= site_url()?>first/data_analisis/<?= $data['id']?>/<?= $data['subjek_tipe']?>/<?= $data['id_periode']?>">
-													<h4><?= $data['indikator']?></h4>
-												</a>
-											</div>
-											<div class="box-body" style="font-size:12px;">
-												<table>
-													<tr>
-														<td width="100">Pendataan </td>
-														<td width="20"> :</td>
-														<td> <?= $data['master']?></td>
-													</tr>
-													<tr>
-														<td>Subjek </td>
-														<td> : </td>
-														<td> <?= $data['subjek']?></td>
-													</tr>
-													<tr>
-														<td>Tahun </td>
-														<td> :</td>
-														<td> <?= $data['tahun']?></td>
-													</tr>
-												</table>
-											</div>
-										<?php }
-									} ?>
+									</div>
+									<?php foreach($list_indikator AS $data): ?>
+										<div class="box-header">
+											<a href="<?= site_url('first/data_analisis/'.$data['id'].'/'.$data['subjek_tipe'].'/'.$data['id_periode']);?>">
+												<h4><?= $data['indikator']?></h4>
+											</a>
+										</div>
+										<div class="box-body" style="font-size:12px;">
+											<table>
+												<tr>
+													<td width="100">Pendataan </td>
+													<td width="20"> :</td>
+													<td> <?= $data['master']?></td>
+												</tr>
+												<tr>
+													<td>Subjek </td>
+													<td> : </td>
+													<td> <?= $data['subjek']?></td>
+												</tr>
+												<tr>
+													<td>Tahun </td>
+													<td> :</td>
+													<td> <?= $data['tahun']?></td>
+												</tr>
+											</table>
+										</div>
+									<?php endforeach; ?>
 								</div>
 							</div>
 						</div>
