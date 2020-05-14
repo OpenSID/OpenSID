@@ -12,16 +12,19 @@
 <meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
 <meta property="og:type" content="article"/>
 <meta property="fb:app_id" content="147912828718">
-<title><?php
-if ($single_artikel["judul"] == "")
-	echo $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];
-else echo $single_artikel["judul"].' - '.ucwords($this->setting->sebutan_desa).(($desa['nama_desa'])?' '.$desa['nama_desa']:''); ?></title>
+<title>
+<?php if ($single_artikel["judul"] == ""): ?>
+	<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten']; ?>
+<?php else: ?>
+	<?= $single_artikel["judul"].' - '.ucwords($this->setting->sebutan_desa).(($desa['nama_desa'])?' '.$desa['nama_desa']:''); ?>
+<?php endif; ?>
+</title>
 
 <?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 	<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
-	<?php else: ?>
+	<?php else:?>
 		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-	<?php endif; ?>
+	<?php endif;?>
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/animate.css"); ?>">
