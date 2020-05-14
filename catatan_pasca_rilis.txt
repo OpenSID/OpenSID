@@ -4,5 +4,6 @@ Catatan pasca rilis versi 4.1.9:
 2. Penambahan kolom dusun pada tabel DPT.
 3. Kini deskripsi feed hanya dibatasi 450 karakter.
 4. Penyesuaian pemanggilan source sinergi program
+5. Perbaikan dan penambahan artikel populer pada widget arsip artikel
 
 ****************************************************************
