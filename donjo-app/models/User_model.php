@@ -28,7 +28,7 @@ class User_model extends CI_Model {
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
-        // Helper upload file
+		// Helper upload file
 		$this->load->helper('pict_helper');
 	}
 
@@ -109,22 +109,22 @@ class User_model extends CI_Model {
 		}
 	}
 
-  /**
-   * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
-   */
-  public function validate_admin_has_changed_password()
-  {
+	/**
+	* Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
+	*/
+	public function validate_admin_has_changed_password()
+	{
 		$_SESSION['admin_warning'] = '';
-    $auth = $this->config->item('defaultAdminAuthInfo');
+		$auth = $this->config->item('defaultAdminAuthInfo');
 
-    if ($this->_username == $auth['username'] && $this->_password == $auth['password'])
-    {
-      $_SESSION['admin_warning'] = array(
-        'Pemberitahuan Keamanan Akun',
-        'Penting! Password anda harus diganti demi keamanan.',
-      );
-    }
-  }
+		if ($this->_username == $auth['username'] && $this->_password == $auth['password'])
+		{
+			$_SESSION['admin_warning'] = array(
+				'Pemberitahuan Keamanan Akun',
+				'Penting! Password anda harus diganti demi keamanan.',
+			);
+		}
+	}
 
 	public function sesi_grup($sesi = '')
 	{
@@ -283,9 +283,9 @@ class User_model extends CI_Model {
 	}
 
 	/**
-	 * Insert user baru ke database
-	 * @return  void
-	 */
+	* Insert user baru ke database
+	* @return void
+	*/
 	public function insert()
 	{
 		$_SESSION['error_msg'] = NULL;
@@ -320,10 +320,10 @@ class User_model extends CI_Model {
 	}
 
 	/**
-	 * Update data user
-	 * @param   integer  $idUser  Id user di database
-	 * @return  void
-	 */
+	* Update data user
+	* @param integer $idUser Id user di database
+	* @return void
+	*/
 	public function update($idUser)
 	{
 		$_SESSION['error_msg'] = NULL;
@@ -337,7 +337,6 @@ class User_model extends CI_Model {
 			$_SESSION['success'] = -1;
 			redirect('man_user');
 		}
-
 
 		if (empty($data['username']) || empty($data['password'])
 		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
@@ -372,33 +371,33 @@ class User_model extends CI_Model {
 		// Jangan hapus admin
 		if ($idUser == 1) return;
 
-		if (!$semua) 
+		if (!$semua)
 		{
 			$this->session->success = 1;
 			$this->session->error_msg = '';
 		}
 
-    $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
+		$foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
 		$hasil = $this->db->where('id', $idUser)->delete('user');
-    // Cek apakah pengguna berhasil dihapus
+		// Cek apakah pengguna berhasil dihapus
 		if ($hasil)
 		{
-	    // Cek apakah pengguna memiliki foto atau tidak
-	    if($foto != 'kuser.png')
-	    {
-        // Ambil nama foto
-        $foto = basename(AmbilFoto($foto));
-        // Cek penghapusan foto pengguna
-        if (!unlink(LOKASI_USER_PICT.$foto))
-        {
-          $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
-          $_SESSION['success'] = -1;
-        }
-	    }
+			// Cek apakah pengguna memiliki foto atau tidak
+			if($foto != 'kuser.png')
+			{
+				// Ambil nama foto
+				$foto = basename(AmbilFoto($foto));
+				// Cek penghapusan foto pengguna
+				if (!unlink(LOKASI_USER_PICT.$foto))
+				{
+					$_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+					$_SESSION['success'] = -1;
+				}
+			}
 		}
 		else
 		{
-      $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
+			$_SESSION['error_msg'] = 'Gagal menghapus pengguna';
 			$_SESSION['success'] = -1;
 		}
 	}
@@ -433,10 +432,10 @@ class User_model extends CI_Model {
 	}
 
 	/**
-	 * Update user's settings
-	 * @param  integer $id Id user di database
-	 * @return void
-	 */
+	* Update user's settings
+	* @param integer $id Id user di database
+	* @return void
+	*/
 	public function update_setting($id = 0)
 	{
 		$_SESSION['success'] = 1;
@@ -449,13 +448,12 @@ class User_model extends CI_Model {
 		// Jangan edit password admin apabila di situs demo
 		if ($id == 1 && config_item('demo'))
 		{
-		  unset($data['password']);
+			unset($data['password']);
 		}
 		// Ganti password
 		else
 		{
-			if ($this->input->post('pass_lama') != ''
-			|| $pass_baru != '' || $pass_baru1 != '')
+			if ($this->input->post('pass_lama') != '' || $pass_baru != '' || $pass_baru1 != '')
 			{
 				$sql = "SELECT password,username,id_grup,session FROM user WHERE id = ?";
 				$query = $this->db->query($sql, array($id));
@@ -478,7 +476,6 @@ class User_model extends CI_Model {
 				$this->_username = $row->username;
 				$this->_password = $pass_baru;
 				$this->validate_admin_has_changed_password();
-				$_SESSION['dari_login'] = '1';
 
 				if (!empty($_SESSION['admin_warning']))
 				{
@@ -499,7 +496,6 @@ class User_model extends CI_Model {
 					$data['password'] = $pwHash;
 					unset($_SESSION['admin_warning']);
 				}
-
 			}
 		}
 
@@ -531,10 +527,10 @@ class User_model extends CI_Model {
 	//!===========================================================
 
 	/**
-	 * Buat hash password (bcrypt) dari string sebuah password
-	 * @param  [type]  $string  [description]
-	 * @return  [type]  [description]
-	 */
+	* Buat hash password (bcrypt) dari string sebuah password
+	* @param [type] $string [description]
+	* @return [type] [description]
+	*/
 	private function generatePasswordHash($string)
 	{
 		// Pastikan inputnya adalah string
@@ -550,10 +546,10 @@ class User_model extends CI_Model {
 		return $pwHash;
 	}
 
-	/***
-		* @return
-			- success: nama berkas yang diunggah
-			- fail: nama berkas lama, kalau ada
+	/**
+	* @return
+	* success: nama berkas yang diunggah
+	*fail: nama berkas lama, kalau ada
 	*/
 	private function urusFoto($idUser='')
 	{
@@ -595,10 +591,10 @@ class User_model extends CI_Model {
 		return is_null($nama_foto) ? $berkasLama : str_replace('kecil_', '', $nama_foto);
 	}
 
-	/***
-		* @return
-			- success: nama berkas yang diunggah
-			- fail: NULL
+	/**
+	* @return
+	* success: nama berkas yang diunggah
+	* fail: NULL
 	*/
 	private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
 	{
@@ -632,7 +628,7 @@ class User_model extends CI_Model {
 			$uploadData = $this->upload->data();
 			// Buat nama file unik agar url file susah ditebak dari browser
 			$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
-      $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
+			$namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 			// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 			$fileRenamed = rename(
 				$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -648,12 +644,13 @@ class User_model extends CI_Model {
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
 		}
+
 		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
 	/*
-	 * Hak akses setiap controller.
-	 * TODO: pindahkan menggunakan authentication/authorisation library
+	* Hak akses setiap controller.
+	* TODO: pindahkan menggunakan authentication/authorisation library
 	*/
 	public function hak_akses($group, $controller, $akses)
 	{
@@ -673,8 +670,8 @@ class User_model extends CI_Model {
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
-		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul 
-		// pada komponen Admin. 
+		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul
+		// pada komponen Admin.
 		$hak_akses = array(
 			// Operator
 			2 => array(
@@ -686,16 +683,16 @@ class User_model extends CI_Model {
 				'hom_desa' => array('b','u'),
 				'sid_core' => array('b','u'),
 				'pengurus' => array('b','u'),
-				
+
 				// kependudukan
 				'penduduk' => array('b','u'),
 					// Penduduk
-					'penduduk_log' => array('b','u'), 
+					'penduduk_log' => array('b','u'),
 				'keluarga' => array('b','u'),
 				'rtm' => array('b','u'),
 				'kelompok' => array('b','u'),
 					// kelompok
-					'kelompok_master' => array('b','u'), 
+					'kelompok_master' => array('b','u'),
 				'suplemen' => array('b','u'),
 				'dpt' => array('b','u'),
 
@@ -703,7 +700,7 @@ class User_model extends CI_Model {
 				'statistik' => array('b','u'),
 				'laporan' => array('b','u'),
 				'laporan_rentan' => array('b','u'),
-				
+
 				// layanan surat
 				'surat_master' => array('b','u'),
 				'surat' => array('b','u'),
@@ -717,19 +714,19 @@ class User_model extends CI_Model {
 				'dokumen_sekretariat' => array('b','u'),
 				'dokumen' => array('b','u'),
 					// inventaris
-					'api_inventaris_asset' => array('b','u'), 
-					'api_inventaris_gedung' => array('b','u'), 
-					'api_inventaris_jalan' => array('b','u'), 
-					'api_inventaris_kontruksi' => array('b','u'), 
-					'api_inventaris_peralatan' => array('b','u'), 
-					'api_inventaris_tanah' => array('b','u'), 
-					'inventaris_asset' => array('b','u'), 
-					'inventaris_gedung' => array('b','u'), 
-					'inventaris_jalan' => array('b','u'), 
-					'inventaris_kontruksi' => array('b','u'), 
-					'inventaris_peralatan' => array('b','u'), 
-					'inventaris_tanah' => array('b','u'), 
-					'laporan_inventaris' => array('b','u'), 
+					'api_inventaris_asset' => array('b','u'),
+					'api_inventaris_gedung' => array('b','u'),
+					'api_inventaris_jalan' => array('b','u'),
+					'api_inventaris_kontruksi' => array('b','u'),
+					'api_inventaris_peralatan' => array('b','u'),
+					'api_inventaris_tanah' => array('b','u'),
+					'inventaris_asset' => array('b','u'),
+					'inventaris_gedung' => array('b','u'),
+					'inventaris_jalan' => array('b','u'),
+					'inventaris_kontruksi' => array('b','u'),
+					'inventaris_peralatan' => array('b','u'),
+					'inventaris_tanah' => array('b','u'),
+					'laporan_inventaris' => array('b','u'),
 				'klasifikasi' => array('b','u'),
 
 				// keuangan
@@ -749,10 +746,10 @@ class User_model extends CI_Model {
 					// laporan analisis
 					'analisis_laporan' => array('b','u'),
 					'analisis_statistik_jawaban' => array('b','u'),
-				
+
 				// bantuan
 				'program_bantuan' => array('b','u'),
-				
+
 				// pertanahan
 				'data_persil' => array('b','u'),
 
@@ -765,10 +762,10 @@ class User_model extends CI_Model {
 				'line' => array('b','u'),
 				'area' => array('b','u'),
 				'polygon' => array('b','u'),
-				
+
 				// sms
 				'sms' => array('b','u'),
-				
+
 				// pengaturan
 				'modul' => array('b','u'),
 
@@ -784,16 +781,16 @@ class User_model extends CI_Model {
 				'teks_berjalan' => array('b','u'),
 				'pengunjung' => array('b','u'),
 
-				// layanan mandiri				
+				// layanan mandiri
 				'permohonan_surat_admin' => array('b', 'u'),
 				'mailbox' => array('b','u'),
 				'mandiri' => array('b','u'),
-				
-				// --- Controller berikut diakses di luar menu navigasi modul 
+
+				// --- Controller berikut diakses di luar menu navigasi modul
 
 				// notifikasi
 				'notif' => array('b','u'),
-				
+
 				// wilayah
 				'wilayah' => array('b')
 			),
@@ -802,7 +799,7 @@ class User_model extends CI_Model {
 				// admin web
 				'web' => array('b','u'),
 				'komentar' => array('b','u'),
-				
+
 				// notifikasi
 				'notif' => array('b','u')
 			),
@@ -811,7 +808,7 @@ class User_model extends CI_Model {
 				// admin web
 				'web' => array('b','u'),
 				'komentar' => array('b','u'),
-				
+
 				// notifikasi
 				'notif' => array('b','u')
 			),
@@ -828,9 +825,9 @@ class User_model extends CI_Model {
 				'wilayah' => array('b')
 			)
 		);
+
 		return in_array($akses, $hak_akses[$group][$controller[0]]);
 	}
 
 }
-
 ?>

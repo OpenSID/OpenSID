@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Siteman extends CI_Controller 
+class Siteman extends CI_Controller
 {
 
 	public function __construct()
@@ -43,7 +43,6 @@ class Siteman extends CI_Controller
 		if ($_SESSION['siteman'] == 1)
 		{
 			$this->user_model->validate_admin_has_changed_password();
-			$_SESSION['dari_login'] = '1';
 			// Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
 			if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === false)
 			{

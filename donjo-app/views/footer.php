@@ -1,6 +1,6 @@
 			<footer class="main-footer">
 				<div class="pull-right hidden-xs">
-			  	<b>Versi</b> <?= AmbilVersi()?>
+					<b>Versi</b> <?= AmbilVersi()?>
 				</div>
 				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a>, dikembangkan oleh <a href="https://www.facebook.com/groups/OpenSID/" target="_blank">Komunitas OpenSID</a>.</strong>
 			</footer>
@@ -121,14 +121,11 @@
 		<!-- Notifikasi Ganti Password Login -->
 		<?php if ($this->session->admin_warning && !config_item('demo')): ?>
 			<script type="text/javascript">
-				<?php if (isset($_SESSION['dari_login'])): ?>
-					$(window).on('load', function()
-					{
-						$('#massageBox').modal('show');
-						$('#ok').click(function() {$('#massageBox').modal('hide');});
-					});
-					<?php unset($_SESSION['dari_login']) ?>
-				<?php endif; ?>
+				$(window).on('load', function()
+				{
+					$('#massageBox').modal('show');
+					$('#ok').click(function() {$('#massageBox').modal('hide');});
+				});
 			</script>
 		<?php endif ?>
 
@@ -144,4 +141,3 @@
 		</script>
 	</body>
 </html>
-
