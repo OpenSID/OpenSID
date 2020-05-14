@@ -285,6 +285,10 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
+	/*
+	| Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
+	| Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
+	*/
 	public function artikel($url)
 	{
 		$this->load->model('shortcode_model');

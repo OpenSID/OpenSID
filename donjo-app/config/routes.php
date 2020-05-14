@@ -57,21 +57,10 @@ $route['sitemap\.xml'] = "Sitemap/index";
 $route['feed\.xml'] = "Feed/index";
 $route ['ppid'] = "Api_informasi_publik/ppid";
 
-// Routing halaman depan
 // Artikel
+// Routing halaman depan
 $route['artikel/(:num)'] = 'first/artikel/$1'; // id
 $route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // slug
-
-// Agenda
-$route['agenda/(:num)'] = 'first/artikel/$1'; // id
-$route['agenda/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // slug
-
-
 // Agar url lama bisa di akses
-// Artikel
 $route['first/artikel/(:num)'] = 'first/artikel/$1'; // id
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // slug
-
-// Agenda
-$route['first/agenda/(:num)'] = 'first/artikel/$1'; // id
-$route['first/agenda/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // slug
