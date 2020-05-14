@@ -49,7 +49,7 @@
 		</div>
 		<?php if ($artikel): ?>
 			<div class="single_category wow fadeInDown">
-				<div class="archive_style_1">dd
+				<div class="archive_style_1">
 					<?php foreach ($artikel as $data): ?>
 						<?php $abstrak = potong_teks($data['isi'], 550) ?>
 						<div class="business_category_left wow fadeInDown">

@@ -1,7 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <?php if (config_item('kode_kota')): ?>
 
-	<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/widget.min.css") ?>">
 	<script>
 		const KODE_KOTA = "<?= config_item('kode_kota') ?>";
 		const TANGGAL = "<?= date('Y-m-d') ?>";
