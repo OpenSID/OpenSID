@@ -285,27 +285,14 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
-	/*
-		Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. Url first/artikel/:id
-
-		Kalau menggunakan slug, dipanggil menggunakan url first/artikel/:thn/:bln/:hri/:slug
-	*/
-	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
+	public function artikel($url)
 	{
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
-		if (empty($slug))
-		{
-			// Kalau slug kosong, parameter pertama adalah id artikel
-			$id = $thn;
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
-		}
-		else
-		{
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
-			$id = $data['single_artikel']['id'];
-		}
+		$data['single_artikel'] = $this->first_artikel_m->get_artikel($url);
+		$id = $data['single_artikel']['id'];
+
 		// replace isi artikel dengan shortcodify
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
@@ -563,7 +550,7 @@ class First extends Web_Controller {
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
 			$_SESSION['post'] = $_POST;
 			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+			redirect($_SERVER['HTTP_REFERER']."#kolom-komentar");
 		}
 
 		$res = $this->first_artikel_m->insert_comment($id);
