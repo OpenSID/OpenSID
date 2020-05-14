@@ -196,6 +196,9 @@ class Suplemen extends Admin_Controller {
 		redirect("suplemen/");
 	}
 
+	/*
+	* $aksi = cetak/unduh
+	*/
 	public function daftar($id = 0, $aksi = '')
 	{
 		if ($id > 0)

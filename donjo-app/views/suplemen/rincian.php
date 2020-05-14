@@ -66,12 +66,9 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php
-																$nomer = $paging->offset;
-																if (is_array($terdata)):
-																	foreach ($terdata as $key=>$item):
-																		$nomer++;
-															?>
+															<?php $nomer = $paging->offset; ?>
+															<?php foreach ($terdata as $key=>$item): ?>
+																<?php $nomer++; ?>
 																<tr>
 																	<td align="center" width="2"><?= $nomer; ?></td>
 																	<td nowrap>
@@ -88,10 +85,7 @@
 																	<td><?= $item["info"];?></td>
 																	<td width="25%"><?= $item["keterangan"];?></td>
 																</tr>
-																	<?php
-																	endforeach;
-																endif;
-															?>
+															<?php endforeach; ?>
 														</tbody>
 													</table>
 												</div>
