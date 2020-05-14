@@ -31,12 +31,7 @@
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
-											<div class="col-sm-6">
-												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('surat_mohon/filter')?>')">
-													<option value="">Semua</option>
-												</select>
-											</div>
-											<div class="col-sm-6">
+											<div class="col-sm-12">
 												<div class="box-tools">
 													<div class="input-group input-group-sm pull-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?=site_url('surat_mohon/search')?>');$('#'+'mainform').submit();}">
