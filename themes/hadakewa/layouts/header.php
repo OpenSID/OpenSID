@@ -20,11 +20,11 @@
 
 		<?php if (isset($single_artikel)): ?>
 			<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
-    			<meta property="og:url" content="<?= base_url()?>index.php/first/artikel/<?= $single_artikel['id'];?>"/>
-			<meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
-	    		<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
+			<meta property="og:url" content="<?= base_url('artikel/'.$single_artikel['slug']);?>"/>
+			<meta property="og:image" content="<?= base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$single_artikel['gambar']);?>"/>
+			<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 			<meta name="description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
-  	<?php else: ?>
+		<?php else: ?>
 			<meta name="description" content="Website <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
 

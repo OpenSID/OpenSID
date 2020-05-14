@@ -517,7 +517,7 @@
 		{
 			$id = $data['id'];
 			$panjang = str_split($data['isi'], 300);
-			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
+			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("artikel/$id")."'>Baca Selengkapnya</a>";
 		}
 		return $data;
 	}

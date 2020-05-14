@@ -169,7 +169,7 @@
 																					</a>
 																				<?php endif; ?>
 																			<?php endif; ?>
-																			<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" target="_blank" class="btn bg-green btn-flat btn-sm" title="Lihat Artikel">
+																			<a href="<?= site_url('artikel/'.buat_slug($data)) ?>" target="_blank" class="btn bg-green btn-flat btn-sm" title="Lihat Artikel">
 																				<i class="fa fa-eye"></i>
 																			</a>
                                     </td>

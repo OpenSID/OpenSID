@@ -26,7 +26,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$id = $data['id'];
 			//$panjang=str_split($data['isi'],800);
-			//$data['isi'] = "<label>".strip_tags($panjang[0])."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
+			//$data['isi'] = "<label>".strip_tags($panjang[0])."...</label><a href='".site_url("artikel/$id")."'>Baca Selengkapnya</a>";
 		}
 		return $data;
 	}
@@ -199,7 +199,7 @@ class First_artikel_m extends CI_Model {
 				$tgl = date("d/m/Y",strtotime($data[$i]['tgl_upload']));
 				$data[$i]['no'] = $nomer;
 				$data[$i]['tgl'] = $tgl;
-				$data[$i]['isi'] = "<a href='".site_url("first/artikel/$id")."'>".$data[$i]['judul']."</a>, <i class=\"fa fa-user\"></i> ".$data[$i]['owner'];
+				$data[$i]['isi'] = "<a href='".site_url("artikel/$id")."'>".$data[$i]['judul']."</a>, <i class=\"fa fa-user\"></i> ".$data[$i]['owner'];
 			}
 		}
 		else
@@ -306,7 +306,7 @@ class First_artikel_m extends CI_Model {
 			$pendek2 = str_split($pendek[0], 90);
 			$data[$i]['komentar_short'] = $pendek2[0]."...";
 			$panjang = str_split($data[$i]['komentar'], 50);
-			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
+			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
 		}
 		return $data;
 	}
@@ -334,9 +334,9 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function get_artikel($slug, $is_id=false)
+	public function get_artikel($url)
 	{
-		$this->hit($slug, $is_id); // catat artikel diakses
+		$this->hit($url); // catat artikel diakses
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
@@ -344,8 +344,7 @@ class First_artikel_m extends CI_Model {
 			->where('a.enabled', 1)
 			->where('tgl_upload < NOW()');
 
-		// $slug adalah id atau slug
-		$this->db->where($is_id ? 'a.id' : 'a.slug', $slug);
+		$this->db->where('a.id', $url)->or_where('a.slug', $url);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
@@ -483,9 +482,9 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function hit($slug, $is_id=false)
+	public function hit($url)
 	{
-		$this->db->where($is_id ? 'id' : 'slug', $slug);
+		$this->db->where('id', $url)->or_where('slug', $url);
 		$id = $this->db->select('id')->get('artikel')->row()->id;
 		//membatasi hit hanya satu kali dalam setiap session
 		if (in_array($id, $_SESSION['artikel'])) return;

@@ -104,7 +104,7 @@
 																		<td><?= $data['no_hp']?></td>
 																		<td><?= $data['email']?></td>
 																		<td>
-																			<a href="<?= site_url("first/artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>
+																			<a href="<?= site_url("artikel/$data[id_artikel]")?>" target="_blank"><?= $data['artikel']?></a>
 																		</td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>

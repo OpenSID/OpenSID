@@ -55,13 +55,13 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
             	</a>
             	<?php if ($artikel['slug']): ?>
-            		<a href="<?= site_url('first/artikel/'.$artikel['thn'].'/'.$artikel['bln'].'/'.$artikel['hri'].'/'.$artikel['slug']) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+            		<a href="<?= site_url('artikel/'.buat_slug($artikel)) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
             	<?php endif; ?>
 						</div>
 						<div class="box-body">
 			  			<div class="form-group">
 								<label class="control-label" for="judul">Judul Artikel</label>
-								<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Artikel" maxlength="100" value="<?= $artikel['judul']?>" ></input>
+								<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Artikel" minlength="5"> maxlength="100" value="<?= $artikel['judul']?>" ></input>
 								<span class="help-block"><code>Judul artikel maksimal 100 karakter</code></span>
 							</div>
 							<div class="form-group">
