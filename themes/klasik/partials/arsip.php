@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <div style="margin-left:.5em;">
 	<div class="box box-primary box-solid">

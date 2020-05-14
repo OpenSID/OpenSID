@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php if (count($slide_galeri)>0 OR count($slide_artikel)>0): ?>
 <?php $this->load->view($folder_themes."/layouts/slider.php") ?>
@@ -64,8 +64,8 @@
 
 							<div class="teks">
 								<div class="kecil">
-									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> | 
-									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
+									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> |
+									<i class="fa fa-user"></i> <?= $data['owner'] ?> |
 									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
 										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
@@ -108,7 +108,7 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	
+
 	<?php if ($artikel AND $paging->num_rows > $paging->per_page): ?>
 		<div class="box-footer">
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>

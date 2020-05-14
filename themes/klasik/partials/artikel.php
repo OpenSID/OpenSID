@@ -1,11 +1,11 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php if($single_artikel["id"]) : ?>
 	<div class="artikel" id="<?= 'artikel-'.$single_artikel['judul']?>">
 		<h2 class="judul"><?= $single_artikel["judul"]?></h2>
 		<h3 class="kecil">
-			<i class="fa fa-user"></i> <?= $single_artikel['owner']?> | 
-			<i class="fa fa-clock-o"></i><?= tgl_indo2($single_artikel['tgl_upload']);?>  | 
+			<i class="fa fa-user"></i> <?= $single_artikel['owner']?> |
+			<i class="fa fa-clock-o"></i><?= tgl_indo2($single_artikel['tgl_upload']);?> |
 			<?php if (trim($single_artikel['kategori']) != '') : ?>
 				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['kat_slug'])?>"><?= $single_artikel['kategori']?></a> |
 			<?php endif; ?>
@@ -20,7 +20,7 @@
 					<p>LOKASI KEGIATAN : <?= $detail_agenda['lokasi_kegiatan']?>	</p>
 				</div>
 			</div>
-		<?php endif; ?>		
+		<?php endif; ?>
 
 		<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 			<div class="sampul">
