@@ -228,15 +228,15 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/");
 	}
 
-	public function sheet($id = 0, $aksi = '')
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($id = 0, $aksi = '')
 	{
 		if ($id > 0)
 		{
-			$temp = $_SESSION['per_page'];
-			$_SESSION['per_page'] = 1000000000; // Angka besar supaya semua data terunduh
-			/*
-			 * Print xls untuk data x
-			 * */
+			$temp = $this->session->per_page;
+			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
 			$data["sasaran"] = array(
 				"1" => "Penduduk",
 				"2" => "Keluarga/KK",
@@ -246,12 +246,12 @@ class Program_bantuan extends Admin_Controller {
 
 			$data['config'] = $this->config_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
-			$_SESSION['per_page'] = $temp;
+			$data['aksi'] = $aksi;
+			$this->session->per_page = $temp;
 
 			$this->load->view('program_bantuan/'.$aksi, $data);
 		}
 	}
-
 
 	public function search_peserta()
 	{
