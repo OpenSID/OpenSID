@@ -153,7 +153,7 @@ class Program_bantuan_model extends CI_Model {
 			$cari = $_SESSION['cari_peserta'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
+			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -1007,6 +1007,29 @@ class Program_bantuan_model extends CI_Model {
 		}
 	}
 
+	private function get_data_peserta_all($hasil0, $slug)
+	{
+		$paging_sql = ' LIMIT ' .$hasil0["paging"]->offset. ',' .$hasil0["paging"]->per_page;
+		$strSQL = $this->get_peserta_sql_all($slug,$hasil0["sasaran"]);
+		$strSQL .= $paging_sql;
+		$query = $this->db->query($strSQL);
+
+		switch ($hasil0["sasaran"])
+		{
+			case 1:
+				return $this->get_data_peserta_penduduk($query);
+				break;
+			case 2:
+				return $this->get_data_peserta_kk($query);
+				break;
+			case 3:
+				return $this->get_data_peserta_rumah_tangga($query);
+				break;
+			case 4:
+				return $this->get_data_peserta_kelompok($query);
+		}
+	}
+
 	private function get_peserta_sql_all($slug, $sasaran, $jumlah=false)
 	{
 		if ($jumlah) $select_sql = "COUNT(*) as jumlah";
@@ -1062,29 +1085,6 @@ class Program_bantuan_model extends CI_Model {
 		return $strSQL;
 	}
 
-	private function get_data_peserta_all($hasil0, $slug)
-	{
-		$paging_sql = ' LIMIT ' .$hasil0["paging"]->offset. ',' .$hasil0["paging"]->per_page;
-		$strSQL = $this->get_peserta_sql_all($slug,$hasil0["sasaran"]);
-		$strSQL .= $paging_sql;
-		$query = $this->db->query($strSQL);
-
-		switch ($hasil0["sasaran"])
-		{
-			case 1:
-				return $this->get_data_peserta_penduduk($query);
-				break;
-			case 2:
-				return $this->get_data_peserta_kk($query);
-				break;
-			case 3:
-				return $this->get_data_peserta_rumah_tangga($query);
-				break;
-			case 4:
-				return $this->get_data_peserta_kelompok($query);
-		}
-	}
-
 	private function get_program_data_all($p, $slug)
 	{
 		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
@@ -1093,7 +1093,7 @@ class Program_bantuan_model extends CI_Model {
 		$query = $this->db->query($strSQL);
 		$hasil0 = $query->row_array();
 
-		$hasil0["paging"] = $this->paging_peserta($p, $slug, $hasil0["sasaran"]);
+		$hasil0["paging"] = $this->paging_peserta_all($p, $slug, $hasil0["sasaran"]);
 
 		switch ($hasil0["sasaran"])
 		{
@@ -1137,6 +1137,22 @@ class Program_bantuan_model extends CI_Model {
 		}
 
 		return $hasil0;
+	}
+
+	public function paging_peserta_all($p, $slug, $sasaran)
+	{
+		$sql = $this->get_peserta_sql_all($slug,$sasaran, true);
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jumlah'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
 	}
 
 }
