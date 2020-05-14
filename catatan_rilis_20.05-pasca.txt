@@ -44,6 +44,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 39. #3056: Url first/agenda sekarang menampilkan error 404. Sederhanakan dan perbaiki menampilkan widget Agenda. [bug-fix]
 40. #3063: Sediakan tombol cetak di Program Bantuan > Rincian sesuai dengan daftar unduh.
 41. #3063: Sediakan tombol cetak di Kependudukan > Data Suplemen > Rincian sesuai dengan daftar unduh.
+42. Hapus filter yg tidak digunakan di Layanan Surat > Daftar Persyaratan.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
