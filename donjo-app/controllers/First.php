@@ -47,6 +47,7 @@ class First extends Web_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
+		$this->load->model('program_bantuan_model');
 	}
 
 	public function auth()
@@ -379,22 +380,40 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function statistik($stat=0, $tipe=0)
+	private function detail_clear()
+	{
+		unset($_SESSION['cari_peserta']);
+		$_SESSION['per_page'] = 5;
+	}
+
+	public function search_peserta()
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari_peserta'] = $cari;
+		else unset($_SESSION['cari_peserta']);
+		redirect("first/statistik/".$this->input->post('id'));
+	}
+
+	public function statistik($stat=0, $tipe=0, $p = 1, $clear=false)
 	{
 		$data = $this->includes;
 
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		if (is_null($data['heading']))
+		if ($clear)
+			$this->detail_clear();
+		else
 		{
-			// Permintaan statistik tidak dikenal
-			show_404();
+			if (isset($_SESSION['cari_peserta']))
+				$data['cari_peserta'] = $_SESSION['cari_peserta'];
+			else $data['cari_peserta'] = '';
 		}
 
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
-		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
-		$data['tipe'] = $tipe;
-		$data['st'] = $stat;
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
 
+		$data['per_page'] = $_SESSION['per_page'];
+
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
 		if ($data['heading'] == 'Penerima Bantuan (Penduduk)')
 		{
 		$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 1);
@@ -406,6 +425,12 @@ class First extends Web_Controller {
 		else {
 			$data['program_peserta'] = '';
 		}
+		$data['paging'] = $data['program_peserta'][0]['paging'];
+
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
+		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
+		$data['tipe'] = $tipe;
+		$data['st'] = $stat;
 
 		$this->_get_common_data($data);
 
