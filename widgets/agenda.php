@@ -2,7 +2,7 @@
 
 <?php if ($agenda): ?>
 	<div class="single_bottom_rightbar">
-		<h2><a href="<?= site_url();?>first/kategori/1000"><i class="fa fa-calendar"></i> Agenda</a></h2>
+		<h2><a href="<?= site_url('first/kategori/1000')?>"><i class="fa fa-calendar"></i> Agenda</a></h2>
 		<div id="agenda" class="box-body">
 			<ul class="nav nav-tabs">
 				<?php if (count($agenda['hari_ini']) > 0): ?>
@@ -23,7 +23,7 @@
 									<tr valign="top">
 										<th id="label-meta-agenda" width="35%">Kegiatan</th>
 										<td width="5%" class="titik">:</td>
-										<td><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
+										<td><a href="<?= site_url('artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
 									</tr>
 									<tr valign="top">
 										<th id="label-meta-agenda">Waktu</th>
@@ -56,7 +56,7 @@
 										<tr valign="top">
 											<th id="label-meta-agenda" width="35%">Kegiatan</th>
 											<td width="5%" class="titik">:</td>
-											<td><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
+											<td><a href="<?= site_url('artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
 										</tr>
 										<tr valign="top">
 											<th id="label-meta-agenda">Waktu</th>
@@ -92,7 +92,7 @@
 											<tr valign="top">
 												<th id="label-meta-agenda" width="35%">Kegiatan</th>
 												<td width="5%" class="titik">:</td>
-												<td><a href="<?= site_url('first/artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
+												<td><a href="<?= site_url('artikel/'.buat_slug($l))?>"><?= $l['judul']?></a></td>
 											</tr>
 											<tr valign="top">
 												<th id="label-meta-agenda">Waktu</th>

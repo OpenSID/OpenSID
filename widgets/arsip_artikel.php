@@ -21,7 +21,7 @@
 							</tr>
 							<tr>
 								<td valign="top" align="justify">
-									<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
+									<a href="<?= site_url('artikel/'.buat_slug($arsip))?>">
 										<?php if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar])): ?>
 											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar])?>"/>
 										<?php else: ?>

@@ -17,7 +17,7 @@
 			<div id="headline" class="box box-danger" style="margin-bottom:10px;">
 				<div class="box-header with-border">
 					<h5 class="catg_titile">
-						<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
+						<a href="<?= site_url('artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 					</h5>
 				</div>
 				<div class="box-body">
@@ -29,7 +29,7 @@
 							<?php endif; ?>
 						<?php endif; ?>
 						<div style="text-align: justify;"><?= $abstrak_headline ?> ...
-							<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">
+							<a href="<?= site_url('artikel/'.buat_slug($headline))?>">
 								<button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button>
 							</a>
 						</div>
@@ -57,7 +57,7 @@
 								<li>
 									<div class="catgimg2_container2">
 										<h5 class="catg_titile">
-											<a href="<?= site_url('first/artikel/'.buat_slug($data))?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
+											<a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
 										</h5>
 										<div class="post_commentbox">
 											<span class="meta_date"><?= tgl_indo2($data['tgl_upload']);?>&nbsp;
@@ -71,7 +71,7 @@
 												<?php endif; ?>
 											</span>
 										</div>
-										<a href="<?= site_url('first/artikel/'.buat_slug($data))?>" title="Baca Selengkapnya">
+										<a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya">
 											<?php if($data['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$data['gambar'])): ?>
 												<img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="100%" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
 												<?php else: ?>
@@ -81,7 +81,7 @@
 																<!--
 								<div style="text-align: justify;">
 																<?= $abstrak ?> ...
-															<a href="<?= site_url('first/artikel/'.buat_slug($data))?>" title="Baca Selengkapnya">
+															<a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya">
 																		<button type="button" class="btn btn-info btn-block">Baca Selengkapnya <i class="fa fa-arrow-right"></i></button>
 															</a>
 								</div>

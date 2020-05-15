@@ -40,7 +40,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 	<?php if(isset($single_artikel)): ?>
 		<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
-		<meta property="og:url" content="<?= site_url()?>first/artikel/<?= $single_artikel['id'];?>"/>
+		<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
 		<meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
 		<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 		<?php else: ?>
