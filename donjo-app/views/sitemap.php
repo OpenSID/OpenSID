@@ -13,7 +13,7 @@
 	<!-- Sitemap -->
 	<?php foreach($artikel as $a): ?>
 	<url>
-		<loc><?= base_url()."index.php/first/artikel/".$a->thn."/".$a->bln."/".$a->hri."/".$a->slug ?></loc>
+		<loc><?= base_url('index.php/artikel/'.buat_slug($a)); ?></loc>
 		<priority>0.5</priority>
 		<changefreq>weekly</changefreq>
 	</url>

@@ -19,10 +19,10 @@
 	<?php foreach ($feeds as $key): ?>
 		<item>
 			<title><?= htmlspecialchars($key->judul); ?></title>
-			<link><?= site_url("first/artikel/".$key->id);?></link>
+			<link><?= site_url("artikel/".buat_slug((array) $key));?></link>
 			<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
 			<description>
-				<?= htmlspecialchars($data_config["nama_desa"]).", ".htmlspecialchars(substr($key->isi, 0, strpos($key->isi, " ", 260)))?>
+				<?= htmlspecialchars(substr($key->isi, 0, max(strpos($key->isi, " ", 260), 200)))?>
 			</description>
 		</item>
 	<?php endforeach; ?>

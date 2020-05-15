@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16,15 +16,17 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta property="og:site_name" content="<?= $desa['nama_desa'];?>"/>
 		<meta property="og:type" content="article"/>
+
 		<?php if (isset($single_artikel)): ?>
 			<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
-			<meta property="og:url" content="<?= base_url()?>index.php/first/artikel/<?= $single_artikel['id'];?>"/>
-			<meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
+			<meta property="og:url" content="<?= base_url('index.php/artikel/'.buat_slug($single_artikel))?>"/>
+			<meta property="og:image" content="<?= base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$single_artikel['gambar']);?>"/>
 			<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 			<meta name="description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 		<?php else: ?>
 			<meta name="description" content="Website <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
+
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
