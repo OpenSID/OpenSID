@@ -371,21 +371,6 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	private function detail_clear()
-	{
-		unset($_SESSION['cari_peserta']);
-		$_SESSION['per_page'] = 5;
-	}
-
-	public function search_peserta()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari_peserta'] = $cari;
-		else unset($_SESSION['cari_peserta']);
-		redirect("first/statistik/".$this->input->post('id'));
-	}
-
 	public function statistik($stat=0, $tipe=0)
 	{
 		$data = $this->includes;
@@ -408,7 +393,7 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-		public function ajax_peserta_program_bantuan()
+	public function ajax_peserta_program_bantuan()
 	{
 		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
 		$data = array();
