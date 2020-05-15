@@ -386,37 +386,16 @@ class First extends Web_Controller {
 		redirect("first/statistik/".$this->input->post('id'));
 	}
 
-	public function statistik($stat=0, $tipe=0, $p = 1, $clear=false)
+	public function statistik($stat=0, $tipe=0)
 	{
 		$data = $this->includes;
 
-		if ($clear)
-			$this->detail_clear();
-		else
-		{
-			if (isset($_SESSION['cari_peserta']))
-				$data['cari_peserta'] = $_SESSION['cari_peserta'];
-			else $data['cari_peserta'] = '';
-		}
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		if ($data['heading'] == 'Penerima Bantuan (Penduduk)')
+		if (is_null($data['heading']))
 		{
-		$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 1);
+			// Permintaan statistik tidak dikenal
+			show_404();
 		}
-		elseif ($data['heading'] == 'Penerima Bantuan (Keluarga)')
-		{
-			$data['program_peserta'] = $this->program_bantuan_model->get_program_all($p, 2);
-		}
-		else {
-			$data['program_peserta'] = '';
-		}
-		$data['paging'] = $data['program_peserta'][0]['paging'];
 
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
@@ -427,6 +406,31 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
+	}
+
+		public function ajax_peserta_program_bantuan()
+	{
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($peserta as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
+		}
+
+		$output = array(
+			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
+			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+			'data' => $data
+		);
+		echo json_encode($output);
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
