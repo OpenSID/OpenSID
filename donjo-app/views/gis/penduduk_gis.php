@@ -127,7 +127,7 @@
 				border:1,
 				data: [
 					<?php foreach ($main as $data): ?>
-					  <?php if ($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"): ?>
+					  <?php if ($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"): ?>
 						  <?php if ($data['jumlah'] != "-"): ?>
 								['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
 							<?php endif; ?>
@@ -188,7 +188,7 @@
 					name: 'Populasi',
 					data: [
 						<?php foreach ($main as $data): ?>
-							<?php if ($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"): ?>
+							<?php if ($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"): ?>
 								<?php if ($data['jumlah'] != "-"): ?>
 									['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
 								<?php endif; ?>
