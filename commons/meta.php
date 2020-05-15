@@ -56,7 +56,6 @@
 		<?php endif; ?>
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
 		<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
-		<script language='javascript' src="<?= base_url('assets/bootstrap/js/bootstrap.js'); ?>"></script>
 		<script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.min.js') ?>"></script>
 		<script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.carousel.js') ?>"></script>
 		<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script>
@@ -68,6 +67,13 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
+		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
+		<script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript">
+			var BASE_URL = "<?= base_url(); ?>";
+		</script>
 
 		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
