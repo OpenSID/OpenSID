@@ -24,7 +24,7 @@
 						</div>
 						<div class="form-group">
 							<label for="nik_kepala">Nomor Kartu Keluarga (KK)</label>
-							<input id="no_kk" class="form-control input-sm required" type="text" placeholder="Nomor KK" name="no_kk"></input>
+							<input id="no_kk" class="form-control input-sm required" type="text" placeholder="Nomor KK" name="no_kk" minlength="16" maxlength="16"></input>
 						</div>
 					</div>
 				</div>
