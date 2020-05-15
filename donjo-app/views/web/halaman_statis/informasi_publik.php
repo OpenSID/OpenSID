@@ -7,7 +7,6 @@
 	<div class="box-header with-border" style="margin-bottom: 15px;">
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
-  </style>
 	<div style="margin-right: 1rem; margin-left: 1rem;">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered" id="info_publik">

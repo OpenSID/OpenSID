@@ -1,6 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Program_bantuan_model extends CI_Model {
 
+	// Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
+	var $column_order = array(null, 'program', 'peserta', null); //set column field database for datatable orderable
+	var $column_search = array('p.nama', 'pend.nama'); //set column field database for datatable searchable
+	var $order = array('peserta' => 'asc'); // default order
+
 	public function __construct()
 	{
 
@@ -153,7 +158,7 @@ class Program_bantuan_model extends CI_Model {
 			$cari = $_SESSION['cari_peserta'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
+			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -884,7 +889,6 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
-
 	public function update_program($id)
 	{
 		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
@@ -952,6 +956,303 @@ class Program_bantuan_model extends CI_Model {
 					->join('program p','p.id = pp.program_id', 'left')
 					->get('program_peserta pp')
 					->result_array();
+	}
+
+	/* ====================================
+	 * Untuk datatable #peserta_program di themes/klasik/partials/statistik.php
+	 * ==================================== */
+
+	public function get_all_peserta_bantuan_query()
+	{
+		$this->db
+			->select("p.nama as program, pend.nama as peserta, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->from('program p')
+			->join('program_peserta pp', 'p.id = pp.program_id', 'left');
+		if ($this->input->post('stat') == 'bantuan_keluarga')
+		{
+			$this->db
+				->join('tweb_keluarga k', 'pp.peserta = k.no_kk')
+				->join('tweb_penduduk pend', 'k.nik_kepala = pend.id')
+				->join('tweb_wil_clusterdesa w', 'k.id_cluster = w.id')
+				->where('p.sasaran', '2');
+		}
+		else // bantuan_penduduk
+		{
+			$this->db
+				->join('tweb_penduduk pend', 'pp.peserta = pend.nik')
+				->join('tweb_keluarga k', 'pend.id_kk = k.id')
+				->join('tweb_wil_clusterdesa w', 'pend.id_cluster = w.id')
+				->where('p.sasaran', '1');
+		}
+	}
+
+	private function get_peserta_bantuan_query()
+	{
+		$this->get_all_peserta_bantuan_query();
+
+		$i = 0;
+
+		foreach ($this->column_search as $item) // loop column
+		{
+			if ($cari = $_POST['search']['value']) // if datatable send POST for search
+			{
+				if ($i===0) // first loop
+				{
+					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					// $this->db->like($item, $_POST['search']['value']);
+
+					$this->db->like($item, $cari);
+				}
+				else
+				{
+					$this->db->or_like($item, $cari);
+				}
+				if (count($this->column_search) - 1 == $i) //last loop
+				{
+					/* Kolom pencarian tambahan */
+					$this->db->or_where('pend.nik', $cari) // harus persis sama
+						->or_where('k.no_kk', $cari);
+					$this->db->group_end(); //close bracket
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		}
+		else if (isset($this->order))
+		{
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+
+	public function get_peserta_bantuan()
+	{
+		$this->get_peserta_bantuan_query();
+		if ($_POST['length'] != -1)
+			$this->db->limit($_POST['length'], $_POST['start']);
+		$data = $this->db->get()->result_array();
+		return $data;
+	}
+
+	public function count_peserta_bantuan_filtered()
+	{
+		$this->get_peserta_bantuan_query();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_peserta_bantuan_all()
+	{
+		$this->get_all_peserta_bantuan_query();
+		return $this->db->count_all_results();
+	}
+
+	/* ========= Akhir datatable #peserta_program ============= */
+
+
+	//Model untuk Mendapatkan Nama2 peserta program bantuan berdasarkan kelompok sasaran (Penduduk dan Keluarga)
+	public function get_program_all($p, $slug)
+	{
+		if ($slug === false)
+		{
+			//Query untuk expiration status, jika end date sudah melebihi dari datenow maka status otomatis menjadi tidak aktif
+			$expirySQL = "UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL";
+			$expiryQuery = $this->db->query($expirySQL);
+
+			$response['paging'] = $this->paging_bantuan($p);
+			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
+			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
+			$strSQL .= $this->sasaran_sql();
+			$strSQL .= " GROUP BY p.id ";
+			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
+			$query = $this->db->query($strSQL);
+			$data = $query->result_array();
+			$response['program'] = $data;
+			return $response;
+		}
+		else
+		{
+			// Untuk program bantuan, $slug berbentuk '50<program_id>'
+			$slug = preg_replace("/^50/", "", $slug);
+			$hasil0 = $this->get_program_data_all($p, $slug);
+			$hasil1 = $this->get_data_peserta_all($hasil0, $slug);
+			$filter = array();
+			foreach ($hasil1 as $data)
+			{
+				$filter[] = $data['peserta'];
+			}
+
+			switch ($hasil0["sasaran"])
+			{
+				case 1:
+					$hasil2 = $this->get_pilihan_penduduk($filter);
+					break;
+				case 2:
+					$hasil2 = $this->get_pilihan_kk($filter);
+					break;
+				case 3:
+					$hasil2 = $this->get_pilihan_rumah_tangga($filter);
+					break;
+				case 4:
+					$hasil2 = $this->get_pilihan_kelompok($filter);
+					break;
+				default:
+			}
+			$hasil = array($hasil0, $hasil1, $hasil2);
+			return $hasil;
+		}
+	}
+
+	private function get_data_peserta_all($hasil0, $slug)
+	{
+		$paging_sql = ' LIMIT ' .$hasil0["paging"]->offset. ',' .$hasil0["paging"]->per_page;
+		$strSQL = $this->get_peserta_sql_all($slug,$hasil0["sasaran"]);
+		$strSQL .= $paging_sql;
+		$query = $this->db->query($strSQL);
+
+		switch ($hasil0["sasaran"])
+		{
+			case 1:
+				return $this->get_data_peserta_penduduk($query);
+				break;
+			case 2:
+				return $this->get_data_peserta_kk($query);
+				break;
+			case 3:
+				return $this->get_data_peserta_rumah_tangga($query);
+				break;
+			case 4:
+				return $this->get_data_peserta_kelompok($query);
+		}
+	}
+
+	private function get_peserta_sql_all($slug, $sasaran, $jumlah=false)
+	{
+		if ($jumlah) $select_sql = "COUNT(*) as jumlah";
+		switch ($sasaran)
+		{
+			case 1:
+				# Data penduduk
+				if (!$jumlah) $select_sql = "p.*, o.nama, w.rt, w.rw, w.dusun, k.no_kk, u.sasaran, u.nama as program_plus";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN program u ON p.program_id = u.id
+					LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+					WHERE u.sasaran = 1";
+				break;
+			case 2:
+				# Data KK
+				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik, o.nama, w.rt, w.rw, w.dusun, u.sasaran, u.nama as program_plus";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+				  LEFT JOIN program u ON p.program_id = u.id
+					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
+					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+					WHERE u.sasaran = 2";
+
+				break;
+			case 3:
+				# Data RTM
+				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, r.no_kk, w.rt, w.rw, w.dusun, u.sasaran, u.nama as program_plus";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN program u ON p.program_id = u.id
+					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
+					LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+					WHERE u.sasaran = 3";
+				break;
+			case 4:
+				# Data Kelompok
+				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun, u.sasaran, u.nama as program_plus";
+				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+					LEFT JOIN program u ON p.program_id = u.id
+					LEFT JOIN kelompok r ON r.id = p.peserta
+					LEFT JOIN tweb_penduduk o ON o.id = r.id_ketua
+					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+					WHERE u.sasaran = 4";
+				break;
+
+			default:
+				break;
+		}
+		$strSQL .= $this->search_peserta_sql();
+		return $strSQL;
+	}
+
+	private function get_program_data_all($p, $slug)
+	{
+		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
+			FROM program p
+			WHERE p.sasaran = ".$slug;
+		$query = $this->db->query($strSQL);
+		$hasil0 = $query->row_array();
+
+		$hasil0["paging"] = $this->paging_peserta_all($p, $slug, $hasil0["sasaran"]);
+
+		switch ($hasil0["sasaran"])
+		{
+			case 1:
+				/*
+				 * Data penduduk
+				 * */
+				$hasil0['judul_program'] = 'Program';
+				$hasil0['judul_peserta'] = 'NIK';
+				$hasil0['judul_peserta_plus'] = 'No. KK';
+				$hasil0['judul_peserta_info'] = 'Nama Peserta';
+				$hasil0['judul_cari_peserta'] = 'NIK / Nama Peserta';
+				break;
+			case 2:
+				/*
+				 * Data KK
+				 * */
+				$hasil0['judul_program'] = 'Program';
+				$hasil0['judul_peserta'] = 'NO. KK';
+				$hasil0['judul_peserta_plus'] = 'NIK';
+				$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
+				$hasil0['judul_cari_peserta'] = 'No. KK / Nama Kepala Keluarga';
+				break;
+			case 3:
+				/*
+				 * Data RTM
+				 * */
+				$hasil0['judul_peserta'] = 'NO. Rumah Tangga';
+				$hasil0['judul_peserta_info'] = 'Kepala Rumah Tangga';
+				$hasil0['judul_cari_peserta'] = 'No. RT / Nama Kepala Rumah Tangga';
+				$hasil0['judul_program'] = 'Program';
+				break;
+			case 4:
+				/*
+				 * Data Kelompok
+				 * */
+				$hasil0['judul_peserta'] = 'Nama Kelompok';
+				$hasil0['judul_peserta_info'] = 'Ketua Kelompok';
+				$hasil0['judul_cari_peserta'] = 'Nama Kelompok / Nama Kepala Keluarga';
+				$hasil0['judul_program'] = 'Program';
+		}
+
+		return $hasil0;
+	}
+
+	public function paging_peserta_all($p, $slug, $sasaran)
+	{
+		$sql = $this->get_peserta_sql_all($slug,$sasaran, true);
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jumlah'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
 	}
 
 }

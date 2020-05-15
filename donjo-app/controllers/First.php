@@ -47,6 +47,7 @@ class First extends Web_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
+		$this->load->model('program_bantuan_model');
 	}
 
 	public function auth()
@@ -370,6 +371,21 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	private function detail_clear()
+	{
+		unset($_SESSION['cari_peserta']);
+		$_SESSION['per_page'] = 5;
+	}
+
+	public function search_peserta()
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari_peserta'] = $cari;
+		else unset($_SESSION['cari_peserta']);
+		redirect("first/statistik/".$this->input->post('id'));
+	}
+
 	public function statistik($stat=0, $tipe=0)
 	{
 		$data = $this->includes;
@@ -390,6 +406,31 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
+	}
+
+		public function ajax_peserta_program_bantuan()
+	{
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($peserta as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
+		}
+
+		$output = array(
+			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
+			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+			'data' => $data
+		);
+		echo json_encode($output);
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
