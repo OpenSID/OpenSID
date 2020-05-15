@@ -49,7 +49,7 @@
 				name: 'Populasi',
 				data: [
 					<?php foreach ($main as $data): ?>
-						<?php if ($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"): ?>
+						<?php if ($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"): ?>
 							<?php if ($data['jumlah'] != "-"): ?>
 								["<?= strtoupper($data['nama'])?>",<?= $data['jumlah']?>],
 							<?php endif; ?>
@@ -132,32 +132,100 @@
 										</thead>
 										<tbody>
 											<?php foreach ($main as $data): ?>
-											<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
+												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
 												<tr>
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
-													<?php if ($jenis_laporan == 'penduduk'): ?>
-														<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-														<td><a href="<?= $tautan_jumlah?>/1"><?= $data['laki']?></a></td>
-														<td><?= $data['persen1'];?></td>
-														<td><a href="<?= $tautan_jumlah?>/2"><?= $data['perempuan']?></a></td>
-														<td><?= $data['persen2'];?></td>
-													<?php endif; ?>
 													<td>
-														<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27): ?>
-															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>"><?= $data['jumlah']?></a>
+														<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial' OR "$lap"=='bantuan_keluarga'): ?>
+															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
 														<?php else: ?>
 															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-															<a href="<?= $tautan_jumlah ?>/0"><?= $data['jumlah']?></a>
+															<a href="<?= $tautan_jumlah ?>/0" <?php if ($data['id']=='JUMLAH'): ?> class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
 														<?php endif; ?>
 													</td>
 													<td><?= $data['persen'];?></td>
+													<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial' OR "$lap"=='bantuan_keluarga'):
+															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
+															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
+													?>
+													<?php if ($jenis_laporan == 'penduduk'): ?>
+														<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
+														<td><?= $data['persen1'];?></td>
+														<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['perempuan']?></a></td>
+														<td><?= $data['persen2'];?></td>
+													<?php endif; ?>
 												</tr>
 											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
 							</div>
+
+							<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+                <section class="content" id="maincontent">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <input id="stat" type="hidden" value="<?=$lap?>">
+                      <div class="box box-info">
+                        <div class="box-header with-border" style="margin-bottom: 15px;">
+                          <h3 class="box-title"><?= $heading ?></h3>
+                        </div>
+                        <div style="margin-right: 1rem; margin-left: 1rem;">
+                          <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="peserta_program">
+                              <thead>
+                                <tr>
+                                  <th>No</th>
+                                  <th>Program</th>
+                                  <th>Nama Peserta</th>
+                                  <th>Alamat</th>
+                                </tr>
+                              </thead>
+                              <tfoot>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <script type="text/javascript">
+                  $(document).ready(function() {
+
+                    var url = "<?= site_url('statistik/ajax_peserta_program_bantuan')?>";
+                      table = $('#peserta_program').DataTable({
+                        'processing': true,
+                        'serverSide': true,
+                        "pageLength": 10,
+                        'order': [],
+                        "ajax": {
+                          "url": url,
+                          "type": "POST",
+                          "data": {stat: $('#stat').val()}
+                        },
+                        //Set column definition initialisation properties.
+                        "columnDefs": [
+                          {
+                            "targets": [ 0, 3 ], //first column / numbering column
+                            "orderable": false, //set not orderable
+                          },
+                        ],
+                        'language': {
+                          'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+                        },
+                        'drawCallback': function (){
+                            $('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
+                        }
+                      });
+
+                  } );
+                </script>
+
+              <?php endif;?>
+
 						</div>
 					</div>
 				</div>
