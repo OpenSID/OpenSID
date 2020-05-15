@@ -974,7 +974,8 @@ class Program_bantuan_model extends CI_Model {
 				->join('tweb_keluarga k', 'pp.peserta = k.no_kk')
 				->join('tweb_penduduk pend', 'k.nik_kepala = pend.id')
 				->join('tweb_wil_clusterdesa w', 'k.id_cluster = w.id')
-				->where('p.sasaran', '2');
+				->where('p.sasaran', '2')
+				->where('p.status', '1');
 		}
 		else // bantuan_penduduk
 		{
@@ -982,7 +983,8 @@ class Program_bantuan_model extends CI_Model {
 				->join('tweb_penduduk pend', 'pp.peserta = pend.nik')
 				->join('tweb_keluarga k', 'pend.id_kk = k.id')
 				->join('tweb_wil_clusterdesa w', 'pend.id_cluster = w.id')
-				->where('p.sasaran', '1');
+				->where('p.sasaran', '1')
+				->where('p.status', '1');
 		}
 	}
 
