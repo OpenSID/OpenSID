@@ -23,7 +23,7 @@
 						<?php foreach ($$jenis_arsip as $arsip): ?>
 							<tr>
 								<td>
-									<a href="<?= site_url('first/artikel/'.buat_slug($arsip))?>">
+									<a href="<?= site_url('artikel/'.buat_slug($arsip))?>">
 										<?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$arsip[gambar]")): ?>
 											<img class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>"/>
 										<?php else: ?>
