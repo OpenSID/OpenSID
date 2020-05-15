@@ -29,7 +29,7 @@
 								<li>
 									<table id="table-agenda" width="100%">
 										<tr>
-											<td colspan="3"><a href="<?= site_url('first/artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
+											<td colspan="3"><a href="<?= site_url('artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
 										</tr>
 										<tr>
 											<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -59,7 +59,7 @@
 									<li>
 										<table id="table-agenda" width="100%">
 											<tr>
-												<td colspan="3"><a href="<?= site_url('first/artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
+												<td colspan="3"><a href="<?= site_url('artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
 											</tr>
 											<tr>
 												<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -90,7 +90,7 @@
 									<li>
 										<table id="table-agenda" width="100%">
 											<tr>
-												<td colspan="3"><a href="<?= site_url('first/artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
+												<td colspan="3"><a href="<?= site_url('artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
 											</tr>
 											<tr>
 												<th id="label-meta-agenda" width="40%">Waktu</th>

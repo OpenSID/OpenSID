@@ -10,10 +10,11 @@ class Sitemap extends CI_Controller {
 	public function index()
 	{
 		$query = $this->db
-			->select('a.*, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from("artikel a")
 			->get();
-		$data['artikel'] = $query->result();
+
+		$data['artikel'] = $query->result_array();
 
 		$this->load->view('sitemap', $data);
 	}

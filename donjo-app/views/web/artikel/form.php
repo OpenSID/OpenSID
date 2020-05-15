@@ -11,7 +11,7 @@
 					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code keuangan_grafik laporan_realisasi"
 		],
 		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
-		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code | fontselect fontsizeselect",
+		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor | print preview code | fontselect fontsizeselect",
 		toolbar3: "| laporan_realisasi | keuangan_grafik ",
 		image_advtab: true ,
 		external_filemanager_path:"<?= base_url()?>assets/filemanager/",
@@ -38,7 +38,7 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-    <h1>Form Artikel : <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?></h1>
+		<h1>Form Artikel : <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url("web/index/$cat")?>"> Daftar Artikel</a></li>
@@ -50,30 +50,30 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?=site_url("web/index/$cat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+						<div class="box-header with-border">
+							<a href="<?=site_url("web/index/$cat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
-            	</a>
-            	<?php if ($artikel['slug']): ?>
-            		<a href="<?= site_url('first/artikel/'.$artikel['thn'].'/'.$artikel['bln'].'/'.$artikel['hri'].'/'.$artikel['slug']) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
-            	<?php endif; ?>
+							</a>
+							<?php if ($artikel['slug']): ?>
+								<a href="<?= site_url('artikel/'.buat_slug($artikel)) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
-			  			<div class="form-group">
+							<div class="form-group">
 								<label class="control-label" for="judul">Judul Artikel</label>
-								<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Artikel" maxlength="100" value="<?= $artikel['judul']?>" ></input>
-								<span class="help-block"><code>Judul artikel maksimal 100 karakter</code></span>
+								<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Artikel" minlength="5" maxlength="100" value="<?= $artikel['judul']?>" ></input>
+								<span class="help-block"><code>Judul artikel minimal 5 karakter dan maksimal 100 karakter</code></span>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Isi Artikel</label>
-								<textarea name="isi"  class="form-control input-sm required" style="height:350px;">
-				  				<?=$artikel['isi']?>
+								<textarea name="isi" class="form-control input-sm required" style="height:350px;">
+									<?=$artikel['isi']?>
 								</textarea>
 							</div>
 						</div>
 					</div>
 				</div>
-        <div class="col-md-4">
+				<div class="col-md-4">
 					<div class="box box-info collapsed-box">
 						<div class="box-header with-border">
 							<h3 class="box-title">Unggah Gambar</h3>
@@ -82,12 +82,12 @@
 							</div>
 						</div>
 						<div class="box-body no-padding">
-              <div class="col-sm-12">
-				  			<div class="form-group">
+							<div class="col-sm-12">
+								<div class="form-group">
 									<?php if ($artikel['gambar']): ?>
-					          <input type="hidden" name="old_gambar" value="<?= $artikel['gambar']?>">
-									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar'], 'kecil')?>" alt="Gambar Utama">
-									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $artikel['gambar']?>" /> Hapus Gambar</label></p>
+										<input type="hidden" name="old_gambar" value="<?= $artikel['gambar']?>">
+										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar'], 'kecil')?>" alt="Gambar Utama">
+										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $artikel['gambar']?>" /> Hapus Gambar</label></p>
 									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
 									<?php endif; ?>
@@ -96,17 +96,17 @@
 										<input type="text" class="form-control" id="file_path">
 										<input type="file" class="hidden" id="file" name="gambar">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 								</div>
 							</div>
-              <div class="col-sm-12">
-				  			<div class="form-group">
+							<div class="col-sm-12">
+								<div class="form-group">
 									<?php if ($artikel['gambar1']): ?>
-					          <input type="hidden" name="old_gambar1" value="<?= $artikel['gambar1']?>">
-									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar1'], 'kecil')?>" alt="Gambar Utama">
-									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar1_hapus" value="<?= $artikel['gambar1']?>" /> Hapus Gambar</label></p>
+										<input type="hidden" name="old_gambar1" value="<?= $artikel['gambar1']?>">
+										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar1'], 'kecil')?>" alt="Gambar Utama">
+										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar1_hapus" value="<?= $artikel['gambar1']?>" /> Hapus Gambar</label></p>
 									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
 									<?php endif; ?>
@@ -115,17 +115,17 @@
 										<input type="text" class="form-control" id="file_path1">
 										<input type="file" class="hidden" id="file1" name="gambar1">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser1"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser1"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-12">
-				  			<div class="form-group">
+								<div class="form-group">
 									<?php if ($artikel['gambar2']): ?>
-					          <input type="hidden" name="old_gambar2" value="<?= $artikel['gambar2']?>">
-									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar2'], 'kecil')?>" alt="Gambar Utama">
-									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar2_hapus" value="<?= $artikel['gambar2']?>" /> Hapus Gambar</label></p>
+										<input type="hidden" name="old_gambar2" value="<?= $artikel['gambar2']?>">
+										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar2'], 'kecil')?>" alt="Gambar Utama">
+										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar2_hapus" value="<?= $artikel['gambar2']?>" /> Hapus Gambar</label></p>
 									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
 									<?php endif; ?>
@@ -134,17 +134,17 @@
 										<input type="text" class="form-control" id="file_path2">
 										<input type="file" class="hidden" id="file2" name="gambar2">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-12">
-				  			<div class="form-group">
+								<div class="form-group">
 									<?php if ($artikel['gambar3']): ?>
-					          <input type="hidden" name="old_gambar3" value="<?= $artikel['gambar3']?>">
-									  <img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar3'], 'kecil')?>" alt="Gambar Utama">
-									  <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar3_hapus" value="<?= $artikel['gambar3']?>" /> Hapus Gambar</label></p>
+										<input type="hidden" name="old_gambar3" value="<?= $artikel['gambar3']?>">
+										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar3'], 'kecil')?>" alt="Gambar Utama">
+										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar3_hapus" value="<?= $artikel['gambar3']?>" /> Hapus Gambar</label></p>
 									<?php else: ?>
 										<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
 									<?php endif; ?>
@@ -153,7 +153,7 @@
 										<input type="text" class="form-control" id="file_path3">
 										<input type="file" class="hidden" id="file3" name="gambar3">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser3"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser3"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 								</div>
@@ -217,13 +217,13 @@
 										</div>
 									</div>
 								<?php endif; ?>
-				  			<div class="form-group">
+								<div class="form-group">
 									<label class="control-label" for="dokumen">Dokumen Lampiran</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path4">
 										<input type="file" class="hidden" id="file4" name="dokumen">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser4"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser4"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 								</div>
@@ -241,7 +241,7 @@
 										<input class="form-control input-sm pull-right tgl_jam" name="tgl_upload" type="text" value="<?= $artikel['tgl_upload']?>">
 									</div>
 									<span class="help-block"><code>(Kosongkan jika ingin langsung di post, bisa digunakan untuk artikel terjadwal)</code></span>
-              	</div>
+								</div>
 							</div>
 						</div>
 					</div>
