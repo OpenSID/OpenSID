@@ -13,7 +13,7 @@
 			->order_by('a.tgl_upload', DESC)
 			->limit('20');
 
-			return $this->db->get()->result_array();
+			return $this->db->get()->result();
 	}
 }
 ?>
