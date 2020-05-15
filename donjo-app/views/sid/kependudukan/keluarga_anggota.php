@@ -71,7 +71,11 @@
 																	<td><?= $key+1;?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?= site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Pecah KK" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-cut"></i></a>
+																		<?php if(count($main) > 1):?>
+																			<a href="#" data-href="<?= site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Pecah KK" data-toggle="modal" data-target="#confirm-status"><i class="fa fa-cut"></i></a>
+																		<?php else:?>
+																			<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$kk")?>" class="btn bg-maroon btn-flat btn-sm"  title="Pecah KK/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-cut"></i></a>
+																		<?php endif;?>
 																		<?php if ($data['kk_level']!=0): ?>
 																			<a href="<?= site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Keluarga" title="Ubah Hubungan Keluarga" class="btn bg-navy btn-flat btn-sm"><i class='fa fa-link'></i></a>
 																		<?php endif; ?>
