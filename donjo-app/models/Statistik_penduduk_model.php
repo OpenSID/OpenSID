@@ -54,6 +54,7 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 			->join('penduduk_hidup p', 'pp.peserta = p.nik')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
 			->where('u.sasaran', '1')
+			->where('u.status', '1')
 			->order_by('u.nama')
 			->group_by('u.id');
 		if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);
@@ -90,6 +91,7 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
 			->where('u.sasaran', '2')
+			->where('u.status', '1')
 			->group_by('u.id');
 	}
 
