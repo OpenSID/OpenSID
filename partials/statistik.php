@@ -90,7 +90,7 @@
 					border:1,
 					data: [
 					<?php foreach($stat as $data){?>
-						<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
+						<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH" AND $data['nama']!= "PENERIMA"){?>
 							['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 						<?php }?>
 					<?php }?>
@@ -144,6 +144,24 @@
 		});
 	});
 </script>
+<style>
+	.input-sm
+	{
+		padding: 4px 4px;
+	}
+	@media (max-width:780px)
+	{
+		.btn-group-vertical
+		{
+			display: block;
+		}
+	}
+	.table-responsive
+	{
+		min-height:275px;
+	}
+	}
+</style>
 <div class="single_page_area">
 	<h2 class="post_titile">Grafik Data Demografi Berdasar <?= $heading ?></h2>
 	<div class="box-tools pull-right">
@@ -226,3 +244,64 @@
 	</div>
 </div>
 </div>
+
+<?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+	<section class="content" id="maincontent">
+		<div class="row">
+			<div class="col-md-12">
+				<input id="stat" type="hidden" value="<?=$st?>">
+				<div class="box box-info">
+					<div class="box-header with-border" style="margin-bottom: 15px;">
+						<h2 class="post_titile">Daftar <?= $heading ?></h2>
+					</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered" id="peserta_program">
+								<thead>
+									<tr>
+				      		  <th>No</th>
+										<th>Program</th>
+				      		  <th>Nama Peserta</th>
+				      		  <th>Alamat</th>
+									</tr>
+								</thead>
+					      <tfoot>
+					      </tfoot>
+							</table>
+						</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+		  var url = "<?= site_url('first/ajax_peserta_program_bantuan')?>";
+		    table = $('#peserta_program').DataTable({
+		      'processing': true,
+		      'serverSide': true,
+		      "pageLength": 10,
+		      'order': [],
+		      "ajax": {
+		        "url": url,
+		        "type": "POST",
+		        "data": {stat: $('#stat').val()}
+		      },
+		      //Set column definition initialisation properties.
+		      "columnDefs": [
+		        {
+		          "targets": [ 0, 3 ], //first column / numbering column
+		          "orderable": false, //set not orderable
+		        },
+		      ],
+		      'language': {
+		        'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+		      },
+		      'drawCallback': function (){
+		          $('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
+		      }
+		    });
+
+		} );
+	</script>
+<?php endif;?>
