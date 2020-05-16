@@ -357,4 +357,30 @@ class Statistik extends Admin_Controller {
 
 		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
+
+	public function ajax_peserta_program_bantuan()
+	{
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($peserta as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
+		}
+
+		$output = array(
+			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
+			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+			'data' => $data
+		);
+		echo json_encode($output);
+	}
+
 }
