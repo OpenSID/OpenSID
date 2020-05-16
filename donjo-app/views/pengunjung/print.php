@@ -39,14 +39,14 @@
 											<td class="thick" align="center" width="2"><?= $no++;?></td>
 											<td class="thick" align="center">
 												<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?></td>
-											<td class="thick" align="center"><?= $data['Jumlah'];?></td>
+											<td class="thick" align="center"><?= ribuan($data['Jumlah']);?></td>
 										</tr>
 										<?php endforeach;?>
 									</tbody>
 									<tfoot class="bg-gray disabled color-palette">
 										<tr>
 											<th colspan="2" class="text-center">Total</th>
-											<th class="text-center"><?= $main['Total']?></th>
+											<th class="text-center"><?= ribuan($main['Total']);?></th>
 										</tr>
 									</tfoot>
 								</table>								

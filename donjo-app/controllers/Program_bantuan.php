@@ -8,6 +8,7 @@ class Program_bantuan extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 6;
 	}
 
@@ -28,7 +29,7 @@ class Program_bantuan extends Admin_Controller {
 	{
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
-		
+
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
@@ -53,7 +54,7 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
-		$data['form_action'] = site_url("program_bantuan/add_peserta");
+		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -110,7 +111,7 @@ class Program_bantuan extends Admin_Controller {
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);		
+		$this->load->view('nav', $nav);
 		$this->load->view('program_bantuan/peserta', $data);
 		$this->load->view('footer');
 	}
@@ -122,7 +123,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('program_bantuan/data_peserta', $data);
@@ -201,7 +202,7 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
 		$data['jml'] = $this->program_bantuan_model->jml_peserta_program($id);
-		
+
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->load->view('program_bantuan/edit', $data);
@@ -227,25 +228,28 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/");
 	}
 
-	public function unduhsheet($id = 0)
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($id = 0, $aksi = '')
 	{
 		if ($id > 0)
 		{
-			$temp = $_SESSION['per_page'];
-			$_SESSION['per_page'] = 1000000000; // Angka besar supaya semua data terunduh
-			/*
-			 * Print xls untuk data x
-			 * */
+			$temp = $this->session->per_page;
+			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
 			$data["sasaran"] = array(
 				"1" => "Penduduk",
 				"2" => "Keluarga/KK",
 				"3" => "Rumah Tangga",
 				"4" => "Kelompok/Organisasi Kemasyarakatan"
 			);
-			$data['desa'] = $this->header_model->get_data();
+
+			$data['config'] = $this->config_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $id);
-			$_SESSION['per_page'] = $temp;
-			$this->load->view('program_bantuan/unduh-sheet', $data);
+			$data['aksi'] = $aksi;
+			$this->session->per_page = $temp;
+
+			$this->load->view('program_bantuan/'.$aksi, $data);
 		}
 	}
 

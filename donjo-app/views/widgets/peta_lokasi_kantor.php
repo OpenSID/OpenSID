@@ -9,7 +9,7 @@
 	}
 </style>
 <!-- widget Peta Lokasi Kantor Desa -->
-<div class="box box-default box-solid">
+<div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title">
     <i class="fa fa-map-marker"></i>

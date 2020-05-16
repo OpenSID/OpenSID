@@ -4,19 +4,14 @@
 			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">
-						<?php
-						if($tipe == 2){
-							if($tipex==1){
-								$this->load->view($folder_themes.'/partials/statistik_sos.php');
-							}
-						}elseif($tipe == 3){
-							$this->load->view($folder_themes.'/partials/wilayah.php');
-						}elseif($tipe == 4){
-							$this->load->view('statistik/dpt.php');
-						}else{
-							$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/statistik.php'));
-						}
-						?>
+						<?php if ($tipe == 2): ?>
+						<?php elseif ($tipe == 3): ?>
+							<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/wilayah.php')); ?>
+						<?php elseif ($tipe == 4): ?>
+							<?php $this->load->view('statistik/dpt.php'); ?>
+						<?php else: ?>
+							<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/statistik.php')); ?>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>

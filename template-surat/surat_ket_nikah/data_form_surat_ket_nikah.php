@@ -60,7 +60,7 @@
 		"CERAI HIDUP" => "Janda",
 		"CERAI MATI" => "Janda");
 	$data['warganegara'] = $this->penduduk_model->list_warganegara();
-	$data['agama'] = $this->penduduk_model->list_agama();
+	$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 	$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 	$data['laki'] = $this->surat_model->list_penduduk_laki();
 	$data['nomor'] = $this->input->post('nomor_main');

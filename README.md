@@ -1,76 +1,73 @@
-# OpenSID
+<h1 align="center">Selamat datang di OpenSID! 👋</h1>
+
+![readme-image](https://user-images.githubusercontent.com/249563/80325903-6891e180-887a-11ea-8471-6635dc6aa619.png "OpenSID membantu penanggulangan COVID-19")
+
+### 🤔 Apa itu OpenSID?
 OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
 
-SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:
+**SID diharapkan dapat membantu pemerintah desa dalam beberapa hal berikut:**
 
-- kantor desa lebih efisien dan efektif
-- pemerintah desa lebih transparan dan akuntabel
-- layanan publik lebih baik
-- warga mendapat akses lebih baik pada informasi desa
+- Kantor Desa lebih efisien dan efektif
+- Pemerintah Desa lebih transparan dan akuntabel
+- Layanan Publik lebih baik
+- Warga mendapat akses lebih baik pada informasi desa
 
-OpenSID diharapkan dapat turut membantu agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya.
+> OpenSID bertujuan agar ke semua 74ribu+ desa di Indonesia dapat menerapkan sistem informasi untuk memajukan desanya. 
 
-Strategi pengembangan OpenSID adalah untuk:
-- memudahkan pengguna untuk mendapatkan SID secara bebas, tanpa proses birokrasi
-- memudahkan pengguna menyerap rilis SID baru
-- memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
+**Strategi pengembangan OpenSID adalah untuk:**
+- Memudahkan pengguna untuk mendapatkan SID secara bebas, tanpa proses birokrasi
+- Memudahkan pengguna menyerap rilis SID baru
+- Memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
 
-OpenSID dikelola di Github untuk:
-- merekam semua perubahan yg dibuat
-- memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
-- memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
-- backup online _source code_ SID yg dapat diaskses setiap saat
+**OpenSID dikelola di Github untuk:**
+- Merekam semua perubahan yg dibuat
+- Memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
+- Memudahkan kolaborasi antar pegiat SID dan juga dengan desa dampingan dalam mengembangkan SID
+- Backup online _source code_ SID yg dapat diakses setiap saat
 
-## PEDOMAN PENGGUNAAN
+## 📃 PEDOMAN PENGGUNAAN
 Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/opensid/opensid/wiki.
 
-## OpenSID v SID CRI
-OpenSID dikembangkan sejak Mei 2016 bermula dari versi SID CRI 3.04 yang diperoleh dari Andi Anwar.
-
-SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang di-share oleh anggota https://www.facebook.com/groups/OpenSID/ pada tanggal 15 Pebruari 2017. OpenSID akan terus menggabung versi baru yang mungkin sewaktu-waktu dirilis oleh CRI.
-
-Untuk melihat perbedaan antara OpenSID dan SID-CRI, silakan klik [Tanya-Jawab OpenSID vs SID-CRI](https://github.com/OpenSID/OpenSID/wiki/Tanya-Jawab-OpenSID-vs-SID-CRI).
-
-## HAK CIPTA, SYARAT, DAN KETENTUAN
+## 📑 HAK CIPTA, SYARAT, DAN KETENTUAN
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/).
 
-Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3 (http://www.gnu.org/licenses/gpl.html).
+Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Version 3** (http://www.gnu.org/licenses/gpl.html).
 
-Versi di Github ini dikembangkan oleh OpenSID sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.
+**Versi di Github ini dikembangkan sejak Mei 2016, gratis dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa. Hak Cipta OpenSID sekarang dipegang oleh Perkumpulan Desa Digital Terbuka (https://opendesa.id), lembaga hukum yang sengaja dibentuk untuk mengelola OpenSID.**
 
-## DEMO
-Demo aplikasi OpenSID dapat dilihat di http://demo.opensid.my.id. Versi yang terlihat di demo itu adalah rilis terkini. Versi beta dapat diujicoba di https://beta.opensid.my.id sebelum dirilis resmi pada bulan berikutnya.
+## 💻 DEMO
+Demo aplikasi OpenSID dapat dilihat di https://demo.opensid.my.id. Versi yang terlihat di demo itu adalah rilis terkini. Versi beta dapat diujicoba di https://beta.opensid.my.id sebelum dirilis resmi pada bulan berikutnya.
 
-Modul administrasi OpenSID demo dapat diaskses pada http://demo.opensid.my.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+Modul administrasi OpenSID demo dapat diaskses pada https://demo.opensid.my.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 
-### FORUM
+### 💬 FORUM
 
 Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook atau di [Telegram](http://bit.ly/2DG6Beb). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
 
-## KEMBANGKAN BERSAMA
+## 🤝 KEMBANGKAN BERSAMA
 
-Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Issues ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
+Pengguna dan pegiat SID dapat melaporkan dan mendaftarkan masalah/usulan/permintaan perbaikan atau pengembangan OpenSID di https://github.com/opensid/opensid/issues. Laporan ini merupakan daftar tugas bagi pegiat OpenSID untuk mengembangkan OpenSID berdasarkan masukan dari komunitas SID.
 
 Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada panduan OpenSID di https://github.com/OpenSID/OpenSID/wiki, dan pada script OpenSID di (https://github.com/OpenSID/OpenSID).
 
-## DONASI
+## 💰 DONASI
 
 [![Backers on Open Collective](https://opencollective.com/OpenSID/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/OpenSID/sponsors/badge.svg)](#sponsors)
 
-### Pendukung
+### 🧑 Pendukung
 
 Peduli dengan OpenSID dan misinya membangun desa? [Jadilah pendudukung OpenSID](https://opencollective.com/OpenSID#backer).
 <a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/backers.svg?width=890"></a>
 
-Atau bisa donasi langsung ke rekening bank. Lihat detailnya [di sini](https://opendesa.id/donasi).
+> Atau bisa donasi langsung ke rekening bank. Lihat informasi lengkap [di sini](https://opendesa.id/donasi).
 
-### Sponsor
+### ⭐️ Sponsor
 
 Apakah desa/lembaga/perusahaan anda mendapat manfaat dari OpenSID? Bantu kami terus kembangkan OpenSID dengan [menjadi sponsor](https://opencollective.com/OpenSID#sponsor). Logo sponsor akan tampil di sini bersama tautan ke website anda.
 <a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/sponsors.svg?width=890"></a>
 
-## KONTRIBUTOR
+##  👨‍💻KONTRIBUTOR
 Berikut adalah teman-teman luar biasa yang telah berkontribusi langsung mengembangkan aplikasi OpenSID. ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key))
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -84,5 +81,4 @@ Berikut adalah teman-teman luar biasa yang telah berkontribusi langsung mengemba
 |[<img src="https://scontent.fmel5-1.fna.fbcdn.net/v/t1.0-1/p320x320/10685529_10205083651518322_2863585881663459125_n.jpg?_nc_cat=100&_nc_ht=scontent.fmel5-1.fna&oh=6c02ad38eafd352ed17f1105ba48f939&oe=5CA6C74B" width="100px;"/><br /><sub><b>Lukman Hakim</b></sub>](https://www.facebook.com/lukman.uki)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=lukman48 "Code")|[<img src="https://avatars0.githubusercontent.com/u/45263721?s=460&v=4" width="100px;"/><br /><sub><b>Hari Saputra</b></sub>](https://github.com/hasap86)<br />[🐛](https://github.com/OpenSID/OpenSID/issues?q=author%3Ahasap86)|[<img src="https://avatars0.githubusercontent.com/u/22239074?s=460&v=4B" width="100px;"/><br /><sub><b>Diki Siswanto</b></sub>](https://github.com/dikisiswanto)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=xanarciz "Code")|[<img src="https://avatars0.githubusercontent.com/u/46323158?s=400&v=4" width="100px;"/><br /><sub><b>Andi Pratama Suparminto</b></sub>](https://github.com/xanarciz)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=xanarciz "Code")|[<img src="https://avatars3.githubusercontent.com/u/36057801?s=460&v=4" width="100px;"/><br /><sub><b>Snoopy-Sec</b></sub>](https://github.com/snoopy-sec)<br />[🐛](https://github.com/OpenSID/OpenSID/issues?q=author%3Asnoopy-sec)|[<img src="https://avatars0.githubusercontent.com/u/45786885?s=460&v=4" width="100px;"/><br /><sub><b>Rudi Purwanto</b></sub>](https://github.com/roaddee)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=roaddee "Code")|[<img src="https://avatars3.githubusercontent.com/u/33612251?s=460&v=4" width="100px;"/><br /><sub><b>I Kadek Galiarta</b></sub>](https://github.com/Galiarta)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=Galiarta "Code")|
 |[<img src="https://scontent.fmel5-1.fna.fbcdn.net/v/t31.0-1/c56.56.694.694a/s320x320/242423_1862790842044_7981017_o.jpg?_nc_cat=105&_nc_ht=scontent.fmel5-1.fna&oh=50e33c01e2d62f43660d7285d3741f97&oe=5D72760D" width="100px;"/><br /><sub><b>Muhammad Ihsan</b></sub>](https://www.facebook.com/muhammad.ihsan.522)<br />[💻](# "Code")|[<img src="https://avatars3.githubusercontent.com/u/46939846?s=460&v=4" width="100px;"/><br /><sub><b>Ariandi Ryan Kahfi</b></sub>](https://github.com/ariandii)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=ariandii "Code")|[<img src="https://avatars1.githubusercontent.com/u/832277?s=460&v=4" width="100px;"/><br /><sub><b>Oddy Virgantara Putra</b></sub>](https://github.com/virgantara)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=virgantara "Code")|[<img src="https://avatars0.githubusercontent.com/u/6558409?s=460&v=4" width="100px;"/><br /><sub><b>Wildan Agissa Rusadi</b></sub>](https://github.com/dankrez48)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=dankrez48 "Code")|[<img src="https://avatars0.githubusercontent.com/u/51182125?s=460&v=4" width="100px;"/><br /><sub><b>Uncu</b></sub>](https://github.com/uncu29)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=uncu29 "Code")|[<img src="https://avatars3.githubusercontent.com/u/10545975?s=460&v=4" width="100px;"/><br /><sub><b>Rismawan Junandia</b></sub>](https://github.com/junandia)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=junandia "Code")|[<img src="https://avatars3.githubusercontent.com/u/22895596?s=460&v=4" width="100px;"/><br /><sub><b>Julis Suryadi</b></sub>](https://github.com/redjoel)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=redjoel "Code")|
 |[<img src="https://avatars0.githubusercontent.com/u/16215220?s=460&v=4" width="100px;"/><br /><sub><b>Kusmanto Pratama</b></sub>](https://github.com/kusmantopratama)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=kusmantopratama "Code")|[<img src="https://avatars2.githubusercontent.com/u/22736771?s=460&v=4" width="100px;"/><br /><sub><b>Alvin Leonardo</b></sub>](https://github.com/0to1a)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=0to1a "Code")|[<img src="https://avatars3.githubusercontent.com/u/33674500?s=460&v=4" width="100px;"/><br /><sub><b>Alvin Leonardo</b></sub>](https://github.com/ropelid)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=ropelid "Code")|[<img src="https://avatars0.githubusercontent.com/u/22783252?s=460&v=4" width="100px;"/><br /><sub><b>Nursan Amar</b></sub>](https://github.com/nursanamar)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=nursanamar "Code")|[<img src="https://avatars0.githubusercontent.com/u/10391199?s=460&v=4" width="100px;"/><br /><sub><b>Zeppy Shiddiq</b></sub>](https://github.com/fusionid)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=fusionid "Code")|[<img src="https://avatars0.githubusercontent.com/u/4956745?s=400&v=4" width="100px;"/><br /><sub><b>Riyandika Andhi</b></sub>](https://github.com/riyandika)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=riyandika "Code")|[<img src="https://avatars0.githubusercontent.com/u/7290110?s=400&v=4" width="100px;"/><br /><sub><b>zeroturn</b></sub>](https://github.com/ZER07URN)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=ZER07URN "Code")|
-|[<img src="https://avatars2.githubusercontent.com/u/60131374?s=400&v=4" width="100px;"/><br /><sub><b>ianskids</b></sub>](https://github.com/ianskids)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=ianskids "Code")|[<img src="https://avatars3.githubusercontent.com/u/57283157?s=400&v=4" width="100px;"/><br /><sub><b>afa28</b></sub>](https://github.com/afa28)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=afa28 "Code")||||||
-
+|[<img src="https://avatars2.githubusercontent.com/u/60131374?s=400&v=4" width="100px;"/><br /><sub><b>ianskids</b></sub>](https://github.com/ianskids)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=ianskids "Code")|[<img src="https://avatars3.githubusercontent.com/u/57283157?s=400&v=4" width="100px;"/><br /><sub><b>afa28</b></sub>](https://github.com/afa28)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=afa28 "Code")|[<img src="https://avatars3.githubusercontent.com/u/13193883?s=400&v=4" width="100px;"/><br /><sub><b>af-lazuardi</b></sub>](https://github.com/af-lazuardi)<br />[💻](https://github.com/OpenSID/OpenSID/commits?author=af-lazuardi "Code")|||||

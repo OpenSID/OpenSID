@@ -129,7 +129,7 @@
 		$data[] = array(
 			'id' => '0',
 			'kategori' => '[Tidak Berkategori]');
-		return  $data;
+		return $data;
 	}
 
 	public function get_kategori_artikel($id)
@@ -141,7 +141,7 @@
 	{
 		$sql = "SELECT kategori FROM kategori WHERE id = ?";
 		$query = $this->db->query($sql, $cat);
-		return  $query->row_array();
+		return $query->row_array();
 	}
 
 	public function insert($cat=1)
@@ -149,15 +149,15 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 		$data = $_POST;
-		if (empty($data['judul'])  || empty($data['isi']))
+		if (empty($data['judul']) || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
-		  $_SESSION['success'] = -1;
-		  return;
+			$_SESSION['success'] = -1;
+			return;
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
-		
+
 		// Gunakan judul untuk url artikel
 		$slug = $this->str_slug($data['judul']);
 
@@ -165,14 +165,14 @@
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
 		foreach ($list_gambar as $gambar)
 		{
-		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
-		  if (!empty($lokasi_file))
-		  {
-			  $tipe_file = TipeFile($_FILES[$gambar]);
+			$lokasi_file = $_FILES[$gambar]['tmp_name'];
+			$nama_file   = $fp."_".$_FILES[$gambar]['name'];
+			if (!empty($lokasi_file))
+			{
+				$tipe_file = TipeFile($_FILES[$gambar]);
 				$hasil = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
 				if ($hasil) $data[$gambar] = $nama_file;
-		  }
+			}
 		}
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
@@ -188,8 +188,8 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
-	  $ext = get_extension($nama_file);
-		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
+		$ext = get_extension($nama_file);
+		$nama_file = str_replace(' ', '-', $nama_file); // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
@@ -251,7 +251,7 @@
 			$cek_slug = $this->db->where('slug', $slug_unik)->get('artikel')->num_rows();
 			if ($cek_slug)
 			{
-			  $slug_unik = $slug . '-' . $n++;
+				$slug_unik = $slug . '-' . $n++;
 			}
 		}
 		return $slug_unik;
@@ -287,26 +287,26 @@
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
-	  $data = $_POST;
+		$data = $_POST;
 		if (empty($data['judul']) || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
-		  $_SESSION['success'] = -1;
-		  return;
+			$_SESSION['success'] = -1;
+			return;
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
 
-	  $fp = time();
+		$fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
 		foreach ($list_gambar as $gambar)
 		{
-		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
+			$lokasi_file = $_FILES[$gambar]['tmp_name'];
+			$nama_file   = $fp."_".$_FILES[$gambar]['name'];
 
-		  if (!empty($lokasi_file))
-		  {
-			  $tipe_file = TipeFile($_FILES[$gambar]);
+			if (!empty($lokasi_file))
+			{
+				$tipe_file = TipeFile($_FILES[$gambar]);
 				$hasil = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
 				if ($hasil)
 				{
@@ -317,11 +317,11 @@
 				{
 					unset($data[$gambar]);
 				}
-		  }
-		  else
-		  {
+			}
+			else
+			{
 				unset($data[$gambar]);
-		  }
+			}
 		}
 
 		foreach ($list_gambar as $gambar)
@@ -339,8 +339,8 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
-	  $ext = get_extension($nama_file);
-		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
+		$ext = get_extension($nama_file);
+		$nama_file = str_replace(' ', '-', $nama_file); // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
@@ -428,9 +428,9 @@
 		{
 			HapusArtikel($gambar);
 		}
-		
+
 		$outp = $this->db->where('id', $id)->delete('artikel');
-		
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
@@ -452,7 +452,7 @@
 	public function hapus($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kategori');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -517,7 +517,7 @@
 		{
 			$id = $data['id'];
 			$panjang = str_split($data['isi'], 300);
-			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
+			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("artikel/$id")."'>Baca Selengkapnya</a>";
 		}
 		return $data;
 	}

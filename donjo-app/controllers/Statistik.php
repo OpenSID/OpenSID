@@ -16,7 +16,6 @@ class Statistik extends Admin_Controller {
 		$this->sub_modul_ini = 27;
 	}
 
-
 	public function index($lap = 0, $o = 0)
 	{
 		$cluster_session = $this->get_cluster_session();
@@ -28,6 +27,7 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o'] = $o;
 		$this->get_data_stat($data, $lap);
@@ -97,6 +97,7 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
 
@@ -116,9 +117,10 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_pie', $data);
@@ -135,6 +137,10 @@ class Statistik extends Admin_Controller {
 			$program_id = preg_replace('/^50/', '', $lap);
 			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
+			$data['kategori'] = 'bantuan';
+		}
+		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
+		{
 			$data['kategori'] = 'bantuan';
 		}
 		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')
@@ -171,6 +177,7 @@ class Statistik extends Admin_Controller {
 			$data[$key] = $value;
 		}
 		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -188,6 +195,7 @@ class Statistik extends Admin_Controller {
 		}
 		$data['aksi'] = 'unduh';
 		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['filename'] = underscore($data['stat']);
 		$data['config']  = $this->config_model->get_data();
@@ -314,6 +322,7 @@ class Statistik extends Admin_Controller {
 		}
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$data['jenis_chart'] = $chart;
 		$this->get_data_stat($data, $lap);
 		$this->load->view('statistik/penduduk_gis', $data);
@@ -348,4 +357,30 @@ class Statistik extends Admin_Controller {
 
 		redirect("statistik/load_chart_gis/$lap/$chart");
 	}
+
+	public function ajax_peserta_program_bantuan()
+	{
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($peserta as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
+		}
+
+		$output = array(
+			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
+			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+			'data' => $data
+		);
+		echo json_encode($output);
+	}
+
 }

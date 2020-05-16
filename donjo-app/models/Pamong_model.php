@@ -165,7 +165,7 @@
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = strip_tags($this->input->post('pamong_nosk'));
 		$data['pamong_tglsk'] = !empty($this->input->post('pamong_tglsk')) ? tgl_indo_in($this->input->post('pamong_tglsk')) : NULL;
-		$data['pamong_tanggallahir'] = !empty($this->input->post('pamong_tanggallahir')) ? tgl_indo_in($this->input->post('pamong_tanggallahir')) : NULL;		
+		$data['pamong_tanggallahir'] = !empty($this->input->post('pamong_tanggallahir')) ? tgl_indo_in($this->input->post('pamong_tanggallahir')) : NULL;
 		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? strip_tags($this->input->post('pamong_nohenti')) : NULL;
 		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
 		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab')) ?: NULL;
@@ -218,14 +218,14 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
 		if (!empty($foto))
 		{
 			unlink(LOKASI_USER_PICT.$foto);
 			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
 		}
-		
+
 		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -293,6 +293,31 @@
 			->where('u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL)')
 			->get()
 			->result_array();
+
+		return $data;
+	}
+
+	/*
+	 * Ambil data untuk widget aparatur desa
+	 */
+	public function list_aparatur_desa()
+	{
+		$data['daftar_perangkat'] = $this->db->select('dp.jabatan, dp.foto,
+			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
+			ELSE p.nama END AS nama', FALSE)
+			->from('tweb_desa_pamong dp')
+			->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
+			->where('dp.pamong_status', '1')
+			->order_by('dp.urut')
+			->get()
+			->result_array();
+
+		foreach ($data['daftar_perangkat'] as $key => $perangkat)
+		{
+			$perangkat['foto'] = AmbilFoto($perangkat['foto'], "besar");
+			if (!$data['foto_pertama'] and $perangkat['foto'] != FOTO_DEFAULT) $data['foto_pertama'] = $key;
+		 	$data['daftar_perangkat'][$key] = $perangkat;
+		}
 
 		return $data;
 	}

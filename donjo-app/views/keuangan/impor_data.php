@@ -119,25 +119,7 @@
 		</div>
 	</div>
 </div>
-<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-	<div class='modal-dialog'>
-		<div class='modal-content'>
-			<div class='modal-header'>
-				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-			</div>
-			<div class='modal-body btn-info'>
-				Apakah Anda yakin ingin menghapus data ini?
-			</div>
-			<div class='modal-footer'>
-				<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-				<a class='btn-ok'>
-					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
+<?php $this->load->view('global/confirm_delete');?>
 <script type="text/javascript">
 	$(document).ready(function()
 	{
@@ -149,6 +131,7 @@
 			{
 				file =$(this).prop('files')[0];
 				formdata.append("keuangan", file);
+				formdata.append(csrfParam, getCsrfToken());
 			}
 		});
 	});
@@ -174,6 +157,7 @@
 				success: function(response) {
 					if (response == 0)
 					{
+						addCsrfField($('#validasi')[0]);
 						$('#validasi').submit();
 					}
 					else if (response == 1)
@@ -205,6 +189,7 @@
 	function simpanDataUpdate()
 	{
 		$("#jenis_impor").val('update');
+		addCsrfField($('#validasi')[0]);
 		$('#validasi').submit();
 	}
 </script>

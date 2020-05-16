@@ -73,7 +73,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="alamat_kantor">Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm required" placeholder="Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?>"><?=$main["alamat_kantor"]?></textarea>
+									<textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm required" placeholder="Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?>" rows="3" style="resize:none;"><?=$main["alamat_kantor"]?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -132,8 +132,8 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
-								<div class="col-sm-5">
-									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));">
+								<div class="col-sm-4">
+									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));" style="width: 100%;">
 										<option value="">Pilih Provinsi</option>
 										<?php foreach ($list_provinsi AS $data): ?>
 											<option value="<?=$data['nama']?>" data-kode="<?=$data['kode']?>" <?php if (strtolower($main['nama_propinsi'])== strtolower($data['nama'])): ?>selected<?php endif ?>><?=$data['nama']?></option>
@@ -152,17 +152,6 @@
 							<div class='col-xs-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
-							</div>
-						</div>
-						<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-							<div class='modal-dialog'>
-								<div class='modal-content'>
-									<div class='modal-header'>
-										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'></h4>
-									</div>
-									<div class="fetched-data"></div>
-								</div>
 							</div>
 						</div>
 					</div>

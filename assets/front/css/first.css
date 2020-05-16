@@ -1437,12 +1437,18 @@ input[type="reset"].btn-block,
 input[type="button"].btn-block {
 	width: 100%;
 }
+ul.thumbnail {
+	float: left;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	padding: 0px 5px 12px;
+}
 .thumbnail li{
-	display:inline;
-	max-width: 280px;
-	margin:0 10px 10px 0;
-	padding:0 5px 5px 0;
-	float:left;
+	display: block;
+	width: 50%;
+	float: left;
+	padding: 5px;
 }
 .thumbnail li div.title{
 	color:#e69;font-weight:600;font-size:1.1em; text-align:center;

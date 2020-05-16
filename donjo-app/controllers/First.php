@@ -47,6 +47,7 @@ class First extends Web_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
+		$this->load->model('program_bantuan_model');
 	}
 
 	public function auth()
@@ -56,9 +57,13 @@ class First extends Web_Controller {
 			$this->first_m->siteman();
 		}
 		if ($_SESSION['mandiri'] == 1)
+		{
 			redirect('first/mandiri/1/1');
+		}
 		else
+		{
 			redirect('first');
+		}
 	}
 
 	public function logout()
@@ -88,18 +93,27 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
-		$data['feed'] = array(
-			'items' => $this->first_artikel_m->get_feed(),
-			'title' => 'BERITA COVID19.GO.ID',
-			'url' => 'https://www.covid19.go.id'
-		);
-		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		if (config_item('covid_rss'))
+		{
+			$data['feed'] = array(
+				'items' => $this->first_artikel_m->get_feed(),
+				'title' => 'BERITA COVID19.GO.ID',
+				'url' => 'https://www.covid19.go.id'
+			);
+		}
+
+		if (config_item('apbdes_footer'))
+		{
+			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		}
+
+		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = html_escape("Hasil pencarian:". substr($cari, 0, 50));
+			$data["judul_kategori"] = html_escape("Hasil pencarian : ". substr($cari, 0, 50));
 		}
 
 		$this->_get_common_data($data);
@@ -151,7 +165,9 @@ class First extends Web_Controller {
 		// Hanya boleh menampilkan data pengguna yang login
 		// ** Bagi program sasaran pendududk **
 		if ($data['peserta'] == $_SESSION['nik'])
+		{
 			$this->load->view('program_bantuan/kartu_peserta',$data);
+		}
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)
@@ -228,19 +244,25 @@ class First extends Web_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 
+		// Ambil data anggota KK
+		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		{
+			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
+		}
+
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
-  public function cek_syarat()
-  {
-  	$id_permohonan = $this->input->post('id_permohonan');
+	public function cek_syarat()
+	{
+		$id_permohonan = $this->input->post('id_permohonan');
 		$permohonan = $this->db->where('id', $id_permohonan)
 			->get('permohonan_surat')
 			->row_array();
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
-  	$dokumen = $this->penduduk_model->list_dokumen($_SESSION['id']);
-  	$id = $this->input->post('id_surat');
-  	$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
+		$dokumen = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		$id = $this->input->post('id_surat');
+		$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
 		$data = array();
 		$no = $_POST['start'];
 
@@ -251,40 +273,31 @@ class First extends Web_Controller {
 			$row[] = $no;
 			$row[] = $baris['ref_syarat_nama'];
 			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-	  	$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id']), TRUE);
+			$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id']), TRUE);
 			$row[] = $pilihan_dokumen;
 			$data[] = $row;
 		}
 
 		$output = array(
-     	"recordsTotal" => 10,
-      "recordsFiltered" => 10,
+			"recordsTotal" => 10,
+			"recordsFiltered" => 10,
 			'data' => $data
 		);
-    echo json_encode($output);
-  }
+		echo json_encode($output);
+	}
 
 	/*
-		Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. Url first/artikel/:id
-
-		Kalau menggunakan slug, dipanggil menggunakan url first/artikel/:thn/:bln/:hri/:slug
+	| Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
+	| Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
 	*/
-	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
+	public function artikel($url)
 	{
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
-		if (empty($slug))
-		{
-			// Kalau slug kosong, parameter pertama adalah id artikel
-			$id = $thn;
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
-		}
-		else
-		{
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
-			$id = $data['single_artikel']['id'];
-		}
+		$data['single_artikel'] = $this->first_artikel_m->get_artikel($url);
+		$id = $data['single_artikel']['id'];
+
 		// replace isi artikel dengan shortcodify
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
@@ -378,6 +391,31 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
+	}
+
+	public function ajax_peserta_program_bantuan()
+	{
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($peserta as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
+		}
+
+		$output = array(
+			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
+			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+			'data' => $data
+		);
+		echo json_encode($output);
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
@@ -509,14 +547,6 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
-	public function agenda($stat=0)
-	{
-		$data = $this->includes;
-		$data['artikel'] = $this->first_artikel_m->agenda_show();
-		$this->_get_common_data($data);
-		$this->load->view($this->template,$data);
-	}
-
 	public function kategori($id, $p=1)
 	{
 		$data = $this->includes;
@@ -529,7 +559,6 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
 		$this->_get_common_data($data);
@@ -541,21 +570,23 @@ class First extends Web_Controller {
 		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
 		$query = $this->db->query($sql,1);
 		$data = $query->row_array();
-	// Periksa isian captcha
+		// Periksa isian captcha
 		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
 		$_SESSION['validation_error'] = false;
+
 		if ($securimage->check($_POST['captcha_code']) == false)
 		{
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
 			$_SESSION['post'] = $_POST;
 			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+			redirect($_SERVER['HTTP_REFERER']."#kolom-komentar");
 		}
 
 		$res = $this->first_artikel_m->insert_comment($id);
 		$data['data_config'] = $this->config_model->get_data();
-	// cek kalau berhasil disimpan dalam database
+
+		// cek kalau berhasil disimpan dalam database
 		if ($res)
 		{
 			$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
@@ -581,10 +612,15 @@ class First extends Web_Controller {
 		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
-		$data['w_cos']  = $this->web_widget_model->get_widget_aktif();
+		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
+		if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+		{
+			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
 		$list_kolom = array(
@@ -597,8 +633,67 @@ class First extends Web_Controller {
 		}
 	}
 
+	public function peta()
+	{
+		$this->load->model('wilayah_model');
+		$data = $this->includes;
+
+		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['wilayah'] = $this->penduduk_model->list_wil();
+		$data['desa'] = $this->config_model->get_data();
+		$data['penduduk'] = $this->penduduk_model->list_data_map();
+		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['list_lap'] = $this->referensi_model->list_lap();
+		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
+
+		$data['halaman_peta'] = 'web/halaman_statis/peta';
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/peta_statis.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function load_apbdes()
+	{
+		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+
+		$this->_get_common_data($data);
+		$this->load->view('gis/apbdes_web', $data);
+	}
+
+	public function load_aparatur_desa()
+	{
+		$this->_get_common_data($data);
+		$this->load->view('gis/aparatur_desa_web', $data);
+	}
+
+	public function load_aparatur_wilayah($id='', $kd_jabatan=0)
+	{
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+
+		switch ($kd_jabatan)
+		{
+			case '1':
+				$data['jabatan'] = "Kepala Dusun";
+				break;
+			case '2':
+				$data['jabatan'] = "Ketua RW";
+				break;
+			case '3':
+				$data['jabatan'] = "Ketua RT";
+				break;
+			default:
+				$data['jabatan'] = "Kepala Dusun";
+				break;
+		}
+
+		$this->load->view('gis/aparatur_wilayah',$data);
+	}
+
 	public function ajax_table_surat_permohonan()
-  {
+	{
 		$data = $this->penduduk_model->list_dokumen($_SESSION['id']);
 		for ($i=0; $i < count($data); $i++)
 		{
@@ -608,22 +703,21 @@ class First extends Web_Controller {
 			$list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
 			$list_dokumen[$i][] = $data[$i]['nama'];
 			$list_dokumen[$i][] = $data[$i]['id'];
+			$list_dokumen[$i][] = $data[$i]['hidden'];
 		}
 		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
-
-    echo json_encode($list);
+		echo json_encode($list);
 	}
 
 	public function ajax_upload_dokumen_pendukung()
 	{
-
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-
 		$this->form_validation->set_rules('nama', 'Nama Dokumen', 'required');
-    if ($this->form_validation->run() !== true)
-    {
-    	$data['success'] = -1;
+
+		if ($this->form_validation->run() !== true)
+		{
+			$data['success'] = -1;
 			$data['message'] = validation_errors();
 			echo json_encode($data);
 			return;
@@ -635,50 +729,82 @@ class First extends Web_Controller {
 
 		if ($_SESSION['id'])
 		{
+			$_POST['id_pend'] = $_SESSION['id'];
 			$id_dokumen = $this->input->post('id');
 			unset($_POST['id']);
 
 			if ($id_dokumen)
-				$this->web_dokumen_model->update($id_dokumen);
+			{
+				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->userdata('id'));
+				if (!$hasil)
+				{
+					$data['success'] = -1;
+					$data['message'] = 'Gagal update';
+				}
+			}
 			else
+			{
 				$this->web_dokumen_model->insert();
-
+			}
 			$data['success'] = $this->session->userdata('success');
 			$data['message'] = $data['success'] == -1 ? $this->session->userdata('error_msg') : $success_msg;
-
 		}
 		else
-			$data['message'] = 'You are not authorized';
+		{
+			$data['success'] = -1;
+			$data['message'] = 'Anda tidak mempunyai hak akses itu';
+		}
 
 		echo json_encode($data);
 	}
 
 	public function ajax_get_dokumen_pendukung()
 	{
-		if($_SESSION['id'])
-		{
-			$id_dokumen = $this->input->post('id_dokumen');
-			$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
-		}
-		else
-			$data['message'] = 'You are not authorized';
+		$id_dokumen = $this->input->post('id_dokumen');
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->userdata('id'));
 
+		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
+
+		if (empty($data))
+		{
+			$data['success'] = -1;
+			$data['message'] = 'Tidak ditemukan';
+		}
+		elseif ($_SESSION['id'] != $data['id_pend'])
+		{
+			$data = ['message' => 'Anda tidak mempunyai hak akses itu'];
+		}
 		echo json_encode($data);
 	}
 
 	public function ajax_hapus_dokumen_pendukung()
 	{
-		if ($_SESSION['id'])
+		$id_dokumen = $this->input->post('id_dokumen');
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+		if (empty($data))
 		{
-			$id_dokumen = $this->input->post('id_dokumen');
-			if ($id_dokumen)
-				$this->web_dokumen_model->delete($id_dokumen);
-			$data['success'] = $this->session->userdata('success') ? : '1';
+			$data['success'] = -1;
+			$data['message'] = 'Tidak ditemukan';
+		}
+		elseif ($_SESSION['id'] != $data['id_pend'])
+		{
+			$data['success'] = -1;
+			$data['message'] = 'Anda tidak mempunyai hak akses itu';
 		}
 		else
-			$data['message'] = 'You are not authorized';
-
+		{
+			$this->web_dokumen_model->delete($id_dokumen);
+			$data['success'] = $this->session->userdata('success') ? : '1';
+		}
 		echo json_encode($data);
+	}
+
+	public function ambil_data_covid()
+	{
+		if ($content = getUrlContent($this->input->post('endpoint')))
+		{
+			echo $content;
+		}
 	}
 
 }

@@ -272,7 +272,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -293,15 +293,65 @@
 	public function get_widget_data(&$data)
 	{
 		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
-		$data['agenda'] = $this->first_artikel_m->agenda_show();
+		$data['hari_ini'] = $this->first_artikel_m->agenda_show('hari_ini');
+		$data['yad'] = $this->first_artikel_m->agenda_show('yad');
+		$data['lama'] = $this->first_artikel_m->agenda_show('lama');
 		$data['komen'] = $this->first_artikel_m->komentar_show();
 		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['arsip'] = $this->first_artikel_m->arsip_show();
-		$data['arsip_rand'] = $this->first_artikel_m->arsip_rand();
-		$data['aparatur_desa'] = $this->pamong_model->list_data(true);
+		$data['arsip_terkini'] = $this->first_artikel_m->arsip_show('terkini');
+		$data['arsip_populer'] = $this->first_artikel_m->arsip_show('populer');
+		$data['arsip_acak'] = $this->first_artikel_m->arsip_show('acak');
+		$data['aparatur_desa'] = $this->pamong_model->list_aparatur_desa();
 		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
 	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
+
+	// widget statis di ambil dari folder desa/widget dan desa/themes/nama_tema/widgets
+	public function list_widget_baru()
+	{
+		$this->load->model('theme_model');
+		$tema_desa = $this->theme_model->list_all();
+		$list_widget = array();
+		$widget_desa = $this->widget(LOKASI_WIDGET.'*.php');
+		$list_widget = array_merge($list_widget, $widget_desa);
+
+		foreach ($tema_desa as $tema)
+		{
+			$tema = str_replace('desa/', '', $tema);
+
+			if($tema !== 'klasik' OR $tema !== 'hadakewa')
+				$list = $this->widget('desa/themes/'.$tema.'/widgets/*.php');
+
+			$list_widget = array_merge($list_widget, $list);
+		}
+
+		return $list_widget;
+	}
+
+	public function widget($lokasi)
+	{
+		$widget_statis = $this->list_widget_statis();
+		$list_widget = glob($lokasi);
+		$l_widget = array();
+
+		foreach ($list_widget as $widget)
+		{
+			if (array_search($widget, $widget_statis) === false)
+
+			$l_widget[] = $widget;
+		}
+
+		return $l_widget;
+	}
+
+	private function list_widget_statis()
+	{
+		$data = $this->db->select('isi')
+			->where('jenis_widget', 2)
+			->get('widget')->result_array();
+		return array_column($data, 'isi');
+	}
+
 }
 ?>

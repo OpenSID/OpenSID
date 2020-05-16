@@ -8,6 +8,7 @@ class Suplemen extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('suplemen_model');
+		$this->load->model('config_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
 	}
@@ -102,7 +103,7 @@ class Suplemen extends Admin_Controller {
 		$data['terdata'] = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
 		$data['individu'] = $this->suplemen_model->get_terdata($data['terdata']['id_terdata'], $data['suplemen']['sasaran']);
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('suplemen/data_terdata', $data);
@@ -195,21 +196,24 @@ class Suplemen extends Admin_Controller {
 		redirect("suplemen/");
 	}
 
-	public function unduhsheet($id = 0)
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($id = 0, $aksi = '')
 	{
 		if ($id > 0)
 		{
-			/*
-			 * Print xls untuk data x
-			 * */
-			$_SESSION['per_page'] = 0; // Unduh semua data
+			$temp = $this->session->per_page;
+			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
 			$data = $this->suplemen_model->get_rincian(1, $id);
 			$data['sasaran'] = unserialize(SASARAN);
 			$data['desa'] = $this->header_model->get_data();
-			$_SESSION['per_page'] = 50; // Kembalikan ke paginasi default
+			$data['config'] = $this->config_model->get_data();
+			$data['aksi'] = $aksi;
+			$this->session->per_page = $temp;
 
-			$this->load->view('suplemen/unduh-sheet', $data);
-
+			$this->load->view('suplemen/'.$aksi, $data);
 		}
 	}
+
 }

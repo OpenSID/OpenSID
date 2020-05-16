@@ -5,6 +5,7 @@
 		parent::__construct();
 		$this->load->model('program_bantuan_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
 	}
 
@@ -144,9 +145,17 @@
 	{
 		$sql = "FROM tweb_keluarga u
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-			WHERE 1 ";
+			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
 
+		// TODO: ubah ke query builder
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		if ($this->session->bantuan_keluarga)
+		{
+			$sql .= " LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
+			LEFT JOIN program rcb ON bt.program_id = rcb.id ";
+		}
+
+		$sql .= " WHERE 1 ";
 		$sql .=	$this->search_sql();
 		$sql .=	$this->status_dasar_sql();
 		$sql .=	$this->dusun_sql();
@@ -155,7 +164,27 @@
 		$sql .=	$this->sex_sql();
 		$sql .= $this->kelas_sql();
 		$sql .= $this->bos_sql();
+		$kolom_kode = array(
+			array('bantuan_keluarga', 'rcb.id'),
+		);
+		foreach ($kolom_kode as $kolom)
+		{
+			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+		}
 		return $sql;
+	}
+
+	protected function get_sql_kolom_kode($kode_session, $kode_kolom)
+	{
+		if (isset($_SESSION[$kode_session]))
+		{
+			$kf = $_SESSION[$kode_session];
+			if ($kf == BELUM_MENGISI)
+				$sql = " AND (".$kode_kolom." IS NULL OR ".$kode_kolom." = '')";
+			else
+				$sql = " AND ".$kode_kolom." = $kf";
+			return $sql;
+		}
 	}
 
 	public function list_data($o=0, $offset=0, $limit=500)
@@ -232,7 +261,7 @@
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
-		$log['tanggal'] = date("m-d-y");
+		$log['tanggal'] = date('Y-m-d H:i:s');
 		$outp = $this->db->insert('log_perubahan_penduduk', $log);
 
 		// Untuk statistik perkembangan keluarga
@@ -249,7 +278,7 @@
 		if (!empty($data['id']))
 		{
 			$nokk_lama = $this->get_nokk($data['id']);
-			if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah		
+			if ($data['no_kk'] == $nokk_lama) return true; // Tidak berubah
 		}
 		$valid = array();
 		if (isset($data['no_kk']))
@@ -390,7 +419,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
 		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
 		foreach ($list_anggota as $anggota)
@@ -515,6 +544,9 @@
 			$this->db->where('id', $pend['id_kk']);
 			$outp = $this->db->update('tweb_keluarga', $temp2);
 		}
+
+		// hapus dokumen bersama dengan kepala KK sebelumnya
+		$this->web_dokumen_model->hard_delete_dokumen_bersama($id);
 
 		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
 	}
@@ -851,11 +883,8 @@
 				case 'kelas_sosial':
 					$sql = "SELECT * FROM tweb_keluarga_sejahtera WHERE id = ? ";
 					break;
-				case 21:
-					$sql = "SELECT * FROM klasifikasi_analisis_keluarga WHERE id = ? and jenis = '1'  ";
-					break;
-				case 24:
-					$sql = "SELECT * FROM ref_bos WHERE id = ?";
+				case 'bantuan_keluarga':
+					$sql = "SELECT * FROM program WHERE id = ? ";
 					break;
 			}
 			$query = $this->db->query($sql, $nomor);

@@ -1,7 +1,11 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
-<?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/covid.php") ?>
+
+<!-- Ubah setting di desa/config/config.php untuk menampilkan/menyembunyikan data COVID-19 -->
+<?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/covid.php")?>
+<?php if (config_item('covid_desa')) $this->load->view($folder_themes."/partials/covid_local.php");?>
+
 			<div id="contentwrapper">
 				<div id="contentcolumn">
 					<div class="innertube">
@@ -17,7 +21,6 @@
 			</div>
 
 			<div id="footer">
-				<?php if (!is_null($transparansi)) $this->load->view($folder_themes. '/partials/apbdesa-tema.php', $transparansi);?>
 				<?php $this->load->view($folder_themes.'/partials/copywright.tpl.php');?>
 			</div>
 		</div>
