@@ -613,7 +613,7 @@ class Penduduk extends Admin_Controller {
 			case 10: $_SESSION['menahun'] = $nomor;  $pre = "SAKIT MENAHUN : "; break;
 			case 13: $_SESSION['umurx'] = $nomor;  $pre = "UMUR "; break;
 			case 14: $_SESSION['pendidikan_sedang_id'] = $nomor; $pre = "PENDIDIKAN SEDANG DITEMPUH : "; break;
-			case 15: $_SESSION['umurx'] = $nomor;  $pre = "KATEGORI : "; break;
+			case 15: $_SESSION['umurx'] = $nomor;  $pre = "KATEGORI UMUR : "; break;
 			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre = "CARA KB : "; break;
 			case 17:
 				$_SESSION['akta_kelahiran'] = $nomor;

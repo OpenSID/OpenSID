@@ -149,8 +149,8 @@
 			"statistik/1"  => "Pekerjaan",
 			"statistik/6"  => "Status Penduduk",
 			"statistik/2"  => "Status Perkawinan",
-			"statistik/13" => "Umur Rentang",
-			"statistik/15" => "Umur Kategori",
+			"statistik/13" => "Umur (Rentang)",
+			"statistik/15" => "Umur (Kategori)",
 			"statistik/18" => "Kepemilikan Wajib KTP",
 			"statistik/5"  => "Warga Negara",
 			"statistik/19" => "Asuransi",
@@ -206,9 +206,9 @@
 			case "7": return "Golongan Darah"; break;
 			case "9": return "Cacat"; break;
 			case "10": return "Sakit Menahun"; break;
-			case "13": return "Umur Rentang"; break;
+			case "13": return "Rentang Umur"; break;
 			case "14": return "Pendidikan Sedang Ditempuh"; break;
-			case "15": return "Umur Kategori"; break;
+			case "15": return "Kategori Umur"; break;
 			case "16": return "Akseptor KB"; break;
 			case "17": return "Akte Kelahiran"; break;
 			case "18": return "Kepemilikan Wajib KTP"; break;
