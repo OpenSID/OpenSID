@@ -190,5 +190,5 @@
 </div>
 
 <?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-	<?php $this->load->view('statistik/peserta_bantuan'); ?>
+	<?php $this->load->view('statistik/peserta_bantuan', array('lap' => $st)); ?>
 <?php endif;?>
