@@ -145,11 +145,17 @@
 	{
 		$sql = "FROM tweb_keluarga u
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-			LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
-			LEFT JOIN program rcb ON bt.program_id = rcb.id
-			WHERE 1 ";
+			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
 
+		// TODO: ubah ke query builder
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		if ($this->session->bantuan_keluarga)
+		{
+			$sql .= " LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
+			LEFT JOIN program rcb ON bt.program_id = rcb.id ";
+		}
+
+		$sql .= " WHERE 1 ";
 		$sql .=	$this->search_sql();
 		$sql .=	$this->status_dasar_sql();
 		$sql .=	$this->dusun_sql();
@@ -198,7 +204,7 @@
 		//Paging SQL
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.id as id_pend, rcb.id as bantuan_keluarga,
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.id as id_pend,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
