@@ -651,20 +651,19 @@
 	protected function get_data_jml()
 	{
 		$lap = $this->lap;
-
 		//Siapkan data baris rekap
 		if ($lap == 18)
 		{
 			$this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
 			$semua = $this->data_jml_semua_penduduk();
 		}
-		elseif (($lap<=20 OR $lap=='covid' OR "$lap" =='bantuan_penduduk') AND ("$lap" <> 'kelas_sosial' OR "$lap" <> 'bantuan_keluarga'))
+		elseif (in_array($lap, array('kelas_sosial', 'bantuan_keluarga')))
 		{
-			$semua = $this->data_jml_semua_penduduk();
+			$semua = $this->data_jml_semua_keluarga();
 		}
 		else
 		{
-			$semua = $this->data_jml_semua_keluarga();
+			$semua = $this->data_jml_semua_penduduk();
 		}
 		return $semua;
 	}
