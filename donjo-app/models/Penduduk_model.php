@@ -1335,6 +1335,7 @@
 				case 10: $sql = "SELECT * FROM tweb_sakit_menahun WHERE id = ?";break;
 				case 13: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ?";break;
 				case 14: $sql = "SELECT * FROM tweb_penduduk_pendidikan WHERE id = ?";break;
+				case 15: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ?";break;
 				case 16: $sql = "SELECT * FROM tweb_cara_kb WHERE id = ?";break;
 				case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
 				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
