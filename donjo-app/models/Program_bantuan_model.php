@@ -962,7 +962,7 @@ class Program_bantuan_model extends CI_Model {
 	 * Untuk datatable #peserta_program di themes/klasik/partials/statistik.php
 	 * ==================================== */
 
-	public function get_all_peserta_bantuan_query()
+	private function get_all_peserta_bantuan_query()
 	{
 		$this->db
 			->select("p.nama as program, pend.nama as peserta, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")

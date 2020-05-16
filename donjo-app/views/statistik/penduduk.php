@@ -121,7 +121,7 @@
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
 													<td>
-														<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial' OR "$lap"=='bantuan_keluarga'): ?>
+														<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
 															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
 														<?php else: ?>
 															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
@@ -129,7 +129,7 @@
 														<?php endif; ?>
 													</td>
 													<td><?= $data['persen'];?></td>
-													<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial' OR "$lap"=='bantuan_keluarga'):
+													<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))):
 															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
 															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
 													?>
@@ -147,67 +147,7 @@
 							</div>
 
               <?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-                <section class="content" id="maincontent">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <input id="stat" type="hidden" value="<?=$lap?>">
-                      <div class="box box-info">
-                        <div class="box-header with-border" style="margin-bottom: 15px;">
-                          <h3 class="box-title"><?= $heading ?></h3>
-                        </div>
-                        <div style="margin-right: 1rem; margin-left: 1rem;">
-                          <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="peserta_program">
-                              <thead>
-                                <tr>
-                                  <th>No</th>
-                                  <th>Program</th>
-                                  <th>Nama Peserta</th>
-                                  <th>Alamat</th>
-                                </tr>
-                              </thead>
-                              <tfoot>
-                              </tfoot>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <script type="text/javascript">
-                  $(document).ready(function() {
-
-                    var url = "<?= site_url('statistik/ajax_peserta_program_bantuan')?>";
-                      table = $('#peserta_program').DataTable({
-                        'processing': true,
-                        'serverSide': true,
-                        "pageLength": 10,
-                        'order': [],
-                        "ajax": {
-                          "url": url,
-                          "type": "POST",
-                          "data": {stat: $('#stat').val()}
-                        },
-                        //Set column definition initialisation properties.
-                        "columnDefs": [
-                          {
-                            "targets": [ 0, 3 ], //first column / numbering column
-                            "orderable": false, //set not orderable
-                          },
-                        ],
-                        'language': {
-                          'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-                        },
-                        'drawCallback': function (){
-                            $('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
-                        }
-                      });
-
-                  } );
-                </script>
-
+								<?php $this->load->view('statistik/peserta_bantuan'); ?>
               <?php endif;?>
 
 						</div>

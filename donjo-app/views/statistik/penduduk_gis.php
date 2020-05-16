@@ -26,7 +26,7 @@
 											<td><?= $data['no']?></td>
 											<td><?= strtoupper($data['nama']);?></td>
 											<td>
-												<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial' OR "$lap"=='bantuan_keluarga'): ?>
+												<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
 													<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
 												<?php else: ?>
 													<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
@@ -34,10 +34,11 @@
 												<?php endif; ?>
 											</td>
 											<td><?= $data['persen'];?></td>
-											<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27 OR "$lap"=='kelas_sosial' OR "$lap"=='bantuan_keluarga'):
-													$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
-													elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
-											?>
+											<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
+												<?php $tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]"); ?>
+											<?php elseif ($lap<50): ?>
+												<?php $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
+											<?php endif; ?>
 											<?php if ($jenis_laporan == 'penduduk'): ?>
 												<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
 												<td><?= $data['persen1'];?></td>
@@ -119,7 +120,7 @@
 				border:1,
 				data: [
 					<?php foreach ($main as $data): ?>
-					  <?php if ($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"): ?>
+					  <?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
 						  <?php if ($data['jumlah'] != "-"): ?>
 								['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
 							<?php endif; ?>
@@ -180,7 +181,7 @@
 					name: 'Populasi',
 					data: [
 						<?php foreach ($main as $data): ?>
-							<?php if ($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"): ?>
+							<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
 								<?php if ($data['jumlah'] != "-"): ?>
 									['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
 								<?php endif; ?>
