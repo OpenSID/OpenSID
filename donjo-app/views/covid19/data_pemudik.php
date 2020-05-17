@@ -13,7 +13,7 @@
 			<li class="active">Data Pemudik</li>
 		</ol>
 	</section>
-	
+
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
@@ -70,7 +70,7 @@
 																<td nowrap><a href="<?= site_url('covid19/detil_pemudik/'.$item["id"])?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
 																<td><?= $item["umur"] ?></td>
 																<?php
-																$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk"; 
+																$jk = (strtoupper($item['sex']) === "PEREMPUAN") ? "Pr" : "Lk";
 																?>
 																<td><?= $jk?></td>
 																<td><?= $item["info"];?></td>
@@ -108,53 +108,50 @@
 											</div>
 										</div>
 										<div class="col-sm-6">
-                    	<div class="dataTables_paginate paging_simple_numbers">
-                      	<ul class="pagination">
-                    		<?php if ($paging->start_link): ?>
-                            <li>
-                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
-                            </li>
-                        	<?php endif; ?>
-
-                        	<?php if ($paging->prev): ?>
-                            <li>
-                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-                            </li>
-                        	<?php endif; ?>
-
-                        	<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-               	            <li <?=jecho($p, $i, "class='active'")?>>
-               	            	<a href="<?= site_url('covid19/data_pemudik/'.$i)?>"><?= $i?></a>
-             	            	</li>
-                        	<?php endfor; ?>
-
-                        	<?php if ($paging->next): ?>
-                            <li>
-                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-                            </li>
-                        	<?php endif; ?>
-
-                        	<?php if ($paging->end_link): ?>
-                            <li>
-                            	<a href="<?=site_url('covid19/data_pemudik/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
-                            </li>
-                        	<?php endif; ?>
-                       
-                      	</ul>
-                   	 	</div>
-        						</div>
-      						</div>
-      					</div>
-      				</div>
-      			</div>
-      		</div>
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+												<?php if ($paging->start_link): ?>
+														<li>
+															<a href="<?=site_url('covid19/data_pemudik/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
+														</li>
+													<?php endif; ?>
+													<?php if ($paging->prev): ?>
+														<li>
+															<a href="<?=site_url('covid19/data_pemudik/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+														</li>
+													<?php endif; ?>
+													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+														<li <?=jecho($p, $i, "class='active'")?>>
+															<a href="<?= site_url('covid19/data_pemudik/'.$i)?>"><?= $i?></a>
+														</li>
+													<?php endfor; ?>
+													<?php if ($paging->next): ?>
+														<li>
+															<a href="<?=site_url('covid19/data_pemudik/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+														</li>
+													<?php endif; ?>
+													<?php if ($paging->end_link): ?>
+														<li>
+															<a href="<?=site_url('covid19/data_pemudik/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
+														</li>
+													<?php endif; ?>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
+
 <?php $this->load->view('global/confirm_delete');?>
-<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class='modal-dialog'>
 		<div class='modal-content'>
 			<div class='modal-header'>
@@ -165,5 +162,3 @@
 		</div>
 	</div>
 </div>
-
-						
