@@ -24,6 +24,12 @@
       <i class="fa fa-chevron-down pull-right"></i>
 		</button>
 		<div id="collapse2" class="panel-collapse collapse">
+			<br>
+			<?php $gambar = LOKASI_GALERI . "sedang_" . $kantor_desa->gambar;
+				if (is_file($gambar)): ?>
+				<img src="<?php echo base_url($gambar)?>" alt="Kantor Desa " width="100%" height="150"/>
+			<?php endif; ?>	
+			<hr>
 			<div class="info-desa">
 				<table width="100%">
 					<tr style="border-bottom: 1px solid #ddd;">
