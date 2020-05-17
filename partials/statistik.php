@@ -18,7 +18,7 @@
 					{
 						categories: [
 						<?php $i=0;foreach($stat as $data){$i++;?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){echo "'$i',";}?>
+							<?php if($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"){echo "'$i',";}?>
 						<?php }?>
 						]
 					},
@@ -46,7 +46,7 @@
 						border:1,
 						data: [
 						<?php foreach($stat as $data){?>
-							<?php if($data['jumlah'] != "-" AND $data['nama']!= "TOTAL" AND $data['nama']!= "JUMLAH"){?>
+							<?php if($data['nama'] != "BELUM MENGISI" and $data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH" and $data['nama'] != "PENERIMA"){?>
 								['<?php echo $data['nama']?>',<?php echo $data['jumlah']?>],
 							<?php }?>
 						<?php }?>
