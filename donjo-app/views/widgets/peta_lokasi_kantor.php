@@ -1,34 +1,45 @@
 <style type="text/css">
-	button.btn { margin-left: 0px; }
-	#collapse2 { margin-top: 5px; }
-	button[aria-expanded=true] .fa-chevron-down {
-	   display: none;
+	button.btn
+	{
+		margin-left: 0px;
 	}
-	button[aria-expanded=false] .fa-chevron-up {
-	   display: none;
+
+	#collapse2
+	{
+		margin-top: 5px;
+	}
+
+	button[aria-expanded=true] .fa-chevron-down
+	{
+		display: none;
+	}
+
+	button[aria-expanded=false] .fa-chevron-up
+	{
+		display: none;
 	}
 </style>
 <!-- widget Peta Lokasi Kantor Desa -->
 <div class="box box-primary box-solid">
-  <div class="box-header">
-    <h3 class="box-title">
-    <i class="fa fa-map-marker"></i>
-    <?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?></h3>
-  </div>
-  <div class="box-body">
-    <div id="map_canvas" style="height:200px;"></div>
-    <button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" target="_blank">Buka Peta</a></button>
+	<div class="box-header">
+		<h3 class="box-title">
+			<i class="fa fa-map-marker"></i><?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?>
+		</h3>
+	</div>
+	<div class="box-body">
+		<div id="map_canvas" style="height:200px;"></div>
+		<button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" target="_blank">Buka Peta</a></button>
 		<button class="btn btn-success btn-block" data-toggle="collapse" data-target="#collapse2" aria-expanded="false">
 			Detail
-      <i class="fa fa-chevron-up pull-right"></i>
-      <i class="fa fa-chevron-down pull-right"></i>
+			<i class="fa fa-chevron-up pull-right"></i>
+			<i class="fa fa-chevron-down pull-right"></i>
 		</button>
 		<div id="collapse2" class="panel-collapse collapse">
 			<br>
 			<?php $gambar = LOKASI_GALERI . "sedang_" . $kantor_desa->gambar;
-				if (is_file($gambar)): ?>
+			if (is_file($gambar)): ?>
 				<img src="<?php echo base_url($gambar)?>" alt="Kantor Desa " width="100%" height="150"/>
-			<?php endif; ?>	
+			<?php endif; ?>
 			<hr>
 			<div class="info-desa">
 				<table width="100%">
@@ -69,11 +80,11 @@
 <script>
 	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
-    var posisi = [<?=$data_config['lat'].",".$data_config['lng']?>];
-    var zoom = <?=$data_config['zoom'] ?: 10?>;
+		var posisi = [<?=$data_config['lat'].",".$data_config['lng']?>];
+		var zoom = <?=$data_config['zoom'] ?: 10?>;
 	<?php else: ?>
-    var posisi = [-1.0546279422758742,116.71875000000001];
-    var zoom = 10;
+		var posisi = [-1.0546279422758742,116.71875000000001];
+		var zoom = 10;
 	<?php endif; ?>
 
 	var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
@@ -81,7 +92,8 @@
 	//Menampilkan BaseLayers Peta
 	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(lokasi_kantor);
 
-	var baseLayers = {
+	var baseLayers =
+	{
 		'OpenStreetMap': defaultLayer,
 		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a>'}),
 	};
@@ -90,6 +102,6 @@
 
 	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
-    var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
+		var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
 	<?php endif; ?>
 </script>
