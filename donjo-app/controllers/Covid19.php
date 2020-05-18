@@ -25,11 +25,11 @@ class Covid19 extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 207;
 
-		if (isset($_POST['per_page'])) 
+		if (isset($_POST['per_page']))
 			$this->session->set_userdata('per_page', $_POST['per_page']);
-		else 
+		else
 			$this->session->set_userdata('per_page', 10);
-		
+
 		$data = $this->covid19_model->get_list_pemudik($page);
 		$data['per_page'] = $this->session->userdata('per_page');
 
@@ -43,7 +43,7 @@ class Covid19 extends Admin_Controller {
 	public function form_pemudik()
 	{
 		$this->sub_modul_ini = 207;
-		
+
 		$d = new DateTime('NOW');
 		$data['tanggal_datang'] = $d->format('Y-m-d H:i:s');
 
@@ -96,7 +96,7 @@ class Covid19 extends Admin_Controller {
 		$this->covid19_model->add_pemudik($_POST);
 		redirect("covid19");
 	}
-	
+
 	public function hapus_pemudik($id_pemudik)
 	{
 		$this->redirect_hak_akses('h', "covid19");
@@ -106,10 +106,10 @@ class Covid19 extends Admin_Controller {
 
 	public function edit_pemudik_form($id = 0)
 	{
-		$data = $this->covid19_model->get_pemudik_by_id($id);	
+		$data = $this->covid19_model->get_pemudik_by_id($id);
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
-		
+
 		$data['form_action'] = site_url("covid19/edit_pemudik/$id");
 		$this->load->view('covid19/edit_pemudik', $data);
 	}
@@ -119,12 +119,12 @@ class Covid19 extends Admin_Controller {
 		$this->covid19_model->update_pemudik_by_id($_POST, $id);
 		redirect("covid19");
 	}
-	
+
 	public function detil_pemudik($id)
 	{
 		$nav['act'] = 206;
 		$header = $this->header_model->get_data();
-		
+
 		$data['terdata'] = $this->covid19_model->get_pemudik_by_id($id);
 		$data['individu'] = $this->covid19_model->get_penduduk_by_id($data['terdata']['id_terdata']);
 
@@ -153,34 +153,24 @@ class Covid19 extends Admin_Controller {
 	}
 
 	public function update_penduduk($id_pend, $id_pemudik)
-	{		
+	{
 		$this->penduduk_model->update($id_pend);
 		if ($_SESSION['success'] == -1)
 			$_SESSION['dari_internal'] = true;
 		redirect("covid19/detil_pemudik/$id_pemudik");
 	}
 
-	public function unduhsheet()
-	{
-		$this->session->set_userdata('per_page', 0); // Unduh semua data
-		$data = $this->covid19_model->get_list_pemudik(1);
-		$data['desa'] = $this->header_model->get_data();
-		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
-
-		$this->load->view('covid19/unduh-sheet', $data);
-	}
-
 	public function pantau($page=1, $filter_tgl=null, $filter_nik=null)
 	{
 		$this->sub_modul_ini = 208;
 
-		if (isset($_POST['per_page'])) 
+		if (isset($_POST['per_page']))
 			$this->session->set_userdata('per_page', $_POST['per_page']);
-		else 
+		else
 			$this->session->set_userdata('per_page', 10);
 		$data['per_page'] = $this->session->userdata('per_page');
 		$data['page'] = $page;
-		
+
 		// get list pemudik
 		$data['pemudik_array'] = $this->covid19_model->get_list_pemudik_wajib_pantau(true);
 		// get list pemudik end
@@ -195,7 +185,7 @@ class Covid19 extends Admin_Controller {
 		$data['paging'] = $pantau_pemudik["paging"];
 		$data['pantau_pemudik_array'] = $pantau_pemudik["query_array"];
 		// get list pemantauan end
-		
+
 		// datetime now
 		$d = new DateTime('NOW');
 		$data['datetime_now'] = $d->format('Y-m-d H:i:s');
@@ -215,7 +205,7 @@ class Covid19 extends Admin_Controller {
 		$this->load->view('covid19/pantau_pemudik', $data);
 		$this->load->view('footer');
 	}
-	
+
 	public function add_pantau()
 	{
 		$this->covid19_model->add_pantau_pemudik($_POST);
@@ -234,14 +224,32 @@ class Covid19 extends Admin_Controller {
 		redirect($url);
 	}
 
-	public function unduhpantau($filter_tgl, $filter_nik)
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($aksi = '', $filter_tgl = null, $filter_nik = null)
 	{
 		$this->session->set_userdata('per_page', 0); // Unduh semua data
-		$data = $this->covid19_model->get_list_pantau_pemudik(1, $filter_tgl, $filter_nik);
-		$data['desa'] = $this->header_model->get_data();
+
+		if (isset($filter_tgl) OR isset($filter_nik))
+		{
+			$data = $this->covid19_model->get_list_pantau_pemudik(1, $filter_tgl, $filter_nik);
+			$judul = 'pantauan';
+		}
+		else
+		{
+			$data = $this->covid19_model->get_list_pemudik(1);
+			$judul = 'pendataan';
+		}
+
+		if ($aksi === 'cetak') $aksi = $aksi.'_'.$judul;
+
+		$data['config'] = $this->config_model->get_data();
+		$data['aksi'] = $aksi;
+		$data['judul'] = $judul;
 		$this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default
 
-		$this->load->view('covid19/unduh-pantau', $data);
+		$this->load->view('covid19/'.$data['aksi'], $data);
 	}
-	
+
 }
