@@ -10,7 +10,10 @@
 						<?php elseif ($tipe == 4): ?>
 							<?php $this->load->view('statistik/dpt.php'); ?>
 						<?php else: ?>
-							<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/statistik.php')); ?>
+							<?php $this->load->view('statistik/penduduk_grafik.php'); ?>
+							<?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+								<?php $this->load->view('statistik/peserta_bantuan', array('lap' => $st)); ?>
+							<?php endif;?>
 						<?php endif; ?>
 					</div>
 				</div>

@@ -108,7 +108,7 @@ class Shortcode_model extends Keuangan_grafik_model {
     $lap = 'bantuan_penduduk';
 
 		ob_start();
-			include("donjo-app/views/statistik/peserta_bantuan_grafik.php");
+			include("donjo-app/views/statistik/penduduk_grafik.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -123,7 +123,7 @@ class Shortcode_model extends Keuangan_grafik_model {
     $lap = 'bantuan_penduduk';
 
 		ob_start();
-			include("donjo-app/views/statistik/peserta_bantuan_daftar.php");
+			include("donjo-app/views/statistik/peserta_bantuan.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -138,7 +138,7 @@ class Shortcode_model extends Keuangan_grafik_model {
     $lap = 'bantuan_keluarga';
 
 		ob_start();
-			include("donjo-app/views/statistik/peserta_bantuan_grafik.php");
+			include("donjo-app/views/statistik/penduduk_grafik.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -153,7 +153,7 @@ class Shortcode_model extends Keuangan_grafik_model {
     $lap = 'bantuan_keluarga';
 
 		ob_start();
-			include("donjo-app/views/statistik/peserta_bantuan_daftar.php");
+			include("donjo-app/views/statistik/peserta_bantuan.php");
 		$res = ob_get_clean();
 		return $res;
 	}

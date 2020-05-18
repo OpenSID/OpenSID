@@ -2,14 +2,14 @@
 
 <script type="text/javascript">
 	let chart;
-	const penerimaData = Object.values(<?= json_encode($stat) ?>);
-	const typegraph = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
+	const rawData = Object.values(<?= json_encode($stat) ?>);
+	const type = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
 	const legend = Boolean(!<?= ($tipe) ?>);
 	let categories = [];
 	let data = [];
 	let i = 1;
 	let status_tampilkan = true;
-	for (const stat of penerimaData) {
+	for (const stat of rawData) {
 		if (stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH' && stat.nama != 'PENERIMA') {
 			let filteredData = [stat.nama, parseInt(stat.jumlah)];
 			categories.push(i);
@@ -34,13 +34,23 @@
 		else $('#tampilkan').text('Sembunyikan Nol');
 	}
 
+	function switchType(){
+		var chartType = chart_penduduk.series[0].type;
+		chart_penduduk.series[0].update({
+			type: (chartType === 'pie') ? 'column' : 'pie'
+		});
+	}
+
 	$(document).ready(function () {
 		tampilkan_nol(false);
-		chart = new Highcharts.Chart({
+		chart_penduduk = new Highcharts.Chart({
 			chart: {
 				renderTo: 'container'
 			},
 			title: 0,
+			yAxis: {
+				showEmpty: false,
+			},
 			xAxis: {
 				categories: categories,
 			},
@@ -50,7 +60,8 @@
 				},
 				column: {
 					pointPadding: -0.1,
-					borderWidth: 0
+					borderWidth: 0,
+					showInLegend: false
 				},
 				pie: {
 					allowPointSelect: true,
@@ -62,7 +73,7 @@
 				enabled: legend
 			},
 			series: [{
-				type: typegraph,
+				type: type,
 				name: 'Jumlah Populasi',
 				shadow: 1,
 				border: 1,
@@ -105,6 +116,12 @@
 <div class="box box-danger">
 	<div class="box-header with-border">
 		<h3 class="box-title">Grafik <?= $heading ?></h3>
+		<div class="box-tools pull-right">
+			<div class="btn-group-xs">
+				<a class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
+				<a class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
+			</div>
+		</div>
 	</div>
 	<div class="box-body">
 		<div id="container"></div>
