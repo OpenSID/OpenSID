@@ -124,9 +124,6 @@ class Statistik extends Admin_Controller {
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('statistik/penduduk_pie', $data);
-		if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk')))
-			$this->load->view('statistik/peserta_bantuan', $data);
-
 		$this->load->view('footer');
 	}
 
