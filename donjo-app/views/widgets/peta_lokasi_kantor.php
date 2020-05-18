@@ -36,8 +36,8 @@
 		</button>
 		<div id="collapse2" class="panel-collapse collapse">
 			<br>
-			<?php if ($main['kantor_desa']): ?>
-				<img src="<?=LogoDesa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa " width="100%" height="150"/>
+			<?php if ($desa['kantor_desa']): ?>
+				<img class="img-responsive" src="<?=LogoDesa($desa['kantor_desa'], TRUE)?>" alt="Kantor Desa">
 				<hr>
 			<?php endif; ?>
 			<div class="info-desa">
