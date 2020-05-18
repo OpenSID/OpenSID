@@ -316,21 +316,23 @@ function favico_desa()
 }
 
 /**
- * LogoDesa
+ * LogoDesa / KantorDesa
  *
- * Mengembalikan path lengkap untuk file logo desa
+ * Mengembalikan path lengkap untuk file logo desa / kantor desa
  *
  * @access  public
  * @return  string
  */
-function LogoDesa($nama_logo)
+function LogoDesa($nama_logo, $file='opensid_logo.png')
 {
 	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo))
 	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
 	}
 
-	return $logo_desa = base_url() . 'assets/files/logo/opensid_logo.png';
+	if($file) $file = 'opensid_kantor.png';
+
+	return $logo_desa = base_url("assets/files/logo/$file");
 }
 
 /**

@@ -37,6 +37,15 @@ class Migrasi_2005_ke_2006 extends CI_model {
 				'null' => TRUE,
 				),
 			));
+		//tambah kolom kantor_desa di tabel config
+		if (!$this->db->field_exists('kantor_desa', 'config'))
+			$this->dbforge->add_column('config', array(
+				'kantor_desa' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100,
+					'null' => TRUE,
+				),
+			));
 	}
 
 	private function grup_akses_covid19()

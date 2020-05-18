@@ -33,6 +33,27 @@
 							</div>
 						</div>
 					</div>
+					<div class="box box-primary">
+						<div class="box-body box-profile">
+							<?php if ($main['kantor_desa']): ?>
+								<img class="img-responsive" src="<?=LogoDesa($main['kantor_desa'])?>" alt="Kantor Desa">
+							<?php else: ?>
+								<img class="img-responsive" src="<?= base_url('assets/files/logo/opensid_kantor.png')?>" alt="Kantor Desa">
+							<?php endif ?>
+							<br/>
+							<p class="text-center text-bold">Kantor Desa</p>
+							<p class="text-muted text-center text-red">(Kosongkan, jika kantor desa tidak berubah)</p>
+							<br/>
+							<div class="input-group input-group-sm">
+								<input type="text" class="form-control" id="file_path2" >
+								<input type="file" class="hidden" id="file2" name="kantor_desa">
+								<input type="hidden" name="old_kantor_desa" value="<?=$main['kantor_desa']?>">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">

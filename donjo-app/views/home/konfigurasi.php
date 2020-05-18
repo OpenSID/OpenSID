@@ -1,9 +1,10 @@
 <style>
 	.table
 	{
-    font-size: 12px;
+		font-size: 12px;
 	}
 </style>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Identitas <?=ucwords($this->setting->sebutan_desa)?></h1>
@@ -17,33 +18,24 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
-						<div class="box-header">
+						<div class="box-header with-border">
 							<a href="<?= site_url("hom_desa/konfigurasi_form")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Data <?=ucwords($this->setting->sebutan_desa)?></a>
-              <a href="<?=site_url("hom_desa/ajax_kantor_maps")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map-marker'></i> Lokasi Kantor <?=ucwords($this->setting->sebutan_desa)?></a>
+							<a href="<?=site_url("hom_desa/ajax_kantor_maps")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map-marker'></i> Lokasi Kantor <?=ucwords($this->setting->sebutan_desa)?></a>
 							<a href="<?=site_url("hom_desa/ajax_wilayah_maps")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map'></i> Peta Wilayah <?=ucwords($this->setting->sebutan_desa)?></a>
 						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="box-header with-border">
-										<h1 class="box-title"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h1>
-										<br>
+									<div class="box-body box-profile" style="background: url('<?=LogoDesa($main['kantor_desa'], TRUE)?>') center center;">
+										<img class="profile-user-img img-responsive" src="<?=LogoDesa($main['logo'])?>" alt="logo">
+										<h3 class="profile-username text-center" style="color: white;"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h3>
+										<p class="text-center" style="color: white;"><b><?=ucwords($this->setting->sebutan_kecamatan)?><?=$main['nama_kecamatan']?>, <?=ucwords($this->setting->sebutan_kabupaten)?> <?=$main['nama_kabupaten']?>, Provinsi <?=$main['nama_propinsi']?></b></p>
 									</div>
 								</div>
+							</div>
+							<hr>
+							<div class="row">
 								<div class="col-md-12">
-									<div class="table-responsive">
-										<table class="table table-bordered table-striped table-hover" >
-											<tr>
-												<td colspan="3">
-													<?php if ($main['logo']): ?>
-														 <img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
-													<?php else: ?>
-														<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Logo">
-  												<?php endif; ?>
-												</td>
-											</tr>
-										</table>
-									</div>
 									<div class="table-responsive">
 										<table class="table table-bordered table-striped table-hover" >
 											<tbody>
@@ -128,8 +120,8 @@
 										</table>
 									</div>
 								</div>
-					  	</div>
-					  </div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
