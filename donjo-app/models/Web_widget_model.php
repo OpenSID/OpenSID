@@ -305,7 +305,6 @@
 	public function get_widget_data(&$data)
 	{
 		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
-		$data['kantor_desa']  = $this->first_gallery_m->kantor_desa();
 		$data['hari_ini'] = $this->first_artikel_m->agenda_show('hari_ini');
 		$data['yad'] = $this->first_artikel_m->agenda_show('yad');
 		$data['lama'] = $this->first_artikel_m->agenda_show('lama');

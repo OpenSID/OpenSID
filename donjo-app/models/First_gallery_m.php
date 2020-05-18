@@ -100,17 +100,5 @@ class First_gallery_m extends CI_Model {
 		return $data;
 	}
 
-	// Untuk gambar kantor desa di widget lokasi kantor desa
-	public function kantor_desa()
-	{
-		$data = $this->db
-			->where('nama', 'kantor_desa')
-			->where('enabled', 1)
-			->get('gambar_gallery')
-			->row();
-
-		return $data;
-	}
-
 }
 
