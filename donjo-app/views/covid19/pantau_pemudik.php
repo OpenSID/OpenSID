@@ -284,7 +284,7 @@
 
 		function change_arrival_date() {
 			var retval = 0;
-			if($("#terdata").val() != "")
+			if ($("#terdata").val() != "")
 			{
 				$("#status_covid").val($("#terdata").find(':selected').data('statuscovid'));
 				var temp1 = new Date($("#terdata").find(':selected').data('tgltiba'));
@@ -329,7 +329,7 @@
 
 		$("#unique_date_select").change(function()
 		{
-			url  = $("#this_url").val();
+			url = $("#this_url").val();
 			url += "/"+$("#page").val();
 			url += "/"+$("#unique_date_select").val();
 			url += "/"+$("#unique_nik_select").val();
@@ -338,7 +338,7 @@
 
 		$("#unique_nik_select").change(function()
 		{
-			url  = $("#this_url").val();
+			url = $("#this_url").val();
 			url += "/"+$("#page").val();
 			url += "/"+$("#unique_date_select").val();
 			url += "/"+$("#unique_nik_select").val();
