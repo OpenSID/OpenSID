@@ -30,17 +30,33 @@ class Shortcode_model extends Keuangan_grafik_model {
 	private function extract_shortcode($type, $thn)
 	{
 		if ($type == 'grafik-RP-APBD')
-		{
-			return $this->grafik_rp_apbd($type, $thn);
-		}
-		elseif ($type == 'lap-RP-APBD')
-		{
-			return $this->tabel_rp_apbd($type, $thn);
-		}
+    {
+      return $this->grafik_rp_apbd($type, $thn);
+    }
+    elseif ($type == 'lap-RP-APBD')
+    {
+      return $this->tabel_rp_apbd($type, $thn);
+    }
     elseif ($type == 'lap-RP-APBD-Bidang')
-		{
-			return $this->tabel_rp_apbd_bidang($type, $thn);
-		}
+    {
+      return $this->tabel_rp_apbd_bidang($type, $thn);
+    }
+    elseif ($type == 'penerima_bantuan_penduduk_grafik')
+    {
+      return $this->penerima_bantuan_penduduk_grafik($stat=0, $tipe=0);
+    }
+    elseif ($type == 'penerima_bantuan_penduduk_daftar')
+    {
+      return $this->penerima_bantuan_penduduk_daftar($stat=0, $tipe=0);
+    }
+    elseif ($type == 'penerima_bantuan_keluarga_grafik')
+    {
+      return $this->penerima_bantuan_keluarga_grafik($stat=0, $tipe=0);
+    }
+    elseif ($type == 'penerima_bantuan_keluarga_daftar')
+    {
+      return $this->penerima_bantuan_keluarga_daftar($stat=0, $tipe=0);
+    }
 	}
 
 	private function grafik_rp_apbd($type, $thn)
@@ -82,6 +98,66 @@ class Shortcode_model extends Keuangan_grafik_model {
 		return $output;
 	}
 
+  private function penerima_bantuan_penduduk_grafik($stat=0, $tipe=0)
+	{
+    $heading = 'Penerima Bantuan (Penduduk)';
+		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_penduduk');
+		$stat = $this->laporan_penduduk_model->list_data('bantuan_penduduk',0);
+		$tipe = $tipe;
+		$st = $stat;
+    $lap = 'bantuan_penduduk';
+
+		ob_start();
+			include("donjo-app/views/statistik/penduduk_grafik.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function penerima_bantuan_penduduk_daftar($stat=0, $tipe=0)
+	{
+    $heading = 'Penerima Bantuan (Penduduk)';
+		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_penduduk');
+		$stat = $this->laporan_penduduk_model->list_data('bantuan_penduduk',0);
+		$tipe = $tipe;
+		$st = $stat;
+    $lap = 'bantuan_penduduk';
+
+		ob_start();
+			include("donjo-app/views/statistik/peserta_bantuan.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function penerima_bantuan_keluarga_grafik($stat=0, $tipe=0)
+	{
+    $heading = 'Penerima Bantuan (Keluarga)';
+		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_keluarga');
+		$stat = $this->laporan_penduduk_model->list_data('bantuan_keluarga',0);
+		$tipe = $tipe;
+		$st = $stat;
+    $lap = 'bantuan_keluarga';
+
+		ob_start();
+			include("donjo-app/views/statistik/penduduk_grafik.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function penerima_bantuan_keluarga_daftar($stat=0, $tipe=0)
+	{
+    $heading = 'Penerima Bantuan (Keluarga)';
+		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_keluarga');
+		$stat = $this->laporan_penduduk_model->list_data('bantuan_keluarga',0);
+		$tipe = $tipe;
+		$st = $stat;
+    $lap = 'bantuan_keluarga';
+
+		ob_start();
+			include("donjo-app/views/statistik/peserta_bantuan.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
 	// Shortcode untuk list artikel
 	public function convert_sc_list($str = '')
 	{
@@ -110,6 +186,26 @@ class Shortcode_model extends Keuangan_grafik_model {
 		elseif ($type == "grafik-RP-APBD")
 		{
 			$output = "<i class='fa fa-bar-chart'></i> Grafik APBDes TA. " . $thn . ", ";
+			return $output;
+		}
+    elseif ($type == "penerima_bantuan_penduduk_grafik")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Penerima Bantuan (Penduduk)";
+			return $output;
+		}
+    elseif ($type == "penerima_bantuan_penduduk_daftar")
+		{
+			$output = "<i class='fa fa-table'></i> Penerima Bantuan (Penduduk)";
+			return $output;
+		}
+    elseif ($type == "penerima_bantuan_keluarga_grafik")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Penerima Bantuan (Keluarga)";
+			return $output;
+		}
+    elseif ($type == "penerima_bantuan_keluarga_daftar")
+		{
+			$output = "<i class='fa fa-table'></i> Penerima Bantuan (Keluarga)";
 			return $output;
 		}
 	}
