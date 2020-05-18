@@ -36,8 +36,10 @@
 		</button>
 		<div id="collapse2" class="panel-collapse collapse">
 			<br>
-			<img src="<?=LogoDesa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa " width="100%" height="150"/>
-			<hr>
+			<?php if ($main['kantor_desa']): ?>
+				<img src="<?=LogoDesa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa " width="100%" height="150"/>
+				<hr>
+			<?php endif; ?>
 			<div class="info-desa">
 				<table width="100%">
 					<tr style="border-bottom: 1px solid #ddd;">

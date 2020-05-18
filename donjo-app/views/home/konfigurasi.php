@@ -29,7 +29,7 @@
 									<div class="box-body box-profile" style="background: url('<?=LogoDesa($main['kantor_desa'], TRUE)?>') center center;">
 										<img class="profile-user-img img-responsive" src="<?=LogoDesa($main['logo'])?>" alt="logo">
 										<h3 class="profile-username text-center" style="color: white;"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h3>
-										<p class="text-center" style="color: white;"><b><?=ucwords($this->setting->sebutan_kecamatan)?><?=$main['nama_kecamatan']?>, <?=ucwords($this->setting->sebutan_kabupaten)?> <?=$main['nama_kabupaten']?>, Provinsi <?=$main['nama_propinsi']?></b></p>
+										<p class="text-center" style="color: white;"><b><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$main['nama_kecamatan']?>, <?=ucwords($this->setting->sebutan_kabupaten)?> <?=$main['nama_kabupaten']?>, Provinsi <?=$main['nama_propinsi']?></b></p>
 									</div>
 								</div>
 							</div>
