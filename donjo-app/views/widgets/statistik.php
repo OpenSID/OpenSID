@@ -41,11 +41,11 @@
 						{
 							categories:
 							[
-							<?php foreach($stat_widget as $data): ?>
-								<?php if ($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"): ?>
-									['<?= $data['jumlah']?> <br> <?= $data['nama']?>'],
-								<?php endif; ?>
-							<?php endforeach; ?>
+								<?php foreach($stat_widget as $data): ?>
+									<?php if ($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"): ?>
+										['<?= $data['jumlah']?> <br> <?= $data['nama']?>'],
+									<?php endif; ?>
+								<?php endforeach; ?>
 							]
 						},
 						legend:
@@ -69,11 +69,11 @@
 							type: 'column',
 							name: 'Populasi',
 							data: [
-							<?php foreach ($stat_widget as $data): ?>
-								<?php if ($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"): ?>
-									['<?= $data['nama']?>',<?= $data['jumlah']?>],
-								<?php endif; ?>
-							<?php endforeach; ?>
+								<?php foreach ($stat_widget as $data): ?>
+									<?php if ($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"): ?>
+										['<?= $data['nama']?>',<?= $data['jumlah']?>],
+									<?php endif; ?>
+								<?php endforeach; ?>
 							]
 						}]
 					});
