@@ -36,39 +36,43 @@
 		</button>
 		<div id="collapse2" class="panel-collapse collapse">
 			<br>
-			<?php $gambar = LOKASI_GALERI . "sedang_" . $kantor_desa->gambar;
-			if (is_file($gambar)): ?>
-				<img src="<?php echo base_url($gambar)?>" alt="Kantor Desa " width="100%" height="150"/>
-			<?php endif; ?>
+			<img src="<?=LogoDesa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa " width="100%" height="150"/>
 			<hr>
 			<div class="info-desa">
 				<table width="100%">
 					<tr style="border-bottom: 1px solid #ddd;">
 						<td class="label-info-desa" width="25%" height="30px">Alamat</td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%"><?php echo $desa['alamat_kantor']?></td>
 					</tr>
 					<tr style="border-bottom: 1px solid #ddd;">
 						<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_desa)." "?></td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_desa']?></td>
 					</tr>
 					<tr style="border-bottom: 1px solid #ddd;">
 						<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kecamatan']?></td>
 					</tr>
 					<tr style="border-bottom: 1px solid #ddd;">
 						<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_kabupaten)?></td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kabupaten']?></td>
 					</tr>
 					<tr style="border-bottom: 1px solid #ddd;">
 						<td class="label-info-desa" width="25%" height="30px">Kodepos</td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['kode_pos']?></td>
 					</tr>
 					<tr style="border-bottom: 1px solid #ddd;">
 						<td class="label-info-desa" width="25%" height="30px">Telepon</td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['telepon']?></td>
 					</tr>
 					<tr>
 						<td class="label-info-desa" width="25%" height="40px">Email</td>
+						<td class="label-info-desa" width="5%" height="30px">:</td>
 						<td class="isi-info-desa" width="70%" height="40px"><?php echo $desa['email_desa']?></td>
 					</tr>
 				</table>
