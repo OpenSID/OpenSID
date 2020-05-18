@@ -27,6 +27,7 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$data['o'] = $o;
@@ -97,6 +98,7 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
@@ -117,6 +119,7 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['lap'] = $lap;
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$header = $this->header_model->get_data();
