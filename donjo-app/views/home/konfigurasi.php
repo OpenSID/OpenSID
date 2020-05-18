@@ -40,6 +40,9 @@
 										<table class="table table-bordered table-striped table-hover" >
 											<tbody>
 												<tr>
+													<th colspan="3" class="subtitle_head"><strong><?=strtoupper($this->setting->sebutan_desa)?></strong></th>
+												</tr>
+												<tr>
 													<td width="300">Nama <?=ucwords($this->setting->sebutan_desa)?></td><td width="1">:</td>
 													<td><?=$main["nama_desa"]?></td>
 												</tr>
@@ -76,7 +79,7 @@
 													<td><?=$main["website"]?></td>
 												</tr>
 												<tr>
-													<th colspan="3" class="subtitle_head"><strong><?=ucwords($this->setting->sebutan_kecamatan)?></strong></th>
+													<th colspan="3" class="subtitle_head"><strong><?=strtoupper($this->setting->sebutan_kecamatan)?></strong></th>
 												</tr>
 												<tr>
 													<td width="300">Nama <?=ucwords($this->setting->sebutan_kecamatan)?></td><td width="1">:</td>
@@ -95,7 +98,7 @@
 													<td><?=$main["nip_kepala_camat"]?></td>
 												</tr>
 												<tr>
-													<th colspan="3" class="subtitle_head"><strong><?=ucwords($this->setting->sebutan_kabupaten)?></strong></th>
+													<th colspan="3" class="subtitle_head"><strong><?=strtoupper($this->setting->sebutan_kabupaten)?></strong></th>
 												</tr>
 												<tr>
 													<td width="300">Nama <?=ucwords($this->setting->sebutan_kabupaten)?></td><td width="1">:</td>
@@ -106,7 +109,7 @@
 													<td><?=$main["kode_kabupaten"]?></td>
 												</tr>
 												<tr>
-													<th colspan="3" class="subtitle_head"><strong>Provinsi</strong></th>
+													<th colspan="3" class="subtitle_head"><strong>PROVINSI</strong></th>
 												</tr>
 												<tr>
 													<td width="300">Provinsi</td><td width="1">:</td>
