@@ -4,7 +4,8 @@ class Migrasi_2005_ke_2006 extends CI_model {
 	public function up()
 	{
 		$this->grup_akses_covid19();
-		$this->bug_fix_ref_status_covid19(); // untuk yang sudah terlanjur mengkosongkan DB sebelum PR ini disetujui
+		$this->load->model('migrations/migrasi_2004_ke_2005');
+		$this->migrasi_2004_ke_2005->up(); // untuk yang sudah terlanjur mengkosongkan DB sebelum kosongkan_db diperbaiki
 
 		// Ubah nama kode status penduduk
 		$this->db->where('id', 2)
@@ -51,44 +52,6 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		foreach ($data as $grup)
 		{
 			$sql = $this->db->insert_string('user_grup', $grup);
-			$sql .= " ON DUPLICATE KEY UPDATE
-			id = VALUES(id),
-			nama = VALUES(nama)";
-			$this->db->query($sql);
-		}
-	}
-
-	private function bug_fix_ref_status_covid19()
-	{
-		// Tambah Data di Tabel ref_status_covid
-		$data = array();
-		$data[] = array(
-			'id'=>'1',
-			'nama' => 'ODP');
-
-		$data[] = array(
-			'id'=>'2',
-			'nama' => 'PDP');
-
-		$data[] = array(
-			'id'=>'3',
-			'nama' => 'ODR');
-
-		$data[] = array(
-			'id'=>'4',
-			'nama' => 'OTG');
-
-		$data[] = array(
-			'id'=>'5',
-			'nama' => 'POSITIF');
-
-		$data[] = array(
-			'id'=>'6',
-			'nama' => 'DLL');
-
-		foreach ($data as $status)
-		{
-			$sql = $this->db->insert_string('ref_status_covid', $status);
 			$sql .= " ON DUPLICATE KEY UPDATE
 			id = VALUES(id),
 			nama = VALUES(nama)";
