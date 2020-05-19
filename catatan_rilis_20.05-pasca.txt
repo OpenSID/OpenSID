@@ -51,6 +51,8 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 45. #3083: Sediakan tombol cetak daftar Pemudik dan Pemantauan Siaga Covid-19, sesuai dengan daftar unduh.
 46. #3088: Perbaiki gagal CSRF pada form Surat Masuk dan Surat Keluar. [bug-fix]
 47. Sekarang bisa sisipkan grafik dan tabel Penerima Bantuan sebagai konten artikel.
+48. Widget Statistik dibuat lebih tinggi untuk memperbaiki tampilian grafik jika data penduduk banyak.
+49. Perbaiki tombol medsos di footer tema 'hadakewa' supaya sesuai dengan setting Admin Web > Media Sosial.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
