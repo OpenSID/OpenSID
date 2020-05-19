@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Database_model extends CI_Model {
 
@@ -106,7 +106,7 @@ class Database_model extends CI_Model {
 				if (function_exists(__NAMESPACE__ .'\Database_model::'.$migrate))
 					call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
 				else
-					$this->jalankan_migrasi($migrate);					
+					$this->jalankan_migrasi($migrate);
 			}
 		}
 		else
@@ -3614,6 +3614,7 @@ class Database_model extends CI_Model {
 			"ref_dokumen",
 			"ref_pindah",
 			"ref_syarat_surat",
+			"ref_status_covid",
 			"setting_modul",
 			"setting_aplikasi",
 			"setting_aplikasi_options",
