@@ -10,22 +10,34 @@ class Web_sosmed_model extends CI_Model {
 	public function get_sosmed($id=0)
 	{
 		$data = $this->db->where('id', $id)->get('media_sosial')->row_array();
-			
+
 		return $data;
 	}
 
 	public function list_sosmed()
 	{
 		$data = $this->db->get('media_sosial')->result_array();
-		
+
 		return $data;
 	}
 
-	public function update($id=0)
+	public function get_id($sosmed = 'facebook')
+	{
+		$list_sosmed = $this->list_sosmed();
+
+		foreach ($list_sosmed as $list)
+		{
+			$nama = str_replace(' ', '-', strtolower($list['nama']));
+
+			if($nama === $sosmed) return $list['id'];
+		}
+	}
+
+	public function update($id=1)
 	{
 		$data = $this->input->post();
 		$link = trim($this->input->post('link'));
-		
+
 		switch ($id)
 		{
 			case '6':

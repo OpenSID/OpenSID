@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Link Akun Facebook</label>
+				<label class="col-sm-3 control-label">Link Akun Google</label>
 				<div class="col-sm-9">
 					<textarea id="link" name="link" class="form-control input-sm" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 				</div>
