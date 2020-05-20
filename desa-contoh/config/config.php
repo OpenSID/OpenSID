@@ -35,4 +35,9 @@
 	Setting untuk tampilkan grafik APBDes di Footer Halaman Muka atau Semua Halaman web. Untuk menyembunyikan ganti menjadi nilai 0;
 */
 	$config['apbdes_footer'] = 1; // Tampilkan grafik APBDes di halaman muka saja
-	$config['apbdes_footer_all'] = 0; // Tampilkan grafik APBDes di semua halaman
+	$config['apbdes_footer_all'] = 1; // Tampilkan grafik APBDes di semua halaman
+
+/*
+	Setting untuk tampilkan daftar penerima bantuan statistik halaman web. Untuk menyembunyikan ganti menjadi nilai 0;
+*/
+	$config['daftar_bantuan'] = 1;

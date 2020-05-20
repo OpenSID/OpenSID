@@ -54,6 +54,8 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 48. Widget Statistik dibuat lebih tinggi untuk memperbaiki tampilian grafik jika data penduduk banyak.
 49. Perbaiki tombol medsos di footer tema 'hadakewa' supaya sesuai dengan setting Admin Web > Media Sosial.
 50. Perbaiki tautan di widget medsos dan sediakan opsi tautan ke personal/group akun Facebook.
+51. #3095: Daftar penerima program bantuan pada statistik di web dapat disembunyikan/ditampilkan melalui setting di desa/config/config.php.
+
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
