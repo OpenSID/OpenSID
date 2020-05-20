@@ -82,10 +82,6 @@ class Web_sosmed_model extends CI_Model {
 				$link = 'https://twitter.com/' . $link;
 				break;
 
-			case ($id == 3) :
-				$link = 'mailto:' . $link;
-				break;
-
 			case ($id == 4) :
 				$link = 'https://www.youtube.com/channel/' . $link;
 				break;
