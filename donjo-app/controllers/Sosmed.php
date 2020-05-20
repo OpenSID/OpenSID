@@ -25,6 +25,7 @@ class Sosmed extends Admin_Controller
 		$data['list_sosmed'] = $this->web_sosmed_model->list_sosmed();
 		$data['form_action'] = site_url("sosmed/update/$sosmed");
 		$header = $this->header_model->get_data();
+		$this->session->unset_userdata('sosmed');
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
