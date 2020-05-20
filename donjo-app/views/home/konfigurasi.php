@@ -1,10 +1,25 @@
 <style>
-	.table
-	{
+	.table {
 		font-size: 12px;
 	}
-</style>
 
+	.box-profile {
+		width: 100%;
+		height: 300px;
+		background: url('<?=gambar_desa($main['kantor_desa'], TRUE)?>');
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+
+	.profile-user-img {
+		padding-top: 60px;
+		border: 0px;
+	}
+
+	.detail {
+		color: white;
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Identitas <?=ucwords($this->setting->sebutan_desa)?></h1>
@@ -26,10 +41,10 @@
 						<div class="box-body">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="box-body box-profile" style="background: url('<?=gambar_desa($main['kantor_desa'], TRUE)?>') center center;">
+									<div class="box-body box-profile">
 										<img class="profile-user-img img-responsive" src="<?=gambar_desa($main['logo'])?>" alt="logo">
-										<h3 class="profile-username text-center" style="color: white;"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h3>
-										<p class="text-center" style="color: white;"><b><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$main['nama_kecamatan']?>, <?=ucwords($this->setting->sebutan_kabupaten)?> <?=$main['nama_kabupaten']?>, Provinsi <?=$main['nama_propinsi']?></b></p>
+										<h3 class="profile-username text-center detail"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h3>
+										<p class="text-center detail"><b><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$main['nama_kecamatan']?>, <?=ucwords($this->setting->sebutan_kabupaten)?> <?=$main['nama_kabupaten']?>, Provinsi <?=$main['nama_propinsi']?></b></p>
 									</div>
 								</div>
 							</div>

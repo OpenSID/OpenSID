@@ -22,8 +22,8 @@
 		$data['map_tipe'] = 'roadmap';
 		unset($data['old_logo']);
 		unset($data['old_kantor_desa']);
-		$data['logo'] = $this->uploadLogo('logo');
-		$data['kantor_desa'] = $this->uploadLogo('kantor_desa');
+		$data['logo'] = $this->upload_gambar_desa('logo');
+		$data['kantor_desa'] = $this->upload_gambar_desa('kantor_desa');
 		if (!empty($data['logo']))
 		{
 			// Ada logo yang berhasil diunggah --> simpan ukuran 100 x 100
@@ -59,8 +59,8 @@
 		$_SESSION['error_msg'] = '';
 
 		$data = $this->bersihkan_post();
-		$data['logo'] = $this->uploadLogo('logo');
-		$data['kantor_desa'] = $this->uploadLogo('kantor_desa');
+		$data['logo'] = $this->upload_gambar_desa('logo');
+		$data['kantor_desa'] = $this->upload_gambar_desa('kantor_desa');
 
 		if (!empty($data['logo']))
 		{
@@ -95,7 +95,7 @@
 			- success: nama berkas yang diunggah
 			- fail: NULL
 	*/
-	private function uploadLogo($jenis)
+	private function upload_gambar_desa($jenis)
 	{
 		$this->load->library('upload');
 		$this->uploadConfig = array(
