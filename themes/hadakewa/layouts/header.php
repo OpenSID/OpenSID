@@ -88,7 +88,7 @@
 						<div id="divlogo-img">
 							<div class="intube">
 								<a href="<?= site_url(); ?>first/">
-								<img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"/></a>
+								<img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"/></a>
 							</div>
 						</div>
 						<div id="divlogo-txt">

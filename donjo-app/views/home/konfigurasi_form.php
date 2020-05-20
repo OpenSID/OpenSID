@@ -14,7 +14,7 @@
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
+							<img class="profile-user-img img-responsive img-circle" src="<?=gambar_desa($main['logo'])?>" alt="Logo">
 							<br/>
 							<p class="text-center text-bold">Lambang Desa</p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
@@ -31,7 +31,7 @@
 					</div>
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<img class="img-responsive" src="<?=LogoDesa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa">
+							<img class="img-responsive" src="<?=gambar_desa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa">
 							<br/>
 							<p class="text-center text-bold">Kantor Desa</p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika kantor desa tidak berubah)</p>

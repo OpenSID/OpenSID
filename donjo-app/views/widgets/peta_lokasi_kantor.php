@@ -49,7 +49,7 @@
 		<div id="collapse2" class="panel-collapse collapse">
 			<br>
 			<?php if ($desa['kantor_desa']): ?>
-				<img class="img-responsive" src="<?=LogoDesa($desa['kantor_desa'], TRUE)?>" alt="Kantor Desa">
+				<img class="img-responsive" src="<?=gambar_desa($desa['kantor_desa'], TRUE)?>" alt="Kantor Desa">
 				<hr>
 			<?php endif; ?>
 			<div class="info-desa">
