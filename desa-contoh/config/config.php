@@ -26,10 +26,10 @@
 	Untuk menampilkan data provinsi, gunakan setting 'provinsi_covid'.
 	Kode provinsi sesuai dengan yg di http://pusatkrisis.kemkes.go.id/daftar-kode-provinsi
 */
-	$config['covid_data'] = 0;
+	$config['covid_data'] = 1;
 	$config['provinsi_covid'] = 51; // kode provinsi. Comment baris ini untuk menampilkan data Indonesia
 	$config['covid_desa'] = 1; // Tampilkan status Covid-19 dari data OpenSID desa
-	$config['covid_rss'] = 0; // Tampilkan rss feed https://www.covid19.go.id/feed/ di halaman muka
+	$config['covid_rss'] = 1; // Tampilkan rss feed https://www.covid19.go.id/feed/ di halaman muka
 
 /*
 	Setting untuk tampilkan grafik APBDes di Footer Halaman Muka atau Semua Halaman web. Untuk menyembunyikan ganti menjadi nilai 0;
@@ -40,4 +40,4 @@
 /*
 	Setting untuk tampilkan daftar penerima bantuan statistik halaman web. Untuk menyembunyikan ganti menjadi nilai 0;
 */
-	$config['daftar_bantuan'] = 0;
+	$config['daftar_bantuan'] = 1;
