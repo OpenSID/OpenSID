@@ -13,7 +13,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Link Username Facebook</label>
 				<div class="col-sm-9">
-					<textarea id="link" name="link" class="form-control input-sm" placeholder="" style="height: 200px;"><?php $main and print($main['link']) ?></textarea>
+					<textarea id="link" name="link" class="form-control input-sm link" style="height: 200px; resize: none;">><?php $main and print($main['link']) ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">

@@ -6,7 +6,7 @@
 				<div class="col-sm-9">
 					<textarea id="link" name="link" class="form-control input-sm" placeholder="Contoh : https://twitter.com/opensid
 
-Isi kolom ini dengan akun : opensid" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+Isi kolom ini dengan akun : opensid" style="height: 200px; resize: none;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">
