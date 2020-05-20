@@ -20,10 +20,8 @@ class Sosmed extends Admin_Controller
 		else
 			$sosmed = $this->session->userdata('sosmed');
 
-		$id = $this->web_sosmed_model->get_id($sosmed);
-
 		$data['media'] = $sosmed;
-		$data['main'] = $this->web_sosmed_model->get_sosmed($id);
+		$data['main'] = $this->web_sosmed_model->get_sosmed($sosmed);
 		$data['list_sosmed'] = $this->web_sosmed_model->list_sosmed();
 		$data['form_action'] = site_url("sosmed/update/$sosmed");
 		$header = $this->header_model->get_data();
@@ -41,11 +39,9 @@ class Sosmed extends Admin_Controller
 		redirect('sosmed');
 	}
 
-	public function update($sosmed = 'facebook')
+	public function update($sosmed)
 	{
-		$id = $this->web_sosmed_model->get_id($sosmed);
-
-		$this->web_sosmed_model->update($id);
+		$this->web_sosmed_model->update($sosmed);
 
 		redirect('sosmed');
 	}

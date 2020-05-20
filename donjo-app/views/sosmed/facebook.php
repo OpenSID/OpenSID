@@ -2,9 +2,18 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Link Akun Facebook</label>
+				<label class="col-sm-3 control-label">Tipe</label>
 				<div class="col-sm-9">
-					<textarea id="link" name="link" class="form-control input-sm" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+					<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onchange="ubah_pesan(this.value);">
+						<option value="1" <?php selected($main['tipe'], 1) ?>>Personal / Halaman</option>
+						<option value="2" <?php selected($main['tipe'], 2) ?>>Group</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Link Username Facebook</label>
+				<div class="col-sm-9">
+					<textarea id="link" name="link" class="form-control input-sm" placeholder="" style="height: 200px;"><?php $main and print($main['link']) ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">

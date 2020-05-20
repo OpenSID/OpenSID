@@ -43,6 +43,25 @@
 	</section>
 </div>
 <script>
+	<?php if ($media === 'facebook'): ?>
+		$('document').ready(function()
+		{
+			$('#tipe').change(); // Pertama kali buka form
+		});
+
+		function ubah_pesan(tipe)
+		{
+			if (tipe == 1)
+			{
+				$('#link').attr('placeholder', ' Personal / Halaman, contoh : https://web.facebook.com/tokoopendesa \n\n Isi kolom ini dengan username : tokoopendesa');
+			}
+			else
+			{
+				$('#link').attr('placeholder', ' Group, contoh : https://web.facebook.com/groups/opensid \n\n Isi kolom ini dengan username : opensid');
+			}
+		};
+	<?php endif ?>
+
 	<?php if ($media === 'whatsapp'): ?>
 		$('document').ready(function()
 		{
@@ -53,7 +72,7 @@
 		{
 			if (tipe == 1)
 			{
-				$('#link').attr('placeholder', ' Personal chat, contoh : 0851234567890 (Nomor HP)); \n\n Isi kolom ini dengan nomor HP 0851234567890');
+				$('#link').attr('placeholder', ' Personal chat, contoh : 0851234567890 (Nomor HP)) \n\n Isi kolom ini dengan nomor HP : 0851234567890');
 			}
 			else
 			{

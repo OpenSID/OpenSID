@@ -4,7 +4,9 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Link Akun Youtube</label>
 				<div class="col-sm-9">
-					<textarea id="link" name="link" class="form-control input-sm" placeholder="Link Media Sosial" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+					<textarea id="link" name="link" class="form-control input-sm" placeholder="Contoh : https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q
+
+Isi kolom ini dengan nama channel : UCvZuSYtrWYuE8otM4SsdT0Q" style="height: 200px;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">
