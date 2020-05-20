@@ -21,7 +21,9 @@
 		$data['zoom'] = '19';
 		$data['map_tipe'] = 'roadmap';
 		unset($data['old_logo']);
-		$data['logo'] = $this->uploadLogo();
+		unset($data['old_kantor_desa']);
+		$data['logo'] = $this->upload_gambar_desa('logo');
+		$data['kantor_desa'] = $this->upload_gambar_desa('kantor_desa');
 		if (!empty($data['logo']))
 		{
 			// Ada logo yang berhasil diunggah --> simpan ukuran 100 x 100
@@ -35,6 +37,7 @@
 			unset($data['logo']);
 		}
 		unset($data['file_logo']);
+		unset($data['file_kantor_desa']);
 		$outp = $this->db->insert('config', $data);
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -56,7 +59,8 @@
 		$_SESSION['error_msg'] = '';
 
 		$data = $this->bersihkan_post();
-		$data['logo'] = $this->uploadLogo();
+		$data['logo'] = $this->upload_gambar_desa('logo');
+		$data['kantor_desa'] = $this->upload_gambar_desa('kantor_desa');
 
 		if (!empty($data['logo']))
 		{
@@ -74,6 +78,8 @@
 		}
 		unset($data['file_logo']);
 		unset($data['old_logo']);
+		unset($data['file_kantor_desa']);
+		unset($data['old_kantor_desa']);
 		$this->db->where('id',$id)->update('config', $data);
 
 		$pamong['pamong_nama'] = $data['nama_kepala_desa'];
@@ -89,7 +95,7 @@
 			- success: nama berkas yang diunggah
 			- fail: NULL
 	*/
-	private function uploadLogo()
+	private function upload_gambar_desa($jenis)
 	{
 		$this->load->library('upload');
 		$this->uploadConfig = array(
@@ -98,13 +104,13 @@
 			'max_size' => max_upload() * 1024,
 		);
 		// Adakah berkas yang disertakan?
-		$adaBerkas = !empty($_FILES['logo']['name']);
+		$adaBerkas = !empty($_FILES[$jenis]['name']);
 		if ($adaBerkas !== TRUE)
 		{
 			return NULL;
 		}
 		// Tes tidak berisi script PHP
-		if (isPHP($_FILES['logo']['tmp_name'], $_FILES['logo']['name']))
+		if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jeniss]['name']))
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 			$_SESSION['success'] = -1;
@@ -115,7 +121,7 @@
 		// Inisialisasi library 'upload'
 		$this->upload->initialize($this->uploadConfig);
 		// Upload sukses
-		if ($this->upload->do_upload('logo'))
+		if ($this->upload->do_upload($jenis))
 		{
 			$uploadData = $this->upload->data();
 			// Buat nama file unik agar url file susah ditebak dari browser

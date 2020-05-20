@@ -18,7 +18,7 @@
 				</table>
 				<table width="100%" style="border: solid 0px black; text-align: center;">
 					<tr>
-						<td align="center"><img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
+						<td align="center"><img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
 					</tr>
 					<tr>
 						</td>
