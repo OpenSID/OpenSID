@@ -4,9 +4,9 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Link Akun Instagram</label>
 				<div class="col-sm-9">
-					<textarea id="link" name="link" class="form-control input-sm" placeholder="Contoh : https://www.instagram.com/opensid/
+					<textarea id="link" name="link" class="form-control input-sm" placeholder="Contoh : https://www.instagram.com/OpenDesa/
 
-Isi kolom ini dengan nama instagram : opensid" style="height: 200px; resize: none;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
+Isi kolom ini dengan nama instagram : OpenDesa" style="height: 200px; resize: none;"><?php if ($main): ?><?=$main['link'];?><?php endif; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">

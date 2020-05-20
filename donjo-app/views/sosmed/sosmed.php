@@ -76,7 +76,7 @@
 			}
 			else
 			{
-				$('#link').attr('placeholder', ' Group chat, contoh : https://chat.whatsapp.com/BeHlxYwFPr8E4yibTFZjKx \n\n Isi kolom ini dengan id chat : BeHlxYwFPr8E4yibTFZjKx');
+				$('#link').attr('placeholder', ' Group chat, contoh : https://chat.whatsapp.com/CryQ1VyOXghEVJUTFpwFPb \n\n Isi kolom ini dengan id chat : CryQ1VyOXghEVJUTFpwFPb');
 			}
 		};
 	<?php endif ?>
@@ -91,7 +91,7 @@
 		{
 			if (tipe == 1)
 			{
-				$('#link').attr('placeholder', ' Personal chat, contoh  : https://t.me/@opensid \n\n Isi kolom ini dengan username : opensid');
+				$('#link').attr('placeholder', ' Personal chat, contoh  : https://t.me/OpenDesa \n\n Isi kolom ini dengan username : OpenDesa');
 			}
 			else
 			{
