@@ -15,10 +15,9 @@ class Sosmed extends Admin_Controller
 
 	public function index()
 	{
-		if(isset($sosmed))
-			$sosmed = 'facebook';
-		else
-			$sosmed = $this->session->userdata('sosmed');
+		$sosmed = $this->session->userdata('sosmed');
+
+		if(!$sosmed) $sosmed = 'facebook';
 
 		$data['media'] = $sosmed;
 		$data['main'] = $this->web_sosmed_model->get_sosmed($sosmed);
