@@ -1,23 +1,35 @@
 <style type="text/css">
-	button.btn
-	{
+	button.btn {
 		margin-left: 0px;
 	}
 
-	#collapse2
-	{
+	#collapse2 {
 		margin-top: 5px;
 	}
 
-	button[aria-expanded=true] .fa-chevron-down
-	{
+	button[aria-expanded=true] .fa-chevron-down {
 		display: none;
 	}
 
-	button[aria-expanded=false] .fa-chevron-up
-	{
+	button[aria-expanded=false] .fa-chevron-up {
 		display: none;
 	}
+
+	.tabel-info {
+		width: 100%;
+	}
+
+	.tabel-info, tr {
+		border-bottom: 1px;
+		border: 0px solid;
+	}
+
+	tabel-info, td {
+		border: 0px solid;
+		height: 30px;
+		padding: 5px;
+	}
+
 </style>
 <!-- widget Peta Lokasi Kantor Desa -->
 <div class="box box-primary box-solid">
@@ -41,41 +53,41 @@
 				<hr>
 			<?php endif; ?>
 			<div class="info-desa">
-				<table width="100%">
-					<tr style="border-bottom: 1px solid #ddd;">
-						<td class="label-info-desa" width="25%" height="30px">Alamat</td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%"><?php echo $desa['alamat_kantor']?></td>
-					</tr>
-					<tr style="border-bottom: 1px solid #ddd;">
-						<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_desa)." "?></td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_desa']?></td>
-					</tr>
-					<tr style="border-bottom: 1px solid #ddd;">
-						<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_kecamatan)?></td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kecamatan']?></td>
-					</tr>
-					<tr style="border-bottom: 1px solid #ddd;">
-						<td class="label-info-desa" width="25%" height="30px"><?php echo ucwords($this->setting->sebutan_kabupaten)?></td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['nama_kabupaten']?></td>
-					</tr>
-					<tr style="border-bottom: 1px solid #ddd;">
-						<td class="label-info-desa" width="25%" height="30px">Kodepos</td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['kode_pos']?></td>
-					</tr>
-					<tr style="border-bottom: 1px solid #ddd;">
-						<td class="label-info-desa" width="25%" height="30px">Telepon</td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%" height="30px"><?php echo $desa['telepon']?></td>
+				<table class="table-info">
+					<tr>
+						<td width="25%">Alamat</td>
+						<td>:</td>
+						<td width="70%"><?=$desa['alamat_kantor']?></td>
 					</tr>
 					<tr>
-						<td class="label-info-desa" width="25%" height="40px">Email</td>
-						<td class="label-info-desa" width="5%" height="30px">:</td>
-						<td class="isi-info-desa" width="70%" height="40px"><?php echo $desa['email_desa']?></td>
+						<td width="25%"><?=ucwords($this->setting->sebutan_desa)." "?></td>
+						<td>:</td>
+						<td width="70%"><?=$desa['nama_desa']?></td>
+					</tr>
+					<tr>
+						<td width="25%"><?=ucwords($this->setting->sebutan_kecamatan)?></td>
+						<td>:</td>
+						<td width="70%"><?=$desa['nama_kecamatan']?></td>
+					</tr>
+					<tr>
+						<td width="25%"><?=ucwords($this->setting->sebutan_kabupaten)?></td>
+						<td>:</td>
+						<td width="70%"><?=$desa['nama_kabupaten']?></td>
+					</tr>
+					<tr>
+						<td width="25%">Kodepos</td>
+						<td>:</td>
+						<td width="70%"><?=$desa['kode_pos']?></td>
+					</tr>
+					<tr>
+						<td width="25%">Telepon</td>
+						<td>:</td>
+						<td width="70%"><?=$desa['telepon']?></td>
+					</tr>
+					<tr>
+						<td width="25%">Email</td>
+						<td>:</td>
+						<td width="70%"><?=$desa['email_desa']?></td>
 					</tr>
 				</table>
 			</div>
