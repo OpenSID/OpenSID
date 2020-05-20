@@ -1,10 +1,10 @@
-<!-- Perubahan script coding untuk bisa menampilkan halaman edit form konfigurasi bentuk tampilan bootstrap (AdminLTE)  -->
+<!-- Perubahan script coding untuk bisa menampilkan halaman edit form konfigurasi bentuk tampilan bootstrap (AdminLTE) -->
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Identitas <?=ucwords($this->setting->sebutan_desa)?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-      <li><a href="<?=site_url('hom_desa/konfigurasi')?>"></i> Identitas <?=ucwords($this->setting->sebutan_desa)?></a></li>
+			<li><a href="<?=site_url('hom_desa/konfigurasi')?>"></i> Identitas <?=ucwords($this->setting->sebutan_desa)?></a></li>
 			<li class="active">Ubah Identitas <?=ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>
@@ -14,13 +14,9 @@
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<?php if ($main['logo']): ?>
-								<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
-							<?php else: ?>
-								<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Logo">
-							<?php endif ?>
+							<img class="profile-user-img img-responsive img-circle" src="<?=gambar_desa($main['logo'])?>" alt="Logo">
 							<br/>
-							<p class="text-center text-bold">Lambang Desa</p>
+							<p class="text-center text-bold">Lambang <?=ucwords($this->setting->sebutan_desa)?></p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
 							<br/>
 							<div class="input-group input-group-sm">
@@ -28,7 +24,24 @@
 								<input type="file" class="hidden" id="file" name="logo">
 								<input type="hidden" name="old_logo" value="<?=$main['logo']?>">
 								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+									<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="box box-primary">
+						<div class="box-body box-profile">
+							<img class="img-responsive" src="<?=gambar_desa($main['kantor_desa'], TRUE)?>" alt="Kantor <?=ucwords($this->setting->sebutan_desa)?>">
+							<br/>
+							<p class="text-center text-bold">Kantor <?=ucwords($this->setting->sebutan_desa)?></p>
+							<p class="text-muted text-center text-red">(Kosongkan, jika kantor <?=($this->setting->sebutan_desa)?> tidak berubah)</p>
+							<br/>
+							<div class="input-group input-group-sm">
+								<input type="text" class="form-control" id="file_path2" >
+								<input type="file" class="hidden" id="file2" name="kantor_desa">
+								<input type="hidden" name="old_kantor_desa" value="<?=$main['kantor_desa']?>">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 								</span>
 							</div>
 						</div>
@@ -61,7 +74,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kepala_desa">Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm  required" type="text" placeholder="Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_kepala_desa"]?>"></input>
+									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm required" type="text" placeholder="Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_kepala_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -133,7 +146,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
 								<div class="col-sm-4">
-									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));" style="width: 100%;">
+									<select name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));" style="width: 100%;">
 										<option value="">Pilih Provinsi</option>
 										<?php foreach ($list_provinsi AS $data): ?>
 											<option value="<?=$data['nama']?>" data-kode="<?=$data['kode']?>" <?php if (strtolower($main['nama_propinsi'])== strtolower($data['nama'])): ?>selected<?php endif ?>><?=$data['nama']?></option>

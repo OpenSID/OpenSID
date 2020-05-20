@@ -68,7 +68,7 @@
 				<table width="100%">
 					<tr>
 						<td class="nostretch">
-							<img src="<?= LogoDesa($desa['logo']);?>" alt=""  width="100" height="80" class="logo">
+							<img src="<?= gambar_desa($desa['logo']);?>" alt=""  width="100" height="80" class="logo">
 						</td>
 						<td>
 							<div class="header">
