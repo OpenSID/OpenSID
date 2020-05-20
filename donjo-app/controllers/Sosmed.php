@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Sosmed extends Admin_Controller 
+class Sosmed extends Admin_Controller
 {
 
 	public function __construct()
@@ -15,120 +15,35 @@ class Sosmed extends Admin_Controller
 
 	public function index()
 	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(1);
-		$id = $data['main']['id'];
-		$data['form_action'] = site_url("sosmed/update/1");
+		$sosmed = $this->session->userdata('sosmed');
+
+		if(!$sosmed) $sosmed = 'facebook';
+
+		$data['media'] = $sosmed;
+		$data['main'] = $this->web_sosmed_model->get_sosmed($sosmed);
+		$data['list_sosmed'] = $this->web_sosmed_model->list_sosmed();
+		$data['form_action'] = site_url("sosmed/update/$sosmed");
 		$header = $this->header_model->get_data();
+		$this->session->unset_userdata('sosmed');
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/facebook', $data);
+		$this->load->view('sosmed/sosmed', $data);
 		$this->load->view('footer');
 	}
 
-	public function twitter()
+	public function tab($sosmed)
 	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(2);
-		$id = $data['main']['id'];
-		$data['form_action'] = site_url("sosmed/update/2/$id");
-		$header = $this->header_model->get_data();
+		$this->session->set_userdata('sosmed', $sosmed);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/twitter', $data);
-		$this->load->view('footer');
+		redirect('sosmed');
 	}
 
-	public function instagram()
+	public function update($sosmed)
 	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(5);
-		$data['form_action'] = site_url("sosmed/update/5");
-		$header = $this->header_model->get_data();
-		
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/instagram', $data);
-		$this->load->view('footer');
-	}
-
-	public function google()
-	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(3);
-		$data['form_action'] = site_url("sosmed/update/3");
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/google', $data);
-		$this->load->view('footer');
-	}
-
-	public function youtube()
-	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(4);
-		$data['form_action'] = site_url("sosmed/update/4");
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/youtube', $data);
-		$this->load->view('footer');
-	}
-
-	public function whatsapp()
-	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(6);
-		$data['form_action'] = site_url("sosmed/update/6");
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/whatsapp', $data);
-		$this->load->view('footer');
-	}
-	
-	public function telegram()
-	{
-		$data['main'] = $this->web_sosmed_model->get_sosmed(7);	
-		$data['form_action'] = site_url("sosmed/update/7");
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('sosmed/telegram', $data);
-		$this->load->view('footer');
-	}
-
-	public function update($id = '')
-	{
-		$this->web_sosmed_model->update($id);
-		switch ($id)
-		{
-			case '1':
-				redirect("sosmed");
-				break;
-			case '2':
-				redirect("sosmed/twitter");
-				break;
-			case '3':
-				redirect("sosmed/google");
-				break;
-			case '4':
-				redirect("sosmed/youtube");
-				break;
-			case '5':
-				redirect("sosmed/instagram");
-				break;
-			case '6':
-				redirect("sosmed/whatsapp");
-				break;
-			case '7':
-				redirect("sosmed/telegram");
-				break;
-			default:
-				redirect("sosmed");
-				break;
-		}
+		$this->web_sosmed_model->update($sosmed);
+		$redirect = (!empty($sosmed)) ? "sosmed/tab/$sosmed" : "sosmed";
+		redirect($redirect);
 	}
 
 }

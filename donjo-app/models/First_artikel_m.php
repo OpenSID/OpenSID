@@ -464,8 +464,8 @@ class First_artikel_m extends CI_Model {
 	// Tampilan di widget sosmed
 	public function list_sosmed()
 	{
-		$sql = "SELECT * FROM media_sosial WHERE enabled=1";
-		$query = $this->db->query($sql);
+		$query = $this->db->where('enabled', 1)->get('media_sosial');
+
 		if ($query->num_rows()>0)
 		{
 			$data  = $query->result_array();
@@ -473,10 +473,6 @@ class First_artikel_m extends CI_Model {
 			{
 				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
 			}
-		}
-		else
-		{
-			$data = false;
 		}
 
 		return $data;
