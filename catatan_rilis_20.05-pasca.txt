@@ -55,6 +55,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 49. Perbaiki tombol medsos di footer tema 'hadakewa' supaya sesuai dengan setting Admin Web > Media Sosial.
 50. Perbaiki tautan di widget medsos dan sediakan opsi tautan ke personal/group akun Facebook.
 51. #3095: Daftar penerima program bantuan pada statistik di web dapat disembunyikan/ditampilkan melalui setting di desa/config/config.php.
+52. Tampilkan gambar kantor desa pada widget lokasi kantor desa.
 
 
 

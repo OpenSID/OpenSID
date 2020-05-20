@@ -325,16 +325,13 @@ function favico_desa()
  */
 function gambar_desa($nama_file, $type = FALSE)
 {
-	$default = 'opensid_logo.png';
-
 	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_file))
 	{
 		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_file;
 	}
 
 	// type FALSE = logo, TRUE = kantor
-	if($type == TRUE) $default = 'opensid_kantor.png';		
-
+	$default = ($type)  ? 'opensid_kantor.png' : 'opensid_logo.png';
 	return $logo_desa = base_url("assets/files/logo/$default");
 }
 

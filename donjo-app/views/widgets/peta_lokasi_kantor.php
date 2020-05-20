@@ -24,7 +24,7 @@
 		border: 0px solid;
 	}
 
-	tabel-info, td {
+	.tabel-info, td {
 		border: 0px solid;
 		height: 30px;
 		padding: 5px;

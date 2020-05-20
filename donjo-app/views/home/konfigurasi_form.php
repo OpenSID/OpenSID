@@ -16,7 +16,7 @@
 						<div class="box-body box-profile">
 							<img class="profile-user-img img-responsive img-circle" src="<?=gambar_desa($main['logo'])?>" alt="Logo">
 							<br/>
-							<p class="text-center text-bold">Lambang Desa</p>
+							<p class="text-center text-bold">Lambang <?=ucwords($this->setting->sebutan_desa)?></p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
 							<br/>
 							<div class="input-group input-group-sm">
@@ -31,10 +31,10 @@
 					</div>
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<img class="img-responsive" src="<?=gambar_desa($main['kantor_desa'], TRUE)?>" alt="Kantor Desa">
+							<img class="img-responsive" src="<?=gambar_desa($main['kantor_desa'], TRUE)?>" alt="Kantor <?=ucwords($this->setting->sebutan_desa)?>">
 							<br/>
-							<p class="text-center text-bold">Kantor Desa</p>
-							<p class="text-muted text-center text-red">(Kosongkan, jika kantor desa tidak berubah)</p>
+							<p class="text-center text-bold">Kantor <?=ucwords($this->setting->sebutan_desa)?></p>
+							<p class="text-muted text-center text-red">(Kosongkan, jika kantor <?=($this->setting->sebutan_desa)?> tidak berubah)</p>
 							<br/>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2" >
