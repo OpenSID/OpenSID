@@ -12,10 +12,8 @@
 			elseif ($data["jenis_widget"] == 2):
 				include($widget);
 				else: ?>
-					<div class="box box-primary box-solid">
-						<div class="box-header">
-							<h3 class="box-title"><?=$data["judul"]?></h3>
-						</div>
+					<div class="single_bottom_rightbar">
+						<h2><i class="fa fa-folder"></i> <?=$data["judul"]?></h2>
 						<div class="box-body">
 							<?=html_entity_decode($data['isi'])?>
 						</div>
