@@ -908,6 +908,7 @@ function menu_slug($url)
 			break;
 
 		default:
+			$url = 'first/'.$url;
 			break;
 	}
 
