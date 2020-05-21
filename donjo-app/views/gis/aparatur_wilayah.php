@@ -3,7 +3,7 @@
 	$('.cycle-slideshow').cycle();
 </script>
 <style type="text/css">
-	#aparatur_desa .cycle-pager span
+	#aaparatur_wilayah .cycle-pager span
 	{
 		height: 10px;
 		width: 10px;
