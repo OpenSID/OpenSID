@@ -95,7 +95,7 @@
 																			<?php endif ?>
 																			<a href="#" data-href="<?= site_url("menu/delete/$tip/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
-																		<td nowrap><?= $data['nama']?></td>
+																		<td nowrap width="40%"><?= $data['nama']?></td>
 																		<td nowrap><a href="<?= $link?>" target="_blank"><?= $link?></a></td>
 																	</tr>
 																<?php endforeach; ?>
