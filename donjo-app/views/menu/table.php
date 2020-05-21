@@ -73,18 +73,12 @@
                                   <?php else: ?>
                                     <th><a href="<?= site_url("menu/index/$tip/$p/1")?>">Nama Menu<i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
-                                  <?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("menu/index/$tip/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("menu/index/$tip/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("menu/index/$tip/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php endif; ?>
                                   <th>Link</th>
 																</tr>
 															</thead>
 															<tbody>
 																<?php foreach ($main as $data): ?>
+																	<?php $link = menu_slug($data['link'])?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
@@ -101,9 +95,8 @@
                                       <?php endif ?>
 																			<a href="#" data-href="<?= site_url("menu/delete/$tip/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
-                                    <td width="50%"><?= $data['nama']?></td>
-                                    <td><?= $data['aktif']?></td>
-                                    <td><?= $data['link']?></td>
+                                    <td nowrap><?= $data['nama']?></td>
+                                    <td nowrap><a href="<?= $link?>" target="_blank"><?= $link?></a></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>
