@@ -331,7 +331,7 @@ function gambar_desa($nama_file, $type = FALSE)
 	}
 
 	// type FALSE = logo, TRUE = kantor
-	$default = ($type)  ? 'opensid_kantor.png' : 'opensid_logo.png';
+	$default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
 	return $logo_desa = base_url("assets/files/logo/$default");
 }
 
