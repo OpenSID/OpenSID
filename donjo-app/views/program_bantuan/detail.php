@@ -44,9 +44,17 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<?php if ($program[0]["status"] == 1): ?>
-							<a href="<?= site_url("program_bantuan/form/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Peserta Baru">
-								<i class="fa fa-plus"></i>Tambah Peserta Baru
-							</a>
+							<div class="btn-group btn-group-vertical">
+								<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Peserta Baru</a>
+								<ul class="dropdown-menu" role="menu">
+									<li>
+										<a href="<?= site_url("program_bantuan/aksi/1/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu Peserta Baru</a>
+									</li>
+									<li>
+										<a href="<?= site_url("program_bantuan/aksi/2/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa Peserta Baru</a>
+									</li>
+								</ul>
+							</div>
 						<?php endif; ?>
 						<a href="<?= site_url("program_bantuan/daftar/$detail[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
 						</a>

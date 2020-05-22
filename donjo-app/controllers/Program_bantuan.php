@@ -133,7 +133,19 @@ class Program_bantuan extends Admin_Controller {
 	public function add_peserta($id)
 	{
 		$this->program_bantuan_model->add_peserta($_POST, $id);
-		redirect("program_bantuan/detail/1/$id/1");
+
+		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/1/$id/1";
+
+		$this->session->unset_userdata('aksi');
+
+		redirect($redirect);
+	}
+
+	public function aksi($aksi, $id)
+	{
+		$this->session->set_userdata('aksi', $aksi);
+
+		redirect('program_bantuan/form/'.$id);
 	}
 
 	public function hapus_peserta($id, $peserta_id)
