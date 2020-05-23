@@ -828,7 +828,8 @@ function status_sukses($outp, $gagal_saja=false)
 }
 
 // https://stackoverflow.com/questions/11807115/php-convert-kb-mb-gb-tb-etc-to-bytes
-function convertToBytes(string $from): ?int {
+function convertToBytes(string $from)
+{
   $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
   $number = substr($from, 0, -2);
   $suffix = strtoupper(substr($from,-2));
