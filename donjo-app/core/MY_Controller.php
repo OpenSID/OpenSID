@@ -13,7 +13,6 @@ class MY_Controller extends CI_Controller {
     public $template;
     public $error;
 
-
     /**
      * Constructor
      */
