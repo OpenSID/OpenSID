@@ -892,4 +892,28 @@ function convertToBytes(string $from)
 		}
 	}
 
+// Konversi url menu menjadi slug tanpa mengubah data
+function menu_slug($url)
+{
+	$CI =& get_instance();
+
+	$cut = explode('/', $url);
+
+	switch ($cut[0])
+	{
+		case 'artikel':
+			$CI->load->model('first_artikel_m');
+			$data = $CI->first_artikel_m->get_artikel($cut[1]);
+
+			$url = ($data) ? ($cut[0].'/'.buat_slug($data)) : ($url);
+			break;
+
+		default:
+			$url = 'first/'.$url;
+			break;
+	}
+
+	return site_url($url);
+}
+
 ?>

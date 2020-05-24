@@ -14,9 +14,10 @@ class First_menu_m extends CI_Model{
 			// 99 adalah link eksternal
 			if ($data[$i]['link_tipe']!=99)
 			{
-				$data[$i]['link'] = site_url()."first/".$data[$i]['link'];
+				$data[$i]['link'] = menu_slug($data[$i]['link']);
 			}
 		}
+
 		return $data;
 	}
 
