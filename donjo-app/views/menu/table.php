@@ -78,7 +78,6 @@
 															</thead>
 															<tbody>
 																<?php foreach ($main as $data): ?>
-																	<?php $link = menu_slug($data['link'])?>
 																	<tr>
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
@@ -96,7 +95,7 @@
 																			<a href="#" data-href="<?= site_url("menu/delete/$tip/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<td nowrap width="40%"><?= $data['nama']?></td>
-																		<td nowrap><a href="<?= $link?>" target="_blank"><?= $link?></a></td>
+																		<td nowrap><a href="<?= $data['link']?>" target="_blank"><?= $data['link']?></a></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>

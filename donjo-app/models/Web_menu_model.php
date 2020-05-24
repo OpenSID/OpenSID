@@ -1,6 +1,6 @@
 <?php
 
-class Web_menu_model extends CI_Model {
+class Web_menu_model extends MY_Model {
 
 	private $urut_model;
 
@@ -104,7 +104,7 @@ class Web_menu_model extends CI_Model {
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
 		$data['nama'] = strip_tags($data['nama']);
 		$outp = $this->db->insert('menu',$data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -117,7 +117,7 @@ class Web_menu_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('menu', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -151,7 +151,7 @@ class Web_menu_model extends CI_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-
+			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
 			else
@@ -182,7 +182,7 @@ class Web_menu_model extends CI_Model {
 		$data['tipe'] = 3;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
 		$outp = $this->db->insert('menu', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -202,7 +202,7 @@ class Web_menu_model extends CI_Model {
 	public function delete_sub_menu($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('menu');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -223,7 +223,7 @@ class Web_menu_model extends CI_Model {
 	{
 		$sql = "UPDATE menu SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
