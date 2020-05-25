@@ -444,9 +444,8 @@
 			->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
 			->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
 			->from("$tabel_referensi u")
-			->join('tweb_penduduk p', "u.id = p.$id_referensi", 'left')
+			->join('penduduk_hidup p', "u.id = p.$id_referensi", 'left')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
-			->where('status_dasar', 1)
 			->group_by('u.id');
 
 		if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);

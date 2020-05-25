@@ -57,6 +57,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 51. #3095: Daftar penerima program bantuan pada statistik di web dapat disembunyikan/ditampilkan melalui setting di desa/config/config.php.
 52. Tampilkan gambar kantor desa pada widget lokasi kantor desa.
 53. #3101: Sediakan opsi menambah beberapa peserta program bantuan tampa kembali ke daftar rincian.
+54. #3108: Perbaiki statistik kependudukan supaya tidak ikut-sertakan penduduk mati/pindah/hilang. [bug-fix]
 
 
 
