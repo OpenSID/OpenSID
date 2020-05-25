@@ -80,15 +80,9 @@ class Teks_berjalan extends Admin_Controller {
  		redirect("teks_berjalan/index/$page");
 	}
 
-	public function lock($id = 0)
+	public function lock($id = 0, $val = 1)
 	{
-		$this->teks_berjalan_model->lock($id, 1);
-		redirect("teks_berjalan");
-	}
-
-	public function unlock($id = 0)
-	{
-		$this->teks_berjalan_model->lock($id, 2);
+		$this->teks_berjalan_model->lock($id, $val);
 		redirect("teks_berjalan");
 	}
 

@@ -2,12 +2,12 @@
 
 class MY_Model extends CI_Model {
 
-  /**
-   * Constructor
-   */
-  function __construct()
-  {
-    parent::__construct();
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
 	}
 
 	// Konversi url menu menjadi slug tanpa mengubah data

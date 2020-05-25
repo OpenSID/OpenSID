@@ -1,5 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<?php if($teks_berjalan): ?>
 <script type="text/javascript">
 	$(document).ready(function()
 	{
@@ -36,9 +37,10 @@
 		<span class="teks">
 			<?= $teks['teks']?>
 			<?php if ($teks['tautan']): ?>
-				<a href="<?= site_url('artikel/'.$teks['tautan']) ?>"><?= $teks['judul_tautan']?></a>
+				<a href="<?=$teks['tautan']?>" target="_blank"><?=$teks['judul_tautan']?></a>
 			<?php endif; ?>
 		</span>
 	<?php endforeach; ?>
 	<span>&nbsp;</span>
 </div>
+<?php endif; ?>
