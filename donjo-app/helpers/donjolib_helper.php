@@ -560,11 +560,7 @@ function set_ucwords($data)
 
 function persen($data)
 {
-	if(is_nan($data)) return '0%';
-
-	$persen = number_format($data*100, 2, '.', '');
-
-	return $persen.'%';
+	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
 }
 
 
