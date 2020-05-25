@@ -176,7 +176,7 @@
 	function getBulan($bln)
 	{
 		return bulan($bln);
-	}	
+	}
 
 	function nama_bulan($tgl)
 	{
@@ -544,12 +544,12 @@ function comma($number)
 }
 
 function hit($angka)
-{	
+{
 	return ribuan($angka)." Kali";
 }
 
 function ribuan($angka)
-{	
+{
 	return number_format($angka, 0, '.', '.');
 }
 
@@ -557,5 +557,11 @@ function set_ucwords($data)
 {
 	return ucwords(strtolower($data));
 }
+
+function persen($data)
+{
+	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
+}
+
 
 // =======================================
