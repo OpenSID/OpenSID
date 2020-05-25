@@ -360,17 +360,17 @@
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['persen'] = persen($data[$i]['jumlah']/$bel['jumlah']);
-			$data[$i]['persen1'] = persen($data[$i]['laki']/$bel['jumlah']);
-			$data[$i]['persen2'] = persen($data[$i]['perempuan']/$bel['jumlah']);
+			$data[$i]['persen'] = persen($data[$i]['jumlah'] / $bel['jumlah']);
+			$data[$i]['persen1'] = persen($data[$i]['laki'] / $bel['jumlah']);
+			$data[$i]['persen2'] = persen($data[$i]['perempuan'] / $bel['jumlah']);
 		}
 
 		$bel['no'] = "";
 		$bel['id'] = "";
 		$bel['nama'] = "TOTAL";
-		$bel['persen'] = persen(($bel['laki']+$bel['perempuan'])/$bel['jumlah']);
-		$bel['persen1'] = persen($bel['laki']/$bel['jumlah']);
-		$bel['persen2'] = persen($bel['perempuan']/$bel['jumlah']);
+		$bel['persen'] = persen(($bel['laki'] + $bel['perempuan']) / $bel['jumlah']);
+		$bel['persen1'] = persen($bel['laki'] / $bel['jumlah']);
+		$bel['persen2'] = persen($bel['perempuan'] / $bel['jumlah']);
 		$data['total'] = $bel;
 
 		return $data;
@@ -399,9 +399,9 @@
 		// Hitung semua presentase
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['persen'] = persen(($data[$i]['laki']+$data[$i]['perempuan'])/$semua['jumlah']);
-			$data[$i]['persen1'] = persen($data[$i]['laki']/$semua['jumlah']);
-			$data[$i]['persen2'] = persen($data[$i]['perempuan']/$semua['jumlah']);
+			$data[$i]['persen'] = persen(($data[$i]['laki'] + $data[$i]['perempuan']) / $semua['jumlah']);
+			$data[$i]['persen1'] = persen($data[$i]['laki'] / $semua['jumlah']);
+			$data[$i]['persen2'] = persen($data[$i]['perempuan'] / $semua['jumlah']);
 		}
 
 		$data['total'] = $semua;
@@ -492,9 +492,9 @@
 		$semua['no'] = "";
 		$semua['id'] = "";
 		$semua['nama'] = "TOTAL";
-		$semua['persen'] = persen(($semua['laki']+$semua['perempuan'])/$semua['jumlah']);
-		$semua['persen1'] = persen($semua['laki']/$semua['jumlah']);
-		$semua['persen2'] = persen($semua['perempuan']/$semua['jumlah']);
+		$semua['persen'] = persen(($semua['laki'] + $semua['perempuan']) / $semua['jumlah']);
+		$semua['persen1'] = persen($semua['laki'] / $semua['jumlah']);
+		$semua['persen2'] = persen($semua['perempuan'] / $semua['jumlah']);
 
 		return $semua;
 	}
