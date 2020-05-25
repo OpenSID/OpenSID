@@ -399,7 +399,7 @@
 		// Hitung semua presentase
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['persen'] = persen(($data[$i]['laki'] + $data[$i]['perempuan']) / $semua['jumlah']);
+			$data[$i]['persen'] = persen($data[$i]['jumlah'] / $semua['jumlah']);
 			$data[$i]['persen1'] = persen($data[$i]['laki'] / $semua['jumlah']);
 			$data[$i]['persen2'] = persen($data[$i]['perempuan'] / $semua['jumlah']);
 		}
