@@ -47,34 +47,34 @@
 																			<a href="<?=site_url("teks_berjalan/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																			<a href="<?=site_url("teks_berjalan/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['status'] == '2'): ?>
-																				<a href="<?=site_url("teks_berjalan/lock/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
-																				<?php elseif ($data['status'] == '1'): ?>
-																					<a href="<?=site_url("teks_berjalan/unlock/$data[id]")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-																				<?php endif; ?>
-																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="#" data-href="<?=site_url("teks_berjalan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																				<?php endif; ?>
-																			</td>
-																			<td><?=$data['teks']?> <a href="<?=$data['tautan']?>" target="_blank"><?=$data['judul_tautan']?></a></td>
-																			<td>
-																				<a href="<?=$data['tautan']?>" target="_blank"><?=tgl_indo($data['tgl_upload']).'<br>'.$data['judul']?></a>
-																			</td>
-																		</tr>
-																	<?php endforeach; ?>
-																</tbody>
-															</table>
-														</div>
+																				<a href="<?=site_url("teks_berjalan/lock/$data[id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php else: ?>
+																				<a href="<?=site_url("teks_berjalan/lock/$data[id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																			<?php endif; ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
+																				<a href="#" data-href="<?=site_url("teks_berjalan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
+																		</td>
+																		<td><?=$data['teks']?> <a href="<?=$data['tautan']?>" target="_blank"><?=$data['judul_tautan']?></a></td>
+																		<td>
+																			<a href="<?=$data['tautan']?>" target="_blank"><?=tgl_indo($data['tgl_upload']).'<br>'.$data['judul']?></a>
+																		</td>
+																	</tr>
+																<?php endforeach; ?>
+															</tbody>
+														</table>
 													</div>
 												</div>
-											</form>
-										</div>
+											</div>
+										</form>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</form>
-		</section>
-	</div>
-	<?php $this->load->view('global/confirm_delete');?>
+			</div>
+		</form>
+	</section>
+</div>
+<?php $this->load->view('global/confirm_delete');?>

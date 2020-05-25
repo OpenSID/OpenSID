@@ -62,7 +62,11 @@
 		return $this->urut_model->urut($id, $arah);
 	}
 
-	public function lock($id='', $val=0)
+	/**
+	 * @param $id id
+	 * @param $val status : 1 = Unlock, 2 = Lock
+	 */
+	public function lock($id, $val)
 	{
 		$this->db->where('id', $id)->update('teks_berjalan', array('status' => $val));
 	}
