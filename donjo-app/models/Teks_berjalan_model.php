@@ -27,7 +27,7 @@
 	{
 		$this->sql();
 
-		if($web === TRUE) $this->db->where('status', 1);
+		if ($web === TRUE) $this->db->where('status', 1);
 
 		$data = $this->db->get()->result_array();
 
@@ -46,10 +46,10 @@
 	private function sql()
 	{
 		$this->db
-				 ->select('t.*, a.judul, a.tgl_upload')
-				 ->from('teks_berjalan t')
-				 ->join('artikel a', 't.tautan = a.id', 'left')
-				 ->order_by('urut');
+			->select('t.*, a.judul, a.tgl_upload')
+			->from('teks_berjalan t')
+			->join('artikel a', 't.tautan = a.id', 'left')
+			->order_by('urut');
 	}
 
 	/**
