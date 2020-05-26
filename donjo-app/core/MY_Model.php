@@ -14,7 +14,6 @@ class MY_Model extends CI_Model {
 	public function menu_slug($url)
 	{
 		$cut = explode('/', $url);
-		// $CI = & get_instance();
 
 		switch ($cut[0])
 		{

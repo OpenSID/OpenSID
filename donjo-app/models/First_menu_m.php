@@ -30,7 +30,7 @@ class First_menu_m extends MY_Model{
 		{
 			if ($data[$i]['link_tipe'] != 99)
 			{
-				$data[$i]['link'] = site_url()."first/".$data[$i]['link'];
+				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 			}
 			$data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
 		}
