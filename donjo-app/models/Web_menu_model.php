@@ -7,13 +7,14 @@ class Web_menu_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
-	  require_once APPPATH.'/models/Urut_model.php';
+		require_once APPPATH.'/models/Urut_model.php';
 		$this->urut_model = new Urut_Model('menu');
 	}
 
 	public function autocomplete()
 	{
 		$str = autocomplete_str('nama', 'menu');
+
 		return $str;
 	}
 
@@ -25,6 +26,7 @@ class Web_menu_model extends MY_Model {
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (nama LIKE '$kw')";
+
 			return $search_sql;
 		}
 	}
@@ -35,6 +37,7 @@ class Web_menu_model extends MY_Model {
 		{
 			$kf = $_SESSION['filter'];
 			$filter_sql = " AND enabled = $kf";
+
 			return $filter_sql;
 		}
 	}
@@ -60,6 +63,7 @@ class Web_menu_model extends MY_Model {
 		$sql = " FROM menu WHERE tipe = ? ";
 		$sql .= $this->search_sql($tip);
 		$sql .= $this->filter_sql();
+
 		return $sql;
 	}
 
@@ -86,14 +90,11 @@ class Web_menu_model extends MY_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
+			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 
 			$j++;
 		}
+
 		return $data;
 	}
 
@@ -152,11 +153,8 @@ class Web_menu_model extends MY_Model {
 		{
 			$data[$i]['no'] = $i + 1;
 			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
 		}
+
 		return $data;
 	}
 
@@ -172,6 +170,7 @@ class Web_menu_model extends MY_Model {
 		{
 			$data[$i]['no'] = $i + 1;
 		}
+
 		return $data;
 	}
 
@@ -240,8 +239,8 @@ class Web_menu_model extends MY_Model {
 	// 		2 - naik
 	public function urut($id, $arah, $tipe=1, $menu='')
 	{
-  	$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
-  	$this->urut_model->urut($id, $arah, $subset);
+		$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
+		$this->urut_model->urut($id, $arah, $subset);
 	}
 
 }
