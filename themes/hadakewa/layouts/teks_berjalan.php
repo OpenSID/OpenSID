@@ -5,6 +5,8 @@
 	dan mengubah jquery.cycle2.carousel.js, mengikuti contoh di
 	https://github.com/malsup/cycle2/issues/178
  -->
+
+<?php if($teks_berjalan): ?>
 <script src="<?php echo base_url()?>assets/front/js/jquery.pause.min.js"></script>
 
 <script type="text/javascript">
@@ -41,9 +43,10 @@
 		<span class="teks">
 			<?= $teks['teks']?>
 			<?php if ($teks['tautan']): ?>
-				<a href="<?= site_url('artikel/'.$teks['tautan']) ?>"><?= $teks['judul_tautan']?></a>
+				<a href="<?=$teks['tautan']?>" target="_blank"><?=$teks['judul_tautan']?></a>
 			<?php endif; ?>
 		</span>
 	<?php endforeach; ?>
 	<span>&nbsp;</span>
 </div>
+<?php endif; ?>

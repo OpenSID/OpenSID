@@ -42,12 +42,6 @@ class First_artikel_m extends CI_Model {
 		return $items;
 	}
 
-	public function get_teks_berjalan()
-	{
-		$this->load->model('teks_berjalan_model');
-		return $this->teks_berjalan_model->isi_teks_berjalan();
-	}
-
 	public function get_widget()
 	{
 		$sql = "SELECT * FROM widget LIMIT 1 ";
