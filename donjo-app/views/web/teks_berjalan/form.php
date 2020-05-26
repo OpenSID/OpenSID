@@ -20,7 +20,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="control-label" for="isi_teks_berjalan">Isi teks berjalan</label>
-									<textarea id="teks" class="form-control input-sm required" placeholder="Isi teks berjalan" name="teks" rows="3" style="resize:none;"><?= $teks['teks']?></textarea>
+									<textarea id="teks" class="form-control input-sm required" placeholder="Isi teks berjalan" name="teks" rows="5" style="resize:none;"><?= $teks['teks']?></textarea>
 								</div>
 							</div>
 							<div class="col-sm-12">
@@ -29,7 +29,7 @@
 									<select class="form-control select2 " id="tautan" name="tautan" style="width: 100%;">
 										<option value="">-- Cari Judul Artikel --</option>
 										<?php foreach ($list_artikel as $artikel): ?>
-											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'],$teks['tautan']); ?>><?= $artikel['id'].' ('.tgl_indo($artikel['tgl_upload']).'): '.$artikel['judul']?></option>
+											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']).' | '.$artikel['judul']?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>

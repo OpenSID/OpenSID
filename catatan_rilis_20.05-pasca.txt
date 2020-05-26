@@ -38,7 +38,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 34. #3025: Tambahkan kolom email di data penduduk.
 35. #3049: Tutup celah supaya form peserta program bantuan hanya bisa unggah file gambar. [security-fix]
 36. Sederhanakan dan gabung pencarian spesifik untuk penduduk, daftar calon pemilih dan di peta. [teknis]
-37. #3057: Sekarang artikel di widget Arsip Artikel menggunakan url tulisan, bukan id.
+37. #3057: Sekarang artikel di widget Arsip Artikel menggunakan url slug, bukan id.
 38. #1888: Widget Arsip Artikel sekarang menampilkan artikel populer (berapa kali terbaca).
 39. Tampilkan statistik Covid-19 dan penerima bantuan sasaran penduduk/keluarga di peta, termasuk di PetaSID.
 39. #3056: Url first/agenda sekarang menampilkan error 404. Sederhanakan dan perbaiki menampilkan widget Agenda. [bug-fix]
@@ -58,7 +58,8 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 52. Tampilkan gambar kantor desa pada widget lokasi kantor desa.
 53. #3101: Sediakan opsi menambah beberapa peserta program bantuan tampa kembali ke daftar rincian.
 54. #3108: Perbaiki statistik kependudukan supaya tidak ikut-sertakan penduduk mati/pindah/hilang. [bug-fix]
-55. Sekarang tautan ke artikel di menu statis menggunakan url tulisan, bukan id.
+55. Sekarang tautan ke artikel di menu statis menggunakan url slug, bukan id.
+56. #3110: Sekarang tautan ke artikel di teks berjalan menggunakan url slug, bukan id.
 
 
 
