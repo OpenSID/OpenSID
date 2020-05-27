@@ -3,25 +3,27 @@ class Migrasi_2005_ke_2006 extends CI_model {
 
 	public function up()
 	{
+		// Untuk yang sudah terlanjur mengkosongkan DB sebelum kosongkan_db diperbaiki
 		$this->grup_akses_covid19();
 		$this->load->model('migrations/migrasi_2004_ke_2005');
-		$this->migrasi_2004_ke_2005->up(); // untuk yang sudah terlanjur mengkosongkan DB sebelum kosongkan_db diperbaiki
-
+		$this->migrasi_2004_ke_2005->up();
 		// Ubah nama kode status penduduk
 		$this->db->where('id', 2)
 			->update('tweb_penduduk_status', array('nama' => 'TIDAK TETAP'));
-
-		//Ganti nama folder widget menjadi widgets
+		// Ganti nama folder widget menjadi widgets
 		rename('desa/widget', 'desa/widgets');
 		rename('desa/upload/widget', 'desa/upload/widgets');
 		// Arahkan semua widget statis ubahan desa ke folder desa/widgets
 		$list_widgets = $this->db->where('jenis_widget', 2)->get('widget')->result_array();
 		foreach ($list_widgets as $widgets)
 		{
-			$ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']); // Untuk versi 20.04-pasca ke atas
-			$cek = explode('/', $ganti); // Untuk versi 20.04 ke bawah
+			// Untuk versi 20.04-pasca ke atas
+			$ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']);
+			// Untuk versi 20.04 ke bawah
+			$cek = explode('/', $ganti);
 			if ($cek[0] !== 'desa' AND $cek[1] === NULL)
-			{ // agar migrasi bisa dijalankan berulang kali
+			{
+				// Agar migrasi bisa dijalankan berulang kali
 				$this->db->where('id', $widgets['id'])->update('widget', array('isi' => 'desa/widgets/'.$widgets['isi']));
 			}
 		}
@@ -30,7 +32,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 		// Hapus field sasaran
 		if ($this->db->field_exists('sasaran', 'program_peserta'))
 			$this->db->query('ALTER TABLE `program_peserta` DROP COLUMN `sasaran`');
-		//tambah kolom email di tabel tweb_penduduk
+		// Tambah kolom email di tabel tweb_penduduk
 		if (!$this->db->field_exists('email', 'tweb_penduduk'))
 			$this->dbforge->add_column('tweb_penduduk', array(
 				'email' => array(
@@ -39,7 +41,7 @@ class Migrasi_2005_ke_2006 extends CI_model {
 				'null' => TRUE,
 				),
 			));
-		//tambah kolom kantor_desa di tabel config
+		// Tambah kolom kantor_desa di tabel config
 		if (!$this->db->field_exists('kantor_desa', 'config'))
 			$this->dbforge->add_column('config', array(
 				'kantor_desa' => array(
@@ -48,6 +50,21 @@ class Migrasi_2005_ke_2006 extends CI_model {
 					'null' => TRUE,
 				),
 			));
+		/**
+		 * Normalkan kembali hit artikel kategori 999 pd versi 20.05-pasca akibat robot (crawler)
+		 * Jumlah hit > 400 menjadi 10% pada artikel yg ditampilkan pada menu aktif saja
+		 */
+		$list_menu = $this->db->like('link', 'artikel/')->where('enabled', 1)->get('menu')->result_array();
+		foreach ($list_menu as $list)
+		{
+			$id = str_replace('artikel/', '', $list['link']);
+			$artikel = $this->db->where('id', $id)->get('artikel')->row_array();
+			$hit = $artikel['hit'] * (10 / 100);
+
+			if($artikel AND $artikel['hit'] > 400)
+				$this->db->where('id', $id)->update('artikel', array('hit' => $hit));
+		}
+
 	}
 
 	private function grup_akses_covid19()
