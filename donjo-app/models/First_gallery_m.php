@@ -29,8 +29,8 @@ class First_gallery_m extends CI_Model {
 		// OPTIMIZE: benarkah butuh paging?
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT * FROM gambar_gallery 
-			WHERE enabled = 1 AND tipe ='0' 
+		$sql = "SELECT * FROM gambar_gallery
+			WHERE enabled = 1 AND tipe ='0'
 			ORDER BY urut";
 		$sql .= $paging_sql;
 
@@ -72,8 +72,8 @@ class First_gallery_m extends CI_Model {
 	public function sub_gallery_show($gal=0, $offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT * FROM gambar_gallery 
-			WHERE ((enabled = '1') AND (parrent = '".$gal."')) 
+		$sql = "SELECT * FROM gambar_gallery
+			WHERE ((enabled = '1') AND (parrent = '".$gal."'))
 			ORDER BY urut
 			";
 		$sql .= $paging_sql;

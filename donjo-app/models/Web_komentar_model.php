@@ -103,7 +103,7 @@
 		}
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT k.*, a.judul as artikel " . $this->list_data_sql($kat);
+		$sql = "SELECT k.*, a.judul as artikel, YEAR(a.tgl_upload) AS thn, MONTH(a.tgl_upload) AS bln, DAY(a.tgl_upload) AS hri, a.slug AS slug " . $this->list_data_sql($kat);
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -135,7 +135,7 @@
 		$data = $_POST;
 		$data['id_user'] = $_SESSION['user'];
 		$outp = $this->db->insert('komentar', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -145,7 +145,7 @@
 	  $data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('komentar', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -165,9 +165,9 @@
 	{
 		$id_cb = $_POST['id_cb'];
 
-		if (count($id_cb)) 
+		if (count($id_cb))
 		{
-			foreach ($id_cb as $id) 
+			foreach ($id_cb as $id)
 			{
 				$archive = array(
 					'is_archived' => 1,
@@ -186,7 +186,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('komentar');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -209,7 +209,7 @@
 			->update('komentar', array(
 					'status' => $val,
 					'updated_at' => date('Y-m-d H:i:s')));
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 

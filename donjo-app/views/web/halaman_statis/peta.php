@@ -90,7 +90,7 @@
 
     			popup_0.setContent(html_a);
 
-    			layer.bindPopup(popup_0);
+    			layer.bindPopup(popup_0, {'className' : 'covid_pop'});
     			layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
     		},
     	});

@@ -145,9 +145,17 @@
 	{
 		$sql = "FROM tweb_keluarga u
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-			WHERE 1 ";
+			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
 
+		// TODO: ubah ke query builder
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		if ($this->session->bantuan_keluarga)
+		{
+			$sql .= " LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
+			LEFT JOIN program rcb ON bt.program_id = rcb.id ";
+		}
+
+		$sql .= " WHERE 1 ";
 		$sql .=	$this->search_sql();
 		$sql .=	$this->status_dasar_sql();
 		$sql .=	$this->dusun_sql();
@@ -156,7 +164,27 @@
 		$sql .=	$this->sex_sql();
 		$sql .= $this->kelas_sql();
 		$sql .= $this->bos_sql();
+		$kolom_kode = array(
+			array('bantuan_keluarga', 'rcb.id'),
+		);
+		foreach ($kolom_kode as $kolom)
+		{
+			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+		}
 		return $sql;
+	}
+
+	protected function get_sql_kolom_kode($kode_session, $kode_kolom)
+	{
+		if (isset($_SESSION[$kode_session]))
+		{
+			$kf = $_SESSION[$kode_session];
+			if ($kf == BELUM_MENGISI)
+				$sql = " AND (".$kode_kolom." IS NULL OR ".$kode_kolom." = '')";
+			else
+				$sql = " AND ".$kode_kolom." = $kf";
+			return $sql;
+		}
 	}
 
 	public function list_data($o=0, $offset=0, $limit=500)
@@ -854,6 +882,9 @@
 			{
 				case 'kelas_sosial':
 					$sql = "SELECT * FROM tweb_keluarga_sejahtera WHERE id = ? ";
+					break;
+				case 'bantuan_keluarga':
+					$sql = "SELECT * FROM program WHERE id = ? ";
 					break;
 			}
 			$query = $this->db->query($sql, $nomor);

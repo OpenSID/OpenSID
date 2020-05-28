@@ -9,6 +9,7 @@ class Sms extends Admin_Controller {
 		$this->load->model('sms_model');
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 10;
 		$this->sub_modul_ini = 39;
 	}
@@ -382,7 +383,7 @@ class Sms extends Admin_Controller {
 	public function broadcast()
 	{
 		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['grup'] = $this->sms_model->list_grup_kontak();

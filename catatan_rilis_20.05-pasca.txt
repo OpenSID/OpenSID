@@ -37,6 +37,30 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 33. Tampilkan status Covid-19 desa di tampilan sebaran Covid-19 di PetaSID.
 34. #3025: Tambahkan kolom email di data penduduk.
 35. #3049: Tutup celah supaya form peserta program bantuan hanya bisa unggah file gambar. [security-fix]
+36. Sederhanakan dan gabung pencarian spesifik untuk penduduk, daftar calon pemilih dan di peta. [teknis]
+37. #3057: Sekarang artikel di widget Arsip Artikel menggunakan url slug, bukan id.
+38. #1888: Widget Arsip Artikel sekarang menampilkan artikel populer (berapa kali terbaca).
+39. Tampilkan statistik Covid-19 dan penerima bantuan sasaran penduduk/keluarga di peta, termasuk di PetaSID.
+39. #3056: Url first/agenda sekarang menampilkan error 404. Sederhanakan dan perbaiki menampilkan widget Agenda. [bug-fix]
+40. #3063: Sediakan tombol cetak di Program Bantuan > Rincian sesuai dengan daftar unduh.
+41. #3063: Sediakan tombol cetak di Kependudukan > Data Suplemen > Rincian sesuai dengan daftar unduh.
+42. Hapus filter yg tidak digunakan di Layanan Surat > Daftar Persyaratan.
+43. #2799: URL artikel sekarang tidak perlu menggunakan awal '/first'.
+44. #3052, 3060: Tampilkan daftar peserta bantuan sasaran penduduk dan keluarga di Web.
+44. #3052, 3060: Tampilkan daftar peserta bantuan sasaran penduduk dan keluarga di Admin.
+45. #3083: Sediakan tombol cetak daftar Pemudik dan Pemantauan Siaga Covid-19, sesuai dengan daftar unduh.
+46. #3088: Perbaiki gagal CSRF pada form Surat Masuk dan Surat Keluar. [bug-fix]
+47. Sekarang bisa sisipkan grafik dan tabel Penerima Bantuan sebagai konten artikel.
+48. Widget Statistik dibuat lebih tinggi untuk memperbaiki tampilian grafik jika data penduduk banyak.
+49. Perbaiki tombol medsos di footer tema 'hadakewa' supaya sesuai dengan setting Admin Web > Media Sosial.
+50. Perbaiki tautan di widget medsos dan sediakan opsi tautan ke personal/group akun Facebook.
+51. #3095: Daftar penerima program bantuan pada statistik di web dapat disembunyikan/ditampilkan melalui setting di desa/config/config.php.
+52. Tampilkan gambar kantor desa pada widget lokasi kantor desa.
+53. #3101: Sediakan opsi menambah beberapa peserta program bantuan tampa kembali ke daftar rincian.
+54. #3108: Perbaiki statistik kependudukan supaya tidak ikut-sertakan penduduk mati/pindah/hilang. [bug-fix]
+55. Sekarang tautan ke artikel di menu statis menggunakan url slug, bukan id.
+56. #3110: Sekarang tautan ke artikel di teks berjalan menggunakan url slug, bukan id.
+
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

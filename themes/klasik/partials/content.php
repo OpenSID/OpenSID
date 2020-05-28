@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <?php if (count($slide_galeri)>0 OR count($slide_artikel)>0): ?>
 <?php $this->load->view($folder_themes."/layouts/slider.php") ?>
@@ -9,7 +9,7 @@
 	<div id="headline" class="box box-danger">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
+				<a href="<?= site_url('artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 			</h3>
 			<div class="pull-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
@@ -24,7 +24,7 @@
 				<?php endif; ?>
 			<?php endif; ?>
 			<?= $abstrak_headline ?>
-			<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">..selengkapnya</a>
+			<a href="<?= site_url('artikel/'.buat_slug($headline))?>">..selengkapnya</a>
 		</div>
 	</div>
 <?php endif; ?>
@@ -55,13 +55,13 @@
 						<?php $abstrak = potong_teks($data['isi'], 300) ?>
 						<li class="artikel">
 							<h3 class="judul">
-								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
+								<a href="<?= site_url('artikel/'.buat_slug($data))?>"><?= $data["judul"] ?></a>
 							</h3>
 
 							<div class="teks">
 								<div class="kecil">
-									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> | 
-									<i class="fa fa-user"></i> <?= $data['owner'] ?> | 
+									<i class="fa fa-clock-o"></i> <?= tgl_indo2($data['tgl_upload']) ?> |
+									<i class="fa fa-user"></i> <?= $data['owner'] ?> |
 									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
 										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
@@ -77,7 +77,7 @@
 									<?php endif; ?>
 								</div>
 								<?= $abstrak ?>
-								<a href="<?= site_url('first/artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
+								<a href="<?= site_url('artikel/'.buat_slug($data))?>"> ..selengkapnya</a>
 							</div>
 							<br class="clearboth gb"/>
 						</li>
@@ -100,7 +100,7 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	
+
 	<?php if ($artikel AND $paging->num_rows > $paging->per_page): ?>
 		<div class="box-footer">
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>

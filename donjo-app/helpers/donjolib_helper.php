@@ -563,4 +563,9 @@ function set_ucwords($data)
 	return ucwords(strtolower($data));
 }
 
+function persen($data)
+{
+	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
+}
+
 // =======================================

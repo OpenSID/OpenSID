@@ -10,17 +10,28 @@
 		parent::__construct();
 	}
 
-	public function statistik()
+	public function statistik($lap)
 	{
-		$penduduk_penerima_bantuan = new Penduduk_penerima_bantuan();
-		return $penduduk_penerima_bantuan;
+		switch ($lap)
+		{
+			case 'bantuan_penduduk':
+				$statistik = new Penduduk_penerima_bantuan();
+				break;
+			case 'bantuan_keluarga':
+				$statistik = new Keluarga_penerima_bantuan();
+				break;
+		}
+		return $statistik;
 	}
 }
 
 /*
- * Semua pengaturan untuk statistik penduduk penerima bantuan.
+ * ==============================================================
+ * Semua pengaturan untuk masing2 statistik kependudukan.
  * Dipanggil dari donjo-app/models/Laporan_penduduk_model.php
+ * ==============================================================
  */
+
 class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 
 	public $judul_jumlah = 'PENERIMA';
@@ -39,10 +50,16 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 		  ->select('COUNT(CASE WHEN p.sex = 1 THEN pp.id END) AS laki')
 		  ->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
 			->from('program u')
-			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
-			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
+			->join('program_peserta pp', 'u.id = pp.program_id', 'left')
+			->join('penduduk_hidup p', 'pp.peserta = p.nik')
+			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
 			->where('u.sasaran', '1')
+			->where('u.status', '1')
+			->order_by('u.nama')
 			->group_by('u.id');
+		if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);
+		if ($rw = $this->session->userdata("rw")) $this->db->where('a.rw', $rw);
+		if ($rt = $this->session->userdata("rt")) $this->db->where('a.rt', $rt);
 	}
 
 	public function get_data_jml()
@@ -51,5 +68,39 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 	}
 
 }
+
+class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
+
+	public $judul_jumlah = 'PENERIMA';
+	public $judul_belum = 'BUKAN PENERIMA';
+
+  function __construct()
+  {
+    parent::__construct();
+  }
+
+	public function select_per_kategori()
+	{
+		// Ambil data sasaran penduduk
+		$this->db->select('u.id, u.nama')
+			->select('u.*, COUNT(pp.peserta) as jumlah')
+			->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END) AS laki')
+			->select('COUNT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
+			->from('program u')
+			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
+			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+			->where('u.sasaran', '2')
+			->where('u.status', '1')
+			->group_by('u.id');
+	}
+
+	public function get_data_jml()
+	{
+		return $this->data_jml_semua_keluarga();
+	}
+
+}
+
 
 ?>

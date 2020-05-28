@@ -1,6 +1,11 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 class Program_bantuan_model extends CI_Model {
 
+	// Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
+	var $column_order = array(null, 'program', 'peserta', null); //set column field database for datatable orderable
+	var $column_search = array('p.nama', 'pend.nama'); //set column field database for datatable searchable
+	var $order = array('peserta' => 'asc'); // default order
+
 	public function __construct()
 	{
 
@@ -153,7 +158,7 @@ class Program_bantuan_model extends CI_Model {
 			$cari = $_SESSION['cari_peserta'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw')";
+			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw' OR kartu_nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -774,6 +779,8 @@ class Program_bantuan_model extends CI_Model {
 
 	public function add_peserta($post, $id)
 	{
+		$this->session->success = 1;
+		$this->session->error_msg = '';
 		$data['program_id'] = $id;
 		$data['peserta'] = $post['nik'];
 		$data['no_id_kartu'] = $post['no_id_kartu'];
@@ -786,12 +793,14 @@ class Program_bantuan_model extends CI_Model {
 		$file_gambar = $this->_upload_gambar();
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
 			$outp = $this->db->insert('program_peserta', $data);
-		status_sukses($outp);
+		status_sukses($outp, true);
 	}
 
 	// $id = program_peserta.id
 	public function edit_peserta($post,$id)
 	{
+		$this->session->success = 1;
+		$this->session->error_msg = '';
 		$data = $post;
 		if ($data['gambar_hapus'])
 		{
@@ -805,10 +814,13 @@ class Program_bantuan_model extends CI_Model {
 		$this->db->where('id',$id);
 		$data['kartu_tanggal_lahir'] = tgl_indo_in($data['kartu_tanggal_lahir']);
 		$outp = $this->db->update('program_peserta', $data);
+		status_sukses($outp, true);
 	}
 
 	private function _upload_gambar($old_document='')
 	{
+		if ($_FILES['satuan']['error'] == UPLOAD_ERR_NO_FILE) return null;
+
 		$error = periksa_file('satuan', unserialize(MIME_TYPE_GAMBAR), unserialize(EXT_GAMBAR));
 		if ($error != '')
 		{
@@ -876,7 +888,6 @@ class Program_bantuan_model extends CI_Model {
 		}
 		return $data;
 	}
-
 
 	public function update_program($id)
 	{
@@ -946,6 +957,103 @@ class Program_bantuan_model extends CI_Model {
 					->get('program_peserta pp')
 					->result_array();
 	}
+
+	/* ====================================
+	 * Untuk datatable #peserta_program di themes/klasik/partials/statistik.php
+	 * ==================================== */
+
+	private function get_all_peserta_bantuan_query()
+	{
+		$this->db
+			->select("p.nama as program, pend.nama as peserta, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->from('program p')
+			->join('program_peserta pp', 'p.id = pp.program_id', 'left');
+		if ($this->input->post('stat') == 'bantuan_keluarga')
+		{
+			$this->db
+				->join('tweb_keluarga k', 'pp.peserta = k.no_kk')
+				->join('tweb_penduduk pend', 'k.nik_kepala = pend.id')
+				->join('tweb_wil_clusterdesa w', 'k.id_cluster = w.id')
+				->where('p.sasaran', '2')
+				->where('p.status', '1');
+		}
+		else // bantuan_penduduk
+		{
+			$this->db
+				->join('tweb_penduduk pend', 'pp.peserta = pend.nik')
+				->join('tweb_keluarga k', 'pend.id_kk = k.id')
+				->join('tweb_wil_clusterdesa w', 'pend.id_cluster = w.id')
+				->where('p.sasaran', '1')
+				->where('p.status', '1');
+		}
+	}
+
+	private function get_peserta_bantuan_query()
+	{
+		$this->get_all_peserta_bantuan_query();
+
+		$i = 0;
+
+		foreach ($this->column_search as $item) // loop column
+		{
+			if ($cari = $_POST['search']['value']) // if datatable send POST for search
+			{
+				if ($i===0) // first loop
+				{
+					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					// $this->db->like($item, $_POST['search']['value']);
+
+					$this->db->like($item, $cari);
+				}
+				else
+				{
+					$this->db->or_like($item, $cari);
+				}
+				if (count($this->column_search) - 1 == $i) //last loop
+				{
+					/* Kolom pencarian tambahan */
+					$this->db->or_where('pend.nik', $cari) // harus persis sama
+						->or_where('k.no_kk', $cari);
+					$this->db->group_end(); //close bracket
+				}
+			}
+			$i++;
+		}
+
+		if (isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		}
+		else if (isset($this->order))
+		{
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+
+	public function get_peserta_bantuan()
+	{
+		$this->get_peserta_bantuan_query();
+		if ($_POST['length'] != -1)
+			$this->db->limit($_POST['length'], $_POST['start']);
+		$data = $this->db->get()->result_array();
+		return $data;
+	}
+
+	public function count_peserta_bantuan_filtered()
+	{
+		$this->get_peserta_bantuan_query();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_peserta_bantuan_all()
+	{
+		$this->get_all_peserta_bantuan_query();
+		return $this->db->count_all_results();
+	}
+
+	/* ========= Akhir datatable #peserta_program ============= */
 
 }
 

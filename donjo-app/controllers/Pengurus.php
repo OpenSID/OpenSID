@@ -10,6 +10,7 @@ class Pengurus extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('config_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 18;
 	}
@@ -58,7 +59,7 @@ class Pengurus extends Admin_Controller {
 
 		$data['penduduk'] = $this->pamong_model->list_penduduk();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		if (!empty($_POST['id_pend']))
 			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
 		else

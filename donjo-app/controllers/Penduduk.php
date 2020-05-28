@@ -169,7 +169,7 @@ class Penduduk extends Admin_Controller {
 		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-		$data['agama'] = $this->penduduk_model->list_agama();
+		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
@@ -613,6 +613,7 @@ class Penduduk extends Admin_Controller {
 			case 10: $_SESSION['menahun'] = $nomor;  $pre = "SAKIT MENAHUN : "; break;
 			case 13: $_SESSION['umurx'] = $nomor;  $pre = "UMUR "; break;
 			case 14: $_SESSION['pendidikan_sedang_id'] = $nomor; $pre = "PENDIDIKAN SEDANG DITEMPUH : "; break;
+			case 15: $_SESSION['umurx'] = $nomor;  $pre = "KATEGORI UMUR : "; break;
 			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre = "CARA KB : "; break;
 			case 17:
 				$_SESSION['akta_kelahiran'] = $nomor;
@@ -637,8 +638,8 @@ class Penduduk extends Admin_Controller {
 			case 'covid':
 				$_SESSION['status_covid'] = $nomor; $pre = "STATUS COVID : ";
 				break;
-			case 'bantuan':
-				$_SESSION['penerima_bantuan'] = $nomor; $pre = "PENERIMA BANTUAN : ";
+			case 'bantuan_penduduk':
+				$_SESSION['penerima_bantuan'] = $nomor; $pre = "PENERIMA BANTUAN (PENDUDUK) : ";
 				break;
 		}
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);

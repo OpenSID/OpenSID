@@ -31,6 +31,7 @@ class First extends Web_Controller {
 		$this->load->model('config_model');
 		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');
+		$this->load->model('teks_berjalan_model');
 		$this->load->model('first_gallery_m');
 		$this->load->model('first_menu_m');
 		$this->load->model('first_penduduk_m');
@@ -47,6 +48,7 @@ class First extends Web_Controller {
 		$this->load->model('web_dokumen_model');
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
+		$this->load->model('program_bantuan_model');
 	}
 
 	public function auth()
@@ -286,26 +288,17 @@ class First extends Web_Controller {
 	}
 
 	/*
-		Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. Url first/artikel/:id
-
-		Kalau menggunakan slug, dipanggil menggunakan url first/artikel/:thn/:bln/:hri/:slug
+	| Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
+	| Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
 	*/
-	public function artikel($thn, $bln = '', $hri = '', $slug = NULL)
+	public function artikel($url)
 	{
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
-		if (empty($slug))
-		{
-			// Kalau slug kosong, parameter pertama adalah id artikel
-			$id = $thn;
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($id, true);
-		}
-		else
-		{
-			$data['single_artikel'] = $this->first_artikel_m->get_artikel($slug);
-			$id = $data['single_artikel']['id'];
-		}
+		$data['single_artikel'] = $this->first_artikel_m->get_artikel($url);
+		$id = $data['single_artikel']['id'];
+
 		// replace isi artikel dengan shortcodify
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
@@ -399,6 +392,31 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
+	}
+
+	public function ajax_peserta_program_bantuan()
+	{
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$data = array();
+		$no = $_POST['start'];
+
+		foreach ($peserta as $baris)
+		{
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
+		}
+
+		$output = array(
+			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
+			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+			'data' => $data
+		);
+		echo json_encode($output);
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
@@ -530,14 +548,6 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
-	public function agenda($stat=0)
-	{
-		$data = $this->includes;
-		$data['artikel'] = $this->first_artikel_m->agenda_show();
-		$this->_get_common_data($data);
-		$this->load->view($this->template,$data);
-	}
-
 	public function kategori($id, $p=1)
 	{
 		$data = $this->includes;
@@ -571,7 +581,7 @@ class First extends Web_Controller {
 			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
 			$_SESSION['post'] = $_POST;
 			$_SESSION['validation_error'] = true;
-			redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+			redirect($_SERVER['HTTP_REFERER']."#kolom-komentar");
 		}
 
 		$res = $this->first_artikel_m->insert_comment($id);
@@ -599,8 +609,9 @@ class First extends Web_Controller {
 	{
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
+		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
-		$data['teks_berjalan'] = $this->first_artikel_m->get_teks_berjalan();
+		$data['teks_berjalan'] = $this->teks_berjalan_model->list_data(TRUE);
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
 		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();

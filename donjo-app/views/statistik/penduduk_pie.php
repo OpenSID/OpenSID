@@ -49,9 +49,9 @@
 				name: 'Populasi',
 				data: [
 					<?php foreach ($main as $data): ?>
-						<?php if ($data['nama'] != "TOTAL" and $data['nama'] != "JUMLAH"): ?>
+						<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
 							<?php if ($data['jumlah'] != "-"): ?>
-								['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
+								["<?= strtoupper($data['nama'])?>",<?= $data['jumlah']?>],
 							<?php endif; ?>
 						<?php endif; ?>
 					<?php endforeach;?>
@@ -87,7 +87,7 @@
 								<?php else: ?>
 									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 								<?php endif; ?>
-								<?php if($lap <= 20 AND $lap <> 'kelas_sosial') : ?>
+								<?php if($lap <= 20 AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga' AND $lap <> 'bantuan_penduduk') : ?>
 									<div class="row">
 										<div class="col-sm-12 form-inline">
 											<form action="" id="mainform" method="post">
@@ -132,32 +132,40 @@
 										</thead>
 										<tbody>
 											<?php foreach ($main as $data): ?>
-											<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
+												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
 												<tr>
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
-													<?php if ($jenis_laporan == 'penduduk'): ?>
-														<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-														<td><a href="<?= $tautan_jumlah?>/1"><?= $data['laki']?></a></td>
-														<td><?= $data['persen1'];?></td>
-														<td><a href="<?= $tautan_jumlah?>/2"><?= $data['perempuan']?></a></td>
-														<td><?= $data['persen2'];?></td>
-													<?php endif; ?>
 													<td>
-														<?php if ($lap==21 OR $lap==22 OR $lap==23 OR $lap==24 OR $lap==25 OR $lap==26 OR $lap==27): ?>
-															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>"><?= $data['jumlah']?></a>
+														<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
+															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
 														<?php else: ?>
 															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-															<a href="<?= $tautan_jumlah ?>/0"><?= $data['jumlah']?></a>
+															<a href="<?= $tautan_jumlah ?>/0" <?php if ($data['id']=='JUMLAH'): ?> class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
 														<?php endif; ?>
 													</td>
 													<td><?= $data['persen'];?></td>
+													<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))):
+															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
+															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
+													?>
+													<?php if ($jenis_laporan == 'penduduk'): ?>
+														<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
+														<td><?= $data['persen1'];?></td>
+														<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['perempuan']?></a></td>
+														<td><?= $data['persen2'];?></td>
+													<?php endif; ?>
 												</tr>
 											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
 							</div>
+
+							<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+								<?php $this->load->view('statistik/peserta_bantuan'); ?>
+              <?php endif;?>
+
 						</div>
 					</div>
 				</div>

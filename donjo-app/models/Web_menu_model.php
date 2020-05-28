@@ -1,19 +1,20 @@
 <?php
 
-class Web_menu_model extends CI_Model {
+class Web_menu_model extends MY_Model {
 
 	private $urut_model;
 
 	public function __construct()
 	{
 		parent::__construct();
-	  require_once APPPATH.'/models/Urut_model.php';
+		require_once APPPATH.'/models/Urut_model.php';
 		$this->urut_model = new Urut_Model('menu');
 	}
 
 	public function autocomplete()
 	{
 		$str = autocomplete_str('nama', 'menu');
+
 		return $str;
 	}
 
@@ -25,6 +26,7 @@ class Web_menu_model extends CI_Model {
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (nama LIKE '$kw')";
+
 			return $search_sql;
 		}
 	}
@@ -35,6 +37,7 @@ class Web_menu_model extends CI_Model {
 		{
 			$kf = $_SESSION['filter'];
 			$filter_sql = " AND enabled = $kf";
+
 			return $filter_sql;
 		}
 	}
@@ -60,6 +63,7 @@ class Web_menu_model extends CI_Model {
 		$sql = " FROM menu WHERE tipe = ? ";
 		$sql .= $this->search_sql($tip);
 		$sql .= $this->filter_sql();
+
 		return $sql;
 	}
 
@@ -86,14 +90,11 @@ class Web_menu_model extends CI_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
+			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 
 			$j++;
 		}
+
 		return $data;
 	}
 
@@ -104,7 +105,7 @@ class Web_menu_model extends CI_Model {
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
 		$data['nama'] = strip_tags($data['nama']);
 		$outp = $this->db->insert('menu',$data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -117,7 +118,7 @@ class Web_menu_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('menu', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -151,12 +152,9 @@ class Web_menu_model extends CI_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
+			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 		}
+
 		return $data;
 	}
 
@@ -172,6 +170,7 @@ class Web_menu_model extends CI_Model {
 		{
 			$data[$i]['no'] = $i + 1;
 		}
+
 		return $data;
 	}
 
@@ -182,7 +181,7 @@ class Web_menu_model extends CI_Model {
 		$data['tipe'] = 3;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
 		$outp = $this->db->insert('menu', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -202,7 +201,7 @@ class Web_menu_model extends CI_Model {
 	public function delete_sub_menu($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('menu');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -223,7 +222,7 @@ class Web_menu_model extends CI_Model {
 	{
 		$sql = "UPDATE menu SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -240,8 +239,8 @@ class Web_menu_model extends CI_Model {
 	// 		2 - naik
 	public function urut($id, $arah, $tipe=1, $menu='')
 	{
-  	$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
-  	$this->urut_model->urut($id, $arah, $subset);
+		$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
+		$this->urut_model->urut($id, $arah, $subset);
 	}
 
 }

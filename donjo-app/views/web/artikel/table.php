@@ -54,28 +54,28 @@
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="<?php ($cat == 999) and print('active') ?>"><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
-       					<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
-       					<li class="<?php ($cat == 1001) and print('active') ?>"><a href="<?=site_url('web/index/1001')?>">Keuangan</a></li>
+								<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
+								<li class="<?php ($cat == 1001) and print('active') ?>"><a href="<?=site_url('web/index/1001')?>">Keuangan</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<?php if ($cat > 0): ?>
-								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 									<i class="fa fa-plus"></i>Tambah
-										<?php if ($kategori): ?>
-											<?= $kategori['kategori'];?>
-										<?php elseif ($cat == 1000): ?>
-											Agenda
-										<?php elseif ($cat == 1001): ?>
-											Artikel Keuangan
-										<?php else: ?>
-											Artikel Statis
-										<?php endif; ?> Baru
-	            				</a>
+									<?php if ($kategori): ?>
+										<?= $kategori['kategori'];?>
+									<?php elseif ($cat == 1000): ?>
+										Agenda
+									<?php elseif ($cat == 1001): ?>
+										Artikel Keuangan
+									<?php else: ?>
+										Artikel Statis
+									<?php endif; ?> Baru
+								</a>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("web/delete_all/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -118,26 +118,26 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-                                    <th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==1): ?>
-                                    <th><a href="<?= site_url("web/index/$cat/$p/2")?>">Judul <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php endif; ?>
-                                  <?php if ($o==4): ?>
-                                    <th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==3): ?>
-                                    <th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php endif; ?>
+																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<?php elseif ($o==1): ?>
+																		<th><a href="<?= site_url("web/index/$cat/$p/2")?>">Judul <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php else: ?>
+																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php endif; ?>
+																	<?php if ($o==4): ?>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<?php elseif ($o==3): ?>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php else: ?>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php endif; ?>
 																	<?php if ($o==6): ?>
-                                    <th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                  <?php elseif ($o==5): ?>
-                                    <th nowrap><a href="<?= site_url("web/index/$cat/$p/6")?>">Diposting Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                  <?php else: ?>
-                                    <th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort fa-sm'></i></a></th>
-                                  <?php endif; ?>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<?php elseif ($o==5): ?>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/6")?>">Diposting Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<?php else: ?>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort fa-sm'></i></a></th>
+																	<?php endif; ?>
 																</tr>
 															</thead>
 															<tbody>
@@ -155,7 +155,7 @@
 																					<a href="<?=site_url("web/komentar_unlock/$cat/$data[id]")?>" class="btn bg-info btn-flat btn-sm" title="Buka komentar artikel"><i class="fa fa-comment"></i></a>
 																				<?php endif; ?>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="#" data-href="<?=site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																					<a href="#" data-href="<?=site_url("web/delete/$cat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																				<?php if ($data['enabled'] == '2'): ?>
 																					<a href="<?=site_url("web/artikel_lock/$cat/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock">&nbsp;</i></a>
@@ -169,11 +169,11 @@
 																					</a>
 																				<?php endif; ?>
 																			<?php endif; ?>
-																			<a href="<?= site_url('first/artikel/'.$data['thn'].'/'.$data['bln'].'/'.$data['hri'].'/'.$data['slug']) ?>" target="_blank" class="btn bg-green btn-flat btn-sm" title="Lihat Artikel">
+																			<a href="<?= site_url('artikel/'.buat_slug($data)) ?>" target="_blank" class="btn bg-green btn-flat btn-sm" title="Lihat Artikel">
 																				<i class="fa fa-eye"></i>
 																			</a>
-                                    </td>
-                                    <td width="50%"><?= $data['judul']?></td>
+																		</td>
+																		<td width="50%"><?= $data['judul']?></td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																	</tr>
@@ -184,46 +184,46 @@
 												</div>
 											</div>
 										</form>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("web/pager/$cat")?>" method="post" class="form-horizontal">
-                            <label>
-                              Tampilkan
-                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
-                              </select>
-                              Dari
-                              <strong><?= $paging->num_rows?></strong>
-                              Total Data
-                            </label>
-                          </form>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                          <ul class="pagination">
-                            <?php if ($paging->start_link): ?>
-                              <li><a href="<?=site_url("web/index/$cat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-                            <?php endif; ?>
-                            <?php if ($paging->prev): ?>
-                              <li><a href="<?=site_url("web/index/$cat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                            <?php endif; ?>
-                            <?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-                              <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("web/index/$cat/$i/$o")?>"><?= $i?></a></li>
-                            <?php endfor; ?>
-                            <?php if ($paging->next): ?>
-                              <li><a href="<?=site_url("web/index/$cat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                            <?php endif; ?>
-                            <?php if ($paging->end_link): ?>
-                              <li><a href="<?=site_url("web/index/$cat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-                            <?php endif; ?>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="dataTables_length">
+													<form id="paging" action="<?= site_url("web/pager/$cat")?>" method="post" class="form-horizontal">
+														<label>
+															Tampilkan
+															<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+																<option value="20" <?php selected($per_page, 20); ?> >20</option>
+																<option value="50" <?php selected($per_page, 50); ?> >50</option>
+																<option value="100" <?php selected($per_page, 100); ?> >100</option>
+															</select>
+															Dari
+															<strong><?= $paging->num_rows?></strong>
+															Total Data
+														</label>
+													</form>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="dataTables_paginate paging_simple_numbers">
+													<ul class="pagination">
+														<?php if ($paging->start_link): ?>
+															<li><a href="<?=site_url("web/index/$cat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+														<?php endif; ?>
+														<?php if ($paging->prev): ?>
+															<li><a href="<?=site_url("web/index/$cat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+														<?php endif; ?>
+														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("web/index/$cat/$i/$o")?>"><?= $i?></a></li>
+														<?php endfor; ?>
+														<?php if ($paging->next): ?>
+															<li><a href="<?=site_url("web/index/$cat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+														<?php endif; ?>
+														<?php if ($paging->end_link): ?>
+															<li><a href="<?=site_url("web/index/$cat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+														<?php endif; ?>
+													</ul>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

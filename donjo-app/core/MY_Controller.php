@@ -13,7 +13,6 @@ class MY_Controller extends CI_Controller {
     public $template;
     public $error;
 
-
     /**
      * Constructor
      */
@@ -93,7 +92,7 @@ class MY_Controller extends CI_Controller {
 		public function clear_cluster_session()
 		{
 			$cluster_session = array('dusun', 'rw', 'rt');
-			foreach ($cluster_session as $session) 
+			foreach ($cluster_session as $session)
 			{
 				$this->session->unset_userdata($session);
 			}
@@ -110,6 +109,7 @@ class Web_Controller extends MY_Controller
 	{
 		parent::__construct();
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
+ 		$this->controller = strtolower($this->router->fetch_class());
 	}
 
 	// Jika file theme/view tidak ada, gunakan file klasik/view
