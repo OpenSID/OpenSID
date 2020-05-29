@@ -892,4 +892,18 @@ function convertToBytes(string $from)
 		}
 	}
 
+function crawler()
+{
+	$file = APPPATH.'config/crawler-user-agents.json';
+	$data = json_decode(file_get_contents($file), true);
+
+	foreach($data as $entry)
+	{
+		if (preg_match('/'.strtolower($entry['pattern']).'/', $_SERVER['HTTP_USER_AGENT']))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 ?>
