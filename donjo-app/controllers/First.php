@@ -49,6 +49,8 @@ class First extends Web_Controller {
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
 		$this->load->model('program_bantuan_model');
+		$this->load->model('keuangan_grafik_model');
+		$this->load->model('keuangan_grafik_manual_model');
 	}
 
 	public function auth()
@@ -81,7 +83,6 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
-		$this->load->model('keuangan_grafik_model');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -103,9 +104,19 @@ class First extends Web_Controller {
 			);
 		}
 
-		if (config_item('apbdes_footer'))
+		if (config_item('apbdes_manual_input'))
 		{
-			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			if (config_item('apbdes_footer'))
+			{
+				$data['transparansi'] = $this->keuangan_grafik_manual_model->grafik_keuangan_tema();
+			}
+		}
+		else
+		{
+			if (config_item('apbdes_footer'))
+			{
+				$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			}
 		}
 
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
@@ -619,9 +630,19 @@ class First extends Web_Controller {
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
-		if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+		if (config_item('apbdes_manual_input'))
 		{
-			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+			{
+				$data['transparansi'] = $this->keuangan_grafik_manual_model->grafik_keuangan_tema();
+			}
+		}
+		else
+		{
+			if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+			{
+				$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			}
 		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
