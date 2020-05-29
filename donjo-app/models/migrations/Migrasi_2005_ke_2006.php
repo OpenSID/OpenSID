@@ -50,20 +50,6 @@ class Migrasi_2005_ke_2006 extends CI_model {
 					'null' => TRUE,
 				),
 			));
-		/**
-		 * Normalkan kembali hit artikel kategori 999 pd versi 20.05-pasca akibat robot (crawler)
-		 * Jumlah hit > 400 menjadi 10% pada artikel yg ditampilkan pada menu aktif saja
-		 */
-		$list_menu = $this->db->like('link', 'artikel/')->where('enabled', 1)->get('menu')->result_array();
-		foreach ($list_menu as $list)
-		{
-			$id = str_replace('artikel/', '', $list['link']);
-			$artikel = $this->db->where('id', $id)->get('artikel')->row_array();
-			$hit = $artikel['hit'] * (10 / 100);
-
-			if($artikel AND $artikel['hit'] > 400)
-				$this->db->where('id', $id)->update('artikel', array('hit' => $hit));
-		}
 
 	}
 

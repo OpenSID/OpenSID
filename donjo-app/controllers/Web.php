@@ -319,4 +319,13 @@ class Web extends Admin_Controller {
 		redirect("web/teks_berjalan");
 	}
 
+	// TODO: Hanya untuk veri 20.05-pasca / 20.06, hapus jika sudah versi 20.07
+	public function reset($cat = 999)
+	{
+		if($cat == 999)
+			$this->web_artikel_model->reset($cat);
+
+		redirect("web/index/$cat");
+	}
+
 }
