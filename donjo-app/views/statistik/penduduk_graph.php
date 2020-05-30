@@ -1,4 +1,3 @@
-
 <!-- Pengaturan Grafik (Graph) Data Statistik-->
 <script type="text/javascript">
 	var chart;
@@ -9,7 +8,13 @@
 			chart:
 			{
 				renderTo: 'chart',
-				defaultSeriesType: 'column'
+				defaultSeriesType: 'column',
+				options3d: {
+            enabled: true,
+            alpha: 10,
+            beta: 25,
+            depth: 70
+        }
 			},
 			title:
 			{
@@ -45,11 +50,12 @@
 				{
           colorByPoint: true
         },
-      column:
-			{
-				pointPadding: 0,
-				borderWidth: 0
-			}
+				column: {
+					pointPadding: -0.1,
+					borderWidth: 0,
+					depth: 45,
+					showInLegend: false
+				},
 		},
 		series: [
 		{
@@ -68,8 +74,6 @@
 	});
 </script>
 <!-- Highcharts -->
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Statistik Kependudukan (Grafik)</h1>

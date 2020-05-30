@@ -1,15 +1,14 @@
-
 <!-- Pengaturan Grafik Chart Pie Data Statistik-->
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		chart = new Highcharts.Chart({
-			chart:
-			{
+		chart = new Highcharts.chart({
+			chart: {
 				renderTo: 'chart',
-				plotBackgroundColor: null,
-				plotBorderWidth: null,
-				plotShadow: false
+        options3d: {
+            enabled: true,
+            alpha: 45
+        }
 			},
 			title:
 			{
@@ -19,30 +18,20 @@
 			{
 				text: 'Berdasarkan <?= $stat?>'
 			},
-			plotOptions:
-			{
-				index:
-				{
+			plotOptions: {
+				series: {
+					colorByPoint: true
+				},
+				pie: {
 					allowPointSelect: true,
 					cursor: 'pointer',
-					dataLabels:
-					{
-						enabled: true
-					},
+					depth: 45,
+					innerSize: 70,
 					showInLegend: true
 				}
 			},
-			legend:
-			{
-				layout: 'vertical',
-				backgroundColor: '#FFFFFF',
-				align: 'right',
-				verticalAlign: 'top',
-				x: -30,
-				y: 0,
-				floating: true,
-				shadow: true,
-        enabled:true
+			legend: {
+				enabled: true
 			},
 			series: [{
 				type: 'pie',
@@ -61,8 +50,6 @@
 	});
 </script>
 <!-- Highcharts -->
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Statistik Kependudukan (Pie)</h1>

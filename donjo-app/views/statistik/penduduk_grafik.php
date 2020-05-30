@@ -45,7 +45,11 @@
 		tampilkan_nol(false);
 		chart_penduduk = new Highcharts.Chart({
 			chart: {
-				renderTo: 'container'
+				renderTo: 'container',
+        options3d: {
+            enabled: true,
+            alpha: 45
+        }
 			},
 			title: 0,
 			yAxis: {
@@ -61,11 +65,14 @@
 				column: {
 					pointPadding: -0.1,
 					borderWidth: 0,
+					depth: 45,
 					showInLegend: false
 				},
 				pie: {
 					allowPointSelect: true,
 					cursor: 'pointer',
+					depth: 45,
+					innerSize: 70,
 					showInLegend: true
 				}
 			},
