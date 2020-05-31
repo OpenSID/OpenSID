@@ -9,13 +9,14 @@
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('pamong_model');
 		$this->load->model('keuangan_grafik_model');
-	  require_once APPPATH.'/models/Urut_model.php';
+		require_once APPPATH.'/models/Urut_model.php';
 		$this->urut_model = new Urut_Model('widget');
 	}
 
 	public function autocomplete()
 	{
 		$str = autocomplete_str('judul', 'widget');
+
 		return $str;
 	}
 
@@ -24,14 +25,17 @@
 		$data = $this->db->where('id', $id)->get('widget')->row_array();
 		$data['judul'] = htmlentities($data['judul']);
 		$data['isi'] = $this->security->xss_clean($data['isi']);
+
 		return $data;
 	}
 
 	public function get_widget_aktif()
 	{
-		$data = $this->db->where('enabled', 1)->
-			order_by('urut')->
-			get('widget')->result_array();
+		$data = $this->db->where('enabled', 1)
+			->order_by('urut')
+			->get('widget')
+			->result_array();
+
 		return $data;
 	}
 
@@ -43,6 +47,7 @@
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (judul LIKE '$kw' OR isi LIKE '$kw')";
+
 			return $search_sql;
 		}
 	}
@@ -53,6 +58,7 @@
 		{
 			$kf = $_SESSION['filter'];
 			$filter_sql = " AND enabled = $kf";
+
 			return $filter_sql;
 		}
 	}
@@ -78,6 +84,7 @@
 		$sql = " FROM widget WHERE 1";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
+
 		return $sql;
 	}
 
@@ -119,6 +126,7 @@
 			$j++;
 		}
 		$data = $this->security->xss_clean($data);
+
 		return $data;
 	}
 
@@ -129,7 +137,7 @@
 	 */
 	public function urut($id, $arah)
 	{
-  	return $this->urut_model->urut($id, $arah);
+		return $this->urut_model->urut($id, $arah);
 	}
 
 	public function lock($id='', $val=0)
@@ -168,8 +176,8 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 
-	  $data = $_POST;
-	  unset($data['isi']);
+		$data = $_POST;
+		unset($data['isi']);
 
 		// Widget isinya tergantung jenis widget
 		if ($data['jenis_widget'] == 2)
@@ -190,44 +198,48 @@
 
 	public function get_setting($widget, $opsi='')
 	{
-	  // Data di kolom setting dalam format json
-		$setting = $this->db->select('setting')->
-			where('isi',$widget.'.php')->
-			get('widget')->row_array();
+		// Data di kolom setting dalam format json
+		$setting = $this->db->select('setting')
+			->where('isi',$widget.'.php')
+			->get('widget')
+			->row_array();
 		$setting = json_decode($setting['setting'], true);
+
 		return empty($opsi) ? $setting : $setting[$opsi];
 	}
 
 	protected function filter_setting($k)
 	{
-  	$berisi = false;
-  	foreach ($k as $kolom)
-  	{
-  		if ($kolom)
-  		{
-  			$berisi = true;
-	  		break;
-	  	}
-  	}
-  	return $berisi;
+		$berisi = false;
+		foreach ($k as $kolom)
+		{
+			if ($kolom)
+			{
+				$berisi = true;
+				break;
+			}
+		}
+
+		return $berisi;
 	}
 
-  private function sort_sinergi_program($a, $b)
-  {
-      $keya = str_pad($a['baris'], 2, '0', STR_PAD_LEFT).$a['kolom'];
-      $keyb = str_pad($b['baris'], 2, '0', STR_PAD_LEFT).$b['kolom'];
-      return $keya > $keyb;
-  }
+	private function sort_sinergi_program($a, $b)
+	{
+		$keya = str_pad($a['baris'], 2, '0', STR_PAD_LEFT).$a['kolom'];
+		$keyb = str_pad($b['baris'], 2, '0', STR_PAD_LEFT).$b['kolom'];
 
-  private function upload_gambar_sinergi_program(&$setting)
-  {
-  	foreach ($setting as $key => $value)
-  	{
-		  $lokasi_file = $_FILES['setting']['tmp_name'][$key]['gambar'];
-		  $tipe_file = $_FILES['setting']['type'][$key]['gambar'];
-		  $nama_file = $_FILES['setting']['name'][$key]['gambar'];
-		  $fp = time();
-		  $nama_file   = $fp . "_". str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		return $keya > $keyb;
+	}
+
+	private function upload_gambar_sinergi_program(&$setting)
+	{
+		foreach ($setting as $key => $value)
+		{
+			$lokasi_file = $_FILES['setting']['tmp_name'][$key]['gambar'];
+			$tipe_file = $_FILES['setting']['type'][$key]['gambar'];
+			$nama_file = $_FILES['setting']['name'][$key]['gambar'];
+			$fp = time();
+			$nama_file   = $fp . "_". str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 			$old_gambar    = $value['old_gambar'];
 			$setting[$key]['gambar'] = $old_gambar;
 			if (!empty($lokasi_file))
@@ -243,28 +255,28 @@
 					$_SESSION['error_msg'] = " -> Jenis file " . $nama_file ." salah: " . $tipe_file;
 				}
 			}
-	  }
-  }
+		}
+	}
 
 	public function update_setting($widget, $setting)
 	{
 		$_SESSION['success'] = 1;
-	  switch ($widget)
-	  {
-	  	case 'sinergi_program':
-			  // Upload semua gambar setting
-			  $this->upload_gambar_sinergi_program($setting);
-			  // Hapus setting kosong menggunakan callback
-			  $setting = array_filter($setting, array($this,'filter_setting'));
-			  // Sort setting berdasarkan [baris][kolom]
-			  usort($setting, array($this,"sort_sinergi_program"));
-	  		break;
-	  	default:
-	  		break;
-	  }
- 	  // Simpan semua setting di kolom setting sebagai json
-	  $setting = json_encode($setting);
-	  $data = array('setting' => $setting);
+		switch ($widget)
+		{
+			case 'sinergi_program':
+				// Upload semua gambar setting
+				$this->upload_gambar_sinergi_program($setting);
+				// Hapus setting kosong menggunakan callback
+				$setting = array_filter($setting, array($this,'filter_setting'));
+				// Sort setting berdasarkan [baris][kolom]
+				usort($setting, array($this,"sort_sinergi_program"));
+				break;
+				default:
+				break;
+		}
+		// Simpan semua setting di kolom setting sebagai json
+		$setting = json_encode($setting);
+		$data = array('setting' => $setting);
 		$outp = $this->db->where('isi', $widget.'.php')->update('widget', $data);
 		if (!$outp) $_SESSION['success'] = -1;
 	}
@@ -304,7 +316,7 @@
 		$data['aparatur_desa'] = $this->pamong_model->list_aparatur_desa();
 		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
 		$data['sinergi_program'] = $this->get_setting('sinergi_program');
-	 	$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
+		$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 	}
 
 	// widget statis di ambil dari folder desa/widget dan desa/themes/nama_tema/widgets
@@ -349,7 +361,9 @@
 	{
 		$data = $this->db->select('isi')
 			->where('jenis_widget', 2)
-			->get('widget')->result_array();
+			->get('widget')
+			->result_array();
+
 		return array_column($data, 'isi');
 	}
 

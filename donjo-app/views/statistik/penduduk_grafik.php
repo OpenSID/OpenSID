@@ -34,13 +34,23 @@
 		else $('#tampilkan').text('Sembunyikan Nol');
 	}
 
+	function switchType(){
+		var chartType = chart_penduduk.series[0].type;
+		chart_penduduk.series[0].update({
+			type: (chartType === 'pie') ? 'column' : 'pie'
+		});
+	}
+
 	$(document).ready(function () {
 		tampilkan_nol(false);
-		chart = new Highcharts.Chart({
+		chart_penduduk = new Highcharts.Chart({
 			chart: {
 				renderTo: 'container'
 			},
 			title: 0,
+			yAxis: {
+				showEmpty: false,
+			},
 			xAxis: {
 				categories: categories,
 			},
@@ -50,7 +60,8 @@
 				},
 				column: {
 					pointPadding: -0.1,
-					borderWidth: 0
+					borderWidth: 0,
+					showInLegend: false
 				},
 				pie: {
 					allowPointSelect: true,
@@ -107,8 +118,8 @@
 		<h3 class="box-title">Grafik <?= $heading ?></h3>
 		<div class="box-tools pull-right">
 			<div class="btn-group-xs">
-				<a href="<?= site_url("first/statistik/$st/1") ?>" class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs">Bar Graph</a>
-				<a href="<?= site_url("first/statistik/$st/0") ?>" class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs">Pie Cart</a>
+				<a class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
+				<a class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
 			</div>
 		</div>
 	</div>
@@ -188,7 +199,3 @@
 	</div>
 	</div>
 </div>
-
-<?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-	<?php $this->load->view('statistik/peserta_bantuan', array('lap' => $st)); ?>
-<?php endif;?>

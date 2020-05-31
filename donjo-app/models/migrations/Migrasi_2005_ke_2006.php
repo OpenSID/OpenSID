@@ -4,6 +4,8 @@ class Migrasi_2005_ke_2006 extends CI_model {
 	public function up()
 	{
 		$this->grup_akses_covid19();
+		$this->load->model('migrations/migrasi_2004_ke_2005');
+		$this->migrasi_2004_ke_2005->up(); // untuk yang sudah terlanjur mengkosongkan DB sebelum kosongkan_db diperbaiki
 
 		// Ubah nama kode status penduduk
 		$this->db->where('id', 2)
@@ -35,6 +37,15 @@ class Migrasi_2005_ke_2006 extends CI_model {
 				'type' => 'VARCHAR',
 				'constraint' => 50,
 				'null' => TRUE,
+				),
+			));
+		//tambah kolom kantor_desa di tabel config
+		if (!$this->db->field_exists('kantor_desa', 'config'))
+			$this->dbforge->add_column('config', array(
+				'kantor_desa' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100,
+					'null' => TRUE,
 				),
 			));
 	}

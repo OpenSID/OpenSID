@@ -6,6 +6,8 @@ assets/sync/
 # file logo contoh yg tersedia dalam release sid304 inti.
 assets/files/logo/*
 !assets/files/logo/home.png
+!assets/files/logo/opensid_logo.png
+!assets/files/logo/opensid_kantor.*
 # Jangan simpan isi folder foto pengguna. Isinya khusus desa, kecuali
 # file foto contoh yg tersedia dalam release sid304 inti.
 assets/files/user_pict/*

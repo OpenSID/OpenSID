@@ -14,7 +14,7 @@
 						<tr>
 							<td align="center" >
 								<?php if ($aksi != 'unduh'): ?>
-									<img src="<?= LogoDesa($config['logo']);?>" alt="" style="width:100px; height:auto">
+									<img src="<?= gambar_desa($config['logo']);?>" alt="" style="width:100px; height:auto">
 								<?php endif; ?>
 								<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
 								<h1 style="text-transform: uppercase;"></h1>

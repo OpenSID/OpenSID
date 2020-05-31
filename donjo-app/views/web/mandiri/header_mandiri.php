@@ -126,7 +126,7 @@
           <div class="container-fluid">
             <div class="navbar-header">
               <a class="navbar-brand" href="<?= site_url(); ?>first/">
-                <img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
+                <img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
               </a>
               <p class="navbar-brand">
                 <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'] ?>

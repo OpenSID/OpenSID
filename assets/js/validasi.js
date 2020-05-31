@@ -87,7 +87,10 @@ $(document).ready(function() {
 			nomor_urut: {
 				remote: "Nomor urut itu sudah digunakan",
 			},
-		}
+		},
+    success: function() {
+	    csrf_semua_form();
+    }
 	});
 
 	$("#validasi").validate({

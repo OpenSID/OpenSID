@@ -1,4 +1,4 @@
-<?php
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 define("VERSION", '20.05-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
@@ -316,21 +316,23 @@ function favico_desa()
 }
 
 /**
- * LogoDesa
+ * gambar_desa / KantorDesa
  *
- * Mengembalikan path lengkap untuk file logo desa
+ * Mengembalikan path lengkap untuk file logo desa / kantor desa
  *
  * @access  public
  * @return  string
  */
-function LogoDesa($nama_logo)
+function gambar_desa($nama_file, $type = FALSE)
 {
-	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_logo))
+	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_file))
 	{
-		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_logo;
+		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_file;
 	}
 
-	return $logo_desa = base_url() . 'assets/files/logo/opensid_logo.png';
+	// type FALSE = logo, TRUE = kantor
+	$default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
+	return $logo_desa = base_url("assets/files/logo/$default");
 }
 
 /**
@@ -826,7 +828,8 @@ function status_sukses($outp, $gagal_saja=false)
 }
 
 // https://stackoverflow.com/questions/11807115/php-convert-kb-mb-gb-tb-etc-to-bytes
-function convertToBytes(string $from): ?int {
+function convertToBytes(string $from)
+{
   $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
   $number = substr($from, 0, -2);
   $suffix = strtoupper(substr($from,-2));
@@ -859,7 +862,11 @@ function convertToBytes(string $from): ?int {
 			throw new Exception("URL to parse is empty!.");
 			return false;
 		}
-
+		if (!in_array(explode(':', $url)[0], array('http', 'https')))
+		{
+			throw new Exception("URL harus http atau https");
+			return false;
+		}
 		if ($content = @file_get_contents($url))
 		{
 			return $content;

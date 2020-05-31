@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Laporan Peserta Program <?= $peserta[0]["nama"];?></title>
+		<title>Data Pemudik Saat Pandemi Covid-19</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<style type="text/css">
@@ -33,14 +33,12 @@
 					</tr>
 					<tr>
 						<td align="center" >
-							<h4><u>Daftar Peserta Program <?= $peserta[0]["nama"];?></u></h4>
+							<h3><u>Daftar Pemudik Saat Pandemi Covid-19</u></h3>
 						</td>
 					</tr>
 					<tr>
 						<td style="padding: 5px 20px;">
-							<strong>Sasaran Peserta : </strong><?= $sasaran[$peserta[0]["sasaran"]];?><br>
-							<strong>Masa Berlaku : </strong><?= fTampilTgl($peserta[0]["sdate"],$peserta[0]["edate"]);?><br>
-							<strong>Keterangan : </strong><?= $peserta[0]["ndesc"];?>
+							<strong>Sasaran: </strong>Penduduk<br>
 						</td>
 					</tr>
 					<tr>
@@ -48,36 +46,47 @@
 							<table class="border thick">
 								<thead>
 									<tr class="border thick">
-										<th rowspan="2">No</th>
-										<th rowspan="2"><?= $peserta[0]["judul_peserta"]?></th>
-										<th rowspan="2">No. Kartu Peserta</th>
-										<th rowspan="2"><?= $peserta[0]["judul_peserta_info"]?></th>
-										<th rowspan="2">Alamat</th>
-										<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
-									</tr>
-									<tr class="border thick">
+										<th>No</th>
 										<th>NIK</th>
 										<th>Nama</th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
+										<th>Jenis Kelamin</th>
 										<th>Alamat</th>
+										<th>Asal Pemudik</th>
+										<th>Tiba Tanggal</th>
+										<th>Tujuan Mudik</th>
+										<th>Durasi Mudik</th>
+										<th>No HP</th>
+										<th>Email</th>
+										<th>Status Covid-19</th>
+										<th>Keluhan Kesehatan</th>
+										<th>Keterangan</th>
+										<th>Wajib Pantau</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php	$i=1; foreach ($peserta[1] as $key=>$item): ?>
-									<tr>
-										<td><?=$i?></td>
-										<td class='textx'><?=$item["nik"]?></td>
-										<td class='textx'><?=$item["no_id_kartu"]?></td>
-										<td><?=$item["nama"]?></td>
-										<td><?=$item["info"]?></td>
-										<td class='textx'><?=$item["kartu_nik"]?></td>
-										<td><?=$item["kartu_nama"]?></td>
-										<td><?=$item["kartu_tempat_lahir"]?></td>
-										<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
-										<td><?=$item["kartu_alamat"]?></td>
-									</tr>
-									<?php $i++; endforeach;?>
+									<?php	$i=1;	foreach ($pemudik_list as $key=>$item): ?>
+										<tr>
+											<td><?= $i?></td>
+											<td class='textx'><?= $item["terdata_nama"]?></td>
+											<td><?= $item["terdata_info"]?></td>
+											<td><?= $item["tempat_lahir"] ?></td>
+											<td><?= $item["tanggal_lahir"] ?></td>
+											<td><?= $item["sex"] ?></td>
+											<td><?= $item["info"]?></td>
+											<td><?= $item["asal_mudik"]?></td>
+											<td><?= $item["tanggal_datang"]?></td>
+											<td><?= $item["tujuan_mudik"]?></td>
+											<td><?= $item["durasi_mudik"]?></td>
+											<td><?= $item["no_hp"]?></td>
+											<td><?= $item["email"]?></td>
+											<td><?= $item["status_covid"]?></td>
+											<td><?= $item["keluhan_kesehatan"]?></td>
+											<td><?= $item["keterangan"]?></td>
+											<td><?= ($item["is_wajib_pantau"] === '1' ? "Ya" : "Tidak"); ?></td>
+										</tr>
+									<?php $i++;	endforeach;	?>
 								</tbody>
 							</table>
 						</td>
@@ -87,3 +96,4 @@
 		</div>
 	</body>
 </html>
+

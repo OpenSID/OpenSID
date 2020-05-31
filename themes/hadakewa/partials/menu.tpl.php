@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<link rel="stylesheet" type="text/css" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css">
+<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <!--
 https://stackoverflow.com/questions/24685000/bootstrap-3-dropdowns-on-hover-and-on-click
 $('.navbar-toggle').is(':visible') checks if we are currently in mobile view, $(this).toggleClass('open', true) adds or removes open css class used by bootstrap, and window.location = $(this).attr('href') sends user to location set in the link href.
@@ -12,28 +12,28 @@ navigasi ke tautannya.
 <script>
 	jQuery(function($) {
 		$('ul.nav li.dropdown').hover(function() {
-		    if (!$('.navbar-toggle').is(':visible')) {
-		        $(this).toggleClass('open', true);
-		    }
+				if (!$('.navbar-toggle').is(':visible')) {
+						$(this).toggleClass('open', true);
+				}
 		}, function() {
-		    if (!$('.navbar-toggle').is(':visible')) {
-		        $(this).toggleClass('open', false);
-		    }
+				if (!$('.navbar-toggle').is(':visible')) {
+						$(this).toggleClass('open', false);
+				}
 		});
 		$('ul.nav li.dropdown a').click(function(){
-		    if (!$('.navbar-toggle').is(':visible') && $(this).attr('href') != '#') {
-		        $(this).toggleClass('open', false);
-		        window.location = $(this).attr('href')
-		    } else if ($(this).parent().hasClass('open') && $(this).attr('href') != '#') {
-		        window.location = $(this).attr('href')
-		    }
+				if (!$('.navbar-toggle').is(':visible') && $(this).attr('href') != '#') {
+						$(this).toggleClass('open', false);
+						window.location = $(this).attr('href')
+				} else if ($(this).parent().hasClass('open') && $(this).attr('href') != '#') {
+						window.location = $(this).attr('href')
+				}
 		});
 	});
 </script>
-<link type='text/css' href="<?= base_url()?>assets/front/css/default.css" rel='Stylesheet' />
-<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" rel='Stylesheet' />
+<link rel="Stylesheet" href="<?= base_url()?>assets/front/css/default.css" />
+<link rel="Stylesheet" href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" />
 <?php if (is_file("desa/css/".$this->theme."/desa-default.css")):?>
-  <link type='text/css' href="<?= base_url()?>desa/css/<?php echo $this->theme ?>/desa-default.css" rel='Stylesheet' />
+	<link rel="Stylesheet" href="<?= base_url().'desa/css/'.$this->theme.'/desa-default.css'?>" />
 <?php endif; ?>
 
 <nav class="navbar navbar-default">
@@ -46,7 +46,7 @@ navigasi ke tautannya.
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="<?= site_url(); ?>first/">
-				<img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
+				<img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
 			</a>
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

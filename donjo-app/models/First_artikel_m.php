@@ -42,12 +42,6 @@ class First_artikel_m extends CI_Model {
 		return $items;
 	}
 
-	public function get_teks_berjalan()
-	{
-		$this->load->model('teks_berjalan_model');
-		return $this->teks_berjalan_model->isi_teks_berjalan();
-	}
-
 	public function get_widget()
 	{
 		$sql = "SELECT * FROM widget LIMIT 1 ";
@@ -95,7 +89,8 @@ class First_artikel_m extends CI_Model {
 			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
-				->like('a.judul', $cari)->or_like('a.isi', $cari)
+					->like('a.judul', $cari)
+					->or_like('a.isi', $cari)
 				->group_end();
 		}
 	}
@@ -464,8 +459,8 @@ class First_artikel_m extends CI_Model {
 	// Tampilan di widget sosmed
 	public function list_sosmed()
 	{
-		$sql = "SELECT * FROM media_sosial WHERE enabled=1";
-		$query = $this->db->query($sql);
+		$query = $this->db->where('enabled', 1)->get('media_sosial');
+
 		if ($query->num_rows()>0)
 		{
 			$data  = $query->result_array();
@@ -473,10 +468,6 @@ class First_artikel_m extends CI_Model {
 			{
 				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
 			}
-		}
-		else
-		{
-			$data = false;
 		}
 
 		return $data;

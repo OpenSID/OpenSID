@@ -1,10 +1,12 @@
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <section class="content" id="maincontent">
   <div class="row">
     <div class="col-md-12">
       <input id="stat" type="hidden" value="<?=$lap?>">
       <div class="box box-info">
         <div class="box-header with-border" style="margin-bottom: 15px;">
-          <h3 class="box-title"><?= $heading ?></h3>
+          <h3 class="box-title">Daftar <?= $heading ?></h3>
         </div>
         <div style="margin-right: 1rem; margin-left: 1rem;">
           <div class="table-responsive">
@@ -30,7 +32,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
 
-    var url = "<?= site_url('statistik/ajax_peserta_program_bantuan')?>";
+    var url = "<?= site_url($this->controller.'/ajax_peserta_program_bantuan')?>";
       table = $('#peserta_program').DataTable({
         'processing': true,
         'serverSide': true,
