@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.05-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.06, tersedia statistik penerima bantuan sasaran penduduk/keluarga dan statistik Covid-19 di peta. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Diki Siswanto, Nur Hidayat, Arif F Lazuardi, Il Ham dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Erick Surya Dinata yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.06 adalah sebagai berikut:
 
 1. #2982: Tutup celah XSS di Layanan Mandiri > Kotak Pesan [security-fix].
 2. #2983: Perbaiki tampilan modul Siaga Covid-19.
@@ -64,5 +64,5 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.05-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 

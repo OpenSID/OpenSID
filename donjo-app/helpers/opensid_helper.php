@@ -1,6 +1,6 @@
 <?php
 
-define("VERSION", '20.05-pasca');
+define("VERSION", '20.06');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
