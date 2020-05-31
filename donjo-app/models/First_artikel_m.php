@@ -89,7 +89,8 @@ class First_artikel_m extends CI_Model {
 			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
-				->like('a.judul', $cari)->or_like('a.isi', $cari)
+					->like('a.judul', $cari)
+					->or_like('a.isi', $cari)
 				->group_end();
 		}
 	}
