@@ -61,6 +61,7 @@ Lengkapnya, isi rilis versi 20.05-pasca adalah sebagai berikut:
 55. Sekarang tautan ke artikel di menu statis menggunakan url slug, bukan id.
 56. #3110: Sekarang tautan ke artikel di teks berjalan menggunakan url slug, bukan id.
 57. #3122: Tutup celah sql injection di cetak surat. [security-fix]
+58. #3123: Tutup celas akses file lokal melalui curl. [security-fix]
 
 
 

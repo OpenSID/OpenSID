@@ -1,4 +1,4 @@
-<?php
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 define("VERSION", '20.05-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
@@ -862,7 +862,11 @@ function convertToBytes(string $from)
 			throw new Exception("URL to parse is empty!.");
 			return false;
 		}
-
+		if (!in_array(explode(':', $url)[0], array('http', 'https')))
+		{
+			throw new Exception("URL harus http atau https");
+			return false;
+		}
 		if ($content = @file_get_contents($url))
 		{
 			return $content;
