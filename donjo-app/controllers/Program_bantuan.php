@@ -93,6 +93,7 @@ class Program_bantuan extends Admin_Controller {
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 
+		$data['p'] = $p;
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['paging'] = $data['program'][0]['paging'];
