@@ -34,6 +34,8 @@ class Program_bantuan extends Admin_Controller {
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['per_page'] = $_SESSION['per_page'];
+		$data['p'] = $p;
+		$data['func'] = 'index';
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -97,6 +99,8 @@ class Program_bantuan extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['paging'] = $data['program'][0]['paging'];
+		$data['p'] = $p;
+		$data['func'] = 'detail';		
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
