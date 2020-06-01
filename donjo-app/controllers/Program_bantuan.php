@@ -2,6 +2,8 @@
 
 class Program_bantuan extends Admin_Controller {
 
+	private $set_page;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -9,6 +11,7 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->model('program_bantuan_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 6;
+		$this->set_page = ['20', '50', '100'];
 	}
 
 	public function clear($id = 0)
@@ -96,6 +99,7 @@ class Program_bantuan extends Admin_Controller {
 			$this->session->per_page = $per_page;
 
 		$data['per_page'] = $this->session->per_page;
+		$data['set_page'] = $this->set_page;
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['keyword'] = $this->program_bantuan_model->autocomplete($id, $this->input->post('cari'));
 		$data['paging'] = $data['program'][0]['paging'];
