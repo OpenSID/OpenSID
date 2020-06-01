@@ -30,6 +30,7 @@
 									<a href="<?= site_url("penduduk_log/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 									<a href="<?= site_url("penduduk_log/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 									<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
+									<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 								</div>
 							</div>
 						</div>
@@ -188,9 +189,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="50" <?php selected($per_page,50); ?> >50</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
-															<option value="200" <?php selected($per_page,200); ?> >200</option>
+															<?php foreach ($set_page as $set): ?>
+																<option value="<?=$set?>" <?php selected($per_page, $set); ?> ><?=$set?></option>
+															<?php endforeach; ?>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>

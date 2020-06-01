@@ -222,7 +222,7 @@
 			// Untuk Log Penduduk
 			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
 			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
-			default:$order_sql = '';
+			default:$order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
 		}
 
 		//Paging SQL

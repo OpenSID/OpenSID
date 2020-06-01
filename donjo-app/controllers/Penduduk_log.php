@@ -2,6 +2,9 @@
 
 class Penduduk_log extends Admin_Controller {
 
+	private $set_page;
+	private $list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,22 +15,14 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
+		$this->set_page = ['20', '50', '100'];
+		$this->list_session = ['status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['status_dasar']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['status']);
-		unset($_SESSION['status_penduduk']);
-		$_SESSION['per_page'] = 200;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = 20;
 		redirect('penduduk_log');
 	}
 
@@ -36,30 +31,26 @@ class Penduduk_log extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['status_dasar']))
-			$data['status_dasar'] = $_SESSION['status_dasar'];
-		else $data['status_dasar'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
-
-		if (isset($_SESSION['dusun']))
+		foreach ($this->list_session as $list)
 		{
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+			if(in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->userdata($list);
+			else
+				$data[$list] = $this->session->userdata($list) ?: '';
+		}
 
-			if (isset($_SESSION['rw']))
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+
+			if (isset($rw))
 			{
-				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'], $data['rw']);
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
 
-				if (isset($_SESSION['rt']))
-					$data['rt'] = $_SESSION['rt'];
+				if (isset($rt))
+					$data['rt'] = $rt;
 				else $data['rt'] = '';
 
 			}
@@ -67,30 +58,19 @@ class Penduduk_log extends Admin_Controller {
 		}
 		else
 		{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
 
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
 		// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
-		$_SESSION['log'] = 1;
+		$this->session->log = 1;
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
+		$data['per_page'] = $this->session->per_page;
+
+		$data['set_page'] = $this->set_page;
 		$data['paging'] = $this->penduduk_log_model->paging($p, $o);
 		$data['main'] = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
