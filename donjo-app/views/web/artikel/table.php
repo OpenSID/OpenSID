@@ -83,8 +83,7 @@
 							<?php if ($cat > 0 and $cat < 999): ?>
 								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?=site_url("web/hapus/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
 							<?php endif; ?>
-							<!-- TODO: Hanya untuk veri 20.05-pasca / 20.06, hapus jika sudah versi 20.07 -->
-							<?php if ($cat == 999 AND in_array(VERSION, array("20.05-pasca", "20.06"))): ?>
+							<?php if ($cat == 999): ?>
 								<a href="<?= site_url("{$this->controller}/reset/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
 							<?php endif; ?>
 						</div>
@@ -240,7 +239,6 @@
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 
-<!-- TODO: Hanya untuk veri 20.05-pasca / 20.06, hapus jika sudah versi 20.07 -->
 <form action="<?= site_url("web/reset/$cat")?>" method="post">
 	<div class='modal fade' id='reset-hit' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 		<div class='modal-dialog'>
@@ -253,7 +251,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
-								<code>Lakukan hapus hit ini jika website anda terkena dampak dari perubahan link menu dari id menjadi slug. Adapun dampaknya adalah artikel(statis) yg ditampilkan melalui menu akan ditelusuri oleh robot(crawler) yang menyebabkan jumlah hit naik secara drastis.</code><br><br>
+								<code>Lakukan hapus hit ini jika artikel statis di menu atas website anda terkena kunjungan tak terduga, seperti robot(crawler), yang berlebihan. </code><br><br>
 								<label for="hit">Reset Hit</label>
 								<select class="form-control input-sm" required name="hit" width="100%">
 									<option value="">Pilih persen hit yang akan dihapus</option>

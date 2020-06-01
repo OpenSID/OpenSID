@@ -593,19 +593,21 @@
 		return ($user == $id_user or $_SESSION['grup'] != 4);
 	}
 
-	// TODO: Hanya untuk veri 20.05-pasca / 20.06, hapus jika sudah versi 20.07
 	public function reset($cat)
 	{
 		// Normalkan kembali hit artikel kategori 999 (yg ditampilkan di menu) akibat robot (crawler)
 		$persen = $this->input->post('hit');
-		$list_menu = $this->db->like('link', 'artikel/')->where('enabled', 1)->get('menu')->result_array();
+		$list_menu = $this->db->distinct()
+			->select('link')
+			->like('link', 'artikel/')
+			->where('enabled', 1)
+			->get('menu')->result_array();
 		foreach ($list_menu as $list)
 		{
 			$id = str_replace('artikel/', '', $list['link']);
 			$artikel = $this->db->where('id', $id)->get('artikel')->row_array();
 			$hit = $artikel['hit'] * ($persen / 100);
-
-			if($artikel)
+			if ($artikel)
 				$this->db->where('id', $id)->update('artikel', array('hit' => $hit));
 		}
 	}

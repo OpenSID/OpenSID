@@ -1,0 +1,12 @@
+Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
+
+1. Sekarang kunjungan oleh robot(crawler) tidak termasuk dalam hitungan berapa kali suatu artikel telah terbaca.
+
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+
