@@ -78,7 +78,7 @@
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
 														<option value="">RT</option>
 														<?php foreach ($list_rt AS $data): ?>
-															<option value="<?= $data['rt']?>" <?php selected($rw, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
+															<option value="<?= $data['rt']?>" <?php selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
 														<?php endforeach; ?>
 													</select>
 												<?php endif; ?>
