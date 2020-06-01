@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-define("VERSION", '20.06');
+define("VERSION", '20.06-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
@@ -895,5 +895,19 @@ function convertToBytes(string $from)
 			}
 		}
 	}
+
+function crawler()
+{
+	$file = APPPATH.'config/crawler-user-agents.json';
+	$data = json_decode(file_get_contents($file), true);
+
+	foreach($data as $entry)
+	{
+		if (preg_match('/'.strtolower($entry['pattern']).'/', $_SERVER['HTTP_USER_AGENT']))
+			return TRUE;
+	}
+
+	return FALSE;
+}
 
 ?>
