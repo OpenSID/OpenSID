@@ -457,7 +457,7 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>(Kabupaten/Kota atau Kecamatan atau Kelurahan/Desa)</td>
-			<td>Lurah/Kepala Desa</td>
+			<td><?= $this->penandatangan_lampiran($data);?></td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -470,7 +470,7 @@
 			<td>&nbsp;</td>
 			<td class="left">Ttd / cap Jempol</td>
 		</tr>
-		<tr><td colspan="7" style="line-height: 3px;">&nbsp;</td></tr>
+		<tr><td colspan="7" style="height: 20px;">&nbsp;</td></tr>
 		<tr>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -478,7 +478,7 @@
 			<td class="left" style="padding-left: 20px;"><div>Nama Lengkap:<?= str_pad("",390,"&nbsp;")?></div></td>
 			<td class="left"><div>Nama Lengkap:<?= padded_string_fixed_length(strtoupper($kepala_desa['pamong_nama']),3,50)?></div></td>
 			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td class="left"><div>Nama Jelas:<?= padded_string_fixed_length($individu['kepala_kk'],5,60)?></div></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -487,7 +487,7 @@
 			<td class="left" style="padding-left: 20px;"><?= "NIP".str_pad("",54,"&nbsp;").":"?></td>
 			<td class="left"><?= "NIP".str_pad("",54,"&nbsp;").":&nbsp;&nbsp;&nbsp;".$kepala_desa['pamong_nip']?></td>
 			<td>&nbsp;</td>
-			<td class="left"><div>Nama Jelas:<?= padded_string_fixed_length($individu['kepala_kk'],5,60)?></div></td>
+			<td>&nbsp;</td>
 		</tr>
 	</table>
 	<p style="margin-top: 0px;">
