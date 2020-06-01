@@ -27,6 +27,8 @@ class Program_bantuan extends Admin_Controller {
 
 	public function index($p = 1)
 	{
+		$this->detail_clear();
+
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
 
@@ -81,26 +83,22 @@ class Program_bantuan extends Admin_Controller {
 		$_SESSION['per_page'] = 20;
 	}
 
-	public function detail($p = 1, $id, $clear=false)
+	public function detail($id, $p = 1)
 	{
-		if ($clear)
-			$this->detail_clear();
-		else
-		{
-			if (isset($_SESSION['cari_peserta']))
-				$data['cari_peserta'] = $_SESSION['cari_peserta'];
-			else $data['cari_peserta'] = '';
-		}
+		$this->detail_clear();
+
+		if (isset($_SESSION['cari_peserta']))
+			$data['cari_peserta'] = $_SESSION['cari_peserta'];
+		else $data['cari_peserta'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['p'] = $p;
+			
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
 		$data['paging'] = $data['program'][0]['paging'];
 		$data['p'] = $p;
-		$data['func'] = 'detail';		
+		$data['func'] = 'detail/'.$id;		
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -139,7 +137,7 @@ class Program_bantuan extends Admin_Controller {
 	{
 		$this->program_bantuan_model->add_peserta($_POST, $id);
 
-		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/1/$id/1";
+		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/$id";
 
 		$this->session->unset_userdata('aksi');
 
@@ -155,16 +153,16 @@ class Program_bantuan extends Admin_Controller {
 
 	public function hapus_peserta($id, $peserta_id)
 	{
-		$this->redirect_hak_akses('h', "program_bantuan/detail/1/$id");
+		$this->redirect_hak_akses('h', "program_bantuan/detail/$id");
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
-		redirect("program_bantuan/detail/1/$id/1");
+		redirect("program_bantuan/detail/$id");
 	}
 
 	public function edit_peserta($id)
 	{
 		$this->program_bantuan_model->edit_peserta($_POST, $id);
 		$program_id = $_POST['program_id'];
-		redirect("program_bantuan/detail/1/$program_id");
+		redirect("program_bantuan/detail/$program_id");
 	}
 
 	public function edit_peserta_form($id = 0)
@@ -235,7 +233,7 @@ class Program_bantuan extends Admin_Controller {
 	public function update($id)
 	{
 		$this->program_bantuan_model->update_program($id);
-		redirect("program_bantuan/detail/1/".$id);
+		redirect("program_bantuan/detail/".$id);
 	}
 
 	public function hapus($id)
@@ -276,6 +274,7 @@ class Program_bantuan extends Admin_Controller {
 		if ($cari != '')
 			$_SESSION['cari_peserta'] = $cari;
 		else unset($_SESSION['cari_peserta']);
-		redirect("program_bantuan/detail/1/".$this->input->post('id'));
+		redirect("program_bantuan/detail/".$this->input->post('id'));
 	}
+
 }
