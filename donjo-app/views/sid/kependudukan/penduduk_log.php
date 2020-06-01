@@ -40,7 +40,7 @@
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk_log/status_dasar')?>')">
+												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk_log/filter/status_dasar')?>')">
 													<option value="">Semua</option>
 													<?php foreach ($list_status_dasar as $data): ?>
                             <?php if (strtolower($data['nama']) != 'hidup'): ?>
@@ -48,25 +48,25 @@
                             <?php endif; ?>
                           <?php endforeach; ?>
 												</select>
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/sex')?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
                           <option value="">Jenis Kelamin</option>
                           <option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
                  	        <option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
                         </select>
-                        <select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/agama')?>')">
+                        <select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/agama')?>')">
                           <option value="">Agama</option>
                  					<?php foreach ($list_agama AS $data): ?>
                             <option value="<?= $data['id']?>" <?php if ($agama == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
                 					<?php endforeach; ?>
                         </select>
-												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
+												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
 														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
-													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/rw')?>')" >
+													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/rw')?>')" >
 														<option value="">RW</option>
 														<?php foreach ($list_rw AS $data): ?>
 															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
@@ -74,7 +74,7 @@
 													</select>
 												<?php endif; ?>
 												<?php if ($rw): ?>
-													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
+													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/rt')?>')">
 														<option value="">RT</option>
 														<?php foreach ($list_rt AS $data): ?>
 															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
@@ -84,7 +84,7 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url('penduduk_log/search')?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url('penduduk_log/filter/search')?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
 														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url('penduduk_log/search')?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>

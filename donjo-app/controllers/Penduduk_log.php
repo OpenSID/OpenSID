@@ -86,66 +86,12 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function search()
+	public function filter($filter)
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('penduduk_log');
-	}
-
-	public function status_dasar()
-	{
-		$status_dasar = $this->input->post('status_dasar');
-		if ($status_dasar != "")
-			$_SESSION['status_dasar'] = $status_dasar;
-		else unset($_SESSION['status_dasar']);
-		redirect('penduduk_log');
-	}
-
-	public function sex()
-	{
-		$sex = $this->input->post('sex');
-		if ($sex != "")
-			$_SESSION['sex'] = $sex;
-		else unset($_SESSION['sex']);
-		redirect('penduduk_log');
-	}
-
-	public function agama()
-	{
-		$agama = $this->input->post('agama');
-		if ($agama != "")
-			$_SESSION['agama'] = $agama;
-		else unset($_SESSION['agama']);
-		redirect('penduduk_log');
-	}
-
-	public function dusun()
-	{
-		$dusun = $this->input->post('dusun');
-		if ($dusun != "")
-			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
-		redirect('penduduk_log');
-	}
-
-	public function rw()
-	{
-		$rw = $this->input->post('rw');
-		if ($rw != "")
-			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
-		redirect('penduduk_log');
-	}
-
-	public function rt()
-	{
-		$rt = $this->input->post('rt');
-		if ($rt != "")
-			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('penduduk_log');
 	}
 
