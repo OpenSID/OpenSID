@@ -37,7 +37,7 @@
 
 			$data[$i]['no'] = $i + 1;
 			$data[$i]['teks'] = (strlen($teks) > 150) ? (substr($teks,0,150)."...") : ($teks);
-			$data[$i]['tautan'] = $this->menu_slug($data[$i]['tautan']);
+			$data[$i]['tautan'] = $this->menu_slug('artikel/'.$data[$i]['tautan']);
 		}
 
 		return $data;

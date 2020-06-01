@@ -475,10 +475,12 @@ class First_artikel_m extends CI_Model {
 
 	public function hit($url)
 	{
+		$this->load->library('user_agent');
+
 		$this->db->where('id', $url)->or_where('slug', $url);
 		$id = $this->db->select('id')->get('artikel')->row()->id;
 		//membatasi hit hanya satu kali dalam setiap session
-		if (in_array($id, $_SESSION['artikel'])) return;
+		if (in_array($id, $_SESSION['artikel']) OR $this->agent->is_robot() OR crawler() === TRUE) return;
 		$this->db->set('hit', 'hit + 1', false)
 			->where('id', $id)
 			->update('artikel');

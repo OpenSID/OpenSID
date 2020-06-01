@@ -83,6 +83,9 @@
 							<?php if ($cat > 0 and $cat < 999): ?>
 								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?=site_url("web/hapus/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
 							<?php endif; ?>
+							<?php if ($cat == 999): ?>
+								<a href="<?= site_url("{$this->controller}/reset/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -125,11 +128,11 @@
 																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==4): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Hit <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Hit <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Hit <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==6): ?>
 																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -174,7 +177,7 @@
 																			</a>
 																		</td>
 																		<td width="50%"><?= $data['judul']?></td>
-																		<td><?= $data['aktif']?></td>
+																		<td nowrap><?= hit($data['hit'])?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																	</tr>
 																<?php endforeach; ?>
@@ -235,3 +238,36 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+
+<form action="<?= site_url("web/reset/$cat")?>" method="post">
+	<div class='modal fade' id='reset-hit' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='modal-title' id='myModalLabel'></i> Reset Hit</h4>
+				</div>
+				<div class='modal-body'>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<code>Lakukan hapus hit ini jika artikel statis di menu atas website anda terkena kunjungan tak terduga, seperti robot(crawler), yang berlebihan. </code><br><br>
+								<label for="hit">Reset Hit</label>
+								<select class="form-control input-sm" required name="hit" width="100%">
+									<option value="">Pilih persen hit yang akan dihapus</option>
+									<?php for ($i=1; $i <= 10; $i++): ?>
+										<option value="<?=($i * 10)?>"><?=($i * 10).'%'?></option>
+									<?php endfor; ?>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
