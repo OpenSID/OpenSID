@@ -68,7 +68,6 @@
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
-										<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="box-header with-border">
@@ -101,14 +100,14 @@
 												<div class="row">
 													<div class="col-sm-9">
 														<div class="box-header with-border">
-															<h3 class="box-title">Daftar Peserta Program</h3>
+															<h3 class="box-title">Daftar Peserta Program <?php $cari_peserta and print("[ Cari : <b>$cari_peserta</b> ]") ?></h3>
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari_peserta)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();}">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -158,10 +157,10 @@
 																		<td nowrap><?= $item["info"];?></td>
 																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
 																		<td class="text-center"><?= $item["kartu_nik"];?></td>
-																		<td><?= $item["kartu_nama"];?></td>
+																		<td nowrap><?= $item["kartu_nama"];?></td>
 																		<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
 																		<td nowrap class="text-center"><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
-																		<td><?= $item["kartu_alamat"];?></td>
+																		<td nowrap><?= $item["kartu_alamat"];?></td>
 																	</tr>
 																<?php endforeach; ?>
 															<?php endif; ?>
