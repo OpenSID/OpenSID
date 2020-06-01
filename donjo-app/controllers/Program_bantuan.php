@@ -5,7 +5,6 @@ class Program_bantuan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('config_model');
@@ -14,26 +13,31 @@ class Program_bantuan extends Admin_Controller {
 
 	public function clear($id = 0)
 	{
-		$_SESSION['per_page'] = 20;
+		$this->session->per_page = 20;
 		$this->session->sasaran = '';
 		redirect('program_bantuan');
 	}
 
 	public function filter($filter)
 	{
-		$_SESSION[$filter] = $this->input->post($filter);
+		$this->session->$filter = $this->input->post($filter);
 		redirect('program_bantuan');
 	}
 
 	public function index($p = 1)
 	{
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
+		$this->detail_clear();
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['per_page'] = $this->session->per_page;
+		$data['p'] = $p;
+		$data['func'] = 'index';
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -46,9 +50,10 @@ class Program_bantuan extends Admin_Controller {
 	{
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
-		if (isset($_POST['nik']))
+		$nik = $this->input->post('nik');
+		if (isset($nik))
 		{
-			$data['individu'] = $this->program_bantuan_model->get_peserta($_POST['nik'], $sasaran);
+			$data['individu'] = $this->program_bantuan_model->get_peserta($nik, $sasaran);
 		}
 		else
 		{
@@ -75,28 +80,27 @@ class Program_bantuan extends Admin_Controller {
 
 	private function detail_clear()
 	{
-		unset($_SESSION['cari_peserta']);
-		$_SESSION['per_page'] = 20;
+		$this->session->unset_userdata('cari_peserta');
+		$this->session->per_page = 20;
 	}
 
-	public function detail($p = 1, $id, $clear=false)
+	public function detail($id, $p = 1)
 	{
-		if ($clear)
-			$this->detail_clear();
-		else
-		{
-			if (isset($_SESSION['cari_peserta']))
-				$data['cari_peserta'] = $_SESSION['cari_peserta'];
-			else $data['cari_peserta'] = '';
-		}
+		$cari_peserta = $this->session->cari_peserta;
+		if (isset($cari_peserta))
+			$data['cari_peserta'] = $cari_peserta;
+		else $data['cari_peserta'] = '';
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
-		$data['p'] = $p;
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['per_page'] = $this->session->per_page;
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
+		$data['keyword'] = $this->program_bantuan_model->autocomplete($id, $this->input->post('cari'));
 		$data['paging'] = $data['program'][0]['paging'];
+		$data['p'] = $p;
+		$data['func'] = 'detail/'.$id;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -133,9 +137,9 @@ class Program_bantuan extends Admin_Controller {
 
 	public function add_peserta($id)
 	{
-		$this->program_bantuan_model->add_peserta($_POST, $id);
+		$this->program_bantuan_model->add_peserta($this->input->post(), $id);
 
-		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/1/$id/1";
+		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/$id";
 
 		$this->session->unset_userdata('aksi');
 
@@ -151,16 +155,16 @@ class Program_bantuan extends Admin_Controller {
 
 	public function hapus_peserta($id, $peserta_id)
 	{
-		$this->redirect_hak_akses('h', "program_bantuan/detail/1/$id");
+		$this->redirect_hak_akses('h', "program_bantuan/detail/$id");
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
-		redirect("program_bantuan/detail/1/$id/1");
+		redirect("program_bantuan/detail/$id");
 	}
 
 	public function edit_peserta($id)
 	{
-		$this->program_bantuan_model->edit_peserta($_POST, $id);
-		$program_id = $_POST['program_id'];
-		redirect("program_bantuan/detail/1/$program_id");
+		$this->program_bantuan_model->edit_peserta($this->input->post(), $id);
+		$program_id = $this->input->post('program_id');
+		redirect("program_bantuan/detail/$program_id");
 	}
 
 	public function edit_peserta_form($id = 0)
@@ -231,7 +235,7 @@ class Program_bantuan extends Admin_Controller {
 	public function update($id)
 	{
 		$this->program_bantuan_model->update_program($id);
-		redirect("program_bantuan/detail/1/".$id);
+		redirect("program_bantuan/detail/".$id);
 	}
 
 	public function hapus($id)
@@ -242,8 +246,8 @@ class Program_bantuan extends Admin_Controller {
 	}
 
 	/*
-	* $aksi = cetak/unduh
-	*/
+	 * $aksi = cetak/unduh
+	 */
 	public function daftar($id = 0, $aksi = '')
 	{
 		if ($id > 0)
@@ -266,12 +270,15 @@ class Program_bantuan extends Admin_Controller {
 		}
 	}
 
-	public function search_peserta()
+	public function search($id)
 	{
 		$cari = $this->input->post('cari');
+
 		if ($cari != '')
-			$_SESSION['cari_peserta'] = $cari;
-		else unset($_SESSION['cari_peserta']);
-		redirect("program_bantuan/detail/1/".$this->input->post('id'));
+			$this->session->cari_peserta = $cari;
+		else $this->session->unset_userdata('cari_peserta');
+
+		redirect("program_bantuan/detail/$id");
 	}
+
 }
