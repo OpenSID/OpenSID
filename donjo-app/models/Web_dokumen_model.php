@@ -307,7 +307,7 @@ class Web_dokumen_model extends CI_Model {
 	private function validasi($post)
 	{
 		$data = array();
-		$data['nama'] = alfanumerik_spasi($post['nama']);
+		$data['nama'] = nama($post['nama']);
 		$data['kategori'] = $post['kategori'] ?: 1;
 		$data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
 		$data['id_syarat'] = $post['id_syarat'] ?: null;
