@@ -68,7 +68,6 @@
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
-										<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="box-header with-border">
@@ -101,14 +100,14 @@
 												<div class="row">
 													<div class="col-sm-9">
 														<div class="box-header with-border">
-															<h3 class="box-title">Daftar Peserta Program</h3>
+															<h3 class="box-title">Daftar Peserta Program <?php $cari_peserta and print("[ Cari : <b>$cari_peserta</b> ]") ?></h3>
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari_peserta)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();}">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari_peserta)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -142,7 +141,8 @@
 														<tbody>
 															<?php $nomer = $paging->offset;?>
 															<?php if (is_array($peserta)): ?>
-																<?php foreach ($peserta as $key=>$item): $nomer++;?>
+																<?php foreach ($peserta as $key=>$item): ?>
+																	<?php $nomer++; ?>
 																	<tr>
 																		<td class="text-center"><?= $nomer?></td>
 																		<td nowrap class="text-center">
@@ -158,10 +158,10 @@
 																		<td nowrap><?= $item["info"];?></td>
 																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
 																		<td class="text-center"><?= $item["kartu_nik"];?></td>
-																		<td><?= $item["kartu_nama"];?></td>
+																		<td nowrap><?= $item["kartu_nama"];?></td>
 																		<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
 																		<td nowrap class="text-center"><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
-																		<td><?= $item["kartu_alamat"];?></td>
+																		<td nowrap><?= $item["kartu_alamat"];?></td>
 																	</tr>
 																<?php endforeach; ?>
 															<?php endif; ?>
@@ -170,47 +170,8 @@
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-sm-6">
-												<div class="dataTables_length">
-													<form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="form-horizontal">
-														<label>
-															Tampilkan
-															<select name="per_page" class="form-control input-sm" onchange="$('#mainform').submit();" id="per_page_input">
-																<option value="20" <?php selected($per_page, 20); ?> >20</option>
-																<option value="50" <?php selected($per_page, 50); ?> >50</option>
-																<option value="100" <?php selected($per_page, 100); ?> >100</option>
-															</select>
-															Dari
-															<strong><?= $paging->num_rows?></strong>
-															Total Data
-														</label>
-													</form>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="dataTables_paginate paging_simple_numbers">
-													<ul class="pagination">
-														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("program_bantuan/detail/$paging->start_link/$detail[id]")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-														<?php endif; ?>
-														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("program_bantuan/detail/$paging->prev/$detail[id]")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-														<?php endif; ?>
-														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("program_bantuan/detail/$i/$detail[id]")?>"><?= $i?></a></li>
-														<?php endfor; ?>
-														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("program_bantuan/detail/$paging->next/$detail[id]")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-														<?php endif; ?>
-														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("program_bantuan/detail/$paging->end_link/$detail[id]")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-														<?php endif; ?>
-													</ul>
-												</div>
-											</div>
-										</div>
 									</form>
+									<?php $this->load->view('global/paging');?>
 								</div>
 							</div>
 						</div>

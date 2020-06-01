@@ -5,6 +5,7 @@ Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pul
 Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 
 1. Sekarang kunjungan oleh robot(crawler) tidak termasuk dalam hitungan berapa kali suatu artikel telah terbaca.
+2. #2898: Tampilkan pilihan autocomplete di kotak cari daftar peserta program bantuan.
 
 
 

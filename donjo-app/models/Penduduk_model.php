@@ -15,11 +15,12 @@
 
 	public function autocomplete($cari='')
 	{
+		$cari = $this->db->escape_like_str($cari);
 		$this->db->select('nama')
 			->distinct()
 			->order_by('nama')
 			->from('tweb_penduduk');
-		if ($cari) $this->db->where("nama like '%$cari%'");
+		if ($cari) $this->db->like('nama', $cari);
 		$data = $this->db->get()->result_array();
 
 		$str = autocomplete_data_ke_str($data);
