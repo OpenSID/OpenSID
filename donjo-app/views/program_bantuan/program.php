@@ -48,11 +48,9 @@
 														</tr>
 													</thead>
 													<tbody>
-														<?php
-															$nomer = $paging->offset;
-															foreach ($program as $item):
-																$nomer++;
-														?>
+														<?php $nomer = $paging->offset; ?>
+														<?php foreach ($program as $item): ?>
+															<?php $nomer++; ?>
 															<tr>
 																<td><?= $nomer?></td>
 																<td nowrap>

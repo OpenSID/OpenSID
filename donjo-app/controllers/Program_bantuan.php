@@ -13,14 +13,14 @@ class Program_bantuan extends Admin_Controller {
 
 	public function clear($id = 0)
 	{
-		$this->session->set_userdata('per_page', 20);
-		$this->session->set_userdata('sasaran', '');
+		$this->session->per_page = 20;
+		$this->session->sasaran = '';
 		redirect('program_bantuan');
 	}
 
 	public function filter($filter)
 	{
-		$this->session->set_userdata($filter, $this->input->post($filter));
+		$this->session->$filter = $this->input->post($filter);
 		redirect('program_bantuan');
 	}
 
@@ -30,12 +30,12 @@ class Program_bantuan extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
-			$this->session->set_userdata('per_page', $per_page);
+			$this->session->per_page = $per_page;
 
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['per_page'] = $this->session->userdata('per_page');
+		$data['per_page'] = $this->session->per_page;
 		$data['p'] = $p;
 		$data['func'] = 'index';
 		$header = $this->header_model->get_data();
@@ -81,26 +81,26 @@ class Program_bantuan extends Admin_Controller {
 	private function detail_clear()
 	{
 		$this->session->unset_userdata('cari_peserta');
-		$this->session->set_userdata('per_page', 20);
+		$this->session->per_page = 20;
 	}
 
 	public function detail($id, $p = 1)
 	{
-		$cari_peserta = $this->session->userdata('cari_peserta');
+		$cari_peserta = $this->session->cari_peserta;
 		if (isset($cari_peserta))
 			$data['cari_peserta'] = $cari_peserta;
 		else $data['cari_peserta'] = '';
-		
+
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
-			$this->session->set_userdata('per_page', $per_page);
-			
-		$data['per_page'] = $this->session->userdata('per_page');
+			$this->session->per_page = $per_page;
+
+		$data['per_page'] = $this->session->per_page;
 		$data['program'] = $this->program_bantuan_model->get_program($p, $id);
-		$data['keyword'] = $this->program_bantuan_model->autocomplete($id);
+		$data['keyword'] = $this->program_bantuan_model->autocomplete($id, $this->input->post('cari'));
 		$data['paging'] = $data['program'][0]['paging'];
 		$data['p'] = $p;
-		$data['func'] = 'detail/'.$id;		
+		$data['func'] = 'detail/'.$id;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -273,11 +273,11 @@ class Program_bantuan extends Admin_Controller {
 	public function search($id)
 	{
 		$cari = $this->input->post('cari');
-		
+
 		if ($cari != '')
-			$this->session->set_userdata('cari_peserta', $cari);
+			$this->session->cari_peserta = $cari;
 		else $this->session->unset_userdata('cari_peserta');
-		
+
 		redirect("program_bantuan/detail/$id");
 	}
 

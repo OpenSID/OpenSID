@@ -105,7 +105,7 @@
 													</div>
 													<div class="col-sm-3">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari_peserta)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
 																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
@@ -141,7 +141,8 @@
 														<tbody>
 															<?php $nomer = $paging->offset;?>
 															<?php if (is_array($peserta)): ?>
-																<?php foreach ($peserta as $key=>$item): $nomer++;?>
+																<?php foreach ($peserta as $key=>$item): ?>
+																	<?php $nomer++; ?>
 																	<tr>
 																		<td class="text-center"><?= $nomer?></td>
 																		<td nowrap class="text-center">
