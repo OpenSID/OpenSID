@@ -116,11 +116,11 @@
 																	<th><a href="<?= site_url("penduduk_log/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<?php if ($o==6): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o==5): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/6")?>">No. KK / Nama KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("penduduk_log/index/$p/6")?>">No. KK / Nama KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>

@@ -33,8 +33,8 @@
 	public function update($id_log)
 	{
 		unset($_SESSION['success']);
-		$data = $this->input->post();
-		$data['tgl_peristiwa'] = rev_tgl($data['tgl_peristiwa']);
+		$data['catatan'] = htmlentities($this->input->post('catatan'));
+		$data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
 		if (!$this->db->where('id', $id_log)->update('log_penduduk', $data))
 			$_SESSION['success'] = -1;
 	}

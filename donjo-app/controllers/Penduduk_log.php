@@ -52,7 +52,6 @@ class Penduduk_log extends Admin_Controller {
 				if (isset($rt))
 					$data['rt'] = $rt;
 				else $data['rt'] = '';
-
 			}
 			else $data['rw'] = '';
 		}
@@ -83,7 +82,7 @@ class Penduduk_log extends Admin_Controller {
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('sid/kependudukan/penduduk_log', $data);
+		$this->load->view('penduduk_log/penduduk_log', $data);
 		$this->load->view('footer');
 	}
 
