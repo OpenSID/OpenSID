@@ -96,6 +96,35 @@ class Penduduk_log extends Admin_Controller {
 		redirect('penduduk_log');
 	}
 
+	public function dusun()
+	{
+		$this->session->unset_userdata(['rw', 'rt']);
+		$dusun = $this->input->post('dusun');
+		if ($dusun != "")
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
+		redirect('penduduk_log');
+	}
+
+	public function rw()
+	{
+		$this->session->unset_userdata('rt');
+		$rw = $this->input->post('rw');
+		if ($rw != "")
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
+		redirect('penduduk_log');
+	}
+
+	public function rt()
+	{
+		$rt = $this->input->post('rt');
+		if ($rt != "")
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
+		redirect('penduduk_log');
+	}
+
 	public function edit($p = 1, $o = 0, $id = 0)
 	{
 		$data['log_status_dasar'] = $this->penduduk_log_model->get_log($id);
