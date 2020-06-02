@@ -40,7 +40,7 @@
 			$('#offline_ada_hosting').hide();
 		}
 	}
-	
+
 	$(function()
 	{
 		var keyword = <?= $keyword?> ;
@@ -161,10 +161,10 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?=site_url('modul/filter')?>')">
+													<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?=site_url('modul/filter/status')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
+														<option value="1" <?php selected($status, 1);?>>Aktif</option>
+														<option value="2" <?php selected($status, 2);?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -172,7 +172,7 @@
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action','<?=site_url('modul/search')?>');$('#'+'mainform').submit();endif;">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("modul/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("modul/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -184,24 +184,29 @@
 														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th width="10%">No</th>
-																	<th>Aksi</th>
-																	<th width="50%">Nama Modul</th>
-																	<th>Aktif</th>
+																	<th width="1%">No</th>
+																	<th width="5%">Aksi</th>
+																	<th>Nama Modul</th>
+																	<th width="5%">Icon</th>
 																</tr>
 															</thead>
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td><?=$data['no']?></td>
+																		<td class="text-center"><?=$data['no']?></td>
 																		<td nowrap>
 																			<a href="<?=site_url("modul/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a>
+																			<?php if ($data['aktif'] == '2'): ?>
+																				<a href="<?= site_url("modul/lock/$data[id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																			<?php else: ?>
+																				<a href="<?= site_url("modul/lock/$data[id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																			<?php endif ?>
 																			<?php if (count($data['submodul'])>0): ?>
 																				<a href="<?=site_url("modul/sub_modul/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>
 																			<?php endif; ?>
 																		</td>
 																		<td><?=$data['modul']?></td>
-																		<td><?php	if ($data['aktif']==1): ?>Aktif<?php else: ?>Tidak Aktif <?php endif; ?></td>
+																		<td class="text-center"><i class="fa <?=$data['ikon']?> fa-lg"></i></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>
