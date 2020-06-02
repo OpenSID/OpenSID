@@ -1249,12 +1249,11 @@
 		</tr>
 		<tr>
 			<td colspan="4">&nbsp;</td>
-			<td colspan="16" style="text-align: center;"><?= padded_string_center($input['jabatan'],30)?></td>
+			<td colspan="16" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
 			<td colspan="15">&nbsp;</td>
 			<td colspan="10" style="text-align: center;">&nbsp;</td>
 			<td colspan="3">&nbsp;</td>
 		</tr>
-		<tr><td colspan="48">&nbsp;</td></tr>
 		<tr><td colspan="48">&nbsp;</td></tr>
 		<tr>
 			<?php for ($i=0; $i<48; $i++): ?>

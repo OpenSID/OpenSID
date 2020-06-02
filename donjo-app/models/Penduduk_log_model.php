@@ -15,11 +15,11 @@
 	public function get_log($id_log)
 	{
 		$log = $this->db
-					->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, ref_pindah, catatan")
-					->where('l.id', $id_log)
-					->join('tweb_penduduk p','l.id_pend = p.id', 'left')
-					->join('tweb_status_dasar s','s.id = p.status_dasar', 'left')
-					->get('log_penduduk l')->row_array();
+			->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, ref_pindah, catatan")
+			->where('l.id', $id_log)
+			->join('tweb_penduduk p','l.id_pend = p.id', 'left')
+			->join('tweb_status_dasar s','s.id = p.status_dasar', 'left')
+			->get('log_penduduk l')->row_array();
 		if (empty($log['tgl_peristiwa'])) $log['tgl_peristiwa'] = date("d-m-Y");
 		return $log;
 	}
@@ -33,8 +33,8 @@
 	public function update($id_log)
 	{
 		unset($_SESSION['success']);
-		$data = $this->input->post();
-		$data['tgl_peristiwa'] = rev_tgl($data['tgl_peristiwa']);
+		$data['catatan'] = htmlentities($this->input->post('catatan'));
+		$data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
 		if (!$this->db->where('id', $id_log)->update('log_penduduk', $data))
 			$_SESSION['success'] = -1;
 	}
@@ -222,7 +222,7 @@
 			// Untuk Log Penduduk
 			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
 			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
-			default:$order_sql = '';
+			default:$order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
 		}
 
 		//Paging SQL

@@ -466,15 +466,15 @@
 			<td colspan="4">&nbsp;</td>
 			<td colspan="16" style="text-align: center;">Mengetahui</td>
 			<td colspan="15">&nbsp;</td>
-			<td colspan="10" style="text-align: center;">Pemohon</td>
-			<td colspan="3">&nbsp;</td>
+			<td colspan="12" style="text-align: center;">Pemohon</td>
+			<td>&nbsp;</td>
 		</tr>
 		<tr><td colspan="48">&nbsp;</td></tr>
 		<tr>
 			<td>&nbsp;</td>
 			<td colspan="11" style="text-align: center;">Camat</td>
 			<td>&nbsp;</td>
-			<td colspan="13" style="text-align: center;">Kepala Desa/Lurah</td>
+			<td colspan="13" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
 			<td colspan="22">&nbsp;</td>
 		</tr>
 		<tr><td colspan="48">&nbsp;</td></tr>
@@ -483,10 +483,10 @@
 			<td>&nbsp;</td>
 			<td colspan="11"><?= str_pad(".",50,".",STR_PAD_LEFT);?></td>
 			<td>&nbsp;</td>
-			<td colspan="13" style="text-align: center;">(&nbsp;<?= padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>&nbsp;)</td>
+			<td colspan="13" style="text-align: center;"><strong>(<?= padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>)</strong></td>
 			<td colspan="9">&nbsp;</td>
-			<td colspan="10" style="text-align: center;">(&nbsp;<?= padded_string_center(strtoupper($individu['nama']),30)?>&nbsp;)</td>
-			<td colspan="3">&nbsp;</td>
+			<td colspan="12" style="text-align: center;"><strong>(<?= padded_string_center(strtoupper($individu['nama']),30)?>)</strong></td>
+			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
