@@ -46,8 +46,8 @@
 						</div>
 						<div class="form-group">
 							<label for="catatan">Catatan Peristiwa</label>
-							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan'] ?></textarea>
-							<p class="help-block">*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</p>
+							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" rows="5" style="resize:none;"><?= $log_status_dasar['catatan'] ?></textarea>
+							<span class="help-block"><code>*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</code></span>
 						</div>
 					</div>
 				</div>
