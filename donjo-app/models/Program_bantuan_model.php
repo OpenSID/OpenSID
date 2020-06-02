@@ -13,6 +13,20 @@ class Program_bantuan_model extends CI_Model {
 		$this->load->model('kelompok_model');
 	}
 
+
+	public function autocomplete($id, $cari='')
+	{
+		$cari = $this->db->escape_like_str($cari);
+		$this->db->select('kartu_nama')
+			->distinct()
+			->where('program_id', $id)
+			->order_by('kartu_nama');
+		if ($cari) $this->db->like('kartu_nama', $cari);
+
+		$data = $this->db->get('program_peserta')->result_array();
+		return autocomplete_data_ke_str($data);
+	}
+
 	public function list_program($sasaran=0)
 	{
 		if ($sasaran > 0)

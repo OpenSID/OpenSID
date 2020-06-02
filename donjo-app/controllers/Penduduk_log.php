@@ -2,6 +2,9 @@
 
 class Penduduk_log extends Admin_Controller {
 
+	private $set_page;
+	private $list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,22 +15,14 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
+		$this->set_page = ['20', '50', '100'];
+		$this->list_session = ['status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['status_dasar']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['status']);
-		unset($_SESSION['status_penduduk']);
-		$_SESSION['per_page'] = 200;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = 20;
 		redirect('penduduk_log');
 	}
 
@@ -36,65 +31,50 @@ class Penduduk_log extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['status_dasar']))
-			$data['status_dasar'] = $_SESSION['status_dasar'];
-		else $data['status_dasar'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
-
-		if (isset($_SESSION['dusun']))
+		foreach ($this->list_session as $list)
 		{
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '';
+		}
 
-			if (isset($_SESSION['rw']))
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+
+			if (isset($rw))
 			{
-				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'], $data['rw']);
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
 
-				if (isset($_SESSION['rt']))
-					$data['rt'] = $_SESSION['rt'];
+				if (isset($rt))
+					$data['rt'] = $rt;
 				else $data['rt'] = '';
-
 			}
 			else $data['rw'] = '';
 		}
 		else
 		{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
 
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
 		// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
-		$_SESSION['log'] = 1;
+		$this->session->log = 1;
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
+		$data['func'] = 'index';
+		$data['per_page'] = $this->session->per_page;
+		$data['set_page'] = $this->set_page;
 		$data['paging'] = $this->penduduk_log_model->paging($p, $o);
 		$data['main'] = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
+		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$header = $this->header_model->get_data();
@@ -102,61 +82,36 @@ class Penduduk_log extends Admin_Controller {
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('sid/kependudukan/penduduk_log', $data);
+		$this->load->view('penduduk_log/penduduk_log', $data);
 		$this->load->view('footer');
 	}
 
-	public function search()
+	public function filter($filter)
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('penduduk_log');
-	}
-
-	public function status_dasar()
-	{
-		$status_dasar = $this->input->post('status_dasar');
-		if ($status_dasar != "")
-			$_SESSION['status_dasar'] = $status_dasar;
-		else unset($_SESSION['status_dasar']);
-		redirect('penduduk_log');
-	}
-
-	public function sex()
-	{
-		$sex = $this->input->post('sex');
-		if ($sex != "")
-			$_SESSION['sex'] = $sex;
-		else unset($_SESSION['sex']);
-		redirect('penduduk_log');
-	}
-
-	public function agama()
-	{
-		$agama = $this->input->post('agama');
-		if ($agama != "")
-			$_SESSION['agama'] = $agama;
-		else unset($_SESSION['agama']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('penduduk_log');
 	}
 
 	public function dusun()
 	{
+		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
-			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
 		redirect('penduduk_log');
 	}
 
 	public function rw()
 	{
+		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
-			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
 		redirect('penduduk_log');
 	}
 
@@ -164,8 +119,8 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
-			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
 		redirect('penduduk_log');
 	}
 

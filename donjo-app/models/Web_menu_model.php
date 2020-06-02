@@ -243,5 +243,15 @@ class Web_menu_model extends MY_Model {
 		$this->urut_model->urut($id, $arah, $subset);
 	}
 
+	public function menu_aktif($link)
+	{
+		$ada_menu = $this->db->where('link', $link)
+			->where('enabled', 1)
+			->get('menu')
+			->num_rows();
+
+		return $ada_menu;
+	}
+
 }
 ?>

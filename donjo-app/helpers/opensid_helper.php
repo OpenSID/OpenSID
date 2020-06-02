@@ -1,10 +1,10 @@
-<?php
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-define("VERSION", '20.05-pasca');
+define("VERSION", '20.06-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020050102');
+define('VERSI_DATABASE', '2020060101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -862,7 +862,11 @@ function convertToBytes(string $from)
 			throw new Exception("URL to parse is empty!.");
 			return false;
 		}
-
+		if (!in_array(explode(':', $url)[0], array('http', 'https')))
+		{
+			throw new Exception("URL harus http atau https");
+			return false;
+		}
 		if ($content = @file_get_contents($url))
 		{
 			return $content;
@@ -891,5 +895,19 @@ function convertToBytes(string $from)
 			}
 		}
 	}
+
+function crawler()
+{
+	$file = APPPATH.'config/crawler-user-agents.json';
+	$data = json_decode(file_get_contents($file), true);
+
+	foreach($data as $entry)
+	{
+		if (preg_match('/'.strtolower($entry['pattern']).'/', $_SERVER['HTTP_USER_AGENT']))
+			return TRUE;
+	}
+
+	return FALSE;
+}
 
 ?>

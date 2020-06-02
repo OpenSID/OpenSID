@@ -1,0 +1,15 @@
+Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
+
+1. Sekarang kunjungan oleh robot(crawler) tidak termasuk dalam hitungan berapa kali suatu artikel telah terbaca.
+2. #2898: Tampilkan pilihan autocomplete di kotak cari daftar peserta program bantuan.
+3. #3114: Sekarang statistik atau halaman statis lainnya hanya bisa ditampilkan melalui menu statis di web.
+4. #3121: Urutkan data Log Penduduk berdasarkan tanggal peristiwa terbaru paling atas.
+
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+

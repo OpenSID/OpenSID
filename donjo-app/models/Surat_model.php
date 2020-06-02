@@ -77,7 +77,13 @@
 		if ($filter['bersurat']) $this->db->join('log_surat h', 'u.id = h.id_pend');
 		if ($cari)
 		{
-			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
+			$cari = $this->db->escape_like_str($cari);
+			$this->db
+				->group_start()
+					->like('nik', $cari)
+					->or_like('nama', $cari)
+					->or_like('tag_id_card', $cari)
+				->group_end();
 		}
 	}
 
