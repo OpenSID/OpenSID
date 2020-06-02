@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 2. #2898: Tampilkan pilihan autocomplete di kotak cari daftar peserta program bantuan.
 3. #3114: Sekarang statistik atau halaman statis lainnya hanya bisa ditampilkan melalui menu statis di web.
 4. #3121: Urutkan data Log Penduduk berdasarkan tanggal peristiwa terbaru paling atas.
+5. #2937: Nama dokumen sekarang bisa berisi karakter alpha, angka, spasi, titik, strip dan /.
 
 
 
