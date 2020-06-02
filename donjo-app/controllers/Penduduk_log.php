@@ -33,10 +33,10 @@ class Penduduk_log extends Admin_Controller {
 
 		foreach ($this->list_session as $list)
 		{
-			if(in_array($list, ['dusun', 'rw', 'rt']))
-				$$list = $this->session->userdata($list);
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
 			else
-				$data[$list] = $this->session->userdata($list) ?: '';
+				$data[$list] = $this->session->$list ?: '';
 		}
 
 		if (isset($dusun))

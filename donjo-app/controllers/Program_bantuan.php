@@ -236,6 +236,7 @@ class Program_bantuan extends Admin_Controller {
 
 		$this->load->view('footer');
 	}
+
 	public function update($id)
 	{
 		$this->program_bantuan_model->update_program($id);
