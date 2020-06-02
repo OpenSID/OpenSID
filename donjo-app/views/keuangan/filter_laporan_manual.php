@@ -21,7 +21,7 @@
 		var semester = $('#semester').val();
 		$.ajax({
 			type  : 'GET',
-			url   : '<?= site_url('keuangan/setdata_laporan/')?>' + tahun + "/" + semester,
+			url   : '<?= site_url('keuangan_manual/setdata_laporan/')?>' + tahun + "/" + semester,
 			dataType : 'json'
     }).then(function() {
 			location.reload();

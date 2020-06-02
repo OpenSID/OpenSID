@@ -289,7 +289,7 @@ class keuangan_grafik_manual_model extends CI_model {
 
   public function widget_keuangan()
   {
-		$data = $this->keuangan_model->list_tahun_anggaran_manual();
+		$data = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 
 		foreach ($data as $tahun)
 		{
@@ -301,9 +301,9 @@ class keuangan_grafik_manual_model extends CI_model {
 		$result = array(
 		  //Encode ke JSON
 		  'data' => json_encode($res),
-		  'tahun' => $this->keuangan_model->list_tahun_anggaran_manual_manual(),
+		  'tahun' => $this->keuangan_manual_model->list_tahun_anggaran_manual_manual(),
 		  //Cari tahun anggaran terbaru (terbesar secara value)
-		  'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran_manual()[0]
+		  'tahun_terbaru' => $this->keuangan_manual_model->list_tahun_anggaran_manual()[0]
 		);
 
 		return $result;
@@ -324,7 +324,7 @@ class keuangan_grafik_manual_model extends CI_model {
   public function grafik_keuangan_tema($tahun = NULL)
   {
 		if (is_null($tahun)) $tahun = date('Y');
-		$thn = $this->keuangan_model->list_tahun_anggaran_manual();
+		$thn = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		if (empty($thn))
 		{
 		  return null;

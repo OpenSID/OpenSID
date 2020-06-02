@@ -6,7 +6,7 @@
 		<h1>Laporan Keuangan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('keuangan/laporan')?>">Laporan Keuangan</a></li>
+			<li><a href="<?= site_url('keuangan_manual/laporan')?>">Laporan Keuangan</a></li>
 			<li class="active">Rincian Realisasi</li>
 		</ol>
 	</section>
