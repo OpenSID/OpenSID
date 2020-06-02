@@ -56,7 +56,7 @@
 	table.ttd
 	{
 		font-size: 8.5pt;
-		margin-top: 10px;
+		margin-top: 5px;
 		width: 100%;
 		border-collapse: collapse;
 		padding: 0px;
@@ -66,12 +66,11 @@
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 10pt">
-
 	<table class="kode_format" align="right" >
 		<tr><td><strong>F-1.08</strong></td></tr>
 	</table>
 	<p style="text-align: center; margin-top: -20px">
-			<strong style="font-size: 12pt;">SURAT KETERANGAN PINDAH DATANG WNI</strong>
+		<strong style="font-size: 12pt;">SURAT KETERANGAN PINDAH DATANG WNI</strong>
 	</p>
 
 	<table class="disdukcapil">
@@ -407,7 +406,7 @@
 		<tr class="pendek">
 			<td>Camat</td>
 			<td>Pemohon</td>
-			<td>Kepala Desa/Lurah</td>
+			<td><?= $this->penandatangan_lampiran($data);?></td>
 		</tr>
 		<tr class="pendek">
 			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20")?></td>
@@ -421,8 +420,8 @@
 		</tr>
 		<tr>
 			<td>(.........................................................)</td>
-			<td>(...........................................)</td>
-			<td>(.........................................................)</td>
+			<td><strong>(<?= padded_string_center(strtoupper($individu['kepala_kk']),30)?>)</strong></td>
+			<td><strong>(<?= padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>)</strong></td>
 		</tr>
 		<tr>
 			<td>NIP.</td>
@@ -644,7 +643,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>Camat</td>
-			<td><?= $this->penandatangan_lampiran($data);?></td>
+			<td>Kepala Desa/Lurah</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -659,7 +658,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>(.........................................................)</td>
-			<td><strong>(<?= padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>)</strong></td>
+			<td>(.........................................................)</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
