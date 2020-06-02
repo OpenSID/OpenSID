@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class First extends Web_Controller {
 
@@ -34,6 +34,7 @@ class First extends Web_Controller {
 		$this->load->model('teks_berjalan_model');
 		$this->load->model('first_gallery_m');
 		$this->load->model('first_menu_m');
+		$this->load->model('web_menu_model');
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
 		$this->load->model('surat_model');
@@ -374,15 +375,11 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
+		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
+
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		if (is_null($data['heading']))
-		{
-			// Permintaan statistik tidak dikenal
-			show_404();
-		}
-
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
 		$data['tipe'] = $tipe;
@@ -444,6 +441,8 @@ class First extends Web_Controller {
 
 	public function dpt()
 	{
+		if (!$this->web_menu_model->menu_aktif('dpt')) show_404();
+
 		$this->load->model('dpt_model');
 		$data = $this->includes;
 		$data['main'] = $this->dpt_model->statistik_wilayah();
@@ -457,6 +456,8 @@ class First extends Web_Controller {
 
 	public function wilayah()
 	{
+		if (!$this->web_menu_model->menu_aktif('wilayah')) show_404();
+
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
@@ -473,9 +474,12 @@ class First extends Web_Controller {
 
 	public function peraturan_desa()
 	{
+		if (!$this->web_menu_model->menu_aktif('peraturan_desa')) show_404();
+
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
+		$data['cek'] = $cek;
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading']="Produk Hukum";
@@ -508,6 +512,8 @@ class First extends Web_Controller {
 
 	public function informasi_publik()
 	{
+		if (!$this->web_menu_model->menu_aktif('informasi_publik')) show_404();
+
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
@@ -637,6 +643,8 @@ class First extends Web_Controller {
 
 	public function peta()
 	{
+		if (!$this->web_menu_model->menu_aktif('peta')) show_404();
+
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
