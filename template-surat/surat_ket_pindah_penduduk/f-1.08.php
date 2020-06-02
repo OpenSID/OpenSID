@@ -644,7 +644,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>Camat</td>
-			<td>Kepala Desa/Lurah</td>
+			<td><?= $this->penandatangan_lampiran($data);?></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -659,7 +659,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>(.........................................................)</td>
-			<td>(.........................................................)</td>
+			<td><strong>(<?= padded_string_center(strtoupper($kepala_desa['pamong_nama']),30)?>)</strong></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>

@@ -26,5 +26,8 @@
 		$daftar_lampiran = array($daftar_lampiran[0]);
 	else
 		$daftar_lampiran = array($daftar_lampiran[1]);
+	
+	$id = $this->input->post('pamong_id');
+	$kepala_desa = $this->pamong_model->get_pamong($id);
 
 ?>
