@@ -41,7 +41,7 @@
 										<div class="row">
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk_log/filter/status_dasar')?>')">
-													<option value="">STATUS DASAR</option>
+													<option value="">Status Dasar</option>
 													<?php foreach ($list_status_dasar as $data): ?>
 														<?php if (strtolower($data['nama']) != 'hidup'): ?>
 															<option value="<?= $data['id']?>" <?php selected($status_dasar, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
@@ -49,25 +49,25 @@
 													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
-													<option value="">JENIS KELAMIN</option>
+													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_sex AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/agama')?>')">
-													<option value="">AGAMA</option>
+													<option value="">Agama</option>
 													<?php foreach ($list_agama AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($agama, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
-												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/dusun/rw/rt')?>')">
-													<option value=""><?= strtoupper($this->setting->sebutan_dusun)?></option>
+												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
+													<option value=""><?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
 														<option value="<?= $data['dusun']?>" <?php selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
-													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/rw/rt')?>')" >
+													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/rw')?>')" >
 														<option value="">RW</option>
 														<?php foreach ($list_rw AS $data): ?>
 															<option value="<?= $data['rw']?>" <?php selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
@@ -75,7 +75,7 @@
 													</select>
 												<?php endif; ?>
 												<?php if ($rw): ?>
-													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/rt')?>')">
+													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
 														<option value="">RT</option>
 														<?php foreach ($list_rt AS $data): ?>
 															<option value="<?= $data['rt']?>" <?php selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>

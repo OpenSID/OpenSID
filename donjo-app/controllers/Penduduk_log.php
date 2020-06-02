@@ -86,15 +86,41 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function filter($filter1 = NULL, $filter2 = NULL, $filter3 = NULL)
+	public function filter($filter)
 	{
-		if(!$filter2) $this->session->unset_userdata($filter2);
-		if(!$filter3) $this->session->unset_userdata($filter3);
-
-		$value = $this->input->post($filter1);
+		$value = $this->input->post($filter);
 		if ($value != '')
-			$this->session->$filter1 = $value;
-		else $this->session->unset_userdata($filter1);
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
+		redirect('penduduk_log');
+	}
+
+	public function dusun()
+	{
+		$this->session->unset_userdata(['rw', 'rt']);
+		$dusun = $this->input->post('dusun');
+		if ($dusun != "")
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
+		redirect('penduduk_log');
+	}
+
+	public function rw()
+	{
+		$this->session->unset_userdata('rt');
+		$rw = $this->input->post('rw');
+		if ($rw != "")
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
+		redirect('penduduk_log');
+	}
+
+	public function rt()
+	{
+		$rt = $this->input->post('rt');
+		if ($rt != "")
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
 		redirect('penduduk_log');
 	}
 
