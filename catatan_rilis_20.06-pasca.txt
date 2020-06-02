@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pula pada masumo yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 
