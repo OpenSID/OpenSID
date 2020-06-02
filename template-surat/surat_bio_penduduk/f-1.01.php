@@ -118,7 +118,7 @@
 					<?php if (isset($config['kode_propinsi'][$i])): ?>
 						<?= $config['kode_propinsi'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -137,7 +137,7 @@
 					<?php if (isset($config['kode_kabupaten'][$i])): ?>
 						<?= $config['kode_kabupaten'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -156,7 +156,7 @@
 					<?php if (isset($config['kode_kecamatan'][$i])): ?>
 						<?= $config['kode_kecamatan'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -171,7 +171,7 @@
 					<?php if (isset($config['kode_pos'][$i])): ?>
 						<?= $config['kode_pos'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -181,7 +181,7 @@
 					<?php if (isset($individu['rt'][$i])): ?>
 						<?= $individu['rt'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -191,7 +191,7 @@
 					<?php if (isset($individu['rw'][$i])): ?>
 						<?= $individu['rw'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -208,7 +208,7 @@
 					<?php if (isset($config['kode_desa'][$i])): ?>
 						<?= $config['kode_desa'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
@@ -223,7 +223,7 @@
 					<?php if (isset($individu['telepon_kk'][$i])): ?>
 						<?= $individu['telepon_kk'][$i];?>
 					<?php else: ?>
- 						&nbsp;
+						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>

@@ -4,7 +4,6 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$this->load->model('config_model');
 	$anggota = $this->keluarga_model->list_anggota($individu['id_kk']);
 	$anggota_ikut = $this->keluarga_model->list_anggota($individu['id_kk'],array('dengan_kk'=>false));
 

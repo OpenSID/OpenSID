@@ -2,7 +2,6 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$this->load->model('config_model');
 
 	$individu['umur'] = str_pad($individu['umur'], 3, " ", STR_PAD_LEFT);
 
