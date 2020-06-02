@@ -9,13 +9,11 @@
 		$this->urut_model = new Urut_Model('teks_berjalan');
 	}
 
-	public function get_teks($id='')
+	public function get_teks($id = '')
 	{
 		$this->sql();
 
 		$data = $this->db->where('t.id', $id)->get()->row_array();
-
-		$data['teks'] = strip_tags($data['teks']);
 
 		return $data;
 	}
@@ -65,7 +63,7 @@
 	 */
 	public function lock($id, $val)
 	{
-		$this->db->where('id', $id)->update('teks_berjalan', array('status' => $val));
+		$this->db->where('id', $id)->update('teks_berjalan', ['status' => $val]);
 	}
 
 	public function insert()
@@ -102,9 +100,8 @@
 		$data = $this->sanitise_data($data);
 		$data['updated_by'] = $this->session->user;
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		$this->db->where('id', $id);
 
-		$outp = $this->db->update('teks_berjalan', $data);
+		$outp = $this->db->where('id', $id)->update('teks_berjalan', $data);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -122,7 +119,7 @@
 	{
 		$this->session->success = 1;
 
-		$id_cb = $_POST['id_cb'];
+		$id_cb = $this->input->post('id_cb');
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
