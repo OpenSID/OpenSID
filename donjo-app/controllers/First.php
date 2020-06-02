@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class First extends Web_Controller {
 
@@ -375,7 +375,7 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
-		if(!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
+		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
 
 		$data = $this->includes;
 
@@ -441,7 +441,7 @@ class First extends Web_Controller {
 
 	public function dpt()
 	{
-		if(!$this->web_menu_model->menu_aktif('dpt')) show_404();
+		if (!$this->web_menu_model->menu_aktif('dpt')) show_404();
 
 		$this->load->model('dpt_model');
 		$data = $this->includes;
@@ -456,7 +456,7 @@ class First extends Web_Controller {
 
 	public function wilayah()
 	{
-		if(!$this->web_menu_model->menu_aktif('wilayah')) show_404();
+		if (!$this->web_menu_model->menu_aktif('wilayah')) show_404();
 
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
@@ -474,7 +474,7 @@ class First extends Web_Controller {
 
 	public function peraturan_desa()
 	{
-		if(!$this->web_menu_model->menu_aktif('peraturan_desa')) show_404();
+		if (!$this->web_menu_model->menu_aktif('peraturan_desa')) show_404();
 
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
@@ -512,7 +512,7 @@ class First extends Web_Controller {
 
 	public function informasi_publik()
 	{
-		if(!$this->web_menu_model->menu_aktif('informasi_publik')) show_404();
+		if (!$this->web_menu_model->menu_aktif('informasi_publik')) show_404();
 
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
@@ -643,7 +643,7 @@ class First extends Web_Controller {
 
 	public function peta()
 	{
-		if(!$this->web_menu_model->menu_aktif('peta')) show_404();
+		if (!$this->web_menu_model->menu_aktif('peta')) show_404();
 
 		$this->load->model('wilayah_model');
 		$data = $this->includes;

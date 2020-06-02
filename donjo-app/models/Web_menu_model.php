@@ -245,12 +245,12 @@ class Web_menu_model extends MY_Model {
 
 	public function menu_aktif($link)
 	{
-		$data = $this->db->where('link', $link)
+		$ada_menu = $this->db->where('link', $link)
 			->where('enabled', 1)
 			->get('menu')
-			->row_array();
+			->num_rows();
 
-		return $data;
+		return $ada_menu;
 	}
 
 }
