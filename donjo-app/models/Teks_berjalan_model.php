@@ -33,10 +33,7 @@
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$teks = strip_tags($data[$i]['teks']);
-
 			$data[$i]['no'] = $i + 1;
-			$data[$i]['teks'] = (strlen($teks) > 150) ? (substr($teks,0,150)."...") : ($teks);
 			$data[$i]['tautan'] = $this->menu_slug('artikel/'.$data[$i]['tautan']);
 		}
 
@@ -90,8 +87,8 @@
 
 	private function sanitise_data($data)
 	{
-		$data['teks'] = strip_tags($data['teks']);
-		$data['judul_tautan'] = $data['tautan'] ? strip_tags($data['judul_tautan']) : '';
+		$data['teks'] = htmlentities($data['teks']);
+		$data['judul_tautan'] = $data['tautan'] ? htmlentities($data['judul_tautan']) : '';
 
 		return $data;
 	}
