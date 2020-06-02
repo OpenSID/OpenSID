@@ -113,9 +113,10 @@
 		return $data;
 	 }
 
-	public function get_pamong_by_nama($nama='')
+	public function get_pamong($id = null)
 	{
-		$pamong = $this->db->select('*')->from('tweb_desa_pamong')->where('pamong_nama', $nama)->limit(1)->get()->row_array();
+		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();;
+		
 		return $pamong;
 	}
 
