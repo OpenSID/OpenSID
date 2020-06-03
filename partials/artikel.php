@@ -126,7 +126,7 @@
 						<div class="contact_bottom">
 							<div class="box-body">
 								<?php foreach($komentar AS $data): ?>
-									<table class="table table-bordered table-striped dataTable table-hover nowrap">
+									<table class="table table-bordered table-striped dataTable table-hover">
 										<thead class="bg-gray disabled color-palette">
 											<tr>
 												<th><i class="fa fa-comment"></i> <?= $data['owner']?></th>
