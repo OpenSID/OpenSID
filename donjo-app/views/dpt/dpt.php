@@ -67,7 +67,7 @@
 										<input type="hidden" name="rt" value="">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/sex/1/'.$o)?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_jenis_kelamin AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
@@ -98,9 +98,9 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/filter/cari")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
