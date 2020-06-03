@@ -63,6 +63,7 @@
 
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.colorbox.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
