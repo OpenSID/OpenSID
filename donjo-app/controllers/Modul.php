@@ -12,7 +12,7 @@ class Modul extends Admin_Controller {
 		$this->load->model('modul_model');
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 42;
-		$this->list_session = ['status', 'cari'];
+		$this->list_session = ['status', 'cari', 'module'];
 		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
 		$this->load->model('header_model');
 		$this->header = $this->header_model->get_data();
@@ -26,22 +26,35 @@ class Modul extends Admin_Controller {
 
 	public function index()
 	{
-		foreach ($this->list_session as $list)
-		{
-			$data[$list] = $this->session->$list ?: '';
-		}
+		$id = $this->session->module;
 
-		$data['main'] = $this->modul_model->list_data();
-		$data['keyword'] = $this->modul_model->autocomplete();
+		if (!$id)
+		{
+			foreach ($this->list_session as $list)
+			{
+				$data[$list] = $this->session->$list ?: '';
+			}
+
+			$data['main'] = $this->modul_model->list_data();
+			$data['keyword'] = $this->modul_model->autocomplete();
+		}
+		else
+		{
+			$data['main'] = $this->modul_model->list_sub_modul($id);
+			$data['modul'] = $this->modul_model->get_data($id);
+			$sub = 'sub_modul_';
+		}
 
 		$this->load->view('header', $this->header);
 		$this->load->view('nav');
-		$this->load->view('setting/modul/table', $data);
+		$this->load->view('setting/modul/'.$sub.'table', $data);
 		$this->load->view('footer');
 	}
 
 	public function form($id = '')
 	{
+		$data['list_icon'] = $this->modul_model->list_icon();
+
 		if ($id)
 		{
 			$data['modul'] = $this->modul_model->get_data($id);
@@ -61,13 +74,9 @@ class Modul extends Admin_Controller {
 
 	public function sub_modul($id = '')
 	{
-		$data['submodul'] = $this->modul_model->list_sub_modul($id);
-		$data['modul'] = $this->modul_model->get_data($id);
+		$this->session->module = $id;
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('setting/modul/sub_modul_table', $data);
-		$this->load->view('footer');
+		redirect('modul');
 	}
 
 	public function filter($filter)
@@ -75,6 +84,7 @@ class Modul extends Admin_Controller {
 		$value = $this->input->post($filter);
 		if ($value != '')
 			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('modul');
 	}
 
@@ -103,7 +113,7 @@ class Modul extends Admin_Controller {
 	public function default_server()
 	{
 		$this->modul_model->default_server();
-		redirect('modul');
+		$this->clear();
 	}
 
 }

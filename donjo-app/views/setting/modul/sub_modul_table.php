@@ -3,7 +3,7 @@
 		<h1>Manajemen Sub modul</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('modul')?>"> Daftar Modul</a></li>
+			<li><a href="<?= site_url('modul/clear')?>"> Daftar Modul</a></li>
 			<li class="active">Manajemen Sub Modul</li>
 		</ol>
 	</section>
@@ -13,7 +13,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
+							<a href="<?= site_url('modul/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
 						</div>
 						<div class="box-header with-border">
 						 <strong> Modul Utama : <?=$modul['modul']?></strong>
@@ -28,11 +28,12 @@
 													<th width="1%">No</th>
 													<th width="5%">Aksi</th>
 													<th>Nama Modul</th>
-													<th width="5%">Icon</th>
+													<th width="5%" nowrap>Icon</th>
+													<th width="5%" nowrap>Tampil</th>
 												</tr>
 											</thead>
 											<tbody>
-												<?php foreach ($submodul as $data): ?>
+												<?php foreach ($main as $data): ?>
 													<tr>
 														<td class="text-center"><?=$data['no']?></td>
 														<td nowrap>
@@ -44,6 +45,7 @@
 															<?php endif ?>
 														</td>
 														<td><?=$data['modul']?></td>
+														<td nowrap><?=$data['ikon']?></td>
 														<td class="text-center"><i class="fa <?=$data['ikon']?> fa-lg"></i></td>
 													</tr>
 												<?php endforeach; ?>

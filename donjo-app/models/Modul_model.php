@@ -270,4 +270,21 @@
 			->update('setting_modul', ['aktif' => $val]);
 	}
 
+	public function list_icon()
+	{
+		$list_icon = array();
+
+		$file = FCPATH.'assets/fonts/fontawesome.txt';
+
+		if (file_exists($file))
+		{
+			$list_icon = file_get_contents($file);
+			$filter = str_replace(['before', 'content', '{', '}', '"', ';', ',', ':'], '', $list_icon);
+
+			return explode('.', $filter);
+		}
+
+		return FALSE;
+	}
+
 }

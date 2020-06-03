@@ -1,3 +1,8 @@
+<style>
+	select {
+		font-family: fontAwesome
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<?php if ($modul['parent']!='0'): ?>
@@ -7,7 +12,7 @@
 		<?php endif; ?>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('modul')?>"> Daftar Modul</a></li>
+			<li><a href="<?= site_url('modul/clear')?>"> Daftar Modul</a></li>
 			<?php if ($modul['parent']!='0'): ?>
 			<li><a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>"> Daftar Sub Modul</a></li>
 			<?php endif ?>
@@ -20,7 +25,7 @@
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">
-							<a href="<?= site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
+							<a href="<?= site_url('modul/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
 							<?php if ($modul['parent']!='0'): ?>
 								<a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
 							<?php endif ?>
@@ -31,13 +36,19 @@
 								<div class="col-sm-6">
 									<input type="hidden" name="modul" value="1">
 									<input type="hidden" name="parent" value="<?=($modul['parent'])?>">
-									<input id="modul" name="modul" class="form-control input-sm required" type="text" placeholder="Nama Modul/Sub Modul" value="<?=($modul['modul'])?>"></input>
+									<input id="modul" name="modul" class="form-control input-sm required" type="text" placeholder="Nama Modul/Sub Modul" value="<?=($modul['modul'])?>" maxlength="30"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="ikon">Ikon</label>
 								<div class="col-sm-6">
-									<input id="ikon" name="ikon" class="form-control input-sm" type="text" placeholder="Ikon" value="<?=($modul['ikon'])?>" ></input>
+									<select class="form-control" name="ikon">
+										<option selected="selected">Pilih Icon</option>
+										<?php foreach ($list_icon as $icon): ?>
+											<?php $cut = explode("\\", $icon); ?>
+											<option value="<?=$cut[0]?>" <?php selected($cut[0], $modul['ikon']); ?>><?=$cut[1] ? "&#x$cut[1];" : ''?> <?=$cut[0]?></option>
+										 <?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">

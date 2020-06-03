@@ -187,7 +187,8 @@
 																	<th width="1%">No</th>
 																	<th width="5%">Aksi</th>
 																	<th>Nama Modul</th>
-																	<th width="5%">Icon</th>
+																	<th width="5%" nowrap>Icon</th>
+																	<th width="5%" nowrap>Tampil</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -206,6 +207,7 @@
 																			<?php endif; ?>
 																		</td>
 																		<td><?=$data['modul']?></td>
+																		<td nowrap><?=$data['ikon']?></td>
 																		<td class="text-center"><i class="fa <?=$data['ikon']?> fa-lg"></i></td>
 																	</tr>
 																<?php endforeach; ?>
