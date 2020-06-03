@@ -40,9 +40,9 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
-																		<td><?=$data['no']?></td>
-																		<td nowrap>
+																		<td width="1%"><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<td width="1%"><?=$data['no']?></td>
+																		<td width="5%" nowrap>
 																			<a href="<?=site_url("teks_berjalan/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																			<a href="<?=site_url("teks_berjalan/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																			<a href="<?=site_url("teks_berjalan/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
@@ -56,8 +56,8 @@
 																			<?php endif; ?>
 																		</td>
 																		<td><?=$data['teks']?> <a href="<?=$data['tautan']?>" target="_blank"><?=$data['judul_tautan']?></a></td>
-																		<td>
-																			<a href="<?=$data['tautan']?>" target="_blank"><?=tgl_indo($data['tgl_upload']).'<br>'.$data['judul']?></a>
+																		<td width="10%" nowrap>
+																			<a href="<?=$data['tautan']?>" target="_blank"><?=tgl_indo($data['tgl_upload']).' <br> '.$data['judul']?></a>
 																		</td>
 																	</tr>
 																<?php endforeach; ?>
