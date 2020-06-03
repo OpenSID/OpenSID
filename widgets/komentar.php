@@ -8,7 +8,7 @@
 					<ul class="sidebar-latest" id="li-komentar">
 						<?php foreach($komen As $data){?>
 							<li>
-								<table class="table table-bordered table-striped dataTable table-hover nowrap">
+								<table class="table table-bordered table-striped dataTable table-hover">
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th><i class="fa fa-comment"></i> <?= $data['owner']?></th>
