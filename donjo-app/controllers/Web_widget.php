@@ -17,12 +17,12 @@ class Web_widget extends Admin_Controller {
 			exit;
 		}
 
-		$this->load->model('header_model');
 		$this->load->model('web_widget_model');
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 48;
 		$this->set_page = ['20', '50', '100'];
-		//$this->set_page = ['1', '2', '3'];
+		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
+		$this->load->model('header_model');
 		$this->header = $this->header_model->get_data();
 		$this->list_session = ['cari', 'filter'];
 	}

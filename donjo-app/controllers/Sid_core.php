@@ -9,13 +9,14 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
 		$this->set_page = ['20', '50', '100'];
+		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
+		$this->load->model('header_model');
 		$this->header = $this->header_model->get_data();
 	}
 

@@ -13,10 +13,11 @@ class Dpt extends Admin_Controller {
 		$this->load->model('dpt_model');
 		$this->load->model('referensi_model');
 		$this->load->model('wilayah_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 26;
 		$this->set_page = ['20', '50', '100'];
+		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
+		$this->load->model('header_model');
 		$this->header = $this->header_model->get_data();
 		$this->list_session = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk'];
 	}
