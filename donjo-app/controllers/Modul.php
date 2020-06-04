@@ -53,7 +53,6 @@ class Modul extends Admin_Controller {
 	public function form($id = '')
 	{
 		$data['list_icon'] = $this->modul_model->list_icon();
-
 		if ($id)
 		{
 			$data['modul'] = $this->modul_model->get_data($id);

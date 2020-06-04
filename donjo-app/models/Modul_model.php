@@ -112,7 +112,7 @@
 	{
 		$status = $this->session->status;
 
-		if($status != '')
+		if ($status != '')
 			$this->db->where('aktif', $status);
 
 		$data = $this->db->select('modul')
@@ -279,9 +279,9 @@
 		if (file_exists($file))
 		{
 			$list_icon = file_get_contents($file);
-			$filter = str_replace(['before', 'content', '{', '}', '"', ';', ',', ':'], '', $list_icon);
-
-			return explode('.', $filter);
+			$list_icon = explode('.', $list_icon);
+			$list_icon = array_map(function ($a) { return explode(':', $a)[0]; }, $list_icon);
+			return $list_icon;
 		}
 
 		return FALSE;

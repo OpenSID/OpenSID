@@ -14,7 +14,7 @@
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('modul/clear')?>"> Daftar Modul</a></li>
 			<?php if ($modul['parent']!='0'): ?>
-			<li><a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>"> Daftar Sub Modul</a></li>
+				<li><a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>"> Daftar Sub Modul</a></li>
 			<?php endif ?>
 			<li class="active">Pengaturan Modul</li>
 		</ol>
@@ -42,11 +42,10 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="ikon">Ikon</label>
 								<div class="col-sm-6">
-									<select class="form-control" id="ikon" name="ikon">
+									<select class="form-control select2-ikon" id="ikon" name="ikon">
 										<option selected="selected">Pilih Icon</option>
 										<?php foreach ($list_icon as $icon): ?>
-											<?php $cut = explode("\\", $icon); ?>
-											<option value="<?=$cut[0]?>" <?php selected($cut[0], $modul['ikon']); ?>><?=$cut[1] ? "&#x$cut[1];" : ''?> <?=$cut[0]?></option>
+											<option value="<?=$icon?>" <?php selected($icon, $modul['ikon']); ?>><?=$icon?></option>
 										 <?php endforeach; ?>
 									</select>
 								</div>
@@ -54,11 +53,11 @@
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>active<?php endif ?>">
-										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php ($modul['aktif'] =='1' OR $modul['aktif'] == NULL) and print('active'); ?>">
+										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php ($modul['aktif'] =='1' OR $modul['aktif'] == NULL) and print('checked'); ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($modul['aktif'] == '2' ): ?>active<?php endif ?>">
-										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if ($modul['aktif'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php ($modul['aktif'] == '2' ) and print('active'); ?>">
+										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php selected($modul['aktif'], '2', true); ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
@@ -76,11 +75,10 @@
 		</div>
 	</section>
 </div>
+
 <script>
 	function reset_form()
 	{
-		$("#ikon").val("<?=$modul['ikon'];?>");
-
 		<?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
