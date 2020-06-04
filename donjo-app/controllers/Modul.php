@@ -9,12 +9,11 @@ class Modul extends Admin_Controller {
 	{
 		parent::__construct();
 		session_start();
-		$this->load->model('modul_model');
+		$this->load->model(['modul_model', 'header_model']);
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 42;
 		$this->list_session = ['status', 'cari', 'module'];
 		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
-		$this->load->model('header_model');
 		$this->header = $this->header_model->get_data();
 	}
 
@@ -35,19 +34,19 @@ class Modul extends Admin_Controller {
 				$data[$list] = $this->session->$list ?: '';
 			}
 
+			$data['sub_modul'] = NULL;
 			$data['main'] = $this->modul_model->list_data();
 			$data['keyword'] = $this->modul_model->autocomplete();
 		}
 		else
 		{
+			$data['sub_modul'] = $this->modul_model->get_data($id);
 			$data['main'] = $this->modul_model->list_sub_modul($id);
-			$data['modul'] = $this->modul_model->get_data($id);
-			$sub = 'sub_modul_';
 		}
 
 		$this->load->view('header', $this->header);
 		$this->load->view('nav');
-		$this->load->view('setting/modul/'.$sub.'table', $data);
+		$this->load->view('setting/modul/table', $data);
 		$this->load->view('footer');
 	}
 
