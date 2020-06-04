@@ -42,7 +42,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="ikon">Ikon</label>
 								<div class="col-sm-6">
-									<select class="form-control" name="ikon">
+									<select class="form-control" id="ikon" name="ikon">
 										<option selected="selected">Pilih Icon</option>
 										<?php foreach ($list_icon as $icon): ?>
 											<?php $cut = explode("\\", $icon); ?>
@@ -79,6 +79,8 @@
 <script>
 	function reset_form()
 	{
+		$("#ikon").val("<?=$modul['ikon'];?>");
+
 		<?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
