@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 6. #3125: Sediakan blok tandatangan 'a.n' untuk lampiran surat, seperti F-1.01, sesuai dengan pilihan pejabat penandatangan di form isian surat.
 7. #3132: Sekarang tampilan tulisan teks berjalan di web tidak dibatasi panjangnya.
 8. #1257: Perbaiki tampilan Pengaturan > Modul, seragamkan tombol aktif/tidak-aktif, tampilkan pilihan ikon.
+9. Sederhanakan blok paginasi dan perbaikan script lain di berapa modul. [teknis]
 
 
 
