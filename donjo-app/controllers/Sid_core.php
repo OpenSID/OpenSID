@@ -9,7 +9,7 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'config_model', 'header_model');
+		$this->load->model(['wilayah_model', 'config_model', 'header_model']);
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
@@ -96,8 +96,8 @@ class Sid_Core extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+			$this->session->cari = $cari;
+		else $this->session->unset_userdata('cari');
 		redirect('sid_core');
 	}
 
@@ -136,7 +136,6 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('sid/wilayah/wilayah_rw', $data);
 		$this->load->view('footer');
 	}
-
 
 	public function cetak_rw($id_dusun = '')
 	{

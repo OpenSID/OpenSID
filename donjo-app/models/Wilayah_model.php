@@ -1,4 +1,4 @@
-<?php class Wilayah_model extends CI_Model {
+<?php class Wilayah_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('dusun', 'tweb_wil_clusterdesa');
-		return $str;
+		return $this->autocomplete_str('dusun', 'tweb_wil_clusterdesa');
 	}
 
 	private function search_sql()
@@ -94,7 +93,7 @@
 
 	private function cek_data($table, $data=[])
 	{
-		$count = $this->db->get_where($table, $data)->num_rows(); 
+		$count = $this->db->get_where($table, $data)->num_rows();
 		return $count;
 	}
 
@@ -102,7 +101,7 @@
 	{
 		$data = $this->bersihkan_data($_POST);
 		$wil = array('dusun' => $data['dusun']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -125,7 +124,7 @@
 	{
 		$data = $this->bersihkan_data($_POST);
 		$wil = array('dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -156,13 +155,13 @@
 
 		switch ($tipe)
 		{
-			case 'dusun': 
+			case 'dusun':
 				$this->db->where('dusun', $dusun);
 				break; //dusun
-			case 'rw': 
+			case 'rw':
 				$this->db->where('rw', $rw)->where('dusun', $dusun);
 				break; //rw
-			default: 
+			default:
 				$this->db->where('id', $id);
 				break; //rt
 		}
@@ -206,7 +205,7 @@
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -231,7 +230,7 @@
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
 		unset($data['id_rw']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -278,7 +277,7 @@
 		$data_rw = $this->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -298,7 +297,7 @@
 		$data = $_POST;
 		$rt_lama = $this->db->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
 		$wil = array('dusun' => $rt_lama['dusun'], 'rw' => $rt_lama['rw'], 'rt' => $data['rt'], 'id <>' => $id);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;

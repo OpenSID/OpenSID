@@ -17,7 +17,7 @@ class Web_widget extends Admin_Controller {
 			exit;
 		}
 
-		$this->load->model(['web_widget_model', 'header_model');
+		$this->load->model(['web_widget_model', 'header_model']);
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 48;
 		$this->set_page = ['20', '50', '100'];
@@ -53,8 +53,8 @@ class Web_widget extends Admin_Controller {
 
 		$this->session->page = $data['p'];
 		$this->session->urut_range = array(
-				'min' => $data['main'][0]['urut'],
-				'max' => $data['main'][count($data['main'])-1]['urut']
+			'min' => $data['main'][0]['urut'],
+			'max' => $data['main'][count($data['main'])-1]['urut']
 		);
 
 		$this->load->view('header', $this->header);

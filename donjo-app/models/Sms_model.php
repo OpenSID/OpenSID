@@ -1,4 +1,4 @@
-<?php class Sms_model extends CI_Model {
+<?php class Sms_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('SenderNumber', 'inbox');
-		return $str;
+		return $this->autocomplete_str('SenderNumber', 'inbox');
 	}
 
 	private function search_sql()
@@ -113,7 +112,7 @@
 		$sql = "DELETE FROM setting_sms";
 		$query = $this->db->query($sql);
 		$outp = $this->db->insert('setting_sms', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -849,7 +848,7 @@
 		}
 		else
 			$outp = false;
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -932,7 +931,7 @@
 			$this->db->where('id_polling', $id);
 			$outp = $this->db->update('polling', $data);
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 

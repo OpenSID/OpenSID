@@ -1,4 +1,4 @@
-<?php class Web_artikel_model extends CI_Model {
+<?php class Web_artikel_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -8,8 +8,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('judul', 'artikel');
-		return $str;
+		return $this->autocomplete_str('judul', 'artikel');
 	}
 
 	private function search_sql()

@@ -8,8 +8,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'tweb_penduduk');
-		return $str;
+		return $this->autocomplete_str('nama', 'tweb_penduduk');
 	}
 
 	private function cacatx_sql()

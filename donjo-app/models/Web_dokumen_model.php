@@ -1,5 +1,5 @@
 <?php
-class Web_dokumen_model extends CI_Model {
+class Web_dokumen_model extends MY_Model {
 
 	// Untuk datatables informasi publik
 	var $table = 'dokumen_hidup';
@@ -12,6 +12,11 @@ class Web_dokumen_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('referensi_model');
+	}
+
+	public function autocomplete()
+	{
+		return $this->autocomplete_str('nama', 'dokumen_hidup');
 	}
 
 	// Ambil semua peraturan
@@ -112,12 +117,6 @@ class Web_dokumen_model extends CI_Model {
 		$this->db->group_by('tahun');
 		$res = $this->db->from($this->table)->get()->result_array();
 		return $res;
-	}
-
-	public function autocomplete()
-	{
-		$str = autocomplete_str('nama', 'dokumen_hidup');
-		return $str;
 	}
 
 	private function search_sql()
