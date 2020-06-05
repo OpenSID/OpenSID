@@ -22,7 +22,7 @@ class Setting_model extends CI_Model {
 				$this->database_model->migrasi_db_cri();
 			}
 			$pr = $this->db
-				->where("kategori is null or kategori <> 'sistem'")
+				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' ")
 				->order_by('key')->get("setting_aplikasi")->result();
 			foreach($pr as $p)
 			{
@@ -35,6 +35,13 @@ class Setting_model extends CI_Model {
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
+			$setting_web = $this->db
+				->where('kategori', 'conf_web')
+				->order_by('key')->get("setting_aplikasi")->result();
+			foreach($setting_web as $p)
+			{
+				$pre[addslashes($p->key)] = addslashes($p->value);
+			}
 		}
 		else
 		{
@@ -42,6 +49,7 @@ class Setting_model extends CI_Model {
 		}
 		$CI->setting = (object) $pre;
 		$CI->list_setting = $pr; // Untuk tampilan daftar setting
+		$CI->list_setting_web = $setting_web; // Untuk tampilan daftar setting web (d/h di desa/config/config.php)
 		$this->apply_setting();
 	}
 
