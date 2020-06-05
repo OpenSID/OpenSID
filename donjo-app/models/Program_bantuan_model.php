@@ -854,10 +854,21 @@ class Program_bantuan_model extends CI_Model {
 		$this->db->delete('program_peserta');
 	}
 
-	public function hapus_peserta($peserta_id)
+	public function hapus_peserta($peserta_id='', $semua=false)
 	{
 		$this->db->where('id', $peserta_id);
 		$this->db->delete('program_peserta');
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $peserta_id)
+		{
+			$this->hapus_peserta($peserta_id, $semua=true);
+		}
 	}
 
 	/*
@@ -979,7 +990,7 @@ class Program_bantuan_model extends CI_Model {
 	private function get_all_peserta_bantuan_query()
 	{
 		$this->db
-			->select("p.nama as program, pend.nama as peserta, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->select("p.nama as program, pend.nama as peserta, pp.kartu_nama as peserta_nama, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
 			->from('program p')
 			->join('program_peserta pp', 'p.id = pp.program_id', 'left');
 		if ($this->input->post('stat') == 'bantuan_keluarga')
