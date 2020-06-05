@@ -1,4 +1,4 @@
-<?php class Plan_point_model extends CI_Model {
+<?php class Plan_point_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'point');
-		return $str;
+		return $this->autocomplete_str('nama', 'point');
 	}
 
 	private function search_sql()
@@ -96,7 +95,7 @@
 	{
 		$data = $_POST;
 		$outp = $this->db->insert('point', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -112,7 +111,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('point');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

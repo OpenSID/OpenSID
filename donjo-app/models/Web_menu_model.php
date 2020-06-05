@@ -11,11 +11,9 @@ class Web_menu_model extends MY_Model {
 		$this->urut_model = new Urut_Model('menu');
 	}
 
-	public function autocomplete()
+	public function autocomplete($cari = '')
 	{
-		$str = autocomplete_str('nama', 'menu');
-
-		return $str;
+		return $this->autocomplete_str('nama', 'menu', $cari);
 	}
 
 	private function search_sql($tip)

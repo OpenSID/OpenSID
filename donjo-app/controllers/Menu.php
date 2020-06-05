@@ -40,7 +40,7 @@ class Menu extends Admin_Controller {
 
 		$data['paging'] = $this->web_menu_model->paging($tip, $p, $o);
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->web_menu_model->autocomplete();
+		$data['keyword'] = $this->web_menu_model->autocomplete($data['cari']);
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
