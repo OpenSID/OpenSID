@@ -29,7 +29,7 @@ class Migrasi_2006_ke_2007 extends CI_model {
 	(38, 'provinsi_covid', '51', 'Kode provinsi status Covid-19 ', '', 'conf_web'),
 	(39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web'),
 	(40, 'daftar_bantuan_nama', '1', 'Apakah akan tampilkan Nama Peserta (bukan nama Kepala Keluarga) di daftar penerima bantuan di statistik halaman muka', 'boolean', 'conf_web')
-	ON DUPLICATE KEY UPDATE url = VALUES(url);
+	ON DUPLICATE KEY UPDATE value = VALUES(value);
 	";
 	$this->db->query($query);
 
