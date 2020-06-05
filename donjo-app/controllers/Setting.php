@@ -33,13 +33,34 @@ class Setting extends Admin_Controller {
 	public function info_sistem()
 	{
 		$this->sub_modul_ini = 46;
-		
+
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('setting/info_php');
 		$this->load->view('footer');
+	}
+
+	public function konfigurasi()
+	{
+		$this->modul_ini = 13;
+		$this->sub_modul_ini = 211;
+
+		$header = $this->header_model->get_data();
+		$data['list_tema'] = $this->theme_model->list_all();
+		$this->setting_model->load_options();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('setting/setting_form_web', $data);
+		$this->load->view('footer');
+	}
+
+	public function update_konfigurasi()
+	{
+		$this->setting_model->update($this->input->post());
+		redirect('setting/konfigurasi');
 	}
 
 }
