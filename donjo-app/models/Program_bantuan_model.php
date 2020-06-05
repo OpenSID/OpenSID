@@ -979,7 +979,7 @@ class Program_bantuan_model extends CI_Model {
 	private function get_all_peserta_bantuan_query()
 	{
 		$this->db
-			->select("p.nama as program, pend.nama as peserta, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->select("p.nama as program, pend.nama as peserta, pp.kartu_nama as peserta_nama, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
 			->from('program p')
 			->join('program_peserta pp', 'p.id = pp.program_id', 'left');
 		if ($this->input->post('stat') == 'bantuan_keluarga')
