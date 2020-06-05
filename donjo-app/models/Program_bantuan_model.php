@@ -315,7 +315,7 @@ class Program_bantuan_model extends CI_Model {
 				/*
 				 * Data KK
 				 * */
-				$hasil0['judul_peserta'] = 'NO. KK';
+				$hasil0['judul_peserta'] = 'No. KK';
 				$hasil0['judul_peserta_plus'] = 'NIK';
 				$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
 				$hasil0['judul_cari_peserta'] = 'No. KK / Nama Kepala Keluarga';
@@ -324,7 +324,7 @@ class Program_bantuan_model extends CI_Model {
 				/*
 				 * Data RTM
 				 * */
-				$hasil0['judul_peserta'] = 'NO. Rumah Tangga';
+				$hasil0['judul_peserta'] = 'No. Rumah Tangga';
 				$hasil0['judul_peserta_info'] = 'Kepala Rumah Tangga';
 				$hasil0['judul_cari_peserta'] = 'No. RT / Nama Kepala Rumah Tangga';
 				break;

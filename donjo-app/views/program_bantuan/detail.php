@@ -126,7 +126,6 @@
 																	<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
 																<?php endif ;?>
 																<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_info"]?></th>
-																<th rowspan="2" class="text-center">Alamat</th>
 																<th colspan="6" class="text-center">Identitas di Kartu Peserta</th>
 															</tr>
 															<tr>
@@ -155,7 +154,6 @@
 																			<td nowrap><?= $item["peserta_plus"]?></td>
 																		<?php endif; ?>
 																		<td nowrap><?= $item["peserta_info"]?></td>
-																		<td nowrap><?= $item["info"];?></td>
 																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
 																		<td class="text-center"><?= $item["kartu_nik"];?></td>
 																		<td nowrap><?= $item["kartu_nama"];?></td>
