@@ -458,7 +458,7 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>(Kabupaten/Kota atau Kecamatan atau Kelurahan/Desa)</td>
-			<td>Lurah/Kepala Desa</td>
+			<td><?= $this->penandatangan_lampiran($data);?></td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>

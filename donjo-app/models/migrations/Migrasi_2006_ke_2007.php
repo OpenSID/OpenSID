@@ -4,7 +4,6 @@ class Migrasi_2006_ke_2007 extends CI_model {
 	public function up()
 	{
 		$this->data_apbdes_manual();
-		$this->load->model('migrations/migrasi_2005_ke_2006');
 	}
 
 	private function data_apbdes_manual()
@@ -534,7 +533,6 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		(28, '2020', '6.PEMBIAYAAN', '', '6.2.9. Pengeluaran Pembiayaan Lainnya', '0', '0')";
 
 		$this->db->query($query);
-
 	}
 
 }

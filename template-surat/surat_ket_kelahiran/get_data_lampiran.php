@@ -142,5 +142,8 @@
     $input['pekerjaanid_saksi2'] 		= str_pad($input['pekerjaanid_saksi2'], 2, "0", STR_PAD_LEFT);
 		$input['umur_saksi2']						= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 	}
+	
+	$id = $this->input->post('pamong_id');
+	$kepala_desa = $this->pamong_model->get_pamong($id);
 
 ?>
