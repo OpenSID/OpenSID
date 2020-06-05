@@ -11,10 +11,17 @@ class Web_menu_model extends MY_Model {
 		$this->urut_model = new Urut_Model('menu');
 	}
 
-	public function autocomplete()
+	public function autocomplete($cari = '')
 	{
-		$str = autocomplete_str('nama', 'menu');
+		$cari = $this->db->escape_like_str($cari);
+		$this->db->select('nama')
+			->distinct()
+			->order_by('nama')
+			->from('menu');
+		if ($cari) $this->db->like('nama', $cari);
+		$data = $this->db->get()->result_array();
 
+		$str = autocomplete_data_ke_str($data);
 		return $str;
 	}
 
