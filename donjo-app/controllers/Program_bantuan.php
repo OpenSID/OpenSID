@@ -10,6 +10,8 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('config_model');
+		$this->load->model('keluarga_model');
+		$this->load->model('penduduk_model');
 		$this->modul_ini = 6;
 		$this->set_page = ['20', '50', '100'];
 	}
@@ -54,13 +56,16 @@ class Program_bantuan extends Admin_Controller {
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
 		$nik = $this->input->post('nik');
+		$id = $this->input->post('id_kk');
 		if (isset($nik))
 		{
 			$data['individu'] = $this->program_bantuan_model->get_peserta($nik, $sasaran);
+			$data['kartu_peserta'] = $this->keluarga_model->list_anggota($id);
 		}
 		else
 		{
 			$data['individu'] = NULL;
+			$data['kartu_peserta'] = NULL;
 		}
 		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 		$header = $this->header_model->get_data();
@@ -157,11 +162,19 @@ class Program_bantuan extends Admin_Controller {
 		redirect('program_bantuan/form/'.$id);
 	}
 
-	public function hapus_peserta($id, $peserta_id)
+	public function hapus_peserta($id, $peserta_id = '')
 	{
 		$this->redirect_hak_akses('h', "program_bantuan/detail/$id");
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
 		redirect("program_bantuan/detail/$id");
+	}
+
+	public function delete_all()
+	{
+		$this->redirect_hak_akses('h', "program_bantuan/detail/$id");
+		$program_id = $this->input->post('program_id');
+		$this->program_bantuan_model->delete_all();
+		redirect("program_bantuan/detail/$program_id");
 	}
 
 	public function edit_peserta($id)
