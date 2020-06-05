@@ -140,18 +140,35 @@ class Program_bantuan_model extends CI_Model {
 				$data['alamat_wilayah']= $this->surat_model->get_alamat_wilayah($data);
 				$data['nik_peserta'] = $data['nik'];
 				break;
+
 			case 2:
 				# Data KK
 				$data = $this->keluarga_model->get_kepala_kk($peserta_id, true);
 				$data['nik_peserta'] = $data['nik'];
+				/*
+				 * Cari data dengan kk_level 3 (istri)
+				 * Jika ada maka data peserta diambil dari istri, jika tdk ada data diambil dari kepala keluarga
+				 */
+				$istri = $this->db->where('id_kk', $data['id_kk'])->where('kk_level', '3')->get('tweb_penduduk')->row_array();
+				if($istri)
+				{
+					$data['nik_peserta'] = $istri['nik'];
+					$data['nama'] = $istri['nama'];
+					$data['tempatlahir'] = $istri['tempatlahir'];
+					$data['tanggallahir'] = $istri['tanggallahir'];
+					// Data alamat diambil dari data keluarga
+				}
+
 				$data['nik'] = $peserta_id; // no_kk digunakan sebagai id peserta
 				break;
+
 			case 3:
 				# Data RTM
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
 				$data['nik_peserta'] = $data['nik'];
 				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
 				break;
+
 			case 4:
 				# Data Kelompok
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
@@ -649,6 +666,7 @@ class Program_bantuan_model extends CI_Model {
 				default:
 			}
 			$hasil = array($hasil0, $hasil1, $hasil2);
+
 			return $hasil;
 		}
 	}
@@ -702,6 +720,7 @@ class Program_bantuan_model extends CI_Model {
 				}
 
 				break;
+
 			case 2:
 				/*
 				 * KK
@@ -721,6 +740,7 @@ class Program_bantuan_model extends CI_Model {
 						);
 				}
 				break;
+
 			case 3:
 				/*
 				 * RTM
@@ -740,8 +760,8 @@ class Program_bantuan_model extends CI_Model {
 						"foto"=>""
 						);
 				}
-
 				break;
+
 			case 4:
 				/*
 				 * Kelompok
@@ -762,6 +782,7 @@ class Program_bantuan_model extends CI_Model {
 						);
 				}
 				break;
+
 			default:
 
 		}
@@ -788,6 +809,7 @@ class Program_bantuan_model extends CI_Model {
 			'asaldana' => $this->input->post('asaldana'),
 			'status' => $this->input->post('status')
 		);
+
 		return $this->db->insert('program', $data);
 	}
 
@@ -845,6 +867,7 @@ class Program_bantuan_model extends CI_Model {
 		$nama_file = $_FILES['satuan']['name'];
 		$nama_file   = time().'-'.urlencode($nama_file); 	 // normalkan nama file
 		UploadDocument($nama_file, $old_document);
+
 		return $nama_file;
 	}
 
@@ -880,26 +903,31 @@ class Program_bantuan_model extends CI_Model {
 				$data['peserta_nama'] = $data['peserta'];
 				$data['peserta_info'] = $peserta['nama'];
 				break;
+
 			case 2:
 				$data['judul_peserta'] = 'No. KK';
 				$data['judul_peserta_info'] = 'Kepala Keluarga';
 				$data['peserta_nama'] = $data['peserta'];
 				$data['peserta_info'] = $peserta['nama'];
 				break;
+
 			case 3:
 				$data['judul_peserta'] = 'No. Rumah Tangga';
 				$data['judul_peserta_info'] = 'Kepala Rumah Tangga';
 				$data['peserta_nama'] = $data['peserta'];
 				$data['peserta_info'] = $peserta['nama'];
 				break;
+
 			case 4:
 				$data['judul_peserta'] = 'Nama Kelompok';
 				$data['judul_peserta_info'] = 'Ketua Kelompok';
 				$data['peserta_nama'] = $peserta['nama_kelompok'];
 				$data['peserta_info'] = $peserta['nama'];
 				break;
+
 			default:
 		}
+
 		return $data;
 	}
 
@@ -933,6 +961,7 @@ class Program_bantuan_model extends CI_Model {
 		  join('program_peserta v', 'p.id = v.program_id', 'left')->
 		  where('p.id', $id)->
 		  get()->row()->jml;
+
 		return $jml_peserta;
 	}
 
@@ -1051,6 +1080,7 @@ class Program_bantuan_model extends CI_Model {
 		if ($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 		$data = $this->db->get()->result_array();
+
 		return $data;
 	}
 
@@ -1058,6 +1088,7 @@ class Program_bantuan_model extends CI_Model {
 	{
 		$this->get_peserta_bantuan_query();
 		$query = $this->db->get();
+
 		return $query->num_rows();
 	}
 
@@ -1066,6 +1097,19 @@ class Program_bantuan_model extends CI_Model {
 		$this->get_all_peserta_bantuan_query();
 		return $this->db->count_all_results();
 	}
+
+	public function no_peserta($program_id)
+	{
+		// Cek nomor peserta terakhir dari program bantuan
+		$max = $this->db
+			->select_max('no_id_kartu')
+			->where('program_id', $program_id)
+			->get('program_peserta')
+			->row_array();
+
+		return $max['no_id_kartu'] + 1;
+	}
+
 
 	/* ========= Akhir datatable #peserta_program ============= */
 

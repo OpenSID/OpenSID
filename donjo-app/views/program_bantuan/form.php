@@ -3,13 +3,14 @@
 	label.control-label.no-padding-top { padding-top: 0px }
 </style>
 <div class="content-wrapper">
-  <?php $detail = $program[0];?>
+	<?php $detail = $program[0];?>
 	<section class="content-header">
+		<?= $individu['istri']?>
 		<h1>Peserta Program Bantuan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-      <li><a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>/1"> Rincian Program Bantuan</a></li>
+			<li><a href="<?= site_url("program_bantuan/detail/1/$detail[id]")?>/1"> Rincian Program Bantuan</a></li>
 			<li class="active">Peserta Program Bantuan</li>
 		</ol>
 	</section>
@@ -30,24 +31,30 @@
 											<h3 class="box-title">Rincian Program</h3>
 										</div>
 										<div class="box-body">
-											<table class="table table-bordered  table-striped table-hover" >
+											<table class="table table-bordered table-striped table-hover" >
 												<tbody>
 													<tr>
 														<td style="padding-top : 10px;padding-bottom : 10px; width:15%;" nowrap>Nama Program</td>
-														<td> : <?= strtoupper($detail["nama"])?></td>
+														<td> : </td>
+														<td> <?= strtoupper($detail["nama"])?></td>
 													</tr>
 													<tr>
 														<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Sasaran Peserta</td>
-														<td> :  <?= $sasaran[$detail["sasaran"]]?></td>
+														<td> : </td>
+														<td> <?= $sasaran[$detail["sasaran"]]?></td>
 													</tr>
 													<tr>
 														<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Masa Berlaku</td>
-														<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
+														<td> : </td>
+														<td> <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
 													</tr>
+													<?php if($detail["sasaran"] == '2'): ?>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
-														<td> : <?= $detail["ndesc"]?></td>
+														<td style="padding-top : 10px;padding-bottom : 10px;" >Catatan</td>
+														<td> : </td>
+														<td> 1. Peserta diambil dari anggota keluarga bertatus istri. <br>2. Jika no [1] tdk terpenuhi, maka peserta diambil dari kepala keluarga.</td>
 													</tr>
+												<?php endif; ?>
 												</tbody>
 											</table>
 										</div>
@@ -56,70 +63,71 @@
 										<div class="box-header with-border">
 											<h3 class="box-title">Tambah Peserta Program</h3>
 										</div>
-                     <div class="box-body">
-                       <form action="" id="main" name="main" method="POST"  class="form-horizontal">
+										<div class="box-body">
+											<form action="" id="main" name="main" method="POST" class="form-horizontal">
 												<div class="form-group" >
-									  			<label class="col-sm-4 col-lg-2 control-label <?php ($detail['sasaran'] != 1) and print('no-padding-top') ?>" for="nik"><?= $detail['judul_cari_peserta']?></label>
+													<label class="col-sm-4 col-lg-2 control-label <?php ($detail['sasaran'] != 1) and print('no-padding-top') ?>" for="nik"><?= $detail['judul_cari_peserta']?></label>
 													<div class="col-sm-7">
-														<select class="form-control select2 input-sm" id="nik" name="nik"  onchange="formAction('main')" style="width:100%" >
+														<select class="form-control select2 input-sm" id="nik" name="nik" onchange="formAction('main')" style="width:100%" >
 															<option selected="selected">-- Silakan Masukan <?= $detail['judul_cari_peserta']?> --</option>
 															<?php foreach ($program[2]as $item):
-										  					if (strlen($item["id"])>0): ?>
-											  				  <option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+																if (strlen($item["id"])>0): ?>
+																	<option value="<?= $item['id']?>" <?php if ($individu['nik']==$item['nik']): ?>selected<?php endif; ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
 																<?php endif;
-                              endforeach;?>
-  													</select>
+															endforeach;?>
+														</select>
 													</div>
-					    					</div>
-                        <?php if ($individu): ?>
-                          <?php include("donjo-app/views/program_bantuan/konfirmasi_peserta.php"); ?>
-                        <?php endif; ?>
-                      </form>
-                      <form id="validasi" action="<?= $form_action?>/<?= $detail['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-												<input type="hidden" name="nik" value="<?= $individu['nik']?>"  >
+												</div>
+												<?php if ($individu): ?>
+													<?php include("donjo-app/views/program_bantuan/konfirmasi_peserta.php"); ?>
+												<?php endif; ?>
+											</form>
+											<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+												<input type="hidden" name="nik" value="<?= $individu['nik']?>" >
 												<div class="form-group">
 													<label for="kartu_nik" class="col-sm-11 control-label text-left">IDENTITAS PADA KARTU PESERTA</label>
 												</div>
 												<div class="form-group">
-													<label for="no_id_kartu" class="col-sm-4 col-lg-2  control-label">Nomor Kartu Peserta</label>
+													<label for="no_id_kartu" class="col-sm-4 col-lg-2 control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-7">
-								  					<input  id="no_id_kartu" class="form-control input-sm required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" >
+														<input id="no_id_kartu" class="form-control input-sm required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?=$no_id?>">
+														<span class="help-block"><code> Nomor Kartu Peserta Terakhir : <b><?=$no_id?></b></code></span>
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="jenis_keramaian"  class="col-sm-4 col-lg-2 control-label">Gambar Kartu Peserta</label>
+													<label for="jenis_keramaian" class="col-sm-4 col-lg-2 control-label">Gambar Kartu Peserta</label>
 													<div class="col-sm-7">
 														<div class="input-group input-group-sm ">
 															<input type="text" class="form-control" id="file_path">
 															<input type="file" class="hidden" id="file" name="satuan">
 															<span class="input-group-btn">
-																<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+																<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 															</span>
 														</div>
-														<p class="help-block text-red">Kosongkan jika tidak ingin mengunggah gambar.</p>
+														<span class="help-block"><code> Kosongkan jika tidak ingin mengunggah gambar</code></span>
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_nik"  class="col-sm-4 col-lg-2 control-label">NIK</label>
+													<label for="kartu_nik" class="col-sm-4 col-lg-2 control-label">NIK</label>
 													<div class="col-sm-7">
-														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik"  value="<?= $individu['nik_peserta']?>">
+														<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik" value="<?= $individu['nik_peserta']?>">
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_nama"  class="col-sm-4 col-lg-2 control-label">Nama</label>
+													<label for="kartu_nama" class="col-sm-4 col-lg-2 control-label">Nama</label>
 													<div class="col-sm-7">
-														<input id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama"  value="<?= $individu['nama']?>">
+														<input id="kartu_nama" class="form-control input-sm" type="text" placeholder="Nama Peserta" name="kartu_nama" value="<?= $individu['nama']?>">
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_tempat_lahir"  class="col-sm-4 col-lg-2 control-label">Tempat Lahir</label>
+													<label for="kartu_tempat_lahir" class="col-sm-4 col-lg-2 control-label">Tempat Lahir</label>
 													<div class="col-sm-7">
-													<input id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir"  value="<?= $individu['tempatlahir']?>">
+													<input id="kartu_tempat_lahir" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" value="<?= $individu['tempatlahir']?>">
 
 													</div>
 												</div>
 												<div class="form-group">
-										  		<label for="kartu_tanggal_lahir"  class="col-sm-4 col-lg-2 control-label">Tanggal Lahir</label>
+													<label for="kartu_tanggal_lahir" class="col-sm-4 col-lg-2 control-label">Tanggal Lahir</label>
 													<div class="col-sm-7">
 														<div class="input-group input-group-sm date">
 															<div class="input-group-addon">
@@ -130,19 +138,19 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="kartu_alamat"  class="col-sm-4 col-lg-2 control-label">Alamat</label>
+													<label for="kartu_alamat" class="col-sm-4 col-lg-2 control-label">Alamat</label>
 													<div class="col-sm-7">
-											  		<input  id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat" value="<?= $individu['alamat_wilayah'];?>">
+														<input id="kartu_alamat" class="form-control input-sm" type="text" placeholder="Alamat" name="kartu_alamat" value="<?= $individu['alamat_wilayah'];?>">
 													</div>
 												</div>
 												<div class="box-footer">
 													<div class="col-xs-12">
-												  	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+														<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 														<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 													</div>
 												</div>
 											</form>
-                     </div>
+										</div>
 									</div>
 								</div>
 							</div>

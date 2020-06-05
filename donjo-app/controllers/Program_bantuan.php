@@ -54,6 +54,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
 		$nik = $this->input->post('nik');
+
 		if (isset($nik))
 		{
 			$data['individu'] = $this->program_bantuan_model->get_peserta($nik, $sasaran);
@@ -62,6 +63,8 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$data['individu'] = NULL;
 		}
+
+		$data['no_id'] = $this->program_bantuan_model->no_peserta($program_id);
 		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 		$header = $this->header_model->get_data();
 
