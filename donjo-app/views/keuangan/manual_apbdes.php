@@ -137,14 +137,11 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h3 class="modal-title" id="myModalLabel">Tambah Anggaran / Realisasi</h3>
-
 			</div>
-
 
 			<form class="form-horizontal">
 				<div class="modal-body">
 					<div class="box box-info"></div>
-
 					<div class="form-group">
 						<label class="col-sm-3 control-label" >Tahun</label>
 						<div class="col-sm-8">
@@ -212,7 +209,6 @@
 							<input type="text" class="form-control input-sm " id="Nilai_Realisasi" name="Nilai_Realisasi" placeholder="Nilai Realisasi"/>
 						</div>
 					</div>
-
 				</div>
 
 				<div class="modal-footer">
@@ -321,31 +317,29 @@
 
 <!--MODAL SALIN-->
 <div class="modal fade" id="ModalSalin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-				<div class="modal-content">
-						<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
-								<h4 class="modal-title" id="myModalLabel">Tambah/Salin dari Template</h4>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+				<h4 class="modal-title" id="myModalLabel">Tambah/Salin dari Template</h4>
+			</div>
+			<form class="form-horizontal">
+				<div class="modal-body">
+					<div class="box box-info"></div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" >Tahun Anggaran</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control input-sm " id="kodetahun" name="kodetahun" placeholder="Tahun Anggaran"/>
 						</div>
-						<form class="form-horizontal">
-						<div class="modal-body">
-							<div class="box box-info"></div>
-
-							<div class="form-group">
-								<label class="col-sm-3 control-label" >Tahun Anggaran</label>
-								<div class="col-sm-3">
-									<input type="text" class="form-control input-sm " id="kodetahun" name="kodetahun" placeholder="Tahun Anggaran"/>
-								</div>
-							</div>
-
-						</div>
-						<div class="modal-footer">
-								<button class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal" aria-hidden="true"><i class='fa fa-sign-out'></i> Tutup</button>
-								<button class="btn btn-social btn-flat btn-info btn-sm" id="btn_salin1"><i class='fa fa-check'></i>Salin</button>
-						</div>
-						</form>
+					</div>
 				</div>
+				<div class="modal-footer">
+					<button class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal" aria-hidden="true"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button class="btn btn-social btn-flat btn-info btn-sm" id="btn_salin1"><i class='fa fa-check'></i>Salin</button>
+				</div>
+			</form>
 		</div>
+	</div>
 </div>
 <!--END MODAL SALIN-->
 
