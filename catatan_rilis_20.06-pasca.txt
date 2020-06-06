@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 10. #3141: Tampilkan nomor telpon dan alamat email di Cetak Biodata penduduk.
 11. Sediakan halaman pengaturan unsur web menggantikan pengaturan di file desa/config/config.php.
 12. Sediakan opsi untuk menampilkan grafik statistik penduduk di web dalam format 3-D.
+13. #3146: Sekarang bisa hapus beberapa peserta program bantuan sekaligus.
 
 
 
