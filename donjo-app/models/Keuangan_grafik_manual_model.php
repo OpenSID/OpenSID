@@ -422,7 +422,7 @@ class keuangan_grafik_manual_model extends CI_model {
 		foreach ($data['pembiayaan_keluar'] as $i => $p)
 		{
 		  $data['pembiayaan_keluar'][$i]['anggaran'] = $this->pagu_akun($p['Akun'], $thn);
-		  $data['pembiayaan_keluar'][$i]['realisasi'] = $this->real_akun_pembiayaan_keluar($p['Akun'], $thn);
+		  $data['pembiayaan_keluar'][$i]['realisasi'] = $this->real_akun_pembiayaan($p['Akun'], $thn);
 		  $data['pembiayaan_keluar'][$i]['sub_pembiayaan_keluar'] = $this->get_subval_pembiayaan_keluar( $p['Akun'], $thn);
 		}
 		return $data;
@@ -483,15 +483,6 @@ class keuangan_grafik_manual_model extends CI_model {
   }
 
   private function real_akun_pembiayaan($akun, $thn=false)
-  {
-		$this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai_Realisasi) AS realisasi');
-		$this->db->like('Kd_Rincian', $akun, 'after');
-		$this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		$this->db->group_by('Akun');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-
-  private function real_akun_pembiayaan_keluar($akun, $thn=false)
   {
 		$this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai_Realisasi) AS realisasi');
 		$this->db->like('Kd_Rincian', $akun, 'after');
