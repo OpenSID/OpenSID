@@ -8,7 +8,6 @@
 			maxShowItems: 10,
 		});
 	});
-
 </script>
 <style>
 	.input-sm
@@ -25,6 +24,9 @@
 	.table-responsive
 	{
 		min-height:275px;
+	}
+	th {
+		text-align: center;
 	}
 }
 </style>
@@ -119,22 +121,19 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th rowspan="2" class="text-center">No</th>
-																<th rowspan="2" class="text-center">Aksi</th>
-																<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta"]?></th>
-																<?php if (!empty($detail['judul_peserta_plus'])): ?>
-																	<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
-																<?php endif ;?>
-																<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_info"]?></th>
-																<th colspan="6" class="text-center">Identitas di Kartu Peserta</th>
+																<th rowspan="2" width="1%">No</th>
+																<th rowspan="2" width="5%">Aksi</th>
+																<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
+																<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
+																<th colspan="6">Identitas di Kartu Peserta</th>
 															</tr>
 															<tr>
-																<th rowspan="2" nowrap class="text-center">No. Kartu Peserta</th>
-																<th class="text-center">NIK</th>
-																<th class="text-center">Nama</th>
-																<th class="text-center" nowrap>Tempat Lahir</th>
-																<th class="text-center" nowrap>Tanggal Lahir</th>
-																<th class="text-center">Alamat</th>
+																<th rowspan="2" nowrap>No. Kartu Peserta</th>
+																<th>NIK</th>
+																<th>Nama</th>
+																<th nowrap>Tempat Lahir</th>
+																<th nowrap>Tanggal Lahir</th>
+																<th>Alamat</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -149,10 +148,7 @@
 																			<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
-																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta/")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
-																		<?php if (!empty($item['peserta_plus'])): ?>
-																			<td nowrap><?= $item["peserta_plus"]?></td>
-																		<?php endif; ?>
+																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
 																		<td nowrap><?= $item["peserta_info"]?></td>
 																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
 																		<td class="text-center"><?= $item["kartu_nik"];?></td>
