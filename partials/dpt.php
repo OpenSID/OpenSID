@@ -42,4 +42,4 @@
 		</table>
 		</div>
 	</div>
-</div> <!-- .list-frame -->";
+</div> <!-- .list-frame -->

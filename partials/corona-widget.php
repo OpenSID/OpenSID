@@ -1,8 +1,8 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-                        <script>
-                            const KODE_PROVINSI = "<?= config_item('provinsi_covid') ?: 'undefined' ?>";
-                        </script>
 
+<script>
+	const KODE_PROVINSI = <?= $this->setting->provinsi_covid ? : 'undefined' ?> ;
+</script>
 <div class="archive_style_1" style="font-family: Oswald">
 	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Statistik COVID-19</span></h2>
 	<div class="row">
@@ -18,7 +18,6 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-				<?php if(config_item('provinsi_covid')) : ?>
 				<div id="covid-provinsi" class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><span data-name="wilayah"><i class="fa fa-spinner fa-pulse"></i></span></h4></div>
 					<div style="height: 100px;padding:1px" class="panel-body text-center">
@@ -27,7 +26,6 @@
 						<h4><small>Meninggal</small> <span data-name="meninggal"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
 					</div>
 				</div>
-				<?php endif; ?>
 			</div>
 		</div>
 	</div>

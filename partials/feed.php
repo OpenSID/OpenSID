@@ -1,5 +1,4 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
-<?php if ($feed['items']): ?>
 	<div id="feed" class="single_category wow fadeInDown">
 		<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text"><a href="<?= $feed['url']?>" rel="noopener noreferrer" target="_blank" ><?= $feed['title'] ?></a></span> </h2>
 		<div class="archive_style_1">
@@ -35,4 +34,4 @@
 			<?php endforeach; ?>
 		</div>
 	</div>
-<?php endif; ?>
+	

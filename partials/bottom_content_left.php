@@ -9,8 +9,8 @@
 				</marquee>
 			<?php endif; ?>
 		</div>
-		<?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/corona-widget.php");?>
-		<?php if (config_item('covid_desa')) $this->load->view($folder_themes."/partials/corona-local.php");?>
+		<?php if ($this->setting->covid_data) $this->load->view($folder_themes."/partials/corona-widget.php")?>
+		<?php if ($this->setting->covid_desa) $this->load->view($folder_themes."/partials/corona-local.php");?>
 		<?php if ($headline): ?>
 			<?php $abstrak_headline = potong_teks($headline['isi'], 500) ?>
 			<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Berita Utama</span> </h2>
@@ -37,7 +37,7 @@
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/feed.php'));?>
+		<?php if ($this->setting->covid_rss) $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/feed.php'));?>
 		<?php $title = (!empty($judul_kategori))? $judul_kategori : "Artikel Terkini" ?>
 		<?php if (is_array($title)): ?>
 			<?php foreach ($title as $item): ?>
