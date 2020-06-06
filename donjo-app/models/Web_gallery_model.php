@@ -1,4 +1,4 @@
-<?php class Web_gallery_model extends CI_Model {
+<?php class Web_gallery_model extends MY_Model {
 
 	private $urut_model;
 
@@ -11,8 +11,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'gambar_gallery');
-		return $str;
+		return $this->autocomplete_str('nama', 'gambar_gallery');
 	}
 
 	private function search_sql()
@@ -204,7 +203,7 @@
 		// nama file nya belum diubah sesuai dengan
 		// judul gallery
 		$this->delete_gallery_image($id);
-		
+
 		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

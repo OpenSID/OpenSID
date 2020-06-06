@@ -58,6 +58,7 @@
 								</ul>
 							</div>
 						<?php endif; ?>
+						<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?=site_url("program_bantuan/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<a href="<?= site_url("program_bantuan/daftar/$detail[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
 						</a>
 						<a href="<?= site_url("program_bantuan/daftar/$detail[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
@@ -70,6 +71,7 @@
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
+										<input type="hidden" id="program_id" name="program_id" value="<?= $detail['id']?>">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="box-header with-border">
@@ -121,7 +123,8 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th rowspan="2" width="1%">No</th>
+                                <th rowspan="2"><input type="checkbox" id="checkall"/></th>
+                                <th rowspan="2" width="1%">No</th>
 																<th rowspan="2" width="5%">Aksi</th>
 																<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
 																<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
@@ -142,6 +145,7 @@
 																<?php foreach ($peserta as $key=>$item): ?>
 																	<?php $nomer++; ?>
 																	<tr>
+																		<td><input type="checkbox" name="id_cb[]" value="<?= $item['id']?>" /></td>
 																		<td class="text-center"><?= $nomer?></td>
 																		<td nowrap class="text-center">
 																			<a href="<?= site_url("program_bantuan/edit_peserta_form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Peserta"><i class="fa fa-edit"></i></a>

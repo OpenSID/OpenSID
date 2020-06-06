@@ -1,4 +1,4 @@
-<?php class Wilayah_model extends CI_Model {
+<?php class Wilayah_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('dusun', 'tweb_wil_clusterdesa');
-		return $str;
+		return $this->autocomplete_str('dusun', 'tweb_wil_clusterdesa');
 	}
 
 	private function search_sql()

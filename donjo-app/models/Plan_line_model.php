@@ -1,4 +1,4 @@
-<?php class Plan_line_model extends CI_Model {
+<?php class Plan_line_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'line');
-		return $str;
+		return $this->autocomplete_str('nama', 'line');
 	}
 
 	private function search_sql()
@@ -113,7 +112,7 @@
 			unset($data['simbol']);
 			$outp = $this->db->insert('line',$data);
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -145,7 +144,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('line');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -211,7 +210,7 @@
 			$data['tipe'] = 2;
 			$outp = $this->db->insert('line', $data);
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 

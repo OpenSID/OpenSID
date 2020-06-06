@@ -1,5 +1,5 @@
 <?php
-class Kelompok_model extends CI_Model {
+class Kelompok_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -8,8 +8,7 @@ class Kelompok_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'kelompok');
-		return $str;
+		return $this->autocomplete_str('nama', 'kelompok');
 	}
 
 	private function search_sql()
@@ -137,7 +136,7 @@ class Kelompok_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -148,7 +147,7 @@ class Kelompok_model extends CI_Model {
 		$this->db->where('id_kelompok', $id);
 		$this->db->where('id_penduduk', $id_a);
 		$outp = $this->db->update('kelompok_anggota', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -164,7 +163,7 @@ class Kelompok_model extends CI_Model {
 	public function delete_a($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
