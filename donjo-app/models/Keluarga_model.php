@@ -978,11 +978,14 @@
 			$dokumen_kitas .= $ranggota['dokumen_kitas']."\line ";
 			$nama_ayah .= $ranggota['nama_ayah']."\line ";
 			$nama_ibu .= $ranggota['nama_ibu']."\line ";
-
+			if($ranggota['tanggalperkawinan']!="")
+				$tanggalperkawinan .= $ranggota['tanggalperkawinan']."\line ";
+			else
+				$tanggalperkawinan .= "-\line ";
 			if($ranggota['golongan_darah']!="TIDAK TAHU")
 				$golongan_darah .= $ranggota['golongan_darah']."\line ";
 			else
-				$golongan_darah .= "- \line ";
+				$golongan_darah .= "TIDAK TAHU \line ";
 		}
 
 		$buffer = str_replace("[no]","$no", $buffer);
@@ -1002,7 +1005,8 @@
 		$buffer = str_replace("[ayah]","\caps $nama_ayah", $buffer);
 		$buffer = str_replace("[ibu]","\caps $nama_ibu", $buffer);
 		$buffer = str_replace("[darah]","$golongan_darah", $buffer);
-
+		$buffer = str_replace("[tgl_kawin]","$tanggalperkawinan", $buffer);
+		
 		$h = $data['desa'];
 		$k = $data['kepala_kk'];
 		$tertanda = tgl_indo(date("Y m d"));
