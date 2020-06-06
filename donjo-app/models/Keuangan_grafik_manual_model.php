@@ -401,7 +401,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		{
       $data['belanja_bidang'][$i]['anggaran'] = $this->pagu_akun_bidang($p['Kd_Bid'], $thn);
 		  $data['belanja_bidang'][$i]['realisasi'] = $this->real_akun_belanja_bidang($p['Kd_Bid'], $thn);
-      $data['belanja_bidang'][$i]['sub_belanja'] = $this->get_subval_belanja_bidang( $p['Kd_Bid'], $thn);
 		}
 
 		$this->db->select('Akun, Nama_Akun');
@@ -455,25 +454,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		return $this->db->get('keuangan_manual_rinci')->result_array();
   }
 
-  private function real_akun_pendapatan_bunga($akun, $thn=false)
-  {
-		$this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai_Realisasi) AS realisasi');
-		$this->db->like('Kd_Rincian', $akun, 'after');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('Akun');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-
-  // ==== Sama dengan real_akun_pendapatan
-  // private function real_akun_belanja($akun, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $akun, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Akun');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
   private function real_akun_belanja_bidang($akun, $thn=false)
   {
 		$this->db->select('LEFT(Kd_Keg, 10) AS Akun, SUM(Nilai_Realisasi) AS realisasi');
@@ -482,16 +462,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		$this->db->group_by('Akun');
 		return $this->db->get('keuangan_manual_rinci')->result_array();
   }
-
-  // ==== Sama dengan real_akun_pendapatan
-  // private function real_akun_pembiayaan($akun, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 2) AS Akun, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $akun, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Akun');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
 
   private function get_subval_pendapatan( $akun, $thn=false)
   {
@@ -519,21 +489,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		  $data[$i]['anggaran'] = $this->jumlah_pagu_subval($d['Kelompok'], $thn);
 		  $data[$i]['realisasi'] = $this->jumlah_realisasi_subval($d['Kelompok'], $thn);
 		  $data[$i]['sub_belanja2'] = $this->sub_belanja2( $d['Kelompok'], $thn);
-		}
-		return $data;
-  }
-
-  private function get_subval_belanja_bidang( $akun, $thn=false)
-  {
-		$this->db->select('ID_Keg, Nama_Kegiatan');
-    $this->db->like('LEFT(ID_Keg, 10)', $akun, 'after');
-
-    $this->db->order_by('ID_Keg');
-		$data = $this->db->get('keuangan_manual_ref_kegiatan')->result_array();
-		foreach ($data as $i => $d)
-		{
-		  $data[$i]['anggaran'] = $this->jumlah_pagu_subval($d['ID_Keg'], $thn);
-		  $data[$i]['realisasi'] = $this->jumlah_realisasi_subval($d['ID_Keg'], $thn);
 		}
 		return $data;
   }
@@ -579,42 +534,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		return $this->db->get('keuangan_manual_rinci')->result_array();
   }
 
-  // private function pagu_subval_belanja($kelompok, $thn)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Anggaran) AS pagu');
-		// $this->db->like('Kd_Rincian', $kelompok, 'after');
-		// $this->db->where('Tahun', $thn);
-		// $this->db->group_by('Kelompok');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-  private function pagu_subval_belanja_bidang($kelompok, $thn)
-  {
-		$this->db->select('Kd_Keg AS Kelompok, SUM(Nilai_Anggaran) AS pagu');
-		$this->db->like('Kd_Keg', $kelompok, 'after');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('Kd_Keg');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-
-  // private function pagu_subval_pembiayaan($kelompok, $thn)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Anggaran) AS pagu');
-		// $this->db->like('Kd_Rincian', $kelompok, 'after');
-		// $this->db->where('Tahun', $thn);
-		// $this->db->group_by('Kelompok');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-/*  private function pagu_subval_pembiayaan_keluar($kelompok, $thn)
-  {
-		$this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Anggaran) AS pagu');
-		$this->db->like('Kd_Rincian', $kelompok, 'after');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('Kelompok');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-*/
   private function jumlah_realisasi_subval($kelompok, $thn=false)
   {
 		$this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Realisasi) AS realisasi');
@@ -623,51 +542,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		$this->db->group_by('Kelompok');
 		return $this->db->get('keuangan_manual_rinci')->result_array();
   }
-
-  private function real_subval_bunga($kelompok, $thn=false)
-  {
-		$this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Realisasi) AS realisasi');
-		$this->db->like('Kd_Rincian', $kelompok, 'after');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('Kelompok');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-
-  // private function real_subval_belanja($kelompok, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $kelompok, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Kelompok');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-  private function real_subval_belanja_bidang($kelompok, $thn=false)
-  {
-		$this->db->select('Kd_Keg AS Kelompok, SUM(Nilai_Realisasi) AS realisasi');
-		$this->db->like('Kd_Keg', $kelompok, 'after');
-		$this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		$this->db->group_by('Kelompok');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-
-  // private function real_subval_pembiayaan($kelompok, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $kelompok, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Kelompok');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-  // private function real_subval_pembiayaan_keluar($kelompok, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 4) AS Kelompok, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $kelompok, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Kelompok');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
 
   private function sub_pendapatan2( $kelompok, $thn=false)
   {
@@ -736,33 +610,6 @@ class keuangan_grafik_manual_model extends CI_model {
 		return $this->db->get('keuangan_manual_rinci')->result_array();
   }
 
-  // private function pagu_belanja2($jenis, $thn)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Anggaran) AS pagu');
-		// $this->db->like('Kd_Rincian', $jenis, 'after');
-		// $this->db->where('Tahun', $thn);
-		// $this->db->group_by('Jenis');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-/*  private function pagu_pembiayaan2($jenis, $thn)
-  {
-		$this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Anggaran) AS pagu');
-		$this->db->like('Kd_Rincian', $jenis, 'after');
-		$this->db->where('Tahun', $thn);
-		$this->db->group_by('Jenis');
-		return $this->db->get('keuangan_manual_rinci')->result_array();
-  }
-*/
-  // private function pagu_pembiayaan_keluar2($jenis, $thn)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Anggaran) AS pagu');
-		// $this->db->like('Kd_Rincian', $jenis, 'after');
-		// $this->db->where('Tahun', $thn);
-		// $this->db->group_by('Jenis');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
   private function jumlah_realisasi($jenis, $thn=false)
   {
 		$this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Realisasi) AS realisasi');
@@ -772,30 +619,4 @@ class keuangan_grafik_manual_model extends CI_model {
 		return $this->db->get('keuangan_manual_rinci')->result_array();
   }
 
-  // private function real_belanja2($jenis, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $jenis, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Jenis');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-  // private function real_pembiayaan2($jenis, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $jenis, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Kd_Rincian');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
-
-  // private function real_pembiayaan_keluar2($jenis, $thn=false)
-  // {
-		// $this->db->select('LEFT(Kd_Rincian, 6) AS Jenis, SUM(Nilai_Realisasi) AS realisasi');
-		// $this->db->like('Kd_Rincian', $jenis, 'after');
-		// $this->db->where('keuangan_manual_rinci.Tahun', $thn);
-		// $this->db->group_by('Jenis');
-		// return $this->db->get('keuangan_manual_rinci')->result_array();
-  // }
 }
