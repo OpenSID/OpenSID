@@ -178,7 +178,7 @@ $(document).ready(function() {
 	});
 
 	jQuery.validator.addMethod("nomor_sk", function(value, element) {
-		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);
+		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);   
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
 
@@ -212,10 +212,5 @@ $(document).ready(function() {
 				bilangan_spasi: true,
 			});
 	});
-
-	jQuery.validator.addMethod("nomor_surat_keputusan", function(value, element) {
-		valid = /^[a-zA-Z0-9 \.\-\/]+$/.test(value);
-		return this.optional(element) || valid;
-	}, "Hanya boleh berisi karakter alpha, angka, spasi, titik, strip dan /");
 
 })

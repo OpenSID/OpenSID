@@ -73,6 +73,8 @@ class Dokumen extends Admin_Controller {
 		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
 		$header = $this->header_model->get_data();
 		
+		$data = $this->security->xss_clean($data);
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('dokumen/form', $data);
