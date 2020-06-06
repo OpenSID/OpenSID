@@ -1,5 +1,5 @@
 <?php
-class Analisis_master_model extends CI_Model {
+class Analisis_master_model extends MY_Model {
 
 	function __construct()
 	{
@@ -8,8 +8,7 @@ class Analisis_master_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'analisis_master');
-		return $str;
+		return $this->autocomplete_str('nama', 'analisis_master');
 	}
 
 	private function search_sql()

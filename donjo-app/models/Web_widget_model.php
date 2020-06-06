@@ -1,4 +1,4 @@
-<?php class Web_widget_model extends CI_Model {
+<?php class Web_widget_model extends MY_Model {
 
 	private $urut_model;
 
@@ -15,9 +15,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('judul', 'widget');
-
-		return $str;
+		return $this->autocomplete_str('judul', 'widget');
 	}
 
 	public function get_widget($id='')

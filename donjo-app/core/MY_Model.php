@@ -31,4 +31,18 @@ class MY_Model extends CI_Model {
 		return site_url($url);
 	}
 
+	public function autocomplete_str($kolom, $tabel, $cari='')
+	{
+		if ($cari)
+		{
+			$cari = $this->db->escape_like_str($cari);
+			$this->db->like($kolom, $cari);
+		}
+		$data = $this->db->distinct()->
+			select($kolom)->
+			order_by($kolom)->
+			get($tabel)->result_array();
+
+		return autocomplete_data_ke_str($data);
+	}
 }

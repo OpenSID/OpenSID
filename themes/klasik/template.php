@@ -3,8 +3,8 @@
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 
 <!-- Ubah setting di desa/config/config.php untuk menampilkan/menyembunyikan data COVID-19 -->
-<?php if (config_item('covid_data')) $this->load->view($folder_themes."/partials/covid.php")?>
-<?php if (config_item('covid_desa')) $this->load->view($folder_themes."/partials/covid_local.php");?>
+<?php if ($this->setting->covid_data) $this->load->view($folder_themes."/partials/covid.php")?>
+<?php if ($this->setting->covid_desa) $this->load->view($folder_themes."/partials/covid_local.php");?>
 
 			<div id="contentwrapper">
 				<div id="contentcolumn">

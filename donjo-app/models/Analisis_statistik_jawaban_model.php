@@ -1,4 +1,4 @@
-<?php class Analisis_statistik_jawaban_model extends CI_Model {
+<?php class Analisis_statistik_jawaban_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('pertanyaan', 'analisis_indikator');
-		return $str;
+		return $this->autocomplete_str('pertanyaan', 'analisis_indikator');
 	}
 
 	private function search_sql()

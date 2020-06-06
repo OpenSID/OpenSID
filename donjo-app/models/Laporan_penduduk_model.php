@@ -1,4 +1,4 @@
-<?php class Laporan_penduduk_model extends CI_Model {
+<?php class Laporan_penduduk_model extends MY_Model {
 
 	private $lap;
 
@@ -6,13 +6,6 @@
 	{
 		parent::__construct();
 		$this->load->model('program_bantuan_model');
-	}
-
-	public function autocomplete()
-	{
-		$str = autocomplete_str('dusun_nama', 'dusun_nama');
-
-		return $str;
 	}
 
 	public function search_sql()
