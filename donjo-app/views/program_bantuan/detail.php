@@ -148,13 +148,13 @@
 																			<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
-																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
+																		<td nowrap><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
 																		<td nowrap><?= $item["peserta_info"]?></td>
 																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
-																		<td class="text-center"><?= $item["kartu_nik"];?></td>
+																		<td nowrap><?= $item["kartu_nik"];?></td>
 																		<td nowrap><?= $item["kartu_nama"];?></td>
 																		<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
-																		<td nowrap class="text-center"><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
+																		<td nowrap><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
 																		<td nowrap><?= $item["kartu_alamat"];?></td>
 																	</tr>
 																<?php endforeach; ?>

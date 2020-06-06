@@ -118,7 +118,6 @@ class Program_bantuan_model extends CI_Model {
 		{
 			case 1:
 				// Data Penduduk
-
 				$data = $this->get_penduduk($peserta_id);
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
 				$data['nik_peserta'] = $data['nik'];
@@ -132,11 +131,11 @@ class Program_bantuan_model extends CI_Model {
 				// Data KK
 				$kk = $this->get_kk($data['id_kk']);
 
-				$data['no_kk'] = $kk['no_kk'];
 				$data['nik_kk'] = $kk['nik_kk'];
 				$data['nama_kk'] = $kk['nama_kk'];
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($kk);
-				$data['nik_peserta'] = $data['nik_kk'];
+				$data['nik_peserta'] = $data['nik']; // NIK Penduduk
+				$data['nik'] = $data['no_kk'] = $kk['no_kk']; // No. KK
 				$data['judul'] = 'Penduduk';
 				break;
 
@@ -367,8 +366,7 @@ class Program_bantuan_model extends CI_Model {
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['nik'] = $data[$i]['no_kk'];
-				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
+				$data[$i]['nik'] = $data[$i]['peserta'];
 				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
@@ -380,6 +378,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil1 = false;
 		}
+
 		return $hasil1;
 	}
 
@@ -396,9 +395,8 @@ class Program_bantuan_model extends CI_Model {
 				// Ambil Data KK
 				$data[$i]['peserta_plus'] = $data[$i]['nik'];
 				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
-				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['peserta_info'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 				$data[$i]['nik'] = $data[$i]['no_kk'];
-				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
@@ -407,6 +405,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil1 = false;
 		}
+
 		return $hasil1;
 	}
 
@@ -417,7 +416,7 @@ class Program_bantuan_model extends CI_Model {
 		 * */
 		if ($query->num_rows()>0)
 		{
-			$data=$query->result_array();
+			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['id'] = $data[$i]['id'];
@@ -433,6 +432,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil1 = false;
 		}
+
 		return $hasil1;
 	}
 
@@ -459,6 +459,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil1 = false;
 		}
+
 		return $hasil1;
 	}
 
@@ -497,6 +498,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil2 = false;
 		}
+
 		return $hasil2;
 	}
 
@@ -523,7 +525,7 @@ class Program_bantuan_model extends CI_Model {
 			for ($i=0; $i<count($data); $i++)
 			{
 				// Abaikan keluarga yang sudah terdaftar pada program
-				if(!in_array($data[$i]['id'], $filter))
+				if(!in_array($data[$i]['no_kk'], $filter))
 				{
 					$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
 					$hasil2[$j]['id'] = $data[$i]['nik'];

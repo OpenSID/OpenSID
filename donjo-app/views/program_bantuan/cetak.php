@@ -67,7 +67,7 @@
 									<tr>
 										<td align="center"><?=$i?></td>
 										<td class='textx'><?=$item["nik"]?></td>
-										<td><?=$item["nama"]?></td>
+										<td><?=$item["peserta_info"]?></td>
 										<td class='textx' align="center"><?=$item["no_id_kartu"]?></td>
 										<td class='textx'><?=$item["kartu_nik"]?></td>
 										<td><?=$item["kartu_nama"]?></td>

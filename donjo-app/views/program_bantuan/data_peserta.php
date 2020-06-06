@@ -73,27 +73,19 @@
 															<?php if ($detail["sasaran"] == 1): ?>
 																<tr>
 																	<td style="padding-top : 10px;padding-bottom : 10px;" >Alamat</td>
-																	<td>
-																		<?= $individu['alamat_wilayah']; ?>
-																	</td>
+																	<td> : <?= $individu['alamat_wilayah']; ?></td>
 																</tr>
 																<tr>
 																	<td style="padding-top : 10px;padding-bottom : 10px;" >Tempat Tanggal Lahir (Umur)</td>
-																	<td>
-																		<?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)
-																	</td>
+																	<td> : <?= $individu['tempatlahir']?> <?= tgl_indo($individu['tanggallahir'])?> (<?= $individu['umur']?> Tahun)</td>
 																</tr>
 																<tr>
 																	<td style="padding-top : 10px;padding-bottom : 10px;" >Pendidikan</td>
-																	<td>
-																		<?= $individu['pendidikan']?>
-																	</td>
+																	<td> : <?= $individu['pendidikan']?></td>
 																</tr>
 																<tr>
 																	<td style="padding-top : 10px;padding-bottom : 10px;" >Warganegara / Agama</td>
-																	<td>
-																		<?= $individu['warganegara']?> / <?= $individu['agama']?>
-																	</td>
+																	<td> : <?= $individu['warganegara']?> / <?= $individu['agama']?></td>
 																</tr>
 															<?php elseif ($detail["sasaran"] == 2): ?>
 																<tr>
@@ -190,4 +182,3 @@
 		</div>
 	</section>
 </div>
-
