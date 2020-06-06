@@ -1,4 +1,4 @@
-Catatan pasca rilis versi 4.1.9:
+Catatan pra rilis versi 4.2:
 
 1. Kini data statistik support menampilkan/menyembunyikan nilai 0.
 2. Penambahan kolom dusun pada tabel DPT.
@@ -6,5 +6,16 @@ Catatan pasca rilis versi 4.1.9:
 4. Penyesuaian pemanggilan source sinergi program
 5. Perbaikan dan penambahan artikel populer pada widget arsip artikel
 6. URL artikel sekarang tidak perlu menggunakan awal 'first/'.
+7. Tampilkan Penerima Bantuan dan Perbaiki Statistik di Peta.
+8. Tidak tampilkan jumlah duplikat di grafik statistik.
+9. Gunakan fitur highchart untuk mengganti jenis chart tanpa reload.
+10. Perubahan sesuai https://github.com/OpenSID/OpenSID/pull/3085
+11. Sesuaikan tampilan judul widget dinamis.
+12. Rapikan judul widget peta lokasi kantor.
+13. Rapikan tampilan Komentar pada Artikel.
+14. Sesuaikan tampilan widget Lokasi Kantor Desa.
+15. Rapikan tampilan widget komentar.
+16. Penerapan Pengaturan Halaman Web.
+17. Perbaiki tampilan halaman statis.
 
 ****************************************************************
