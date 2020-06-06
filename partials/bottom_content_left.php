@@ -25,7 +25,7 @@
 						<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
 							<img src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" />
 							<?php else: ?>
-								<img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300" class="img-fluid img-thumbnail" />
+								<img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300" class="img-fluid img-thumbnail" style="float:left; margin:0 8px 4px 0;" />
 							<?php endif; ?>
 						<?php endif; ?>
 						<div style="text-align: justify;"><?= $abstrak_headline ?> ...
