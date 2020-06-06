@@ -20,15 +20,9 @@
 	</div>
 	<div class="row">
 		<section id="mainContent">
-			<div class="content_middle"></div>
 			<div class="content_bottom">
-				<div class="col-lg-9 col-md-9">
-					<div class="content_bottom_left">
-						<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/informasi_publik.php'));?>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-3">
-					<?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
+				<div class="col-lg-12 col-md-12">
+					<?php $this->load->view($halaman_peta); ?>
 				</div>
 			</div>
 		</section>
