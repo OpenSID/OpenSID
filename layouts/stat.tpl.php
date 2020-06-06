@@ -24,28 +24,23 @@
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
 					<div class="content_bottom_left">
-						<?php if ($tipe == 2): ?>
+                        <?php if ($tipe == 2): ?>
 							<?php $this->load->view($folder_themes.'/partials/statistik_sos.php'); ?>
-						<?php elseif ($tipe == 3): ?>
-							<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/wilayah.php')); ?>
-						<?php elseif ($tipe == 4): ?>
-							<?php $this->load->view($folder_themes.'/partials/dpt.php'); ?>
-						<?php else: ?>
-							<?php $this->load->view('statistik/penduduk_grafik.php'); ?>
-							<?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-								<?php if ($this->setting->daftar_penerima_bantuan):?>
-									<?php $this->load->view('statistik/peserta_bantuan', array('lap' => $st)); ?>
-								<?php endif;?>
-							<?php endif;?>
-						<?php endif; ?>
+    					<?php elseif ($tipe == 3): ?>
+    						<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/wilayah.php')); ?>
+    					<?php elseif ($tipe == 4): ?>
+    						<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/dpt.php')); ?>
+    					<?php else: ?>
+    					<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/statistik.php')); ?>
+    					<?php endif; ?>
+					</div>
 				</div>
-			</div>
 			<div class="col-lg-3 col-md-3">
 				<?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
 			</div>
-		</div>
-	</section>
-</div>
+			</div>
+		</section>
+	</div>
 </div>
 <footer id="footer">
 	<?php $this->load->view("$folder_themes/partials/footer_top.php"); ?>
