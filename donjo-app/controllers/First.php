@@ -409,30 +409,15 @@ class First extends Web_Controller {
 		$data = array();
 		$no = $_POST['start'];
 
-		if ($this->setting->daftar_bantuan_nama)
+		foreach ($peserta as $baris)
 		{
-			foreach ($peserta as $baris)
-			{
-				$no++;
-				$row = array();
-				$row[] = $no;
-				$row[] = $baris['program'];
-				$row[] = $baris['peserta_nama'];
-				$row[] = $baris['alamat'];
-				$data[] = $row;
-			}
-		}
-		else {
-			foreach ($peserta as $baris)
-			{
-				$no++;
-				$row = array();
-				$row[] = $no;
-				$row[] = $baris['program'];
-				$row[] = $baris['peserta'];
-				$row[] = $baris['alamat'];
-				$data[] = $row;
-			}
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $baris['program'];
+			$row[] = $baris['peserta'];
+			$row[] = $baris['alamat'];
+			$data[] = $row;
 		}
 
 		$output = array(
