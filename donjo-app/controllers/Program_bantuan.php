@@ -8,7 +8,7 @@ class Program_bantuan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-    $this->load->model(['header_model', 'program_bantuan_model', 'config_model']);
+		$this->load->model(['header_model', 'program_bantuan_model', 'config_model']);
 		$this->modul_ini = 6;
 		$this->set_page = ['20', '50', '100'];
 		$this->header = $this->header_model->get_data();
@@ -45,7 +45,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['set_page'] = $this->set_page;
 
 		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('program_bantuan/program', $data);
 		$this->load->view('footer');
 	}
@@ -55,7 +55,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
 		$nik = $this->input->post('nik');
-    
+
 		if (isset($nik))
 		{
 			$data['individu'] = $this->program_bantuan_model->get_peserta($nik, $sasaran);
@@ -69,7 +69,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 
 		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('program_bantuan/form', $data);
 		$this->load->view('footer');
 	}
@@ -77,7 +77,7 @@ class Program_bantuan extends Admin_Controller {
 	public function panduan()
 	{
 		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('program_bantuan/panduan', $data);
 		$this->load->view('footer');
 	}
@@ -109,7 +109,7 @@ class Program_bantuan extends Admin_Controller {
 		$this->header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('program_bantuan/detail', $data);
 		$this->load->view('footer');
 	}
@@ -119,7 +119,7 @@ class Program_bantuan extends Admin_Controller {
 		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
 
 		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('program_bantuan/peserta', $data);
 		$this->load->view('footer');
 	}
@@ -132,7 +132,7 @@ class Program_bantuan extends Admin_Controller {
 		$this->header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('program_bantuan/data_peserta', $data);
 		$this->load->view('footer');
 	}
@@ -197,17 +197,20 @@ class Program_bantuan extends Admin_Controller {
 		$this->form_validation->set_rules('status', 'Status', 'required');
 
 		$data['asaldana'] = unserialize(ASALDANA);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		if ($this->form_validation->run() === FALSE){
+
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->load->view('header', $this->header);
+			$this->load->view('nav');
 			$this->load->view('program_bantuan/create', $data);
+			$this->load->view('footer');
 		}
 		else
 		{
 			$this->program_bantuan_model->set_program();
-			redirect("program_bantuan/");
+			redirect("program_bantuan");
 		}
-		$this->load->view('footer');
+
 	}
 
 	public function edit($id)
@@ -223,22 +226,21 @@ class Program_bantuan extends Admin_Controller {
 		$this->form_validation->set_rules('status', 'Status', 'required');
 
 		$data['asaldana'] = unserialize(ASALDANA);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
 		$data['program'] = $this->program_bantuan_model->get_program(1, $id);
 		$data['jml'] = $this->program_bantuan_model->jml_peserta_program($id);
 
 		if ($this->form_validation->run() === FALSE)
 		{
+			$this->load->view('header', $this->header);
+			$this->load->view('nav');
 			$this->load->view('program_bantuan/edit', $data);
+			$this->load->view('footer');
 		}
 		else
 		{
 			$this->program_bantuan_model->update_program($id);
-			redirect("program_bantuan/");
+			redirect("program_bantuan");
 		}
-
-		$this->load->view('footer');
 	}
 
 	public function update($id)

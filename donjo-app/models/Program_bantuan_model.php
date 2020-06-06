@@ -113,7 +113,6 @@ class Program_bantuan_model extends CI_Model {
 	public function get_peserta($peserta_id, $sasaran)
 	{
 		$this->load->model('wilayah_model');
-		$this->load->model('keluarga_model');
 		switch ($sasaran)
 		{
 			case 1:
