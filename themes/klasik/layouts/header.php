@@ -59,6 +59,7 @@
 		<script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
 		<!-- Charts -->
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->

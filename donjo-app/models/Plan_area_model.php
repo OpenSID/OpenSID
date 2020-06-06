@@ -18,7 +18,7 @@
  * SID Opensource TIDAK BOLEH digunakan dengan tujuan profit atau segala usaha  yang bertujuan untuk mencari keuntungan.
  * Pelanggaran HaKI (Hak Kekayaan Intelektual) merupakan tindakan  yang menghancurkan dan menghambat karya bangsa.
  */
-?><?php class Plan_area_model extends CI_Model {
+?><?php class Plan_area_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -27,8 +27,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'area');
-		return $str;
+		return $this->autocomplete_str('nama', 'area');
 	}
 
 	private function search_sql()
@@ -192,7 +191,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('area');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

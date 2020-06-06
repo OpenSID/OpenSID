@@ -43,43 +43,90 @@
 
 	$(document).ready(function () {
 		tampilkan_nol(false);
-		chart_penduduk = new Highcharts.Chart({
-			chart: {
-				renderTo: 'container'
-			},
-			title: 0,
-			yAxis: {
-				showEmpty: false,
-			},
-			xAxis: {
-				categories: categories,
-			},
-			plotOptions: {
-				series: {
-					colorByPoint: true
+		if (<?=$this->setting->statistik_chart_3d?>) {
+			chart_penduduk = new Highcharts.Chart({
+				chart: {
+					renderTo: 'container',
+					options3d: {
+						enabled: true,
+						alpha: 45
+					}
 				},
-				column: {
-					pointPadding: -0.1,
-					borderWidth: 0,
-					showInLegend: false
+				title: 0,
+				yAxis: {
+					showEmpty: false,
 				},
-				pie: {
-					allowPointSelect: true,
-					cursor: 'pointer',
-					showInLegend: true
-				}
-			},
-			legend: {
-				enabled: legend
-			},
-			series: [{
-				type: type,
-				name: 'Jumlah Populasi',
-				shadow: 1,
-				border: 1,
-				data: data
-			}]
-		});
+				xAxis: {
+					categories: categories,
+				},
+				plotOptions: {
+					series: {
+						colorByPoint: true
+					},
+					column: {
+						pointPadding: -0.1,
+						borderWidth: 0,
+						showInLegend: false,
+						depth: 45
+					},
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						showInLegend: true,
+						depth: 45,
+						innerSize: 70
+					}
+				},
+				legend: {
+					enabled: legend
+				},
+				series: [{
+					type: type,
+					name: 'Jumlah Populasi',
+					shadow: 1,
+					border: 1,
+					data: data
+				}]
+			});
+		} else {
+			chart_penduduk = new Highcharts.Chart({
+				chart: {
+					renderTo: 'container'
+				},
+				title: 0,
+				yAxis: {
+					showEmpty: false,
+				},
+				xAxis: {
+					categories: categories,
+				},
+				plotOptions: {
+					series: {
+						colorByPoint: true
+					},
+					column: {
+						pointPadding: -0.1,
+						borderWidth: 0,
+						showInLegend: false,
+					},
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						showInLegend: true,
+					}
+				},
+				legend: {
+					enabled: legend
+				},
+				series: [{
+					type: type,
+					name: 'Jumlah Populasi',
+					shadow: 1,
+					border: 1,
+					data: data
+				}]
+			});
+		}
 
 		$('#showData').click(function () {
 			$('tr.lebih').show();

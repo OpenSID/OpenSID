@@ -1,5 +1,5 @@
 <?php
-class Kelompok_master_model extends CI_Model {
+class Kelompok_master_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -8,8 +8,7 @@ class Kelompok_master_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('kelompok', 'kelompok_master');
-		return $str;
+		return $this->autocomplete_str('kelompok', 'kelompok_master');
 	}
 
 	private function search_sql()
@@ -94,7 +93,7 @@ class Kelompok_master_model extends CI_Model {
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kelompok_master');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

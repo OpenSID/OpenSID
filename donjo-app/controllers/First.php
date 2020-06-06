@@ -97,7 +97,7 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
-		if (config_item('covid_rss'))
+		if ($this->setting->covid_rss)
 		{
 			$data['feed'] = array(
 				'items' => $this->first_artikel_m->get_feed(),
@@ -106,7 +106,7 @@ class First extends Web_Controller {
 			);
 		}
 
-		if (config_item('apbdes_footer'))
+		if ($this->setting->apbdes_footer)
 		{
 			$data['transparansi'] = config_item('apbdes_manual_input')
 				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema();
@@ -629,7 +629,7 @@ class First extends Web_Controller {
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
-		if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
 		{
 			$data['transparansi'] = config_item('apbdes_manual_input')
 				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema();

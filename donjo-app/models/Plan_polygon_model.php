@@ -1,4 +1,4 @@
-<?php class Plan_polygon_model extends CI_Model {
+<?php class Plan_polygon_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'polygon');
-		return $str;
+		return $this->autocomplete_str('nama', 'polygon');
 	}
 
 	private function search_sql()
@@ -114,7 +113,7 @@
 			unset($data['simbol']);
 			$outp = $this->db->insert('polygon', $data);
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -148,7 +147,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('polygon');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -250,7 +249,7 @@
 	public function delete_sub_polygon($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('polygon');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

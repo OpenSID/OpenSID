@@ -1,4 +1,4 @@
-<?php class Analisis_periode_model extends CI_Model {
+<?php class Analisis_periode_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -6,8 +6,7 @@
 	}
 
 	public function autocomplete(){
-		$str = autocomplete_str('nama', 'analisis_periode');
-		return $str;
+		return $this->autocomplete_str('nama', 'analisis_periode');
 	}
 
 	private function search_sql()
@@ -162,14 +161,14 @@
 		$data['id_master'] = $_SESSION['analisis_master'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_periode', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('analisis_periode');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

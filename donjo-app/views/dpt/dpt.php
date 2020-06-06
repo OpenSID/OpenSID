@@ -67,7 +67,7 @@
 										<input type="hidden" name="rt" value="">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/sex/1/'.$o)?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_jenis_kelamin AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
@@ -98,9 +98,9 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/filter/cari")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -174,46 +174,8 @@
 											</div>
 										</div>
 									</form>
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("dpt")?>" method="post" class="form-horizontal">
-													<label>
-														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="50" <?php selected($per_page, 50); ?> >50</option>
-															<option value="100" <?php selected($per_page, 100); ?> >100</option>
-															<option value="200" <?php selected($per_page, 200); ?> >200</option>
-														</select>
-														Dari
-														<strong><?= $paging->num_rows?></strong>
-														Total Data
-													</label>
-												</form>
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="dataTables_paginate paging_simple_numbers">
-												<ul class="pagination">
-													<?php if ($paging->start_link): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-													<?php endif; ?>
-													<?php if ($paging->prev): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-													<?php endif; ?>
-													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("dpt/index/$i/$o")?>"><?= $i?></a></li>
-													<?php endfor; ?>
-													<?php if ($paging->next): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-													<?php endif; ?>
-													<?php if ($paging->end_link): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-													<?php endif; ?>
-												</ul>
-											</div>
-										</div>
-									</div>
+									<?php $this->load->view('global/paging');?>
+								</div>
 							</div>
 						</div>
 					</div>
