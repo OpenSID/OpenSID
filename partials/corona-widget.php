@@ -8,7 +8,7 @@
 	<div class="row">
 		<div style="margin-top:10px;">
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-				<div id="covid-nasional" class="panel panel-info">
+				<div id="covid-provinsi" class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><span data-name="wilayah"><i class="fa fa-spinner fa-pulse"></i></span></h4></div>
 					<div style="height: 100px;padding:1px" class="panel-body text-center">
 						<h4><small>Positif</small> <span data-name="positif"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-				<div id="covid-provinsi" class="panel panel-info">
+				<div id="covid-nasional" class="panel panel-info">
 					<div style="height: 40px;padding:1px" class="panel-heading text-center"><h4><span data-name="wilayah"><i class="fa fa-spinner fa-pulse"></i></span></h4></div>
 					<div style="height: 100px;padding:1px" class="panel-body text-center">
 						<h4><small>Positif</small> <span data-name="positif"><i class="fa fa-spinner fa-pulse"></i></span> <small>Jiwa</small></h4>
