@@ -1,4 +1,4 @@
-<?php class Analisis_kategori_model extends CI_Model {
+<?php class Analisis_kategori_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('kategori', 'analisis_kategori_indikator');
-		return $str;
+		return $this->autocomplete_str('kategori', 'analisis_kategori_indikator');
 	}
 
 	private function search_sql()
@@ -101,7 +100,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('analisis_kategori_indikator');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

@@ -1,6 +1,6 @@
 <?php
 
-class Plan_garis_model extends CI_Model {
+class Plan_garis_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -9,8 +9,7 @@ class Plan_garis_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'garis');
-		return $str;
+		return $this->autocomplete_str('nama', 'garis');
 	}
 
 	private function search_sql()
@@ -174,14 +173,14 @@ class Plan_garis_model extends CI_Model {
 			$this->db->where('id', $id);
 			$outp = $this->db->update('garis', $data);
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
   }
 
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('garis');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

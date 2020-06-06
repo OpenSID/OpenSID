@@ -1,4 +1,4 @@
-<?php class Penduduk_model extends CI_Model {
+<?php class Penduduk_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -15,16 +15,7 @@
 
 	public function autocomplete($cari='')
 	{
-		$cari = $this->db->escape_like_str($cari);
-		$this->db->select('nama')
-			->distinct()
-			->order_by('nama')
-			->from('tweb_penduduk');
-		if ($cari) $this->db->like('nama', $cari);
-		$data = $this->db->get()->result_array();
-
-		$str = autocomplete_data_ke_str($data);
-		return $str;
+		return $this->autocomplete_str('nama', 'tweb_penduduk', $cari);
 	}
 
 	protected function search_sql()

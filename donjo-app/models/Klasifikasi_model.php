@@ -1,4 +1,4 @@
-<?php class Klasifikasi_model extends CI_model {
+<?php class Klasifikasi_model extends MY_model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'klasifikasi_surat');
-		return $str;
+		return $this->autocomplete_str('nama', 'klasifikasi_surat');
 	}
 
 	public function search_sql()
@@ -131,9 +130,9 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id',$id)->delete('klasifikasi_surat');
-		
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 

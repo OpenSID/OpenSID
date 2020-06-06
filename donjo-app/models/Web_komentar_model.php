@@ -1,4 +1,4 @@
-<?php class Web_komentar_model extends CI_Model {
+<?php class Web_komentar_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('komentar', 'komentar');
-		return $str;
+		return $this->autocomplete_str('komentar', 'komentar');
 	}
 
 	private function search_sql()

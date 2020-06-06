@@ -2,11 +2,13 @@
 
 class Web_widget extends Admin_Controller {
 
+	private $header;
+	private $set_page;
+	private $list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
 		if ($this->setting->offline_mode >= 2)
@@ -15,54 +17,48 @@ class Web_widget extends Admin_Controller {
 			exit;
 		}
 
-		$this->load->model('header_model');
-		$this->load->model('web_widget_model');
+		$this->load->model(['web_widget_model', 'header_model']);
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 48;
+		$this->set_page = ['20', '50', '100'];
+		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
+		$this->header = $this->header_model->get_data();
+		$this->list_session = ['cari', 'filter'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['table_curpage']);
- 		$this->session->per_page = 20;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->set_page[0];
 		redirect('web_widget');
 	}
 
-	public function pager()
+	public function index($page = 0, $o = 0)
 	{
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		redirect("web_widget");
-	}
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
-	public function index($page=0, $o=0)
-	{
+		$data['cari'] = $this->session->cari ?: '';
+		$data['filter'] = $this->session->filter ?: '';
+		$data['func'] = 'index';
+		$data['set_page'] = $this->set_page;
+		$data['per_page'] = $this->session->per_page;
 		$data['paging'] = $this->web_widget_model->paging($page, $o);
 		$data['p'] = $data['paging']->page;
 		$data['o'] = $o;
-		$data['cari'] = $this->session->cari;
-		$data['filter'] = $this->session->filter;
 
-		if (isset($_POST['per_page']))
-		{
-			$this->session->per_page = $_POST['per_page'];
-		}
-		$data['per_page'] = $this->session->per_page;
 		$data['main'] = $this->web_widget_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->web_widget_model->autocomplete();
-
-		$header = $this->header_model->get_data();
+		$data['keyword'] = $this->web_widget_model->autocomplete($this->input->post('cari'));
 
 		$this->session->page = $data['p'];
 		$this->session->urut_range = array(
-				'min' => $data['main'][0]['urut'],
-				'max' => $data['main'][count($data['main'])-1]['urut']
+			'min' => $data['main'][0]['urut'],
+			'max' => $data['main'][count($data['main'])-1]['urut']
 		);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('web/artikel/widget', $data);
 		$this->load->view('footer');
 	}
@@ -73,7 +69,7 @@ class Web_widget extends Admin_Controller {
 		$data['o'] = $o;
 
 		$data['list_widget'] = $this->web_widget_model->list_widget_baru();
-		
+
 		if ($id)
 		{
 			$data['widget'] = $this->web_widget_model->get_widget($id);
@@ -85,41 +81,29 @@ class Web_widget extends Admin_Controller {
 			$data['form_action'] = site_url("web_widget/insert");
 		}
 
-		$header = $this->header_model->get_data();
-		
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('web/artikel/widget-form', $data);
 		$this->load->view('footer');
 	}
 
-	public function search()
+	public function filter($filter)
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect("web_widget");
-	}
-
-	public function filter()
-	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
-		redirect("web_widget");
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
+		redirect('web_widget');
 	}
 
 	public function admin($widget)
 	{
 		$header['minsidebar'] = 1;
-		$header = $this->header_model->get_data();
 		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
 		$data['setting'] = $this->web_widget_model->get_setting($widget);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('widgets/admin_'.$widget, $data);
 		$this->load->view('footer');
 	}
@@ -172,6 +156,7 @@ class Web_widget extends Admin_Controller {
 		{
 			$page++;
 		}
+
  		redirect("web_widget/index/$page");
 	}
 

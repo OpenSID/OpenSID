@@ -654,17 +654,6 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	force_download($nama_berkas, $data);
 }
 
-function autocomplete_str($kolom, $tabel)
-{
-	$CI =& get_instance();
-	$CI->load->database();
-	$data = $CI->db->distinct()->
-		select($kolom)->
-		order_by($kolom)->
-		get($tabel)->result_array();
-
-	return autocomplete_data_ke_str($data);
-}
 /**
  * @param array 		(0 => (kolom => teks), 1 => (kolom => teks), ..)
  * @return string 	dalam bentuk siap untuk autocomplete
