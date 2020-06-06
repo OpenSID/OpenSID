@@ -668,7 +668,7 @@
 	public function get_kepala_kk($id, $is_no_kk = false)
 	{
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
-		$sql = "SELECT nik, u.id, u.nama, u.status_kawin as status_kawin_id, tempatlahir, tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex, w.nama as status_kawin, h.nama as hubungan, f.nama as warganegara, warganegara_id, nama_ayah, nama_ibu, g.nama as golongan_darah, c.rt as rt, c.rw as rw, c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE $kolom_id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE $kolom_id = ?) AS alamat, (SELECT id FROM tweb_keluarga WHERE $kolom_id = ?) AS id_kk
+		$sql = "SELECT nik, u.id, u.nama, u.tanggalperkawinan, u.status_kawin as status_kawin_id, tempatlahir, tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex, w.nama as status_kawin, h.nama as hubungan, f.nama as warganegara, warganegara_id, nama_ayah, nama_ibu, g.nama as golongan_darah, c.rt as rt, c.rw as rw, c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE $kolom_id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE $kolom_id = ?) AS alamat, (SELECT id FROM tweb_keluarga WHERE $kolom_id = ?) AS id_kk
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
 			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
@@ -959,6 +959,7 @@
 		$handle = fopen($file,'r');
 		$buffer = stream_get_contents($handle);
 		$i = 0;
+
 		foreach ($data['main'] AS $ranggota)
 		{
 			$i++;
@@ -978,11 +979,8 @@
 			$dokumen_kitas .= $ranggota['dokumen_kitas']."\line ";
 			$nama_ayah .= $ranggota['nama_ayah']."\line ";
 			$nama_ibu .= $ranggota['nama_ibu']."\line ";
-
-			if($ranggota['golongan_darah']!="TIDAK TAHU")
-				$golongan_darah .= $ranggota['golongan_darah']."\line ";
-			else
-				$golongan_darah .= "- \line ";
+			$golongan_darah .= $ranggota['golongan_darah']."\line ";
+			$tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? $ranggota['tanggalperkawinan']."\line " : "- \line ";
 		}
 
 		$buffer = str_replace("[no]","$no", $buffer);
@@ -1001,7 +999,8 @@
 		$buffer = str_replace("[kitas]","$dokumen_kitas", $buffer);
 		$buffer = str_replace("[ayah]","\caps $nama_ayah", $buffer);
 		$buffer = str_replace("[ibu]","\caps $nama_ibu", $buffer);
-		$buffer = str_replace("[darah]","$golongan_darah", $buffer);
+		$buffer = str_replace("[darah]","\caps $golongan_darah", $buffer);
+		$buffer = str_replace("[tanggalperkawinan]","$tanggalperkawinan", $buffer);
 
 		$h = $data['desa'];
 		$k = $data['kepala_kk'];
