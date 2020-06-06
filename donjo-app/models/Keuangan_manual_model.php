@@ -12,35 +12,43 @@ class Keuangan_manual_model extends CI_model {
     return array_column($data, 'Tahun');
   }
 
-  public function list_apbdes(){
+  public function list_apbdes()
+  {
     $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE 1");
     return $hasil->result();
   }
 
-  public function list_pendapatan(){
+  public function list_pendapatan()
+  {
     $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE Kd_Akun='4.PENDAPATAN' ");
     return $hasil->result();
   }
 
-  public function list_belanja(){
+  public function list_belanja()
+  {
     $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE Kd_Akun='5.BELANJA' ");
     return $hasil->result();
   }
 
-  public function list_pembiayaan(){
+  public function list_pembiayaan()
+  {
     $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE Kd_Akun='6.PEMBIAYAAN' ");
     return $hasil->result();
   }
 
-  public function simpan_anggaran($Tahun,$Kd_Akun,$Kd_Keg,$Kd_Rincian,$Nilai_Anggaran,$Nilai_Realisasi){
+  public function simpan_anggaran($Tahun,$Kd_Akun,$Kd_Keg,$Kd_Rincian,$Nilai_Anggaran,$Nilai_Realisasi)
+  {
     $hasil = $this->db->query("INSERT INTO keuangan_manual_rinci (Tahun,Kd_Akun,Kd_Keg,Kd_Rincian,Nilai_Anggaran,Nilai_Realisasi) VALUES ('$Tahun','$Kd_Akun','$Kd_Keg','$Kd_Rincian','$Nilai_Anggaran','$Nilai_Realisasi')");
     return $hasil;
   }
 
-  public function get_anggaran($id){
+  public function get_anggaran($id)
+  {
     $hsl = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE id='$id'");
-    if($hsl->num_rows()>0){
-      foreach ($hsl->result() as $data) {
+    if ($hsl->num_rows()>0)
+    {
+      foreach ($hsl->result() as $data)
+      {
         $hasil=array(
           'id' => $data->id,
           'Tahun' => $data->Tahun,
@@ -128,11 +136,14 @@ class Keuangan_manual_model extends CI_model {
     }
   }
 
-  public function get_anggaran_tpl(){
+  public function get_anggaran_tpl()
+  {
     $hsl = $this->db->query("SELECT * FROM keuangan_manual_rinci_tpl WHERE 1");
-    if($hsl->num_rows()>0){
-      foreach ($hsl->result() as $data) {
-        $hasil=array(
+    if ($hsl->num_rows()>0)
+    {
+      foreach ($hsl->result() as $data)
+      {
+        $hasil = array(
           'id' => $data->id,
           'Tahun' => $data->Tahun,
           'Kd_Akun' => $data->Kd_Akun,
@@ -153,7 +164,8 @@ class Keuangan_manual_model extends CI_model {
 
     $this->db->select('Tahun,Kd_Akun,Kd_Keg,Kd_Rincian,Nilai_Anggaran,Nilai_Realisasi');
     $result_set = $this->db->get('keuangan_manual_rinci_tpl')->result();
-    if(count($result_set) > 0) {
+    if (count($result_set) > 0)
+    {
       $this->db->insert_batch('keuangan_manual_rinci', $result_set);
     }
     return $result_set;

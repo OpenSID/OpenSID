@@ -10,7 +10,7 @@ function generateTable(sumber, tabel ,dataTable)
 				var html = '';
 				var i;
 				var no;
-				for(i=0; i<data.length; i++){
+				for (i=0; i<data.length; i++){
 					no = i+1;
 					html += '<tr>'+
 					'<td><input type="checkbox" name="id_cb[]" value="'+data[i].id+'" /></td>'+
@@ -63,7 +63,7 @@ function generateTable_belanja(sumber, tabel ,dataTable)
 				var html = '';
 				var i;
 				var no;
-				for(i=0; i<data.length; i++){
+				for (i=0; i<data.length; i++){
 					no = i+1;
 					html += '<tr>'+
 					'<td><input type="checkbox" name="id_cb[]" value="'+data[i].id+'" /></td>'+
@@ -261,29 +261,29 @@ function saveEdit()
 	}
 
 //SALIN TEMPLATE DATA
-	function salinData()
-	{
-		$('#btn_salin').on('click',function(){
-			$('#ModalSalin').modal('show');
-		});
+function salinData()
+{
+	$('#btn_salin').on('click',function(){
+		$('#ModalSalin').modal('show');
+	});
 
-		$('#btn_salin1').on('click',function(){
-			var kode=$('#kodetahun').val();
-			$.ajax({
-				type : "POST",
-				url  : 'salin_anggaran_tpl',
-				dataType : "JSON",
-				data : {kode: kode},
-				success: function(data){
-					$('#ModalSalin').modal('hide');
-				}
-			}).then(function() {
-				location.reload();
-			});
-			return false;
+	$('#btn_salin1').on('click',function(){
+		var kode=$('#kodetahun').val();
+		$.ajax({
+			type : "POST",
+			url  : 'salin_anggaran_tpl',
+			dataType : "JSON",
+			data : {kode: kode},
+			success: function(data){
+				$('#ModalSalin').modal('hide');
+			}
+		}).then(function() {
+			location.reload();
 		});
-		return salinData;
-	}
+		return false;
+	});
+	return salinData;
+}
 
 // MISC
 function tools()
@@ -317,12 +317,12 @@ function tools()
 
 	//Tab akan selalu aktif setelah refresh, tidak kembali ke default tab
 	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        localStorage.setItem('activeTab', $(e.target).attr('href'));
-    });
-    var activeTab = localStorage.getItem('activeTab');
-    if(activeTab){
-        $('#myTab a[href="' + activeTab + '"]').tab('show');
-    }
+		localStorage.setItem('activeTab', $(e.target).attr('href'));
+	});
+	var activeTab = localStorage.getItem('activeTab');
+	if (activeTab){
+		$('#myTab a[href="' + activeTab + '"]').tab('show');
+	}
 
 	return tools;
 }

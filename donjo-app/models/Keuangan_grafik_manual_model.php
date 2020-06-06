@@ -169,7 +169,6 @@ class keuangan_grafik_manual_model extends CI_model {
   		{
   		  $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi_pendapatan'] = ($r['realisasi'] ? $r['realisasi'] : 0);
   		}
-
     }
 
 		foreach ($tmp_pendapatan as $key => $value)
@@ -222,7 +221,6 @@ class keuangan_grafik_manual_model extends CI_model {
   		{
   		  $tmp_belanja[$r['jenis_belanja']]['realisasi_belanja'] = ($r['realisasi'] ? $r['realisasi'] : 0);
   		}
-
     }
 
     foreach ($tmp_belanja as $key => $value)
@@ -254,7 +252,6 @@ class keuangan_grafik_manual_model extends CI_model {
   		{
   		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ? $r['realisasi'] : 0);
   		}
-
     }
     else
     {
@@ -276,7 +273,6 @@ class keuangan_grafik_manual_model extends CI_model {
   		{
   		  $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi_pendapatan'] = ($r['realisasi'] ? $r['realisasi'] : 0);
   		}
-
     }
 
 		foreach ($tmp_pelaksanaan as $key => $value)
@@ -339,31 +335,31 @@ class keuangan_grafik_manual_model extends CI_model {
 		{
 		  foreach ($raws as $key => $raw)
 		  {
-			if ($key == 'laporan')
-			{
-			  $result['data_widget'][$keys]['laporan'] = $raw;
-			  continue;
-			}
+  			if ($key == 'laporan')
+  			{
+  			  $result['data_widget'][$keys]['laporan'] = $raw;
+  			  continue;
+  			}
 
-      $data['judul'] = $raw['nama'];
-			$data['anggaran'] = $raw['anggaran'];
-			$data['realisasi'] = $raw['realisasi']+$raw['realisasi_pendapatan']+$raw['realisasi_belanja'];
+        $data['judul'] = $raw['nama'];
+  			$data['anggaran'] = $raw['anggaran'];
+  			$data['realisasi'] = $raw['realisasi']+$raw['realisasi_pendapatan']+$raw['realisasi_belanja'];
 
-			if ($data['anggaran'] != 0 && $data['realisasi'] != 0)
-			{
-			  $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
-			}
-			elseif ($data['realisasi'] != 0)
-			{
-			  $data['persen'] = 100;
-			}
-			else
-			{
-			  $data['persen'] = 0;
-			}
-			$data['persen'] = round($data['persen'], 2);
+  			if ($data['anggaran'] != 0 && $data['realisasi'] != 0)
+  			{
+  			  $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
+  			}
+  			elseif ($data['realisasi'] != 0)
+  			{
+  			  $data['persen'] = 100;
+  			}
+  			else
+  			{
+  			  $data['persen'] = 0;
+  			}
+  			$data['persen'] = round($data['persen'], 2);
 
-			$result['data_widget'][$keys][] = $data;
+  			$result['data_widget'][$keys][] = $data;
 		  }
 		}
 		$result['tahun'] = $tahun;

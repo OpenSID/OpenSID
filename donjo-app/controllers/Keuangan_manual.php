@@ -13,7 +13,6 @@ class Keuangan_manual extends Admin_Controller {
 	}
 
 	// Manual Input Anggaran dan Realisasi APBDes
-
 	public function setdata_laporan($tahun, $semester)
 	{
 		$sess_manual = array(
@@ -34,8 +33,8 @@ class Keuangan_manual extends Admin_Controller {
 		}
 		else
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = "Data Laporan Keuangan Belum Tersedia";
+			$this->session->success = -1;
+			$this->session->error_msg = "Data Laporan Keuangan Belum Tersedia";
 			redirect("keuangan_manual/manual_apbdes");
 		}
 	}
@@ -56,7 +55,7 @@ class Keuangan_manual extends Admin_Controller {
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$thn = $this->session->userdata('set_tahun');
+		$thn = $this->session->set_tahun;
 
 		switch ($jenis)
 		{
@@ -80,7 +79,7 @@ class Keuangan_manual extends Admin_Controller {
 		$data = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$data['ta'] = $this->session->userdata('set_tahun');
-		$_SESSION['submenu'] = "Laporan Keuangan " . $judul;
+		$this->session->submenu = "Laporan Keuangan " . $judul;
 		$this->load->view('keuangan/rincian_realisasi_manual', $data);
 	}
 
@@ -88,7 +87,7 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		$data = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$_SESSION['submenu'] = "Grafik Keuangan";
+		$this->session->submenu = "Grafik Keuangan";
 		$this->load->view('keuangan/grafik_rp_apbd_manual', $data);
 	}
 
@@ -112,44 +111,51 @@ class Keuangan_manual extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function data_anggaran(){
+	public function data_anggaran()
+	{
 		$data = $this->keuangan_manual_model->list_apbdes();
 		echo json_encode($data);
 	}
 
-	public function data_pendapatan(){
+	public function data_pendapatan()
+	{
 		$data = $this->keuangan_manual_model->list_pendapatan();
 		echo json_encode($data);
 	}
 
-	public function data_belanja(){
+	public function data_belanja()
+	{
 		$data = $this->keuangan_manual_model->list_belanja();
 		echo json_encode($data);
 	}
 
-	public function data_pembiayaan(){
+	public function data_pembiayaan()
+	{
 		$data = $this->keuangan_manual_model->list_pembiayaan();
 		echo json_encode($data);
 	}
 
-	public function get_anggaran(){
+	public function get_anggaran()
+	{
 		$id = $this->input->get('id');
 		$data = $this->keuangan_manual_model->get_anggaran($id);
 		echo json_encode($data);
 	}
 
-	public function simpan_anggaran(){
+	public function simpan_anggaran()
+	{
 		$Tahun = $this->input->post('Tahun');
 		$Kd_Akun = $this->input->post('Kd_Akun');
 		$Kd_Keg = $this->input->post('Kd_Keg');
 		$Kd_Rincian = $this->input->post('Kd_Rincian');
 		$Nilai_Anggaran = $this->input->post('Nilai_Anggaran');
 		$Nilai_Realisasi = $this->input->post('Nilai_Realisasi');
-		$data = $this->keuangan_manual_model->simpan_anggaran($Tahun,$Kd_Akun,$Kd_Keg,$Kd_Rincian,$Nilai_Anggaran,$Nilai_Realisasi);
+		$data = $this->keuangan_manual_model->simpan_anggaran($Tahun, $Kd_Akun, $Kd_Keg, $Kd_Rincian, $Nilai_Anggaran, $Nilai_Realisasi);
 		echo json_encode($data);
 	}
 
-	public function update_anggaran(){
+	public function update_anggaran()
+	{
 		$id = $this->input->post('id');
 		$Tahun = $this->input->post('Tahun');
 		$Kd_Akun = $this->input->post('Kd_Akun');
@@ -157,7 +163,7 @@ class Keuangan_manual extends Admin_Controller {
 		$Kd_Rincian = $this->input->post('Kd_Rincian');
 		$Nilai_Anggaran = $this->input->post('Nilai_Anggaran');
 		$Nilai_Realisasi = $this->input->post('Nilai_Realisasi');
-		$data = $this->keuangan_manual_model->update_anggaran($id,$Tahun,$Kd_Akun,$Kd_Keg,$Kd_Rincian,$Nilai_Anggaran,$Nilai_Realisasi);
+		$data = $this->keuangan_manual_model->update_anggaran($id, $Tahun, $Kd_Akun, $Kd_Keg, $Kd_Rincian, $Nilai_Anggaran, $Nilai_Realisasi);
 		echo json_encode($data);
 	}
 
