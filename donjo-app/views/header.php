@@ -70,6 +70,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
+		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
