@@ -109,7 +109,7 @@ class First extends Web_Controller {
 
 		if ($this->setting->apbdes_footer)
 		{
-			$data['transparansi'] = config_item('apbdes_manual_input')
+			$data['transparansi'] = $this->setting->apbdes_manual_input
 				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
 				: $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
@@ -632,7 +632,7 @@ class First extends Web_Controller {
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
 		{
-			$data['transparansi'] = config_item('apbdes_manual_input')
+			$data['transparansi'] = $this->setting->apbdes_manual_input
 				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
 				: $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
