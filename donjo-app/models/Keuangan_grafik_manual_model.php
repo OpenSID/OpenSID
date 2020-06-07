@@ -366,6 +366,26 @@ class keuangan_grafik_manual_model extends CI_model {
 		return $result;
   }
 
+  /*
+    lap_rp_apbd merupakan fungsi Akhir (Main) dari semua sub dan sub-sub fungsi :
+
+    Sub fungsi Pendapatan
+    1.1 sub-sub fungsi : Pagu Pendapatan
+    1.2 sub-sub fungsi : Realisasi Pendapatan
+
+    Sub fungsi Belanja
+    2.1 sub-sub fungsi : Pagu Belanja
+    2.2 sub-sub fungsi : Realisasi Belanja
+
+    Sub fungsi Pembiayaan Masuk
+    3.1 sub-sub fungsi : Pagu Pembiayaan Masuk
+    3.1 sub-sub fungsi : Realisasi Pembiayaan Masuk
+
+    Sub fungsi Pembiayaan Keluar
+    4.1 sub-sub fungsi : Pagu Pembiayaan Keluar
+    4.2 sub-sub fungsi : Realisasi Pembiayaan Keluar
+  */
+
   //Table Laporan Pelaksanaan Realisasi
   public function lap_rp_apbd($thn)
   {
