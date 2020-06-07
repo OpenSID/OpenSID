@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Zeppy Shiddiq dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada masumo yang baru mulai berkontribusi.
+Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada masumo yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 
@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 13. #3146: Sekarang bisa hapus beberapa peserta program bantuan sekaligus.
 14. Sediakan fitur untuk memasukkan Data Anggaran dan Realisasi APBDes secara manual, bagi desa yg terkendala impor dari database Siskeudes.
 15. Sediakan opsi di halaman pengaturan web untuk menampilkan data keuangan input manual atau impor Siskeudes.
+16. #3154: Tambahkan Golongan Darah dan Tanggal Perkawinan sesuai format baru Salinan Kartu Keluarga.
 
 
 
