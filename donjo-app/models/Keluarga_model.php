@@ -667,21 +667,48 @@
 	// apabila $is_no_kk == true maka $id adalah no_kk
 	public function get_kepala_kk($id, $is_no_kk = false)
 	{
+		// Buat subquery umur
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
-		$sql = "SELECT nik, u.id, u.nama, u.status_kawin as status_kawin_id, tempatlahir, tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, x.nama as sex, w.nama as status_kawin, h.nama as hubungan, f.nama as warganegara, warganegara_id, nama_ayah, nama_ibu, g.nama as golongan_darah, c.rt as rt, c.rw as rw, c.dusun as dusun, (SELECT no_kk FROM tweb_keluarga WHERE $kolom_id = ?) AS no_kk, (SELECT alamat FROM tweb_keluarga WHERE $kolom_id = ?) AS alamat, (SELECT id FROM tweb_keluarga WHERE $kolom_id = ?) AS id_kk
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
-			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
-			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
-			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
-			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
-			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
-			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
-			LEFT JOIN tweb_wil_clusterdesa c ON (SELECT id_cluster from tweb_keluarga where $kolom_id = ?) = c.id
-			WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE $kolom_id = ?) ";
-		$query = $this->db->query($sql,array($id,$id,$id,$id,$id));
-		$data = $query->row_array();
+		$this->db->select("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0")
+			->from('tweb_penduduk')
+			->where('id = u.id');
+		$umur = $this->db->get_compiled_select();
+		// Buat subquery untuk setiap kolom yg diperlukan dari tweb_keluarga
+		$list_kk = array_map(function ($a) use ($kolom_id, $id)
+		{
+			$this->db->select($a)
+				->from('tweb_keluarga')
+				->where($kolom_id, $id);
+			return $this->db->get_compiled_select();
+		}, ['no_kk', 'alamat', 'id', 'id_cluster', 'nik_kepala']);
+		foreach (['no_kk', 'alamat', 'id_kk', 'id_cluster', 'nik_kepala'] as $key => $a)
+		{
+			$$a = $list_kk[$key]; // Hasilkan variabel dgn nama dari string
+		}
+
+		$this->db
+			->select('nik, u.id, u.nama, u.tanggalperkawinan, u.status_kawin as status_kawin_id, tempatlahir, tanggallahir')
+			->select('('.$umur.') AS umur')
+			->select('a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, x.nama as sex, w.nama as status_kawin')
+			->select('h.nama as hubungan, f.nama as warganegara, warganegara_id, nama_ayah, nama_ibu, g.nama as golongan_darah')
+			->select('c.rt as rt, c.rw as rw, c.dusun as dusun')
+			->select('('.$no_kk.') AS no_kk')
+			->select('('.$alamat.') AS alamat')
+			->select('('.$id_kk.') AS id_kk')
+			->from('tweb_penduduk u')
+			->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left')
+			->join('tweb_golongan_darah g', 'u.golongan_darah_id = g.id', 'left')
+			->join('tweb_penduduk_pendidikan_kk d', 'u.pendidikan_kk_id = d.id', 'left')
+			->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left')
+			->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left')
+			->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left')
+			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+			->join('tweb_penduduk_hubungan h', 'u.kk_level = h.id', 'left')
+			->join('tweb_wil_clusterdesa c', '('.$id_cluster.') = c.id', 'left')
+			->where('u.id = ('.$nik_kepala.')');
+
+			$data = $this->db->get()->row_array();
+
 		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id_kk']);
@@ -959,6 +986,7 @@
 		$handle = fopen($file,'r');
 		$buffer = stream_get_contents($handle);
 		$i = 0;
+
 		foreach ($data['main'] AS $ranggota)
 		{
 			$i++;
@@ -978,11 +1006,8 @@
 			$dokumen_kitas .= $ranggota['dokumen_kitas']."\line ";
 			$nama_ayah .= $ranggota['nama_ayah']."\line ";
 			$nama_ibu .= $ranggota['nama_ibu']."\line ";
-
-			if($ranggota['golongan_darah']!="TIDAK TAHU")
-				$golongan_darah .= $ranggota['golongan_darah']."\line ";
-			else
-				$golongan_darah .= "- \line ";
+			$golongan_darah .= $ranggota['golongan_darah']."\line ";
+			$tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo($ranggota['tanggalperkawinan'])."\line " : "- \line ";
 		}
 
 		$buffer = str_replace("[no]","$no", $buffer);
@@ -1001,7 +1026,8 @@
 		$buffer = str_replace("[kitas]","$dokumen_kitas", $buffer);
 		$buffer = str_replace("[ayah]","\caps $nama_ayah", $buffer);
 		$buffer = str_replace("[ibu]","\caps $nama_ibu", $buffer);
-		$buffer = str_replace("[darah]","$golongan_darah", $buffer);
+		$buffer = str_replace("[darah]","\caps $golongan_darah", $buffer);
+		$buffer = str_replace("[tanggalperkawinan]","\caps $tanggalperkawinan", $buffer);
 
 		$h = $data['desa'];
 		$k = $data['kepala_kk'];
