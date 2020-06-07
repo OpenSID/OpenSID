@@ -42,7 +42,7 @@
 </style>
 <script>
 	const COVID_API_URL = 'https://api.kawalcorona.com/';
-	const KODE_PROVINSI = <?= config_item('provinsi_covid') ? : 'undefined' ?> ;
+	const KODE_PROVINSI = <?= $this->setting->provinsi_covid ? : 'undefined' ?> ;
 	const ENDPOINT = KODE_PROVINSI ? 'indonesia/provinsi/' : 'indonesia/';
 
 	function numberFormat(num) {

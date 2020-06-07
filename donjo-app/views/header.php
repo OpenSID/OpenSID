@@ -70,7 +70,8 @@
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
-		
+		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
+
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
@@ -78,6 +79,7 @@
 
 		<!-- Highcharts JS -->
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 		<?php require __DIR__ .'/head_tags.php' ?>

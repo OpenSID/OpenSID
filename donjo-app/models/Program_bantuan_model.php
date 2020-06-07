@@ -854,10 +854,21 @@ class Program_bantuan_model extends CI_Model {
 		$this->db->delete('program_peserta');
 	}
 
-	public function hapus_peserta($peserta_id)
+	public function hapus_peserta($peserta_id='', $semua=false)
 	{
 		$this->db->where('id', $peserta_id);
 		$this->db->delete('program_peserta');
+	}
+
+	public function delete_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $peserta_id)
+		{
+			$this->hapus_peserta($peserta_id, $semua=true);
+		}
 	}
 
 	/*

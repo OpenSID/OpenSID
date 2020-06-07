@@ -12,7 +12,7 @@
 						<?php else: ?>
 							<?php $this->load->view('statistik/penduduk_grafik.php'); ?>
 							<?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-								<?php if (config_item('daftar_bantuan')):?>
+								<?php if ($this->setting->daftar_penerima_bantuan):?>
 									<?php $this->load->view('statistik/peserta_bantuan', array('lap' => $st)); ?>
 								<?php endif;?>
 							<?php endif;?>

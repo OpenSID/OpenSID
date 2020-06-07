@@ -8,8 +8,8 @@ class Keuangan extends Admin_Controller {
 		session_start();
 		$this->load->model('keuangan_model');
 		$this->load->model('header_model');
+		$this->load->model('keuangan_grafik_model');
 		$this->modul_ini = 201;
-		$this->sub_modul_ini = 202;
 	}
 
 	public function setdata_laporan($tahun, $semester)
@@ -105,6 +105,7 @@ class Keuangan extends Admin_Controller {
 
 	public function impor_data()
 	{
+		$this->sub_modul_ini = 202;
 		$data['main'] = $this->keuangan_model->list_data();
 		$data['form_action'] = site_url("keuangan/proses_impor");
 		$header = $this->header_model->get_data();

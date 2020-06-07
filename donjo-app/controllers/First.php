@@ -46,6 +46,7 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
+		$this->load->model('keuangan_manual_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
@@ -106,19 +107,11 @@ class First extends Web_Controller {
 			);
 		}
 
-		if ($this->setting->apbdes_manual_input)
+		if ($this->setting->apbdes_footer)
 		{
-			if ($this->setting->apbdes_footer)
-			{
-				$data['transparansi'] = $this->keuangan_grafik_manual_model->grafik_keuangan_tema();
-			}
-		}
-		else
-		{
-			if ($this->setting->apbdes_footer)
-			{
-				$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
-			}
+			$data['transparansi'] = config_item('apbdes_manual_input')
+				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
+				: $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
 
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
@@ -637,19 +630,11 @@ class First extends Web_Controller {
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
-		if ($this->setting->apbdes_manual_input)
+		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
 		{
-			if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
-			{
-				$data['transparansi'] = $this->keuangan_grafik_manual_model->grafik_keuangan_tema();
-			}
-		}
-		else
-		{
-			if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
-			{
-				$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
-			}
+			$data['transparansi'] = config_item('apbdes_manual_input')
+				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
+				: $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
