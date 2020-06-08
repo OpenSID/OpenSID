@@ -92,7 +92,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form', $data);
@@ -134,7 +134,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
 			$kat = $this->input->post('kategori');
-  		$outp = $this->web_dokumen_model->update($id);
+		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
