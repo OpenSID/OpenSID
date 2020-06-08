@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 14. Sediakan fitur untuk memasukkan Data Anggaran dan Realisasi APBDes secara manual, bagi desa yg terkendala impor dari database Siskeudes.
 15. Sediakan opsi di halaman pengaturan web untuk menampilkan data keuangan input manual atau impor Siskeudes.
 16. #3154: Tambahkan Golongan Darah dan Tanggal Perkawinan sesuai format baru Salinan Kartu Keluarga.
+17. Paksa harus ubah kunci default file_manager di desa/config/config.php. [security-fix]
 
 
 

@@ -19,16 +19,32 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->periksa_config();
 				/* set klasik theme if not exist */
-        if (empty($this->setting->web_theme)) {
+        if (empty($this->setting->web_theme))
+        {
         	$this->theme = 'klasik';
         	$this->theme_folder = 'themes';
-        } else {
+        }
+        else
+        {
 	        $this->theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
 	        $this->theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
         }
         // declare main template
         $this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
+		}
+
+		// Paksa harus ubah setting default di desa/config/config.php
+		private function periksa_config()
+		{
+			if (config_item('file_manager') != 'GantiKunciDesa') return;
+
+			$heading = 'Ubah Setting Default';
+			$message = 'Setting anda di file desa/config/config.php masih menggunakan setting default. Ubah dulu ke setting yg lebih aman sebelum menggunakan OpenSID.';
+			$error =& load_class('Exceptions', 'core');
+			echo $error->show_error($heading, $message, 'error_general', 200);
+			exit(8);
 		}
 
 		// --------------------------------------------------------------------
