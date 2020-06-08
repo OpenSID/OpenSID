@@ -23,8 +23,8 @@ function generateTable(sumber, tabel ,dataTable)
 					'<td>'+data[i].Tahun+'</td>'+
 					'<td>'+data[i].Kd_Akun+'</td>'+
 					'<td>'+data[i].Kd_Rincian+'</td>'+
-					'<td>'+formatRupiah(data[i].Nilai_Anggaran)+'</td>'+
-					'<td>'+formatRupiah(data[i].Nilai_Realisasi)+'</td>'+
+					'<td class="rupiah">'+formatRupiah(data[i].Nilai_Anggaran)+'</td>'+
+					'<td class="rupiah">'+formatRupiah(data[i].Nilai_Realisasi)+'</td>'+
 					'</tr>';
 				}
 				tabel.html(html);
@@ -76,8 +76,8 @@ function generateTable_belanja(sumber, tabel ,dataTable)
 					'<td>'+data[i].Tahun+'</td>'+
 					'<td>'+data[i].Kd_Akun+'</td>'+
 					'<td>'+data[i].Kd_Keg+'</td>'+
-					'<td>'+formatRupiah(data[i].Nilai_Anggaran)+'</td>'+
-					'<td>'+formatRupiah(data[i].Nilai_Realisasi)+'</td>'+
+					'<td class="rupiah">'+formatRupiah(data[i].Nilai_Anggaran)+'</td>'+
+					'<td class="rupiah">'+formatRupiah(data[i].Nilai_Realisasi)+'</td>'+
 					'</tr>';
 				}
 				tabel.html(html);
