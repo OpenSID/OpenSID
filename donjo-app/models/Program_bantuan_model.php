@@ -8,12 +8,11 @@ class Program_bantuan_model extends CI_Model {
 
 	public function __construct()
 	{
-		$this->load->model('rtm_model');
-		$this->load->model('kelompok_model');
+		$this->load->model(['rtm_model', 'kelompok_model']);
 	}
 
 
-	public function autocomplete($id, $cari='')
+	public function autocomplete($id, $cari)
 	{
 		$cari = $this->db->escape_like_str($cari);
 		$this->db->select('kartu_nama')
@@ -23,6 +22,7 @@ class Program_bantuan_model extends CI_Model {
 		if ($cari) $this->db->like('kartu_nama', $cari);
 
 		$data = $this->db->get('program_peserta')->result_array();
+
 		return autocomplete_data_ke_str($data);
 	}
 
@@ -57,6 +57,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$data[$program['id']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
 		}
+
 		return $data;
 	}
 
@@ -72,6 +73,7 @@ class Program_bantuan_model extends CI_Model {
 			WHERE p.sasaran = $sasaran";
 		$query = $this->db->query($strSQL);
 		$data = $query->result_array();
+
 		return $data;
 	}
 
@@ -109,7 +111,6 @@ class Program_bantuan_model extends CI_Model {
 
 	/*
 	 * Mengambil data individu peserta
-
 	*/
 	public function get_peserta($peserta_id, $sasaran)
 	{
@@ -551,6 +552,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil2 = false;
 		}
+
 		return $hasil2;
 	}
 
@@ -588,6 +590,7 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil2 = false;
 		}
+
 		return $hasil2;
 	}
 
@@ -623,6 +626,8 @@ class Program_bantuan_model extends CI_Model {
 		{
 			$hasil2 = false;
 		}
+
+
 		return $hasil2;
 	}
 
