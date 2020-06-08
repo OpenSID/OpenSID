@@ -237,7 +237,7 @@
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
-			<td colspan=2>Telepon</td>
+			<td colspan=2 style="padding-left: -2px;">Telepon</td>
 			<?php for ($i = 0; $i < 12; $i++) : ?>
 				<td class="kotak satu">
 					<?php if (isset($input['telepon'][$i])) : ?>
@@ -359,7 +359,7 @@
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
-			<td colspan=2>Telepon</td>
+			<td colspan=2 style="padding-left: -2px;">Telepon</td>
 			<?php for ($i = 0; $i < 12; $i++) : ?>
 				<td class="kotak satu">
 					<?php if (isset($input['telepon_tujuan'][$i])) : ?>

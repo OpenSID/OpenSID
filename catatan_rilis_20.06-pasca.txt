@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 16. #3154: Tambahkan Golongan Darah dan Tanggal Perkawinan sesuai format baru Salinan Kartu Keluarga.
 17. Paksa harus ubah kunci default file_manager di desa/config/config.php. [security-fix]
 18. #2678: Tambahkan validasi isian form Produk Hukum dan Informasi Publik sekalian mencegah serangan XSS. [security-fix]
+19. #3158: Ubah nomor telepon menjadi 12 digit di lamporan F-1.08 dan F-1.25.
 
 
 
