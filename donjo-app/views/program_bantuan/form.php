@@ -85,8 +85,7 @@
 													<div class="form-group">
 														<label for="no_id_kartu" class="col-sm-4 col-lg-3 control-label">Nomor Kartu Peserta</label>
 														<div class="col-sm-7">
-															<input id="no_id_kartu" class="form-control input-sm required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?=$no_id?>">
-															<span class="help-block"><code> Nomor Kartu Peserta Terakhir : <b><?=$no_id?></b></code></span>
+															<input id="no_id_kartu" class="form-control input-sm required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu">
 														</div>
 													</div>
 													<div class="form-group">

@@ -65,7 +65,6 @@ class Program_bantuan extends Admin_Controller {
 			$data['individu'] = NULL;
 		}
 
-		$data['no_id'] = $this->program_bantuan_model->no_peserta($program_id);
 		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 
 		$this->load->view('header', $this->header);
@@ -137,11 +136,11 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function add_peserta($id)
+	public function add_peserta($program_id)
 	{
-		$this->program_bantuan_model->add_peserta($this->input->post(), $id);
+		$this->program_bantuan_model->add_peserta($program_id);
 
-		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/$id";
+		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/$program_id";
 
 		$this->session->unset_userdata('aksi');
 
@@ -172,7 +171,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function edit_peserta($id)
 	{
-		$this->program_bantuan_model->edit_peserta($this->input->post(), $id);
+		$this->program_bantuan_model->edit_peserta($id);
 		$program_id = $this->input->post('program_id');
 		redirect("program_bantuan/detail/$program_id");
 	}

@@ -509,10 +509,11 @@ class Program_bantuan_model extends CI_Model {
 		// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
 		$query = $this->db
 			->select('k.no_kk, p.nama, p.nik, h.nama as kk_level, w.dusun, w.rw, w.rt')
-			->from('tweb_penduduk p')
+			->from('penduduk_hidup p')
 			->join('tweb_penduduk_hubungan h', 'h.id = p.kk_level', 'LEFT')
-			->join('tweb_keluarga k', 'k.id = p.id_kk', 'OUTER JOIN')
+			->join('keluarga_aktif k', 'k.id = p.id_kk', 'OUTER JOIN')
 			->join('tweb_wil_clusterdesa w', 'w.id = k.id_cluster', 'LEFT')
+			->where_in('p.kk_level', ['1, 2, 3, 4'])
 			->order_by('p.id_kk')
 			->get();
 
@@ -701,8 +702,8 @@ class Program_bantuan_model extends CI_Model {
 				 * */
 				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
 					FROM tweb_penduduk o
-				 	LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-				 	WHERE o.nik='".fixSQL($id)."'";
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+					WHERE o.nik='".fixSQL($id)."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
@@ -809,18 +810,14 @@ class Program_bantuan_model extends CI_Model {
 		return $this->db->insert('program', $data);
 	}
 
-	public function add_peserta($post, $id)
+	public function add_peserta($program_id)
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
-		$data['program_id'] = $id;
-		$data['peserta'] = $post['nik'];
-		$data['no_id_kartu'] = $post['no_id_kartu'];
-		$data['kartu_nik'] = $post['kartu_nik'];
-		$data['kartu_nama'] = $post['kartu_nama'];
-		$data['kartu_tempat_lahir'] = $post['kartu_tempat_lahir'];
-		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
-		$data['kartu_alamat'] = $post['kartu_alamat'];
+		$data['program_id'] = $program_id;
+		$data = $this->validasi($this->input->post());
+		$data['peserta'] = $this->input->post('nik');
+		$data['no_id_kartu'] = $this->input->post('no_id_kartu');
 
 		$file_gambar = $this->_upload_gambar();
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
@@ -829,24 +826,35 @@ class Program_bantuan_model extends CI_Model {
 	}
 
 	// $id = program_peserta.id
-	public function edit_peserta($post,$id)
+	public function edit_peserta($id)
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
-		$data = $post;
+		$data = $this->validasi($this->input->post());
+
 		if ($data['gambar_hapus'])
 		{
-		  unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
+			unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
 			$data['kartu_peserta'] = '';
 		}
 		unset($data['gambar_hapus']);
 		$file_gambar = $this->_upload_gambar($data['old_gambar']);
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
 		unset($data['old_gambar']);
-		$this->db->where('id',$id);
-		$data['kartu_tanggal_lahir'] = tgl_indo_in($data['kartu_tanggal_lahir']);
+		$this->db->where('id', $id);
 		$outp = $this->db->update('program_peserta', $data);
 		status_sukses($outp, true);
+	}
+
+	public function validasi($post)
+	{
+		$data['kartu_nik'] = $post['kartu_nik'];
+		$data['kartu_nama'] = htmlentities($post['kartu_nama']);
+		$data['kartu_tempat_lahir'] = htmlentities($post['kartu_tempat_lahir']);
+		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
+		$data['kartu_alamat'] = htmlentities($post['kartu_alamat']);
+
+		return $data;
 	}
 
 	private function _upload_gambar($old_document='')
@@ -964,10 +972,10 @@ class Program_bantuan_model extends CI_Model {
 	public function jml_peserta_program($id)
 	{
 		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
-		  from('program p')->
-		  join('program_peserta v', 'p.id = v.program_id', 'left')->
-		  where('p.id', $id)->
-		  get()->row()->jml;
+			from('program p')->
+			join('program_peserta v', 'p.id = v.program_id', 'left')->
+			where('p.id', $id)->
+			get()->row()->jml;
 
 		return $jml_peserta;
 	}
@@ -1103,18 +1111,6 @@ class Program_bantuan_model extends CI_Model {
 	{
 		$this->get_all_peserta_bantuan_query();
 		return $this->db->count_all_results();
-	}
-
-	public function no_peserta($program_id)
-	{
-		// Cek nomor peserta terakhir dari program bantuan
-		$max = $this->db
-			->select_max('no_id_kartu')
-			->where('program_id', $program_id)
-			->get('program_peserta')
-			->row_array();
-
-		return $max['no_id_kartu'] + 1;
 	}
 
 	//Ambil data yg dibutuhkan saja, ambil dr tabel penduduk_hidup
