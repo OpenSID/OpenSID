@@ -123,10 +123,13 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-                                <th rowspan="2"><input type="checkbox" id="checkall"/></th>
-                                <th rowspan="2" width="1%">No</th>
+																<th rowspan="2" width="1%"><input type="checkbox" id="checkall"/></th>
+																<th rowspan="2" width="1%">No</th>
 																<th rowspan="2" width="5%">Aksi</th>
 																<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
+																<?php if (!empty($detail['judul_peserta_plus'])): ?>
+																	<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
+																<?php endif ;?>
 																<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
 																<th colspan="6">Identitas di Kartu Peserta</th>
 															</tr>
@@ -153,6 +156,9 @@
 																		</td>
 																		<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
 																		<td nowrap><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
+																		<?php if (!empty($item['peserta_plus'])): ?>
+																			<td nowrap><?= $item["peserta_plus"]?></td>
+																		<?php endif; ?>
 																		<td nowrap><?= $item["peserta_info"]?></td>
 																		<td nowrap class="text-center"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
 																		<td nowrap><?= $item["kartu_nik"];?></td>

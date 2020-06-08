@@ -62,7 +62,7 @@
 															<option value="">-- Silakan Masukan <?= $detail['judul_cari_peserta']?> --</option>
 															<?php foreach ($program[2]as $item):
 																if (strlen($item["id"])>0): ?>
-																	<option value="<?= $item['id']?>" <?php selected($individu['nik'], $item['nik']); ?>>Nama : <?= $item['nama']." - ".$item['info']?></option>
+																	<option value="<?= $item['id']?>" <?php selected($individu['nik'], $item['nik']); ?>><?= $item['nama']." - ".$item['info']?></option>
 																<?php endif;
 															endforeach;?>
 														</select>
@@ -74,14 +74,14 @@
 											</form>
 										</div>
 									</div>
-									<?php if($individu['nik']): ?>
+									<?php if ($individu): ?>
 										<div class="col-sm-12">
 											<div class="box-header with-border">
 												<h4 class="box-title"><b>Identitas Pada Kartu Peserta</b></h4>
 											</div>
 											<div class="box-body">
 												<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-													<input type="hidden" name="nik" value="<?= $individu['nik']?>" >
+													<input name="peserta" type="hidden" value="<?= $individu['id_peserta']?>">
 													<div class="form-group">
 														<label for="no_id_kartu" class="col-sm-4 col-lg-3 control-label">Nomor Kartu Peserta</label>
 														<div class="col-sm-7">
@@ -104,7 +104,7 @@
 													<div class="form-group">
 														<label for="kartu_nik" class="col-sm-4 col-lg-3 control-label">NIK</label>
 														<div class="col-sm-7">
-															<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik" value="<?= $individu['nik_peserta']?>" required>
+															<input id="kartu_nik" class="form-control input-sm" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik" value="<?= $individu['kartu_nik']?>" required>
 														</div>
 													</div>
 													<div class="form-group">

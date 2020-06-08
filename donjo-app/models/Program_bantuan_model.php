@@ -26,7 +26,7 @@ class Program_bantuan_model extends CI_Model {
 		return autocomplete_data_ke_str($data);
 	}
 
-	public function list_program($sasaran=0)
+	public function list_program($sasaran)
 	{
 		if ($sasaran > 0)
 		{
@@ -60,7 +60,7 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
-	public function list_program_keluarga($kk_id=0)
+	public function list_program_keluarga($kk_id)
 	{
 		$this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor, karena keluarga_model juga load program_bantuan_model
 		$no_kk = $this->keluarga_model->get_nokk($kk_id);
@@ -108,7 +108,8 @@ class Program_bantuan_model extends CI_Model {
 	}
 
 	/*
-		Mengambil data individu peserta
+	 * Mengambil data individu peserta
+
 	*/
 	public function get_peserta($peserta_id, $sasaran)
 	{
@@ -119,7 +120,7 @@ class Program_bantuan_model extends CI_Model {
 				// Data Penduduk
 				$data = $this->get_penduduk($peserta_id);
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
-				$data['nik_peserta'] = $data['nik'];
+				$data['kartu_nik'] = $data['id_peserta'] = $data['nik']; /// NIK Penduduk digunakan sebagai peserta
 				$data['judul'] = 'Penduduk';
 				break;
 
@@ -130,27 +131,28 @@ class Program_bantuan_model extends CI_Model {
 				// Data KK
 				$kk = $this->get_kk($data['id_kk']);
 
+				$data['no_kk'] = $data['id_peserta'] = $kk['no_kk']; // No KK digunakan sebagai peserta
 				$data['nik_kk'] = $kk['nik_kk'];
 				$data['nama_kk'] = $kk['nama_kk'];
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($kk);
-				$data['nik_peserta'] = $data['nik']; // NIK Penduduk
-				$data['nik'] = $data['no_kk'] = $kk['no_kk']; // No. KK
+				$data['kartu_nik'] = $data['nik'];
+
 				$data['judul'] = 'Penduduk';
 				break;
 
 			case 3:
 				# Data RTM
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
-				$data['nik_peserta'] = $data['nik'];
-				$data['nik'] = $peserta_id; // nomor rumah tangga (no_kk) digunakan sebagai id peserta
+				$data['kartu_nik'] = $data['nik'];
+				$data['nik'] = $data['id_peserta'] = $peserta_id; // No rumah tangga (no_kk) digunakan sebagai peserta
 				$data['judul'] = 'Kepala RTM';
 				break;
 
 			case 4:
 				# Data Kelompok
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
-				$data['nik_peserta'] = $data['nik'];
-				$data['nik'] = $peserta_id; // id_kelompok digunakan sebagai id peserta
+				$data['kartu_nik'] = $data['nik'];
+				$data['nik'] = $data['id_peserta'] = $peserta_id; // Id_kelompok digunakan sebagai peserta
 				$data['judul'] = 'Ketua Kelompok';
 				break;
 
@@ -223,6 +225,7 @@ class Program_bantuan_model extends CI_Model {
 			default:
 				break;
 		}
+
 		$strSQL .= $this->search_peserta_sql();
 
 		return $strSQL;
@@ -294,6 +297,7 @@ class Program_bantuan_model extends CI_Model {
 				 * Data penduduk
 				 * */
 				$hasil0['judul_peserta'] = 'NIK';
+				$hasil0['judul_peserta_plus'] = 'No. KK';
 				$hasil0['judul_peserta_info'] = 'Nama Penduduk';
 				$hasil0['judul_cari_peserta'] = 'NIK / Nama Penduduk';
 				break;
@@ -303,6 +307,7 @@ class Program_bantuan_model extends CI_Model {
 				 * Data KK
 				 * */
 				$hasil0['judul_peserta'] = 'No. KK';
+				$hasil0['judul_peserta_plus'] = 'NIK';
 				$hasil0['judul_peserta_info'] = 'Kepala Keluarga';
 				$hasil0['judul_cari_peserta'] = 'No. KK / Nama Kepala Keluarga';
 				break;
@@ -366,6 +371,7 @@ class Program_bantuan_model extends CI_Model {
 			{
 				$data[$i]['id'] = $data[$i]['id'];
 				$data[$i]['nik'] = $data[$i]['peserta'];
+				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
 				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
@@ -391,11 +397,12 @@ class Program_bantuan_model extends CI_Model {
 			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				// Ambil Data KK
-				$data[$i]['peserta_plus'] = $data[$i]['nik'];
-				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
-				$data[$i]['peserta_info'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
-				$data[$i]['nik'] = $data[$i]['no_kk'];
+				$data[$i]['id'] = $data[$i]['id'];
+				$data[$i]['nik'] = $data[$i]['peserta'];
+				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
+				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
@@ -506,6 +513,7 @@ class Program_bantuan_model extends CI_Model {
 		/*
 		 * Data KK
 		 * */
+
 		// Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
 		$query = $this->db
 			->select('k.no_kk, p.nama, p.nik, h.nama as kk_level, w.dusun, w.rw, w.rt')
@@ -513,7 +521,7 @@ class Program_bantuan_model extends CI_Model {
 			->join('tweb_penduduk_hubungan h', 'h.id = p.kk_level', 'LEFT')
 			->join('keluarga_aktif k', 'k.id = p.id_kk', 'OUTER JOIN')
 			->join('tweb_wil_clusterdesa w', 'w.id = k.id_cluster', 'LEFT')
-			->where_in('p.kk_level', ['1, 2, 3, 4'])
+			->where_in('p.kk_level', ['1', '2', '3', '4'])
 			->order_by('p.id_kk')
 			->get();
 
@@ -527,8 +535,7 @@ class Program_bantuan_model extends CI_Model {
 				// Abaikan keluarga yang sudah terdaftar pada program
 				if(!in_array($data[$i]['no_kk'], $filter))
 				{
-					$data[$i]['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $data[$i]['id']); //Hapus karakter non alpha di no_kk
-					$hasil2[$j]['id'] = $data[$i]['nik'];
+					$hasil2[$j]['id'] = $data[$i]['nik'].'|'.$data[$i]['no_kk'];
 					$hasil2[$j]['nik'] = $data[$i]['nik'];
 					$hasil2[$j]['nama'] = strtoupper("KK[".$data[$i]['no_kk']."] - [".$data[$i]['kk_level']."] ".$data[$i]['nama']." [".$data[$i]['nik']."]");
 					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
@@ -815,7 +822,6 @@ class Program_bantuan_model extends CI_Model {
 		$this->session->success = 1;
 		$this->session->error_msg = '';
 		$data = $this->validasi($this->input->post());
-		$data['peserta'] = $this->input->post('nik');
 		$data['program_id'] = $program_id;
 
 		$file_gambar = $this->_upload_gambar();
@@ -848,7 +854,8 @@ class Program_bantuan_model extends CI_Model {
 
 	public function validasi($post)
 	{
-		$data['no_id_kartu'] = $this->input->post('no_id_kartu');
+		$data['peserta'] = $post['peserta'];
+		$data['no_id_kartu'] = $post['no_id_kartu'];
 		$data['kartu_nik'] = $post['kartu_nik'];
 		$data['kartu_nama'] = htmlentities($post['kartu_nama']);
 		$data['kartu_tempat_lahir'] = htmlentities($post['kartu_tempat_lahir']);
