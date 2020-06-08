@@ -92,7 +92,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('dokumen/form', $data);
