@@ -814,10 +814,9 @@ class Program_bantuan_model extends CI_Model {
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
-		$data['program_id'] = $program_id;
 		$data = $this->validasi($this->input->post());
 		$data['peserta'] = $this->input->post('nik');
-		$data['no_id_kartu'] = $this->input->post('no_id_kartu');
+		$data['program_id'] = $program_id;
 
 		$file_gambar = $this->_upload_gambar();
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
@@ -837,6 +836,7 @@ class Program_bantuan_model extends CI_Model {
 			unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
 			$data['kartu_peserta'] = '';
 		}
+
 		unset($data['gambar_hapus']);
 		$file_gambar = $this->_upload_gambar($data['old_gambar']);
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
@@ -848,6 +848,7 @@ class Program_bantuan_model extends CI_Model {
 
 	public function validasi($post)
 	{
+		$data['no_id_kartu'] = $this->input->post('no_id_kartu');
 		$data['kartu_nik'] = $post['kartu_nik'];
 		$data['kartu_nama'] = htmlentities($post['kartu_nama']);
 		$data['kartu_tempat_lahir'] = htmlentities($post['kartu_tempat_lahir']);
@@ -857,7 +858,7 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
-	private function _upload_gambar($old_document='')
+	private function _upload_gambar($old_document = '')
 	{
 		if ($_FILES['satuan']['error'] == UPLOAD_ERR_NO_FILE) return null;
 
@@ -1114,7 +1115,7 @@ class Program_bantuan_model extends CI_Model {
 	}
 
 	//Ambil data yg dibutuhkan saja, ambil dr tabel penduduk_hidup
-	public function get_penduduk($peserta_id = '')
+	public function get_penduduk($peserta_id)
 	{
 		$data = $this->db
 			->select('p.nama, p.nik, p.id_kk, h.nama as hubungan, p.tempatlahir, p.tanggallahir, a.nama as agama, k.nama as pendidikan, j.nama as pekerjaan, w.nama as warganegara, c.*')
@@ -1134,7 +1135,7 @@ class Program_bantuan_model extends CI_Model {
 		return $data;
 	}
 
-	public function get_kk($id_kk = '')
+	public function get_kk($id_kk)
 	{
 		$kk = $this->db
 					->select('k.no_kk, p.nik as nik_kk, p.nama as nama_kk, k.alamat, c.*')
