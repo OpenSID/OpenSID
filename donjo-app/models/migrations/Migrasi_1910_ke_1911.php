@@ -23,7 +23,13 @@ class Migrasi_1910_ke_1911 extends CI_model {
 				'hidden' => '2',
 				'ikon_kecil' => ''
 			);
-			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+			$sql = $this->db->insert_string('setting_modul', $modul_nonmenu);
+			$sql .= " ON DUPLICATE KEY UPDATE
+				id = VALUES(id),
+				url = VALUES(url),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				parent = VALUES(parent)";
 			$this->db->query($sql);
 		}
 		// Update view supaya kolom baru ikut masuk
@@ -98,10 +104,16 @@ class Migrasi_1910_ke_1911 extends CI_model {
 			'hidden' => '2',
 			'ikon_kecil' => ''
 		);
-		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu);
+		$sql .= " ON DUPLICATE KEY UPDATE
+			id = VALUES(id),
+			url = VALUES(url),
+			level = VALUES(level),
+			hidden = VALUES(hidden),
+			parent = VALUES(parent)";
 		$this->db->query($sql);
   }
-  
+
   private function jdih()
   {
   	// Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
