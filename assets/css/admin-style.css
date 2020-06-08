@@ -417,6 +417,11 @@ Warna Bar Realisasi
 	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
 }
 
+/* Manual input anggaran */
+.rupiah {
+	text-align: right;
+}
+
 /*
 Agar Logo Desa di menu navigasi Admin di sisi kiri tidak terlalu rapat ke kiri
 */
