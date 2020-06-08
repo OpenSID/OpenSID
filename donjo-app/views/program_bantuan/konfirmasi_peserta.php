@@ -1,5 +1,5 @@
 <div class="form-group">
-	<label class="col-sm-4 col-lg-3 control-label">NIK <?=$individu['judul']?></label>
+	<label class="col-sm-4 col-lg-3 control-label"><?=$individu['judul_nik']?></label>
 	<div class="col-sm-7">
 		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nik'];?>">
 	</div>

@@ -1,6 +1,14 @@
 <style type="text/css">
-	label.control-label.text-left { text-align: left }
-	label.control-label.no-padding-top { padding-top: 0px }
+	label.control-label.text-left {
+		text-align: left;
+	}
+	label.control-label.no-padding-top {
+		padding-top: 0px;
+	}
+	.tabel, td {
+		height: 30px;
+		padding: 5px;
+		word-wrap: break-word;
 </style>
 <div class="content-wrapper">
 	<?php $detail = $program[0];?>
@@ -34,15 +42,15 @@
 											<table class="table table-bordered table-striped table-hover" >
 												<tbody>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px; width:15%;" nowrap>Nama Program</td>
+														<td width="20%">Nama Program</td>
 														<td> : <?= strtoupper($detail["nama"])?></td>
 													</tr>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Sasaran Peserta</td>
+														<td>Sasaran Peserta</td>
 														<td> : <?= $sasaran[$detail["sasaran"]]?></td>
 													</tr>
 													<tr>
-														<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Masa Berlaku</td>
+														<td>Masa Berlaku</td>
 														<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
 													</tr>
 												</tbody>

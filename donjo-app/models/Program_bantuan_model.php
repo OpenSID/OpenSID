@@ -121,6 +121,7 @@ class Program_bantuan_model extends CI_Model {
 				$data = $this->get_penduduk($peserta_id);
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
 				$data['kartu_nik'] = $data['id_peserta'] = $data['nik']; /// NIK Penduduk digunakan sebagai peserta
+				$data['judul_nik'] = 'NIK Penduduk';
 				$data['judul'] = 'Penduduk';
 				break;
 
@@ -136,7 +137,7 @@ class Program_bantuan_model extends CI_Model {
 				$data['nama_kk'] = $kk['nama_kk'];
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($kk);
 				$data['kartu_nik'] = $data['nik'];
-
+				$data['judul_nik'] = 'NIK Penduduk';
 				$data['judul'] = 'Penduduk';
 				break;
 
@@ -145,6 +146,7 @@ class Program_bantuan_model extends CI_Model {
 				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
 				$data['kartu_nik'] = $data['nik'];
 				$data['nik'] = $data['id_peserta'] = $peserta_id; // No rumah tangga (no_kk) digunakan sebagai peserta
+				$data['judul_nik'] = 'No. RTM';
 				$data['judul'] = 'Kepala RTM';
 				break;
 
@@ -153,6 +155,7 @@ class Program_bantuan_model extends CI_Model {
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
 				$data['kartu_nik'] = $data['nik'];
 				$data['nik'] = $data['id_peserta'] = $peserta_id; // Id_kelompok digunakan sebagai peserta
+				$data['judul_nik'] = 'Nama Kelompok';
 				$data['judul'] = 'Ketua Kelompok';
 				break;
 
@@ -194,7 +197,7 @@ class Program_bantuan_model extends CI_Model {
 
 			case 2:
 				# Data KK
-				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik, o.nama, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
 					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
@@ -400,9 +403,9 @@ class Program_bantuan_model extends CI_Model {
 			{
 				$data[$i]['id'] = $data[$i]['id'];
 				$data[$i]['nik'] = $data[$i]['peserta'];
-				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_plus'] = $data[$i]['nik_kk'];
 				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
-				$data[$i]['peserta_info'] = $data[$i]['nama'];
+				$data[$i]['peserta_info'] = $data[$i]['nama_kk'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 			}
@@ -912,11 +915,13 @@ class Program_bantuan_model extends CI_Model {
 	*/
 	public function get_program_peserta_by_id($id)
 	{
-		$data = $this->db->select('pp.*, p.sasaran')
+		$data = $this->db
+			->select('pp.*, p.sasaran')
 			->from('program_peserta pp')
 			->join('program p', 'pp.program_id = p.id')
 			->where('pp.id', $id)
-			->get()->row_array();
+			->get()
+			->row_array();
 		// Data tambahan untuk ditampilkan
 		$peserta = $this->get_peserta($data['peserta'], $data['sasaran']);
 		switch ($data['sasaran'])

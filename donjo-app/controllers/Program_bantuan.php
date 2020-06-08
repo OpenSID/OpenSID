@@ -127,7 +127,7 @@ class Program_bantuan extends Admin_Controller {
 	public function data_peserta($id = 0)
 	{
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
-		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
+		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['kartu_nik'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$this->header['minsidebar'] = 1;
 
@@ -136,6 +136,16 @@ class Program_bantuan extends Admin_Controller {
 		$this->load->view('program_bantuan/data_peserta', $data);
 		$this->load->view('footer');
 	}
+
+	public function data_peserta_echo()
+	{
+		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id(62);
+		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['kartu_nik'], $data['peserta']['sasaran']);
+		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
+
+		echo json_encode($data);
+	}
+
 
 	public function add_peserta($program_id = 0)
 	{
