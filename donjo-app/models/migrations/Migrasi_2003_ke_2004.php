@@ -165,11 +165,16 @@ class Migrasi_2003_ke_2004 extends CI_model {
     {
       $sql = $this->db->insert_string('setting_modul', $modul);
       $sql .= " ON DUPLICATE KEY UPDATE
-      	id = VALUES(id),
-		url = VALUES(url),
-		level = VALUES(level),
-		hidden = VALUES(hidden),
-		parent = VALUES(parent)";
+      id = VALUES(id),
+      modul = VALUES(modul),
+      url = VALUES(url),
+      aktif = VALUES(aktif),
+      ikon = VALUES(ikon),
+      urut = VALUES(urut),
+      level = VALUES(level),
+      hidden = VALUES(hidden),
+      ikon_kecil = VALUES(ikon_kecil),
+      parent = VALUES(parent)";
       $this->db->query($sql);
     }
 

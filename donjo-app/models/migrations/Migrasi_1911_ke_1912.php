@@ -42,13 +42,7 @@ class Migrasi_1911_ke_1912 extends CI_model {
 			'hidden' => '2',
 			'ikon_kecil' => ''
 		);
-		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu);
-		$sql .= " ON DUPLICATE KEY UPDATE
-			id = VALUES(id),
-			url = VALUES(url),
-			level = VALUES(level),
-			hidden = VALUES(hidden),
-			parent = VALUES(parent)";
+		$sql = $this->db->insert_string('setting_modul', $modul_nonmenu) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), parent = VALUES(parent)";
 		$this->db->query($sql);
 		// Perbaiki nilai default kolom untuk sql_mode STRICT_TRANS_TABLE
 		$this->dbforge->modify_column('inbox', 'ReceivingDateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
