@@ -185,4 +185,19 @@ class Keuangan_manual extends Admin_Controller {
 		$data = $this->keuangan_manual_model->salin_anggaran_tpl($thn_apbdes);
 		echo json_encode($data);
 	}
+
+	// data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor
+	public function cek_tahun_manual()
+	{
+		$data = $this->keuangan_manual_model->list_tahun_anggaran_manual();
+		$list_tahun = array();
+		foreach ($data as $tahun)
+		{
+			$list_tahun[] = array(
+				'text' => $tahun,
+				'value' => $tahun
+			);
+		}
+		echo json_encode($list_tahun);
+	}
 }
