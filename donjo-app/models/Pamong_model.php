@@ -95,7 +95,7 @@
 		}
 	}
 
-	public function get_data($id=0)
+	public function get_data($id = 0)
 	{
 		$sql = "SELECT u.*, p.nama as nama
 			FROM tweb_desa_pamong u

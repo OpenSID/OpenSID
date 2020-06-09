@@ -114,41 +114,21 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
-	public function dialog_cetak($o = 0)
+	public function dialog_cetak()
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("pengurus/cetak/$o");
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("pengurus/cetak");
 
 		$this->load->view('home/ajax_cetak_pengurus', $data);
 	}
 
-	public function dialog_unduh($o = 0)
+	public function dialog_unduh()
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("pengurus/unduh/$o");
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("pengurus/unduh");
 		$this->load->view('home/ajax_cetak_pengurus', $data);
-	}
-
-	public function cetak($o = 0)
-	{
-		$data['input'] = $_POST;
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
-		$data['main'] = $this->pamong_model->list_data();
-		$this->load->view('home/pengurus_print', $data);
-	}
-
-	public function unduh($o = 0)
-	{
-		$data['input'] = $_POST;
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
-		$data['main'] = $this->pamong_model->list_data();
-		$this->load->view('home/pengurus_excel', $data);
 	}
 
 	public function urut($id = 0, $arah = 0)
@@ -161,6 +141,30 @@ class Pengurus extends Admin_Controller {
 	{
 		$this->pamong_model->lock($id, $val);
 		redirect("pengurus");
+	}
+
+	/*
+	 * $aksi = cetak/unduh
+	 */
+	public function dialog($aksi = 'cetak')
+	{
+		$data['aksi'] = $aksi;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("pengurus/daftar/$aksi");
+		$this->load->view('home/ajax_pengurus', $data);
+	}
+
+	/*
+	 * $aksi = cetak/unduh
+	 */
+	public function daftar($aksi = 'cetak')
+	{
+		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
+		$data['desa'] = $this->config_model->get_data();
+		$data['main'] = $this->pamong_model->list_data();
+
+		$this->load->view('home/'.$aksi, $data);
 	}
 
 }

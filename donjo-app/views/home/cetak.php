@@ -65,7 +65,7 @@
 							<th width="3%">NO</th>
 							<th width="10%">NAMA</th>
 							<th>NIAP</th>
-              <th>NIP</th>
+							<th>NIP</th>
 							<th>JENIS KELAMIN</th>
 							<th>TEMPAT TANGGAL LAHIR</th>
 							<th>AGAMA</th>
@@ -94,7 +94,7 @@
 					<tbody>
 						<?php foreach ($main as $data): ?>
 							<tr>
-                <td><?= $data['no']?></td>
+								<td><?= $data['no']?></td>
 								<td><?= $data['nama']?></td>
 								<td class="textx"><?= $data['pamong_niap']?></td>
 								<td class="textx"><?= $data['pamong_nip']?></td>
@@ -107,7 +107,7 @@
 								<td><?= $data['pamong_nosk'].', '.tgl_indo_out($data['pamong_tglsk'])?></td>
 								<td><?= $data['pamong_nohenti'].', '.tgl_indo_out($data['pamong_tglhenti'])?></td>
 								<td><?= $data['pamong_masajab']?></td>
- 							</tr>
+							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
