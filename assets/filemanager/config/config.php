@@ -1,7 +1,8 @@
 <?php
 $version = "9.14.0";
-if (session_id() == '') {
-		session_start();
+if (session_id() == '')
+{
+	session_start();
 }
 
 mb_internal_encoding('UTF-8');
@@ -11,7 +12,8 @@ mb_language('uni');
 mb_regex_encoding('UTF-8');
 ob_start('mb_output_handler');
 date_default_timezone_set('Asia/Makassar');
-setlocale(LC_CTYPE, 'en_US'); //correct transliteration
+//correct transliteration
+setlocale(LC_CTYPE, 'en_US');
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,7 @@ setlocale(LC_CTYPE, 'en_US'); //correct transliteration
 if (file_exists('../../desa/config/config.php')) {
 	include('../../desa/config/config.php');
 }
+
 $config['file_manager'] = isset($config['file_manager']) ? $config['file_manager'] : '';
 define('USE_ACCESS_KEYS', !empty($config['file_manager'])); // TRUE or FALSE
 
@@ -150,21 +153,22 @@ $config = array(
 		| upload dir will be ftp_base_folder + upload_dir so without final /
 		|
 		*/
-		'ftp_host'         => false, //put the FTP host
-		'ftp_user'         => "user",
-		'ftp_pass'         => "pass",
-		'ftp_base_folder'  => "base_folder",
-		'ftp_base_url'     => "http://site to ftp root",
+		//put the FTP host
+		'ftp_host'					=> false,
+		'ftp_user'					=> "user",
+		'ftp_pass'					=> "pass",
+		'ftp_base_folder'		=> "base_folder",
+		'ftp_base_url'			=> "http://site to ftp root",
 		// Directory where place files before to send to FTP with final /
-		'ftp_temp_folder'  => "../temp/",
+		'ftp_temp_folder'		=> "../temp/",
 		/*
 		|---------------------------------------------------------------------------
 		| path from ftp_base_folder to base of thumbs folder with start and final /
 		|---------------------------------------------------------------------------
 		*/
-		'ftp_thumbs_dir' => '/thumbs/',
-		'ftp_ssl' => false,
-		'ftp_port' => 21,
+		'ftp_thumbs_dir'		=> '/thumbs/',
+		'ftp_ssl'						=> false,
+		'ftp_port'					=> 21,
 
 		/* EXAMPLE
 		'ftp_host'         => "host.com",
@@ -238,8 +242,8 @@ $config = array(
 		|--------------------------------------------------------------------------
 		|
 		*/
-		'filePermission' => 0755,
-		'folderPermission' => 0777,
+		'filePermission'		=> 0755,
+		'folderPermission'	=> 0777,
 
 
 		/*
@@ -247,7 +251,7 @@ $config = array(
 		| default language file name
 		|--------------------------------------------------------------------------
 		*/
-		'default_language' => "en_EN",
+		'default_language'	=> "en_EN",
 
 		/*
 		|--------------------------------------------------------------------------
