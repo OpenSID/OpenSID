@@ -23,7 +23,7 @@
 			WHERE 1";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql($aktif);
-		$sql .= ' ORDER BY urut';
+		$sql .= ' ORDER BY u.urut';
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
@@ -116,7 +116,7 @@
 	public function get_pamong($id = null)
 	{
 		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();;
-		
+
 		return $pamong;
 	}
 
@@ -243,24 +243,14 @@
 		}
 	}
 
-	public function ttd($id='', $val=0)
+	public function ttd($jenis, $id, $val)
 	{
 		if ($val == 1)
 		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / default
-			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
+			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
+			$this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
 		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
-	}
-
-	public function ub($id='', $val=0)
-	{
-		if ($val == 1)
-		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd u.b
-			$this->db->where('pamong_ub', 1)->update('tweb_desa_pamong', array('pamong_ub'=>0));
-		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ub'=>$val));
+		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
 	}
 
 	public function get_ttd()
@@ -280,7 +270,7 @@
 	// 		2 - naik
 	public function urut($id, $arah)
 	{
-  	$this->urut_model->urut($id, $arah);
+		$this->urut_model->urut($id, $arah);
 	}
 
 	/*
