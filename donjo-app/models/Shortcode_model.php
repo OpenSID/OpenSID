@@ -1,13 +1,14 @@
-<?php
-// https://stackoverflow.com/questions/28001003/extends-model-in-codeigniter
-require APPPATH.'/models/Keuangan_grafik_model.php';
-class Shortcode_model extends Keuangan_grafik_model {
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+class Shortcode_model extends CI_Model {
 
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('keuangan_grafik_model');
+    $this->load->model('keuangan_grafik_manual_model');
+    $this->load->model('laporan_penduduk_model');
   }
-
 
 	/**
 	 * Menghasilkan grafik & tabel dari database
@@ -57,11 +58,19 @@ class Shortcode_model extends Keuangan_grafik_model {
     {
       return $this->penerima_bantuan_keluarga_daftar($stat=0, $tipe=0);
     }
+    elseif ($type == 'grafik-RP-APBD-manual')
+    {
+      return $this->grafik_rp_apbd_manual($type, $thn);
+    }
+    elseif ($type == 'lap-RP-APBD-Bidang-manual')
+    {
+      return $this->tabel_rp_apbd_bidang_manual($type, $thn);
+    }
 	}
 
 	private function grafik_rp_apbd($type, $thn)
 	{
-    $data = $this->grafik_keuangan_tema($thn);
+    $data = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
 		$data_widget = $data['data_widget'];
 		ob_start();
 			include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php");
@@ -71,7 +80,7 @@ class Shortcode_model extends Keuangan_grafik_model {
 
 	private function tabel_rp_apbd($type, $thn)
 	{
-		$data = $this->lap_rp_apbd($thn);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
     $belanja_bidang = $data['belanja_bidang'];
@@ -85,7 +94,32 @@ class Shortcode_model extends Keuangan_grafik_model {
 
   private function tabel_rp_apbd_bidang($type, $thn)
 	{
-		$data = $this->lap_rp_apbd($thn);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
+		$pendapatan = $data['pendapatan'];
+		$belanja = $data['belanja'];
+    $belanja_bidang = $data['belanja_bidang'];
+		$pembiayaan = $data['pembiayaan'];
+    $pembiayaan_keluar = $data['pembiayaan_keluar'];
+    $jenis = 'bidang';
+		ob_start();
+			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
+		$output = ob_get_clean();
+		return $output;
+	}
+
+  private function grafik_rp_apbd_manual($type, $thn)
+	{
+    $data = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
+		$data_widget = $data['data_widget'];
+		ob_start();
+			include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function tabel_rp_apbd_bidang_manual($type, $thn)
+	{
+		$data = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
     $belanja_bidang = $data['belanja_bidang'];
@@ -184,6 +218,16 @@ class Shortcode_model extends Keuangan_grafik_model {
 			return $output;
 		}
 		elseif ($type == "grafik-RP-APBD")
+		{
+			$output = "<i class='fa fa-bar-chart'></i> Grafik APBDes TA. " . $thn . ", ";
+			return $output;
+		}
+    elseif ($type == "lap-RP-APBD-Bidang-manual")
+		{
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes TA. " . $thn . ", ";
+			return $output;
+		}
+		elseif ($type == "grafik-RP-APBD-manual")
 		{
 			$output = "<i class='fa fa-bar-chart'></i> Grafik APBDes TA. " . $thn . ", ";
 			return $output;
