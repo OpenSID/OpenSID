@@ -82,7 +82,6 @@
 																<th>Nomor SK Pemberhentian</th>
 																<th>Tanggal SK Pemberhentian</th>
 																<th>Masa/Periode Jabatan</th>
-																<th>Status</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -96,6 +95,12 @@
 																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm <?php jecho($data['urut'], count($main), 'disabled')?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm <?php jecho($data['urut'], 1, 'disabled')?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																		<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php if ($data['pamong_status'] == '1'): ?>
+																			<a href="<?= site_url("pengurus/lock/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																		<?php else: ?>
+																			<a href="<?= site_url("pengurus/lock/$data[pamong_id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
+																		<?php endif ?>
 																		<?php if ($data['pamong_ttd'] == '1'): ?>
 																			<a href="<?= site_url("pengurus/ttd/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
 																		<?php else: ?>
@@ -106,7 +111,6 @@
 																		<?php else: ?>
 																			<a href="<?= site_url("pengurus/ub/$data[pamong_id]/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD u.b">u.b</a>
 																		<?php endif ?>
-																		<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td class="text-center">
 																		<div class="user-panel">
@@ -130,7 +134,6 @@
 																			<i>NIK :<?=$data['nik']?></i>
 																		</p>
 																	</td>
-
 																	<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
 																	<td><?= $data['sex']?></td>
 																	<td><?= $data['agama']?></td>
@@ -142,17 +145,6 @@
 																	<td><?= $data['pamong_nohenti']?></td>
 																	<td><?= tgl_indo_out($data['pamong_tglhenti'])?></td>
 																	<td><?= $data['pamong_masajab']?></td>
-																	<td>
-																		<?php if ($data['pamong_status'] == '1'): ?>
-																			<div title="Aktif">
-																				<center><i class='fa fa-unlock fa-lg text-yellow'></i></center>
-																			</div>
-																		<?php else: ?>
-																			<div title="Tidak Aktif">
-																				<center><i class='fa fa-lock fa-lg text-green'></i></center>
-																			</div>
-																		<?php endif; ?>
-																	</td>
 																</tr>
 															<?php endforeach; ?>
 														</tbody>

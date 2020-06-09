@@ -9,7 +9,7 @@
 		$this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
 	}
 
-	public function list_data($aktif = false)
+	public function list_data()
 	{
 		$sql = "SELECT u.*, p.nama as nama, p.nik as nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama
 			FROM tweb_desa_pamong u
@@ -22,7 +22,7 @@
 			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id
 			WHERE 1";
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql($aktif);
+		$sql .= $this->filter_sql();
 		$sql .= ' ORDER BY u.urut';
 
 		$query = $this->db->query($sql);
@@ -67,31 +67,30 @@
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
+
 		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $_SESSION['cari'];
+			$cari = $this->session->cari;
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
+
 			return $search_sql;
 		}
 	}
 
-	private function filter_sql($aktif=false)
+	private function filter_sql()
 	{
-		if ($aktif)
+		if ($this->session->has_userdata('status'))
 		{
-			return " AND u.pamong_status = '1'";
-		}
-		if (!empty($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
+			$kf = $this->session->status;
 			$filter_sql = " AND u.pamong_status = $kf";
+
 			return $filter_sql;
 		}
 	}
@@ -311,6 +310,17 @@
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param $id id
+	 * @param $val status : 1 = Unlock, 2 = Lock
+	 */
+	public function lock($id, $val)
+	{
+		$this->db
+			->where('pamong_id', $id)
+			->update('tweb_desa_pamong', ['pamong_status' => $val]);
 	}
 
 }

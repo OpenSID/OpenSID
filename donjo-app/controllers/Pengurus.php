@@ -159,7 +159,7 @@ class Pengurus extends Admin_Controller {
 
 	public function lock($id = 0, $val = 1)
 	{
-		$this->modul_model->lock($id, $val);
+		$this->pamong_model->lock($id, $val);
 		redirect("pengurus");
 	}
 
