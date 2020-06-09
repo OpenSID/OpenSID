@@ -927,6 +927,10 @@ class Program_bantuan_model extends CI_Model {
 			->where('pp.id', $id)
 			->get()
 			->row_array();
+
+		// Gunakan field kartu_nik untuk mendapatkan data penduduk
+		if($data['sasaran'] == 2) $data['peserta'] = $data['kartu_nik'];
+
 		// Data tambahan untuk ditampilkan
 		$peserta = $this->get_peserta($data['peserta'], $data['sasaran']);
 		switch ($data['sasaran'])
