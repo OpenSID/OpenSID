@@ -11,7 +11,6 @@ class Program_bantuan_model extends CI_Model {
 		$this->load->model(['rtm_model', 'kelompok_model']);
 	}
 
-
 	public function autocomplete($id, $cari)
 	{
 		$cari = $this->db->escape_like_str($cari);
@@ -376,7 +375,7 @@ class Program_bantuan_model extends CI_Model {
 			{
 				$data[$i]['id'] = $data[$i]['id'];
 				$data[$i]['nik'] = $data[$i]['peserta'];
-				$data[$i]['peserta_plus'] = $data[$i]['no_kk'];
+				$data[$i]['peserta_plus'] = $data[$i]['no_kk'] ?: '-';
 				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
@@ -830,8 +829,9 @@ class Program_bantuan_model extends CI_Model {
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
-		$data = $this->validasi($this->input->post());
 		$data['program_id'] = $program_id;
+		$data['peserta'] = $this->input->post('peserta');
+		$data = $this->validasi($this->input->post());
 
 		$file_gambar = $this->_upload_gambar();
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;
@@ -863,7 +863,6 @@ class Program_bantuan_model extends CI_Model {
 
 	public function validasi($post)
 	{
-		$data['peserta'] = $post['peserta'];
 		$data['no_id_kartu'] = $post['no_id_kartu'];
 		$data['kartu_nik'] = $post['kartu_nik'];
 		$data['kartu_nama'] = htmlentities($post['kartu_nama']);
