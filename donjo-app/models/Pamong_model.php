@@ -5,8 +5,9 @@
 	public function __construct()
 	{
 		parent::__construct();
-	  require_once APPPATH.'/models/Urut_model.php';
+		require_once APPPATH.'/models/Urut_model.php';
 		$this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
+		$this->load->model(['referensi_model']);
 	}
 
 	public function list_data()
@@ -311,6 +312,8 @@
 
 		return $data;
 	}
+
+	//----------------------------------------------------------------------------------------------------
 
 	/**
 	 * @param $id id

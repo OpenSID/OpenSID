@@ -2,37 +2,37 @@
 
 class Pengurus extends Admin_Controller {
 
-	private $list_session;
-	private $header;
+	private $_header;
+	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
-		$this->header = $this->header_model->get_data();
-		$this->list_session = ['status', 'cari'];
+		$this->_header = $this->header_model->get_data();
+		$this->_list_session = ['status', 'cari'];
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 18;
 	}
 
 	public function clear()
 	{
-		$this->session->unset_userdata($this->list_session);
+		$this->session->unset_userdata($this->_list_session);
 		redirect('pengurus');
 	}
 
 	public function index()
 	{
-		foreach ($this->list_session as $list)
+		foreach ($this->_list_session as $list)
 		{
 				$data[$list] = $this->session->$list ?: '';
 		}
 
 		$data['main'] = $this->pamong_model->list_data();
 		$data['keyword'] = $this->pamong_model->autocomplete();
-		$this->header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('home/pengurus', $data);
 		$this->load->view('footer');
@@ -40,10 +40,12 @@ class Pengurus extends Admin_Controller {
 
 	public function form($id = 0)
 	{
+		$id_pend = $this->input->post('id_pend');
+
 		if ($id)
 		{
 			$data['pamong'] = $this->pamong_model->get_data($id);
-			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
+			if (!isset($id_pend)) $id_pend = $data['pamong']['id_pend'];
 			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
@@ -53,15 +55,15 @@ class Pengurus extends Admin_Controller {
 		}
 
 		$data['penduduk'] = $this->pamong_model->list_penduduk();
-		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
+		$data['pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 
-		if (!empty($this->input->post('id_pend')))
-			$data['individu'] = $this->penduduk_model->get_penduduk($this->input->post('id_pend'));
+		if (!empty($id_pend))
+			$data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
 		else
 			$data['individu'] = NULL;
 
-		$this->load->view('header', $this->header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('home/pengurus_form', $data);
 		$this->load->view('footer');
@@ -112,23 +114,6 @@ class Pengurus extends Admin_Controller {
 	{
 		$this->pamong_model->ttd('pamong_ub', $id, $val);
 		redirect('pengurus');
-	}
-
-	public function dialog_cetak()
-	{
-		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("pengurus/cetak");
-
-		$this->load->view('home/ajax_cetak_pengurus', $data);
-	}
-
-	public function dialog_unduh()
-	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("pengurus/unduh");
-		$this->load->view('home/ajax_cetak_pengurus', $data);
 	}
 
 	public function urut($id = 0, $arah = 0)
