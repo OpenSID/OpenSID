@@ -102,4 +102,11 @@ class Mandiri extends Admin_Controller {
 		$this->mandiri_model->delete($id);		
 		redirect($this->kembali);
 	}
+	
+	public function cetak($id_pend = '')
+	{
+		$data['mandiri_penduduk'] = $this->mandiri_model->get_penduduk($id_pend);
+		$data['mandiri_pin'] = $this->mandiri_model->get_pin_mandiri($id_pend);
+		$this->load->view('laporan/mandiri_cetak', $data);
+	}
 }

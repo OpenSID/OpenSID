@@ -125,6 +125,7 @@
     $outp = $this->db->query($sql, array($_POST['nik']));
     $hash_pin = hash_pin($rpin);
     $data['pin'] = $hash_pin;
+		$data['plain'] = $rpin;
     $data['id_pend'] = $this->db->select('id')->where('nik', $_POST['nik'])
         ->get('tweb_penduduk')->row()->id;
     $data['tanggal_buat'] = date("Y-m-d H:i:s");
@@ -248,6 +249,16 @@
 			->row_array();
 	}
 	
+	public function get_pin_mandiri($id_pend)
+	{
+		return $this->db
+			->select('plain')
+			->from('tweb_penduduk_mandiri')
+			->where('id_pend', $id_pend)
+			->get()
+			->row_array();
+	}
+	
 	public function update($id_pend)
 	{		
 		$pin = $this->input->post('pin');
@@ -271,7 +282,8 @@
 		}
 
 		$hash_pin = hash_pin($rpin);
-  	$data['pin'] = $hash_pin;
+		$data['pin'] = $hash_pin;
+		$data['plain'] = $rpin;
 		$data['tanggal_buat'] = date("Y-m-d H:i:s");
 		$this->db->where('id_pend', $id_pend);
 		$this->db->update('tweb_penduduk_mandiri', $data);	
