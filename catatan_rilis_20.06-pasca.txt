@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi, Rudy Purwanto, masumo dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada masumo yang baru mulai berkontribusi.
+Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi, Rudy Purwanto, masumo dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 
@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 19. #3158: Ubah nomor telepon menjadi 12 digit di lamporan F-1.08 dan F-1.25.
 20. Upgrade plugin editor artikel Tinymce dari 4.6.4 ke 4.9.10. [teknis, security-fix]
 21. #3182: Sediakan laporan dan grafik keuangan input manual untuk disisipkan ke artikel web.
+22. #3027: Pilihan peserta program bantuan sasaran keluarga sekarang termasuk penduduk dengan hubungan keluarga suami/istri dan anak.
 
 
 
