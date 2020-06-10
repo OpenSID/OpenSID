@@ -2,35 +2,28 @@
 
 class Keluarga extends Admin_Controller {
 
+	private $_set_page;
+	private $_header;
+	private $_list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		$this->load->model('header_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('penduduk_model');
-		$this->load->model('wilayah_model');
-		$this->load->model('program_bantuan_model');
-		$this->load->model('referensi_model');
-		$this->load->model('config_model');
+		$this->load->model(['header_model', 'keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model', 'referensi_model', 'config_model']);
+		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 22;
+		$this->set_page = ['20', '50', '100'];
+		$this->list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari'];
+
+		//, 'filter',   'kelas', 'id_bos', 'judul_statistik', 'bantuan_keluarga'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		$_SESSION['status_dasar'] = 1; // tampilkan KK aktif saja
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['kelas']);
-		unset($_SESSION['id_bos']);
-		unset($_SESSION['judul_statistik']);
-		unset($_SESSION['bantuan_keluarga']);
-		$_SESSION['per_page'] = 100;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = 20;
+		$this->session->status_dasar = 1; // tampilkan KK aktif saja
 		redirect('keluarga');
 	}
 
@@ -39,58 +32,50 @@ class Keluarga extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['judul_statistik']))
-			$data['judul_statistik'] = $_SESSION['judul_statistik'];
-		else $data['judul_statistik'] = '';
-
-		if (isset($_SESSION['status_dasar']))
-			$data['status_dasar'] = $_SESSION['status_dasar'];
-		else $data['status_dasar'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
-
-		if (isset($_SESSION['id_bos']))
-			$data['id_bos'] = $_SESSION['id_bos'];
-		else $data['id_bos'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		if (isset($_SESSION['dusun']))
+		foreach ($this->list_session as $list)
 		{
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '';
+		}
 
-			if (isset($_SESSION['rw']))
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+
+			if (isset($rw))
 			{
-				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-				if(isset($_SESSION['rt']))
-					$data['rt'] = $_SESSION['rt'];
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
 		}
 		else
 		{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = 'index';
+		$data['per_page'] = $this->session->per_page;
+		$data['set_page'] = $this->set_page;
 		$data['paging'] = $this->keluarga_model->paging($p,$o);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header',$header);
-		$this->load->view('nav',$nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/keluarga', $data);
 		$this->load->view('footer');
 	}
@@ -169,10 +154,10 @@ class Keluarga extends Admin_Controller {
 
 		unset($_SESSION['dari_internal']);
 		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/keluarga_form', $data);
 		$this->load->view('footer');
 	}
@@ -216,7 +201,7 @@ class Keluarga extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('sid/kependudukan/keluarga_form_a', $data);
@@ -242,42 +227,32 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('sid/kependudukan/ajax_add_keluarga', $data);
 	}
 
-	public function status_dasar()
+	public function filter($filter)
 	{
-		$status_dasar = $this->input->post('status_dasar');
-		if ($status_dasar != "")
-			$_SESSION['status_dasar'] = $status_dasar;
-		else unset($_SESSION['status_dasar']);
-		redirect('keluarga');
-	}
-
-	public function sex()
-	{
-		$sex = $this->input->post('sex');
-		if ($sex != "")
-			$_SESSION['sex'] = $sex;
-		else unset($_SESSION['sex']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('keluarga');
 	}
 
 	public function dusun()
 	{
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
+		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
-			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
 		redirect('keluarga');
 	}
 
 	public function rw()
 	{
-		unset($_SESSION['rt']);
+		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
-			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
 		redirect('keluarga');
 	}
 
@@ -285,17 +260,8 @@ class Keluarga extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
-			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
-		redirect('keluarga');
-	}
-
-	public function search()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
 		redirect('keluarga');
 	}
 
@@ -371,10 +337,10 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
 		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
+		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/keluarga_anggota', $data);
 		$this->load->view('footer');
 	}
@@ -435,7 +401,7 @@ class Keluarga extends Admin_Controller {
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/print");
 		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
