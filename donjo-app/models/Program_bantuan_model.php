@@ -154,7 +154,8 @@ class Program_bantuan_model extends CI_Model {
 				# Data Kelompok
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
 				$data['kartu_nik'] = $data['nik'];
-				$data['nik'] = $data['id_peserta'] = $peserta_id; // Id_kelompok digunakan sebagai peserta
+				$data['id_peserta'] = $peserta_id; // Id_kelompok digunakan sebagai peserta
+				$data['nik'] = $data['nama_kelompok'];
 				$data['judul_nik'] = 'Nama Kelompok';
 				$data['judul'] = 'Ketua Kelompok';
 				break;
@@ -614,7 +615,7 @@ class Program_bantuan_model extends CI_Model {
 				if (!in_array($data[$i]['id'], $filter))
 				{
 					$hasil2[$j]['id'] = $data[$i]['id'];
-					$hasil2[$j]['nik'] = $data[$i]['id'];
+					$hasil2[$j]['nik'] = $data[$i]['nama_kelompok'];
 					$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nama_kelompok']."]";
 					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
 					$j++;
@@ -829,9 +830,9 @@ class Program_bantuan_model extends CI_Model {
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
+		$data = $this->validasi($this->input->post());
 		$data['program_id'] = $program_id;
 		$data['peserta'] = $this->input->post('peserta');
-		$data = $this->validasi($this->input->post());
 
 		$file_gambar = $this->_upload_gambar();
 		if ($file_gambar) $data['kartu_peserta'] = $file_gambar;

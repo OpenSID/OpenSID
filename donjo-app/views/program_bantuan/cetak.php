@@ -55,7 +55,7 @@
 									</tr>
 									<tr class="border thick">
 										<th>No. Kartu Peserta</th>
-										<th>Tempat Lahir</th>
+										<th>NIK</th>
 										<th>Nama</th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
