@@ -43,7 +43,7 @@ class MY_Controller extends CI_Controller {
 			$heading = 'Ubah Setting Default';
 			$message = 'Setting anda di file desa/config/config.php masih menggunakan setting default. Ubah dulu ke setting yg lebih aman sebelum menggunakan OpenSID.';
 			$error =& load_class('Exceptions', 'core');
-			echo $error->show_error($heading, $message, 'error_general', 200);
+			echo $error->show_error($heading, $message, 'error_general', 403);
 			exit(8);
 		}
 
