@@ -37,8 +37,8 @@
 												<table class="table table-bordered table-striped dataTable table-hover" id="table-program">
 													<thead class="bg-gray disabled color-palette">
 														<tr>
-															<th>No</th>
-															<th>Aksi</th>
+															<th width="1%">No</th>
+															<th width="5%">Aksi</th>
 															<th nowrap>Nama Program</th>
 															<th>Asal Dana</th>
 															<th>Jumlah Peserta</th>
@@ -52,7 +52,7 @@
 														<?php foreach ($program as $item): ?>
 															<?php $nomer++; ?>
 															<tr>
-																<td><?= $nomer?></td>
+																<td class="text-center"><?= $nomer?></td>
 																<td nowrap>
 																	<a href="<?= site_url("program_bantuan/detail/$item[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-list"></i></a>
 																	<a href="<?= site_url("program_bantuan/edit/$item[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>

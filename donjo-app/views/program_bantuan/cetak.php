@@ -50,12 +50,11 @@
 									<tr class="border thick">
 										<th rowspan="2">No</th>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta"]?></th>
-										<th rowspan="2">No. Kartu Peserta</th>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta_info"]?></th>
-										<th rowspan="2">Alamat</th>
-										<th colspan="5" style="text-align: center;">Identitas di Kartu Peserta</th>
+										<th colspan="6" style="text-align: center;">Identitas di Kartu Peserta</th>
 									</tr>
 									<tr class="border thick">
+										<th>No. Kartu Peserta</th>
 										<th>NIK</th>
 										<th>Nama</th>
 										<th>Tempat Lahir</th>
@@ -66,11 +65,10 @@
 								<tbody>
 									<?php	$i=1; foreach ($peserta[1] as $key=>$item): ?>
 									<tr>
-										<td><?=$i?></td>
+										<td align="center"><?=$i?></td>
 										<td class='textx'><?=$item["nik"]?></td>
-										<td class='textx'><?=$item["no_id_kartu"]?></td>
-										<td><?=$item["nama"]?></td>
-										<td><?=$item["info"]?></td>
+										<td><?=$item["peserta_info"]?></td>
+										<td class='textx' align="center"><?=$item["no_id_kartu"]?></td>
 										<td class='textx'><?=$item["kartu_nik"]?></td>
 										<td><?=$item["kartu_nama"]?></td>
 										<td><?=$item["kartu_tempat_lahir"]?></td>
