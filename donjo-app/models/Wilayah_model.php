@@ -541,6 +541,13 @@
 		return $data;
 	}
 
+	public function get_alamat_wilayah($data)
+	{
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
+
+		return trim($alamat_wilayah);
+	}
+
 }
 
 ?>
