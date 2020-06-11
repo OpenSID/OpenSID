@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Siteman extends CI_Controller 
+class Siteman extends CI_Controller
 {
 
 	public function __construct()
@@ -50,6 +50,10 @@ class Siteman extends CI_Controller
 				$request_awal = str_replace(parse_url(site_url(), PHP_URL_PATH), '', $_SESSION['request_uri']);
 				unset($_SESSION['request_uri']);
 				redirect($request_awal);
+			}
+			elseif ($this->user_model->getPwdStatus() == TRUE)
+			{
+					redirect('user_setting/change_pwd');
 			}
 			else
 			{
