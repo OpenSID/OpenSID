@@ -163,7 +163,7 @@ class Keluarga extends Admin_Controller {
 	}
 
 	// Tambah anggota keluarga dari penduduk baru
-	public function form_a($p = 1, $o = 0, $id=0)
+	public function form_a($p = 1, $o = 0, $id = 0)
 	{
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND !$_SESSION['dari_internal'])
