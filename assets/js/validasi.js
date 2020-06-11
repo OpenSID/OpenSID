@@ -178,7 +178,7 @@ $(document).ready(function() {
 	});
 
 	jQuery.validator.addMethod("nomor_sk", function(value, element) {
-		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);   
+		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
 
@@ -210,6 +210,18 @@ $(document).ready(function() {
 		$(this).rules("add",
 			{
 				bilangan_spasi: true,
+			});
+	});
+
+	jQuery.validator.addMethod("pwdLength", function(value, element) {
+		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Harus 6 sampai 20 characters dan sekurangnya berisi satu angka atau satu hurup uppercase atau satu hurup lowercase");
+
+	$('.pwdLength').each(function() {
+		$(this).rules("add",
+			{
+				pwdLength: true,
 			});
 	});
 
