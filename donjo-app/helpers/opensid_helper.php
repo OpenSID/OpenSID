@@ -790,7 +790,7 @@ function bilangan_titik($str)
 
 function nomor_surat_keputusan($str)
 {
-	return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', strip_tags($str));
+	return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', htmlentities($str));
 }
 
 // Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip

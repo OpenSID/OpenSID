@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 20. Upgrade plugin editor artikel Tinymce dari 4.6.4 ke 4.9.10. [teknis, security-fix]
 21. #3182: Sediakan laporan dan grafik keuangan input manual untuk disisipkan ke artikel web.
 22. #3027: Pilihan peserta program bantuan sasaran keluarga sekarang termasuk penduduk dengan hubungan keluarga suami/istri dan anak.
+23. #3179: Tambahkan validasi dan pembersihan data form Album dan Gambar Album. [security-fix]
 
 
 
