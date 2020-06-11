@@ -216,8 +216,6 @@
 		$valid = array();
 		if (isset($data['no_kk']))
 		{
-			if (!ctype_digit($data['no_kk']))
-				array_push($valid, "Nomor KK hanya berisi angka");
 			if ($this->db->select('no_kk')->from('tweb_keluarga')->where(array('no_kk'=>$data['no_kk']))->limit(1)->get()->row()->no_kk)
 				array_push($valid, "Nomor KK {$data['no_kk']} sudah digunakan");
 		}
