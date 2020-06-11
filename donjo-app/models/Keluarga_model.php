@@ -8,12 +8,16 @@
 
 	public function autocomplete($cari='')
 	{
+		if ($cari)
+		{
+			$cari = $this->db->escape_like_str($cari);
+			$this->db->like('t.nama', $cari);
+		}
 		$this->db->select('t.nama')
 			->distinct()
 			->from('tweb_keluarga u')
 			->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
 			->order_by('t.nama');
-		if ($cari) $this->db->where("t.nama like '%$cari%'");
 		$data = $this->db->get()->result_array();
 
 		return autocomplete_data_ke_str($data);
@@ -47,18 +51,6 @@
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw' OR t.tag_id_card LIKE '$kw')";
 			return $search_sql;
-		}
-	}
-
-	// Ini digunakan dmna???
-	private function jenis_sql()
-	{
-		$value = $this->session->jenis;
-
-		if (isset($value))
-		{
-			$sql= " AND jenis = $value";
-			return $sql;
 		}
 	}
 

@@ -90,7 +90,7 @@
 							<select class="form-control input-sm" id="kelas_sosial" name="kelas_sosial">
 								<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
 								<?php foreach ($keluarga_sejahtera as $data): ?>
-									<option value="<?= $data['id']?>" <?php selected($kk['kelas_sosial'], data['id']); ?>><?= strtoupper($data['nama'])?></option>
+									<option value="<?= $data['id']?>" <?php selected($kk['kelas_sosial'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 								<?php endforeach;?>
 							</select>
 						</div>
