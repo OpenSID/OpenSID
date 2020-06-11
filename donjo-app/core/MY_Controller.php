@@ -42,7 +42,10 @@ class MY_Controller extends CI_Controller {
 
 			$heading = 'Ubah Setting Default';
 			$message = 'Setting anda di file desa/config/config.php masih menggunakan setting default. Ubah dulu ke setting yg lebih aman sebelum menggunakan OpenSID.';
-			$error =& load_class('Exceptions', 'core');
+			// Conflict kalau gunakan load_class()
+			// https://stackoverflow.com/questions/15207937/codeigniter-command-line-error-php-fatal-error-class-ci-controller-not-foun
+			require_once('system/core/Exceptions.php');
+			$error = new CI_Exceptions('core');
 			echo $error->show_error($heading, $message, 'error_general', 403);
 			exit(8);
 		}
