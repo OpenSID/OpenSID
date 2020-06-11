@@ -1,8 +1,8 @@
-<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/script.js"></script>
-<script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script src="<?= base_url()?>assets/js/script.js"></script>
+<script type="text/javascript">
 	$('#tgl_1').datetimepicker({
 		format: 'DD-MM-YYYY'
 	});
@@ -25,6 +25,10 @@
 		padding-left: 0px;
 		width: auto;
 		padding-right: 30px;
+	}
+	.table-responsive
+	{
+		min-height:275px;
 	}
 </style>
 <form action="<?= $form_action?>" method="post" id="validasi">

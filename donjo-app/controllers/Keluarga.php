@@ -156,7 +156,7 @@ class Keluarga extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/keluarga_form', $data);
 		$this->load->view('footer');
@@ -202,13 +202,13 @@ class Keluarga extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/keluarga_form_a', $data);
 		$this->load->view('footer');
 	}
 
-	public function edit_nokk($p = 1, $o = 0, $id=0)
+	public function edit_nokk($p = 1, $o = 0, $id = 0)
 	{
 		$data['kk'] = $this->keluarga_model->get_keluarga($id);
 		$data['dusun'] = $this->wilayah_model->list_dusun();
@@ -220,7 +220,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('sid/kependudukan/ajax_edit_nokk', $data);
 	}
 
-	public function form_old($p = 1, $o = 0, $id=0)
+	public function form_old($p = 1, $o = 0, $id = 0)
 	{
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/insert/$id");
@@ -314,7 +314,7 @@ class Keluarga extends Admin_Controller {
 		redirect('keluarga');
 	}
 
-	public function delete($p = 1, $o = 0, $id='')
+	public function delete($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('h', 'keluarga');
 		$this->keluarga_model->delete($id);
@@ -328,7 +328,7 @@ class Keluarga extends Admin_Controller {
 		redirect('keluarga');
 	}
 
-	public function anggota($p = 1, $o = 0, $id=0)
+	public function anggota($p = 1, $o = 0, $id = 0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -336,16 +336,17 @@ class Keluarga extends Admin_Controller {
 
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-		$header = $this->header_model->get_data();
+		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
+
 		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
+		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/keluarga_anggota', $data);
 		$this->load->view('footer');
 	}
 
-	public function ajax_add_anggota($p = 1, $o = 0, $id=0)
+	public function ajax_add_anggota($p = 1, $o = 0, $id = 0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -364,7 +365,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_add_anggota_form", $data);
 	}
 
-	public function edit_anggota($p = 1, $o = 0, $id_kk=0, $id=0)
+	public function edit_anggota($p = 1, $o = 0, $id_kk = 0, $id = 0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -393,6 +394,7 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$kk = $this->keluarga_model->get_kepala_kk($id);
 		$data['desa'] = $this->config_model->get_data();
+
 		if ($kk)
 			$data['kepala_kk'] = $kk;
 		else
@@ -400,16 +402,15 @@ class Keluarga extends Admin_Controller {
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/print");
-		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view("sid/kependudukan/kartu_keluarga", $data);
 		$this->load->view('footer');
 	}
 
-	public function cetak_kk($id=0)
+	public function cetak_kk($id = 0)
 	{
 		$data = $this->keluarga_model->get_data_cetak_kk($id);
 		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
