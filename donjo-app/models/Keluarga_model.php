@@ -125,7 +125,7 @@
 		}
 	}
 
-	public function paging($p=1, $o=0)
+	public function paging($p = 1)
 	{
 		$sql = "SELECT COUNT(*) AS jml ".$this->list_data_sql();
 		$query = $this->db->query($sql);
@@ -134,7 +134,7 @@
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -187,7 +187,7 @@
 		}
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o = 0, $offset = 0, $limit = 500)
 	{
 		//Ordering SQL
 		switch ($o)

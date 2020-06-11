@@ -27,9 +27,10 @@ class Keluarga extends Admin_Controller {
 		redirect('keluarga');
 	}
 
-	public function index($p = 1)
+	public function index($p = 1, $o = 0)
 	{
 		$data['p'] = $p;
+		$data['o'] = $o;
 
 		foreach ($this->_list_session as $list)
 		{
@@ -67,7 +68,7 @@ class Keluarga extends Admin_Controller {
 		$data['func'] = 'index';
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->keluarga_model->paging($p, $o);
+		$data['paging'] = $this->keluarga_model->paging($p);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['per_page']);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
@@ -510,11 +511,4 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data_statistik($tipe);
 		$this->load->view('sid/kependudukan/keluarga_print', $data);
 	}
-
-	public function order_by($field = '')
-	{
-		if ($field != "")
-			$this->session->order_by = $field;
-	}
-
 }
