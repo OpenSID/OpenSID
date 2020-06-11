@@ -14,9 +14,7 @@ class Keluarga extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 22;
 		$this->_set_page = ['1', '2', '100'];
-		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari'];
-
-		//, 'filter',   'kelas', 'id_bos', 'judul_statistik', 'bantuan_keluarga'];
+		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga'];
 	}
 
 	public function clear()
@@ -450,13 +448,13 @@ class Keluarga extends Admin_Controller {
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
-	public function delete_all_anggota($p = 1, $o = 0, $kk=0)
+	public function delete_all_anggota($p = 1, $o = 0, $kk = 0)
 	{
 		$this->keluarga_model->rem_all_anggota($kk);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
-	public function statistik($tipe=0, $nomor=0, $sex=null, $p = 1, $o = 0)
+	public function statistik($tipe = 0, $nomor = 0, $sex = null, $p = 1, $o = 0)
 	{
 		$_SESSION['per_page'] = 50;
 		unset($_SESSION['cari']);
