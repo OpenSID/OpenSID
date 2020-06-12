@@ -1,5 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Program_bantuan_model extends CI_Model {
+
+class Program_bantuan_model extends MY_Model {
 
 	// Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
 	var $column_order = array(null, 'program', 'peserta', null); //set column field database for datatable orderable
@@ -14,13 +15,13 @@ class Program_bantuan_model extends CI_Model {
 	public function autocomplete($id, $cari)
 	{
 		$cari = $this->db->escape_like_str($cari);
-		$this->db->select('kartu_nama')
-			->distinct()
-			->where('program_id', $id)
-			->order_by('kartu_nama');
-		if ($cari) $this->db->like('kartu_nama', $cari);
 
-		$data = $this->db->get('program_peserta')->result_array();
+		$list_kode = [
+			array("kartu_nama", "program_peserta", "program_id = $id", $cari),
+			array("peserta", "program_peserta", "program_id = $id", $cari)
+		];
+
+		$data = $this->union($list_kode);
 
 		return autocomplete_data_ke_str($data);
 	}
