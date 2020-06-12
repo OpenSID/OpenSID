@@ -16,9 +16,14 @@ class Program_bantuan_model extends MY_Model {
 	{
 		$cari = $this->db->escape_like_str($cari);
 
+		// Jika parameter yg digunakan sama
+		$tabel = "program_peserta";
+		$where = "program_id = $id";
+
 		$list_kode = [
-			array("kartu_nama", "program_peserta", "program_id = $id", $cari),
-			array("peserta", "program_peserta", "program_id = $id", $cari)
+			["peserta", $tabel, $where, $cari],
+			["kartu_nik", $tabel, $where, $cari],
+			["kartu_nama", $tabel, $where, $cari]
 		];
 
 		$data = $this->union($list_kode);
