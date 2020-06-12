@@ -2,7 +2,6 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$this->load->model('config_model');
 
 	$individu['umur'] = str_pad($individu['umur'], 3, " ", STR_PAD_LEFT);
 
@@ -124,15 +123,6 @@
 		$input['umur_saksi2']	= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 	}
 
-	$desa = $this->config_model->get_data();
-	// Gunakan data identitas desa, jika ada
-	if ($desa['nip_kepala_desa'])
-	{
-		$kepala_desa['pamong_nama'] = $desa['nama_kepala_desa'];
-		$kepala_desa['pamong_nip'] = $desa['nip_kepala_desa'];
-	}
-	else
-	{
-		$kepala_desa = $this->pamong_model->get_pamong_by_nama($desa['nama_kepala_desa']);
-	}
+	$id = $this->input->post('pamong_id');
+	$kepala_desa = $this->pamong_model->get_pamong($id);
 ?>

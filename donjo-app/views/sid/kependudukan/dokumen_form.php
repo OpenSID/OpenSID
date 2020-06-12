@@ -27,7 +27,7 @@ $(document).ready(function() {
 					<div class="box-body">
 						<div class="form-group">
 							<label for="nama">Nama / Jenis Dokumen</label>
-							<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama']?>"></input>	<input type="hidden" name="id_pend" value="<?= $penduduk['id']?>"/>
+							<input id="nama" name="nama" class="form-control input-sm nomor_sk required" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama']?>"></input>	<input type="hidden" name="id_pend" value="<?= $penduduk['id']?>"/>
 						</div>
 						<div class="form-group">
 							<label for="file" >Pilih File:</label>

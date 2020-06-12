@@ -5,7 +5,6 @@ class Teks_berjalan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 
 		$this->load->model('header_model');
 		$this->load->model('teks_berjalan_model');
@@ -20,14 +19,14 @@ class Teks_berjalan extends Admin_Controller {
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('web/teks_berjalan/table', $data);
 		$this->load->view('footer');
 	}
 
 	public function form($id = '')
 	{
-		$data['list_artikel'] = $this->web_artikel_model->list_data($cat=-1, $o=6, $offset=0, $limit=500);
+		$data['list_artikel'] = $this->web_artikel_model->list_data(999, 6, 0);
 
 		if ($id)
 		{
@@ -43,7 +42,7 @@ class Teks_berjalan extends Admin_Controller {
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('web/teks_berjalan/form', $data);
 		$this->load->view('footer');
 	}

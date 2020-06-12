@@ -1,4 +1,4 @@
-<?php class Web_artikel_model extends CI_Model {
+<?php class Web_artikel_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -8,8 +8,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('judul', 'artikel');
-		return $str;
+		return $this->autocomplete_str('judul', 'artikel');
 	}
 
 	private function search_sql()
@@ -89,8 +88,8 @@
 		{
 		case 1: $order_sql = ' ORDER BY judul'; break;
 		case 2: $order_sql = ' ORDER BY judul DESC'; break;
-		case 3: $order_sql = ' ORDER BY enabled'; break;
-		case 4: $order_sql = ' ORDER BY enabled DESC'; break;
+		case 3: $order_sql = ' ORDER BY hit'; break;
+		case 4: $order_sql = ' ORDER BY hit DESC'; break;
 		case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 		case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
 		default:$order_sql = ' ORDER BY id DESC';
@@ -591,5 +590,24 @@
 		// Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
 		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
 		return ($user == $id_user or $_SESSION['grup'] != 4);
+	}
+
+	public function reset($cat)
+	{
+		// Normalkan kembali hit artikel kategori 999 (yg ditampilkan di menu) akibat robot (crawler)
+		$persen = $this->input->post('hit');
+		$list_menu = $this->db->distinct()
+			->select('link')
+			->like('link', 'artikel/')
+			->where('enabled', 1)
+			->get('menu')->result_array();
+		foreach ($list_menu as $list)
+		{
+			$id = str_replace('artikel/', '', $list['link']);
+			$artikel = $this->db->where('id', $id)->get('artikel')->row_array();
+			$hit = $artikel['hit'] * ($persen / 100);
+			if ($artikel)
+				$this->db->where('id', $id)->update('artikel', array('hit' => $hit));
+		}
 	}
 }

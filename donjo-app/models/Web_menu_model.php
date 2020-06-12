@@ -11,11 +11,9 @@ class Web_menu_model extends MY_Model {
 		$this->urut_model = new Urut_Model('menu');
 	}
 
-	public function autocomplete()
+	public function autocomplete($cari = '')
 	{
-		$str = autocomplete_str('nama', 'menu');
-
-		return $str;
+		return $this->autocomplete_str('nama', 'menu', $cari);
 	}
 
 	private function search_sql($tip)
@@ -241,6 +239,16 @@ class Web_menu_model extends MY_Model {
 	{
 		$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
 		$this->urut_model->urut($id, $arah, $subset);
+	}
+
+	public function menu_aktif($link)
+	{
+		$ada_menu = $this->db->where('link', $link)
+			->where('enabled', 1)
+			->get('menu')
+			->num_rows();
+
+		return $ada_menu;
 	}
 
 }

@@ -40,7 +40,7 @@ class Web_sosmed_model extends CI_Model {
 		$id = $this->get_id($sosmed);
 
 		$data = $this->input->post();
-		$link = trim($this->input->post('link'));
+		$link = trim(strip_tags($this->input->post('link')));
 
 		switch ($id)
 		{

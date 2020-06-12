@@ -1,5 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+	$this->load->model('pamong_model');
+
 	/**
 	* Kembalikan nama file lampiran yang akan digunakan, di mana
 	* Surat Keterangan Pindah Penduduk ada beberapa pilihan format dan
@@ -26,5 +28,8 @@
 		$daftar_lampiran = array($daftar_lampiran[0]);
 	else
 		$daftar_lampiran = array($daftar_lampiran[1]);
+
+	$id = $this->input->post('pamong_id');
+	$kepala_desa = $this->pamong_model->get_pamong($id);
 
 ?>

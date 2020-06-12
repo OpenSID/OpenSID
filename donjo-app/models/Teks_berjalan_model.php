@@ -9,13 +9,11 @@
 		$this->urut_model = new Urut_Model('teks_berjalan');
 	}
 
-	public function get_teks($id='')
+	public function get_teks($id = '')
 	{
 		$this->sql();
 
 		$data = $this->db->where('t.id', $id)->get()->row_array();
-
-		$data['teks'] = strip_tags($data['teks']);
 
 		return $data;
 	}
@@ -33,11 +31,8 @@
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$teks = strip_tags($data[$i]['teks']);
-
 			$data[$i]['no'] = $i + 1;
-			$data[$i]['teks'] = (strlen($teks) > 150) ? (substr($teks,0,150)."...") : ($teks);
-			$data[$i]['tautan'] = $this->menu_slug($data[$i]['tautan']);
+			$data[$i]['tautan'] = $this->menu_slug('artikel/'.$data[$i]['tautan']);
 		}
 
 		return $data;
@@ -68,7 +63,7 @@
 	 */
 	public function lock($id, $val)
 	{
-		$this->db->where('id', $id)->update('teks_berjalan', array('status' => $val));
+		$this->db->where('id', $id)->update('teks_berjalan', ['status' => $val]);
 	}
 
 	public function insert()
@@ -90,8 +85,8 @@
 
 	private function sanitise_data($data)
 	{
-		$data['teks'] = strip_tags($data['teks']);
-		$data['judul_tautan'] = $data['tautan'] ? strip_tags($data['judul_tautan']) : '';
+		$data['teks'] = htmlentities($data['teks']);
+		$data['judul_tautan'] = $data['tautan'] ? htmlentities($data['judul_tautan']) : '';
 
 		return $data;
 	}
@@ -105,9 +100,8 @@
 		$data = $this->sanitise_data($data);
 		$data['updated_by'] = $this->session->user;
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		$this->db->where('id', $id);
 
-		$outp = $this->db->update('teks_berjalan', $data);
+		$outp = $this->db->where('id', $id)->update('teks_berjalan', $data);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -125,7 +119,7 @@
 	{
 		$this->session->success = 1;
 
-		$id_cb = $_POST['id_cb'];
+		$id_cb = $this->input->post('id_cb');
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);

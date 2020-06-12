@@ -111,6 +111,14 @@
 						<td><?= strtoupper($penduduk['status'])?></td>
 					</tr>
 					<tr>
+						<td>Nomor Telpon/HP</td><td >:</td>
+						<td><?= strtoupper($penduduk['telepon'])?></td>
+					</tr>
+					<tr>
+						<td>Alamat Email</td><td >:</td>
+						<td><?= strtoupper($penduduk['email'])?></td>
+					</tr>
+					<tr>
 						<td>Alamat</td><td >:</td>
 						<td><?= strtoupper($penduduk['alamat'])?><br>
 								RT. <?= strtoupper($penduduk['rt'])?> RW. <?= $penduduk['rw']?>

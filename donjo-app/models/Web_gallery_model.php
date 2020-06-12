@@ -1,4 +1,4 @@
-<?php class Web_gallery_model extends CI_Model {
+<?php class Web_gallery_model extends MY_Model {
 
 	private $urut_model;
 
@@ -11,8 +11,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'gambar_gallery');
-		return $str;
+		return $this->autocomplete_str('nama', 'gambar_gallery');
 	}
 
 	private function search_sql()
@@ -110,7 +109,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		// Bolehkan album tidak ada gambar cover
 		if (!empty($lokasi_file))
@@ -146,7 +146,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
 		// Kalau kosong, gambar tidak diubah
 		if (!empty($lokasi_file))
 		{
@@ -204,7 +205,7 @@
 		// nama file nya belum diubah sesuai dengan
 		// judul gallery
 		$this->delete_gallery_image($id);
-		
+
 		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -341,7 +342,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $parrent)) + 1;
 		// Bolehkan isi album tidak ada gambar
 		if (!empty($lokasi_file))
@@ -379,7 +381,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
 		// Kalau kosong, gambar tidak diubah
 		if (!empty($lokasi_file))
 		{

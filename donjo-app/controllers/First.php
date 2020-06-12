@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class First extends Web_Controller {
 
@@ -34,6 +34,7 @@ class First extends Web_Controller {
 		$this->load->model('teks_berjalan_model');
 		$this->load->model('first_gallery_m');
 		$this->load->model('first_menu_m');
+		$this->load->model('web_menu_model');
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
 		$this->load->model('surat_model');
@@ -45,10 +46,14 @@ class First extends Web_Controller {
 		$this->load->model('keluar_model');
 		$this->load->model('referensi_model');
 		$this->load->model('keuangan_model');
+		$this->load->model('keuangan_manual_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
 		$this->load->model('program_bantuan_model');
+		$this->load->model('keuangan_manual_model');
+		$this->load->model('keuangan_grafik_model');
+		$this->load->model('keuangan_grafik_manual_model');
 	}
 
 	public function auth()
@@ -81,7 +86,6 @@ class First extends Web_Controller {
 
 	public function index($p=1)
 	{
-		$this->load->model('keuangan_grafik_model');
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -94,7 +98,7 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
-		if (config_item('covid_rss'))
+		if ($this->setting->covid_rss)
 		{
 			$data['feed'] = array(
 				'items' => $this->first_artikel_m->get_feed(),
@@ -103,9 +107,11 @@ class First extends Web_Controller {
 			);
 		}
 
-		if (config_item('apbdes_footer'))
+		if ($this->setting->apbdes_footer)
 		{
-			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			$data['transparansi'] = $this->setting->apbdes_manual_input
+				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
+				: $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
 
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
@@ -374,15 +380,11 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
+		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
+
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-		if (is_null($data['heading']))
-		{
-			// Permintaan statistik tidak dikenal
-			show_404();
-		}
-
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($stat);
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
 		$data['tipe'] = $tipe;
@@ -444,6 +446,8 @@ class First extends Web_Controller {
 
 	public function dpt()
 	{
+		if (!$this->web_menu_model->menu_aktif('dpt')) show_404();
+
 		$this->load->model('dpt_model');
 		$data = $this->includes;
 		$data['main'] = $this->dpt_model->statistik_wilayah();
@@ -457,6 +461,8 @@ class First extends Web_Controller {
 
 	public function wilayah()
 	{
+		if (!$this->web_menu_model->menu_aktif('wilayah')) show_404();
+
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
@@ -473,9 +479,12 @@ class First extends Web_Controller {
 
 	public function peraturan_desa()
 	{
+		if (!$this->web_menu_model->menu_aktif('peraturan_desa')) show_404();
+
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
+		$data['cek'] = $cek;
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading']="Produk Hukum";
@@ -508,6 +517,8 @@ class First extends Web_Controller {
 
 	public function informasi_publik()
 	{
+		if (!$this->web_menu_model->menu_aktif('informasi_publik')) show_404();
+
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
 
@@ -619,9 +630,11 @@ class First extends Web_Controller {
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
 		$data['flash_message'] = $this->session->flashdata('flash_message');
-		if (config_item('apbdes_footer') AND config_item('apbdes_footer_all'))
+		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
 		{
-			$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+			$data['transparansi'] = $this->setting->apbdes_manual_input
+				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
+				: $this->keuangan_grafik_model->grafik_keuangan_tema();
 		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
@@ -637,6 +650,8 @@ class First extends Web_Controller {
 
 	public function peta()
 	{
+		if (!$this->web_menu_model->menu_aktif('peta')) show_404();
+
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
