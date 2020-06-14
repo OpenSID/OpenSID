@@ -119,7 +119,7 @@
 		<?php $_SESSION['success']=0; ?>
 
 		<!-- Notifikasi Ganti Password Login -->
-		<?php if ($this->session->admin_warning && !config_item('demo')): ?>
+		<?php if ($this->session->admin_warning && !$this->setting->demo_mode): ?>
 			<script type="text/javascript">
 				<?php if (isset($_SESSION['dari_login'])): ?>
 					$(window).on('load', function()

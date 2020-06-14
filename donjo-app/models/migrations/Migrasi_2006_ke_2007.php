@@ -5,6 +5,7 @@ class Migrasi_2006_ke_2007 extends CI_model {
 	{
 		$this->data_apbdes_manual();
 		$this->konfigurasi_web();
+		$this->konfigurasi_rfm();
 	}
 
 	private function data_apbdes_manual()
@@ -541,24 +542,46 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		// Tambah menu Admin Web -> Konfigurasi
 		$query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
-			('211', 'Pengaturan', 'setting/web', '1', 'fa-gear', '11', '4', '13', '0', 'fa-gear')
+			(211, 'Pengaturan', 'setting/web', '1', 'fa-gear', '11', '4', '13', '0', 'fa-gear')
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
 		$this->db->query($query);
 
 		// Tambah parameter konfigurasi (sebelumnya parameter conf ini ada di /desa/config/config.php)
 		$query = "
-			INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
+			INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
 			(31, 'daftar_penerima_bantuan', '1', 'Apakah akan tampilkan daftar penerima bantuan di statistik halaman muka', 'boolean', 'conf_web'),
 			(32, 'apbdes_footer', '1', 'Apakah akan tampilkan grafik APBDes di halaman muka', 'boolean', 'conf_web'),
-			(33, 'apbdes_footer_all', '0', 'Apakah akan tampilkan grafik APBDes di semua halaman', 'boolean', 'conf_web'),
-			(34, 'apbdes_manual_input', '1', 'Apakah akan tampilkan grafik APBDes yang diinput secara manual', 'boolean', 'conf_web'),
+			(33, 'apbdes_footer_all', '1', 'Apakah akan tampilkan grafik APBDes di semua halaman', 'boolean', 'conf_web'),
+			(34, 'apbdes_manual_input', '0', 'Apakah akan tampilkan grafik APBDes yang diinput secara manual', 'boolean', 'conf_web'),
 			(35, 'covid_data', '1', 'Apakah akan tampilkan status Covid-19 Provinsi di halaman muka', 'boolean', 'conf_web'),
 			(36, 'covid_desa', '1', 'Apakah akan tampilkan status Covid-19 Desa di halaman muka', 'boolean', 'conf_web'),
 			(37, 'covid_rss', '0', 'Apakah akan tampilkan RSS Covid-19 di halaman muka', 'boolean', 'conf_web'),
 			(38, 'provinsi_covid', '51', 'Kode provinsi status Covid-19 ', '', 'conf_web'),
 			(39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web')
-			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
+			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori);
+		";
+		$this->db->query($query);
+	}
+
+	private function konfigurasi_rfm()
+	{
+		// Tambah menu Admin Web -> File Manager Key
+		$query = "
+			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES
+			(212, 'File Manager Key', 'setting/change_rfm_admin', 1, 'fa-key', 12, 4, 0, 'fa-key', 13)
+			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
+		";
+		$this->db->query($query);
+
+		// Tambah parameter konfigurasi (sebelumnya parameter conf ini ada di /desa/config/config.php)
+		$query = "
+			INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
+			(40, 'file_manager_key', 'GantiKunciDesa', 'Password untuk File Manager yg digunakan pada form isian artikel', '', ''),
+			(41, 'user_admin', '1', 'User id yg dapat membuat artikel berisi video yang aktif ditampilkan di Web', '', 'conf_web'),
+			(42, 'demo_mode', '1', 'Apakah akan tampilkan situs ini untuk demo', 'boolean', 'conf_web')
+			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori);
+		";
 		$this->db->query($query);
 	}
 

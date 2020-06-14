@@ -8,6 +8,8 @@ class Setting_model extends CI_Model {
 		$pre = array();
 		$CI = &get_instance();
 
+		$this->load->helper('file');
+
 		if ($this->setting)
 		{
 			return;
@@ -84,7 +86,6 @@ class Setting_model extends CI_Model {
 		{
 			$this->setting->dev_tracker = config_item('dev_tracker');
 		}
-		$this->setting->user_admin = config_item('user_admin');
 		// Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
 		$pos = strpos($this->setting->web_theme, 'desa/');
 		if ($pos !== false)
@@ -159,5 +160,69 @@ class Setting_model extends CI_Model {
 		                 ->get('setting_aplikasi_options')
 		                 ->result();
 		return $rows;
+	}
+
+	public function get_key($id = 0)
+	{
+		$sql = "SELECT * FROM setting_aplikasi WHERE id = ?";
+		$query = $this->db->query($sql, $id);
+		$data = $query->row_array();
+		return $data;
+	}
+
+	// Responsive Filemanager Key
+	public function update_key($id = 0)
+	{
+		$pass_baru = $this->input->post('pass_baru');
+		$pass_baru1 = $this->input->post('pass_baru1');
+
+		$pwHash = $pass_baru;
+		$salt = rand(100000, 999999);
+		$salt = strrev($salt);
+		$akey = MD5($pwHash.$salt);
+
+		$data['value'] = $akey;
+
+		$rfm = '<?php $config["file_manager"] ="';
+		$rfm1 = $akey;
+		$rfm2 = '";';
+		write_file(FCPATH . LOKASI_SID_INI . 'config_rfm.php', $rfm . $rfm1 . $rfm2);
+
+		$this->db->where('id', $id);
+		$hasil = $this->db->update('setting_aplikasi', $data);
+	}
+
+	// Responsive Filemanager Key digenerate ulang setiap kali login
+	public function update_key_salt($id = 0)
+	{
+		$id = 40;
+		$pwHash = $this->setting->file_manager_key;
+		$salt = rand(100000, 999999);
+		$salt = strrev($salt);
+		$akey = MD5($pwHash.$salt);
+
+		$data['value'] = $akey;
+
+		$rfm = '<?php $config["file_manager"] ="';
+		$rfm1 = $akey;
+		$rfm2 = '";';
+		write_file(FCPATH . LOKASI_SID_INI . 'config_rfm.php', $rfm . $rfm1 . $rfm2);
+
+		$this->db->where('id', $id);
+		$hasil = $this->db->update('setting_aplikasi', $data);
+	}
+
+	// Paksa untuk update database jika belum diupdate
+	public function push_update_db()
+	{
+		$sudah = false;
+		if ($this->db->table_exists('migrasi') )
+			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+				->get('migrasi')->num_rows();
+		if (!$sudah)
+		{
+			$this->load->model('database_model');
+			$this->database_model->migrasi_db_cri();
+		}
 	}
 }
