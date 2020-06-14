@@ -10,6 +10,7 @@ class Siteman extends CI_Controller
 		siteman_timeout();
 		$this->load->model('config_model');
 		$this->load->model('user_model');
+		$this->load->model('setting_model');
 	}
 
 	public function index()
@@ -39,6 +40,7 @@ class Siteman extends CI_Controller
 	public function auth()
 	{
 		$this->user_model->siteman();
+		$this->setting_model->push_update_db();
 
 		if ($_SESSION['siteman'] != 1)
 		{
@@ -46,10 +48,16 @@ class Siteman extends CI_Controller
 			redirect('siteman');
 		}
 
-		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && config_item('demo')))
+		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode))
 		{
 			// Password tidak memenuhi syarat kecuali di website demo
 			redirect('user_setting/change_pwd');
+		}
+
+		if ($this->setting->file_manager_key == $this->config->item('defaultFileManagerKey'))
+		{
+			// Penggantian Responsive Filemanager Key yang pertama kali
+			redirect('setting/change_rfm_web');
 		}
 
 		$_SESSION['dari_login'] = '1';
@@ -63,6 +71,8 @@ class Siteman extends CI_Controller
 		else
 		{
 			unset($_SESSION['request_uri']);
+			// Responsive Filemanager Key digenerate ulang setiap kali login
+			$this->setting_model->update_key_salt();
 			redirect('main');
 		}
 	}
