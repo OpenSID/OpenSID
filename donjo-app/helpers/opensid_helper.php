@@ -768,9 +768,14 @@ function nama_file($str)
 	return preg_replace('/[^a-zA-Z0-9\s]\./', '', strip_tags($str));
 }
 
+function alfanumerik($str)
+{
+	return preg_replace('/[^a-zA-Z0-9]/', '', htmlentities($str));
+}
+
 function alfanumerik_spasi($str)
 {
-	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', htmlentities($str));
 }
 
 function bilangan($str)
