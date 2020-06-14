@@ -216,7 +216,7 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("pwdLength", function(value, element) {
 		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(value);
 		return this.optional(element) || valid;
-	}, "Harus 6 sampai 20 characters dan sekurangnya berisi satu angka atau satu hurup uppercase atau satu hurup lowercase");
+	}, "Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil");
 
 	$('.pwdLength').each(function() {
 		$(this).rules("add",
@@ -224,5 +224,11 @@ $(document).ready(function() {
 				pwdLength: true,
 			});
 	});
+
+	// Untuk donjo-app/views/man_user/manajemen_user_form.php di mana 'radiisi' berarti password tidak diubah
+	jQuery.validator.addMethod("pwdLength_atau_kosong", function(value, element) {
+		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(value);
+		return this.optional(element) || valid || value == 'radiisi';
+	}, "Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil");
 
 })

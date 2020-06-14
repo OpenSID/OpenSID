@@ -39,13 +39,19 @@
 									<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
 								</h3>
 							</div>
-							<hr />
+							<div class="alert alert-danger">
+								<?php if ($this->session->success == -1): ?>
+									<?= $this->session->error_msg ?>
+								<?php else: ?>
+									Kata sandi anda tidak memenuhi syarat keamanan dan harus diganti
+								<?php endif; ?>
+							</div>
 						</div>
 						<div class="form-bottom">
-							<form action="<?=site_url("user_setting/update/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
+							<form action="<?=site_url("user_setting/update_password/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required" type="password" name="pass_lama" placeholder="Password Lama" ></input>
+										<input class="form-control input-sm required" type="password" name="pass_lama" placeholder="Kata Sandi Lama" ></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
@@ -53,7 +59,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required pwdLength" type="password" id="pass_baru" name="pass_baru" placeholder="Password Baru"></input>
+										<input class="form-control input-sm required pwdLength" type="password" id="pass_baru" name="pass_baru" placeholder="Kata Sandi Baru"></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
@@ -61,14 +67,14 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required pwdLength" type="password" id="pass_baru1" name="pass_baru1" placeholder="Password Baru (Ulangi)"></input>
+										<input class="form-control input-sm required pwdLength" type="password" id="pass_baru1" name="pass_baru1" placeholder="Kata Sandi Baru (Ulangi)"></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
 									</div>
 								</div>
 								<hr />
-								<button type="submit" id="btnSubmit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan Password</button>
+								<button type="submit" id="btnSubmit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i>Simpan</button>
 							</form>
 							<hr/>
 							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
@@ -83,6 +89,7 @@
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script>
 $('document').ready(function()
 {
@@ -96,17 +103,11 @@ $('document').ready(function()
 		}
 	});
 
-	$(function () {
-		$("#btnSubmit").click(function () {
-			var password = $("#pass_baru").val();
-			var confirmPassword = $("#pass_baru1").val();
-			if (password != confirmPassword) {
-				alert("Password Baru dan Password Baru (Ulangi) Tidak Sama.");
-				return false;
-			}
-			return true;
-		});
-	});
+	setTimeout(function() {
+		$('#pass_baru1').rules('add', {
+			equalTo: '#pass_baru'
+		})
+	}, 500);
 
 });
 </script>

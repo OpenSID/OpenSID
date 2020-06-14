@@ -109,22 +109,15 @@ class User_model extends CI_Model {
 		}
 	}
 
-  /**
-   * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
-   */
-  public function validate_admin_has_changed_password()
-  {
-		$_SESSION['admin_warning'] = '';
-    $auth = $this->config->item('defaultAdminAuthInfo');
+	// Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
+	public function syarat_sandi()
+	{
+		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $this->_password))
+			return TRUE;
+		else
+			return FALSE;
+	}
 
-    if ($this->_username == $auth['username'] && $this->_password == $auth['password'])
-    {
-      $_SESSION['admin_warning'] = array(
-        'Pemberitahuan Keamanan Akun',
-        'Penting! Password anda harus diganti demi keamanan.',
-      );
-    }
-  }
 
 	public function sesi_grup($sesi = '')
 	{
@@ -291,7 +284,7 @@ class User_model extends CI_Model {
 		$_SESSION['error_msg'] = NULL;
 		$_SESSION['success'] = 1;
 
-		$data = $this->input->post(NULL);
+		$data = $this->sterilkan_input($this->input->post());
 
 		$sql = "SELECT username FROM user WHERE username = ?";
 		$dbQuery = $this->db->query($sql, array($data['username']));
@@ -319,6 +312,19 @@ class User_model extends CI_Model {
 		}
 	}
 
+	private function sterilkan_input($post)
+	{
+		$data = [];
+		$data['password'] = $post['password'];
+		if (isset($post['username'])) $data['username'] = alfanumerik($post['username']);
+		if (isset($post['nama'])) $data['nama'] = alfanumerik_spasi($post['nama']);
+		if (isset($post['email'])) $data['phone'] = htmlentities($post['phone']);
+		if (isset($post['username'])) $data['email'] = htmlentities($post['email']);
+		if (isset($post['id_grup'])) $data['id_grup'] = $post['id_grup'];
+		if (isset($post['foto'])) $data['foto'] = $post['foto'];
+		return $data;
+	}
+
 	/**
 	 * Update data user
 	 * @param   integer  $idUser  Id user di database
@@ -329,7 +335,7 @@ class User_model extends CI_Model {
 		$_SESSION['error_msg'] = NULL;
 		$_SESSION['success'] = 1;
 
-		$data = $this->input->post(NULL);
+		$data = $this->sterilkan_input($this->input->post());
 
 		if (empty($idUser))
 		{
@@ -347,7 +353,8 @@ class User_model extends CI_Model {
 			redirect('man_user');
 		}
 
-		if ($idUser == 1 && config_item('demo'))
+		// radiisi menandakan password tidak diubah
+		if (($idUser == 1 && config_item('demo')) || $data['password'] == 'radiisi')
 		{
 			unset($data['username'], $data['password']);
 		}
@@ -433,90 +440,92 @@ class User_model extends CI_Model {
 	}
 
 	/**
+	 * Update password
+	 * @param  integer $id Id user di database
+	 * @return void
+	 */
+	public function update_password($id = 0)
+	{
+		$data = $this->periksa_input_password($id);
+		if (!empty($data))
+		{
+			$hasil = $this->db->where('id', $id)
+				->update('user', $data);
+			status_sukses($hasil, $gagal_saja=true);
+		}
+	}
+
+	private function periksa_input_password($id)
+	{
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+		$password = $this->input->post('pass_lama');
+		$pass_baru = $this->input->post('pass_baru');
+		$pass_baru1 = $this->input->post('pass_baru1');
+		$data = [];
+
+		// Jangan edit password admin apabila di situs demo
+		if ($id == 1 && config_item('demo'))
+		{
+		  unset($data['password']);
+		  return $data;
+		}
+
+		// Ganti password
+		if ($this->input->post('pass_lama') != ''
+		|| $pass_baru != '' || $pass_baru1 != '')
+		{
+			$sql = "SELECT password,username,id_grup,session FROM user WHERE id = ?";
+			$query = $this->db->query($sql, array($id));
+			$row = $query->row();
+			// Cek input password
+			if (password_verify($password, $row->password) === FALSE)
+			{
+				$_SESSION['error_msg'] .= ' -> Kata sandi lama salah<br />';
+			}
+
+			if (empty($pass_baru1))
+			{
+				$_SESSION['error_msg'] .= ' -> Kata sandi baru tidak boleh kosong<br />';
+			}
+
+			if ($pass_baru != $pass_baru1)
+			{
+				$_SESSION['error_msg'] .= ' -> Kata sandi baru tidak cocok<br />';
+			}
+
+			if (!empty($_SESSION['error_msg']))
+			{
+				$_SESSION['success'] = -1;
+			}
+			// Cek input password lolos
+			else
+			{
+				$_SESSION['success'] = 1;
+				// Buat hash password
+				$pwHash = $this->generatePasswordHash($pass_baru);
+				// Cek kekuatan hash lolos, simpan ke array data
+				$data['password'] = $pwHash;
+			}
+		}
+		return $data;
+	}
+
+	/**
 	 * Update user's settings
 	 * @param  integer $id Id user di database
 	 * @return void
 	 */
 	public function update_setting($id = 0)
 	{
-		$_SESSION['success'] = 1;
-		$_SESSION['error_msg'] = '';
-		$data['nama'] = strip_tags($this->input->post('nama'));
-		$password = $this->input->post('pass_lama');
-		$pass_baru = $this->input->post('pass_baru');
-		$pass_baru1 = $this->input->post('pass_baru1');
+		$data = $this->periksa_input_password($id);
 
-		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && config_item('demo'))
-		{
-		  unset($data['password']);
-		}
-		// Ganti password
-		else
-		{
-			if ($this->input->post('pass_lama') != ''
-			|| $pass_baru != '' || $pass_baru1 != '')
-			{
-				$sql = "SELECT password,username,id_grup,session FROM user WHERE id = ?";
-				$query = $this->db->query($sql, array($id));
-				$row = $query->row();
-				// Cek input password
-				if (password_verify($password, $row->password) === FALSE)
-				{
-					$_SESSION['error_msg'] .= ' -> Password lama salah<br />';
-				}
-
-				if (empty($pass_baru1))
-				{
-					$_SESSION['error_msg'] .= ' -> Password baru tidak boleh kosong<br />';
-				}
-
-				if ($pass_baru != $pass_baru1)
-				{
-					$_SESSION['error_msg'] .= ' -> Password baru tidak cocok<br />';
-				}
-				$this->_username = $row->username;
-				$this->_password = $pass_baru;
-				$this->validate_admin_has_changed_password();
-				$_SESSION['dari_login'] = '1';
-
-				if (!empty($_SESSION['admin_warning']))
-				{
-					$_SESSION['error_msg'] .= $_SESSION['admin_warning'][1];
-				}
-
-				if (!empty($_SESSION['error_msg']))
-				{
-					$_SESSION['success'] = -1;
-				}
-				// Cek input password lolos
-				else
-				{
-					$_SESSION['success'] = 1;
-					// Buat hash password
-					$pwHash = $this->generatePasswordHash($pass_baru);
-					// Cek kekuatan hash lolos, simpan ke array data
-					$data['password'] = $pwHash;
-					unset($_SESSION['admin_warning']);
-				}
-
-			}
-		}
-
+		$data['nama'] = alfanumerik_spasi($this->input->post('nama'));
 		// Update foto
 		$data['foto'] = $this->urusFoto($id);
-
-		$this->db->where('id', $id);
-		$hasil = $this->db->update('user', $data);
-
-		if (!$hasil)
-		{
-			$_SESSION['success'] = -1;
-		}
-		elseif ($_SESSION['success'] === 1)
-		{
-			unset($_SESSION['admin_warning']);
-		}
+		$hasil = $this->db->where('id', $id)
+			->update('user', $data);
+		status_sukses($hasil, $gagal_saja=true);
 	}
 
 	public function list_grup()
@@ -829,22 +838,6 @@ class User_model extends CI_Model {
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller[0]]);
-	}
-
-	function getPwdStatus()
-	{
-		$_SESSION['admin_warning'] = '';
-    $auth = $this->config->item('defaultAdminAuthInfo');
-
-    if ($this->_username == $auth['username'] && $this->_password == $auth['password'])
-		{
-			$this->db->select('BaseTbl.active');
-			$this->db->where('BaseTbl.username', $auth['username']);
-			$this->db->limit(1);
-			$query = $this->db->get('user as BaseTbl');
-
-			return $query->row();
-		}
 	}
 
 }
