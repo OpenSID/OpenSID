@@ -174,10 +174,11 @@ class Web_menu_model extends MY_Model {
 
 	public function insert_sub_menu($menu=0)
 	{
-		$data = $_POST;
+		$data = [];
 		$data['parrent'] = $menu;
 		$data['tipe'] = 3;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
+		$data['nama'] = htmlentities($this->input->post('nama'));
 		$outp = $this->db->insert('menu', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -185,7 +186,8 @@ class Web_menu_model extends MY_Model {
 
 	public function update_sub_menu($id=0)
 	{
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = htmlentities($this->input->post('nama'));
 		if ($data['link'] == "")
 		{
 			UNSET($data['link']);
