@@ -46,9 +46,9 @@ class Siteman extends CI_Controller
 			redirect('siteman');
 		}
 
-		if (!$this->user_model->syarat_sandi())
+		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && config_item('demo')))
 		{
-			// Password tidak memenuhi syarat
+			// Password tidak memenuhi syarat kecuali di website demo
 			redirect('user_setting/change_pwd');
 		}
 
