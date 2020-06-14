@@ -4,7 +4,7 @@ define("VERSION", '20.06-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020060102');
+define('VERSI_DATABASE', '2020060103');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -790,7 +790,7 @@ function bilangan_titik($str)
 
 function nomor_surat_keputusan($str)
 {
-	return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', htmlentities($str));
+	return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', strip_tags($str));
 }
 
 // Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip

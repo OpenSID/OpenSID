@@ -36,6 +36,8 @@ $config['defaultAdminAuthInfo'] = array(
     'password'=> 'sid304'
 );
 
+$config['defaultFileManagerKey'] = 'GantiKunciDesa';
+
 // ==========================================================================
 
 // Konfigurasi tambahan untuk aplikasi

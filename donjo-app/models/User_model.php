@@ -347,7 +347,7 @@ class User_model extends CI_Model {
 			redirect('man_user');
 		}
 
-		if ($idUser == 1 && config_item('demo'))
+		if ($idUser == 1 && $this->setting->demo_mode)
 		{
 			unset($data['username'], $data['password']);
 		}
@@ -372,7 +372,7 @@ class User_model extends CI_Model {
 		// Jangan hapus admin
 		if ($idUser == 1) return;
 
-		if (!$semua) 
+		if (!$semua)
 		{
 			$this->session->success = 1;
 			$this->session->error_msg = '';
@@ -447,7 +447,7 @@ class User_model extends CI_Model {
 		$pass_baru1 = $this->input->post('pass_baru1');
 
 		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && config_item('demo'))
+		if ($id == 1 && $this->setting->demo_mode)
 		{
 		  unset($data['password']);
 		}
@@ -659,7 +659,7 @@ class User_model extends CI_Model {
 	{
 		$controller = explode('/', $controller);
 		// Demo tidak boleh mengakses menu tertentu
-		if (config_item('demo'))
+		if ($this->setting->demo_mode)
 		{
 			if (in_array($akses, $this->larangan_demo[$controller[0]]))
 			{
@@ -673,8 +673,8 @@ class User_model extends CI_Model {
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
-		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul 
-		// pada komponen Admin. 
+		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul
+		// pada komponen Admin.
 		$hak_akses = array(
 			// Operator
 			2 => array(
@@ -686,16 +686,16 @@ class User_model extends CI_Model {
 				'hom_desa' => array('b','u'),
 				'sid_core' => array('b','u'),
 				'pengurus' => array('b','u'),
-				
+
 				// kependudukan
 				'penduduk' => array('b','u'),
 					// Penduduk
-					'penduduk_log' => array('b','u'), 
+					'penduduk_log' => array('b','u'),
 				'keluarga' => array('b','u'),
 				'rtm' => array('b','u'),
 				'kelompok' => array('b','u'),
 					// kelompok
-					'kelompok_master' => array('b','u'), 
+					'kelompok_master' => array('b','u'),
 				'suplemen' => array('b','u'),
 				'dpt' => array('b','u'),
 
@@ -703,7 +703,7 @@ class User_model extends CI_Model {
 				'statistik' => array('b','u'),
 				'laporan' => array('b','u'),
 				'laporan_rentan' => array('b','u'),
-				
+
 				// layanan surat
 				'surat_master' => array('b','u'),
 				'surat' => array('b','u'),
@@ -717,19 +717,19 @@ class User_model extends CI_Model {
 				'dokumen_sekretariat' => array('b','u'),
 				'dokumen' => array('b','u'),
 					// inventaris
-					'api_inventaris_asset' => array('b','u'), 
-					'api_inventaris_gedung' => array('b','u'), 
-					'api_inventaris_jalan' => array('b','u'), 
-					'api_inventaris_kontruksi' => array('b','u'), 
-					'api_inventaris_peralatan' => array('b','u'), 
-					'api_inventaris_tanah' => array('b','u'), 
-					'inventaris_asset' => array('b','u'), 
-					'inventaris_gedung' => array('b','u'), 
-					'inventaris_jalan' => array('b','u'), 
-					'inventaris_kontruksi' => array('b','u'), 
-					'inventaris_peralatan' => array('b','u'), 
-					'inventaris_tanah' => array('b','u'), 
-					'laporan_inventaris' => array('b','u'), 
+					'api_inventaris_asset' => array('b','u'),
+					'api_inventaris_gedung' => array('b','u'),
+					'api_inventaris_jalan' => array('b','u'),
+					'api_inventaris_kontruksi' => array('b','u'),
+					'api_inventaris_peralatan' => array('b','u'),
+					'api_inventaris_tanah' => array('b','u'),
+					'inventaris_asset' => array('b','u'),
+					'inventaris_gedung' => array('b','u'),
+					'inventaris_jalan' => array('b','u'),
+					'inventaris_kontruksi' => array('b','u'),
+					'inventaris_peralatan' => array('b','u'),
+					'inventaris_tanah' => array('b','u'),
+					'laporan_inventaris' => array('b','u'),
 				'klasifikasi' => array('b','u'),
 
 				// keuangan
@@ -749,10 +749,10 @@ class User_model extends CI_Model {
 					// laporan analisis
 					'analisis_laporan' => array('b','u'),
 					'analisis_statistik_jawaban' => array('b','u'),
-				
+
 				// bantuan
 				'program_bantuan' => array('b','u'),
-				
+
 				// pertanahan
 				'data_persil' => array('b','u'),
 
@@ -765,10 +765,10 @@ class User_model extends CI_Model {
 				'line' => array('b','u'),
 				'area' => array('b','u'),
 				'polygon' => array('b','u'),
-				
+
 				// sms
 				'sms' => array('b','u'),
-				
+
 				// pengaturan
 				'modul' => array('b','u'),
 
@@ -784,16 +784,16 @@ class User_model extends CI_Model {
 				'teks_berjalan' => array('b','u'),
 				'pengunjung' => array('b','u'),
 
-				// layanan mandiri				
+				// layanan mandiri
 				'permohonan_surat_admin' => array('b', 'u'),
 				'mailbox' => array('b','u'),
 				'mandiri' => array('b','u'),
-				
-				// --- Controller berikut diakses di luar menu navigasi modul 
+
+				// --- Controller berikut diakses di luar menu navigasi modul
 
 				// notifikasi
 				'notif' => array('b','u'),
-				
+
 				// wilayah
 				'wilayah' => array('b')
 			),
@@ -802,7 +802,7 @@ class User_model extends CI_Model {
 				// admin web
 				'web' => array('b','u'),
 				'komentar' => array('b','u'),
-				
+
 				// notifikasi
 				'notif' => array('b','u')
 			),
@@ -811,7 +811,7 @@ class User_model extends CI_Model {
 				// admin web
 				'web' => array('b','u'),
 				'komentar' => array('b','u'),
-				
+
 				// notifikasi
 				'notif' => array('b','u')
 			),
@@ -829,6 +829,22 @@ class User_model extends CI_Model {
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller[0]]);
+	}
+
+	function getPwdStatus()
+	{
+		$_SESSION['admin_warning'] = '';
+    $auth = $this->config->item('defaultAdminAuthInfo');
+
+    if ($this->_username == $auth['username'] && $this->_password == $auth['password'])
+		{
+			$this->db->select('BaseTbl.active');
+			$this->db->where('BaseTbl.username', $auth['username']);
+			$this->db->limit(1);
+			$query = $this->db->get('user as BaseTbl');
+
+			return $query->row();
+		}
 	}
 
 }
