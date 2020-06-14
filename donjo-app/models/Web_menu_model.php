@@ -98,10 +98,10 @@ class Web_menu_model extends MY_Model {
 
 	public function insert($tip=1)
 	{
-		$data = $_POST;
+		$data = [];
 		$data['tipe'] = $tip;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
-		$data['nama'] = strip_tags($data['nama']);
+		$data['nama'] = htmlentities($this->input->post('nama'));
 		$outp = $this->db->insert('menu',$data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -109,8 +109,8 @@ class Web_menu_model extends MY_Model {
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		$data['nama'] = strip_tags($data['nama']);
+		$data = [];
+		$data['nama'] = htmlentities($this->input->post('nama'));
 		if ($data['link']=="")
 			UNSET($data['link']);
 
