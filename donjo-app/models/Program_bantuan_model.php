@@ -823,8 +823,23 @@ class Program_bantuan_model extends CI_Model {
 			'status' => $this->input->post('status')
 		);
 
+		$this->validasi_bantuan($data);
+
 		return $this->db->insert('program', $data);
 	}
+
+	private function validasi_bantuan(&$data)
+	{
+		// Bersihkan data
+		$data['sasaran'] = htmlentities($data['sasaran']);
+		$data['nama'] = nama($data['nama']);
+		$data['ndesc'] = nama($data['ndesc']);
+		$data['asaldana'] = htmlentities($data['asaldana']);
+		$data['sdate'] = htmlentities($data['sdate']);
+		$data['edate'] = htmlentities($data['edate']);	
+		$data['status'] = htmlentities($data['status']);
+	}
+
 
 	public function add_peserta($program_id)
 	{
@@ -864,12 +879,12 @@ class Program_bantuan_model extends CI_Model {
 
 	public function validasi($post)
 	{
-		$data['no_id_kartu'] = $post['no_id_kartu'];
-		$data['kartu_nik'] = $post['kartu_nik'];
-		$data['kartu_nama'] = htmlentities($post['kartu_nama']);
-		$data['kartu_tempat_lahir'] = htmlentities($post['kartu_tempat_lahir']);
+		$data['no_id_kartu'] = bilangan($post['no_id_kartu']);
+		$data['kartu_nik'] = bilangan($post['kartu_nik']);
+		$data['kartu_nama'] = nama(htmlentities($post['kartu_nama']));
+		$data['kartu_tempat_lahir'] = alamat(htmlentities($post['kartu_tempat_lahir']));
 		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
-		$data['kartu_alamat'] = htmlentities($post['kartu_alamat']);
+		$data['kartu_alamat'] = alamat(htmlentities($post['kartu_alamat']));
 
 		return $data;
 	}
@@ -971,16 +986,21 @@ class Program_bantuan_model extends CI_Model {
 
 	public function update_program($id)
 	{
-		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
-		`nama`='".fixSQL($this->input->post('nama'))."',
-		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
-		`sdate`='".date("Y-m-d",strtotime($this->input->post('sdate')))."',
-		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."',
-		`status`='".$this->input->post('status')."',
-		`asaldana`='".$this->input->post('asaldana')."'
-		 WHERE id=".$id;
+		
+		$data = array(
+			'sasaran' => $this->input->post('cid'),
+			'nama' => fixSQL($this->input->post('nama')),
+			'ndesc' => fixSQL($this->input->post('ndesc')),
+			'sdate' => date("Y-m-d",strtotime($this->input->post('sdate'))),
+			'edate' => date("Y-m-d",strtotime($this->input->post('edate'))),
+			'asaldana' => $this->input->post('asaldana'),
+			'status' => $this->input->post('status')
+		);
 
-		$hasil = $this->db->query($strSQL);
+		$this->validasi_bantuan($data);
+		$this->db->where('id', $id);
+		$hasil = $this->db->update('program', $data);
+
 		if ($hasil)
 		{
 			$_SESSION["success"] = 1;

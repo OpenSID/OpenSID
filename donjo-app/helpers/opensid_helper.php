@@ -799,6 +799,11 @@ function nama($str)
 	return preg_replace("/[^a-zA-Z '\.,\-]/", '', strip_tags($str));
 }
 
+// Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring
+function alamat($str)
+{
+	return preg_replace("/[^a-zA-Z0-9 \.,\-]/", '', htmlentities($str));
+}
 function buat_slug($data_slug)
 {
 	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
