@@ -8,6 +8,8 @@ class Setting extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('theme_model');
+		$this->load->model('config_model');
+		$this->load->model('user_model');
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
 	}
@@ -60,6 +62,43 @@ class Setting extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('setting/setting_form', $data);
 		$this->load->view('footer');
+	}
+
+	public function change_rfm_web()
+	{
+		$id = 40;
+		$data['main'] = $this->setting_model->get_key($id);
+		$data['header'] = $this->config_model->get_data();
+		$this->load->view('setting_rfm', $data);
+	}
+
+	public function change_rfm_admin()
+	{
+		$this->modul_ini = 13;
+		$this->sub_modul_ini = 212;
+
+		$id = 40;
+
+		$header = $this->header_model->get_data();
+		$data['main'] = $this->setting_model->get_key($id);
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('setting/setting_rfm', $data);
+		$this->load->view('footer');
+	}
+
+	public function update_key($id = '')
+	{
+		$this->setting_model->update_key($id);
+		$this->user_model->logout();
+		redirect("main");
+	}
+
+	public function update_key_admin($id = '')
+	{
+		$this->setting_model->update_key($id);
+		redirect("setting/change_rfm_admin");
 	}
 
 }

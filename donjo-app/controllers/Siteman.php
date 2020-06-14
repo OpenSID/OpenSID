@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Siteman extends CI_Controller 
+class Siteman extends CI_Controller
 {
 
 	public function __construct()
@@ -43,6 +43,8 @@ class Siteman extends CI_Controller
 		if ($_SESSION['siteman'] == 1)
 		{
 			$this->user_model->validate_admin_has_changed_password();
+			$this->setting_model->push_update_db();
+
 			$_SESSION['dari_login'] = '1';
 			// Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
 			if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === false)
@@ -51,9 +53,18 @@ class Siteman extends CI_Controller
 				unset($_SESSION['request_uri']);
 				redirect($request_awal);
 			}
+			elseif ($this->user_model->getPwdStatus() == TRUE)
+			{
+					redirect('user_setting/change_pwd');
+			}
+			elseif ($this->setting->file_manager_key == $this->config->item('defaultFileManagerKey'))
+			{
+					redirect('setting/change_rfm_web');
+			}
 			else
 			{
 				unset($_SESSION['request_uri']);
+				$this->setting_model->update_key_salt();
 				redirect('main');
 			}
 		}
