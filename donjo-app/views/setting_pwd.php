@@ -59,7 +59,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required pwdLength" type="password" id="pass_baru" name="pass_baru" placeholder="Kata Sandi Baru"></input>
+										<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" placeholder="Kata Sandi Baru"></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
@@ -67,7 +67,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required pwdLength" type="password" id="pass_baru1" name="pass_baru1" placeholder="Kata Sandi Baru (Ulangi)"></input>
+										<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" placeholder="Kata Sandi Baru (Ulangi)"></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
