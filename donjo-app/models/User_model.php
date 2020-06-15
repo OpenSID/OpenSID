@@ -109,10 +109,10 @@ class User_model extends CI_Model {
 		}
 	}
 
-	// Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
+	//Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus
 	public function syarat_sandi()
 	{
-		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $this->_password))
+		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/', $this->_password))
 			return TRUE;
 		else
 			return FALSE;
@@ -354,7 +354,7 @@ class User_model extends CI_Model {
 		}
 
 		// radiisi menandakan password tidak diubah
-		if (($idUser == 1 && config_item('demo')) || $data['password'] == 'radiisi')
+		if (($idUser == 1 && $this->setting->demo_mode) || $data['password'] == 'radiisi')
 		{
 			unset($data['username'], $data['password']);
 		}
@@ -465,7 +465,7 @@ class User_model extends CI_Model {
 		$data = [];
 
 		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && config_item('demo'))
+		if ($id == 1 && $this->setting->demo_mode)
 		{
 		  unset($data['password']);
 		  return $data;
@@ -668,7 +668,7 @@ class User_model extends CI_Model {
 	{
 		$controller = explode('/', $controller);
 		// Demo tidak boleh mengakses menu tertentu
-		if (config_item('demo'))
+		if ($this->setting->demo_mode)
 		{
 			if (in_array($akses, $this->larangan_demo[$controller[0]]))
 			{
