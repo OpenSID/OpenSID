@@ -61,7 +61,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="password">Password</label>
 								<div class="col-sm-8">
-									<input id="password" name="password" class="form-control input-sm required pwdLength_atau_kosong" type="password" placeholder="Password" <?php if ($user): ?>value="radiisi"<?php endif ?> ></input>
+									<input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Password" <?php if ($user): ?>value="radiisi"<?php endif ?> ></input>
 								</div>
 							</div>
 							<div class="form-group">
