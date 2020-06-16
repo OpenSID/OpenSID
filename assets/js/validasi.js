@@ -234,23 +234,4 @@ $(document).ready(function() {
 		return this.optional(element) || valid || value == 'radiisi';
 	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
 
-	// Ketentuan kata sandi tanpa karakter khusus untuk RFM Key
-	jQuery.validator.addMethod("pwdLength", function(value, element) {
-		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(value);
-		return this.optional(element) || valid;
-	}, "Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil");
-
-	$('.pwdLength').each(function() {
-		$(this).rules("add",
-			{
-				pwdLength: true,
-			});
-	});
-
-	// Ketentuan kata sandi tanpa karakter khusus untuk RFM Key
-	jQuery.validator.addMethod("pwdLength_atau_kosong", function(value, element) {
-		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/.test(value);
-		return this.optional(element) || valid || value == 'radiisi';
-	}, "Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil");
-
 })
