@@ -27,7 +27,7 @@
 									<?php if ($kategori): ?>
 										<input name="kategori_lama" type="hidden" value="<?=$kategori['kategori']?>">
 									<?php endif; ?>
-									<input name="kategori" class="form-control input-sm required" type="text" value="<?=$kategori['kategori']?>"></input>
+									<input name="kategori" class="form-control input-sm required nomor_sk" maxlength="50" type="text" value="<?=$kategori['kategori']?>"></input>
 								</div>
 							</div>
 						</div>
