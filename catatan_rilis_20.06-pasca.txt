@@ -28,7 +28,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 22. #3027: Pilihan peserta program bantuan sasaran keluarga sekarang termasuk penduduk dengan hubungan keluarga suami/istri dan anak.
 23. #3179: Tambahkan validasi dan pembersihan data form Album dan Gambar Album. [security-fix]
 24. #3190: Pindahkan daftar program bantuan untuk Keluarga dari form Ubah Data KK ke halaman Daftar Anggota Keluarga.
-25. #3055: Kata sandi pengguna yg tdk memenuhi syarat, termasuk password default, harus diganti pada waktu login. Sekarang semua kata sandi pengguna harus memenuhi syarat. [security-fix]
+25. #3055: Kata sandi pengguna yg tdk memenuhi syarat, termasuk password default, harus diganti pada waktu login. Sekarang semua kata sandi pengguna harus memenuhi syarat. Gunakan ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST).[security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
