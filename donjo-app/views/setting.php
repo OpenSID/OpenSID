@@ -31,11 +31,11 @@
 						</div>
 						<div class="form-group">
 							<label for="catatan">Kata Sandi Baru</label>
-							<input class="form-control input-sm required pwdLength" type="password" id="pass_baru" name="pass_baru" ></input>
+							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Kata Sandi Baru (Ulangi)</label>
-							<input class="form-control input-sm required pwdLength" type="password" id="pass_baru1" name="pass_baru1" ></input>
+							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Ganti Foto</label>
