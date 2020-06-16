@@ -96,7 +96,8 @@ class Setting_model extends CI_Model {
 				$this->setting->web_theme = "default";
 			}
 		}
-		$this->setting->demo_mode = config_item('demo_mode');
+		//Semua Pengaturan di /desa/config/config.php sudah pindah ke Admin Web -> Pengaturan
+		//$this->setting->demo_mode = config_item('demo_mode');
 		$this->cek_migrasi();
 	}
 
