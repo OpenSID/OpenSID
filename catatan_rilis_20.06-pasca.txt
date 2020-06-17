@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi, Rudy Purwanto, masumo dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi, Rudy Purwanto, Ians Shinichi Kudo, masumo dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 
@@ -30,6 +30,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 24. #3190: Pindahkan daftar program bantuan untuk Keluarga dari form Ubah Data KK ke halaman Daftar Anggota Keluarga.
 25. #3055: Kata sandi pengguna yg tdk memenuhi syarat, termasuk password default, harus diganti pada waktu login. Sekarang semua kata sandi pengguna harus memenuhi syarat. Gunakan ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST).[security-fix]
 26. #3178: Perbaiki validasi isian form Admin Web > Menu. [security-fix]
+27. #3173: Perbaiki validasi isian form program dan peserta Bantuan. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

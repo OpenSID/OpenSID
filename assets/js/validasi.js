@@ -247,10 +247,16 @@ $(document).ready(function() {
 			});
 	});
 
-	// Ketentuan kata sandi tanpa karakter khusus untuk RFM Key
-	jQuery.validator.addMethod("pwdLength_atau_kosong", function(value, element) {
-		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/.test(value);
-		return this.optional(element) || valid || value == 'radiisi';
-	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil");
+	jQuery.validator.addMethod("alamat", function(value, element) {
+		valid = /^[a-zA-Z0-9 \.,\-\/]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring");
 
+	$('.alamat').each(function() {
+		$(this).rules("add",
+			{
+				alamat: true,
+			});
+	});
+>>>>>>> master
 })
