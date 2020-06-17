@@ -41,7 +41,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3" for="nama">Nama Program</label>
 								<div class="col-sm-8">
-									<input name="nama" class="form-control input-sm" placeholder="Nama Program"  type="text" value="<?= $data["nama"]; ?>"></input>
+									<input name="nama" class="form-control input-sm nomor_sk" maxlength="100" placeholder="Nama Program"  type="text" value="<?= $data["nama"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
