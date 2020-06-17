@@ -363,7 +363,7 @@ $config = array(
 		'create_folders'								=> true,
 		'delete_folders'								=> true,
 		'upload_files'									=> true,
-		'rename_files'									=> true,
+		'rename_files'									=> false,
 		'rename_folders'								=> true,
 		'duplicate_files'								=> true,
 		'extract_files'									=> true,
@@ -371,9 +371,9 @@ $config = array(
 		'copy_cut_dirs'									=> true, // for copy/cut directories
 		'chmod_files'										=> true, // change file permissions
 		'chmod_dirs'										=> true, // change folder permissions
-		'preview_text_files'						=> true, // eg.: txt, log etc.
-		'edit_text_files'								=> true, // eg.: txt, log etc.
-		'create_text_files'							=> true, // only create files with exts. defined in $config['editable_text_file_exts']
+		'preview_text_files'						=> false, // eg.: txt, log etc.
+		'edit_text_files'								=> false, // eg.: txt, log etc.
+		'create_text_files'							=> false, // only create files with exts. defined in $config['editable_text_file_exts']
 		'download_files'								=> true, // allow download files or just preview
 
 		// you can preview these type of files if $preview_text_files is true
@@ -405,7 +405,8 @@ $config = array(
 		//Allowed extensions (lowercase insert)
 		//**********************
 		'ext_img'												=> array( 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'ico' ), //Images
-		'ext_file'											=> array( 'doc', 'docx', 'rtf', 'pdf', 'xls', 'xlsx', 'txt', 'csv', 'html', 'xhtml', 'psd', 'sql', 'log', 'fla', 'xml', 'ade', 'adp', 'mdb', 'accdb', 'ppt', 'pptx', 'odt', 'ots', 'ott', 'odb', 'odg', 'otp', 'otg', 'odf', 'ods', 'odp', 'css', 'ai', 'kmz','dwg', 'dxf', 'hpgl', 'plt', 'spl', 'step', 'stp', 'iges', 'igs', 'sat', 'cgm', 'tiff',''), //Files
+		'ext_file'											=> array(),
+		// 'ext_file'											=> array( 'doc', 'docx', 'rtf', 'pdf', 'xls', 'xlsx', 'txt', 'csv', 'html', 'xhtml', 'psd', 'sql', 'log', 'fla', 'xml', 'ade', 'adp', 'mdb', 'accdb', 'ppt', 'pptx', 'odt', 'ots', 'ott', 'odb', 'odg', 'otp', 'otg', 'odf', 'ods', 'odp', 'css', 'ai', 'kmz','dwg', 'dxf', 'hpgl', 'plt', 'spl', 'step', 'stp', 'iges', 'igs', 'sat', 'cgm', 'tiff',''), //Files
 		'ext_video'											=> array( 'mov', 'mpeg', 'm4v', 'mp4', 'avi', 'mpg', 'wma', "flv", "webm" ), //Video
 		'ext_music'											=> array( 'mp3', 'mpga', 'm4a', 'ac3', 'aiff', 'mid', 'ogg', 'wav' ), //Audio
 		'ext_misc'											=> array( 'zip', 'rar', 'gz', 'tar', 'iso', 'dmg' ), //Archives
