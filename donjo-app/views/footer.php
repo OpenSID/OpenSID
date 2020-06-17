@@ -118,20 +118,6 @@
 		</script>
 		<?php $_SESSION['success']=0; ?>
 
-		<!-- Notifikasi Ganti Password Login -->
-		<?php if ($this->session->admin_warning && !config_item('demo')): ?>
-			<script type="text/javascript">
-				<?php if (isset($_SESSION['dari_login'])): ?>
-					$(window).on('load', function()
-					{
-						$('#massageBox').modal('show');
-						$('#ok').click(function() {$('#massageBox').modal('hide');});
-					});
-					<?php unset($_SESSION['dari_login']) ?>
-				<?php endif; ?>
-			</script>
-		<?php endif ?>
-
 		<!-- Notifikasi PIN Warga -->
 		<script type="text/javascript">
 			<?php if ($_SESSION['pin']): ?>

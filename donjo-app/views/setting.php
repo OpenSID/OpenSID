@@ -26,16 +26,16 @@
 							<input class="form-control input-sm" type="text" name="nama" value="<?=$main['nama']?>" ></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Password Lama</label>
-							<input class="form-control input-sm" type="password" name="pass_lama" ></input>
+							<label for="catatan">Kata Sandi Lama</label>
+							<input class="form-control input-sm required" type="password" name="pass_lama" ></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Password Baru</label>
-							<input class="form-control input-sm" type="password" name="pass_baru" ></input>
+							<label for="catatan">Kata Sandi Baru</label>
+							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" ></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Password Baru (Ulangi)</label>
-							<input class="form-control input-sm" type="password" name="pass_baru1" ></input>
+							<label for="catatan">Kata Sandi Baru (Ulangi)</label>
+							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Ganti Foto</label>
@@ -54,11 +54,23 @@
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+			<button id="btnSubmit" type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
 		</div>
 	</div>
 </form>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script>
+$('document').ready(function()
+{
+	setTimeout(function() {
+		$('#pass_baru1').rules('add', {
+			equalTo: '#pass_baru'
+		})
+	}, 500);
+
 	$('#file_browser').click(function(e)
 	{
    	e.preventDefault();
@@ -72,4 +84,5 @@
 	{
    	$('#file_browser').click();
 	});
+});
 </script>

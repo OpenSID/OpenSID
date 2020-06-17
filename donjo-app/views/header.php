@@ -166,23 +166,3 @@
 					</div>
 				</div>
 			</div>
-			<!-- Untuk menampilkan modal / pemberitahuan perubahan password default  -->
-			<div class="modal fade" id="massageBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class='modal-dialog'>
-					<div class='modal-content'>
-						<div class='modal-header btn-info'>
-							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
-						</div>
-						<div class='modal-body'>
-							<?= $_SESSION['admin_warning'][1]; ?>
-						</div>
-						<div class='modal-footer'>
-							<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-arrow-circle-o-left'></i> Lain Kali</button>
-							<a href="<?= site_url()?>user_setting/" data-remote="false" data-tittle="Pengaturan Pengguna" data-toggle="modal" data-target="#modalBox" id="ok">
-								<button type="button" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-edit'></i> Ubah</button>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>

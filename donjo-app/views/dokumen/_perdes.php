@@ -13,7 +13,7 @@
 <div class="form-group">
 	<label class="control-label col-sm-4" for="nama">Nomor Ditetapkan</label>
 	<div class="col-sm-6">
-		<input name="attr[no_ditetapkan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_ditetapkan']?>"></input>
+		<input name="attr[no_ditetapkan]" class="form-control input-sm nomor_sk" type="text" value="<?=$dokumen['attr']['no_ditetapkan']?>"></input>
 	</div>
 </div>
 <div class="form-group">
@@ -41,7 +41,7 @@
 <div class="form-group">
 	<label class="control-label col-sm-4" for="nama">Nomor Dilaporkan</label>
 	<div class="col-sm-6">
-		<input name="attr[no_lapor]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_lapor']?>"></input>
+		<input name="attr[no_lapor]" class="form-control input-sm nomor_sk" type="text" value="<?=$dokumen['attr']['no_lapor']?>"></input>
 	</div>
 </div>
 <div class="form-group">
@@ -58,7 +58,7 @@
 <div class="form-group">
 	<label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Lembaran Desa</label>
 	<div class="col-sm-6">
-		<input name="attr[no_lembaran_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_lembaran_desa']?>"></input>
+		<input name="attr[no_lembaran_desa]" class="form-control input-sm nomor_sk" type="text" value="<?=$dokumen['attr']['no_lembaran_desa']?>"></input>
 	</div>
 </div>
 <div class="form-group">
@@ -75,7 +75,7 @@
 <div class="form-group">
 	<label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Berita Desa</label>
 	<div class="col-sm-6">
-		<input name="attr[no_berita_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_berita_desa']?>"></input>
+		<input name="attr[no_berita_desa]" class="form-control input-sm nomor_sk" type="text" value="<?=$dokumen['attr']['no_berita_desa']?>"></input>
 	</div>
 </div>
 <div class="form-group">

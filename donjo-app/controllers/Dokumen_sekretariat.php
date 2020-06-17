@@ -134,7 +134,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
 			$kat = $this->input->post('kategori');
-  		$outp = $this->web_dokumen_model->update($id);
+		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}

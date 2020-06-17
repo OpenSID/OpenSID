@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.06-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada masumo yang baru mulai berkontribusi.
+Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi, Rudy Purwanto, Ians Shinichi Kudo, masumo dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 
@@ -20,7 +20,17 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 14. Sediakan fitur untuk memasukkan Data Anggaran dan Realisasi APBDes secara manual, bagi desa yg terkendala impor dari database Siskeudes.
 15. Sediakan opsi di halaman pengaturan web untuk menampilkan data keuangan input manual atau impor Siskeudes.
 16. #3154: Tambahkan Golongan Darah dan Tanggal Perkawinan sesuai format baru Salinan Kartu Keluarga.
-
+17. Paksa harus ubah kunci default file_manager di desa/config/config.php. [security-fix]
+18. #2678: Tambahkan validasi isian form Produk Hukum dan Informasi Publik sekalian mencegah serangan XSS. [security-fix]
+19. #3158: Ubah nomor telepon menjadi 12 digit di lamporan F-1.08 dan F-1.25.
+20. Upgrade plugin editor artikel Tinymce dari 4.6.4 ke 4.9.10. [teknis, security-fix]
+21. #3182: Sediakan laporan dan grafik keuangan input manual untuk disisipkan ke artikel web.
+22. #3027: Pilihan peserta program bantuan sasaran keluarga sekarang termasuk penduduk dengan hubungan keluarga suami/istri dan anak.
+23. #3179: Tambahkan validasi dan pembersihan data form Album dan Gambar Album. [security-fix]
+24. #3190: Pindahkan daftar program bantuan untuk Keluarga dari form Ubah Data KK ke halaman Daftar Anggota Keluarga.
+25. #3055: Kata sandi pengguna yg tdk memenuhi syarat, termasuk password default, harus diganti pada waktu login. Sekarang semua kata sandi pengguna harus memenuhi syarat. Gunakan ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST).[security-fix]
+26. #3178: Perbaiki validasi isian form Admin Web > Menu. [security-fix]
+27. #3173: Perbaiki validasi isian form program dan peserta Bantuan. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

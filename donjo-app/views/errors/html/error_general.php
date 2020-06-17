@@ -1,13 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<?php $base_url = load_class('Config')->base_url(); ?>
+<?php
+	$CI =& get_instance();
+	if( ! isset($CI))
+	{
+		$CI = new CI_Controller();
+	}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Error</title>
-	<link rel="stylesheet" type="text/css" href="<?= $base_url ?>assets/bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="<?= $base_url ?>assets/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="<?= $base_url ?>assets/css/AdminLTE.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url() ?>assets/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url() ?>assets/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url() ?>assets/css/AdminLTE.css" />
 </head>
 <body>
 <div class="container">
