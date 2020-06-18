@@ -175,10 +175,11 @@ class Program_bantuan_model extends MY_Model {
 
 	private function search_peserta_sql()
 	{
-		if (isset($_SESSION['cari_peserta']))
+		$value = $this->session->cari;
+
+		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $_SESSION['cari_peserta'];
-			$kw = $this->db->escape_like_str($cari);
+			$kw = $this->db->escape_like_str($value);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw' OR kartu_nama LIKE '$kw')";
 			return $search_sql;
