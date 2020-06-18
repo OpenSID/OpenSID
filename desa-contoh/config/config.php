@@ -8,7 +8,7 @@
 	Uncomment jika situs ini untuk demo. Pada demo, user admin tidak bisa dihapus
 	dan username/password tidak bisa diubah
 */
-// $config['demo'] = 'y';
+// $config['demo_mode'] = 'y';
 
 /*
 	Password untuk File Manager yg digunakan pada form isian artikel.

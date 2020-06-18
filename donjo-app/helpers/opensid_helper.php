@@ -768,9 +768,14 @@ function nama_file($str)
 	return preg_replace('/[^a-zA-Z0-9\s]\./', '', strip_tags($str));
 }
 
+function alfanumerik($str)
+{
+	return preg_replace('/[^a-zA-Z0-9]/', '', htmlentities($str));
+}
+
 function alfanumerik_spasi($str)
 {
-	return preg_replace('/[^a-zA-Z0-9\s]/', '', strip_tags($str));
+	return preg_replace('/[^a-zA-Z0-9\s]/', '', htmlentities($str));
 }
 
 function bilangan($str)
@@ -799,6 +804,11 @@ function nama($str)
 	return preg_replace("/[^a-zA-Z '\.,\-]/", '', strip_tags($str));
 }
 
+// Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring
+function alamat($str)
+{
+	return preg_replace("/[^a-zA-Z0-9 \.,\-]/", '', htmlentities($str));
+}
 function buat_slug($data_slug)
 {
 	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];

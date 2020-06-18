@@ -93,7 +93,7 @@
 													<div class="form-group">
 														<label for="no_id_kartu" class="col-sm-4 col-lg-3 control-label">Nomor Kartu Peserta</label>
 														<div class="col-sm-7">
-															<input id="no_id_kartu" class="form-control input-sm required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu">
+															<input id="no_id_kartu" class="form-control input-sm bilangan required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu">
 														</div>
 													</div>
 													<div class="form-group">
@@ -118,13 +118,13 @@
 													<div class="form-group">
 														<label for="kartu_nama" class="col-sm-4 col-lg-3 control-label">Nama</label>
 														<div class="col-sm-7">
-															<input id="kartu_nama" class="form-control input-sm required nama" type="text" placeholder="Nama Peserta" name="kartu_nama" value="<?= $individu['nama']?>">
+															<input id="kartu_nama" class="form-control input-sm required nama" type="text" maxlength="100" placeholder="Nama Peserta" name="kartu_nama" value="<?= $individu['nama']?>">
 														</div>
 													</div>
 													<div class="form-group">
 														<label for="kartu_tempat_lahir" class="col-sm-4 col-lg-3 control-label">Tempat Lahir</label>
 														<div class="col-sm-7">
-															<input id="kartu_tempat_lahir" class="form-control input-sm required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $individu['tempatlahir']?>">
+															<input id="kartu_tempat_lahir" class="form-control input-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="100" value="<?= $individu['tempatlahir']?>">
 														</div>
 													</div>
 													<div class="form-group">
@@ -141,7 +141,7 @@
 													<div class="form-group">
 														<label for="kartu_alamat" class="col-sm-4 col-lg-3 control-label">Alamat</label>
 														<div class="col-sm-7">
-															<input id="kartu_alamat" class="form-control input-sm required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $individu['alamat_wilayah']?>">
+															<input id="kartu_alamat" class="form-control input-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $individu['alamat_wilayah']?>">
 														</div>
 													</div>
 													<div class="box-footer">
