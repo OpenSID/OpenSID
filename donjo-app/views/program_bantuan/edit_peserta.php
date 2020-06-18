@@ -60,7 +60,7 @@
 												<div class="form-group">
 													<label for="no_id_kartu" class="col-sm-4 control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-7">
-														<input  id="no_id_kartu" class="form-control input-sm" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
+														<input  id="no_id_kartu" class="form-control input-sm bilangan" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
 													</div>
 												</div>
 												<?php if ($kartu_peserta): ?>
@@ -101,7 +101,7 @@
 												<div class="form-group">
 													<label for="kartu_tempat_lahir"  class="col-sm-4 control-label">Tempat Lahir</label>
 													<div class="col-sm-7">
-														<input  id="kartu_tempat_lahir" class="form-control input-sm required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $kartu_tempat_lahir?>">
+														<input  id="kartu_tempat_lahir" class="form-control input-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $kartu_tempat_lahir?>">
 													</div>
 												</div>
 												<div class="form-group">
@@ -118,7 +118,7 @@
 												<div class="form-group">
 													<label for="kartu_alamat"  class="col-sm-4 control-label">Alamat</label>
 													<div class="col-sm-7">
-														<input  id="kartu_alamat" class="form-control input-sm required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $kartu_alamat?>">
+														<input  id="kartu_alamat" class="form-control input-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $kartu_alamat?>">
 													</div>
 												</div>
 										 </div>
