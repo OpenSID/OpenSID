@@ -33,15 +33,17 @@ setlocale(LC_CTYPE, 'en_US');
 |
 */
 
-/*
-	Password untuk File Manager disimpan di folder desa, jika ada
-*/
-if (file_exists('../../desa/config/config.php')) {
-	include('../../desa/config/config.php');
+define('USE_ACCESS_KEYS', true); // TRUE or FALSE
+
+foreach (glob("../../desa/config/config_rfm_*.php") as $filename)
+{
+    include $filename;
 }
 
-$config['file_manager'] = isset($config['file_manager']) ? $config['file_manager'] : '';
-define('USE_ACCESS_KEYS', !empty($config['file_manager'])); // TRUE or FALSE
+$config['file_manager_1'] = $config['file_manager_1'];
+$config['file_manager_2'] = $config['file_manager_2'];
+$config['file_manager_3'] = $config['file_manager_3'];
+$config['file_manager_4'] = $config['file_manager_4'];
 
 /*
 |--------------------------------------------------------------------------
@@ -67,11 +69,6 @@ define('DEBUG_ERROR_MESSAGE', TRUE); // TRUE or FALSE
 |    |   |   |   |   |- plugin.min.js
 */
 
-/*
- Untuk mencari folder aplikasi di localhost. Asumsi $_SERVER['REQUEST_URI'] mempunyai nilai
- seperti:
- '/OpenSID/assets/filemanager/dialog.php?type=1&descending=false&lang=undefined&akey=KunciDesa'
-*/
 $folder_app = strtolower(substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'],'/assets')));
 
 $config = array(
@@ -84,9 +81,6 @@ $config = array(
 		| without final / (DON'T TOUCH)
 		|
 		*/
-
-		//jika di lokalhost gunakan konfigurasi ini, dan ganti /{opensid304}/assets' dengan nama folder opensid anda
-		//	'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), array( 'off', 'no' ))) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'].'/opensid304/assets',
 
 		'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), array( 'off', 'no' ))) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $folder_app . '/assets',
 
@@ -131,7 +125,6 @@ $config = array(
 		*/
 		'thumbs_upload_dir' => '/desa/upload/thumbs/',
 
-
 		/*
 		|--------------------------------------------------------------------------
 		| mime file control to define files extensions
@@ -141,7 +134,6 @@ $config = array(
 		|
 		*/
 		'mime_extension_rename'	=> true,
-
 
 		/*
 		|--------------------------------------------------------------------------
@@ -210,7 +202,7 @@ $config = array(
 		|
 		*/
 
-		'access_keys' => array($config['file_manager']),
+		'access_keys' => array($config['file_manager_1'], $config['file_manager_2'], $config['file_manager_3'], $config['file_manager_4']),
 
 		//--------------------------------------------------------------------------------------------------------
 		// YOU CAN COPY AND CHANGE THESE VARIABLES INTO FOLDERS config.php FILES TO CUSTOMIZE EACH FOLDER OPTIONS
