@@ -115,6 +115,7 @@ class Database_model extends CI_Model {
 			$this->_migrasi_db_cri();
 		}
 		$this->folder_desa_model->amankan_folder_desa();
+		$this->folder_desa_model->salin_file();
 		$this->surat_master_model->impor_surat_desa();
 		$this->db->where('id', 13)->update('setting_aplikasi', array('value' => TRUE));
 		/*
