@@ -234,4 +234,27 @@ $(document).ready(function() {
 		return this.optional(element) || valid || value == 'radiisi';
 	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
 
+	jQuery.validator.addMethod("bilangan", function(value, element) {
+		valid = /^[0-9]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter numerik");
+
+	$('.bilangan').each(function() {
+		$(this).rules("add",
+			{
+				bilangan: true,
+			});
+	});
+
+	jQuery.validator.addMethod("alamat", function(value, element) {
+		valid = /^[a-zA-Z0-9 \.,\-\/]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring");
+
+	$('.alamat').each(function() {
+		$(this).rules("add",
+			{
+				alamat: true,
+			});
+	});
 })

@@ -812,18 +812,24 @@ class Program_bantuan_model extends CI_Model {
 
 	public function set_program()
 	{
-		$data = array(
-			'sasaran' => $this->input->post('cid'),
-			'nama' => fixSQL($this->input->post('nama')),
-			'ndesc' => fixSQL($this->input->post('ndesc')),
-			'userid' =>  $_SESSION['user'],
-			'sdate' => date("Y-m-d",strtotime($this->input->post('sdate'))),
-			'edate' => date("Y-m-d",strtotime($this->input->post('edate'))),
-			'asaldana' => $this->input->post('asaldana'),
-			'status' => $this->input->post('status')
-		);
+		$data = $this->validasi_bantuan($this->input->post());
+		$data['userid'] = $this->session->user;
 
 		return $this->db->insert('program', $data);
+	}
+
+	private function validasi_bantuan($post)
+	{
+		$data = [];
+		// Ambil dan bersihkan data input
+		$data['sasaran'] = $post['cid'];
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['ndesc'] = htmlentities($post['ndesc']);
+		$data['asaldana'] = $post['asaldana'];
+		$data['sdate'] = date("Y-m-d", strtotime($post['sdate']));
+		$data['edate'] = date("Y-m-d", strtotime($post['edate']));
+		$data['status'] = $post['status'];
+		return $data;
 	}
 
 	public function add_peserta($program_id)
@@ -864,12 +870,12 @@ class Program_bantuan_model extends CI_Model {
 
 	public function validasi($post)
 	{
-		$data['no_id_kartu'] = $post['no_id_kartu'];
-		$data['kartu_nik'] = $post['kartu_nik'];
-		$data['kartu_nama'] = htmlentities($post['kartu_nama']);
-		$data['kartu_tempat_lahir'] = htmlentities($post['kartu_tempat_lahir']);
+		$data['no_id_kartu'] = bilangan($post['no_id_kartu']);
+		$data['kartu_nik'] = bilangan($post['kartu_nik']);
+		$data['kartu_nama'] = nama(htmlentities($post['kartu_nama']));
+		$data['kartu_tempat_lahir'] = alamat(htmlentities($post['kartu_tempat_lahir']));
 		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
-		$data['kartu_alamat'] = htmlentities($post['kartu_alamat']);
+		$data['kartu_alamat'] = alamat(htmlentities($post['kartu_alamat']));
 
 		return $data;
 	}
@@ -971,16 +977,10 @@ class Program_bantuan_model extends CI_Model {
 
 	public function update_program($id)
 	{
-		$strSQL = "UPDATE `program` SET `sasaran`='".$this->input->post('cid')."',
-		`nama`='".fixSQL($this->input->post('nama'))."',
-		`ndesc`='".fixSQL($this->input->post('ndesc'))."',
-		`sdate`='".date("Y-m-d",strtotime($this->input->post('sdate')))."',
-		`edate`='".date("Y-m-d",strtotime($this->input->post('edate')))."',
-		`status`='".$this->input->post('status')."',
-		`asaldana`='".$this->input->post('asaldana')."'
-		 WHERE id=".$id;
+		$data = $this->validasi_bantuan($this->input->post());
+		$hasil = $this->db->where('id', $id)
+			->update('program', $data);
 
-		$hasil = $this->db->query($strSQL);
 		if ($hasil)
 		{
 			$_SESSION["success"] = 1;
