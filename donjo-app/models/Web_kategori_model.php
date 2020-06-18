@@ -114,7 +114,7 @@ class Web_kategori_model extends CI_Model {
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		$data['slug'] = url_title($data['kategori'], 'dash', TRUE);
 		$outp = $this->db->insert('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 
 	}
@@ -132,7 +132,7 @@ class Web_kategori_model extends CI_Model {
 		if ($ada_nama)
 		{
 			$_SESSION['error_msg'].= " -> Nama kategori tidak boleh sama";
-		  $_SESSION['success'] = -1;		  
+		  $_SESSION['success'] = -1;
 		  return false;
 		}
 		return true;
@@ -156,16 +156,16 @@ class Web_kategori_model extends CI_Model {
 		$this->sterilkan_kategori($data);
 		$outp = $this->db->where('id', $id)
 			->update('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kategori');
-		
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
@@ -242,8 +242,9 @@ class Web_kategori_model extends CI_Model {
 		$data['parrent'] = $kategori;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $kategori)) + 1;
 		$data['slug'] = url_title($data['kategori'], 'dash', TRUE);
+		$data['enabled'] = 1;
 		$outp = $this->db->insert('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -254,7 +255,7 @@ class Web_kategori_model extends CI_Model {
 		$this->sterilkan_kategori($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -263,7 +264,7 @@ class Web_kategori_model extends CI_Model {
 		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kategori');
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -282,7 +283,7 @@ class Web_kategori_model extends CI_Model {
 	{
 		$sql = "UPDATE kategori SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
