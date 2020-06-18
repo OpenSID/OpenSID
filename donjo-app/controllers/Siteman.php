@@ -63,6 +63,8 @@ class Siteman extends CI_Controller
 		else
 		{
 			unset($_SESSION['request_uri']);
+			unset($_SESSION['fm_key']);
+			$this->user_model->get_key();
 			redirect('main');
 		}
 	}
