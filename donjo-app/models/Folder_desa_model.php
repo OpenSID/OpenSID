@@ -56,15 +56,17 @@
 		}
 	}
 
-	public function tambah_file($cek = 'desa/upload/*', $cari = '.htaccess', $contoh = 'desa-contoh/upload/.htaccess')
+	public function tambah_file($cek = 'desa/upload', $cari = '.htaccess', $contoh = 'desa-contoh/upload/.htaccess')
 	{
-		foreach(glob($cek, GLOB_ONLYDIR) as $folder)
+		if(!file_exists("$cek/$cari")) copy($contoh, "$cek/$cari");
+
+		foreach(glob("$cek/*", GLOB_ONLYDIR) as $folder)
 		{
 			$file = "$folder/$cari";
 
 			if(!file_exists($file)) copy($contoh, $file);
 
-			$this->tambah_file("$folder/*");
+			$this->tambah_file("$folder");
 		}
 	}
 }
