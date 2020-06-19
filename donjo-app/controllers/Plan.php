@@ -128,16 +128,17 @@ class Plan extends Admin_Controller {
 
 	public function search()
 	{
-		$cari = $this->input->post('cari');
+		$cari = htmlentities($this->input->post('cari'));
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
 		redirect('plan');
+	
 	}
 
 	public function filter()
 	{
-		$filter = $this->input->post('filter');
+		$filter = htmlentities($this->input->post('filter'));
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
@@ -146,7 +147,7 @@ class Plan extends Admin_Controller {
 
 	public function point()
 	{
-		$point = $this->input->post('point');
+		$point = htmlentities($this->input->post('point'));
 		if ($point != 0)
 			$_SESSION['point'] = $point;
 		else unset($_SESSION['point']);
@@ -156,7 +157,7 @@ class Plan extends Admin_Controller {
 	public function subpoint()
 	{
 		unset($_SESSION['point']);
-		$subpoint = $this->input->post('subpoint');
+		$subpoint = htmlentities($this->input->post('subpoint'));
 		if ($subpoint != 0)
 			$_SESSION['subpoint'] = $subpoint;
 		else unset($_SESSION['subpoint']);

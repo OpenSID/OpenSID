@@ -136,8 +136,8 @@ class Surat extends Admin_Controller {
 		else
 		{
 			// Surat untuk non-warga
-			$log_surat['nama_non_warga'] = $_POST['nama_non_warga'];
-			$log_surat['nik_non_warga'] = $_POST['nik_non_warga'];
+			$log_surat['nama_non_warga'] = htmlentities($_POST['nama_non_warga']);
+			$log_surat['nik_non_warga'] = htmlentities($_POST['nik_non_warga']);
 			$nik = $log_surat['nik_non_warga'];
 		}
 
@@ -178,7 +178,7 @@ class Surat extends Admin_Controller {
 
 	public function search()
 	{
-		$cari = $this->input->post('nik');
+		$cari = htmlentities($this->input->post('nik'));
 		if ($cari != '')
 			redirect("surat/form/$cari");
 		else

@@ -126,16 +126,17 @@ class Menu extends Admin_Controller {
 
 	public function search($tip = 1)
 	{
-		$cari = $this->input->post('cari');
+		$cari = htmlentities($this->input->post('cari'));
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
 		redirect("menu/index/$tip");
+	
 	}
 
 	public function filter()
 	{
-		$filter = $this->input->post('filter');
+		$filter = htmlentities($this->input->post('filter'));
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);

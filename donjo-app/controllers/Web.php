@@ -63,9 +63,9 @@ class Web extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] =1;
-		$data = $this->security->xss_clean($data);
+		$data = htmlentities($this->security->xss_clean($data));
 		$data['paging'] = $paging;
-
+		
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('web/artikel/table', $data);
@@ -104,16 +104,17 @@ class Web extends Admin_Controller {
 
 	public function search($cat = 1)
 	{
-		$cari = $this->input->post('cari');
+		$cari = htmlentities($this->input->post('cari'));
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
 		redirect("web/index/$cat");
 	}
 
+	
 	public function filter($cat = 1)
 	{
-		$filter = $this->input->post('filter');
+		$filter = htmlentities($this->input->post('filter'));
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
@@ -175,7 +176,7 @@ class Web extends Admin_Controller {
 		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
 			redirect("web/index/$cat");
 
-		$cat = $_POST['kategori'];
+		$cat = htmlentities($_POST['kategori']);
 		$this->web_artikel_model->update_kategori($id, $cat);
 		redirect("web/index/$cat");
 	}

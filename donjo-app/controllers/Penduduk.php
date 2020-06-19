@@ -311,7 +311,7 @@ class Penduduk extends Admin_Controller {
 
 	public function search()
 	{
-		$cari = $this->input->post('cari');
+		$cari = htmlentities($this->input->post('cari'));
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
@@ -320,7 +320,7 @@ class Penduduk extends Admin_Controller {
 
 	public function filter()
 	{
-		$filter = $this->input->post('filter');
+		$filter = htmlentities($this->input->post('filter'));
 		if ($filter != "")
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);

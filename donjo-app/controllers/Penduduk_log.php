@@ -88,7 +88,7 @@ class Penduduk_log extends Admin_Controller {
 
 	public function filter($filter)
 	{
-		$value = $this->input->post($filter);
+		$value = htmlentities($this->input->post($filter));
 		if ($value != '')
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
