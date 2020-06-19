@@ -257,4 +257,10 @@ $(document).ready(function() {
 				alamat: true,
 			});
 	});
+
+	jQuery.validator.addMethod("username", function(value, element) {
+		valid = /^[a-zA-Z0-9\.\_]{4,30}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
+
 })
