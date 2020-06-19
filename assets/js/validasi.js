@@ -263,12 +263,4 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
 
-	$('.username').each(function() {
-		$(this).rules("add",
-			{
-				username: true,
-			});
-	});
-	//TODO cek fungsi username di atas, jika input mas_umo,sitem na=gsih orror seperti pada alamt
-
 })
