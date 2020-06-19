@@ -24,7 +24,9 @@ RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 # Protect Folder Not Index
 Options All -Indexes
 
-<Directory full-path-to/desa>
+# Periksa apakah full-path perlu disesuaikan untuk server anda
+# Contoh berikut untuk path seperti /home/opensidm/demo.opensid.my.id/desa/upload
+<Directory /home/*/*/desa/upload>
 	php_flag engine off
 	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
 		Order Deny,Allow
@@ -32,7 +34,9 @@ Options All -Indexes
 	</FilesMatch>
 </Directory>
 
-<Directory full-path-to/desa-contoh>
+# Periksa apakah full-path perlu disesuaikan untuk server anda
+# Contoh berikut untuk path seperti /home/opensidm/demo.opensid.my.id/desa-contoh
+<Directory /home/*/*/desa-contoh>
 	php_flag engine off
 	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
 		Order Deny,Allow

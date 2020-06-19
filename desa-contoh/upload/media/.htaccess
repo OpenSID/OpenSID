@@ -1,4 +1,4 @@
-<FilesMatch "\.(php|php\.|txt)$">
-Order Allow,Deny
-Deny from all
+<FilesMatch "\.(php|php\.|php3?|phtml|phpjpeg)$">
+	Order Allow,Deny
+	Deny from all
 </FilesMatch>
