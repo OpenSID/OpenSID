@@ -34,7 +34,6 @@
 	{
 		min-height:275px;
 	}
-	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
