@@ -35,6 +35,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 29. #3196: Gunakan kode provinsi di Identitas Desa sebagai nilai default kode provinsi untuk data Covid-19.
 30. #3223: Cegah jalankan script PHP di setiap folder upload file. [security-fix]
 31. #3177: Tambahkan validasi form Pengaturan > Pengguna sekalian mencegah serangan XSS. [security-fix]
+32. #2898, #3224: Perbaiki cari dan autocomplete untuk kotak cari peserta Program Bantuan. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

@@ -47,7 +47,7 @@ class MY_Model extends CI_Model {
 	}
 
 	/*
-	 * 0 = select/order, 1 = table, 2 = where, 3 = $cari
+	 * 0 = kolom untuk select/order, 1 = tabel, 2 = where, 3 = $cari
 	 */
 	public function union($list_kode = '')
 	{
@@ -55,12 +55,13 @@ class MY_Model extends CI_Model {
 
 		foreach ($list_kode as $kode)
 		{
+			list($kolom, $tabel, $where, $cari) = $kode;
 			$sql[] = '('.$this->db
-				->select("$kode[0]")
-				->from("$kode[1]")
-				->where("$kode[2]")
-				->like("$kode[0]", "$kode[3]")
-				->order_by("$kode[0]", DESC)
+				->select($kolom)
+				->from($tabel)
+				->where($where)
+				->like($kolom, $cara)
+				->order_by($kolom, DESC)
 				->get_compiled_select()
 				.')';
 		}
