@@ -182,13 +182,6 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
 
-	$('.nomor_sk').each(function() {
-		$(this).rules("add",
-			{
-				nomor_sk: true,
-			});
-	});
-
 	jQuery.validator.addMethod("bilangan_titik", function(value, element) {
 		valid = /^[0-9\.]+$/.test(value);
 		return this.optional(element) || valid;

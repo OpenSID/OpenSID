@@ -344,7 +344,7 @@
 	public function hapus($id)
 	{
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
-		
+
 		status_sukses($hasil); //Tampilkan Pesan
 	}
 
@@ -371,7 +371,7 @@
 				'id_suplemen' => $id,
 				'id_terdata' => $id_terdata,
 				'sasaran' => $sasaran,
-				'keterangan' => htmlentities($post['keterangan'])
+				'keterangan' => substr(htmlentities($post['keterangan']), 0, 100) // Batasi 100 karakter
 			);
 			return $this->db->insert('suplemen_terdata', $data);
 		}
@@ -386,7 +386,7 @@
 	// $id = suplemen_terdata.id
 	public function edit_terdata($post,$id)
 	{
-		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['keterangan'] = substr(htmlentities($post['keterangan']), 0, 100); // Batasi 100 karakter
 		$this->db->where('id',$id);
 		$this->db->update('suplemen_terdata', $data);
 	}

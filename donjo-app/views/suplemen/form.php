@@ -37,7 +37,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 								<div class="col-sm-7">
-									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
+									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
 								 </div>
 							</div>
 						</div>
