@@ -19,7 +19,6 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->periksa_config();
 				/* set klasik theme if not exist */
         if (empty($this->setting->web_theme))
         {
