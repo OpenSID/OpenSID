@@ -29,7 +29,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3" for="nama">Nama Peruntukan Persil</label>
 								<div class="col-sm-8">
-									<input name="nama" class="form-control input-sm" type="text" placeholder="Tuliskan Peruntukan Persil" value="<?=$nama?>"></input>
+									<input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Tuliskan Peruntukan Persil" value="<?=$nama?>"></input>
 									<input type="hidden" name="id" value="<?=$id?>">
 								</div>
 							</div>

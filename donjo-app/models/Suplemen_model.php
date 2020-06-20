@@ -25,13 +25,19 @@
 
 	public function create()
 	{
-		$data = array(
-			'sasaran' => $this->input->post('cid'),
-			'nama' => $this->input->post('nama'),
-			'keterangan' => $this->input->post('keterangan')
-		);
+		$data = $this->validasi($this->input->post());
 		$hasil = $this->db->insert('suplemen', $data);
 		$_SESSION["success"] = $hasil ? 1 : -1;
+	}
+
+	private function validasi($post)
+	{
+		$data = [];
+		// Ambil dan bersihkan data input
+		$data['sasaran'] = $post['cid'];
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
+		return $data;
 	}
 
 	public function list_data($sasaran=0)
@@ -338,17 +344,13 @@
 	public function hapus($id)
 	{
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
-		
+
 		status_sukses($hasil); //Tampilkan Pesan
 	}
 
 	public function update($id)
 	{
-		$data = array(
-			'sasaran' => $this->input->post('cid'),
-			'nama' => $this->input->post('nama'),
-			'keterangan' => $this->input->post('keterangan')
-		);
+		$data = $this->validasi($this->input->post());
 		$hasil = $this->db->where('id',$id)->update('suplemen', $data);
 
 		status_sukses($hasil); //Tampilkan Pesan
@@ -369,7 +371,7 @@
 				'id_suplemen' => $id,
 				'id_terdata' => $id_terdata,
 				'sasaran' => $sasaran,
-				'keterangan' => $post['keterangan']
+				'keterangan' => substr(htmlentities($post['keterangan']), 0, 100) // Batasi 100 karakter
 			);
 			return $this->db->insert('suplemen_terdata', $data);
 		}
@@ -384,7 +386,7 @@
 	// $id = suplemen_terdata.id
 	public function edit_terdata($post,$id)
 	{
-		$data = $post;
+		$data['keterangan'] = substr(htmlentities($post['keterangan']), 0, 100); // Batasi 100 karakter
 		$this->db->where('id',$id);
 		$this->db->update('suplemen_terdata', $data);
 	}

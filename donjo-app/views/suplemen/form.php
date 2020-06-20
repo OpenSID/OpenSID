@@ -31,13 +31,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama Data Suplemen</label>
 								<div class="col-sm-7">
-									<input class="form-control input-sm required" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
+									<input class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 								<div class="col-sm-7">
-									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
+									 <textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
 								 </div>
 							</div>
 						</div>
