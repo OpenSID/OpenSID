@@ -336,45 +336,44 @@ class User_model extends CI_Model {
 	 */
 	public function update($idUser)
 	{
-		$_SESSION['error_msg'] = NULL;
-		$_SESSION['success'] = 1;
+		$this->session->error_msg = NULL;
+		$this->session->success = 1;
 
 		$data = $this->sterilkan_input($this->input->post());
 
 		if (empty($idUser))
 		{
-			$_SESSION['error_msg'] = ' -> Pengguna yang hendak Anda ubah tidak ditemukan datanya.';
-			$_SESSION['success'] = -1;
+			$this->session->error_msg = ' -> Pengguna tidak ditemukan datanya.';
+			$this->session->success = -1;
 			redirect('man_user');
 		}
-
 
 		if (empty($data['username']) || empty($data['password'])
 		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
 		{
-			$_SESSION['error_msg'] = ' -> Nama, Username dan Password harus diisi';
-			$_SESSION['success'] = -1;
+			$this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
+			$this->session->success = -1;
 			redirect('man_user');
 		}
 
 		// radiisi menandakan password tidak diubah
-		if (($idUser == 1 && $this->setting->demo_mode) || $data['password'] == 'radiisi')
+		if ($data['password'] == 'radiisi') unset($data['password']);
+		// Untuk demo jangan ubah username atau password
+		if ($idUser == 1 && $this->setting->demo_mode)
 		{
 			unset($data['username'], $data['password']);
 		}
-		else
+		if ($data['password'])
 		{
 			$pwHash = $this->generatePasswordHash($data['password']);
 			$data['password'] = $pwHash;
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
-		$data['nama'] = strip_tags($data['nama']);
-
 		if (!$this->db->where('id', $idUser)->update('user', $data))
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Gagal memperbarui data di database';
+			$this->session->success = -1;
+			$this->session->error_msg = ' -> Gagal memperbarui data di database';
 		}
 	}
 

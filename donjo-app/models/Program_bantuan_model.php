@@ -1,5 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-class Program_bantuan_model extends CI_Model {
+
+class Program_bantuan_model extends MY_Model {
 
 	// Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
 	var $column_order = array(null, 'program', 'peserta', null); //set column field database for datatable orderable
@@ -14,13 +15,18 @@ class Program_bantuan_model extends CI_Model {
 	public function autocomplete($id, $cari)
 	{
 		$cari = $this->db->escape_like_str($cari);
-		$this->db->select('kartu_nama')
-			->distinct()
-			->where('program_id', $id)
-			->order_by('kartu_nama');
-		if ($cari) $this->db->like('kartu_nama', $cari);
 
-		$data = $this->db->get('program_peserta')->result_array();
+		// Jika parameter yg digunakan sama
+		$tabel = "program_peserta";
+		$where = "program_id = $id";
+
+		$list_kode = [
+			["peserta", $tabel, $where, $cari],
+			["kartu_nik", $tabel, $where, $cari],
+			["kartu_nama", $tabel, $where, $cari]
+		];
+
+		$data = $this->union($list_kode);
 
 		return autocomplete_data_ke_str($data);
 	}
@@ -169,12 +175,13 @@ class Program_bantuan_model extends CI_Model {
 
 	private function search_peserta_sql()
 	{
-		if (isset($_SESSION['cari_peserta']))
+		$value = $this->session->cari;
+
+		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $_SESSION['cari_peserta'];
-			$kw = $this->db->escape_like_str($cari);
+			$kw = $this->db->escape_like_str($value);
 			$kw = '%' .$kw. '%';
-			$search_sql = " AND (o.nama LIKE '$kw' OR nik LIKE '$kw' OR no_kk LIKE '$kw' OR no_id_kartu LIKE '$kw' OR kartu_nama LIKE '$kw')";
+			$search_sql = " AND (o.nama LIKE '$kw' OR peserta LIKE '$kw' OR p.kartu_nik LIKE '$kw' OR p.kartu_nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
