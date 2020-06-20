@@ -40,11 +40,6 @@ foreach (glob("../../desa/config/config_rfm_*.php") as $filename)
     include $filename;
 }
 
-$config['file_manager_1'] = $config['file_manager_1'];
-$config['file_manager_2'] = $config['file_manager_2'];
-$config['file_manager_3'] = $config['file_manager_3'];
-$config['file_manager_4'] = $config['file_manager_4'];
-
 /*
 |--------------------------------------------------------------------------
 | DON'T COPY THIS VARIABLES IN FOLDERS config.php FILES
