@@ -28,7 +28,7 @@ class User_model extends CI_Model {
 		$this->load->model('laporan_bulanan_model');
 		// Untuk password hashing
 		$this->load->helper('password');
-		// Helper upload file
+        // Helper upload file
 		$this->load->helper('pict_helper');
 		// Helper Tulis file
 		$this->load->helper('file');
@@ -157,8 +157,7 @@ class User_model extends CI_Model {
 	public function logout()
 	{
 		// Hapus file rfm ketika logout
-		$grup	= $this->sesi_grup($this->session->sesi);
-		unlink(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $grup . '.php');
+		unlink(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $_SESSION['grup'] . '.php');
 		if (isset($_SESSION['user']))
 		{
 			$id = $_SESSION['user'];
@@ -337,45 +336,44 @@ class User_model extends CI_Model {
 	 */
 	public function update($idUser)
 	{
-		$_SESSION['error_msg'] = NULL;
-		$_SESSION['success'] = 1;
+		$this->session->error_msg = NULL;
+		$this->session->success = 1;
 
 		$data = $this->sterilkan_input($this->input->post());
 
 		if (empty($idUser))
 		{
-			$_SESSION['error_msg'] = ' -> Pengguna yang hendak Anda ubah tidak ditemukan datanya.';
-			$_SESSION['success'] = -1;
+			$this->session->error_msg = ' -> Pengguna tidak ditemukan datanya.';
+			$this->session->success = -1;
 			redirect('man_user');
 		}
-
 
 		if (empty($data['username']) || empty($data['password'])
 		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
 		{
-			$_SESSION['error_msg'] = ' -> Nama, Username dan Password harus diisi';
-			$_SESSION['success'] = -1;
+			$this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
+			$this->session->success = -1;
 			redirect('man_user');
 		}
 
 		// radiisi menandakan password tidak diubah
-		if (($idUser == 1 && $this->setting->demo_mode) || $data['password'] == 'radiisi')
+		if ($data['password'] == 'radiisi') unset($data['password']);
+		// Untuk demo jangan ubah username atau password
+		if ($idUser == 1 && $this->setting->demo_mode)
 		{
 			unset($data['username'], $data['password']);
 		}
-		else
+		if ($data['password'])
 		{
 			$pwHash = $this->generatePasswordHash($data['password']);
 			$data['password'] = $pwHash;
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
-		$data['nama'] = strip_tags($data['nama']);
-
 		if (!$this->db->where('id', $idUser)->update('user', $data))
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = ' -> Gagal memperbarui data di database';
+			$this->session->success = -1;
+			$this->session->error_msg = ' -> Gagal memperbarui data di database';
 		}
 	}
 
@@ -848,18 +846,19 @@ class User_model extends CI_Model {
 	// RFM Key
 	public function get_key()
 	{
-		$grup	= $this->sesi_grup($this->session->sesi);
+		$grup	= $this->sesi_grup($_SESSION['sesi']);
 		if ($this->hak_akses($grup, 'web', 'b') == true)
 		{
-			$fmHash = $grup.date('Ymdhis');
+			$fmHash = $_SESSION['grup'].date('Ymdhis');
 			$salt = rand(100000, 999999);
 			$salt = strrev($salt);
 			$fm_key = MD5($fmHash.'OpenSID'.$salt);
-			$this->session->fm_key = $fm_key;
-			$rfm = '<?php $config["file_manager_' . $grup . '"] ="' . $fm_key . '";';
-			write_file(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $grup . '.php', $rfm);
+			$_SESSION['fm_key'] = $fm_key;
+			$rfm = '<?php $config["file_manager_' . $_SESSION['grup'] . '"] ="' . $fm_key . '";';
+			write_file(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $_SESSION['grup'] . '.php', $rfm);
 		}
 	}
+
 }
 
 ?>
