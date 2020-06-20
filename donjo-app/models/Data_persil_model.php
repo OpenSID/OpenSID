@@ -144,11 +144,9 @@ class Data_persil_model extends CI_Model {
 		{
 			if ($_POST["id"] > 0)
 			{
-				$data = array();
-				$data['nama'] = $_POST["nama"];
-				$data['jenis_pemilik'] = $_POST["jenis_pemilik"];
+				$data =  $this->validasi($this->input->post());
 				if ($data['jenis_pemilik'] == 2)
-					$data['pemilik_luar'] = $_POST['nik'];
+					$data['pemilik_luar'] = nama($_POST['nik']);
 				else
 				{
 					if ($_POST['nik'] <> $_POST['nik_lama'])
@@ -159,50 +157,24 @@ class Data_persil_model extends CI_Model {
 							get('tweb_penduduk')->row()->id;
 					}
 				}
-				$data['alamat_luar'] = $_POST["alamat_luar"];
-				$data['persil_jenis_id'] = $_POST["cid"];
-				$data['id_clusterdesa'] = $_POST["pid"];
-				$data['persil_peruntukan_id'] = $_POST["sid"];
-				$data['luas'] = $_POST["luas"];
-				$data['kelas'] = $_POST["kelas"];
-				$data['no_sppt_pbb'] = $_POST["sppt"];
-				$data['userID'] = $_SESSION['user'];
 				$outp = $this->db->where('id', $_POST['id'])->update('data_persil', $data);
 			}
 			else
 			{
 				if (is_numeric($_POST["nik"]))
 				{
-					$data = array();
-					$data['nama'] = $_POST["nama"];
-					$data['jenis_pemilik'] = $_POST["jenis_pemilik"];
+					$data =  $this->validasi($this->input->post());
 					// Ambil id penduduk baru
 					$data['id_pend'] = $this->db->select('id')->
 						where('nik', $_POST['nik'])->
 						get('tweb_penduduk')->row()->id;
-					$data['persil_jenis_id'] = $_POST["cid"];
-					$data['id_clusterdesa'] = $_POST["pid"];
-					$data['persil_peruntukan_id'] = $_POST["sid"];
-					$data['luas'] = $_POST["luas"];
-					$data['kelas'] = $_POST["kelas"];
-					$data['no_sppt_pbb'] = $_POST["sppt"];
-					$data['userID'] = $_SESSION['user'];
+
 					$outp = $this->db->insert('data_persil', $data);
 				}
 				else
 				{
-					$data = array();
-					$data['nama'] = $_POST["nama"];
-					$data['jenis_pemilik'] = $_POST["jenis_pemilik"];
-					$data['pemilik_luar'] = $_POST['nik'];
-					$data['alamat_luar'] = $_POST["alamat_luar"];
-					$data['persil_jenis_id'] = $_POST["cid"];
-					$data['id_clusterdesa'] = $_POST["pid"];
-					$data['persil_peruntukan_id'] = $_POST["sid"];
-					$data['luas'] = $_POST["luas"];
-					$data['kelas'] = $_POST["kelas"];
-					$data['no_sppt_pbb'] = $_POST["sppt"];
-					$data['userID'] = $_SESSION['user'];
+					$data =  $this->validasi($this->input->post());
+					$data['pemilik_luar'] = nama($_POST['nik']);
 					$outp = $this->db->insert('data_persil', $data);
 				}
 			}
@@ -219,6 +191,22 @@ class Data_persil_model extends CI_Model {
 			$_SESSION["pesan"] = "Formulir belum/tidak terisi dengan benar";
 		}
 		return $hasil;
+	}
+
+	private function validasi($post)
+	{
+		$data = [];
+		$data['nama'] = bilangan($post["nama"]);
+		$data['alamat_luar'] = alamat($post["alamat_luar"]);
+		$data['jenis_pemilik'] = bilangan($post["jenis_pemilik"]);
+		$data['persil_jenis_id'] = bilangan($post["cid"]);
+		$data['id_clusterdesa'] = bilangan($post["pid"]);
+		$data['persil_peruntukan_id'] = bilangan($post["sid"]);
+		$data['luas'] = bilangan_titik($post["luas"]);
+		$data['kelas'] = nomor_surat_keputusan($post["kelas"]);
+		$data['no_sppt_pbb'] = nomor_surat_keputusan($post["sppt"]);
+		$data['userID'] = $_SESSION['user'];
+		return $data;
 	}
 
 	public function hapus_persil($id)
@@ -319,28 +307,35 @@ class Data_persil_model extends CI_Model {
 		return $data;
 	}
 
+	private function validasi_persil($post)
+	{
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($post["nama"]);
+		$data['ndesc'] = htmlentities($post["ndesc"]);
+		return $data;
+	}
+
 	public function update_persil_peruntukan()
 	{
 		if ($this->input->post('id') == 0)
 		{
-			$strSQL = "INSERT INTO `data_persil_peruntukan`(`nama`,`ndesc`) VALUES('".fixSQL($this->input->post('nama'))."','".fixSQL($this->input->post('ndesc'))."')";
+			
+			$data = $this->validasi_persil($this->input->post());
+			$hasil = $this->db->insert('data_persil_peruntukan', $data);
 		}
 		else
 		{
-			$strSQL = "UPDATE `data_persil_peruntukan` SET
-			`nama` = '".fixSQL($this->input->post('nama'))."',
-			`ndesc` = '".fixSQL($this->input->post('ndesc'))."'
-			 WHERE id = ".$this->input->post('id');
+			$data = $this->validasi_persil($this->input->post());
+			$hasil = $this->db->where('id', $this->input->post('id'));
+			$hasil = $this->db->update('data_persil_peruntukan', $data);
 		}
 
-		$data["db"] = $strSQL;
-		$hasil = $this->db->query($strSQL);
 		if ($hasil)
 		{
 			$data["transaksi"] = true;
-			$data["pesan"] = "Data Peruntukan Persil ".fixSQL($this->input->post('nama'))." telah disimpan/diperbarui";
+			$data["pesan"] = "Data Peruntukan Persil ".nomor_surat_keputusan($this->input->post('nama'))." telah disimpan/diperbarui";
 			$_SESSION["success"] = 1;
-			$_SESSION["pesan"] = "Data Peruntukan Persil ".fixSQL($this->input->post('nama'))." telah disimpan/diperbarui";
+			$_SESSION["pesan"] = "Data Peruntukan Persil ".nomor_surat_keputusan($this->input->post('nama'))." telah disimpan/diperbarui";
 		}
 		else
 		{
@@ -398,24 +393,22 @@ class Data_persil_model extends CI_Model {
 	{
 		if ($this->input->post('id') == 0)
 		{
-			$strSQL = "INSERT INTO `data_persil_jenis`(`nama`,`ndesc`) VALUES('".fixSQL($this->input->post('nama'))."','".fixSQL($this->input->post('ndesc'))."')";
+			$data = $this->validasi_persil($this->input->post());
+			$hasil = $this->db->insert('data_persil_jenis', $data);
 		}
 		else
 		{
-			$strSQL = "UPDATE `data_persil_jenis` SET
-			`nama`='".fixSQL($this->input->post('nama'))."',
-			`ndesc`='".fixSQL($this->input->post('ndesc'))."'
-			 WHERE id=".$this->input->post('id');
+			$data = $this->validasi_persil($this->input->post());
+			$hasil = $this->db->where('id', $this->input->post('id'));
+			$hasil = $this->db->update('data_persil_jenis', $data);
 		}
 
-		$data["db"] = $strSQL;
-		$hasil = $this->db->query($strSQL);
 		if ($hasil)
 		{
 			$data["transaksi"] = true;
-			$data["pesan"] = "Data Jenis Persil ".fixSQL($this->input->post('nama'))." telah disimpan/diperbarui";
+			$data["pesan"] = "Data Jenis Persil ".nomor_surat_keputusan($this->input->post('nama'))." telah disimpan/diperbarui";
 			$_SESSION["success"] = 1;
-			$_SESSION["pesan"] = "Data Jenis Persil ".fixSQL($this->input->post('nama'))." telah disimpan/diperbarui";
+			$_SESSION["pesan"] = "Data Jenis Persil ".nomor_surat_keputusan($this->input->post('nama'))." telah disimpan/diperbarui";
 		}
 		else
 		{
