@@ -157,7 +157,8 @@ class User_model extends CI_Model {
 	public function logout()
 	{
 		// Hapus file rfm ketika logout
-		unlink(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $_SESSION['grup'] . '.php');
+		$grup	= $this->sesi_grup($this->session->sesi);
+		unlink(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $grup . '.php');
 		if (isset($_SESSION['user']))
 		{
 			$id = $_SESSION['user'];
@@ -846,16 +847,16 @@ class User_model extends CI_Model {
 	// RFM Key
 	public function get_key()
 	{
-		$grup	= $this->sesi_grup($_SESSION['sesi']);
+		$grup	= $this->sesi_grup($this->session->sesi);
 		if ($this->hak_akses($grup, 'web', 'b') == true)
 		{
-			$fmHash = $_SESSION['grup'].date('Ymdhis');
+			$fmHash = $grup.date('Ymdhis');
 			$salt = rand(100000, 999999);
 			$salt = strrev($salt);
 			$fm_key = MD5($fmHash.'OpenSID'.$salt);
-			$_SESSION['fm_key'] = $fm_key;
-			$rfm = '<?php $config["file_manager_' . $_SESSION['grup'] . '"] ="' . $fm_key . '";';
-			write_file(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $_SESSION['grup'] . '.php', $rfm);
+			$this->session->fm_key = $fm_key;
+			$rfm = '<?php $config["file_manager_' . $grup . '"] ="' . $fm_key . '";';
+			write_file(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $grup . '.php', $rfm);
 		}
 	}
 
