@@ -181,7 +181,7 @@ class Admin_Controller extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->CI = & get_instance();
+		$this->CI = CI_Controller::get_instance();
  		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
