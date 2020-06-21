@@ -244,13 +244,6 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring");
 
-	$('.alamat').each(function() {
-		$(this).rules("add",
-			{
-				alamat: true,
-			});
-	});
-
 	jQuery.validator.addMethod("username", function(value, element) {
 		valid = /^[a-zA-Z0-9\.\_]{4,30}$/.test(value);
 		return this.optional(element) || valid;
