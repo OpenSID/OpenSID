@@ -33,8 +33,8 @@
 													<table class="table table-bordered table-striped dataTable table-hover" >
 														<thead class="bg-gray disabled color-palette">
 															<tr >
-																<th>No</th>
-																<th>Aksi</th>
+																<th width="1%">No</th>
+																<th width="5%">Aksi</th>
 																<th>RW</th>
 																<th>Ketua RW</th>
 																<th>NIK Ketua RW</th>
