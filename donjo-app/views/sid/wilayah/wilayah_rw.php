@@ -49,7 +49,6 @@
 															<?php foreach ($main as $data): ?>
 																<tr>
 																	<td><?= $data['no']?></td>
-
 																	<td nowrap>
 																		<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
 																		<?php if ($data['rw']!="-"): ?>
@@ -81,7 +80,7 @@
 																		<td nowrap><strong><?= $data['nama_ketua']?></strong></td>
 																		<td><?= $data['nik_ketua']?></td>
 																	<?php endif; ?>
-																	<td><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[rw]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
+																	<td><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
 																	<td><?= $data['jumlah_kk']?></td>
 																	<td><?= $data['jumlah_warga']?></td>
 																	<td><?= $data['jumlah_warga_l']?></td>
