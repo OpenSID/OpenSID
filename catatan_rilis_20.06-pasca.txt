@@ -38,6 +38,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 32. #2898, #3224: Perbaiki cari dan autocomplete untuk kotak cari peserta Program Bantuan. [bug-fix]
 33. #3207: Tambahkan validasi form Data Suplemen sekalian mencegah serangan XSS. [security-fix]
 34. #3174. Tambahkan validasi form Pertanahan sekalian mencegah serangan XSS. [security-fix]
+35. Upgrade Codeigniter dari 3.1.8 ke 3.1.11. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
