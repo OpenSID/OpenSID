@@ -53,7 +53,7 @@
 				</div>
 				<div class="form-group">
 					<label for="alamat">Alamat </label>
-					<textarea id="alamat" name="alamat" class="form-control input-sm required" placeholder="Alamat Jalan/Perumahan" rows="3" style="resize:none;"><?= $kk['alamat']?></textarea>
+					<textarea id="alamat" name="alamat" class="form-control input-sm alamat" maxlength="200" placeholder="Alamat Jalan/Perumahan" rows="3" style="resize:none;"><?= $kk['alamat']?></textarea>
 				</div>
 				<div class="row">
 					<div class='form-group col-sm-6'>
@@ -90,12 +90,12 @@
 						<div class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</div>
-						<input id="tgl_1" name="tgl_cetak_kk" class="form-control input-sm required" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>
+						<input id="tgl_1" name="tgl_cetak_kk" class="form-control input-sm" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="kelas_sosial">Kelas Sosial</label>
-					<select id="kelas_sosial" name="kelas_sosial" class="form-control input-sm required">
+					<select id="kelas_sosial" name="kelas_sosial" class="form-control input-sm">
 						<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
 						<?php foreach ($keluarga_sejahtera as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($kk['kelas_sosial'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
