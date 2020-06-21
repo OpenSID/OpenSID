@@ -32,7 +32,7 @@
 											</div>
 										</div>
 									</form>
-									<form name='mainform' action="<?= site_url('data_persil/simpan_persil')?>" method="POST"  class="form-horizontal">
+									<form name='mainform' action="<?= site_url('data_persil/simpan_persil')?>" method="POST"  class="form-horizontal" id="validasi">
 										<div class="box-body">
 											<input name="jenis_pemilik" type="hidden" value="1">
 											<?php if ($pemilik): ?>
@@ -61,7 +61,7 @@
 											<div class="form-group">
 												<label for="nama"  class="col-sm-3 control-label">Nomor Persil</label>
 												<div class="col-sm-8">
-													<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nomor Surat Persil" name="nama" value="<?= $persil_detail["nopersil"] ?>">
+													<input  id="nama" class="form-control input-sm bilangan required" maxlength="10" type="text" placeholder="Nomor Surat Persil" name="nama" value="<?= $persil_detail["nopersil"] ?>">
 												</div>
 											</div>
 											<div class="form-group">
@@ -76,9 +76,9 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="luas_tanah"  class="col-sm-3 control-label">Luas Tanah (M<sup>2</sup>)</label>
+												<label for="luas_tanah"  class="col-sm-3 control-label ">Luas Tanah (M<sup>2</sup>)</label>
 												<div class="col-sm-4">
-													<input  id="luas" name="luas"  type="text"  class="form-control input-sm" placeholder="Luas" value="<?= $persil_detail["luas"] ?>"></input>
+													<input  id="luas" name="luas"  type="text"  class="form-control input-sm bilangan_titik" maxlength="10" placeholder="Luas" value="<?= $persil_detail["luas"] ?>"></input>
 												</div>
 											</div>
 											<div class="form-group">
@@ -90,7 +90,7 @@
 											<div class="form-group">
 												<label for="kelas_tanah"  class="col-sm-3 control-label">Kelas Tanah</label>
 												<div class="col-sm-8">
-													<input  id="kelas" name="kelas"  type="text"  class="form-control input-sm" placeholder="Tuliskan Kelas Tanah" value="<?= $persil_detail["kelas"] ?>"></input>
+													<input  id="kelas" name="kelas"  type="text"  class="form-control input-sm nomor_sk"  maxlength="10" placeholder="Tuliskan Kelas Tanah" value="<?= $persil_detail["kelas"] ?>"></input>
 												</div>
 											</div>
 											<div class="form-group">
@@ -118,7 +118,7 @@
 											<div class="form-group">
 												<label for="sppt"  class="col-sm-3 control-label">Nomor SPPT PBB</label>
 												<div class="col-sm-8">
-													<input  id="sppt" name="sppt"  type="text"  class="form-control input-sm" placeholder="Tuliskan Nomor SPPT PBB" value="<?= $persil_detail["no_sppt_pbb"] ?>"></input>
+													<input  id="sppt" name="sppt"  type="text"  class="form-control input-sm nomor_sk" maxlength="50" placeholder="Tuliskan Nomor SPPT PBB" value="<?= $persil_detail["no_sppt_pbb"] ?>"></input>
 												</div>
 											</div>
 										</div>

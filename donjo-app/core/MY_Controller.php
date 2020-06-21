@@ -42,8 +42,11 @@ class MY_Controller extends CI_Controller {
 
 			$heading = 'Ubah Setting Default';
 			$message = 'Setting anda di file desa/config/config.php masih menggunakan setting default. Ubah dulu ke setting yg lebih aman sebelum menggunakan OpenSID.';
-			$error =& load_class('Exceptions', 'core');
-			echo $error->show_error($heading, $message, 'error_general', 200);
+			// Conflict kalau gunakan load_class()
+			// https://stackoverflow.com/questions/15207937/codeigniter-command-line-error-php-fatal-error-class-ci-controller-not-foun
+			require_once('system/core/Exceptions.php');
+			$error = new CI_Exceptions('core');
+			echo $error->show_error($heading, $message, 'error_general', 403);
 			exit(8);
 		}
 
@@ -178,7 +181,7 @@ class Admin_Controller extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->CI = & get_instance();
+		$this->CI = CI_Controller::get_instance();
  		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model('user_model');
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);

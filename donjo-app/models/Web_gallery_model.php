@@ -109,7 +109,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		// Bolehkan album tidak ada gambar cover
 		if (!empty($lokasi_file))
@@ -145,7 +146,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
 		// Kalau kosong, gambar tidak diubah
 		if (!empty($lokasi_file))
 		{
@@ -340,7 +342,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $parrent)) + 1;
 		// Bolehkan isi album tidak ada gambar
 		if (!empty($lokasi_file))
@@ -378,7 +381,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
 		// Kalau kosong, gambar tidak diubah
 		if (!empty($lokasi_file))
 		{
