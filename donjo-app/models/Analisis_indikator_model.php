@@ -209,12 +209,21 @@
 		}
 	}
 
+	private function validasi_parameter($post)
+	{
+	$data = array();
+    $data['kode_jawaban'] = bilangan($post['kode_jawaban']);
+    $data['jawaban'] = htmlentities($post['jawaban']);
+    $data['nilai'] = bilangan($post['nilai']);
+    return $data;
+	}
+
 	public function p_insert($in='')
 	{
 		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
 
-		$data = $_POST;
+		$data = $this->validasi_parameter($this->input->post());
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
@@ -223,9 +232,9 @@
 
 	public function p_update($id=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_parameter($this->input->post());
 		// Analisis sistem hanya kolom tertentu boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])){
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)){
 			unset($data['kode_jawaban']);
 			unset($data['jawaban']);
 		}
