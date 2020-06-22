@@ -252,6 +252,6 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("bilangan_pecahan", function(value, element) {
 		valid = /^[0-9\.]+$/.test(value);
 		return this.optional(element) || valid;
-	}, "Hanya boleh berisi karakter numerik dan spasi");
+	}, "Hanya boleh berisi bilangan bulat atau pecahan");
 
 })
