@@ -136,9 +136,17 @@
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data = $post;
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['desk'] = htmlentities($post['desk']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		  $data = $_POST;
+		  $data = $this->validasi($this->input->post());
 		  $area_file = $_FILES['foto']['tmp_name'];
 		  $tipe_file = $_FILES['foto']['type'];
 		  $nama_file = $_FILES['foto']['name'];
@@ -164,7 +172,7 @@
 
 	public function update($id=0)
 	{
-		  $data = $_POST;
+		  $data = $this->validasi($this->input->post());
 		  $area_file = $_FILES['foto']['tmp_name'];
 		  $tipe_file = $_FILES['foto']['type'];
 		  $nama_file = $_FILES['foto']['name'];

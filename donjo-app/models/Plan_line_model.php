@@ -90,10 +90,17 @@
 		}
 		return $data;
 	}
+	private function validasi($post)
+	{
+		$data = $post;
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['color'] = htmlentities($post['color']);
+		return $data;
+	}
 
 	public function insert()
 	{
-		$data = $_POST;
+	  $data = $this->validasi($this->input->post());
 	  $lokasi_file = $_FILES['simbol']['tmp_name'];
 	  $tipe_file = $_FILES['simbol']['type'];
 	  $nama_file = $_FILES['simbol']['name'];
@@ -118,7 +125,7 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+	  $data = $this->validasi($this->input->post());
 	  $lokasi_file = $_FILES['simbol']['tmp_name'];
 	  $tipe_file = $_FILES['simbol']['type'];
 	  $nama_file = $_FILES['simbol']['name'];

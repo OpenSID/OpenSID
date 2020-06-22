@@ -121,9 +121,16 @@ class Plan_garis_model extends MY_Model {
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data = $post;
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		return $data;
+	}
+
 	public function insert()
 	{
-	  $data = $_POST;
+	  $data = $this->validasi($this->input->post());
 	  $garis_file = $_FILES['foto']['tmp_name'];
 	  $tipe_file = $_FILES['foto']['type'];
 	  $nama_file = $_FILES['foto']['name'];
@@ -152,7 +159,7 @@ class Plan_garis_model extends MY_Model {
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+	  $data = $this->validasi($this->input->post());
 	  $garis_file = $_FILES['foto']['tmp_name'];
 	  $tipe_file = $_FILES['foto']['type'];
 	  $nama_file = $_FILES['foto']['name'];
