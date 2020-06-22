@@ -1,15 +1,16 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Hom_sid extends Admin_Controller {
+
+	private $_header;
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		$this->load->model('header_model');
-		$this->load->model('program_bantuan_model');
-		$this->load->model('surat_model');
+		$this->load->model(['header_model', 'program_bantuan_model', 'surat_model']);
+		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 1;
 	}
 
@@ -23,10 +24,9 @@ class Hom_sid extends Admin_Controller {
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
 		$data['jumlah_surat'] = $this->surat_model->surat_total();
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('home/desa', $data);
 		$this->load->view('footer');
 	}

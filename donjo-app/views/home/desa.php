@@ -1,7 +1,15 @@
 <!-- Perubahan script coding untuk bisa menampilkan SID Home dalam bentuk tampilan bootstrap (AdminLTE)  -->
 <style type="text/css">
-	.text-white {color: white;}
-	.pengaturan {float: left; padding-left: 10px;}
+	.text-white {
+		color: white;
+	}
+	.pengaturan {
+		float: left;
+		padding-left: 10px;
+	}
+	.update a {
+		text-decoration: none;
+	}
 </style>
 <div class="content-wrapper">
 	<section class='content-header'>
@@ -13,9 +21,15 @@
 	</section>
 	<section class='content' id="maincontent">
 		<div class='row'>
+			<div class='col-md-12'>
+				<div class="callout callout-info update">
+					<h4><i class="fa fa-info-circle"></i> Versi Update</h4>
+					<p>OpenSID versi <?= $versi;?> telah tersedia, silahkan update sekarang juga. <a href="#" class="btn btn-flat btn-success btn-sm">Download</a></p>
+				</div>
+			</div>
 			<div class='col-md-6'>
 				<div class='box box-info'>
-				 	<div class='box-body'>
+					<div class='box-body'>
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-purple">
 								<div class="inner">
