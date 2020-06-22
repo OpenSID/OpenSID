@@ -35,7 +35,7 @@ class Sid_Core extends Admin_Controller {
 
 		$data['cari'] = $this->session->cari ?: '';
 		$data['func'] = 'index';
-		$data['set_page'] = $this->set_page;
+		$data['set_page'] = $this->_set_page;
 		$data['per_page'] = $this->session->per_page;
 		$data['paging'] = $this->wilayah_model->paging($p, $o);
 		$data['main'] = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
