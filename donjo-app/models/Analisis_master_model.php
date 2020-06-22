@@ -111,7 +111,7 @@ class Analisis_master_model extends MY_Model {
     $data['format_impor'] = $post['format_impor'] ?: null;
     $data['pembagi'] = bilangan_titik($post['pembagi']);
     $data['id_child'] = $post['id_child'] ?: null;
-    $data['deskripsi'] = strip_tags($post['deskripsi']);
+    $data['deskripsi'] = htmlentities($post['deskripsi']);
     return $data;
 	}
 
