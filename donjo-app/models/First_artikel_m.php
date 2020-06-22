@@ -19,7 +19,7 @@ class First_artikel_m extends CI_Model {
 			WHERE headline = 1 AND a.tgl_upload < NOW()
 			ORDER BY tgl_upload DESC LIMIT 1 ";
 		$query = $this->db->query($sql);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		if (empty($data))
 			$data = null;
 		else
@@ -188,7 +188,7 @@ class First_artikel_m extends CI_Model {
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		if ($query->num_rows()>0)
 		{
 			for ($i=0; $i<count($data); $i++)
@@ -203,7 +203,7 @@ class First_artikel_m extends CI_Model {
 		}
 		else
 		{
-			$data  = false;
+			$data = false;
 		}
 		return $data;
 	}
@@ -241,21 +241,25 @@ class First_artikel_m extends CI_Model {
 				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload < NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
+
 			case '2':
 				# 10 gambar utama artikel terbaru yang masuk ke slider atas
 				$slider_gambar['gambar'] = $this->slide_show(true);
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
+
 			case '3':
 				# 10 gambar dari galeri yang masuk ke slider besar
 				$this->load->model('web_gallery_model');
 				$slider_gambar['gambar'] = $this->web_gallery_model->list_slide_galeri();
 				$slider_gambar['lokasi'] = LOKASI_GALERI;
 				break;
+
 			default:
 				# code...
 				break;
 		}
+
 		return $slider_gambar;
 	}
 
@@ -273,9 +277,11 @@ class First_artikel_m extends CI_Model {
 				$this->db->where('DATE(g.tgl_agenda) > CURDATE()')
 					->order_by('g.tgl_agenda');
 				break;
+
 			case 'lama':
 				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
 				break;
+
 			default:
 				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
 				break;
@@ -292,7 +298,7 @@ class First_artikel_m extends CI_Model {
 	{
 		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
 			FROM komentar a
-			INNER JOIN artikel b ON  a.id_artikel = b.id
+			INNER JOIN artikel b ON a.id_artikel = b.id
 			WHERE a.status = ? AND a.id_artikel <> 775
 			ORDER BY a.tgl_upload DESC LIMIT 10 ";
 		$query = $this->db->query($sql, 1);
@@ -307,6 +313,7 @@ class First_artikel_m extends CI_Model {
 			$panjang = str_split($data[$i]['komentar'], 50);
 			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
 		}
+
 		return $data;
 	}
 
@@ -330,6 +337,7 @@ class First_artikel_m extends CI_Model {
 		// Bukan kategori yg dikenal
 		if (empty($data))
 			$data = "Artikel Kategori '$id'";
+
 		return $data;
 	}
 
@@ -445,6 +453,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
 		}
+
 		if ($outp)
 		{
 			$_SESSION['success'] = 1;
@@ -452,6 +461,7 @@ class First_artikel_m extends CI_Model {
 		}
 
 		$_SESSION['success'] = -1;
+
 		return false;
 	}
 
@@ -462,6 +472,7 @@ class First_artikel_m extends CI_Model {
 			->where('status', 1)
 			->order_by('tgl_upload DESC')
 			->get()->result_array();
+
 		return $data;
 	}
 
@@ -472,7 +483,7 @@ class First_artikel_m extends CI_Model {
 
 		if ($query->num_rows()>0)
 		{
-			$data  = $query->result_array();
+			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
@@ -488,15 +499,17 @@ class First_artikel_m extends CI_Model {
 
 		$id = $this->db->select('id')
 			->where('slug', $url)
-			->or_where('id', $url);
+			->or_where('id', $url)
 			->get('artikel')
 			->row()->id;
 
 		//membatasi hit hanya satu kali dalam setiap session
 		if (in_array($id, $_SESSION['artikel']) OR $this->agent->is_robot() OR crawler() === TRUE) return;
+
 		$this->db->set('hit', 'hit + 1', false)
 			->where('id', $id)
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
 	}
+
 }
