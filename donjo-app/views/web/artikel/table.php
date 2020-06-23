@@ -1,9 +1,7 @@
 <script>
-	$(function()
-	{
+	$(function() {
 		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
+		$( "#cari" ).autocomplete( {
 			source: keyword,
 			maxShowItems: 10,
 		});
@@ -31,15 +29,18 @@
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_kategori AS $data): ?>
-									<li class="<?php ($cat == $data['id']) and print('active') ?>">
-										<a href='<?=site_url("web/index/$data[id]")?>'>
-											<?php if ($data['kategori']!="teks_berjalan"): ?>
-												<?= $data['kategori'];?>
-											<?php else: ?>
-												Teks Berjalan
-											<?php endif; ?>
+									<li class="<?= jecho($cat, $data['id'], 'active'); ?>">
+										<a href='<?=site_url("web/tab/$data[id]")?>'>
+											<?= $data['kategori'];?>
 										</a>
 									</li>
+									<?php foreach($data['submenu'] as $submenu): ?>
+										<li class="<?= jecho($cat, $submenu['id'], 'active'); ?>">
+											<a href='<?=site_url("web/tab/$submenu[id]")?>'>
+												&emsp;<?= $submenu['kategori'];?>
+											</a>
+										</li>
+									<?php endforeach; ?>
 								<?php endforeach; ?>
 							</ul>
 						</div>
@@ -53,9 +54,9 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li class="<?php ($cat == 999) and print('active') ?>"><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
-								<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
-								<li class="<?php ($cat == 1001) and print('active') ?>"><a href="<?=site_url('web/index/1001')?>">Keuangan</a></li>
+								<li class="<?= jecho($cat, 999, 'active'); ?>"><a href="<?=site_url('web/tab/999')?>">Halaman Statis</a></li>
+								<li class="<?= jecho($cat, 1000, 'active'); ?>"><a href="<?=site_url('web/tab/1000')?>">Agenda</a></li>
+								<li class="<?= jecho($cat, 1001, 'active'); ?>"><a href="<?=site_url('web/tab/1001')?>">Keuangan</a></li>
 							</ul>
 						</div>
 					</div>
@@ -121,25 +122,25 @@
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("web/tab/$cat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("web/index/$cat/$p/2")?>">Judul <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("web/tab/$cat/$p/2")?>">Judul <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("web/tab/$cat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==4): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Hit <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/tab/$cat/$p/3")?>">Hit <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Hit <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/tab/$cat/$p/4")?>">Hit <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Hit <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/tab/$cat/$p/3")?>">Hit <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==6): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/tab/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==5): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/6")?>">Diposting Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/tab/$cat/$p/6")?>">Diposting Pada <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/tab/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																</tr>
 															</thead>
@@ -209,19 +210,19 @@
 												<div class="dataTables_paginate paging_simple_numbers">
 													<ul class="pagination">
 														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+															<li><a href="<?=site_url("web/tab/$cat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+															<li><a href="<?=site_url("web/tab/$cat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 														<?php endif; ?>
 														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("web/index/$cat/$i/$o")?>"><?= $i?></a></li>
+															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("web/tab/$cat/$i/$o")?>"><?= $i?></a></li>
 														<?php endfor; ?>
 														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+															<li><a href="<?=site_url("web/tab/$cat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 														<?php endif; ?>
 														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+															<li><a href="<?=site_url("web/tab/$cat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 														<?php endif; ?>
 													</ul>
 												</div>

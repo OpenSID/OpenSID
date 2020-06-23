@@ -120,14 +120,31 @@
 		return $data;
 	}
 
+	private function kategori($id)
+	{
+		$data	= $this->db
+			->where('parrent', $id)
+			->order_by('urut')
+			->get('kategori')
+			->result_array();
+
+		return $data;
+	}
+
 	public function list_kategori()
 	{
-		$sql = "SELECT * FROM kategori WHERE 1 order by urut";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		$data[] = array(
+		$data = $this->kategori(0);
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['submenu'] = $this->kategori($data[$i]['id']);
+		}
+
+		$data[] = [
 			'id' => '0',
-			'kategori' => '[Tidak Berkategori]');
+			'kategori' => '[Tidak Berkategori]'
+		];
+
 		return $data;
 	}
 

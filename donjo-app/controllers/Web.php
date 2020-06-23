@@ -36,10 +36,15 @@ class Web extends Admin_Controller {
 		redirect("web/index/$cat");
 	}
 
-	public function index($cat = 1, $p = 1, $o = 0)
+	public function index($p = 1, $o = 0)
 	{
+		$cat = $this->session->kategori;
+
+		if(!$cat) $cat = 0;
+
 		$data['p'] = $p;
 		$data['o'] = $o;
+
 		$data['cat'] = $cat;
 
 		if (isset($_SESSION['cari']))
@@ -70,6 +75,13 @@ class Web extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('web/artikel/table', $data);
 		$this->load->view('footer');
+	}
+
+	public function tab($cat = 0)
+	{
+		$this->session->kategori = $cat;
+
+		redirect('web');
 	}
 
 	public function form($cat = 1, $p = 1, $o = 0, $id = '')
