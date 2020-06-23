@@ -97,11 +97,13 @@ class First_artikel_m extends CI_Model {
 
 	public function artikel_show($offset, $limit)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
 		$this->paging_artikel_sql();
-		$this->db->order_by('a.tgl_upload DESC')->limit($limit, $offset);
-
-		$data = $this->db->get()->result_array();
+		$data = $this->db
+			->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->order_by('a.tgl_upload DESC')
+			->limit($limit, $offset)
+			->get()
+			->result_array();
 
 		for ($i=0; $i < count($data); $i++)
 		{
@@ -350,8 +352,10 @@ class First_artikel_m extends CI_Model {
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
 			->where('a.enabled', 1)
 			->where('a.tgl_upload < NOW()')
-			->where('a.slug', $url)
-			->or_where('a.id', $url);
+			->group_start()
+				->where('a.slug', $url)
+				->or_where('a.id', $url)
+			->group_end();
 
 		$query = $this->db->get();
 
@@ -402,7 +406,11 @@ class First_artikel_m extends CI_Model {
 
 		if (!empty($id))
 		{
-			$this->db->where('k.slug', $id)->or_where('k.id', $id);
+			$this->db
+				->group_start()
+					->where('k.slug', $id)
+					->or_where('k.id', $id)
+				->group_end();
 		}
 	}
 
