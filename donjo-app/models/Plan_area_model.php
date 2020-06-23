@@ -147,13 +147,13 @@
 
 	public function insert()
 	{
-		  $data = $this->validasi($this->input->post());
-		  $area_file = $_FILES['foto']['tmp_name'];
-		  $tipe_file = $_FILES['foto']['type'];
-		  $nama_file = $_FILES['foto']['name'];
-		  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		  if (!empty($area_file))
-		  {
+		$data = $this->validasi($this->input->post());
+		$area_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($area_file))
+		{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadarea($nama_file);
@@ -173,13 +173,13 @@
 
 	public function update($id=0)
 	{
-		  $data = $this->validasi($this->input->post());
-		  $area_file = $_FILES['foto']['tmp_name'];
-		  $tipe_file = $_FILES['foto']['type'];
-		  $nama_file = $_FILES['foto']['name'];
-		  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		  if (!empty($area_file))
-		  {
+		$data = $this->validasi($this->input->post());
+		$area_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($area_file))
+		{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadarea($nama_file);
@@ -195,7 +195,7 @@
 			$outp = $this->db->update('area', $data);
 		}
 		status_sukses($outp); //Tampilkan Pesan
-  }
+	}
 
 	public function delete($id='', $semua=false)
 	{

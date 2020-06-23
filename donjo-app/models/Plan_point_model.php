@@ -107,7 +107,7 @@
 
 	public function update($id=0)
 	{
-	  	$data = $this->validasi($this->input->post());
+		$data = $this->validasi($this->input->post());
 		$this->db->where('id', $id);
 		$outp = $this->db->update('point', $data);
 

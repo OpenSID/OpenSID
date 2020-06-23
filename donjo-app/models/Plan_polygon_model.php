@@ -102,21 +102,21 @@
 	public function insert()
 	{
 		$data = $this->validasi($this->input->post());
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
+		$lokasi_file = $_FILES['simbol']['tmp_name'];
+		$tipe_file = $_FILES['simbol']['type'];
+		$nama_file = $_FILES['simbol']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+		{
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
 				$outp = $this->db->insert('polygon', $data);
 			}
-	  }
-	  else
-	  {
+		}
+		else
+		{
 			unset($data['simbol']);
 			$outp = $this->db->insert('polygon', $data);
 		}

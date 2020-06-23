@@ -130,13 +130,13 @@ class Plan_garis_model extends MY_Model {
 
 	public function insert()
 	{
-	  $data = $this->validasi($this->input->post());
-	  $garis_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($garis_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$garis_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($garis_file))
+		{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadgaris($nama_file);
@@ -159,13 +159,13 @@ class Plan_garis_model extends MY_Model {
 
 	public function update($id=0)
 	{
-	  $data = $this->validasi($this->input->post());
-	  $garis_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($garis_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$garis_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($garis_file))
+		{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				Uploadgaris($nama_file);
@@ -182,7 +182,7 @@ class Plan_garis_model extends MY_Model {
 		}
 
 		status_sukses($outp); //Tampilkan Pesan
-  }
+	}
 
 	public function delete($id='', $semua=false)
 	{

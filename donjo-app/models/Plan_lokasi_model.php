@@ -93,7 +93,7 @@
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			default:$order_sql = ' ORDER BY id';
 		}
-    $paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		$sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol " . $this->list_data_sql();
 		$sql .= $order_sql;
@@ -126,13 +126,13 @@
 
 	public function insert()
 	{
-	  $data = $this->validasi($this->input->post());
-	  $lokasi_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-		  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+			{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				UploadLokasi($nama_file);
@@ -154,12 +154,12 @@
 
 	public function update($id=0)
 	{
-	  $data = $this->validasi($this->input->post());
-	  $lokasi_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file)){
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file)){
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				UploadLokasi($nama_file);
