@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web extends Admin_Controller {
 
@@ -19,7 +21,7 @@ class Web extends Admin_Controller {
 
 		$this->load->model(['header_model', 'web_artikel_model', 'web_kategori_model']);
 		$this->_header = $this->header_model->get_data();
-		$this->_set_page = ['1', '50', '100'];
+		$this->_set_page = ['20', '50', '100'];
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 47;
 	}
