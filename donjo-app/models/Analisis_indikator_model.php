@@ -126,10 +126,10 @@
 
 	private function validasi_data($post)
 	{
-	$data = array();
-    $data['nomor'] = bilangan($post['nomor']);
-    $data['pertanyaan'] = htmlentities($post['pertanyaan']);
-    return $data;
+		$data = array();
+		$data['nomor'] = bilangan($post['nomor']);
+		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
+		return $data;
 	}
 
 	public function insert()
