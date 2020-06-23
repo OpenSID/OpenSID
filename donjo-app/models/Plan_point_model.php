@@ -91,8 +91,8 @@
 	}
 	private function validasi($post)
 	{
-		$data = $post;
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['simbol'] = $post['simbol'];
 		return $data;
 	}
 
