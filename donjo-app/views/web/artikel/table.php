@@ -95,18 +95,18 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url("web/filter/$cat")?>')">
+													<select class="form-control input-sm " name="status" onchange="formAction('mainform', '<?=site_url("web/filter/status/$cat")?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
-														<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
+														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
+														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('web/search/$cat')?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('web/filter/cari/$cat')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("web/search/$cat")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("web/filter/cari/$cat")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>

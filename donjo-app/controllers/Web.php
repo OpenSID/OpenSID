@@ -26,7 +26,7 @@ class Web extends Admin_Controller {
 
 	public function clear()
 	{
-		$this->session->unset_userdata(['cari, filter']);
+		$this->session->unset_userdata(['cari, status']);
 		$this->session->per_page = $this->_set_page[0];
 		redirect('web');
 	}
@@ -42,7 +42,7 @@ class Web extends Admin_Controller {
 
 		$data['cat'] = $cat;
 		$data['cari'] = $this->session->cari ?: '';
-		$data['filter'] = $this->session->filter ?: '';
+		$data['status'] = $this->session->status ?: '';
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
@@ -54,7 +54,7 @@ class Web extends Admin_Controller {
 
 		$paging = $this->web_artikel_model->paging($cat, $p, $o);
 		$data['main'] = $this->web_artikel_model->list_data($cat, $o, $paging->offset, $paging->per_page);
-		$data['keyword'] = $this->web_artikel_model->autocomplete();
+		$data['keyword'] = $this->web_artikel_model->autocomplete($cat);
 		$data['list_kategori'] = $this->web_artikel_model->list_kategori();
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data = $this->security->xss_clean($data);
@@ -103,21 +103,12 @@ class Web extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function search($cat = 1)
+	public function filter($filter, $cat = 1)
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect("web/index/$cat");
-	}
-
-	public function filter($cat = 1)
-	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect("web/index/$cat");
 	}
 
