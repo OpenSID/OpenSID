@@ -249,9 +249,4 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
 
-	jQuery.validator.addMethod("bilangan_pecahan", function(value, element) {
-		valid = /^[0-9\.]+$/.test(value);
-		return this.optional(element) || valid;
-	}, "Hanya boleh berisi bilangan bulat atau pecahan");
-
 })

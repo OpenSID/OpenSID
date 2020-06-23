@@ -12,12 +12,12 @@
 					</div>
 					<div class="form-group">
 						<label class="control-label" for="minval">Nilai Minimal</label>
-						<input  id="minval" class="form-control input-sm required bilangan_pecahan" type="text" placeholder="Nilai Minimal" name="minval" value="<?= $analisis_klasifikasi['minval']?>">
+						<input  id="minval" class="form-control input-sm required number" type="text" placeholder="Nilai Minimal" name="minval" value="<?= $analisis_klasifikasi['minval']?>">
 						<p class="small text-maroon"> Gunakan tanda titik (.) untuk bilangan pencahan.</p>
 					</div>
 					<div class="form-group">
 						<label class="control-label" for="minval">Nilai Maksimal</label>
-						<input  id="maxval" class="form-control input-sm required bilangan_pecahan" type="text" placeholder="Nilai Maksimal" name="maxval" value="<?= $analisis_klasifikasi['maxval']?>">
+						<input  id="maxval" class="form-control input-sm required number" type="text" placeholder="Nilai Maksimal" name="maxval" value="<?= $analisis_klasifikasi['maxval']?>">
 						<p class="small text-maroon"> Gunakan tanda titik (.) untuk bilangan pencahan.</p>
 					</div>
 				</div>
