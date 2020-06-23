@@ -419,17 +419,8 @@ class Sid_Core extends Admin_Controller {
 		$namadusun =  $this->input->post('dusun');
 		$iddusun =  $this->input->post('id');
 
-		$update_kantor = $this->wilayah_model->update_kantor_dusun_map($id);
-
-		if ($update_kantor)
-		{
-			$this->wilayah_model->update_kantor_dusun_map($id);
-		}
-		else
-		{
-			redirect("sid_core");
-			$_SESSION['success'] = 1;
-		}
+		$this->wilayah_model->update_kantor_dusun_map($id);
+		redirect("sid_core");
 	}
 
 	public function update_wilayah_dusun_map($id = '')
@@ -438,17 +429,8 @@ class Sid_Core extends Admin_Controller {
 		$namadusun =  $this->input->post('dusun');
 		$iddusun =  $this->input->post('id');
 
-		$update_wilayah = $this->wilayah_model->update_wilayah_dusun_map($id);
-
-		if ($update_wilayah)
-		{
-			$this->wilayah_model->update_wilayah_dusun_map($id);
-		}
-		else
-		{
-			redirect("sid_core");
-			$_SESSION['success'] = 1;
-		}
+		$this->wilayah_model->update_wilayah_dusun_map($id);
+		redirect("sid_core");
 	}
 
 	public function ajax_kantor_rw_maps($id_dusun = '', $id_rw = '')
@@ -529,32 +511,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_rw_map($id_dusun = '', $id_rw = '')
 	{
-		$update_kantor = $this->wilayah_model->update_kantor_rw_map($id_rw);
-
-		if ($update_kantor)
-		{
-			$this->wilayah_model->update_kantor_rw_map($id_rw);
-		}
-		else
-		{
-			redirect("sid_core/sub_rw/$id_dusun");
-			$_SESSION['success'] = 1;
-		}
+		$this->wilayah_model->update_kantor_rw_map($id_rw);
+		redirect("sid_core/sub_rw/$id_dusun");
 	}
 
 	public function update_wilayah_rw_map($id_dusun = '', $rw = '')
 	{
-		$update_wilayah = $this->wilayah_model->update_wilayah_rw_map($id_rw);
-
-		if ($update_wilayah)
-		{
-			$this->wilayah_model->update_wilayah_rw_map($id_rw);
-		}
-		else
-		{
-			redirect("sid_core/sub_rw/$id_dusun");
-			$_SESSION['success'] = 1;
-		}
+		$this->wilayah_model->update_wilayah_rw_map($id_rw);
+		redirect("sid_core/sub_rw/$id_dusun");
 	}
 
 	public function ajax_kantor_rt_maps($id_dusun = '', $id_rw ='', $id ='')
@@ -635,32 +599,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_rt_map($id_dusun = '', $id_rw ='', $id ='')
 	{
-		$update_kantor = $this->wilayah_model->update_kantor_rt_map($id);
-
-		if ($update_kantor)
-		{
-			$this->wilayah_model->update_kantor_rt_map($id);
-		}
-		else
-		{
-			redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-			$_SESSION['success'] = 1;
-		}
+		$this->wilayah_model->update_kantor_rt_map($id);
+		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
 
 	public function update_wilayah_rt_map($id_dusun = '', $id_rw ='', $id ='')
 	{
-		$update_kantor = $this->wilayah_model->update_wilayah_rt_map($id);
-
-		if ($update_kantor)
-		{
-			$this->wilayah_model->update_wilayah_rt_map($id);
-		}
-		else
-		{
-			redirect("sid_core/sub_rt/$id_dusun/$id_rw");
-			$_SESSION['success'] = 1;
-		}
+		$this->wilayah_model->update_wilayah_rt_map($id);
+		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
 
 }
