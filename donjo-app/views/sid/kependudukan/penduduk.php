@@ -1,39 +1,37 @@
 <script>
-  $( function() {
-	  $( "#cari" ).autocomplete({
-	    source: function( request, response ) {
-	      $.ajax( {
+	$( function() {
+		$( "#cari" ).autocomplete( {
+			source: function( request, response ) {
+				$.ajax( {
 					type: "POST",
-	        url: '<?= site_url("penduduk/autocomplete")?>',
-	        dataType: "json",
-	        data: {
-	          cari: request.term
-	        },
-	        success: function( data ) {
-	          response( JSON.parse( data ));
-	        }
-	      } );
-	    },
-	    minLength: 2,
-	  } );
-  } );
+					url: '<?= site_url("penduduk/autocomplete")?>',
+					dataType: "json",
+					data: {
+						cari: request.term
+					},
+					success: function( data ) {
+						response( JSON.parse( data ));
+					}
+				} );
+			},
+			minLength: 2,
+		} );
+	} );
 </script>
 <style>
-	.input-sm
-	{
+	.input-sm {
 		padding: 4px 4px;
 	}
-	@media (max-width:780px)
-	{
+
+	@media (max-width:780px) {
 		.btn-group-vertical
 		{
 			display: block;
 		}
 	}
-	.table-responsive
-	{
-		min-height:275px;
-	}
+
+	.table-responsive {
+		min-height: 400px;
 	}
 </style>
 <div class="content-wrapper">
@@ -79,22 +77,22 @@
 									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('penduduk/filter')?>')">
+												<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url('penduduk/filter/filter')?>')">
 													<option value="">Status Penduduk</option>
 													<?php foreach ($list_status_penduduk AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($filter, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
-												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk/status_dasar')?>')">
+												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk/filter/status_dasar')?>')">
 													<option value="">Status Dasar</option>
 													<?php foreach ($list_status_dasar AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($status_dasar, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('penduduk/sex')?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('penduduk/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_jenis_kelamin AS $data): ?>
-														<option value="<?= $data['id']?>" <?php selected($jenis_kelamin, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
+														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk/dusun')?>')">
@@ -122,9 +120,9 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/search")?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("penduduk/filter/cari")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("penduduk/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("penduduk/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -223,11 +221,11 @@
 																						<a href="<?= site_url("penduduk/dokumen/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
 																					</li>
 																					<li>
-																						<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>"  target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
+																						<a href="<?= site_url("penduduk/cetak_biodata/$data[id]")?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																					</li>
 																					<?php if ($this->CI->cek_hak_akses('h')): ?>
 																						<li>
-																							<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>"  class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+																							<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
 																						</li>
 																					<?php endif; ?>
 																				<?php endif; ?>
@@ -269,46 +267,7 @@
 											</div>
 										</div>
 									</form>
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("penduduk")?>" method="post" class="form-horizontal">
-													<label>
-														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="50" <?php selected($per_page, 50); ?> >50</option>
-															<option value="100" <?php selected($per_page, 100); ?> >100</option>
-															<option value="200" <?php selected($per_page, 200); ?> >200</option>
-														</select>
-														Dari
-														<strong><?= $paging->num_rows?></strong>
-														Total Data
-													</label>
-												</form>
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="dataTables_paginate paging_simple_numbers">
-												<ul class="pagination">
-													<?php if ($paging->start_link): ?>
-														<li><a href="<?=site_url("penduduk/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-													<?php endif; ?>
-													<?php if ($paging->prev): ?>
-														<li><a href="<?=site_url("penduduk/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-													<?php endif; ?>
-													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("penduduk/index/$i/$o")?>"><?= $i?></a></li>
-													<?php endfor; ?>
-													<?php if ($paging->next): ?>
-														<li><a href="<?=site_url("penduduk/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-													<?php endif; ?>
-													<?php if ($paging->end_link): ?>
-														<li><a href="<?=site_url("penduduk/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-													<?php endif; ?>
-												</ul>
-											</div>
-										</div>
-									</div>
+									<?php $this->load->view('global/paging');?>
 								</div>
 							</div>
 						</div>
