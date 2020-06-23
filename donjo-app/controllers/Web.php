@@ -2,10 +2,12 @@
 
 class Web extends Admin_Controller {
 
+	private $_header;
+	private $_set_page;
+
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
@@ -15,28 +17,21 @@ class Web extends Admin_Controller {
 			exit;
 		}
 
-		$this->load->model('header_model');
-		$this->load->model('web_artikel_model');
-		$this->load->model('web_kategori_model');
+		$this->load->model(['header_model', 'web_artikel_model', 'web_kategori_model']);
+		$this->_header = $this->header_model->get_data();
+		$this->_set_page = ['1', '50', '100'];
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 47;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		$this->session->unset_userdata(['cari, filter']);
+		$this->session->per_page = $this->_set_page[0];
 		redirect('web');
 	}
 
-	public function pager($cat = 1)
-	{
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		redirect("web/index/$cat");
-	}
-
-	public function index($p = 1, $o = 0)
+	public function index($cat = 0, $p = 1, $o = 0)
 	{
 		$cat = $this->session->kategori;
 
@@ -46,33 +41,28 @@ class Web extends Admin_Controller {
 		$data['o'] = $o;
 
 		$data['cat'] = $cat;
+		$data['cari'] = $this->session->cari ?: '';
+		$data['filter'] = $this->session->filter ?: '';
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['func'] = "index/$cat";
+		$data['per_page'] = $this->session->per_page;
+		$data['set_page'] = $this->_set_page;
 
 		$paging = $this->web_artikel_model->paging($cat, $p, $o);
 		$data['main'] = $this->web_artikel_model->list_data($cat, $o, $paging->offset, $paging->per_page);
 		$data['keyword'] = $this->web_artikel_model->autocomplete();
 		$data['list_kategori'] = $this->web_artikel_model->list_kategori();
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$data['cat'] = $cat;
-
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] =1;
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
+		$this->_header['minsidebar'] =1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('web/artikel/table', $data);
 		$this->load->view('footer');
 	}
@@ -105,11 +95,10 @@ class Web extends Admin_Controller {
 		}
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('web/artikel/form',$data);
 		$this->load->view('footer');
 	}
@@ -286,10 +275,9 @@ class Web extends Admin_Controller {
 	public function slider()
 	{
 		$this->sub_modul_ini = 54;
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('slider/admin_slider.php');
 		$this->load->view('footer');
 	}
@@ -310,10 +298,9 @@ class Web extends Admin_Controller {
 	public function teks_berjalan()
 	{
 		$this->sub_modul_ini = 64;
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('web/admin_teks_berjalan.php');
 		$this->load->view('footer');
 	}
