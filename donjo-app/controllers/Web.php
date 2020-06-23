@@ -76,7 +76,7 @@ class Web extends Admin_Controller {
 		redirect('web');
 	}
 
-	public function form($cat = 1, $p = 1, $o = 0, $id = '')
+	public function form($cat = 1, $p = 1, $o = 0, $id = 0)
 	{
 		if (!empty($id) and !$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
 			redirect("web/index/$cat/$p/$o");
@@ -97,7 +97,7 @@ class Web extends Admin_Controller {
 		}
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
