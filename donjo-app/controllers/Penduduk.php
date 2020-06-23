@@ -11,12 +11,12 @@ class Penduduk extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'header_model', 'config_model']);
+		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'header_model', 'config_model', 'program_bantuan_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan'];
+		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'golongan_darah', 'hamil'];
 	}
 
 	private function clear_session()
@@ -24,24 +24,6 @@ class Penduduk extends Admin_Controller {
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->status_dasar = 1; // default status dasar = hidup
 		$this->session->per_page = $this->_set_page[0];
-
-		unset($_SESSION['log']);
-		unset($_SESSION['warganegara']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_sedang_id']);
-		unset($_SESSION['pendidikan_kk_id']);
-		unset($_SESSION['judul_statistik']);
-		unset($_SESSION['hamil']);
-		unset($_SESSION['cara_kb_id']);
-		unset($_SESSION['akta_kelahiran']);
-		unset($_SESSION['status_ktp']);
-		unset($_SESSION['id_asuransi']);
-		unset($_SESSION['status_covid']);
-		unset($_SESSION['penerima_bantuan']);
 	}
 
 	public function clear()
@@ -190,12 +172,13 @@ class Penduduk extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function detail($p = 1, $o = 0, $id = '')
+	public function detail($p = 1, $o = 0, $id = 0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['program'] = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
