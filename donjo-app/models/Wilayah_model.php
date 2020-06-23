@@ -87,7 +87,9 @@
 	{
 		if (empty((int)$data['id_kepala']))
 			unset($data['id_kepala']);
-		$data['dusun'] = strip_tags($data['dusun']);
+		$data['dusun'] = nama_terbatas($data['dusun']) ?: 0;
+		$data['rw'] = nama_terbatas($data['rw']) ?: 0;
+		$data['rt'] = bilangan($data['rt']) ?: 0;
 		return $data;
 	}
 
@@ -99,7 +101,7 @@
 
 	public function insert()
 	{
-		$data = $this->bersihkan_data($_POST);
+		$data = $this->bersihkan_data($this->input->post());
 		$wil = array('dusun' => $data['dusun']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
@@ -122,7 +124,7 @@
 
 	public function update($id='')
 	{
-		$data = $this->bersihkan_data($_POST);
+		$data = $this->bersihkan_data($this->input->post());
 		$wil = array('dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
@@ -197,11 +199,7 @@
 
 	public function insert_rw($dusun='')
 	{
-
-    if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-		  UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
+    $data = $this->bersihkan_data($this->input->post());
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
@@ -222,10 +220,7 @@
 
 	public function update_rw($id_rw='')
 	{
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-		  UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
+		$data = $this->bersihkan_data($this->input->post());
 
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
@@ -256,7 +251,7 @@
 		FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun' AND u.rt <> '-'";
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
 		//Formating Output
 		for ($i=0; $i<count($data); $i++)
@@ -268,10 +263,7 @@
 
 	public function insert_rt($id_dusun='', $id_rw='')
 	{
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-			UNSET($_POST['id_kepala']);
-
-    $data = $_POST;
+		$data = $this->bersihkan_data($this->input->post());
 		$temp = $this->cluster_by_id($id_dusun);
 		$data['dusun']= $temp['dusun'];
 		$data_rw = $this->cluster_by_id($id_rw);
@@ -290,11 +282,7 @@
 
 	public function update_rt($id=0)
 	{
-		//Untuk mengakali update Nama RT saja tidak dengan kepala, sehingga ambil kepala sebelumnya
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-			UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
+		$data = $this->bersihkan_data($this->input->post());
 		$rt_lama = $this->db->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
 		$wil = array('dusun' => $rt_lama['dusun'], 'rw' => $rt_lama['rw'], 'rt' => $data['rt'], 'id <>' => $id);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
@@ -312,11 +300,11 @@
 	public function list_penduduk()
 	{
 		$data = $this->db->select('p.id, p.nik, p.nama, c.dusun')
-					->from('tweb_penduduk p')
-					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-					->where('p.status', 1)
-					->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
-					->get()->result_array();
+			->from('tweb_penduduk p')
+			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+			->where('p.status', 1)
+			->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
+			->get()->result_array();
 		return $data;
 	}
 
@@ -418,7 +406,7 @@
 		return $data;
 	}
 
-	public function total_rt($dusun='', $rw='')
+	public function total_rt($dusun = '', $rw = '')
 	{
 		$sql = "SELECT sum(jumlah_warga) as jmlwarga, sum(jumlah_warga_l) as jmlwargal, sum(jumlah_warga_p) as jmlwargap, sum(jumlah_kk) as jmlkk
 			FROM
@@ -435,10 +423,20 @@
 		return $data;
 	}
 
+	private function validasi_koordinat($post)
+	{
+		$data['id'] = $post['id'];
+		$data['zoom'] = $post['zoom'];
+		$data['map_tipe'] = $post['map_tipe'];
+		$data['lat'] = koordinat($post['lat']) ?: NULL;
+		$data['lng'] = koordinat($post['lng']) ?: NULL;
+		return $data;
+	}
+
 	public function update_kantor_dusun_map($id='')
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
+    $data = $this->validasi_koordinat($this->input->post());
+    $id = $data['id'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
@@ -464,8 +462,8 @@
 
 	public function update_kantor_rw_map($id='')
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
+    $data = $this->validasi_koordinat($this->input->post());
+    $id = $data['id'];
     $this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
@@ -491,8 +489,8 @@
 
 	public function update_kantor_rt_map($id='')
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
+    $data = $this->validasi_koordinat($this->input->post());
+    $id = $data['id'];
     $this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 

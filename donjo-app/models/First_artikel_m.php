@@ -19,7 +19,7 @@ class First_artikel_m extends CI_Model {
 			WHERE headline = 1 AND a.tgl_upload < NOW()
 			ORDER BY tgl_upload DESC LIMIT 1 ";
 		$query = $this->db->query($sql);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		if (empty($data))
 			$data = null;
 		else
@@ -89,24 +89,28 @@ class First_artikel_m extends CI_Model {
 			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
-					->like('a.judul', $cari)
-					->or_like('a.isi', $cari)
+				->like('a.judul', $cari)
+				->or_like('a.isi', $cari)
 				->group_end();
 		}
 	}
 
 	public function artikel_show($offset, $limit)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
 		$this->paging_artikel_sql();
-		$data = $this->db->order_by('a.tgl_upload DESC')
+		$data = $this->db
+			->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->order_by('a.tgl_upload DESC')
 			->limit($limit, $offset)
-			->get()->result_array();
+			->get()
+			->result_array();
+
 		for ($i=0; $i < count($data); $i++)
 		{
 			$this->sterilkan_artikel($data[$i]);
 			$this->icon_keuangan($data[$i]);
 		}
+
 		return $data;
 	}
 
@@ -139,9 +143,11 @@ class First_artikel_m extends CI_Model {
 			case 'acak':
 				$this->db->order_by('rand()');
 				break;
+
 			case 'populer':
 				$this->db->order_by('a.hit', DESC);
 				break;
+
 			default:
 				$this->db->order_by('a.tgl_upload', DESC);
 				break;
@@ -184,7 +190,7 @@ class First_artikel_m extends CI_Model {
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		if ($query->num_rows()>0)
 		{
 			for ($i=0; $i<count($data); $i++)
@@ -199,7 +205,7 @@ class First_artikel_m extends CI_Model {
 		}
 		else
 		{
-			$data  = false;
+			$data = false;
 		}
 		return $data;
 	}
@@ -237,21 +243,25 @@ class First_artikel_m extends CI_Model {
 				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload < NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
+
 			case '2':
 				# 10 gambar utama artikel terbaru yang masuk ke slider atas
 				$slider_gambar['gambar'] = $this->slide_show(true);
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
+
 			case '3':
 				# 10 gambar dari galeri yang masuk ke slider besar
 				$this->load->model('web_gallery_model');
 				$slider_gambar['gambar'] = $this->web_gallery_model->list_slide_galeri();
 				$slider_gambar['lokasi'] = LOKASI_GALERI;
 				break;
+
 			default:
 				# code...
 				break;
 		}
+
 		return $slider_gambar;
 	}
 
@@ -269,9 +279,11 @@ class First_artikel_m extends CI_Model {
 				$this->db->where('DATE(g.tgl_agenda) > CURDATE()')
 					->order_by('g.tgl_agenda');
 				break;
+
 			case 'lama':
 				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
 				break;
+
 			default:
 				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
 				break;
@@ -288,7 +300,7 @@ class First_artikel_m extends CI_Model {
 	{
 		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
 			FROM komentar a
-			INNER JOIN artikel b ON  a.id_artikel = b.id
+			INNER JOIN artikel b ON a.id_artikel = b.id
 			WHERE a.status = ? AND a.id_artikel <> 775
 			ORDER BY a.tgl_upload DESC LIMIT 10 ";
 		$query = $this->db->query($sql, 1);
@@ -303,6 +315,7 @@ class First_artikel_m extends CI_Model {
 			$panjang = str_split($data[$i]['komentar'], 50);
 			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
 		}
+
 		return $data;
 	}
 
@@ -326,6 +339,7 @@ class First_artikel_m extends CI_Model {
 		// Bukan kategori yg dikenal
 		if (empty($data))
 			$data = "Artikel Kategori '$id'";
+
 		return $data;
 	}
 
@@ -337,9 +351,12 @@ class First_artikel_m extends CI_Model {
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
 			->where('a.enabled', 1)
-			->where('tgl_upload < NOW()');
+			->where('a.tgl_upload < NOW()')
+			->group_start()
+				->where('a.slug', $url)
+				->or_where('a.id', $url)
+			->group_end();
 
-		$this->db->where('a.id', $url)->or_where('a.slug', $url);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
@@ -351,6 +368,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$data = false;
 		}
+
 		return $data;
 	}
 
@@ -361,7 +379,7 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function paging_kat($p=1, $id=0)
+	public function paging_kat($p = 1, $id = 0)
 	{
 		$this->list_artikel_sql($id);
 		$this->db->select('COUNT(a.id) AS jml');
@@ -386,18 +404,24 @@ class First_artikel_m extends CI_Model {
 			->where('a.enabled', 1)
 			->where('tgl_upload < NOW()');
 
-		if (!empty($id)){
-			$this->db->where('k.id', $id)->or_where('k.slug', $id);
+		if (!empty($id))
+		{
+			$this->db
+				->group_start()
+					->where('k.slug', $id)
+					->or_where('k.id', $id)
+				->group_end();
 		}
 	}
 
-	public function list_artikel($offset=0, $limit=50, $id=0)
+	public function list_artikel($offset = 0, $limit = 50, $id = 0)
 	{
 		$this->list_artikel_sql($id);
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
 		$this->db->order_by('a.tgl_upload', DESC);
 		$this->db->limit($limit, $offset);
 		$data = $this->db->get()->result_array();
+
 		for ($i=0; $i < count($data); $i++)
 		{
 			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
@@ -406,6 +430,7 @@ class First_artikel_m extends CI_Model {
 				// ganti shortcode menjadi icon
 				$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 		}
+
 		return $data;
 	}
 
@@ -436,6 +461,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
 		}
+
 		if ($outp)
 		{
 			$_SESSION['success'] = 1;
@@ -443,16 +469,18 @@ class First_artikel_m extends CI_Model {
 		}
 
 		$_SESSION['success'] = -1;
+
 		return false;
 	}
 
-	public function list_komentar($id=0)
+	public function list_komentar($id = 0)
 	{
 		$data = $this->db->from('komentar')
 			->where('id_artikel', $id)
 			->where('status', 1)
 			->order_by('tgl_upload DESC')
 			->get()->result_array();
+
 		return $data;
 	}
 
@@ -463,7 +491,7 @@ class First_artikel_m extends CI_Model {
 
 		if ($query->num_rows()>0)
 		{
-			$data  = $query->result_array();
+			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
 				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
@@ -477,13 +505,19 @@ class First_artikel_m extends CI_Model {
 	{
 		$this->load->library('user_agent');
 
-		$this->db->where('id', $url)->or_where('slug', $url);
-		$id = $this->db->select('id')->get('artikel')->row()->id;
+		$id = $this->db->select('id')
+			->where('slug', $url)
+			->or_where('id', $url)
+			->get('artikel')
+			->row()->id;
+
 		//membatasi hit hanya satu kali dalam setiap session
 		if (in_array($id, $_SESSION['artikel']) OR $this->agent->is_robot() OR crawler() === TRUE) return;
+
 		$this->db->set('hit', 'hit + 1', false)
 			->where('id', $id)
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
 	}
+
 }
