@@ -232,13 +232,6 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter numerik");
 
-	$('.bilangan').each(function() {
-		$(this).rules("add",
-			{
-				bilangan: true,
-			});
-	});
-
 	jQuery.validator.addMethod("alamat", function(value, element) {
 		valid = /^[a-zA-Z0-9 \.,\-\/]+$/.test(value);
 		return this.optional(element) || valid;

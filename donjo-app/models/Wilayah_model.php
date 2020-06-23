@@ -418,7 +418,7 @@
 		return $data;
 	}
 
-	public function total_rt($dusun='', $rw='')
+	public function total_rt($dusun = '', $rw = '')
 	{
 		$sql = "SELECT sum(jumlah_warga) as jmlwarga, sum(jumlah_warga_l) as jmlwargal, sum(jumlah_warga_p) as jmlwargap, sum(jumlah_kk) as jmlkk
 			FROM
