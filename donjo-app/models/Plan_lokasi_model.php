@@ -117,9 +117,10 @@
 
 	private function validasi($post)
 	{
-		$data = $post;
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['ref_point'] = $post['ref_point'];
 		$data['desk'] = htmlentities($post['desk']);
+		$data['enabled'] = $post['enabled'];
 		return $data;
 	}
 
