@@ -101,11 +101,13 @@
 
 	private function validasi_data($post)
 	{
-	$data = array();
-    $data['nama'] = nomor_surat_keputusan($post['nama']);
-    $data['tahun_pelaksanaan'] = bilangan($post['tahun_pelaksanaan']);
-    $data['keterangan'] = htmlentities($post['keterangan']);
-    return $data;
+		$data = array();
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['id_state'] = $post['id_state'] ?: null;
+		$data['tahun_pelaksanaan'] = bilangan($post['tahun_pelaksanaan']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['aktif'] = $post['aktif'] ?: null;
+		return $data;
 	}
 
 	public function insert()

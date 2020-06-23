@@ -127,8 +127,11 @@
 	private function validasi_data($post)
 	{
 		$data = array();
+		$data['id_tipe'] = $post['id_tipe'] ?: null;
 		$data['nomor'] = bilangan($post['nomor']);
 		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
+		$data['id_kategori'] = $post['id_kategori'] ?: null;
+		$data['is_publik'] = $post['is_publik'];
 		return $data;
 	}
 
@@ -166,7 +169,7 @@
 			return;
 		}
 
-		$data =$this->validasi_data($this->input->post());
+		$data = $this->validasi_data($this->input->post());
 		if ($data['id_tipe'] != 1)
 		{
 			$data['act_analisis'] = 2;
@@ -211,11 +214,11 @@
 
 	private function validasi_parameter($post)
 	{
-	$data = array();
-    $data['kode_jawaban'] = bilangan($post['kode_jawaban']);
-    $data['jawaban'] = htmlentities($post['jawaban']);
-    $data['nilai'] = bilangan($post['nilai']);
-    return $data;
+		$data = array();
+		$data['kode_jawaban'] = bilangan($post['kode_jawaban']);
+		$data['jawaban'] = htmlentities($post['jawaban']);
+		$data['nilai'] = bilangan($post['nilai']);
+		return $data;
 	}
 
 	public function p_insert($in='')

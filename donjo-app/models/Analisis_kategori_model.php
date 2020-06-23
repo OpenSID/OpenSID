@@ -92,7 +92,7 @@
 	public function update($id=0)
 	{
 		$data = [];
-		$data['id_master']=$this->session->analisis_master;
+		$data['id_master'] = $this->session->analisis_master;
 		$data['kategori'] = htmlentities($this->input->post('kategori'));
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_kategori_indikator', $data);
