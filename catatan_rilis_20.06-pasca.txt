@@ -41,6 +41,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 35. Upgrade Codeigniter dari 3.1.8 ke 3.1.11. [teknis]
 36. #3229: Tambahkan validasi form Ubah Data KK.
 37. #3211: Tampilkan foto kepala keluarga di Kependudukan > Keluarga.
+38. #3245: Perbaiki kesalahan tampilan data RT di Info Desa > Wilayah Administratif. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
