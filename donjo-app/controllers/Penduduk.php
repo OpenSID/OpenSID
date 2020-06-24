@@ -384,9 +384,9 @@ class Penduduk extends Admin_Controller {
 
 	public function adv_search_proses()
 	{
-		$_SESSION['filter'] = $_POST['status_penduduk'];
+		$adv_search = $this->validasi_pencarian($this->input->post());
+		$this->session->filter = $adv_search['status_penduduk'];
 
-		$adv_search = $_POST;
 		$i = 0;
 		while ($i++ < count($adv_search))
 		{
@@ -408,6 +408,19 @@ class Penduduk extends Admin_Controller {
 		}
 
 		redirect('penduduk');
+	}
+
+	private function validasi_pencarian($post)
+	{
+		$data['umur_min'] = bilangan($post['umur_min']);
+		$data['umur_max'] = bilangan($post['umur_max']);
+		$data['pekerjaan_id'] = $post['pekerjaan_id'];
+		$data['status'] = $post['status'];
+		$data['agama'] = $post['agama'];
+		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
+		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
+		$data['status_penduduk'] = $post['status_penduduk'];
+		return $data;
 	}
 
 	public function ajax_penduduk_pindah_rw($dusun = '')
