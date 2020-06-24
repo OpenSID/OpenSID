@@ -361,7 +361,7 @@ class Sms extends Admin_Controller {
 	public function broadcast_proses()
 	{
 		$adv_search = $this->input->post();
-		$adv_search['umur_min'] = bilangan($adv_search['umur_min']);
+		$adv_search['umur_min1'] = bilangan($adv_search['umur_min1']);
 		$adv_search['umur_max1'] = bilangan($adv_search['umur_max1']);
 		$adv_search['sex1'] = $adv_search['sex1'];
 		$adv_search['pekerjaan1'] = $adv_search['pekerjaan1'];

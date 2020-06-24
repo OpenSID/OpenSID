@@ -67,7 +67,7 @@
 								<label for="nama">Umur</label>
 							</div>
 							<div class="col-sm-6">
-								<input class="form-control input-sm bilangan" type="text" placeholder="Dari" id="umur_min" name="umur_min"></input>
+								<input class="form-control input-sm bilangan" type="text" placeholder="Dari" id="umur_min1" name="umur_min1"></input>
 								<input type="hidden" name="rt" value="">
 							</div>
 							<div class="col-sm-6">
