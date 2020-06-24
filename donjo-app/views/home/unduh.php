@@ -4,5 +4,5 @@
 	header("Pragma: no-cache");
 	header("Expires: 0");
 
-	include("donjo-app/views/home/unduh.php");
+	include("donjo-app/views/home/cetak.php");
 ?>
