@@ -45,6 +45,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 39. #3201: Artikel non-aktif sekarang tidak bisa ditampilkan melalui url slug ataupun id. [bug-fix]
 40. #3241: Tambahkan validasi form Wilayah Administratif, termasuk form peta. [security-fix]
 41. #2410: Tampilkan daftar program bantuan yang diterima penduduk di halaman Biodata Penduduk.
+42. Sederhanakan dan sesuaikan script Pemerintahan Desa dengan aturan penulisan script. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
