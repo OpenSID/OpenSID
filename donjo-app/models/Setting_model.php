@@ -99,22 +99,28 @@ class Setting_model extends CI_Model {
 		$this->cek_migrasi();
 	}
 
-	public function update($data)
+	public function update_setting($data)
 	{
-		$_SESSION['success'] = 1;
-
 		foreach ($data as $key => $value)
 		{
 			// Update setting yang diubah
 			if ($this->setting->$key != $value)
 			{
 				$value = strip_tags($value);
-				$outp = $this->db->where('key', $key)->update('setting_aplikasi', array('key'=>$key, 'value'=>$value));
+				$this->update($key, $value);
 				$this->setting->$key = $value;
-				if (!$outp) $_SESSION['success'] = -1;
 			}
 		}
 		$this->apply_setting();
+	}
+
+	public function update ($key = 'enable_track', $value = 1)
+	{
+		$this->session->success = 1;
+
+		$outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
+
+		if (!$outp) $this->session->success = -1;
 	}
 
 	public function update_slider()
