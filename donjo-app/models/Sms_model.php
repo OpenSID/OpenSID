@@ -274,7 +274,9 @@
 
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->input->post();
+		$data['DestinationNumber'] = bilangan($data['DestinationNumber']);
+		$data['TextDecoded'] = htmlentities($data['TextDecoded']);
 		$outp = $this->db->insert('outbox', $data);
 
 		status_sukses($outp); //Tampilkan Pesan

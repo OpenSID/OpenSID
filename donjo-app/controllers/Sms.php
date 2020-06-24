@@ -360,7 +360,18 @@ class Sms extends Admin_Controller {
 
 	public function broadcast_proses()
 	{
-		$adv_search = $_POST;
+		$adv_search = $this->input->post();
+		$adv_search['umur_min'] = bilangan($adv_search['umur_min']);
+		$adv_search['umur_max1'] = bilangan($adv_search['umur_max1']);
+		$adv_search['sex1'] = $adv_search['sex1'];
+		$adv_search['pekerjaan1'] = $adv_search['pekerjaan1'];
+		$adv_search['status1'] = $adv_search['status1'];
+		$adv_search['agama1'] = $adv_search['agama1'];
+		$adv_search['endidikan1'] = $adv_search['endidikan1'];
+		$adv_search['status_penduduk1'] = $adv_search['status_penduduk1'];
+		$adv_search['dusun1'] = $adv_search['dusun1'];
+		$adv_search['grup1'] = $adv_search['grup1'];
+		$adv_search['TextDecoded1'] = htmlentities($adv_search['TextDecoded1']);
 		$i = 0;
 		while ($i++ < count($adv_search))
 		{
