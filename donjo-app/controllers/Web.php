@@ -313,7 +313,7 @@ class Web extends Admin_Controller {
 
 	public function reset($cat = 999)
 	{
-		if($cat == 999)
+		if ($cat == 999)
 			$this->web_artikel_model->reset($cat);
 
 		redirect("web/index/$cat");

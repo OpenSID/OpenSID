@@ -24,7 +24,6 @@
 			$sql = " AND (judul LIKE '$kw' OR isi LIKE '$kw')";
 
 			return $sql;
-
 		}
 	}
 
