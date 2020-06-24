@@ -48,6 +48,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 42. Sederhanakan dan sesuaikan script Pemerintahan Desa dengan aturan penulisan script. [teknis]
 43. #2052: Tambilkan subkategori di daftar kategori halaman Admin Web > Artikel.
 44. #3209: Tambahkan validasi form Pencarian Spesifik di halaman Penduduk. [security-fix]
+45. #3208: Tambahkan validasi form Pencarian Spesifik di halaman Peta. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
