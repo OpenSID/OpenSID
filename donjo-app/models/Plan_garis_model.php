@@ -123,8 +123,9 @@ class Plan_garis_model extends MY_Model {
 
 	private function validasi($post)
 	{
-		$data = $post;
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['ref_line'] = $post['ref_line'];
+		$data['enabled'] = $post['enabled'];
 		return $data;
 	}
 
