@@ -49,14 +49,20 @@
 											</tr>
 											<tr>
 												<td>
-													<a href="<?= site_url("program_bantuan/peserta/3/$kepala_kk[no_kk]"); ?>" target="_blank">Program Bantuan</a>
+													<?php if($program['programkerja']): ?>
+														<a href="<?= site_url("program_bantuan/peserta/3/$kepala_kk[no_kk]"); ?>" target="_blank">Program Bantuan</a>
+													<?php else: ?>
+														Program Bantuan
+													<?php endif; ?>
 												</td>
 												<td> :
-													<?php foreach ($program['programkerja'] as $item): ?>
-														<?php if($item): ?>
-															<a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]")?>" target="_blank"><span class="label label-success"><?= strtoupper($item['nama']); ?></span>&nbsp;</a>
-														<?php endif; ?>
-													<?php endforeach; ?>
+													<?php if($item): ?>
+														<?php foreach ($program['programkerja'] as $item): ?>
+															<a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]"); ?>" target="_blank"><span class="label label-success"><?= strtoupper($item['nama']); ?></span>&nbsp;</a>
+														<?php endforeach; ?>
+													<?php else: ?>
+														-
+													<?php endif; ?>
 												</td>
 											</tr>
 										</tbody>

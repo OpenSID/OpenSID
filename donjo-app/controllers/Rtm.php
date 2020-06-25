@@ -189,19 +189,13 @@ class Rtm extends Admin_Controller {
 		redirect('rtm');
 	}
 
-	public function akas($id = 0)
-	{
-		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, '01140500005');
-
-		echo json_encode($data['program']);
-	}
 	public function anggota($id = 0)
 	{
 		$data['kk'] = $id;
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
-		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, '01140500005');
+		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, $data['kepala_kk']['no_kk']);
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
