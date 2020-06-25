@@ -1,4 +1,6 @@
-<?php class Rtm_model extends CI_Model {
+<?php
+
+class Rtm_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -8,21 +10,14 @@
 
 	public function autocomplete()
 	{
-		$sql = "SELECT t.nama
-			FROM tweb_rtm u
-			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			WHERE 1  ";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$this->db
+			->select('t.nama')
+			->from('tweb_rtm u')
+			->join('tweb_penduduk t', 'u.nik_kepala = t.id', LEFT);
 
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ',"'.$data[$i]['nama'].'"';
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
+		$data = $this->db->get()->result_array();
+
+		return autocomplete_data_ke_str($data);
 	}
 
 	private function dusun_sql()
