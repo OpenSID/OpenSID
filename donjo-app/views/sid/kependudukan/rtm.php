@@ -33,8 +33,8 @@
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("rtm/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
-						<a href="<?= site_url("rtm/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-						<a href="<?= site_url("rtm/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
+						<a href="<?= site_url("rtm/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+						<a href="<?= site_url("rtm/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 					</div>
 					<div class="box-body">
@@ -45,24 +45,24 @@
 										<div class="row">
 											<div class="col-sm-8">
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('rtm/dusun')?>')">
-													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
+														<option value="<?= $data['dusun']?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('rtm/rw')?>')" >
-														<option value="">RW</option>
+														<option value="">Pilih RW</option>
 														<?php foreach ($list_rw AS $data): ?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
+															<option value="<?= $data['rw']?>" <?= selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
 														<?php endforeach; ?>
 													</select>
 												<?php endif; ?>
 												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('rtm/rt')?>')">
-														<option value="">RT</option>
+														<option value="">Pilih RT</option>
 														<?php foreach ($list_rt AS $data): ?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
+															<option value="<?= $data['rt']?>" <?= selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
 														<?php endforeach; ?>
 													</select>
 												<?php endif; ?>
@@ -85,19 +85,19 @@
 																<th class="padat"><input type="checkbox" id="checkall"/></th>
 																<th class="padat">No</th>
 																<th class="padat">Aksi</th>
-																<?php if ($o==2): ?>
-																	<th><a href="<?= site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																 <?php elseif ($o==1): ?>
-																	<th><a href="<?= site_url("rtm/index/$p/2")?>">Nomor Rumah Tangga <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($order_by==2): ?>
+																	<th><a href="<?= site_url("rtm/filter/order_by/1")?>">Nomor Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																 <?php elseif ($order_by==1): ?>
+																	<th><a href="<?= site_url("rtm/filter/order_by/2")?>">Nomor Rumah Tangga <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("rtm/filter/order_by/1")?>">Nomor Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
-																<?php if ($o==4): ?>
-																	<th nowrap><a href="<?= site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==3): ?>
-																	<th nowrap><a href="<?= site_url("rtm/index/$p/4")?>">Kepala Rumah Tangga <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($order_by==4): ?>
+																	<th nowrap><a href="<?= site_url("rtm/filter/order_by/3")?>">Kepala Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($order_by==3): ?>
+																	<th nowrap><a href="<?= site_url("rtm/filter/order_by/4")?>">Kepala Rumah Tangga <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("rtm/index/$p/3")?>">Kepala Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("rtm/filter/order_by/3")?>">Kepala Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>NIK</th>
 																<th>Jumlah Anggota</th>
@@ -114,15 +114,15 @@
 																	<td class="text-center"><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk']?>" /></td>
 																	<td class="text-center"><?= $data['no']?></td>
 																	<td nowrap>
-																		<a href="<?= site_url("rtm/anggota/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
+																		<a href="<?= site_url("rtm/anggota/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
 																		<a href="<?= site_url("rtm/ajax_add_anggota/$data[id]")?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
 																		<a href="<?= site_url("rtm/edit_nokk/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?= site_url("rtm/delete/$data[no_kk]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("rtm/delete/$data[no_kk]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td>
-																		<label> <?= $data['no_kk']?> </label>
+																		<label><?= $data['no_kk']?></label>
 																	</td>
 																	<td nowrap width="40%"><?= strtoupper($data['kepala_kk'])?></td>
 																	<td><?= strtoupper($data['nik'])?></td>
