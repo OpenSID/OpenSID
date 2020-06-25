@@ -807,7 +807,7 @@ function nama($str)
 // Nama hanya boleh berisi karakter alfanumerik, spasi dan strip
 function nama_terbatas($str)
 {
-	return preg_replace("/^[a-zA-Z0-9 \-]/", '', $str);
+	return preg_replace("/^[a-zA-Z0-9 \-]/", '', $str, 0);
 }
 
 // Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring
@@ -921,5 +921,3 @@ function crawler()
 
 	return FALSE;
 }
-
-?>
