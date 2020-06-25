@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-sm-6">
 		<div class="dataTables_length">
-			<form id="paging" action="<?= site_url("$this->controller/$func");?>" method="post" class="form-horizontal">
+			<form id="paging" action="<?= site_url("$this->controller"); ($func !== 'index') and print("/$func");?>" method="post" class="form-horizontal">
 				<label>
 					Tampilkan
 					<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
@@ -19,7 +19,7 @@
 	<div class="col-sm-6">
 		<div class="dataTables_paginate paging_simple_numbers">
 			<ul class="pagination">
-				<?php if ($paging->start_link): ?>
+				<?php if ($paging->start_link && $paging->page != 1): ?>
 					<li><a href="<?=site_url("$this->controller"); ($func !== 'index') and print("/$func");?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 				<?php endif; ?>
 				<?php if ($paging->prev): ?>
@@ -31,7 +31,7 @@
 				<?php if ($paging->next): ?>
 					<li><a href="<?=site_url("$this->controller/$func/$paging->next");?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 				<?php endif; ?>
-				<?php if ($paging->end_link): ?>
+				<?php if ($paging->end_link && $paging->page != $paging->end_link): ?>
 					<li><a href="<?=site_url("$this->controller/$func/$paging->end_link");?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 				<?php endif; ?>
 			</ul>
