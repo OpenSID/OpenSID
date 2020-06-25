@@ -75,16 +75,13 @@ class Rtm extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function cetak()
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($aksi = '')
 	{
 		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0, 10000);
-		$this->load->view('sid/kependudukan/rtm_print', $data);
-	}
-
-	public function excel()
-	{
-		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0, 10000);
-		$this->load->view('sid/kependudukan/rtm_excel', $data);
+		$this->load->view("sid/kependudukan/rtm_$aksi", $data);
 	}
 
 	public function edit_nokk($id = 0)

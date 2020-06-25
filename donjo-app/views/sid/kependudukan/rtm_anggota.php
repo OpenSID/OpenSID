@@ -56,7 +56,7 @@
 													<?php endif; ?>
 												</td>
 												<td> :
-													<?php if($item): ?>
+													<?php if($program['programkerja']): ?>
 														<?php foreach ($program['programkerja'] as $item): ?>
 															<a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]"); ?>" target="_blank"><span class="label label-success"><?= strtoupper($item['nama']); ?></span>&nbsp;</a>
 														<?php endforeach; ?>
