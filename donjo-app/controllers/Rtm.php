@@ -11,7 +11,7 @@ class Rtm extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'rtm_model', 'config_model', 'penduduk_model', 'program_bantuan_model']);
+		$this->load->model(['header_model', 'rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->_set_page = ['50', '100', '200'];
 		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
@@ -37,15 +37,17 @@ class Rtm extends Admin_Controller {
 				$data[$list] = $this->session->$list ?: '';
 		}
 
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -57,6 +59,7 @@ class Rtm extends Admin_Controller {
 		{
 			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
+
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
@@ -66,7 +69,6 @@ class Rtm extends Admin_Controller {
 		$data['paging']  = $this->rtm_model->paging($p);
 		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
