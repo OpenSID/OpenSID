@@ -108,8 +108,8 @@
 
 	public function insert_autoreply()
 	{
-		$data  = $this->input->post();
-		$data['autoreply_text'] = htmlentities($data['autoreply_text']);
+		$post  = $this->input->post();
+		$data['autoreply_text'] = htmlentities($post['autoreply_text']);
 		$sql = "DELETE FROM setting_sms";
 		$query = $this->db->query($sql);
 		$outp = $this->db->insert('setting_sms', $data);
