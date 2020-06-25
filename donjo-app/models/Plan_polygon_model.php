@@ -92,24 +92,31 @@
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['color'] = htmlentities($post['color']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['simbol']['tmp_name'];
+		$tipe_file = $_FILES['simbol']['type'];
+		$nama_file = $_FILES['simbol']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+		{
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
 				$outp = $this->db->insert('polygon', $data);
 			}
-	  }
-	  else
-	  {
+		}
+		else
+		{
 			unset($data['simbol']);
 			$outp = $this->db->insert('polygon', $data);
 		}
@@ -119,7 +126,7 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+	  $data = $this->validasi($this->input->post());
 	  $lokasi_file = $_FILES['simbol']['tmp_name'];
 	  $tipe_file = $_FILES['simbol']['type'];
 	  $nama_file = $_FILES['simbol']['name'];
@@ -185,6 +192,7 @@
 
 	public function insert_sub_polygon($parrent=0)
 	{
+	  $data = $this->validasi($this->input->post());
 	  $lokasi_file = $_FILES['simbol']['tmp_name'];
 	  $tipe_file = $_FILES['simbol']['type'];
 	  $nama_file = $_FILES['simbol']['name'];
@@ -194,7 +202,6 @@
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
-				$data = $_POST;
 				$data['simbol'] = $nama_file;
 				$data['parrent'] = $parrent;
 				$data['tipe'] = 2;
@@ -208,7 +215,6 @@
 	  }
 	  else
 	  {
-			$data = $_POST;
 			unset($data['simbol']);
 			$data['parrent'] = $parrent;
 			$data['tipe'] = 2;
@@ -220,7 +226,7 @@
 
 	public function update_sub_polygon($id=0)
 	{
-	  $data = $_POST;
+	  $data = $this->validasi($this->input->post());
 	  $lokasi_file = $_FILES['simbol']['tmp_name'];
 	  $tipe_file   = $_FILES['simbol']['type'];
 	  $nama_file   = $_FILES['simbol']['name'];

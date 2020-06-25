@@ -89,11 +89,17 @@
 		}
 		return $data;
 	}
+	private function validasi($post)
+	{
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['simbol'] = $post['simbol'];
+		return $data;
+	}
 
 
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->validasi($this->input->post());
 		$outp = $this->db->insert('point', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -101,7 +107,7 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+		$data = $this->validasi($this->input->post());
 		$this->db->where('id', $id);
 		$outp = $this->db->update('point', $data);
 
@@ -148,7 +154,7 @@
 
 	public function insert_sub_point($parrent=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi($this->input->post());
 		$data['parrent'] = $parrent;
 		$data['tipe'] = 2;
 		$outp = $this->db->insert('point', $data);
@@ -157,7 +163,7 @@
 
 	public function update_sub_point($id=0)
 	{
-	  $data = $_POST;
+		$data = $this->validasi($this->input->post());
 		$this->db->where('id',$id);
 		$outp = $this->db->update('point', $data);
 		status_sukses($outp); //Tampilkan Pesan
