@@ -203,7 +203,7 @@
 	public function delete($no_kk='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
@@ -227,7 +227,7 @@
 		}
 	}
 
-	public function add_anggota($id=0)
+	public function add_anggota($id)
 	{
 		$data = $_POST;
 		$no_rtm = $this->db->select('no_kk')
@@ -244,7 +244,7 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_anggota($id=0, $id_kk)
+	public function update_anggota($id, $id_kk)
 	{
 		$data = $_POST;
 
@@ -261,7 +261,7 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function rem_anggota($kk=0, $id=0)
+	public function rem_anggota($kk, $id)
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
@@ -290,7 +290,7 @@
 		}
 	}
 
-	public function get_dusun($id=0)
+	public function get_dusun($id)
 	{
 		$sql = "SELECT * FROM tweb_rtm WHERE dusun_id = ?";
 		$query = $this->db->query($sql, $id);
@@ -298,7 +298,7 @@
 		return $data;
 	}
 
-	public function get_rtm($id=0)
+	public function get_rtm($id)
 	{
 		$sql = "SELECT * FROM tweb_rtm WHERE id = ?";
 		$query = $this->db->query($sql, $id);
@@ -306,7 +306,7 @@
 		return $data;
 	}
 
-	public function get_anggota($id=0)
+	public function get_anggota($id)
 	{
 		$sql = "SELECT * FROM tweb_penduduk WHERE id_rtm = ?";
 		$query = $this->db->query($sql, $id);
@@ -340,7 +340,7 @@
 		return $data;
 	}
 
-	public function list_anggota($id=0)
+	public function list_anggota($id)
 	{
 		$sql = "SELECT b.dusun, b.rw, b.rt, u.id, nik, x.nama as sex, k.no_kk, u.rtm_level, tempatlahir, tanggallahir, a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, w.nama as status_kawin, f.nama as warganegara, nama_ayah, nama_ibu, g.nama as golongan_darah, u.nama, status, h.nama AS hubungan
 			FROM tweb_penduduk u
@@ -395,7 +395,7 @@
 		return $query->result_array();
 	}
 
-	public function update_nokk($id=0)
+	public function update_nokk($id)
 	{
 		$data = $_POST;
 		if ($data['no_kk'])

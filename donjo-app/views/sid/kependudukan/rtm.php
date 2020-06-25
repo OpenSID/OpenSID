@@ -12,7 +12,7 @@
 		padding: 4px 4px;
 	}
 
-	.table-responsive {
+	.table-min-height {
 		min-height: 350px;
 	}
 </style>
@@ -78,13 +78,13 @@
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="table-responsive">
+												<div class="table-responsive table-min-height">
 													<table class="table table-bordered table-striped dataTable table-hover nowrap">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th><input type="checkbox" id="checkall"/></th>
-																<th>No</th>
-																<th >Aksi</th>
+																<th class="padat"><input type="checkbox" id="checkall"/></th>
+																<th class="padat">No</th>
+																<th class="padat">Aksi</th>
 																<?php if ($o==2): ?>
 																	<th><a href="<?= site_url("rtm/index/$p/1")?>">Nomor Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																 <?php elseif ($o==1): ?>
@@ -111,14 +111,14 @@
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk']?>" /></td>
-																	<td><?= $data['no']?></td>
+																	<td class="text-center"><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk']?>" /></td>
+																	<td class="text-center"><?= $data['no']?></td>
 																	<td nowrap>
-																		<a href="<?= site_url("rtm/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
-																		<a href="<?= site_url("rtm/ajax_add_anggota/$p/$o/$data[id]")?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
-																		<a href="<?= site_url("rtm/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
+																		<a href="<?= site_url("rtm/anggota/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
+																		<a href="<?= site_url("rtm/ajax_add_anggota/$data[id]")?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
+																		<a href="<?= site_url("rtm/edit_nokk/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?= site_url("rtm/delete/$p/$o/$data[no_kk]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("rtm/delete/$data[no_kk]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td>
@@ -127,7 +127,7 @@
 																	<td nowrap width="40%"><?= strtoupper($data['kepala_kk'])?></td>
 																	<td><?= strtoupper($data['nik'])?></td>
 																	<td>
-																		<a href="<?= site_url("rtm/anggota/$p/$o/$data[id]")?>"><?= $data['jumlah_anggota']?></a>
+																		<a href="<?= site_url("rtm/anggota/$data[id]")?>"><?= $data['jumlah_anggota']?></a>
 																	</td>
 																	<td><?= strtoupper($data['alamat'])?></td>
 																	<td><?= strtoupper($data['dusun'])?></td>
