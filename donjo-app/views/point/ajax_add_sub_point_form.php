@@ -76,7 +76,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label" for="nama">Nama Kategori Lokasi</label>
-							<input id="nama" name="nama" class="form-control input-sm" type="text" placeholder="Nama Kategori Lokasi"></input>
+							<input id="nama" name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Kategori Lokasi" value="<?=$point['nama']?>"></input>
 						</div>
 						<div class="form-group">
 							<label for="nomor"  class="control-label">Simbol</label>

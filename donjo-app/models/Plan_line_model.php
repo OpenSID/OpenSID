@@ -91,24 +91,31 @@
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['color'] = htmlentities($post['color']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['simbol']['tmp_name'];
+		$tipe_file = $_FILES['simbol']['type'];
+		$nama_file = $_FILES['simbol']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+		{
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
 				$outp = $this->db->insert('line',$data);
 			}
-	  }
-	  else
-	  {
+		}
+		else
+		{
 			unset($data['simbol']);
 			$outp = $this->db->insert('line',$data);
 		}
@@ -118,13 +125,13 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['simbol']['tmp_name'];
+		$tipe_file = $_FILES['simbol']['type'];
+		$nama_file = $_FILES['simbol']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+		{
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
@@ -133,7 +140,7 @@
 				$outp = $this->db->update('line',$data);
 			}
 			$_SESSION['success'] = 1;
-	  }
+		}
 		unset($data['simbol']);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('line',$data);
@@ -181,16 +188,16 @@
 
 	public function insert_sub_line($parrent=0)
 	{
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['simbol']['tmp_name'];
+		$tipe_file = $_FILES['simbol']['type'];
+		$nama_file = $_FILES['simbol']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+		{
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
-				$data = $_POST;
 				$data['simbol'] = $nama_file;
 				$data['parrent'] = $parrent;
 				$data['tipe'] = 2;
@@ -201,10 +208,9 @@
 			{
 				$_SESSION['success'] = -1;
 			}
-	  }
-	  else
-	  {
-			$data = $_POST;
+		}
+		else
+		{
 			unset($data['simbol']);
 			$data['parrent'] = $parrent;
 			$data['tipe'] = 2;
@@ -216,13 +222,13 @@
 
 	public function update_sub_line($id=0)
 	{
-	  $data = $_POST;
-	  $lokasi_file = $_FILES['simbol']['tmp_name'];
-	  $tipe_file = $_FILES['simbol']['type'];
-	  $nama_file = $_FILES['simbol']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-	  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['simbol']['tmp_name'];
+		$tipe_file = $_FILES['simbol']['type'];
+		$nama_file = $_FILES['simbol']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+		{
 			if ($tipe_file == "image/png" OR $tipe_file == "image/gif")
 			{
 				UploadSimbol($nama_file);
@@ -231,9 +237,9 @@
 				$outp = $this->db->update('line', $data);
 			}
 			$_SESSION['success'] = 1;
-	  }
-	  else
-	  {
+		}
+		else
+		{
 			unset($data['simbol']);
 			$this->db->where('id', $id);
 			$outp = $this->db->update('line', $data);
