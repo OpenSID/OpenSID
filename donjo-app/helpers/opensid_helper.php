@@ -807,7 +807,7 @@ function nama($str)
 // Nama hanya boleh berisi karakter alfanumerik, spasi dan strip
 function nama_terbatas($str)
 {
-	return preg_replace("/^[a-zA-Z0-9 \-]/", '', $str);
+	return preg_replace("/[^a-zA-Z0-9 \-]/", '', $str);
 }
 
 // Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring
@@ -822,6 +822,17 @@ function koordinat($str)
 	return preg_replace("/[^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$]/", '', htmlentities($str));
 }
 
+// Email hanya boleh berisi karakter alpha, numeric, titik, strip dan Tanda et,
+function email($str)
+{
+	return preg_replace("/[^a-zA-Z0-9@\.\-]/", '', htmlentities($str));
+}
+
+// website hanya boleh berisi karakter alpha, numeric, titik, titik dua dan garis miring
+function alamat_web($str)
+{
+	return preg_replace("/[^a-zA-Z0-9:\/\.\-]/", '', htmlentities($str));
+}
 
 function buat_slug($data_slug)
 {
