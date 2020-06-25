@@ -9,6 +9,7 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		$this->db->query("ALTER TABLE area MODIFY COLUMN path TEXT NULL");
 		$this->data_apbdes_manual();
 		$this->konfigurasi_web();
+		$this->konfigurasi_qrcode();
 	}
 
 	private function data_apbdes_manual()
@@ -566,6 +567,17 @@ class Migrasi_2006_ke_2007 extends CI_model {
 			(38, 'provinsi_covid', '$desa[kode_propinsi]', 'Kode provinsi status Covid-19 ', 'int', 'conf_web'),
 			(39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web')
 			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
+		$this->db->query($query);
+	}
+
+	private function konfigurasi_qrcode()
+	{
+		// Tambah menu Pengaturan -> QRCode Generator
+		$query = "
+			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES
+			(212, 'QRCode Generator', 'setting/qrcode_setting', 1, 'fa-qrcode', 6, 1, 0, 'fa-qrcode', 11)
+			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
+		";
 		$this->db->query($query);
 	}
 
