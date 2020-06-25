@@ -21,6 +21,7 @@ class Pengurus extends Admin_Controller {
 	public function clear()
 	{
 		$this->session->unset_userdata($this->_list_session);
+		$this->session->per_page = $this->_set_page[0];
 		redirect('pengurus');
 	}
 
