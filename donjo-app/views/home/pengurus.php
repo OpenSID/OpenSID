@@ -1,8 +1,3 @@
-<style type="text/css">
-	td.nowrap {
-		white-space: nowrap;
-	}
-</style>
 <script>
 	$(function() {
 		var keyword = <?= $keyword?> ;
@@ -12,6 +7,15 @@
 		});
 	});
 </script>
+<style type="text/css">
+	.table-responsive {
+		min-height: 350px;
+	}
+
+	td.nowrap {
+		white-space: nowrap;
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
@@ -69,7 +73,7 @@
 																<th class="padat">Aksi</th>
 																<th class="text-center">Foto</th>
 																<th>Nama, NIP/NIAP, NIK</th>
-																<th>Tempat, Tanggal Lahir</th>
+																<th nowrap>Tempat, <p>Tanggal Lahir</p></th>
 																<th>Jenis Kelamin</th>
 																<th>Agama</th>
 																<th>Pangkat / Golongan</th>
@@ -85,10 +89,10 @@
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td>
+																	<td class="text-center">
 																		<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 																	</td>
-																	<td><?=$data['no']?></td>
+																	<td class="text-center"><?=$data['no']?></td>
 																	<td nowrap>
 																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm <?php jecho($data['urut'], count($main), 'disabled')?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm <?php jecho($data['urut'], 1, 'disabled')?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
@@ -121,7 +125,7 @@
 																			</div>
 																		</div>
 																	</td>
-																	<td class="nowrap">
+																	<td nowrap>
 																		<?= $data['nama']?>
 																		<p class='text-blue'>
 																			<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
@@ -132,7 +136,7 @@
 																			<i>NIK :<?=$data['nik']?></i>
 																		</p>
 																	</td>
-																	<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
+																	<td nowrap><?= $data['tempatlahir'].', <p>'.tgl_indo_out($data['tanggallahir'])?></p></td>
 																	<td><?= $data['sex']?></td>
 																	<td><?= $data['agama']?></td>
 																	<td><?= $data['pamong_pangkat']?></td>
