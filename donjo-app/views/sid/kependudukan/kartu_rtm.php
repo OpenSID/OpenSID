@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
-			<li><a href="<?= site_url("rtm/anggota/$p/$o/$id_kk")?>"> Daftar Anggota Rumah Tangga</a></li>
+			<li><a href="<?= site_url("rtm/anggota/$id_kk")?>"> Daftar Anggota Rumah Tangga</a></li>
 			<li class="active">Kartu Rumah Tangga</li>
 		</ol>
 	</section>
@@ -14,9 +14,8 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("rtm/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-list"></i> Daftar Anggota</a>
 							<a href="<?= site_url("rtm/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?=site_url("rtm/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali ke Daftar Anggota Rumah Tangga">
+							<a href="<?=site_url("rtm/anggota/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali ke Daftar Anggota Rumah Tangga">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Anggota Rumah Tangga
 							</a>
 						</div>
