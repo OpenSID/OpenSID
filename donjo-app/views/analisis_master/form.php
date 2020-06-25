@@ -34,7 +34,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Nama Analisis</label>
 										<div class="col-sm-7">
-											<input  id="nama" class="form-control input-sm required " type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
+											<input  id="nama" class="form-control input-sm required nomor_sk" maxlength="40" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
 										</div>
 									</div>
 								</div>
@@ -102,7 +102,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="pembagi">Bilangan Pembagi</label>
 										<div class="col-sm-7">
-											<input id="pembagi" class="form-control input-sm bilangan_titik" type="text" placeholder="Bilangan Pembagi" name="pembagi" value="<?= $analisis_master['pembagi'] ?>">
+											<input id="pembagi" class="form-control input-sm bilangan_titik" maxlength="10" type="text" placeholder="Bilangan Pembagi" name="pembagi" value="<?= $analisis_master['pembagi'] ?>">
 											<p class="help-block"><code>Untuk tanda koma "," gunakan tanda titik "." sebagai substitusinya</code></p>
 										</div>
 									</div>

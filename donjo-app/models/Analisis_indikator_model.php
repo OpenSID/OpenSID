@@ -124,19 +124,30 @@
 		return $data;
 	}
 
+	private function validasi_data($post)
+	{
+		$data = array();
+		$data['id_tipe'] = $post['id_tipe'] ?: null;
+		$data['nomor'] = bilangan($post['nomor']);
+		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
+		$data['id_kategori'] = $post['id_kategori'] ?: null;
+		$data['is_publik'] = $post['is_publik'];
+		return $data;
+	}
+
 	public function insert()
 	{
 		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
 
-		$data = $_POST;
+		$data = $this->validasi_data($this->input->post());
 		if ($data['id_tipe'] != 1)
 		{
 			$data['act_analisis'] = 2;
 			$data['bobot'] = 0;
 		}
 
-		$data['id_master'] = $_SESSION['analisis_master'];
+		$data['id_master'] = $this->session->analisis_master;
 		$outp = $this->db->insert('analisis_indikator', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -152,13 +163,13 @@
 
 	public function update($id=0)
 	{
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master']))
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master))
 		{
 			$this->update_indikator_sistem($id);
 			return;
 		}
 
-		$data = $_POST;
+		$data = $this->validasi_data($this->input->post());
 		if ($data['id_tipe'] != 1)
 		{
 			$data['act_analisis'] = 2;
@@ -172,7 +183,7 @@
 
 		}
 
-		$data['id_master'] = $_SESSION['analisis_master'];
+		$data['id_master'] = $this->session->analisis_master;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_indikator', $data);
 		status_sukses($outp); //Tampilkan Pesan
@@ -201,12 +212,21 @@
 		}
 	}
 
+	private function validasi_parameter($post)
+	{
+		$data = array();
+		$data['kode_jawaban'] = bilangan($post['kode_jawaban']);
+		$data['jawaban'] = htmlentities($post['jawaban']);
+		$data['nilai'] = bilangan($post['nilai']);
+		return $data;
+	}
+
 	public function p_insert($in='')
 	{
 		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
 
-		$data = $_POST;
+		$data = $this->validasi_parameter($this->input->post());
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
@@ -215,9 +235,9 @@
 
 	public function p_update($id=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_parameter($this->input->post());
 		// Analisis sistem hanya kolom tertentu boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])){
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)){
 			unset($data['kode_jawaban']);
 			unset($data['jawaban']);
 		}

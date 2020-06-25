@@ -81,8 +81,9 @@
 
 	public function insert()
 	{
-		$data = $_POST;
-		$data['id_master'] = $_SESSION['analisis_master'];
+		$data = [];
+		$data['id_master'] = $this->session->analisis_master;
+		$data['kategori'] = htmlentities($this->input->post('kategori'));
 		$outp = $this->db->insert('analisis_kategori_indikator', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -90,8 +91,9 @@
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		$data['id_master']=$_SESSION['analisis_master'];
+		$data = [];
+		$data['id_master'] = $this->session->analisis_master;
+		$data['kategori'] = htmlentities($this->input->post('kategori'));
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_kategori_indikator', $data);
 		status_sukses($outp); //Tampilkan Pesan
