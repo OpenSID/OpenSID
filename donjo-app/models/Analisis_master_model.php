@@ -15,7 +15,7 @@ class Analisis_master_model extends MY_Model {
 	{
 		if (isset($_SESSION['cari']))
 		{
-		$cari = $_SESSION['cari'];
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
