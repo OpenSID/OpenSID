@@ -3,16 +3,19 @@
 class Pengurus extends Admin_Controller {
 
 	private $_header;
+	private $_set_page;
 	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
-		$this->_header = $this->header_model->get_data();
-		$this->_list_session = ['status', 'cari'];
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 18;
+		$this->_set_page = ['20', '50', '100'];
+		$this->_list_session = ['status', 'cari'];
+		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
+		$this->_header = $this->header_model->get_data();
 	}
 
 	public function clear()
@@ -21,14 +24,22 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
-	public function index()
+	public function index($p = 1)
 	{
 		foreach ($this->_list_session as $list)
 		{
 				$data[$list] = $this->session->$list ?: '';
 		}
 
-		$data['main'] = $this->pamong_model->list_data();
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = 'index';
+		$data['set_page'] = $this->_set_page;
+		$data['per_page'] = $this->session->per_page;
+		$data['paging'] = $this->pamong_model->paging($p);
+		$data['main'] = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->pamong_model->autocomplete();
 		$this->_header['minsidebar'] = 1;
 

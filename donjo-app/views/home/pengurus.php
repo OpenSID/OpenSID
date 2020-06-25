@@ -4,11 +4,9 @@
 	}
 </style>
 <script>
-	$(function()
-	{
+	$(function() {
 		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
+		$( "#cari" ).autocomplete({
 			source: keyword,
 			maxShowItems: 10,
 		});
@@ -153,6 +151,7 @@
 											</div>
 										</div>
 									</form>
+									<?php $this->load->view('global/paging');?>
 								</div>
 							</div>
 						</div>

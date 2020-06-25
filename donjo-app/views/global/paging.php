@@ -26,7 +26,7 @@
 					<li><a href="<?=site_url("$this->controller/$func/$paging->prev");?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 				<?php endif; ?>
 				<?php for ($i=$paging->start_link; $i<=$paging->end_link; $i++): ?>
-					<li <?=jecho($p, $i, "class='active'");?>><a href="<?= site_url("$this->controller/$func/$i");?>"><?= $i?></a></li>
+					<li <?=jecho($paging->page, $i, "class='active'");?>><a href="<?= site_url("$this->controller/$func/$i");?>"><?= $i?></a></li>
 				<?php endfor; ?>
 				<?php if ($paging->next): ?>
 					<li><a href="<?=site_url("$this->controller/$func/$paging->next");?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>

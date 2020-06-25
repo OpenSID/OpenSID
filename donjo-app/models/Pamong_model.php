@@ -10,25 +10,19 @@
 		$this->load->model(['referensi_model']);
 	}
 
-	public function list_data()
+	public function list_data($offset = 0, $limit = 500)
 	{
-		$sql = "SELECT u.*, p.nama as nama, p.nik as nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama
-			FROM tweb_desa_pamong u
-			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk b ON p.pendidikan_kk_id = b.id
-			LEFT JOIN tweb_penduduk_sex x ON p.sex = x.id
-			LEFT JOIN tweb_penduduk_agama g ON p.agama_id = g.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk b2 ON u.pamong_pendidikan = b2.id
-			LEFT JOIN tweb_penduduk_sex x2 ON u.pamong_sex = x2.id
-			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id
-			WHERE 1";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+
+		$sql = "SELECT u.*, p.nama as nama, p.nik as nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama ";
+		$sql .= $this->list_data_sql();
 		$sql .= ' ORDER BY u.urut';
+		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
 
+		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
 			if (empty($data[$i]['id_pend']))
@@ -48,9 +42,43 @@
 			{
 				if (empty($data[$i]['tempatlahir'])) $data[$i]['tempatlahir'] = '-';
 			}
-			$data[$i]['no'] = $i + 1;
+			$data[$i]['no'] = $j + 1;
+			$j++;
 		}
+
 		return $data;
+	}
+
+	public function paging($p)
+	{
+		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_sql()
+	{
+		$sql = "FROM tweb_desa_pamong u
+			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			LEFT JOIN tweb_penduduk_pendidikan_kk b ON p.pendidikan_kk_id = b.id
+			LEFT JOIN tweb_penduduk_sex x ON p.sex = x.id
+			LEFT JOIN tweb_penduduk_agama g ON p.agama_id = g.id
+			LEFT JOIN tweb_penduduk_pendidikan_kk b2 ON u.pamong_pendidikan = b2.id
+			LEFT JOIN tweb_penduduk_sex x2 ON u.pamong_sex = x2.id
+			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+
+		return $sql;
 	}
 
 	public function autocomplete()
