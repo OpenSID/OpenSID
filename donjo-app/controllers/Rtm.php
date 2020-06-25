@@ -11,7 +11,7 @@ class Rtm extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'rtm_model', 'config_model', 'penduduk_model']);
+		$this->load->model(['header_model', 'rtm_model', 'config_model', 'penduduk_model', 'program_bantuan_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->_set_page = ['50', '100', '200'];
 		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
@@ -189,12 +189,19 @@ class Rtm extends Admin_Controller {
 		redirect('rtm');
 	}
 
+	public function akas($id = 0)
+	{
+		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, '01140500005');
+
+		echo json_encode($data['program']);
+	}
 	public function anggota($id = 0)
 	{
 		$data['kk'] = $id;
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
+		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, '01140500005');
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
