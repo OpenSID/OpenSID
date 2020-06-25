@@ -80,7 +80,7 @@
 							<div class="form-group">
 								<label for="nama"  class="col-sm-2 control-label">Nama Jenis Lokasi</label>
 								<div class="col-sm-8">
-									<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
+									<input  id="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">

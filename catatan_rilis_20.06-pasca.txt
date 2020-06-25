@@ -23,7 +23,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 17. Paksa harus ubah kunci default file_manager di desa/config/config.php. [security-fix]
 18. #2678: Tambahkan validasi isian form Produk Hukum dan Informasi Publik sekalian mencegah serangan XSS. [security-fix]
 19. #3158: Ubah nomor telepon menjadi 12 digit di lamporan F-1.08 dan F-1.25.
-20. Upgrade plugin editor artikel Tinymce dari 4.6.4 ke 4.9.10. [teknis, security-fix]
+20. Upgrade plugin editor artikel Tinymce dari 4.6.4 ke 5.3.2. [teknis, security-fix]
 21. #3182: Sediakan laporan dan grafik keuangan input manual untuk disisipkan ke artikel web.
 22. #3027: Pilihan peserta program bantuan sasaran keluarga sekarang termasuk penduduk dengan hubungan keluarga suami/istri dan anak.
 23. #3179: Tambahkan validasi dan pembersihan data form Album dan Gambar Album. [security-fix]
@@ -46,6 +46,11 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 40. #3241: Tambahkan validasi form Wilayah Administratif, termasuk form peta. [security-fix]
 41. #2410: Tampilkan daftar program bantuan yang diterima penduduk di halaman Biodata Penduduk.
 42. Sederhanakan dan sesuaikan script Pemerintahan Desa dengan aturan penulisan script. [teknis]
+43. #2052: Tambilkan subkategori di daftar kategori halaman Admin Web > Artikel.
+44. #3209: Tambahkan validasi form Pencarian Spesifik di halaman Penduduk. [security-fix]
+45. #3208: Tambahkan validasi form Pencarian Spesifik di halaman Peta. [security-fix]
+46. #3175: Tambahkan validasi semua form Pengaturan Peta. [security-fix]
+47. #3172: Tambahkan validasi semua form Analisis. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

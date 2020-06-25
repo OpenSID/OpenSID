@@ -4,7 +4,7 @@
 	{
 		selector: 'textarea',
 		height: 500,
-		theme: 'modern',
+		theme: 'silver',
 		plugins: [
 					"advlist autolink link image lists charmap print preview hr anchor pagebreak",
 					"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",

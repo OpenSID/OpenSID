@@ -6,30 +6,36 @@
 		$this->load->model('agenda_model');
 	}
 
-	public function autocomplete()
+	public function autocomplete($cat)
 	{
+		$this->db->where('id_kategori', $cat);
+
 		return $this->autocomplete_str('judul', 'artikel');
 	}
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		$cari = $this->session->cari;
+
+		if (isset($cari))
 		{
-			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (judul LIKE '$kw' OR isi LIKE '$kw')";
-			return $search_sql;
+			$sql = " AND (judul LIKE '$kw' OR isi LIKE '$kw')";
+
+			return $sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		$status = $this->session->status;
+
+		if (isset($status))
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND a.enabled = $kf";
-			return $filter_sql;
+			$sql = " AND a.enabled = $status";
+
+			return $sql;
 		}
 	}
 
@@ -120,14 +126,31 @@
 		return $data;
 	}
 
+	private function kategori($id)
+	{
+		$data	= $this->db
+			->where('parrent', $id)
+			->order_by('urut')
+			->get('kategori')
+			->result_array();
+
+		return $data;
+	}
+
 	public function list_kategori()
 	{
-		$sql = "SELECT * FROM kategori WHERE 1 order by urut";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		$data[] = array(
+		$data = $this->kategori(0);
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['submenu'] = $this->kategori($data[$i]['id']);
+		}
+
+		$data[] = [
 			'id' => '0',
-			'kategori' => '[Tidak Berkategori]');
+			'kategori' => '[Tidak Berkategori]'
+		];
+
 		return $data;
 	}
 
