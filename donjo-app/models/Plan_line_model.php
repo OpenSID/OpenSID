@@ -90,6 +90,7 @@
 		}
 		return $data;
 	}
+
 	private function validasi($post)
 	{
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
