@@ -221,7 +221,6 @@
 	public function update_rw($id_rw='')
 	{
 		$data = $this->bersihkan_data($this->input->post());
-
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
 		unset($data['id_rw']);
@@ -232,6 +231,7 @@
 			return;
 		}
 		// Update data RW
+		$data['dusun'] = $temp['dusun'];
 		$outp1 = $this->db->where('id', $id_rw)
 			->update('tweb_wil_clusterdesa', $data);
 		// Update nama RW di semua RT untuk RW ini
@@ -291,6 +291,8 @@
 			$_SESSION['success'] = -2;
 			return;
 		}
+		$data['dusun'] = $rt_lama['dusun'];
+		$data['rw'] = $rt_lama['rw'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 

@@ -3,6 +3,10 @@ class Migrasi_2006_ke_2007 extends CI_model {
 
 	public function up()
 	{
+	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		$this->db->query("ALTER TABLE area MODIFY COLUMN id_cluster INT(11) NULL DEFAULT NULL");
+		$this->db->query("ALTER TABLE area MODIFY COLUMN foto VARCHAR(100) NULL DEFAULT NULL");
+		$this->db->query("ALTER TABLE area MODIFY COLUMN path TEXT NULL");
 		$this->data_apbdes_manual();
 		$this->konfigurasi_web();
 	}
