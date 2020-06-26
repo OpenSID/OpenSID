@@ -3,8 +3,6 @@ class Migrasi_2005_ke_2006 extends CI_model {
 
 	public function up()
 	{
-		// Menu baru -FITUR PREMIUM-
-		$this->buku_administrasi_desa();
 		$this->grup_akses_covid19();
 		$this->load->model('migrations/migrasi_2004_ke_2005');
 		$this->migrasi_2004_ke_2005->up(); // untuk yang sudah terlanjur mengkosongkan DB sebelum kosongkan_db diperbaiki
@@ -50,101 +48,6 @@ class Migrasi_2005_ke_2006 extends CI_model {
 					'null' => TRUE,
 				),
 			));
-	}
-
-	private function buku_administrasi_desa()
-	{
-		// Menu parent Buku Administrasi Desa
-		$menu[0] = array(
-			'id'=>'301',
-			'modul' => 'Buku Administrasi Desa',
-			'url' => '',
-			'aktif' => '1',
-			'ikon' => 'fa-paste',
-			'urut' => '6',
-			'level' => '2',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa fa-paste',
-			'parent' => 0
-		);
-		$menu[1] = array(
-			'id'=>'302',
-			'modul' => 'Administrasi Umum',
-			'url' => 'bumindes_umum',
-			'aktif' => '1',
-			'ikon' => 'fa-bookmark',
-			'urut' => '1',
-			'level' => '2',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa fa-bookmark',
-			'parent' => 301
-		);
-		$menu[2] = array(
-			'id'=>'303',
-			'modul' => 'Administrasi Penduduk',
-			'url' => 'bumindes_penduduk',
-			'aktif' => '1',
-			'ikon' => 'fa-users',
-			'urut' => '2',
-			'level' => '2',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa fa-users',
-			'parent' => 301
-		);
-		$menu[3] = array(
-			'id'=>'304',
-			'modul' => 'Administrasi Keuangan',
-			'url' => 'bumindes_keuangan',
-			'aktif' => '1',
-			'ikon' => 'fa-money',
-			'urut' => '3',
-			'level' => '2',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa fa-money',
-			'parent' => 301
-		);
-		$menu[4] = array(
-			'id'=>'305',
-			'modul' => 'Administrasi Pembangunan',
-			'url' => 'bumindes_pembangunan',
-			'aktif' => '1',
-			'ikon' => 'fa-university',
-			'urut' => '4',
-			'level' => '2',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa fa-university',
-			'parent' => 301
-		);
-		$menu[5] = array(
-			'id'=>'306',
-			'modul' => 'Administrasi Lainnya',
-			'url' => 'bumindes_lain',
-			'aktif' => '1',
-			'ikon' => 'fa-archive',
-			'urut' => '5',
-			'level' => '2',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa fa-archive',
-			'parent' => 301
-		);
-		foreach ($menu as $modul)
-		{
-			$sql = $this->db->insert_string('setting_modul', $modul);
-			$sql .= " ON DUPLICATE KEY UPDATE
-			id = VALUES(id),
-			modul = VALUES(modul),
-			url = VALUES(url),
-			aktif = VALUES(aktif),
-			ikon = VALUES(ikon),
-			urut = VALUES(urut),
-			level = VALUES(level),
-			hidden = VALUES(hidden),
-			ikon_kecil = VALUES(ikon_kecil),
-			parent = VALUES(parent)";
-			$this->db->query($sql);
-		}
-		// Menu parent Buku Administrasi Desa. END
-
 	}
 
 	private function grup_akses_covid19()

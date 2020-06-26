@@ -3,6 +3,8 @@ class Migrasi_2006_ke_2007 extends CI_model {
 
 	public function up()
 	{
+		// Menu baru -FITUR PREMIUM-
+		$this->buku_administrasi_desa();
 	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE area MODIFY COLUMN id_cluster INT(11) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE area MODIFY COLUMN foto VARCHAR(100) NULL DEFAULT NULL");
@@ -567,6 +569,101 @@ class Migrasi_2006_ke_2007 extends CI_model {
 			(39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web')
 			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
 		$this->db->query($query);
+	}
+
+	private function buku_administrasi_desa()
+	{
+		// Menu parent Buku Administrasi Desa
+		$menu[0] = array(
+			'id'=>'301',
+			'modul' => 'Buku Administrasi Desa',
+			'url' => '',
+			'aktif' => '1',
+			'ikon' => 'fa-paste',
+			'urut' => '6',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-paste',
+			'parent' => 0
+		);
+		$menu[1] = array(
+			'id'=>'302',
+			'modul' => 'Administrasi Umum',
+			'url' => 'bumindes_umum',
+			'aktif' => '1',
+			'ikon' => 'fa-bookmark',
+			'urut' => '1',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-bookmark',
+			'parent' => 301
+		);
+		$menu[2] = array(
+			'id'=>'303',
+			'modul' => 'Administrasi Penduduk',
+			'url' => 'bumindes_penduduk',
+			'aktif' => '1',
+			'ikon' => 'fa-users',
+			'urut' => '2',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-users',
+			'parent' => 301
+		);
+		$menu[3] = array(
+			'id'=>'304',
+			'modul' => 'Administrasi Keuangan',
+			'url' => 'bumindes_keuangan',
+			'aktif' => '1',
+			'ikon' => 'fa-money',
+			'urut' => '3',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-money',
+			'parent' => 301
+		);
+		$menu[4] = array(
+			'id'=>'305',
+			'modul' => 'Administrasi Pembangunan',
+			'url' => 'bumindes_pembangunan',
+			'aktif' => '1',
+			'ikon' => 'fa-university',
+			'urut' => '4',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-university',
+			'parent' => 301
+		);
+		$menu[5] = array(
+			'id'=>'306',
+			'modul' => 'Administrasi Lainnya',
+			'url' => 'bumindes_lain',
+			'aktif' => '1',
+			'ikon' => 'fa-archive',
+			'urut' => '5',
+			'level' => '2',
+			'hidden' => '0',
+			'ikon_kecil' => 'fa fa-archive',
+			'parent' => 301
+		);
+		foreach ($menu as $modul)
+		{
+			$sql = $this->db->insert_string('setting_modul', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+			id = VALUES(id),
+			modul = VALUES(modul),
+			url = VALUES(url),
+			aktif = VALUES(aktif),
+			ikon = VALUES(ikon),
+			urut = VALUES(urut),
+			level = VALUES(level),
+			hidden = VALUES(hidden),
+			ikon_kecil = VALUES(ikon_kecil),
+			parent = VALUES(parent)";
+			$this->db->query($sql);
+		}
+		// Menu parent Buku Administrasi Desa. END
+
 	}
 
 }
