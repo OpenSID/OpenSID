@@ -67,11 +67,11 @@
 								<label for="nama">Umur</label>
 							</div>
 							<div class="col-sm-6">
-								<input class="form-control input-sm" type="text" placeholder="Dari" id="umur_min" name="umur_min"></input>
+								<input class="form-control input-sm bilangan" type="text" placeholder="Dari" id="umur_min1" name="umur_min1"></input>
 								<input type="hidden" name="rt" value="">
 							</div>
 							<div class="col-sm-6">
-								<input class="form-control  input-sm" type="text" placeholder="Sampai" id="umur_max1" name="umur_max1"></input>
+								<input class="form-control input-sm bilangan" type="text" placeholder="Sampai" id="umur_max1" name="umur_max1"></input>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -121,8 +121,8 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="endidikan1">Pendidikan Terakhir</label>
-								<select class="form-control  input-sm"  id="endidikan1"  name="endidikan1">
+								<label for="pendidikan1">Pendidikan dalam KK</label>
+								<select class="form-control  input-sm"  id="pendidikan1"  name="pendidikan1">
 									<option value=""> -- </option>
 									<?php foreach ($pendidikan AS $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
