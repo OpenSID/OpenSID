@@ -513,7 +513,7 @@
 		if (isset($_SESSION['pendidikan1']))
 		{
 			$kf = $_SESSION['pendidikan1'];
-			$pendidikan_sql = " AND u.pendidikan_id = $kf";
+			$pendidikan_sql = " AND u.pendidikan_kk_id = $kf";
 			return $pendidikan_sql;
 		}
 	}

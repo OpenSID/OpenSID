@@ -367,7 +367,7 @@ class Sms extends Admin_Controller {
 		$adv_search['pekerjaan1'] = $adv_search['pekerjaan1'];
 		$adv_search['status1'] = $adv_search['status1'];
 		$adv_search['agama1'] = $adv_search['agama1'];
-		$adv_search['endidikan1'] = $adv_search['endidikan1'];
+		$adv_search['pendidikan1'] = $adv_search['pendidikan1'];
 		$adv_search['status_penduduk1'] = $adv_search['status_penduduk1'];
 		$adv_search['dusun1'] = $adv_search['dusun1'];
 		$adv_search['grup1'] = $adv_search['grup1'];
@@ -395,7 +395,7 @@ class Sms extends Admin_Controller {
 	{
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['grup'] = $this->sms_model->list_grup_kontak();
 		$data['form_action'] = site_url("sms/broadcast_proses");
