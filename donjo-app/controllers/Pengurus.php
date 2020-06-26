@@ -128,10 +128,10 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
-	public function urut($id = 0, $arah = 0)
+	public function urut($p = 1, $id = 0, $arah = 0)
 	{
 		$this->pamong_model->urut($id, $arah);
-		redirect("pengurus");
+		redirect("pengurus/index/$p");
 	}
 
 	public function lock($id = 0, $val = 1)
