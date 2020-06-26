@@ -104,7 +104,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="website">Website <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="website" name="website" class="form-control input-sm url" maxlength="50" type="text" placeholder="Webiste <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["website"]?>"></input>
+									<input id="website" name="website" class="form-control input-sm url" maxlength="50" type="text" placeholder="Website <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["website"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
