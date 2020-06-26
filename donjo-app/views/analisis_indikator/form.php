@@ -105,7 +105,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nomor">Kode Pertanyaan</label>
 												<div class="col-sm-2">
-													<input id="nomor" class="form-control input-sm" type="text" placeholder="Kode Pertanyaan" name="nomor" value="<?= $analisis_indikator['nomor']?>" <?php if ($analisis_master['jenis']==1): ?> readonly="readonly" <?php endif; ?>>
+													<input id="nomor" class="form-control input-sm bilangan" type="text" placeholder="Kode Pertanyaan" name="nomor" value="<?= $analisis_indikator['nomor']?>" <?php if ($analisis_master['jenis']==1): ?> readonly="readonly" <?php endif; ?>>
 												</div>
 											</div>
 										</div>
@@ -113,7 +113,7 @@
 											<div class="form-group" id="delik">
 												<label class="col-sm-3 control-label" for="pertanyaan">Pertanyaan</label>
 												<div class="col-sm-8">
-													<textarea  id="pertanyaan" class="form-control input-sm" placeholder="Pertanyaan" name="pertanyaan" <?php if ($analisis_master['jenis']==1): ?> readonly="readonly" <?php endif; ?>><?= $analisis_indikator['pertanyaan']?></textarea>
+													<textarea  id="pertanyaan" class="form-control input-sm required" placeholder="Pertanyaan" name="pertanyaan" <?php if ($analisis_master['jenis']==1): ?> readonly="readonly" <?php endif; ?>><?= $analisis_indikator['pertanyaan']?></textarea>
 												</div>
 											</div>
 										</div>
@@ -121,8 +121,8 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="id_tipe">Kategori Indikator</label>
 												<div class="col-sm-5">
-													<select class="form-control select2"  id="id_kategori" name="id_kategori" <?php if ($analisis_master['jenis']==1): ?>disabled="disabled"<?php endif; ?>>
-														<option selected="selected">-- Kategori Indikator--</option>
+													<select class="form-control select2 required"  id="id_kategori" name="id_kategori" <?php if ($analisis_master['jenis']==1): ?>disabled="disabled"<?php endif; ?>>
+														<option value="" selected="selected">-- Kategori Indikator--</option>
 														<?php foreach ($list_kategori AS $data): ?>
 															<option value="<?= $data['id']?>"  <?php if ($analisis_indikator['id_kategori'] == $data['id']): ?>selected <?php endif; ?>><?= $data['kategori']?></option>
 														<?php endforeach;?>

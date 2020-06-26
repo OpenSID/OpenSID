@@ -25,7 +25,7 @@
 						<div class="form-group">
 							<label for="keterangan">Keterangan</label>
 							<input type="hidden" name="id_suplemen" value="<?= $id_suplemen?>"/>
-							 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"><?= $keterangan?></textarea>
+							 <textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="100" placeholder="Keterangan"  rows="3"><?= $keterangan?></textarea>
 						</div>
 					</div>
 				</div>

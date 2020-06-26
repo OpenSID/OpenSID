@@ -93,7 +93,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">
-													 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan" rows="3" style="resize:none;"></textarea>
+													 <textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="100" placeholder="Keterangan" rows="3" style="resize:none;"></textarea>
 												 </div>
 											</div>
 										</form>

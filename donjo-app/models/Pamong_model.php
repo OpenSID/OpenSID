@@ -5,11 +5,12 @@
 	public function __construct()
 	{
 		parent::__construct();
-	  require_once APPPATH.'/models/Urut_model.php';
+		require_once APPPATH.'/models/Urut_model.php';
 		$this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
+		$this->load->model(['referensi_model']);
 	}
 
-	public function list_data($aktif = false)
+	public function list_data()
 	{
 		$sql = "SELECT u.*, p.nama as nama, p.nik as nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama
 			FROM tweb_desa_pamong u
@@ -22,8 +23,8 @@
 			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id
 			WHERE 1";
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql($aktif);
-		$sql .= ' ORDER BY urut';
+		$sql .= $this->filter_sql();
+		$sql .= ' ORDER BY u.urut';
 
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
@@ -67,36 +68,35 @@
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
+
 		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $_SESSION['cari'];
+			$cari = $this->session->cari;
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
+
 			return $search_sql;
 		}
 	}
 
-	private function filter_sql($aktif=false)
+	private function filter_sql()
 	{
-		if ($aktif)
+		if ($this->session->has_userdata('status'))
 		{
-			return " AND u.pamong_status = '1'";
-		}
-		if (!empty($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
+			$kf = $this->session->status;
 			$filter_sql = " AND u.pamong_status = $kf";
+
 			return $filter_sql;
 		}
 	}
 
-	public function get_data($id=0)
+	public function get_data($id = 0)
 	{
 		$sql = "SELECT u.*, p.nama as nama
 			FROM tweb_desa_pamong u
@@ -116,7 +116,7 @@
 	public function get_pamong($id = null)
 	{
 		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();;
-		
+
 		return $pamong;
 	}
 
@@ -243,24 +243,14 @@
 		}
 	}
 
-	public function ttd($id='', $val=0)
+	public function ttd($jenis, $id, $val)
 	{
 		if ($val == 1)
 		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / default
-			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
+			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
+			$this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
 		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
-	}
-
-	public function ub($id='', $val=0)
-	{
-		if ($val == 1)
-		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd u.b
-			$this->db->where('pamong_ub', 1)->update('tweb_desa_pamong', array('pamong_ub'=>0));
-		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ub'=>$val));
+		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
 	}
 
 	public function get_ttd()
@@ -280,7 +270,7 @@
 	// 		2 - naik
 	public function urut($id, $arah)
 	{
-  	$this->urut_model->urut($id, $arah);
+		$this->urut_model->urut($id, $arah);
 	}
 
 	/*
@@ -321,6 +311,19 @@
 		}
 
 		return $data;
+	}
+
+	//----------------------------------------------------------------------------------------------------
+
+	/**
+	 * @param $id id
+	 * @param $val status : 1 = Unlock, 2 = Lock
+	 */
+	public function lock($id, $val)
+	{
+		$this->db
+			->where('pamong_id', $id)
+			->update('tweb_desa_pamong', ['pamong_status' => $val]);
 	}
 
 }

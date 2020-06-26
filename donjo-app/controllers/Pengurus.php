@@ -2,53 +2,50 @@
 
 class Pengurus extends Admin_Controller {
 
+	private $_header;
+	private $_list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		$this->load->model('pamong_model');
-		$this->load->model('header_model');
-		$this->load->model('penduduk_model');
-		$this->load->model('config_model');
-		$this->load->model('referensi_model');
+		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
+		$this->_header = $this->header_model->get_data();
+		$this->_list_session = ['status', 'cari'];
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 18;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		$this->session->unset_userdata($this->_list_session);
 		redirect('pengurus');
 	}
 
 	public function index()
 	{
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		foreach ($this->_list_session as $list)
+		{
+				$data[$list] = $this->session->$list ?: '';
+		}
 
 		$data['main'] = $this->pamong_model->list_data();
 		$data['keyword'] = $this->pamong_model->autocomplete();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->_header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('home/pengurus', $data);
 		$this->load->view('footer');
 	}
 
-	public function form($id = '')
+	public function form($id = 0)
 	{
+		$id_pend = $this->input->post('id_pend');
+
 		if ($id)
 		{
 			$data['pamong'] = $this->pamong_model->get_data($id);
-			if (!isset($_POST['id_pend'])) $_POST['id_pend'] = $data['pamong']['id_pend'];
+			if (!isset($id_pend)) $id_pend = $data['pamong']['id_pend'];
 			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
@@ -58,35 +55,26 @@ class Pengurus extends Admin_Controller {
 		}
 
 		$data['penduduk'] = $this->pamong_model->list_penduduk();
-		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
+		$data['pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		if (!empty($_POST['id_pend']))
-			$data['individu'] = $this->penduduk_model->get_penduduk($_POST['id_pend']);
+
+		if (!empty($id_pend))
+			$data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
 		else
 			$data['individu'] = NULL;
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('home/pengurus_form', $data);
 		$this->load->view('footer');
 	}
 
-	public function filter()
+	public function filter($filter)
 	{
-		$filter = $this->input->post('filter');
-		if ($filter != "")
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
-		redirect('pengurus');
-	}
-
-	public function search()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('pengurus');
 	}
 
@@ -96,13 +84,13 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
-	public function update($id = '')
+	public function update($id = 0)
 	{
 		$this->pamong_model->update($id);
 		redirect('pengurus');
 	}
 
-	public function delete($id = '')
+	public function delete($id = 0)
 	{
 		$this->redirect_hak_akses('h', 'pengurus');
 		$outp = $this->pamong_model->delete($id);
@@ -116,64 +104,16 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
-	public function ttd_on($id = '')
+	public function ttd($id = 0, $val = 0)
 	{
-		$this->pamong_model->ttd($id, 1);
+		$this->pamong_model->ttd('pamong_ttd', $id, $val);
 		redirect('pengurus');
 	}
 
-	public function ttd_off($id = '')
+	public function ub($id = 0, $val = 0)
 	{
-		$this->pamong_model->ttd($id, 0);
+		$this->pamong_model->ttd('pamong_ub', $id, $val);
 		redirect('pengurus');
-	}
-
-	public function ub_on($id = '')
-	{
-		$this->pamong_model->ub($id, 1);
-		redirect('pengurus');
-	}
-
-	public function ub_off($id = '')
-	{
-		$this->pamong_model->ub($id, 0);
-		redirect('pengurus');
-	}
-
-	public function dialog_cetak($o = 0)
-	{
-		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("pengurus/cetak/$o");
-		$this->load->view('home/ajax_cetak_pengurus', $data);
-	}
-
-	public function dialog_unduh($o = 0)
-	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("pengurus/unduh/$o");
-		$this->load->view('home/ajax_cetak_pengurus', $data);
-	}
-
-	public function cetak($o = 0)
-	{
-		$data['input'] = $_POST;
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-  	$data['desa'] = $this->config_model->get_data();
-    $data['main'] = $this->pamong_model->list_data();
-		$this->load->view('home/pengurus_print', $data);
-	}
-
-	public function unduh($o = 0)
-	{
-		$data['input'] = $_POST;
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-  	$data['desa'] = $this->config_model->get_data();
-    $data['main'] = $this->pamong_model->list_data();
-		$this->load->view('home/pengurus_excel', $data);
 	}
 
 	public function urut($id = 0, $arah = 0)
@@ -181,4 +121,35 @@ class Pengurus extends Admin_Controller {
 		$this->pamong_model->urut($id, $arah);
 		redirect("pengurus");
 	}
+
+	public function lock($id = 0, $val = 1)
+	{
+		$this->pamong_model->lock($id, $val);
+		redirect("pengurus");
+	}
+
+	/*
+	 * $aksi = cetak/unduh
+	 */
+	public function dialog($aksi = 'cetak')
+	{
+		$data['aksi'] = $aksi;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("pengurus/daftar/$aksi");
+		$this->load->view('home/ajax_pengurus', $data);
+	}
+
+	/*
+	 * $aksi = cetak/unduh
+	 */
+	public function daftar($aksi = 'cetak')
+	{
+		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
+		$data['desa'] = $this->config_model->get_data();
+		$data['main'] = $this->pamong_model->list_data();
+
+		$this->load->view('home/'.$aksi, $data);
+	}
+
 }

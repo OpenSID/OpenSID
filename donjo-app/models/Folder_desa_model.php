@@ -56,5 +56,17 @@
 		}
 	}
 
+	public function salin_file($cek = 'desa/upload', $cari = '.htaccess', $contoh = 'desa-contoh/upload/media/.htaccess')
+	{
+		if (!file_exists("$cek/$cari")) copy($contoh, "$cek/$cari");
 
+		foreach (glob("$cek/*", GLOB_ONLYDIR) as $folder)
+		{
+			$file = "$folder/$cari";
+
+			if (!file_exists($file)) copy($contoh, $file);
+
+			$this->salin_file("$folder");
+		}
+	}
 }

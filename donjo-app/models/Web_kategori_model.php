@@ -105,15 +105,16 @@ class Web_kategori_model extends CI_Model {
 	{
 		$this->session->unset_userdata('error_msg');
 		$this->session->set_userdata('success', 1);
-		$data = $_POST;
+		$data = [];
+		$data['kategori'] = $this->input->post('kategori');
+		$this->sterilkan_kategori($data);
 		if (!$this->cek_nama($data['kategori']))
 			return;
 		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
-		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
-		$this->sterilkan_kategori($data);
+		$data['slug'] = url_title($data['kategori'], 'dash', TRUE);
 		$outp = $this->db->insert('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 
 	}
@@ -121,7 +122,7 @@ class Web_kategori_model extends CI_Model {
 	private function sterilkan_kategori(&$data)
 	{
 		unset($data['kategori_lama']);
-		$data['kategori'] = strip_tags($data['kategori']);
+		$data['kategori'] = htmlentities($data['kategori']);
 	}
 
 	private function cek_nama($kategori)
@@ -131,7 +132,7 @@ class Web_kategori_model extends CI_Model {
 		if ($ada_nama)
 		{
 			$_SESSION['error_msg'].= " -> Nama kategori tidak boleh sama";
-		  $_SESSION['success'] = -1;		  
+		  $_SESSION['success'] = -1;
 		  return false;
 		}
 		return true;
@@ -141,7 +142,8 @@ class Web_kategori_model extends CI_Model {
 	{
 		$this->session->unset_userdata('error_msg');
 		$this->session->set_userdata('success', 1);
-		$data = $_POST;
+		$data = [];
+		$data['kategori'] = $this->input->post('kategori');
 		if ($data['kategori'] == $data['kategori_lama'])
 		{
 			return; // Tidak ada yg diubah
@@ -154,16 +156,16 @@ class Web_kategori_model extends CI_Model {
 		$this->sterilkan_kategori($data);
 		$outp = $this->db->where('id', $id)
 			->update('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kategori');
-		
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
@@ -234,24 +236,26 @@ class Web_kategori_model extends CI_Model {
 
 	public function insert_sub_kategori($kategori=0)
 	{
-		$data = $_POST;
-
+		$data = [];
+		$data['kategori'] = $this->input->post('kategori');
+		$this->sterilkan_kategori($data);
 		$data['parrent'] = $kategori;
-		$data['enabled'] = 1;
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $kategori)) + 1;
-		$data['slug'] = url_title($this->input->post('kategori'), 'dash', TRUE);
+		$data['slug'] = url_title($data['kategori'], 'dash', TRUE);
+		$data['enabled'] = 1;
 		$outp = $this->db->insert('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_sub_kategori($id=0)
 	{
-		$data = $_POST;
-
+		$data = [];
+		$data['kategori'] = $this->input->post('kategori');
+		$this->sterilkan_kategori($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kategori', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -260,7 +264,7 @@ class Web_kategori_model extends CI_Model {
 		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kategori');
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -279,7 +283,7 @@ class Web_kategori_model extends CI_Model {
 	{
 		$sql = "UPDATE kategori SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 

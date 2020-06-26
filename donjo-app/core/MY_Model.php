@@ -45,4 +45,30 @@ class MY_Model extends CI_Model {
 
 		return autocomplete_data_ke_str($data);
 	}
+
+	/*
+	 * 0 = kolom untuk select/order, 1 = tabel, 2 = where, 3 = $cari
+	 */
+	public function union($list_kode = '')
+	{
+		$sql = array();
+
+		foreach ($list_kode as $kode)
+		{
+			list($kolom, $tabel, $where, $cari) = $kode;
+			$sql[] = '('.$this->db
+				->select($kolom)
+				->from($tabel)
+				->where($where)
+				->like($kolom, $cara)
+				->order_by($kolom, DESC)
+				->get_compiled_select()
+				.')';
+		}
+
+		$sql = implode('UNION', $sql);
+
+		return $this->db->query($sql)->result_array();
+	}
+
 }

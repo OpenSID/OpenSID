@@ -23,7 +23,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$submenu['nama']?>"></input>
+									<input name="nama" class="form-control input-sm required nomor_sk" maxlength="50" type="text" value="<?=$submenu['nama']?>"></input>
 								</div>
 							</div>
 							<?php if (!empty($submenu['link'])): ?>

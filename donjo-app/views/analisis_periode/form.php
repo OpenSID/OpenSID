@@ -62,7 +62,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nama">Nama Periode</label>
 												<div class="col-sm-8">
-													<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nama Priode" name="nama" value="<?= $analisis_periode['nama']?>">
+													<input  id="nama" class="form-control input-sm required nomor_sk" type="text" placeholder="Nama Priode" name="nama" value="<?= $analisis_periode['nama']?>">
 												</div>
 											</div>
 										</div>
@@ -86,7 +86,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="tahun_pelaksanaan">Tahun Pelaksanaan</label>
 												<div class="col-sm-2">
-													<input  id="tahun_pelaksanaan" class="form-control input-sm required" type="text" placeholder="Tahun" name="tahun_pelaksanaan" value="<?= $analisis_periode['tahun_pelaksanaan']?>">
+													<input  id="tahun_pelaksanaan" class="form-control input-sm required bilangan" maxlength="4" type="text" placeholder="Tahun" name="tahun_pelaksanaan" value="<?= $analisis_periode['tahun_pelaksanaan']?>">
 												</div>
 											</div>
 										</div>

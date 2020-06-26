@@ -84,10 +84,19 @@
 		return $data;
 	}
 
+	private function validasi_data($post)
+	{
+		$data = array();
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['minval'] = bilangan_titik($post['minval']);
+		$data['maxval'] = bilangan_titik($post['maxval']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
-		$data['id_master']=$_SESSION['analisis_master'];
+		$data = $this->validasi_data($this->input->post());
+		$data['id_master'] = $this->session->analisis_master;
 		$outp = $this->db->insert('analisis_klasifikasi', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -95,8 +104,8 @@
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		$data['id_master']=$_SESSION['analisis_master'];
+		$data = $this->validasi_data($this->input->post());
+		$data['id_master'] = $this->session->analisis_master;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_klasifikasi', $data);
 		status_sukses($outp); //Tampilkan Pesan
