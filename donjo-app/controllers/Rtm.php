@@ -37,8 +37,6 @@ class Rtm extends Admin_Controller {
 				$data[$list] = $this->session->$list ?: '';
 		}
 
-		$data['list_dusun'] = $this->wilayah_model->list_dusun();
-
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
@@ -66,9 +64,10 @@ class Rtm extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
-		$data['paging']  = $this->rtm_model->paging($p);
+		$data['paging'] = $this->rtm_model->paging($p);
 		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);

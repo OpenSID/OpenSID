@@ -85,6 +85,7 @@
 																<th class="padat"><input type="checkbox" id="checkall"/></th>
 																<th class="padat">No</th>
 																<th class="padat">Aksi</th>
+																<th class="padat">Foto</th>
 																<?php if ($order_by==2): ?>
 																	<th><a href="<?= site_url("rtm/filter/order_by/1")?>">Nomor Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																 <?php elseif ($order_by==1): ?>
@@ -99,7 +100,7 @@
 																<?php else: ?>
 																	<th nowrap><a href="<?= site_url("rtm/filter/order_by/3")?>">Kepala Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
-																<th>NIK</th>
+																<th width="10%">NIK</th>
 																<th>Jumlah Anggota</th>
 																<th>Alamat</th>
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
@@ -109,10 +110,10 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($main as $data): ?>
+															<?php foreach ($main as $key => $data): ?>
 																<tr>
 																	<td class="text-center"><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk']?>" /></td>
-																	<td class="text-center"><?= $data['no']?></td>
+																	<td class="text-center"><?= ($paging->offset + $key + 1) ; ?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("rtm/anggota/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
 																		<a href="<?= site_url("rtm/ajax_add_anggota/$data[id]")?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
@@ -121,12 +122,19 @@
 																			<a href="#" data-href="<?= site_url("rtm/delete/$data[no_kk]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
+																	<td nowrap>
+																		<div class="user-panel">
+																			<div class="image2">
+																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																			</div>
+																		</div>
+																	</td>
 																	<td>
 																		<label><?= $data['no_kk']?></label>
 																	</td>
-																	<td nowrap width="40%"><?= strtoupper($data['kepala_kk'])?></td>
+																	<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
 																	<td><?= strtoupper($data['nik'])?></td>
-																	<td>
+																	<td class="text-center">
 																		<a href="<?= site_url("rtm/anggota/$data[id]")?>"><?= $data['jumlah_anggota']?></a>
 																	</td>
 																	<td><?= strtoupper($data['alamat'])?></td>
