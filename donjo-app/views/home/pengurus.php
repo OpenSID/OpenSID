@@ -87,15 +87,15 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($main as $data): ?>
+															<?php foreach ($main as $key => $data): ?>
 																<tr>
 																	<td class="text-center">
 																		<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 																	</td>
 																	<td class="text-center"><?=$data['no']?></td>
 																	<td nowrap>
-																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm <?php jecho($data['urut'], count($main), 'disabled')?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm <?php jecho($data['urut'], 1, 'disabled')?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows AND $paging->page != 1) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																		<a href="<?=site_url("pengurus/urut/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 AND $paging->page != $paging->end_link) and print('disabled'); ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																		<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																		<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php if ($data['pamong_status'] == '1'): ?>
