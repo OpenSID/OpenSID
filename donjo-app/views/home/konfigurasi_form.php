@@ -10,7 +10,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form id="mainform" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="mainform" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal" id="validasi">
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
@@ -56,91 +56,91 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="nama_desa" name="nama_desa" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_desa"]?>"></input>
+									<input id="nama_desa" name="nama_desa" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-2">
-									<input id="kode_desa" name="kode_desa" class="form-control input-sm required" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["kode_desa"]?>" ></input>
+									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required" maxlength="6" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["kode_desa"]?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_pos">Kode Pos <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-2">
-									<input id="kode_pos" name="kode_pos" class="form-control input-sm number" type="text" placeholder="Kode Pos <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["kode_pos"]?>"></input>
+									<input id="kode_pos" name="kode_pos" class="form-control input-sm number" maxlength="6" type="text" placeholder="Kode Pos <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["kode_pos"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kepala_desa">Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm required" type="text" placeholder="Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_kepala_desa"]?>"></input>
+									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm nama required" maxlength="50" type="text" placeholder="Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_kepala_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm" type="text" placeholder="NIP Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nip_kepala_desa"]?>"></input>
+									<input id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nip_kepala_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="alamat_kantor">Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm required" placeholder="Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?>" rows="3" style="resize:none;"><?=$main["alamat_kantor"]?></textarea>
+									<textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm alamat required" maxlength="100" placeholder="Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?>" rows="3" style="resize:none;"><?=$main["alamat_kantor"]?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="email_desa">E-Mail <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="email_desa" name="email_desa" class="form-control input-sm email" type="text" placeholder="E-Mail <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["email_desa"]?>"></input>
+									<input id="email_desa" name="email_desa" class="form-control input-sm email" maxlength="50" type="text" placeholder="E-Mail <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["email_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="telepon">Telpon <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="telepon" name="telepon" class="form-control input-sm" type="text" placeholder="Telpon <?=ucwords($this->setting->sebutan_desa)?>" value="<?= $main["telepon"]?>"></input>
+									<input id="telepon" name="telepon" class="form-control input-sm bilangan" type="text" maxlength="15" placeholder="Telpon <?=ucwords($this->setting->sebutan_desa)?>" value="<?= $main["telepon"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="website">Website <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
-									<input id="website" name="website" class="form-control input-sm url" type="text" placeholder="Webiste <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["website"]?>"></input>
+									<input id="website" name="website" class="form-control input-sm url" maxlength="50" type="text" placeholder="Website <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["website"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?=ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-8">
-									<input id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_kecamatan)?>" value="<?=$main["nama_kecamatan"]?>"></input>
+									<input id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_kecamatan)?>" value="<?=$main["nama_kecamatan"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?=ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-2">
-									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm required" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_kecamatan)?>" value="<?=$main['kode_kecamatan']?>" ></input>
+									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text" maxlength="50" placeholder="Kode <?=ucwords($this->setting->sebutan_kecamatan)?>" value="<?=$main['kode_kecamatan']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?=ucwords($this->setting->sebutan_camat)?></label>
 								<div class="col-sm-8">
-									<input id="nama_kepala_camat" name="nama_kepala_camat" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_camat)?>" value="<?=$main["nama_kepala_camat"]?>"></input>
+									<input id="nama_kepala_camat" name="nama_kepala_camat" class="form-control input-sm nama required" maxlength="50" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_camat)?>" value="<?=$main["nama_kepala_camat"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nip_kepala_camat">NIP <?=ucwords($this->setting->sebutan_camat)?></label>
 								<div class="col-sm-4">
-									<input id="nip_kepala_camat" name="nip_kepala_camat" class="form-control input-sm" type="text" placeholder="NIP <?=ucwords($this->setting->sebutan_camat)?>" value="<?=$main["nip_kepala_camat"]?>"></input>
+									<input id="nip_kepala_camat" name="nip_kepala_camat" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP <?=ucwords($this->setting->sebutan_camat)?>" value="<?=$main["nip_kepala_camat"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kabupaten">Nama <?=ucwords($this->setting->sebutan_kabupaten)?></label>
 								<div class="col-sm-8">
-									<input id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_kabupaten)?>" value="<?=$main["nama_kabupaten"]?>"></input>
+									<input id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_kabupaten)?>" value="<?=$main["nama_kabupaten"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kabupaten">Kode <?=ucwords($this->setting->sebutan_kabupaten)?></label>
 								<div class="col-sm-2">
-									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm required" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_kabupaten)?>" value="<?=$main["kode_kabupaten"]?>"></input>
+									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm bilangan required" maxlength="50" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_kabupaten)?>" value="<?=$main["kode_kabupaten"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -157,13 +157,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
 								<div class="col-sm-2">
-									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="<?=$main["kode_propinsi"]?>"></input>
+									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm bilangan required" maxlength="50" type="text" placeholder="Kode Provinsi" value="<?=$main["kode_propinsi"]?>"></input>
 								</div>
 							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
+								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
