@@ -45,11 +45,26 @@
 	// TODO: tambahkan validasi di form Identitas Desa
 	private function bersihkan_post()
 	{
-		$data = array();
-		foreach ($this->input->post() as $key => $value)
-		{
-			$data[$key] = strip_tags($value);
-		}
+		$post = $this->input->post();
+		$data['old_logo'] = $post['old_logo'];
+		$data['old_kantor_desa'] = $post['old_kantor_desa'];
+		$data['nama_desa'] = nama_terbatas($post['nama_desa']);
+		$data['kode_desa'] = bilangan($post['kode_desa']);
+		$data['kode_pos'] = bilangan($post['kode_pos']);
+		$data['nama_kepala_desa'] = nama($post['nama_kepala_desa']);
+		$data['nip_kepala_desa'] = nomor_surat_keputusan($post['nip_kepala_desa']);
+		$data['alamat_kantor'] = alamat($post['alamat_kantor']);
+		$data['email_desa'] = email($post['email_desa']);
+		$data['telepon'] = bilangan($post['telepon']);
+		$data['website'] = alamat_web($post['website']);
+		$data['nama_kecamatan'] = nama_terbatas($post['nama_kecamatan']);
+		$data['kode_kecamatan'] = bilangan($post['kode_kecamatan']);
+		$data['nama_kepala_camat'] = nama($post['nama_kepala_camat']);
+		$data['nip_kepala_camat'] = nomor_surat_keputusan($post['nip_kepala_camat']);
+		$data['nama_kabupaten'] = nama($post['nama_kabupaten']);
+		$data['kode_kabupaten'] = bilangan($post['kode_kabupaten']);
+		$data['nama_propinsi'] = nama_terbatas($post['nama_propinsi']);
+		$data['kode_propinsi'] = bilangan($post['kode_propinsi']);
 		return $data;
 	}
 
@@ -76,6 +91,9 @@
 		{
 			unset($data['logo']);
 		}
+
+		if (empty($data['kantor_desa'])) unset($data['kantor_desa']);
+
 		unset($data['file_logo']);
 		unset($data['old_logo']);
 		unset($data['file_kantor_desa']);
