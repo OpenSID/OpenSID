@@ -8,7 +8,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form action="<?=site_url("setting/qrcode_generate")?>" method="POST" id="validasi" enctype="multipart/form-data">
+			<form id="mainform" name="mainform" action="" method="post">
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-body">
@@ -37,16 +37,16 @@
 								<label class="col-sm-12 col-md-3" for="sizeqr" >Ukuran : </label>
 								<div class="input-group">
 									<select class="form-control input-sm" id="sizeqr" name="sizeqr" style="width: 220px;" value="<?=$this->session->sizeqr?>">
-										<option value="1">25 x 25px </option>
-										<option value="2">50 x 50px</option>
-										<option value="3">75 x 75px</option>
-										<option value="4" selected="selected">100 x 100px</option>
-										<option value="5">125 x 125px</option>
-										<option value="6">150 x 150px</option>
-										<option value="7">175 x 175px</option>
-										<option value="8">200 x 200px</option>
-										<option value="9">225 x 225px</option>
-										<option value="10">250 x 250px</option>
+										<option value="1" <?php selected(1, $this->session->sizeqr)?>>25 x 25px</option>
+										<option value="2" <?php selected(2, $this->session->sizeqr)?>>50 x 50px</option>
+										<option value="3" <?php selected(3, $this->session->sizeqr)?>>75 x 75px</option>
+										<option value="4" <?php selected(4, $this->session->sizeqr)?>>100 x 100px</option>
+										<option value="5" <?php selected(5, $this->session->sizeqr)?>>125 x 125px</option>
+										<option value="6" <?php selected(6, $this->session->sizeqr)?>>150 x 150px</option>
+										<option value="7" <?php selected(7, $this->session->sizeqr)?>>175 x 175px</option>
+										<option value="8" <?php selected(8, $this->session->sizeqr)?>>200 x 200px</option>
+										<option value="9" <?php selected(9, $this->session->sizeqr)?>>225 x 225px</option>
+										<option value="10" <?php selected(10, $this->session->sizeqr)?>>250 x 250px</option>
 									</select>
 								</div>
 							</div>
@@ -63,7 +63,7 @@
 							<div class="form-group">
 								<label class="col-sm-12 col-md-3" for="generate"></label>
 								<div class="input-group">
-									<button type='submit' id="generate" class='btn btn-social btn-flat btn-info btn-sm' style="width: 220px;"><i class='fa fa-check'></i> <center>Buat QRCODE</center></button>
+									<button id="generate" class='btn btn-social btn-flat btn-info btn-sm' style="width: 220px;"><i class='fa fa-check'></i> <center>Buat QRCODE</center></button>
 								</div>
 							</div>
 							<div class="form-group">
@@ -96,5 +96,25 @@
 </div>
 
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script>
+$('#generate').on('click',function(){
+	var namaqr = $('#namaqr').val();
+	var isiqr = $('#isiqr').val();
+	var logoqr = $('#logoqr').val();
+	var sizeqr = $('#sizeqr').val();
+	var backqr = $('#backqr').val();
+	var foreqr = $('#foreqr').val();
+
+	$.ajax({
+		type : "POST",
+		url  : 'qrcode_generate',
+		dataType : "JSON",
+		data : {namaqr:namaqr, isiqr:isiqr, logoqr:logoqr, sizeqr:sizeqr, backqr:backqr, foreqr:foreqr},
+		success: function(data){
+		}
+	}).then(function() {
+		location.reload();
+	});
+	return false;
+});
+</script>
