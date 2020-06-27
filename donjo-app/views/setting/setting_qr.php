@@ -14,7 +14,7 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="box box-primary">
+				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title">Buat QR Code</h3>
 						<div class="pull-right box-tools">
@@ -68,17 +68,22 @@
 				</form>
 			</div>
 			<div class="col-md-6">
-				<div class="box box-primary">
+				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title">Scan QR Code</h3>
 					</div>
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
+
 								<div class="form-group">
 									<label for="pathqr"></label>
 									<center>
 										<img class="img-thumbnail" src="<?= base_url($qrcode['pathqr']); ?>">
+										<br>
+										<?php if ($qrcode['pathqr']) : ?>
+											<a href="<?= site_url("setting/qrcode/download/$qrcode[namaqr]"); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Downloas QR Code"><i class="fa fa-download"></i> Download</a>
+										<?php endif; ?>
 									</center>
 								</div>
 							</div>

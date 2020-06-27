@@ -61,11 +61,18 @@ class Setting extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function qrcode($aksi = NULL)
+	public function qrcode($aksi = '', $file = '')
 	{
 		if($aksi == 'clear')
 		{
 			$this->session->unset_userdata('qrcode');
+			redirect('setting/qrcode');
+		}
+
+		if($aksi == 'download')
+		{
+			$this->load->helper('download');
+			force_download(LOKASI_MEDIA.''.$file.'.png', NULL);
 			redirect('setting/qrcode');
 		}
 
