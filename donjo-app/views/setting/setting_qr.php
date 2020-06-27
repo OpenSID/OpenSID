@@ -16,7 +16,7 @@
 			<div class="col-md-6">
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Buat QRCode</h3>
+						<h3 class="box-title">Buat QR Code</h3>
 						<div class="pull-right box-tools">
 							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-spinner"></i> Baru</a>
 						</div>
@@ -41,25 +41,21 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="sizeqr" >Ukuran :</label>
-										<select class="form-control input-sm" id="sizeqr" name="sizeqr">
-											<?php foreach ($list_sizeqr as $key => $list): ?>
-												<option value="<?= $key + 1; ?>" <?= selected($qrcode['sizeqr'], $key + 1); ?>><?= $list.' x '.$list.'px'; ?></option>
-											<?php endforeach;?>
-										</select>
-									</div>
+								<div class="form-group col-md-6">
+									<label for="sizeqr" >Ukuran :</label>
+									<select class="form-control input-sm" id="sizeqr" name="sizeqr">
+										<?php foreach ($list_sizeqr as $key => $list): ?>
+											<option value="<?= $key + 1; ?>" <?= selected($qrcode['sizeqr'], $key + 1); ?>><?= $list.' x '.$list.'px'; ?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="foreqr">Warna :</label>
-										<div class="input-group my-colorpicker2">
-											<div class="input-group-addon input-sm">
-												<i></i>
-											</div>
-											<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" value="<?= $qrcode['foreqr'] ?: $qrcode['backqr']; ?>">
+								<div class="form-group col-md-6">
+									<label for="foreqr">Warna :</label>
+									<div class="input-group my-colorpicker2">
+										<div class="input-group-addon input-sm">
+											<i></i>
 										</div>
+										<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" value="<?= $qrcode['foreqr'] ?: $qrcode['backqr']; ?>">
 									</div>
 								</div>
 							</div>
