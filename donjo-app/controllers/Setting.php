@@ -86,18 +86,22 @@ class Setting extends Admin_Controller {
 		$foreqr = $this->input->post('foreqr');
 		$backqr1 = preg_replace('/#/', '0x', $backqr);
 		$foreqr1 = preg_replace('/#/', '0x', $foreqr);
-		$this->session->namaqr = $namaqr;
-		$this->session->isiqr = $isiqr;
-		$this->session->logoqr = $logoqr;
-		$this->session->sizeqr = $sizeqr;
-		$this->session->backqr = $backqr;
-		$this->session->backqr1 = $backqr1;
-		$this->session->foreqr = $foreqr;
-		$this->session->foreqr1 = $foreqr1;
-		$this->session->qrcode = $namaqr;
+
+		$qrdata = [
+			'namaqr' => $namaqr,
+			'isiqr'  => $isiqr,
+			'logoqr' => $logoqr,
+			'sizeqr' => $sizeqr,
+			'backqr' => $backqr,
+			'backqr1'=> $backqr1,
+			'foreqr' => $foreqr,
+			'foreqr1'=> $foreqr1,
+			'qrcode' => $namaqr,
+		];
+		$this->session->set_userdata($qrdata);
+
 		$data = $this->setting_model->qrcode_generate($namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr, $backqr1, $foreqr1);
 		echo json_encode($data);
-		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 }
