@@ -32,7 +32,7 @@
 								  <div class="form-group">
 									<label class="col-sm-3 control-label" for="pesan">Isi Pesan Autoreply</label>
 									<div class="col-sm-8">
-									  <textarea id="autoreply_text" name="autoreply_text" class="form-control input-sm required" placeholder="Isi Pesan Autoreply"><?php if ($main): ?><?=$main['autoreply_text'];?><?php endif ?></textarea>
+									  <textarea id="autoreply_text" name="autoreply_text" class="form-control input-sm required" maxlength="160" placeholder="Isi Pesan Autoreply"><?php if ($main): ?><?=$main['autoreply_text'];?><?php endif ?></textarea>
 									</div>
 								  </div>
 								</div>
