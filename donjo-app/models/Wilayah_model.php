@@ -336,35 +336,38 @@
 
 	public function list_dusun()
 	{
-		$data = $this->db->
-			where('rt', '0')->
-			where('rw', '0')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
+		$data = $this->db
+			->where('rt', '0')
+			->where('rw', '0')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
 		return $data;
 	}
 
-	public function list_rw($dusun='')
+	public function list_rw($dusun = '')
 	{
-		$data = $this->db->
-			where('rt', '0')->
-			where('dusun', urldecode($dusun))->
-			where('rw <>', '0')->
-			order_by('rw')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
+		$data = $this->db
+			->where('rt', '0')
+			->where('dusun', urldecode($dusun))
+			->where('rw <>', '0')
+			->order_by('rw')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
 		return $data;
 	}
 
-	public function list_rt($dusun='', $rw='')
+	public function list_rt($dusun = '', $rw = '')
 	{
-		$data = $this->db->
-			where('rt <>', '0')->
-			where('dusun', urldecode($dusun))->
-			where('rw', urldecode($rw))->
-			order_by('rt')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
+		$data = $this->db
+			->where('rt <>', '0')
+			->where('dusun', urldecode($dusun))
+			->where('rw', urldecode($rw))
+			->order_by('rt')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
 		return $data;
 	}
 
