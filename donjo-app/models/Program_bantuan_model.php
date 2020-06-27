@@ -31,7 +31,7 @@ class Program_bantuan_model extends MY_Model {
 		return autocomplete_data_ke_str($data);
 	}
 
-	public function list_program($sasaran)
+	public function list_program($sasaran = 0)
 	{
 		if ($sasaran > 0)
 		{
