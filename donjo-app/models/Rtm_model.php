@@ -356,11 +356,12 @@ class Rtm_model extends CI_Model {
 
 	private function search_sql()
 	{
-		$value = $this->session->cari;
-
-		if (isset($value))
+		$cari = $this->session->cari;
+		if ($cari)
+		{
 			$cari = $this->db->escape_like_str($cari);
 			$this->db->like('t.nama', $cari);
+		}
 	}
 
 	private function filter_sql($session, $field)

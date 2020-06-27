@@ -99,7 +99,7 @@ class Rtm extends Admin_Controller {
 		$this->load->view('sid/kependudukan/ajax_add_rtm', $data);
 	}
 
-	public function filter($filter = '', $order_by = '1')
+	public function filter($filter = '', $order_by = '')
 	{
 		$value = $order_by ?: $this->input->post($filter);
 		if ($value != '')
