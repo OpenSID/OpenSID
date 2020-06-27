@@ -10,7 +10,6 @@ class Setting extends Admin_Controller {
 		$this->load->model('theme_model');
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
-		$this->load->library('ciqrcode'); //pemanggilan library QR CODE
 	}
 
 	public function index()
@@ -63,41 +62,72 @@ class Setting extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function qrcode_setting()
+	public function qrcode($aksi = NULL)
 	{
+		if($aksi == 'clear')
+		{
+			$this->session->unset_userdata('qrcode');
+			redirect('setting/qrcode');
+		}
+
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 212;
 
 		$header = $this->header_model->get_data();
 
+		$data['qrcode'] = $this->session->qrcode;
+		$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '200', '225', '250'];
+		$data['form_action'] = site_url("setting/qrcode_generate");
+
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('setting/setting_qr');
+		$this->load->view('nav');
+		$this->load->view('setting/setting_qr', $data);
 		$this->load->view('footer');
 	}
 
 	public function qrcode_generate()
 	{
-		$namaqr = $this->input->post('namaqr');
-		$isiqr = $this->input->post('isiqr');
-		$logoqr = $this->input->post('logoqr');
-		$sizeqr = $this->input->post('sizeqr');
-		$backqr = $this->input->post('backqr');
-		$foreqr = $this->input->post('foreqr');
-		$backqr1 = preg_replace('/#/', '0x', $backqr);
-		$foreqr1 = preg_replace('/#/', '0x', $foreqr);
-		$this->session->namaqr = $namaqr;
-		$this->session->isiqr = $isiqr;
-		$this->session->logoqr = $logoqr;
-		$this->session->sizeqr = $sizeqr;
-		$this->session->backqr = $backqr;
-		$this->session->backqr1 = $backqr1;
-		$this->session->foreqr = $foreqr;
-		$this->session->foreqr1 = $foreqr1;
-		$this->session->qrcode = $namaqr;
-		$data = $this->setting_model->qrcode_generate($namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr, $backqr1, $foreqr1);
-		echo json_encode($data);
-		redirect($_SERVER['HTTP_REFERER']);
+		$pathqr = LOKASI_MEDIA;
+
+		$post = $this->input->post();
+
+		$namaqr = $post['namaqr']; // Nama file gambar
+		$isiqr = $post['isiqr']; // Isi / arti dr qrcode
+		$logoqr = $post['logoqr']; // Logo yg disisipkan
+		$sizeqr = $post['sizeqr']; // Ukuran qrcode
+		$backqr = '#ffffff'; // Code warna default asli (#ffffff / putih)
+		$foreqr = $post['foreqr']; // Code warna asli
+
+		$namaqr = str_replace(' ', '_', $namaqr); // Normalkan nama file gambar
+
+		$this->session->qrcode = [
+			'namaqr' => $namaqr,
+			'isiqr'  => $isiqr,
+			'logoqr' => $logoqr,
+			'sizeqr' => $sizeqr,
+			'backqr' => $backqr,
+			'qrcode' => $qrcode,
+			'pathqr' => $pathqr.''.$namaqr.'.png'
+		];
+
+		if($post)
+		{
+			$this->session->success = 1;
+			qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr);
+		}
+		else
+		{
+			$this->session->success = -1;
+		}
+
+		redirect('setting/qrcode');
+	}
+
+	public function akas()
+	{
+		$data = $this->session->qrcode;
+
+		echo json_encode($data, true);
 	}
 
 }

@@ -1,100 +1,113 @@
+<style type="text/css">
+	.tetap {
+		resize: none;
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Hasilkan QRCode</h1>
+		<h1>QR Code</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Hasilkan QRCode</li>
+			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">QR Code</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form action="<?=site_url("setting/qrcode_generate")?>" method="POST" id="validasi" enctype="multipart/form-data">
-				<div class="col-md-12">
-					<div class="box box-primary">
+			<div class="col-md-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Buat QRCode</h3>
+						<div class="pull-right box-tools">
+							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-spinner"></i> Baru</a>
+						</div>
+					</div>
+					<form action="<?= $form_action; ?>" method="post" id="validasi" enctype="multipart/form-data">
 						<div class="box-body">
 							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="namaqr">Nama File :</label>
-								<div class="input-group">
-									<input class="form-control input-sm required" type="text" id="namaqr" name="namaqr" value="<?=$this->session->namaqr?>" style="width: 195px;">.png</input>
-								</div>
+								<label for="namaqr">Nama File :</label>
+								<input class="form-control input-sm required" type="text" id="namaqr" name="namaqr" value="<?= $qrcode['namaqr']; ?>"></input>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="isiqr">Isi Kode :</label>
-								<div class="input-group">
-									<textarea class="form-control input-sm required" rows="3" id="isiqr" style="width: 220px;" name="isiqr" value="<?=$this->session->isiqr?>"></textarea>
-								</div>
+								<label for="isiqr">Isi Kode :</label>
+								<textarea class="form-control input-sm tetap required" rows="3" id="isiqr" name="isiqr"><?= $qrcode['isiqr']; ?></textarea>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="file" >Pilih Logo :</label>
+								<label for="file" >Sisipkan Logo :</label>
 								<div class="input-group">
-									<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?=$this->session->logoqr?>" style="width: 145px;">
-									<span class="input-group-btn" style="width: 150px;">
+									<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?= $qrcode['logoqr']; ?>">
+									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i> Browse</button>
 									</span>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="sizeqr" >Ukuran : </label>
-								<div class="input-group">
-									<select class="form-control input-sm" id="sizeqr" name="sizeqr" style="width: 220px;" value="<?=$this->session->sizeqr?>">
-										<option value="1">25 x 25px </option>
-										<option value="2">50 x 50px</option>
-										<option value="3">75 x 75px</option>
-										<option value="4" selected="selected">100 x 100px</option>
-										<option value="5">125 x 125px</option>
-										<option value="6">150 x 150px</option>
-										<option value="7">175 x 175px</option>
-										<option value="8">200 x 200px</option>
-										<option value="9">225 x 225px</option>
-										<option value="10">250 x 250px</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="foreqr">Warna :</label>
-								<div class="input-group my-colorpicker2">
-									<div class="input-group-addon input-sm">
-										<i></i>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="sizeqr" >Ukuran :</label>
+										<select class="form-control input-sm" id="sizeqr" name="sizeqr">
+											<?php foreach ($list_sizeqr as $key => $list): ?>
+												<option value="<?= $key + 1; ?>" <?= selected($qrcode['sizeqr'], $key + 1); ?>><?= $list.' x '.$list.'px'; ?></option>
+											<?php endforeach;?>
+										</select>
 									</div>
-									<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" style="width: 185px;" value="<?=$this->session->foreqr?>">
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="foreqr">Warna :</label>
+										<div class="input-group my-colorpicker2">
+											<div class="input-group-addon input-sm">
+												<i></i>
+											</div>
+											<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" value="<?= $qrcode['foreqr'] ?: $qrcode['backqr']; ?>">
+										</div>
+									</div>
 								</div>
 							</div>
-							<br/>
-							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="generate"></label>
-								<div class="input-group">
-									<button type='submit' id="generate" class='btn btn-social btn-flat btn-info btn-sm' style="width: 220px;"><i class='fa fa-check'></i> <center>Buat QRCODE</center></button>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-12 col-md-3" for="qrcode"></label>
-								<div class="input-group">
-									<img class="img-thumbnail" src="<?php echo base_url().'desa/upload/media/'.$this->session->qrcode.'.png';?>">
+						</div>
+						<div class="box-footer">
+							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Scan QR Code</h3>
+					</div>
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="pathqr"></label>
+									<center>
+										<img class="img-thumbnail" src="<?= base_url($qrcode['pathqr']); ?>">
+									</center>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</form>
-		</div>
-	</section>
-</div>
+			</div>
+		</section>
+	</div>
 
-<!-- File Manager -->
-<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content">
-		<div class='modal-header'>
-			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-			<h4 class='modal-title' id='myModalLabel'>Pilih Logo</h4>
+	<!-- File Manager -->
+	<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='modal-title' id='myModalLabel'>Pilih Logo</h4>
+				</div>
+				<div class="modal-body" style="padding:0px; margin:0px; width: 600px;">
+					<iframe width="600" height="400" src="../../assets/filemanager/dialog.php?type=2&field_id=logoqr'&fldr='&akey=<?= config_item('file_manager')?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+				</div>
+			</div>
 		</div>
-    <div class="modal-body" style="padding:0px; margin:0px; width: 600px;">
-      <iframe width="600" height="400" src="../../assets/filemanager/dialog.php?type=2&field_id=logoqr'&fldr='&akey=<?= config_item('file_manager')?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
-    </div>
-  </div>
-</div>
-</div>
+	</div>
 
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
+	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+	<script src="<?= base_url()?>assets/js/validasi.js"></script>
