@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>QRCode Generator</h1>
+		<h1>Hasilkan QRCode</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">QRCode Generator</li>
+			<li class="active">Hasilkan QRCode</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -63,7 +63,7 @@
 							<div class="form-group">
 								<label class="col-sm-12 col-md-3" for="generate"></label>
 								<div class="input-group">
-									<button type='submit' id="generate" class='btn btn-social btn-flat btn-info btn-sm' style="width: 220px;"><i class='fa fa-check'></i> <center>Generate QRCODE</center></button>
+									<button type='submit' id="generate" class='btn btn-social btn-flat btn-info btn-sm' style="width: 220px;"><i class='fa fa-check'></i> <center>Buat QRCODE</center></button>
 								</div>
 							</div>
 							<div class="form-group">

@@ -55,6 +55,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 49. #1063: Tambahkan paginasi pada daftar Info Desa > Pemerintahan Desa.
 50. #3176: Tambahkan validasi semua form SMS. [security-fix]
 51. #3266: Tampilkan program bantuan yg diterima di rincian Rumah Tangga, dan lakukan perbaikan lainnya di modul Rumah Tangga.
+52. Sediakan fitur untuk membuat file QRCode yg bisa dipasang di artikel, surat atau materi lain.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
