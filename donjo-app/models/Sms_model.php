@@ -275,9 +275,9 @@
 
 	public function insert()
 	{
-		$data = $this->input->post();
-		$data['DestinationNumber'] = bilangan($data['DestinationNumber']);
-		$data['TextDecoded'] = htmlentities($data['TextDecoded']);
+		$post = $this->input->post();
+		$data['DestinationNumber'] = bilangan($post['DestinationNumber']);
+		$data['TextDecoded'] = htmlentities($post['TextDecoded']);
 		$outp = $this->db->insert('outbox', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -533,7 +533,7 @@
 		if (isset($_SESSION['grup1']))
 		{
 			$kf = $_SESSION['grup1'];
-			$grup_sql = " AND k.id IN (SELECT id_kontak FROM kontak_grup WHERE nama_grup = '$kf')";
+			$grup_sql = " AND k.id_kontak IN (SELECT id_kontak FROM anggota_grup_kontak WHERE id_grup = '$kf')";
 			return $grup_sql;
 		}
 	}
@@ -587,8 +587,10 @@
 		foreach ($data as $hsl)
 		{
 			$no = $hsl['no_hp'];
-			$sqlku = "INSERT INTO outbox(DestinationNumber,TextDecoded) values('$no','$isi')";
-			$query = $this->db->query($sqlku);
+			$pesan = [];
+			$pesan['DestinationNumber'] = $no;
+			$pesan['TextDecoded'] = $isi;
+			$query = $this->db->insert('outbox', $pesan);
 		}
 	}
 
@@ -651,17 +653,17 @@
 
 	public function insert_kontak()
 	{
-		$data = $this->input->post();
-		$data['id_pend'] = $data['id_pend'];
-		$data['no_hp'] = bilangan($data['no_hp']);
+		$post = $this->input->post();
+		$data['id_pend'] = $post['id_pend'];
+		$data['no_hp'] = bilangan($post['no_hp']);
 		$outp = $this->db->insert('kontak', $data);
 	}
 
 	public function update_kontak()
 	{
-		$data = $this->input->post();
-		$data['id_kontak'] = $data['id_kontak'];
-		$data['no_hp'] = bilangan($data['no_hp']);
+		$post = $this->input->post();
+		$data['id_kontak'] = $post['id_kontak'];
+		$data['no_hp'] = bilangan($post['no_hp']);
 		$outp = $this->db->where('id_kontak', $data['id_kontak'])->update('kontak', array(
 			'no_hp' => $data['no_hp']
 		));
@@ -734,16 +736,16 @@
 
 	public function insert_grup()
 	{
-		$data = $this->input->post();
-		$data['nama_grup'] = htmlentities($data['nama_grup']);
+		$post = $this->input->post();
+		$data['nama_grup'] = htmlentities($post['nama_grup']);
 		$outp = $this->db->insert('kontak_grup', $data);
 	}
 
 	public function update_grup()
 	{
-		$data = $this->input->post();
-		$id_grup = $data['id_grup'];
-		$nama_baru = htmlentities($data['nama_grup']);
+		$post = $this->input->post();
+		$id_grup = $post['id_grup'];
+		$nama_baru = htmlentities($post['nama_grup']);
 		$sql = "UPDATE kontak_grup SET nama_grup = '$nama_baru' WHERE id_grup = $id_grup";
 		$query = $this->db->query($sql);
 	}

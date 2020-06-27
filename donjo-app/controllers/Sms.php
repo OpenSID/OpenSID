@@ -360,18 +360,18 @@ class Sms extends Admin_Controller {
 
 	public function broadcast_proses()
 	{
-		$adv_search = $this->input->post();
-		$adv_search['umur_min1'] = bilangan($adv_search['umur_min1']);
-		$adv_search['umur_max1'] = bilangan($adv_search['umur_max1']);
-		$adv_search['sex1'] = $adv_search['sex1'];
-		$adv_search['pekerjaan1'] = $adv_search['pekerjaan1'];
-		$adv_search['status1'] = $adv_search['status1'];
-		$adv_search['agama1'] = $adv_search['agama1'];
-		$adv_search['pendidikan1'] = $adv_search['pendidikan1'];
-		$adv_search['status_penduduk1'] = $adv_search['status_penduduk1'];
-		$adv_search['dusun1'] = $adv_search['dusun1'];
-		$adv_search['grup1'] = $adv_search['grup1'];
-		$adv_search['TextDecoded1'] = htmlentities($adv_search['TextDecoded1']);
+		$post = $this->input->post();
+		$adv_search['umur_min1'] = bilangan($post['umur_min1']);
+		$adv_search['umur_max1'] = bilangan($post['umur_max1']);
+		$adv_search['sex1'] = $post['sex1'];
+		$adv_search['pekerjaan1'] = $post['pekerjaan1'];
+		$adv_search['status1'] = $post['status1'];
+		$adv_search['agama1'] = $post['agama1'];
+		$adv_search['pendidikan1'] = $post['pendidikan1'];
+		$adv_search['status_penduduk1'] = $post['status_penduduk1'];
+		$adv_search['dusun1'] = $post['dusun1'];
+		$adv_search['grup1'] = $post['grup1'];
+		$adv_search['TextDecoded1'] = htmlentities($post['TextDecoded1']);
 		$i = 0;
 		while ($i++ < count($adv_search))
 		{

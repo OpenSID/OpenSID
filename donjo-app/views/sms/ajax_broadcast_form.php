@@ -159,7 +159,7 @@
 								<select class="form-control input-sm"  id="grup1"  name="grup1" >
 									<option value=""> -- </option>
 									<?php foreach ($grup AS $data): ?>
-										<option value="<?=$data['nama_grup']?>"><?=$data['nama_grup']?></option>
+										<option value="<?=$data['id_grup']?>"><?=$data['nama_grup']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>

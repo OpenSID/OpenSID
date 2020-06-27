@@ -53,6 +53,7 @@ Lengkapnya, isi rilis versi 20.06-pasca adalah sebagai berikut:
 47. #3172: Tambahkan validasi semua form Analisis. [security-fix]
 48. #3249: Tambahkan validasi semua form Info Desa > Identitas Desa. [security-fix]
 49. #1063: Tambahkan paginasi pada daftar Info Desa > Pemerintahan Desa.
+50. #3176: Tambahkan validasi semua form SMS. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.06-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
