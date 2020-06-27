@@ -25,14 +25,14 @@
 						<div class="box-body">
 							<div class="form-group">
 								<label for="namaqr">Nama File :</label>
-								<input class="form-control input-sm required" type="text" id="namaqr" name="namaqr" value="<?= $qrcode['namaqr']; ?>"></input>
+								<input class="form-control input-sm nama_terbatas required" type="text" id="namaqr" name="namaqr" maxlength="15" value="<?= $qrcode['namaqr']; ?>"></input>
 							</div>
 							<div class="form-group">
 								<label for="isiqr">Isi Kode :</label>
-								<textarea class="form-control input-sm tetap required" rows="3" id="isiqr" name="isiqr"><?= $qrcode['isiqr']; ?></textarea>
+								<textarea class="form-control input-sm tetap required" rows="3" id="isiqr" name="isiqr" maxlength="100"><?= $qrcode['isiqr']; ?></textarea>
 							</div>
 							<div class="form-group">
-								<label for="file" >Sisipkan Logo :</label>
+								<label for="file">Sisipkan Logo :</label>
 								<div class="input-group">
 									<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?= $qrcode['logoqr']; ?>">
 									<span class="input-group-btn">
@@ -90,24 +90,25 @@
 					</div>
 				</div>
 			</div>
-		</section>
-	</div>
+		</div>
+	</section>
+</div>
 
-	<!-- File Manager -->
-	<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-					<h4 class='modal-title' id='myModalLabel'>Pilih Logo</h4>
-				</div>
-				<div class="modal-body" style="padding:0px; margin:0px; width: 600px;">
-					<iframe width="600" height="400" src="../../assets/filemanager/dialog.php?type=2&field_id=logoqr'&fldr='&akey=<?= config_item('file_manager')?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
-				</div>
+<!-- File Manager -->
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='myModalLabel'>Pilih Logo</h4>
+			</div>
+			<div class="modal-body" style="padding:0px; margin:0px; width: 600px;">
+				<iframe width="600" height="400" src="../../assets/filemanager/dialog.php?type=2&field_id=logoqr'&fldr='&akey=<?= config_item('file_manager')?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-	<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
