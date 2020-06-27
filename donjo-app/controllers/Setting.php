@@ -10,6 +10,7 @@ class Setting extends Admin_Controller {
 		$this->load->model('theme_model');
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
+		$this->load->library('ciqrcode'); //pemanggilan library QR CODE
 	}
 
 	public function index()
@@ -60,6 +61,43 @@ class Setting extends Admin_Controller {
 		$this->load->view('nav', $nav);
 		$this->load->view('setting/setting_form', $data);
 		$this->load->view('footer');
+	}
+
+	public function qrcode_setting()
+	{
+		$this->modul_ini = 11;
+		$this->sub_modul_ini = 212;
+
+		$header = $this->header_model->get_data();
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('setting/setting_qr');
+		$this->load->view('footer');
+	}
+
+	public function qrcode_generate()
+	{
+		$namaqr = $this->input->post('namaqr');
+		$isiqr = $this->input->post('isiqr');
+		$logoqr = $this->input->post('logoqr');
+		$sizeqr = $this->input->post('sizeqr');
+		$backqr = $this->input->post('backqr');
+		$foreqr = $this->input->post('foreqr');
+		$backqr1 = preg_replace('/#/', '0x', $backqr);
+		$foreqr1 = preg_replace('/#/', '0x', $foreqr);
+		$this->session->namaqr = $namaqr;
+		$this->session->isiqr = $isiqr;
+		$this->session->logoqr = $logoqr;
+		$this->session->sizeqr = $sizeqr;
+		$this->session->backqr = $backqr;
+		$this->session->backqr1 = $backqr1;
+		$this->session->foreqr = $foreqr;
+		$this->session->foreqr1 = $foreqr1;
+		$this->session->qrcode = $namaqr;
+		$data = $this->setting_model->qrcode_generate($namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr, $backqr1, $foreqr1);
+		echo json_encode($data);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 }

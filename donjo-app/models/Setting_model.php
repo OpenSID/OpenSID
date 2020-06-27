@@ -161,4 +161,63 @@ class Setting_model extends CI_Model {
 		                 ->result();
 		return $rows;
 	}
+
+	public function qrcode_generate($namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr, $backqr1, $foreqr1)
+	{
+    $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+
+    $config['cacheable']    = true; //boolean, the default is true
+    $config['cachedir']     = './cache/';
+    $config['errorlog']     = './logs/';
+    $config['imagedir']     = './desa/upload/media/'; //direktori penyimpanan qr code
+    $config['quality']      = true; //boolean, the default is true
+    $config['size']         = '1024'; //interger, the default is 1024
+    $this->ciqrcode->initialize($config);
+
+    $image_name = $namaqr.'.png';
+
+    $params['data'] = $isiqr; //data yang akan di jadikan QR CODE
+    $params['level'] = 'H'; //H=High
+    $params['size'] = $sizeqr; //Ukuran QR CODE
+    $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder /desa/upload/media/
+		if (!empty($foreqr1))
+		{
+			$params['fore_color'] = hexdec($foreqr1);
+		}
+		else
+		{
+			//$params['back_color'] = hexdec($backqr1); //0x000000
+			$params['fore_color'] = 0xFFFFFF; //0xFFFFFF
+		}
+    $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
+		//ambil logo
+    $logopath = $logoqr; // Logo yg tampil di tengah QRCode
+
+		// ambil file qrcode
+		$QR = imagecreatefrompng(FCPATH.$config['imagedir'].$image_name);
+
+		// memulai menggambar logo dalam file qrcode
+		$logo = imagecreatefromstring(file_get_contents($logopath));
+
+		imagecolortransparent($logo , imagecolorallocatealpha($logo , 0, 0, 0, 127));
+		imagealphablending($logo , false);
+		imagesavealpha($logo , true);
+
+		$QR_width = imagesx($QR);
+		$QR_height = imagesy($QR);
+
+		$logo_width = imagesx($logo);
+		$logo_height = imagesy($logo);
+
+		// Scale logo to fit in the QR Code
+		$logo_qr_width = $QR_width/4;
+		$scale = $logo_width/$logo_qr_width;
+		$logo_qr_height = $logo_height/$scale;
+
+		imagecopyresampled($QR, $logo, $QR_width/2.3, $QR_height/2.3, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+
+		// Simpan kode QR lagi, dengan logo di atasnya
+		imagepng($QR,FCPATH.$config['imagedir'].$image_name);
+	}
 }
