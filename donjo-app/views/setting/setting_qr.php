@@ -98,6 +98,8 @@
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 $('#generate').on('click',function(){
+	if (!$('#mainform').valid()) return false;
+
 	var namaqr = $('#namaqr').val();
 	var isiqr = $('#isiqr').val();
 	var logoqr = $('#logoqr').val();
