@@ -34,6 +34,7 @@ class Penduduk extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
+		$data['p'] = $p;
 		$data['o'] = $o;
 
 		foreach ($this->_list_session as $list)

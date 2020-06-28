@@ -289,12 +289,11 @@
 																		<th>Nama Program</th>
 																		<th>Keterangan</th>
 																	</tr>
-																	<?php $no = 1; ?>
-																	<?php foreach ($program['programkerja'] as $item): ?>
+																	<?php foreach ($program['programkerja'] as $key => $item): ?>
 																		<tr>
-																			<td class="text-center"><?= $no++?></td>
-																			<td><?= fTampilTgl($item["sdate"], $item["edate"]);?></td>
-																			<td><a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]")?>"><?= $item["nama"] ?></a></td>
+																			<td class="text-center"><?= $key + 1?></td>
+																			<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
+																			<td><a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]"); ?>"><?= $item["nama"]; ?></a></td>
 																			<td><?= $item["ndesc"];?></td>
 																		</tr>
 																	<?php endforeach;?>
@@ -313,15 +312,18 @@
 																		<th>File</th>
 																		<th>Tanggal Upload</th>
 																	</tr>
-																	<?php $no = 1; ?>
-																	<?php foreach ($list_dokumen as $data): ?>
-																		<tr>
-																			<td class="text-center"><?= $no++?></td>
-																			<td><?= $data['nama']?></td>
-																			<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" ><?= $data['satuan']?></a></td>
-																			<td><?= tgl_indo2($data['tgl_upload'])?></td>
-																		</tr>
-																	<?php endforeach;?>
+																	<?php if($program['programkerja']): ?>
+																		<?php foreach ($list_dokumen as $key => $data): ?>
+																			<tr>
+																				<td class="text-center"><?= $key + 1; ?></td>
+																				<td><?= $data['nama']?></td>
+																				<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan']); ?>" ><?= $data['satuan']; ?></a></td>
+																				<td><?= tgl_indo2($data['tgl_upload']); ?></td>
+																			</tr>
+																		<?php endforeach;?>
+																	<?php else: ?>
+																		-
+																	<?php endif; ?>
 																</table>
 															</td>
 														</tr>
