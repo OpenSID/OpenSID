@@ -18,7 +18,8 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">Buat QR Code</h3>
 						<div class="pull-right box-tools">
-							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-spinner"></i> Baru</a>
+							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Baru</a>
+							<a href="#" class="btn btn-social btn-flat bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Pilih Logo</a>
 						</div>
 					</div>
 					<form id="mainform" name="mainform" action="" method="post">
@@ -29,15 +30,29 @@
 							</div>
 							<div class="form-group">
 								<label for="isiqr">Isi Kode :</label>
-								<textarea class="form-control input-sm tetap required" rows="3" id="isiqr" name="isiqr" maxlength="100"><?= $qrcode['isiqr']; ?></textarea>
+								<textarea class="form-control input-sm tetap required" rows="5" id="isiqr" name="isiqr" maxlength="300"><?= $qrcode['isiqr']; ?></textarea>
 							</div>
-							<div class="form-group">
-								<label for="file">Sisipkan Logo :</label>
-								<div class="input-group">
-									<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?= $qrcode['logoqr']; ?>">
-									<span class="input-group-btn">
-										<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i> Browse</button>
-									</span>
+							<div class="row">
+								<div class="form-group col-md-4">
+									<div class="form-group">
+										<label for="changeqr" >Sisipkan Logo :</label>
+										<select class="form-control input-sm" id="changeqr" name="changeqr">
+											<?php foreach ($list_changeqr as $key => $list): ?>
+												<option value="<?= $key + 1; ?>" <?= selected($qrcode['changeqr'], $key + 1); ?>><?= $list; ?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group col-md-8" id="change_key">
+									<div class="form-group">
+										<label for="logoqr">&nbsp;</label>
+										<div class="input-group">
+											<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?= $qrcode['logoqr']; ?>">
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i> Browse</button>
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="row">
@@ -111,11 +126,29 @@
 
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
-	$('#generate').on('click',function(){
+	<?php if ($qrcode['changeqr'] == '1'): ?>
+		$('#change_key').show();
+		$('#logoqr').attr('value', '');
+	<?php endif; ?>
+
+	$(function() {
+		$('#change_key').hide();
+		$('#changeqr').change(function() {
+			if($('#changeqr').val() == '1') {
+				$('#change_key').hide();
+			} else {
+				$('#change_key').show();
+				$('#logoqr').attr('value', '');
+			}
+		});
+	});
+
+	$('#generate').on('click', function() {
 		if (!$('#mainform').valid()) return false;
 
 		var namaqr = $('#namaqr').val();
 		var isiqr = $('#isiqr').val();
+		var changeqr = $('#changeqr').val();
 		var logoqr = $('#logoqr').val();
 		var sizeqr = $('#sizeqr').val();
 		var foreqr = $('#foreqr').val();
@@ -123,7 +156,7 @@
 		$.ajax({
 			url  : 'qrcode_generate',
 			type : 'POST',
-			data : {namaqr:namaqr, isiqr:isiqr, logoqr:logoqr, sizeqr:sizeqr, foreqr:foreqr},
+			data : {namaqr:namaqr, isiqr:isiqr, changeqr:changeqr, logoqr:logoqr, sizeqr:sizeqr, foreqr:foreqr},
 			success: function(data){
 			}
 		}).then(function() {

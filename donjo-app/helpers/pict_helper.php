@@ -829,7 +829,7 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $f
 	$scale = $logo_width/$logo_qr_width;
 	$logo_qr_height = $logo_height/$scale;
 
-	imagecopyresampled($QR, $logo, $QR_width/2.3, $QR_height/2.3, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+	imagecopyresampled($QR, $logo, $QR_width/2.5, $QR_height/2.5, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
 
 	// Simpan kode QR lagi, dengan logo di atasnya
 	imagepng($QR, FCPATH.$config['imagedir'].$image_name);
