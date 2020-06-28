@@ -19,7 +19,7 @@
 						<h3 class="box-title">Buat QR Code</h3>
 						<div class="pull-right box-tools">
 							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Baru</a>
-							<a href="#" class="btn btn-social btn-flat bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> File</a>
+							<a href="#" class="btn btn-social btn-flat bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Pilih Logo</a>
 						</div>
 					</div>
 					<form id="mainform" name="mainform" action="" method="post">
