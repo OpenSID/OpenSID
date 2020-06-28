@@ -3,7 +3,7 @@ class Migrasi_2006_ke_2007 extends CI_model {
 
 	public function up()
 	{
-	  // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE area MODIFY COLUMN id_cluster INT(11) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE area MODIFY COLUMN foto VARCHAR(100) NULL DEFAULT NULL");
 		$this->db->query("ALTER TABLE area MODIFY COLUMN path TEXT NULL");
@@ -575,7 +575,7 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		// Tambah menu Pengaturan -> Hasilkan QRCode
 		$query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES
-			(212, 'Hasilkan QRCode', 'setting/qrcode_setting', 1, 'fa-qrcode', 6, 1, 0, 'fa-qrcode', 11)
+			(212, 'QR Code', 'setting/qrcode/clear', 1, 'fa-qrcode', 6, 1, 0, 'fa-qrcode', 11)
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
 		$this->db->query($query);
