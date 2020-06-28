@@ -81,7 +81,7 @@ class Setting extends Admin_Controller {
 
 		$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['changeqr' => '1', 'sizeqr' => '6', 'backqr' => '#ffffff'];
 		$data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Pilih Manual'];
-		$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '200', '225', '250'];
+		$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
 		$data['form_action'] = site_url("setting/qrcode_generate");
 
 		$this->load->view('header', $this->_header);
