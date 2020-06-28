@@ -40,7 +40,7 @@
 								<div class="form-group col-md-4">
 									<div class="form-group">
 										<label for="changeqr" >Sisipkan Logo :</label>
-										<select class="form-control input-sm" id="changeqr" name="changeqr">
+										<select class="form-control input-sm" id="changeqr" name="changeqr" onchange="load(this.value);">
 											<?php foreach ($list_changeqr as $key => $list): ?>
 												<option value="<?= $key + 1; ?>" <?= selected($qrcode['changeqr'], $key + 1); ?>><?= $list; ?></option>
 											<?php endforeach;?>
@@ -49,7 +49,7 @@
 								</div>
 								<div class="form-group col-md-8" id="change_key">
 									<div class="form-group">
-										<label for="logoqr">&nbsp;</label>
+										<label for="logoqr"><code> Kosongkan jika tidak ingin menyisipkan gambar </code></label>
 										<div class="input-group">
 											<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?= $qrcode['logoqr']; ?>">
 											<span class="input-group-btn">
@@ -97,7 +97,7 @@
 								<div class="form-group">
 									<label for="pathqr"></label>
 									<center>
-										<img class="img-thumbnail" src="<?= base_url($qrcode['pathqr']); ?>">
+										<img class="img-thumbnail" src="<?= $qrcode['pathqr']; ?>">
 										<br>
 										<?php if ($qrcode['pathqr']) : ?>
 											<a href="<?= site_url("setting/qrcode/download/$qrcode[namaqr]"); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Downloas QR Code"><i class="fa fa-download"></i> Download</a>
@@ -130,22 +130,24 @@
 
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
-	<?php if ($qrcode['changeqr'] == '1'): ?>
-		$('#change_key').show();
-		$('#logoqr').attr('value', '');
-	<?php endif; ?>
-
-	$(function() {
-		$('#change_key').hide();
-		$('#changeqr').change(function() {
-			if($('#changeqr').val() == '1') {
-				$('#change_key').hide();
-			} else {
-				$('#change_key').show();
-				$('#logoqr').attr('value', '');
-			}
-		});
+	$('document').ready(function()
+	{
+		$('#changeqr').change(); // Pertama kali buka form
 	});
+
+	function load(key)
+	{
+		if(key == 1) {
+			$('#change_key').hide();
+			$('#logoqr').attr('value', '');
+		}
+		else
+		{
+			$('#change_key').show();
+			$('#logoqr').attr('value', '<?= $qrcode['pathqr'] ?: ''; ?>');
+		}
+
+	}
 
 	$('#generate').on('click', function() {
 		if (!$('#mainform').valid()) return false;

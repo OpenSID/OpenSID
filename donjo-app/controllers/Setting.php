@@ -116,7 +116,7 @@ class Setting extends Admin_Controller {
 			'sizeqr' => bilangan($post['sizeqr']), // Ukuran qrcode
 			'backqr' => '#ffffff', // Code warna default asli (#ffffff / putih)
 			'foreqr' => $post['foreqr'], // Code warna asli
-			'pathqr' => $pathqr.''.$namaqr.'.png'
+			'pathqr' => base_url($pathqr.''.$namaqr.'.png')
 		];
 
 		$this->session->qrcode = $qrcode;
