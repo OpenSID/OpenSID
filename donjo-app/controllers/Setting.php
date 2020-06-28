@@ -9,7 +9,7 @@ class Setting extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model','theme_model']);
+		$this->load->model(['config_model', 'header_model','theme_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
@@ -79,7 +79,8 @@ class Setting extends Admin_Controller {
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 212;
 
-		$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['backqr' => '#ffffff'];
+		$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['changeqr' => '1', 'sizeqr' => '6', 'backqr' => '#ffffff'];
+		$data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Pilih Manual'];
 		$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '200', '225', '250'];
 		$data['form_action'] = site_url("setting/qrcode_generate");
 
@@ -94,11 +95,24 @@ class Setting extends Admin_Controller {
 		$pathqr = LOKASI_MEDIA;
 		$post = $this->input->post();
 		$namaqr = str_replace(' ', '_', nama_terbatas($post['namaqr'])); // Nama file gambar yg dinormalkan
+		$changeqr = $post['changeqr'];
+
+		if($changeqr == '1')
+		{
+			$desa = $this->config_model->get_data();
+
+			$logoqr = gambar_desa($desa['logo']);
+		}
+		else
+		{
+			$logoqr = $post['logoqr'];
+		}
 
 		$qrcode = [
 			'namaqr' => $namaqr,
-			'isiqr'  => $post['isiqr'], // Isi / arti dr qrcode
-			'logoqr' => $post['logoqr'], // Logo yg disisipkan
+			'isiqr' => $post['isiqr'], // Isi / arti dr qrcode
+			'changeqr' => $changeqr, // Pilihan input logo
+			'logoqr' => $logoqr, // Logo yg disisipkan
 			'sizeqr' => bilangan($post['sizeqr']), // Ukuran qrcode
 			'backqr' => '#ffffff', // Code warna default asli (#ffffff / putih)
 			'foreqr' => $post['foreqr'], // Code warna asli
