@@ -23,7 +23,7 @@
 						<h3 class="box-title">Buat QR Code</h3>
 						<div class="btn-group box-tools pull-right">
 							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-margin"><i class="fa fa-plus"></i> Baru</a>
-							<a href="#" class="btn btn-social btn-flat bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Pilih Logo</a>
+							<a href="#" class="btn btn-social btn-flat bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Atur QR Code</a>
 						</div>
 					</div>
 					<form id="mainform" name="mainform" action="" method="post">
@@ -119,7 +119,7 @@
 		<div class="modal-content">
 			<div class='modal-header'>
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'>Pilih Logo</h4>
+				<h4 class='modal-title' id='myModalLabel'>Atur QR Code</h4>
 			</div>
 			<div class="modal-body" style="padding:0px; margin:0px; width: 600px;">
 				<iframe width="600" height="400" src="../../assets/filemanager/dialog.php?type=2&field_id=logoqr'&fldr='&akey=<?= config_item('file_manager')?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
