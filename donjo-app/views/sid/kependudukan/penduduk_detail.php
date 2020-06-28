@@ -294,7 +294,7 @@
 																		<tr>
 																			<td class="text-center"><?= $no++?></td>
 																			<td><?= fTampilTgl($item["sdate"], $item["edate"]);?></td>
-																			<td><a href="<?= site_url("program_bantuan/detail/$item[id]")?>"><?= $item["nama"] ?></a></td>
+																			<td><a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]")?>"><?= $item["nama"] ?></a></td>
 																			<td><?= $item["ndesc"];?></td>
 																		</tr>
 																	<?php endforeach;?>
