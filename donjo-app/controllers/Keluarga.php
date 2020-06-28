@@ -1,4 +1,6 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller {
 
@@ -64,10 +66,9 @@ class Keluarga extends Admin_Controller {
 			$this->session->per_page = $per_page;
 
 		$data['func'] = 'index';
-		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->keluarga_model->paging($p);
-		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['per_page']);
+		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$this->_header['minsidebar'] = 1;
@@ -334,8 +335,7 @@ class Keluarga extends Admin_Controller {
 
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
-
+		$data['program'] = $this->program_bantuan_model->get_peserta_program(2, $data['kepala_kk']['no_kk']);
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
