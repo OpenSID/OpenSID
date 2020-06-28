@@ -21,7 +21,7 @@
 							<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-spinner"></i> Baru</a>
 						</div>
 					</div>
-					<form action="<?= $form_action; ?>" method="post" id="validasi" enctype="multipart/form-data">
+					<form id="mainform" name="mainform" action="" method="post">
 						<div class="box-body">
 							<div class="form-group">
 								<label for="namaqr">Nama File :</label>
@@ -62,7 +62,7 @@
 						</div>
 						<div class="box-footer">
 							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							<button id="generate" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 						</div>
 					</div>
 				</form>
@@ -75,7 +75,6 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-12">
-
 								<div class="form-group">
 									<label for="pathqr"></label>
 									<center>
@@ -111,5 +110,25 @@
 </div>
 
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script>
+	$('#generate').on('click',function(){
+		if (!$('#mainform').valid()) return false;
+
+		var namaqr = $('#namaqr').val();
+		var isiqr = $('#isiqr').val();
+		var logoqr = $('#logoqr').val();
+		var sizeqr = $('#sizeqr').val();
+		var foreqr = $('#foreqr').val();
+
+		$.ajax({
+			url  : 'qrcode_generate',
+			type : 'POST',
+			data : {namaqr:namaqr, isiqr:isiqr, logoqr:logoqr, sizeqr:sizeqr, foreqr:foreqr},
+			success: function(data){
+			}
+		}).then(function() {
+			location.reload();
+		});
+		return false;
+	});
+</script>

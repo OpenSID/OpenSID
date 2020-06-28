@@ -79,7 +79,7 @@ class Setting extends Admin_Controller {
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 212;
 
-		$data['qrcode'] = $this->session->qrcode;
+		$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['backqr' => '#ffffff'];
 		$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '200', '225', '250'];
 		$data['form_action'] = site_url("setting/qrcode_generate");
 
@@ -110,14 +110,13 @@ class Setting extends Admin_Controller {
 		if($post)
 		{
 			$this->session->success = 1;
-			qrcode_generate($pathqr, $namaqr, $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['backqr'], $qrcode['foreqr']);
+			$data = qrcode_generate($pathqr, $namaqr, $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['backqr'], $qrcode['foreqr']);
+			echo json_encode($data);
 		}
 		else
 		{
 			$this->session->success = -1;
 		}
-
-		redirect('setting/qrcode');
 	}
 
 }
