@@ -812,6 +812,7 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $f
 	$QR = imagecreatefrompng(FCPATH.$config['imagedir'].$image_name);
 
 	// memulai menggambar logo dalam file qrcode
+	// ambil file di server menggunakan absolute path, tidak menggunakan url
 	$logo = imagecreatefromstring(file_get_contents($logopath));
 
 	imagecolortransparent($logo, imagecolorallocatealpha($logo , 0, 0, 0, 127));
