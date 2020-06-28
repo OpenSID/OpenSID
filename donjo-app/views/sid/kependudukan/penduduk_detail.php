@@ -312,18 +312,14 @@
 																		<th>File</th>
 																		<th>Tanggal Upload</th>
 																	</tr>
-																	<?php if($program['programkerja']): ?>
-																		<?php foreach ($list_dokumen as $key => $data): ?>
-																			<tr>
-																				<td class="text-center"><?= $key + 1; ?></td>
-																				<td><?= $data['nama']?></td>
-																				<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan']); ?>" ><?= $data['satuan']; ?></a></td>
-																				<td><?= tgl_indo2($data['tgl_upload']); ?></td>
-																			</tr>
-																		<?php endforeach;?>
-																	<?php else: ?>
-																		-
-																	<?php endif; ?>
+																	<?php foreach ($list_dokumen as $key => $data): ?>
+																		<tr>
+																			<td class="text-center"><?= $key + 1; ?></td>
+																			<td><?= $data['nama']?></td>
+																			<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan']); ?>" ><?= $data['satuan']; ?></a></td>
+																			<td><?= tgl_indo2($data['tgl_upload']); ?></td>
+																		</tr>
+																	<?php endforeach;?>
 																</table>
 															</td>
 														</tr>
