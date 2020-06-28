@@ -63,13 +63,13 @@ class Setting extends Admin_Controller {
 
 	public function qrcode($aksi = '', $file = '')
 	{
-		if($aksi == 'clear')
+		if ($aksi == 'clear')
 		{
 			$this->session->unset_userdata('qrcode');
 			redirect('setting/qrcode');
 		}
 
-		if($aksi == 'download')
+		if ($aksi == 'download')
 		{
 			$this->load->helper('download');
 			force_download(LOKASI_MEDIA.''.$file.'.png', NULL);
@@ -107,7 +107,7 @@ class Setting extends Admin_Controller {
 
 		$this->session->qrcode = $qrcode;
 
-		if($post)
+		if ($post)
 		{
 			$this->session->success = 1;
 			$data = qrcode_generate($pathqr, $namaqr, $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['backqr'], $qrcode['foreqr']);
