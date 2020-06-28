@@ -100,12 +100,16 @@ class Setting extends Admin_Controller {
 		if($changeqr == '1')
 		{
 			$desa = $this->config_model->get_data();
-
-			$logoqr = gambar_desa($desa['logo']);
+			// Ambil absolute path, bukan url
+			$logoqr = gambar_desa($desa['logo'], false, $file = true);
 		}
 		else
 		{
+			// Ubah url (http) menjadi absolute path ke file di lokasi media
 			$logoqr = $post['logoqr'];
+			$lokasi_media = preg_quote(LOKASI_MEDIA, '/');
+			$file_logoqr = preg_split('/'.$lokasi_media.'/', $logoqr)[1];
+			$logoqr = APPPATH.'../'.LOKASI_MEDIA.$file_logoqr;
 		}
 
 		$qrcode = [
