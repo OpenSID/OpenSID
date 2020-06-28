@@ -71,7 +71,6 @@ class Penduduk extends Admin_Controller {
 			$this->session->per_page = $per_page;
 
 		$data['func'] = 'index';
-		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
