@@ -28,7 +28,7 @@
 			<p>
 				<?= $message; ?>
 
-				Versi OpenSID <?= AmbilVersi()?>.<br><br>
+				Versi OpenSID <?= AmbilVersi()?>. PHP versi <?= preg_split('/-/', phpversion())[0]?>.<br><br>
 
 				Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
 				Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
