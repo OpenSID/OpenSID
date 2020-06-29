@@ -1,4 +1,6 @@
-<?php class Wilayah_model extends MY_Model {
+<?php
+
+class Wilayah_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -93,7 +95,7 @@
 		return $data;
 	}
 
-	private function cek_data($table, $data=[])
+	private function cek_data($table, $data = [])
 	{
 		$count = $this->db->get_where($table, $data)->num_rows();
 		return $count;
@@ -104,22 +106,23 @@
 		$data = $this->bersihkan_data($this->input->post());
 		$wil = array('dusun' => $data['dusun']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
-		if ($cek_data)
+
+		if (!$cek_data)
 		{
-			$_SESSION['success'] = -2;
-			return;
+			$this->db->insert('tweb_wil_clusterdesa', $data);
+
+			$rw = $data;
+			$rw['rw'] = "-";
+			$this->db->insert('tweb_wil_clusterdesa', $rw);
+
+			$rt = $rw;
+			$rt['rt'] = "-";
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
+
+			return $outp;
 		}
-		$this->db->insert('tweb_wil_clusterdesa', $data);
 
-		$rw = $data;
-		$rw['rw'] = "-";
-		$this->db->insert('tweb_wil_clusterdesa', $rw);
-
-		$rt = $rw;
-		$rt['rt'] = "-";
-		$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
-
-		status_sukses($outp); //Tampilkan Pesan
+		return FALSE;
 	}
 
 	public function update($id='')
@@ -127,23 +130,24 @@
 		$data = $this->bersihkan_data($this->input->post());
 		$wil = array('dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
-		if ($cek_data)
+
+		if (!$cek_data)
 		{
-			$_SESSION['success'] = -2;
-			return;
+			$temp = $this->wilayah_model->cluster_by_id($id);
+			$this->db->where('dusun',$temp['dusun']);
+			$this->db->where('rw', '0');
+			$this->db->where('rt', '0');
+			$outp1 = $this->db->update('tweb_wil_clusterdesa', $data);
+
+			// Ubah nama dusun di semua baris rw/rt untuk dusun ini
+			$this->db->where('dusun', $temp['dusun'])->
+				update('tweb_wil_clusterdesa', array('dusun' => $data['dusun']));
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
+
+			return $outp;
 		}
-		$temp = $this->wilayah_model->cluster_by_id($id);
-		$this->db->where('dusun',$temp['dusun']);
-		$this->db->where('rw', '0');
-		$this->db->where('rt', '0');
-		$outp1 = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		// Ubah nama dusun di semua baris rw/rt untuk dusun ini
-		$outp2 = $this->db->where('dusun', $temp['dusun'])->
-			update('tweb_wil_clusterdesa', array('dusun' => $data['dusun']));
-
-		if ( $outp1 AND $outp2) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		return FALSE;
 	}
 
 	//Delete dusun/rw/rt tergantung tipe
@@ -197,25 +201,26 @@
 		return $data;
 	}
 
-	public function insert_rw($dusun='')
+	public function insert_rw($dusun = 0)
 	{
-    $data = $this->bersihkan_data($this->input->post());
+		$data = $this->bersihkan_data($this->input->post());
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
-		if ($cek_data)
+
+		if (!$cek_data)
 		{
-			$_SESSION['success'] = -2;
-			return;
+			$this->db->insert('tweb_wil_clusterdesa', $data);
+
+			$rt = $data;
+			$rt['rt'] = "-";
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $rt);
+
+			return $outp;
 		}
-		$outp1 = $this->db->insert('tweb_wil_clusterdesa', $data);
 
-		$rt = $data;
-		$rt['rt'] = "-";
-		$outp2 = $this->db->insert('tweb_wil_clusterdesa', $rt);
-
-		status_sukses($outp1 & $outp2); //Tampilkan Pesan
+		return FALSE;
 	}
 
 	public function update_rw($id_rw='')
@@ -225,19 +230,20 @@
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
 		unset($data['id_rw']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
-		if ($cek_data)
+		if (!$cek_data)
 		{
-			$_SESSION['success'] = -2;
-			return;
+			// Update data RW
+			$data['dusun'] = $temp['dusun'];
+			$this->db->where('id', $id_rw)
+				->update('tweb_wil_clusterdesa', $data);
+			// Update nama RW di semua RT untuk RW ini
+			$outp = $this->db->where('rw', $temp['rw'])
+				->update('tweb_wil_clusterdesa', array('rw' => $data['rw']));
+
+			return $outp;
 		}
-		// Update data RW
-		$data['dusun'] = $temp['dusun'];
-		$outp1 = $this->db->where('id', $id_rw)
-			->update('tweb_wil_clusterdesa', $data);
-		// Update nama RW di semua RT untuk RW ini
-		$outp2 = $this->db->where('rw', $temp['rw'])
-			->update('tweb_wil_clusterdesa', array('rw' => $data['rw']));
-		status_sukses($outp1 and $outp2); //Tampilkan Pesan
+
+		return FALSE;
 	}
 
 	//Bagian RT
@@ -261,42 +267,44 @@
 		return $data;
 	}
 
-	public function insert_rt($id_dusun='', $id_rw='')
+	public function insert_rt($id_dusun = 0, $id_rw = 0)
 	{
 		$data = $this->bersihkan_data($this->input->post());
 		$temp = $this->cluster_by_id($id_dusun);
 		$data['dusun']= $temp['dusun'];
 		$data_rw = $this->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
-		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
+		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw'], 'rt' => $data['rt']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
-		if ($cek_data)
+
+		if (!$cek_data)
 		{
-			$_SESSION['success'] = -2;
-			return;
+			$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
+
+			return $outp;
 		}
 
-		$outp = $this->db->insert('tweb_wil_clusterdesa', $data);
-		status_sukses($outp); //Tampilkan Pesan
+		return FALSE;
 	}
 
-	public function update_rt($id=0)
+	public function update_rt($id = 0)
 	{
 		$data = $this->bersihkan_data($this->input->post());
 		$rt_lama = $this->db->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
 		$wil = array('dusun' => $rt_lama['dusun'], 'rw' => $rt_lama['rw'], 'rt' => $data['rt'], 'id <>' => $id);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
-		if ($cek_data)
-		{
-			$_SESSION['success'] = -2;
-			return;
-		}
-		$data['dusun'] = $rt_lama['dusun'];
-		$data['rw'] = $rt_lama['rw'];
-		$this->db->where('id', $id);
-		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if (!$cek_data)
+		{
+			$data['dusun'] = $rt_lama['dusun'];
+			$data['rw'] = $rt_lama['rw'];
+			$this->db->where('id', $id);
+			$outp = $this->db->update('tweb_wil_clusterdesa', $data);
+
+			return $outp;
+		}
+
+		return FALSE;
 	}
 
 	public function list_penduduk()

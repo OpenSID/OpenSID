@@ -100,16 +100,34 @@ class Sid_Core extends Admin_Controller {
 		redirect('sid_core');
 	}
 
-	public function insert($dusun = '')
+	public function insert($id_dusun = '')
 	{
-		$this->wilayah_model->insert();
-		redirect('sid_core');
+		$data = $this->wilayah_model->insert();
+		if($data)
+		{
+			status_sukses($data);
+			redirect('sid_core');
+		}
+		else
+		{
+			$this->session->success = -2;
+			redirect("sid_core/form/$id_dusun");
+		}
 	}
 
-	public function update($id = '')
+	public function update($id = 0)
 	{
-		$this->wilayah_model->update($id);
-		redirect('sid_core');
+		$data = $this->wilayah_model->update($id);
+		if($data)
+		{
+			status_sukses($data);
+			redirect('sid_core');
+		}
+		else
+		{
+			$this->session->success = -2;
+			redirect("sid_core/form");
+		}
 	}
 
 	//Delete dusun/rw/rt tergantung tipe
@@ -191,8 +209,17 @@ class Sid_Core extends Admin_Controller {
 
 	public function insert_rw($dusun = '')
 	{
-		$this->wilayah_model->insert_rw($dusun);
-		redirect("sid_core/sub_rw/$dusun");
+		$data = $this->wilayah_model->insert_rw($dusun);
+		if($data)
+		{
+			status_sukses($data);
+			redirect("sid_core/sub_rw/$dusun");
+		}
+		else
+		{
+			$this->session->success = -2;
+			redirect("sid_core/form_rw/$dusun");
+		}
 	}
 
 	public function update_rw($dusun = '', $id_rw = '')
@@ -297,14 +324,32 @@ class Sid_Core extends Admin_Controller {
 
 	public function insert_rt($id_dusun = '', $id_rw = '')
 	{
-		$this->wilayah_model->insert_rt($id_dusun, $id_rw);
-		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
+		$data = $this->wilayah_model->insert_rt($id_dusun, $id_rw);
+		if($data)
+		{
+			status_sukses($data);
+			redirect("sid_core/sub_rt/$id_dusun/$id_rw");
+		}
+		else
+		{
+			$this->session->success = -2;
+			redirect("sid_core/form_rt/$id_dusun/$id_rw");
+		}
 	}
 
-	public function update_rt($dusun = '', $rw = '', $id_cluster = 0)
+	public function update_rt($id_dusun = '', $id_rw = '', $id_cluster = 0)
 	{
-		$this->wilayah_model->update_rt($id_cluster);
-		redirect("sid_core/sub_rt/$dusun/$rw");
+		$data = $this->wilayah_model->update_rt($id_cluster);
+		if($data)
+		{
+			status_sukses($data);
+			redirect("sid_core/sub_rt/$id_dusun/$id_rw");
+		}
+		else
+		{
+			$this->session->success = -2;
+			redirect("sid_core/form_rt/$id_dusun/$id_rw");
+		}
 	}
 
 	public function warga($id = '')
