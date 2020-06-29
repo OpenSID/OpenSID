@@ -104,7 +104,7 @@ class Setting extends Admin_Controller {
 
 		// $logoqr = yg akan ditampilkan, url
 		// $logoqr1 = yg akan disimpan, directory
-		if($changeqr == '1')
+		if ($changeqr == '1')
 		{
 			$desa = $this->config_model->get_data();
 			// Ambil absolute path, bukan url
