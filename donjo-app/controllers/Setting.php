@@ -9,7 +9,7 @@ class Setting extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'header_model','theme_model']);
+    $this->load->model(['config_model', 'header_model','theme_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
@@ -30,8 +30,14 @@ class Setting extends Admin_Controller {
 
 	public function update()
 	{
-		$this->setting_model->update($this->input->post());
+		$this->setting_model->update_setting($this->input->post());
 		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function tracking()
+	{
+		$this->setting_model->update();
+		redirect('setting');
 	}
 
 	public function info_sistem()
@@ -49,8 +55,7 @@ class Setting extends Admin_Controller {
 	{
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 211;
-
-		$data['list_tema'] = $this->theme_model->list_all();
+    
 		$data['judul'] = 'Pengaturan Halaman Web';
 		$data['list_setting'] = 'list_setting_web';
 		$this->setting_model->load_options();
