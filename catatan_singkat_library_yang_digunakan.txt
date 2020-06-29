@@ -24,5 +24,4 @@ Library PHP yang digunakan:
 - https://code.google.com/archive/p/php-excel-reader/, untuk membaca file Excel format 2003
 - https://github.com/sunra/php-simple-html-dom-parser, parse form surat untuk tampilkan kode isian
 - https://github.com/monperrus/crawler-user-agents/, tambahan data crawler
-
-
+- http://phpqrcode.sourceforge.net/, Porting Ci https://github.com/dwisetiyadi/CodeIgniter-PHP-QR-Code, untuk membuat QRCode, Porting asli telah dimodifikasi untuk pemakaian di OpenSID dan ditambahkan fungsi Sisipan Logo dan Warna back/foreground

@@ -10,25 +10,17 @@
 		$this->load->model(['referensi_model']);
 	}
 
-	public function list_data()
+	public function list_data($offset = 0, $limit = 500)
 	{
-		$sql = "SELECT u.*, p.nama as nama, p.nik as nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama
-			FROM tweb_desa_pamong u
-			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk b ON p.pendidikan_kk_id = b.id
-			LEFT JOIN tweb_penduduk_sex x ON p.sex = x.id
-			LEFT JOIN tweb_penduduk_agama g ON p.agama_id = g.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk b2 ON u.pamong_pendidikan = b2.id
-			LEFT JOIN tweb_penduduk_sex x2 ON u.pamong_sex = x2.id
-			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id
-			WHERE 1";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= ' ORDER BY u.urut';
+		$this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
 
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$this->list_data_sql();
+		$this->db->order_by('u.urut')
+			->limit($limit, $offset);
 
+		$data = $this->db->get()->result_array();
+
+		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
 			if (empty($data[$i]['id_pend']))
@@ -48,9 +40,43 @@
 			{
 				if (empty($data[$i]['tempatlahir'])) $data[$i]['tempatlahir'] = '-';
 			}
-			$data[$i]['no'] = $i + 1;
+			$data[$i]['no'] = $j + 1;
+			$j++;
 		}
+
 		return $data;
+	}
+
+	public function paging($p)
+	{
+		$this->db->select('COUNT(u.pamong_id) AS jml');
+		$this->list_data_sql();
+
+		$row = $this->db->get()->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_sql()
+	{
+		$this->db
+			->from('tweb_desa_pamong u')
+			->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
+			->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+			->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+			->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
+			->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
+			->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
+			->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT');
+		$this->search_sql();
+		$this->filter_sql();
 	}
 
 	public function autocomplete()
@@ -76,12 +102,16 @@
 	{
 		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $this->session->cari;
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
-
-			return $search_sql;
+			$cari = $this->db->escape_like_str($this->session->cari);
+			$this->db
+				->group_start()
+					->like('p.nama', $cari)
+					->or_like('u.pamong_nama', $cari)
+					->or_like('u.pamong_niap', $cari)
+					->or_like('u.pamong_nip', $cari)
+					->or_like('u.pamong_nik', $cari)
+					->or_like('p.nik', $cari)
+				->group_end();
 		}
 	}
 
@@ -89,10 +119,7 @@
 	{
 		if ($this->session->has_userdata('status'))
 		{
-			$kf = $this->session->status;
-			$filter_sql = " AND u.pamong_status = $kf";
-
-			return $filter_sql;
+			$this->db->where('u.pamong_status', $this->session->status);
 		}
 	}
 

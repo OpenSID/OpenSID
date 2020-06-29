@@ -6,8 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<style>
-			td, th
-			{
+			td, th {
 				mso-number-format: "\@";
 			}
 		</style>
@@ -39,7 +38,7 @@
 					<tbody>
 						<?php foreach ($main as $data): ?>
 							<tr>
-								<td  width="2"><?= $data['no']?></td>
+								<td width="2"><?= $data['no']?></td>
 								<td><?= $data['no_kk']?></td>
 								<td><?= strtoupper($data['kepala_kk'])?></td>
 								<td><?= strtoupper($data['nik'])?></td>
@@ -54,9 +53,9 @@
 					</tbody>
 				</table>
 			</div>
-   		<label>Tanggal cetak : &nbsp; </label>
+			<br>
+			<label>Tanggal cetak : &nbsp; </label>
 			<?= tgl_indo(date("Y m d"))?>
 		</div>
-
 	</body>
 </html>

@@ -108,7 +108,8 @@
 
 	public function insert_autoreply()
 	{
-		$data  = $_POST;
+		$post  = $this->input->post();
+		$data['autoreply_text'] = htmlentities($post['autoreply_text']);
 		$sql = "DELETE FROM setting_sms";
 		$query = $this->db->query($sql);
 		$outp = $this->db->insert('setting_sms', $data);
@@ -274,7 +275,9 @@
 
 	public function insert()
 	{
-		$data = $_POST;
+		$post = $this->input->post();
+		$data['DestinationNumber'] = bilangan($post['DestinationNumber']);
+		$data['TextDecoded'] = htmlentities($post['TextDecoded']);
 		$outp = $this->db->insert('outbox', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -510,7 +513,7 @@
 		if (isset($_SESSION['pendidikan1']))
 		{
 			$kf = $_SESSION['pendidikan1'];
-			$pendidikan_sql = " AND u.pendidikan_id = $kf";
+			$pendidikan_sql = " AND u.pendidikan_kk_id = $kf";
 			return $pendidikan_sql;
 		}
 	}
@@ -530,7 +533,7 @@
 		if (isset($_SESSION['grup1']))
 		{
 			$kf = $_SESSION['grup1'];
-			$grup_sql = " AND k.id IN (SELECT id_kontak FROM kontak_grup WHERE nama_grup = '$kf')";
+			$grup_sql = " AND k.id_kontak IN (SELECT id_kontak FROM anggota_grup_kontak WHERE id_grup = '$kf')";
 			return $grup_sql;
 		}
 	}
@@ -584,8 +587,10 @@
 		foreach ($data as $hsl)
 		{
 			$no = $hsl['no_hp'];
-			$sqlku = "INSERT INTO outbox(DestinationNumber,TextDecoded) values('$no','$isi')";
-			$query = $this->db->query($sqlku);
+			$pesan = [];
+			$pesan['DestinationNumber'] = $no;
+			$pesan['TextDecoded'] = $isi;
+			$query = $this->db->insert('outbox', $pesan);
 		}
 	}
 
@@ -648,13 +653,17 @@
 
 	public function insert_kontak()
 	{
-		$data = $_POST;
+		$post = $this->input->post();
+		$data['id_pend'] = $post['id_pend'];
+		$data['no_hp'] = bilangan($post['no_hp']);
 		$outp = $this->db->insert('kontak', $data);
 	}
 
 	public function update_kontak()
 	{
-		$data = $_POST;
+		$post = $this->input->post();
+		$data['id_kontak'] = $post['id_kontak'];
+		$data['no_hp'] = bilangan($post['no_hp']);
 		$outp = $this->db->where('id_kontak', $data['id_kontak'])->update('kontak', array(
 			'no_hp' => $data['no_hp']
 		));
@@ -727,14 +736,17 @@
 
 	public function insert_grup()
 	{
-		$data['nama_grup'] = $_POST['nama_grup'];
+		$post = $this->input->post();
+		$data['nama_grup'] = htmlentities($post['nama_grup']);
 		$outp = $this->db->insert('kontak_grup', $data);
 	}
 
 	public function update_grup()
 	{
-		$nama_baru = $_POST['nama_grup'];
-		$sql = "UPDATE kontak_grup SET nama_grup = '$nama_baru' WHERE id_grup = $_POST[id_grup]";
+		$post = $this->input->post();
+		$id_grup = $post['id_grup'];
+		$nama_baru = htmlentities($post['nama_grup']);
+		$sql = "UPDATE kontak_grup SET nama_grup = '$nama_baru' WHERE id_grup = $id_grup";
 		$query = $this->db->query($sql);
 	}
 

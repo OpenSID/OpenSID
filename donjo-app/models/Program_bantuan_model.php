@@ -31,7 +31,7 @@ class Program_bantuan_model extends MY_Model {
 		return autocomplete_data_ke_str($data);
 	}
 
-	public function list_program($sasaran)
+	public function list_program($sasaran = 0)
 	{
 		if ($sasaran > 0)
 		{
@@ -707,7 +707,7 @@ class Program_bantuan_model extends MY_Model {
 		 * $cat => $sasaran adalah tipe/kategori si $id.
 		 *
 		 * */
-		$strSQL = "SELECT p.id as id, o.peserta as nik, p.nama as nama, p.sdate, p.edate, p.ndesc
+		$strSQL = "SELECT p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc
 			FROM program_peserta o
 			LEFT JOIN program p ON p.id = o.program_id
 			WHERE ((o.peserta='".fixSQL($id)."') AND (p.sasaran='".fixSQL($cat)."'))";
