@@ -45,11 +45,11 @@
 								</div>
 								<div class="form-group col-md-8" id="change_key">
 									<div class="form-group">
-										<label for="logoqr"><code> Kosongkan jika tidak ingin qr_code polos </code></label>
+										<label for="logoqr"><code> Kosongkan untuk QR Code polos </code></label>
 										<div class="input-group">
 											<input type="text" class="form-control input-sm" id="logoqr" name="logoqr">
 											<span class="input-group-btn">
-												<button type="button" class="btn btn-info btn-flat btn-danger btn-sm" id="kosongkan"><i class="fa fa-trash"></i>&nbsp;</button>
+												<button type="button" class="btn btn-info btn-flat btn-danger btn-sm" id="kosongkan"><i class="fa fa-refresh" title="Kosongkan"></i>&nbsp;</button>
 												<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i>&nbsp;</button>
 											</span>
 										</div>
@@ -133,7 +133,7 @@
 
 	function load(key)
 	{
-		if(key == 1) {
+		if (key == 1) {
 			$('#change_key').hide();
 			$('#logoqr').attr('value', '');
 		}
@@ -146,7 +146,7 @@
 	}
 
 	$('#kosongkan').on('click', function() {
-		$('#logoqr').attr('value', '');
+		$('#logoqr').val('');
 	});
 
 	$('#generate').on('click', function() {
