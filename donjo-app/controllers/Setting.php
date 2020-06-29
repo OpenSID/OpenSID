@@ -69,9 +69,13 @@ class Setting extends Admin_Controller {
 				$this->session->unset_userdata('qrcode');
 				redirect('setting/qrcode');
 
-			case 'download':
+			case 'hapus':
+				unlink(LOKASI_MEDIA.''.$file.'.png');
+				redirect('setting/qrcode/clear');
+
+			case 'unduh':
 				$this->load->helper('download');
-				force_download(LOKASI_MEDIA.''.$file.'.png', NULL);
+				force_download(LOKASI_MEDIA.$file.'.png', NULL);
 				redirect('setting/qrcode');
 
 			default:
@@ -79,7 +83,7 @@ class Setting extends Admin_Controller {
 				$this->sub_modul_ini = 212;
 
 				$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['changeqr' => '1', 'sizeqr' => '6', 'backqr' => '#ffffff'];
-				$data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Pilih Manual'];
+				$data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
 				$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '200', '225', '250'];
 				$data['form_action'] = site_url("setting/qrcode_generate");
 
