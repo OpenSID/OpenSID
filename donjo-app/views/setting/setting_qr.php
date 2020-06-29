@@ -51,9 +51,10 @@
 									<div class="form-group">
 										<label for="logoqr"><code> Kosongkan jika tidak ingin menyisipkan gambar </code></label>
 										<div class="input-group">
-											<input type="text" class="form-control input-sm" id="logoqr" name="logoqr" value="<?= $qrcode['logoqr']; ?>">
+											<input type="text" class="form-control input-sm" id="logoqr" name="logoqr">
 											<span class="input-group-btn">
-												<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i> Browse</button>
+												<button type="button" class="btn btn-info btn-flat btn-danger btn-sm" id="kosongkan"><i class="fa fa-trash"></i>&nbsp;</button>
+												<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i>&nbsp;</button>
 											</span>
 										</div>
 									</div>
@@ -100,7 +101,7 @@
 										<img class="img-thumbnail" src="<?= $qrcode['pathqr']; ?>">
 										<br>
 										<?php if ($qrcode['pathqr']) : ?>
-											<a href="<?= site_url("setting/qrcode/download/$qrcode[namaqr]"); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Downloas QR Code"><i class="fa fa-download"></i> Download</a>
+											<a href="<?= site_url("setting/qrcode/download/$qrcode[namaqr1]"); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Downloas QR Code"><i class="fa fa-download"></i> Download</a>
 										<?php endif; ?>
 									</center>
 								</div>
@@ -144,10 +145,14 @@
 		else
 		{
 			$('#change_key').show();
-			$('#logoqr').attr('value', '<?= $qrcode['pathqr'] ?: ''; ?>');
+			$('#logoqr').attr('value', '<?= $qrcode['logoqr']; ?>');
 		}
 
 	}
+
+	$('#kosongkan').on('click', function() {
+		$('#logoqr').attr('value', '');
+	});
 
 	$('#generate').on('click', function() {
 		if (!$('#mainform').valid()) return false;
