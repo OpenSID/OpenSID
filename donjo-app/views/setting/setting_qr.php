@@ -126,21 +126,17 @@
 
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
-	$('document').ready(function()
-	{
-		$('#changeqr').change(); // Pertama kali buka form
+	$('document').ready(function() {
+		$('#changeqr').change();
 	});
 
-	function load(key)
-	{
+	function load(key) {
 		if (key == 1) {
 			$('#change_key').hide();
-			$('#logoqr').attr('value', '');
-		}
-		else
-		{
+			$('#logoqr').val('');
+		} else {
 			$('#change_key').show();
-			$('#logoqr').attr('value', '<?= $qrcode['logoqr']; ?>');
+			$('#logoqr').val('<?= $qrcode['logoqr']; ?>');
 		}
 
 	}

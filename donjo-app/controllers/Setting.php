@@ -101,8 +101,9 @@ class Setting extends Admin_Controller {
 		$namaqr = $post['namaqr']; // Nama file gambar asli
 		$namaqr1 = str_replace(' ', '_', nama_terbatas($namaqr)); // Nama file gambar yg akan disimpan
 		$changeqr = $post['changeqr'];
-		$logoqr = $post['logoqr']; // Nama file asli
 
+		// $logoqr = yg akan ditampilkan, url
+		// $logoqr1 = yg akan disimpan, directory
 		if($changeqr == '1')
 		{
 			$desa = $this->config_model->get_data();
@@ -111,6 +112,7 @@ class Setting extends Admin_Controller {
 		}
 		else
 		{
+			$logoqr = $post['logoqr'];
 			// Ubah url (http) menjadi absolute path ke file di lokasi media
 			$lokasi_media = preg_quote(LOKASI_MEDIA, '/');
 			$file_logoqr = preg_split('/'.$lokasi_media.'/', $logoqr)[1];
@@ -122,7 +124,7 @@ class Setting extends Admin_Controller {
 			'namaqr1' => $namaqr1, // Nama file untuk download
 			'isiqr' => $post['isiqr'], // Isi / arti dr qrcode
 			'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
-			'logoqr' => $logoqr ? base_url(LOKASI_MEDIA.''.$logoqr1) : '', // Logo yg disisipkan
+			'logoqr' => $logoqr,
 			'sizeqr' => bilangan($post['sizeqr']), // Ukuran qrcode
 			'backqr' => '#ffffff', // Code warna default (#ffffff / putih)
 			'foreqr' => $post['foreqr'], // Code warna asli
