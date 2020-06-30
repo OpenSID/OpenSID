@@ -22,8 +22,11 @@
 		$data['map_tipe'] = 'roadmap';
 		unset($data['old_logo']);
 		unset($data['old_kantor_desa']);
+		unset($data['old_qrcode']);
 		$data['logo'] = $this->upload_gambar_desa('logo');
 		$data['kantor_desa'] = $this->upload_gambar_desa('kantor_desa');
+		$data['qrcode'] = $this->upload_qr_desa('qrcode');
+
 		if (!empty($data['logo']))
 		{
 			// Ada logo yang berhasil diunggah --> simpan ukuran 100 x 100
@@ -36,8 +39,23 @@
 		{
 			unset($data['logo']);
 		}
+
+		if (!empty($data['qrcode']))
+		{
+			// Ada qrcode yang berhasil diunggah --> simpan ukuran 100 x 100
+			$tipe_file = TipeFile($_FILES['qrcode']);
+			$dimensi = array("width"=>100, "height"=>100);
+			resizeImage(LOKASI_QR_DESA.$data['qrcode'], $tipe_file, $dimensi);
+			resizeImage(LOKASI_QR_DESA.$data['qrcode'], $tipe_file, array("width"=>16, "height"=>16), LOKASI_QR_DESA.'favicon.ico');
+		}
+		else
+		{
+			unset($data['qrcode']);
+		}
+
 		unset($data['file_logo']);
 		unset($data['file_kantor_desa']);
+		unset($data['file_qrcode']);
 		$outp = $this->db->insert('config', $data);
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -48,6 +66,7 @@
 		$post = $this->input->post();
 		$data['old_logo'] = $post['old_logo'];
 		$data['old_kantor_desa'] = $post['old_kantor_desa'];
+		$data['old_qrcode'] = $post['old_qrcode'];
 		$data['nama_desa'] = nama_terbatas($post['nama_desa']);
 		$data['kode_desa'] = bilangan($post['kode_desa']);
 		$data['kode_pos'] = bilangan($post['kode_pos']);
@@ -76,6 +95,7 @@
 		$data = $this->bersihkan_post();
 		$data['logo'] = $this->upload_gambar_desa('logo');
 		$data['kantor_desa'] = $this->upload_gambar_desa('kantor_desa');
+		$data['qrcode'] = $this->upload_qr_desa('qrcode');
 
 		if (!empty($data['logo']))
 		{
@@ -92,12 +112,29 @@
 			unset($data['logo']);
 		}
 
+		if (!empty($data['qrcode']))
+		{
+			// Ada qrcode yang berhasil diunggah --> simpan ukuran 100 x 100
+			$tipe_file = TipeFile($_FILES['qrcode']);
+			$dimensi = array("width"=>100, "height"=>100);
+			resizeImage(LOKASI_QR_DESA.$data['qrcode'], $tipe_file, $dimensi);
+			resizeImage(LOKASI_QR_DESA.$data['qrcode'], $tipe_file, array("width"=>16, "height"=>16), LOKASI_QR_DESA.'favicon.ico');
+			// Hapus berkas qrcode lama
+		  if (!empty($data['old_qrcode'])) unlink(LOKASI_QR_DESA.$data['old_qrcode']);
+		}
+		else
+		{
+			unset($data['qrcode']);
+		}
+
 		if (empty($data['kantor_desa'])) unset($data['kantor_desa']);
 
 		unset($data['file_logo']);
 		unset($data['old_logo']);
 		unset($data['file_kantor_desa']);
 		unset($data['old_kantor_desa']);
+		unset($data['file_qrcode']);
+		unset($data['old_qrcode']);
 		$this->db->where('id',$id)->update('config', $data);
 
 		$pamong['pamong_nama'] = $data['nama_kepala_desa'];
@@ -129,6 +166,60 @@
 		}
 		// Tes tidak berisi script PHP
 		if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jeniss]['name']))
+		{
+			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+			$_SESSION['success'] = -1;
+			redirect('hom_desa/konfigurasi');
+		}
+
+		$uploadData = NULL;
+		// Inisialisasi library 'upload'
+		$this->upload->initialize($this->uploadConfig);
+		// Upload sukses
+		if ($this->upload->do_upload($jenis))
+		{
+			$uploadData = $this->upload->data();
+			// Buat nama file unik agar url file susah ditebak dari browser
+			$namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+			// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+			$fileRenamed = rename(
+				$this->uploadConfig['upload_path'].$uploadData['file_name'],
+				$this->uploadConfig['upload_path'].$namaFileUnik
+			);
+			// Ganti nama di array upload jika file berhasil di-rename --
+			// jika rename gagal, fallback ke nama asli
+			$uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+		}
+		// Upload gagal
+		else
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
+		}
+		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
+	}
+
+	/*
+		Returns:
+			- success: nama berkas yang diunggah
+			- fail: NULL
+	*/
+	private function upload_qr_desa($jenis)
+	{
+		$this->load->library('upload');
+		$this->uploadConfig = array(
+			'upload_path' => LOKASI_QR_DESA,
+			'allowed_types' => 'gif|jpg|jpeg|png',
+			'max_size' => max_upload() * 1024,
+		);
+		// Adakah berkas yang disertakan?
+		$adaBerkas = !empty($_FILES[$jenis]['name']);
+		if ($adaBerkas !== TRUE)
+		{
+			return NULL;
+		}
+		// Tes tidak berisi script PHP
+		if (isPHP($_FILES['qrcode']['tmp_name'], $_FILES[$jeniss]['name']))
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 			$_SESSION['success'] = -1;

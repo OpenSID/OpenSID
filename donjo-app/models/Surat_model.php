@@ -616,6 +616,33 @@
 		return $buffer;
 	}
 
+	private function sisipkan_qrcode($nama_logo, $buffer)
+	{
+		$file_logo = APPPATH . '../' . LOKASI_QR_DESA . $nama_logo;
+		if (!is_file($file_logo)) return $buffer;
+		// Akhiran dan awalan agak panjang supaya unik
+		$akhiran_logo = 'e4c13f0c0000000049454e44ae426082';
+		$awalan_logo = '89504e470d0a1a0a0000000d494844520000006400000064080300000047';
+		$akhiran_sementara = 'akhiran_logo';
+		$jml_logo = substr_count($buffer, $akhiran_logo);
+		if ($jml_logo <= 0) return $buffer; // tidak ada logo placeholder
+
+		// Ganti logo placeholder dengan logo desa kalau ada, satu per satu
+		$logo_bytes = file_get_contents($file_logo);
+		$logo_hex = implode(unpack("H*", $logo_bytes));;
+		for ($i=0; $i<$jml_logo; $i++)
+		{
+			// Ganti akhiran logo supaya preg_replace hanya memproses logo yg ditemukan
+			// Cari logo berikutnya, kalau ada
+			$pos = strpos($buffer, $akhiran_logo);
+	    $buffer = substr_replace($buffer, $akhiran_sementara, $pos, strlen($akhiran_logo));
+			$placeholder_logo = '/'.$awalan_logo.'.*'.$akhiran_sementara.'/s';
+			// Ganti logo yang ditemukan
+			$buffer = preg_replace($placeholder_logo, $logo_hex, $buffer);
+		}
+		return $buffer;
+	}
+
 	public function get_data_form($surat)
 	{
 		$data_form = LOKASI_SURAT_DESA.$surat."/data_form_".$surat.".php";
@@ -753,6 +780,7 @@
 			$buffer = $this->bersihkan_kode_isian($buffer);
 			$buffer = $this->sisipkan_kop_surat($buffer);
 			$buffer = $this->sisipkan_logo($config['logo'], $buffer);
+			$buffer = $this->sisipkan_qrcode($config['qrcode'], $buffer);
 
 			//PRINSIP FUNGSI
 			//-> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)
@@ -1098,4 +1126,5 @@
 			->row()->jml;
 		return $jml;
 	}
+
 }
