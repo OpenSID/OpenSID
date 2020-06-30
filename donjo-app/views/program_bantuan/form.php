@@ -2,9 +2,11 @@
 	label.control-label.text-left {
 		text-align: left;
 	}
+
 	label.control-label.no-padding-top {
 		padding-top: 0px;
 	}
+
 	.tabel, td {
 		height: 30px;
 		padding: 5px;
@@ -93,7 +95,7 @@
 													<div class="form-group">
 														<label for="no_id_kartu" class="col-sm-4 col-lg-3 control-label">Nomor Kartu Peserta</label>
 														<div class="col-sm-7">
-															<input id="no_id_kartu" class="form-control input-sm bilangan required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu">
+															<input id="no_id_kartu" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" maxlength="30">
 														</div>
 													</div>
 													<div class="form-group">

@@ -843,7 +843,7 @@ class Program_bantuan_model extends MY_Model {
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
-		$data = $this->validasi($this->input->post());
+		$data = $this->validasi_peserta($this->input->post());
 		$data['program_id'] = $program_id;
 		$data['peserta'] = $this->input->post('peserta');
 
@@ -858,7 +858,7 @@ class Program_bantuan_model extends MY_Model {
 	{
 		$this->session->success = 1;
 		$this->session->error_msg = '';
-		$data = $this->validasi($this->input->post());
+		$data = $this->validasi_peserta($this->input->post());
 
 		if ($data['gambar_hapus'])
 		{
@@ -875,9 +875,9 @@ class Program_bantuan_model extends MY_Model {
 		status_sukses($outp, true);
 	}
 
-	public function validasi($post)
+	public function validasi_peserta($post)
 	{
-		$data['no_id_kartu'] = bilangan($post['no_id_kartu']);
+		$data['no_id_kartu'] = nama_terbatas($post['no_id_kartu']);
 		$data['kartu_nik'] = bilangan($post['kartu_nik']);
 		$data['kartu_nama'] = nama(htmlentities($post['kartu_nama']));
 		$data['kartu_tempat_lahir'] = alamat(htmlentities($post['kartu_tempat_lahir']));

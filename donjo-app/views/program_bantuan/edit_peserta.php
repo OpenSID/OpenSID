@@ -60,7 +60,7 @@
 												<div class="form-group">
 													<label for="no_id_kartu" class="col-sm-4 control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-7">
-														<input  id="no_id_kartu" class="form-control input-sm bilangan" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
+														<input  id="no_id_kartu" class="form-control input-sm nama_terbatas" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
 													</div>
 												</div>
 												<?php if ($kartu_peserta): ?>
