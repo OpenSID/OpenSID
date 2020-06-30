@@ -1,4 +1,5 @@
 <?php
+
 class Migrasi_2007_ke_2008 extends CI_model {
 
 	public function up()
@@ -14,7 +15,7 @@ class Migrasi_2007_ke_2008 extends CI_model {
 				`server` varchar(20) NOT NULL,
 				`tgl_berikutnya` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 				`updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-				`updated_by` varchar(50) NOT NULL,
+				`updated_by` int(11) NOT NULL,
 				`frekuensi` smallint(6) NOT NULL,
 				PRIMARY KEY (`id`)
 			)";
