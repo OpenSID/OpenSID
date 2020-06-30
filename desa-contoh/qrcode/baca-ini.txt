@@ -1,0 +1,7 @@
+*******************************
+Folder: desa/qrcode
+*******************************
+
+Folder ini tempat menyimpan file qrcode yang diunggah oleh desa.
+
+QRCode yang ditampilkan di Surat adalah yang tersimpan di folder ini.

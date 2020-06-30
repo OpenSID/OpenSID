@@ -134,6 +134,13 @@
 													<td width="300">Kode Provinsi</td><td width="1">:</td>
 													<td><?=$main["kode_propinsi"]?></td>
 												</tr>
+												<tr>
+													<th colspan="3" class="subtitle_head"><strong>QRCODE</strong></th>
+												</tr>
+												<tr>
+													<td width="300">QRCode Statis Surat</td><td width="1">:</td>
+													<td><img class="img-responsive" src="<?=qr_desa($main['qrcode'])?>" alt="qrcode"></td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -146,4 +153,3 @@
 		</form>
 	</section>
 </div>
-

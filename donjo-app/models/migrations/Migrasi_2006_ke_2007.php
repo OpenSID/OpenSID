@@ -579,6 +579,16 @@ class Migrasi_2006_ke_2007 extends CI_model {
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
 		$this->db->query($query);
+
+		// Tambah kolom qrcode di tabel config sebagai qrcode statis yg akan dipakai sebagai sisipan di Surat
+		if (!$this->db->field_exists('qrcode', 'config'))
+		$this->dbforge->add_column('config', array(
+			'qrcode' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 100,
+				'null' => TRUE,
+			),
+		));
 	}
 
 }

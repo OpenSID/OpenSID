@@ -8,6 +8,7 @@ assets/files/logo/*
 !assets/files/logo/home.png
 !assets/files/logo/opensid_logo.png
 !assets/files/logo/opensid_kantor.*
+!assets/files/qrcode/opensid_qrcode.png
 # Jangan simpan isi folder foto pengguna. Isinya khusus desa, kecuali
 # file foto contoh yg tersedia dalam release sid304 inti.
 assets/files/user_pict/*
@@ -42,5 +43,3 @@ log-*.php
 info.php
 **/.DS_Store
 mitra
-
-

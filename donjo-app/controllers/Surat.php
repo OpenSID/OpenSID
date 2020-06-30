@@ -49,7 +49,7 @@ class Surat extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 33;
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/panduan');
@@ -60,6 +60,7 @@ class Surat extends Admin_Controller {
 	{
 		$data['url'] = $url;
 		$data['anchor'] = $this->input->post('anchor');
+		$data['main'] = $this->config_model->get_data();
 		if (!empty($_POST['nik']))
 		{
 			$data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);

@@ -52,6 +52,7 @@
 							</div>
 							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
+							<?php include("donjo-app/views/surat/form/qrcode_surat.php"); ?>
 						</form>
 					</div>
 					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>

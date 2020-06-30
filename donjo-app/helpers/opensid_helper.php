@@ -24,6 +24,7 @@ define("LOKASI_WIDGET", 'desa/widgets/');
 define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widgets/');
 define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 define("LOKASI_MEDIA", 'desa/upload/media/');
+define("LOKASI_QR_DESA", 'desa/qrcode/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
@@ -317,6 +318,23 @@ function favico_desa()
 }
 
 /**
+ * favico_qr
+ *
+ * Mengembalikan path lengkap untuk file favico desa
+ *
+ * @access  public
+ * @return  string
+ */
+function favico_qr()
+{
+	$favico = 'favicon.ico';
+	$favico_qr = (is_file(APPPATH .'../'. LOKASI_QR_DESA . $favico)) ?
+		base_url() . LOKASI_QR_DESA . $favico :
+		base_url() . $favico;
+	return $favico_qr;
+}
+
+/**
  * gambar_desa / KantorDesa
  *
  * Mengembalikan path lengkap untuk file logo desa / kantor desa
@@ -335,6 +353,26 @@ function gambar_desa($nama_file, $type = FALSE, $file = FALSE)
 	// type FALSE = logo, TRUE = kantor
 	$default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
 	return $logo_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/logo/$default";
+}
+
+/**
+ * QRCode Surat
+ *
+ * Mengembalikan path lengkap untuk file qrcode surat
+ *
+ * @access  public
+ * @return  string
+ */
+function qr_desa($nama_file, $type = TRUE, $file = FALSE )
+{
+	if (is_file(APPPATH .'../'. LOKASI_QR_DESA . $nama_file))
+	{
+
+		return $qr_desa = ($file ? APPPATH.'../' : base_url()) . LOKASI_QR_DESA . $nama_file;
+	}
+
+	$default = ($type)  ? 'opensid_qrcode.png' : 'opensid_qrcode.png';
+	return $qr_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/qrcode/$default";
 }
 
 /**

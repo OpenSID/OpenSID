@@ -46,6 +46,24 @@
 							</div>
 						</div>
 					</div>
+					<div class="box box-primary">
+						<div class="box-body box-profile">
+							<img class="profile-user-img img-responsive img-circle" src="<?=qr_desa($main['qrcode'])?>" alt="qrcode">
+							<br/>
+							<p class="text-center text-bold">QRCode Surat</p>
+							<p class="text-muted text-left text-red">1. Pilih file di /desa/upload/media/*.png untuk QRCode yang akan ditampilkan di Surat</p>
+							<p class="text-muted text-left text-red">2. Pilih file opensid_qrcode.png di /assets/files/qrcode, jika QRCode tidak akan ditampilkan</p>
+							<br/>
+							<div class="input-group input-group-sm">
+								<input type="text" class="form-control" id="file_path3" >
+								<input type="file" class="hidden" id="file3" name="qrcode">
+								<input type="hidden" name="old_qrcode" value="<?=$main['qrcode']?>">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat" id="file_browser3"><i class="fa fa-search"></i> Browse</button>
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">
