@@ -1,0 +1,63 @@
+Di rilis ini, versi 20.07, tersedia fitur untuk membuat file QR Code yg bisa dipasang di artikel, surat atau materi lain. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada afa28, Zeppy Shiddiq, Arif Lazuardi, Rudy Purwanto, Ians Shinichi Kudo, masumo dan Nur Hidayat yang terus berkontribusi. Terima kasih pula pada DwiyanTech yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.07 adalah sebagai berikut:
+
+1. Sekarang kunjungan oleh robot(crawler) tidak termasuk dalam hitungan berapa kali suatu artikel telah terbaca.
+2. #2898: Tampilkan pilihan autocomplete di kotak cari daftar peserta program bantuan.
+3. #3114: Sekarang statistik atau halaman statis lainnya hanya bisa ditampilkan melalui menu statis di web.
+4. #3121: Urutkan data Log Penduduk berdasarkan tanggal peristiwa terbaru paling atas.
+5. #2937: Nama dokumen sekarang bisa berisi karakter alpha, angka, spasi, titik, strip dan /.
+6. #3125: Sediakan blok tandatangan 'a.n' untuk lampiran surat, seperti F-1.01, sesuai dengan pilihan pejabat penandatangan di form isian surat.
+7. #3132: Sekarang tampilan tulisan teks berjalan di web tidak dibatasi panjangnya.
+8. #1257: Perbaiki tampilan Pengaturan > Modul, seragamkan tombol aktif/tidak-aktif, tampilkan pilihan ikon.
+9. Sederhanakan blok paginasi dan perbaikan script lain di berapa modul. [teknis]
+10. #3141: Tampilkan nomor telpon dan alamat email di Cetak Biodata penduduk.
+11. Sediakan halaman pengaturan unsur web menggantikan pengaturan di file desa/config/config.php.
+12. Sediakan opsi untuk menampilkan grafik statistik penduduk di web dalam format 3-D.
+13. #3146: Sekarang bisa hapus beberapa peserta program bantuan sekaligus.
+14. Sediakan fitur untuk memasukkan Data Anggaran dan Realisasi APBDes secara manual, bagi desa yg terkendala impor dari database Siskeudes.
+15. Sediakan opsi di halaman pengaturan web untuk menampilkan data keuangan input manual atau impor Siskeudes.
+16. #3154: Tambahkan Golongan Darah dan Tanggal Perkawinan sesuai format baru Salinan Kartu Keluarga.
+17. Paksa harus ubah kunci default file_manager di desa/config/config.php. [security-fix]
+18. #2678: Tambahkan validasi isian form Produk Hukum dan Informasi Publik sekalian mencegah serangan XSS. [security-fix]
+19. #3158: Ubah nomor telepon menjadi 12 digit di lamporan F-1.08 dan F-1.25.
+20. Upgrade plugin editor artikel Tinymce dari 4.6.4 ke 5.3.2. [teknis, security-fix]
+21. #3182: Sediakan laporan dan grafik keuangan input manual untuk disisipkan ke artikel web.
+22. #3027: Pilihan peserta program bantuan sasaran keluarga sekarang termasuk penduduk dengan hubungan keluarga suami/istri dan anak.
+23. #3179: Tambahkan validasi dan pembersihan data form Album dan Gambar Album. [security-fix]
+24. #3190: Pindahkan daftar program bantuan untuk Keluarga dari form Ubah Data KK ke halaman Daftar Anggota Keluarga.
+25. #3055: Kata sandi pengguna yg tdk memenuhi syarat, termasuk password default, harus diganti pada waktu login. Sekarang semua kata sandi pengguna harus memenuhi syarat. Gunakan ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST).[security-fix]
+26. #3178: Perbaiki validasi isian form Admin Web > Menu. [security-fix]
+27. #3173: Perbaiki validasi isian form program dan peserta Bantuan. [security-fix]
+28. #3167: Update Responsive File Manager ke versi 9.14.0 dan batasi file yg dapat diunggah. [security-fix]
+29. #3196: Gunakan kode provinsi di Identitas Desa sebagai nilai default kode provinsi untuk data Covid-19.
+30. #3223: Cegah jalankan script PHP di setiap folder upload file. [security-fix]
+31. #3177: Tambahkan validasi form Pengaturan > Pengguna sekalian mencegah serangan XSS. [security-fix]
+32. #2898, #3224: Perbaiki cari dan autocomplete untuk kotak cari peserta Program Bantuan. [bug-fix]
+33. #3207: Tambahkan validasi form Data Suplemen sekalian mencegah serangan XSS. [security-fix]
+34. #3174. Tambahkan validasi form Pertanahan sekalian mencegah serangan XSS. [security-fix]
+35. Upgrade Codeigniter dari 3.1.8 ke 3.1.11. [teknis]
+36. #3229: Tambahkan validasi form Ubah Data KK. [security-fix]
+37. #3211: Tampilkan foto kepala keluarga di Kependudukan > Keluarga.
+38. #3245: Perbaiki kesalahan tampilan data RT di Info Desa > Wilayah Administratif. [bug-fix]
+39. #3201: Artikel non-aktif sekarang tidak bisa ditampilkan melalui url slug ataupun id. [bug-fix]
+40. #3241: Tambahkan validasi form Wilayah Administratif, termasuk form peta. [security-fix]
+41. #2410: Tampilkan daftar program bantuan yang diterima penduduk di halaman Biodata Penduduk.
+42. Sederhanakan dan sesuaikan script Pemerintahan Desa dengan aturan penulisan script. [teknis]
+43. #2052: Tambilkan subkategori di daftar kategori halaman Admin Web > Artikel.
+44. #3209: Tambahkan validasi form Pencarian Spesifik di halaman Penduduk. [security-fix]
+45. #3208: Tambahkan validasi form Pencarian Spesifik di halaman Peta. [security-fix]
+46. #3175: Tambahkan validasi semua form Pengaturan Peta. [security-fix]
+47. #3172: Tambahkan validasi semua form Analisis. [security-fix]
+48. #3249: Tambahkan validasi semua form Info Desa > Identitas Desa. [security-fix]
+49. #1063: Tambahkan paginasi pada daftar Info Desa > Pemerintahan Desa.
+50. #3176: Tambahkan validasi semua form SMS. [security-fix]
+51. #3266: Tampilkan program bantuan yg diterima di rincian Rumah Tangga, dan lakukan perbaikan lainnya di modul Rumah Tangga.
+52. #2882: Sediakan fitur untuk membuat file QR Code yg bisa dipasang di artikel, surat atau materi lain.
+53. Tampilkan versi OpenSID dan PHP di notifikasi error.
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.07, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+
