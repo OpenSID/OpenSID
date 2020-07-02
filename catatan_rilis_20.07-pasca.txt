@@ -5,7 +5,8 @@ Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pul
 Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 
 1. Sederhanakan pengamanan folder desa pada waktu migrasi DB. [teknis]
-2. Sekarang tampilkan notifikasi apabila memasukkan data rt duplikat. [bug-fix]
+2. Sekarang tampilkan notifikasi apabila memasukkan nama RT duplikat. [bug-fix]
+3. #3287: Sekarang jumlah KK dan penduduk di Info Desa > Wilayah Administratif sudah benar. [bug-fix]
 
 
 
