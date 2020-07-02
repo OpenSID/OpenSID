@@ -2,6 +2,8 @@
 
 class Database_model extends CI_Model {
 
+	private $user = 1;
+
 	private $engine = 'InnoDB';
 	/* define versi opensid dan script migrasi yang harus dijalankan */
 	private $versionMigrate = array(
@@ -51,6 +53,7 @@ class Database_model extends CI_Model {
 		$this->load->dbforge();
 		$this->load->model('surat_master_model');
 		$this->load->model('analisis_import_model');
+		$this->user = $this->session_user ?: 1;
 	}
 
 	private function cek_engine_db()
@@ -105,8 +108,8 @@ class Database_model extends CI_Model {
 				$migrate = $versionMigrate[$nextVersion]['migrate'];
 				log_message('error', 'Jalankan '.$migrate);
 				$nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
-				if (function_exists(__NAMESPACE__ .'\Database_model::'.$migrate))
-					call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
+				if (method_exists($this, $migrate))
+					call_user_func(__NAMESPACE__ .'\\Database_model::'.$migrate);
 				else
 					$this->jalankan_migrasi($migrate);
 			}
@@ -340,7 +343,7 @@ class Database_model extends CI_Model {
 				$isi_teks = $setting_teks_berjalan->value;
 				$data = array(
 					'teks' => $isi_teks,
-					'created_by' => $this->session->user
+					'created_by' => $this->user
 				);
 				$this->db->insert('teks_berjalan', $data);
 				$this->db->where('key','isi_teks_berjalan')->delete('setting_aplikasi');
@@ -364,7 +367,7 @@ class Database_model extends CI_Model {
 						$isi = array(
 							'teks' => $isi_teks,
 							'status' => $data['enabled'],
-							'created_by' => $this->session->user
+							'created_by' => $this->user
 						);
 						$this->db->insert('teks_berjalan', $isi);
 					}
