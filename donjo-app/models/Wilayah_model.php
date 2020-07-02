@@ -268,7 +268,7 @@
 		$data['dusun']= $temp['dusun'];
 		$data_rw = $this->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
-		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
+		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw'], 'rt' => $data['rt']);
 		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
