@@ -1,10 +1,11 @@
 Di rilis ini, versi 20.07-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Andi Fahruddin Akas yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 
 1. Sederhanakan pengamanan folder desa pada waktu migrasi DB. [teknis]
+2. Sekarang tampilkan notifikasi apabila memasukkan data rt duplikat. [bug-fix]
 
 
 
