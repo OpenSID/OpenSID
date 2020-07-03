@@ -10,6 +10,7 @@ class Hom_sid extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
+		$this->load->model('notif_model');
 		$this->modul_ini = 1;
 	}
 
@@ -25,10 +26,45 @@ class Hom_sid extends Admin_Controller {
 		$data['jumlah_surat'] = $this->surat_model->surat_total();
 		$header = $this->header_model->get_data();
 
+		$user_grup = $this->session->userdata('grup');
+		$data['persetujuan_pengguna'] = NULL;
+		if(isset($user_grup) && $user_grup==1) // hanya utk user administrator
+		{
+			$data['persetujuan_pengguna'] = $this->persetujuan_pengguna();
+		}
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('home/desa', $data);
 		$this->load->view('footer');
+	}
+
+	private function persetujuan_pengguna()
+	{
+
+		$notif = $this->notif_model->get_notif_by_judul("persetujuan penggunaan");
+		$tgl_sekarang = date("Y-m-d H:i:s");  
+		$tgl_berikutnya = $notif['tgl_berikutnya'];
+		$persetujuan = NULL;
+		// pengumuman tampil saat sistem pertama digunakan atau ketika tgl_berikutnya tlh tercapai
+		// data pengumuman di input ke database jauh hari sebelumnya 
+		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
+		if($tgl_berikutnya <= $tgl_sekarang)
+		{
+			// simpan view pengumuman dalam variabel
+			$var['isi_pengumuman'] = $notif['isi'];
+			$persetujuan = $this->load->view('notif/pengumuman', $var, TRUE); // TRUE utk ambil content view sebagai output
+			
+			// update tabel notifikasi
+			$frekuensi = $notif['frekuensi'];
+			$string_frekuensi = "+". $frekuensi . " Days";
+			$tambah_hari = strtotime($string_frekuensi);  // tgl hari ini ditambah frekuensi
+			$tgl_berikutnya =  date('Y-m-d H:i:s', $tambah_hari); 
+			$user = $this->session->userdata('user');
+			$this->notif_model->update_by_judul("persetujuan penggunaan", $tgl_berikutnya, $tgl_sekarang, $user);
+		}
+		
+		return $persetujuan;
 	}
 
 	public function dialog_pengaturan()

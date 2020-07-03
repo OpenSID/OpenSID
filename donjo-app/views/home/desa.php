@@ -4,6 +4,7 @@
 	.pengaturan {float: left; padding-left: 10px;}
 </style>
 <div class="content-wrapper">
+	<?php if(isset($persetujuan_pengguna)) echo $persetujuan_pengguna; ?>
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
 		<ol class='breadcrumb'>
