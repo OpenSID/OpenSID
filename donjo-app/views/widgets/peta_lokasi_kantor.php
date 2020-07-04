@@ -108,12 +108,17 @@
 	var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
 
 	//Menampilkan BaseLayers Peta
-	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(lokasi_kantor);
+	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(lokasi_kantor);
 
-	var baseLayers =
-	{
+	var mbGLstrsat = L.mapboxGL({
+		accessToken: '<?=$this->setting->google_key?>',
+		style: 'mapbox://styles/mapbox/satellite-streets-v11',
+		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+	});
+
+	var baseLayers = {
 		'OpenStreetMap': defaultLayer,
-		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a>'}),
+		'Mapbox Satelit' : mbGLstrsat,
 	};
 
 	L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(lokasi_kantor);

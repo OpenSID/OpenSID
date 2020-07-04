@@ -102,14 +102,25 @@ function set_marker_content(marker, daftar_path, warna, judul, nama_wil, content
 function getBaseLayers(peta, access_token)
 {
 	//Menampilkan BaseLayers Peta
-	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(peta);
+	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(peta);
+
+	var mbGLsat = L.mapboxGL({
+		accessToken: access_token,
+		style: 'mapbox://styles/mapbox/satellite-v9',
+		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+	});
+
+	var mbGLstrsat = L.mapboxGL({
+		accessToken: access_token,
+		style: 'mapbox://styles/mapbox/satellite-streets-v11',
+		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+	});
 
 	var baseLayers = {
 		'OpenStreetMap': defaultLayer,
-		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-		'Mapbox Streets' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.png?access_token='+access_token, {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Outdoors' : L.tileLayer('https://api.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}@2x.png?access_token='+access_token, {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
-		'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token='+access_token, {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://mapbox.com/map-feedback/">Improve this map</a>'}),
+		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}),
+		'Mapbox Citra Satelit' : mbGLsat,
+		'Mapbox Citra Satelit + Jalan' : mbGLstrsat,
 	};
 	return baseLayers;
 }
