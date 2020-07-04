@@ -177,13 +177,14 @@ class Admin_Controller extends MY_Controller
 {
 	public $grup;
 	public $CI = NULL;
+	public $pengumuman = NULL;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
  		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model('user_model');
+		$this->load->model(['user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -206,6 +207,19 @@ class Admin_Controller extends MY_Controller
 				redirect('/');
 			}
 		}
+		$this->cek_pengumuman();
+	}
+
+	private function cek_pengumuman()
+	{
+		if ($this->grup == 1) // hanya utk user administrator
+		{
+		// pengumuman tampil saat sistem pertama digunakan atau ketika tgl_berikutnya tlh tercapai
+		// data pengumuman di input ke database jauh hari sebelumnya
+		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
+			$this->pengumuman = $this->notif_model->notifikasi('persetujuan_penggunaan');
+		}
+
 	}
 
 	protected function redirect_hak_akses($akses, $redirect='', $controller='')

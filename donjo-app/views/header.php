@@ -169,3 +169,6 @@
 					</div>
 				</div>
 			</div>
+			<!-- Untuk menampilkan dialog pengumuman  -->
+			<?= $this->pengumuman; ?>
+

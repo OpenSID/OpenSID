@@ -34,4 +34,5 @@ class Notif extends Admin_Controller {
 			echo $j;
 		}
 	}
+
 }

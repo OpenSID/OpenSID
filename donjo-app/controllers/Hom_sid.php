@@ -10,6 +10,7 @@ class Hom_sid extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
+		$this->load->model('notif_model');
 		$this->modul_ini = 1;
 	}
 
