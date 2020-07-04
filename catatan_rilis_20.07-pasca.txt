@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 3. #3287: Sekarang jumlah KK dan penduduk di Info Desa > Wilayah Administratif sudah benar. [bug-fix]
 4. Perbaiki tampilan RFM di QR Code untuk layar kecil dan gunakan tampilan bahasa Indonesia.
 5. Perbaharui library HTML Parser supaya kompatibel dengan PHP 7.3 dan 7.4. [teknis]
+6. #3296: Sekarang data desa tampil di Cetak Biodata penduduk. [bug-fix]
 
 
 
