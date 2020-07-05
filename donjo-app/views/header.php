@@ -1,3 +1,18 @@
+<!--
+ * Modul Header OpenSID
+ *
+ * /donjo-app/views/header.php v2.0 01/07/2020
+ *
+ * https://github.com/OpenSID/OpenSID
+ *
+ * Copyright (c) 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Copyright (c) 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ -->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -52,6 +67,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
 		<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Shapefile.css" />
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -59,6 +75,7 @@
 		<?php endif; ?>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/js/turf.min.js"></script>
@@ -74,6 +91,8 @@
 		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
 		<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
+		<script src="<?= base_url()?>assets/js/shp.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">

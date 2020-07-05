@@ -1,3 +1,18 @@
+<!--
+ * Modul Pemetaan di OpenSID
+ *
+ * /donjo-app/views/sid/wilayah/ajax_wilayah_maps.php v2.0 01/07/2020
+ *
+ * https://github.com/OpenSID/OpenSID
+ *
+ * Copyright (c) 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Copyright (c) 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ -->
+
 <style>
   #map
   {
@@ -129,9 +144,13 @@
     // update value zoom ketika ganti zoom
     updateZoom(peta_wilayah);
 
-    //Export/Import Peta dari file GPX/KML
-    L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
-    control = eximGpx(peta_wilayah);
+    //Export/Import Peta dari file GPX
+    L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
+    L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+    control = eximGpxPoly(peta_wilayah);
+
+    //Import Peta dari file SHP
+    eximShp(peta_wilayah);
 
     //Geolocation IP Route/GPS
   	geoLocation(peta_wilayah);

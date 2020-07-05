@@ -1,3 +1,18 @@
+<!--
+ * Modul Pemetaan di OpenSID
+ *
+ * /donjo-app/views/lokasi/maps.php v2.0 01/07/2020
+ *
+ * https://github.com/OpenSID/OpenSID
+ *
+ * Copyright (c) 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Copyright (c) 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ -->
+
 <script>
 var infoWindow;
 window.onload = function()
@@ -49,9 +64,14 @@ window.onload = function()
 	//Menampilkan BaseLayers Peta
   var baseLayers = getBaseLayers(peta_lokasi, '<?=$this->setting->google_key?>');
 
-	//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
+	//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
 	showCurrentPoint(posisi, peta_lokasi);
+
+	//Export/Import Peta dari file GPX
+	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
+	L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+	controlGpxPoint = eximGpxPoint(peta_lokasi);
 
 	//Menambahkan zoom scale ke peta
 	L.control.scale().addTo(peta_lokasi);
