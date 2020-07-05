@@ -223,7 +223,7 @@
 
     var FileLayerLoad = L.Control.extend({
         statics: {
-            TITLE: 'Unggah Peta dari file GPX/KML',
+            TITLE: 'Load local file (GPX, KML, GeoJSON)',
             LABEL: '&#8965;'
         },
         options: {
@@ -320,7 +320,7 @@
                 this.value = '';
             }, false);
 
-            L.DomEvent.disableClickPropagation(link);
+            L.DomEvent.disableClickPropagation(container);
             L.DomEvent.on(link, 'click', function (e) {
                 fileInput.click();
                 e.preventDefault();
