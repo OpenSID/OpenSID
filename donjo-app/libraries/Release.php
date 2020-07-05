@@ -155,7 +155,7 @@ class Release
     public function resyncWithOfficialRepository()
     {
         if ($this->cacheIsOutdated()) {
-            \Esyede\Curly::$certificate = FCPATH.'/cacert.pem';
+            \Esyede\Curly::$certificate = FCPATH.DIRECTORY_SEPARATOR.'cacert.pem';
             $response = \Esyede\Curly::get($this->api);
 
             if ($response instanceof \stdClass) {
@@ -181,7 +181,7 @@ class Release
      * Cek apakah data cache sudah kadaluwarsa atau belum.
      * Cache dianggap kadaluwarsa jika:
      *   - File cachenya belum ada di server kita, atau
-     *   - File cache sudah ada tetapi waktu creation-time filenya sudah
+     *   - File cache sudah ada tetapi waktu modified-time filenya sudah
      *     lebih dari interval yang ditentukan.
      *
      * @return bool
@@ -191,7 +191,7 @@ class Release
         $file = $this->cache;
         $interval = $this->interval;
 
-        return ! is_file($file) || (is_file($file) && time() - filectime($file) < $interval);
+        return ! is_file($file) || (is_file($file) && time() - filemtime($file) < $interval);
     }
 
     /**
