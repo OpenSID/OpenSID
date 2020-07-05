@@ -174,7 +174,7 @@ class Release
             }
         }
 
-        return json_decode(file_get_contents($this->cache));
+        return json_decode($this->readCache($this->cache));
     }
 
     /**
@@ -191,7 +191,7 @@ class Release
         $file = $this->cache;
         $interval = $this->interval;
 
-        return ! is_file($file) || (is_file($file) && time() - filemtime($file) < $interval);
+        return ! is_file($file) || (is_file($file) && (time() - filemtime($file)) < $interval);
     }
 
     /**
@@ -229,5 +229,15 @@ class Release
 
             file_put_contents($file, $cache, LOCK_EX);
         }
+    }
+
+    /**
+     * Baca file cache.
+     *
+     * @return string
+     */
+    public function readCache()
+    {
+        return file_get_contents($this->cache);
     }
 }
