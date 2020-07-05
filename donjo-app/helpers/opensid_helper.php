@@ -865,7 +865,8 @@ function convertToBytes(string $from)
       return preg_replace('/[^\d]/', '', $from);
   }
 
-  $exponent = array_flip($units)[$suffix] ?? null;
+  $exponent = array_flip($units);
+  $exponent = isset($exponent[$suffix]) ? $exponent[$suffix] : null;
   if($exponent === null) {
       return null;
   }
