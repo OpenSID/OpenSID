@@ -335,13 +335,13 @@ class Curly
         // Increase version number based on year.
         $version = 77 + ($year - 2020) + 2;
 
-        $agents = [
+        $agents = array(
             'Windows' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:[v].0) Gecko/20100101 Firefox/[v].0',
             'Linux' => 'Mozilla/5.0 (Linux x86_64; rv:[v].0) Gecko/20100101 Firefox/[v].0',
             'Darwin' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:[v].0) Gecko/20100101 Firefox/[v].0',
             'BSD' => 'Mozilla/5.0 (X11; FreeBSD amd64; rv:[v].0) Gecko/20100101 Firefox/[v].0',
             'Solaris' => 'Mozilla/5.0 (Solaris; Solaris x86_64; rv:[v].0) Gecko/20100101 Firefox/[v].0',
-        ];
+        );
 
         $platform = static::platform();
         $platform = 'Unknown' === $platform ? 'Linux' : $platform;
@@ -360,7 +360,7 @@ class Curly
             return 'Windows';
         }
 
-        $platforms = [
+        $platforms = array(
             'Darwin' => 'Darwin',
             'DragonFly' => 'BSD',
             'FreeBSD' => 'BSD',
@@ -368,7 +368,7 @@ class Curly
             'OpenBSD' => 'BSD',
             'Linux' => 'Linux',
             'SunOS' => 'Solaris',
-        ];
+        );
 
         return isset($platforms[PHP_OS]) ? $platforms[PHP_OS] : 'Unknown';
     }
