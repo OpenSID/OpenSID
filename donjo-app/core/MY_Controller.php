@@ -214,12 +214,14 @@ class Admin_Controller extends MY_Controller
 	{
 		if ($this->grup == 1) // hanya utk user administrator
 		{
-		// pengumuman tampil saat sistem pertama digunakan atau ketika tgl_berikutnya tlh tercapai
-		// data pengumuman di input ke database jauh hari sebelumnya
-		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
 			$this->pengumuman = $this->notif_model->notifikasi('persetujuan_penggunaan');
 		}
 
+	}
+
+	public function update_pengumuman()
+	{
+		$this->notif_model->update_notifikasi('persetujuan_penggunaan');
 	}
 
 	protected function redirect_hak_akses($akses, $redirect='', $controller='')
