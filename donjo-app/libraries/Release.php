@@ -159,7 +159,7 @@ class Release
 
             $options = array(CURLOPT_HTTPHEADER => array('Accept' => 'application/vnd.github.v3+json'));
 
-            $response = \Esyede\Curly::get($this->api, [], $options);
+            $response = \Esyede\Curly::get($this->api, array(), $options);
 
             if ($response instanceof \stdClass) {
                 $response = [
