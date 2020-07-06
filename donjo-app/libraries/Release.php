@@ -156,7 +156,10 @@ class Release
     {
         if ($this->cacheIsOutdated()) {
             \Esyede\Curly::$certificate = FCPATH.DIRECTORY_SEPARATOR.'cacert.pem';
-            $response = \Esyede\Curly::get($this->api);
+
+            $options = array(CURLOPT_HTTPHEADER => array('Accept' => 'application/vnd.github.v3+json'));
+
+            $response = \Esyede\Curly::get($this->api, [], $options);
 
             if ($response instanceof \stdClass) {
                 $response = [
