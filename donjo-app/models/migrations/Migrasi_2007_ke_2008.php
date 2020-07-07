@@ -28,31 +28,32 @@ class Migrasi_2007_ke_2008 extends CI_model {
 				`updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
 				`updated_by` int(11) NOT NULL,
 				`frekuensi` smallint(6) NOT NULL,
-				PRIMARY KEY (`id`)
+				PRIMARY KEY (`id`),
+				UNIQUE KEY (kode)
 			)";
 			$this->db->query($query);
-
-			$insert = array(
-				'kode' => 'persetujuan_penggunaan',
-				'judul' => 'Persetujuan Penggunaan Sistem',
-				'jenis' => 'pengumuman',
-				'isi' =>
-						'<ol>
-							<li>Pengguna telah membaca dan menyetujui <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Lisensi GPL V3</a></li>
-							<li>Penggunaan OpenSID adalah berdasarkan&nbsp;apa adanya&nbsp;dan adalah tanggung jawab pengguna untuk menjamin keamanan data desa</li>
-							<li>Pengguna untuk tidak sekali-kali menggunakan password default, dan untuk rajin mengubah semua password pengguna, termasuk PIN pengguna Layanan Mandiri</li>
-							<li>Pengguna untuk rutin melakukan update data desa, termasuk folder&nbsp;desa.</li>
-							<li>Pengguna mengetahui dan menyetujui adanya tracker</li>
-						</ol>',
-				'server' => 'client',
-				'tgl_berikutnya' => date("Y-m-d H:i:s"),
-				'updated_at' => date("Y-m-d H:i:s"),
-				'updated_by' => 0,
-				'frekuensi' => 90
-
-			);
-			$this->db->insert('notifikasi', $insert);
 		}
+
+		$insert = array(
+			'kode' => 'persetujuan_penggunaan',
+			'judul' => 'Persetujuan Penggunaan OpenSID',
+			'jenis' => 'pengumuman',
+			'isi' =>
+				'<ol>
+					<li>Pengguna telah membaca dan menyetujui <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Lisensi GPL V3</a>.</li>
+					<li>OpenSID gratis dan disediakan "SEBAGAIMANA ADANYA", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>
+					<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>
+					<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>
+				</ol>',
+			'server' => 'client',
+			'tgl_berikutnya' => date("Y-m-d H:i:s"),
+			'updated_at' => date("Y-m-d H:i:s"),
+			'updated_by' => 0,
+			'frekuensi' => 90
+		);
+
+		$sql = $this->db->insert_string('notifikasi', $insert) . " ON DUPLICATE KEY UPDATE judul = VALUES(judul), jenis = VALUES(jenis), isi = VALUES(isi), server = VALUES(server), frekuensi = VALUES(frekuensi)";
+		$this->db->query($sql);
 	}
 
 }
