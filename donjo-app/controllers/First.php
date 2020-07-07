@@ -100,6 +100,7 @@ class First extends Web_Controller {
 		$data['artikel'] = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
 		$data['headline'] = $this->first_artikel_m->get_headline();
+		$data['cari'] = htmlentities($this->input->get('cari'));
 		if ($this->setting->covid_rss)
 		{
 			$data['feed'] = array(
@@ -122,7 +123,7 @@ class First extends Web_Controller {
 		if ( ! empty($cari))
 		{
 			// Judul artikel bisa digunakan untuk serangan XSS
-			$data["judul_kategori"] = html_escape("Hasil pencarian : ". substr($cari, 0, 50));
+			$data["judul_kategori"] = htmlentities("Hasil pencarian : ". substr($cari, 0, 50));
 		}
 
 		$this->_get_common_data($data);
