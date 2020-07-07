@@ -50,6 +50,9 @@ class Notif_model extends CI_Model {
 
 	public function notifikasi($kode)
 	{
+		// pengumuman tampil saat sistem pertama digunakan atau ketika tgl_berikutnya tlh tercapai
+		// data pengumuman di input ke database jauh hari sebelumnya
+		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
 		$pengumuman = null;
 		$notif = $this->get_notif_by_kode($kode);
 		$tgl_sekarang = date("Y-m-d H:i:s");
