@@ -1,3 +1,46 @@
+/**
+ * File ini:
+ *
+ * Javascript untuk Modul Pemetaan di OpenSID
+ *
+ * peta.js
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
 
 $(document).ready(function()
 {
@@ -190,7 +233,14 @@ function getLatLong(x, y)
   {
     hasil = JSON.stringify(y._latlng);
   }
-  hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
+  //hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
+	hasil = hasil
+	.replace(/\}/g, ']')
+	.replace(/(\{)/g, '[')
+	.replace(/(\"lat\"\:|\"lng\"\:)/g, '')
+	.replace(/(\"alt\"\:)/g, '')
+	.replace(/(\"ele\"\:)/g, '');
+
   return hasil;
 }
 
@@ -266,84 +316,236 @@ function styleGpx()
 	return style;
 }
 
-function eximGpx(layerpeta)
+function eximGpxPoly(layerpeta)
 {
-	var control = L.Control.fileLayerLoad({
-		addToMap: false,
+	controlGpxPoly = L.Control.fileLayerLoad({
+		addToMap: true,
 		formats: [
 			'.gpx',
-			'.geojson'
+			'.kml'
 		],
 		fitBounds: true,
 		layerOptions: {
-			style: styleGpx(),
 			pointToLayer: function (data, latlng) {
-				return L.circleMarker(
-					latlng,
-					{ style: styleGpx() }
-				);
+				return L.marker(latlng);
 			},
 
 		}
 	});
-	control.addTo(layerpeta);
+	controlGpxPoly.addTo(layerpeta);
 
-	control.loader.on('data:loaded', function (e) {
+	controlGpxPoly.loader.on('data:loaded', function (e) {
+		var type = e.layerType;
+		var layer = e.layer;
+		var coords=[];
+		var geojson = turf.flip(layer.toGeoJSON());
+		var shape_for_db = JSON.stringify(geojson);
+
+		var polygon =
+		L.geoJson(JSON.parse(shape_for_db), {
+			pointToLayer: function (feature, latlng) {
+				return L.marker(latlng);
+			},
+			onEachFeature: function (feature, layer) {
+				coords.push(feature.geometry.coordinates);
+			}
+		}).addTo(layerpeta)
+
+			var jml = coords[0].length;
+			for (var x = 0; x < jml; x++)
+			{
+				if (coords[0][x].length > 2)
+				{
+				coords[0][x].pop();
+				};
+			}
+
+			document.getElementById('path').value =
+			JSON.stringify(coords)
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']],[[', '],[')
+			.replace(']]],[[[', '],[')
+			.replace(']]],[[[', '],[')
+			.replace(']]],[[[', '],[')
+			.replace(']]],[[[', '],[')
+			.replace(']]],[[[', '],[')
+			.replace('[[[[', '[[[')
+			.replace(']]]]', ']]]')
+			.replace('],null]', ']');
+	});
+	return controlGpxPoly;
+}
+
+function eximGpxPoint(layerpeta)
+{
+	controlGpxPoint = L.Control.fileLayerLoad({
+		addToMap: false,
+		formats: [
+			'.gpx',
+			'.kml'
+		],
+		fitBounds: true,
+		layerOptions: {
+			pointToLayer: function (data, latlng) {
+				return L.marker(latlng);
+			},
+
+		}
+	});
+	controlGpxPoint.addTo(layerpeta);
+
+	controlGpxPoint.loader.on('data:loaded', function (e) {
 		var type = e.layerType;
 		var layer = e.layer;
 		var coords=[];
 		var geojson = layer.toGeoJSON();
-		var options = {tolerance: 0.0001, highQuality: false};
-		var simplified = turf.simplify(geojson, options);
 		var shape_for_db = JSON.stringify(geojson);
-		var gpxData = togpx(JSON.parse(shape_for_db));
-
-		$("#exportGPX").on('click', function (event) {
-			data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);
-
-			$(this).attr({
-				'href': data,
-				'target': '_blank'
-			});
-
-		});
 
 		var polygon =
-		//L.geoJson(JSON.parse(shape_for_db), { //jika ingin koordinat tidak dipotong/simplified
-		L.geoJson(simplified, {
+		L.geoJson(JSON.parse(shape_for_db), {
 			pointToLayer: function (feature, latlng) {
-				return L.circleMarker(latlng, { style: style });
+				return L.marker(latlng);
 			},
 			onEachFeature: function (feature, layer) {
 				coords.push(feature.geometry.coordinates);
-			},
+			}
+		}).addTo(layerpeta)
 
-		})
-		.addTo(layerpeta)
+			document.getElementById('lat').value = coords[0][1];
+			document.getElementById('lng').value = coords[0][0];
 
-		var jml = coords[0].length;
-		coords[0].push(coords[0][0]);
-		for (var x = 0; x < jml; x++)
-		{
-			coords[0][x].reverse();
-		}
-
-		polygon.on('pm:edit', function(e)
-		{
-			document.getElementById('path').value = JSON.stringify(coords);
-			document.getElementById('zoom').value = layerpeta.getZoom();
-		});
-
-		document.getElementById('path').value = JSON.stringify(coords);
-		document.getElementById('zoom').value = layerpeta.getZoom();
-		layerpeta.fitBounds(polygon.getBounds());
 	});
-	return control;
+
+	return controlGpxPoint;
+}
+
+function eximShp(layerpeta)
+{
+	L.Control.Shapefile = L.Control.extend({
+
+    onAdd: function(map) {
+        var thisControl = this;
+
+        var controlDiv = L.DomUtil.create('div', 'leaflet-control-command');
+
+        // Create the leaflet control.
+        var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
+
+        // Create the form inside of the leaflet control.
+        var form = L.DomUtil.create('form', 'leaflet-control-command-form', controlUI);
+        form.action = '';
+        form.method = 'post';
+        form.enctype='multipart/form-data';
+
+        // Create the input file element.
+        var input = L.DomUtil.create('input', 'leaflet-control-command-form-input', form);
+        input.id = 'file';
+        input.type = 'file';
+        input.name = 'uploadFile';
+        input.style.display = 'none';
+
+        L.DomEvent
+            .addListener(form, 'click', function () {
+                document.getElementById("file").click();
+            })
+            .addListener(input, 'change', function(){
+                var input = document.getElementById('file');
+                if (!input.files[0]) {
+                    alert("Pilih file shapefile dalam format .zip");
+                }
+                else {
+                    file = input.files[0];
+
+                    fr = new FileReader();
+                    fr.onload = receiveBinary;
+                    fr.readAsArrayBuffer(file);
+                }
+
+                function receiveBinary() {
+                    geojson = fr.result
+                    var shpfile = new L.Shapefile(geojson).addTo(map);
+
+                    shpfile.once('data:loaded', function (e) {
+
+                  		var type = e.layerType;
+                  		var layer = e.layer;
+                  		var coords =[];
+                      var geojson = turf.flip(shpfile.toGeoJSON());
+                  		var shape_for_db = JSON.stringify(geojson);
+
+                  		var polygon =
+                  		L.geoJson(JSON.parse(shape_for_db), {
+                  			pointToLayer: function (feature, latlng) {
+                  				return L.circleMarker(latlng, { style: style });
+                  			},
+                  			onEachFeature: function (feature, layer) {
+                  				coords.push(feature.geometry.coordinates);
+                  			},
+
+                  		})
+
+                      var jml = coords[0].length;
+                			for (var x = 0; x < jml; x++)
+                			{
+                				if (coords[0][x].length > 2)
+                				{
+                				coords[0][x].pop();
+                				};
+                			}
+
+											document.getElementById('path').value =
+											JSON.stringify(coords)
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']],[[', '],[')
+											.replace(']]],[[[', '],[')
+											.replace(']]],[[[', '],[')
+											.replace(']]],[[[', '],[')
+											.replace(']]],[[[', '],[')
+											.replace(']]],[[[', '],[')
+											.replace('[[[[', '[[[')
+											.replace(']]]]', ']]]')
+											.replace('],null]', ']');
+
+											layerpeta.fitBounds(shpfile.getBounds());
+
+                  	});
+                }
+            });
+
+        controlUI.title = 'Impor Shapefile (.Zip)';
+        return controlDiv;
+    },
+});
+
+L.control.shapefile = function(opts) {
+    return new L.Control.Shapefile(opts);
+};
+
+L.control.shapefile({ position: 'topleft' }).addTo(layerpeta);
+
+return eximShp;
 }
 
 function geoLocation(layerpeta)
 {
 	var lc = L.control.locate({
+		drawCircle: false,
 		icon: 'fa fa-map-marker',
 		locateOptions: {enableHighAccuracy: true},
 		strings: {
@@ -552,6 +754,7 @@ function showCurrentPoint(posisi1, layerpeta)
 	});
 
 	var lc = L.control.locate({
+		drawCircle: false,
 		icon: 'fa fa-map-marker',
 		strings: {
 				title: "Lokasi Saya",
@@ -574,43 +777,6 @@ function showCurrentPoint(posisi1, layerpeta)
 		layerpeta.off('dragstart', lc._stopFollowing, lc);
 	});
 
-	control = L.Control.fileLayerLoad({
-		addToMap: false,
-		formats: [
-			'.gpx',
-			'.kml'
-		],
-		fitBounds: true,
-		layerOptions: {
-			pointToLayer: function (data, latlng) {
-				return L.marker(latlng);
-			},
-
-		}
-	});
-	control.addTo(layerpeta);
-
-	control.loader.on('data:loaded', function (e) {
-		layerpeta.removeLayer(lokasi_kantor);
-		var type = e.layerType;
-		var layer = e.layer;
-		var coords=[];
-		var geojson = layer.toGeoJSON();
-		var shape_for_db = JSON.stringify(geojson);
-
-		var polygon =
-		L.geoJson(JSON.parse(shape_for_db), {
-			pointToLayer: function (feature, latlng) {
-				return L.marker(latlng);
-			},
-			onEachFeature: function (feature, layer) {
-				coords.push(feature.geometry.coordinates);
-			}
-		}).addTo(layerpeta)
-
-		document.getElementById('lat').value = coords[0][1];
-		document.getElementById('lng').value = coords[0][0];
-	});
 	return showCurrentPoint;
 }
 
