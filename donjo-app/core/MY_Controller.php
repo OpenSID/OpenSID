@@ -20,6 +20,8 @@ class MY_Controller extends CI_Controller {
     {
         parent::__construct();
         $this->periksa_config();
+        $this->load->model('database_model');
+        $this->database_model->cek_migrasi();
 				/* set klasik theme if not exist */
         if (empty($this->setting->web_theme))
         {
@@ -214,12 +216,14 @@ class Admin_Controller extends MY_Controller
 	{
 		if ($this->grup == 1) // hanya utk user administrator
 		{
-		// pengumuman tampil saat sistem pertama digunakan atau ketika tgl_berikutnya tlh tercapai
-		// data pengumuman di input ke database jauh hari sebelumnya
-		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
 			$this->pengumuman = $this->notif_model->notifikasi('persetujuan_penggunaan');
 		}
 
+	}
+
+	public function update_pengumuman()
+	{
+		$this->notif_model->update_notifikasi('persetujuan_penggunaan');
 	}
 
 	protected function redirect_hak_akses($akses, $redirect='', $controller='')

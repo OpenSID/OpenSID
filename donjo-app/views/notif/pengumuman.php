@@ -7,18 +7,42 @@
 			<div class='modal-body'>
 				<?= $isi_pengumuman; ?>
 			</div>
+			<center>
+				<i id="indikator" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+			</center>
 			<div class='modal-footer'>
-				<button class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tidak</button>
-				<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-check'></i> Setuju</button>
+				<button id="btnTidak" class="btn btn-social btn-flat btn-danger btn-sm"><i class='fa fa-sign-out'></i> Tidak</button>
+				<button id="btnSetuju" type="button" class="btn btn-social btn-flat btn-warning btn-sm"><i class='fa fa-check'></i> Setuju</button>
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
+	// url utk panggil method update_pengumuman di MY_Controller (melalui salah satu subclass)
+	var url_setuju = "<?= site_url() ?>hom_sid/update_pengumuman";
+	var url_tidaksetuju = "<?=site_url()?>siteman";
+
 	$(window).on('load', function() {
-		$('#pengumuman').modal('show');
-		$('#ok').click(function() {
-			$('#pengumuman').modal('hide');
+		$('#pengumuman').modal({backdrop: 'static', keyboard: false});
+		$('#indikator').hide();
+	});
+
+	$('#btnSetuju').on('click', function() {
+		$('#indikator').show();
+		$('#btnSetuju').prop('disabled', true);
+		$('#btnTidak').prop('disabled', true);
+		$.ajax({
+			type: "POST",
+			url: url_setuju,
+			success: function() {
+				$('#indikator').hide();
+				$('#pengumuman').modal('hide');
+			}
 		});
+		return false;
+	});
+
+	$('#btnTidak').on('click', function() {
+		location.href = url_tidaksetuju;
 	});
 </script>

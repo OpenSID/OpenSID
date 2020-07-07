@@ -163,6 +163,22 @@ class Database_model extends CI_Model {
   	// Tidak lakukan apa-apa
   }
 
+	// Cek apakah migrasi perlu dijalankan
+	public function cek_migrasi()
+	{
+		// Paksa menjalankan migrasi kalau belum
+		// Migrasi direkam di tabel migrasi
+		$sudah = false;
+		if ($this->db->table_exists('migrasi') )
+			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+				->get('migrasi')->num_rows();
+		if (!$sudah)
+		{
+			$this->migrasi_db_cri();
+		}
+	}
+
+
   private function _migrasi_db_cri()
   {
 		$this->migrasi_cri_lama();

@@ -53,22 +53,6 @@ class Setting_model extends CI_Model {
 		$this->apply_setting();
 	}
 
-	// Cek apakah migrasi perlu dijalankan
-	private function cek_migrasi()
-	{
-		// Paksa menjalankan migrasi kalau belum
-		// Migrasi direkam di tabel migrasi
-		$sudah = false;
-		if ($this->db->table_exists('migrasi') )
-			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-				->get('migrasi')->num_rows();
-		if (!$sudah)
-		{
-			$this->load->model('database_model');
-			$this->database_model->migrasi_db_cri();
-		}
-	}
-
 	// Setting untuk PHP
 	private function apply_setting()
 	{
@@ -96,7 +80,8 @@ class Setting_model extends CI_Model {
 			}
 		}
 		$this->setting->demo_mode = config_item('demo_mode');
-		$this->cek_migrasi();
+		$this->load->model('database_model');
+		$this->database_model->cek_migrasi();
 	}
 
 	public function update_setting($data)
