@@ -221,11 +221,6 @@ class Admin_Controller extends MY_Controller
 
 	}
 
-	public function update_pengumuman()
-	{
-		$this->notif_model->update_notifikasi('persetujuan_penggunaan');
-	}
-
 	protected function redirect_hak_akses($akses, $redirect='', $controller='')
 	{
 		if (empty($controller))

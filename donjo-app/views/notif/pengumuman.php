@@ -18,11 +18,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	// url utk panggil method update_pengumuman di MY_Controller (melalui salah satu subclass)
-	var url_setuju = "<?= site_url() ?>hom_sid/update_pengumuman";
+	var url_setuju = "<?= site_url() ?>notif/update_pengumuman";
 	var url_tidaksetuju = "<?=site_url()?>siteman";
 
-	$(window).on('load', function() {
+	$('document').ready(function() {
 		$('#pengumuman').modal({backdrop: 'static', keyboard: false});
 		$('#indikator').hide();
 	});

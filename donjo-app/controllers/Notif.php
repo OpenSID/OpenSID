@@ -35,4 +35,9 @@ class Notif extends Admin_Controller {
 		}
 	}
 
+	public function update_pengumuman()
+	{
+		$this->notif_model->update_notifikasi('persetujuan_penggunaan');
+	}
+
 }
