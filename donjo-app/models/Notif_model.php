@@ -73,12 +73,20 @@ class Notif_model extends CI_Model {
 		// update tabel notifikasi
 		$notif = $this->notif_model->get_notif_by_kode($kode);
 		$tgl_sekarang = date("Y-m-d H:i:s");
-		$frekuensi = $notif['frekuensi'];
-		$string_frekuensi = "+". $frekuensi . " Days";
-		$tambah_hari = strtotime($string_frekuensi);  // tgl hari ini ditambah frekuensi
-		$tgl_berikutnya =  date('Y-m-d H:i:s', $tambah_hari);
+
+		if (empty($this->input->post('cek_lagi')))
+		{
+			$frekuensi = $notif['frekuensi'];
+			$string_frekuensi = "+". $frekuensi . " Days";
+			$tambah_hari = strtotime($string_frekuensi); // tgl hari ini ditambah frekuensi
+			$tgl_berikutnya =  date('Y-m-d H:i:s', $tambah_hari);
+		}
+		else
+		{
+			$tgl_berikutnya = $tgl_sekarang;
+		}
 		$user = $this->session->user;
-		$this->notif_model->update_by_kode("persetujuan_penggunaan", $tgl_berikutnya, $tgl_sekarang, $user);
+		$this->notif_model->update_by_kode($kode, $tgl_berikutnya, $tgl_sekarang, $user);
 	}
 
 }

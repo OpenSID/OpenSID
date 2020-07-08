@@ -97,6 +97,16 @@ class Setting_model extends CI_Model {
 			}
 		}
 		$this->apply_setting();
+
+		if($this->setting->enable_track == 0)
+		{
+			$notif = [
+				'updated_at' => date("Y-m-d H:i:s"),
+				'tgl_berikutnya' => date("Y-m-d H:i:s")
+			];
+
+			$this->db->where('kode', 'tracking_off')->update('notifikasi', $notif);
+		}
 	}
 
 	public function update ($key = 'enable_track', $value = 1)

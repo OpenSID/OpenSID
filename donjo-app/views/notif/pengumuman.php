@@ -7,12 +7,17 @@
 			<div class='modal-body'>
 				<div id="isi">
 					<?= $isi_pengumuman; ?>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="cek_lagi" value="cek_lagi"></input>&nbsp;Jangan tampilkan lagi
+						</label>
+					</div>
 				</div>
 				<center>
 					<i id="indikator" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
 				</center>
 			</div>
-			<div class='modal-footer'>
+			<div class='modal-footer' id='m_footer'>
 				<button <?= ($kode=='tracking_off') ? 'type="reset" data-dismiss="modal"' : 'id="btnTidak"';?> class="btn btn-social btn-flat btn-danger btn-sm"><i class='fa fa-sign-out'></i> Tidak</button>
 				<button id="btnSetuju" type="button" class="btn btn-social btn-flat btn-warning btn-sm"><i class='fa fa-check'></i> Setuju</button>
 			</div>
@@ -27,6 +32,7 @@
 
 	$('#btnSetuju').on('click', function() {
 		$('#isi').hide();
+		$('#m_footer').hide();
 		$('#indikator').show();
 		$('#btnSetuju').prop('disabled', true);
 		$('#btnTidak').prop('disabled', true);
