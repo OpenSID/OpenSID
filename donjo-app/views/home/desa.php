@@ -13,21 +13,41 @@
 	</section>
 	<section class='content' id="maincontent">
 		<div class='row'>
-			<?php if ($update_available): ?>
+			<?php if (isset($update_available) && $update_available): ?>
 				<div class='col-md-12'>
 					<div class="callout callout-danger update">
 						<h4><i class="fa fa-info-circle"></i> Update Tersedia!</h4>
 						<p>
-							OpenSID versi <code><?php echo $latest_version ?></code> telah tersedia, versi yang anda gunakan saat ini <code><?php echo $current_version ?></code> mungkin mengandung celah keamanan yang pelu ditutup. Silahakan baca catatan rilis dan segera update sekarang juga.
+							OpenSID versi <code><?=$latest_version ?></code> telah tersedia, versi yang anda gunakan saat ini <code><?=$current_version ?></code> mungkin mengandung celah keamanan yang pelu ditutup. Silahakan baca catatan rilis dan segera update sekarang juga.
 							<br>
-							<a href="https://github.com/OpenSID/OpenSID/archive/<?php echo $latest_version ?>.zip" class="btn btn-flat btn-success btn-sm pull-right" style="text-decoration: none">
+							<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-flat btn-success btn-sm pull-right" style="text-decoration: none">
 								<i class="fa fa-download"></i> Download
 							</a>
-							<a href="https://github.com/OpenSID/OpenSID/releases/tag/<?php echo $latest_version ?>" class="btn btn-flat btn-info btn-sm pull-right" style="text-decoration: none">
-								<i class="fa fa-github"></i> Catatan Rilis
-							</a>
+							<button class="btn btn-flat btn-info btn-sm pull-right" data-toggle="modal" data-target="#modal-catatan-rilis">
+								<i class="fa fa-eye"></i> Catatan Rilis
+							</button>
 							<br>
 						</p>
+					</div>
+					<div id="modal-catatan-rilis" class="modal fade" role="dialog">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+					        	<h4 class="modal-title">
+					        		<small class="label label-success"><?=$latest_version ?></small>
+					        		<?=nl2br($release_name) ?>
+					        	</h4>
+					      </div>
+					      <div class="modal-body">
+					        <p><?=nl2br($release_body) ?></p>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+					      </div>
+					    </div>
+
+					  </div>
 					</div>
 				</div>
 			<?php endif; ?>
