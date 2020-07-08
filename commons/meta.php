@@ -38,6 +38,8 @@
 	<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='stylesheet' />
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+	<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+	
 	<?php if(isset($single_artikel)): ?>
 		<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
 		<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
@@ -69,6 +71,8 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>	
 
 		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>

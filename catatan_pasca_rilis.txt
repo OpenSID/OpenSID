@@ -19,5 +19,6 @@ Catatan pra rilis versi 4.2:
 17. Perbaiki tampilan halaman statis.
 18. Tukar Posisi info COVID-19.
 19. Sediakan data cari yang sudah diamankan ke view beranda. [bug-fix].
+20. Perbaharui Mapbox API dari Classic ke GL.
 
 ****************************************************************
