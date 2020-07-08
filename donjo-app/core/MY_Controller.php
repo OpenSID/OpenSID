@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
@@ -210,13 +212,19 @@ class Admin_Controller extends MY_Controller
 			}
 		}
 		$this->cek_pengumuman();
+
 	}
 
 	private function cek_pengumuman()
 	{
 		if ($this->grup == 1) // hanya utk user administrator
 		{
+			// Cek persetujuan_penggunaan terlebih dahulu
 			$this->pengumuman = $this->notif_model->notifikasi('persetujuan_penggunaan');
+			if($this->pengumuman == NULL && $this->setting->enable_track == 0)
+			{
+				$this->pengumuman = $this->notif_model->notifikasi('tracking_off');
+			}
 		}
 
 	}

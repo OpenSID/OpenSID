@@ -27,12 +27,6 @@ class Notif_model extends CI_Model {
 		return $num_rows;
 	}
 
-	public function get_notif($id)
-	{
-		$notif = $this->db->where('id', $id)->get('notifikasi')->row_array();
-		return $notif;
-	}
-
 	public function get_notif_by_kode($kode)
 	{
 		$notif = $this->db->where('kode', $kode)->get('notifikasi')->row_array();
@@ -65,6 +59,10 @@ class Notif_model extends CI_Model {
 			// simpan view pengumuman dalam variabel
 			$data['isi_pengumuman'] = $notif['isi'];
 			$data['judul'] = $notif['judul'];
+			$data['aksi'] = $notif['aksi'];
+			$aksi = explode(',', $notif['aksi']);
+			$data['aksi_ya'] = $aksi[0];
+			$data['aksi_tidak'] = $aksi[1];
 			$pengumuman = $this->load->view('notif/pengumuman', $data, TRUE); // TRUE utk ambil content view sebagai output
 		}
 		return $pengumuman;

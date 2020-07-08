@@ -28,34 +28,60 @@ class Migrasi_2007_ke_2008 extends CI_model {
 				`updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
 				`updated_by` int(11) NOT NULL,
 				`frekuensi` smallint(6) NOT NULL,
+				`aksi` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`),
 				UNIQUE KEY (kode)
 			)";
 			$this->db->query($query);
 		}
 
-		$insert = [
-			'kode' => 'persetujuan_penggunaan',
-			'judul' => 'Persetujuan Penggunaan OpenSID',
-			'jenis' => 'pengumuman',
-			'isi' =>
-				'<p><b>Persetujuan Penggunaan OpenSID:</b>
-				<ol>
-					<li>Pengguna telah membaca dan menyetujui <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Lisensi GPL V3</a>.</li>
-					<li>OpenSID gratis dan disediakan "SEBAGAIMANA ADANYA", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>
-					<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>
-					<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>
-				</ol></p>
-				<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>',
-			'server' => 'client',
-			'tgl_berikutnya' => date("Y-m-d H:i:s"),
-			'updated_at' => date("Y-m-d H:i:s"),
-			'updated_by' => 0,
-			'frekuensi' => 90
+		$list_data = [
+
+			// Persetujuan Pengguna
+			[
+				'kode' => 'persetujuan_penggunaan',
+				'judul' => '<i class="fa fa-file-text-o text-black"></i> &nbsp;Persetujuan Penggunaan OpenSID',
+				'jenis' => 'pengumuman',
+				'isi' =>
+					'<p><b>Persetujuan Penggunaan OpenSID:</b>
+					<ol>
+						<li>Pengguna telah membaca dan menyetujui <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Lisensi GPL V3</a>.</li>
+						<li>OpenSID gratis dan disediakan "SEBAGAIMANA ADANYA", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>
+						<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>
+						<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>
+					</ol></p>
+					<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>',
+				'server' => 'client',
+				'tgl_berikutnya' => date("Y-m-d H:i:s"),
+				'updated_at' => date("Y-m-d H:i:s"),
+				'updated_by' => 0,
+				'frekuensi' => 90,
+				'aksi' => 'notif/update_pengumuman,siteman'
+			],
+
+			// Tracking Off
+			[
+				'kode' => 'tracking_off',
+				'judul' => '<i class="fa fa-exclamation-triangle text-red"></i> &nbsp;Peringatan Tracking Off',
+				'jenis' => 'peringatan',
+				'isi' =>
+					'<p>Kami mendeteksi bahwa anda telah mematikan tracking website. Hal ini akan mempengaruhi website anda dalam menerima informasi yang kami kirimkan melalui server OpenSID.</p>
+					<br><b>Hidupkan kembali tracking untuk mendapatkan informasi dari server OpenSID?</b>',
+				'server' => 'client',
+				'tgl_berikutnya' => date("Y-m-d H:i:s"),
+				'updated_at' => date("Y-m-d H:i:s"),
+				'updated_by' => 0,
+				'frekuensi' => 90,
+				'aksi' => 'setting/tracking,setting/notif_tracking'
+			]
 		];
 
-		$sql = $this->db->insert_string('notifikasi', $insert) . " ON DUPLICATE KEY UPDATE judul = VALUES(judul), jenis = VALUES(jenis), isi = VALUES(isi), server = VALUES(server), frekuensi = VALUES(frekuensi)";
-		$this->db->query($sql);
+		foreach ($list_data as $data)
+		{
+			$sql = $this->db->insert_string('notifikasi', $data);
+			$sql .= " ON DUPLICATE KEY UPDATE judul = VALUES(judul), jenis = VALUES(jenis), isi = VALUES(isi), server = VALUES(server), frekuensi = VALUES(frekuensi), aksi = VALUES(aksi)";
+			$this->db->query($sql);
+		}
 	}
 
 }

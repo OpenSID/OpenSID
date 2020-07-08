@@ -93,12 +93,3 @@
 		</div>
 	</section>
 </div>
-
-<?php if ($this->setting->enable_track == 0): ?>
-	<?php $this->load->view('setting/enable_track');?>
-	<script type="text/javascript">
-		$(window).on('load', function() {
-			$('#massageBox').modal('show');
-		});
-	</script>
-<?php endif; ?>
