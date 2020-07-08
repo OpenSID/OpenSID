@@ -8,9 +8,6 @@ class Hom_sid extends Admin_Controller {
 		parent::__construct();
 		session_start();
 
-		// Implementasi notifikasi update (github issue id: #3202 #3204)
-		$this->load->library('release');
-
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
@@ -20,9 +17,19 @@ class Hom_sid extends Admin_Controller {
 	public function index()
 	{
 		// Implementasi notifikasi update (github issue id: #3202 #3204)
-		$data['update_available'] = $this->release->isAvailable();
-		$data['current_version'] = $this->release->getCurrentVersion();
-		$data['latest_version'] = $this->release->getLatestVersion();
+		$this->load->library('release');
+
+		if ($this->release->hasInternetConnection()) {
+			$this->release->setApiUrl('https://api.github.com/repos/opensid/opensid/releases/latest')
+				->setInterval(7)
+				->setCacheFolder(FCPATH);
+
+			$data['update_available'] = $this->release->isAvailable();
+			$data['current_version'] = $this->release->getCurrentVersion();
+			$data['latest_version'] = $this->release->getLatestVersion();
+			$data['release_name'] = $this->release->getReleaseName();
+			$data['release_body'] = $this->release->getReleaseBody();
+		}
 
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();
