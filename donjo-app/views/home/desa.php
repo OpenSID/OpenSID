@@ -1,7 +1,19 @@
 <!-- Perubahan script coding untuk bisa menampilkan SID Home dalam bentuk tampilan bootstrap (AdminLTE)  -->
 <style type="text/css">
-	.text-white {color: white;}
-	.pengaturan {float: left; padding-left: 10px;}
+	.text-white {
+		color: white;
+	}
+	.pengaturan {
+		float: left;
+		padding-left: 10px;
+	}
+	.modal-body
+	{
+		overflow-y: auto;
+		height: 400px;
+		margin-left: 5px;
+		margin-right: 5px;
+	}
 </style>
 <div class="content-wrapper">
 	<section class='content-header'>
@@ -15,45 +27,44 @@
 		<div class='row'>
 			<?php if (isset($update_available) && $update_available): ?>
 				<div class='col-md-12'>
-					<div class="callout callout-danger update">
-						<h4><i class="fa fa-info-circle"></i> Update Tersedia!</h4>
-						<p>
+					<div class="callout callout-success update">
+						<h4><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Update Tersedia!</h4>
+						<p align="justify">
 							OpenSID versi <code><?=$latest_version ?></code> telah tersedia, versi yang anda gunakan saat ini <code><?=$current_version ?></code> mungkin mengandung celah keamanan yang pelu ditutup. Silahakan baca catatan rilis dan segera update sekarang juga.
-							<br>
-							<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-flat btn-success btn-sm pull-right" style="text-decoration: none">
-								<i class="fa fa-download"></i> Download
-							</a>
-							<button class="btn btn-flat btn-info btn-sm pull-right" data-toggle="modal" data-target="#modal-catatan-rilis">
-								<i class="fa fa-eye"></i> Catatan Rilis
-							</button>
-							<br>
 						</p>
+						<button class="btn btn-social btn-flat btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
+							<i class="fa fa-book"></i> Catatan Rilis
+						</button>
+						<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-social btn-flat bg-navy btn-sm" style="text-decoration: none">
+							<i class="fa fa-download none"></i> Unduh
+						</a>
 					</div>
 					<div id="modal-catatan-rilis" class="modal fade" role="dialog">
-					  <div class="modal-dialog">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					      	<button type="button" class="close" data-dismiss="modal">&times;</button>
-					        	<h4 class="modal-title">
-					        		<small class="label label-success"><?=$latest_version ?></small>
-					        		<?=nl2br($release_name) ?>
-					        	</h4>
-					      </div>
-					      <div class="modal-body">
-					        <p><?=nl2br($release_body) ?></p>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-					      </div>
-					    </div>
-
-					  </div>
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title"><i class="fa fa-book"></i>&nbsp;&nbsp;Catatan Rilis OpenSID <small class="label label-success"><?=$latest_version ?></small></h4>
+								</div>
+								<div class="modal-body">
+									<?=nl2br($release_body) ?>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+									<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-social btn-flat bg-navy btn-sm pull-right">
+										<i class="fa fa-download"></i> Unduh
+									</a>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			<?php endif; ?>
 			<div class='col-md-6'>
 				<div class='box box-info'>
-				 	<div class='box-body'>
+					<div class='box-body'>
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-purple">
 								<div class="inner">
@@ -99,7 +110,7 @@
 						<div class="col-lg-6 col-xs-6">
 							<div class="small-box bg-blue">
 								<div class="inner">
-										<h3><?=$jumlah_surat?></h3>
+									<h3><?=$jumlah_surat?></h3>
 									<p>Surat Tercetak</p>
 								</div>
 								<div class="icon">
