@@ -6,10 +6,10 @@
 			</div>
 			<div class='modal-body'>
 				<?= $isi_pengumuman; ?>
+				<center>
+					<i id="indikator" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+				</center>
 			</div>
-			<center>
-				<i id="indikator" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-			</center>
 			<div class='modal-footer'>
 				<button id="btnTidak" class="btn btn-social btn-flat btn-danger btn-sm"><i class='fa fa-sign-out'></i> Tidak</button>
 				<button id="btnSetuju" type="button" class="btn btn-social btn-flat btn-warning btn-sm"><i class='fa fa-check'></i> Setuju</button>
@@ -18,9 +18,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var url_setuju = "<?= site_url() ?>notif/update_pengumuman";
-	var url_tidaksetuju = "<?=site_url()?>siteman";
-
 	$('document').ready(function() {
 		$('#pengumuman').modal({backdrop: 'static', keyboard: false});
 		$('#indikator').hide();
@@ -32,7 +29,7 @@
 		$('#btnTidak').prop('disabled', true);
 		$.ajax({
 			type: "POST",
-			url: url_setuju,
+			url: SITE_URL + "notif/update_pengumuman",
 			success: function() {
 				$('#indikator').hide();
 				$('#pengumuman').modal('hide');
@@ -42,6 +39,6 @@
 	});
 
 	$('#btnTidak').on('click', function() {
-		location.href = url_tidaksetuju;
+		location.href = SITE_URL + "siteman";
 	});
 </script>

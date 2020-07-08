@@ -41,11 +41,14 @@ class Notif_model extends CI_Model {
 
 	public function update_by_kode($kode, $tgl_berikutnya, $updated_at, $updated_by)
 	{
-		$this->db->set('tgl_berikutnya', $tgl_berikutnya);
-		$this->db->set('updated_at', $updated_at);
-		$this->db->set('updated_by', $updated_by);
+		$data = [
+			'tgl_berikutnya' => $tgl_berikutnya,
+			'updated_at' => $updated_at,
+			'updated_by' => $updated_by
+		];
+
 		$this->db->where('kode', $kode);
-		$this->db->update('notifikasi');
+		$this->db->update('notifikasi', $data);
 	}
 
 	public function notifikasi($kode)

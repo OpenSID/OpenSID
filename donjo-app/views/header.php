@@ -127,6 +127,7 @@
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
+			var SITE_URL = "<?= site_url(); ?>";
 		</script>
 
 		<!-- Highcharts JS -->
