@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 7. Perbaharui Mapbox API dari Classic ke GL. [teknis]
 8. #3301: Sekarang bisa membuat backup folder desa langsung dari menu Pengaturan > Database.
 9. #3305: Sekarang peta format ESRI shapefile (.SHP) bisa diimpor ke semua pemetaan Desa / Dusun / RW / RT / Lokasi/ Garis / Area.
+10. Tampilkan infrastruktur desa (lokasi, area, garis) di Peta Web.
 
 
 
