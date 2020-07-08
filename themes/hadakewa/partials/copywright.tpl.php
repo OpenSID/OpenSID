@@ -13,8 +13,8 @@
 <div id="footer-right">
 	<ul id="global-nav-right" class="top">
 		<?php foreach ($sosmed As $data): ?>
-			<?php if (!empty($data["link"])): ?>
-				<li><a href="<?= $data['link']?>" target="_blank"><span style="color:#fff" ><i class="fa fa-<?= strtolower(str_replace(' ', '-', $data['nama']))?> fa-2x"></i></span></a></li>
+			<?php if (!empty($data['link'])): ?>
+				<li><a href="<?= $data['link']?>" target="_blank"><span style="color:#fff" ><i class="fa fa-<?= strtolower($data['nama']);?><?=in_array($data['id'], [1,2])?'-square' : '';?> fa-2x"></i></span></a></li>
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</ul>

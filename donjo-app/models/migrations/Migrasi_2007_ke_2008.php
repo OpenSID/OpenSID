@@ -10,6 +10,9 @@ class Migrasi_2007_ke_2008 extends CI_model {
 		$this->db->query("ALTER TABLE point MODIFY COLUMN simbol varchar(50) DEFAULT NULL");
 		$this->db->query("ALTER TABLE line MODIFY COLUMN tipe INT(4) NULL DEFAULT 0");
 		$this->db->query("ALTER TABLE line MODIFY COLUMN simbol varchar(50) DEFAULT NULL");
+
+		//Hapus sosmed google-plus
+		$this->db->delete('media_sosial', ['id' => '3']);
 	}
 
 }
