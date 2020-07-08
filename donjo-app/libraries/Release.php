@@ -7,7 +7,7 @@ class Release
      *
      * @var string
      */
-    protected $api = 'https://api.github.com/repos/opensid/opensid/releases/latest';
+    protected $api;
 
     /**
      * Lokasi file cache (absolute)
@@ -42,6 +42,18 @@ class Release
         if (! $this->interval) {
             $this->setInterval(7);
         }
+    }
+
+    /**
+     * Set URL endpoint API yang ingin di hit.
+     *
+     * @param string $url
+     */
+    public function setApiUrl($url)
+    {
+        $this->api = $url;
+
+        return $this;
     }
 
 
@@ -154,6 +166,10 @@ class Release
      */
     public function resyncWithOfficialRepository()
     {
+        if (! $this->api) {
+            throw new \Exception('Please specify the API endpoint URL.');
+        }
+
         if ($this->cacheIsOutdated()) {
             \Esyede\Curly::$certificate = FCPATH.DIRECTORY_SEPARATOR.'cacert.pem';
 
@@ -242,5 +258,19 @@ class Release
     public function readCache()
     {
         return file_get_contents($this->cache);
+    }
+
+    /**
+     * Cek apakah ada koneksi internet atau tidak.
+     *
+     * @return bool
+     */
+    public function hasInternetConnection()
+    {
+        try {
+            return false !== @fsockopen('www.google.com', 80);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
