@@ -178,7 +178,7 @@ class Release
 			$response = \Esyede\Curly::get($this->api, array(), $options);
 
 			if ($response instanceof \stdClass) {
-				$response = [
+				$response = array(
 					'tag_name' => $response->body->tag_name,
 					'name' => $response->body->name,
 					'zipball_url' => $response->body->zipball_url,
@@ -186,8 +186,7 @@ class Release
 					'body' => $response->body->body,
 					'created_at' => $response->body->created_at,
 					'published_at' => $response->body->published_at,
-
-				];
+				);
 
 				$this->writeCache(json_encode($response));
 			}
@@ -207,10 +206,7 @@ class Release
 	 */
 	public function cacheIsOutdated()
 	{
-		$file = $this->cache;
-		$interval = $this->interval;
-
-		return ! is_file($file) || (is_file($file) && (time() - filemtime($file)) < $interval);
+    return ! is_file($this->cache) || (time() > (filemtime($this->cache) + $this->interval));
 	}
 
 	/**
@@ -270,9 +266,9 @@ class Release
 		$connected = @fsockopen('www.google.com', 443);
 
     if ($connected) {
-      fclose($connected);
+        fclose($connected);
 
-      return true;
+        return true;
     }
 
     return false;
