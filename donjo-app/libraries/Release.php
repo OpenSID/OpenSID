@@ -267,10 +267,14 @@ class Release
      */
     public function hasInternetConnection()
     {
-        try {
-            return false !== @fsockopen('www.google.com', 80);
-        } catch (\Exception $e) {
-            return false;
+        $fsock = @fsockopen('www.google.com', 443);
+
+        if ($fsock) {
+            fclose($fsock);
+
+            return true;
         }
+
+        return false;
     }
 }
