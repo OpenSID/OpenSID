@@ -8,7 +8,6 @@
             </marquee>
             <?php endif; ?>
         </div>
-		<?php if ($this->setting->covid_data) $this->load->view($folder_themes."/partials/corona-kobar.php")?>
 		<?php if ($this->setting->covid_data) $this->load->view($folder_themes."/partials/corona-widget.php")?>
 		<?php if ($this->setting->covid_desa) $this->load->view($folder_themes."/partials/corona-local.php");?>
         <?php if ($headline): ?>
