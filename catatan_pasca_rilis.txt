@@ -1,4 +1,4 @@
-Catatan pra rilis versi 4.2:
+Catatan versi 4.2.1:
 
 1. Kini data statistik support menampilkan/menyembunyikan nilai 0.
 2. Penambahan kolom dusun pada tabel DPT.
