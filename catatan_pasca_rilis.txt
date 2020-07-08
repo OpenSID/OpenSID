@@ -17,5 +17,7 @@ Catatan pra rilis versi 4.2:
 15. Rapikan tampilan widget komentar.
 16. Penerapan Pengaturan Halaman Web.
 17. Perbaiki tampilan halaman statis.
+18. Tukar Posisi info COVID-19.
+19. Sediakan data cari yang sudah diamankan ke view beranda. [bug-fix].
 
 ****************************************************************

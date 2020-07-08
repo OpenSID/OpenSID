@@ -26,7 +26,7 @@
 		</div>
 		<div class="header_top_right">
 			<form method=get action="<?= site_url('first');?>" class="form-inline">
-				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= html_escape($_GET['cari']); ?>" placeholder="Cari Artikel"></td>
+				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel"></td>
 					<td>&nbsp;</td><td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
 				</form>
 			</div>
