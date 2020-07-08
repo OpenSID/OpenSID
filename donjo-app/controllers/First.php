@@ -1,4 +1,46 @@
 <?php
+/**
+ * File ini:
+ *
+ * Controller untuk Halaman Web
+ *
+ * /donjo-app/controllers/First.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -56,6 +98,9 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_manual_model');
 		$this->load->model('keuangan_grafik_model');
 		$this->load->model('keuangan_grafik_manual_model');
+		$this->load->model('plan_lokasi_model');
+		$this->load->model('plan_area_model');
+		$this->load->model('plan_garis_model');
 	}
 
 	public function auth()
@@ -667,6 +712,9 @@ class First extends Web_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['list_lap'] = $this->referensi_model->list_lap();
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
+		$data['lokasi'] = $this->plan_lokasi_model->list_data();
+		$data['garis'] = $this->plan_garis_model->list_data();
+		$data['area'] = $this->plan_area_model->list_data();
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
 		$this->_get_common_data($data);

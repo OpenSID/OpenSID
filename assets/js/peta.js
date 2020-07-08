@@ -846,6 +846,77 @@ function showCurrentArea(wilayah, layerpeta)
 	return showCurrentArea;
 }
 
+function setMarkerCustom(marker, layercustom)
+{
+	if (marker.length != 0)
+	{
+		var geojson = L.geoJSON(turf.featureCollection(marker), {
+			pmIgnore: true,
+			showMeasurements: true,
+			onEachFeature: function (feature, layer) {
+				layer.bindPopup(feature.properties.content);
+				layer.bindTooltip(feature.properties.content);
+			},
+			style: function(feature)
+			{
+				if (feature.properties.style)
+				{
+					return feature.properties.style;
+				}
+			},
+			pointToLayer: function (feature, latlng)
+			{
+				if (feature.properties.style)
+				{
+					return L.marker(latlng, {icon: feature.properties.style});
+				}
+				else
+				return L.marker(latlng);
+			}
+		});
+
+		layercustom.addLayer(geojson);
+	}
+
+	return setMarkerCustom;
+}
+
+function setMarkerCluster(marker, markersList, markers)
+{
+	if (marker.length != 0)
+	{
+		var geojson = L.geoJSON(turf.featureCollection(marker), {
+			pmIgnore: true,
+			showMeasurements: true,
+			onEachFeature: function (feature, layer) {
+				layer.bindPopup(feature.properties.content);
+				layer.bindTooltip(feature.properties.content);
+			},
+			style: function(feature)
+			{
+				if (feature.properties.style)
+				{
+					return feature.properties.style;
+				}
+			},
+			pointToLayer: function (feature, latlng)
+			{
+				if (feature.properties.style)
+				{
+					return L.marker(latlng, {icon: feature.properties.style});
+				}
+				else
+				return L.marker(latlng);
+			}
+		});
+
+		markersList.push(geojson);
+		markers.addLayer(geojson);
+	}
+
+	return setMarkerCluster;
+}
+
 $(document).ready(function()
 {
 	$('#modalKecil').on('show.bs.modal', function(e)
