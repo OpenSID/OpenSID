@@ -1,13 +1,12 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Hom_sid extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
@@ -16,10 +15,10 @@ class Hom_sid extends Admin_Controller {
 
 	public function index()
 	{
-		// Implementasi notifikasi update (github issue id: #3202 #3204)
 		$this->load->library('release');
 
-		if ($this->release->hasInternetConnection()) {
+		if ($this->release->hasInternetConnection())
+		{
 			$this->release->setApiUrl('https://api.github.com/repos/opensid/opensid/releases/latest')
 				->setInterval(7)
 				->setCacheFolder(FCPATH);

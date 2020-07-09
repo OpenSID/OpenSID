@@ -1,4 +1,3 @@
-<!-- Perubahan script coding untuk bisa menampilkan SID Home dalam bentuk tampilan bootstrap (AdminLTE)  -->
 <style type="text/css">
 	.text-white {
 		color: white;
@@ -30,7 +29,7 @@
 					<div class="callout callout-success update">
 						<h4><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Update Tersedia!</h4>
 						<p align="justify">
-							OpenSID versi <code><?=$latest_version ?></code> telah tersedia, versi yang anda gunakan saat ini <code><?=$current_version ?></code> mungkin mengandung celah keamanan yang pelu ditutup. Silahakan baca catatan rilis dan segera update sekarang juga.
+							OpenSID <code><?=$latest_version ?></code> telah tersedia, versi yang anda gunakan saat ini <code><?=$current_version ?></code> mungkin mengandung celah keamanan yang pelu ditutup. Silahakan baca catatan rilis dan segera update sekarang juga.
 						</p>
 						<button class="btn btn-social btn-flat btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
 							<i class="fa fa-book"></i> Catatan Rilis
@@ -77,7 +76,7 @@
 									<div class="icon">
 										<i class="ion ion-location"></i>
 									</div>
-									<a href="<?=site_url('sid_core')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url('sid_core')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-xs-6">
@@ -91,7 +90,7 @@
 									<div class="icon">
 										<i class="ion ion-person"></i>
 									</div>
-									<a href="<?=site_url('penduduk/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url('penduduk/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-xs-6">
@@ -105,7 +104,7 @@
 									<div class="icon">
 										<i class="ion ion-ios-people"></i>
 									</div>
-									<a href="<?=site_url('keluarga/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url('keluarga/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-xs-6">
@@ -117,7 +116,7 @@
 									<div class="icon">
 										<i class="ion-ios-paper"></i>
 									</div>
-									<a href="<?=site_url('keluar/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url('keluar/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-4 col-xs-4">
@@ -131,7 +130,7 @@
 									<div class="icon">
 										<i class="ion ion-android-people"></i>
 									</div>
-									<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-4 col-xs-4">
@@ -145,7 +144,7 @@
 									<div class="icon">
 										<i class="ion ion-ios-home"></i>
 									</div>
-									<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+									<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-4 col-xs-4">
@@ -161,7 +160,7 @@
 										<?php if ($this->CI->cek_hak_akses('u')): ?>
 											<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
 										<?php endif; ?>
-										<a href="<?=site_url().$bantuan['link_detail']?>" class="inner text-white">Lihat Detail  <i class="fa fa-arrow-circle-right"></i></a>
+										<a href="<?=site_url().$bantuan['link_detail']?>" class="inner text-white">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
 							</div>
