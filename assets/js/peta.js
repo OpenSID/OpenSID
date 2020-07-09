@@ -917,6 +917,88 @@ function setMarkerCluster(marker, markersList, markers)
 	return setMarkerCluster;
 }
 
+function set_marker_area(marker, daftar_path)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var jml_path;
+  for (var x = 0; x < jml;x++)
+  {
+    if (daftar[x].path)
+    {
+      daftar[x].path = JSON.parse(daftar[x].path)
+      jml_path = daftar[x].path[0].length;
+      for (var y = 0; y < jml_path; y++)
+      {
+        daftar[x].path[0][y].reverse()
+      }
+
+      var area_style = {
+        stroke: true,
+        opacity: 1,
+        weight: 2,
+        fillColor: daftar[x].color,
+        fillOpacity: 0.5
+      }
+
+      daftar[x].path[0].push(daftar[x].path[0][0])
+      marker.push(turf.polygon(daftar[x].path, {content: daftar[x].nama, style: area_style}));
+    }
+  }
+}
+
+function set_marker_garis(marker, daftar_path)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var coords;
+  var lengthOfCoords;
+  for (var x = 0; x < jml;x++)
+  {
+    if (daftar[x].path)
+    {
+      daftar[x].path = JSON.parse(daftar[x].path)
+      coords = daftar[x].path;
+      lengthOfCoords = coords.length;
+      for (i = 0; i < lengthOfCoords; i++)
+      {
+        holdLon = coords[i][0];
+        coords[i][0] = coords[i][1];
+        coords[i][1] = holdLon;
+      }
+
+      var garis_style = {
+        stroke: true,
+        opacity: 1,
+        weight: 3,
+        color: daftar[x].color
+      }
+
+      marker.push(turf.lineString(coords, {content: daftar[x].nama, style: garis_style}));
+    }
+  }
+}
+
+function set_marker_lokasi(marker, daftar_path, path_icon)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var path_foto = path_icon;
+  var point_style = {
+    iconSize: [32, 37],
+    iconAnchor: [16, 37],
+    popupAnchor: [0, -28],
+  };
+  for (var x = 0; x < jml; x++)
+  {
+    if (daftar[x].lat)
+    {
+      point_style.iconUrl = path_foto+daftar[x].simbol;
+      marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: daftar[x].nama,style: L.icon(point_style)}));
+    }
+  }
+}
+
 $(document).ready(function()
 {
 	$('#modalKecil').on('show.bs.modal', function(e)
