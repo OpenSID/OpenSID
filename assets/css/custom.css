@@ -84,3 +84,104 @@
     text-overflow: ellipsis;
     font-weight: bold;
 }
+.warna{
+	background-color: #e64946;
+	color: white;
+}
+.letak {
+  box-shadow: 0 -1px 2px rgba(0,0,0,0.3);
+  bottom: 0;
+  margin-bottom: 0;
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.letak nav {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: stretch;
+  align-items: stretch;
+}
+
+.letak nav a {
+  padding: 7px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.letak nav a:hover {
+  text-decoration: none;
+}
+
+.letak nav a span {
+  display: block;
+  text-align: center;
+}
+
+.letak .posisi {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.letak .posisi-text {
+  padding-bottom: 0;
+  font-size: .85em;
+}
+.cardc {
+	border-radius: 5px;
+	padding: 0px;
+	margin: 0px 15px 5px 15px;
+}
+.cardx {
+	border-radius: 5px;
+	padding: 0px;
+	margin: 3px 3px 3px 3px;
+}
+.cardz {
+	border-radius: 0px;
+	padding: 0px;
+	margin: 5px 0px 0px 5px;
+}
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 10px 10px;
+    position: relative;
+}
+.number-font {
+	font-size: 20px;
+    font-weight: bold;
+}
+.ml-auto, .mx-auto {
+    margin-left: auto !important;
+}
+.emot {
+	top: 10px;
+    float: right;
+    right: 10px;
+    position: absolute;
+}
+.heading-corona {
+	font-size: 14px;
+    font-weight: bold;
+}
+.caption-corona {
+	font-size: 10px;
+	text-transform: uppercase;
+}
+.ctitle {
+	text-transform: uppercase;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #ddd;
+    margin-bottom: 10px;
+}
