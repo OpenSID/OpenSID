@@ -1,9 +1,9 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<div class="row" style="margin-bottom:3px;">
-	<div class="col-lg-12 col-md-12"><br>
+<div class="row" style="margin-bottom:3px; margin-top:10px;">
+	<div class="col-lg-12 col-md-12">
 		<div class="header_top">
-			<div class="header_top_left"style="margin-bottom:10px;">
+			<div class="header_top_left"style="margin-bottom:0px;">
 				<ul class="top_nav">
 					<li>
 						<table>
@@ -24,7 +24,7 @@
 				</li>
 			</ul>
     		</div>
-    		<div class="navbar-right hidden-xs" style="margin-right: 15px; margin-top: 10px;">
+    		<div class="navbar-right hidden-xs" style="margin-right: 15px; margin-top: 15px;">
                   <?php foreach ($sosmed As $data): ?>
     	            <?php if (!empty($data["link"])): ?>
     	            <a href="<?= $data['link']?>" rel="noopener noreferrer" style="padding:2px;">
@@ -39,10 +39,10 @@
     	                <i class="fa fa-rss fa-2x"></i>
     	            </a>
     	       </div>
-    		<div class="visible-xs">
+    		<div class="visible-xs" style="margin-bottom: 5px;">
     			<form method=get action="<?= site_url('first');?>" class="form-inline">
     				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel"></td>
-					<td>&nbsp;</td><td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
+					<td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
 				</form>
 			</div>
 		</div>
