@@ -63,6 +63,11 @@ window.onload = function()
 	var marker_dusun = [];
 	var marker_rw = [];
 	var marker_rt = [];
+	var marker_area = [];
+	var marker_garis = [];
+	var marker_lokasi = [];
+	var markers = new L.MarkerClusterGroup();
+	var markersList = [];
 
 	//WILAYAH DESA
 	<?php if (!empty($desa['path'])): ?>
@@ -106,7 +111,54 @@ window.onload = function()
 	//Menambahkan zoom scale ke peta
 	L.control.scale().addTo(peta_lokasi);
 
+	//Menampilkan OverLayer Area, Garis, Lokasi
+	var layer_area = L.featureGroup();
+	var layer_garis = L.featureGroup();
+	var layer_lokasi = L.featureGroup();
+
+	var layerCustom = {
+		"Infrastruktur Desa": {
+			"Infrastruktur (Area)": layer_area,
+			"Infrastruktur (Garis)": layer_garis,
+			"Infrastruktur (Lokasi)": layer_lokasi
+		}
+	};
+
+	//OVERLAY AREA
+	<?php if (!empty($all_area)): ?>
+		set_marker_area(marker_area, '<?=addslashes(json_encode($all_area))?>');
+	<?php endif; ?>
+
+	//OVERLAY GARIS
+	<?php if (!empty($all_garis)): ?>
+		set_marker_garis(marker_garis, '<?=addslashes(json_encode($all_garis))?>');
+	<?php endif; ?>
+
+	//OVERLAY LOKASI DAN PROPERTI
+	<?php if (!empty($all_lokasi)): ?>
+		set_marker_lokasi(marker_lokasi, '<?=addslashes(json_encode($all_lokasi))?>', '<?= base_url()."assets/images/gis/point/"?>');
+	<?php endif; ?>
+
+	setMarkerCustom(marker_area, layer_area);
+	setMarkerCustom(marker_garis, layer_garis);
+	setMarkerCluster(marker_lokasi, markersList, markers);
+
+	peta_lokasi.on('layeradd layerremove', function () {
+		var bounds = new L.LatLngBounds();
+		peta_lokasi.eachLayer(function (layer) {
+			if(peta_lokasi.hasLayer(layer_lokasi)) {
+				peta_lokasi.addLayer(markers);
+			} else {
+				peta_lokasi.removeLayer(markers);
+			}
+			if (layer instanceof L.FeatureGroup) {
+				bounds.extend(layer.getBounds());
+			}
+		});
+	});
+
 	L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_lokasi);
+	L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_lokasi);
 
 }; //EOF window.onload
 </script>
