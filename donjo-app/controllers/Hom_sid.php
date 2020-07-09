@@ -10,18 +10,17 @@ class Hom_sid extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
+		$this->load->library('release');
 		$this->modul_ini = 1;
 	}
 
 	public function index()
 	{
-		$this->load->library('release');
-
 		if ($this->release->hasInternetConnection())
 		{
 			$this->release->setApiUrl('https://api.github.com/repos/opensid/opensid/releases/latest')
 				->setInterval(7)
-				->setCacheFolder(FCPATH);
+				->setCacheFolder(FCPATH.'desa');
 
 			$data['update_available'] = $this->release->isAvailable();
 			$data['current_version'] = $this->release->getCurrentVersion();

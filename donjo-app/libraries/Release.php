@@ -83,18 +83,17 @@ class Release
 	 */
 	public function setCacheFolder($folder)
 	{
-		$folder = ltrim($folder, FCPATH);
-		$folder = ltrim($folder, ltrim($folder, '/'), '\\');
-		$folder = rtrim($folder, rtrim($folder, '/'), '\\');
-		$folder = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+		$folder = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $folder);
+		$folder = str_replace(FCPATH, '', $folder);
+		$folder = trim($folder, DIRECTORY_SEPARATOR);
 
 		if (! is_dir($folder) || ! is_writable($folder)) {
 			$folder = FCPATH;
 		} else {
-			$folder = FCPATH.DIRECTORY_SEPARATOR.$folder;
+			$folder = FCPATH.$folder.DIRECTORY_SEPARATOR;
 		}
 
-		$this->cache = $folder.DIRECTORY_SEPARATOR.'version.json';
+		$this->cache = $folder.'version.json';
 
 		return $this;
 	}
@@ -171,7 +170,7 @@ class Release
 		}
 
 		if ($this->cacheIsOutdated()) {
-			\Esyede\Curly::$certificate = FCPATH.DIRECTORY_SEPARATOR.'cacert.pem';
+			\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
 
 			$options = array(CURLOPT_HTTPHEADER => array('Accept' => 'application/vnd.github.v3+json'));
 
