@@ -82,7 +82,7 @@ class Release
 	 * @param string $folder
 	 */
 	public function setCacheFolder($folder)
-	{;
+	{
 		$folder = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $folder);
 		$folder = str_replace(FCPATH, '', $folder);
 		$folder = trim($folder, DIRECTORY_SEPARATOR);
@@ -170,7 +170,7 @@ class Release
 		}
 
 		if ($this->cacheIsOutdated()) {
-			\Esyede\Curly::$certificate = FCPATH.DIRECTORY_SEPARATOR.'cacert.pem';
+			\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
 
 			$options = array(CURLOPT_HTTPHEADER => array('Accept' => 'application/vnd.github.v3+json'));
 
