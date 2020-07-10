@@ -1,5 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<?php
 /**
  * File ini:
  *
@@ -42,6 +43,7 @@
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
 <?php if($single_artikel["id"]) : ?>
 	<div class="artikel" id="<?= 'artikel-'.$single_artikel['judul']?>">

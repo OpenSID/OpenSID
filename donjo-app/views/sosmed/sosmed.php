@@ -1,3 +1,4 @@
+<?php
 /**
  * File ini:
  *
@@ -40,6 +41,7 @@
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
 <div class="content-wrapper">
 	<section class="content-header">
