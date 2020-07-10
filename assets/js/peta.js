@@ -997,6 +997,63 @@ function set_marker_lokasi(marker, daftar_path, path_icon)
   }
 }
 
+//Menampilkan OverLayer Area, Garis, Lokasi
+function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daftar_lokasi, path_icon)
+{
+  var marker_area = [];
+  var marker_garis = [];
+  var marker_lokasi = [];
+  var markers = new L.MarkerClusterGroup();
+  var markersList = [];
+
+	var layer_area = L.featureGroup();
+	var layer_garis = L.featureGroup();
+	var layer_lokasi = L.featureGroup();
+
+	var layerCustom = {
+		"Infrastruktur Desa": {
+			"Infrastruktur (Area)": layer_area,
+			"Infrastruktur (Garis)": layer_garis,
+			"Infrastruktur (Lokasi)": layer_lokasi
+		}
+	};
+
+	//OVERLAY AREA
+	if (daftar_path) {
+		set_marker_area(marker_area, daftar_path);
+	}
+
+	//OVERLAY GARIS
+	if (daftar_garis) {
+		set_marker_garis(marker_garis, daftar_garis);
+	}
+
+	//OVERLAY LOKASI DAN PROPERTI
+	if (daftar_lokasi) {
+		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon);
+	}
+
+	setMarkerCustom(marker_area, layer_area);
+	setMarkerCustom(marker_garis, layer_garis);
+	setMarkerCluster(marker_lokasi, markersList, markers);
+
+	peta.on('layeradd layerremove', function () {
+		var bounds = new L.LatLngBounds();
+		peta.eachLayer(function (layer) {
+			if(peta.hasLayer(layer_lokasi)) {
+				peta.addLayer(markers);
+			} else {
+				peta.removeLayer(markers);
+			}
+			if (layer instanceof L.FeatureGroup) {
+				bounds.extend(layer.getBounds());
+			}
+		});
+	});
+
+	return layerCustom;
+}
+
 $(document).ready(function()
 {
 	$('#modalKecil').on('show.bs.modal', function(e)
