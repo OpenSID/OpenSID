@@ -43,12 +43,12 @@
 	</section>
 </div>
 <script>
-	<?php if ($media === 'facebook'): ?>
-		$('document').ready(function()
-		{
-			$('#tipe').change(); // Pertama kali buka form
-		});
+	$('document').ready(function()
+	{
+		$('#tipe').change();
+	});
 
+	<?php if ($media === 'facebook'): ?>
 		function ubah_pesan(tipe)
 		{
 			if (tipe == 1)
@@ -63,11 +63,6 @@
 	<?php endif ?>
 
 	<?php if ($media === 'whatsapp'): ?>
-		$('document').ready(function()
-		{
-			$('#tipe').change(); // Pertama kali buka form
-		});
-
 		function ubah_pesan(tipe)
 		{
 			if (tipe == 1)
@@ -82,11 +77,6 @@
 	<?php endif ?>
 
 	<?php if ($media === 'telegram'): ?>
-		$('document').ready(function()
-		{
-			$('#tipe').change(); // Pertama kali buka form
-		});
-
 		function ubah_pesan(tipe)
 		{
 			if (tipe == 1)
@@ -110,6 +100,5 @@
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
 		<?php endif ?>
-
 	};
 </script>
