@@ -59,7 +59,7 @@
 	<ul id="global-nav-right" class="top">
 		<?php foreach ($sosmed As $data): ?>
 			<?php if (!empty($data['link'])): ?>
-				<li><a href="<?= $data['link']?>" target="_blank"><span style="color:#fff" ><i class="fa fa-<?= strtolower($data['nama']);?><?=in_array($data['id'], [1,2])?'-square' : '';?> fa-2x"></i></span></a></li>
+				<li><a href="<?= $data['link']?>" target="_blank"><span style="color:#fff" ><i class="fa fa-<?= strtolower($data['nama']);?><?= in_array($data['id'], [1,2]) ? '-square' : '';?> fa-2x"></i></span></a></li>
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</ul>

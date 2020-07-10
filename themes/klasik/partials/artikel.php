@@ -98,10 +98,6 @@
 				<li class="sbutton" id="wa_share"><a href="https://api.whatsapp.com/send?text=<?= site_url('artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
 				<li class="sbutton" id="tele_share"><a href="https://telegram.me/share/url?url=<?= site_url('artikel/'.buat_slug($single_artikel))?>&text=<?= $single_artikel["judul"]; ?>" target="_blank"><i class="fa fa-telegram" style="color:blue"></i>&nbsp;Telegram</a></li>
 			</ul>
-			<!--
-			<script src=\"http://static.ak.fbcdn.net/connect.php/js/FB.Share\" type=\"text/javascript\"></script>
-			<script src=\"http://platform.twitter.com/widgets.js\" type=\"text/javascript\"></script>
-			-->
 		</div>
 
 		<div class="form-group" id="kolom-komentar">
