@@ -172,7 +172,8 @@ function poligonWil(marker)
 {
 	var poligon_wil = L.geoJSON(turf.featureCollection(marker), {
     pmIgnore: true,
-		showMeasurements: true,
+    showMeasurements: true,
+    measurementOptions: {showSegmentLength: false},
     onEachFeature: function (feature, layer) {
     	if (feature.properties.name == 'kantor_desa')
     	{
@@ -599,9 +600,8 @@ function addPetaPoly(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1, showMeasurements: true, measurementOptions: {showSegmentLength: false} })
 		.addTo(layerpeta)
-		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
@@ -633,9 +633,8 @@ function addPetaLine(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1, showMeasurements: true, measurementOptions: {showSegmentLength: false} })
 		.addTo(layerpeta)
-		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
@@ -654,9 +653,8 @@ function showCurrentPolygon(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah)
+	var poligon_wilayah = L.polygon(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
-	.showMeasurements();
 
 	poligon_wilayah.on('pm:edit', function(e)
 	{
@@ -782,9 +780,8 @@ function showCurrentPoint(posisi1, layerpeta)
 
 function showCurrentLine(wilayah, layerpeta)
 {
-	var poligon_wilayah = L.polyline(wilayah)
+	var poligon_wilayah = L.polyline(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
-	.showMeasurements();
 
 	poligon_wilayah.on('pm:edit', function(e)
 	{
@@ -816,9 +813,8 @@ function showCurrentArea(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah)
+	var poligon_wilayah = L.polygon(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
-	.showMeasurements();
 
 	poligon_wilayah.on('pm:edit', function(e)
 	{
@@ -852,7 +848,8 @@ function setMarkerCustom(marker, layercustom)
 	{
 		var geojson = L.geoJSON(turf.featureCollection(marker), {
 			pmIgnore: true,
-			showMeasurements: true,
+      showMeasurements: true,
+      measurementOptions: {showSegmentLength: false},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup(feature.properties.content);
 				layer.bindTooltip(feature.properties.content);
@@ -887,7 +884,8 @@ function setMarkerCluster(marker, markersList, markers)
 	{
 		var geojson = L.geoJSON(turf.featureCollection(marker), {
 			pmIgnore: true,
-			showMeasurements: true,
+      showMeasurements: true,
+      measurementOptions: {showSegmentLength: false},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup(feature.properties.content);
 				layer.bindTooltip(feature.properties.content);
@@ -915,6 +913,145 @@ function setMarkerCluster(marker, markersList, markers)
 	}
 
 	return setMarkerCluster;
+}
+
+function set_marker_area(marker, daftar_path)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var jml_path;
+  for (var x = 0; x < jml;x++)
+  {
+    if (daftar[x].path)
+    {
+      daftar[x].path = JSON.parse(daftar[x].path)
+      jml_path = daftar[x].path[0].length;
+      for (var y = 0; y < jml_path; y++)
+      {
+        daftar[x].path[0][y].reverse()
+      }
+
+      var area_style = {
+        stroke: true,
+        opacity: 1,
+        weight: 2,
+        fillColor: daftar[x].color,
+        fillOpacity: 0.5
+      }
+
+      daftar[x].path[0].push(daftar[x].path[0][0])
+      marker.push(turf.polygon(daftar[x].path, {content: daftar[x].nama, style: area_style}));
+    }
+  }
+}
+
+function set_marker_garis(marker, daftar_path)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var coords;
+  var lengthOfCoords;
+  for (var x = 0; x < jml;x++)
+  {
+    if (daftar[x].path)
+    {
+      daftar[x].path = JSON.parse(daftar[x].path)
+      coords = daftar[x].path;
+      lengthOfCoords = coords.length;
+      for (i = 0; i < lengthOfCoords; i++)
+      {
+        holdLon = coords[i][0];
+        coords[i][0] = coords[i][1];
+        coords[i][1] = holdLon;
+      }
+
+      var garis_style = {
+        stroke: true,
+        opacity: 1,
+        weight: 3,
+        color: daftar[x].color
+      }
+
+      marker.push(turf.lineString(coords, {content: daftar[x].nama, style: garis_style}));
+    }
+  }
+}
+
+function set_marker_lokasi(marker, daftar_path, path_icon)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var path_foto = path_icon;
+  var point_style = {
+    iconSize: [32, 37],
+    iconAnchor: [16, 37],
+    popupAnchor: [0, -28],
+  };
+  for (var x = 0; x < jml; x++)
+  {
+    if (daftar[x].lat)
+    {
+      point_style.iconUrl = path_foto+daftar[x].simbol;
+      marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: daftar[x].nama,style: L.icon(point_style)}));
+    }
+  }
+}
+
+//Menampilkan OverLayer Area, Garis, Lokasi
+function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daftar_lokasi, path_icon)
+{
+  var marker_area = [];
+  var marker_garis = [];
+  var marker_lokasi = [];
+  var markers = new L.MarkerClusterGroup();
+  var markersList = [];
+
+	var layer_area = L.featureGroup();
+	var layer_garis = L.featureGroup();
+	var layer_lokasi = L.featureGroup();
+
+	var layerCustom = {
+		"Infrastruktur Desa": {
+			"Infrastruktur (Area)": layer_area,
+			"Infrastruktur (Garis)": layer_garis,
+			"Infrastruktur (Lokasi)": layer_lokasi
+		}
+	};
+
+	//OVERLAY AREA
+	if (daftar_path) {
+		set_marker_area(marker_area, daftar_path);
+	}
+
+	//OVERLAY GARIS
+	if (daftar_garis) {
+		set_marker_garis(marker_garis, daftar_garis);
+	}
+
+	//OVERLAY LOKASI DAN PROPERTI
+	if (daftar_lokasi) {
+		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon);
+	}
+
+	setMarkerCustom(marker_area, layer_area);
+	setMarkerCustom(marker_garis, layer_garis);
+	setMarkerCluster(marker_lokasi, markersList, markers);
+
+	peta.on('layeradd layerremove', function () {
+		var bounds = new L.LatLngBounds();
+		peta.eachLayer(function (layer) {
+			if(peta.hasLayer(layer_lokasi)) {
+				peta.addLayer(markers);
+			} else {
+				peta.removeLayer(markers);
+			}
+			if (layer instanceof L.FeatureGroup) {
+				bounds.extend(layer.getBounds());
+			}
+		});
+	});
+
+	return layerCustom;
 }
 
 $(document).ready(function()
