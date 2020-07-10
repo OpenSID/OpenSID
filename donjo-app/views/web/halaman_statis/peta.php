@@ -1,5 +1,53 @@
+<?php
+/**
+ * File ini:
+ *
+ * View untuk modul Pemetaan di Halaman Web
+ *
+ * /donjo-app/views/web/halaman_statis/peta.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
 <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 
 <script>
 (function()
@@ -22,13 +70,19 @@
 		//Inisialisasi tampilan peta
     var mymap = L.map('map').setView(posisi, zoom);
 
-    mymap.fitBounds(<?=$desa['path']?>);
+    //mymap.fitBounds(<?=$desa['path']?>);
 
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];
     var marker_dusun = [];
     var marker_rw = [];
     var marker_rt = [];
+    var marker_area = [];
+    var marker_garis = [];
+    var marker_lokasi = [];
+    var semua_marker = [];
+    var markers = new L.MarkerClusterGroup();
+    var markersList = [];
 
     //OVERLAY WILAYAH DESA
     <?php if (!empty($desa['path'])): ?>
@@ -61,6 +115,155 @@
 
     //Menambahkan zoom scale ke peta
     L.control.scale().addTo(mymap);
+
+    //Menampilkan OverLayer Area, Garis, Lokasi
+    var layer_area = L.featureGroup();
+    var layer_garis = L.featureGroup();
+    var layer_lokasi = L.featureGroup();
+
+    var layerCustom = {
+      "Infrastruktur Desa": {
+        "Infrastruktur (Area)": layer_area,
+        "Infrastruktur (Garis)": layer_garis,
+        "Infrastruktur (Lokasi)": layer_lokasi
+      }
+    };
+
+    //AREA
+    <?php if (!empty($area)): ?>
+      var daftar_area = JSON.parse('<?=addslashes(json_encode($area))?>');
+      var jml = daftar_area.length;
+      var jml_path;
+      var foto;
+      var content_area;
+      var lokasi_gambar = "<?= base_url().LOKASI_FOTO_AREA?>";
+
+      for (var x = 0; x < jml;x++)
+      {
+        if (daftar_area[x].path)
+        {
+          daftar_area[x].path = JSON.parse(daftar_area[x].path)
+          jml_path = daftar_area[x].path[0].length;
+          for (var y = 0; y < jml_path; y++)
+          {
+            daftar_area[x].path[0][y].reverse()
+          }
+          if (daftar_area[x].foto)
+          {
+            foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_area[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+          }
+          else
+          foto = "";
+          var area_style = {
+            stroke: true,
+            opacity: 1,
+            weight: 2,
+            fillColor: daftar_area[x].color,
+            fillOpacity: 0.5
+          }
+          content_area =
+          '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          '<h4 id="firstHeading" class="firstHeading">'+daftar_area[x].nama+'</h4>'+
+          '<div id="bodyContent">'+ foto +
+          '<p>'+daftar_area[x].desk+'</p>'+
+          '</div>'+
+          '</div>';
+          daftar_area[x].path[0].push(daftar_area[x].path[0][0])
+          marker_area.push(turf.polygon(daftar_area[x].path, {content: content_area, style: area_style}));
+        }
+      }
+    <?php endif; ?>
+
+    //GARIS
+    <?php if (!empty($garis)): ?>
+      var daftar_garis = JSON.parse('<?=addslashes(json_encode($garis))?>');
+      var jml = daftar_garis.length;
+      var coords;
+      var lengthOfCoords;
+      var foto;
+      var content_garis;
+      var lokasi_gambar = "<?= base_url().LOKASI_FOTO_GARIS?>";
+      for (var x = 0; x < jml;x++)
+      {
+        if (daftar_garis[x].path)
+        {
+          daftar_garis[x].path = JSON.parse(daftar_garis[x].path)
+          coords = daftar_garis[x].path;
+          lengthOfCoords = coords.length;
+          for (i = 0; i < lengthOfCoords; i++)
+          {
+            holdLon = coords[i][0];
+            coords[i][0] = coords[i][1];
+            coords[i][1] = holdLon;
+          }
+          if (daftar_garis[x].foto)
+          {
+            foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_garis[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+          }
+          else
+          foto = "";
+          var garis_style = {
+            stroke: true,
+            opacity: 1,
+            weight: 3,
+            color: daftar_garis[x].color
+          }
+          content_garis =
+          '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          '<h4 id="firstHeading" class="firstHeading">'+daftar_garis[x].nama+'</h4>'+
+          '<div id="bodyContent">'+ foto +
+          '<p>'+daftar_garis[x].desk+'</p>'+
+          '</div>'+
+          '</div>';
+          marker_garis.push(turf.lineString(coords, {content: content_garis, style: garis_style}));
+        }
+      }
+    <?php endif; ?>
+
+    //LOKASI DAN PROPERTI
+    <?php if (!empty($lokasi)): ?>
+      var daftar_lokasi = JSON.parse('<?=addslashes(json_encode($lokasi))?>');
+      var jml = daftar_lokasi.length;
+      var content;
+      var foto;
+      var lokasi_gambar = "<?= base_url().LOKASI_FOTO_LOKASI?>";
+      var path_foto = '<?= base_url()."assets/images/gis/point/"?>';
+      var point_style = {
+        iconSize: [32, 37],
+        iconAnchor: [16, 37],
+        popupAnchor: [0, -28],
+      };
+      for (var x = 0; x < jml; x++)
+      {
+        if (daftar_lokasi[x].lat)
+        {
+          point_style.iconUrl = path_foto+daftar_lokasi[x].simbol;
+          if (daftar_lokasi[x].foto)
+          {
+            foto = '<img src="'+lokasi_gambar+'sedang_'+daftar_lokasi[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+          }
+          else
+          foto = '';
+          content = '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          '<h4 id="firstHeading" class="firstHeading">'+daftar_lokasi[x].nama+'</h4>'+
+          '<div id="bodyContent">'+ foto +
+          '<p>'+daftar_lokasi[x].desk+'</p>'+
+          '</div>'+
+          '</div>';
+          marker_lokasi.push(turf.point([daftar_lokasi[x].lng, daftar_lokasi[x].lat], {content: content,style: L.icon(point_style)}));
+        }
+      }
+    <?php endif; ?>
+
+    setMarkerCustom(marker_area, layer_area);
+    setMarkerCustom(marker_garis, layer_garis);
+    setMarkerCluster(marker_lokasi, markersList, markers);
 
     var mylayer = L.featureGroup();
     var layerControl = {
@@ -107,18 +310,24 @@
           $('#covid_status').hide();
           $('#covid_status_local').hide();
         }
+        if(mymap.hasLayer(layer_lokasi)) {
+          mymap.addLayer(markers);
+        } else {
+          mymap.removeLayer(markers);
+        }
         if (layer instanceof L.FeatureGroup) {
           bounds.extend(layer.getBounds());
         }
       });
-      if (bounds.isValid()) {
-        mymap.fitBounds(bounds);
-      } else {
-        mymap.fitBounds(<?=$desa['path']?>);
-      }
+      //if (bounds.isValid()) {
+      //  mymap.fitBounds(bounds);
+      //} else {
+      //  mymap.fitBounds(<?=$desa['path']?>);
+      //}
     });
 
     var mainlayer = L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
+    var customlayer = L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(mymap);
     var covidlayer = L.control.layers('', layerControl, {position: 'topleft', collapsed: false}).addTo(mymap);
 
 		$('#isi_popup_dusun').remove();
@@ -198,3 +407,5 @@
 <script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 <script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
