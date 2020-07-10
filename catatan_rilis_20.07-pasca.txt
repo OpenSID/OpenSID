@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.07-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Andi Fahruddin Akas dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28 dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 
@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 8. #3301: Sekarang bisa membuat backup folder desa langsung dari menu Pengaturan > Database.
 9. #3305: Sekarang peta format ESRI shapefile (.SHP) bisa diimpor ke semua pemetaan Desa / Dusun / RW / RT / Lokasi/ Garis / Area.
 10. Tampilkan infrastruktur desa (lokasi, area, garis) di Peta Web.
+11. #3279: Hapus sosial media google pluss, serta tambahkan share artikel via telegram menggantikan google pluss
 
 
 
