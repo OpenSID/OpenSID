@@ -107,7 +107,7 @@ class Program_bantuan_model extends MY_Model {
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -169,6 +169,8 @@ class Program_bantuan_model extends MY_Model {
 			default:
 				break;
 		}
+
+		$data['program'] = $this->program_bantuan_model->get_peserta_program($sasaran, $data['kartu_nik']);
 
 		return $data;
 	}
@@ -707,7 +709,7 @@ class Program_bantuan_model extends MY_Model {
 		 * $cat => $sasaran adalah tipe/kategori si $id.
 		 *
 		 * */
-		$strSQL = "SELECT p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc
+		$strSQL = "SELECT p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc, p.status
 			FROM program_peserta o
 			LEFT JOIN program p ON p.id = o.program_id
 			WHERE ((o.peserta='".fixSQL($id)."') AND (p.sasaran='".fixSQL($cat)."'))";

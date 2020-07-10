@@ -11,24 +11,24 @@
 	</div>
 </div>
 <?php if ($detail["sasaran"] == 2): ?>
-<div class="form-group">
-	<label class="col-sm-4 col-lg-3 control-label">Nomer KK</label>
-	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['no_kk'];?>">
+	<div class="form-group">
+		<label class="col-sm-4 col-lg-3 control-label">Nomer KK</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['no_kk'];?>">
+		</div>
 	</div>
-</div>
-<div class="form-group">
-	<label class="col-sm-4 col-lg-3 control-label">Nama Kepala Keluarga</label>
-	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama_kk'];?>">
+	<div class="form-group">
+		<label class="col-sm-4 col-lg-3 control-label">Nama Kepala Keluarga</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama_kk'];?>">
+		</div>
 	</div>
-</div>
-<div class="form-group">
-	<label class="col-sm-4 col-lg-3 control-label">Status KK</label>
-	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['hubungan'];?>">
+	<div class="form-group">
+		<label class="col-sm-4 col-lg-3 control-label">Status KK</label>
+		<div class="col-sm-7">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['hubungan'];?>">
+		</div>
 	</div>
-</div>
 <?php endif; ?>
 <div class="form-group">
 	<label class="col-sm-4 col-lg-3 control-label">Alamat <?=$individu['judul']?></label>
@@ -58,5 +58,15 @@
 	<label class="col-sm-4 col-lg-3 control-label">Warga Negara / Agama <?=$individu['judul']?></label>
 	<div class="col-sm-7">
 		<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-4 col-lg-3 control-label">Bantuan <?=$individu['judul']?> Yang Sedang Diterima</label>
+	<div class="col-sm-7">
+		<?php foreach ($individu['program']['programkerja'] as $item): ?>
+			<?php if($item[status] == '1'): ?>
+				<a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]")?>" target="_blank"><span class="label label-success"><?= $item['nama']?></span>&nbsp;</a>
+			<?php endif; ?>
+		<?php endforeach; ?>
 	</div>
 </div>

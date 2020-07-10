@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Program_bantuan extends Admin_Controller {
 
@@ -38,9 +40,7 @@ class Program_bantuan extends Admin_Controller {
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['p'] = $p;
 		$data['func'] = 'index';
-		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
 
 		$this->load->view('header', $this->_header);
