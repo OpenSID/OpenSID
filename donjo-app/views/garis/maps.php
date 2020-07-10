@@ -2,7 +2,7 @@
 /**
  * File ini:
  *
- * View untuk modul Pemetaan
+ * View di modul Pemetaan
  *
  * /donjo-app/views/garis/maps.php
  *
@@ -182,7 +182,11 @@
     //Menghapus Peta wilayah
     hapusPeta(peta_garis);
 
+    // Menampilkan OverLayer Area, Garis, Lokasi
+    layerCustom = tampilkan_layer_area_garis_lokasi(peta_garis, '<?=addslashes(json_encode($all_area))?>', '<?=addslashes(json_encode($all_garis))?>', '<?=addslashes(json_encode($all_lokasi))?>', '<?= base_url()."assets/images/gis/point/"?>');
+
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_garis);
+    L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_garis);
 
   }; //EOF window.onload
 </script>

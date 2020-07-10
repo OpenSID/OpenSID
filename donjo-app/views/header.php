@@ -98,6 +98,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
 		<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Shapefile.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -123,6 +124,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
 		<script src="<?= base_url()?>assets/js/shp.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
