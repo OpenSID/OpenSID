@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 9. #3305: Sekarang peta format ESRI shapefile (.SHP) bisa diimpor ke semua pemetaan Desa / Dusun / RW / RT / Lokasi/ Garis / Area.
 10. Tampilkan infrastruktur desa (lokasi, area, garis) di Peta Web.
 11. #3279: Hapus sosial media google pluss, serta tambahkan share artikel via telegram menggantikan google pluss
+12. #3319: Tampilkan peta overlay area/garis/lokasi yg sdh ada di form ubah peta area/garis/lokasi.
 
 
 
