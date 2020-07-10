@@ -172,7 +172,8 @@ function poligonWil(marker)
 {
 	var poligon_wil = L.geoJSON(turf.featureCollection(marker), {
     pmIgnore: true,
-		showMeasurements: true,
+    showMeasurements: true,
+    measurementOptions: {showSegmentLength: false},
     onEachFeature: function (feature, layer) {
     	if (feature.properties.name == 'kantor_desa')
     	{
@@ -599,9 +600,8 @@ function addPetaPoly(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		var polygon = L.polygon(p, { color: '#A9AAAA', weight: 4, opacity: 1, showMeasurements: true, measurementOptions: {showSegmentLength: false} })
 		.addTo(layerpeta)
-		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
@@ -633,9 +633,8 @@ function addPetaLine(layerpeta)
 		latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1 })
+		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1, showMeasurements: true, measurementOptions: {showSegmentLength: false} })
 		.addTo(layerpeta)
-		.showMeasurements();
 
 		polygon.on('pm:edit', function(e)
 		{
@@ -654,9 +653,8 @@ function showCurrentPolygon(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah)
+	var poligon_wilayah = L.polygon(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
-	.showMeasurements();
 
 	poligon_wilayah.on('pm:edit', function(e)
 	{
@@ -782,9 +780,8 @@ function showCurrentPoint(posisi1, layerpeta)
 
 function showCurrentLine(wilayah, layerpeta)
 {
-	var poligon_wilayah = L.polyline(wilayah)
+	var poligon_wilayah = L.polyline(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
-	.showMeasurements();
 
 	poligon_wilayah.on('pm:edit', function(e)
 	{
@@ -816,9 +813,8 @@ function showCurrentArea(wilayah, layerpeta)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah)
+	var poligon_wilayah = L.polygon(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
-	.showMeasurements();
 
 	poligon_wilayah.on('pm:edit', function(e)
 	{
@@ -852,7 +848,8 @@ function setMarkerCustom(marker, layercustom)
 	{
 		var geojson = L.geoJSON(turf.featureCollection(marker), {
 			pmIgnore: true,
-			showMeasurements: true,
+      showMeasurements: true,
+      measurementOptions: {showSegmentLength: false},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup(feature.properties.content);
 				layer.bindTooltip(feature.properties.content);
@@ -887,7 +884,8 @@ function setMarkerCluster(marker, markersList, markers)
 	{
 		var geojson = L.geoJSON(turf.featureCollection(marker), {
 			pmIgnore: true,
-			showMeasurements: true,
+      showMeasurements: true,
+      measurementOptions: {showSegmentLength: false},
 			onEachFeature: function (feature, layer) {
 				layer.bindPopup(feature.properties.content);
 				layer.bindTooltip(feature.properties.content);
