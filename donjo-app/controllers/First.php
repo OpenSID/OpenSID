@@ -845,28 +845,6 @@ class First extends Web_Controller {
 		echo json_encode($data);
 	}
 
-	public function ajax_hapus_dokumen_pendukung()
-	{
-		$id_dokumen = $this->input->post('id_dokumen');
-		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
-		if (empty($data))
-		{
-			$data['success'] = -1;
-			$data['message'] = 'Tidak ditemukan';
-		}
-		elseif ($_SESSION['id'] != $data['id_pend'])
-		{
-			$data['success'] = -1;
-			$data['message'] = 'Anda tidak mempunyai hak akses itu';
-		}
-		else
-		{
-			$this->web_dokumen_model->delete($id_dokumen);
-			$data['success'] = $this->session->userdata('success') ? : '1';
-		}
-		echo json_encode($data);
-	}
-
 	public function ambil_data_covid()
 	{
 		if ($content = getUrlContent($this->input->post('endpoint')))
