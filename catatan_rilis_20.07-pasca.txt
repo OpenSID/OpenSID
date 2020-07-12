@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 11. #3279: Hapus sosial media google pluss, serta tambahkan share artikel via telegram menggantikan google pluss
 12. #3319: Tampilkan peta overlay area/garis/lokasi yg sdh ada di form ubah peta area/garis/lokasi.
 13. #3315: Hapus angka pada bidang garis di peta. Hanya tampilkan keseluruhan panjang garis dan luas area.
+14. #3118, #3282: Pengguna Layanan Mandiri sekarang hanya dapat mengubah/menghapus dokumen yang mereka unggah, atau yang diberi izin oleh petugas kantor desa.
 
 
 

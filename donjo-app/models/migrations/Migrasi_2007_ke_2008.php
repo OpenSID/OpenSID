@@ -57,6 +57,30 @@ class Migrasi_2007_ke_2008 extends CI_model {
 
 		//Hapus sosmed google-plus
 		$this->db->delete('media_sosial', ['id' => '3']);
+
+		// Catat user yg menggunggah dokumen
+		if (!$this->db->field_exists('created_at', 'dokumen'))
+		{
+			$this->dbforge->add_column('dokumen', 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+  		$fields = array();
+  		$fields['created_by'] = array(
+	        	'type' => 'varchar',
+	        	'constraint' => 16,
+	        );
+  		$fields['updated_by'] = array(
+	        	'type' => 'varchar',
+	        	'constraint' => 16,
+	        );
+  		$fields['dok_warga'] = array(
+	        	'type' => 'tinyint',
+	        	'constraint' => 1,
+	        	'default' => 0
+	        );
+			$this->dbforge->add_column('dokumen', $fields);
+  	}
+  	// Perbaharui view dokumen_hidup
+		$this->db->query("DROP VIEW dokumen_hidup");
+		$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
 	}
 
 }

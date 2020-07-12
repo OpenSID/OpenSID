@@ -767,11 +767,11 @@ class First extends Web_Controller {
 		{
 			$berkas = $data[$i]['satuan'];
 			$list_dokumen[$i][] = $data[$i]['no'];
+			$list_dokumen[$i][] = $data[$i]['id'];
 			$list_dokumen[$i][] = "<a href='".site_url("mandiri_web/unduh_berkas/".$data[$i][id])."/{$data[$i][id_pend]}"."'>".$data[$i]["nama"].'</a>';
 			$list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
 			$list_dokumen[$i][] = $data[$i]['nama'];
-			$list_dokumen[$i][] = $data[$i]['id'];
-			$list_dokumen[$i][] = $data[$i]['hidden'];
+			$list_dokumen[$i][] = $data[$i]['dok_warga'];
 		}
 		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
 		echo json_encode($list);
@@ -797,13 +797,13 @@ class First extends Web_Controller {
 
 		if ($_SESSION['id'])
 		{
-			$_POST['id_pend'] = $_SESSION['id'];
+			$_POST['id_pend'] = $this->session->id;
 			$id_dokumen = $this->input->post('id');
 			unset($_POST['id']);
 
 			if ($id_dokumen)
 			{
-				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->userdata('id'));
+				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->id, $mandiri = true);
 				if (!$hasil)
 				{
 					$data['success'] = -1;
@@ -812,10 +812,11 @@ class First extends Web_Controller {
 			}
 			else
 			{
-				$this->web_dokumen_model->insert();
+				$_POST['dok_warga'] = 1; // Boleh diubah di layanan mandiri
+				$this->web_dokumen_model->insert($mandiri = true);
 			}
-			$data['success'] = $this->session->userdata('success');
-			$data['message'] = $data['success'] == -1 ? $this->session->userdata('error_msg') : $success_msg;
+			$data['success'] = $this->session->success;
+			$data['message'] = $data['success'] == -1 ? $this->session->error_msg : $success_msg;
 		}
 		else
 		{
@@ -829,7 +830,7 @@ class First extends Web_Controller {
 	public function ajax_get_dokumen_pendukung()
 	{
 		$id_dokumen = $this->input->post('id_dokumen');
-		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->userdata('id'));
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->id);
 
 		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 
@@ -838,7 +839,7 @@ class First extends Web_Controller {
 			$data['success'] = -1;
 			$data['message'] = 'Tidak ditemukan';
 		}
-		elseif ($_SESSION['id'] != $data['id_pend'])
+		elseif ($this->session->id != $data['id_pend'])
 		{
 			$data = ['message' => 'Anda tidak mempunyai hak akses itu'];
 		}
