@@ -1,5 +1,49 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * File ini:
+ *
+ * Model untuk modul Program Bantuan
+ *
+ * donjo-app/models/Program_bantuan_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+
 class Program_bantuan_model extends MY_Model {
 
 	// Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
@@ -107,7 +151,7 @@ class Program_bantuan_model extends MY_Model {
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -169,6 +213,8 @@ class Program_bantuan_model extends MY_Model {
 			default:
 				break;
 		}
+
+		$data['program'] = $this->program_bantuan_model->get_peserta_program($sasaran, $data['id_peserta']);
 
 		return $data;
 	}
@@ -699,18 +745,19 @@ class Program_bantuan_model extends MY_Model {
 		return $this->db->select("*")->where("id", $program_id)->get("program")->row_array();
 	}
 
+	/*
+	 * Fungsi untuk menampilkan program bantuan yang sedang diterima peserta.
+	 * $id => id_peserta tergantung sasaran
+	 * $cat => sasaran program bantuan.
+	 *
+	 * */
 	public function get_peserta_program($cat, $id)
 	{
 		$data_program = false;
-		/*
-		 * fungsi untuk menampilkan keterlibatan $id dalam program intervensi yg telah dilakukan,
-		 * $cat => $sasaran adalah tipe/kategori si $id.
-		 *
-		 * */
-		$strSQL = "SELECT p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc
+		$strSQL = "SELECT p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc, p.status
 			FROM program_peserta o
 			LEFT JOIN program p ON p.id = o.program_id
-			WHERE ((o.peserta='".fixSQL($id)."') AND (p.sasaran='".fixSQL($cat)."'))";
+			WHERE ((o.peserta='".$id."') AND (p.sasaran='".$cat."'))";
 		$query = $this->db->query($strSQL);
 		if ($query->num_rows() > 0)
 		{
@@ -726,7 +773,7 @@ class Program_bantuan_model extends MY_Model {
 				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
 					FROM tweb_penduduk o
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE o.nik='".fixSQL($id)."'";
+					WHERE o.nik='".$id."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
@@ -747,7 +794,7 @@ class Program_bantuan_model extends MY_Model {
 				 * */
 				$strSQL = "SELECT o.nik_kepala, o.no_kk, p.nama, w.rt, w.rw, w.dusun FROM tweb_keluarga o
 					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster WHERE o.no_kk = '".fixSQL($id)."'";
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster WHERE o.no_kk = '".$id."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
@@ -789,7 +836,7 @@ class Program_bantuan_model extends MY_Model {
 				$strSQL = "SELECT k.id as id, k.nama as nama, p.nama as ketua, p.nik as nik, w.rt, w.rw, w.dusun FROM kelompok k
 				 LEFT JOIN tweb_penduduk p ON p.id = k.id_ketua
 				 LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-				 WHERE k.id='".fixSQL($id)."'";
+				 WHERE k.id='".$id."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
