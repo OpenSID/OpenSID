@@ -1,4 +1,48 @@
-<?php class Plan_point_model extends MY_Model {
+<?php
+/**
+ * File ini:
+ *
+ * Model untuk modul Pemetaan (Lokasi)
+ *
+ * /donjo-app/models/Plan_point_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
+class Plan_point_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -89,13 +133,13 @@
 		}
 		return $data;
 	}
+
 	private function validasi($post)
 	{
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
 		$data['simbol'] = $post['simbol'];
 		return $data;
 	}
-
 
 	public function insert()
 	{
@@ -213,5 +257,65 @@
 		return $data;
 	}
 
+	public function tambah_simbol()
+	{
+		$target_dir = "assets/images/gis/point/";
+		$target_file = $target_dir . basename($_FILES["simbol"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+		if(isset($_POST["submit"])) {
+			$check = getimagesize($_FILES["simbol"]["tmp_name"]);
+			if($check !== false) {
+				$uploadOk = 1;
+			} else {
+				$uploadOk = 0;
+			}
+		}
+
+		if (file_exists($target_file)) {
+			$uploadOk = 0;
+		}
+
+		if ($_FILES["simbol"]["size"] > 500000) {
+			$uploadOk = 0;
+		}
+
+		if($imageFileType != "png") {
+			$uploadOk = 0;
+		}
+
+		if ($uploadOk == 0) {
+			unset($data['simbol']);
+		} else {
+			if (move_uploaded_file($_FILES["simbol"]["tmp_name"], $target_file)) {
+				$data['simbol'] = basename( $_FILES["simbol"]["name"]);
+				$outp = $this->db->insert('gis_simbol', $data);
+			} else {
+				unset($data['simbol']);
+				//$outp = $this->db->insert('gis_simbol', $data);
+			}
+		}
+		status_sukses($outp);
+	}
+
+	public function delete_simbol($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		$outp = $this->db->where('id', $id)->delete('gis_simbol');
+		status_sukses($outp, $gagal_saja=true);
+	}
+
+	public function delete_simbol_file($simbol='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+		$target_dir = "assets/images/gis/point/";
+		$target_file = $target_dir . $simbol;
+
+		if (file_exists($target_file)) {
+			$outp = unlink($target_file);
+		}
+		status_sukses($outp, $gagal_saja=true);
+	}
 }
 ?>
