@@ -421,7 +421,16 @@ function httpPost($url, $params)
  */
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
-	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+	$connected = @fsockopen($sCheckHost, 443);
+
+  if ($connected)
+  {
+  	fclose($connected);
+
+  	return true;
+  }
+
+  return false;
 }
 
 function cek_bisa_akses_site($url)
