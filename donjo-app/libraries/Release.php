@@ -31,16 +31,19 @@ class Release
 	 */
 	public function __construct()
 	{
-		if (! class_exists('Esyede\Curly')) {
+		if (! class_exists('Esyede\Curly'))
+		{
 			require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Curly.php';
 		}
 
-		if (! $this->cache) {
-			$this->setCacheFolder(FCPATH);
+		if (! $this->cache)
+		{
+			$this->set_cache_folder(FCPATH);
 		}
 
-		if (! $this->interval) {
-			$this->setInterval(7);
+		if (! $this->interval)
+		{
+			$this->set_interval(7);
 		}
 	}
 
@@ -49,7 +52,7 @@ class Release
 	 *
 	 * @param string $url
 	 */
-	public function setApiUrl($url)
+	public function set_api_url($url)
 	{
 		$this->api = $url;
 
@@ -64,13 +67,13 @@ class Release
 	 *
 	 * @param int $interval
 	 */
-	public function setInterval($interval)
+	public function set_interval($interval)
 	{
 		$interval = (int) $interval;
-			$this->interval = $interval * 86400; // N * 86400 detik (1 hari)
+		$this->interval = $interval * 86400; // N * 86400 detik (1 hari)
 
-			return $this;
-		}
+		return $this;
+	}
 
 	/**
 	 * Set lokasi folder cache.
@@ -81,15 +84,18 @@ class Release
 	 *
 	 * @param string $folder
 	 */
-	public function setCacheFolder($folder)
+	public function set_cache_folder($folder)
 	{
 		$folder = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $folder);
 		$folder = str_replace(FCPATH, '', $folder);
 		$folder = trim($folder, DIRECTORY_SEPARATOR);
 
-		if (! is_dir($folder) || ! is_writable($folder)) {
+		if (! is_dir($folder) || ! is_writable($folder))
+		{
 			$folder = FCPATH;
-		} else {
+		}
+		else
+		{
 			$folder = FCPATH.$folder.DIRECTORY_SEPARATOR;
 		}
 
@@ -104,10 +110,10 @@ class Release
 	 *
 	 * @return bool
 	 */
-	public function isAvailable()
+	public function is_available()
 	{
-		$current = $this->fixVersioning($this->getCurrentVersion());
-		$latest = $this->fixVersioning($this->getLatestVersion());
+		$current = $this->fix_versioning($this->get_current_version());
+		$latest = $this->fix_versioning($this->get_latest_version());
 
 		return $current < $latest;
 	}
@@ -118,7 +124,7 @@ class Release
 	 *
 	 * @return string
 	 */
-	public function getCurrentVersion()
+	public function get_current_version()
 	{
 		return 'v'.ltrim(VERSION, 'v');
 	}
@@ -129,9 +135,9 @@ class Release
 	 *
 	 * @return string
 	 */
-	public function getLatestVersion()
+	public function get_latest_version()
 	{
-		return $this->resyncWithOfficialRepository()->tag_name;
+		return $this->resync()->tag_name;
 	}
 
 	/**
@@ -140,9 +146,9 @@ class Release
 	 *  'Sediakan QR Code dan masukkan APBDes secara manual'
 	 * @return string
 	 */
-	public function getReleaseName()
+	public function get_release_name()
 	{
-		return $this->resyncWithOfficialRepository()->name;
+		return $this->resync()->name;
 	}
 
 	/**
@@ -153,9 +159,9 @@ class Release
 	 *
 	 * @return string
 	 */
-	public function getReleaseBody()
+	public function get_release_body()
 	{
-		return $this->resyncWithOfficialRepository()->body;
+		return $this->resync()->body;
 	}
 
 	/**
@@ -163,21 +169,23 @@ class Release
 	 *
 	 * @return array
 	 */
-	public function resyncWithOfficialRepository()
+	public function resync()
 	{
-		if (! $this->api) {
+		if (! $this->api)
+		{
 			throw new \Exception('Please specify the API endpoint URL.');
 		}
 
-		if ($this->cacheIsOutdated()) {
+		if ($this->cache_is_outdated())
+		{
 			\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
 
-			$options = array(CURLOPT_HTTPHEADER => array('Accept' => 'application/vnd.github.v3+json'));
+			$options = [CURLOPT_HTTPHEADER => ['Accept' => 'application/vnd.github.v3+json']];
+			$response = \Esyede\Curly::get($this->api, [], $options);
 
-			$response = \Esyede\Curly::get($this->api, array(), $options);
-
-			if ($response instanceof \stdClass) {
-				$response = array(
+			if ($response instanceof \stdClass)
+			{
+				$response = [
 					'tag_name' => $response->body->tag_name,
 					'name' => $response->body->name,
 					'zipball_url' => $response->body->zipball_url,
@@ -185,13 +193,13 @@ class Release
 					'body' => $response->body->body,
 					'created_at' => $response->body->created_at,
 					'published_at' => $response->body->published_at,
-				);
+				];
 
-				$this->writeCache(json_encode($response));
+				$this->write(json_encode($response));
 			}
 		}
 
-		return json_decode($this->readCache($this->cache));
+		return json_decode($this->read($this->cache));
 	}
 
 	/**
@@ -203,7 +211,7 @@ class Release
 	 *
 	 * @return bool
 	 */
-	public function cacheIsOutdated()
+	public function cache_is_outdated()
 	{
     return ! is_file($this->cache) || (time() > (filemtime($this->cache) + $this->interval));
 	}
@@ -215,7 +223,7 @@ class Release
 	 *
 	 * @return int
 	 */
-	public function fixVersioning($version)
+	public function fix_versioning($version)
 	{
 			$version = preg_replace('/[^0-9.]/', '', $version); // 'v20.07-pasca' -> '20.07'
 			$version = str_replace('.', '0', $version); // '20.07' -> '20007'
@@ -231,13 +239,15 @@ class Release
 	 *
 	 * @return void
 	 */
-	public function writeCache($cache)
+	public function write($cache)
 	{
 		$file = $this->cache;
 		$interval = $this->interval;
 
-		if ($this->cacheIsOutdated()) {
-			if (is_file($file)) {
+		if ($this->cache_is_outdated())
+		{
+			if (is_file($file))
+			{
 				unlink($file);
 			}
 
@@ -250,7 +260,7 @@ class Release
 	 *
 	 * @return string
 	 */
-	public function readCache()
+	public function read()
 	{
 		return file_get_contents($this->cache);
 	}
@@ -260,16 +270,8 @@ class Release
 	 *
 	 * @return bool
 	 */
-	public function hasInternetConnection()
+	public function has_internet_connection()
 	{
-		$connected = @fsockopen('www.google.com', 443);
-
-    if ($connected) {
-        fclose($connected);
-
-        return true;
-    }
-
-    return false;
+		return cek_koneksi_internet();
 	}
 }
