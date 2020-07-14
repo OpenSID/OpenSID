@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 12. #3319: Tampilkan peta overlay area/garis/lokasi yg sdh ada di form ubah peta area/garis/lokasi.
 13. #3315: Hapus angka pada bidang garis di peta. Hanya tampilkan keseluruhan panjang garis dan luas area.
 14. #3118, #3282: Pengguna Layanan Mandiri sekarang hanya dapat mengubah/menghapus dokumen yang mereka unggah, atau yang diberi izin oleh petugas kantor desa.
+15. #3321: Sekarang Surat Keterangan Tidak Mampu dapat diubah untuk menampilkan jumlah anggota keluarga yang tidak dibatasi.
 
 
 

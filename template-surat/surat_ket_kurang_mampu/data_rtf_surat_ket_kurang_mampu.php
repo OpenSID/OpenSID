@@ -1,10 +1,10 @@
 <?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
 
 	$anggota = $this->keluarga_model->list_anggota($individu['id_kk'], array('dengan_kk'=>false));
-	for ($i = 0; $i < MAX_ANGGOTA; $i++)
+	for ($i = 0; $i < count($anggota); $i++)
 	{
 		$nomor = $i + 1;
-		if ($i < count($anggota))
+		if ($i <= count($anggota))
 		{
 			$nik = trim($anggota[$i],"'");
 			$array_replace = array(
