@@ -74,7 +74,7 @@ class Notif_model extends CI_Model {
 		$notif = $this->notif_model->get_notif_by_kode($kode);
 		$tgl_sekarang = date("Y-m-d H:i:s");
 
-		if (empty($this->input->post('cek_lagi')))
+		if (!empty($this->input->post('cek_lagi'))) /// jika checkbox 'jangan tampilkan lagi' dicentang
 		{
 			$frekuensi = $notif['frekuensi'];
 			$string_frekuensi = "+". $frekuensi . " Days";
