@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Data Penduduk</title>
+		<title>Data Persil</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
@@ -37,7 +37,7 @@
 							<th>NIK</th>
 							<th>Nama Pemilik</th>
 							<th>Luas (m2)</th>
-							<th>Nomor SPPT PBB</th>
+							<th>Nomor Objek Pajak</th>
 							<th>Tanggal Terdaftar</th>
 						</tr>
 					</thead>
@@ -49,7 +49,7 @@
 							<td class="textx"><?= $persil['nik']?></td>
 							<td><?= $persil['namapemilik']?></td>
 							<td><?= $persil['luas']?></td>
-							<td class="textx"><?= $persil['no_sppt_pbb']?></td>
+							<td class="textx"><?= $persil['no_objek_pajak']?></td>
 							<td><?= tgl_indo($persil['tanggal_daftar'])?></td>
 						</tr>
 						<?php endforeach; ?>

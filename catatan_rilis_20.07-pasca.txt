@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.07-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Rudy Purwanto, Suyadi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 
@@ -17,6 +17,10 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 11. #3279: Hapus sosial media google pluss, serta tambahkan share artikel via telegram menggantikan google pluss
 12. #3319: Tampilkan peta overlay area/garis/lokasi yg sdh ada di form ubah peta area/garis/lokasi.
 13. #3315: Hapus angka pada bidang garis di peta. Hanya tampilkan keseluruhan panjang garis dan luas area.
+14. #3118, #3282: Pengguna Layanan Mandiri sekarang hanya dapat mengubah/menghapus dokumen yang mereka unggah, atau yang diberi izin oleh petugas kantor desa.
+15. #3321: Sekarang Surat Keterangan Tidak Mampu dapat diubah untuk menampilkan jumlah anggota keluarga yang tidak dibatasi.
+16. #2152: Sesuaikan pencatatan dan pelaporan data persil dengan C-Desa.
+17. #3204: Tampilkan notifikasi di Dashboard Admin apabila ada rilis OpenSID yg lebih baru.
 
 
 

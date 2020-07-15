@@ -1,3 +1,9 @@
+<style type="text/css">
+	#dok_warga label {
+		padding-left: 10px;
+	}
+</style>
+
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script>
 $(document).ready(function() {
@@ -40,6 +46,12 @@ $(document).ready(function() {
 								</span>
 							</div>
 							<p class="help-block">Kosongkan jika tidak ingin mengubah dokumen.</p>
+						</div>
+						<div class="form-group" id="dok_warga">
+							<div class="input-group input-group-sm">
+								<input type="checkbox" name="dok_warga" <?php jecho($dokumen['dok_warga'], 1, 'checked')?>>
+								<label>Boleh diubah oleh warga melalui Layanan Mandiri</label>
+							</div>
 						</div>
 						<?php if (!empty($kk)): ?>
 							<hr>
