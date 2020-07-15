@@ -16,7 +16,7 @@
 		image_advtab: true ,
 		external_filemanager_path:"<?= base_url()?>assets/filemanager/",
 		filemanager_title:"Responsive Filemanager" ,
-		filemanager_access_key:"<?= config_item('file_manager')?>",
+		filemanager_access_key:"<?= $this->session->fm_key; ?>",
 		external_plugins:
 		{
 			"filemanager" : "<?= base_url()?>assets/filemanager/plugin.min.js"
