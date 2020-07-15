@@ -147,7 +147,7 @@
 																	  </td>
 																		<td width="60%"><?= $data['nama']?></td>
 																		<td><?= $data['aktif']?></td>
-																		<td><img src="<?= base_url("assets/images/gis/point")?>/<?= $data['simbol']?>"></td>
+																		<td><img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $data['simbol']?>"></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>
