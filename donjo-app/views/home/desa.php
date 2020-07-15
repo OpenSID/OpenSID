@@ -1,3 +1,48 @@
+<?php
+/**
+ * File ini:
+ *
+ * View untuk halaman dashboard Admin
+ *
+ * donjo-app/views/home/desa.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <style type="text/css">
 	.text-white {
 		color: white;
@@ -29,7 +74,7 @@
 					<div class="callout callout-success update">
 						<h4><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Update Tersedia!</h4>
 						<p align="justify">
-							OpenSID <code><?=$latest_version ?></code> telah tersedia, versi yang anda gunakan saat ini <code><?=$current_version ?></code> mungkin mengandung celah keamanan yang pelu ditutup. Silahakan baca catatan rilis dan segera update sekarang juga.
+							OpenSID <code><?=$latest_version ?></code> telah tersedia. Periksa catatan rilis untuk melihat daftar perubahan di versi ini. Sangat dianjurkan untuk update ke versi terkini, karena setiap rilis berisi perbaikan termasuk peningkatan keamanan data sejak versi yang anda gunakan saat ini <code><?=$current_version ?></code>. Petunjuk melakukan update dapat dilihat di <a href="https://github.com/OpenSID/OpenSID/wiki/Panduan-Update-OpenSID" target="_blank">sini</a>.
 						</p>
 						<button class="btn btn-social btn-flat btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
 							<i class="fa fa-book"></i> Catatan Rilis

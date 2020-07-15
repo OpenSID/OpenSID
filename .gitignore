@@ -48,7 +48,7 @@ sftp-config.json
 *.pem
 version.json
 
-# Abaikan file cache milik phpintel (plugin sublime text) - nitip pak
+# Abaikan file cache milik phpintel (plugin sublime text)
 .phpintel/*
 
 

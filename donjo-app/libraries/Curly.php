@@ -3,7 +3,7 @@
  * Curly - Simple cURL Library for PHP 5.4+
  * Ported to PHP 5.3+ by @esyede
  *
- *  @author  Suyadi <suyadi.1992@gmail.com>
+ * @author   Suyadi <suyadi.1992@gmail.com>
  * @license  MIT
  * @see      https://github.com/esyede/curly
  */
