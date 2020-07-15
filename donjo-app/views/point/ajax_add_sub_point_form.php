@@ -95,7 +95,7 @@
 											<li <?php if ($point['simbol']==$data['simbol']): ?>class="active"<?php endif; ?> onclick="li_active($(this).val());">
 												<label>
 													<input type="radio" name="simbol" id="simbol" class="input-hidden hidden" value="<?= $data['simbol']?>" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
-													<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?>/<?= $data['simbol']?>">
+													<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $data['simbol']?>">
 													<span class="glyphicon-class"><?= $data['simbol']?></span>
 												</label>
 											</li>
