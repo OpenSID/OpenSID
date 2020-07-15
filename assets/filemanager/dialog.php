@@ -354,7 +354,7 @@ $get_params = http_build_query($get_params);
             var image_editor= <?php echo $config['tui_active']?"true":"false";?>;
         </script>
 
-        
+
         <script src="js/include.js?v=<?php echo $version; ?>"></script>
 </head>
 <body>
@@ -1151,7 +1151,7 @@ $files = $sorted;
                 <a href="javascript:void('')" class="link" data-file="<?php echo $file;?>" data-function="<?php echo $apply;?>">
                 <div class="img-precontainer">
                     <?php if($is_icon_thumb){ ?><div class="filetype"><?php echo $file_array['extension'] ?></div><?php } ?>
-                    
+
                     <div class="img-container">
                         <img class="<?php echo $show_original ? "original" : "" ?><?php echo $is_icon_thumb ? " icon" : "" ?>" data-src="<?php echo $src_thumb;?>">
                     </div>
@@ -1267,11 +1267,11 @@ $files = $sorted;
                         echo "'$aopt_key':".json_encode($aopt_val).",";
                     }
                 } ?>
-            }; 
+            };
         </script>
 
         <script>
-        if (image_editor) { 
+        if (image_editor) {
             //TUI initial init with a blank image (Needs to be initiated before a dynamic image can be loaded into it)
             var imageEditor = new tui.ImageEditor('#tui-image-editor', {
                 includeUI: {
