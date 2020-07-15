@@ -43,7 +43,7 @@ class Data_persil_model extends MY_Model {
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
 			->join('mutasi_cdesa m', 'p.id = m.id_persil', 'left')
 			->join('cdesa c', 'c.id = p.cdesa_awal', 'left')
-			->group_by('p.nomor, nomor_urut_bidang');
+			->group_by('p.id, nomor_urut_bidang');
 		$this->search_sql();
 	}
 
