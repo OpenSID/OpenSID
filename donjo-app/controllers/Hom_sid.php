@@ -1,20 +1,34 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Hom_sid extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
+		$this->load->library('release');
 		$this->modul_ini = 1;
 	}
 
 	public function index()
 	{
+		if ($this->release->hasInternetConnection())
+		{
+			$this->release->set_api_url('https://api.github.com/repos/opensid/opensid/releases/latest')
+				->set_interval(7)
+				->set_cache_folder(FCPATH.'desa');
+
+			$data['update_available'] = $this->release->is_available();
+			$data['current_version'] = $this->release->get_current_version();
+			$data['latest_version'] = $this->release->get_latest_version();
+			$data['release_name'] = $this->release->get_release_name();
+			$data['release_body'] = $this->release->get_release_body();
+		}
+
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();
 		$data['keluarga'] = $this->header_model->keluarga_total();
