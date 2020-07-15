@@ -1,4 +1,46 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * File ini:
+ *
+ * Controller di Modul Pemetaan
+ *
+ * /donjo-app/controllers/Gis.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
 
 class Gis extends Admin_Controller {
 
@@ -42,9 +84,6 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['status_penduduk']);
 		unset($_SESSION['layer_penduduk']);
 		unset($_SESSION['layer_keluarga']);
-		unset($_SESSION['layer_wilayah']);
-		unset($_SESSION['layer_lokasi']);
-		unset($_SESSION['layer_area']);
 		$_SESSION['layer_keluarga'] == 0;
 		redirect('gis');
 	}
@@ -78,7 +117,7 @@ class Gis extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$variabel_sesi = array('layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis');
+		$variabel_sesi = array('layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_dusun', 'layer_rw', 'layer_rt');
 		foreach ($variabel_sesi as $variabel)
 		{
 			$data[$variabel] = $this->session->userdata($variabel) ?: 0;
@@ -89,9 +128,9 @@ class Gis extends Admin_Controller {
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
-		$data['lokasi'] = $this->plan_lokasi_model->list_data();
-		$data['garis'] = $this->plan_garis_model->list_data();
-		$data['area'] = $this->plan_area_model->list_data();
+		$data['lokasi'] = $this->plan_lokasi_model->list_lokasi();
+		$data['garis'] = $this->plan_garis_model->list_garis();
+		$data['area'] = $this->plan_area_model->list_area();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
@@ -143,24 +182,6 @@ class Gis extends Admin_Controller {
 			$_SESSION['layer_penduduk'] = 1;
 			$_SESSION['layer_keluarga'] = 0;
 		}
-		redirect('gis');
-	}
-
-	public function layer_wilayah()
-	{
-		$_SESSION['layer_wilayah'] = $this->input->post('layer_wilayah') ? 1 : 0;
-		redirect('gis');
-	}
-
-	public function layer_area()
-	{
-		$_SESSION['layer_area'] = $this->input->post('layer_area') ? 1 : 0;
-		redirect('gis');
-	}
-
-	public function layer_lokasi()
-	{
-		$_SESSION['layer_lokasi'] = $this->input->post('layer_lokasi') ? 1 : 0;
 		redirect('gis');
 	}
 
@@ -300,9 +321,4 @@ class Gis extends Admin_Controller {
 		return $data;
 	}
 
-	public function layer_garis()
-	{
-		$_SESSION['layer_garis'] = $this->input->post('layer_garis') ? 1 : 0;
-		redirect('gis');
-	}
 }
