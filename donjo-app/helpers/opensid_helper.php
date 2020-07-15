@@ -4,7 +4,7 @@ define("VERSION", '20.07-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020070102');
+define('VERSI_DATABASE', '2020070103');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -840,6 +840,53 @@ function buat_slug($data_slug)
 {
 	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
 	return $slug;
+}
+
+function luas($int=0, $satuan="meter")
+{
+	if (($int / 10000) >= 1)
+	{
+		$ukuran = $int/10000;
+		$pisah = explode('.', $ukuran);
+		$luas['ha'] = number_format($pisah[0]);
+		$luas['meter'] = round(($ukuran-$luas["ha"])*10000, 2);
+	}
+	else
+	{
+		$luas['ha'] =0;
+		$luas['meter'] = round($int,2);
+	}
+	$hasil = ($int!=0)?$luas[$satuan]:null;
+	return $hasil;
+}
+
+function list_mutasi($mutasi=[])
+{
+	if($mutasi)
+	{
+		foreach($mutasi as $item)
+		{
+			$div = ($item['jenis_mutasi'] == 2)? 'class="error"':null;
+			$hasil = "<p $div>";
+			$hasil .= $item['sebabmutasi'];
+			$hasil .= !empty($item['no_c_desa']) ? " ".ket_mutasi_persil($item['jenis_mutasi'])." C No ".sprintf("%04s",$item['no_c_desa']): null;
+			$hasil .= !empty($item['luasmutasi']) ? ", Seluas ".number_format($item['luasmutasi'])." m<sup>2</sup>, " : null;
+			$hasil .= !empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi'])."<br />" : null;
+			$hasil .= !empty($item['keterangan']) ? $item['keterangan']: null;
+			$hasil .= "</p>";
+
+			echo $hasil;
+		}
+	}
+}
+
+function ket_mutasi_persil($id=0)
+{
+	if ($id==1)
+		$ket = "dari";
+	else
+		$ket = "ke";
+	return $ket;
 }
 
 function status_sukses($outp, $gagal_saja=false)

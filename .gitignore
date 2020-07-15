@@ -42,5 +42,6 @@ log-*.php
 info.php
 **/.DS_Store
 mitra
+sftp-config.json
 
 

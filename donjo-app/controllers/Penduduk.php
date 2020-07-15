@@ -726,6 +726,7 @@ class Penduduk extends Admin_Controller {
 		redirect("penduduk");
 	}
 
+
 	public function autocomplete()
 	{
 		$data = $this->penduduk_model->autocomplete($this->input->post('cari'));
