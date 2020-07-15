@@ -92,6 +92,18 @@ class Notif_model extends CI_Model {
 		$this->notif_model->update_by_kode($kode, $tgl_berikutnya, $tgl_sekarang, $user);
 	}
 
+	// query semua notifikasi yang siap untuk tampil
+	// order by 'id' dengan asumsi id=1 adalah Persetujuan Penggunaan 
+	public function get_semua_notif()
+	{
+		$hari_ini = new DateTime();
+		$compare = $hari_ini->format('Y-m-d H:i:s');
+		$semua_notif = $this->db->where('tgl_berikutnya <=', $compare)
+								->order_by('id', 'ASC')
+								->get('notifikasi')->result_array();
+		return $semua_notif;
+	}
+
 }
 
 ?>

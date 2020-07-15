@@ -17,7 +17,8 @@
 					<?php endif ?>
 				</div>
 				<center>
-					<i id="indikator" class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+				<div id="indikator" class='text-center'>
+					<img src='<?= base_url()?>assets/images/background/loading.gif'>
 				</center>
 			</div>
 			<div class='modal-footer' id='m_footer'> 
