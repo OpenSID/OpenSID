@@ -19,7 +19,6 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->periksa_config();
 				/* set klasik theme if not exist */
         if (empty($this->setting->web_theme))
         {
@@ -33,21 +32,6 @@ class MY_Controller extends CI_Controller {
         }
         // declare main template
         $this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
-		}
-
-		// Paksa harus ubah setting default di desa/config/config.php
-		private function periksa_config()
-		{
-			if (config_item('file_manager') != 'GantiKunciDesa') return;
-
-			$heading = 'Ubah Setting Default';
-			$message = 'Setting anda di file desa/config/config.php masih menggunakan setting default. Ubah dulu ke setting yg lebih aman sebelum menggunakan OpenSID.';
-			// Conflict kalau gunakan load_class()
-			// https://stackoverflow.com/questions/15207937/codeigniter-command-line-error-php-fatal-error-class-ci-controller-not-foun
-			require_once('system/core/Exceptions.php');
-			$error = new CI_Exceptions('core');
-			echo $error->show_error($heading, $message, 'error_general', 403);
-			exit(8);
 		}
 
 		// --------------------------------------------------------------------
@@ -227,4 +211,3 @@ class Admin_Controller extends MY_Controller
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 }
-

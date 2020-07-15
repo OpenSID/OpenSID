@@ -10,12 +10,6 @@
 */
 // $config['demo_mode'] = 'y';
 
-/*
-	Password untuk File Manager yg digunakan pada form isian artikel.
-	Gunakan password yg sulit ditebak manusia maupun program otomatis.
-*/
-	$config['file_manager'] = "GantiKunciDesa";
-
 // Setting ini untuk menentukan user yang dipercaya. User dengan id di setting ini
 // dapat membuat artikel berisi video yang aktif ditampilkan di Web.
 // Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
