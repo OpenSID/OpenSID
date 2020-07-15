@@ -127,13 +127,11 @@
 									<div  class="vertical-scrollbar" style="max-height:460px;">
 									  <ul id="icons" class="bs-glyphicons">
 											<?php foreach ($simbol as $data): ?>
-												<li <?php if ($data['simbol']==$data['simbol']): ?>class="" id="simbol_active" <?php endif; ?> onclick="li_active($(this).val());">
+												<li>
 													<label>
-														<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
+														<img src="<?= base_url(); ?>LOKASI_SIMBOL_LOKASI<?= $data['simbol']?>">
 														<span class="glyphicon-class"><?= $data['simbol']?></span>
-														<table class="table-condensed">
-															<td><a href="#" data-href="<?= site_url("point/delete_simbol/$p/$o/$data[id]/$data[simbol]")?>" class="btn btn-social btn-flat btn-danger btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus</a></td>
-														</table>
+														<a href="#" data-href="<?= site_url("point/delete_simbol/$data[id]/$data[simbol]")?>" class="btn btn-danger btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</label>
 												</li>
 											<?php endforeach;?>
@@ -192,20 +190,4 @@ $(document).ready(function(){
 	});
 
 });
-</script>
-<script>
-	function li_active()
-	{
-    $('li').click( function()
-		{
-      $('li.active').removeClass('active');
-      $(this).addClass('active');
-      $(this).children("input[type=checkbox]").click();
-    });
-	};
-	function reset_form()
-	{
-		$('li.active').removeClass('active');
-		$('#simbol_active').addClass('active');
-	};
 </script>

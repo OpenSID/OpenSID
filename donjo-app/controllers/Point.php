@@ -255,11 +255,8 @@ class Point extends Admin_Controller {
 		redirect("point/form_simbol");
 	}
 
-	public function form_simbol($p = 1, $o = 0, $id = '')
+	public function form_simbol($id = '')
 	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
 		$data['simbol'] = $this->plan_point_model->list_simbol();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
@@ -271,7 +268,7 @@ class Point extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function delete_simbol($p = 1, $o = 0, $id = '', $simbol = '')
+	public function delete_simbol($id = '', $simbol = '')
 	{
 		$this->plan_point_model->delete_simbol($id);
 		$this->plan_point_model->delete_simbol_file($simbol);

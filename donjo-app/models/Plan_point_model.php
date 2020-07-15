@@ -259,63 +259,62 @@ class Plan_point_model extends MY_Model {
 
 	public function tambah_simbol()
 	{
-		$target_dir = "assets/images/gis/point/";
-		$target_file = $target_dir . basename($_FILES["simbol"]["name"]);
-		$uploadOk = 1;
-		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+		$vdir_upload = LOKASI_SIMBOL_LOKASI;
+		$vfile_upload = $vdir_upload . basename($_FILES["simbol"]["name"]);
+		$fupload_name = basename($_FILES["simbol"]["name"]);
 
-		if(isset($_POST["submit"])) {
-			$check = getimagesize($_FILES["simbol"]["tmp_name"]);
-			if($check !== false) {
-				$uploadOk = 1;
-			} else {
-				$uploadOk = 0;
-			}
+		$error = periksa_file('simbol', unserialize(MIME_TYPE_SIMBOL), unserialize(EXT_SIMBOL));
+		if ($error != '')
+		{
+			$this->session->set_userdata('success', -1);
+			$this->session->set_userdata('error_msg', $error);
+			return null;
+		}
+		move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
+
+		$im_src = imagecreatefrompng($vfile_upload);
+		$src_width = imageSX($im_src);
+		$src_height = imageSY($im_src);
+		if (($src_width * 3) < ($src_height * 3))
+		{
+			$dst_width = 32;
+			$dst_height = ($dst_width/$src_width)*$src_height;
+			$cut_height = $dst_height - 32;
+
+			$im = imagecreatetruecolor(32, 32);
+			imagecopyresampled($im, $im_src, 0, 0, 0, $cut_height, $dst_width, $dst_height, $src_width, $src_height);
+		}
+		else
+		{
+			$dst_height = 32;
+			$dst_width = ($dst_height/$src_height)*$src_width;
+			$cut_width = $dst_width - 32;
+
+			$im = imagecreatetruecolor(32, 32);
+			imagecopyresampled($im, $im_src, 0, 0, $cut_width, 0, $dst_width, $dst_height, $src_width, $src_height);
 		}
 
-		if (file_exists($target_file)) {
-			$uploadOk = 0;
-		}
-
-		if ($_FILES["simbol"]["size"] > 500000) {
-			$uploadOk = 0;
-		}
-
-		if($imageFileType != "png") {
-			$uploadOk = 0;
-		}
-
-		if ($uploadOk == 0) {
-			unset($data['simbol']);
-		} else {
-			if (move_uploaded_file($_FILES["simbol"]["tmp_name"], $target_file)) {
-				$data['simbol'] = basename( $_FILES["simbol"]["name"]);
-				$outp = $this->db->insert('gis_simbol', $data);
-			} else {
-				unset($data['simbol']);
-				//$outp = $this->db->insert('gis_simbol', $data);
-			}
-		}
+		imagepng($im,$vdir_upload . $fupload_name);
+		$data['simbol'] = basename( $_FILES["simbol"]["name"]);
+		$outp = $this->db->insert('gis_simbol', $data);
 		status_sukses($outp);
 	}
 
-	public function delete_simbol($id='', $semua=false)
+	public function delete_simbol($id='')
 	{
-		if (!$semua) $this->session->success = 1;
 		$outp = $this->db->where('id', $id)->delete('gis_simbol');
-		status_sukses($outp, $gagal_saja=true);
+		status_sukses($outp);
 	}
 
-	public function delete_simbol_file($simbol='', $semua=false)
+	public function delete_simbol_file($simbol='')
 	{
-		if (!$semua) $this->session->success = 1;
-		$target_dir = "assets/images/gis/point/";
+		$target_dir = LOKASI_SIMBOL_LOKASI;
 		$target_file = $target_dir . $simbol;
 
 		if (file_exists($target_file)) {
 			$outp = unlink($target_file);
 		}
-		status_sukses($outp, $gagal_saja=true);
+		status_sukses($outp);
 	}
 }
 ?>

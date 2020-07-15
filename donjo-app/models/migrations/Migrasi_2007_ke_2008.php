@@ -49,7 +49,7 @@ class Migrasi_2007_ke_2008 extends CI_model {
 	{
 		// Tambah perubahan database di sini
 		$this->ubah_data_persil();
-		$this->tambah_simbol_lokasi()
+		$this->tambah_simbol_lokasi();
 
 		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE point MODIFY COLUMN tipe INT(4) NULL DEFAULT 0");
