@@ -44,7 +44,7 @@
 
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-define("VERSION", '20.06-pasca');
+define("VERSION", '20.07-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
