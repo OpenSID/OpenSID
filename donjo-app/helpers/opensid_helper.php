@@ -1,6 +1,50 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+/**
+ * File ini:
+ *
+ * Helper berisi function umum
+ *
+ * donjo-app/helpers/opensid_helper.php
+ *
+ */
 
-define("VERSION", '20.07-pasca');
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+if(!defined('BASEPATH')) exit('No direct script access allowed');
+
+define("VERSION", '20.06-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
@@ -421,7 +465,14 @@ function httpPost($url, $params)
  */
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
-	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+	$connected = @fsockopen($sCheckHost, 443);
+
+  if ($connected)
+  {
+  	fclose($connected);
+  	return true;
+  }
+  return false;
 }
 
 function cek_bisa_akses_site($url)
@@ -912,7 +963,8 @@ function convertToBytes(string $from)
       return preg_replace('/[^\d]/', '', $from);
   }
 
-  $exponent = array_flip($units)[$suffix] ?? null;
+  $exponent = array_flip($units);
+  $exponent = isset($exponent[$suffix]) ? $exponent[$suffix] : null;
   if($exponent === null) {
       return null;
   }
