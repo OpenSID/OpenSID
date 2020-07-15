@@ -167,7 +167,7 @@ class Plan_garis_model extends MY_Model {
 	{
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
 		$data['ref_line'] = $post['ref_line'];
-		$data['desk'] = htmlentities($post['desk']);
+		$data['desk'] = $post['desk'];
 		$data['enabled'] = $post['enabled'];
 		return $data;
 	}
@@ -312,5 +312,19 @@ class Plan_garis_model extends MY_Model {
 		$data = $query->result_array();
 		return $data;
 	}
+
+	public function list_garis()
+	{
+		$sql = "
+			SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color FROM garis l
+			LEFT JOIN line p ON l.ref_line = p.id
+			LEFT JOIN line m ON p.parrent = m.id
+			WHERE l.enabled = 1 AND p.enabled = 1 AND m.enabled = 1";
+
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		return $data;
+	}
+
 }
 ?>

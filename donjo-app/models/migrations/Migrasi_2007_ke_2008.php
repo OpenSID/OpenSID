@@ -49,6 +49,7 @@ class Migrasi_2007_ke_2008 extends CI_model {
 	{
 		// Tambah perubahan database di sini
 		$this->ubah_data_persil();
+		$this->tambah_simbol_lokasi();
 
 		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE point MODIFY COLUMN tipe INT(4) NULL DEFAULT 0");
@@ -485,5 +486,47 @@ class Migrasi_2007_ke_2008 extends CI_model {
 		if ($this->db->table_exists('data_persil')) $this->dbforge->drop_table('data_persil');
 		if ($this->db->table_exists('data_persil_jenis')) $this->dbforge->drop_table('data_persil_jenis');
 		if ($this->db->table_exists('data_persil_peruntukan')) $this->dbforge->drop_table('data_persil_peruntukan');
+	}
+
+	private function tambah_simbol_lokasi()
+	{
+	//Tambah kolom id dan attribute unique di tabel gis_simbol
+	if (!$this->db->field_exists('id', 'gis_simbol'))
+	$this->db->query("ALTER TABLE gis_simbol ADD id INT NOT NULL AUTO_INCREMENT KEY FIRST");
+	$this->db->query("ALTER TABLE gis_simbol ADD UNIQUE(`simbol`)");
+
+	//Tambah Beberapa Simbol Lokasi Pelayanan Umum, Instansi Pemerintah, TNI/Polri
+	$query = "
+		INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES
+		(611, 'aa_bni.png'),
+		(612, 'aa_bri.png'),
+		(613, 'aa_btn.png'),
+		(614, 'aa_btp.png'),
+		(615, 'aa_pajak.png'),
+		(616, 'aa_pdam.png'),
+		(617, 'aa_pgadai.png'),
+		(618, 'aa_pln.png'),
+		(619, 'aa_pmi.png'),
+		(620, 'aa_polisi.png'),
+		(621, 'aa_prtmn.png'),
+		(622, 'aa_pskms.png'),
+		(623, 'aa_ptrns.png'),
+		(624, 'aa_pwbdh.png'),
+		(625, 'aa_pwhnd.png'),
+		(626, 'aa_pwisl.png'),
+		(627, 'aa_pwkhc.png'),
+		(628, 'aa_pwkrs.png'),
+		(629, 'aa_sk.png'),
+		(630, 'aa_skagm.png'),
+		(631, 'aa_skint.png'),
+		(632, 'aa_sksd.png'),
+		(633, 'aa_sksma.png'),
+		(634, 'aa_sksmp.png'),
+		(635, 'aa_sktk.png'),
+		(636, 'aa_tniad.png'),
+		(637, 'aa_tnial.png'),
+		(638, 'aa_tniau.png')
+		ON DUPLICATE KEY UPDATE simbol = VALUES(simbol)";
+	$this->db->query($query);
 	}
 }

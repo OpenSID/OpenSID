@@ -836,4 +836,11 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $f
 	imagepng($QR, FCPATH.$config['imagedir'].$image_name);
 }
 
+define ('MIME_TYPE_SIMBOL', serialize (array(
+	'image/png',  'image/x-png' )));
+
+define ('EXT_SIMBOL', serialize(array(
+	".png"
+)));
+
 ?>

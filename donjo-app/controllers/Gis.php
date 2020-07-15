@@ -128,9 +128,9 @@ class Gis extends Admin_Controller {
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
-		$data['lokasi'] = $this->plan_lokasi_model->list_lokasi();
-		$data['garis'] = $this->plan_garis_model->list_garis();
-		$data['area'] = $this->plan_area_model->list_area();
+		$data['lokasi'] = $this->plan_lokasi_model->list_data();
+		$data['garis'] = $this->plan_garis_model->list_data();
+		$data['area'] = $this->plan_area_model->list_data();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
