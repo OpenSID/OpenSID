@@ -112,7 +112,7 @@
 			var jml = daftar_lokasi.length;
 			var content;
 			var foto;
-			var path_foto = '<?= base_url()."assets/images/gis/point/"?>';
+			var path_foto = '<?= base_url().LOKASI_SIMBOL_LOKASI?>';
 			var point_style = {
 			  iconSize: [32, 37],
 			  iconAnchor: [16, 37],
@@ -254,7 +254,7 @@
 			var foto;
 			var content;
 			var point_style = L.icon({
-			  iconUrl: '<?= base_url()."assets/images/gis/point/pend.png"?>',
+			  iconUrl: '<?= base_url(). LOKASI_SIMBOL_LOKASI . "pend.png"?>',
 			  iconSize: [22, 27],
 			  iconAnchor: [11, 27],
 			  popupAnchor: [0, -28],

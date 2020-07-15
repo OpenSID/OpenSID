@@ -183,7 +183,7 @@
     hapusPeta(peta_garis);
 
     // Menampilkan OverLayer Area, Garis, Lokasi
-    layerCustom = tampilkan_layer_area_garis_lokasi(peta_garis, '<?=addslashes(json_encode($all_area))?>', '<?=addslashes(json_encode($all_garis))?>', '<?=addslashes(json_encode($all_lokasi))?>', '<?= base_url()."assets/images/gis/point/"?>');
+    layerCustom = tampilkan_layer_area_garis_lokasi(peta_garis, '<?=addslashes(json_encode($all_area))?>', '<?=addslashes(json_encode($all_garis))?>', '<?=addslashes(json_encode($all_lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>');
 
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_garis);
     L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_garis);

@@ -81,9 +81,9 @@
 						<div class="form-group">
 							<label for="nomor"  class="control-label">Simbol</label>
 							<?php if ($point['simbol']!=""): ?>
-								<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
+								<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $point['simbol']?>"/>
 							<?php else: ?>
-								<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
+								<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?>default.png"/>
 							<?php endif; ?>
 						</div>
 						<div class="form-group">
@@ -95,7 +95,7 @@
 											<li <?php if ($point['simbol']==$data['simbol']): ?>class="active"<?php endif; ?> onclick="li_active($(this).val());">
 												<label>
 													<input type="radio" name="simbol" id="simbol" class="input-hidden hidden" value="<?= $data['simbol']?>" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
-													<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
+													<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?>/<?= $data['simbol']?>">
 													<span class="glyphicon-class"><?= $data['simbol']?></span>
 												</label>
 											</li>

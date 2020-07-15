@@ -615,7 +615,7 @@ function UploadResizeImage($lokasi,$dimensi,$jenis_upload,$fupload_name,$nama_si
 
 function UploadSimbol($fupload_name)
 {
-	$vdir_upload = "assets/images/gis/point/";
+	$vdir_upload = LOKASI_SIMBOL_LOKASI;
 	$vfile_upload = $vdir_upload . $fupload_name;
 
 	move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
@@ -835,5 +835,12 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $f
 	// Simpan kode QR lagi, dengan logo di atasnya
 	imagepng($QR, FCPATH.$config['imagedir'].$image_name);
 }
+
+define ('MIME_TYPE_SIMBOL', serialize (array(
+	'image/png',  'image/x-png' )));
+
+define ('EXT_SIMBOL', serialize(array(
+	".png"
+)));
 
 ?>

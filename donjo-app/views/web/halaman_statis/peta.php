@@ -231,7 +231,7 @@
       var content;
       var foto;
       var lokasi_gambar = "<?= base_url().LOKASI_FOTO_LOKASI?>";
-      var path_foto = '<?= base_url()."assets/images/gis/point/"?>';
+      var path_foto = '<?= base_url().LOKASI_SIMBOL_LOKASI?>';
       var point_style = {
         iconSize: [32, 37],
         iconAnchor: [16, 37],
@@ -274,7 +274,7 @@
     $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
     	var datalayer = L.geoJson(data ,{
     		onEachFeature: function (feature, layer) {
-    			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>assets/images/gis/point/covid.png"});
+    			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>LOKASI_SIMBOL_LOKASI . 'covid.png'"});
     			layer.setIcon(custom_icon);
 
     			var popup_0 = L.popup({"maxWidth": "100%"});
