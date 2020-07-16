@@ -68,7 +68,8 @@ define("LOKASI_WIDGET", 'desa/widgets/');
 define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widgets/');
 define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 define("LOKASI_MEDIA", 'desa/upload/media/');
-define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
+define("LOKASI_SIMBOL_LOKASI", 'assets/images/gis/point/');
+define("LOKASI_SIMBOL_LOKASI_CUSTOM", 'desa/upload/gis/lokasi/point/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);

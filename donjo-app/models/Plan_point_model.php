@@ -259,7 +259,8 @@ class Plan_point_model extends MY_Model {
 
 	public function tambah_simbol()
 	{
-		$vdir_upload = LOKASI_SIMBOL_LOKASI;
+		$vdir_upload = LOKASI_SIMBOL_LOKASI_CUSTOM;
+		$vdir_upload_final = LOKASI_SIMBOL_LOKASI;
 		$vfile_upload = $vdir_upload . basename($_FILES["simbol"]["name"]);
 		$fupload_name = basename($_FILES["simbol"]["name"]);
 
@@ -295,6 +296,8 @@ class Plan_point_model extends MY_Model {
 		}
 
 		imagepng($im,$vdir_upload . $fupload_name);
+		copy($vdir_upload . $fupload_name, $vdir_upload_final . $fupload_name);
+		//unlink($vdir_upload . $fupload_name);
 		$data['simbol'] = basename( $_FILES["simbol"]["name"]);
 		$outp = $this->db->insert('gis_simbol', $data);
 		status_sukses($outp);
