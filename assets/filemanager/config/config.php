@@ -36,12 +36,13 @@ setlocale(LC_CTYPE, 'en_US');
 define('USE_ACCESS_KEYS', true); // TRUE or FALSE
 
 // RFM access key dibuat di donjo-app/models/User_model.php pada waktu login
-// Nama file menggunakan kolom user->session untuk mengambil data config yg berisi key
-$rfm_config_files = glob("../../desa/config/config_rfm_*.php");
+// Nama file menggunakan tmpnam supaya unik untuk sesi pengguna
+// Di simpan di sys_get_temp_dir() supaya bisa dihapus oleh sistem kalau tidak logout;
+$rfm_config_files = glob(sys_get_temp_dir()."/config_rfm_*");
 $fm_keys = [];
 foreach ($rfm_config_files as $filename)
 {
-		$sesi = str_replace('config_rfm_', '', basename($filename, '.php'));
+		$sesi = str_replace('config_rfm_', '', basename($filename));
     include $filename;
     $fm_keys[] = $config['fm_key_'.$sesi];
 }
