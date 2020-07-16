@@ -157,7 +157,7 @@ class User_model extends CI_Model {
 	public function logout()
 	{
 		// Hapus file rfm ketika logout
-		unlink(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $this->session->sesi . '.php');
+		unlink(sys_get_temp_dir(). '/config_rfm_' . $this->session->fm_key_file);
 		if (isset($_SESSION['user']))
 		{
 			$id = $_SESSION['user'];
@@ -844,9 +844,10 @@ class User_model extends CI_Model {
 	}
 
 	// RFM Key - disimpan di file desa/config/config yg dibaca di setting File Manager di
-	// assets/filemanager/config/config.php
-	// Gunakan kolom user->session untuk nama config file supaya unik untuk pengguna
+	// assets/filemanager/config/config.php.
+	// Gunakan tempnam untuk nama config file supaya unik untuk sesi pengguna
   // Simpan key di $this->session->fm_key yg dipasang di setting tinymce
+  // Simpan nama file di $this->session->fm_key_file untuk dihapus pada waktu logout.
   // di donjo-app/views/web/artikel/form.php dan ditempat lain tempat memanggil filemanager,
   // seperti di donjo-app/views/setting/setting_qr.php
 	public function get_key()
@@ -859,9 +860,13 @@ class User_model extends CI_Model {
 			$salt = strrev($salt);
 			$fm_key = MD5($fmHash.'OpenSID'.$salt);
 			$this->session->fm_key = $fm_key;
-			$sesi = $this->session->sesi;
+			$tmpfname = tempnam(sys_get_temp_dir(), "config_rfm_");
+			$sesi = str_replace('config_rfm_', '', basename($tmpfname));
+			$this->session->fm_key_file = $sesi;
 			$rfm = '<?php $config["fm_key_'.$sesi.'"] ="' . $fm_key . '";';
-			write_file(FCPATH . LOKASI_SID_INI . 'config_rfm_' . $sesi . '.php', $rfm);
+			$handle = fopen($tmpfname, "w");
+			fwrite($handle, $rfm);
+			fclose($handle);
 		}
 	}
 
