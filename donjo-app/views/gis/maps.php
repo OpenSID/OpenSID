@@ -106,7 +106,7 @@
     L.control.scale().addTo(mymap);
 
     // Menampilkan OverLayer Area, Garis, Lokasi
-    layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url()."assets/images/gis/point/"?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
+    layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
 
 		//PENDUDUK
 		<?php if ($layer_penduduk==1 OR $layer_keluarga==1 AND !empty($penduduk)): ?>
