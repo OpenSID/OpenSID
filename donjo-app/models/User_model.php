@@ -843,14 +843,13 @@ class User_model extends CI_Model {
 		return in_array($akses, $hak_akses[$group][$controller[0]]);
 	}
 
-	// RFM Key - disimpan di file desa/config/config yg dibaca di setting File Manager di
-	// assets/filemanager/config/config.php.
-	// Gunakan tempnam untuk nama config file supaya unik untuk sesi pengguna
-  // Simpan key di $this->session->fm_key yg dipasang di setting tinymce
-  // Simpan nama file di $this->session->fm_key_file untuk dihapus pada waktu logout.
-  // di donjo-app/views/web/artikel/form.php dan ditempat lain tempat memanggil filemanager,
-  // seperti di donjo-app/views/setting/setting_qr.php
-	public function get_key()
+	// RFM Key - disimpan dalam file di folder sementara sys_get_temp_dir() yg kemudian
+	// dibaca di setting File Manager di assets/filemanager/config/config.php.
+	// Menggunakan tempnam untuk nama config file supaya unik untuk sesi pengguna.
+  // Key disimpan di $this->session->fm_key yg dipasang di setting tinymce
+	// dan di tempat memanggil filemanager, seperti di donjo-app/views/setting/setting_qr.php.
+  // Nama file disimpan di $this->session->fm_key_file untuk dihapus pada waktu logout.
+	public function get_fm_key()
 	{
 		$grup	= $this->sesi_grup($this->session->sesi);
 		if ($this->hak_akses($grup, 'web', 'b') == true)
