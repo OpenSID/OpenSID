@@ -10,7 +10,7 @@
 						<?php elseif ($tipe == 4): ?>
 							<?php $this->load->view('statistik/dpt.php'); ?>
 						<?php else: ?>
-							<?php $this->load->view('statistik/penduduk_grafik.php'); ?>
+							<?php $this->load->view('statistik/penduduk_grafik_web.php'); ?>
 							<?php if (in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
 								<?php if ($this->setting->daftar_penerima_bantuan):?>
 									<?php $this->load->view('statistik/peserta_bantuan', array('lap' => $st)); ?>

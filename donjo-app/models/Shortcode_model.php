@@ -142,7 +142,7 @@ class Shortcode_model extends CI_Model {
     $lap = 'bantuan_penduduk';
 
 		ob_start();
-			include("donjo-app/views/statistik/penduduk_grafik.php");
+			include("donjo-app/views/statistik/penduduk_grafik_web.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -172,7 +172,7 @@ class Shortcode_model extends CI_Model {
     $lap = 'bantuan_keluarga';
 
 		ob_start();
-			include("donjo-app/views/statistik/penduduk_grafik.php");
+			include("donjo-app/views/statistik/penduduk_grafik_web.php");
 		$res = ob_get_clean();
 		return $res;
 	}
