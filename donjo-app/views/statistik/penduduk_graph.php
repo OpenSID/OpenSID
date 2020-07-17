@@ -1,64 +1,95 @@
+<?php
+/**
+ * File ini:
+ *
+ * View untuk halaman dashboard Admin
+ *
+ * donjo-app/views/statistik/penduduk_graph.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
 
 <!-- Pengaturan Grafik (Graph) Data Statistik-->
 <script type="text/javascript">
 	var chart;
-	$(document).ready(function()
-	{
-		chart = new Highcharts.Chart(
-		{
-			chart:
-			{
+	$(document).ready(function() {
+		chart = new Highcharts.Chart({
+			chart: {
 				renderTo: 'chart',
 				defaultSeriesType: 'column'
 			},
-			title:
-			{
+			title: {
 				text: 'Statistik <?= $stat?>'
 			},
-			xAxis:
-			{
-				title:
-				{
+			xAxis: {
+				title: {
 					text: '<?= $stat?>'
 				},
-        categories: [
+				categories: [
 					<?php $i=0; foreach ($main as $data): $i++;?>
-					  <?php if ($data['jumlah'] != "-"): ?><?= "'$i',";?><?php endif; ?>
+						<?php if ($data['jumlah'] != "-"): ?><?= "'$i',";?><?php endif; ?>
 					<?php endforeach;?>
 				]
 			},
-			yAxis:
-			{
-				title:
-				{
+			yAxis: {
+				title: {
 					text: 'Jumlah Populasi'
 				}
 			},
-			legend:
-			{
+			legend: {
 				layout: 'vertical',
-        enabled:false
+				enabled:false
 			},
-			plotOptions:
-			{
-				series:
-				{
-          colorByPoint: true
-        },
-      column:
-			{
+			plotOptions: {
+				series: {
+					colorByPoint: true
+				},
+			column: {
 				pointPadding: 0,
 				borderWidth: 0
 			}
 		},
-		series: [
-		{
+		series: [{
 			shadow:1,
 			border:1,
 			data: [
 				<?php foreach ($main as $data): ?>
-				  <?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
-					  <?php if ($data['jumlah'] != "-"): ?>
+					<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
+						<?php if ($data['jumlah'] != "-"): ?>
 							['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
 						<?php endif; ?>
 					<?php endif; ?>
@@ -82,7 +113,7 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-          <?php $this->load->view('statistik/laporan/side-menu.php')?>
+					<?php $this->load->view('statistik/laporan/side-menu.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -128,20 +159,20 @@
 									<table class="table table-bordered dataTable table-hover nowrap">
 										<thead>
 											<tr>
-												<th width='5%'>No</th>
+												<th class="padat">No</th>
 												<th width='50%'>Jenis Kelompok</th>
+												<th width='15%'colspan="2">Jumlah</th>
 												<?php if ($jenis_laporan == 'penduduk'): ?>
 													<th width='15%' colspan="2">Laki-Laki</th>
 													<th width='15%' colspan="2">Perempuan</th>
 												<?php endif; ?>
-												<th width='15%'colspan="2">Jumlah</th>
 											</tr>
 										</thead>
 										<tbody>
 											<?php foreach ($main as $data): ?>
 												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
 												<tr>
-													<td><?= $data['no']?></td>
+													<td class="text-center"><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama']);?></td>
 													<td>
 														<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
@@ -168,11 +199,9 @@
 									</table>
 								</div>
 							</div>
-
 							<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
 								<?php $this->load->view('statistik/peserta_bantuan'); ?>
-              <?php endif;?>
-
+							<?php endif;?>
 						</div>
 					</div>
 				</div>
