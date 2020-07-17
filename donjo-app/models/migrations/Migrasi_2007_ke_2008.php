@@ -82,6 +82,8 @@ class Migrasi_2007_ke_2008 extends CI_model {
   	// Perbaharui view dokumen_hidup
 		$this->db->query("DROP VIEW dokumen_hidup");
 		$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
+		// Ubah jenis kolom
+	  $this->db->query('ALTER TABLE tweb_penduduk MODIFY dokumen_kitas VARCHAR(45) DEFAULT NULL;');
 	}
 
 	private function ubah_data_persil()
