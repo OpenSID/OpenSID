@@ -144,7 +144,6 @@ class Curly
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, static::$secure ? 1 : 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, static::$secure ? 2 : 0);
 		curl_setopt($curl, CURLOPT_CAINFO, static::$secure ? static::$certificate : null);
-		curl_setopt($curl, CURLOPT_CAPATH, static::$secure ? static::$certificate : null);
 
 		curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -279,7 +278,6 @@ class Curly
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, static::$secure ? 1 : 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, static::$secure ? 2 : 0);
 		curl_setopt($curl, CURLOPT_CAINFO, static::$secure ? static::$certificate : null);
-		curl_setopt($curl, CURLOPT_CAPATH, static::$secure ? static::$certificate : null);
 
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
