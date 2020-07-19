@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.07-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Rudy Purwanto, Suyadi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Rudy Purwanto, Suyadi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Faizul Amali yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 
@@ -24,6 +24,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 18. Sekarang access key Responsive File Manager dihasilkan secara dinamis pada waktu login tanpa intervensi pengguna. [security-fix]
 19. Perbaiki judul kolom jumlah tertukar di halaman Statistik > Statistik Kependudukan > Grafik/Pie. [bug-fix]
 20. Perbaiki impor data penduduk supaya kolom '-' diubah menjadi kosong. Juga ubah kolom tweb_penduduk->dokumen_kitas bisa berisi karakter alfanumerik.
+21. #3346: Perbaiki jumlah cacat yg tampil di Laporan Cetak Kelompok Rentan. [bug-fix]
 
 
 
