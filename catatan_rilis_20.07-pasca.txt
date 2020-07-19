@@ -21,7 +21,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 15. #3321: Sekarang Surat Keterangan Tidak Mampu dapat diubah untuk menampilkan jumlah anggota keluarga yang tidak dibatasi.
 16. #2152: Sesuaikan pencatatan dan pelaporan data persil dengan C-Desa.
 17. #3204: Tampilkan notifikasi di Dashboard Admin apabila ada rilis OpenSID yg lebih baru.
-18. Sekarang access key Responsive File Manager dihasilkan secara dinamis pada waktu login tanpa intervensi pengguna. [security-fix]
+18. #3214: Sekarang access key Responsive File Manager dihasilkan secara dinamis pada waktu login tanpa intervensi pengguna. [security-fix]
 19. Perbaiki judul kolom jumlah tertukar di halaman Statistik > Statistik Kependudukan > Grafik/Pie. [bug-fix]
 20. Perbaiki impor data penduduk supaya kolom '-' diubah menjadi kosong. Juga ubah kolom tweb_penduduk->dokumen_kitas bisa berisi karakter alfanumerik.
 21. #3346: Perbaiki jumlah cacat yg tampil di Laporan Cetak Kelompok Rentan. [bug-fix]
