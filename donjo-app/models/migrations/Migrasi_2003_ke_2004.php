@@ -396,4 +396,5 @@ class Migrasi_2003_ke_2004 extends CI_model {
 				->update('permohonan_surat', array('syarat' => json_encode($syarat_baru)));
 		}
 	}
+
 }

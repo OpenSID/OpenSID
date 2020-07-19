@@ -275,7 +275,7 @@ class Web_dokumen_model extends MY_Model {
 		return $nama_file;
 	}
 
-	public function insert()
+	public function insert($mandiri=false)
 	{
 		$retval = true;
 		$post = $this->input->post();
@@ -285,6 +285,9 @@ class Web_dokumen_model extends MY_Model {
 			$data = $this->validasi($post);
 			$data['satuan'] = $satuan;
 			$data['attr'] = json_encode($data['attr']);
+			$data['dok_warga'] = isset($post['dok_warga']);
+			// Dari layanan mandiri gunakan NIK penduduk
+			$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
 
 			unset($data['anggota_kk']);
 			$retval &= $this->db->insert('dokumen', $data);
@@ -350,12 +353,15 @@ class Web_dokumen_model extends MY_Model {
 		return $data;
 	}
 
-	public function update($id=0, $id_pend=null)
+	// $mandiri = true kalau dipanggil dari layanan mandiri
+	public function update($id=0, $id_pend=null, $mandiri=false)
 	{
 		$retval = true;
 
 		$post = $this->input->post();
 		$data = $this->validasi($post);
+		// Jangan simpan dok_warga kalau dari Layanan Mandiri
+		if (!$mandiri) !$data['dok_warga'] = isset($post['dok_warga']);
 		$old_file = $this->db->select('satuan')
 				->where('id', $id)
 				->get('dokumen')->row()->satuan;
@@ -368,6 +374,8 @@ class Web_dokumen_model extends MY_Model {
 		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
+		// Dari layanan mandiri gunakan NIK penduduk
+		$data['updated_by'] = $mandiri ? $this->session->nik : $this->session->user;
 
 		unset($data['anggota_kk']);
 
@@ -483,6 +491,7 @@ class Web_dokumen_model extends MY_Model {
 			->get()->row_array();
 		$data['attr'] = json_decode($data['attr'], true);
 		$data = array_filter($data);
+
 		return $data;
 	}
 

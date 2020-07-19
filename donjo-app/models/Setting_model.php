@@ -161,4 +161,5 @@ class Setting_model extends CI_Model {
 		                 ->result();
 		return $rows;
 	}
+
 }

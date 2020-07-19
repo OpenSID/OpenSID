@@ -26,7 +26,10 @@
 			<p>
 				<?= $message; ?>
 
+				Versi OpenSID <?= AmbilVersi()?>. PHP versi <?= preg_split('/-/', phpversion())[0]?>.
+
 				<?php if ($status_code >= 500): ?>
+					<br><br>
 					Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
 					Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
 				<?php endif ?>

@@ -156,6 +156,11 @@ class Import_model extends CI_Model {
 		return $tanggal;
 	}
 
+	private function cek_kosong($isi)
+	{
+		return ($isi == '-') ? '' : $isi;
+	}
+
 	private function get_isi_baris($data, $i)
 	{
 		$kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
@@ -218,17 +223,17 @@ class Import_model extends CI_Model {
 		$isi_baris['nama_ibu'] = $nama_ibu;
 
 		$isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, trim($data->val($i, $kolom_impor_keluarga['golongan_darah_id'])));
-		$isi_baris['akta_lahir'] = trim($data->val($i, $kolom_impor_keluarga['akta_lahir']));
-		$isi_baris['dokumen_pasport'] = trim($data->val($i, $kolom_impor_keluarga['dokumen_pasport']));
-		$isi_baris['tanggal_akhir_paspor'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor']));
+		$isi_baris['akta_lahir'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['akta_lahir'])));
+		$isi_baris['dokumen_pasport'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['dokumen_pasport'])));
+		$isi_baris['tanggal_akhir_paspor'] = $this->cek_kosong($this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggal_akhir_paspor'])));
 
-		$isi_baris['dokumen_kitas'] = trim($data->val($i, $kolom_impor_keluarga['dokumen_kitas']));
-		$isi_baris['ayah_nik'] = trim($data->val($i, $kolom_impor_keluarga['ayah_nik']));
-		$isi_baris['ibu_nik'] = trim($data->val($i, $kolom_impor_keluarga['ibu_nik']));
-		$isi_baris['akta_perkawinan'] = trim($data->val($i, $kolom_impor_keluarga['akta_perkawinan']));
-		$isi_baris['tanggalperkawinan'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperkawinan']));
-		$isi_baris['akta_perceraian'] = trim($data->val($i, $kolom_impor_keluarga['akta_perceraian']));
-		$isi_baris['tanggalperceraian'] = $this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperceraian']));
+		$isi_baris['dokumen_kitas'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['dokumen_kitas'])));
+		$isi_baris['ayah_nik'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['ayah_nik'])));
+		$isi_baris['ibu_nik'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['ibu_nik'])));
+		$isi_baris['akta_perkawinan'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['akta_perkawinan'])));
+		$isi_baris['tanggalperkawinan'] = $this->cek_kosong($this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperkawinan'])));
+		$isi_baris['akta_perceraian'] = $this->cek_kosong(trim($data->val($i, $kolom_impor_keluarga['akta_perceraian'])));
+		$isi_baris['tanggalperceraian'] = $this->cek_kosong($this->format_tanggal($data->val($i, $kolom_impor_keluarga['tanggalperceraian'])));
 		// TODO: belum ada kode_cacat
 		$isi_baris['cacat_id'] = trim($data->val($i, $kolom_impor_keluarga['cacat_id']));
 		// TODO: belum ada kode_cara_kb

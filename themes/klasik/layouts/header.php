@@ -46,12 +46,15 @@
 			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<?php endif ?>
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
+		<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
 		<script src="<?= base_url()?>assets/front/js/bootstrap.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
+		<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
 
 		<!-- Datatables -->
 		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">

@@ -1,10 +1,54 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+/**
+ * File ini:
+ *
+ * Helper berisi function umum
+ *
+ * donjo-app/helpers/opensid_helper.php
+ *
+ */
 
-define("VERSION", '20.06-pasca');
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+if(!defined('BASEPATH')) exit('No direct script access allowed');
+
+define("VERSION", '20.07-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020060102');
+define('VERSI_DATABASE', '2020070104');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -23,6 +67,7 @@ define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
 define("LOKASI_WIDGET", 'desa/widgets/');
 define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widgets/');
 define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
+define("LOKASI_MEDIA", 'desa/upload/media/');
 
 // Kode laporan statistik di mana kode isian belum di isi
 define('BELUM_MENGISI', 777);
@@ -323,16 +368,17 @@ function favico_desa()
  * @access  public
  * @return  string
  */
-function gambar_desa($nama_file, $type = FALSE)
+function gambar_desa($nama_file, $type = FALSE, $file = FALSE)
 {
 	if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_file))
 	{
-		return $logo_desa = base_url() . LOKASI_LOGO_DESA . $nama_file;
+
+		return $logo_desa = ($file ? APPPATH.'../' : base_url()) . LOKASI_LOGO_DESA . $nama_file;
 	}
 
 	// type FALSE = logo, TRUE = kantor
 	$default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
-	return $logo_desa = base_url("assets/files/logo/$default");
+	return $logo_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/logo/$default";
 }
 
 /**
@@ -419,7 +465,14 @@ function httpPost($url, $params)
  */
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
-	return (bool) @fsockopen($sCheckHost, 80, $iErrno, $sErrStr, 5);
+	$connected = @fsockopen($sCheckHost, 443);
+
+  if ($connected)
+  {
+  	fclose($connected);
+  	return true;
+  }
+  return false;
 }
 
 function cek_bisa_akses_site($url)
@@ -840,6 +893,53 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
+function luas($int=0, $satuan="meter")
+{
+	if (($int / 10000) >= 1)
+	{
+		$ukuran = $int/10000;
+		$pisah = explode('.', $ukuran);
+		$luas['ha'] = number_format($pisah[0]);
+		$luas['meter'] = round(($ukuran-$luas["ha"])*10000, 2);
+	}
+	else
+	{
+		$luas['ha'] =0;
+		$luas['meter'] = round($int,2);
+	}
+	$hasil = ($int!=0)?$luas[$satuan]:null;
+	return $hasil;
+}
+
+function list_mutasi($mutasi=[])
+{
+	if($mutasi)
+	{
+		foreach($mutasi as $item)
+		{
+			$div = ($item['jenis_mutasi'] == 2)? 'class="error"':null;
+			$hasil = "<p $div>";
+			$hasil .= $item['sebabmutasi'];
+			$hasil .= !empty($item['no_c_desa']) ? " ".ket_mutasi_persil($item['jenis_mutasi'])." C No ".sprintf("%04s",$item['no_c_desa']): null;
+			$hasil .= !empty($item['luasmutasi']) ? ", Seluas ".number_format($item['luasmutasi'])." m<sup>2</sup>, " : null;
+			$hasil .= !empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi'])."<br />" : null;
+			$hasil .= !empty($item['keterangan']) ? $item['keterangan']: null;
+			$hasil .= "</p>";
+
+			echo $hasil;
+		}
+	}
+}
+
+function ket_mutasi_persil($id=0)
+{
+	if ($id==1)
+		$ket = "dari";
+	else
+		$ket = "ke";
+	return $ket;
+}
+
 function status_sukses($outp, $gagal_saja=false)
 {
 	$CI =& get_instance();
@@ -863,7 +963,8 @@ function convertToBytes(string $from)
       return preg_replace('/[^\d]/', '', $from);
   }
 
-  $exponent = array_flip($units)[$suffix] ?? null;
+  $exponent = array_flip($units);
+  $exponent = isset($exponent[$suffix]) ? $exponent[$suffix] : null;
   if($exponent === null) {
       return null;
   }

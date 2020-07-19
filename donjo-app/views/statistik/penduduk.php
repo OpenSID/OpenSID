@@ -26,10 +26,10 @@
             	</a>
 							<a href="<?=site_url("statistik/dialog_unduh/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-print "></i>Unduh
             	</a>
-							<a href="<?=site_url("statistik/graph/$lap")?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Grafik Data">
+							<a href="<?=site_url("statistik/grafik/$lap/bar")?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Grafik Data">
 								<i class="fa  fa-bar-chart"></i>Grafik Data
             	</a>
-							<a href="<?=site_url("statistik/pie/$lap")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pie Data">
+							<a href="<?=site_url("statistik/grafik/$lap/pie")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pie Data">
 								<i class="fa fa-pie-chart"></i>Pie Data
             	</a>
 							<?php if ($lap=='13'): ?>

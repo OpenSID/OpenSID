@@ -1,248 +1,243 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<!-- Pengaturan Grafik (Graph) Data Statistik-->
 <script type="text/javascript">
-	let chart;
-	const rawData = Object.values(<?= json_encode($stat) ?>);
-	const type = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
-	const legend = Boolean(!<?= ($tipe) ?>);
-	let categories = [];
-	let data = [];
-	let i = 1;
-	let status_tampilkan = true;
-	for (const stat of rawData) {
-		if (stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH' && stat.nama != 'PENERIMA') {
-			let filteredData = [stat.nama, parseInt(stat.jumlah)];
-			categories.push(i);
-			data.push(filteredData);
-			i++;
-		}
-	}
-
-	function tampilkan_nol(tampilkan = false) {
-		if (tampilkan) {
-			$(".nol").parent().show();
-		} else {
-			$(".nol").parent().hide();
-		}
-	}
-
-	function toggle_tampilkan() {
-		$('#showData').click();
-		tampilkan_nol(status_tampilkan);
-		status_tampilkan = !status_tampilkan;
-		if (status_tampilkan) $('#tampilkan').text('Tampilkan Nol');
-		else $('#tampilkan').text('Sembunyikan Nol');
-	}
-
-	function switchType(){
-		var chartType = chart_penduduk.series[0].type;
-		chart_penduduk.series[0].update({
-			type: (chartType === 'pie') ? 'column' : 'pie'
-		});
-	}
-
-	$(document).ready(function () {
-		tampilkan_nol(false);
-		if (<?=$this->setting->statistik_chart_3d?>) {
-			chart_penduduk = new Highcharts.Chart({
-				chart: {
-					renderTo: 'container',
-					options3d: {
-						enabled: true,
-						alpha: 45
-					}
-				},
-				title: 0,
-				yAxis: {
-					showEmpty: false,
-				},
-				xAxis: {
-					categories: categories,
-				},
-				plotOptions: {
-					series: {
-						colorByPoint: true
-					},
-					column: {
-						pointPadding: -0.1,
-						borderWidth: 0,
-						showInLegend: false,
-						depth: 45
-					},
-					pie: {
-						allowPointSelect: true,
-						cursor: 'pointer',
-						showInLegend: true,
-						depth: 45,
-						innerSize: 70
-					}
-				},
-				legend: {
-					enabled: legend
-				},
-				series: [{
-					type: type,
-					name: 'Jumlah Populasi',
-					shadow: 1,
-					border: 1,
-					data: data
-				}]
-			});
-		} else {
-			chart_penduduk = new Highcharts.Chart({
-				chart: {
-					renderTo: 'container'
-				},
-				title: 0,
-				yAxis: {
-					showEmpty: false,
-				},
-				xAxis: {
-					categories: categories,
-				},
-				plotOptions: {
-					series: {
-						colorByPoint: true
-					},
-					column: {
-						pointPadding: -0.1,
-						borderWidth: 0,
-						showInLegend: false,
-					},
-					pie: {
-						allowPointSelect: true,
-						cursor: 'pointer',
-						showInLegend: true,
-					}
-				},
-				legend: {
-					enabled: legend
-				},
-				series: [{
-					type: type,
-					name: 'Jumlah Populasi',
-					shadow: 1,
-					border: 1,
-					data: data
-				}]
-			});
-		}
-
-		$('#showData').click(function () {
-			$('tr.lebih').show();
-			$('#showData').hide();
-			tampilkan_nol(false);
-		});
-
-	});
-</script>
-<style>
-	tr.lebih {
-		display: none;
-	}
-</style>
-<style>
-	.input-sm
+<?php if ($jenis_grafik == 'bar'): ?>
+	var chart;
+	$(document).ready(function()
 	{
-		padding: 4px 4px;
-	}
-	@media (max-width:780px)
-	{
-		.btn-group-vertical
+		chart = new Highcharts.Chart(
 		{
-			display: block;
-		}
-	}
-	.table-responsive
+			chart:
+			{
+				renderTo: 'chart',
+				defaultSeriesType: 'column'
+			},
+			title:
+			{
+				text: 'Data Statistik <?= $stat?>'
+			},
+			xAxis:
+			{
+				title:
+				{
+					text: '<?= $stat?>'
+				},
+        categories: [
+					<?php $i=0; foreach ($main as $data): $i++;?>
+					  <?php if ($data['jumlah'] != "-"): ?><?= "'$i',";?><?php endif; ?>
+					<?php endforeach;?>
+				]
+			},
+			yAxis:
+			{
+				title:
+				{
+					text: 'Jumlah Populasi'
+				}
+			},
+			legend:
+			{
+				layout: 'vertical',
+        enabled:false
+			},
+			plotOptions:
+			{
+				series:
+				{
+          colorByPoint: true
+        },
+      column:
+			{
+				pointPadding: 0,
+				borderWidth: 0
+			}
+		},
+		series: [
+		{
+			shadow:1,
+			border:1,
+			data: [
+				<?php foreach ($main as $data): ?>
+				  <?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
+					  <?php if ($data['jumlah'] != "-"): ?>
+							['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
+						<?php endif; ?>
+					<?php endif; ?>
+				<?php endforeach;?>]
+			}]
+		});
+	});
+<?php else: ?>
+	$(document).ready(function ()
 	{
-		min-height:275px;
-	}
-	}
-</style>
+		chart = new Highcharts.Chart({
+			chart:
+			{
+				renderTo: 'chart',
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false
+			},
+			title:
+			{
+				text: 'Data Statistik <?= $stat?>'
+			},
+			subtitle:
+			{
+				text: 'Berdasarkan <?= $stat?>'
+			},
+			plotOptions:
+			{
+				index:
+				{
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels:
+					{
+						enabled: true
+					},
+					showInLegend: true
+				}
+			},
+			legend:
+			{
+				layout: 'vertical',
+				backgroundColor: '#FFFFFF',
+				align: 'right',
+				verticalAlign: 'top',
+				x: -30,
+				y: 0,
+				floating: true,
+				shadow: true,
+        enabled:true
+			},
+			series: [{
+				type: 'pie',
+				name: 'Populasi',
+				data: [
+					<?php foreach ($main as $data): ?>
+						<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
+							<?php if ($data['jumlah'] != "-"): ?>
+								["<?= strtoupper($data['nama'])?>",<?= $data['jumlah']?>],
+							<?php endif; ?>
+						<?php endif; ?>
+					<?php endforeach;?>
+				]
+			}]
+		});
+	});
+<?php endif; ?>
+</script>
+<!-- Highcharts -->
+<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Statistik Kependudukan (Grafik)</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li class="active">Statistik Kependudukan (Grafik)</li>
+		</ol>
+	</section>
+	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" action="" method="post">
+			<div class="row">
+				<div class="col-md-3">
+          <?php $this->load->view('statistik/laporan/side-menu.php')?>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-info">
+						<div class="box-body">
+							<div id="chart"> </div>
+							<div class="col-sm-12">
+								<?php if ($lap < 50): ?>
+									<h4 class="box-title"><b>Data Kependudukan menurut <?= ($stat);?></b></h4>
+								<?php else: ?>
+									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
+								<?php endif; ?>
+								<?php if($lap <= 20 AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga' AND $lap <> 'bantuan_penduduk') : ?>
+									<div class="row">
+										<div class="col-sm-12 form-inline">
+											<form action="" id="mainform" method="post">
+												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun/'.$lap.'/'.$jenis_grafik)?>')">
+													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?php $dusun == $data['dusun'] and print('selected') ?>><?= strtoupper($data['dusun'])?></option>
+													<?php endforeach; ?>
+												</select>
+												<?php if ($dusun): ?>
+													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw/'.$lap.'/'.$jenis_grafik)?>')" >
+														<option value="">RW</option>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?php $rw == $data['rw'] and print('selected') ?>><?= $data['rw']?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
+												<?php if ($rw): ?>
+													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt/'.$lap.'/'.$jenis_grafik)?>')">
+														<option value="">RT</option>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?php $rt == $data['rt'] and print('selected') ?>><?= $data['rt']?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
+											</form>
+										</div>
+									</div>
+								<?php endif ?>
+								<div class="table-responsive">
+									<table class="table table-bordered dataTable table-hover nowrap">
+										<thead>
+											<tr>
+												<th width='5%'>No</th>
+												<th width='50%'>Jenis Kelompok</th>
+												<th width='15%'colspan="2">Jumlah</th>
+												<?php if ($jenis_laporan == 'penduduk'): ?>
+													<th width='15%' colspan="2">Laki-Laki</th>
+													<th width='15%' colspan="2">Perempuan</th>
+												<?php endif; ?>
+											</tr>
+										</thead>
+										<tbody>
+											<?php foreach ($main as $data): ?>
+												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/1/$lap/1"); ?>
+												<tr>
+													<td><?= $data['no']?></td>
+													<td><?= strtoupper($data['nama']);?></td>
+													<td>
+														<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
+															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
+														<?php else: ?>
+															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
+															<a href="<?= $tautan_jumlah ?>/0" <?php if ($data['id']=='JUMLAH'): ?> class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
+														<?php endif; ?>
+													</td>
+													<td><?= $data['persen'];?></td>
+													<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))):
+															$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
+															elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
+													?>
+													<?php if ($jenis_laporan == 'penduduk'): ?>
+														<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
+														<td><?= $data['persen1'];?></td>
+														<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['perempuan']?></a></td>
+														<td><?= $data['persen2'];?></td>
+													<?php endif; ?>
+												</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
 
-<div class="box box-danger">
-	<div class="box-header with-border">
-		<h3 class="box-title">Grafik <?= $heading ?></h3>
-		<div class="box-tools pull-right">
-			<div class="btn-group-xs">
-				<a class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
-				<a class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
-			</div>
-		</div>
-	</div>
-	<div class="box-body">
-		<div id="container"></div>
-		<div id="contentpane">
-			<div class="ui-layout-north panel top"></div>
-		</div>
-	</div>
-</div>
+							<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+								<?php $this->load->view('statistik/peserta_bantuan'); ?>
+              <?php endif;?>
 
-<div class="box box-danger">
-	<div class="box-header with-border">
-		<h3 class="box-title">Tabel <?= $heading ?></h3>
-	</div>
-	<div class="box-body">
-		<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-			<tr>
-				<th rowspan="2">No</th>
-				<th rowspan="2" style='text-align:left;'>Kelompok</th>
-				<th colspan="2">Jumlah</th>
-				<?php if ($jenis_laporan == 'penduduk'):?>
-					<th colspan="2">Laki-laki</th>
-					<th colspan="2">Perempuan</th>
-				<?php endif;?>
-			</tr>
-			<tr>
-				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-				<?php if ($jenis_laporan == 'penduduk'):?>
-					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-					<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-				<?php endif;?>
-			</tr>
-			</thead>
-			<tbody>
-				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
-				<?php foreach ($stat as $data):?>
-					<?php $jm1++; ?>
-					<?php $h++; ?>
-					<?php if ($h > 12 AND $jm > 10): ?>
-						<?php $hide = "lebih"; ?>
-					<?php endif;?>
-					<tr class="<?=$hide?>">
-						<td class="angka">
-							<?php if ($jm1 > $jm - 2):?>
-								<?=$data['no']?>
-							<?php else:?>
-								<?=$h?>
-							<?php endif;?>
-						</td>
-						<td><?=$data['nama']?></td>
-						<td class="angka <?php ($jm1 <= $jm - 2) and ($data['jumlah'] == 0) and print('nol')?>"><?=$data['jumlah']?></td>
-						<td class="angka"><?=$data['persen']?></td>
-						<?php if ($jenis_laporan == 'penduduk'):?>
-							<td class="angka"><?=$data['laki']?></td>
-							<td class="angka"><?=$data['persen1']?></td>
-							<td class="angka"><?=$data['perempuan']?></td>
-							<td class="angka"><?=$data['persen2']?></td>
-						<?php endif;?>
-					</tr>
-					<?php $i += $data['jumlah'];?>
-					<?php $l += $data['laki'];?>
-					<?php $p += $data['perempuan'];?>
-				<?php endforeach;?>
-			</tbody>
-		</table>
-		<?php if ($hide=="lebih"):?>
-			<div style='float: left;'>
-				<button class='uibutton special' id='showData'>Selengkapnya...</button>
+						</div>
+					</div>
+				</div>
 			</div>
-		<?php endif;?>
-		<div style="float: right;">
-			<button id='tampilkan' onclick="toggle_tampilkan();" class="uibutton special">Tampilkan Nol</button>
-		</div>
-	</div>
-	</div>
+		</form>
+	</section>
 </div>

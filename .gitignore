@@ -42,5 +42,13 @@ log-*.php
 info.php
 **/.DS_Store
 mitra
+sftp-config.json
+
+# Abaikan file milik library Release dan Curly
+*.pem
+version.json
+
+# Abaikan file cache milik phpintel (plugin sublime text)
+.phpintel/*
 
 

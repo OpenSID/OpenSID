@@ -360,7 +360,18 @@ class Sms extends Admin_Controller {
 
 	public function broadcast_proses()
 	{
-		$adv_search = $_POST;
+		$post = $this->input->post();
+		$adv_search['umur_min1'] = bilangan($post['umur_min1']);
+		$adv_search['umur_max1'] = bilangan($post['umur_max1']);
+		$adv_search['sex1'] = $post['sex1'];
+		$adv_search['pekerjaan1'] = $post['pekerjaan1'];
+		$adv_search['status1'] = $post['status1'];
+		$adv_search['agama1'] = $post['agama1'];
+		$adv_search['pendidikan1'] = $post['pendidikan1'];
+		$adv_search['status_penduduk1'] = $post['status_penduduk1'];
+		$adv_search['dusun1'] = $post['dusun1'];
+		$adv_search['grup1'] = $post['grup1'];
+		$adv_search['TextDecoded1'] = htmlentities($post['TextDecoded1']);
 		$i = 0;
 		while ($i++ < count($adv_search))
 		{
@@ -384,7 +395,7 @@ class Sms extends Admin_Controller {
 	{
 		$data['dusun'] = $this->penduduk_model->list_dusun();
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
+		$data['pendidikan'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['grup'] = $this->sms_model->list_grup_kontak();
 		$data['form_action'] = site_url("sms/broadcast_proses");

@@ -23,7 +23,7 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="hp">No HP</label>
-							<input name="no_hp" class="form-control input-sm required" type="text"></input>
+							<input name="no_hp" class="form-control input-sm required bilangan" minlength="8" maxlength="15" type="text"></input>
 						</div>
 					</div>
 				</div>

@@ -13,6 +13,7 @@
 		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
+
 	public function autocomplete($cari='')
 	{
 		return $this->autocomplete_str('nama', 'tweb_penduduk', $cari);

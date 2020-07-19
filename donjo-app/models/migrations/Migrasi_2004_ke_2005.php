@@ -3,7 +3,6 @@ class Migrasi_2004_ke_2005 extends CI_model {
 
 	public function up()
 	{
-		// MODUL BARU BEGIN
 		$this->covid19();
 		$this->covid19Monitoring();
 		// MODUL BARU END

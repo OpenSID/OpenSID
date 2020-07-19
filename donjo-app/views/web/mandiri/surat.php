@@ -1,9 +1,57 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<?php
+/**
+ * File ini:
+ *
+ * View untuk Surat Layanan Mandiri di OpenSID
+ *
+ * /donjo-app/views/web/mandiri/surat.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <style type="text/css">
 	table.table th
 	{
 		text-align: left;
+	}
+	#list_dokumen td.nowrap {
+		white-space: nowrap;
 	}
 </style>
 <script type='text/javascript'>
@@ -60,15 +108,17 @@
 			</div>
 		</div>
 		<div class="box-body">
-			<table class="table table-striped table-bordered" id="syarat_surat">
-				<thead>
-					<tr>
-						<th width="2"><center>No</center></th>
-						<th><center>Syarat</center></th>
-						<th><center>Dokumen Melengkapi Syarat</center></th>
-					</tr>
-				</thead>
-			</table>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered" id="syarat_surat">
+					<thead>
+						<tr>
+							<th width="2"><center>No</center></th>
+							<th><center>Syarat</center></th>
+							<th><center>Dokumen Melengkapi Syarat</center></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
 		</div>
 		<div class="box-footer">
 			<div class="col-xs-12">
@@ -89,13 +139,13 @@
 	<div class="box-body">
 		<button type="button" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modal" data-title="Tambah Dokumen" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="tambah_dokumen"><i class='fa fa-plus'></i>Tambah Dokumen</button>
 		<div class="table-responsive">
-			<table class="table table-striped table-bordered table-responsive" id="dokumen">
+			<table class="table table-striped table-bordered" id="dokumen">
 				<thead>
 					<tr>
-						<th>No</th>
+						<th class="padat">No</th>
+						<th class="padat nowrap">Aksi</th>
 						<th>Judul Dokumen</th>
-						<th>Tanggal Upload</th>
-						<th>Aksi</th>
+						<th width="20%" nowrap>Tanggal Upload</th>
 					</tr>
 				</thead>
 				<tbody id="list_dokumen">
@@ -164,28 +214,26 @@
 									<?php if (!empty($kk)): ?>
 										<hr>
 										<span class="help-block"><code>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini.</code></span>
-										<div class="table-responsive">
-											<table class="table table-bordered table-hover table-striped table-sm">
-												<thead>
-													<tr>
-														<th scope="col">#</th>
-														<th scope="col">NIK</th>
-														<th scope="col">Nama</th>
-													</tr>
-												</thead>
-												<tbody>
-													<?php foreach ($kk as $item): ?>
-														<?php if ($item['nik'] != $penduduk['nik']): ?>
-															<tr>
-																<td><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
-																<td><?=$item['nik']?></td>
-																<td><?=$item['nama']?></td>
-															</tr>
-														<?php endif; ?>
-													<?php endforeach; ?>
-												</tbody>
-											</table>
-										</div>
+										<table class="table table-striped table-bordered table-responsive">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">NIK</th>
+													<th scope="col">Nama</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($kk as $item): ?>
+													<?php if ($item['nik'] != $penduduk['nik']): ?>
+														<tr>
+															<td><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
+															<td><?=$item['nik']?></td>
+															<td><?=$item['nama']?></td>
+														</tr>
+													<?php endif; ?>
+												<?php endforeach; ?>
+											</tbody>
+										</table>
 									<?php endif ?>
 								</div>
 							</div>

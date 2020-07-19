@@ -1,4 +1,6 @@
-<?php class Folder_desa_model extends CI_Model {
+<?php
+
+class Folder_desa_model extends CI_Model {
 
 /*
 	Dimasukkan di autoload. Supaya folder desa dibuat secara otomatis menggunakan
@@ -18,35 +20,6 @@
 		$this->salin_contoh();
 	}
 
-	// Tambahkan index.html di setiap sub-folder, supaya tidak bisa diakses langsung
-	// Gunakan file index.html yang disediakan di desa-contoh
-	public function amankan_folder_desa($src='desa')
-	{
-    if (!file_exists($src.'/index.html'))
-    {
-      copy('desa-contoh/index.html', $src.'/index.html');
-    }
-    foreach (scandir($src) as $file)
-    {
-      $srcfile = rtrim($src, '/') . '/' . $file;
-      if (!is_readable($srcfile))
-       {
-        continue;
-      }
-      if ($file != '.' && $file != '..')
-      {
-        if (is_dir($srcfile))
-        {
-          if (!file_exists($srcfile.'/index.html'))
-          {
-            copy('desa-contoh/index.html', $srcfile.'/index.html');
-          }
-          $this->amankan_folder_desa($srcfile);
-        }
-      }
-    }
-  }
-
 	private function salin_contoh()
 	{
 		if (!file_exists('desa'))
@@ -56,7 +29,13 @@
 		}
 	}
 
-	public function salin_file($cek = 'desa/upload', $cari = '.htaccess', $contoh = 'desa-contoh/upload/media/.htaccess')
+	public function amankan_folder_desa()
+	{
+		$this->salin_file('desa', 'index.html', 'desa-contoh/index.html');
+		$this->salin_file('desa/upload', '.htaccess', 'desa-contoh/upload/media/.htaccess');
+	}
+
+	public function salin_file($cek, $cari, $contoh)
 	{
 		if (!file_exists("$cek/$cari")) copy($contoh, "$cek/$cari");
 
@@ -66,7 +45,8 @@
 
 			if (!file_exists($file)) copy($contoh, $file);
 
-			$this->salin_file("$folder");
+			$this->salin_file($folder, $cari, $contoh);
 		}
 	}
+
 }
