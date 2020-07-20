@@ -147,7 +147,13 @@ function getBaseLayers(peta, access_token)
 	//Menampilkan BaseLayers Peta
 	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(peta);
 
-	var mbGLsat = L.mapboxGL({
+  var mbGLstr = L.mapboxGL({
+    accessToken: access_token,
+    style: 'mapbox://styles/mapbox/streets-v11',
+    attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+  });
+
+  var mbGLsat = L.mapboxGL({
 		accessToken: access_token,
 		style: 'mapbox://styles/mapbox/satellite-v9',
 		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
@@ -162,8 +168,9 @@ function getBaseLayers(peta, access_token)
 	var baseLayers = {
 		'OpenStreetMap': defaultLayer,
 		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}),
-		'Mapbox Citra Satelit' : mbGLsat,
-		'Mapbox Citra Satelit + Jalan' : mbGLstrsat,
+    'Mapbox Streets' : mbGLstr,
+		'Mapbox Satellite' : mbGLsat,
+		'Mapbox Satellite-Street' : mbGLstrsat,
 	};
 	return baseLayers;
 }
@@ -261,8 +268,8 @@ function stylePolygonDesa()
 function stylePointLogo(url)
 {
 	var style = {
-			iconSize: [32, 37],
-			iconAnchor: [16, 37],
+			iconSize: [32, 32],
+			iconAnchor: [16, 32],
 			popupAnchor: [0, -28],
 			iconUrl: url
 	};
@@ -915,11 +922,15 @@ function setMarkerCluster(marker, markersList, markers)
 	return setMarkerCluster;
 }
 
-function set_marker_area(marker, daftar_path)
+function set_marker_area(marker, daftar_path, foto_area)
 {
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
+  var foto;
+  var content_area;
+  var lokasi_gambar = foto_area;
+
   for (var x = 0; x < jml;x++)
   {
     if (daftar[x].path)
@@ -931,6 +942,13 @@ function set_marker_area(marker, daftar_path)
         daftar[x].path[0][y].reverse()
       }
 
+      if (daftar[x].foto)
+      {
+        foto = '<img src="'+lokasi_gambar+'sedang_'+daftar[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+      }
+      else
+      foto = "";
+
       var area_style = {
         stroke: true,
         opacity: 1,
@@ -939,18 +957,32 @@ function set_marker_area(marker, daftar_path)
         fillOpacity: 0.5
       }
 
+      content_area =
+      '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h4 id="firstHeading" class="firstHeading">'+daftar[x].nama+'</h4>'+
+      '<div id="bodyContent">'+ foto +
+      '<p>'+daftar[x].desk+'</p>'+
+      '</div>'+
+      '</div>';
+
       daftar[x].path[0].push(daftar[x].path[0][0])
-      marker.push(turf.polygon(daftar[x].path, {content: daftar[x].nama, style: area_style}));
+      marker.push(turf.polygon(daftar[x].path, {content: content_area, style: area_style}));
     }
   }
 }
 
-function set_marker_garis(marker, daftar_path)
+function set_marker_garis(marker, daftar_path, foto_garis)
 {
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var coords;
   var lengthOfCoords;
+  var foto;
+  var content_garis;
+  var lokasi_gambar = foto_garis;
+
   for (var x = 0; x < jml;x++)
   {
     if (daftar[x].path)
@@ -965,6 +997,23 @@ function set_marker_garis(marker, daftar_path)
         coords[i][1] = holdLon;
       }
 
+      if (daftar[x].foto)
+      {
+        foto = '<img src="'+lokasi_gambar+'sedang_'+daftar[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+      }
+      else
+      foto = "";
+
+      content_garis =
+      '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h4 id="firstHeading" class="firstHeading">'+daftar[x].nama+'</h4>'+
+      '<div id="bodyContent">'+ foto +
+      '<p>'+daftar[x].desk+'</p>'+
+      '</div>'+
+      '</div>';
+
       var garis_style = {
         stroke: true,
         opacity: 1,
@@ -972,33 +1021,55 @@ function set_marker_garis(marker, daftar_path)
         color: daftar[x].color
       }
 
-      marker.push(turf.lineString(coords, {content: daftar[x].nama, style: garis_style}));
+      marker.push(turf.lineString(coords, {content: content_garis, style: garis_style}));
     }
   }
 }
 
-function set_marker_lokasi(marker, daftar_path, path_icon)
+function set_marker_lokasi(marker, daftar_path, path_icon, foto_lokasi)
 {
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
+  var foto;
+  var content_lokasi;
+  var lokasi_gambar = foto_lokasi;
   var path_foto = path_icon;
   var point_style = {
-    iconSize: [32, 37],
-    iconAnchor: [16, 37],
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
     popupAnchor: [0, -28],
   };
+
   for (var x = 0; x < jml; x++)
   {
     if (daftar[x].lat)
     {
       point_style.iconUrl = path_foto+daftar[x].simbol;
-      marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: daftar[x].nama,style: L.icon(point_style)}));
+
+      if (daftar[x].foto)
+      {
+        foto = '<img src="'+lokasi_gambar+'sedang_'+daftar[x].foto+'" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+      }
+      else
+      foto = '';
+
+      content_lokasi =
+      '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h4 id="firstHeading" class="firstHeading">'+daftar[x].nama+'</h4>'+
+      '<div id="bodyContent">'+ foto +
+      '<p>'+daftar[x].desk+'</p>'+
+      '</div>'+
+      '</div>';
+
+      marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: content_lokasi, style: L.icon(point_style)}));
     }
   }
 }
 
 //Menampilkan OverLayer Area, Garis, Lokasi
-function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daftar_lokasi, path_icon)
+function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daftar_lokasi, path_icon, foto_area, foto_garis, foto_lokasi)
 {
   var marker_area = [];
   var marker_garis = [];
@@ -1020,17 +1091,17 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 
 	//OVERLAY AREA
 	if (daftar_path) {
-		set_marker_area(marker_area, daftar_path);
+		set_marker_area(marker_area, daftar_path, foto_area);
 	}
 
 	//OVERLAY GARIS
 	if (daftar_garis) {
-		set_marker_garis(marker_garis, daftar_garis);
+		set_marker_garis(marker_garis, daftar_garis, foto_garis);
 	}
 
 	//OVERLAY LOKASI DAN PROPERTI
 	if (daftar_lokasi) {
-		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon);
+		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
 	}
 
 	setMarkerCustom(marker_area, layer_area);
