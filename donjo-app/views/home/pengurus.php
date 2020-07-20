@@ -16,17 +16,6 @@
 		white-space: nowrap;
 	}
 </style>
-<div class="content-wrapper">
-	<section class="content-header">
-		<h1>Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></li>
-		</ol>
-	</section>
-	<section class="content" id="maincontent">
-		<div class="row">
-			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Staf">
@@ -162,7 +151,4 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-</div>
 <?php $this->load->view('global/confirm_delete');?>

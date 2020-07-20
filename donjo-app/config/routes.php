@@ -65,3 +65,10 @@ $route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : 
 // Route lama (Agar url lama masih dpt di akases)
 $route['first/artikel/(:num)'] = 'first/artikel/$1'; // Contoh : Contoh : first/artikel/1
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : first/artikel/2020/5/15/contoh-artikel
+
+$route['pengurus/([a-z]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/pengurus/$1/$2/$3/$4";
+$route['pengurus/([a-z]+)/(:any)/(:any)'] = "bumindes_umum2/pengurus/$1/$2/$3";
+$route['pengurus/([a-z]+)/(:any)'] = "bumindes_umum2/pengurus/$1/$2";
+$route['pengurus/([a-z]+)'] = "bumindes_umum2/pengurus/$1";
+$route['pengurus'] = "bumindes_umum2/pengurus";
+

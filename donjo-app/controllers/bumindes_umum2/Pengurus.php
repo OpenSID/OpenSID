@@ -10,8 +10,8 @@ class Pengurus extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
-		$this->modul_ini = 200;
-		$this->sub_modul_ini = 18;
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 302;
 		$this->_set_page = ['20', '50', '100'];
 		$this->_list_session = ['status', 'cari'];
 		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
@@ -42,11 +42,14 @@ class Pengurus extends Admin_Controller {
 		$data['paging'] = $this->pamong_model->paging($p);
 		$data['main'] = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->pamong_model->autocomplete();
+		$data['main_content'] = 'home/pengurus';
+		$data['subtitle'] = "Buku Aparat Pemerintah Desa";
+		$data['selected_nav'] = 'aparat';
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
-		$this->load->view('home/pengurus', $data);
+		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
 	}
 
