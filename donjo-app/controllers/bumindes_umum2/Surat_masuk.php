@@ -14,8 +14,8 @@ class Surat_masuk extends Admin_Controller {
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
 		$this->load->model('penomoran_surat_model');
-		$this->modul_ini = 15;
-		$this->sub_modul_ini = 57;
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 302;
 		$this->tab_ini = 2;
 	}
 
@@ -51,11 +51,14 @@ class Surat_masuk extends Admin_Controller {
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();
+		$data['main_content'] = 'surat_masuk/table';
+		$data['subtitle'] = "Buku Agenda - Surat Masuk";
+		$data['selected_nav'] = 'surat_masuk';
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('surat_masuk/table', $data);
+		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
 	}
 

@@ -7,7 +7,7 @@
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Buku Administrasi Umum</h1>
+		<h1>Buku Administrasi Umum - <?= $subtitle ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active"><?= $subtitle ?></li>
