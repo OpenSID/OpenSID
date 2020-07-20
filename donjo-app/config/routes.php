@@ -83,3 +83,10 @@ $route['surat_masuk/([a-z]+)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2
 $route['surat_masuk/([a-z]+)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2";
 $route['surat_masuk/([a-z_]+)'] = "bumindes_umum2/surat_masuk/$1";
 $route['surat_masuk'] = "bumindes_umum2/surat_masuk";
+
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2/$3/$4/$5";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2/$3/$4";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2/$3";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2";
+$route['dokumen_sekretariat/([a-z_]+)'] = "bumindes_umum2/dokumen_sekretariat/$1";
+$route['dokumen_sekretariat'] = "bumindes_umum2/dokumen_sekretariat";

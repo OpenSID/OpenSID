@@ -9,8 +9,8 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
-		$this->modul_ini = 15;
-		$this->sub_modul_ini = 95;
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 302;
 	}
 
 	public function index($kat=2, $p=1, $o=0)
@@ -56,12 +56,15 @@ class Dokumen_sekretariat extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
+		$data['main_content'] = 'dokumen/table';
+		$data['subtitle'] = "Buku Peraturan Desa";
+		$data['selected_nav'] = 'peraturan';
 		$this->_set_tab($kat);
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('dokumen/table', $data);
+		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
 	}
 
