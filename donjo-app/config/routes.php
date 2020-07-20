@@ -72,15 +72,15 @@ $route['pengurus/([a-z]+)/(:any)'] = "bumindes_umum2/pengurus/$1/$2";
 $route['pengurus/([a-z]+)'] = "bumindes_umum2/pengurus/$1";
 $route['pengurus'] = "bumindes_umum2/pengurus";
 
-$route['surat_keluar/([a-z]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2/$3/$4";
-$route['surat_keluar/([a-z]+)/(:any)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2/$3";
-$route['surat_keluar/([a-z]+)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2";
+$route['surat_keluar/([a-z_]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2/$3/$4";
+$route['surat_keluar/([a-z_]+)/(:any)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2/$3";
+$route['surat_keluar/([a-z_]+)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2";
 $route['surat_keluar/([a-z_]+)'] = "bumindes_umum2/surat_keluar/$1";
 $route['surat_keluar'] = "bumindes_umum2/surat_keluar";
 
-$route['surat_masuk/([a-z]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2/$3/$4";
-$route['surat_masuk/([a-z]+)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2/$3";
-$route['surat_masuk/([a-z]+)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2";
+$route['surat_masuk/([a-z_]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2/$3/$4";
+$route['surat_masuk/([a-z_]+)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2/$3";
+$route['surat_masuk/([a-z_]+)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2";
 $route['surat_masuk/([a-z_]+)'] = "bumindes_umum2/surat_masuk/$1";
 $route['surat_masuk'] = "bumindes_umum2/surat_masuk";
 

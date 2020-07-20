@@ -21,7 +21,6 @@
 	});
 </script>
 <div class="box box-info">
-<form id="mainform" name="mainform" action="<?= site_url('laporan')?>" method="post" class="form-horizontal">
   <div class="box-header with-border">
 		<a href="<?= site_url('surat_masuk/form')?>" title="Tambah Surat Masuk Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Surat Masuk Baru</a>
 		<a href="#confirm-delete" title="Hapus Data" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform','<?= site_url("surat_masuk/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -157,6 +156,5 @@
 			</div>
 		</div>
 	</div>
-</form>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
