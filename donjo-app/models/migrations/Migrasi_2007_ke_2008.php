@@ -49,6 +49,8 @@ class Migrasi_2007_ke_2008 extends CI_model {
 	{
 		// Menu baru -FITUR PREMIUM-
 		$this->buku_administrasi_desa();
+		// Buat kolom nama dokumen lebih panjang
+		$this->db->query("ALTER TABLE dokumen MODIFY COLUMN nama varchar(100) NOT NULL");
 
 		// Tambah perubahan database di sini
 		$this->ubah_data_persil();

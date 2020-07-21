@@ -63,7 +63,7 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat" style="width: 100%;">
 										<option value=''>-- Pilih Kode/Klasifikasi Surat --</option>
 										<?php foreach ($klasifikasi as $item): ?>
