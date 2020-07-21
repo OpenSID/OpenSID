@@ -53,7 +53,7 @@ class Surat_masuk extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$data['main_content'] = 'surat_masuk/table';
 		$data['subtitle'] = "Buku Agenda - Surat Masuk";
-		$data['selected_nav'] = 'surat_masuk';
+		$data['selected_nav'] = 'agenda_masuk';
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);

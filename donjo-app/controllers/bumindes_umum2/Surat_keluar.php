@@ -51,7 +51,7 @@ class Surat_keluar extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$data['main_content'] = 'surat_keluar/table';
 		$data['subtitle'] = "Buku Agenda - Surat Keluar";
-		$data['selected_nav'] = 'surat_keluar';
+		$data['selected_nav'] = 'agenda_keluar';
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
