@@ -594,7 +594,7 @@ function isPHP($file, $filename)
 
 	$handle = fopen($file, 'r');
 	$buffer = stream_get_contents($handle);
-	if (preg_match('/<\?php|<\?=|<script/i', $buffer)) {
+	if (preg_match('/<\?php|<script/i', $buffer)) {
 		fclose($handle);
 		return true;
 	}
