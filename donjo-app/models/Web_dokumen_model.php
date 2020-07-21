@@ -133,10 +133,10 @@ class Web_dokumen_model extends MY_Model {
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if (!empty($_SESSION['filter']))
 		{
 			$kf = $_SESSION['filter'];
-			$filter_sql= " AND enabled = $kf";
+			$filter_sql = " AND enabled = $kf";
 			return $filter_sql;
 		}
 	}
