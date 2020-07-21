@@ -62,7 +62,7 @@ class Bumindes_umum extends Admin_Controller {
 				break;
 
 			default:
-				$data = array_merge($data, $this->load_peraturan_data_tables($page_number, $offset));
+				$data = array_merge($data, $this->load_ekspedisi_data_tables($page_number, $offset));
 				break;
 		}
 		return $data;

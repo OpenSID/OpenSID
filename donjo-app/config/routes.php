@@ -66,27 +66,31 @@ $route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : 
 $route['first/artikel/(:num)'] = 'first/artikel/$1'; // Contoh : Contoh : first/artikel/1
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : first/artikel/2020/5/15/contoh-artikel
 
-$route['pengurus/([a-z]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/pengurus/$1/$2/$3/$4";
-$route['pengurus/([a-z]+)/(:any)/(:any)'] = "bumindes_umum2/pengurus/$1/$2/$3";
-$route['pengurus/([a-z]+)/(:any)'] = "bumindes_umum2/pengurus/$1/$2";
-$route['pengurus/([a-z]+)'] = "bumindes_umum2/pengurus/$1";
-$route['pengurus'] = "bumindes_umum2/pengurus";
+$route['bumindes_umum/([a-z_]+)/(:any)'] = "buku_umum/bumindes_umum/$1/$2";
+$route['bumindes_umum/([a-z_]+)'] = "buku_umum/bumindes_umum/$1";
+$route['bumindes_umum'] = "buku_umum/bumindes_umum";
 
-$route['surat_keluar/([a-z_]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2/$3/$4";
-$route['surat_keluar/([a-z_]+)/(:any)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2/$3";
-$route['surat_keluar/([a-z_]+)/(:any)'] = "bumindes_umum2/surat_keluar/$1/$2";
-$route['surat_keluar/([a-z_]+)'] = "bumindes_umum2/surat_keluar/$1";
-$route['surat_keluar'] = "bumindes_umum2/surat_keluar";
+$route['pengurus/([a-z]+)/(:any)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3/$4";
+$route['pengurus/([a-z]+)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3";
+$route['pengurus/([a-z]+)/(:any)'] = "buku_umum/pengurus/$1/$2";
+$route['pengurus/([a-z]+)'] = "buku_umum/pengurus/$1";
+$route['pengurus'] = "buku_umum/pengurus";
 
-$route['surat_masuk/([a-z_]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2/$3/$4";
-$route['surat_masuk/([a-z_]+)/(:any)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2/$3";
-$route['surat_masuk/([a-z_]+)/(:any)'] = "bumindes_umum2/surat_masuk/$1/$2";
-$route['surat_masuk/([a-z_]+)'] = "bumindes_umum2/surat_masuk/$1";
-$route['surat_masuk'] = "bumindes_umum2/surat_masuk";
+$route['surat_keluar/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/surat_keluar/$1/$2/$3/$4";
+$route['surat_keluar/([a-z_]+)/(:any)/(:any)'] = "buku_umum/surat_keluar/$1/$2/$3";
+$route['surat_keluar/([a-z_]+)/(:any)'] = "buku_umum/surat_keluar/$1/$2";
+$route['surat_keluar/([a-z_]+)'] = "buku_umum/surat_keluar/$1";
+$route['surat_keluar'] = "buku_umum/surat_keluar";
 
-$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2/$3/$4/$5";
-$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2/$3/$4";
-$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2/$3";
-$route['dokumen_sekretariat/([a-z_]+)/(:any)'] = "bumindes_umum2/dokumen_sekretariat/$1/$2";
-$route['dokumen_sekretariat/([a-z_]+)'] = "bumindes_umum2/dokumen_sekretariat/$1";
-$route['dokumen_sekretariat'] = "bumindes_umum2/dokumen_sekretariat";
+$route['surat_masuk/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/surat_masuk/$1/$2/$3/$4";
+$route['surat_masuk/([a-z_]+)/(:any)/(:any)'] = "buku_umum/surat_masuk/$1/$2/$3";
+$route['surat_masuk/([a-z_]+)/(:any)'] = "buku_umum/surat_masuk/$1/$2";
+$route['surat_masuk/([a-z_]+)'] = "buku_umum/surat_masuk/$1";
+$route['surat_masuk'] = "buku_umum/surat_masuk";
+
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3/$4/$5";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3/$4";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2";
+$route['dokumen_sekretariat/([a-z_]+)'] = "buku_umum/dokumen_sekretariat/$1";
+$route['dokumen_sekretariat'] = "buku_umum/dokumen_sekretariat";
