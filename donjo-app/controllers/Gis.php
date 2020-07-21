@@ -97,7 +97,7 @@ class Gis extends Admin_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['list_lap'] = $this->referensi_model->list_lap();
+		$data['list_lap'] = $this->referensi_model->list_ref(LIST_LAP);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

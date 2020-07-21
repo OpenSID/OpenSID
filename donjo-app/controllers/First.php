@@ -710,7 +710,7 @@ class First extends Web_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['list_lap'] = $this->referensi_model->list_lap();
+		$data['list_lap'] = $this->referensi_model->list_ref(LIST_LAP);
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 		$data['lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['garis'] = $this->plan_garis_model->list_data();

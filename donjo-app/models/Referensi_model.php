@@ -1,11 +1,18 @@
 <?php
 
+define("JENIS_PERATURAN_DESA", serialize(array(
+	"Peraturan Desa (Perdes)",
+	"Peraturan Kepala Desa (Perkades)",
+	"Peraturan Bersama Kepala Desa"
+)));
+
 define("KATEGORI_PUBLIK", serialize(array(
 	"Informasi Berkala" => "1",
 	"Informasi Serta-merta" => "2",
 	"Informasi Setiap Saat" => "3",
 	"Informasi Dikecualikan" => "4"
 )));
+
 define("STATUS_PERMOHONAN", serialize(array(
 	"Sedang diperiksa" => "0",
 	"Belum lengkap" => "1",
@@ -93,14 +100,13 @@ class Referensi_model extends CI_Model {
 		$data = $this->db->order_by('id')
 			->get($tabel)
 			->result_array();
-		$data = array_combine(array_column($data, 'id'), $data);		
+		$data = array_combine(array_column($data, 'id'), $data);
 		return $data;
 	}
 
-	public function list_lap()
+	public function list_ref($ref)
 	{
-		$list_lap = unserialize(LIST_LAP);
-		return $list_lap;
+		return unserialize($ref);
 	}
 
 }

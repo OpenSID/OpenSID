@@ -81,11 +81,16 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
+		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 
 		if ($id)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id);
 			$data['form_action'] = site_url("dokumen_sekretariat/update/$kat/$id/$p/$o");
+			if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] and !in_array($jenis_peraturan, $data['jenis_peraturan']))
+			{
+				$data['jenis_peraturan'][] = $jenis_peraturan;
+			}
 		}
 		else
 		{
