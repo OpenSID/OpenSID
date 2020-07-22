@@ -2,6 +2,49 @@
 
 define("FOTO_DEFAULT", base_url() . 'assets/files/user_pict/kuser.png');
 
+define ('MIME_TYPE_SIMBOL', serialize (array(
+	'image/png',  'image/x-png' )));
+
+define ('EXT_SIMBOL', serialize(array(
+	".png"
+)));
+
+define ('MIME_TYPE_DOKUMEN', serialize (array(
+	"application/x-download",
+	"application/pdf",
+	"application/ppt",
+	"application/pptx",
+	"application/excel",
+	"application/msword",
+	"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	"text/rtf",
+	"application/powerpoint",
+	"application/vnd.ms-powerpoint",
+	"application/vnd.ms-excel",
+	"application/msexcel")));
+
+define ('EXT_DOKUMEN', serialize(array(
+	".pdf", ".ppt", ".pptx", ".pps", ".ppsx",
+	".doc", ".docx", ".rtf", ".xls", ".xlsx"
+)));
+
+define ('MIME_TYPE_GAMBAR', serialize (array(
+	'image/jpeg', 'image/pjpeg',
+	'image/png',  'image/x-png' )));
+
+define ('EXT_GAMBAR', serialize(array(
+	".jpg", ".jpeg", ".png"
+)));
+
+define ('MIME_TYPE_ARSIP', serialize (array(
+	'application/rar','application/x-rar','application/x-rar-compressed','application/octet-stream',
+	'application/zip','application/x-zip','application/x-zip-compressed')));
+
+define ('EXT_ARSIP', serialize(array(
+	".zip", ".rar"
+)));
+
 /**
 * Tambahkan suffix unik ke nama file
 * @param   string        $namaFile    Nama file asli (beserta ekstensinya)
@@ -620,42 +663,6 @@ function UploadSimbol($fupload_name)
 
 	move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
 }
-
-define ('MIME_TYPE_DOKUMEN', serialize (array(
-	"application/x-download",
-	"application/pdf",
-	"application/ppt",
-	"application/pptx",
-	"application/excel",
-	"application/msword",
-	"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-	"text/rtf",
-	"application/powerpoint",
-	"application/vnd.ms-powerpoint",
-	"application/vnd.ms-excel",
-	"application/msexcel")));
-
-define ('EXT_DOKUMEN', serialize(array(
-	".pdf", ".ppt", ".pptx", ".pps", ".ppsx",
-	".doc", ".docx", ".rtf", ".xls", ".xlsx"
-)));
-
-define ('MIME_TYPE_GAMBAR', serialize (array(
-	'image/jpeg', 'image/pjpeg',
-	'image/png',  'image/x-png' )));
-
-define ('EXT_GAMBAR', serialize(array(
-	".jpg", ".jpeg", ".png"
-)));
-
-define ('MIME_TYPE_ARSIP', serialize (array(
-	'application/rar','application/x-rar','application/x-rar-compressed','application/octet-stream',
-	'application/zip','application/x-zip','application/x-zip-compressed')));
-
-define ('EXT_ARSIP', serialize(array(
-	".zip", ".rar"
-)));
 
 function AmbilDokumen($dokumen)
 {
