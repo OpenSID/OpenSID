@@ -237,3 +237,12 @@
   height: 100px;
   overflow-y: scroll;
 }
+
+#qrcode .panel-body-lg {
+  margin-right: 5px;
+  margin-bottom: 20px;
+  pointer-events: visiblePainted;
+	pointer-events: auto;
+  position: relative;
+  z-index: 800;
+}

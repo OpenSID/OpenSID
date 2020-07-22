@@ -96,9 +96,10 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
-		<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Shapefile.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -120,7 +121,7 @@
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
 		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
-		<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+		<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
 		<script src="<?= base_url()?>assets/js/shp.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
