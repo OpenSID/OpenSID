@@ -54,7 +54,7 @@ class Menu extends Admin_Controller {
 		$this->load->model('program_bantuan_model');
 		$this->load->model('keuangan_model');
 		$this->load->model('web_dokumen_model');
-		$data['tip'] = $tip;
+
 		$data['link'] = $this->web_menu_model->list_link();
 		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
 		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();

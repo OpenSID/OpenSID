@@ -98,24 +98,27 @@ class Web_menu_model extends MY_Model {
 
 	public function insert($tip=1)
 	{
-		$data = [];
+		$post = $this->input->post();
 		$data['tipe'] = $tip;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
-		$data['nama'] = htmlentities($this->input->post('nama'));
-		$data['link'] = $this->input->post('link');
+		$data['nama'] = htmlentities($post['nama']);
+		$data['link'] = $post['link'];
+		$data['link_tipe'] = $post['link_tipe'];
 
-		$outp = $this->db->insert('menu',$data);
+		$outp = $this->db->insert('menu', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
 	{
-		$data = [];
-		$data['nama'] = htmlentities($this->input->post('nama'));
-		$data['link'] = $this->input->post('link');
+		$post = $this->input->post();
+		$data['nama'] = htmlentities($post['nama']);
+		$data['link'] = $post['link'];
 		if ($data['link']=="")
 			UNSET($data['link']);
+
+		$data['link_tipe'] = $post['link_tipe'];
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('menu', $data);
