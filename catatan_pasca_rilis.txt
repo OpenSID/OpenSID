@@ -20,5 +20,7 @@ Catatan versi 4.2.1:
 18. Tukar Posisi info COVID-19.
 19. Sediakan data cari yang sudah diamankan ke view beranda. [bug-fix].
 20. Perbaharui Mapbox API dari Classic ke GL.
+21. Sesuaikan icon statistik desa.
+22. #50 Kini widget agenda tampil pada sidebar. [bug-fix].
 
 ****************************************************************
