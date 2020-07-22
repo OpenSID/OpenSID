@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 22. #3350: Ubah cara menguji apakah file yg diunggah berisi script PHP supaya tidak menolak file yg valid.
 23. Sediakan menu untuk mengubah daftar simbol yg digunakan pada lokasi di peta. Tambahkan simbol lembaga Indonesia.
 24. Peta sekarang bisa tampilkan gambar untuk area, garis dan lokasi.
+25. Tampilkan QR Code OpenSID di tampilan Peta.
 
 
 
