@@ -9,7 +9,7 @@
 					<?= $data['nama'];?><?php (count($data['submenu'])>0) and print('<span class="caret"></span>');?>
 				</a>
 				<?php if(count($data['submenu'])>0): ?>
-					<ul class="submenu">
+					<ul class="nav submenu">
 						<?php foreach($data['submenu'] as $submenu):?>
 							<li><a href="<?= site_url('first/kategori/'.$submenu['id'])?>"><?= $submenu['nama']?></a></li>
 						<?php endforeach; ?>
