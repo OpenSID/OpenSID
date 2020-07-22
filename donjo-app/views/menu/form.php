@@ -89,8 +89,8 @@
 										<?php endforeach; ?>
 									</select>
 									<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">
-										<input  name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
-										<span class="text-sm text-red">(misalnya: http://opensid.info)</span>
+										<input name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
+										<span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
 									</span>
 								</div>
 							</div>
@@ -114,6 +114,7 @@
 		$('.jenis_link').hide();
 		$('.jenis_link').removeAttr( "name" );
 		$('.jenis_link').attr('disabled','disabled');
+		$('#eksternal > input').attr('name', '');
 		if (jenis == '1')
 		{
 			$('#link').show();

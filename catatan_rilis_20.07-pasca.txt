@@ -29,6 +29,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 23. Sediakan menu untuk mengubah daftar simbol yg digunakan pada lokasi di peta. Tambahkan simbol lembaga Indonesia.
 24. Peta sekarang bisa tampilkan gambar untuk area, garis dan lokasi.
 25. Tampilkan QR Code OpenSID di tampilan Peta.
+26. #3351: Perbaiki tautan menu statis ke artikel eksternal. [bug-fix]
 
 
 
