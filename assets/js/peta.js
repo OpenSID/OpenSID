@@ -1106,15 +1106,18 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 
 	setMarkerCustom(marker_area, layer_area);
 	setMarkerCustom(marker_garis, layer_garis);
-	setMarkerCluster(marker_lokasi, markersList, markers);
+  setMarkerCustom(marker_lokasi, layer_lokasi);
+
+  //Sementara L.MarkerClusterGroup di non-aktifan karena peta lokasi tidak tampil jika memamkai layer mapboxGL
+	//setMarkerCluster(marker_lokasi, markersList, markers);
 
 	peta.on('layeradd layerremove', function () {
 		var bounds = new L.LatLngBounds();
 		peta.eachLayer(function (layer) {
 			if(peta.hasLayer(layer_lokasi)) {
-				peta.addLayer(markers);
+				//peta.addLayer(markers);
 			} else {
-				peta.removeLayer(markers);
+				//peta.removeLayer(markers);
 			}
 			if (layer instanceof L.FeatureGroup) {
 				bounds.extend(layer.getBounds());
