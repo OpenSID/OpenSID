@@ -28,11 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -193,15 +193,17 @@ class Web_menu_model extends MY_Model {
 
 	public function list_sub_menu($menu=1)
 	{
-		$sql = "SELECT * FROM menu WHERE parrent = ? AND tipe = 3 ORDER BY urut";
-
-		$query = $this->db->query($sql, $menu);
-		$data = $query->result_array();
+		$data = $this->db->select('*')
+			->from('menu')
+			->where('parrent', $menu)
+			->where('tipe', 3)
+			->order_by('urut')
+			->get()->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+			if ($data[$i]['link_tipe'] != 99) $data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 		}
 
 		return $data;
@@ -225,12 +227,14 @@ class Web_menu_model extends MY_Model {
 
 	public function insert_sub_menu($menu=0)
 	{
+		$post = $this->input->post();
 		$data = [];
 		$data['parrent'] = $menu;
 		$data['tipe'] = 3;
 		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
-		$data['nama'] = htmlentities($this->input->post('nama'));
-		$data['link'] = $this->input->post('link');
+		$data['nama'] = htmlentities($post['nama']);
+		$data['link'] = $post['link'];
+		$data['link_tipe'] = $post['link_tipe'];
 		$outp = $this->db->insert('menu', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -238,9 +242,11 @@ class Web_menu_model extends MY_Model {
 
 	public function update_sub_menu($id=0)
 	{
+		$post = $this->input->post();
 		$data = [];
-		$data['nama'] = htmlentities($this->input->post('nama'));
-		$data['link'] = $this->input->post('link');
+		$data['nama'] = htmlentities($post['nama']);
+		$data['link'] = $post['link'];
+		$data['link_tipe'] = $post['link_tipe'];
 		if ($data['link'] == "")
 		{
 			UNSET($data['link']);
