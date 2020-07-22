@@ -34,4 +34,10 @@ class Notif extends Admin_Controller {
 			echo $j;
 		}
 	}
+
+	public function update_pengumuman()
+	{
+		$this->notif_model->update_notifikasi($this->input->post('kode'), $this->input->post('non_aktifkan'));
+	}
+
 }

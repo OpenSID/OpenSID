@@ -30,6 +30,8 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 24. Peta sekarang bisa tampilkan gambar untuk area, garis dan lokasi.
 25. Tampilkan QR Code OpenSID di tampilan Peta.
 26. #3351: Perbaiki tautan menu statis ke artikel eksternal. [bug-fix]
+27. #3205: Haruskan pengguna untuk membaca dan menyetujui syarat penggunaan OpenSID.
+28. #3206: Tampilkan peringatan kalau setting tracking website dimatikan.
 
 
 

@@ -163,6 +163,22 @@ class Database_model extends CI_Model {
   	// Tidak lakukan apa-apa
   }
 
+	// Cek apakah migrasi perlu dijalankan
+	public function cek_migrasi()
+	{
+		// Paksa menjalankan migrasi kalau belum
+		// Migrasi direkam di tabel migrasi
+		$sudah = false;
+		if ($this->db->table_exists('migrasi') )
+			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+				->get('migrasi')->num_rows();
+		if (!$sudah)
+		{
+			$this->migrasi_db_cri();
+		}
+	}
+
+
   private function _migrasi_db_cri()
   {
 		$this->migrasi_cri_lama();
@@ -224,6 +240,7 @@ class Database_model extends CI_Model {
 		$this->jalankan_migrasi('migrasi_2004_ke_2005');
 		$this->jalankan_migrasi('migrasi_2005_ke_2006');
 		$this->jalankan_migrasi('migrasi_2006_ke_2007');
+		$this->jalankan_migrasi('migrasi_2007_ke_2008');
   }
 
   private function jalankan_migrasi($migrasi)

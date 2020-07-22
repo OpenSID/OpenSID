@@ -53,22 +53,6 @@ class Setting_model extends CI_Model {
 		$this->apply_setting();
 	}
 
-	// Cek apakah migrasi perlu dijalankan
-	private function cek_migrasi()
-	{
-		// Paksa menjalankan migrasi kalau belum
-		// Migrasi direkam di tabel migrasi
-		$sudah = false;
-		if ($this->db->table_exists('migrasi') )
-			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-				->get('migrasi')->num_rows();
-		if (!$sudah)
-		{
-			$this->load->model('database_model');
-			$this->database_model->migrasi_db_cri();
-		}
-	}
-
 	// Setting untuk PHP
 	private function apply_setting()
 	{
@@ -96,26 +80,63 @@ class Setting_model extends CI_Model {
 			}
 		}
 		$this->setting->demo_mode = config_item('demo_mode');
-		$this->cek_migrasi();
+		$this->load->model('database_model');
+		$this->database_model->cek_migrasi();
 	}
 
-	public function update($data)
+	public function update_setting($data)
 	{
-		$_SESSION['success'] = 1;
-
 		foreach ($data as $key => $value)
 		{
 			// Update setting yang diubah
 			if ($this->setting->$key != $value)
 			{
 				$value = strip_tags($value);
-				$outp = $this->db->where('key', $key)->update('setting_aplikasi', array('key'=>$key, 'value'=>$value));
+				$this->update($key, $value);
 				$this->setting->$key = $value;
-				if (!$outp) $_SESSION['success'] = -1;
+				if ($key == 'enable_track') $this->notifikasi_tracker();
 			}
 		}
 		$this->apply_setting();
 	}
+
+	private function notifikasi_tracker()
+	{
+		if ($this->setting->enable_track == 0)
+		{
+			// Notifikasi tracker dimatikan
+			$notif = [
+				'updated_at' => date("Y-m-d H:i:s"),
+				'tgl_berikutnya' => date("Y-m-d H:i:s"),
+				'aktif' => 1
+			];
+		}
+		else
+		{
+			// Matikan notifikasi tracker yg sdh aktif
+			$notif = [
+				'updated_at' => date("Y-m-d H:i:s"),
+				'aktif' => 0
+			];
+		}
+		$this->db->where('kode', 'tracking_off')->update('notifikasi', $notif);
+	}
+
+	public function update($key = 'enable_track', $value = 1)
+	{
+		$this->session->success = 1;
+
+		$outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
+
+		if (!$outp) $this->session->success = -1;
+	}
+
+	public function aktifkan_tracking()
+	{
+		$outp = $this->db->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
+		status_sukses($outp);
+	}
+
 
 	public function update_slider()
 	{

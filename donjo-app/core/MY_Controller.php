@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
 
@@ -19,6 +21,8 @@ class MY_Controller extends CI_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('database_model');
+        $this->database_model->cek_migrasi();
 				/* set klasik theme if not exist */
         if (empty($this->setting->web_theme))
         {
@@ -161,13 +165,14 @@ class Admin_Controller extends MY_Controller
 {
 	public $grup;
 	public $CI = NULL;
+	public $pengumuman = NULL;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
  		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model('user_model');
+		$this->load->model(['user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -190,6 +195,22 @@ class Admin_Controller extends MY_Controller
 				redirect('/');
 			}
 		}
+		$this->cek_pengumuman();
+
+	}
+
+	private function cek_pengumuman()
+	{
+		if ($this->grup == 1) // hanya utk user administrator
+		{
+			$notifikasi = $this->notif_model->get_semua_notif();
+			foreach($notifikasi as $notif)
+			{
+				$this->pengumuman = $this->notif_model->notifikasi($notif['kode']);
+				if ($notif['jenis'] == 'persetujuan') break;
+			}
+		}
+
 	}
 
 	protected function redirect_hak_akses($akses, $redirect='', $controller='')
