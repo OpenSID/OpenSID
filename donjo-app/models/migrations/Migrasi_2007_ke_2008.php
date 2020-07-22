@@ -50,6 +50,7 @@ class Migrasi_2007_ke_2008 extends CI_model {
 		// Tambah perubahan database di sini
 		$this->ubah_data_persil();
 		$this->tambah_simbol_lokasi();
+		$this->buat_folder_simbol_lokasi();
 
 		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
 		$this->db->query("ALTER TABLE point MODIFY COLUMN tipe INT(4) NULL DEFAULT 0");
@@ -530,5 +531,28 @@ class Migrasi_2007_ke_2008 extends CI_model {
 		(638, 'aa_tniau.png')
 		ON DUPLICATE KEY UPDATE simbol = VALUES(simbol)";
 	$this->db->query($query);
+	}
+
+	private function buat_folder_simbol_lokasi()
+	{
+		// Tambah folder desa untuk menyimpan simbol lokasi
+		$new_dir = LOKASI_SIMBOL_LOKASI;
+		if (!file_exists($new_dir))
+		{
+			$outp = true;
+			mkdir($new_dir, 0755);
+			$dir = LOKASI_SIMBOL_LOKASI_DEF;
+			$files = scandir($dir);
+			foreach ($files as $file)
+			{
+				if (!empty($file) && $file != '.' && $file != '..')
+				{
+					$source = $dir.'/'.$file;
+					$destination = $new_dir.'/'.$file;
+					$outp = $outp and copy($source, $destination);
+				}
+			}
+			status_sukses($outp);
+		}
 	}
 }

@@ -311,7 +311,8 @@ class Plan_point_model extends MY_Model {
 		$target_dir = LOKASI_SIMBOL_LOKASI;
 		$target_file = $target_dir . $simbol;
 
-		if (file_exists($target_file)) {
+		if (file_exists($target_file))
+		{
 			$outp = unlink($target_file);
 		}
 		status_sukses($outp);
@@ -319,17 +320,24 @@ class Plan_point_model extends MY_Model {
 
 	public function salin_simbol_default()
 	{
-		$dir   = LOKASI_SIMBOL_LOKASI_DEF;
+		$dir = LOKASI_SIMBOL_LOKASI_DEF;
 		$files = scandir($dir);
 		$new_dir = LOKASI_SIMBOL_LOKASI;
+		$outp = true;
 
-		foreach($files as $file)
+		foreach ($files as $file)
 		{
-			if(!empty($file) && $file != '.' && $file != '..')
+			if (!empty($file) && $file != '.' && $file != '..')
 			{
 				$source = $dir.'/'.$file;
 				$destination = $new_dir.'/'.$file;
-				$outp = copy($source, $destination);
+				if (!file_exists($destination))
+				{
+					$outp = $outp and copy($source, $destination);
+					$data['simbol'] = basename($file);
+					$sql = $this->db->insert_string('gis_simbol', $data) . " ON DUPLICATE KEY UPDATE simbol = VALUES(simbol)";
+					$outp = $outp and $this->db->query($sql);
+				}
 			}
 		}
 		status_sukses($outp);

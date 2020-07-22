@@ -26,6 +26,8 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 20. Perbaiki impor data penduduk supaya kolom '-' diubah menjadi kosong. Juga ubah kolom tweb_penduduk->dokumen_kitas bisa berisi karakter alfanumerik.
 21. #3346: Perbaiki jumlah cacat yg tampil di Laporan Cetak Kelompok Rentan. [bug-fix]
 22. #3350: Ubah cara menguji apakah file yg diunggah berisi script PHP supaya tidak menolak file yg valid.
+23. Sediakan menu untuk mengubah daftar simbol yg digunakan pada lokasi di peta. Tambahkan simbol lembaga Indonesia.
+24. Peta sekarang bisa tampilkan gambar untuk area, garis dan lokasi.
 
 
 
