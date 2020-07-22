@@ -88,7 +88,7 @@ class Web_menu_model extends MY_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-			$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+			if ($data[$i]['link_tipe'] != 99) $data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 
 			$j++;
 		}
