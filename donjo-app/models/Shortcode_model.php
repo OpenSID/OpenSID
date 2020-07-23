@@ -8,6 +8,7 @@ class Shortcode_model extends CI_Model {
     $this->load->model('keuangan_grafik_model');
     $this->load->model('keuangan_grafik_manual_model');
     $this->load->model('laporan_penduduk_model');
+    $this->load->model('config_model');
   }
 
 	/**
@@ -34,13 +35,21 @@ class Shortcode_model extends CI_Model {
     {
       return $this->grafik_rp_apbd($type, $thn);
     }
-    elseif ($type == 'lap-RP-APBD')
+    elseif ($type == 'lap-RP-APBD-sm1')
     {
-      return $this->tabel_rp_apbd($type, $thn);
+      return $this->tabel_rp_apbd($type, $thn, $smt1=true);
     }
-    elseif ($type == 'lap-RP-APBD-Bidang')
+    elseif ($type == 'lap-RP-APBD-sm2')
     {
-      return $this->tabel_rp_apbd_bidang($type, $thn);
+      return $this->tabel_rp_apbd($type, $thn, $smt1=false);
+    }
+    elseif ($type == 'lap-RP-APBD-Bidang-sm1')
+    {
+      return $this->tabel_rp_apbd_bidang($type, $thn, $smt1=true);
+    }
+    elseif ($type == 'lap-RP-APBD-Bidang-sm2')
+    {
+      return $this->tabel_rp_apbd_bidang($type, $thn, $smt1=false);
     }
     elseif ($type == 'penerima_bantuan_penduduk_grafik')
     {
@@ -78,28 +87,34 @@ class Shortcode_model extends CI_Model {
 		return $res;
 	}
 
-	private function tabel_rp_apbd($type, $thn)
+	private function tabel_rp_apbd($type, $thn, $smt1)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
+    $desa = $this->config_model->get_data();
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
     $belanja_bidang = $data['belanja_bidang'];
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
+		$ta = $thn;
+		$sm = $smt1 ? '1' : '2';
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
 		return $output;
 	}
 
-  private function tabel_rp_apbd_bidang($type, $thn)
+  private function tabel_rp_apbd_bidang($type, $thn, $smt1)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
+    $desa = $this->config_model->get_data();
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
     $belanja_bidang = $data['belanja_bidang'];
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
+    $ta = $thn;
+		$sm = $smt1 ? '1' : '2';
     $jenis = 'bidang';
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
@@ -120,11 +135,13 @@ class Shortcode_model extends CI_Model {
   private function tabel_rp_apbd_bidang_manual($type, $thn)
 	{
 		$data = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
+    $desa = $this->config_model->get_data();
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
     $belanja_bidang = $data['belanja_bidang'];
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
+    $ta = $thn;
     $jenis = 'bidang';
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
@@ -142,7 +159,7 @@ class Shortcode_model extends CI_Model {
     $lap = 'bantuan_penduduk';
 
 		ob_start();
-			include("donjo-app/views/statistik/penduduk_grafik_web.php");
+			include("donjo-app/views/statistik/penduduk_grafik.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -172,7 +189,7 @@ class Shortcode_model extends CI_Model {
     $lap = 'bantuan_keluarga';
 
 		ob_start();
-			include("donjo-app/views/statistik/penduduk_grafik_web.php");
+			include("donjo-app/views/statistik/penduduk_grafik.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -207,14 +224,24 @@ class Shortcode_model extends CI_Model {
 
 	private function converted_sc_list($type, $thn)
 	{
-		if ($type == "lap-RP-APBD")
+		if ($type == "lap-RP-APBD-sm1")
 		{
-			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes TA. " . $thn . ", ";
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 1 TA. " . $thn . ", ";
 			return $output;
 		}
-    elseif ($type == "lap-RP-APBD-Bidang")
+    elseif ($type == "lap-RP-APBD-sm2")
 		{
-			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes TA. " . $thn . ", ";
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 2 TA. " . $thn . ", ";
+			return $output;
+		}
+    elseif ($type == "lap-RP-APBD-Bidang-sm1")
+		{
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 1 TA. " . $thn . ", ";
+			return $output;
+		}
+    elseif ($type == "lap-RP-APBD-Bidang-sm2")
+		{
+			$output = "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 2 TA. " . $thn . ", ";
 			return $output;
 		}
 		elseif ($type == "grafik-RP-APBD")
