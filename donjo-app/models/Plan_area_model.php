@@ -25,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -164,7 +164,7 @@ class Plan_area_model extends MY_Model {
 	{
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
 		$data['ref_polygon'] = $post['ref_polygon'];
-		$data['desk'] = $post['desk'];
+		$data['desk'] = htmlentities($post['desk']);
 		$data['enabled'] = $post['enabled'];
 		return $data;
 	}
@@ -308,14 +308,15 @@ class Plan_area_model extends MY_Model {
 
 	public function list_area()
 	{
-		$sql = "
-			SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color FROM area l
-			LEFT JOIN polygon p ON l.ref_polygon = p.id
-			LEFT JOIN polygon m ON p.parrent = m.id
-			WHERE l.enabled = 1 AND p.enabled = 1 AND m.enabled = 1";
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color')
+			->from('area l')
+			->join('polygon p', 'l.ref_polygon = p.id', 'left')
+			->join('polygon m', 'p.parrent = m.id', 'left')
+			->where('l.enabled', 1)
+			->where('p.enabled', 1)
+			->where('m.enabled', 1)
+			->get()->result_array();
 		return $data;
 	}
 
