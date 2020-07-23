@@ -32,6 +32,9 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 26. #3351: Perbaiki tautan menu statis ke artikel eksternal. [bug-fix]
 27. #3205: Haruskan pengguna untuk membaca dan menyetujui syarat penggunaan OpenSID.
 28. #3206: Tampilkan peringatan kalau setting tracking website dimatikan.
+29. #3329: Sekarang pengguna tingkat operator dapat mengakses menu keuangan manual.
+30. #3341: Sediakan pilihan Laporan Keuangan per semester di sisipan artikel.
+31. #3328: Sekarang di Peta web infrastruktur (area/garis/lokasi) yang tampil hanya yg aktif saja. [bug-fix]
 
 
 
