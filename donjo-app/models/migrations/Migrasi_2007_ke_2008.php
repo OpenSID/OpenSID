@@ -660,6 +660,8 @@ class Migrasi_2007_ke_2008 extends CI_model {
 			$this->db->query($sql);
 		}
 		// Menu parent Buku Administrasi Desa. END
+		// Dokumen tidak harus ada file
+	  $this->db->query('ALTER TABLE dokumen MODIFY satuan VARCHAR(200) NULL DEFAULT NULL;');
 	}
 
 	private function tambah_simbol_lokasi()

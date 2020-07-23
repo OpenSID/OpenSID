@@ -279,28 +279,24 @@ class Web_dokumen_model extends MY_Model {
 	{
 		$retval = true;
 		$post = $this->input->post();
-		$satuan = $this->upload_dokumen($post);
-		if ($satuan)
+		$data = $this->validasi($post);
+		if (!empty($post['satuan'])) $data['satuan'] = $this->upload_dokumen($post);
+		$data['attr'] = json_encode($data['attr']);
+		$data['dok_warga'] = isset($post['dok_warga']);
+		// Dari layanan mandiri gunakan NIK penduduk
+		$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
+
+		unset($data['anggota_kk']);
+		$retval &= $this->db->insert('dokumen', $data);
+		$insert_id = $this->db->insert_id();
+
+		if ($retval)
 		{
-			$data = $this->validasi($post);
-			$data['satuan'] = $satuan;
-			$data['attr'] = json_encode($data['attr']);
-			$data['dok_warga'] = isset($post['dok_warga']);
-			// Dari layanan mandiri gunakan NIK penduduk
-			$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
-
-			unset($data['anggota_kk']);
-			$retval &= $this->db->insert('dokumen', $data);
-			$insert_id = $this->db->insert_id();
-
-			if ($retval)
+			$data['id_parent'] = $insert_id;
+			foreach ($post['anggota_kk'] as $key => $value)
 			{
-				$data['id_parent'] = $insert_id;
-				foreach ($post['anggota_kk'] as $key => $value)
-				{
-					$data['id_pend'] = $value;
-					$retval &= $this->db->insert('dokumen', $data);
-				}
+				$data['id_pend'] = $value;
+				$retval &= $this->db->insert('dokumen', $data);
 			}
 		}
 		return $retval;
