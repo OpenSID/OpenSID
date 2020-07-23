@@ -746,6 +746,7 @@ class User_model extends CI_Model {
 
 				// keuangan
 				'keuangan' => array('b','u'),
+				'keuangan_manual' => array('b','u'),
 
 				// analisis
 				'analisis_master' => array('b','u'),
