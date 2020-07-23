@@ -37,19 +37,19 @@ class Shortcode_model extends CI_Model {
     }
     elseif ($type == 'lap-RP-APBD-sm1')
     {
-      return $this->tabel_rp_apbd_sm1($type, $thn, $smt1);
+      return $this->tabel_rp_apbd($type, $thn, $smt1=true);
     }
     elseif ($type == 'lap-RP-APBD-sm2')
     {
-      return $this->tabel_rp_apbd_sm2($type, $thn, $smt1);
+      return $this->tabel_rp_apbd($type, $thn, $smt1=false);
     }
     elseif ($type == 'lap-RP-APBD-Bidang-sm1')
     {
-      return $this->tabel_rp_apbd_bidang_sm1($type, $thn, $smt1);
+      return $this->tabel_rp_apbd_bidang($type, $thn, $smt1=true);
     }
     elseif ($type == 'lap-RP-APBD-Bidang-sm2')
     {
-      return $this->tabel_rp_apbd_bidang_sm2($type, $thn, $smt1);
+      return $this->tabel_rp_apbd_bidang($type, $thn, $smt1=false);
     }
     elseif ($type == 'penerima_bantuan_penduduk_grafik')
     {
@@ -87,9 +87,9 @@ class Shortcode_model extends CI_Model {
 		return $res;
 	}
 
-	private function tabel_rp_apbd_sm1($type, $thn, $smt1)
+	private function tabel_rp_apbd($type, $thn, $smt1)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1=1);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
     $desa = $this->config_model->get_data();
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
@@ -97,33 +97,16 @@ class Shortcode_model extends CI_Model {
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
 		$ta = $thn;
-		$sm = '1';
+		$sm = $smt1 ? '1' : '2';
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
 		return $output;
 	}
 
-  private function tabel_rp_apbd_sm2($type, $thn, $smt1)
-  {
-    $data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
-    $desa = $this->config_model->get_data();
-    $pendapatan = $data['pendapatan'];
-    $belanja = $data['belanja'];
-    $belanja_bidang = $data['belanja_bidang'];
-    $pembiayaan = $data['pembiayaan'];
-    $pembiayaan_keluar = $data['pembiayaan_keluar'];
-		$ta = $thn;
-		$sm = '2';
-    ob_start();
-    include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
-    $output = ob_get_clean();
-    return $output;
-  }
-
-  private function tabel_rp_apbd_bidang_sm1($type, $thn, $smt1)
+  private function tabel_rp_apbd_bidang($type, $thn, $smt1)
 	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1=1);
+		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
     $desa = $this->config_model->get_data();
 		$pendapatan = $data['pendapatan'];
 		$belanja = $data['belanja'];
@@ -131,25 +114,7 @@ class Shortcode_model extends CI_Model {
 		$pembiayaan = $data['pembiayaan'];
     $pembiayaan_keluar = $data['pembiayaan_keluar'];
     $ta = $thn;
-		$sm = '1';
-    $jenis = 'bidang';
-		ob_start();
-			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
-		$output = ob_get_clean();
-		return $output;
-	}
-
-  private function tabel_rp_apbd_bidang_sm2($type, $thn, $smt1)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn);
-    $desa = $this->config_model->get_data();
-		$pendapatan = $data['pendapatan'];
-		$belanja = $data['belanja'];
-    $belanja_bidang = $data['belanja_bidang'];
-		$pembiayaan = $data['pembiayaan'];
-    $pembiayaan_keluar = $data['pembiayaan_keluar'];
-    $ta = $thn;
-		$sm = '2';
+		$sm = $smt1 ? '1' : '2';
     $jenis = 'bidang';
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");

@@ -33,6 +33,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 27. #3205: Haruskan pengguna untuk membaca dan menyetujui syarat penggunaan OpenSID.
 28. #3206: Tampilkan peringatan kalau setting tracking website dimatikan.
 29. #3329: Sekarang pengguna tingkat operator dapat mengakses menu keuangan manual.
+30. #3341: Sediakan pilihan Laporan Keuangan per semester di sisipan artikel.
 
 
 
