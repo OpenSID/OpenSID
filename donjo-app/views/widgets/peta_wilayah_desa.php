@@ -20,6 +20,7 @@
     var posisi = [-1.0546279422758742,116.71875000000001];
     var zoom = 10;
   <?php endif; ?>
+
   //Style polygon
   var style_polygon = {
     stroke: true,
@@ -32,18 +33,7 @@
   var wilayah_desa = L.map('map_wilayah').setView(posisi, zoom);
 
   //Menampilkan BaseLayers Peta
-	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(wilayah_desa);
-
-	var mbGLstrsat = L.mapboxGL({
-		accessToken: '<?=$this->setting->google_key?>',
-		style: 'mapbox://styles/mapbox/satellite-streets-v11',
-		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
-	});
-
-	var baseLayers = {
-		'OpenStreetMap': defaultLayer,
-		'Mapbox Satelit' : mbGLstrsat,
-	};
+  var baseLayers = getBaseLayers(wilayah_desa, '<?=$this->setting->google_key?>');
 
   L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(wilayah_desa);
 
