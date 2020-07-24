@@ -4,7 +4,7 @@
  *
  * View di Modul Identitas Desa di OpenSID
  *
- * /donjo-app/views/identitas_desa/maps_wilayah.php
+ * /donjo-app/views/sid/wilayah/maps_wilayah.php
  *
  */
 

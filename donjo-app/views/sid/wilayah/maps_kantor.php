@@ -4,7 +4,7 @@
  *
  * View di Modul Pemetaan di OpenSID
  *
- * /donjo-app/views/identitas_desa/maps_kantor.php
+ * /donjo-app/views/sid/wilayah/maps_kantor.php
  *
  */
 
