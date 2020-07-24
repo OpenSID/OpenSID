@@ -132,7 +132,7 @@
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 			$_SESSION['success'] = -1;
-			redirect('hom_desa/konfigurasi');
+			redirect('identitas_desa');
 		}
 
 		$uploadData = NULL;
