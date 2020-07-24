@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Surat Keterangan Wali Hakim</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
 			<li class="active">Surat Keterangan Wali Hakim</li>
 		</ol>
