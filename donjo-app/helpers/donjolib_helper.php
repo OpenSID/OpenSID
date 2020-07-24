@@ -244,8 +244,9 @@
 		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
-	function tgl_indo_dari_str($tgl_str) {
-		$tanggal = tgl_indo(date('Y m d',strtotime($tgl_str)));
+	function tgl_indo_dari_str($tgl_str, $kosong='-') {
+		$time = strtotime($tgl_str);
+		$tanggal = $time ? tgl_indo(date('Y m d',strtotime($tgl_str))) : $kosong;
 		return $tanggal;
 	}
 
