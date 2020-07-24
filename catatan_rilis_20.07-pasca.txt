@@ -35,6 +35,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 29. #3329: Sekarang pengguna tingkat operator dapat mengakses menu keuangan manual.
 30. #3341: Sediakan pilihan Laporan Keuangan per semester di sisipan artikel.
 31. #3328: Sekarang di Peta web infrastruktur (area/garis/lokasi) yang tampil hanya yg aktif saja. [bug-fix]
+32. Sekarang pesan proses migrasi tampil terus sampai prosesnya selesai.
 
 
 
