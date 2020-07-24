@@ -372,7 +372,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
-			$this->load->view("sid/wilayah/ajax_kantor_maps", $data);
+			$this->load->view("sid/wilayah/maps_kantor", $data);
 			$this->load->view('footer');
 		}
 		else
@@ -402,7 +402,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
+			$this->load->view("sid/wilayah/maps_wilayah", $data);
 			$this->load->view('footer');
 		}
 		else
@@ -460,7 +460,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
-			$this->load->view("sid/wilayah/ajax_kantor_maps", $data);
+			$this->load->view("sid/wilayah/maps_kantor", $data);
 			$this->load->view('footer');
 		}
 		else
@@ -498,7 +498,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
+			$this->load->view("sid/wilayah/maps_wilayah", $data);
 			$this->load->view('footer');
 		}
 		else
@@ -549,7 +549,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
-			$this->load->view("sid/wilayah/ajax_kantor_maps", $data);
+			$this->load->view("sid/wilayah/maps_kantor", $data);
 			$this->load->view('footer');
 		}
 		else
@@ -586,7 +586,7 @@ class Sid_Core extends Admin_Controller {
 		{
 			$this->load->view('header', $this->_header);
 			$this->load->view('nav');
-			$this->load->view("sid/wilayah/ajax_wilayah_maps", $data);
+			$this->load->view("sid/wilayah/maps_wilayah", $data);
 			$this->load->view('footer');
 		}
 		else

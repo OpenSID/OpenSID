@@ -86,6 +86,10 @@ class Migrasi_2007_ke_2008 extends CI_model {
 
 		// Buat table notifikasi
 		$this->add_notifikasi();
+
+		// Update Url Menu Identitas [Desa]
+		$this->db->where('id', 17)
+			->update('setting_modul', ['url' => 'identitas_desa']);
 	}
 
 	private function add_notifikasi()

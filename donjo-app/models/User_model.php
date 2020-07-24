@@ -695,7 +695,7 @@ class User_model extends CI_Model {
 				// home
 				'hom_sid' => array('b','u'),
 				// info desa
-				'hom_desa' => array('b','u'),
+				'identitas_desa' => array('b','u'),
 				'sid_core' => array('b','u'),
 				'pengurus' => array('b','u'),
 
