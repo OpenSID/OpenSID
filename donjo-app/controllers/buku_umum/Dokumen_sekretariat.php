@@ -11,6 +11,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
+		$this->_list_session = ['filter', 'cari', 'jenis_peraturan'];
 	}
 
 	public function index($kat=2, $p=1, $o=0)
@@ -29,10 +30,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
@@ -42,6 +39,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
+		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
     $_SESSION['menu_kategori'] = TRUE;
 
@@ -70,8 +68,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 	public function clear($kat=2)
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		$this->session->unset_userdata($this->_list_session);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
@@ -117,13 +114,10 @@ class Dokumen_sekretariat extends Admin_Controller {
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
-	public function filter()
+	public function filter($filter = 'filter')
 	{
-		$filter = $this->input->post('filter');
+		$this->session->$filter = $this->input->post($filter);
 		$kat = $this->input->post('kategori');
-		if ($filter != 0)
-			$_SESSION['filter']=$filter;
-		else unset($_SESSION['filter']);
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 

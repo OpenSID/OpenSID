@@ -50,14 +50,22 @@ $(document).ready(function()
 					<form id="mainform" name="mainform" action="" method="post">
 						<input name="kategori" type="hidden" value="<?= $kat?>">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-9">
 								<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
-									<option value="">Semua</option>
-									<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
-									<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
+									<option value="">Status</option>
+									<option value="1" <?php selected($this->session->filter, 1); ?>>Aktif</option>
+									<option value="2" <?php selected($this->session->filter, 2); ?>>Tidak Aktif</option>
 								</select>
+								<?php if ($kat == 3): ?>
+									<select class="form-control input-sm " name="jenis_peraturan" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/jenis_peraturan')?>')">
+										<option value="">Jenis Peraturan</option>
+										<?php foreach ($jenis_peraturan AS $jenis): ?>
+											<option value="<?= $jenis?>" <?php selected($this->session->jenis_peraturan, $jenis) ?>><?= $jenis?></option>
+										<?php endforeach;?>
+									</select>
+								<?php endif; ?>
 							</div>
-							<div class="col-sm-6">
+							<div class="col-sm-3">
 								<div class="box-tools">
 									<div class="input-group input-group-sm pull-right">
 										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
