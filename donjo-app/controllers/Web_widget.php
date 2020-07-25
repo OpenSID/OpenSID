@@ -13,7 +13,7 @@ class Web_widget extends Admin_Controller {
 		// tidak perlu menampilkan halaman website
 		if ($this->setting->offline_mode >= 2)
 		{
-			redirect('hom_desa');
+			redirect('hom_sid');
 			exit;
 		}
 

@@ -1,20 +1,19 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <script type="text/javascript">
-	let chart;
-	const rawData = Object.values(<?= json_encode($stat) ?>);
-	const type = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
-	const legend = Boolean(!<?= ($tipe) ?>);
-	let categories = [];
-	let data = [];
-	let i = 1;
-	let status_tampilkan = true;
-	for (const stat of rawData) {
+	const rawData_<?=$lap?> = Object.values(<?= json_encode($stat) ?>);
+	const type_<?=$lap?> = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
+	const legend_<?=$lap?> = Boolean(!<?= ($tipe) ?>);
+	let categories_<?=$lap?> = [];
+	let data_<?=$lap?> = [];
+	let i_<?=$lap?> = 1;
+	let status_tampilkan_<?=$lap?> = true;
+	for (const stat of rawData_<?=$lap?>) {
 		if (stat.nama !== 'TOTAL' && stat.nama !== 'JUMLAH' && stat.nama != 'PENERIMA') {
 			let filteredData = [stat.nama, parseInt(stat.jumlah)];
-			categories.push(i);
-			data.push(filteredData);
-			i++;
+			categories_<?=$lap?>.push(i_<?=$lap?>);
+			data_<?=$lap?>.push(filteredData);
+			i_<?=$lap?>++;
 		}
 	}
 
@@ -28,15 +27,15 @@
 
 	function toggle_tampilkan() {
 		$('#showData').click();
-		tampilkan_nol(status_tampilkan);
-		status_tampilkan = !status_tampilkan;
-		if (status_tampilkan) $('#tampilkan').text('Tampilkan Nol');
+		tampilkan_nol(status_tampilkan_<?=$lap?>);
+		status_tampilkan_<?=$lap?> = !status_tampilkan_<?=$lap?>;
+		if (status_tampilkan_<?=$lap?>) $('#tampilkan').text('Tampilkan Nol');
 		else $('#tampilkan').text('Sembunyikan Nol');
 	}
 
 	function switchType(){
-		var chartType = chart_penduduk.series[0].type;
-		chart_penduduk.series[0].update({
+		var chartType = chart_<?=$lap?>.series[0].type;
+		chart_<?=$lap?>.series[0].update({
 			type: (chartType === 'pie') ? 'column' : 'pie'
 		});
 	}
@@ -44,9 +43,9 @@
 	$(document).ready(function () {
 		tampilkan_nol(false);
 		if (<?=$this->setting->statistik_chart_3d?>) {
-			chart_penduduk = new Highcharts.Chart({
+			chart_<?=$lap?> = new Highcharts.Chart({
 				chart: {
-					renderTo: 'container',
+					renderTo: 'container_<?=$lap?>',
 					options3d: {
 						enabled: true,
 						alpha: 45
@@ -57,7 +56,7 @@
 					showEmpty: false,
 				},
 				xAxis: {
-					categories: categories,
+					categories: categories_<?=$lap?>,
 				},
 				plotOptions: {
 					series: {
@@ -78,27 +77,27 @@
 					}
 				},
 				legend: {
-					enabled: legend
+					enabled: legend_<?=$lap?>
 				},
 				series: [{
-					type: type,
+					type: type_<?=$lap?>,
 					name: 'Jumlah Populasi',
 					shadow: 1,
 					border: 1,
-					data: data
+					data: data_<?=$lap?>
 				}]
 			});
 		} else {
-			chart_penduduk = new Highcharts.Chart({
+			chart_<?=$lap?> = new Highcharts.Chart({
 				chart: {
-					renderTo: 'container'
+					renderTo: 'container_<?=$lap?>'
 				},
 				title: 0,
 				yAxis: {
 					showEmpty: false,
 				},
 				xAxis: {
-					categories: categories,
+					categories: categories_<?=$lap?>,
 				},
 				plotOptions: {
 					series: {
@@ -116,14 +115,14 @@
 					}
 				},
 				legend: {
-					enabled: legend
+					enabled: legend_<?=$lap?>
 				},
 				series: [{
-					type: type,
+					type: type_<?=$lap?>,
 					name: 'Jumlah Populasi',
 					shadow: 1,
 					border: 1,
-					data: data
+					data: data_<?=$lap?>
 				}]
 			});
 		}
@@ -171,7 +170,7 @@
 		</div>
 	</div>
 	<div class="box-body">
-		<div id="container"></div>
+		<div id="container_<?=$lap?>"></div>
 		<div id="contentpane">
 			<div class="ui-layout-north panel top"></div>
 		</div>

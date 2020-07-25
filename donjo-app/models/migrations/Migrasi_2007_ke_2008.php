@@ -91,6 +91,14 @@ class Migrasi_2007_ke_2008 extends CI_model {
 
 		// Buat table notifikasi
 		$this->add_notifikasi();
+
+		// Update Url Menu Identitas [Desa]
+		$this->db->where('id', 17)->update('setting_modul', ['url' => 'identitas_desa']);
+		$this->db->where('id', 200)->update('setting_modul', ['url' => 'identitas_desa']);
+		$this->db->where('isi', 'peta_lokasi_kantor.php')
+			->update('widget', ['form_admin' => 'identitas_desa/maps/kantor']);
+		$this->db->where('isi', 'peta_wilayah_desa.php')
+			->update('widget', ['form_admin' => 'identitas_desa/maps/wilayah']);
 	}
 
 	private function add_notifikasi()
