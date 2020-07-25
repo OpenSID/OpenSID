@@ -14,7 +14,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 8. #3301: Sekarang bisa membuat backup folder desa langsung dari menu Pengaturan > Database.
 9. #3305: Sekarang peta format ESRI shapefile (.SHP) bisa diimpor ke semua pemetaan Desa / Dusun / RW / RT / Lokasi/ Garis / Area.
 10. Tampilkan infrastruktur desa (lokasi, area, garis) di Peta Web.
-11. #3279: Hapus sosial media google pluss, serta tambahkan share artikel via telegram menggantikan google pluss
+11. #3279: Hapus sosial media google plus, serta tambahkan share artikel via telegram menggantikan google plus
 12. #3319: Tampilkan peta overlay area/garis/lokasi yg sdh ada di form ubah peta area/garis/lokasi.
 13. #3315: Hapus angka pada bidang garis di peta. Hanya tampilkan keseluruhan panjang garis dan luas area.
 14. #3118, #3282: Pengguna Layanan Mandiri sekarang hanya dapat mengubah/menghapus dokumen yang mereka unggah, atau yang diberi izin oleh petugas kantor desa.
@@ -38,6 +38,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 32. Sekarang pesan proses migrasi tampil terus sampai prosesnya selesai.
 33. Sesuaikan dan sederhanakan nama file dan script modul Identitas Desa. [teknis]
 34. Sekarang tema klasik kembali ditampilkan apabila tema terpilih dihapus dari folder desa. [bug-fix]
+35. Percepat loading Responsive File Manager dengan memindahkan beberapa file ke rilis OpenSID. [teknis]
 
 
 
