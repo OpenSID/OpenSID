@@ -65,18 +65,21 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		$this->load->model('database_model');
 		$this->database_model->cek_migrasi();
-		// set klasik theme if not exist
-		if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
+		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
+		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
+		$theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
+		$theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
+		if (empty($this->setting->web_theme) OR !is_dir(FCPATH.$theme_folder.'/'.$theme))
 		{
 			$this->theme = 'klasik';
 			$this->theme_folder = 'themes';
 		}
 		else
 		{
-			$this->theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
-			$this->theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
+			$this->theme = $theme;
+			$this->theme_folder = $theme_folder;
 		}
-		// declare main template
+		// Variabel untuk tema
 		$this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
 	}
 
