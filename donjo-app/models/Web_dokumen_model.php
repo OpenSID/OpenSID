@@ -575,7 +575,7 @@ class Web_dokumen_model extends MY_Model {
 		return $list_tahun;
 	}
 
-	public function data_cetak($kat=1, $tahun='')
+	public function data_cetak($kat=1, $tahun='', $jenis_peraturan='')
 	{
 		if (!empty($tahun))
 		{
@@ -599,6 +599,13 @@ class Web_dokumen_model extends MY_Model {
 					$this->db->where("attr REGEXP '" . $regex . "'");
 					break;
 			}
+		}
+		// Filter jenis peraturan hanya untuk peraturan desa
+		if ($kat == 3 and $jenis_peraturan)
+		{
+			$like = '"jenis_peraturan":"'.$jenis_peraturan.'"';
+			// $this->db->where("attr REGEXP '" . $regex . "'");
+			$this->db->like('attr', $like, 'both', false);
 		}
 		# Informasi publik termasuk kategori lainnya
 		if ($kat != '1') $this->db->where('kategori', $kat);

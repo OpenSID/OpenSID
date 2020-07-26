@@ -10,5 +10,5 @@
 	header("Pragma: no-cache");
 	header("Expires: 0");
 
-	include("donjo-app/views/dokumen/".$template);
+	$this->load->view("dokumen/".$template);
 ?>
