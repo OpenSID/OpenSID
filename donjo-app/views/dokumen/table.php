@@ -86,21 +86,22 @@ $(document).ready(function()
 												<th>No</th>
 												<th>Aksi</th>
 												<?php if ($o==2): ?>
-                          <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                          <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
                         <?php elseif ($o==1): ?>
-                          <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/2")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                          <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/2")?>">Judul <i class='fa fa-sort-desc fa-sm'></i></a></th>
                         <?php else: ?>
-                          <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+                          <th><a href="<?= site_url("{$this->controller}/index/$kat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
                         <?php endif; ?>
 												<?php if ($kat == 1): ?>
 													<th>Kategori Info Publik</th>
 													<th>Tahun</th>
 												<?php elseif ($kat == 2): ?>
-													<th nowrap>Nomor Dan Tanggal Keputusan</th>
+													<th nowrap>No./Tgl Keputusan</th>
 													<th nowrap>Uraian Singkat</th>
 												<?php elseif ($kat == 3): ?>
-													<th nowrap>Nomor Dan Tanggal Ditetapkan</th>
-													<th nowrap>Uraian Singkat</th>
+													<th>Jenis Peraturan</th>
+													<th>No./Tgl Ditetapkan</th>
+													<th>Uraian Singkat</th>
 												<?php endif; ?>
                         <?php if ($o==4): ?>
                           <th nowrap><a href="<?= site_url("{$this->controller}/index/$kat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -137,7 +138,7 @@ $(document).ready(function()
 														<?php endif; ?>
 														<a href="#" data-href="<?= site_url("{$this->controller}/delete/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												  </td>
-													<td width="30%"><?= $data['nama']?></td>
+													<td width="20%"><?= $data['nama']?></td>
 													<?php if ($kat == 1): ?>
 														<td><?= $data['kategori_info_publik']?></td>
 														<td><?= $data['tahun']?></td>
@@ -145,8 +146,9 @@ $(document).ready(function()
 														<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
 														<td><?= $data['attr']['uraian']?></td>
 													<?php elseif ($kat == 3): ?>
-														<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
-														<td width="30%"><?= $data['attr']['uraian']?></td>
+														<td><?= $data['attr']['jenis_peraturan']?></td>
+														<td><?= strip_kosong($data['attr']['no_ditetapkan'])." / ".$data['attr']['tgl_ditetapkan']?></td>
+														<td width="20%"><?= $data['attr']['uraian']?></td>
 													<?php endif; ?>
 													<td><?= $data['aktif']?></td>
 													<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>

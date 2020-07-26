@@ -15,10 +15,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-md-3">
+			<div id="umum-sidebar" class="col-sm-3">
 				<?php $this->load->view('bumindes/umum/side') ?>
 			</div>
-			<div class="col-md-9">
+			<div id="umum-content" class="col-sm-9">
 				<?php $this->load->view($main_content) ?>
 			</div>
 		</div>
