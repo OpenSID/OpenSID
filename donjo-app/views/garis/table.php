@@ -1,4 +1,50 @@
+<?php
+/**
+ * File ini:
+ *
+ * View untuk modul Pemetaan (Garis)
+ *
+ * /donjo-app/views/garis/tabel.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <script type="text/javascript">
+	var baseURL = "<?= base_url(); ?>";
 	$(function()
 	{
 		var keyword = <?= $keyword?> ;
@@ -43,19 +89,19 @@
 												<div class="col-sm-7">
 													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('garis/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?= selected($filter, 1) ?>>Aktif</option>
-														<option value="2" <?= selected($filter, 2) ?>>Tidak Aktif</option>
-													</select>
-													<select class="form-control input-sm" name="subline" onchange="formAction('mainform', '<?= site_url('garis/subline')?>')">
-														<option value="">Kategori</option>
-														<?php foreach ($list_subline AS $data): ?>
-															<option value="<?= $data['id']?>" <?= selected($subline, $data['id']) ?>><?= $data['nama']?></option>
-														<?php endforeach;?>
+														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
+														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 													<select class="form-control input-sm" name="line" onchange="formAction('mainform', '<?= site_url('garis/line')?>')">
-														<option value="">Jenis</option>
+														<option value="">Kategori</option>
 														<?php foreach ($list_line AS $data): ?>
-															<option value="<?= $data['id']?>" <?= selected($line, $data['id']) ?>><?= $data['nama']?></option>
+															<option value="<?= $data['id']?>" <?php if ($line == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
+														<?php endforeach;?>
+													</select>
+													<select class="form-control input-sm" name="subline" onchange="formAction('mainform', '<?= site_url('garis/subline')?>')">
+														<option value="">Jenis</option>
+														<?php foreach ($list_subline AS $data): ?>
+															<option value="<?= $data['id']?>" <?php if ($subline == $data['id']): ?>selected<?php endif ?>><?= $data['nama']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>
