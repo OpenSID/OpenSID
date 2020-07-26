@@ -97,7 +97,6 @@ class Garis extends Admin_Controller {
 		$data['keyword'] = $this->plan_garis_model->autocomplete();
 		$data['list_line'] = $this->plan_garis_model->list_line();
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
-
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 1;
@@ -110,9 +109,13 @@ class Garis extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+
 		$data['desa'] = $this->config_model->get_data();
-		$data['list_subline'] = $this->plan_garis_model->list_subline();
+		$data['list_line'] = $this->plan_garis_model->list_line();
 		$data['dusun'] = $this->plan_garis_model->list_dusun();
+
 		if ($id)
 		{
 			$data['garis'] = $this->plan_garis_model->get_garis($id);
@@ -123,6 +126,7 @@ class Garis extends Admin_Controller {
 			$data['garis'] = null;
 			$data['form_action'] = site_url("garis/insert");
 		}
+
 		$header= $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 		$nav['tip'] = 1;
