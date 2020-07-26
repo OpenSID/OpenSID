@@ -79,6 +79,7 @@ class Plan_line_model extends MY_Model {
 	public function paging($p=1, $o=0)
 	{
 		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
+		$sql .= $this->search_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['jml'];
@@ -100,7 +101,7 @@ class Plan_line_model extends MY_Model {
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o=0, $offset=0, $limit=1000)
 	{
 		switch ($o)
 		{
@@ -185,11 +186,13 @@ class Plan_line_model extends MY_Model {
 			}
 			$_SESSION['success'] = 1;
 		}
+
 		unset($data['simbol']);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('line',$data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function delete($id='', $semua=false)
@@ -215,6 +218,7 @@ class Plan_line_model extends MY_Model {
 	public function list_sub_line($line=1)
 	{
 		$sql = "SELECT * FROM line WHERE parrent = ? AND tipe = 2 ";
+
 		$query = $this->db->query($sql, $line);
 		$data = $query->result_array();
 
@@ -260,8 +264,8 @@ class Plan_line_model extends MY_Model {
 			$data['tipe'] = 2;
 			$outp = $this->db->insert('line', $data);
 		}
-
-		status_sukses($outp); //Tampilkan Pesan
+		if($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function update_sub_line($id=0)

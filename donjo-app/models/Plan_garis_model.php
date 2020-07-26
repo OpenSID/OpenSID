@@ -98,10 +98,14 @@ class Plan_garis_model extends MY_Model {
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(l.id) AS jml " . $this->list_data_sql();
+		$sql = "SELECT COUNT(l.id) AS id FROM garis l LEFT JOIN line p ON l.ref_line = p.id LEFT JOIN line m ON p.parrent = m.id WHERE 1 ";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->line_sql();
+		$sql .= $this->subline_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		$jml_data = $row['id'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -112,21 +116,7 @@ class Plan_garis_model extends MY_Model {
 		return $this->paging;
 	}
 
-	// Pastikan paging dan pencarian data berdasarkan filter yg sama
-	private function list_data_sql()
-	{
-		$sql = "FROM garis l
-			LEFT JOIN line p ON l.ref_line = p.id
-			LEFT JOIN line m ON p.parrent = m.id
-			WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->line_sql();
-		$sql .= $this->subline_sql();
-		return $sql;
-	}
-
-	public function list_data($o=0,$offset=0, $limit=500)
+	public function list_data($o=0,$offset=0, $limit=1000)
 	{
 		switch ($o)
 		{
@@ -139,9 +129,16 @@ class Plan_garis_model extends MY_Model {
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$select_sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color ";
-		$sql = $select_sql . $this->list_data_sql();
+		$sql = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color
+			FROM garis l
+			LEFT JOIN line p ON l.ref_line = p.id
+			LEFT JOIN line m ON p.parrent = m.id
+			WHERE 1";
 
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->line_sql();
+		$sql .= $this->subline_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 
@@ -194,10 +191,7 @@ class Plan_garis_model extends MY_Model {
 			$outp = $this->db->insert('garis', $data);
 		}
 
-		if ($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 
 	}
 
@@ -224,7 +218,6 @@ class Plan_garis_model extends MY_Model {
 			$this->db->where('id', $id);
 			$outp = $this->db->update('garis', $data);
 		}
-
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -250,7 +243,7 @@ class Plan_garis_model extends MY_Model {
 
 	public function list_line()
 	{
-		$sql = "SELECT * FROM line WHERE tipe = 0 ";
+		$sql = "SELECT * FROM line WHERE tipe = 2 ";
 
 		if (isset($_SESSION['subline']))
 		{
@@ -265,7 +258,7 @@ class Plan_garis_model extends MY_Model {
 
 	public function list_subline()
 	{
-		$sql = "SELECT * FROM line WHERE tipe = 2 ";
+		$sql = "SELECT * FROM line WHERE tipe = 0 ";
 
 		if (isset($_SESSION['line']))
 		{
