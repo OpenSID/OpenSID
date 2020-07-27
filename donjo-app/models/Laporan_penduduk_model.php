@@ -666,7 +666,6 @@
 	public function list_data($lap=0, $o=0)
 	{
 		$this->lap = $lap;
-
 		// Laporan program bantuan
 		if ($lap > 50)
 		{
@@ -691,17 +690,12 @@
 		$namespace->select_per_kategori();
 		$this->order_by($o);
 		$data = $this->db->get()->result_array();
+		$this->isi_nomor($data);
 
 		$semua = $namespace->get_data_jml();
 		$semua = $this->persentase_semua($semua);
-		if($namespace instanceof  Keluarga_penerima_bantuan)
-		{
-			$namespace->count_distinct_jml_penerima();
-			$total = $this->db->get()->row_array();
-			$this->isi_nomor($data);
-		}
-		else $total = $this->hitung_total($data);
-		
+		$total = ($statistik) ? $namespace->count_distinct_jml_penerima() : $this->hitung_total($data);
+
 		$data[] = $this->baris_jumlah($total, $judul_jumlah);
 
 		$data[] = $this->baris_belum($semua, $total, $judul_belum);
