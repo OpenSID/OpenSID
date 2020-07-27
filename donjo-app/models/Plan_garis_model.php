@@ -98,14 +98,10 @@ class Plan_garis_model extends MY_Model {
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(l.id) AS id FROM garis l LEFT JOIN line p ON l.ref_line = p.id LEFT JOIN line m ON p.parrent = m.id WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->line_sql();
-		$sql .= $this->subline_sql();
+		$sql = "SELECT COUNT(l.id) AS jml " . $this->list_data_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -114,6 +110,20 @@ class Plan_garis_model extends MY_Model {
 		$this->paging->init($cfg);
 
 		return $this->paging;
+	}
+
+	// Pastikan paging dan pencarian data berdasarkan filter yg sama
+	private function list_data_sql()
+	{
+		$sql = "FROM garis l
+			LEFT JOIN line p ON l.ref_line = p.id
+			LEFT JOIN line m ON p.parrent = m.id
+			WHERE 1 ";
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		$sql .= $this->line_sql();
+		$sql .= $this->subline_sql();
+		return $sql;
 	}
 
 	public function list_data($o=0,$offset=0, $limit=500)
@@ -129,16 +139,9 @@ class Plan_garis_model extends MY_Model {
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color
-			FROM garis l
-			LEFT JOIN line p ON l.ref_line = p.id
-			LEFT JOIN line m ON p.parrent = m.id
-			WHERE 1";
+		$select_sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color ";
+		$sql = $select_sql . $this->list_data_sql();
 
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->line_sql();
-		$sql .= $this->subline_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
 

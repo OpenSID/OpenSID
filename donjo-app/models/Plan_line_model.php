@@ -191,8 +191,7 @@ class Plan_line_model extends MY_Model {
 		$this->db->where('id',$id);
 		$outp = $this->db->update('line',$data);
 
-		if($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='', $semua=false)
@@ -264,8 +263,8 @@ class Plan_line_model extends MY_Model {
 			$data['tipe'] = 2;
 			$outp = $this->db->insert('line', $data);
 		}
-		if($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_sub_line($id=0)
