@@ -144,6 +144,9 @@
 										</tbody>
 									</table>
 								</div>
+								<div style="margin-bottom: 10px;">
+									Catatan: Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan.
+								</div>
 							</div>
 
               <?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
