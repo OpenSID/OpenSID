@@ -100,6 +100,21 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 		return $this->data_jml_semua_keluarga();
 	}
 
+	// hitung jumlah keluarga unik penerima bantuan (terkadang satu keluarga menerima lebih dari 1 bantuan)
+	public function count_distinct_jml_penerima()
+	{
+		$this->db->select('COUNT(DISTINCT((pp.peserta)))as jumlah')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END)) AS laki')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END)) AS perempuan')
+			->from('program u')
+			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
+			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+			->where('u.sasaran', '2')
+			->where('u.status', '1');
+
+	}
+
 }
 
 

@@ -387,6 +387,14 @@
 		return $total;
 	}
 
+	protected function isi_nomor(&$data)
+	{
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $i + 1;
+		}
+	}
+
 	protected function hitung_persentase(&$data, $semua)
 	{
 		// Hitung semua presentase
@@ -686,7 +694,14 @@
 
 		$semua = $namespace->get_data_jml();
 		$semua = $this->persentase_semua($semua);
-		$total = $this->hitung_total($data);
+		if($namespace instanceof  Keluarga_penerima_bantuan)
+		{
+			$namespace->count_distinct_jml_penerima();
+			$total = $this->db->get()->row_array();
+			$this->isi_nomor($data);
+		}
+		else $total = $this->hitung_total($data);
+		
 		$data[] = $this->baris_jumlah($total, $judul_jumlah);
 
 		$data[] = $this->baris_belum($semua, $total, $judul_belum);

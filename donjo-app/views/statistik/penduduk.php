@@ -144,8 +144,14 @@
 										</tbody>
 									</table>
 								</div>
+								<?php if ($lap=='bantuan_keluarga'):?>		
+									<div>
+										Catatan:<br>
+										Jika terdapat satu keluarga yang menerima lebih dari satu jenis bantuan, maka akan terhitung sebagai satu entitas dalam jumlah PENERIMA.
+									</div>
+								<?php endif;?>	
 							</div>
-
+																
               <?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
 								<?php $this->load->view('statistik/peserta_bantuan'); ?>
               <?php endif;?>
