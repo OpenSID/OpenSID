@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View untuk modul Statistik Kependudukan
  *
- * donjo-app/views/statistik/ajax_rentang_form.php,
+ * donjo-app/views/statistik/penduduk_unduh.php,
  *
  */
 
@@ -44,29 +44,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<script src="<?= base_url('assets/js/jquery.validate.min.js')?>"></script>
-<script src="<?= base_url('assets/js/validasi.js')?>"></script>
-<script src="<?= base_url('assets/js/localization/messages_id.js')?>"></script>
-<form action="<?= $form_action?>" method="post" id="validasi">
-	<div class='modal-body'>
-		<div class="form-group">
-			<div class="row">
-				<div class="col-sm-12">
-					<label for="nama">Rentang Umur</label>
-				</div>
-				<div class="col-xs-6">
-					<input class="form-control input-sm required bilangan" type="text" placeholder="Dari" id="dari" name="dari" value="<?= $rentang['dari']?>"></input>
-				</div>
-				<div class="col-xs-6">
-					<input id="sampai" class="form-control input-sm required bilangan" type="text" placeholder="Sampai" name="sampai" value="<?= $rentang['sampai']?>"></input>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
-	</div>
-</form>
+$tgl =  date('d_m_Y');
+
+header("Content-type: application/xls");
+header("Content-Disposition: attachment; filename=statistik_penduduk_{$filename}_{$tgl}.xls");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+include("donjo-app/views/statistik/penduduk_cetak.php");
+?>
