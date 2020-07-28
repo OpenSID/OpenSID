@@ -42,6 +42,7 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 36. #3348: Sekarang jumlah penerima program bantuan yg ditampilkan di statistik kependudukan adalah peserta unik, sehingga penerima beberapa program bantuan tidak dihitung berkali-kali. [bug-fix]
 37. Naikkan jumlah unsur area/garis/lokasi yg dapat ditampilkan di peta dari 500 menjadi 1000.
 38. #3375: Perbaiki filter kategori/jenis di tabel Pengaturan Peta > Garis. [bug-fix]
+39. #3361: Sekarang di daftar Rumah Tangga entri yg baru ditambah tampil diurutan teratas.
 
 
 
