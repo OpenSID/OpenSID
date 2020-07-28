@@ -1,11 +1,6 @@
 <script type="text/javascript">
 	var chart;
 
-	$('document').ready(function() {
-		grafikType();
-		$('chart').show();
-	});
-
 	function grafikType() {
 		chart = new Highcharts.Chart({
 			chart: {
@@ -114,7 +109,7 @@
 		<h1>Statistik Kependudukan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Statistik Kependudukan</li>
+			<li class="active">Statistik Kependudukan <?= $dusun; ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -141,7 +136,7 @@
 									<i class="fa fa-arrows-h"></i>Rentang Umur
 								</a>
 							<?php endif; ?>
-							<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+							<a href="<?= site_url("{$this->controller}/clear/$lap") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 						</div>
 						<div class="box-body">
 							<div class="col-sm-12">
@@ -156,28 +151,28 @@
 										<div class="row">
 											<div class="col-sm-12 form-inline">
 												<form action="" id="mainform" method="post">
-													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun/0/'.$lap)?>')">
-														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-														<?php foreach ($list_dusun AS $data): ?>
-															<option value="<?= $data['dusun']?>" <?= selected($dusun, data['dusun']); ?>><?= strtoupper($data['dusun'])?></option>
+													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun')?>')">
+													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+													<?php foreach ($list_dusun AS $data): ?>
+														<option value="<?= $data['dusun']?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
+													<?php endforeach; ?>
+												</select>
+												<?php if ($dusun): ?>
+													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw')?>')" >
+														<option value="">Pilih RW</option>
+														<?php foreach ($list_rw AS $data): ?>
+															<option value="<?= $data['rw']?>" <?= selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
 														<?php endforeach; ?>
 													</select>
-													<?php if ($dusun): ?>
-														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw/0/'.$lap)?>')" >
-															<option value="">Pilih RW</option>
-															<?php foreach ($list_rw AS $data): ?>
-																<option value="<?= $data['rw']?>" <?= selected($rw, data['rw']); ?>><?= $data['rw']?></option>
-															<?php endforeach; ?>
-														</select>
-													<?php endif; ?>
-													<?php if ($rw): ?>
-														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt/0/'.$lap)?>')">
-															<option value="">Pilih RT</option>
-															<?php foreach ($list_rt AS $data): ?>
-																<option value="<?= $data['rt']?>" <?= selected($rt, $data['rt']); ?>><?= $data['rt']?></option>
-															<?php endforeach; ?>
-														</select>
-													<?php endif; ?>
+												<?php endif; ?>
+												<?php if ($rw): ?>
+													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt')?>')">
+														<option value="">Pilih RT</option>
+														<?php foreach ($list_rt AS $data): ?>
+															<option value="<?= $data['rt']?>" <?= selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
+														<?php endforeach; ?>
+													</select>
+												<?php endif; ?>
 												</form>
 											</div>
 										</div>
