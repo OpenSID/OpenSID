@@ -1,6 +1,6 @@
 <div id="isi_popup" style="visibility: hidden;">
 	<div id="content">
-		<center><h4 id="firstHeading" class="firstHeading">Wilayah <?= $wilayah ?></h4></center>
+		<center><h5 id="firstHeading" class="firstHeading"><b>Statistik Penduduk <?= $wilayah ?></b></h5></center>
 		<div id="bodyContent">
 			<div class="card card-body">
 				<?php foreach ($list_lap as $key => $value): ?>

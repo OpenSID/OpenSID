@@ -306,7 +306,7 @@ class Statistik extends Admin_Controller {
 		$this->load->view('gis/penduduk_gis', $data);
 	}
 
-	public function chart_gis_dusun($tipe = 0, $lap = 0, $dusun = '' )
+	public function chart_gis_dusun($lap = 0, $dusun = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
