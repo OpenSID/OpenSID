@@ -247,12 +247,6 @@ class Statistik extends Admin_Controller {
 		redirect('statistik');
 	}
 
-	private function get_tipe_statistik($index)
-	{
-		$tipe_stat = array('index', 'graph', 'pie');
-		return $tipe_stat[$index];
-	}
-
 	private function get_cluster_session()
 	{
 		foreach ($this->_list_session as $list)
@@ -297,7 +291,6 @@ class Statistik extends Admin_Controller {
 
 	public function chart_gis_desa($lap = 0, $desa = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
 		$this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
@@ -308,8 +301,7 @@ class Statistik extends Admin_Controller {
 
 	public function chart_gis_dusun($lap = 0, $dusun = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
+		($dusun) ? $this->session->set_userdata('dusun', underscore($dusun)) : $this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
@@ -318,9 +310,8 @@ class Statistik extends Admin_Controller {
 
 	public function chart_gis_rw($lap = 0, $dusun = '', $rw = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
+		($dusun) ? $this->session->set_userdata('dusun', underscore($dusun)) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', underscore($rw)) : $this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
 		redirect("statistik/load_chart_gis/$lap");
@@ -328,10 +319,9 @@ class Statistik extends Admin_Controller {
 
 	public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
-		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
+		($dusun) ? $this->session->set_userdata('dusun', underscore($dusun)) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', underscore($rw)) : $this->session->unset_userdata('rw');
+		($rt) ? $this->session->set_userdata('rt', underscore($rt)) : $this->session->unset_userdata('rt');
 
 		redirect("statistik/load_chart_gis/$lap");
 	}

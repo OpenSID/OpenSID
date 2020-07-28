@@ -6,7 +6,7 @@
 				<div id="bodyContent">
 					<div class="card card-body">
 						<?php foreach ($list_lap as $key => $value): ?>
-							<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/chart_gis_rt/$key/".$rt[dusun]."/".$rt[rw]."/".$rt[rt])?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RT <?= $rt['rt'] ?> RW <?= $rt['rw'] ?> <?= $wilayah . $rt['dusun']?>"><?= $value ?></a></li>
+							<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik/chart_gis_rt/$key/".underscore($rt[dusun])."/".underscore($rt[rw])."/".underscore($rt[rt]))?>' data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RT <?= $rt['rt'] ?> RW <?= $rt['rw'] ?> <?= $wilayah . $rt['dusun']?>"><?= $value ?></a></li>
 						<?php endforeach; ?>
 					</div>
 				</div>
