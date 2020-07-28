@@ -100,7 +100,7 @@ class Plan_line_model extends MY_Model {
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o=0, $offset=0, $limit=1000)
 	{
 		switch ($o)
 		{
@@ -185,6 +185,7 @@ class Plan_line_model extends MY_Model {
 			}
 			$_SESSION['success'] = 1;
 		}
+
 		unset($data['simbol']);
 		$this->db->where('id',$id);
 		$outp = $this->db->update('line',$data);
@@ -215,6 +216,7 @@ class Plan_line_model extends MY_Model {
 	public function list_sub_line($line=1)
 	{
 		$sql = "SELECT * FROM line WHERE parrent = ? AND tipe = 2 ";
+
 		$query = $this->db->query($sql, $line);
 		$data = $query->result_array();
 
