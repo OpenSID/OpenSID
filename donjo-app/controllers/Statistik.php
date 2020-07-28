@@ -253,17 +253,6 @@ class Statistik extends Admin_Controller {
 		return $tipe_stat[$index];
 	}
 
-	public function chart_gis_desa($lap = 0, $desa = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
-		$this->session->unset_userdata('dusun');
-		$this->session->unset_userdata('rw');
-		$this->session->unset_userdata('rt');
-
-		redirect("statistik/load_chart_gis/$lap");
-	}
-
 	private function get_cluster_session()
 	{
 		foreach ($this->_list_session as $list)
@@ -306,6 +295,17 @@ class Statistik extends Admin_Controller {
 		$this->load->view('gis/penduduk_gis', $data);
 	}
 
+	public function chart_gis_desa($lap = 0, $desa = '' )
+	{
+		$tipe_stat = $this->get_tipe_statistik($tipe);
+		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
+		$this->session->unset_userdata('dusun');
+		$this->session->unset_userdata('rw');
+		$this->session->unset_userdata('rt');
+
+		redirect("statistik/load_chart_gis/$lap");
+	}
+
 	public function chart_gis_dusun($lap = 0, $dusun = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
@@ -316,7 +316,7 @@ class Statistik extends Admin_Controller {
 		redirect("statistik/load_chart_gis/$lap");
 	}
 
-	public function chart_gis_rw($tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	public function chart_gis_rw($lap = 0, $dusun = '', $rw = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
