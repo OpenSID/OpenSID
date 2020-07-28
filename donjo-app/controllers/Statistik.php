@@ -107,56 +107,38 @@ class Statistik extends Admin_Controller {
 		}
 	}
 
-	public function dialog_cetak($lap = 0)
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($aksi = '', $lap = '')
 	{
-		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("statistik/cetak/$lap");
-		$this->load->view('statistik/ajax_cetak', $data);
-	}
+		$data['aksi'] = $aksi;
+		$data['lap'] = $this->session->lap;
 
-	public function dialog_unduh($lap = 0)
-	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("statistik/unduh/$lap");
-		$this->load->view('statistik/ajax_cetak', $data);
-	}
-
-	public function cetak($lap = 0)
-	{
-		foreach ($this->_list_session as $list)
+		if ($lap)
 		{
-			$data[$list] = $this->session->$list;
+			foreach ($this->_list_session as $list)
+			{
+				$data[$list] = $this->session->$list;
+			}
+
+			$post = $this->input->post();
+			$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
+			$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+			$data['config'] = $this->config_model->get_data();
+			$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+			$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+			$data['laporan_no'] = $post['laporan_no'];
+
+			$this->load->view("statistik/penduduk_$aksi", $data);
 		}
-
-		$data['lap'] = $lap;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['config'] = $this->config_model->get_data();
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
-		$this->load->view('statistik/penduduk_print', $data);
-	}
-
-	public function unduh($lap = 0)
-	{
-		foreach ($this->_list_session as $list)
+		else
 		{
-			$data[$list] = $this->session->$list;
-		}
+			$data['pamong'] = $this->pamong_model->list_data(true);
+			$data['form_action'] = site_url("statistik/daftar/$aksi/$data[lap]");
 
-		$data['aksi'] = 'unduh';
-		$data['lap'] = $lap;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['filename'] = underscore($data['stat']);
-		$data['config']  = $this->config_model->get_data();
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
-		$this->load->view('statistik/penduduk_excel', $data);
+			$this->load->view("statistik/ajax_daftar", $data);
+		}
 	}
 
 	public function rentang_umur()

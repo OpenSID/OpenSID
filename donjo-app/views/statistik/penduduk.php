@@ -103,6 +103,10 @@
 		pointer-events: none;
 		cursor: default;
 	}
+
+	.table, th {
+		text-align: center;
+	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -116,17 +120,17 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4">
-					<?php $this->load->view('statistik/laporan/side-menu.php')?>
+					<?php $this->load->view('statistik/side_menu.php')?>
 				</div>
 				<div class="col-md-8">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?=site_url("statistik/dialog_cetak/$lap")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i>Cetak
+							<a href="<?=site_url("statistik/daftar/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i>Cetak
 							</a>
-							<a href="<?=site_url("statistik/dialog_unduh/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-print "></i>Unduh
+							<a href="<?=site_url("statistik/daftar/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-print "></i>Unduh
 							</a>
 							<a class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block grafikType" title="Grafik Data" id="grafikType" onclick="grafikType();">
-								<i class="fa fa-bar-chart"></i>Grafik Data <?= $lap; ?>
+								<i class="fa fa-bar-chart"></i>Grafik Data
 							</a>
 							<a class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pieType" title="Pie Data" id="pieType" onclick="pieType();">
 								<i class="fa fa-pie-chart"></i>Pie Data
@@ -219,32 +223,35 @@
 													<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/$lap/1"); ?>
 														<tr>
 															<td class="text-center"><?= $data['no']?></td>
-															<td><?= strtoupper($data['nama']);?></td>
-															<td>
+															<td class="text-left"><?= strtoupper($data['nama']);?></td>
+															<td class="text-right">
 																<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
-																	<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
+																	<a href="<?= site_url("keluarga/statistik/$lap/$data[id]")?>/0" <?= jecho($data['id'], 'JUMLAH', 'class="disabled"'); ?>><?= $data['jumlah']?></a>
 																<?php else: ?>
 																	<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-																		<a href="<?= $tautan_jumlah ?>/0" <?php if ($data['id']=='JUMLAH'): ?> class="disabled"<?php endif; ?>><?= $data['jumlah']?></a>
+																		<a href="<?= $tautan_jumlah ?>/0" <?= jecho($data['id'], 'JUMLAH', 'class="disabled"'); ?>><?= $data['jumlah']?></a>
 																	<?php endif; ?>
 															</td>
-															<td><?= $data['persen'];?></td>
+															<td class="text-right"><?= $data['persen'];?></td>
 																<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))):
 																	$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
 																elseif ($lap<50): $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");endif;
 																?>
 																<?php if ($jenis_laporan == 'penduduk'): ?>
-																	<td><a href="<?= $tautan_jumlah?>/1" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['laki']?></a></td>
-															<td><?= $data['persen1'];?></td>
-															<td><a href="<?= $tautan_jumlah?>/2" <?php if ($data['id']=='JUMLAH'): ?>class="disabled"<?php endif; ?>><?= $data['perempuan']?></a></td>
-															<td><?= $data['persen2'];?></td>
-														<?php endif; ?>
-													</tr>
+																	<td class="text-right"><a href="<?= $tautan_jumlah?>/1" <?= jecho($data['id'], 'JUMLAH', 'class="disabled"'); ?>><?= $data['laki']?></a></td>
+															<td class="text-right"><?= $data['persen1'];?></td>
+															<td class="text-right"><a href="<?= $tautan_jumlah?>/2" <?= jecho($data['id'], 'JUMLAH', 'class="disabled"'); ?>><?= $data['perempuan']?></a></td>
+															<td class="text-right"><?= $data['persen2'];?></td>
+														</tr>
+													<?php endif; ?>
 												<?php endforeach; ?>
 											</tbody>
 										</table>
 									</div>
-									<p class="text-muted text-justify text-red"><b>Catatan:</b> "Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan".</p>
+									<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+										<p class="text-muted text-justify text-red"><b>Catatan:</b> "Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan".</p>
+										<br><br>
+									<?php endif; ?>
 								</div>
 
 							<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
