@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View untuk modul Statistik Kependudukan
  *
- * donjo-app/views/statistik/ajax_rentang_form.php,
+ * donjo-app/views/statistik/ajax_daftar.php,
  *
  */
 
@@ -46,27 +46,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<script src="<?= base_url('assets/js/jquery.validate.min.js')?>"></script>
-<script src="<?= base_url('assets/js/validasi.js')?>"></script>
-<script src="<?= base_url('assets/js/localization/messages_id.js')?>"></script>
-<form action="<?= $form_action?>" method="post" id="validasi">
-	<div class='modal-body'>
+<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/validasi.js"></script>
+<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script>
+	$('document').ready(function() {
+		$('#validasi').submit(function() {
+			if ($('#validasi').valid())
+				$('#modalBox').modal('hide');
+		});
+	});
+</script>
+<form action="<?= $form_action?>" method="post" id="validasi" target="_blank">
+	<input type="hidden" name="tahun">
+	<input type="hidden" name="bulan">
+	<div class="modal-body">
 		<div class="form-group">
-			<div class="row">
-				<div class="col-sm-12">
-					<label for="nama">Rentang Umur</label>
-				</div>
-				<div class="col-xs-6">
-					<input class="form-control input-sm required bilangan" type="text" placeholder="Dari" id="dari" name="dari" value="<?= $rentang['dari']?>"></input>
-				</div>
-				<div class="col-xs-6">
-					<input id="sampai" class="form-control input-sm required bilangan" type="text" placeholder="Sampai" name="sampai" value="<?= $rentang['sampai']?>"></input>
-				</div>
-			</div>
+			<label for="pamong_ttd">Laporan Ditandatangani</label>
+			<select class="form-control input-sm required" name="pamong_ttd">
+				<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
+				<?php foreach ($pamong AS $data): ?>
+					<option value="<?= $data['pamong_id']?>" <?= selected($data['pamong_ttd'], 1); ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="laporan_no">Laporan No.</label>
+			<input id="laporan_no" class="form-control input-sm required" type="text" placeholder="Laporan No." name="laporan_no" value="">
 		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
 	</div>
 </form>
