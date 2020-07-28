@@ -88,28 +88,6 @@ class Statistik extends Admin_Controller {
 		redirect("statistik/index/$lap");
 	}
 
-	public function grafik($lap = 0, $jenis_grafik='bar')
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
-		$data['lap'] = $lap;
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['jenis_grafik'] = $jenis_grafik;
-		$this->get_data_stat($data, $lap);
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/penduduk_grafik', $data);
-		$this->load->view('footer');
-	}
-
 	private function get_data_stat(&$data, $lap)
 	{
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
