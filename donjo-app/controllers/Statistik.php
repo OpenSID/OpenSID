@@ -12,20 +12,19 @@ class Statistik extends Admin_Controller {
 		parent::__construct();
 		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model']);
 		$this->_header = $this->header_model->get_data();
-		$this->_list_session = ['dusun', 'rw', 'rt'];
+		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
 	}
 
 	public function index()
 	{
-		$lap = $this->session->lap;
-
-		if( ! $lap) $lap = '0';
-
 		foreach ($this->_list_session as $list)
 		{
-			$$list = $this->session->$list;
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '0';
 		}
 
 		if (isset($dusun))
@@ -50,15 +49,14 @@ class Statistik extends Admin_Controller {
 		}
 
 		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
+		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
-		$data['lap'] = $lap;
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($data['lap']);
 		$data['list_statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
 		$data['link_statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
 		$data['judul_kelompok'] = "Jenis Kelompok";
-		$this->get_data_stat($data, $lap);
+		$this->get_data_stat($data, $data['lap']);
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -66,10 +64,19 @@ class Statistik extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function clear($lap = 0)
+	public function clear($lap = 0, $order_by = 1)
 	{
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->lap = $lap;
+		$this->session->order_by = $order_by;
+
+		redirect('statistik');
+	}
+
+	public function order_by($lap = 0, $order_by = 0)
+	{
+		$this->session->lap = $lap;
+		$this->session->order_by = $order_by ?: '0';
 
 		redirect('statistik');
 	}
