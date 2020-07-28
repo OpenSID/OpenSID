@@ -139,38 +139,37 @@
 
 	public function link_statistik_penduduk()
 	{
-		$statistik = array(
-			"statistik/3"		=> "Agama",
-			"statistik/17"	=> "Akte Kelahiran",
-			"statistik/16"	=> "Akseptor KB",
-			"dpt"						=> "Calon Pemilih",
-			"statistik/9"		=> "Cacat",
-			"statistik/7"		=> "Golongan Darah",
-			"statistik/4"		=> "Jenis Kelamin",
-			"statistik/0"		=> "Pendidikan Dalam KK",
-			"statistik/14"	=> "Pendidikan Sedang Ditempuh",
-			"statistik/10"	=> "Penyakit Menahun",
-			"statistik/1"		=> "Pekerjaan",
-			"statistik/6"		=> "Status Penduduk",
-			"statistik/2"		=> "Status Perkawinan",
-			"statistik/13"	=> "Umur (Rentang)",
-			"statistik/15"	=> "Umur (Kategori)",
-			"statistik/18"	=> "Kepemilikan Wajib KTP",
-			"statistik/5"		=> "Warga Negara",
-			"statistik/19"	=> "Asuransi",
-			"statistik/covid"	=> "Status Covid",
+		$statistik = [
+			"statistik/13" => "Umur (Rentang)",
+			"statistik/15" => "Umur (Kategori)",
+			"statistik/0" => "Pendidikan Dalam KK",
+			"statistik/14" => "Pendidikan Sedang Ditempuh",
+			"statistik/1" => "Pekerjaan",
+			"statistik/2" => "Status Perkawinan",
+			"statistik/3" => "Agama",
+			"statistik/4" => "Jenis Kelamin",
+			"statistik/5" => "Warga Negara",
+			"statistik/6" => "Status Penduduk",
+			"statistik/7" => "Golongan Darah",
+			"statistik/9" => "Penyandang Cacat",
+			"statistik/10" => "Penyakit Menahun",
+			"statistik/16" => "Akseptor KB",
+			"statistik/17" => "Akte Kelahiran",
+			"statistik/18" => "Kepemilikan KTP",
+			"statistik/19" => "Jenis Asuransi",
+			"statistik/covid" => "Status Covid",
 			"statistik/bantuan_penduduk" => "Penerima Bantuan (Penduduk)"
-		);
+		];
 
 		return $statistik;
 	}
 
 	public function link_statistik_keluarga()
 	{
-		$statistik = array(
+		$statistik = [
 			"statistik/kelas_sosial" => "Kelas Sosial",
 			"statistik/bantuan_keluarga" => "Penerima Bantuan (Keluarga)"
-		);
+		];
 
 		return $statistik;
 	}
@@ -178,7 +177,8 @@
 	public function link_statis_lainnya()
 	{
 		$statistik = array(
-			"wilayah" => "Wilayah Administratif",
+			'dpt' => 'Calon Pemilih',
+			'wilayah' => 'Wilayah Administratif',
 			'peraturan_desa' => 'Produk Hukum',
 			'informasi_publik' => 'Informasi Publik',
 			'peta' => 'Peta'

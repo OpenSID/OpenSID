@@ -2,22 +2,23 @@
 
 class Statistik extends Admin_Controller {
 
+	private $_header;
+
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		$this->load->model('laporan_penduduk_model');
-		$this->load->model('pamong_model');
-		$this->load->model('program_bantuan_model');
-		$this->load->model('header_model');
-		$this->load->model('config_model');
-		$_SESSION['per_page'] = 500;
+		$this->load->model(['laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model']);
+		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
 	}
 
-	public function index($lap = 0, $o = 0)
+	public function index()
 	{
+		$lap = $this->session->lap;
+
+		if( ! $lap) $lap = '0';
+
 		$cluster_session = $this->get_cluster_session();
 		foreach ($cluster_session as $key => $value)
 		{
@@ -29,13 +30,13 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = $lap;
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
+		$data['list_statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
+		$data['link_statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
 		$data['judul_kelompok'] = "Jenis Kelompok";
-		$data['o'] = $o;
 		$this->get_data_stat($data, $lap);
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('statistik/penduduk', $data);
 		$this->load->view('footer');
 	}
@@ -85,7 +86,9 @@ class Statistik extends Admin_Controller {
 	public function clear($lap = 0)
 	{
 		$this->clear_session();
-		redirect("statistik/index/$lap");
+		$this->session->lap = $lap;
+
+		redirect('statistik');
 	}
 
 	private function get_data_stat(&$data, $lap)
@@ -172,8 +175,8 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
 		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('statistik/rentang_umur', $data);
 		$this->load->view('footer');
 	}
@@ -221,37 +224,33 @@ class Statistik extends Admin_Controller {
 		redirect('statistik/rentang_umur');
 	}
 
-	public function dusun($lap = 0, $jenis_grafik='bar')
+	public function dusun()
 	{
-		$this->session->unset_userdata('rw');
-		$this->session->unset_userdata('rt');
+		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
-		if ($dusun)
-			$this->session->set_userdata('dusun', $dusun);
-		else
-			$this->session->unset_userdata('dusun');
-		redirect("statistik/grafik/$lap/$jenis_grafik");
+		if ($dusun != "")
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
+		redirect('statistik');
 	}
 
-	public function rw($lap = 0, $jenis_grafik='bar')
+	public function rw()
 	{
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
-		if ($rw)
-			$this->session->set_userdata('rw', $rw);
-		else
-			$this->session->unset_userdata('rw');
-		redirect("statistik/grafik/$lap/$jenis_grafik");
+		if ($rw != "")
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
+		redirect('statistik');
 	}
 
-	public function rt($lap = 0, $jenis_grafik='bar')
+	public function rt()
 	{
 		$rt = $this->input->post('rt');
-		if ($rt)
-			$this->session->set_userdata('rt', $rt);
-		else
-			$this->session->unset_userdata('rt');
-		redirect("statistik/grafik/$lap/$jenis_grafik");
+		if ($rt != "")
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
+		redirect('statistik');
 	}
 
 	private function get_tipe_statistik($index)
