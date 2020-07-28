@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Statistik Kependudukan
+ * View untuk modul Statistik Kependudukan
  *
- * donjo-app/controllers/statistik.php,
+ * donjo-app/views/statistik/rentang_umur.php,
  *
  */
 
