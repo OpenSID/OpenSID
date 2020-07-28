@@ -10,12 +10,8 @@
 			<div class="col-md-12">
 				<h4 class="box-title text-center"><b>Data Kependudukan Menurut <?= ($stat);?></b></h4>
 				<center>
-					<a class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Grafik Data" onclick="grafikType();">
-						<i class="fa fa-bar-chart"></i>Grafik Data
-					</a>
-					<a class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pie Data" onclick="pieType();">
-						<i class="fa fa-pie-chart"></i>Pie Data
-					</a>
+					<a class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Grafik Data" onclick="grafikType();"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;&nbsp;Grafik Data&nbsp;&nbsp;&nbsp;</a>
+					<a class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pie Data" onclick="pieType();"><i class="fa fa-pie-chart"></i>&nbsp;&nbsp;&nbsp;Pie Data&nbsp;&nbsp;&nbsp;</a>
 				</center>
 				<hr>
 				<div id="chart"> </div>
