@@ -223,27 +223,27 @@
 										<div class="form-group">
 											<label>Status Penduduk</label>
 											<select class="form-control input-sm " name="filter" onchange="formAction('mainform_map','<?= site_url('gis/filter')?>')">
-												<option value=""> -- </option>
+												<option value="">Pilih Status Penduduk </option>
 												<?php foreach ($list_status_penduduk AS $data): ?>
-													<option value="<?= $data['id']?>" <?php selected($filter, $data['id']); ?>><?= $data['nama']?></option>
+													<option value="<?= $data['id']?>" <?= selected($filter, $data['id']); ?>><?= $data['nama']?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
 										<div class="form-group">
 											<label>Jenis Kelamin</label>
 											<select class="form-control input-sm " name="sex" onchange="formAction('mainform_map','<?= site_url('gis/sex')?>')">
-												<option value=""> -- </option>
+												<option value="">Pilih Jenis Kelamin </option>
 												<?php foreach ($list_jenis_kelamin AS $data): ?>
-													<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= $data['nama']?></option>
+													<option value="<?= $data['id']?>" <?= selected($sex, $data['id']); ?>><?= $data['nama']?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
 										<div class="form-group">
 										<label><?=ucwords($this->setting->sebutan_dusun)?></label>
 											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform_map','<?= site_url('gis/dusun')?>')">
-												<option value=""> -- </option>
+												<option value="">Pilih Dusun</option>
 												<?php foreach ($list_dusun as $data): ?>
-													<option value="<?=$data['dusun']?>" <?php selected($dusun, $data['dusun']); ?>><?=$data['dusun']?></option>
+													<option value="<?=$data['dusun']?>" <?= selected($dusun, $data['dusun']); ?>><?=$data['dusun']?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -251,9 +251,9 @@
 											<div class="form-group">
 												<label>RW</label>
 												<select class="form-control input-sm " name="rw" onchange="formAction('mainform_map','<?= site_url('gis/rw')?>')">
-													<option value=""> -- </option>
+													<option value="">Pilih RW</option>
 													<?php foreach ($list_rw as $data): ?>
-														<option value="<?=$data['rw']?>" <?php selected($rw, $data['rw']); ?>><?=$data['rw']?></option>
+														<option value="<?=$data['rw']?>" <?= selected($rw, $data['rw']); ?>><?=$data['rw']?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>
@@ -261,9 +261,9 @@
 												<div class="form-group">
 													<label>RT</label>
 													<select class="form-control input-sm " name="rt" onchange="formAction('mainform_map','<?= site_url('gis/rt')?>')">
-														<option value=""> -- </option>
+														<option value="">Pilih RT</option>
 														<?php foreach ($list_rt as $data): ?>
-															<option value="<?=$data['rt']?>" <?php selected($rt, $data['rt']); ?>><?=$data['rt']?></option>
+															<option value="<?=$data['rt']?>" <?= selected($rt, $data['rt']); ?>><?=$data['rt']?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
