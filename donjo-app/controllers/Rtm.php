@@ -140,24 +140,32 @@ class Rtm extends Admin_Controller {
 	public function insert()
 	{
 		$this->rtm_model->insert();
+		$this->session->order_by = 6;
+
 		redirect('rtm');
 	}
 
 	public function insert_by_kk()
 	{
 		$this->rtm_model->insert_by_kk();
+		$this->session->order_by = 6;
+
 		redirect('rtm');
 	}
 
 	public function insert_a()
 	{
 		$this->rtm_model->insert_a();
+		$this->session->order_by = 6;
+
 		redirect('rtm');
 	}
 
 	public function insert_new()
 	{
 		$this->rtm_model->insert_new();
+		$this->session->order_by = 6;
+
 		redirect('rtm');
 	}
 

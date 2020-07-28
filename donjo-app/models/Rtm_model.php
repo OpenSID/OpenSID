@@ -313,7 +313,7 @@ class Rtm_model extends CI_Model {
 
 	public function list_data($o = 0, $offset = 0, $limit = 500)
 	{
-		$this->db->select('u.*, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.no_kk ) AS jumlah_anggota, c.dusun, c.rw, c.rt ');
+		$this->db->select('u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.no_kk ) AS jumlah_anggota, c.dusun, c.rw, c.rt, u.tgl_daftar');
 
 		$this->list_data_sql();
 
@@ -321,10 +321,10 @@ class Rtm_model extends CI_Model {
 		{
 			case 1: $this->db->order_by('u.no_kk'); break;
 			case 2: $this->db->order_by('u.no_kk', DESC); break;
-			case 3: $this->db->order_by('kepala_kk'); break;
-			case 4: $this->db->order_by('kepala_kk', DESC); break;
-			case 5: $this->db->order_by('g.nama'); break;
-			case 6: $this->db->order_by('g.nama', DESC); break;
+			case 3: $this->db->order_by('t.nama'); break;
+			case 4: $this->db->order_by('t.nama', DESC); break;
+			case 5: $this->db->order_by('u.tgl_daftar'); break;
+			case 6: $this->db->order_by('u.tgl_daftar', DESC); break;
 			default: ' ';
 		}
 
