@@ -2,7 +2,7 @@
 	<?php foreach ($rw_gis as $key_rw => $rw): ?>
 		<div id="isi_popup_rw_<?= $key_rw ?>" style="visibility: hidden;">
 			<div id="content">
-				<center><h5 id="firstHeading" class="firstHeading"><b>Statistik Penduduk RW <?= $rw['rw'] . " " . ucwords($this->setting->sebutan_dusun) . " " . $rw['dusun']?></b></h5></center>
+				<center><h5 id="firstHeading" class="firstHeading"><b>Wilayah RW <?= $rw['rw'] . " " . ucwords($this->setting->sebutan_dusun) . " " . $rw['dusun']?></b></h5></center>
 				<div id="bodyContent">
 					<div class="card card-body">
 						<?php foreach ($list_lap as $key => $value): ?>

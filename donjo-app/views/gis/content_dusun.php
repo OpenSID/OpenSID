@@ -2,7 +2,7 @@
 	<?php foreach ($dusun_gis as $key_dusun => $dusun): ?>
 		<div id="isi_popup_dusun_<?= $key_dusun ?>" style="visibility: hidden;">
 			<div id="content">
-				<center><h5 id="firstHeading" class="firstHeading"><b>Statistik Penduduk <?= $wilayah . $dusun['dusun']?></b></h5></center>
+				<center><h5 id="firstHeading" class="firstHeading"><b>Wilayah <?= $wilayah . $dusun['dusun']?></b></h5></center>
 				<div id="bodyContent">
 					<div class="card card-body">
 						<?php foreach ($list_lap as $key => $value): ?>
