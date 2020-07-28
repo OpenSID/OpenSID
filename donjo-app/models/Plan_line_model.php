@@ -79,7 +79,6 @@ class Plan_line_model extends MY_Model {
 	public function paging($p=1, $o=0)
 	{
 		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
-		$sql .= $this->search_sql();
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['jml'];
