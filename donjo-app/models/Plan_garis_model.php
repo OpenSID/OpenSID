@@ -78,20 +78,18 @@ class Plan_garis_model extends MY_Model {
 
 	private function line_sql()
 	{
-		if (isset($_SESSION['line']))
+		if ($kf = $this->session->line)
 		{
-			$kf = $_SESSION['line'];
-			$line_sql = " AND p.id = $kf";
+			$line_sql = " AND m.id = $kf";
 			return $line_sql;
 		}
 	}
 
 	private function subline_sql()
 	{
-		if (isset($_SESSION['subline']))
+		if ($kf = $this->session->subline)
 		{
-			$kf = $_SESSION['subline'];
-			$subline_sql = " AND m.id = $kf";
+			$subline_sql = " AND p.id = $kf";
 			return $subline_sql;
 		}
 	}
@@ -193,9 +191,7 @@ class Plan_garis_model extends MY_Model {
 			unset($data['foto']);
 			$outp = $this->db->insert('garis', $data);
 		}
-
 		status_sukses($outp); //Tampilkan Pesan
-
 	}
 
 	public function update($id=0)
@@ -246,7 +242,7 @@ class Plan_garis_model extends MY_Model {
 
 	public function list_line()
 	{
-		$sql = "SELECT * FROM line WHERE tipe = 2 ";
+		$sql = "SELECT * FROM line WHERE tipe = 0 ";
 
 		if (isset($_SESSION['subline']))
 		{
@@ -261,7 +257,7 @@ class Plan_garis_model extends MY_Model {
 
 	public function list_subline()
 	{
-		$sql = "SELECT * FROM line WHERE tipe = 0 ";
+		$sql = "SELECT * FROM line WHERE tipe = 2 ";
 
 		if (isset($_SESSION['line']))
 		{
