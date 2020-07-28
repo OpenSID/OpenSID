@@ -326,7 +326,7 @@ class Statistik extends Admin_Controller {
 		redirect("statistik/load_chart_gis/$lap");
 	}
 
-	public function chart_gis_rt($tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
