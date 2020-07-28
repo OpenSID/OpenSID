@@ -33,11 +33,13 @@
 		else $('#tampilkan').text('Sembunyikan Nol');
 	}
 
-	function switchType(){
+	function switchType() {
 		var chartType = chart_<?=$lap?>.series[0].type;
 		chart_<?=$lap?>.series[0].update({
 			type: (chartType === 'pie') ? 'column' : 'pie'
 		});
+
+		$("#barType").html((chartType === 'pie') ? 'Pie Cart' : 'Bar Graph');
 	}
 
 	$(document).ready(function () {
@@ -141,31 +143,27 @@
 	}
 </style>
 <style>
-	.input-sm
-	{
+	.input-sm {
 		padding: 4px 4px;
 	}
-	@media (max-width:780px)
-	{
-		.btn-group-vertical
-		{
+
+	@media (max-width:780px) {
+		.btn-group-vertical {
 			display: block;
 		}
 	}
-	.table-responsive
-	{
+
+	.table-responsive {
 		min-height:275px;
-	}
 	}
 </style>
 
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title">Grafik <?= $heading ?></h3>
+		<h3 class="box-title"> Grafik <?= $heading ?></h3>
 		<div class="box-tools pull-right">
 			<div class="btn-group-xs">
-				<a class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
-				<a class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
+				<a class="btn btn-primary btn-xs" id="barType" onclick="switchType();">Bar Graph</a>
 			</div>
 		</div>
 	</div>
