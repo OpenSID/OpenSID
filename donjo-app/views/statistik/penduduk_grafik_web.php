@@ -28,11 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
-	function toggle_tampilkan() {
+	function toggle_tampilkan_<?=$lap?>() {
 		$('#showData').click();
 		tampilkan_nol(status_tampilkan_<?=$lap?>);
 		status_tampilkan_<?=$lap?> = !status_tampilkan_<?=$lap?>;
@@ -79,13 +79,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		else $('#tampilkan').text('Sembunyikan Nol');
 	}
 
-	function switchType() {
+	function switchType_<?=$lap?>() {
 		var chartType = chart_<?=$lap?>.series[0].type;
 		chart_<?=$lap?>.series[0].update({
 			type: (chartType === 'pie') ? 'column' : 'pie'
 		});
 
-		$("#barType").html((chartType === 'pie') ? 'Pie Cart' : 'Bar Graph');
+		$("#barType_<?=$lap?>").html((chartType === 'pie') ? 'Pie Cart' : 'Bar Graph');
 	}
 
 	$(document).ready(function () {
@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h3 class="box-title"> Grafik <?= $heading ?></h3>
 		<div class="box-tools pull-right">
 			<div class="btn-group-xs">
-				<a class="btn btn-primary btn-xs" id="barType" onclick="switchType();">Bar Graph</a>
+				<a class="btn btn-primary btn-xs" id="barType_<?=$lap?>" onclick="switchType_<?=$lap?>();">Bar Graph</a>
 			</div>
 		</div>
 	</div>
@@ -284,7 +284,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		<?php endif;?>
 		<div style="float: right;">
-			<button id='tampilkan' onclick="toggle_tampilkan();" class="uibutton special">Tampilkan Nol</button>
+			<button id='tampilkan' onclick="toggle_tampilkan_<?=$lap?>();" class="uibutton special">Tampilkan Nol</button>
 		</div>
 	</div>
 	</div>
