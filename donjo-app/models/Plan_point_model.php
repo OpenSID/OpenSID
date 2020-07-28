@@ -100,7 +100,7 @@ class Plan_point_model extends MY_Model {
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o=0, $offset=0, $limit=1000)
 	{
 		switch($o){
 			case 1: $order_sql = ' ORDER BY nama'; break;
