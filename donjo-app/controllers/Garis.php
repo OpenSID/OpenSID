@@ -110,6 +110,8 @@ class Garis extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
 		$data['desa'] = $this->config_model->get_data();
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
 		$data['dusun'] = $this->plan_garis_model->list_dusun();
