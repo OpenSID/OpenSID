@@ -147,30 +147,38 @@ function getBaseLayers(peta, access_token)
 	//Menampilkan BaseLayers Peta
 	var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(peta);
 
-  var mbGLstr = L.mapboxGL({
-    accessToken: access_token,
-    style: 'mapbox://styles/mapbox/streets-v11',
-    attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
-  });
+  if (access_token)
+  {
+    mbGLstr = L.mapboxGL({
+      accessToken: access_token,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+    });
 
-  var mbGLsat = L.mapboxGL({
-		accessToken: access_token,
-		style: 'mapbox://styles/mapbox/satellite-v9',
-		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
-	});
+    mbGLsat = L.mapboxGL({
+  		accessToken: access_token,
+  		style: 'mapbox://styles/mapbox/satellite-v9',
+  		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+  	});
 
-	var mbGLstrsat = L.mapboxGL({
-		accessToken: access_token,
-		style: 'mapbox://styles/mapbox/satellite-streets-v11',
-		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
-	});
+  	mbGLstrsat = L.mapboxGL({
+  		accessToken: access_token,
+  		style: 'mapbox://styles/mapbox/satellite-streets-v11',
+  		attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+  	});
+
+  } else {
+    mbGLstr = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(peta);
+    mbGLsat = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(peta);
+    mbGLstrsat = L.tileLayer.provider('OpenStreetMap.Mapnik', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}).addTo(peta);
+  }
 
 	var baseLayers = {
 		'OpenStreetMap': defaultLayer,
 		'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT', {attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'}),
     'Mapbox Streets' : mbGLstr,
 		'Mapbox Satellite' : mbGLsat,
-		'Mapbox Satellite-Street' : mbGLstrsat,
+		'Mapbox Satellite-Street' : mbGLstrsat
 	};
 	return baseLayers;
 }
@@ -1106,18 +1114,16 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 
 	setMarkerCustom(marker_area, layer_area);
 	setMarkerCustom(marker_garis, layer_garis);
-  setMarkerCustom(marker_lokasi, layer_lokasi);
-
-  //Sementara L.MarkerClusterGroup di non-aktifan karena peta lokasi tidak tampil jika memamkai layer mapboxGL
-	//setMarkerCluster(marker_lokasi, markersList, markers);
+	setMarkerCluster(marker_lokasi, markersList, markers);
 
 	peta.on('layeradd layerremove', function () {
 		var bounds = new L.LatLngBounds();
 		peta.eachLayer(function (layer) {
 			if(peta.hasLayer(layer_lokasi)) {
-				//peta.addLayer(markers);
+				peta.addLayer(markers);
 			} else {
-				//peta.removeLayer(markers);
+				peta.removeLayer(markers);
+        peta._layersMaxZoom = 19;
 			}
 			if (layer instanceof L.FeatureGroup) {
 				bounds.extend(layer.getBounds());
