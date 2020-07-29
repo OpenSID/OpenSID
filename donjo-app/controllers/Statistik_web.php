@@ -1,4 +1,49 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Controller untuk Peta Web
+ *
+ * donjo-app/controllers/Statistik_web.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Statistik_web extends Web_Controller {
 
@@ -15,23 +60,33 @@ class Statistik_web extends Web_Controller {
 
 	private function get_cluster_session()
 	{
-		$list_session = array('dusun', 'rw', 'rt');
-		foreach ($list_session as $session)
+		$list_session = ['dusun', 'rw', 'rt'];
+		foreach ($this->list_session as $list)
 		{
-			$data[$session] = $this->session->userdata($session) ?:'';
+			$$list = $this->session->$list;
 		}
 
-		if (!empty($data['dusun']))
+		if (isset($dusun))
 		{
-			$dusun = $data['dusun'];
-			$data['list_rw'] = $this->laporan_penduduk_model->list_rw($dusun);
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
-			if (!empty($data['rw']))
+			if (isset($rw))
 			{
-				$rw = $data['rw'];
-				$data['list_rt'] = $this->laporan_penduduk_model->list_rt($dusun, $rw);
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
+				else $data['rt'] = '';
 			}
+			else $data['rw'] = '';
 		}
+		else
+		{
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+		}
+
 		return $data;
 	}
 
@@ -97,66 +152,51 @@ class Statistik_web extends Web_Controller {
 		redirect("statistik_web/$tipe_stat/$lap");
 	}
 
-	private function get_tipe_statistik($index)
+	public function chart_gis_desa($lap = 0, $desa = '' )
 	{
-		$tipe_stat = array('index', 'graph', 'pie');
-		return $tipe_stat[$index];
-	}
-
-	public function chart_gis_desa($chart = 'pie', $lap = 0, $desa = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
+		($desa) ? $this->session->set_userdata('desa', ununderscore($desa)) : $this->session->unset_userdata('desa');
 		$this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik_web/load_chart_gis/$lap/$chart");
+		redirect("statistik_web/load_chart_gis/$lap");
 	}
 
-	public function load_chart_gis($lap = 0, $chart = 'pie')
+	public function load_chart_gis($lap = 0)
 	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
+		$data = $this->get_cluster_session();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
-		$data['jenis_chart'] = $chart;
 		$data['untuk_web'] = true; // Untuk me-nonaktfikan tautan di tabel statistik kependudukan
 		$this->get_data_stat($data, $lap);
 		$this->load->view('gis/penduduk_gis', $data);
 	}
 
-	public function chart_gis_dusun($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '' )
+	public function chart_gis_dusun($lap = 0, $dusun = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
+		($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik_web/load_chart_gis/$lap/$chart");
+		redirect("statistik_web/load_chart_gis/$lap");
 	}
 
-	public function chart_gis_rw($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	public function chart_gis_rw($lap = 0, $dusun = '', $rw = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
+		($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', ununderscore($rw)) : $this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik_web/load_chart_gis/$lap/$chart");
+		redirect("statistik_web/load_chart_gis/$lap");
 	}
 
-	public function chart_gis_rt($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
-		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
+		($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', ununderscore($rw)) : $this->session->unset_userdata('rw');
+		($rt) ? $this->session->set_userdata('rt', ununderscore($rt)) : $this->session->unset_userdata('rt');
 
-		redirect("statistik_web/load_chart_gis/$lap/$chart");
+		redirect("statistik_web/load_chart_gis/$lap");
 	}
 
 	public function chart_gis_kadus($id_kepala = '' )

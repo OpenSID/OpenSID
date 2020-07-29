@@ -46,106 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<script type="text/javascript">
-	var chart;
-
-	function grafikType() {
-		chart = new Highcharts.Chart({
-			chart: {
-				renderTo: 'chart',
-				defaultSeriesType: 'column'
-			},
-			title: 0,
-			xAxis: {
-				title: {
-					text: '<?= $stat?>'
-				},
-				categories: [
-				<?php $i=0; foreach ($main as $data): $i++;?>
-				<?php if ($data['jumlah'] != "-"): ?><?= "'$i',";?><?php endif; ?>
-			<?php endforeach;?>
-			]
-		},
-		yAxis: {
-			title: {
-				text: 'Jumlah Populasi'
-			}
-		},
-		legend: {
-			layout: 'vertical',
-			enabled: false
-		},
-		plotOptions: {
-			series: {
-				colorByPoint: true
-			},
-			column: {
-				pointPadding: 0,
-				borderWidth: 0
-			}
-		},
-		series: [{
-			shadow:1,
-			border:1,
-			data: [
-			<?php foreach ($main as $data): ?>
-				<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
-					<?php if ($data['jumlah'] != "-"): ?>
-						['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
-					<?php endif; ?>
-				<?php endif; ?>
-				<?php endforeach;?>]
-			}]
-		});
-	}
-
-	function pieType() {
-		chart = new Highcharts.Chart({
-			chart: {
-				renderTo: 'chart',
-				plotBackgroundColor: null,
-				plotBorderWidth: null,
-				plotShadow: false
-			},
-			title: 0,
-			plotOptions: {
-				index: {
-					allowPointSelect: true,
-					cursor: 'pointer',
-					dataLabels:
-					{
-						enabled: true
-					},
-					showInLegend: true
-				}
-			},
-			legend: {
-				layout: 'vertical',
-				backgroundColor: '#FFFFFF',
-				align: 'right',
-				verticalAlign: 'top',
-				x: -30,
-				y: 0,
-				floating: true,
-				shadow: true,
-				enabled:true
-			},
-			series: [{
-				type: 'pie',
-				name: 'Populasi',
-				data: [
-				<?php foreach ($main as $data): ?>
-					<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
-						<?php if ($data['jumlah'] != "-"): ?>
-							["<?= strtoupper($data['nama'])?>",<?= $data['jumlah']?>],
-						<?php endif; ?>
-					<?php endif; ?>
-				<?php endforeach;?>
-				]
-			}]
-		});
-	}
-</script>
 <style type="text/css">
 	.disabled {
 		pointer-events: none;
@@ -197,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php else: ?>
 										<h4 class="box-title text-center"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 									<?php endif; ?>
-									<div id="chart"></div>
+									<div id="chart" hidden="true"> </div>
 									<hr>
 									<?php if (($lap <= 20 OR $lap == 'bantuan_penduduk') AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga') : ?>
 										<div class="row">
@@ -313,3 +213,107 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</form>
 	</section>
 </div>
+<script type="text/javascript">
+	var chart;
+
+	function grafikType() {
+		chart = new Highcharts.Chart({
+			chart: {
+				renderTo: 'chart',
+				defaultSeriesType: 'column'
+			},
+			title: 0,
+			xAxis: {
+				title: {
+					text: '<?= $stat?>'
+				},
+				categories: [
+				<?php $i=0; foreach ($main as $data): $i++;?>
+				<?php if ($data['jumlah'] != "-"): ?><?= "'$i',";?><?php endif; ?>
+			<?php endforeach;?>
+			]
+		},
+		yAxis: {
+			title: {
+				text: 'Jumlah Populasi'
+			}
+		},
+		legend: {
+			layout: 'vertical',
+			enabled: false
+		},
+		plotOptions: {
+			series: {
+				colorByPoint: true
+			},
+			column: {
+				pointPadding: 0,
+				borderWidth: 0
+			}
+		},
+		series: [{
+			shadow:1,
+			border:1,
+			data: [
+			<?php foreach ($main as $data): ?>
+				<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
+					<?php if ($data['jumlah'] != "-"): ?>
+						['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php endforeach;?>]
+			}]
+		});
+
+		$('#chart').removeAttr('hidden');
+	}
+
+	function pieType() {
+		chart = new Highcharts.Chart({
+			chart: {
+				renderTo: 'chart',
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false
+			},
+			title: 0,
+			plotOptions: {
+				index: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels:
+					{
+						enabled: true
+					},
+					showInLegend: true
+				}
+			},
+			legend: {
+				layout: 'vertical',
+				backgroundColor: '#FFFFFF',
+				align: 'right',
+				verticalAlign: 'top',
+				x: -30,
+				y: 0,
+				floating: true,
+				shadow: true,
+				enabled:true
+			},
+			series: [{
+				type: 'pie',
+				name: 'Populasi',
+				data: [
+				<?php foreach ($main as $data): ?>
+					<?php if (!in_array($data['nama'], array("TOTAL", "JUMLAH", "PENERIMA"))): ?>
+						<?php if ($data['jumlah'] != "-"): ?>
+							["<?= strtoupper($data['nama'])?>",<?= $data['jumlah']?>],
+						<?php endif; ?>
+					<?php endif; ?>
+				<?php endforeach;?>
+				]
+			}]
+		});
+
+		$('#chart').removeAttr('hidden');
+	}
+</script>
