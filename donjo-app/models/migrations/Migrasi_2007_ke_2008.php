@@ -94,6 +94,8 @@ class Migrasi_2007_ke_2008 extends CI_model {
 			->update('widget', ['form_admin' => 'identitas_desa/maps/kantor']);
 		$this->db->where('isi', 'peta_wilayah_desa.php')
 			->update('widget', ['form_admin' => 'identitas_desa/maps/wilayah']);
+		// Tambahkan panjang nomor sk
+	  $this->db->query('ALTER TABLE tweb_desa_pamong MODIFY pamong_nosk VARCHAR(30) DEFAULT NULL;');
 	}
 
 	private function add_notifikasi()
