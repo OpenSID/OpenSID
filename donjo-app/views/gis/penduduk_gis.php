@@ -46,6 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.min.css" media="screen" type="text/css" />
 <style type="text/css">
 	.table, th {
 		text-align: center;
