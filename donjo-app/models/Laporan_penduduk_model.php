@@ -741,7 +741,7 @@ class Laporan_penduduk_model extends MY_Model {
 
 		$semua = $namespace->get_data_jml();
 		$semua = $this->persentase_semua($semua);
-		$total = ($statistik) ? $namespace->count_distinct_jml_penerima() : $this->hitung_total($data);
+		$total = $namespace->hitung_total($data);
 
 		$data[] = $this->baris_jumlah($total, $judul_jumlah);
 
