@@ -164,7 +164,7 @@ class Statistik_web extends Web_Controller {
 
 	public function load_chart_gis($lap = 0)
 	{
-		$this->get_cluster_session();
+		$data = $this->get_cluster_session();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
 		$data['untuk_web'] = true; // Untuk me-nonaktfikan tautan di tabel statistik kependudukan
