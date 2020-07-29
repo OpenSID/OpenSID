@@ -43,7 +43,8 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 37. Naikkan jumlah unsur area/garis/lokasi yg dapat ditampilkan di peta dari 500 menjadi 1000.
 38. #3375: Perbaiki filter kategori/jenis di tabel Pengaturan Peta > Garis. [bug-fix]
 39. #3361: Sekarang di daftar Rumah Tangga entri yg baru ditambah tampil diurutan teratas.
-
+40. #3384: Perbaiki redirect statistik/0 saat melakukan filter wilayah, sederhanakan script modul statistik kependudukan.
+41. #2779: Perbaiki masalah statistik tidak tampil jika desa/dusun/rw/rt mengandung spasi.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.07-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
