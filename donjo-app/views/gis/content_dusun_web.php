@@ -2,21 +2,13 @@
 	<?php foreach ($dusun_gis as $key_dusun => $dusun): ?>
 		<div id="isi_popup_dusun_<?= $key_dusun ?>" style="visibility: hidden;">
 			<div id="content">
-				<center><h5 id="firstHeading" class="firstHeading">Wilayah <p> <?= $wilayah . $dusun['dusun']?></p></h5></center>
+				<center><h5 id="firstHeading" class="firstHeading"><b>Wilayah <?= $wilayah . " " . $dusun['dusun']; ?></b></h5></center>
 				<div id="bodyContent">
-					<p><center><a href="#collapseStat" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStat" aria-expanded="false" aria-controls="collapseStat"><i class="fa  fa-pie-chart"></i>&nbsp;&nbsp;Statistik Pie&nbsp;&nbsp;</a></center></p>
-					<div class="collapse box-body no-padding" id="collapseStat">
-						<div class="card card-body">
-							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik_web/chart_gis_dusun/pie/2/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
-							<?php endforeach; ?>
-						</div>
-					</div>
-					<p><center><a href="#collapseStatGraph" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatGraph" aria-expanded="false" aria-controls="collapseStatGraph"><i class="fa  fa-bar-chart"></i>Statistik Graph</a></center></p>
+					<p><center><a href="#collapseStatGraph" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatGraph" aria-expanded="false" aria-controls="collapseStatGraph"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistik Penduduk&nbsp;&nbsp;</a></center></p>
 					<div class="collapse box-body no-padding" id="collapseStatGraph">
 						<div class="card card-body">
 							<?php foreach ($list_lap as $key => $value): ?>
-								<li class="<?php ($lap==$key) and print('active') ?>"><a href='<?=site_url("statistik_web/chart_gis_dusun/bar/1/$key/".trim($dusun[dusun]))?>' data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
+								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?=site_url("statistik_web/chart_gis_dusun/$key/" . underscore($dusun[dusun])); ?>" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk <?= $wilayah . $dusun['dusun']?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>
