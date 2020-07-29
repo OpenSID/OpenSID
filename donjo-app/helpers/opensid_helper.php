@@ -465,16 +465,27 @@ function httpPost($url, $params)
  * @param            string $sCheckHost Default: www.google.com
  * @return           boolean
  */
-function cek_koneksi_internet($sCheckHost = 'www.google.com')
+function cek_koneksi_internet($sCheckHost = 'https://www.google.com')
 {
-	$connected = @fsockopen($sCheckHost, 443);
+	try {
+		require_once FCPATH.'donjo-app/libraries/Curly.php';
 
-  if ($connected)
-  {
-  	fclose($connected);
-  	return true;
-  }
-  return false;
+		\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
+		$options = [
+			// Follow redirections.
+			CURLOPT_FOLLOWLOCATION => 1,
+			// Jangan fetch response body agar request lebih cepat.
+			CURLOPT_NOBODY => 1,
+		];
+
+		$response = \Esyede\Curly::get($sCheckHost, [], $options);
+
+		return 200 === (int) $response->header->http_code;
+	} catch (\Throwable $e) {
+		return false;
+	} catch (\Exception $e) {
+		return false;
+	}
 }
 
 function cek_bisa_akses_site($url)
