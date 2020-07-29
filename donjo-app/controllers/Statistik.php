@@ -65,7 +65,7 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = $this->session->lap;
 		$data['order_by'] = $this->session->order_by;
 
-		$this->get_cluster_session();
+		$data = $this->get_cluster_session();
 		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
 		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
@@ -281,7 +281,7 @@ class Statistik extends Admin_Controller {
 
 	public function load_chart_gis($lap = 0)
 	{
-		$this->get_cluster_session();
+		$data = $this->get_cluster_session();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
