@@ -532,12 +532,15 @@ class Program_bantuan_model extends MY_Model {
 		/*
 		 * Data penduduk
 		 * */
-		$strSQL = "SELECT p.nik, p.nama, w.rt, w.rw, w.dusun
-			FROM penduduk_hidup p
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-			WHERE 1 ORDER BY nama";
-		$query = $this->db->query($strSQL);
-		$data = "";
+		$query = $this->db
+			->select('p.nik, p.nama, w.rt, w.rw, w.dusun')
+			->from('penduduk_hidup p')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'LEFT')
+			->where('p.nik != ', 0)
+			->order_by('p.nama')
+			->get();
+
+		$hasil2 = array();
 		$data = $query->result_array();
 		if ($query->num_rows() > 0)
 		{
@@ -579,6 +582,7 @@ class Program_bantuan_model extends MY_Model {
 			->join('tweb_penduduk_hubungan h', 'h.id = p.kk_level', 'LEFT')
 			->join('keluarga_aktif k', 'k.id = p.id_kk', 'OUTER JOIN')
 			->join('tweb_wil_clusterdesa w', 'w.id = k.id_cluster', 'LEFT')
+			->where('k.no_kk != ', 0)
 			->where_in('p.kk_level', ['1', '2', '3', '4'])
 			->order_by('p.id_kk')
 			->get();
