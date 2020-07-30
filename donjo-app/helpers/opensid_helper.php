@@ -470,8 +470,17 @@ function cek_koneksi_internet($sCheckHost = 'https://www.google.com')
 	try {
 		require_once FCPATH.'donjo-app/libraries/Curly.php';
 
-		\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
+		$certificate = \Esyede\Curly::$certificate;
+		$secure = \Esyede\Curly::$secure;
+
+		\Esyede\Curly::$certificate = null;
+		\Esyede\Curly::$secure = false;
 		$options = [
+			// Switch-off ssl connection.
+			CURLOPT_SSL_VERIFYPEER => 0,
+			CURLOPT_SSL_VERIFYHOST => 0,
+			CURLOPT_CAINFO => null,
+			CURLOPT_CAPATH => null,
 			// Follow redirections.
 			CURLOPT_FOLLOWLOCATION => 1,
 			// Jangan fetch response body agar request lebih cepat.
@@ -479,6 +488,9 @@ function cek_koneksi_internet($sCheckHost = 'https://www.google.com')
 		];
 
 		$response = \Esyede\Curly::get($sCheckHost, [], $options);
+
+		\Esyede\Curly::$certificate = $certificate;
+		\Esyede\Curly::$secure = $secure;
 
 		return 200 === (int) $response->header->http_code;
 	} catch (\Throwable $e) {
