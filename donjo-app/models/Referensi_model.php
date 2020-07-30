@@ -16,7 +16,8 @@ define("STATUS_PERMOHONAN", serialize(array(
 )));
 
 define("LIST_LAP", serialize(array(
-	'13' => 'Umur',
+	'13' => 'Umur (Rentang)',
+	'15' => 'Umur (Kategori)',
 	'0' => 'Pendidikan dalam KK',
 	'14' => 'Pendidikan sedang Ditempuh',
 	'1' => 'Pekerjaan',
@@ -93,7 +94,7 @@ class Referensi_model extends CI_Model {
 		$data = $this->db->order_by('id')
 			->get($tabel)
 			->result_array();
-		$data = array_combine(array_column($data, 'id'), $data);		
+		$data = array_combine(array_column($data, 'id'), $data);
 		return $data;
 	}
 
