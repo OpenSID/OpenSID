@@ -40,9 +40,10 @@ class Notif_model extends CI_Model {
 		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
 		$pengumuman = null;
 		$notif = $this->get_notif_by_kode($kode);
+
 		$tgl_sekarang = date("Y-m-d H:i:s");
 		$tgl_berikutnya = $notif['tgl_berikutnya'];
-		if ($tgl_berikutnya <= $tgl_sekarang)
+		if ($tgl_berikutnya <= $tgl_sekarang and $this->masih_berlaku($notif))
 		{
 			// simpan view pengumuman dalam variabel
 			$data['isi_pengumuman'] = $notif['isi'];
@@ -56,6 +57,22 @@ class Notif_model extends CI_Model {
 			$pengumuman = $this->load->view('notif/pengumuman', $data, TRUE); // TRUE utk ambil content view sebagai output
 		}
 		return $pengumuman;
+	}
+
+	private function masih_berlaku($notif)
+	{
+		switch ($notif['kode'])
+		{
+			case 'tracking_off':
+				if ($this->setting->enable_track)
+				{
+					$this->db->where('kode', 'tracking_off')
+						->update('notifikasi', ['aktif' => 0]);
+					return false;
+				}
+				break;
+		}
+		return true;
 	}
 
 	public function update_notifikasi($kode, $non_aktifkan=false)
