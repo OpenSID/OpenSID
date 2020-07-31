@@ -1,4 +1,4 @@
-Di rilis ini, versi 20.08, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.08, tersedia fitur [Notifikasi Update Versi, Notifikasi Tracking, Notifikasi Lisensi dan Fitur pencatatan dan pelaporan data persil dengan C-Desa]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Rudy Purwanto, masumo, Suyadi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Faizul Amali yang baru mulai berkontribusi.
 
