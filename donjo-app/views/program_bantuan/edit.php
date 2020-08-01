@@ -47,7 +47,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="ndesc">Keterangan</label>
 								<div class="col-sm-8">
-									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
+									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" maxlength="500" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
 								</div>
 							</div>
 							<?php $data= $program[0]; $val = $data["asaldana"]; ?>
