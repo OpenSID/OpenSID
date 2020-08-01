@@ -4,7 +4,7 @@
 	<div class="single_page_area">
 		<h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
 	</div>
-	<div>
+	<div class="table-responsive">
 		<?php if(count($main) > 0):?>
 			<table class="table table-striped">
 				<thead>
