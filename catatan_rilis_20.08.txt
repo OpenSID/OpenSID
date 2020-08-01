@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.07-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.08, tersedia fitur Notifikasi Update Versi, Notifikasi Tracking, Notifikasi Lisensi dan Fitur pencatatan dan pelaporan data persil dengan C-Desa. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Rudy Purwanto, masumo, Suyadi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Faizul Amali yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.08 adalah sebagai berikut:
 
 1. Sederhanakan pengamanan folder desa pada waktu migrasi DB. [teknis]
 2. Sekarang tampilkan notifikasi apabila memasukkan nama RT duplikat. [bug-fix]
@@ -49,5 +49,5 @@ Lengkapnya, isi rilis versi 20.07-pasca adalah sebagai berikut:
 43. Perpanjang kolom Nomor SK Pengangkatan di Pemerintahan Desa, dan batasi form tidak boleh mengisi lebih dari 30 karakter.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.07-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
