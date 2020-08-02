@@ -49,7 +49,7 @@ class Header_model extends CI_Model {
 			->where('p.id', $this->setting->dashboard_program_bantuan)
 			->get()
 			->row_array();
-		$data['link_detail'] = 'statistik/index/50'.$this->setting->dashboard_program_bantuan;
+		$data['link_detail'] = 'statistik/clear/50'.$this->setting->dashboard_program_bantuan;
 		return $data;
 	}
 
