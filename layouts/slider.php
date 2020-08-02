@@ -1,7 +1,8 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <div class="slick_slider" style="margin-bottom:5px;">
 	<?php foreach ($slider_gambar['gambar'] as $gambar) : ?>
-		<?php if(is_file($slider_gambar['lokasi'].'sedang_'.$gambar['gambar'])) : ?>
+		<?php $file_gambar = $slider_gambar['lokasi'] . 'sedang_' . $gambar['gambar']; ?>
+		<?php if(is_file($file_gambar)) : ?>
 			<div class="single_iteam">
 				<style type="text/css">
 					.slick_slider img {
@@ -16,7 +17,7 @@
 						overflow: hidden;
 					}
 				</style>
-				<img class="tlClogo" src="<?= base_url().$slider_gambar['lokasi'].'sedang_'.$gambar['gambar']?>" data-artikel="<?= $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
+				<img class="tlClogo" src="<?= base_url($file_gambar); ?>" onclick="location.href='<?= base_url('artikel/'.buat_slug($gambar)); ?>'">
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?>
