@@ -1587,6 +1587,43 @@ INSERT INTO `captcha_codes` (`id`, `namespace`, `code`, `code_display`, `created
 
 
 #
+# TABLE STRUCTURE FOR: cdesa
+#
+
+DROP TABLE IF EXISTS `cdesa`;
+
+CREATE TABLE `cdesa` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `nomor` varchar(20) NOT NULL,
+  `nama_kepemilikan` varchar(100) NOT NULL,
+  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT '0',
+  `nama_pemilik_luar` varchar(100) DEFAULT NULL,
+  `alamat_pemilik_luar` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nomor` (`nomor`),
+  UNIQUE KEY `nama_kepemilikan` (`nama_kepemilikan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: cdesa_penduduk
+#
+
+DROP TABLE IF EXISTS `cdesa_penduduk`;
+
+CREATE TABLE `cdesa_penduduk` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cdesa` int(5) unsigned NOT NULL,
+  `id_pend` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_cdesa` (`id_cdesa`),
+  CONSTRAINT `cdesa_penduduk_fk` FOREIGN KEY (`id_cdesa`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
 # TABLE STRUCTURE FOR: config
 #
 
@@ -1625,32 +1662,6 @@ INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `nama_kepala_desa`, `nip_k
 
 
 #
-# TABLE STRUCTURE FOR: data_persil_jenis
-#
-
-DROP TABLE IF EXISTS `data_persil_jenis`;
-
-CREATE TABLE `data_persil_jenis` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(128) NOT NULL,
-  `ndesc` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: data_persil_peruntukan
-#
-
-DROP TABLE IF EXISTS `data_persil_peruntukan`;
-
-CREATE TABLE `data_persil_peruntukan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(128) NOT NULL,
-  `ndesc` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
 # TABLE STRUCTURE FOR: detail_log_penduduk
 #
 
@@ -1682,14 +1693,18 @@ CREATE TABLE `dokumen` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `id_syarat` int(11) DEFAULT NULL,
   `id_parent` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(16) DEFAULT NULL,
+  `updated_by` varchar(16) DEFAULT NULL,
+  `dok_warga` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`) VALUES (2, 'SK+TIM+Penyusun+RPJMDes+Tahun+2017_uwdc6N_grafik-statistik-ada-jumlah.png', 'SK TIM Penyusun RPJMDes Tahun 2017', 1, '2018-05-28 06:49:28', 0, 2, '{\"uraian\":\"SK TIM Penyusun RPJMDes Tahun 2017\",\"no_kep_kades\":\"1\",\"tgl_kep_kades\":\"13-01-2017\",\"no_lapor\":\"1\",\"tgl_lapor\":\"13-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0, NULL, NULL);
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`) VALUES (3, 'SK+Pengangkatan+RT+dan+Pemberentian+RT+Baru_OzjhwE_surat-kk-peraturan.jpg', 'SK Pengangkatan RT dan Pemberentian RT Baru', 1, '2018-05-28 06:51:53', 0, 2, '{\"uraian\":\"SK Pengangkatan RT dan Pemberentian RT Baru\",\"no_kep_kades\":\"2\",\"tgl_kep_kades\":\"14-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0, NULL, NULL);
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`) VALUES (4, 'Perdes+SPJ+Tentang+Keuang+Desa+Tahun+2016_cXJUfP_user-setting-pengaturan.png', 'Perdes SPJ Tentang Keuang Desa Tahun 2016', 1, '2018-05-28 06:57:37', 0, 3, '{\"uraian\":\"Perdes SPJ Tentang Keuang Desa Tahun 2016\",\"jenis_peraturan\":\"Perdes SPJ Tahun 2016\",\"no_ditetapkan\":\"1\",\"tgl_ditetapkan\":\"09-01-2016\",\"tgl_kesepakatan\":\"05-01-2016\",\"no_lapor\":\"1\",\"tgl_lapor\":\"05-01-2016\",\"no_lembaran_desa\":\"1\",\"tgl_lembaran_desa\":\"05-01-2017\",\"no_berita_desa\":\"1\",\"tgl_berita_desa\":\"05-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2016, 3, '2019-11-30 22:01:57', 0, NULL, NULL);
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`) VALUES (5, 'RPJMDes+Miau+Merah+Tahun+2016+s%2Fd+2022_fMaZGt_cetak-log-penduduk.png', 'RPJMDes Miau Merah Tahun 2016 s/d 2022', 1, '2018-05-28 07:09:56', 0, 3, '{\"uraian\":\"Rencana Pembangunan Jangka Menengah Desa\",\"jenis_peraturan\":\"RPJMDes\",\"no_ditetapkan\":\"2\",\"tgl_ditetapkan\":\"13-01-2017\",\"tgl_kesepakatan\":\"13-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"13-01-2017\",\"no_lembaran_desa\":\"2\",\"tgl_lembaran_desa\":\"14-01-2017\",\"no_berita_desa\":\"2\",\"tgl_berita_desa\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0, NULL, NULL);
-INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`) VALUES (6, 'formulir-pengajuan-keberatan-informasi-od5ryq-ammar-alifian-fahdan-1-jpg.jpg', 'Formulir Pengajuan Keberatan Informasi', 1, '2019-10-31 22:20:48', 0, 1, '[]', 2019, 1, '2019-11-30 22:01:57', 0, NULL, NULL);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`, `created_at`, `created_by`, `updated_by`, `dok_warga`) VALUES (2, 'SK+TIM+Penyusun+RPJMDes+Tahun+2017_uwdc6N_grafik-statistik-ada-jumlah.png', 'SK TIM Penyusun RPJMDes Tahun 2017', 1, '2018-05-28 06:49:28', 0, 2, '{\"uraian\":\"SK TIM Penyusun RPJMDes Tahun 2017\",\"no_kep_kades\":\"1\",\"tgl_kep_kades\":\"13-01-2017\",\"no_lapor\":\"1\",\"tgl_lapor\":\"13-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0, NULL, NULL, '2020-07-30 03:35:14', NULL, NULL, 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`, `created_at`, `created_by`, `updated_by`, `dok_warga`) VALUES (3, 'SK+Pengangkatan+RT+dan+Pemberentian+RT+Baru_OzjhwE_surat-kk-peraturan.jpg', 'SK Pengangkatan RT dan Pemberentian RT Baru', 1, '2018-05-28 06:51:53', 0, 2, '{\"uraian\":\"SK Pengangkatan RT dan Pemberentian RT Baru\",\"no_kep_kades\":\"2\",\"tgl_kep_kades\":\"14-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0, NULL, NULL, '2020-07-30 03:35:14', NULL, NULL, 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`, `created_at`, `created_by`, `updated_by`, `dok_warga`) VALUES (4, 'Perdes+SPJ+Tentang+Keuang+Desa+Tahun+2016_cXJUfP_user-setting-pengaturan.png', 'Perdes SPJ Tentang Keuang Desa Tahun 2016', 1, '2018-05-28 06:57:37', 0, 3, '{\"uraian\":\"Perdes SPJ Tentang Keuang Desa Tahun 2016\",\"jenis_peraturan\":\"Perdes SPJ Tahun 2016\",\"no_ditetapkan\":\"1\",\"tgl_ditetapkan\":\"09-01-2016\",\"tgl_kesepakatan\":\"05-01-2016\",\"no_lapor\":\"1\",\"tgl_lapor\":\"05-01-2016\",\"no_lembaran_desa\":\"1\",\"tgl_lembaran_desa\":\"05-01-2017\",\"no_berita_desa\":\"1\",\"tgl_berita_desa\":\"05-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2016, 3, '2019-11-30 22:01:57', 0, NULL, NULL, '2020-07-30 03:35:14', NULL, NULL, 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`, `created_at`, `created_by`, `updated_by`, `dok_warga`) VALUES (5, 'RPJMDes+Miau+Merah+Tahun+2016+s%2Fd+2022_fMaZGt_cetak-log-penduduk.png', 'RPJMDes Miau Merah Tahun 2016 s/d 2022', 1, '2018-05-28 07:09:56', 0, 3, '{\"uraian\":\"Rencana Pembangunan Jangka Menengah Desa\",\"jenis_peraturan\":\"RPJMDes\",\"no_ditetapkan\":\"2\",\"tgl_ditetapkan\":\"13-01-2017\",\"tgl_kesepakatan\":\"13-01-2017\",\"no_lapor\":\"2\",\"tgl_lapor\":\"13-01-2017\",\"no_lembaran_desa\":\"2\",\"tgl_lembaran_desa\":\"14-01-2017\",\"no_berita_desa\":\"2\",\"tgl_berita_desa\":\"14-01-2017\",\"keterangan\":\"Sudah Terbit\"}', 2017, 3, '2019-11-30 22:01:57', 0, NULL, NULL, '2020-07-30 03:35:14', NULL, NULL, 0);
+INSERT INTO `dokumen` (`id`, `satuan`, `nama`, `enabled`, `tgl_upload`, `id_pend`, `kategori`, `attr`, `tahun`, `kategori_info_publik`, `updated_at`, `deleted`, `id_syarat`, `id_parent`, `created_at`, `created_by`, `updated_by`, `dok_warga`) VALUES (6, 'formulir-pengajuan-keberatan-informasi-od5ryq-ammar-alifian-fahdan-1-jpg.jpg', 'Formulir Pengajuan Keberatan Informasi', 1, '2019-10-31 22:20:48', 0, 1, '[]', 2019, 1, '2019-11-30 22:01:57', 0, NULL, NULL, '2020-07-30 03:35:14', NULL, NULL, 0);
 
 
 #
@@ -1750,619 +1765,655 @@ INSERT INTO `garis` (`id`, `nama`, `path`, `enabled`, `ref_line`, `foto`, `desk`
 DROP TABLE IF EXISTS `gis_simbol`;
 
 CREATE TABLE `gis_simbol` (
-  `simbol` varchar(40) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `simbol` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `simbol` (`simbol`),
+  UNIQUE KEY `simbol_2` (`simbol`),
+  UNIQUE KEY `simbol_3` (`simbol`),
+  UNIQUE KEY `simbol_4` (`simbol`),
+  UNIQUE KEY `simbol_5` (`simbol`),
+  UNIQUE KEY `simbol_6` (`simbol`)
+) ENGINE=InnoDB AUTO_INCREMENT=639 DEFAULT CHARSET=utf8;
 
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('accident.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('accident_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('administration.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('administration_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('aestheticscenter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('agriculture.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('agriculture2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('agriculture3.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('agriculture4.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('aircraft-small.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airplane-sport.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airplane-tourism.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airport-apron.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airport-runway.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airport-terminal.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airport.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('airport_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('amphitheater-tourism.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('amphitheater.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('ancientmonument.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('ancienttemple.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('ancienttempleruin.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('animals.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('animals_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('anniversary.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('apartment.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('apartment_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('aquarium.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('arch.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('archery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('artgallery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('atm.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('atv.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('audio.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('australianfootball.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bags.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bank.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bank_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bankeuro.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bankpound.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bar.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bar_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('baseball.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('basketball.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('baskteball2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('beach.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('beach_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('beautiful.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('beautiful_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bench.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('biblio.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bicycleparking.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bigcity.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('billiard.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bobsleigh.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bomb.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bookstore.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bowling.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bowling_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('boxing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bread.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bread_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bridge.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bridgemodern.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bullfight.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bungalow.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bus.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('bus_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('butcher.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cabin.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cablecar.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('camping.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('camping_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('campingsite.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('canoe.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('car.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('car_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('carrental.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('carrepair.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('carrepair_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('carwash.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('casino.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('casino_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('castle.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cathedral.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cathedral2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cave.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cemetary.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('chapel.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('church.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('church2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('church_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cinema.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cinema_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('circus.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('citysquare.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('climbing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('clothes-female.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('clothes-male.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('clothes.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('clothes_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('clouds.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('clouds_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cloudsun.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cloudsun_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('club.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('club_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cluster.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cluster2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cluster3.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cluster4.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cluster5.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cocktail.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('coffee.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('coffee_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('communitycentre.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('company.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('company_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('computer.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('computer_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('concessionaire.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('conference.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('construction.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('convenience.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('convent.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('corral.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('country.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('court.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cricket.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cross.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('crossingguard.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cruise.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('currencyexchange.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('customs.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cycling.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cycling_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingfeedarea.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingmountain1.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingmountain2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingmountain3.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingmountain4.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingmountainnotrated.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingsport.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclingsprint.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('cyclinguncategorized.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dam.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dancinghall.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dates.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dates_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('daycare.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-dim.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-dom.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-jeu.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-jue.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-lun.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-mar.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-mer.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-mie.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-qua.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-qui.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-sab.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-sam.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-seg.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-sex.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-ter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-ven.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('days-vie.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('default.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dentist.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('deptstore.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('disability.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('disability_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('disabledparking.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('diving.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('doctor.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('doctor_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dog-leash.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('dog-offleash.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('door.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('down.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('downleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('downright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('downthenleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('downthenright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('drinkingfountain.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('drinkingwater.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('drugs.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('drugs_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('elevator.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('embassy.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('emblem-art.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('emblem-photos.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('entrance.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('escalator-down.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('escalator-up.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('exit.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('expert.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('explosion.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('face-devilish.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('face-embarrassed.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('factory.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('factory_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fallingrocks.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('family.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('farm.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('farm_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fastfood.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fastfood_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('festival-itinerant.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('festival.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('findajob.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('findjob.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('findjob_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fire-extinguisher.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fire.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('firemen.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('firemen_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fireworks.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('firstaid.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fishing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fishing_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fishingshop.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fitnesscenter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fjord.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('flood.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('flowers.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('flowers_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('followpath.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('foodtruck.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('forest.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fortress.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fossils.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('fountain.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('friday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('friday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('friends.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('friends_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('garden.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gateswalls.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gazstation.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gazstation_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('geyser.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gifts.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('girlfriend.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('girlfriend_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('glacier.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('golf.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('golf_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gondola.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gourmet.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('grocery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gun.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('gym.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hairsalon.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('handball.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hanggliding.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hats.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('headstone.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('headstonejewish.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('helicopter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('highway.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('highway_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hiking-tourism.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hiking.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hiking_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('historicalquarter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('home.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('home_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('horseriding.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('horseriding_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hospital.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hospital_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hostel.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotairballoon.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel1star.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel2stars.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel3stars.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel4stars.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel5stars.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hotel_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('house.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('hunting.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('icecream.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('icehockey.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('iceskating.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('im-user.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('index.html');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('info.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('info_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('jewelry.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('jewishquarter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('jogging.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('judo.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('justice.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('justice_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('karate.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('karting.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('kayak.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('laboratory.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('lake.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('laundromat.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('left.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('leftthendown.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('leftthenup.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('library.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('library_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('lighthouse.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('liquor.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('lock.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('lockerrental.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('magicshow.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('mainroad.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('massage.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('military.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('military_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('mine.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('mobilephonetower.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('modernmonument.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('moderntower.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('monastery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('monday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('monday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('monument.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('mosque.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('motorbike.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('motorcycle.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('movierental.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-archeological.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-art.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-crafts.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-historical.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-naval.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-science.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum-war.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('museum_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('music-classical.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('music-hiphop.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('music-live.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('music-rock.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('music.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('music_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('nanny.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('newsagent.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('nordicski.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('nursery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('observatory.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('oilpumpjack.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('olympicsite.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('ophthalmologist.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pagoda.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('paint.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('palace.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('panoramic.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('panoramic180.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('park-urban.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('park.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('park_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('parkandride.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('parking.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('parking_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('party.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('patisserie.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pedestriancrossing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pend.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pens.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('perfumery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('personal.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('personalwatercraft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('petroglyphs.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pets.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('phones.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photo.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photodown.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photodownleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photodownright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photography.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photoleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photoright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photoup.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photoupleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('photoupright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('picnic.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pizza.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pizza_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('places-unvisited.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('places-visited.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('planecrash.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('playground.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('playground_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('poker.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('poker_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('police.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('police2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('police_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pool-indoor.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pool.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('pool_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('port.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('port_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('postal.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('postal_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('powerlinepole.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('powerplant.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('powersubstation.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('prison.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('publicart.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('racing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('radiation.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rain_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rain_3.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rattlesnake.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('realestate.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('realestate_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('recycle.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('recycle_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('recycle_3.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('regroup.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('regulier.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('resort.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurant-barbecue.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurant-buffet.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurant-fish.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurant-romantic.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurant.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurant_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantafrican.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantchinese.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantchinese_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantfishchips.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantgourmet.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantgreek.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantindian.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantitalian.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantjapanese.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantjapanese_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantkebab.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantkorean.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantmediterranean.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantmexican.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantthai.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('restaurantturkish.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('revolution.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('right.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rightthendown.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rightthenup.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('riparian.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('ropescourse.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rowboat.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('rugby.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('ruins.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sailboat-sport.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sailboat-tourism.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sailboat.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('salle-fete.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('satursday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('satursday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sauna.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('school.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('school_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('schrink.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('schrink_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sciencecenter.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('seals.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('seniorsite.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shadow.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shelter-picnic.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shelter-sleeping.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shoes.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shoes_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shoppingmall.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shore.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('shower.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sight.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('skateboarding.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('skiing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('skiing_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('skijump.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('skilift.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('smallcity.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('smokingarea.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sneakers.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('snow.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('snowboarding.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('snowmobiling.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('snowshoeing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('soccer.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('soccer2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('soccer_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('spaceport.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('spectacle.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed100.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed110.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed120.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed130.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed20.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed30.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed40.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed50.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed60.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed70.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed80.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speed90.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('speedhump.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('spelunking.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('stadium.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('statue.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('steamtrain.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('stop.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('stoplight.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('stoplight_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('strike.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('strike1.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('subway.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sun.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sun_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sunday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('sunday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('supermarket.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('supermarket_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('surfing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('suv.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('synagogue.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tailor.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tapas.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('taxi.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('taxi_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('taxiway.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('teahouse.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('telephone.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('templehindu.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tennis.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tennis2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tennis_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tent.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('terrace.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('text.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('textiles.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('theater.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('theater_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('themepark.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('thunder.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('thunder_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('thursday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('thursday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('toilets.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('toilets_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tollstation.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tools.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tower.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('toys.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('toys_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('trafficenforcementcamera.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('train.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('train_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tram.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('trash.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('truck.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('truck_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tuesday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tuesday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('tunnel.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('turnleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('turnright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('university.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('university_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('unnamed.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('up.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('upleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('upright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('upthenleft.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('upthenright.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('usfootball.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('vespa.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('vet.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('video.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('videogames.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('videogames_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('villa.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('waitingroom.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('water.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('waterfall.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('watermill.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('waterpark.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('waterskiing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('watertower.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('waterwell.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('waterwellpump.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wedding.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wednesday.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wednesday_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wetland.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('white1.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('white20.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wifi.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wifi_2.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('windmill.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('windsurfing.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('windturbine.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('winery.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('wineyard.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('workoffice.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('world.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('worldheritagesite.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('yoga.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('youthhostel.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('zipline.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('zoo.png');
-INSERT INTO `gis_simbol` (`simbol`) VALUES ('zoo_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (611, 'aa_bni.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (612, 'aa_bri.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (613, 'aa_btn.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (614, 'aa_btp.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (615, 'aa_pajak.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (616, 'aa_pdam.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (617, 'aa_pgadai.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (618, 'aa_pln.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (619, 'aa_pmi.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (620, 'aa_polisi.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (621, 'aa_prtmn.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (622, 'aa_pskms.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (623, 'aa_ptrns.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (624, 'aa_pwbdh.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (625, 'aa_pwhnd.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (626, 'aa_pwisl.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (627, 'aa_pwkhc.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (628, 'aa_pwkrs.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (629, 'aa_sk.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (630, 'aa_skagm.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (631, 'aa_skint.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (632, 'aa_sksd.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (633, 'aa_sksma.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (634, 'aa_sksmp.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (635, 'aa_sktk.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (636, 'aa_tniad.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (637, 'aa_tnial.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (638, 'aa_tniau.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (1, 'accident.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (2, 'accident_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (3, 'administration.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (4, 'administration_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (5, 'aestheticscenter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (6, 'agriculture.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (7, 'agriculture2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (8, 'agriculture3.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (9, 'agriculture4.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (10, 'aircraft-small.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (11, 'airplane-sport.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (12, 'airplane-tourism.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (13, 'airport-apron.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (14, 'airport-runway.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (15, 'airport-terminal.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (16, 'airport.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (17, 'airport_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (18, 'amphitheater-tourism.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (19, 'amphitheater.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (20, 'ancientmonument.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (21, 'ancienttemple.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (22, 'ancienttempleruin.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (23, 'animals.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (24, 'animals_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (25, 'anniversary.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (26, 'apartment.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (27, 'apartment_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (28, 'aquarium.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (29, 'arch.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (30, 'archery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (31, 'artgallery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (32, 'atm.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (33, 'atv.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (34, 'audio.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (35, 'australianfootball.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (36, 'bags.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (37, 'bank.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (39, 'bankeuro.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (40, 'bankpound.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (38, 'bank_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (41, 'bar.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (42, 'bar_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (43, 'baseball.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (44, 'basketball.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (45, 'baskteball2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (46, 'beach.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (47, 'beach_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (48, 'beautiful.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (49, 'beautiful_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (50, 'bench.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (51, 'biblio.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (52, 'bicycleparking.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (53, 'bigcity.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (54, 'billiard.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (55, 'bobsleigh.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (56, 'bomb.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (57, 'bookstore.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (58, 'bowling.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (59, 'bowling_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (60, 'boxing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (61, 'bread.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (62, 'bread_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (63, 'bridge.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (64, 'bridgemodern.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (65, 'bullfight.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (66, 'bungalow.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (67, 'bus.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (68, 'bus_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (69, 'butcher.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (70, 'cabin.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (71, 'cablecar.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (72, 'camping.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (74, 'campingsite.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (73, 'camping_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (75, 'canoe.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (76, 'car.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (78, 'carrental.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (79, 'carrepair.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (80, 'carrepair_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (81, 'carwash.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (77, 'car_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (82, 'casino.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (83, 'casino_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (84, 'castle.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (85, 'cathedral.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (86, 'cathedral2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (87, 'cave.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (88, 'cemetary.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (89, 'chapel.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (90, 'church.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (91, 'church2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (92, 'church_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (93, 'cinema.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (94, 'cinema_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (95, 'circus.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (96, 'citysquare.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (97, 'climbing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (98, 'clothes-female.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (99, 'clothes-male.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (100, 'clothes.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (101, 'clothes_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (102, 'clouds.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (104, 'cloudsun.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (105, 'cloudsun_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (103, 'clouds_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (106, 'club.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (107, 'club_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (108, 'cluster.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (109, 'cluster2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (110, 'cluster3.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (111, 'cluster4.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (112, 'cluster5.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (113, 'cocktail.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (114, 'coffee.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (115, 'coffee_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (116, 'communitycentre.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (117, 'company.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (118, 'company_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (119, 'computer.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (120, 'computer_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (121, 'concessionaire.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (122, 'conference.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (123, 'construction.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (124, 'convenience.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (125, 'convent.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (126, 'corral.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (127, 'country.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (128, 'court.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (129, 'cricket.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (130, 'cross.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (131, 'crossingguard.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (132, 'cruise.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (133, 'currencyexchange.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (134, 'customs.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (135, 'cycling.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (137, 'cyclingfeedarea.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (138, 'cyclingmountain1.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (139, 'cyclingmountain2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (140, 'cyclingmountain3.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (141, 'cyclingmountain4.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (142, 'cyclingmountainnotrated.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (143, 'cyclingsport.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (144, 'cyclingsprint.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (145, 'cyclinguncategorized.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (136, 'cycling_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (146, 'dam.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (147, 'dancinghall.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (148, 'dates.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (149, 'dates_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (150, 'daycare.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (151, 'days-dim.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (152, 'days-dom.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (153, 'days-jeu.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (154, 'days-jue.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (155, 'days-lun.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (156, 'days-mar.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (157, 'days-mer.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (158, 'days-mie.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (159, 'days-qua.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (160, 'days-qui.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (161, 'days-sab.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (162, 'days-sam.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (163, 'days-seg.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (164, 'days-sex.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (165, 'days-ter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (166, 'days-ven.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (167, 'days-vie.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (168, 'default.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (169, 'dentist.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (170, 'deptstore.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (171, 'disability.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (172, 'disability_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (173, 'disabledparking.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (174, 'diving.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (175, 'doctor.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (176, 'doctor_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (177, 'dog-leash.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (178, 'dog-offleash.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (179, 'door.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (180, 'down.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (181, 'downleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (182, 'downright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (183, 'downthenleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (184, 'downthenright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (185, 'drinkingfountain.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (186, 'drinkingwater.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (187, 'drugs.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (188, 'drugs_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (189, 'elevator.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (190, 'embassy.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (191, 'emblem-art.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (192, 'emblem-photos.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (193, 'entrance.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (194, 'escalator-down.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (195, 'escalator-up.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (196, 'exit.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (197, 'expert.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (198, 'explosion.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (199, 'face-devilish.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (200, 'face-embarrassed.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (201, 'factory.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (202, 'factory_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (203, 'fallingrocks.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (204, 'family.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (205, 'farm.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (206, 'farm_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (207, 'fastfood.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (208, 'fastfood_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (209, 'festival-itinerant.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (210, 'festival.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (211, 'findajob.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (212, 'findjob.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (213, 'findjob_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (214, 'fire-extinguisher.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (215, 'fire.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (216, 'firemen.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (217, 'firemen_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (218, 'fireworks.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (219, 'firstaid.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (220, 'fishing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (222, 'fishingshop.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (221, 'fishing_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (223, 'fitnesscenter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (224, 'fjord.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (225, 'flood.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (226, 'flowers.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (227, 'flowers_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (228, 'followpath.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (229, 'foodtruck.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (230, 'forest.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (231, 'fortress.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (232, 'fossils.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (233, 'fountain.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (234, 'friday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (235, 'friday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (236, 'friends.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (237, 'friends_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (238, 'garden.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (239, 'gateswalls.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (240, 'gazstation.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (241, 'gazstation_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (242, 'geyser.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (243, 'gifts.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (244, 'girlfriend.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (245, 'girlfriend_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (246, 'glacier.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (247, 'golf.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (248, 'golf_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (249, 'gondola.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (250, 'gourmet.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (251, 'grocery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (252, 'gun.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (253, 'gym.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (254, 'hairsalon.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (255, 'handball.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (256, 'hanggliding.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (257, 'hats.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (258, 'headstone.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (259, 'headstonejewish.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (260, 'helicopter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (261, 'highway.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (262, 'highway_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (263, 'hiking-tourism.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (264, 'hiking.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (265, 'hiking_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (266, 'historicalquarter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (267, 'home.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (268, 'home_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (269, 'horseriding.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (270, 'horseriding_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (271, 'hospital.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (272, 'hospital_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (273, 'hostel.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (274, 'hotairballoon.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (275, 'hotel.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (276, 'hotel1star.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (277, 'hotel2stars.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (278, 'hotel3stars.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (279, 'hotel4stars.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (280, 'hotel5stars.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (281, 'hotel_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (282, 'house.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (283, 'hunting.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (284, 'icecream.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (285, 'icehockey.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (286, 'iceskating.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (287, 'im-user.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (288, 'index.html');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (289, 'info.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (290, 'info_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (291, 'jewelry.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (292, 'jewishquarter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (293, 'jogging.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (294, 'judo.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (295, 'justice.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (296, 'justice_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (297, 'karate.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (298, 'karting.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (299, 'kayak.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (300, 'laboratory.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (301, 'lake.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (302, 'laundromat.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (303, 'left.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (304, 'leftthendown.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (305, 'leftthenup.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (306, 'library.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (307, 'library_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (308, 'lighthouse.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (309, 'liquor.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (310, 'lock.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (311, 'lockerrental.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (312, 'magicshow.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (313, 'mainroad.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (314, 'massage.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (315, 'military.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (316, 'military_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (317, 'mine.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (318, 'mobilephonetower.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (319, 'modernmonument.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (320, 'moderntower.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (321, 'monastery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (322, 'monday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (323, 'monday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (324, 'monument.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (325, 'mosque.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (326, 'motorbike.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (327, 'motorcycle.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (328, 'movierental.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (329, 'museum-archeological.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (330, 'museum-art.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (331, 'museum-crafts.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (332, 'museum-historical.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (333, 'museum-naval.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (334, 'museum-science.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (335, 'museum-war.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (336, 'museum.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (337, 'museum_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (338, 'music-classical.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (339, 'music-hiphop.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (340, 'music-live.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (341, 'music-rock.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (342, 'music.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (343, 'music_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (344, 'nanny.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (345, 'newsagent.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (346, 'nordicski.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (347, 'nursery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (348, 'observatory.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (349, 'oilpumpjack.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (350, 'olympicsite.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (351, 'ophthalmologist.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (352, 'pagoda.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (353, 'paint.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (354, 'palace.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (355, 'panoramic.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (356, 'panoramic180.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (357, 'park-urban.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (358, 'park.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (360, 'parkandride.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (361, 'parking.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (362, 'parking_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (359, 'park_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (363, 'party.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (364, 'patisserie.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (365, 'pedestriancrossing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (366, 'pend.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (367, 'pens.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (368, 'perfumery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (369, 'personal.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (370, 'personalwatercraft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (371, 'petroglyphs.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (372, 'pets.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (373, 'phones.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (374, 'photo.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (375, 'photodown.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (376, 'photodownleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (377, 'photodownright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (378, 'photography.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (379, 'photoleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (380, 'photoright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (381, 'photoup.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (382, 'photoupleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (383, 'photoupright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (384, 'picnic.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (385, 'pizza.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (386, 'pizza_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (387, 'places-unvisited.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (388, 'places-visited.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (389, 'planecrash.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (390, 'playground.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (391, 'playground_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (392, 'poker.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (393, 'poker_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (394, 'police.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (395, 'police2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (396, 'police_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (397, 'pool-indoor.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (398, 'pool.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (399, 'pool_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (400, 'port.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (401, 'port_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (402, 'postal.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (403, 'postal_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (404, 'powerlinepole.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (405, 'powerplant.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (406, 'powersubstation.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (407, 'prison.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (408, 'publicart.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (409, 'racing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (410, 'radiation.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (411, 'rain_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (412, 'rain_3.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (413, 'rattlesnake.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (414, 'realestate.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (415, 'realestate_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (416, 'recycle.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (417, 'recycle_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (418, 'recycle_3.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (419, 'regroup.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (420, 'regulier.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (421, 'resort.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (422, 'restaurant-barbecue.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (423, 'restaurant-buffet.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (424, 'restaurant-fish.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (425, 'restaurant-romantic.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (426, 'restaurant.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (428, 'restaurantafrican.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (429, 'restaurantchinese.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (430, 'restaurantchinese_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (431, 'restaurantfishchips.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (432, 'restaurantgourmet.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (433, 'restaurantgreek.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (434, 'restaurantindian.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (435, 'restaurantitalian.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (436, 'restaurantjapanese.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (437, 'restaurantjapanese_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (438, 'restaurantkebab.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (439, 'restaurantkorean.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (440, 'restaurantmediterranean.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (441, 'restaurantmexican.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (442, 'restaurantthai.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (443, 'restaurantturkish.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (427, 'restaurant_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (444, 'revolution.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (445, 'right.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (446, 'rightthendown.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (447, 'rightthenup.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (448, 'riparian.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (449, 'ropescourse.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (450, 'rowboat.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (451, 'rugby.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (452, 'ruins.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (453, 'sailboat-sport.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (454, 'sailboat-tourism.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (455, 'sailboat.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (456, 'salle-fete.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (457, 'satursday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (458, 'satursday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (459, 'sauna.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (460, 'school.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (461, 'school_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (462, 'schrink.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (463, 'schrink_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (464, 'sciencecenter.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (465, 'seals.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (466, 'seniorsite.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (467, 'shadow.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (468, 'shelter-picnic.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (469, 'shelter-sleeping.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (470, 'shoes.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (471, 'shoes_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (472, 'shoppingmall.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (473, 'shore.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (474, 'shower.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (475, 'sight.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (476, 'skateboarding.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (477, 'skiing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (478, 'skiing_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (479, 'skijump.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (480, 'skilift.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (481, 'smallcity.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (482, 'smokingarea.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (483, 'sneakers.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (484, 'snow.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (485, 'snowboarding.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (486, 'snowmobiling.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (487, 'snowshoeing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (488, 'soccer.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (489, 'soccer2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (490, 'soccer_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (491, 'spaceport.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (492, 'spectacle.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (493, 'speed100.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (494, 'speed110.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (495, 'speed120.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (496, 'speed130.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (497, 'speed20.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (498, 'speed30.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (499, 'speed40.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (500, 'speed50.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (501, 'speed60.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (502, 'speed70.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (503, 'speed80.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (504, 'speed90.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (505, 'speedhump.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (506, 'spelunking.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (507, 'stadium.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (508, 'statue.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (509, 'steamtrain.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (510, 'stop.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (511, 'stoplight.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (512, 'stoplight_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (513, 'strike.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (514, 'strike1.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (515, 'subway.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (516, 'sun.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (518, 'sunday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (519, 'sunday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (517, 'sun_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (520, 'supermarket.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (521, 'supermarket_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (522, 'surfing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (523, 'suv.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (524, 'synagogue.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (525, 'tailor.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (526, 'tapas.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (527, 'taxi.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (529, 'taxiway.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (528, 'taxi_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (530, 'teahouse.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (531, 'telephone.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (532, 'templehindu.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (533, 'tennis.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (534, 'tennis2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (535, 'tennis_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (536, 'tent.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (537, 'terrace.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (538, 'text.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (539, 'textiles.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (540, 'theater.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (541, 'theater_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (542, 'themepark.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (543, 'thunder.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (544, 'thunder_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (545, 'thursday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (546, 'thursday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (547, 'toilets.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (548, 'toilets_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (549, 'tollstation.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (550, 'tools.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (551, 'tower.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (552, 'toys.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (553, 'toys_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (554, 'trafficenforcementcamera.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (555, 'train.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (556, 'train_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (557, 'tram.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (558, 'trash.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (559, 'truck.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (560, 'truck_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (561, 'tuesday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (562, 'tuesday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (563, 'tunnel.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (564, 'turnleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (565, 'turnright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (566, 'university.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (567, 'university_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (568, 'unnamed.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (569, 'up.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (570, 'upleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (571, 'upright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (572, 'upthenleft.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (573, 'upthenright.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (574, 'usfootball.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (575, 'vespa.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (576, 'vet.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (577, 'video.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (578, 'videogames.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (579, 'videogames_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (580, 'villa.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (581, 'waitingroom.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (582, 'water.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (583, 'waterfall.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (584, 'watermill.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (585, 'waterpark.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (586, 'waterskiing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (587, 'watertower.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (588, 'waterwell.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (589, 'waterwellpump.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (590, 'wedding.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (591, 'wednesday.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (592, 'wednesday_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (593, 'wetland.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (594, 'white1.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (595, 'white20.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (596, 'wifi.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (597, 'wifi_2.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (598, 'windmill.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (599, 'windsurfing.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (600, 'windturbine.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (601, 'winery.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (602, 'wineyard.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (603, 'workoffice.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (604, 'world.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (605, 'worldheritagesite.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (606, 'yoga.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (607, 'youthhostel.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (608, 'zipline.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (609, 'zoo.png');
+INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (610, 'zoo_2.png');
 
 
 #
@@ -6923,9 +6974,9 @@ DROP TABLE IF EXISTS `line`;
 CREATE TABLE `line` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `simbol` varchar(50) NOT NULL,
+  `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(10) NOT NULL DEFAULT 'ff0000',
-  `tipe` int(4) NOT NULL,
+  `tipe` int(4) DEFAULT '0',
   `parrent` int(4) DEFAULT '1',
   `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -6960,7 +7011,7 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1607 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1608 DEFAULT CHARSET=latin1;
 
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2019-11-30 22:04:42', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (983, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
@@ -7587,6 +7638,7 @@ INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1604, 97, 46, 51, 37, '2020-04-30 22:07:32', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1605, 97, 46, 51, 37, '2020-06-01 00:14:43', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1606, 97, 46, 51, 37, '2020-07-01 00:59:28', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1607, 97, 46, 51, 37, '2020-08-01 00:09:12', 28, 9, 0, 0);
 
 
 #
@@ -7705,7 +7757,6 @@ CREATE TABLE `media_sosial` (
 
 INSERT INTO `media_sosial` (`id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES (1, 'fb.png', 'https://www.facebook.com/groups/OpenSID/', 'Facebook', 1, 1);
 INSERT INTO `media_sosial` (`id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES (2, 'twt.png', '', 'Twitter', 1, 1);
-INSERT INTO `media_sosial` (`id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES (3, 'goo.png', '', 'Google Plus', 1, 1);
 INSERT INTO `media_sosial` (`id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES (4, 'yb.png', '', 'YouTube', 1, 1);
 INSERT INTO `media_sosial` (`id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES (5, 'ins.png', '', 'Instagram', 1, 1);
 INSERT INTO `media_sosial` (`id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES (6, 'wa.png', '', 'WhatsApp', 1, 1);
@@ -7804,12 +7855,64 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (3, '2020060101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (4, '2020070101');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (5, '2020070106');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (6, '2020080101');
+
+
+#
+# TABLE STRUCTURE FOR: mutasi_cdesa
+#
+
+DROP TABLE IF EXISTS `mutasi_cdesa`;
+
+CREATE TABLE `mutasi_cdesa` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cdesa_masuk` int(5) unsigned DEFAULT NULL,
+  `cdesa_keluar` int(5) unsigned DEFAULT NULL,
+  `jenis_mutasi` tinyint(2) DEFAULT NULL,
+  `tanggal_mutasi` date DEFAULT NULL,
+  `keterangan` text,
+  `id_persil` int(11) NOT NULL,
+  `no_bidang_persil` tinyint(3) DEFAULT NULL,
+  `luas` decimal(7,0) DEFAULT NULL,
+  `no_objek_pajak` varchar(30) DEFAULT NULL,
+  `path` text,
+  PRIMARY KEY (`id`),
+  KEY `cdesa_mutasi_fk` (`id_cdesa_masuk`),
+  CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: notifikasi
+#
+
+DROP TABLE IF EXISTS `notifikasi`;
+
+CREATE TABLE `notifikasi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(100) NOT NULL,
+  `judul` varchar(100) NOT NULL,
+  `jenis` varchar(50) NOT NULL,
+  `isi` text NOT NULL,
+  `server` varchar(20) NOT NULL,
+  `tgl_berikutnya` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` int(11) NOT NULL,
+  `frekuensi` smallint(6) NOT NULL,
+  `aksi` varchar(100) NOT NULL,
+  `aktif` tinyint(2) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `kode` (`kode`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (1, 'persetujuan_penggunaan', '<i class=\"fa fa-file-text-o text-black\"></i> &nbsp;Persetujuan Penggunaan OpenSID', 'persetujuan', '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>\n					<ol>\n						<li>Pengguna telah membaca dan menyetujui <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\" target=\"_blank\">Lisensi GPL V3</a>.</li>\n						<li>OpenSID gratis dan disediakan \"SEBAGAIMANA ADANYA\", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>\n						<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>\n						<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>\n					</ol></p>\n					<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>', 'client', '2020-10-28 10:35:25', '2020-07-30 10:35:25', 1, 90, 'notif/update_pengumuman,siteman', 1);
+INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (2, 'tracking_off', '<i class=\"fa fa-exclamation-triangle text-red\"></i> &nbsp;Peringatan Tracking Off', 'peringatan', '<p>Kami mendeteksi bahwa anda telah mematikan fitur tracking. Bila dimatikan, penggunaan website desa anda tidak akan tercatat di server OpenDesa dan tidak akan menerima informasi penting yang sesekali dikirim OpenDesa.</p>\n					<br><b>Hidupkan kembali tracking untuk mendapatkan informasi dari OpenDesa?</b>', 'client', '2020-07-30 03:37:42', '2020-07-30 10:37:03', 1, 90, 'setting/aktifkan_tracking,notif/update_pengumuman', 0);
 
 
 #
@@ -7863,6 +7966,26 @@ CREATE TABLE `permohonan_surat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
+# TABLE STRUCTURE FOR: persil
+#
+
+DROP TABLE IF EXISTS `persil`;
+
+CREATE TABLE `persil` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nomor` varchar(20) NOT NULL,
+  `nomor_urut_bidang` tinyint(3) NOT NULL DEFAULT '1',
+  `kelas` int(5) NOT NULL,
+  `luas_persil` decimal(7,0) DEFAULT NULL,
+  `id_wilayah` int(11) DEFAULT NULL,
+  `lokasi` text,
+  `path` text,
+  `cdesa_awal` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nomor_nomor_urut_bidang` (`nomor`,`nomor_urut_bidang`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
 # TABLE STRUCTURE FOR: pertanyaan
 #
 
@@ -7888,8 +8011,8 @@ DROP TABLE IF EXISTS `point`;
 CREATE TABLE `point` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `simbol` varchar(50) NOT NULL,
-  `tipe` int(4) NOT NULL,
+  `simbol` varchar(50) DEFAULT NULL,
+  `tipe` int(4) DEFAULT '0',
   `parrent` int(4) NOT NULL DEFAULT '1',
   `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -7940,7 +8063,7 @@ CREATE TABLE `program` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   `sasaran` tinyint(4) DEFAULT NULL,
-  `ndesc` varchar(200) DEFAULT NULL,
+  `ndesc` varchar(500) DEFAULT NULL,
   `sdate` date NOT NULL,
   `edate` date NOT NULL,
   `userid` mediumint(9) NOT NULL,
@@ -7949,11 +8072,11 @@ CREATE TABLE `program` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (1, 'BPNT', 2, 'Bantuan Pemerintah Non Tunai', '2015-12-13', '2017-12-13', 0, 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (2, 'BLSM', 2, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (3, 'PKH', 2, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (4, 'Bedah Rumah', 2, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
-INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (5, 'JAMKESMAS', 1, '', '2015-12-13', '2017-12-13', 0, 0, NULL);
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (1, 'BPNT', 2, 'Program KESOS memberi bantuan sosial pangan dalam bentuk non tunai dari pemerintah yang diberikan kepada KPM setiap bulannya melalui mekanisme akun elektronik yang digunakan hanya untuk membeli bahan pangan di pedagang bahan pangan/e-warong yang bekerjasama dengan bank.', '2015-12-13', '2021-12-13', 0, 1, 'Pusat');
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (2, 'BLSM', 2, 'Bantuan Langsung Sementara Masyarakat atau BLSM (kadang disebut juga balsem) adalah bantuan yang diberikan Pemerintah Indonesia menyambut kenaikan harga BBM yang terjadi pada 22 Juni 2013 pada jam 00.00', '2015-12-13', '2017-12-13', 0, 0, 'Pusat');
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (3, 'PKH', 2, 'Program Keluarga Harapan yang selanjutnya disebut PKH adalah program pemberian bantuan sosial bersyarat kepada Keluarga Miskin (KM) yang ditetapkan sebagai keluarga penerima manfaat PKH.\r\n\r\nSebagai sebuah program bantuan sosial bersyarat, PKH membuka akses keluarga miskin terutama ibu hamil dan anak untuk memanfaatkan berbagai fasilitas layanan kesehatan (faskes) dan fasilitas layanan pendidikan (fasdik) yang tersedia di sekitar mereka.', '2015-12-13', '2022-12-13', 0, 1, 'Pusat');
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (4, 'Bedah Rumah', 2, 'Bantuan Stimulan Perumahan Swadaya (BSPS). Program ini lebih dikenal sebagai program Bedah Rumah.\r\n\r\nKementrian Pekerjaan Umum dan Perumahan Rakyat (KemenPUPR) menjalankan BSPS untuk membantu Masyarakat Berpenghasilan Rendah (MBR), agar dapat memiliki rumah yang layak huni.', '2015-12-13', '2021-12-13', 0, 1, 'Pusat');
+INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (5, 'JAMKESMAS', 1, 'Jamkesmas ( akronim dari Jaminan Kesehatan Masyarakat ) adalah sebuah program jaminan kesehatan untuk warga Indonesia yang memberikan perlindungan sosial dibidang kesehatan untuk menjamin masyarakat miskin dan tidak mampu yang iurannya dibayar oleh pemerintah agar kebutuhan dasar kesehatannya yang layak dapat terpenuhi.Program ini dijalankan oleh Departemen Kesehatan sejak 2008.', '2008-12-13', '2010-12-13', 0, 0, 'Pusat');
 
 
 #
@@ -8051,6 +8174,48 @@ CREATE TABLE `ref_dokumen` (
 INSERT INTO `ref_dokumen` (`id`, `nama`) VALUES (1, 'Informasi Publik');
 INSERT INTO `ref_dokumen` (`id`, `nama`) VALUES (2, 'SK Kades');
 INSERT INTO `ref_dokumen` (`id`, `nama`) VALUES (3, 'Perdes');
+
+
+#
+# TABLE STRUCTURE FOR: ref_persil_kelas
+#
+
+DROP TABLE IF EXISTS `ref_persil_kelas`;
+
+CREATE TABLE `ref_persil_kelas` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `tipe` varchar(20) NOT NULL,
+  `kode` varchar(20) NOT NULL,
+  `ndesc` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (1, 'BASAH', 'S-I', 'Persawahan Dekat dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (2, 'BASAH', 'S-II', 'Persawahan Agak Dekat dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (3, 'BASAH', 'S-III', 'Persawahan Jauh dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (4, 'BASAH', 'S-IV', 'Persawahan Sangat Jauh dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (5, 'KERING', 'D-I', 'Lahan Kering Dekat dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (6, 'KERING', 'D-II', 'Lahan Kering Agak Dekat dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (7, 'KERING', 'D-III', 'Lahan Kering Jauh dengan Pemukiman');
+INSERT INTO `ref_persil_kelas` (`id`, `tipe`, `kode`, `ndesc`) VALUES (8, 'KERING', 'D-IV', 'Lahan Kering Sanga Jauh dengan Pemukiman');
+
+
+#
+# TABLE STRUCTURE FOR: ref_persil_mutasi
+#
+
+DROP TABLE IF EXISTS `ref_persil_mutasi`;
+
+CREATE TABLE `ref_persil_mutasi` (
+  `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(20) NOT NULL,
+  `ndesc` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+INSERT INTO `ref_persil_mutasi` (`id`, `nama`, `ndesc`) VALUES (1, 'Jual Beli', 'Didapat dari proses Jual Beli');
+INSERT INTO `ref_persil_mutasi` (`id`, `nama`, `ndesc`) VALUES (2, 'Hibah', 'Didapat dari proses Hibah');
+INSERT INTO `ref_persil_mutasi` (`id`, `nama`, `ndesc`) VALUES (3, 'Waris', 'Didapat dari proses Waris');
 
 
 #
@@ -8184,7 +8349,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '20.07', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '20.08', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
@@ -8222,7 +8387,7 @@ CREATE TABLE `setting_modul` (
   `ikon_kecil` varchar(50) NOT NULL,
   `parent` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 1, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 3, 2, 0, 'fa fa-users', 0);
@@ -8230,7 +8395,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (4, 'Layanan Surat', 'surat', 1, 'fa-book', 5, 2, 0, 'fa fa-book', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (5, 'Analisis', 'analisis_master/clear', 1, '   fa-check-square-o', 6, 2, 0, 'fa fa-check-square-o', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (6, 'Bantuan', 'program_bantuan/clear', 1, 'fa-heart', 7, 2, 0, 'fa fa-heart', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (7, 'Pertanahan', 'data_persil/clear', 1, 'fa-map-signs', 8, 2, 0, 'fa fa-map-signs', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (7, 'Pertanahan', 'cdesa/clear', 1, 'fa-map-signs', 8, 2, 0, 'fa fa-map-signs', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (8, 'Pengaturan Peta', 'plan', 1, 'fa-location-arrow', 9, 2, 0, 'fa fa-location-arrow', 9);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (9, 'Pemetaan', 'gis', 1, 'fa-globe', 10, 2, 0, 'fa fa-globe', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (10, 'SMS', 'sms', 1, 'fa-envelope', 11, 2, 0, 'fa fa-envelope', 0);
@@ -8238,7 +8403,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (13, 'Admin Web', 'web', 1, 'fa-desktop', 14, 4, 0, 'fa fa-desktop', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (14, 'Layanan Mandiri', 'lapor', 1, 'fa-inbox', 15, 2, 0, 'fa fa-inbox', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (15, 'Sekretariat', 'surat_keluar/clear', 1, 'fa-archive', 5, 2, 0, 'fa fa-archive', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (17, 'Identitas [Desa]', 'hom_desa/konfigurasi', 1, 'fa-id-card', 2, 2, 0, '', 200);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (17, 'Identitas [Desa]', 'identitas_desa', 1, 'fa-id-card', 2, 2, 0, '', 200);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (18, 'Pemerintahan [Desa]', 'pengurus/clear', 1, 'fa-sitemap', 3, 2, 0, '', 200);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (20, 'Wilayah Administratif', 'sid_core/clear', 1, 'fa-map', 2, 2, 0, '', 200);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (21, 'Penduduk', 'penduduk/clear', 1, 'fa-user', 2, 2, 0, '', 2);
@@ -8312,7 +8477,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (96, 'Informasi Publik', 'informasi_publik', 1, '', 0, 0, 2, '', 52);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (97, 'Daftar Persyaratan', 'surat_mohon', 1, 'fa fa-book', 5, 2, 0, '', 4);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (98, 'Permohonan Surat', 'permohonan_surat_admin/clear', 1, 'fa-files-o', 0, 0, 0, '', 14);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (200, 'Info [Desa]', 'hom_desa', 1, 'fa-dashboard', 2, 2, 1, 'fa fa-home', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (200, 'Info [Desa]', 'identitas_desa', 1, 'fa-dashboard', 2, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (201, 'Keuangan', 'keuangan', 1, 'fa-balance-scale', 6, 2, 0, 'fa-balance-scale', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (202, 'Impor Data', 'keuangan/impor_data', 1, 'fa-cloud-upload', 1, 2, 0, 'fa-cloud-upload', 201);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (203, 'Laporan', 'keuangan/laporan', 1, 'fa-bar-chart', 2, 2, 0, 'fa-bar-chart', 201);
@@ -8324,6 +8489,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (210, 'Laporan Manual', 'keuangan_manual/laporan_manual', 1, 'fa-bar-chart', 4, 2, 0, 'fa-bar-chart', 201);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (211, 'Pengaturan', 'setting/web', 1, 'fa-gear', 11, 4, 0, 'fa-gear', 13);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (212, 'QR Code', 'setting/qrcode/clear', 1, 'fa-qrcode', 6, 1, 0, 'fa-qrcode', 11);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (213, 'data_persil', 'data_persil', 1, '', 0, 2, 2, '', 7);
 
 
 #
@@ -12845,7 +13011,7 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_sex` tinyint(4) DEFAULT NULL,
   `pamong_pendidikan` int(10) DEFAULT NULL,
   `pamong_agama` int(10) DEFAULT NULL,
-  `pamong_nosk` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pamong_nosk` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tglsk` date DEFAULT NULL,
   `pamong_masajab` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `urut` int(5) DEFAULT NULL,
@@ -12994,7 +13160,7 @@ CREATE TABLE `tweb_penduduk` (
   `status_kawin` tinyint(4) DEFAULT NULL,
   `warganegara_id` tinyint(4) NOT NULL DEFAULT '1',
   `dokumen_pasport` varchar(45) DEFAULT NULL,
-  `dokumen_kitas` int(10) DEFAULT NULL,
+  `dokumen_kitas` varchar(45) DEFAULT NULL,
   `ayah_nik` varchar(16) DEFAULT NULL,
   `ibu_nik` varchar(16) DEFAULT NULL,
   `nama_ayah` varchar(100) DEFAULT NULL,
@@ -13038,15 +13204,15 @@ CREATE TABLE `tweb_penduduk` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '0', 0, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', 0, '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 0, 0, 0, '', '', NULL, '', NULL, 0, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', 0, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 0, 0, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (3, 'AHMAD HABIB', '5201140301916995', 1, 4, '0', 0, 1, 'MANGSIT', '1990-01-03', 1, 3, 18, 1, 1, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '011405000012', 1, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', '0', '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 0, 0, 0, '', '', NULL, '', NULL, 0, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:30:21', 1, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', '0', '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 0, 0, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (3, 'AHMAD HABIB', '5201140301916995', 1, 4, '011405000012', 2, 1, 'MANGSIT', '1990-01-03', 1, 3, 18, 1, 1, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:12', 1, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (4, 'ADINI SEPTIA LISTA', '5201145003976995', 1, 4, '0', 0, 2, 'MANGSIT', '1996-03-10', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (5, 'AHYAR', '5201141003666996', 2, 1, '0', 0, 1, 'JAKARTA', '1965-03-10', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'PAIMUN', 'SUPINAH', '', 13, 8, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (6, 'APTA MADA RIZKY ALAMSYAH', '5201141412121724', 2, 4, '0', 0, 1, 'DEPOK', '2002-12-14', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'AHYAR', 'ALIYAH', '', 13, 8, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (7, 'ALIYAH', '5201144609786995', 2, 3, '0', 0, 2, 'BEKASI', '1977-09-06', 1, 5, 18, 2, 2, 1, NULL, NULL, '', '', 'TAGOR SIPAHUTAR', 'AMAHWATI', '', 13, 8, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (8, 'ALPIANI', '5201144301171725', 2, 4, '0', 0, 2, 'BOGOR', '2007-01-03', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'AHYAR', 'ALIYAH', '', 13, 8, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (9, 'ASHARI', '5201140107867064', 3, 1, '0', 0, 1, 'KERANDANGAN', '1985-12-30', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDUL KARIM', 'RADIAH', '', 13, 12, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (9, 'ASHARI', '5201140107867064', 3, 1, '0', 0, 1, 'KERANDANGAN', '1985-12-30', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDUL KARIM', 'RADIAH', '', 13, 12, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:52', 1, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (10, 'BACHTIAR HADI', '5201142210181724', 3, 4, '0', 0, 1, 'MATARAM', '2008-10-22', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'ASHARI', 'ANGGUN LESTARI PRATAMA', '', 13, 12, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (11, 'ANGGUN LESTARI PRATAMA', '5201146510916995', 3, 3, '0', 0, 2, 'SENGGIGI', '1990-10-25', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'SADIRAH', 'HJ. ROHANI', '', 13, 12, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`) VALUES (12, 'DAHRI', '5201143112797117', 4, 1, '0', 0, 1, 'MASBAGIK', '1978-12-31', 1, 3, 18, 88, 2, 1, NULL, NULL, '', '', 'AMAQ SAHMINI', 'INAQ SAHMINI', '', 13, 16, 1, '', '', 1, NULL, NULL, 0, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL);
@@ -13497,7 +13663,10 @@ CREATE TABLE `tweb_rtm` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `no_kk` (`no_kk`),
   UNIQUE KEY `no_kk_2` (`no_kk`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `tweb_rtm` (`id`, `nik_kepala`, `no_kk`, `tgl_daftar`, `kelas_sosial`) VALUES (1, 1, '011405000012', '2020-07-30 04:36:37', NULL);
+
 
 #
 # TABLE STRUCTURE FOR: tweb_rtm_hubungan
@@ -13792,13 +13961,13 @@ INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (5, 'statistik.php', 1, 'Statistik', 1, 9, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (6, 'komentar.php', 1, 'Komentar', 1, 10, 'komentar', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (7, 'media_sosial.php', 1, 'Media Sosial', 1, 11, 'sosmed', '');
-INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (8, 'peta_lokasi_kantor.php', 1, 'Peta Lokasi Kantor', 1, 12, 'hom_desa', '');
+INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (8, 'peta_lokasi_kantor.php', 1, 'Peta Lokasi Kantor', 1, 12, 'identitas_desa/maps/kantor', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (9, 'statistik_pengunjung.php', 1, 'Statistik Pengunjung', 1, 13, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (10, 'arsip_artikel.php', 1, 'Arsip Artikel', 1, 14, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (11, 'aparatur_desa.php', 1, 'Aparatur Desa', 1, 4, 'web_widget/admin/aparatur_desa', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (12, 'sinergi_program.php', 1, 'Sinergi Program', 1, 6, 'web_widget/admin/sinergi_program', '[]');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (13, 'menu_kategori.php', 1, 'Menu Kategori', 1, 3, '', '');
-INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (14, 'peta_wilayah_desa.php', 1, 'Peta Wilayah Desa', 1, 1, 'hom_desa/konfigurasi', '');
+INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (14, 'peta_wilayah_desa.php', 1, 'Peta Wilayah Desa', 1, 1, 'identitas_desa/maps/wilayah', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (15, 'keuangan.php', 1, 'Keuangan', 1, 15, 'keuangan/impor_data', '');
 
 
@@ -14009,33 +14178,6 @@ INSERT INTO `tweb_penduduk_mandiri` (`pin`, `last_login`, `tanggal_buat`, `id_pe
 
 
 #
-# TABLE STRUCTURE FOR: data_persil
-#
-
-DROP TABLE IF EXISTS `data_persil`;
-
-CREATE TABLE `data_persil` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_pend` int(11) DEFAULT NULL,
-  `nama` varchar(128) NOT NULL COMMENT 'nomer persil',
-  `jenis_pemilik` int(2) NOT NULL,
-  `persil_jenis_id` tinyint(2) NOT NULL,
-  `id_clusterdesa` int(11) NOT NULL,
-  `luas` decimal(7,2) NOT NULL,
-  `no_sppt_pbb` varchar(128) NOT NULL,
-  `kelas` varchar(128) DEFAULT NULL,
-  `persil_peruntukan_id` tinyint(2) NOT NULL,
-  `alamat_luar` varchar(100) DEFAULT NULL,
-  `userID` mediumint(9) DEFAULT NULL,
-  `peta` text,
-  `rdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `pemilik_luar` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_pend` (`id_pend`),
-  CONSTRAINT `persil_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
 # TABLE STRUCTURE FOR: setting_aplikasi_options
 #
 
@@ -14218,8 +14360,6 @@ CREATE TABLE `covid19_pantau` (
 # TABLE STRUCTURE FOR: daftar_kontak
 #
 
-DROP VIEW IF EXISTS `daftar_kontak`;
-
 CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)));
 
 
@@ -14227,8 +14367,6 @@ CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pen
 #
 # TABLE STRUCTURE FOR: daftar_grup
 #
-
-DROP VIEW IF EXISTS `daftar_grup`;
 
 CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`;
 
@@ -14238,8 +14376,6 @@ CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` A
 # TABLE STRUCTURE FOR: daftar_anggota_grup
 #
 
-DROP VIEW IF EXISTS `daftar_anggota_grup`;
-
 CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)));
 
 
@@ -14248,17 +14384,13 @@ CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kon
 # TABLE STRUCTURE FOR: dokumen_hidup
 #
 
-DROP VIEW IF EXISTS `dokumen_hidup`;
-
-CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent` from `dokumen` where (`dokumen`.`deleted` <> 1);
+CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga` from `dokumen` where (`dokumen`.`deleted` <> 1);
 
 
 
 #
 # TABLE STRUCTURE FOR: keluarga_aktif
 #
-
-DROP VIEW IF EXISTS `keluarga_aktif`;
 
 CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on((`k`.`nik_kepala` = `p`.`id`))) where (`p`.`status_dasar` = 1);
 
@@ -14267,8 +14399,6 @@ CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`
 #
 # TABLE STRUCTURE FOR: penduduk_hidup
 #
-
-DROP VIEW IF EXISTS `penduduk_hidup`;
 
 CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
 
