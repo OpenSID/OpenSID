@@ -8,7 +8,6 @@
 	padding: 5px;
 	word-wrap: break-word;
 }
-
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -25,10 +24,8 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("keluarga/delete_all_anggota/$p/$o/$kk")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Keluarga</a>
-						<a href="<?=site_url("keluarga/index/$p/$o")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
-							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
+						<a href="<?=site_url("keluarga/index/$p/$o")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga"><i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 						</a>
 					</div>
 					<div class="box-body">
@@ -51,16 +48,12 @@
 											</tr>
 											<tr>
 												<td>
-													<?php if($program['programkerja']): ?>
-														<a href="<?= site_url("program_bantuan/peserta/2/$kepala_kk[no_kk]")?>" target="_blank">Program Bantuan</a>
-													<?php else: ?>
-														Program Bantuan
-													<?php endif; ?>
+													<?= ($program['programkerja']) ? anchor("program_bantuan/peserta/2/$kepala_kk[no_kk]", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
 												</td>
 												<td> :
 													<?php if($program['programkerja']): ?>
 														<?php foreach ($program['programkerja'] as $item): ?>
-															<a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]")?>" target="_blank"><span class="label label-success"><?= $item['nama']?></span>&nbsp;</a>
+															<?= anchor("program_bantuan/data_peserta/$item[peserta_id]", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
 														<?php endforeach; ?>
 													<?php else: ?>
 														-

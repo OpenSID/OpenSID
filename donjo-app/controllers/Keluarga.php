@@ -152,7 +152,6 @@ class Keluarga extends Admin_Controller {
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 
 		unset($_SESSION['dari_internal']);
-		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->_header);
@@ -199,7 +198,6 @@ class Keluarga extends Admin_Controller {
 			$data['penduduk'] = $_SESSION['post'];
 		}
 
-		$header = $this->header_model->get_data();
 		$this->_header['minsidebar'] = 1;
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
