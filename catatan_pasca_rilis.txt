@@ -22,7 +22,9 @@ Catatan versi 4.2.1:
 20. Perbaharui Mapbox API dari Classic ke GL.
 21. Sesuaikan icon statistik desa.
 22. #50 Kini widget agenda tampil pada sidebar. [bug-fix].
-23. Bedakan submenu pada widget kategori
+23. Bedakan submenu pada widget kategori.
 24. Ubah script baselayer ke library peta.js
+25. Tabel Responsive data Wilayah [bug-fix].
+26. Penerapan Slug pada Slider.
 
 ****************************************************************
