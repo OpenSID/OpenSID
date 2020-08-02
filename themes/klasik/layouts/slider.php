@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk Halaman Website Tema Klasik
+ * View untuk tampilan slider Website Tema Klasik
  *
  * themes/klasik/layouts/slider.php,
  *

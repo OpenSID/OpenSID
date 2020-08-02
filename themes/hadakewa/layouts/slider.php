@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk Halaman Website Tema Hadakewa
+ * View untuk tampilan slider Website Tema Hadakewa
  *
  * themes/hadakewa/layouts/slider.php,
  *

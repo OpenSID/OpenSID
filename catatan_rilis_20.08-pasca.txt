@@ -1,10 +1,11 @@
 Di rilis ini, versi 20.08-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 
 1. #3409: Sekarang tautan statistik bantuan di Dashboard Admin mengarah ke halaman yg benar. [bug-fix]
+2. #3110: Gunakan slug untuk tautan artikel di gambar slider tema klasik dan hadakewa.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
