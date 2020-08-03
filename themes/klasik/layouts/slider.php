@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php foreach ($slider_gambar['gambar'] as $gambar) : ?>
 			<?php $file_gambar = $slider_gambar['lokasi'] . 'sedang_' . $gambar['gambar']; ?>
 			<?php if(is_file($file_gambar)) : ?>
-				<img src="<?= base_url($file_gambar); ?>" onclick="location.href='<?= 'artikel/'.buat_slug($gambar); ?>'">
+				<img src="<?= base_url($file_gambar); ?>" onclick="location.href='<?= $slider_gambar['link']; ?>'">
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</div>
