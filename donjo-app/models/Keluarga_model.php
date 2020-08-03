@@ -614,9 +614,9 @@
 			(CASE when u.status_kawin <> 2
 				then w.nama
 				else
-					case when u.tanggalperkawinan && u.akta_perkawinan != ''
-						then 'KAWIN TERCATAT'
-						else 'KAWIN BELUM TERCATAT'
+					case when u.akta_perkawinan = ''
+						then 'KAWIN BELUM TERCATAT'
+						else 'KAWIN TERCATAT'
 					end
 				end) as status_kawin,
 			b.dusun, b.rw, b.rt, x.nama as sex, u.kk_level, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, f.nama as warganegara, g.nama as golongan_darah, h.nama AS hubungan, k.alamat
@@ -856,14 +856,13 @@
 				FROM tweb_keluarga k
 				LEFT JOIN tweb_wil_clusterdesa a ON k.id_cluster = a.id
 				WHERE k.id = ?";
-		$query = $this->db->query($sql,$id_kk);
+		$query = $this->db->query($sql, $id_kk);
 		$data  = $query->row_array();
 		if (!isset($data['alamat'])) $data['alamat'] = '';
 		if (!isset($data['rt'])) $data['rt'] = '';
 		if (!isset($data['rw'])) $data['rw'] = '';
-		if (!isset($data['dusun'])) $data['dusun'] = '';
-
-		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],$this->setting->sebutan_dusun)." $data[dusun]");
+		$str_dusun = (empty($data['dusun']) or $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun." ".$data['dusun']);
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".$str_dusun);
 
 		return $alamat_wilayah;
 	}
