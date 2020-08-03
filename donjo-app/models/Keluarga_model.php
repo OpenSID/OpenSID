@@ -571,9 +571,9 @@
 			(CASE when u.status_kawin <> 2
 				then w.nama
 				else
-					case when u.akta_perkawinan = ''
-						then 'KAWIN BELUM TERCATAT'
-						else 'KAWIN TERCATAT'
+					case when u.tanggalperkawinan && u.akta_perkawinan != ''
+						then 'KAWIN TERCATAT'
+						else 'KAWIN BELUM TERCATAT'
 					end
 				end) as status_kawin,
 			b.dusun, b.rw, b.rt, x.nama as sex, u.kk_level, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, f.nama as warganegara, g.nama as golongan_darah, h.nama AS hubungan, k.alamat
