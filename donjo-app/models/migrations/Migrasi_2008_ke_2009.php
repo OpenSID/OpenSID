@@ -3,9 +3,9 @@
 /**
  * File ini:
  *
- * Model untuk modul database
+ * Model untuk migrasi database
  *
- * Migrasi_2008_ke_2009.php
+ * donjo-app/models/migrations/Migrasi_2008_ke_2009.php
  *
  */
 
