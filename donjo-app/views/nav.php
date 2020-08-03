@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk Template Admin
+ * View untuk menu navigasi utama di komponen Admin
  *
  * donjo-app/views/nav.php
  *
