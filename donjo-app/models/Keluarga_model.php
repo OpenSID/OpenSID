@@ -687,7 +687,7 @@
 
 			$data = $this->db->get()->row_array();
 
-		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
+		if ($data['dusun'] != '-' && $data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id_kk']);
 
@@ -856,14 +856,13 @@
 				FROM tweb_keluarga k
 				LEFT JOIN tweb_wil_clusterdesa a ON k.id_cluster = a.id
 				WHERE k.id = ?";
-		$query = $this->db->query($sql,$id_kk);
+		$query = $this->db->query($sql, $id_kk);
 		$data  = $query->row_array();
 		if (!isset($data['alamat'])) $data['alamat'] = '';
 		if (!isset($data['rt'])) $data['rt'] = '';
 		if (!isset($data['rw'])) $data['rw'] = '';
-		if (!isset($data['dusun'])) $data['dusun'] = '';
-
-		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".ikut_case($data['dusun'],$this->setting->sebutan_dusun)." $data[dusun]");
+		$str_dusun = (empty($data['dusun']) or $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun." ".$data['dusun']);
+		$alamat_wilayah= trim("$data[alamat] RT $data[rt] / RW $data[rw] ".$str_dusun);
 
 		return $alamat_wilayah;
 	}
