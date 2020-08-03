@@ -644,7 +644,7 @@
 
 			$data = $this->db->get()->row_array();
 
-		if ($data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
+		if ($data['dusun'] != '-' && $data['dusun'] != '') $data['alamat_plus_dusun'] = trim($data['alamat'].' '.ucwords($this->setting->sebutan_dusun).' '.$data['dusun']);
 		elseif ($data['alamat']) $data['alamat_plus_dusun'] = $data['alamat'];
 		$data['alamat_wilayah'] = $this->get_alamat_wilayah($data['id_kk']);
 
