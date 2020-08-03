@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 2. #3110: Gunakan slug untuk tautan artikel di gambar slider tema klasik dan hadakewa.
 3. #2976: Hilangkan tombol Hapus Data Terpilih dari Daftar Anggota Keluarga. Sediakan aksi untuk mengeluarkan anggota keluarga karena keliru memasukkan data.
 4. #3354: Tampilkan menu dan submenu Layanan Mandiri untuk pengguna tingkat Operator.
+5. #3411: Lengkapi struktur HHTML di isi widget dinamis. [security-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
