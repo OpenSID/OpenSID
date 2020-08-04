@@ -27,6 +27,25 @@
 		return $data;
 	}
 
+	// Bersihkan html supaya semua tag menjadi lengkap
+	// Untuk menghindari widget merusak tampilan
+	// PERHATIAN: extension PHP tidy perlu diaktifkan di php.ini
+	private function bersihkan_html($isi)
+	{
+		// Konfigurasi tidy
+		$config = array(
+     'indent'         => true,
+     'output-xhtml'   => true,
+     'show-body-only' => true,
+     'clean'					=> true,
+     'coerce-endtags' => true
+	  );
+		$tidy = new tidy;
+		$tidy->parseString($isi, $config, 'utf8');
+		$tidy->cleanRepair();
+		return tidy_get_output($tidy);
+	}
+
 	public function get_widget_aktif()
 	{
 		$data = $this->db->where('enabled', 1)
@@ -149,24 +168,29 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 
-		$data = $_POST;
+		$data = $this->validasi($_POST);
 		$data['enabled'] = 2;
-
 		// Widget diberi urutan terakhir
 		$data['urut'] = $this->urut_model->urut_max() + 1;
-		if ($data['jenis_widget'] == 2)
-		{
-			$data['isi'] = $data['isi-statis'];
-		}
-		elseif ($data['jenis_widget'] == 3)
-		{
-			$data['isi'] = $data['isi-dinamis'];
-		}
-		unset($data['isi-dinamis']);
-		unset($data['isi-statis']);
 
 		$outp = $this->db->insert('widget', $data);
 		if (!$outp) $_SESSION['success'] = -1;
+	}
+
+	private function validasi($post)
+	{
+		$data['judul'] = $post['judul'];
+		$data['jenis_widget'] = $post['jenis_widget'];
+		if ($data['jenis_widget'] == 2)
+		{
+			$data['isi'] = $post['isi-statis'];
+		}
+		elseif ($data['jenis_widget'] == 3)
+		{
+			$data['isi'] = $post['isi-dinamis'];
+			$data['isi'] = $this->bersihkan_html($data['isi']);
+		}
+		return $data;
 	}
 
 	public function update($id=0)
@@ -174,20 +198,7 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 
-		$data = $_POST;
-		unset($data['isi']);
-
-		// Widget isinya tergantung jenis widget
-		if ($data['jenis_widget'] == 2)
-		{
-			$this->db->set('isi', $data['isi-statis']);
-		}
-		elseif ($data['jenis_widget'] == 3)
-		{
-			$this->db->set('isi', $data['isi-dinamis']);
-		}
-		unset($data['isi-dinamis']);
-		unset($data['isi-statis']);
+		$data = $this->validasi($_POST);
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('widget', $data);

@@ -1,13 +1,11 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 /**
  * File ini:
  *
- * View untuk tampilan slider Website Tema Hadakewa
+ * Model untuk migrasi database
  *
- * themes/hadakewa/layouts/slider.php,
+ * donjo-app/models/migrations/Migrasi_2008_ke_2009.php
  *
  */
 
@@ -28,11 +26,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- *
+
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
+
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -44,34 +42,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<link rel="Stylesheet" href="<?= base_url('assets/front/css/slider.css')?>" />
+class Migrasi_2008_ke_2009 extends CI_model {
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('.slider').cycle({
-			pauseOnHover: true,
-			// Untuk menghilangkan titik-titik di cycle pager
-			pagerTemplate: '<span></span>'
-		});
-	});
-</script>
+	public function up()
+	{
+		// Hapus url parrent menu layanan mandiri
+		$this->db->where('id', 14)
+			->set('url', '')
+			->update('setting_modul');
+	}
 
-<div class="box">
-	<div class="slider">
-		<span class="cycle-prev"><img src="<?= base_url('assets/images/back_button.png'); ?>" alt="Back"></span> <!-- Untuk membuat tanda panah di kiri slider -->
-		<span class="cycle-next"><img src="<?= base_url('assets/images/next_button.png'); ?>" alt="Next"></span><!-- Untuk membuat tanda panah di kanan slider -->
-		<span class="cycle-pager"></span> <!-- Untuk membuat tanda bulat atau link pada slider -->
-		<?php foreach ($slider_gambar['gambar'] as $gambar) : ?>
-			<?php $file_gambar = $slider_gambar['lokasi'] . 'sedang_' . $gambar['gambar']; ?>
-			<?php if(is_file($file_gambar)) : ?>
-				<img src="<?= base_url($file_gambar); ?>"
-					<?php if ($slider_gambar['sumber'] != 3): ?>
-						onclick="location.href='<?='artikel/'.buat_slug($gambar); ?>'"
-					<?php endif; ?>
-				>
-			<?php endif; ?>
-		<?php endforeach; ?>
-	</div>
-</div>
+}

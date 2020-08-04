@@ -1,5 +1,50 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk Halaman Website
+ *
+ * donjo-app/models/First_artikel_m.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
 class First_artikel_m extends CI_Model {
 
 	public function __construct()
@@ -210,37 +255,56 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	private function sql_gambar_slide_show($gambar)
+	{
+		$this->db
+			->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->from('artikel')
+			->where('enabled', 1)
+			->where('headline', 3)
+			->where($gambar.' !=', '')
+			->where('tgl_upload < NOW()');
+		return $this->db->get_compiled_select();
+
+	}
+
 	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
 	public function slide_show($gambar_utama=FALSE)
 	{
-		$sql = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())";
-		if (!$gambar_utama) $sql .= "
-			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-		";
+		$sql = [];
+		$sql[] = $this->sql_gambar_slide_show('gambar');
+		if (!$gambar_utama)
+		{
+			$sql[] = $this->sql_gambar_slide_show('gambar1');
+			$sql[] = '('.$this->sql_gambar_slide_show('gambar2').')';
+			$sql[] = '('.$this->sql_gambar_slide_show('gambar3').')';
+		}
+		$sql = implode('
+		UNION
+		', $sql);
+
 		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
-		$query = $this->db->query($sql);
-		if ($query->num_rows()>0)
-		{
-			$data = $query->result_array();
-		}
-		else
-		{
-			$data = false;
-		}
+		$data = $this->db->query($sql)->result_array();
 		return $data;
 	}
 
 	// Ambil gambar slider besar tergantung dari settingnya.
 	public function slider_gambar()
 	{
-		$slider_gambar = array();
-		switch ($this->setting->sumber_gambar_slider)
+		$sumber = $this->setting->sumber_gambar_slider;
+
+		$slider_gambar = [];
+		switch ($sumber)
 		{
 			case '1':
 				# 10 gambar utama semua artikel terbaru
-				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload < NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['gambar'] = $this->db
+					->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+					->where('enabled', 1)
+					->where('gambar !=', '')
+					->where('tgl_upload < NOW()')
+					->order_by('tgl_upload DESC')
+					->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
 
@@ -262,6 +326,7 @@ class First_artikel_m extends CI_Model {
 				break;
 		}
 
+		$slider_gambar['sumber'] = $sumber;
 		return $slider_gambar;
 	}
 

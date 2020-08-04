@@ -1,0 +1,17 @@
+Di rilis ini, versi 20.08-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada Ali Yusuf yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
+
+1. #3409: Sekarang tautan statistik bantuan di Dashboard Admin mengarah ke halaman yg benar. [bug-fix]
+2. #3110: Gunakan slug untuk tautan artikel di gambar slider tema klasik dan hadakewa.
+3. #2976: Hilangkan tombol Hapus Data Terpilih dari Daftar Anggota Keluarga. Sediakan aksi untuk mengeluarkan anggota keluarga karena keliru memasukkan data.
+4. #3354: Tampilkan menu dan submenu Layanan Mandiri untuk pengguna tingkat Operator.
+5. #3411: Lengkapi struktur HHTML di isi widget dinamis. [security-fix]
+6. Sekarang bisa gunakan tanda '-' untuk menunjukkan tidak ada dusun, sehingga Dusun tidak tampil di salinan Kartu Keluarga.
+7. #3400: Sekarang mengubah status anggota menjadi kepala Rumah Tangga tidak lagi bermasalah. [bug-fix]
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+
