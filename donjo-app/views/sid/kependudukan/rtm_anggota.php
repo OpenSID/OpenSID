@@ -49,16 +49,12 @@
 											</tr>
 											<tr>
 												<td>
-													<?php if($program['programkerja']): ?>
-														<a href="<?= site_url("program_bantuan/peserta/3/$kepala_kk[no_kk]"); ?>" target="_blank">Program Bantuan</a>
-													<?php else: ?>
-														Program Bantuan
-													<?php endif; ?>
+													<?= ($program['programkerja']) ? anchor("program_bantuan/peserta/3/$kepala_kk[no_kk]", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
 												</td>
 												<td> :
 													<?php if($program['programkerja']): ?>
 														<?php foreach ($program['programkerja'] as $item): ?>
-															<a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]"); ?>" target="_blank"><span class="label label-success"><?= strtoupper($item['nama']); ?></span>&nbsp;</a>
+															<?= anchor("program_bantuan/data_peserta/$item[peserta_id]", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
 														<?php endforeach; ?>
 													<?php else: ?>
 														-
@@ -83,8 +79,8 @@
 																<th>Nomor KK</th>
 																<th width="25%">Nama</th>
 																<th>Jenis Kelamin</th>
-																<th>Hubungan</th>
 																<th width="35%">Alamat</th>
+																<th>Hubungan</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -100,8 +96,8 @@
 																	<td><?= $data['no_kk']?></td>
 																	<td nowrap><?= strtoupper($data['nama']); ?></td>
 																	<td><?= $data['sex']?></td>
-																	<td nowrap><?= strtoupper($data['hubungan']); ?></td>
 																	<td><?= $data['alamat']; ?></td>
+																	<td nowrap><?= strtoupper($data['hubungan']); ?></td>
 																</tr>
 															<?php endforeach; ?>
 														</tbody>
