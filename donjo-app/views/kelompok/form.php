@@ -46,9 +46,9 @@
 										<option value="">-- Silakan Masukkan NIK / Nama--</option>
 										<?php foreach ($list_penduduk as $data): ?>
 											<?php if ($data['id'] === $kelompok['id_ketua']): ?>
-												<option value="<?= $data['id']?>" selected>NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>" selected>NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
 											<?php else: ?>
-												<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
+												<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
 											<?php endif ?>
 										<?php endforeach; ?>
 									</select>
