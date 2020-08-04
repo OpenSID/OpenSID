@@ -146,19 +146,30 @@ class Rtm_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_anggota($id, $id_kk)
+	// id = id_penduduk pd tweb_penduduk, id = nik_kepala pd tweb_rtm
+	public function update_anggota($id, $id_rtm)
 	{
-		$data = $_POST;
+		// Krn tweb_penduduk menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
+		$no_rtm = $this->db->get_where('tweb_rtm', ['id' => $id_rtm])->row();
 
-		$data['updated_at'] = date('Y-m-d H:i:s');
-		$data['updated_by'] = $this->session->user;
-		$this->db->where('id', $id);
-		$outp = $this->db->update('tweb_penduduk', $data);
-		// Kalau menjadi kepala rumah tangga, tweb_rtm perlu diupdate juga
-		if ($data['rtm_level'] == 1)
+		$rtm_level = $this->input->post('rtm_level');
+
+		$data = [
+			'rtm_level' => $rtm_level,
+			'updated_at' => date('Y-m-d H:i:s'),
+			'updated_by' => $this->session->user
+		];
+
+		if ($rtm_level == 1)
 		{
-			$this->db->where('id', $id_kk)->update('tweb_rtm', array('nik_kepala' => $id));
+			// Ganti semua level penduduk dgn id_rtm yg sma -> rtm_level = 2 (Anggota)
+			$this->db->where('id_rtm', $no_rtm->no_kk)->update('tweb_penduduk', ['rtm_level' => '2']);
+
+			// nik_kepala = id_penduduk pd table tweb_penduduk
+			$this->db->where('id', $no_rtm->no_kk)->update('tweb_rtm', ['nik_kepala' => $id]);
 		}
+
+		$outp = $this->db->where('id', $id)->update('tweb_penduduk', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
