@@ -258,11 +258,11 @@ class First_artikel_m extends CI_Model {
 	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
 	public function slide_show($gambar_utama=FALSE)
 	{
-		$sql = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())";
+		$sql = "SELECT id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())";
 		if (!$gambar_utama) $sql .= "
-			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
+			UNION SELECT id, judul, gambar1, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
+			UNION SELECT id, judul, gambar2, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
+			UNION SELECT id, judul, gambar3, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
 		";
 		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
 		$query = $this->db->query($sql);
@@ -280,8 +280,10 @@ class First_artikel_m extends CI_Model {
 	// Ambil gambar slider besar tergantung dari settingnya.
 	public function slider_gambar()
 	{
-		$slider_gambar = array();
-		switch ($this->setting->sumber_gambar_slider)
+		$case = $this->setting->sumber_gambar_slider;
+
+		$slider_gambar = [];
+		switch ($case)
 		{
 			case '1':
 				# 10 gambar utama semua artikel terbaru
@@ -307,6 +309,7 @@ class First_artikel_m extends CI_Model {
 				break;
 		}
 
+		$slider_gambar['case'] = $case;
 		return $slider_gambar;
 	}
 
