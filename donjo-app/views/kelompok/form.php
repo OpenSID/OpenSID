@@ -45,11 +45,7 @@
 									<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
 										<option value="">-- Silakan Masukkan NIK / Nama--</option>
 										<?php foreach ($list_penduduk as $data): ?>
-											<?php if ($data['id'] === $kelompok['id_ketua']): ?>
-												<option value="<?= $data['id']?>" selected>NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
-											<?php else: ?>
-												<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
-											<?php endif ?>
+											<option value="<?= $data['id']?>" selected(<?= $data['id'], $kelompok['id_ketua']?>)> NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
