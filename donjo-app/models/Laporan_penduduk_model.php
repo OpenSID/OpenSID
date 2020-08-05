@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Model untuk modul Statistik Kependudukan
  *
- * donjo-app/models/Laporan_penduduk_model.php,
+ * donjo-app/models/Laporan_penduduk_model.php
  *
  */
 
@@ -184,97 +184,25 @@ class Laporan_penduduk_model extends MY_Model {
 		return $sql;
 	}
 
-	public function link_statistik_penduduk()
-	{
-		$statistik = [
-			"statistik/13" => "Umur (Rentang)",
-			"statistik/15" => "Umur (Kategori)",
-			"statistik/0" => "Pendidikan Dalam KK",
-			"statistik/14" => "Pendidikan Sedang Ditempuh",
-			"statistik/1" => "Pekerjaan",
-			"statistik/2" => "Status Perkawinan",
-			"statistik/3" => "Agama",
-			"statistik/4" => "Jenis Kelamin",
-			"statistik/5" => "Warga Negara",
-			"statistik/6" => "Status Penduduk",
-			"statistik/7" => "Golongan Darah",
-			"statistik/9" => "Penyandang Cacat",
-			"statistik/10" => "Penyakit Menahun",
-			"statistik/16" => "Akseptor KB",
-			"statistik/17" => "Akte Kelahiran",
-			"statistik/18" => "Kepemilikan KTP",
-			"statistik/19" => "Jenis Asuransi",
-			"statistik/covid" => "Status Covid",
-			"statistik/bantuan_penduduk" => "Penerima Bantuan (Penduduk)"
-		];
-
-		return $statistik;
-	}
-
-	public function link_statistik_keluarga()
-	{
-		$statistik = [
-			"statistik/kelas_sosial" => "Kelas Sosial",
-			"statistik/bantuan_keluarga" => "Penerima Bantuan (Keluarga)"
-		];
-
-		return $statistik;
-	}
-
-	public function link_statis_lainnya()
-	{
-		$statistik = array(
-			'dpt' => 'Calon Pemilih',
-			'wilayah' => 'Wilayah Administratif',
-			'peraturan_desa' => 'Produk Hukum',
-			'informasi_publik' => 'Informasi Publik',
-			'peta' => 'Peta'
-		);
-
-		return $statistik;
-	}
-
 	public function judul_statistik($lap)
 	{
 		// Program bantuan berbentuk '50<program_id>'
 		if ($lap > 50)
 		{
 			$program_id = preg_replace("/^50/", "", $lap);
-			$this->db->select("nama");
-			$this->db->where('id', $program_id);
-			$q = $this->db->get('program');
-			$program = $q->row_array();
+
+			$program = $this->db
+				->select('nama')
+				->where('id', $program_id)
+				->get('program')
+				->row_array();
 
 			return $program['nama'];
 		}
 
-		switch ("$lap")
-		{
-			case "kelas_sosial": return "Klasifikasi Sosial"; break;
-			case "0": return "Pendidikan Dalam KK"; break;
-			case "1": return "Pekerjaan"; break;
-			case "2": return "Status Perkawinan"; break;
-			case "3": return "Agama"; break;
-			case "4": return "Jenis Kelamin"; break;
-			case "5": return "Warga Negara"; break;
-			case "6": return "Status"; break;
-			case "7": return "Golongan Darah"; break;
-			case "9": return "Cacat"; break;
-			case "10": return "Sakit Menahun"; break;
-			case "13": return "Rentang Umur"; break;
-			case "14": return "Pendidikan Sedang Ditempuh"; break;
-			case "15": return "Kategori Umur"; break;
-			case "16": return "Akseptor KB"; break;
-			case "17": return "Akte Kelahiran"; break;
-			case "18": return "Kepemilikan Wajib KTP"; break;
-			case "19": return "Jenis Asuransi"; break;
-			case "covid": return "Status Covid"; break;
-			case "21": return "Klasifikasi Sosial"; break;
-			case "24": return "Penerima BOS"; break;
-			case "bantuan_penduduk": return "Penerima Bantuan (Penduduk)"; break;
-			case "bantuan_keluarga": return "Penerima Bantuan (Keluarga)"; break;
-			default: return NULL;
-		}
+		$list_judul = unserialize(STAT_PENDUDUK) + unserialize(STAT_KELUARGA) + unserialize(STAT_BANTUAN);
+
+		return $list_judul[$lap];
 	}
 
 	public function jenis_laporan($lap)

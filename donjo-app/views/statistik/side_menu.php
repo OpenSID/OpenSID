@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View untuk modul Statistik Kependudukan
  *
- * donjo-app/views/statistik/side_menu.php,
+ * donjo-app/views/statistik/side_menu.php
  *
  */
 
@@ -46,7 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<input id="kategori" name="kategori" type="hidden" value="<?= $kategori ?>" />
 <div id="penduduk" class="box box-info <?= ($kategori == 'penduduk') ?: 'collapsed-box'; ?>">
 	<div class="box-header with-border">
 		<h3 class="box-title">Statistik Penduduk</h3>
@@ -56,10 +55,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<?php foreach($list_statistik_penduduk as $id => $nama): ?>
-				<?php if( ! in_array($id, ['statistik/bantuan_penduduk'])): ?>
-					<li <?= jecho($id, 'statistik/'.$lap, 'class="active"'); ?>><a href="<?= site_url(str_replace('/', '/clear/', $id))?>"><?= $nama; ?></a></li>
-				<?php endif; ?>
+			<?php foreach($list_penduduk as $id => $nama): ?>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -73,10 +70,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<?php foreach($link_statistik_keluarga as $id => $nama): ?>
-				<?php if( ! in_array($id, ['statistik/bantuan_keluarga'])): ?>
-					<li <?= jecho($id, 'statistik/'.$lap, 'class="active"'); ?>><a href="<?= site_url(str_replace('/', '/clear/', $id))?>"><?= $nama; ?></a></li>
-				<?php endif; ?>
+			<?php foreach($list_keluarga as $id => $nama): ?>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -90,13 +85,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<?php foreach ($list_bantuan as $bantuan): ?>
-				<li <?= jecho($bantuan['lap'], $lap, 'class="active"'); ?>>
-					<a href="<?= site_url("statistik/clear/$bantuan[lap]")?>"><?= $bantuan['nama']." (".$bantuan['lap'].")"?></a>
-				</li>
+			<?php foreach($list_kategori_bantuan as $id => $nama): ?>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
 			<?php endforeach; ?>
-			<li <?= jecho('bantuan_penduduk', $lap, 'class="active"'); ?>><a href="<?=site_url('statistik/clear/bantuan_penduduk')?>">Penerima Bantuan (Penduduk)</a></li>
-			<li <?= jecho('bantuan_keluarga', $lap, 'class="active"'); ?>><a href="<?=site_url('statistik/clear/bantuan_keluarga')?>">Penerima Bantuan (Keluarga)</a></li>
+			<?php foreach ($list_bantuan as $bantuan): ?>
+				<li <?= jecho($bantuan['lap'], $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$bantuan[lap]", "$bantuan[nama] ($bantuan[lap])"); ?></li>
+			<?php endforeach; ?>
 		</ul>
 	</div>
 </div>

@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Statistik Kependudukan
  *
- * donjo-app/controllers/statistik.php,
+ * donjo-app/controllers/statistik.php
  *
  */
 
@@ -53,7 +53,7 @@ class Statistik extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model']);
+		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model', 'referensi_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
@@ -66,13 +66,14 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = $this->session->lap;
 		$data['order_by'] = $this->session->order_by;
 
-		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
 		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($data['lap']);
-		$data['list_statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
-		$data['link_statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
+		$data['list_penduduk'] = $this->referensi_model->list_lap(STAT_PENDUDUK);
+		$data['list_keluarga'] = $this->referensi_model->list_lap(STAT_KELUARGA);
+		$data['list_kategori_bantuan'] = $this->referensi_model->list_lap(STAT_BANTUAN);
+		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
 
@@ -81,6 +82,14 @@ class Statistik extends Admin_Controller {
 		$this->load->view('statistik/penduduk', $data);
 		$this->load->view('footer');
 	}
+
+	public function akas()
+	{
+		$data = $this->program_bantuan_model->statistik_program_bantuan();
+
+		echo json_encode($data, true);
+	}
+
 
 	public function clear($lap = '0', $order_by = '1')
 	{
@@ -99,7 +108,6 @@ class Statistik extends Admin_Controller {
 	private function get_data_stat(&$data, $lap)
 	{
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
 		if ($lap > 50)
 		{
 			// Untuk program bantuan, $lap berbentuk '50<program_id>'
@@ -160,7 +168,12 @@ class Statistik extends Admin_Controller {
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-		$header = $this->header_model->get_data();
+		$data['list_penduduk'] = $this->referensi_model->list_lap(STAT_PENDUDUK);
+		$data['list_keluarga'] = $this->referensi_model->list_lap(STAT_KELUARGA);
+		$data['list_kategori_bantuan'] = $this->referensi_model->list_lap(STAT_BANTUAN);
+		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['judul_kelompok'] = "Jenis Kelompok";
+		$this->get_data_stat($data, $data['lap']);
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');

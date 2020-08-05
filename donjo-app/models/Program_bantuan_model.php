@@ -53,7 +53,7 @@ class Program_bantuan_model extends MY_Model {
 
 	public function __construct()
 	{
-		$this->load->model(['rtm_model', 'kelompok_model']);
+		$this->load->model(['rtm_model', 'kelompok_model', 'referensi_model']);
 	}
 
 	public function autocomplete($id, $cari)
@@ -89,24 +89,6 @@ class Program_bantuan_model extends MY_Model {
 		}
 		$query = $this->db->query($strSQL);
 		$data = $query->result_array();
-		return $data;
-	}
-
-	public function link_statistik_program_bantuan()
-	{
-		$strSQL = "
-			SELECT CONCAT('statistik/50',p.id) as id, p.nama, p.sasaran
-			FROM program p
-			WHERE 1 ORDER BY p.nama";
-		$query = $this->db->query($strSQL);
-		$hasil = $query->result_array();
-		$data = array();
-		$sasaran = unserialize(SASARAN);
-		foreach ($hasil as $program)
-		{
-			$data[$program['id']] = $program['nama'].' ('.$sasaran[$program['sasaran']].')';
-		}
-
 		return $data;
 	}
 
