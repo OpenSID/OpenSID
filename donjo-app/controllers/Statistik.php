@@ -83,14 +83,6 @@ class Statistik extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function akas()
-	{
-		$data = $this->program_bantuan_model->statistik_program_bantuan();
-
-		echo json_encode($data, true);
-	}
-
-
 	public function clear($lap = '0', $order_by = '1')
 	{
 		$this->session->unset_userdata($this->_list_session);
