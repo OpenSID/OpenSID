@@ -2,7 +2,7 @@
 /**
  * File ini:
  *
- * View untuk modul Admin Web > Menu
+ * View untuk pengaturan menu statis di modul Admin Web > Menu
  *
  * donjo-app/views/menu/form.php
  *

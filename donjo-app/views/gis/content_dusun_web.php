@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<p><center><a href="#collapseStatGraph" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatGraph" aria-expanded="false" aria-controls="collapseStatGraph"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistik Penduduk&nbsp;&nbsp;</a></center></p>
 					<div class="collapse box-body no-padding" id="collapseStatGraph">
 						<div class="card card-body">
-							<?php foreach ($list_lap as $key => $value): ?>
+							<?php foreach ($list_ref as $key => $value): ?>
 								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?=site_url("statistik_web/chart_gis_dusun/$key/" . underscore($dusun[dusun])); ?>" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk <?= set_ucwords($wilayah) . " " . set_ucwords($dusun['dusun']); ?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>

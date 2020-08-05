@@ -2,7 +2,7 @@
 /**
  * File ini:
  *
- * View untuk modul Admin Web > Menu
+ * View untuk pengaturan submenu statis di modul Admin Web > Menu
  *
  * donjo-app/views/menu/ajax_add_sub_menu_form.php
  *

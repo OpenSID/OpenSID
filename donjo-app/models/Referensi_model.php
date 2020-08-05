@@ -142,12 +142,6 @@ class Referensi_model extends CI_Model {
 		return $data;
 	}
 
-	public function list_kode_array($s_array)
-	{
-		$list = array_flip(unserialize($s_array));
-		return $list;
-	}
-
 	public function list_wajib_ktp()
 	{
 		$wajib_ktp = array_flip(unserialize(WAJIB_KTP));
@@ -175,10 +169,16 @@ class Referensi_model extends CI_Model {
 		return $data;
 	}
 
-	public function list_lap($stat = STAT_PENDUDUK)
+	public function list_ref($stat = STAT_PENDUDUK)
 	{
-		$list_lap = unserialize($stat);
-		return $list_lap;
+		$list_ref = unserialize($stat);
+		return $list_ref;
+	}
+
+	public function list_ref_flip($s_array)
+	{
+		$list = array_flip(unserialize($s_array));
+		return $list;
 	}
 
 }

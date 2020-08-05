@@ -53,7 +53,7 @@ class Program_bantuan_model extends MY_Model {
 
 	public function __construct()
 	{
-		$this->load->model(['rtm_model', 'kelompok_model', 'referensi_model']);
+		$this->load->model(['rtm_model', 'kelompok_model']);
 	}
 
 	public function autocomplete($id, $cari)

@@ -70,10 +70,10 @@ class Statistik extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
 		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($data['lap']);
-		$data['list_penduduk'] = $this->referensi_model->list_lap(STAT_PENDUDUK);
-		$data['list_keluarga'] = $this->referensi_model->list_lap(STAT_KELUARGA);
-		$data['list_kategori_bantuan'] = $this->referensi_model->list_lap(STAT_BANTUAN);
-		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
 
@@ -160,9 +160,9 @@ class Statistik extends Admin_Controller {
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-		$data['list_penduduk'] = $this->referensi_model->list_lap(STAT_PENDUDUK);
-		$data['list_keluarga'] = $this->referensi_model->list_lap(STAT_KELUARGA);
-		$data['list_kategori_bantuan'] = $this->referensi_model->list_lap(STAT_BANTUAN);
+		$data['list_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['list_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['list_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
 		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
