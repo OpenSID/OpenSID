@@ -130,7 +130,7 @@ class Statistik extends Admin_Controller {
 		$data['aksi'] = $aksi;
 		$data['lap'] = $this->session->lap;
 
-		if ($lap)
+		if ($lap or $lap == '0')
 		{
 			foreach ($this->_list_session as $list)
 			{
