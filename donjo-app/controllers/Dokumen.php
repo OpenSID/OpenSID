@@ -70,7 +70,7 @@ class Dokumen extends Admin_Controller {
 			$data['form_action'] = site_url("dokumen/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
+		$data['list_kategori_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK);
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);

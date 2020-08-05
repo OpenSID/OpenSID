@@ -10,14 +10,14 @@ class Mailbox_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('referensi_model');
-		
+
 	}
 
 	public function insert($post)
 	{
 		$data = array();
 		$data['email'] = $post['email'];
-		$data['owner'] = $post['owner']; 
+		$data['owner'] = $post['owner'];
 		$data['tipe'] = $post['tipe'];
 		$data['status'] = $post['status'];
 		$data['subjek'] = strip_tags($post['subjek']);
@@ -31,12 +31,12 @@ class Mailbox_model extends CI_Model {
 
 	public function list_menu()
 	{
-		return $this->referensi_model->list_kode_array(KATEGORI_MAILBOX);
+		return $this->referensi_model->list_ref_flip(KATEGORI_MAILBOX);
 	}
 
 	public function get_kat_nama($kat)
 	{
-		$sub_menu = $this->list_menu();	
+		$sub_menu = $this->list_menu();
 		$data = $sub_menu[$kat];
 		return $data;
 	}
@@ -57,8 +57,8 @@ class Mailbox_model extends CI_Model {
 			->get()
 			->result_array();
 		$j = 1;
-		for ($i=0; $i < count($outp); $i++) 
-		{ 
+		for ($i=0; $i < count($outp); $i++)
+		{
 			$outp[$i]['no'] = $j++;
 		}
 		return $outp;
@@ -75,8 +75,8 @@ class Mailbox_model extends CI_Model {
 			->get()
 			->result_array();
 		$j = 1;
-		for ($i=0; $i < count($outp); $i++) 
-		{ 
+		for ($i=0; $i < count($outp); $i++)
+		{
 			$outp[$i]['no'] = $j++;
 		}
 		return $outp;

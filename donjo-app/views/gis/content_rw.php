@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="collapse box-body no-padding" id="collapseStatGraph">
 					<div id="bodyContent">
 						<div class="card card-body">
-							<?php foreach ($list_lap as $key => $value): ?>
+							<?php foreach ($list_ref as $key => $value): ?>
 								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik/chart_gis_rw/$key/".underscore($rw[dusun]) . "/" . underscore($rw[rw])); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw'] . " " . $wilayah . " " . $rw['dusun']; ?>"><?= $value; ?></a></li>
 							<?php endforeach; ?>
 						</div>
