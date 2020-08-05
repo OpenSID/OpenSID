@@ -223,9 +223,14 @@ class Kelompok_model extends MY_Model {
 
 	public function list_penduduk()
 	{
-		$sql = "SELECT tweb_penduduk.id, nama, nik, no_kk, dusun, rt, rw, alamat AS jalan FROM tweb_penduduk JOIN tweb_wil_clusterdesa ON tweb_wil_clusterdesa.id=tweb_penduduk.id_cluster JOIN tweb_keluarga ON tweb_keluarga.id=tweb_penduduk.id_kk AND tweb_penduduk.status_dasar=1";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$this->db
+			->select('u.id, nik, nama, dusun, rt, rw, alamat as jalan')
+			->from('tweb_penduduk u')
+			->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left')
+			->join('tweb_keluarga k', 'u.id_kk = k.id', 'left')
+			->where('u.status_dasar = 1');
+
+			$data = $this->db->get()->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -249,4 +254,3 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 }
-?>
