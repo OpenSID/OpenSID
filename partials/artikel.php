@@ -68,16 +68,12 @@
 							<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
 								<img width="100%" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
 							</a>
-							<?php else: ?>
-								<img width="100%" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
 							<?php endif;?>
 							<?php else: ?>
 								<?php if($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
 									<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
 										<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
 									</a>
-									<?php else: ?>
-										<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>"/>
 									<?php endif;?>
 								<?php endif; ?>
 							</div>

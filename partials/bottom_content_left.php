@@ -76,7 +76,6 @@
                                 </span>
                             </div>
                             <a href="<?= site_url('first/artikel/'.buat_slug($data))?>" title="Baca Selengkapnya" style="font-weight:bold">
-                            <?php if ($data['gambar']!=''): ?>
                             <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])): ?>
                             <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
                             <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
@@ -84,7 +83,6 @@
                             <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300px" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" />
                             <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" />
                             <?php endif;?>
-                            <?php endif; ?>
                             </a>
                             <div style="text-align: justify;" class="hidden-sm hidden-xs">
                                 <?= $abstrak ?> ...
