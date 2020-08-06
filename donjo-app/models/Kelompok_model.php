@@ -264,8 +264,24 @@ class Kelompok_model extends MY_Model {
 		return $query->result_array();
 	}
 
-	public function list_penduduk()
+	private function in_list_anggota($kelompok)
 	{
+		$anggota = $this->db
+			->select('p.id')
+			->from('kelompok_anggota k')
+			->join('penduduk_hidup p', 'k.id_penduduk = p.id', 'left')
+			->where('k.id_kelompok', $kelompok)
+			->get()->result_array();
+		return sql_in_list(array_column($anggota, 'id'));
+	}
+
+	public function list_penduduk($ex_kelompok='')
+	{
+		if ($ex_kelompok)
+		{
+			$anggota = $this->in_list_anggota($ex_kelompok);
+			$this->db->where("p.id not in ($anggota)");
+		}
 		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$this->db
 			->select('p.id, nik, nama')
