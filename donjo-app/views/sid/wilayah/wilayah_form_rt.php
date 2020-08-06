@@ -14,9 +14,9 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
+						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RT">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
-           	</a>
+						</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -28,7 +28,7 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="rt">RT</label>
 													<div class="col-sm-7">
-														<input  id="rt" class="form-control input-sm digits required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
+														<input id="rt" class="form-control input-sm digits required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
 													</div>
 												</div>
 											</div>
@@ -37,9 +37,8 @@
 													<div class="form-group">
 														<label class="col-sm-3 control-label" for="kepala_lama">Ketua RT Sebelumnya</label>
 														<div class="col-sm-7">
-															<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-																<strong> <?= $individu['nama']?></strong>
-																<br />NIK - <?= $individu['nik']?>
+															<p class="text-muted well well-sm no-shadow">
+																<strong><?= $individu["nama"]; ?></strong> - <?= $individu["nik"]; ?>
 															</p>
 														</div>
 													</div>
@@ -50,9 +49,9 @@
 													<label class="col-sm-3 control-label" for="id_kepala">Ketua RT</label>
 													<div class="col-sm-7">
 														<select class="form-control select2 input-sm" style="width: 100%;" id="id_kepala" name="id_kepala">
-															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
+															<option value="">-- Silakan Masukan NIK / Nama--</option>
 															<?php foreach ($penduduk as $data): ?>
-																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
+																<option value="<?= $data['id']?>">NIK :<?= $data['nik'] . " - " . $data['nama'] . " - " . $data['dusun']?></option>
 															<?php endforeach; ?>
 														</select>
 													</div>
@@ -68,7 +67,7 @@
 									</div>
 								</form>
 							</div>
-           	</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -78,10 +77,3 @@
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
-<script type="text/javascript">
-	setTimeout(function() {
-		$('#rt').rules('add', {
-			maxlength: 10
-		})
-	}, 500);
-</script>

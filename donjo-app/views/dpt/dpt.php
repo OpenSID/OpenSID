@@ -68,7 +68,7 @@
 										<div class="row">
 											<div class="col-sm-9">
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/filter/sex')?>')">
-													<option value="">Jenis Kelamin</option>
+													<option value="">Pilih Jenis Kelamin</option>
 													<?php foreach ($list_jenis_kelamin AS $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
@@ -76,14 +76,14 @@
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('dpt/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= set_ucwords($data['dusun'])?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= $data['dusun']; ?></option>
 													<?php endforeach;?>
 												</select>
 												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('dpt/rw')?>')" >
 														<option value="">Pilih RW</option>
 														<?php foreach ($list_rw AS $data): ?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= set_ucwords($data['rw'])?></option>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']; ?></option>
 														<?php endforeach;?>
 													</select>
 												<?php endif; ?>
@@ -91,7 +91,7 @@
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('dpt/rt')?>')">
 														<option value="">Pilih RT</option>
 														<?php foreach ($list_rt AS $data): ?>
-															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
+															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']; ?></option>
 														<?php endforeach;?>
 													</select>
 												<?php endif; ?>

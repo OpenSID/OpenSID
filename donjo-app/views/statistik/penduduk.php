@@ -106,14 +106,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun')?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 														<?php foreach ($list_dusun AS $data): ?>
-															<option value="<?= $data['dusun']?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
+															<option value="<?= $data['dusun']?>" <?= selected($dusun, $data['dusun']); ?>><?= $data['dusun']; ?></option>
 														<?php endforeach; ?>
 													</select>
 													<?php if ($dusun): ?>
 														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw')?>')" >
 															<option value="">Pilih RW</option>
 															<?php foreach ($list_rw AS $data): ?>
-																<option value="<?= $data['rw']?>" <?= selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
+																<option value="<?= $data['rw']?>" <?= selected($rw, $data['rw']); ?>><?= $data['rw']; ?></option>
 															<?php endforeach; ?>
 														</select>
 													<?php endif; ?>
@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt')?>')">
 															<option value="">Pilih RT</option>
 															<?php foreach ($list_rt AS $data): ?>
-																<option value="<?= $data['rt']?>" <?= selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
+																<option value="<?= $data['rt']?>" <?= selected($rt, $data['rt']); ?>><?= $data['rt']; ?></option>
 															<?php endforeach; ?>
 														</select>
 													<?php endif; ?>

@@ -1,3 +1,10 @@
+<style>
+.tabel-info, td {
+	height: 30px;
+	padding: 5px;
+	word-wrap: break-word;
+}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Wilayah Administratif RT</h1>
@@ -21,7 +28,7 @@
 						</a>
 					</div>
 					<div class="box-header with-border">
-						<strong>RW <?= $rw?> / <?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun?> </strong>
+						<strong>RW <?= $rw; ?> / <?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun; ?></strong>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -36,9 +43,8 @@
 															<tr>
 																<th class="padat">No</th>
 																<th class="padat">Aksi</th>
-																<th>RT</th>
-																<th width="30%">Ketua RT</th>
-																<th>NIK Ketua RT</th>
+																<th width="10%">Nama RT</th>
+																<th width="60%" nowrap>Ketua RT</th>
 																<th>KK</th>
 																<th>L+P</th>
 																<th>L</th>
@@ -48,7 +54,7 @@
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td><?= $data['no']?></td>
+																	<td class="no_urut"><?= $data['no']?></td>
 																	<td nowrap>
 																		<?php if ($data['rt']!="-"): ?>
 																			<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
@@ -69,22 +75,21 @@
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['rt']?></td>
-																	<td nowrap><strong><?= $data['nama_ketua']?></strong></td>
-																	<td nowrap><?= $data['nik_ketua']?></td>
-																	<td><?= $data['jumlah_kk']?></td>
-																	<td><?= $data['jumlah_warga']?></td>
-																	<td><?= $data['jumlah_warga_l']?></td>
-																	<td><?= $data['jumlah_warga_p']?></td>
+																	<td nowrap><strong><?= $data['nama_ketua']?></strong> - <?= $data['nik_ketua']?></td>
+																	<td class="bilangan"><?= $data['jumlah_kk']?></td>
+																	<td class="bilangan"><?= $data['jumlah_warga']?></td>
+																	<td class="bilangan"><?= $data['jumlah_warga_l']?></td>
+																	<td class="bilangan"><?= $data['jumlah_warga_p']?></td>
 																</tr>
 															<?php endforeach; ?>
 														</tbody>
 														<tfoot>
 															<tr>
-																<th colspan="5"><label>TOTAL</label></th>
-																<th><?= $total['jmlkk']?></th>
-																<th><?= $total['jmlwarga']?></th>
-																<th><?= $total['jmlwargal']?></th>
-																<th><?= $total['jmlwargap']?></th>
+																<th colspan="4"><label>TOTAL</label></th>
+																<th class="bilangan"><?= $total['jmlkk']?></th>
+																<th class="bilangan"><?= $total['jmlwarga']?></th>
+																<th class="bilangan"><?= $total['jmlwargal']?></th>
+																<th class="bilangan"><?= $total['jmlwargap']?></th>
 															</tr>
 														</tfoot>
 													</table>

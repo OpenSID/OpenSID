@@ -20,7 +20,7 @@
 						</a>
 					</div>
 					<div class="box-header with-border">
-						<strong><?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun?></strong>
+						<strong><?= ucwords($this->setting->sebutan_dusun)?> <?= $dusun; ?></strong>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -35,20 +35,19 @@
 															<tr >
 																<th class="padat">No</th>
 																<th class="padat">Aksi</th>
-																<th>RW</th>
-																<th>Ketua RW</th>
-																<th>NIK Ketua RW</th>
-																<th>RT</th>
-																<th>KK</th>
-																<th>L+P</th>
-																<th>L</th>
-																<th>P</th>
+																<th width="10%">Nama RW</th>
+																<th width="60%" nowrap>Ketua RW</th>
+																<th nowrap>RT</th>
+																<th nowrap>KK</th>
+																<th nowrap>L+P</th>
+																<th nowrap>L</th>
+																<th nowrap>P</th>
 															</tr>
 														</thead>
 														<tbody>
 															<?php foreach ($main as $data): ?>
 																<tr>
-																	<td><?= $data['no']?></td>
+																	<td class="no_urut"><?= $data['no']?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
 																		<?php if ($data['rw']!="-"): ?>
@@ -73,29 +72,28 @@
 																	</td>
 																	<td><?= $data['rw']?></td>
 																	<?php if ($data['rw']=="-"): ?>
-																		<td colspan="2">
-																			Pergunakan RW ini apabila RT berada langsung di bawah <?= ucwords($this->setting->sebutan_dusun)?>, yaitu tidak ada RW
+																		<td nowrap><span class="text-red"><b>
+																			Pergunakan RW ini apabila RT berada langsung di bawah <?= ucwords($this->setting->sebutan_dusun)?>, yaitu tidak ada RW</b></span>
 																		</td>
 																	<?php else: ?>
-																		<td nowrap><strong><?= $data['nama_ketua']?></strong></td>
-																		<td><?= $data['nik_ketua']?></td>
+																		<td nowrap><strong><?= $data['nama_ketua']?></strong> - <?= $data['nik_ketua']?></td>
 																	<?php endif; ?>
-																	<td><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
-																	<td><?= $data['jumlah_kk']?></td>
-																	<td><?= $data['jumlah_warga']?></td>
-																	<td><?= $data['jumlah_warga_l']?></td>
-																	<td><?= $data['jumlah_warga_p']?></td>
+																	<td class="bilangan"><a href="<?= site_url("sid_core/sub_rt/$id_dusun/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rt']?></a></td>
+																	<td class="bilangan"><?= $data['jumlah_kk']?></td>
+																	<td class="bilangan"><?= $data['jumlah_warga']?></td>
+																	<td class="bilangan"><?= $data['jumlah_warga_l']?></td>
+																	<td class="bilangan"><?= $data['jumlah_warga_p']?></td>
 																</tr>
-																<?php endforeach; ?>
-															</tbody>
+															<?php endforeach; ?>
+														</tbody>
 														<tfoot>
 															<tr>
-																<th colspan="5"><label>TOTAL</label></th>
-																<th><?= $total['jmlrt']?></th>
-																<th><?= $total['jmlkk']?></th>
-																<th><?= $total['jmlwarga']?></th>
-																<th><?= $total['jmlwargal']?></th>
-																<th><?= $total['jmlwargap']?></th>
+																<th colspan="4"><label>TOTAL</label></th>
+																<th class="bilangan"><?= $total['jmlrt']?></th>
+																<th class="bilangan"><?= $total['jmlkk']?></th>
+																<th class="bilangan"><?= $total['jmlwarga']?></th>
+																<th class="bilangan"><?= $total['jmlwargal']?></th>
+																<th class="bilangan"><?= $total['jmlwargap']?></th>
 															</tr>
 														</tfoot>
 													</table>

@@ -49,8 +49,8 @@
 															<tr>
 																<th class="padat">No</th>
 																<th wlass="padat">Aksi</th>
-																<th width="25%"> <?= ucwords($this->setting->sebutan_dusun)?></th>
-																<th width="35%">Kepala <?= ucwords($this->setting->sebutan_dusun)?></th>
+																<th width="10%">Nama <?= ucwords($this->setting->sebutan_dusun)?></th>
+																<th width="60%" nowrap>Kepala <?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>
 																<th>RT</th>
 																<th>KK</th>
@@ -90,8 +90,8 @@
 																		</ul>
 																	</div>
 																</td>
-																<td><?= strtoupper($data['dusun'])?></td>
-																<td nowrap><strong><?= strtoupper($data['nama_kadus'])?></strong> - <?= $data['nik_kadus']?></td>
+																<td><?= $data['dusun']; ?></td>
+																<td nowrap><strong><?= $data['nama_kadus']; ?></strong> - <?= $data['nik_kadus']?></td>
 																<td class="bilangan"><a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" title="Rincian Sub Wilayah"><?= $data['jumlah_rw']?></a></td>
 																<td class="bilangan"><?= $data['jumlah_rt']?></td>
 																<td class="bilangan"><a href="<?= site_url("sid_core/warga_kk/$data[id]")?>"><?= $data['jumlah_kk']?></a></td>
@@ -136,8 +136,5 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
-<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 
 
