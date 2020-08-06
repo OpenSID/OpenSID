@@ -16,7 +16,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'golongan_darah', 'hamil'];
+		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'golongan_darah', 'hamil'];
 	}
 
 	private function clear_session()
@@ -557,15 +557,12 @@ class Penduduk extends Admin_Controller {
 			case 7: $_SESSION['golongan_darah'] = $nomor; $pre = "GOLONGAN DARAH : "; break;
 			case 9: $_SESSION['cacat'] = $nomor; $pre = "CACAT : "; break;
 			case 10: $_SESSION['menahun'] = $nomor;  $pre = "SAKIT MENAHUN : "; break;
-			case 13: $_SESSION['umurx'] = $nomor;  $pre = "UMUR "; break;
+			case 13: $_SESSION['umurx'] = $nomor;  $pre = "RENTANG UMUR : "; break;
 			case 14: $_SESSION['pendidikan_sedang_id'] = $nomor; $pre = "PENDIDIKAN SEDANG DITEMPUH : "; break;
 			case 15: $_SESSION['umurx'] = $nomor;  $pre = "KATEGORI UMUR : "; break;
 			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre = "CARA KB : "; break;
 			case 17:
-				$_SESSION['akta_kelahiran'] = $nomor;
-				if ($nomor <> BELUM_MENGISI) $_SESSION['umurx'] = $nomor;
-				$pre = "AKTA KELAHIRAN : ";
-				break;
+				$_SESSION['akta_kelahiran'] = $nomor; $pre = "AKTA KELAHIRAN : ";  break;
 			case 18:
 				if ($sex == NULL)
 				{

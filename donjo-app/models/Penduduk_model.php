@@ -40,16 +40,6 @@
 		}
 	}
 
-	protected function sex_sql()
-	{
-		if (isset($_SESSION['sex']))
-		{
-			$kf = $_SESSION['sex'];
-			$sex_sql = " AND u.sex = $kf";
-			return $sex_sql;
-		}
-	}
-
 	protected function dusun_sql()
 	{
 		if (!empty($_SESSION['dusun']))
@@ -80,67 +70,21 @@
 		}
 	}
 
-	protected function pendidikan_kk_sql()
+	protected function get_sql_kolom_kode($session, $kolom)
 	{
-		if (isset($_SESSION['pendidikan_kk_id']))
+		$kf = $this->session->$session;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['pendidikan_kk_id'];
-			$pendidikan_sql = " AND u.pendidikan_kk_id = $kf";
-			return $pendidikan_sql;
-		}
-	}
-
-	protected function get_sql_kolom_kode($kode_session, $kode_kolom)
-	{
-		if (isset($_SESSION[$kode_session]))
-		{
-			$kf = $_SESSION[$kode_session];
-			if ($kf == BELUM_MENGISI)
-				$sql = " AND (".$kode_kolom." IS NULL OR ".$kode_kolom." = '')";
+			if ($kf == JUMLAH)
+				$sql = " AND (" . $kolom . " IS NOT NULL OR " . $kolom . " != '')";
+			else if ($kf == BELUM_MENGISI)
+				$sql = " AND (" . $kolom . " IS NULL OR " . $kolom . " = '')";
+			else if ($kf == TOTAL)
+				$sql = ""; // Filter tdk dilakukan u/ mengambil semua data
 			else
-				$sql = " AND ".$kode_kolom." = $kf";
+				$sql = " AND " . $kolom . " = $kf";
+
 			return $sql;
-		}
-	}
-
-	protected function akta_kelahiran_sql()
-	{
-		if (isset($_SESSION['akta_kelahiran']))
-		{
-			$kf = $_SESSION['akta_kelahiran'];
-			if ($kf == BELUM_MENGISI)
-				$sql = " AND (u.akta_lahir IS NULL OR u.akta_lahir = '')";
-			else
-				$sql = " AND u.akta_lahir<>''";
-			return $sql;
-		}
-	}
-
-	protected function cacat_sql()
-	{
-		if (isset($_SESSION['cacat']))
-		{
-			$kf = $_SESSION['cacat'];
-			if ($kf == BELUM_MENGISI)
-				$cacat_sql = " AND (u.cacat_id IS NULL OR u.cacat_id = '')";
-			else
-				$cacat_sql = " AND u.cacat_id = $kf AND u.cacat_id is not null and u.cacat_id<>''";
-			return $cacat_sql;
-		}
-	}
-
-	protected function menahun_sql()
-	{
-		if (!empty($_SESSION['menahun']))
-		{
-			$kf = $_SESSION['menahun'];
-			if ($kf == BELUM_MENGISI)
-				$menahun_sql = " AND (u.sakit_menahun_id IS NULL OR u.sakit_menahun_id = '0')";
-			elseif ($kf == 90) // semabarang sakit manahun
-				$menahun_sql = " AND (u.sakit_menahun_id <> 14 AND u.sakit_menahun_id IS NOT NULL AND u.sakit_menahun_id <> '0')";
-			else
-				$menahun_sql = " AND u.sakit_menahun_id = $kf ";
-			return $menahun_sql;
 		}
 	}
 
@@ -176,33 +120,47 @@
 
 	protected function umur_sql()
 	{
-		if (isset($_SESSION['umurx']))
+		$kf = $this->session->umurx;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['umurx'];
-			if ($kf != BELUM_MENGISI)
-				$umur_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ";
-			else $umur_sql = " AND u.tanggallahir IS NULL OR u.tanggallahir = '' ";
-			return $umur_sql;
+			if ($kf == JUMLAH)
+				$sql = " AND u.tanggallahir IS NOT NULL OR u.tanggallahir != '' ";
+			else if ($kf == BELUM_MENGISI)
+				$sql = " AND u.tanggallahir IS NULL OR u.tanggallahir = '' ";
+			else if ($kf == TOTAL)
+				$sql = ""; // Filter tdk dilakukan u/ mengambil semua data
+			else
+				$sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ";
+
+			return $sql;
 		}
 	}
 
-	protected function filter_sql()
+	protected function akta_kelahiran_sql()
 	{
-		if (!empty($_SESSION['filter']))
+		$kf = $this->session->akta_kelahiran;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND u.status = $kf";
-			return $filter_sql;
-		}
-	}
+			if ( ! in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+				$this->session->umurx = $kf;
+				$sql = " AND u.akta_lahir <> ' ' ";
+				$sql .= $this->umur_sql();
 
-	protected function status_dasar_sql()
-	{
-		if (!empty($_SESSION['status_dasar']))
-		{
-			$kf = $_SESSION['status_dasar'];
-				$status_dasar = " AND u.status_dasar = $kf";
-			return $status_dasar;
+				return $sql;
+			}
+
+			if ($kf == JUMLAH) {
+				//$sql = " AND u.akta_lahir IS NOT NULL OR u.akta_lahir <> ' ' ";
+				$sql = " AND u.akta_lahir <> ' ' ";
+			}
+			else if ($kf == BELUM_MENGISI){
+				$sql = " AND (u.akta_lahir IS NULL OR u.akta_lahir = ' ') ";
+			}
+			else {
+				$sql = ""; // Filter tdk dilakukan u/ mengambil semua data
+			}
+
+			return $sql;
 		}
 	}
 
@@ -309,48 +267,51 @@
 
 		$sql .= " WHERE 1 ";
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->status_dasar_sql();
-		$sql .= $this->sex_sql();
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
 
 		$kolom_kode = array(
-			array('cacat','u.cacat_id'),
-			array('cara_kb_id','u.cara_kb_id'),
-			array('status','u.status_kawin'),
-			array('pendidikan_kk_id','u.pendidikan_kk_id'),
-			array('pendidikan_sedang_id','u.pendidikan_sedang_id'),
-			array('status_penduduk','u.status'),
-			array('pekerjaan_id','u.pekerjaan_id'),
-			array('agama','u.agama_id'),
-			array('warganegara','u.warganegara_id'),
-			array('golongan_darah','u.golongan_darah_id'),
-			array('id_asuransi', 'u.id_asuransi'),
-			array('status_covid', 'rc.id')
+			array('filter', 'u.status'), // Status : Hidup, Maati, Dll -> Load data awal (filtering combobox)
+			array('status_penduduk', 'u.status'), // Status : Hidup, Maati, Dll -> Hanya u/ Pencarian Spesifik
+			array('status_dasar', 'u.status_dasar'), // Kode 6
+			array('sex', 'u.sex'), // Kode 4
+			array('pendidikan_kk_id', 'u.pendidikan_kk_id'), // Kode 0
+			array('cacat', 'u.cacat_id'), // Kode 9
+			array('cara_kb_id', 'u.cara_kb_id'), // Kode 16
+			array('menahun', 'u.sakit_menahun_id'), // Kode
+			array('status', 'u.status_kawin'), // Kode 2
+			array('pendidikan_sedang_id', 'u.pendidikan_sedang_id'), // Kode 14
+			array('pekerjaan_id', 'u.pekerjaan_id'), // Kode 1
+			array('agama', 'u.agama_id'), // Kode 3
+			array('warganegara', 'u.warganegara_id'), // Kode 5
+			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
+			array('id_asuransi', 'u.id_asuransi'), // Kode 19
+			//array('akta_kelahiran', 'u.akta_lahir'),
+			array('status_covid', 'rc.id') // Kode covid
 		);
+
 		if ($_SESSION['penerima_bantuan'])
 		{
 			$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
 		}
+
 		foreach ($kolom_kode as $kolom)
 		{
+			// Gunakan cara ini u/ filter sederhana
 			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
 
-		$sql .= $this->cacat_sql();
-		$sql .= $this->akta_kelahiran_sql();
-		$sql .= $this->status_ktp_sql();
-		$sql .= $this->menahun_sql();
-		$sql .= $this->umur_min_sql();
-		$sql .= $this->umur_max_sql();
-		$sql .= $this->umur_sql();
-		$sql .= $this->hamil_sql();
+		$sql .= $this->status_ktp_sql(); // Kode 18
+		$sql .= $this->umur_min_sql(); // Hanya u/ Pencarian Spesifik
+		$sql .= $this->umur_max_sql(); // Hanya u/ Pencarian Spesifik
+		$sql .= $this->umur_sql(); // Kode 13, 15
+		$sql .= $this->akta_kelahiran_sql(); // Kode 17
+		$sql .= $this->hamil_sql(); // Filter blum digunakan
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o = 1, $offset = 0, $limit = 500)
 	{
 		$select_sql = "SELECT DISTINCT ";
 		if ($_SESSION['penerima_bantuan'])
@@ -392,7 +353,7 @@
 		}
 
 		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$paging_sql = ' LIMIT ' .$offset. ', ' .$limit;
 
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
@@ -472,40 +433,43 @@
 				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE u.status_dasar = 1 ";
 
+		$sql .= " WHERE 1 ";
 		$sql .= $this->keluarga_sql();
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->sex_sql();
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
-		$sql .= $this->pendidikan_kk_sql();
 
 		$kolom_kode = array(
-			array('cacat','u.cacat_id'),
-			array('cara_kb_id','u.cara_kb_id'),
-			array('menahun','u.sakit_menahun_id'),
-			array('status','u.status_kawin'),
-			array('pendidikan_kk_id','u.pendidikan_kk_id'),
-			array('pendidikan_sedang_id','u.pendidikan_sedang_id'),
-			array('status_penduduk','u.status'),
-			array('pekerjaan_id','u.pekerjaan_id'),
-			array('agama','u.agama_id'),
-			array('warganegara','u.warganegara_id'),
-			array('golongan_darah','u.golongan_darah_id')
+			array('filter', 'u.status'), // Status : Hidup, Maati, Dll -> Load data awal (filtering combobox)
+			array('status_penduduk', 'u.status'), // Status : Hidup, Maati, Dll -> Hanya u/ Pencarian Spesifik
+			array('status_dasar', 'u.status_dasar'), // Kode 6
+			array('sex', 'u.sex'), // Kode 4
+			array('pendidikan_kk_id', 'u.pendidikan_kk_id'), // Kode 0
+			array('cacat', 'u.cacat_id'), // Kode 9
+			array('cara_kb_id', 'u.cara_kb_id'), // Kode 16
+			array('menahun', 'u.sakit_menahun_id'), // Kode
+			array('status', 'u.status_kawin'), // Kode 2
+			array('pendidikan_sedang_id', 'u.pendidikan_sedang_id'), // Kode 14
+			array('pekerjaan_id', 'u.pekerjaan_id'), // Kode 1
+			array('agama', 'u.agama_id'), // Kode 3
+			array('warganegara', 'u.warganegara_id'), // Kode 5
+			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
+			array('id_asuransi', 'u.id_asuransi'), // Kode 19
+			//array('akta_kelahiran', 'u.akta_lahir'), // Kode 19
+			//array('status_covid', 'rc.id') // Kode covid
 		);
 		foreach ($kolom_kode as $kolom)
 		{
+			// Gunakan cara ini u/ filter sederhana
 			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
 
-		$sql .= $this->cacat_sql();
-		$sql .= $this->akta_kelahiran_sql();
-		$sql .= $this->menahun_sql();
-		$sql .= $this->umur_min_sql();
-		$sql .= $this->umur_max_sql();
-		$sql .= $this->umur_sql();
-		$sql .= $this->hamil_sql();
+		$sql .= $this->status_ktp_sql(); // Kode 18
+		$sql .= $this->umur_min_sql(); // Kode 13, 15
+		$sql .= $this->umur_max_sql(); // Kode 13, 15
+		$sql .= $this->umur_sql(); // Kode 13, 15
+		$sql .= $this->hamil_sql(); // Filter blum digunakan
 
 		$query = $this->db->query($sql);
 		return $query->result_array();
@@ -518,7 +482,7 @@
 		$data['tanggalperkawinan'] = empty($data['tanggalperkawinan']) ? NULL : tgl_indo_in($data['tanggalperkawinan']);
 		$data['tanggalperceraian'] = empty($data['tanggalperceraian']) ? NULL : tgl_indo_in($data['tanggalperceraian']);
 
-    $data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
+		$data['pendidikan_kk_id'] = $data['pendidikan_kk_id'] ?: NULL;
 		$data['pendidikan_sedang_id'] = $data['pendidikan_sedang_id'] ?: NULL;
 		$data['pekerjaan_id'] = $data['pekerjaan_id'] ?: NULL;
 		$data['status_kawin'] = $data['status_kawin'] ?: NULL;
@@ -659,7 +623,7 @@
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
-    unset($data['kk_level_lama']);
+		unset($data['kk_level_lama']);
 		unset($data['dusun']);
 		unset($data['rw']);
 		unset($data['no_kk']);
@@ -719,127 +683,127 @@
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
 
-    // Jangan update nik apabila tidak berubah
-    if ($data['nik_lama'] == $data['nik'])
-    {
-      unset($data['nik']);
-    }
-    unset($data['nik_lama']);
+		// Jangan update nik apabila tidak berubah
+		if ($data['nik_lama'] == $data['nik'])
+		{
+			unset($data['nik']);
+		}
+		unset($data['nik_lama']);
 
-    $error_validasi = $this->validasi_data_penduduk($data);
-    if (!empty($error_validasi))
-    {
-      foreach ($error_validasi as $error)
-      {
-        $_SESSION['error_msg'] .= ': ' . $error . '\n';
-      }
+		$error_validasi = $this->validasi_data_penduduk($data);
+		if (!empty($error_validasi))
+		{
+			foreach ($error_validasi as $error)
+			{
+				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+			}
 			// Form menggunakan kolom id_sex = sex
 			$_POST['id_sex'] = $_POST['sex'];
-      // Tampilkan tanda kutip dalam nama
-      $_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
-      $_SESSION['post'] = $_POST;
-      $_SESSION['success'] = -1;
-      return;
-    }
+			// Tampilkan tanda kutip dalam nama
+			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
+			$_SESSION['post'] = $_POST;
+			$_SESSION['success'] = -1;
+			return;
+		}
 
-    $sql = "SELECT id_kk, id_cluster, status_dasar FROM tweb_penduduk WHERE id = ?";
+		$sql = "SELECT id_kk, id_cluster, status_dasar FROM tweb_penduduk WHERE id = ?";
 		$query = $this->db->query($sql, $id);
 		$pend = $query->row_array();
-    if ($pend['status_dasar'] != 1)
-    {
-      $_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
-      return;
-    }
+		if ($pend['status_dasar'] != 1)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
+			return;
+		}
 
 		$this->keluarga_model->update_kk_level($id, $pend['id_kk'], $data['kk_level'], $data['kk_level_lama']);
-    unset($data['kk_level_lama']);
+		unset($data['kk_level_lama']);
 
-    // Untuk anggota keluarga
-    if (!empty($data['no_kk']))
-    {
-    	// Ganti alamat KK
-    	$this->db->
-    		where('id', $pend['id_kk'])->
-    		update('tweb_keluarga', array('alamat' => $data['alamat']));
-	    if ($pend['id_cluster'] != $data['id_cluster'])
-	    {
-	    	$this->keluarga_model->pindah_keluarga($pend['id_kk'], $data['id_cluster']);
-	    }
-	    unset($data['alamat']);
-    }
-    unset($data['no_kk']);
-    unset($data['dusun']);
-    unset($data['rw']);
+		// Untuk anggota keluarga
+		if (!empty($data['no_kk']))
+		{
+			// Ganti alamat KK
+			$this->db->
+				where('id', $pend['id_kk'])->
+				update('tweb_keluarga', array('alamat' => $data['alamat']));
+			if ($pend['id_cluster'] != $data['id_cluster'])
+			{
+				$this->keluarga_model->pindah_keluarga($pend['id_kk'], $data['id_cluster']);
+			}
+			unset($data['alamat']);
+		}
+		unset($data['no_kk']);
+		unset($data['dusun']);
+		unset($data['rw']);
 
-    $lokasi_file = $_FILES['foto']['tmp_name'];
-    $tipe_file = $_FILES['foto']['type'];
-    $nama_file = $_FILES['foto']['name'];
-    $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-    $old_foto = $data['old_foto'];
-    if (!empty($lokasi_file))
-    {
-      if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png")
-      {
-        unset($data['foto']);
-      }
-      else
-      {
-        UploadFoto($nama_file, $old_foto, $tipe_file);
-        $data['foto'] = $nama_file;
-      }
-    } else
-    {
-      unset($data['foto']);
-    }
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		$old_foto = $data['old_foto'];
+		if (!empty($lokasi_file))
+		{
+			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png")
+			{
+				unset($data['foto']);
+			}
+			else
+			{
+				UploadFoto($nama_file, $old_foto, $tipe_file);
+				$data['foto'] = $nama_file;
+			}
+		} else
+		{
+			unset($data['foto']);
+		}
 
-    unset($data['file_foto']);
-    unset($data['old_foto']);
+		unset($data['file_foto']);
+		unset($data['old_foto']);
 
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
-    $this->db->where('id', $id);
-    $outp = $this->db->update('tweb_penduduk', $data);
+		$this->db->where('id', $id);
+		$outp = $this->db->update('tweb_penduduk', $data);
 
-    status_sukses($outp); //Tampilkan Pesan
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update_position($id=0)
 	{
-    $sql  = "SELECT m.id, p.status_dasar FROM tweb_penduduk_map m RIGHT JOIN tweb_penduduk p ON m.id = p.id WHERE p.id = ?";
+		$sql  = "SELECT m.id, p.status_dasar FROM tweb_penduduk_map m RIGHT JOIN tweb_penduduk p ON m.id = p.id WHERE p.id = ?";
 		$query = $this->db->query($sql, $id);
 		$cek = $query->row_array();
-    if ($cek['status_dasar'] != 1)
-    {
-      $_SESSION['success'] = -1;
-      $_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
-      return;
-    }
-    $data = $_POST;
-    unset($data['zoom']);
-    unset($data['map_tipe']);
-    if ($cek['id'] == $id)
-    {
-      if ($data['lat'])
-      {
-        $this->db->where('id', $id);
-        $outp = $this->db->update('tweb_penduduk_map', $data);
-      }
-    }
-    else
-    {
-      if ($data['lat'])
-      {
-        $data['id'] = $id;
-        $outp = $this->db->insert('tweb_penduduk_map', $data);
-      }
-    }
-    status_sukses($outp); //Tampilkan Pesan
+		if ($cek['status_dasar'] != 1)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = "Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!";
+			return;
+		}
+		$data = $_POST;
+		unset($data['zoom']);
+		unset($data['map_tipe']);
+		if ($cek['id'] == $id)
+		{
+			if ($data['lat'])
+			{
+				$this->db->where('id', $id);
+				$outp = $this->db->update('tweb_penduduk_map', $data);
+			}
+		}
+		else
+		{
+			if ($data['lat'])
+			{
+				$data['id'] = $id;
+				$outp = $this->db->insert('tweb_penduduk_map', $data);
+			}
+		}
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_penduduk_map($id=0)
 	{
-    $sql = "SELECT m.*, p.nama, p.status_dasar FROM tweb_penduduk_map m RIGHT JOIN tweb_penduduk p ON m.id = p.id WHERE p.id = ? ";
+		$sql = "SELECT m.*, p.nama, p.status_dasar FROM tweb_penduduk_map m RIGHT JOIN tweb_penduduk p ON m.id = p.id WHERE p.id = ? ";
 		$query = $this->db->query($sql, $id);
 		return $query->row_array();
 	}
@@ -1121,7 +1085,7 @@
 				Untuk semua Kepala Keluarga, hubungan 'kepala keluarga' tidak berlaku
 			***/
 
-			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1','2','3','4','5','6','8') " : "id <> 1";
+			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1', '2', '3', '4', '5', '6', '8') " : "id <> 1";
 		}
 		$sql = "SELECT * FROM tweb_penduduk_hubungan WHERE $where";
 		$query = $this->db->query($sql);
@@ -1276,12 +1240,12 @@
 
 	public function tulis_log_penduduk_data($log)
 	{
-    $update_str = '';
-    foreach ($log as $key => $item)
-    {
-        $update_str .= $key.'=VALUES('.$key.'),';
-    }
-    $update_str = rtrim($update_str, ',');
+		$update_str = '';
+		foreach ($log as $key => $item)
+		{
+				$update_str .= $key.'=VALUES('.$key.'),';
+		}
+		$update_str = rtrim($update_str, ', ');
 
 		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
 		$this->db->query($sql);
@@ -1296,41 +1260,46 @@
 			'tahun' => $tahun,
 			'tgl_peristiwa' => date("d-m-y")
 		);
-    $query = $this->db->insert_string('log_penduduk', $data) .
-    "ON DUPLICATE KEY UPDATE
-        id_pend = VALUES(id_pend),
-        id_detail = VALUES(id_detail),
-        bulan = VALUES(bulan),
-        tahun = VALUES(tahun),
-        tgl_peristiwa = VALUES(tgl_peristiwa)
-        ;
-    ";
-    $this->db->query($query);
+		$query = $this->db->insert_string('log_penduduk', $data) .
+		"ON DUPLICATE KEY UPDATE
+				id_pend = VALUES(id_pend),
+				id_detail = VALUES(id_detail),
+				bulan = VALUES(bulan),
+				tahun = VALUES(tahun),
+				tgl_peristiwa = VALUES(tgl_peristiwa)
+				;
+		";
+		$this->db->query($query);
 	}
 
 	public function get_judul_statistik($tipe=0, $nomor=1, $sex=0)
 	{
-		if ($nomor == BELUM_MENGISI)
+		if ($nomor == JUMLAH)
+			$judul = array("nama" => "JUMLAH");
+		else if ($nomor == BELUM_MENGISI)
 			$judul = array("nama" => "BELUM MENGISI");
+		elseif ($nomor == TOTAL)
+			$judul = array("nama" => "TOTAL");
 		else
 		{
 			switch ($tipe)
 			{
-				case '0': $sql = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id = ?";break;
-				case 1: $sql = "SELECT * FROM tweb_penduduk_pekerjaan WHERE id = ?";break;
-				case 2: $sql = "SELECT * FROM tweb_penduduk_kawin WHERE id = ?";break;
-				case 3: $sql = "SELECT * FROM tweb_penduduk_agama WHERE id = ?";break;
-				case 4: $sql = "SELECT * FROM tweb_penduduk_sex WHERE id = ?";break;
-				case 5: $sql = "SELECT * FROM tweb_penduduk_warganegara WHERE id = ?";break;
-				case 6: $sql = "SELECT * FROM tweb_penduduk_status WHERE id = ?";break;
-				case 7: $sql = "SELECT * FROM tweb_golongan_darah WHERE id = ?";break;
-				case 9: $sql = "SELECT * FROM tweb_cacat WHERE id = ?";break;
-				case 10: $sql = "SELECT * FROM tweb_sakit_menahun WHERE id = ?";break;
-				case 13: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ?";break;
-				case 14: $sql = "SELECT * FROM tweb_penduduk_pendidikan WHERE id = ?";break;
-				case 15: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ?";break;
-				case 16: $sql = "SELECT * FROM tweb_cara_kb WHERE id = ?";break;
-				case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
+				case '0': $sql = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id = ?"; break;
+				case 1: $sql = "SELECT * FROM tweb_penduduk_pekerjaan WHERE id = ?"; break;
+				case 2: $sql = "SELECT * FROM tweb_penduduk_kawin WHERE id = ?"; break;
+				case 3: $sql = "SELECT * FROM tweb_penduduk_agama WHERE id = ?"; break;
+				case 4: $sql = "SELECT * FROM tweb_penduduk_sex WHERE id = ?"; break;
+				case 5: $sql = "SELECT * FROM tweb_penduduk_warganegara WHERE id = ?"; break;
+				case 6: $sql = "SELECT * FROM tweb_penduduk_status WHERE id = ?"; break;
+				case 7: $sql = "SELECT * FROM tweb_golongan_darah WHERE id = ?"; break;
+				case 9: $sql = "SELECT * FROM tweb_cacat WHERE id = ?"; break;
+				case 10: $sql = "SELECT * FROM tweb_sakit_menahun WHERE id = ?"; break;
+				case 13: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ? AND STATUS = 1"; break;
+				case 14: $sql = "SELECT * FROM tweb_penduduk_pendidikan WHERE id = ?"; break;
+				case 15: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ? AND STATUS = 0"; break;
+				case 16: $sql = "SELECT * FROM tweb_cara_kb WHERE id = ?"; break;
+				//case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
+				case 17: $sql = "SELECT concat('UMUR ', nama) AS nama FROM tweb_penduduk_umur WHERE id = ? AND STATUS = 1"; break;
 				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
 				case 19: $sql = "SELECT * FROM tweb_penduduk_asuransi WHERE id = ?"; break;
 				case 'covid': $sql = "SELECT * FROM ref_status_covid WHERE id = ?"; break;
@@ -1347,11 +1316,11 @@
 	// Untuk form surat
 	public function list_penduduk_status_dasar($status_dasar=1)
 	{
-    $sql = "SELECT u.id, nik, nama,
-    	CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat,
-    	CONCAT('NIK: ', nik, ' - ', nama, '\nAlamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS info_pilihan_penduduk,
-    	w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
-    $data = $this->db->query($sql, array($status_dasar))->result_array();
+		$sql = "SELECT u.id, nik, nama,
+			CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat,
+			CONCAT('NIK: ', nik, ' - ', nama, '\nAlamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS info_pilihan_penduduk,
+			w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
+		$data = $this->db->query($sql, array($status_dasar))->result_array();
 		return $data;
 	}
 

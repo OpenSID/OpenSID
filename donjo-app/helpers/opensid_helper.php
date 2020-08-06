@@ -71,8 +71,10 @@ define("LOKASI_MEDIA", 'desa/upload/media/');
 define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 
-// Kode laporan statistik di mana kode isian belum di isi
+// Kode laporan statistik
+define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
+define('TOTAL', 888);
 
 // Kode laporan mandiri di tabel komentar
 define('LAPORAN_MANDIRI', 775);
