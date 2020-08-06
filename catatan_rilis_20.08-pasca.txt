@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.08-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada Ali Yusuf dan Tsamara Ali yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada Tsamara Ali yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 
