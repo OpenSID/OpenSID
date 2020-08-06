@@ -223,13 +223,19 @@ class Kelompok_model extends MY_Model {
 
 	public function list_penduduk()
 	{
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status_dasar = 1";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$this->db
+			->select('u.id, nik, nama, dusun, rt, rw, alamat as jalan')
+			->from('tweb_penduduk u')
+			->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left')
+			->join('tweb_keluarga k', 'u.id_kk = k.id', 'left')
+			->where('u.status_dasar = 1');
+
+			$data = $this->db->get()->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			if ($data[$i]['dusun'] != '-' && $data[$i]['dusun'] != '') $data[$i]['alamat']="Alamat :".$data[$i]['jalan']." ".ucwords($this->setting->sebutan_dusun)." ".$data[$i]['dusun']." RT ".$data[$i]['rt']." / RW ".$data[$i]['rw'];
+			elseif ($data[$i]['jalan']) $data[$i]['alamat']="Alamat :".$data[$i]['jalan']." RT ".$data[$i]['rt']." / RW ".$data[$i]['rw'];
 		}
 		return $data;
 	}
@@ -248,4 +254,3 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 }
-?>
