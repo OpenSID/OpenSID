@@ -79,7 +79,7 @@
 									<select class="form-control input-sm select2 required" id="id_master" name="id_master">
 										<option value="">-- Silakan Masukkan Kategori Kelompok--</option>
 										<?php foreach ($list_master AS $data): ?>
-											<option value="<?= $data['id']?>" <?php if ($kelompok['id_master'] == $data['id']): ?>selected<?php endif ?>><?= $data['kelompok']?></option>
+											<option value="<?= $data['id']; ?>" <?= selected($kelompok['id_master'], $data['id']); ?>><?= $data['kelompok']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -90,7 +90,7 @@
 									<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
 										<option value="">-- Silakan Masukkan NIK / Nama--</option>
 										<?php foreach ($list_penduduk as $data): ?>
-											<option value="<?= $data['id']?>" selected(<?= $data['id'], $kelompok['id_ketua']?>)> NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
+											<option value="<?= $data['id']; ?>" <?= selected($data['id'], $kelompok['id_ketua']); ?>>NIK :<?= $data['nik'] . " - " . $data['nama'] . " - " . $data['alamat']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>

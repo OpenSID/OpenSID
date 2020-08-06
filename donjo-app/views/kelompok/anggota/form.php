@@ -57,24 +57,22 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-					<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
+					<a href="<?= site_url("kelompok/anggota/$kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Anggota Kelompok</a>
 					</div>
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 						<div class="box-body">
 							<div class='col-xs-12'>
-								<?php if (!@$pend): ?>
 									<div class="form-group">
 										<label class="col-sm-3 control-label"  for="id_penduduk">Nama Anggota</label>
 										<div class="col-sm-5">
-											<select class="form-control input-sm select2 required" id="id_penduduk" name="id_penduduk">
+											<select class="form-control input-sm select2 required" <?= jecho($pend, true, 'disabled')?> id="id_penduduk" name="id_penduduk">
 												<option value="">-- Silakan Masukan NIK / Nama --</option>
 												<?php foreach ($list_penduduk as $data): ?>
-													 <option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['alamat']?></option>
+													 <option value="<?= $data['id']; ?>" <?= selected($data['id'], $pend['id_penduduk']); ?>>NIK :<?= $data['nik'] . " - " . $data['nama'] . " - " . $data['alamat']; ?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
 									</div>
-								<?php endif; ?>
 								<div class="form-group">
 									<label  class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
 									<div class="col-sm-5">
