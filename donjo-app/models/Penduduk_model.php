@@ -126,8 +126,6 @@ class Penduduk_model extends MY_Model {
 				$sql = " AND (" . $kolom . " IS NOT NULL OR " . $kolom . " != '')";
 			else if ($kf == BELUM_MENGISI)
 				$sql = " AND (" . $kolom . " IS NULL OR " . $kolom . " = '')";
-			else if ($kf == TOTAL)
-				$sql = ""; // Filter tdk dilakukan u/ mengambil semua data
 			else
 				$sql = " AND " . $kolom . " = $kf";
 
@@ -135,6 +133,7 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
+	// Filter belum digunakan
 	protected function hamil_sql()
 	{
 		if (isset($_SESSION['hamil']))
@@ -147,9 +146,9 @@ class Penduduk_model extends MY_Model {
 
 	protected function umur_max_sql()
 	{
-		if (isset($_SESSION['umur_max']))
+		$kf = $this->session->umur_min;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['umur_max'];
 			$umur_max_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
 			return $umur_max_sql;
 		}
@@ -157,9 +156,9 @@ class Penduduk_model extends MY_Model {
 
 	protected function umur_min_sql()
 	{
-		if (isset($_SESSION['umur_min']))
+		$kf = $this->session->umur_min;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['umur_min'];
 			$umur_min_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
 			return $umur_min_sql;
 		}
@@ -170,12 +169,8 @@ class Penduduk_model extends MY_Model {
 		$kf = $this->session->umurx;
 		if (isset($kf))
 		{
-			if ($kf == JUMLAH)
-				$sql = " AND u.tanggallahir IS NOT NULL OR u.tanggallahir != '' ";
-			else if ($kf == BELUM_MENGISI)
-				$sql = " AND u.tanggallahir IS NULL OR u.tanggallahir = '' ";
-			else if ($kf == TOTAL)
-				$sql = ""; // Filter tdk dilakukan u/ mengambil semua data
+			if ($kf == JUMLAH) $sql = " AND u.tanggallahir <> '' ";
+			else if ($kf == BELUM_MENGISI) $sql = " AND (u.tanggallahir IS NULL OR u.tanggallahir = '') ";
 			else
 				$sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ";
 
@@ -188,24 +183,17 @@ class Penduduk_model extends MY_Model {
 		$kf = $this->session->akta_kelahiran;
 		if (isset($kf))
 		{
-			if ( ! in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+			if ( ! in_array($kf, [JUMLAH, BELUM_MENGISI]))
+			{
 				$this->session->umurx = $kf;
-				$sql = " AND u.akta_lahir <> ' ' ";
+				$sql = " AND u.akta_lahir <> '' ";
 				$sql .= $this->umur_sql();
 
 				return $sql;
 			}
 
-			if ($kf == JUMLAH) {
-				//$sql = " AND u.akta_lahir IS NOT NULL OR u.akta_lahir <> ' ' ";
-				$sql = " AND u.akta_lahir <> ' ' ";
-			}
-			else if ($kf == BELUM_MENGISI){
-				$sql = " AND (u.akta_lahir IS NULL OR u.akta_lahir = ' ') ";
-			}
-			else {
-				$sql = ""; // Filter tdk dilakukan u/ mengambil semua data
-			}
+			if ($kf == JUMLAH) $sql = " AND u.akta_lahir <> '' ";
+			else if ($kf == BELUM_MENGISI) $sql = " AND (u.akta_lahir IS NULL OR u.akta_lahir = '') ";
 
 			return $sql;
 		}
@@ -445,7 +433,7 @@ class Penduduk_model extends MY_Model {
 					FROM tweb_penduduk
 					WHERE id = u.id) AS umur,
 				x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan,
-				@alamat:=trim(concat_ws(' ',
+				@alamat:=trim(concat_ws('',
 					case
 						when a.rt != '-' then concat('RT-', a.rt)
 						else ''
@@ -503,8 +491,8 @@ class Penduduk_model extends MY_Model {
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			//array('akta_kelahiran', 'u.akta_lahir'), // Kode 19
-			//array('status_covid', 'rc.id') // Kode covid
+			array('akta_kelahiran', 'u.akta_lahir'), // Kode 19
+			array('status_covid', 'rc.id') // Kode covid
 		);
 		foreach ($kolom_kode as $kolom)
 		{
@@ -1331,32 +1319,36 @@ class Penduduk_model extends MY_Model {
 		{
 			switch ($tipe)
 			{
-				case '0': $sql = "SELECT * FROM tweb_penduduk_pendidikan_kk WHERE id = ?"; break;
-				case 1: $sql = "SELECT * FROM tweb_penduduk_pekerjaan WHERE id = ?"; break;
-				case 2: $sql = "SELECT * FROM tweb_penduduk_kawin WHERE id = ?"; break;
-				case 3: $sql = "SELECT * FROM tweb_penduduk_agama WHERE id = ?"; break;
-				case 4: $sql = "SELECT * FROM tweb_penduduk_sex WHERE id = ?"; break;
-				case 5: $sql = "SELECT * FROM tweb_penduduk_warganegara WHERE id = ?"; break;
-				case 6: $sql = "SELECT * FROM tweb_penduduk_status WHERE id = ?"; break;
-				case 7: $sql = "SELECT * FROM tweb_golongan_darah WHERE id = ?"; break;
-				case 9: $sql = "SELECT * FROM tweb_cacat WHERE id = ?"; break;
-				case 10: $sql = "SELECT * FROM tweb_sakit_menahun WHERE id = ?"; break;
-				case 13: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ? AND STATUS = 1"; break;
-				case 14: $sql = "SELECT * FROM tweb_penduduk_pendidikan WHERE id = ?"; break;
-				case 15: $sql = "SELECT * FROM tweb_penduduk_umur WHERE id = ? AND STATUS = 0"; break;
-				case 16: $sql = "SELECT * FROM tweb_cara_kb WHERE id = ?"; break;
-				//case 17: $sql = "SELECT 'ADA AKTA KELAHIRAN' AS nama"; break;
-				case 17: $sql = "SELECT concat('UMUR ', nama) AS nama FROM tweb_penduduk_umur WHERE id = ? AND STATUS = 1"; break;
-				case 18: $sql = "SELECT * FROM tweb_status_ktp WHERE id = ?"; break;
-				case 19: $sql = "SELECT * FROM tweb_penduduk_asuransi WHERE id = ?"; break;
-				case 'covid': $sql = "SELECT * FROM ref_status_covid WHERE id = ?"; break;
-				case 'bantuan_penduduk': $sql = "SELECT * FROM program WHERE id = ?"; break;
+				case 0: $table = 'tweb_penduduk_pendidikan_kk'; break;
+				case 1: $table = 'tweb_penduduk_pekerjaan'; break;
+				case 2: $table = 'tweb_penduduk_kawin'; break;
+				case 3: $table = 'tweb_penduduk_agama'; break;
+				case 4: $table = 'tweb_penduduk_sex'; break;
+				case 5: $table = 'tweb_penduduk_warganegara'; break;
+				case 6: $table = 'tweb_penduduk_status'; break;
+				case 7: $table = 'tweb_golongan_darah'; break;
+				case 9: $table = 'tweb_cacat'; break;
+				case 10: $table = 'tweb_sakit_menahun'; break;
+				case 14: $table = 'tweb_penduduk_pendidikan'; break;
+				case 16: $table = 'tweb_cara_kb'; break;
+				case 13: // = 17
+				case 15: // = 17
+				case 17: $table = 'tweb_penduduk_umur'; break;
+				case 18: $table = 'tweb_status_ktp'; break;
+				case 19: $table = 'tweb_penduduk_asuransi'; break;
+				case 'covid': $table = 'ref_status_covid'; break;
+				case 'bantuan_penduduk': $table = 'program'; break;
 			}
-			$query = $this->db->query($sql, $nomor);
-			$judul = $query->row_array();
+
+			if ($tipe == 13 OR $tipe == 17) $this->db->where('STATUS', 1);
+			if ($tipe == 15) $this->db->where('STATUS', 0);
+
+			$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
 		}
+
 		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
 		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
+
 		return $judul;
 	}
 
@@ -1364,8 +1356,8 @@ class Penduduk_model extends MY_Model {
 	public function list_penduduk_status_dasar($status_dasar=1)
 	{
 		$sql = "SELECT u.id, nik, nama,
-			CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS alamat,
-			CONCAT('NIK: ', nik, ' - ', nama, '\nAlamat : RT-', w.rt, ', RW-', w.rw, ' ', w.dusun) AS info_pilihan_penduduk,
+			CONCAT('Alamat : RT-', w.rt, ', RW-', w.rw, '', w.dusun) AS alamat,
+			CONCAT('NIK: ', nik, ' - ', nama, '\nAlamat : RT-', w.rt, ', RW-', w.rw, '', w.dusun) AS info_pilihan_penduduk,
 			w.rt, w.rw, w.dusun, u.sex FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id WHERE u.status_dasar = ?";
 		$data = $this->db->query($sql, array($status_dasar))->result_array();
 		return $data;

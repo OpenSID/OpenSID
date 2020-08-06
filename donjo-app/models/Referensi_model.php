@@ -89,7 +89,7 @@ define("STAT_PENDUDUK", serialize([
 	'9' => 'Penyandang Cacat',
 	'10' => 'Penyakit Menahun',
 	'16' => 'Akseptor KB',
-	'17' => 'Akte Kelahiran',
+	'17' => 'Akta Kelahiran',
 	'18' => 'Kepemilikan KTP',
 	'19' => 'Jenis Asuransi',
 	'covid' => 'Status Covid'
