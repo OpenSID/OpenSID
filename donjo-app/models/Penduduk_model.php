@@ -322,7 +322,6 @@ class Penduduk_model extends MY_Model {
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			//array('akta_kelahiran', 'u.akta_lahir'),
 			array('status_covid', 'rc.id') // Kode covid
 		);
 
@@ -491,7 +490,6 @@ class Penduduk_model extends MY_Model {
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			array('akta_kelahiran', 'u.akta_lahir'), // Kode 19
 			array('status_covid', 'rc.id') // Kode covid
 		);
 		foreach ($kolom_kode as $kolom)
@@ -504,6 +502,7 @@ class Penduduk_model extends MY_Model {
 		$sql .= $this->umur_min_sql(); // Kode 13, 15
 		$sql .= $this->umur_max_sql(); // Kode 13, 15
 		$sql .= $this->umur_sql(); // Kode 13, 15
+		$sql .= $this->akta_kelahiran_sql(); // Kode 17
 		$sql .= $this->hamil_sql(); // Filter blum digunakan
 
 		$query = $this->db->query($sql);
