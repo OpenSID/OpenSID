@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.08-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada Ali Yusuf yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada Ali Yusuf dan Tsamara Ali yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 
@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 6. Sekarang bisa gunakan tanda '-' untuk menunjukkan tidak ada dusun, sehingga Dusun tidak tampil di salinan Kartu Keluarga.
 7. #3400: Sekarang mengubah status anggota menjadi kepala Rumah Tangga tidak lagi bermasalah. [bug-fix]
 8. #3414: Sederhanakan script statistik kependudukan untuk mengurangi duplikasi dan memperjelas. [teknis]
+9. #3424: Tampilkan alamat di pilihan penduduk di form kepala dan anggota Kelompok.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

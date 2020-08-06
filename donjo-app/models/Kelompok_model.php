@@ -1,4 +1,47 @@
 <?php
+/**
+ * File ini:
+ *
+ * Model untuk modul Kelompok
+ *
+ * donjo-app/models/Kelompok_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
 class Kelompok_model extends MY_Model {
 
 	public function __construct()
@@ -223,14 +266,27 @@ class Kelompok_model extends MY_Model {
 
 	public function list_penduduk()
 	{
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status_dasar = 1";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
-		}
+		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+		$this->db
+			->select('p.id, nik, nama')
+			->select("(
+				case when (p.id_kk IS NULL or p.id_kk = 0)
+				  then
+				  	case when (cp.dusun = '-' or cp.dusun = '')
+				  		then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+				  		else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+				  	end
+				  else
+				  	case when (ck.dusun = '-' or ck.dusun = '')
+				  		then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+				  		else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+				  	end
+				end) AS alamat")
+			->from('penduduk_hidup p')
+			->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
+			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+			->join('tweb_wil_clusterdesa ck', 'k.id_cluster = ck.id', 'left');
+		$data = $this->db->get()->result_array();
 		return $data;
 	}
 
@@ -248,4 +304,3 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 }
-?>
