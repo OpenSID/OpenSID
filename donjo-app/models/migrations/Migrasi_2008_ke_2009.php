@@ -59,6 +59,11 @@ class Migrasi_2008_ke_2009 extends CI_model {
 		$this->db->where('cacat_id', 0)
 			->set('cacat_id', NULL)
 			->update('tweb_penduduk');
+
+		// Update isi field_admin pd widget agenda
+		$this->db->where('isi', 'agenda.php')
+			->set('form_admin', 'web/tab/1000')
+			->update('widget');
 	}
 
 }
