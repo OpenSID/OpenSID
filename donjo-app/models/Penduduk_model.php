@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Model untuk modul Kependudukan > Penduduk
+ * Model Penduduk untuk modul Kependudukan > Penduduk
  *
  * donjo-app/models/Penduduk_model.php
  *
@@ -306,15 +306,17 @@ class Penduduk_model extends MY_Model {
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
 
+		// Filter data penduduk digunakan dibeberapa tempat, termasuk untuk laporan statistik kependudukan.
+		// Filter untuk statistik kependudukan menggunakan kode yang ada di daftar STAT_PENDUDUK di referensi_model.php
 		$kolom_kode = array(
-			array('filter', 'u.status'), // Status : Hidup, Maati, Dll -> Load data awal (filtering combobox)
+			array('filter', 'u.status'), // Status : Hidup, Mati, Dll -> Load data awal (filtering combobox)
 			array('status_penduduk', 'u.status'), // Status : Hidup, Maati, Dll -> Hanya u/ Pencarian Spesifik
 			array('status_dasar', 'u.status_dasar'), // Kode 6
 			array('sex', 'u.sex'), // Kode 4
 			array('pendidikan_kk_id', 'u.pendidikan_kk_id'), // Kode 0
 			array('cacat', 'u.cacat_id'), // Kode 9
 			array('cara_kb_id', 'u.cara_kb_id'), // Kode 16
-			array('menahun', 'u.sakit_menahun_id'), // Kode
+			array('menahun', 'u.sakit_menahun_id'), // Kode 10
 			array('status', 'u.status_kawin'), // Kode 2
 			array('pendidikan_sedang_id', 'u.pendidikan_sedang_id'), // Kode 14
 			array('pekerjaan_id', 'u.pekerjaan_id'), // Kode 1
@@ -466,7 +468,7 @@ class Penduduk_model extends MY_Model {
 				LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 				LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 				LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
-				LEFT JOIN tweb_penduduk_map map ON u.id = map.id WHERE u.status_dasar = 1 ";
+				LEFT JOIN tweb_penduduk_map map ON u.id = map.id ";
 
 		$sql .= " WHERE 1 ";
 		$sql .= $this->keluarga_sql();
@@ -475,15 +477,17 @@ class Penduduk_model extends MY_Model {
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
 
+		// Filter data penduduk juga digunakan untuk laporan statistik kependudukan di peta.
+		// Filter untuk statistik kependudukan menggunakan kode yang ada di daftar STAT_PENDUDUK di referensi_model.php
 		$kolom_kode = array(
-			array('filter', 'u.status'), // Status : Hidup, Maati, Dll -> Load data awal (filtering combobox)
-			array('status_penduduk', 'u.status'), // Status : Hidup, Maati, Dll -> Hanya u/ Pencarian Spesifik
+			array('filter', 'u.status'), // Status : Hidup, Mati, Dll -> Load data awal (filtering combobox)
+			array('status_penduduk', 'u.status'), // Status : Hidup, Mati, Dll -> Hanya u/ Pencarian Spesifik
 			array('status_dasar', 'u.status_dasar'), // Kode 6
 			array('sex', 'u.sex'), // Kode 4
 			array('pendidikan_kk_id', 'u.pendidikan_kk_id'), // Kode 0
 			array('cacat', 'u.cacat_id'), // Kode 9
 			array('cara_kb_id', 'u.cara_kb_id'), // Kode 16
-			array('menahun', 'u.sakit_menahun_id'), // Kode
+			array('menahun', 'u.sakit_menahun_id'), // Kode 10
 			array('status', 'u.status_kawin'), // Kode 2
 			array('pendidikan_sedang_id', 'u.pendidikan_sedang_id'), // Kode 14
 			array('pekerjaan_id', 'u.pekerjaan_id'), // Kode 1
