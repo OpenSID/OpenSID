@@ -729,7 +729,7 @@ function autocomplete_data_ke_str($data)
 	return $str;
 }
 
-// Periksa apakah nilai bilangan Romwai
+// Periksa apakah nilai bilangan Romawi
 // https://recalll.co/?q=How%20to%20convert%20a%20Roman%20numeral%20to%20integer%20in%20PHP?&type=code
 function is_angka_romawi($roman) {
   $roman_regex='/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/';
