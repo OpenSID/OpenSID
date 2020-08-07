@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 8. #3414: Sederhanakan script statistik kependudukan untuk mengurangi duplikasi dan memperjelas. [teknis]
 9. #3424: Tampilkan alamat di pilihan penduduk di form kepala dan anggota Kelompok.
 10. #885: Tautan angka Jumlah di laporan statistik kependudukan sekarang menampilkan daftar penduduk yg mengisi data untuk statistik ybs.
+11. #3434: Sekarang nama dusun atau teks lainnya yg merupakan angka romawi tidak diubah menjadi title case.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

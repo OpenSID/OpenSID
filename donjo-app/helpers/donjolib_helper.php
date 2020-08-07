@@ -555,8 +555,10 @@ function ribuan($angka)
 	return number_format($angka, 0, '.', '.');
 }
 
+// Kalau angka romawi jangan ubah
 function set_ucwords($data)
 {
+	if (is_angka_romawi($data)) return $data;
 	return ucwords(strtolower($data));
 }
 
