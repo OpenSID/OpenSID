@@ -334,7 +334,7 @@ class Laporan_penduduk_model extends MY_Model {
 		}
 
 		$bel['no'] = "";
-		$bel['id'] = "";
+		$bel['id'] = TOTAL;
 		$bel['nama'] = "TOTAL";
 		$bel['persen'] = persen(($bel['laki'] + $bel['perempuan']) / $bel['jumlah']);
 		$bel['persen1'] = persen($bel['laki'] / $bel['jumlah']);
@@ -348,6 +348,8 @@ class Laporan_penduduk_model extends MY_Model {
 
 	protected function hitung_total(&$data)
 	{
+		$total['no'] = "";
+		$total['id'] = TOTAL;
 		$total['jumlah'] = 0;
 		$total['laki'] = 0;
 		$total['perempuan'] = 0;
@@ -465,7 +467,7 @@ class Laporan_penduduk_model extends MY_Model {
 	{
 		// Hitung persentase
 		$semua['no'] = "";
-		$semua['id'] = "";
+		$semua['id'] = TOTAL;
 		$semua['nama'] = "TOTAL";
 		$semua['persen'] = persen(($semua['laki'] + $semua['perempuan']) / $semua['jumlah']);
 		$semua['persen1'] = persen($semua['laki'] / $semua['jumlah']);
@@ -598,7 +600,7 @@ class Laporan_penduduk_model extends MY_Model {
 				// Akta kelahiran
 			$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND akta_lahir <> '' ";
 			$this->select_jml($where);
-			$this->db->select("u.*, concat('Umur ', u.dari, ' - ', u.sampai) as nama")
+			$this->db->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
 			->from('tweb_penduduk_umur u')
 			->where('u.status', "1");
 			break;
@@ -638,7 +640,7 @@ class Laporan_penduduk_model extends MY_Model {
 		return $semua;
 	}
 
-	public function list_data($lap=0, $o=0)
+	public function list_data($lap = 0, $o = 0)
 	{
 		$this->lap = $lap;
 		// Laporan program bantuan
