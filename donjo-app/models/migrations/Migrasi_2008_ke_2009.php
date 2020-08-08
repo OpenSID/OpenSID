@@ -64,6 +64,9 @@ class Migrasi_2008_ke_2009 extends CI_model {
 		$this->db->where('isi', 'agenda.php')
 			->set('form_admin', 'web/tab/1000')
 			->update('widget');
+
+		// Hapus view lama yg tdk digunakan lagi
+		$this->db->query("DROP VIEW IF EXISTS data_surat");
 	}
 
 }
