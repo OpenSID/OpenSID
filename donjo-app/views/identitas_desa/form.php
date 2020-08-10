@@ -152,7 +152,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?= $kecamtan; ?></label>
+								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?= $kecamatan; ?></label>
 								<div class="col-sm-8">
 									<input id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kecamtan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
 								</div>
