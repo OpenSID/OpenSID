@@ -158,7 +158,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamtan; ?></label>
+								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamatan; ?></label>
 								<div class="col-sm-2">
 									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text" maxlength="50" placeholder="Kode <?= $kecamtan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
 								</div>
