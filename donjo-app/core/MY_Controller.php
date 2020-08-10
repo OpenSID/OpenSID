@@ -214,7 +214,7 @@ class Admin_Controller extends MY_Controller {
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model(['user_model', 'notif_model']);
+		$this->load->model(['user_model', 'notif_model', 'database_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -243,6 +243,7 @@ class Admin_Controller extends MY_Controller {
 
 	private function cek_pengumuman()
 	{
+		$this->database_model->migrasi_db_cri();
 		if ($this->grup == 1) // hanya utk user administrator
 		{
 			$notifikasi = $this->notif_model->get_semua_notif();
