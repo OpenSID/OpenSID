@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Statistik Kependudukan
+ * View untuk pengaturan rentang umur di modul Statistik Kependudukan
  *
- * donjo-app/views/statistik/rentang_umur.php,
+ * donjo-app/views/statistik/rentang_umur.php
  *
  */
 
@@ -58,10 +58,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<?php $this->load->view('statistik/side_menu.php')?>
 				</div>
-				<div class="col-md-9">
+				<div class="col-md-8">
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<a href="<?= site_url("statistik/form_rentang/0")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Rentang Umur" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Rentang Umur">
@@ -88,10 +88,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														</tr>
 													</thead>
 													<tbody>
-														<?php $no=1; foreach ($main as $data): ?>
+														<?php foreach ($main as $no => $data): ?>
 														<tr>
 															<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
-															<td><?=$no?></td>
+															<td class="text-center"><?= $no+1; ?></td>
 															<td nowrap>
 																<a href="<?=site_url("statistik/form_rentang/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Rentang Umur" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rentang Umur"><i class="fa fa-edit"></i></a>
 																<a href="#" data-href="<?=site_url("statistik/rentang_delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
