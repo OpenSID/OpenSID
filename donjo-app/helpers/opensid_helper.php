@@ -429,12 +429,14 @@ function httpPost($url, $params)
 
 	$postData = '';
 	//create name value pairs seperated by &
-	foreach ($params as $k => $v) {
+	foreach ($params as $k => $v)
+	{
 		$postData .= $k . '=' . $v . '&';
 	}
 	$postData = rtrim($postData, '&');
 
-	try {
+	try
+	{
 		$ch = curl_init();
 
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -451,13 +453,15 @@ function httpPost($url, $params)
 		curl_setopt($ch, CURLOPT_TIMEOUT, 1);
 		$output = curl_exec($ch);
 
-		if ($output === false) {
-			// echo 'Curl error: ' . curl_error($ch);
+		if ($output === false)
+		{
+			log_message('error', 'Curl error: ' . curl_error($ch));
 		}
 		curl_close($ch);
 		return $output;
 	}
-	catch (Exception $e) {
+	catch (Exception $e)
+	{
 		return $e;
 	}
 }

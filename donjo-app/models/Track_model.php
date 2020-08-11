@@ -35,13 +35,13 @@
       {
         case 'development':
           // Di development, panggil tracker hanya jika terinstal
-          $tracker = $this->setting->dev_tracker;
-          if (empty($tracker)) return;
+          if (empty($this->setting->dev_tracker)) return;
+          $tracker = "http://".$this->setting->dev_tracker;
         break;
 
         case 'testing':
         case 'production':
-          $tracker = "tracksid.bangundesa.info";
+          $tracker = "https://pantau.opensid.my.id";
         break;
 
         default:
@@ -77,8 +77,8 @@
     if ($this->abaikan($desa)) return;
 
     // echo "httppost =========== ".$tracker;
-    // echo httpPost("http://".$tracker."/index.php/track/desa",$desa);
-    httpPost("http://".$tracker."/index.php/track/desa", $desa);
+    // echo httpPost($tracker."/index.php/track/desa",$desa);
+    httpPost($tracker."/index.php/track/desa", $desa);
 
     if (strpos(current_url(), 'first') !== FALSE)
     {
