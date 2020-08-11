@@ -55,7 +55,7 @@
  */
 
   // Setting $_SERVER['CI_ENV'] dilakukan di file .env (di .gitignore	)
-	include '.env';
+	if (file_exists('.env')) include '.env';
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
 
 /*
