@@ -1,4 +1,48 @@
-<?php class Config_model extends CI_Model {
+<?php
+/*
+ * File ini:
+ *
+ * Model di Modul Identitas Desa
+ *
+ * donjo-app/controllers/Config_models.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
+class Config_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -45,11 +89,26 @@
 	// TODO: tambahkan validasi di form Identitas Desa
 	private function bersihkan_post()
 	{
-		$data = array();
-		foreach ($this->input->post() as $key => $value)
-		{
-			$data[$key] = strip_tags($value);
-		}
+		$post = $this->input->post();
+		$data['old_logo'] = $post['old_logo'];
+		$data['old_kantor_desa'] = $post['old_kantor_desa'];
+		$data['nama_desa'] = nama_terbatas($post['nama_desa']);
+		$data['kode_desa'] = bilangan($post['kode_desa']);
+		$data['kode_pos'] = bilangan($post['kode_pos']);
+		$data['nama_kepala_desa'] = nama($post['nama_kepala_desa']);
+		$data['nip_kepala_desa'] = nomor_surat_keputusan($post['nip_kepala_desa']);
+		$data['alamat_kantor'] = alamat($post['alamat_kantor']);
+		$data['email_desa'] = email($post['email_desa']);
+		$data['telepon'] = bilangan($post['telepon']);
+		$data['website'] = alamat_web($post['website']);
+		$data['nama_kecamatan'] = nama_terbatas($post['nama_kecamatan']);
+		$data['kode_kecamatan'] = bilangan($post['kode_kecamatan']);
+		$data['nama_kepala_camat'] = nama($post['nama_kepala_camat']);
+		$data['nip_kepala_camat'] = nomor_surat_keputusan($post['nip_kepala_camat']);
+		$data['nama_kabupaten'] = nama($post['nama_kabupaten']);
+		$data['kode_kabupaten'] = bilangan($post['kode_kabupaten']);
+		$data['nama_propinsi'] = nama_terbatas($post['nama_propinsi']);
+		$data['kode_propinsi'] = bilangan($post['kode_propinsi']);
 		return $data;
 	}
 
@@ -76,6 +135,9 @@
 		{
 			unset($data['logo']);
 		}
+
+		if (empty($data['kantor_desa'])) unset($data['kantor_desa']);
+
 		unset($data['file_logo']);
 		unset($data['old_logo']);
 		unset($data['file_kantor_desa']);
@@ -114,7 +176,7 @@
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 			$_SESSION['success'] = -1;
-			redirect('hom_desa/konfigurasi');
+			redirect('identitas_desa');
 		}
 
 		$uploadData = NULL;

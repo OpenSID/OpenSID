@@ -1,5 +1,5 @@
 <?php
-class Analisis_master_model extends CI_Model {
+class Analisis_master_model extends MY_Model {
 
 	function __construct()
 	{
@@ -8,15 +8,14 @@ class Analisis_master_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'analisis_master');
-		return $str;
+		return $this->autocomplete_str('nama', 'analisis_master');
 	}
 
 	private function search_sql()
 	{
 		if (isset($_SESSION['cari']))
 		{
-		$cari = $_SESSION['cari'];
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
@@ -105,15 +104,15 @@ class Analisis_master_model extends CI_Model {
 	private function sterilkan_data($post)
 	{
 		$data = array();
-    $data['nama'] = alfanumerik_spasi($post['nama']);
-    $data['subjek_tipe'] = $post['subjek_tipe'];
-    $data['id_kelompok'] = $post['id_kelompok'] ?: null;
-    $data['lock'] = $post['lock'] ?: null;
-    $data['format_impor'] = $post['format_impor'] ?: null;
-    $data['pembagi'] = bilangan_titik($post['pembagi']);
-    $data['id_child'] = $post['id_child'] ?: null;
-    $data['deskripsi'] = strip_tags($post['deskripsi']);
-    return $data;
+		$data['nama'] = alfanumerik_spasi($post['nama']);
+		$data['subjek_tipe'] = $post['subjek_tipe'];
+		$data['id_kelompok'] = $post['id_kelompok'] ?: null;
+		$data['lock'] = $post['lock'] ?: null;
+		$data['format_impor'] = $post['format_impor'] ?: null;
+		$data['pembagi'] = bilangan_titik($post['pembagi']);
+		$data['id_child'] = $post['id_child'] ?: null;
+		$data['deskripsi'] = htmlentities($post['deskripsi']);
+		return $data;
 	}
 
 	public function insert()

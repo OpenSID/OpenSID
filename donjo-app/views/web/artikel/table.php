@@ -1,9 +1,7 @@
 <script>
-	$(function()
-	{
+	$(function() {
 		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
+		$( "#cari" ).autocomplete( {
 			source: keyword,
 			maxShowItems: 10,
 		});
@@ -31,15 +29,18 @@
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_kategori AS $data): ?>
-									<li class="<?php ($cat == $data['id']) and print('active') ?>">
-										<a href='<?=site_url("web/index/$data[id]")?>'>
-											<?php if ($data['kategori']!="teks_berjalan"): ?>
-												<?= $data['kategori'];?>
-											<?php else: ?>
-												Teks Berjalan
-											<?php endif; ?>
+									<li class="<?= jecho($cat, $data['id'], 'active'); ?>">
+										<a href='<?=site_url("web/tab/$data[id]")?>'>
+											<?= $data['kategori'];?>
 										</a>
 									</li>
+									<?php foreach($data['submenu'] as $submenu): ?>
+										<li class="<?= jecho($cat, $submenu['id'], 'active'); ?>">
+											<a href='<?=site_url("web/tab/$submenu[id]")?>'>
+												&emsp;<?= $submenu['kategori'];?>
+											</a>
+										</li>
+									<?php endforeach; ?>
 								<?php endforeach; ?>
 							</ul>
 						</div>
@@ -53,9 +54,9 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li class="<?php ($cat == 999) and print('active') ?>"><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
-								<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
-								<li class="<?php ($cat == 1001) and print('active') ?>"><a href="<?=site_url('web/index/1001')?>">Keuangan</a></li>
+								<li class="<?= jecho($cat, 999, 'active'); ?>"><a href="<?=site_url('web/tab/999')?>">Halaman Statis</a></li>
+								<li class="<?= jecho($cat, 1000, 'active'); ?>"><a href="<?=site_url('web/tab/1000')?>">Agenda</a></li>
+								<li class="<?= jecho($cat, 1001, 'active'); ?>"><a href="<?=site_url('web/tab/1001')?>">Keuangan</a></li>
 							</ul>
 						</div>
 					</div>
@@ -83,6 +84,9 @@
 							<?php if ($cat > 0 and $cat < 999): ?>
 								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?=site_url("web/hapus/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
 							<?php endif; ?>
+							<?php if ($cat == 999): ?>
+								<a href="<?= site_url("{$this->controller}/reset/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -91,18 +95,18 @@
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url("web/filter/$cat")?>')">
+													<select class="form-control input-sm " name="status" onchange="formAction('mainform', '<?=site_url("web/filter/status/$cat")?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
-														<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
+														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
+														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('web/search/$cat')?>');$('#'+'mainform').submit();endif">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('web/filter/cari/$cat')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("web/search/$cat")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("web/filter/cari/$cat")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -114,9 +118,9 @@
 														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
-																	<th>No</th>
-																	<th>Aksi</th>
+																	<th class="padat"><input type="checkbox" id="checkall"/></th>
+																	<th class="padat">No</th>
+																	<th class="padat">Aksi</th>
 																	<?php if ($o==2): ?>
 																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==1): ?>
@@ -125,11 +129,11 @@
 																		<th><a href="<?= site_url("web/index/$cat/$p/1")?>">Judul <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==4): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Hit <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==3): ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Aktif <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/4")?>">Hit <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/3")?>">Hit <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==6): ?>
 																		<th nowrap><a href="<?= site_url("web/index/$cat/$p/5")?>">Diposting Pada <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -143,8 +147,8 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" <?php $data['boleh_ubah'] or print('disabled')?> /></td>
-																		<td><?=$data['no']?></td>
+																		<td class="text-center"><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" <?php $data['boleh_ubah'] or print('disabled')?> /></td>
+																		<td class="text-center"><?=$data['no']?></td>
 																		<td nowrap>
 																			<?php if ($data['boleh_ubah']): ?>
 																				<a href="<?=site_url("web/form/$cat/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
@@ -174,7 +178,7 @@
 																			</a>
 																		</td>
 																		<td width="50%"><?= $data['judul']?></td>
-																		<td><?= $data['aktif']?></td>
+																		<td nowrap><?= hit($data['hit'])?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																	</tr>
 																<?php endforeach; ?>
@@ -184,46 +188,7 @@
 												</div>
 											</div>
 										</form>
-										<div class="row">
-											<div class="col-sm-6">
-												<div class="dataTables_length">
-													<form id="paging" action="<?= site_url("web/pager/$cat")?>" method="post" class="form-horizontal">
-														<label>
-															Tampilkan
-															<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-																<option value="20" <?php selected($per_page, 20); ?> >20</option>
-																<option value="50" <?php selected($per_page, 50); ?> >50</option>
-																<option value="100" <?php selected($per_page, 100); ?> >100</option>
-															</select>
-															Dari
-															<strong><?= $paging->num_rows?></strong>
-															Total Data
-														</label>
-													</form>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="dataTables_paginate paging_simple_numbers">
-													<ul class="pagination">
-														<?php if ($paging->start_link): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-														<?php endif; ?>
-														<?php if ($paging->prev): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-														<?php endif; ?>
-														<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-															<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("web/index/$cat/$i/$o")?>"><?= $i?></a></li>
-														<?php endfor; ?>
-														<?php if ($paging->next): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-														<?php endif; ?>
-														<?php if ($paging->end_link): ?>
-															<li><a href="<?=site_url("web/index/$cat/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-														<?php endif; ?>
-													</ul>
-												</div>
-											</div>
-										</div>
+										<?php $this->load->view('global/paging');?>
 									</div>
 								</div>
 							</div>
@@ -234,4 +199,38 @@
 		</form>
 	</section>
 </div>
+
 <?php $this->load->view('global/confirm_delete');?>
+
+<form action="<?= site_url("web/reset/$cat")?>" method="post">
+	<div class='modal fade' id='reset-hit' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='modal-title' id='myModalLabel'></i> Reset Hit</h4>
+				</div>
+				<div class='modal-body'>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<code>Lakukan hapus hit ini jika artikel statis di menu atas website anda terkena kunjungan tak terduga, seperti robot(crawler), yang berlebihan. </code><br><br>
+								<label for="hit">Reset Hit</label>
+								<select class="form-control input-sm" required name="hit" width="100%">
+									<option value="">Pilih persen hit yang akan dihapus</option>
+									<?php for ($i=1; $i <= 10; $i++): ?>
+										<option value="<?=($i * 10)?>"><?=($i * 10).'%'?></option>
+									<?php endfor; ?>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,4 +1,4 @@
-<?php class Analisis_klasifikasi_model extends CI_Model {
+<?php class Analisis_klasifikasi_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'analisis_klasifikasi');
-		return $str;
+		return $this->autocomplete_str('nama', 'analisis_klasifikasi');
 	}
 
 	public function search_sql()
@@ -18,7 +17,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
+			$search_sql= " AND (u.nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -85,10 +84,19 @@
 		return $data;
 	}
 
+	private function validasi_data($post)
+	{
+		$data = array();
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['minval'] = bilangan_titik($post['minval']);
+		$data['maxval'] = bilangan_titik($post['maxval']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
-		$data['id_master']=$_SESSION['analisis_master'];
+		$data = $this->validasi_data($this->input->post());
+		$data['id_master'] = $this->session->analisis_master;
 		$outp = $this->db->insert('analisis_klasifikasi', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -96,8 +104,8 @@
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		$data['id_master']=$_SESSION['analisis_master'];
+		$data = $this->validasi_data($this->input->post());
+		$data['id_master'] = $this->session->analisis_master;
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_klasifikasi', $data);
 		status_sukses($outp); //Tampilkan Pesan
@@ -106,7 +114,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

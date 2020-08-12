@@ -1,139 +1,105 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Controller untuk modul Statistik Kependudukan
+ *
+ * donjo-app/controllers/statistik.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Statistik extends Admin_Controller {
+
+	private $_header;
+	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		$this->load->model('laporan_penduduk_model');
-		$this->load->model('pamong_model');
-		$this->load->model('program_bantuan_model');
-		$this->load->model('header_model');
-		$this->load->model('config_model');
-		$_SESSION['per_page'] = 500;
+		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model', 'referensi_model']);
+		$this->_header = $this->header_model->get_data();
+		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
 	}
 
-	public function index($lap = 0, $o = 0)
+	public function index()
 	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		// $data['kategori'] untuk pengaturan penampilan kelompok statistik di laman statistik
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap, $o);
-		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
-		$data['lap'] = $lap;
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['judul_kelompok'] = "Jenis Kelompok";
-		$data['o'] = $o;
-		$this->get_data_stat($data, $lap);
-		$header = $this->header_model->get_data();
+		$data = $this->get_cluster_session();
+		$data['lap'] = $this->session->lap;
+		$data['order_by'] = $this->session->order_by;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
+		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
+		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($data['lap']);
+		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['judul_kelompok'] = "Jenis Kelompok";
+		$this->get_data_stat($data, $data['lap']);
+
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('statistik/penduduk', $data);
 		$this->load->view('footer');
 	}
 
-	private function get_cluster_session()
+	public function clear($lap = '0', $order_by = '1')
 	{
-		$list_session = array('dusun', 'rw', 'rt');
-		foreach ($list_session as $session)
-		{
-			$data[$session] = $this->session->userdata($session) ?:'';
-		}
-
-		if (!empty($data['dusun']))
-		{
-			$dusun = $data['dusun'];
-			$data['list_rw'] = $this->laporan_penduduk_model->list_rw($dusun);
-
-			if (!empty($data['rw']))
-			{
-				$rw = $data['rw'];
-				$data['list_rt'] = $this->laporan_penduduk_model->list_rt($dusun, $rw);
-			}
-		}
-		return $data;
+		$this->session->unset_userdata($this->_list_session);
+		$this->order_by($lap, $order_by);
 	}
 
-	private function clear_session()
+	public function order_by($lap = '0', $order_by = '1')
 	{
-		parent::clear_cluster_session();
-		unset($_SESSION['log']);
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['warganegara']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['status_penduduk']);
-		unset($_SESSION['status_ktp']);
-	}
+		$this->session->lap = $lap;
+		$this->session->order_by = $order_by;
 
-	public function clear($lap = 0)
-	{
-		$this->clear_session();
-		redirect("statistik/index/$lap");
-	}
-
-	public function graph($lap = 0)
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
-		$data['lap'] = $lap;
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$this->get_data_stat($data, $lap);
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/penduduk_graph', $data);
-		$this->load->view('footer');
-	}
-
-	public function pie($lap = 0)
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
-		$data['lap'] = $lap;
-		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$this->get_data_stat($data, $lap);
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('statistik/penduduk_pie', $data);
-		$this->load->view('footer');
+		redirect('statistik');
 	}
 
 	private function get_data_stat(&$data, $lap)
 	{
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
 		if ($lap > 50)
 		{
 			// Untuk program bantuan, $lap berbentuk '50<program_id>'
@@ -156,66 +122,53 @@ class Statistik extends Admin_Controller {
 		}
 	}
 
-	public function dialog_cetak($lap = 0)
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function daftar($aksi = '', $lap = '')
 	{
-		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("statistik/cetak/$lap");
-		$this->load->view('statistik/ajax_cetak', $data);
-	}
+		$data['aksi'] = $aksi;
+		$data['lap'] = $this->session->lap;
 
-	public function dialog_unduh($lap = 0)
-	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['form_action'] = site_url("statistik/unduh/$lap");
-		$this->load->view('statistik/ajax_cetak', $data);
-	}
-
-	public function cetak($lap = 0)
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
+		if ($lap or $lap == '0')
 		{
-			$data[$key] = $value;
-		}
-		$data['lap'] = $lap;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['config'] = $this->config_model->get_data();
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
-		$this->load->view('statistik/penduduk_print', $data);
-	}
+			foreach ($this->_list_session as $list)
+			{
+				$data[$list] = $this->session->$list;
+			}
 
-	public function unduh($lap = 0)
-	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
+			$post = $this->input->post();
+			$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
+			$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+			$data['config'] = $this->config_model->get_data();
+			$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+			$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+			$data['laporan_no'] = $post['laporan_no'];
+
+			$this->load->view("statistik/penduduk_$aksi", $data);
 		}
-		$data['aksi'] = 'unduh';
-		$data['lap'] = $lap;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		$data['filename'] = underscore($data['stat']);
-		$data['config']  = $this->config_model->get_data();
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['laporan_no'] = $this->input->post('laporan_no');
-		$this->load->view('statistik/penduduk_excel', $data);
+		else
+		{
+			$data['pamong'] = $this->pamong_model->list_data(true);
+			$data['form_action'] = site_url("statistik/daftar/$aksi/$data[lap]");
+
+			$this->load->view("statistik/ajax_daftar", $data);
+		}
 	}
 
 	public function rentang_umur()
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-		$header = $this->header_model->get_data();
+		$data['list_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['list_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['list_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['judul_kelompok'] = "Jenis Kelompok";
+		$this->get_data_stat($data, $data['lap']);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
 		$this->load->view('statistik/rentang_umur', $data);
 		$this->load->view('footer');
 	}
@@ -251,114 +204,131 @@ class Statistik extends Admin_Controller {
 
 	public function rentang_delete($id = 0)
 	{
-		$this->redirect_hak_akses('h', 'statistik/rentang_umur');
+		$this->redirect_hak_akses('h');
 		$this->laporan_penduduk_model->delete_rentang($id);
 		redirect('statistik/rentang_umur');
 	}
 
 	public function delete_all_rentang()
 	{
-		$this->redirect_hak_akses('h', 'statistik/rentang_umur');
+		$this->redirect_hak_akses('h');
 		$this->laporan_penduduk_model->delete_all_rentang();
 		redirect('statistik/rentang_umur');
 	}
 
-	public function dusun($tipe = 0, $lap = 0)
+	public function dusun($lap = 0)
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		$this->session->unset_userdata('rw');
-		$this->session->unset_userdata('rt');
+		if ($lap) $this->session->lap = $lap;
+
+		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
-		if ($dusun)
-			$this->session->set_userdata('dusun', $dusun);
-		else
-			$this->session->unset_userdata('dusun');
-		redirect("statistik/$tipe_stat/$lap");
+		if ($dusun != "")
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
+
+		redirect('statistik');
 	}
 
-	public function rw($tipe = 0, $lap = 0)
+	public function rw($lap = 0)
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
+		if ($lap) $this->session->lap = $lap;
+
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
-		if ($rw)
-			$this->session->set_userdata('rw', $rw);
-		else
-			$this->session->unset_userdata('rw');
-		redirect("statistik/$tipe_stat/$lap");
+		if ($rw != "")
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
+		redirect('statistik');
 	}
 
-	public function rt($tipe = 0, $lap = 0)
+	public function rt($lap = 0)
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
+		if ($lap) $this->session->lap = $lap;
+
 		$rt = $this->input->post('rt');
-		if ($rt)
-			$this->session->set_userdata('rt', $rt);
+		if ($rt != "")
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
+		redirect('statistik');
+	}
+
+	private function get_cluster_session()
+	{
+		foreach ($this->_list_session as $list)
+		{
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+		}
+
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
+
+			if (isset($rw))
+			{
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
+				else $data['rt'] = '';
+			}
+			else $data['rw'] = '';
+		}
 		else
-			$this->session->unset_userdata('rt');
-		redirect("statistik/$tipe_stat/$lap");
+		{
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+		}
+
+		return $data;
 	}
 
-	private function get_tipe_statistik($index)
+	public function load_chart_gis($lap = 0)
 	{
-		$tipe_stat = array('index', 'graph', 'pie');
-		return $tipe_stat[$index];
+		$data = $this->get_cluster_session();
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['lap'] = $lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
+		$this->get_data_stat($data, $lap);
+		$this->load->view('gis/penduduk_gis', $data);
 	}
 
-	public function chart_gis_desa($chart = 'pie', $lap = 0, $desa = '' )
+	public function chart_gis_desa($lap = 0, $desa = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($desa) ? $this->session->set_userdata('desa', $desa) : $this->session->unset_userdata('desa');
+		($desa) ? $this->session->set_userdata('desa', ununderscore($desa)) : $this->session->unset_userdata('desa');
 		$this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/$chart");
+		redirect("statistik/load_chart_gis/$lap");
 	}
 
-	public function load_chart_gis($lap = 0, $chart = 'pie')
+	public function chart_gis_dusun($lap = 0, $dusun = '' )
 	{
-		$cluster_session = $this->get_cluster_session();
-		foreach ($cluster_session as $key => $value)
-		{
-			$data[$key] = $value;
-		}
-		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-		$data['lap'] = $lap;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-		$data['jenis_chart'] = $chart;
-		$this->get_data_stat($data, $lap);
-		$this->load->view('statistik/penduduk_gis', $data);
-	}
-
-	public function chart_gis_dusun($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '' )
-	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
+		($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
 		$this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/$chart");
+		redirect("statistik/load_chart_gis/$lap");
 	}
 
-	public function chart_gis_rw($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '' )
+	public function chart_gis_rw($lap = 0, $dusun = '', $rw = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
+		($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', ununderscore($rw)) : $this->session->unset_userdata('rw');
 		$this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/$chart");
+		redirect("statistik/load_chart_gis/$lap");
 	}
 
-	public function chart_gis_rt($chart = 'pie', $tipe = 0, $lap = 0, $dusun = '', $rw = '', $rt = '' )
+	public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '' )
 	{
-		$tipe_stat = $this->get_tipe_statistik($tipe);
-		($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
-		($rw) ? $this->session->set_userdata('rw', $rw) : $this->session->unset_userdata('rw');
-		($rt) ? $this->session->set_userdata('rt', $rt) : $this->session->unset_userdata('rt');
+		($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
+		($rw) ? $this->session->set_userdata('rw', ununderscore($rw)) : $this->session->unset_userdata('rw');
+		($rt) ? $this->session->set_userdata('rt', ununderscore($rt)) : $this->session->unset_userdata('rt');
 
-		redirect("statistik/load_chart_gis/$lap/$chart");
+		redirect("statistik/load_chart_gis/$lap");
 	}
 
 	public function ajax_peserta_program_bantuan()

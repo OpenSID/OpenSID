@@ -1,0 +1,14 @@
+Version 9.14.0
+- add support to tinymce 5 (thanks to mikolaj pich)
+- change image editor to Toast UI Image Editor (thanks to jack denning)
+- fix Critical Security (thanks to Fariskhi Vidyan for reporting)
+- add ckEditor on html file edit
+- update context menu (thanks to joshua schmidtke)
+- fix upload an image with malicius code inside
+- added compatibility with memory_limit expressed in G
+- fix relative url return
+- fix error on file duplication
+- fix error with memory usage (thanks to tim mclaughlin)
+- fix a vulnerability on url upload (thanks to donot-wong for reporting)
+- fix return on upload in same cases
+- other fixes (thanks to all for reporting)

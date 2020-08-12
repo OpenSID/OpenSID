@@ -78,7 +78,13 @@ class Migrasi_1912_ke_2001 extends CI_model {
 		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_sppbukti'))
 		{
 			$this->db->query("ALTER TABLE keuangan_ta_sppbukti ADD Kd_SubRinci varchar(10) NULL");
+		}
+		if (!$this->db->field_exists('No_SPP','keuangan_ta_sppbukti'))
+		{
 			$this->db->query("ALTER TABLE keuangan_ta_sppbukti ADD No_SPP varchar(100) NULL");
+		}
+		if (!$this->db->field_exists('Rek_Bank','keuangan_ta_sppbukti'))
+		{
 			$this->db->query("ALTER TABLE keuangan_ta_sppbukti ADD Rek_Bank varchar(100) NULL");
 		}
 		$this->db->query("ALTER TABLE keuangan_ta_sppbukti MODIFY COLUMN Keterangan varchar(200) NULL");
@@ -159,8 +165,8 @@ class Migrasi_1912_ke_2001 extends CI_model {
 		$this->db->query("ALTER TABLE keuangan_ta_rpjm_sasaran MODIFY COLUMN Uraian_Sasaran varchar(250)");
 		if (!$this->db->field_exists('F10','keuangan_ta_spp'))
 		{
-			$this->db->query("ALTER TABLE keuangan_ta_spp ADD F10 varchar(10) NULL");			
-			$this->db->query("ALTER TABLE keuangan_ta_spp ADD F11 varchar(10) NULL");			
+			$this->db->query("ALTER TABLE keuangan_ta_spp ADD F10 varchar(10) NULL");
+			$this->db->query("ALTER TABLE keuangan_ta_spp ADD F11 varchar(10) NULL");
 		}
 	}
 }

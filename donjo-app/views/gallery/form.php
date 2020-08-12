@@ -21,7 +21,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama Album</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm" type="text" value="<?=$gallery['nama']?>"></input>
+									<input name="nama" class="form-control input-sm nomor_sk" maxlength="50" type="text" value="<?=$gallery['nama']?>"></input>
 								</div>
 							</div>
 							<?php if ($gallery['gambar']): ?>

@@ -545,7 +545,9 @@ function comma($number)
 
 function hit($angka)
 {
-	return ribuan($angka)." Kali";
+	$hit = ($angka === NULL OR $angka === '') ? '0' : ribuan($angka);
+
+	return $hit." Kali";
 }
 
 function ribuan($angka)
@@ -553,8 +555,10 @@ function ribuan($angka)
 	return number_format($angka, 0, '.', '.');
 }
 
+// Kalau angka romawi jangan ubah
 function set_ucwords($data)
 {
+	if (is_angka_romawi($data)) return $data;
 	return ucwords(strtolower($data));
 }
 

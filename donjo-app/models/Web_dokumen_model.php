@@ -1,5 +1,5 @@
 <?php
-class Web_dokumen_model extends CI_Model {
+class Web_dokumen_model extends MY_Model {
 
 	// Untuk datatables informasi publik
 	var $table = 'dokumen_hidup';
@@ -12,6 +12,11 @@ class Web_dokumen_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('referensi_model');
+	}
+
+	public function autocomplete()
+	{
+		return $this->autocomplete_str('nama', 'dokumen_hidup');
 	}
 
 	// Ambil semua peraturan
@@ -114,12 +119,6 @@ class Web_dokumen_model extends CI_Model {
 		return $res;
 	}
 
-	public function autocomplete()
-	{
-		$str = autocomplete_str('nama', 'dokumen_hidup');
-		return $str;
-	}
-
 	private function search_sql()
 	{
 		if (isset($_SESSION['cari']))
@@ -199,7 +198,7 @@ class Web_dokumen_model extends CI_Model {
 			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
 			// Ambil keterangan kategori publik
 			if ($data[$i]['kategori_info_publik'])
-				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
+				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
 
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
@@ -276,7 +275,7 @@ class Web_dokumen_model extends CI_Model {
 		return $nama_file;
 	}
 
-	public function insert()
+	public function insert($mandiri=false)
 	{
 		$retval = true;
 		$post = $this->input->post();
@@ -286,6 +285,9 @@ class Web_dokumen_model extends CI_Model {
 			$data = $this->validasi($post);
 			$data['satuan'] = $satuan;
 			$data['attr'] = json_encode($data['attr']);
+			$data['dok_warga'] = isset($post['dok_warga']);
+			// Dari layanan mandiri gunakan NIK penduduk
+			$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
 
 			unset($data['anggota_kk']);
 			$retval &= $this->db->insert('dokumen', $data);
@@ -307,7 +309,7 @@ class Web_dokumen_model extends CI_Model {
 	private function validasi($post)
 	{
 		$data = array();
-		$data['nama'] = alfanumerik_spasi($post['nama']);
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
 		$data['kategori'] = $post['kategori'] ?: 1;
 		$data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
 		$data['id_syarat'] = $post['id_syarat'] ?: null;
@@ -321,11 +323,11 @@ class Web_dokumen_model extends CI_Model {
 				$data['tahun'] = date('Y', strtotime($post['attr']['tgl_kep_kades']));
 				$data['kategori_info_publik'] = '3';
 				$data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
-				$data['attr']['uraian'] = strip_tags($post['attr']['uraian']);
+				$data['attr']['uraian'] = htmlentities($post['attr']['uraian']);
 				$data['attr']['no_kep_kades'] = nomor_surat_keputusan($post['attr']['no_kep_kades']);
 				$data['attr']['no_lapor'] = nomor_surat_keputusan($post['attr']['no_lapor']);
 				$data['attr']['tgl_lapor'] = $post['attr']['tgl_lapor'];
-				$data['attr']['keterangan'] = strip_tags($post['attr']['keterangan']);
+				$data['attr']['keterangan'] = htmlentities($post['attr']['keterangan']);
 				break;
 			case 3: //Perdes
 				$data['tahun'] = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
@@ -333,15 +335,15 @@ class Web_dokumen_model extends CI_Model {
 				$data['attr']['tgl_ditetapkan'] = $post['attr']['tgl_ditetapkan'];
 				$data['attr']['tgl_lapor'] = $post['attr']['tgl_lapor'];
 				$data['attr']['tgl_kesepakatan'] = $post['attr']['tgl_kesepakatan'];
-				$data['attr']['uraian'] = strip_tags($post['attr']['uraian']);
-				$data['attr']['jenis_peraturan'] = strip_tags($post['attr']['jenis_peraturan']);
+				$data['attr']['uraian'] = htmlentities($post['attr']['uraian']);
+				$data['attr']['jenis_peraturan'] = htmlentities($post['attr']['jenis_peraturan']);
 				$data['attr']['no_ditetapkan'] = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
 				$data['attr']['no_lapor'] = nomor_surat_keputusan($post['attr']['no_lapor']);
 				$data['attr']['no_lembaran_desa'] = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
 				$data['attr']['no_berita_desa'] = nomor_surat_keputusan($post['attr']['no_berita_desa']);
 				$data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
 				$data['attr']['tgl_berita_desa'] = $post['attr']['tgl_berita_desa'];
-				$data['attr']['keterangan'] = strip_tags($post['attr']['keterangan']);
+				$data['attr']['keterangan'] = htmlentities($post['attr']['keterangan']);
 				break;
 
 			default:
@@ -351,12 +353,15 @@ class Web_dokumen_model extends CI_Model {
 		return $data;
 	}
 
-	public function update($id=0, $id_pend=null)
+	// $mandiri = true kalau dipanggil dari layanan mandiri
+	public function update($id=0, $id_pend=null, $mandiri=false)
 	{
 		$retval = true;
 
 		$post = $this->input->post();
 		$data = $this->validasi($post);
+		// Jangan simpan dok_warga kalau dari Layanan Mandiri
+		if (!$mandiri) !$data['dok_warga'] = isset($post['dok_warga']);
 		$old_file = $this->db->select('satuan')
 				->where('id', $id)
 				->get('dokumen')->row()->satuan;
@@ -369,6 +374,8 @@ class Web_dokumen_model extends CI_Model {
 		}
 		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
+		// Dari layanan mandiri gunakan NIK penduduk
+		$data['updated_by'] = $mandiri ? $this->session->nik : $this->session->user;
 
 		unset($data['anggota_kk']);
 
@@ -484,6 +491,7 @@ class Web_dokumen_model extends CI_Model {
 			->get()->row_array();
 		$data['attr'] = json_decode($data['attr'], true);
 		$data = array_filter($data);
+
 		return $data;
 	}
 

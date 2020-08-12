@@ -1,24 +1,23 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Database extends Admin_Controller {
+
+	private $_header;
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->dbforge();
-		$this->load->model('header_model');
-		$this->load->model('import_model');
-		$this->load->model('export_model');
-		$this->load->model('database_model');
+		$this->load->model(['header_model', 'import_model', 'export_model', 'database_model']);
+		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 45;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
 		redirect('export');
 	}
 
@@ -27,72 +26,68 @@ class Database extends Admin_Controller {
 		// Untuk development: menghapus session tracking. Tidak ada kaitan dengan database.
 		// Di sini untuk kemudahan saja.
 		// TODO: cari tempat yang lebih cocok
-    if (defined('ENVIRONMENT') AND ENVIRONMENT == 'development')
-    {
-    	log_message('debug', "Reset tracking");
+		if (defined('ENVIRONMENT') AND ENVIRONMENT == 'development')
+		{
+			log_message('debug', "Reset tracking");
 			unset($_SESSION['track_web']);
 			unset($_SESSION['track_admin']);
 			unset($_SESSION['siteman_timeout']);
 		}
 
-		$nav['act_tab'] = 1;
-		$header = $this->header_model->get_data();
+		$tab['act_tab'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('export/tab_menu');
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('export/tab_menu', $tab);
 		$this->load->view('export/exp');
 		$this->load->view('footer');
 	}
 
 	public function import()
 	{
-		$nav['act_tab'] = 2;
+		$tab['act_tab'] = 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('export/tab_menu');
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('export/tab_menu', $tab);
 		$this->load->view('import/imp', $data);
 		$this->load->view('footer');
 	}
 
 	public function import_bip()
 	{
-		$nav['act_tab'] = 3;
+		$tab['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('export/tab_menu');
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('export/tab_menu', $tab);
 		$this->load->view('import/bip', $data);
 		$this->load->view('footer');
 	}
 
 	public function migrasi_cri()
 	{
-		$nav['act_tab'] = 5;
+		$tab['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('export/tab_menu');
+
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('export/tab_menu', $tab);
 		$this->load->view('database/migrasi_cri', $data);
 		$this->load->view('footer');
 	}
 
 	public function backup()
 	{
-		$nav['act_tab'] = 4;
+		$tab['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('export/tab_menu');
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('export/tab_menu', $tab);
 		$this->load->view('database/backup', $data);
 		$this->load->view('footer');
 	}
@@ -188,12 +183,11 @@ class Database extends Admin_Controller {
 
 	public function kosongkan()
 	{
-		$nav['act_tab'] = 6;
-		$header = $this->header_model->get_data();
+		$tab['act_tab'] = 6;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('export/tab_menu');
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('export/tab_menu', $tab);
 		$this->load->view('database/kosongkan', $data);
 		$this->load->view('footer');
 	}
@@ -214,6 +208,15 @@ class Database extends Admin_Controller {
 	public function exec_backup()
 	{
 		$this->export_model->backup();
+	}
+
+	public function desa_backup()
+	{
+		$this->load->library('zip');
+
+		$backup_folder = FCPATH.'desa/'; // Folder yg akan di backup
+		$this->zip->read_dir($backup_folder, FALSE);
+		$this->zip->download('backup_folder_desa_'.date('Y_m_d').'.zip');
 	}
 
 	public function restore()

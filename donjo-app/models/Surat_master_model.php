@@ -1,4 +1,4 @@
-<?php class Surat_master_model extends CI_Model {
+<?php class Surat_master_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'tweb_surat_format');
-		return $str;
+		return $this->autocomplete_str('nama', 'tweb_surat_format');
 	}
 
 

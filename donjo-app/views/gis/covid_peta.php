@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
 <script>
-	const KODE_PROVINSI = "<?= config_item('provinsi_covid') ?: 'undefined' ?>";
+	const KODE_PROVINSI = "<?= $this->setting->provinsi_covid ?: 'undefined' ?>";
 </script>
 
 	<section id="covid-nasional">
@@ -32,7 +32,7 @@
 		</div>
 	</section>
 
-	<?php if(config_item('provinsi_covid')) : ?>
+	<?php if($this->setting->provinsi_covid) : ?>
 	<section id="covid-provinsi">
 		<p class="font-weight-bold line line-short shimmer" data-name="wilayah"></p>
 		<div class="row">

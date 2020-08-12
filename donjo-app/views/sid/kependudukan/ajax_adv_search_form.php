@@ -1,10 +1,13 @@
+<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <style>
 	.form-group
 	{
 		margin-bottom: 10px;
 	}
 </style>
-<form method="post" action="<?= $form_action?>">
+<form method="post" action="<?= $form_action?>" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -16,12 +19,12 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<input class="form-control  input-sm" type="text" placeholder="Dari" id="umur_min" name="umur_min"  value="<?= $umur_min?>"></input>
+									<input class="form-control  input-sm bilangan" maxlength="3" type="text" placeholder="Dari" id="umur_min" name="umur_min"  value="<?= $umur_min?>"></input>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<input id="umur_max" class="form-control input-sm" type="text" placeholder="Sampai" name="umur_max" value="<?= $umur_max?>"></input>
+									<input id="umur_max" class="form-control input-sm bilangan" maxlength="3" type="text" placeholder="Sampai" name="umur_max" value="<?= $umur_max?>"></input>
 								</div>
 							</div>
 							<div class="col-sm-6">

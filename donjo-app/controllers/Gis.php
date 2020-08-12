@@ -1,4 +1,49 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Controller untuk modul Peta
+ *
+ * donjo-app/controllers/Gis.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Gis extends Admin_Controller {
 
@@ -97,7 +142,7 @@ class Gis extends Admin_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['list_lap'] = $this->referensi_model->list_lap();
+		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 
@@ -265,7 +310,7 @@ class Gis extends Admin_Controller {
 
 	public function adv_search_proses()
 	{
-		$adv_search = $_POST;
+		$adv_search = $this->validasi_pencarian($this->input->post());
 		$i = 0;
 		while ($i++ < count($adv_search))
 		{
@@ -285,6 +330,19 @@ class Gis extends Admin_Controller {
 			}
 		}
 		redirect('gis');
+	}
+
+	private function validasi_pencarian($post)
+	{
+		$data['umur_min'] = bilangan($post['umur_min']);
+		$data['umur_max'] = bilangan($post['umur_max']);
+		$data['pekerjaan_id'] = $post['pekerjaan_id'];
+		$data['status'] = $post['status'];
+		$data['agama'] = $post['agama'];
+		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
+		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
+		$data['status_penduduk'] = $post['status_penduduk'];
+		return $data;
 	}
 
 	public function layer_garis()

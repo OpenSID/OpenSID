@@ -1,4 +1,4 @@
-<?php class Wilayah_model extends CI_Model {
+<?php class Wilayah_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +7,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('dusun', 'tweb_wil_clusterdesa');
-		return $str;
+		return $this->autocomplete_str('dusun', 'tweb_wil_clusterdesa');
 	}
 
 	private function search_sql()
@@ -23,7 +22,7 @@
 		}
 	}
 
-	public function paging($p=1, $o=0)
+	public function paging($p = 1, $o = 0)
 	{
 		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
 		$query = $this->db->query($sql);
@@ -42,7 +41,7 @@
 	private function list_data_sql()
 	{
 		$sql = " FROM tweb_wil_clusterdesa u
-			LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id
+			LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
 			WHERE u.rt = '0' AND u.rw = '0'  ";
 		$sql .= $this->search_sql();
 		return $sql;
@@ -54,20 +53,20 @@
 		- baris dengan kolom rt = '-' dan rw <> '-' menunjukkan rw
 		- baris dengan kolom rt <> '0' dan rt <> '0' menunjukkan rt
 
-		Di tabel tweb_penduduk  dan tweb_keluarga, kolom id_cluster adalah id untuk
+		Di tabel penduduk_hidup  dan keluarga_aktif, kolom id_cluster adalah id untuk
 		baris rt.
 	*/
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o = 0, $offset = 0, $limit = 500)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		$select_sql = "SELECT u.*, a.nama AS nama_kadus, a.nik AS nik_kadus,
 		(SELECT COUNT(rw.id) FROM tweb_wil_clusterdesa rw WHERE dusun = u.dusun AND rw <> '-' AND rt = '-') AS jumlah_rw,
 		(SELECT COUNT(v.id) FROM tweb_wil_clusterdesa v WHERE dusun = u.dusun AND v.rt <> '0' AND v.rt <> '-') AS jumlah_rt,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) and status_dasar=1) AS jumlah_warga,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 1 and status_dasar=1) AS jumlah_warga_l,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 2 and status_dasar=1) AS jumlah_warga_p,
-		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.kk_level = 1 and status_dasar=1) AS jumlah_kk ";
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun)) AS jumlah_warga,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 1) AS jumlah_warga_l,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 2) AS jumlah_warga_p,
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.kk_level = 1) AS jumlah_kk ";
 		$sql = $select_sql . $this->list_data_sql();
 		$sql .= $paging_sql;
 
@@ -88,21 +87,23 @@
 	{
 		if (empty((int)$data['id_kepala']))
 			unset($data['id_kepala']);
-		$data['dusun'] = strip_tags($data['dusun']);
+		$data['dusun'] = nama_terbatas($data['dusun']) ?: 0;
+		$data['rw'] = nama_terbatas($data['rw']) ?: 0;
+		$data['rt'] = bilangan($data['rt']) ?: 0;
 		return $data;
 	}
 
-	private function cek_data($table, $data=[])
+	private function cek_data($table, $data = [])
 	{
-		$count = $this->db->get_where($table, $data)->num_rows(); 
+		$count = $this->db->get_where($table, $data)->num_rows();
 		return $count;
 	}
 
 	public function insert()
 	{
-		$data = $this->bersihkan_data($_POST);
+		$data = $this->bersihkan_data($this->input->post());
 		$wil = array('dusun' => $data['dusun']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -121,11 +122,11 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update($id='')
+	public function update($id = 0)
 	{
-		$data = $this->bersihkan_data($_POST);
+		$data = $this->bersihkan_data($this->input->post());
 		$wil = array('dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -156,13 +157,13 @@
 
 		switch ($tipe)
 		{
-			case 'dusun': 
+			case 'dusun':
 				$this->db->where('dusun', $dusun);
 				break; //dusun
-			case 'rw': 
+			case 'rw':
 				$this->db->where('rw', $rw)->where('dusun', $dusun);
 				break; //rw
-			default: 
+			default:
 				$this->db->where('id', $id);
 				break; //rt
 		}
@@ -173,18 +174,18 @@
 	}
 
 	//Bagian RW
-	public function list_data_rw($id='')
+	public function list_data_rw($id = '')
 	{
 		$temp = $this->cluster_by_id($id);
 		$dusun = $temp['dusun'];
 
 		$sql = "SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
 		(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.status_dasar=1) AS jumlah_warga,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1 AND p.status_dasar=1) AS jumlah_warga_l,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2 AND p.status_dasar=1) AS jumlah_warga_p,
-		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1 AND p.status_dasar=1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw)) AS jumlah_warga,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1) AS jumlah_warga_l,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2) AS jumlah_warga_p,
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1) AS jumlah_kk
+		FROM tweb_wil_clusterdesa u LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
@@ -196,17 +197,13 @@
 		return $data;
 	}
 
-	public function insert_rw($dusun='')
+	public function insert_rw($dusun = '')
 	{
-
-    if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-		  UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
+		$data = $this->bersihkan_data($this->input->post());
 		$temp = $this->cluster_by_id($dusun);
 		$data['dusun']= $temp['dusun'];
 		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -221,23 +218,20 @@
 		status_sukses($outp1 & $outp2); //Tampilkan Pesan
 	}
 
-	public function update_rw($id_rw='')
+	public function update_rw($id_rw = '')
 	{
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-		  UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
-
+		$data = $this->bersihkan_data($this->input->post());
 		$temp = $this->wilayah_model->cluster_by_id($id_rw);
 		$wil = array('dusun' => $temp['dusun'], 'rw' => $data['rw'], 'rt' => '0', 'id <>' => $id_rw);
 		unset($data['id_rw']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
 			return;
 		}
 		// Update data RW
+		$data['dusun'] = $temp['dusun'];
 		$outp1 = $this->db->where('id', $id_rw)
 			->update('tweb_wil_clusterdesa', $data);
 		// Update nama RW di semua RT untuk RW ini
@@ -247,17 +241,17 @@
 	}
 
 	//Bagian RT
-	public function list_data_rt($dusun='', $rw='')
+	public function list_data_rt($dusun = '', $rw = '')
 	{
 		$sql = "SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.status_dasar=1) AS jumlah_warga,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1 AND p.status_dasar=1) AS jumlah_warga_l,(
-		SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2 AND p.status_dasar=1) AS jumlah_warga_p,
-		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun' AND u.rt <> '-'";
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt)) AS jumlah_warga,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,(
+		SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2) AS jumlah_warga_p,
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk
+		FROM tweb_wil_clusterdesa u LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun' AND u.rt <> '-'";
 
 		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $query->result_array();
 
 		//Formating Output
 		for ($i=0; $i<count($data); $i++)
@@ -267,18 +261,15 @@
 		return $data;
 	}
 
-	public function insert_rt($id_dusun='', $id_rw='')
+	public function insert_rt($id_dusun = '', $id_rw = '')
 	{
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-			UNSET($_POST['id_kepala']);
-
-    $data = $_POST;
+		$data = $this->bersihkan_data($this->input->post());
 		$temp = $this->cluster_by_id($id_dusun);
 		$data['dusun']= $temp['dusun'];
 		$data_rw = $this->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
-		$wil = array('dusun' => $data['dusun'], 'rw' => $rw, 'rt' => $data['rt']);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$wil = array('dusun' => $data['dusun'], 'rw' => $data['rw'], 'rt' => $data['rt']);
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
@@ -291,19 +282,17 @@
 
 	public function update_rt($id=0)
 	{
-		//Untuk mengakali update Nama RT saja tidak dengan kepala, sehingga ambil kepala sebelumnya
-		if (empty($_POST['id_kepala']) || !is_numeric($_POST['id_kepala']))
-			UNSET($_POST['id_kepala']);
-
-		$data = $_POST;
+		$data = $this->bersihkan_data($this->input->post());
 		$rt_lama = $this->db->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
 		$wil = array('dusun' => $rt_lama['dusun'], 'rw' => $rt_lama['rw'], 'rt' => $data['rt'], 'id <>' => $id);
-		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil); 
+		$cek_data = $this->cek_data('tweb_wil_clusterdesa', $wil);
 		if ($cek_data)
 		{
 			$_SESSION['success'] = -2;
 			return;
 		}
+		$data['dusun'] = $rt_lama['dusun'];
+		$data['rw'] = $rt_lama['rw'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
@@ -313,15 +302,14 @@
 	public function list_penduduk()
 	{
 		$data = $this->db->select('p.id, p.nik, p.nama, c.dusun')
-					->from('tweb_penduduk p')
-					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-					->where('p.status', 1)
-					->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
-					->get()->result_array();
+			->from('penduduk_hidup p')
+			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+			->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
+			->get()->result_array();
 		return $data;
 	}
 
-	public function list_dusun_rt($dusun='')
+	public function list_dusun_rt($dusun = '')
 	{
 		$sql = "SELECT * FROM tweb_clusterdesa WHERE dusun = ? AND rt <> '' ";
 		$query = $this->db->query($sql, $id);
@@ -329,15 +317,15 @@
 		return $data;
 	}
 
-	public function get_penduduk($id=0)
+	public function get_penduduk($id = 0)
 	{
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE id = ?";
+		$sql = "SELECT id,nik,nama FROM penduduk_hidup WHERE id = ?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
 	}
 
-	public function cluster_by_id($id='')
+	public function cluster_by_id($id = 0)
 	{
 		$data = $this->db->where('id', $id)
 			->get('tweb_wil_clusterdesa')
@@ -347,39 +335,42 @@
 
 	public function list_dusun()
 	{
-		$data = $this->db->
-			where('rt', '0')->
-			where('rw', '0')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
+		$data = $this->db
+			->where('rt', '0')
+			->where('rw', '0')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
 		return $data;
 	}
 
-	public function list_rw($dusun='')
+	public function list_rw($dusun = '')
 	{
-		$data = $this->db->
-			where('rt', '0')->
-			where('dusun', urldecode($dusun))->
-			where('rw <>', '0')->
-			order_by('rw')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
+		$data = $this->db
+			->where('rt', '0')
+			->where('dusun', urldecode($dusun))
+			->where('rw <>', '0')
+			->order_by('rw')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
 		return $data;
 	}
 
-	public function list_rt($dusun='', $rw='')
+	public function list_rt($dusun = '', $rw = '')
 	{
-		$data = $this->db->
-			where('rt <>', '0')->
-			where('dusun', urldecode($dusun))->
-			where('rw', urldecode($rw))->
-			order_by('rt')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
+		$data = $this->db
+			->where('rt <>', '0')
+			->where('dusun', urldecode($dusun))
+			->where('rw', urldecode($rw))
+			->order_by('rt')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
 		return $data;
 	}
 
-	public function get_rt($dusun='', $rw='', $rt='')
+	public function get_rt($dusun = '', $rw = '', $rt = '')
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
 		$query = $this->db->query($sql, array($dusun, $rw, $rt));
@@ -391,120 +382,130 @@
 		$sql = "SELECT
 		(SELECT COUNT(rw.id) FROM tweb_wil_clusterdesa rw WHERE  rw <> '-' AND rt = '-') AS total_rw,
 		(SELECT COUNT(v.id) FROM tweb_wil_clusterdesa v WHERE v.rt <> '0' AND v.rt <> '-') AS total_rt,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa ) and status_dasar=1) AS total_warga,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 1 and status_dasar=1) AS total_warga_l,
-		(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 2 and status_dasar=1) AS total_warga_p,
-		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.kk_level = 1 and status_dasar=1) AS total_kk
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa)) AS total_warga,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 1) AS total_warga_l,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.sex = 2) AS total_warga_p,
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa) AND p.kk_level = 1) AS total_kk
 		FROM tweb_wil_clusterdesa u
-		LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw = '0' limit 1";
+		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw = '0' limit 1";
 		$query = $this->db->query($sql);
 		return $query->row_array();
 	}
 
-	public function total_rw($dusun='')
+	public function total_rw($dusun = '')
 	{
-		$sql = "SELECT sum(jumlah_rt) as jmlrt, sum(jumlah_warga) as jmlwarga, sum(jumlah_warga_l) as jmlwargal, sum(jumlah_warga_p) as jmlwargap, sum(jumlah_kk) as jmlkk
+		$sql = "SELECT sum(jumlah_rt) AS jmlrt, sum(jumlah_warga) AS jmlwarga, sum(jumlah_warga_l) AS jmlwargal, sum(jumlah_warga_p) AS jmlwargap, sum(jumlah_kk) AS jmlkk
 			FROM
 			(SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
 				(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
-				(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw ) and status_dasar = 1) AS jumlah_warga,
-				(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1 and status_dasar = 1) AS jumlah_warga_l,
-				(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2 and status_dasar = 1) AS jumlah_warga_p,
-				(SELECT COUNT(p.id) FROM  tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id   WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1 and status_dasar = 1) AS jumlah_kk
+				(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw )) AS jumlah_warga,
+				(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1) AS jumlah_warga_l,
+				(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2) AS jumlah_warga_p,
+				(SELECT COUNT(p.id) FROM  keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id   WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1) AS jumlah_kk
 				FROM tweb_wil_clusterdesa u
-				LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id
-				WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun') as x ";
+				LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
+				WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun') AS x ";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
 		return $data;
 	}
 
-	public function total_rt($dusun='', $rw='')
+	public function total_rt($dusun = '', $rw = '')
 	{
-		$sql = "SELECT sum(jumlah_warga) as jmlwarga, sum(jumlah_warga_l) as jmlwargal, sum(jumlah_warga_p) as jmlwargap, sum(jumlah_kk) as jmlkk
+		$sql = "SELECT sum(jumlah_warga) AS jmlwarga, sum(jumlah_warga_l) AS jmlwargal, sum(jumlah_warga_p) AS jmlwargap, sum(jumlah_kk) AS jmlkk
 			FROM
 				(SELECT u.*, a.nama AS nama_ketua,a.nik AS nik_ketua,
-					(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) and status_dasar = 1) AS jumlah_warga,
-					(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1 and status_dasar = 1) AS jumlah_warga_l,
-					(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2 and status_dasar = 1) AS jumlah_warga_p,
-					(SELECT COUNT(p.id) FROM  tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala=p.id   WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1 and status_dasar = 1) AS jumlah_kk
+					(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt)) AS jumlah_warga,
+					(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,
+					(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2) AS jumlah_warga_p,
+					(SELECT COUNT(p.id) FROM  keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id   WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk
 					FROM tweb_wil_clusterdesa u
-					LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id
-					WHERE u.rt <> '0' AND u.rt <> '-' AND u.rw = '$rw' AND u.dusun = '$dusun') as x  ";
+					LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
+					WHERE u.rt <> '0' AND u.rt <> '-' AND u.rw = '$rw' AND u.dusun = '$dusun') AS x  ";
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
 		return $data;
 	}
 
-	public function update_kantor_dusun_map($id='')
+	private function validasi_koordinat($post)
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
+		$data['id'] = $post['id'];
+		$data['zoom'] = $post['zoom'];
+		$data['map_tipe'] = $post['map_tipe'];
+		$data['lat'] = koordinat($post['lat']) ?: NULL;
+		$data['lng'] = koordinat($post['lng']) ?: NULL;
+		return $data;
+	}
+
+	public function update_kantor_dusun_map($id = 0)
+	{
+		$data = $this->validasi_koordinat($this->input->post());
+		$id = $data['id'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-  public function update_wilayah_dusun_map($id='')
+	public function update_wilayah_dusun_map($id = 0)
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
+		$data = $_POST;
+		$id = $_POST['id'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_dusun_maps($id='')
+	public function get_dusun_maps($id = 0)
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE id = ?";
 		$query = $this->db->query($sql, $id);
 		return $query->row_array();
 	}
 
-	public function update_kantor_rw_map($id='')
+	public function update_kantor_rw_map($id = 0)
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
-    $this->db->where('id', $id);
+		$data = $this->validasi_koordinat($this->input->post());
+		$id = $data['id'];
+		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_wilayah_rw_map($id='')
+	public function update_wilayah_rw_map($id = 0)
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
-    $this->db->where('id', $id);
+		$data = $_POST;
+		$id = $_POST['id'];
+		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_rw_maps($dusun='', $rw='')
+	public function get_rw_maps($dusun = '', $rw = '')
 	{
 		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ?";
 		$query = $this->db->query($sql, array($dusun, $rw));
 		return $query->row_array();
 	}
 
-	public function update_kantor_rt_map($id='')
+	public function update_kantor_rt_map($id = 0)
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
-    $this->db->where('id', $id);
+		$data = $this->validasi_koordinat($this->input->post());
+		$id = $data['id'];
+		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_wilayah_rt_map($id='')
+	public function update_wilayah_rt_map($id = 0)
 	{
-    $data = $_POST;
-    $id = $_POST['id'];
-    $this->db->where('id', $id);
+		$data = $_POST;
+		$id = $_POST['id'];
+		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -518,7 +519,7 @@
 		return $data;
 	}
 
-	public function list_rw_gis($dusun='')
+	public function list_rw_gis($dusun = '')
 	{
 		$data = $this->db->
 			where('rt', '0')->
@@ -530,7 +531,7 @@
 		return $data;
 	}
 
-	public function list_rt_gis($dusun='', $rw='')
+	public function list_rt_gis($dusun = '', $rw = '')
 	{
 		$data = $this->db->
 			where('rt <>', '0')->
@@ -540,6 +541,13 @@
 			get('tweb_wil_clusterdesa')->
 			result_array();
 		return $data;
+	}
+
+	public function get_alamat_wilayah($data)
+	{
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
+
+		return trim($alamat_wilayah);
 	}
 
 }

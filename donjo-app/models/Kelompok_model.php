@@ -1,5 +1,48 @@
 <?php
-class Kelompok_model extends CI_Model {
+/**
+ * File ini:
+ *
+ * Model untuk modul Kelompok
+ *
+ * donjo-app/models/Kelompok_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
+class Kelompok_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -8,8 +51,7 @@ class Kelompok_model extends CI_Model {
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'kelompok');
-		return $str;
+		return $this->autocomplete_str('nama', 'kelompok');
 	}
 
 	private function search_sql()
@@ -137,7 +179,7 @@ class Kelompok_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -148,7 +190,7 @@ class Kelompok_model extends CI_Model {
 		$this->db->where('id_kelompok', $id);
 		$this->db->where('id_penduduk', $id_a);
 		$outp = $this->db->update('kelompok_anggota', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -164,7 +206,7 @@ class Kelompok_model extends CI_Model {
 	public function delete_a($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -222,16 +264,45 @@ class Kelompok_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function list_penduduk()
+	private function in_list_anggota($kelompok)
 	{
-		$sql = "SELECT id,nik,nama FROM tweb_penduduk WHERE status_dasar = 1";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$anggota = $this->db
+			->select('p.id')
+			->from('kelompok_anggota k')
+			->join('penduduk_hidup p', 'k.id_penduduk = p.id', 'left')
+			->where('k.id_kelompok', $kelompok)
+			->get()->result_array();
+		return sql_in_list(array_column($anggota, 'id'));
+	}
 
-		for ($i=0; $i<count($data); $i++)
+	public function list_penduduk($ex_kelompok='')
+	{
+		if ($ex_kelompok)
 		{
-			$data[$i]['alamat']="Alamat :".$data[$i]['nama'];
+			$anggota = $this->in_list_anggota($ex_kelompok);
+			$this->db->where("p.id not in ($anggota)");
 		}
+		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+		$this->db
+			->select('p.id, nik, nama')
+			->select("(
+				case when (p.id_kk IS NULL or p.id_kk = 0)
+				  then
+				  	case when (cp.dusun = '-' or cp.dusun = '')
+				  		then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+				  		else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+				  	end
+				  else
+				  	case when (ck.dusun = '-' or ck.dusun = '')
+				  		then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+				  		else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+				  	end
+				end) AS alamat")
+			->from('penduduk_hidup p')
+			->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
+			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+			->join('tweb_wil_clusterdesa ck', 'k.id_cluster = ck.id', 'left');
+		$data = $this->db->get()->result_array();
 		return $data;
 	}
 
@@ -249,4 +320,3 @@ class Kelompok_model extends CI_Model {
 		return $data;
 	}
 }
-?>

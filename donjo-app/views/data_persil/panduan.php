@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Panduan Data Persil <?=ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
+		<h1>Panduan Data C-Desa <?=ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
@@ -17,25 +17,19 @@
 					<div class="box box-info">
 						<div class="box-body">
 							<h4>Keterangan</h4>
-							<p><strong>Modul Data Persil</strong> adalah modul untuk pengelolaan data dokumen tentang kepemilikan lahan.</p>
+							<p><strong>Modul Data C-Desa</strong> adalah modul untuk pengelolaan data tentang kepemilikan lahan, termasuk riwayat kepemilikan.</p>
 							<h4>Panduan</h4>
-							<p>Cara menyimpan/memperbarui data Persil adalah dengan mengisikan formulir yang terdapat dari menu Tulis Data Persil Baru:</p>
+							<p>Secara garis besar, proses pengisian data C-Desa adalah sebagai berikut:</p>
 							<p>
 								<ol>
-									<li>Kolom <strong>Data Pemilik</strong>
-										<p>Tuliskan NIK atau Nama Pemilik Persil. Sistem akan memberikan pilihan sesuai dengan data yang tersimpan di SID</p>
+									<li>Buat <strong>C-Desa</strong>
+										<p>Buat satu C-Desa untuk setiap penduduk yang akan dicatat kepemilikan lahannya. Setiap C-Desa digunakan untuk mencatat semua kepemilikan lahan penduduk tersebut.</p>
 									</li>
-									<li>Kolom <strong>Nomor Persil</strong>
-										<p>Nomor Persil wajib diisi</p>
+									<li>Buat <strong>Persil</strong>
+										<p>Persil berisi keterangan lahan yang dimiliki penduduk dan dicatat dalam C-Desa pemilik. Beberapa pemilik bisa mempunyai lahan di persil yang sama. Beberapa persil dapat mempunyai Nomor Persil yang sama. Untuk membedakan, isi juga Nomor Urut Bidang yang unik untuk Persil ybs. Pemilik awal suatu persil dicatat dengan masukkan C-Desa pemilik ybs.</p>
 									</li>
-									<li>Kolom <strong>Keterangan Surat</strong>
-										<p>Pilih sesuai dengan jenis surat persil</p>
-									</li>
-									<li>Kolom <strong>Luas Tanah</strong>
-										<p>Isikan dengan menggunakan angka saja. Bila data luasan tidak bulat, gunakan tanda titik(.) untuk menggantikan data koma pada nilai desimal. Nilai luasan dalam satuan meter persegi (m<sup>2</sup>)</p>
-									</li>
-									<li>Kolom <strong>Nomor SPPT PBB</strong>
-										<p>Isikan sesuai dengan data nomor SPPT PBB atas persil tersebut</p>
+									<li>Buat <strong>Mutasi Persil</strong>
+										<p>Buat mutasi untuk setiap pergantian kepemilikan suatu lahan. Mutasi dapat dilakukan untuk sebagian dari luas suatu persil.</p>
 									</li>
 								</ol>
 							</p>

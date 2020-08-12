@@ -3,6 +3,8 @@
 return array(
 
 	'Select' => 'Vybrat',
+	'Deselect_All' => 'Zrušit vše',
+	'Select_All' => 'Vybrat vše',
 	'Erase' => 'Smazat',
 	'Open' => 'Otevřít',
 	'Confirm_del' => 'Opravdu chcete smazat tento soubor?',
@@ -39,10 +41,30 @@ return array(
 	'Text_filter' => 'textový filtr',
 	'Swipe_help' => 'Pro zobrazení možností klikněte na název souboru/složky.',
 	'Upload_base' => 'Základní nahrávání',
-	'Upload_url' => 'URL',
-	'Upload_java' => 'JAVA upload (pro velké soubory)',
-	'Upload_java_help' => "Pokud se Java Applet nenačítá, ujistěte se, že: 1. je ve vašem počítači nainstalována Java <a href='http://java.com/en/download/'>[odkaz pro stažení]</a> 2. nic není blokováno firewallem",
-	'Upload_base_help' => "Přetáhněte soubor(y) do prostoru výše nebo do něj klikněte myší (moderní prohlížeče) a vyberte soubory. Po dokončení nahrávání klikněte na tlačítko 'Zpět k seznamu souborů'.",
+	'Upload_base_help' => "Soubory přetáhněte (pouze moderní prohlížeče) nebo klikněte na horní tlačítko 'Přidat soubor(y)' a poté na tlačítko 'Sputit nahrávání'. Až bude nahrávání dokončeno, klikněte na 'Zpět k seznamu souborů'.",
+	'Upload_add_files' => 'Přidat soubor(y)',
+	'Upload_start' => 'Sputit nahrávání',
+	'Upload_error_messages' =>array(
+		1 => 'Nahrávaný soubor má větší velikost, než co povoluje direktiva upload_max_filesize v php.ini',
+		2 => 'Nahrávaný soubor má větší velikost, než co povoluje direktiva MAX_FILE_SIZE uvedená v HTML formuláři',
+		3 => 'Soubor byl nahrán pouze z části',
+		4 => 'Nebyl nahrán žádný soubor',
+		6 => 'Chybí dočasná složka',
+		7 => 'Při zapisování souboru na disk došlo k chybě',
+		8 => 'Nahrávání souborů zastavilo rozšížení PHP',
+		'post_max_size' => 'Nahrávaný soubor má větší velikost, než co povoluje direktiva post_max_size v php.ini',
+		'max_file_size' => 'Příliš velký soubor',
+		'min_file_size' => 'Příliš malý soubor',
+		'accept_file_types' => 'Není povolen tento typ souboru (přípona)',
+		'max_number_of_files' => 'Překročen maximální počet souborů',
+		'max_width' => 'Obrázek přesahuje maximální šířku',
+		'min_width' => 'Obrázek vyžaduje minimální šířku',
+		'max_height' => 'Obrázek přesahuje maximální výšku',
+		'min_height' => 'Obrázek vyžaduje minimální výšku',
+		'abort' => 'Nahrávání souboru bylo přerušeno',
+		'image_resize' => 'Nepodařilo se změnit velikost obrázku'
+	),
+	'Upload_url' => 'Z url adresy',
 	'Type_dir' => 'složka',
 	'Type' => 'Typ',
 	'Dimension' => 'Rozměr',
@@ -73,8 +95,10 @@ return array(
 	'Copy_Cut_Size_Limit' => 'Zvolené soubory/složky jsou příliš velké pro operaci %s. Limit: %d MB/operace', // %s = cut or copy
 	'Copy_Cut_Count_Limit' => 'Zvolili jste příliš mnoho souborů/složek pro operaci %s. Limit: %d souborů/operace', // %s = cut or copy
 	'Copy_Cut_Not_Allowed' => 'Nemáte oprávnění %s.', // %s(1) = cut or copy, %s(2) = files or folders
-	'Aviary_No_Save' => 'Obrázek nelze uložit',
-	'Zip_No_Extract' => 'Archív nelze rozbalit. Soubor může být poškozen.',
+	'Image_Editor_No_Save' => 'Obrázek nelze uložit',
+	'Image_Editor_Exit' => "Exit",
+    'Image_Editor_Save' => "Save",
+    'Zip_No_Extract' => 'Archív nelze rozbalit. Soubor může být poškozen.',
 	'Zip_Invalid' => 'Přípona není podporována. Povolené: zip, gz, tar.',
 	'Dir_No_Write' => 'Vybraná složka není zapisovatelná.',
 	'Function_Disabled' => 'Funkce %s byla zamítnuta serverem.', // %s = cut or copy
@@ -112,7 +136,7 @@ return array(
 	'no path' => "Žádná cesta",
 	'no file' => "Žádný soubor",
 	'view type number missing' => "Chybí číslo typu pro zobrazení",
-	'Not enought Memory' => "Nedostatek paměti",
+	'Not enough Memory' => "Nedostatek paměti",
 	'max_size_reached' => "Vaše složka s obrázky dosáhla maximální velikosti %d MB.", //%d = max overall size
 	'B' => "B",
 	'KB' => "KB",

@@ -98,17 +98,18 @@ class Kelompok extends Admin_Controller {
 	{
 		if ($id_a == 0)
 		{
-			$data['kelompok'] = null;
+			$data['kelompok'] = $id;
 			$data['pend'] = null;
+			$data['list_penduduk'] = $this->kelompok_model->list_penduduk($ex_kelompok=$id);
 			$data['form_action'] = site_url("kelompok/insert_a/$id");
 		}
 		else
 		{
 			$data['kelompok'] = $id;
 			$data['pend'] = $this->kelompok_model->get_anggota($id, $id_a);
+			$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
-		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

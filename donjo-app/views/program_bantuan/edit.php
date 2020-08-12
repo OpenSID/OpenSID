@@ -41,13 +41,13 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3" for="nama">Nama Program</label>
 								<div class="col-sm-8">
-									<input name="nama" class="form-control input-sm" placeholder="Nama Program"  type="text" value="<?= $data["nama"]; ?>"></input>
+									<input name="nama" class="form-control input-sm nomor_sk" maxlength="100" placeholder="Nama Program"  type="text" value="<?= $data["nama"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="ndesc">Keterangan</label>
 								<div class="col-sm-8">
-									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
+									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" maxlength="500" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
 								</div>
 							</div>
 							<?php $data= $program[0]; $val = $data["asaldana"]; ?>

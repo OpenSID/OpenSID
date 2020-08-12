@@ -94,14 +94,55 @@ class Man_user extends Admin_Controller {
 
 	public function insert()
 	{
-		$this->user_model->insert();
-		redirect('man_user');
+		$this->set_form_validation();
+
+		if ($this->form_validation->run() !== true)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = trim(validation_errors());
+			redirect("man_user/form/$p/$o");
+		}
+		else
+		{
+			$this->user_model->insert();
+			redirect('man_user');
+		}
+	}
+
+	private function set_form_validation()
+	{
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
+		$this->form_validation->set_message('syarat_sandi','Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
+	}
+
+	// Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
+	public function syarat_sandi($str)
+	{
+		// radiisi berarti tidak sandi tidak diubah
+		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str) or $str == 'radiisi')
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
-		$this->user_model->update($id);
-		redirect("man_user/index/$p/$o");
+		$this->set_form_validation();
+
+		if ($this->form_validation->run() !== true)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = trim(validation_errors());
+			redirect("man_user/form/$p/$o/$id");
+		}
+		else
+		{
+			$this->user_model->update($id);
+			redirect("man_user/index/$p/$o");
+		}
 	}
 
 	public function delete($p = 1, $o = 0, $id = '')

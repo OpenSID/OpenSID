@@ -97,6 +97,7 @@
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $views,
+				'add_drop'		=> FALSE,
 				'add_insert'	=> FALSE
 			  );
 		$create_views = $this->do_backup($prefs);

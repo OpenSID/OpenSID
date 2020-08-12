@@ -165,29 +165,30 @@ $(document).ready(function() {
 			});
 	});
 
+	jQuery.validator.addMethod("angka", function(value, element) {
+		angka_valid = /^\d*$/.test(value);
+		return this.optional(element) || angka_valid;
+	}, "Harus Berisi Angka");
+
+	jQuery.validator.addMethod("luas", function(value, element) {
+		luas_valid = /^\d+(\.\d+)*$/.test(value);
+		return this.optional(element) || luas_valid;
+	}, "Harus Berisi Angka dan untuk koma gunakan \"titik\"");
+
 	jQuery.validator.addMethod("nama", function(value, element) {
 		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 
-	$('.nama').each(function() {
-		$(this).rules("add",
-			{
-				nama: true,
-			});
-	});
+	jQuery.validator.addMethod("nama_terbatas", function(value, element) {
+		valid = /^[a-zA-Z0-9 \-]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi dan strip");
 
 	jQuery.validator.addMethod("nomor_sk", function(value, element) {
 		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
-
-	$('.nomor_sk').each(function() {
-		$(this).rules("add",
-			{
-				nomor_sk: true,
-			});
-	});
 
 	jQuery.validator.addMethod("bilangan_titik", function(value, element) {
 		valid = /^[0-9\.]+$/.test(value);
@@ -212,5 +213,41 @@ $(document).ready(function() {
 				bilangan_spasi: true,
 			});
 	});
+
+	// Ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST)
+	//https://en.wikipedia.org/wiki/Password_policy#:~:text=Passwords%20must%20be%20at%20least,should%20be%20acceptable%20in%20passwords
+	jQuery.validator.addMethod("pwdLengthNist", function(value, element) {
+		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
+
+	$('.pwdLengthNist').each(function() {
+		$(this).rules("add",
+			{
+				pwdLengthNist: true,
+			});
+	});
+
+	// Untuk donjo-app/views/man_user/manajemen_user_form.php di mana 'radiisi' berarti password tidak diubah
+	// Ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST)
+	jQuery.validator.addMethod("pwdLengthNist_atau_kosong", function(value, element) {
+		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/.test(value);
+		return this.optional(element) || valid || value == 'radiisi';
+	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
+
+	jQuery.validator.addMethod("bilangan", function(value, element) {
+		valid = /^[0-9]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter numerik");
+
+	jQuery.validator.addMethod("alamat", function(value, element) {
+		valid = /^[a-zA-Z0-9 \.,\-\/]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring");
+
+	jQuery.validator.addMethod("username", function(value, element) {
+		valid = /^[a-zA-Z0-9\.\_]{4,30}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
 
 })

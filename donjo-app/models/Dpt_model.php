@@ -8,8 +8,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'tweb_penduduk');
-		return $str;
+		return $this->autocomplete_str('nama', 'tweb_penduduk');
 	}
 
 	private function cacatx_sql()
@@ -144,13 +143,15 @@
 
 		$sql .= $this->syarat_dpt_sql();
 		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->sex_sql();
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();
 
 		$kolom_kode = array(
+			array('filter', 'u.status'), // Status : Hidup, Mati, Dll -> Load data awal (filtering combobox)
+			array('status_penduduk', 'u.status'), // Status : Hidup, Mati, Dll -> Hanya u/ Pencarian Spesifik
+			array('status_dasar', 'u.status_dasar'), // Kode 6
+			array('sex', 'u.sex'), // Kode 4
 			array('cacat','cacat_id'),
 			array('cara_kb_id','cara_kb_id'),
 			array('menahun','sakit_menahun_id'),

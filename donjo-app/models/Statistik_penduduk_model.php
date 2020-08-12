@@ -67,6 +67,21 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 		return $this->data_jml_semua_penduduk();
 	}
 
+	// hitung jumlah unik penerima bantuan (terkadang satu peserta menerima lebih dari 1 bantuan)
+	public function hitung_total()
+	{
+		$data = $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END)) AS laki')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END)) AS perempuan')
+			->from('program u')
+			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
+			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
+			->where('u.sasaran', '1')
+			->where('u.status', '1')
+			->get()->row_array();
+		return $data;
+	}
+
 }
 
 class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
@@ -98,6 +113,22 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 	public function get_data_jml()
 	{
 		return $this->data_jml_semua_keluarga();
+	}
+
+	// hitung jumlah keluarga unik penerima bantuan (terkadang satu keluarga menerima lebih dari 1 bantuan)
+	public function hitung_total()
+	{
+		$data = $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END)) AS laki')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END)) AS perempuan')
+			->from('program u')
+			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
+			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+			->where('u.sasaran', '2')
+			->where('u.status', '1')
+			->get()->row_array();
+		return $data;
 	}
 
 }

@@ -1,7 +1,9 @@
 #============
-# Untuk menghapus index.php dari url OpenSID, ubah nama file ini menjadi .htaccess,
-# sehingga misalnya, modul Web bisa dipanggil dengan http://localhost/first.
-# Untuk menggunakan fitur ini, pastikan konfigurasi apache di server SID
+# Di server yg ada Apache, gunakan file ini untuk menghapus index.php dari url OpenSID,
+# dan untuk mengamankan folder desa.
+# Untuk mengaktifkan, ubah nama file ini menjadi .htaccess,
+# Sesudah aktif, misalnya, modul Web bisa dipanggil dengan http://localhost/first.
+# Untuk menggunakan fitur ini, pastikan konfigurasi Apache di server SID
 # mengizinkan penggunaan .htaccess
 #============
 RewriteEngine on
@@ -10,7 +12,7 @@ RewriteBase /
 # RewriteBase /nama-sub-folder/
 
 # Prevent index dirs
-RewriteCond $1 
+RewriteCond $1
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
 # General dirs / files
@@ -19,5 +21,25 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
-# Protec Folder Not Index
+# Protect Folder Not Index
 Options All -Indexes
+
+# Periksa apakah full-path perlu disesuaikan untuk server anda
+# Contoh berikut untuk path seperti /home/opensidm/demo.opensid.my.id/desa/upload
+<Directory /home/*/*/desa/upload>
+	php_flag engine off
+	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
+		Order Deny,Allow
+		Deny from All
+	</FilesMatch>
+</Directory>
+
+# Periksa apakah full-path perlu disesuaikan untuk server anda
+# Contoh berikut untuk path seperti /home/opensidm/demo.opensid.my.id/desa-contoh
+<Directory /home/*/*/desa-contoh>
+	php_flag engine off
+	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
+		Order Deny,Allow
+		Deny from All
+	</FilesMatch>
+</Directory>

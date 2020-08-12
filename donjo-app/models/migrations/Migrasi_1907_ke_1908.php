@@ -41,7 +41,7 @@ class Migrasi_1907_ke_1908 extends CI_model {
 			$this->load->model('pamong_model');
 			$sebutan_pimpinan_desa = $this->db->where('key', 'sebutan_pimpinan_desa')->get('setting_aplikasi')->row()->value;
 			$ttd = $this->db->limit(1)->where('jabatan', $sebutan_pimpinan_desa)->get('tweb_desa_pamong')->row()->pamong_id;
-			$this->pamong_model->ttd($ttd, 1);
+			$this->pamong_model->ttd('pamong_ttd', $ttd, 1);
 			$this->db->where('key', 'sebutan_pimpinan_desa')->delete('setting_aplikasi');
 		}
 		// Setting nilai default supaya tidak error pada strict mode

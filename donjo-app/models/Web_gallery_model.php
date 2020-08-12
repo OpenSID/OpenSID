@@ -1,4 +1,4 @@
-<?php class Web_gallery_model extends CI_Model {
+<?php class Web_gallery_model extends MY_Model {
 
 	private $urut_model;
 
@@ -11,8 +11,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'gambar_gallery');
-		return $str;
+		return $this->autocomplete_str('nama', 'gambar_gallery');
 	}
 
 	private function search_sql()
@@ -110,7 +109,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
 		// Bolehkan album tidak ada gambar cover
 		if (!empty($lokasi_file))
@@ -146,7 +146,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
 		// Kalau kosong, gambar tidak diubah
 		if (!empty($lokasi_file))
 		{
@@ -204,7 +205,7 @@
 		// nama file nya belum diubah sesuai dengan
 		// judul gallery
 		$this->delete_gallery_image($id);
-		
+
 		$outp = $this->db->where('id', $id)->delete('gambar_gallery');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -236,9 +237,19 @@
 
 	public function gallery_lock($id='', $val=0)
 	{
-		$sql = "UPDATE gambar_gallery SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
-
+		// Jangan kunci jika digunakan untuk slider
+		if ($val == 2)
+		{
+			$this->db
+				->group_start()
+					->where('slider <>', 1)
+					->or_where('slider IS NULL')
+				->group_end();
+		}
+		$outp = $this->db
+			->where('id', $id)
+			->set('enabled', $val)
+			->update('gambar_gallery');
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -247,9 +258,15 @@
 		if ($val == 1)
 		{
 			// Hanya satu gallery yang boleh tampil di slider
-			$this->db->where('slider', 1)->update('gambar_gallery', array('slider'=>0));
+			$this->db->where('slider', 1)
+				->set('slider', 0)
+				->update('gambar_gallery');
+			// Aktifkan galeri kalau digunakan untuk slider
+			$this->db->set('enabled', 1);
 		}
-		$this->db->where('id', $id)->update('gambar_gallery', array('slider'=>$val));
+		$this->db->where('id', $id)
+			->set('slider', $val)
+			->update('gambar_gallery');
 	}
 
 	public function get_gallery($id=0)
@@ -262,13 +279,15 @@
 
 	public function list_slide_galeri()
 	{
-		$gallery_slide_id = $this->db->select('id')->
-			where('slider', 1)->
-			limit(1)->
-			get('gambar_gallery')->row()->id;
-		$slide_galeri = $this->db->select('id, nama as judul, gambar')->
-			where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->
-			get('gambar_gallery')->result_array();
+		$gallery_slide_id = $this->db->select('id')
+			->where('slider', 1)
+			->limit(1)
+			->get('gambar_gallery')->row()->id;
+		$slide_galeri = $this->db->select('id, nama as judul, gambar')
+			->where('parrent', $gallery_slide_id)
+			->where('tipe', 2)
+			->where('enabled', 1)
+			->get('gambar_gallery')->result_array();
 		return $slide_galeri;
 	}
 
@@ -341,7 +360,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
 		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $parrent)) + 1;
 		// Bolehkan isi album tidak ada gambar
 		if (!empty($lokasi_file))
@@ -379,7 +399,8 @@
 
 	  $lokasi_file = $_FILES['gambar']['tmp_name'];
 	  $tipe_file = TipeFile($_FILES['gambar']);
-		$data = $_POST;
+		$data = [];
+		$data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
 		// Kalau kosong, gambar tidak diubah
 		if (!empty($lokasi_file))
 		{

@@ -123,7 +123,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-			$data[$i]['status'] = $this->referensi_model->list_kode_array(STATUS_PERMOHONAN)[$data[$i]['status']];
+			$data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
 			$j++;
 		}
 		return $data;
@@ -142,7 +142,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-			$data[$i]['status'] = $this->referensi_model->list_kode_array(STATUS_PERMOHONAN)[$data[$i]['status']];
+			$data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
 			$j++;
 		}
 		return $data;

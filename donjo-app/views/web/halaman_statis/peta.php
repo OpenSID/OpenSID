@@ -1,5 +1,52 @@
-<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
+<?php
+/**
+ * File ini:
+ *
+ * View untuk modul Pemetaan di Halaman Web
+ *
+ * /donjo-app/views/web/halaman_statis/peta.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 
 <script>
 (function()
@@ -22,13 +69,16 @@
 		//Inisialisasi tampilan peta
     var mymap = L.map('map').setView(posisi, zoom);
 
-    mymap.fitBounds(<?=$desa['path']?>);
-
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];
     var marker_dusun = [];
     var marker_rw = [];
     var marker_rt = [];
+    var marker_area = [];
+    var marker_garis = [];
+    var marker_lokasi = [];
+    var markers = new L.MarkerClusterGroup();
+    var markersList = [];
 
     //OVERLAY WILAYAH DESA
     <?php if (!empty($desa['path'])): ?>
@@ -62,6 +112,9 @@
     //Menambahkan zoom scale ke peta
     L.control.scale().addTo(mymap);
 
+    // Menampilkan OverLayer Area, Garis, Lokasi
+    layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
+
     var mylayer = L.featureGroup();
     var layerControl = {
       "Peta Sebaran Covid19": mylayer, // opsi untuk show/hide Peta Sebaran covid19 dari geojson dibawah
@@ -71,7 +124,7 @@
     $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
     	var datalayer = L.geoJson(data ,{
     		onEachFeature: function (feature, layer) {
-    			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>assets/images/gis/point/covid.png"});
+    			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>assets/images/covid.png"});
     			layer.setIcon(custom_icon);
 
     			var popup_0 = L.popup({"maxWidth": "100%"});
@@ -107,18 +160,24 @@
           $('#covid_status').hide();
           $('#covid_status_local').hide();
         }
+        if(mymap.hasLayer(layerCustom)) {
+          mymap.addLayer(markers);
+        } else {
+          mymap.removeLayer(markers);
+        }
         if (layer instanceof L.FeatureGroup) {
           bounds.extend(layer.getBounds());
         }
       });
-      if (bounds.isValid()) {
-        mymap.fitBounds(bounds);
-      } else {
-        mymap.fitBounds(<?=$desa['path']?>);
-      }
+      //if (bounds.isValid()) {
+      //  mymap.fitBounds(bounds);
+      //} else {
+      //  mymap.fitBounds(<?=$desa['path']?>);
+      //}
     });
 
     var mainlayer = L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
+    var customlayer = L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(mymap);
     var covidlayer = L.control.layers('', layerControl, {position: 'topleft', collapsed: false}).addTo(mymap);
 
 		$('#isi_popup_dusun').remove();
@@ -138,10 +197,10 @@
       <div class="col-md-12">
         <div id="map">
           <div class="leaflet-top leaflet-left">
-            <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
-            <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-            <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-            <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_lap' => $list_lap, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
+            <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
             <div id="covid_status">
               <?php $this->load->view("gis/covid_peta.php") ?>
             </div>
@@ -149,6 +208,15 @@
           <div class="leaflet-top leaflet-right">
             <div id="covid_status_local">
               <?php $this->load->view("gis/covid_peta_local.php") ?>
+            </div>
+          </div>
+          <div class="leaflet-bottom leaflet-right">
+            <div id="qrcode">
+              <div class="panel-body-lg">
+                <a href="https://github.com/OpenSID/OpenSID">
+                  <img src="<?= base_url()?>assets/images/opensid.png" alt="OpenSID">
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -193,8 +261,9 @@
   </div>
 </div>
 
-<script src="<?= base_url()?>assets/js/peta.js"></script>
 <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 <script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>

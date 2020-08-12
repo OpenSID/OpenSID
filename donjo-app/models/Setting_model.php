@@ -1,6 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+define("EKSTENSI_WAJIB", serialize(array(
+	"curl",
+	"fileinfo",
+	"gd",
+	"iconv",
+	"json",
+	"mbstring",
+	"mysqli",
+	"mysqlnd",
+	"tidy",
+	"zip"
+)));
+define("VERSI_PHP_MINIMAL", '7.2.0');
+define("VERSI_MYSQL_MINIMAL", '5.6.5');
+
 class Setting_model extends CI_Model {
+
 
 	public function __construct()
 	{
@@ -22,16 +38,23 @@ class Setting_model extends CI_Model {
 				$this->database_model->migrasi_db_cri();
 			}
 			$pr = $this->db
-				->where("kategori is null or kategori <> 'sistem'")
+				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' ")
 				->order_by('key')->get("setting_aplikasi")->result();
-			foreach($pr as $p)
+			foreach ($pr as $p)
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
 			$setting_sistem = $this->db
 				->where('kategori', 'sistem')
 				->order_by('key')->get("setting_aplikasi")->result();
-			foreach($setting_sistem as $p)
+			foreach ($setting_sistem as $p)
+			{
+				$pre[addslashes($p->key)] = addslashes($p->value);
+			}
+			$setting_web = $this->db
+				->where('kategori', 'conf_web')
+				->order_by('key')->get("setting_aplikasi")->result();
+			foreach ($setting_web as $p)
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
@@ -42,23 +65,8 @@ class Setting_model extends CI_Model {
 		}
 		$CI->setting = (object) $pre;
 		$CI->list_setting = $pr; // Untuk tampilan daftar setting
+		$CI->list_setting_web = $setting_web; // Untuk tampilan daftar setting web
 		$this->apply_setting();
-	}
-
-	// Cek apakah migrasi perlu dijalankan
-	private function cek_migrasi()
-	{
-		// Paksa menjalankan migrasi kalau belum
-		// Migrasi direkam di tabel migrasi
-		$sudah = false;
-		if ($this->db->table_exists('migrasi') )
-			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-				->get('migrasi')->num_rows();
-		if (!$sudah)
-		{
-			$this->load->model('database_model');
-			$this->database_model->migrasi_db_cri();
-		}
 	}
 
 	// Setting untuk PHP
@@ -87,26 +95,64 @@ class Setting_model extends CI_Model {
 				$this->setting->web_theme = "default";
 			}
 		}
-		$this->cek_migrasi();
+		$this->setting->demo_mode = config_item('demo_mode');
+		$this->load->model('database_model');
+		$this->database_model->cek_migrasi();
 	}
 
-	public function update($data)
+	public function update_setting($data)
 	{
-		$_SESSION['success'] = 1;
-
 		foreach ($data as $key => $value)
 		{
 			// Update setting yang diubah
 			if ($this->setting->$key != $value)
 			{
 				$value = strip_tags($value);
-				$outp = $this->db->where('key', $key)->update('setting_aplikasi', array('key'=>$key, 'value'=>$value));
+				$this->update($key, $value);
 				$this->setting->$key = $value;
-				if (!$outp) $_SESSION['success'] = -1;
+				if ($key == 'enable_track') $this->notifikasi_tracker();
 			}
 		}
 		$this->apply_setting();
 	}
+
+	private function notifikasi_tracker()
+	{
+		if ($this->setting->enable_track == 0)
+		{
+			// Notifikasi tracker dimatikan
+			$notif = [
+				'updated_at' => date("Y-m-d H:i:s"),
+				'tgl_berikutnya' => date("Y-m-d H:i:s"),
+				'aktif' => 1
+			];
+		}
+		else
+		{
+			// Matikan notifikasi tracker yg sdh aktif
+			$notif = [
+				'updated_at' => date("Y-m-d H:i:s"),
+				'aktif' => 0
+			];
+		}
+		$this->db->where('kode', 'tracking_off')->update('notifikasi', $notif);
+	}
+
+	public function update($key = 'enable_track', $value = 1)
+	{
+		$this->session->success = 1;
+
+		$outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
+
+		if (!$outp) $this->session->success = -1;
+	}
+
+	public function aktifkan_tracking()
+	{
+		$outp = $this->db->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
+		status_sukses($outp);
+	}
+
 
 	public function update_slider()
 	{
@@ -151,5 +197,41 @@ class Setting_model extends CI_Model {
 		                 ->get('setting_aplikasi_options')
 		                 ->result();
 		return $rows;
+	}
+
+	public function cek_ekstensi()
+	{
+		$e = get_loaded_extensions();
+		usort($e, 'strcasecmp');
+		$ekstensi = array_flip($e);
+		$e = unserialize(EKSTENSI_WAJIB);
+		usort($e, 'strcasecmp');
+		$ekstensi_wajib = array_flip($e);
+		$lengkap = true;
+		foreach ($ekstensi_wajib as $key => $value)
+		{
+			$ekstensi_wajib[$key] = isset($ekstensi[$key]);
+			$lengkap = $lengkap && $ekstensi_wajib[$key];
+		}
+		$data['lengkap'] = $lengkap;
+		$data['ekstensi'] = $ekstensi_wajib;
+		return $data;
+	}
+
+	public function cek_php()
+	{
+		$data['versi'] = phpversion();
+		$data['versi_minimal'] = VERSI_PHP_MINIMAL;
+		$data['sudah_ok'] = version_compare(phpversion(), VERSI_PHP_MINIMAL) > 0;
+		return $data;
+	}
+
+	public function cek_mysql()
+	{
+		$data['versi'] = $this->db->query('SELECT VERSION() AS version')
+			->row()->version;
+		$data['versi_minimal'] = VERSI_MYSQL_MINIMAL;
+		$data['sudah_ok'] = version_compare($data['versi'], VERSI_MYSQL_MINIMAL) > 0;
+		return $data;
 	}
 }

@@ -37,7 +37,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="control-label">Judul tautan</label>
-									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ? $teks['judul_tautan'] : '-- selengkapnya...' ?>"></input>
+									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ? $teks['judul_tautan'] : '-- selengkapnya...' ?>" maxlength="150"></input>
 								</div>
 							</div>
 						</div>

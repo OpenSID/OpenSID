@@ -1,4 +1,48 @@
-<?php class Plan_lokasi_model extends CI_Model {
+<?php
+/**
+ * File ini:
+ *
+ * Model untuk modul Pemetaan (Lokasi)
+ *
+ * /donjo-app/models/Plan_lokasi_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
+class Plan_lokasi_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -7,8 +51,7 @@
 
 	public function autocomplete()
 	{
-		$str = autocomplete_str('nama', 'lokasi');
-		return $str;
+		return $this->autocomplete_str('nama', 'lokasi');
 	}
 
 	private function search_sql()
@@ -84,7 +127,7 @@
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o=0, $offset=0, $limit=1000)
 	{
 		switch ($o)
 		{
@@ -94,7 +137,7 @@
 			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 			default:$order_sql = ' ORDER BY id';
 		}
-    $paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		$sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol " . $this->list_data_sql();
 		$sql .= $order_sql;
@@ -116,15 +159,24 @@
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['ref_point'] = $post['ref_point'];
+		$data['desk'] = htmlentities($post['desk']);
+		$data['enabled'] = $post['enabled'];
+		return $data;
+	}
+
 	public function insert()
 	{
-	  $data = $_POST;
-	  $lokasi_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file))
-		  {
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file))
+			{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				UploadLokasi($nama_file);
@@ -146,12 +198,12 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
-	  $lokasi_file = $_FILES['foto']['tmp_name'];
-	  $tipe_file = $_FILES['foto']['type'];
-	  $nama_file = $_FILES['foto']['name'];
-	  $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-	  if (!empty($lokasi_file)){
+		$data = $this->validasi($this->input->post());
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+		if (!empty($lokasi_file)){
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
 				UploadLokasi($nama_file);
@@ -172,7 +224,7 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('lokasi');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -191,7 +243,7 @@
 
 	public function list_point()
 	{
-		$sql = "SELECT * FROM point WHERE tipe = 2 ";
+		$sql = "SELECT * FROM point WHERE tipe = 2 AND enabled = 1";
 
 		if (isset($_SESSION['subpoint']))
 		{
@@ -206,7 +258,7 @@
 
 	public function list_subpoint()
 	{
-		$sql = "SELECT * FROM point WHERE tipe = 0 ";
+		$sql = "SELECT * FROM point WHERE tipe = 0 AND enabled = 1";
 
 		if (isset($_SESSION['point']))
 		{
@@ -239,8 +291,8 @@
 
 	public function update_position($id=0)
 	{
-		$data['lat'] = $this->input->post('lat');
-		$data['lng'] = $this->input->post('lng');
+		$data['lat'] = koordinat($this->input->post('lat'));
+		$data['lng'] = koordinat($this->input->post('lng'));
 		$this->db->where('id', $id);
 		$outp = $this->db->update('lokasi', $data);
 
@@ -254,5 +306,20 @@
 		$data = $query->result_array();
 		return $data;
 	}
+
+	public function list_lokasi()
+	{
+		$data = $this->db
+			->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol')
+			->from('lokasi l')
+			->join('point p', 'l.ref_point = p.id', 'left')
+			->join('point m', 'p.parrent = m.id', 'left')
+			->where('l.enabled = 1')
+			->where('p.enabled = 1')
+			->where('m.enabled = 1')
+			->get()->result_array();
+		return $data;
+	}
+
 }
 ?>
