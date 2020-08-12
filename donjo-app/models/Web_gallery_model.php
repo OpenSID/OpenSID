@@ -237,9 +237,19 @@
 
 	public function gallery_lock($id='', $val=0)
 	{
-		$sql = "UPDATE gambar_gallery SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
-
+		// Jangan kunci jika digunakan untuk slider
+		if ($val == 2)
+		{
+			$this->db
+				->group_start()
+					->where('slider <>', 1)
+					->or_where('slider IS NULL')
+				->group_end();
+		}
+		$outp = $this->db
+			->where('id', $id)
+			->set('enabled', $val)
+			->update('gambar_gallery');
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -248,9 +258,15 @@
 		if ($val == 1)
 		{
 			// Hanya satu gallery yang boleh tampil di slider
-			$this->db->where('slider', 1)->update('gambar_gallery', array('slider'=>0));
+			$this->db->where('slider', 1)
+				->set('slider', 0)
+				->update('gambar_gallery');
+			// Aktifkan galeri kalau digunakan untuk slider
+			$this->db->set('enabled', 1);
 		}
-		$this->db->where('id', $id)->update('gambar_gallery', array('slider'=>$val));
+		$this->db->where('id', $id)
+			->set('slider', $val)
+			->update('gambar_gallery');
 	}
 
 	public function get_gallery($id=0)
@@ -263,13 +279,15 @@
 
 	public function list_slide_galeri()
 	{
-		$gallery_slide_id = $this->db->select('id')->
-			where('slider', 1)->
-			limit(1)->
-			get('gambar_gallery')->row()->id;
-		$slide_galeri = $this->db->select('id, nama as judul, gambar')->
-			where(array('parrent'=>$gallery_slide_id, 'tipe'=>2))->
-			get('gambar_gallery')->result_array();
+		$gallery_slide_id = $this->db->select('id')
+			->where('slider', 1)
+			->limit(1)
+			->get('gambar_gallery')->row()->id;
+		$slide_galeri = $this->db->select('id, nama as judul, gambar')
+			->where('parrent', $gallery_slide_id)
+			->where('tipe', 2)
+			->where('enabled', 1)
+			->get('gambar_gallery')->result_array();
 		return $slide_galeri;
 	}
 

@@ -131,7 +131,7 @@ class Gallery extends Admin_Controller {
 
 	public function gallery_lock($id='', $gallery='')
 	{
-		$this->web_gallery_model->gallery_lock($id,1);
+		$this->web_gallery_model->gallery_lock($id, 1);
 		if ($gallery != '')
 			redirect("gallery/sub_gallery/$gallery/$p");
 		else
@@ -140,7 +140,7 @@ class Gallery extends Admin_Controller {
 
 	public function gallery_unlock($id='', $gallery='')
 	{
-		$this->web_gallery_model->gallery_lock($id,2);
+		$this->web_gallery_model->gallery_lock($id, 2);
 		if ($gallery != '')
 			redirect("gallery/sub_gallery/$gallery/$p");
 		else
@@ -149,7 +149,7 @@ class Gallery extends Admin_Controller {
 
 	public function slider_on($id='', $gallery='')
 	{
-		$this->web_gallery_model->gallery_slider($id,1);
+		$this->web_gallery_model->gallery_slider($id, 1);
 		if ($gallery != '')
 			redirect("gallery/sub_gallery/$gallery/$p");
 		else
