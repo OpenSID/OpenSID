@@ -14,7 +14,6 @@ class Ekspedisi extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
-		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 	}
@@ -22,8 +21,8 @@ class Ekspedisi extends Admin_Controller {
 	public function clear()
 	{
 		$this->session->per_page = 20;
-		unset($this->session->cari);
-		unset($this->session->filter);
+		$this->session->cari = NULL;
+		$this->session->filter = NULL;
 		redirect('ekspedisi');
 	}
 
@@ -32,18 +31,11 @@ class Ekspedisi extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		$data['cari'] = $this->session->cari ?: '';
+		$data['filter'] = $this->session->filter ?: '';
+		$this->session->per_page = $this->input->post('per_page') ?: NULL;
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['per_page'] = $this->session->per_page;
 		$data['paging'] = $this->surat_keluar_model->paging($p, $o);
 		$data['main'] = $this->ekspedisi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
@@ -95,19 +87,14 @@ class Ekspedisi extends Admin_Controller {
 
 	public function search()
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('surat_keluar');
+		$this->session->cari = $this->input->post('cari') ?: NULL;
+		redirect('ekspedisi');
 	}
 
 	public function filter()
 	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0) $_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
-		redirect('surat_keluar');
+		$this->session->filter = $this->input->post('filter') ?: NULL;
+		redirect('ekspedisi');
 	}
 
 	public function update($p = 1, $o = 0, $id)

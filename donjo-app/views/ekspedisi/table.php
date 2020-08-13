@@ -99,7 +99,7 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="dataTables_length">
-                <form id="paging" action="<?= site_url("surat_keluar")?>" method="post" class="form-horizontal">
+                <form id="paging" action="<?= site_url("ekspedisi")?>" method="post" class="form-horizontal">
                   <label>
                     Tampilkan
                     <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
@@ -141,4 +141,3 @@
 		</div>
 	</div>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
