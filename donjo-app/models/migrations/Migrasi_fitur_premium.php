@@ -149,5 +149,44 @@ class Migrasi_fitur_premium extends CI_model {
 	  $this->db->like('url', 'surat_keluar')->update('setting_modul', ['hidden' => 2]);
 	  $this->db->like('url', 'surat_masuk')->update('setting_modul', ['hidden' => 2]);
 	  $this->db->like('url', 'dokumen_sekretariat')->update('setting_modul', ['hidden' => 2]);
+	  // Tambah kolom untuk ekspedisi
+		if (!$this->db->field_exists('created_at', 'surat_keluar'))
+		{
+  		$fields = array();
+  		$fields['ekspedisi'] = array(
+	        	'type' => 'tinyint',
+	        	'constraint' => 1,
+	        	'default' => 0
+	        );
+  		$fields['tanggal_terima'] = array(
+	        	'type' => 'date',
+	        	'null' => TRUE,
+	        	'default' => NULL
+	        );
+  		$fields['tanda_terima'] = array(
+	        	'type' => 'varchar',
+	        	'constraint' => 200,
+	        );
+			$this->dbforge->add_column('surat_keluar', $fields);
+			$this->dbforge->add_column('surat_keluar', 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$this->dbforge->add_column('surat_keluar', 'created_by int(11) NOT NULL');
+			$this->dbforge->add_column('surat_keluar', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$this->dbforge->add_column('surat_keluar', 'updated_by int(11) NOT NULL');
+  	}
+		// Menu permohonan surat untuk operator
+		$modul = array(
+			'id' => '310',
+			'modul' => 'Buku Eskpedisi',
+			'url' => 'ekspedisi/clear',
+			'aktif' => '1',
+			'ikon' => 'fa-files-o',
+			'urut' => '0',
+			'level' => '0',
+			'parent' => '302',
+			'hidden' => '0',
+			'ikon_kecil' => ''
+		);
+		$sql = $this->db->insert_string('setting_modul', $modul) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), parent = VALUES(parent)";
+		$this->db->query($sql);
 	}
 }

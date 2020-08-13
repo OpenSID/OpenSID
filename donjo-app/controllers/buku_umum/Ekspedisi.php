@@ -1,6 +1,6 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Surat_keluar extends Admin_Controller {
+class Ekspedisi extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -49,8 +49,8 @@ class Surat_keluar extends Admin_Controller {
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
-		$data['main_content'] = 'surat_keluar/table';
-		$data['subtitle'] = "Buku Agenda - Surat Keluar";
+		$data['main_content'] = 'ekspedisi/table';
+		$data['subtitle'] = "Buku Ekspedisi";
 		$data['selected_nav'] = 'agenda_keluar';
 		$header['minsidebar'] = 1;
 
@@ -117,12 +117,6 @@ class Surat_keluar extends Admin_Controller {
 		redirect('surat_keluar');
 	}
 
-	public function insert()
-	{
-		$this->surat_keluar_model->insert();
-		redirect('surat_keluar');
-	}
-
 	public function update($p = 1, $o = 0, $id = '')
 	{
 		$this->surat_keluar_model->update($id);
@@ -132,20 +126,6 @@ class Surat_keluar extends Admin_Controller {
 	public function upload($p = 1, $o = 0, $url = '')
 	{
 		$this->surat_keluar_model->upload($url);
-		redirect("surat_keluar/index/$p/$o");
-	}
-
-	public function delete($p = 1, $o = 0, $id = '')
-	{
-		$this->redirect_hak_akses('h', "surat_keluar/index/$p/$o");
-		$this->surat_keluar_model->delete($id);
-		redirect("surat_keluar/index/$p/$o");
-	}
-
-	public function delete_all($p = 1, $o = 0)
-	{
-		$this->redirect_hak_akses('h',"surat_keluar/index/$p/$o");
-		$this->surat_keluar_model->delete_all();
 		redirect("surat_keluar/index/$p/$o");
 	}
 
@@ -210,9 +190,4 @@ class Surat_keluar extends Admin_Controller {
    	echo $hasil ? 'false' : 'true';
 	}
 
-	public function untuk_ekspedisi($p = 1, $o = 0, $id)
-	{
-		$this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 1);
-		redirect("ekspedisi/index/$p/$o");
-	}
 }
