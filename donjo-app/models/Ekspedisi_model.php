@@ -117,7 +117,7 @@
 		return $data;
 	}
 
-	private function get_tanda_terima($id)
+	public function get_tanda_terima($id)
 	{
 		$tanda_terima = $this->db
 			->select('tanda_terima')
@@ -126,6 +126,7 @@
 			->row()->tanda_terima;
 		return $tanda_terima;
 	}
+
 }
 
 ?>

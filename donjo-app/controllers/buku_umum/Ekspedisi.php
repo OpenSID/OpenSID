@@ -79,12 +79,6 @@ class Ekspedisi extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function form_upload($p = 1, $o = 0, $url = '')
-	{
-		$data['form_action'] = site_url("surat_keluar/upload/$p/$o/$url");
-		$this->load->view('surat_keluar/ajax-upload', $data);
-	}
-
 	public function search()
 	{
 		$this->session->cari = $this->input->post('cari') ?: NULL;
@@ -101,12 +95,6 @@ class Ekspedisi extends Admin_Controller {
 	{
 		$this->ekspedisi_model->update($id);
 		redirect("ekspedisi/index/$p/$o");
-	}
-
-	public function upload($p = 1, $o = 0, $url = '')
-	{
-		$this->surat_keluar_model->upload($url);
-		redirect("surat_keluar/index/$p/$o");
 	}
 
 	public function dialog_cetak($o = 0)
@@ -147,6 +135,18 @@ class Ekspedisi extends Admin_Controller {
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
 		$this->load->view('surat_keluar/surat_keluar_excel', $data);
+	}
+
+	/**
+	 * Unduh berkas tanda terima berdasarkan kolom surat_keluar.id
+	 * @param   integer  $id  ID surat_keluar
+	 * @return  void
+	 */
+	public function unduh_tanda_terima($id)
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->ekspedisi_model->get_tanda_terima($id);
+		ambilBerkas($berkas, 'surat_keluar', '__sid__');
 	}
 
 	public function bukan_ekspedisi($p = 1, $o = 0, $id)
