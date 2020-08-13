@@ -9,6 +9,7 @@ class Ekspedisi extends Admin_Controller {
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
 		$this->load->model('surat_keluar_model');
+		$this->load->model('ekspedisi_model');
 		$this->load->model('klasifikasi_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
@@ -18,13 +19,12 @@ class Ekspedisi extends Admin_Controller {
 		$this->sub_modul_ini = 302;
 	}
 
-	public function clear($id = 0)
+	public function clear()
 	{
-		$_SESSION['per_page'] = 20;
-		$_SESSION['surat'] = $id;
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect('surat_keluar');
+		$this->session->per_page = 20;
+		unset($this->session->cari);
+		unset($this->session->filter);
+		redirect('ekspedisi');
 	}
 
 	public function index($p = 1, $o = 2)
@@ -45,13 +45,13 @@ class Ekspedisi extends Admin_Controller {
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_keluar_model->paging($p, $o);
-		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['main'] = $this->ekspedisi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
 		$data['main_content'] = 'ekspedisi/table';
 		$data['subtitle'] = "Buku Ekspedisi";
-		$data['selected_nav'] = 'agenda_keluar';
+		$data['selected_nav'] = 'ekspedisi';
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
@@ -60,9 +60,8 @@ class Ekspedisi extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function form($p = 1, $o = 0, $id = '')
+	public function form($p = 1, $o = 0, $id)
 	{
-		$data['tujuan'] = $this->surat_keluar_model->autocomplete();
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -70,27 +69,21 @@ class Ekspedisi extends Admin_Controller {
 		if ($id)
 		{
 			$data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id);
-			$data['form_action'] = site_url("surat_keluar/update/$p/$o/$id");
-		}
-		else
-		{
-			$last_surat = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
-			$data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
-			$data['form_action'] = site_url("surat_keluar/insert");
+			$data['form_action'] = site_url("ekspedisi/update/$p/$o/$id");
 		}
 		$header = $this->header_model->get_data();
 
 		// Buang unique id pada link nama file
-		$berkas = explode('__sid__', $data['surat_keluar']['berkas_scan']);
+		$berkas = explode('__sid__', $data['surat_keluar']['tanda_terima']);
 		$namaFile = $berkas[0];
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
-		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
+		$data['surat_keluar']['tanda_terima'] = $namaFile.'.'.$ekstensiFile;
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('surat_keluar/form', $data);
+		$this->load->view('ekspedisi/form', $data);
 		$this->load->view('footer');
 	}
 
@@ -117,10 +110,10 @@ class Ekspedisi extends Admin_Controller {
 		redirect('surat_keluar');
 	}
 
-	public function update($p = 1, $o = 0, $id = '')
+	public function update($p = 1, $o = 0, $id)
 	{
-		$this->surat_keluar_model->update($id);
-		redirect("surat_keluar/index/$p/$o");
+		$this->ekspedisi_model->update($id);
+		redirect("ekspedisi/index/$p/$o");
 	}
 
 	public function upload($p = 1, $o = 0, $url = '')
@@ -169,25 +162,10 @@ class Ekspedisi extends Admin_Controller {
 		$this->load->view('surat_keluar/surat_keluar_excel', $data);
 	}
 
-	/**
-	 * Unduh berkas scan berdasarkan kolom surat_keluar.id
-	 * @param   integer  $idSuratMasuk  Id berkas scan pada koloam surat_keluar.id
-	 * @return  void
-	 */
-	public function unduh_berkas_scan($idSuratMasuk)
+	public function bukan_ekspedisi($p = 1, $o = 0, $id)
 	{
-		// Ambil nama berkas dari database
-		$berkas = $this->surat_keluar_model->getNamaBerkasScan($idSuratMasuk);
-		ambilBerkas($berkas, 'surat_keluar', '__sid__');
-	}
-
-	public function nomor_surat_duplikat()
-	{
-		if ($_POST['nomor_urut'] == $_POST['nomor_urut_lama'])
-			$hasil = false;
-		else
-			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $_POST['nomor_urut']);
-   	echo $hasil ? 'false' : 'true';
+		$this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 0);
+		redirect("ekspedisi/index/$p/$o");
 	}
 
 }

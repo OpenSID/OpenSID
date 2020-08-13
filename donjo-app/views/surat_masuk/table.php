@@ -56,7 +56,7 @@
 							<div class="col-sm-12">
 								<div class="table-responsive">
 									<table class="table table-bordered dataTable table-hover">
-										<thead class="bg-gray disabled color-palette">
+										<thead class="bg-gray color-palette">
 											<tr>
 												<th class="nostretch"><input type="checkbox" id="checkall"/></th>
 												<?php if ($o==2): ?>

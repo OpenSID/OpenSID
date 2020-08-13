@@ -69,6 +69,7 @@
 													<th nowrap><a href="<?= site_url("{$this->controller}/index/$p/5")?>">Ditujukan Kepada <i class='fa fa-sort fa-sm'></i></a></th>
 												<?php endif; ?>
 												<th width="30%">Isi Singkat</th>
+												<th>Tanggal Terima</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -77,15 +78,16 @@
 													<td class="nostretch"><?= $data['nomor_urut']?></td>
 													<td class="nostretch">
 														<a href="<?= site_url("{$this->controller}/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-														<?php if ($data['berkas_scan']): ?>
-															<a href='<?= site_url("{$this->controller}/unduh_berkas_scan/$data[id]")?>' class="btn bg-purple btn-flat btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
+														<?php if ($data['tanda_terima']): ?>
+															<a href='<?= site_url("{$this->controller}/unduh_tanda_terima/$data[id]")?>' class="btn bg-purple btn-flat btn-sm" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a>
 														<?php endif; ?>
-														<a href="#" data-href="<?= site_url("{$this->controller}/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<a href="<?= site_url("{$this->controller}/bukan_ekspedisi/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>
 													</td>
 													<td class="nostretch"><?= $data['nomor_surat']?></td>
 													<td nowrap><?= tgl_indo_out($data['tanggal_surat'])?></td>
 													<td nowrap><?= $data['tujuan']?></td>
 													<td><?= $data['isi_singkat']?></td>
+													<td><?= tgl_indo_out($data['tanggal_terima'])?></td>
 												</tr>
 											<?php endforeach; ?>
 										</tbody>
