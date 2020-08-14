@@ -441,16 +441,17 @@ function httpPost($url, $params)
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
 		// Paksa tidak menunggu hasil tracker
-		curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+		/*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
 		curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
 		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 1);*/
 		$output = curl_exec($ch);
 
-		if ($output === false) {
-			// echo 'Curl error: ' . curl_error($ch);
+		/*if ($output === false) {
+			 echo 'Curl error: ' . curl_error($ch);
 		}
+		var_dump(curl_getinfo($ch));*/
 		curl_close($ch);
 		return $output;
 	}

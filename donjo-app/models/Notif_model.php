@@ -33,28 +33,19 @@ class Notif_model extends CI_Model {
 		return $notif;
 	}
 
-	public function notifikasi($kode)
+	public function notifikasi($notif)
 	{
-		// pengumuman tampil saat sistem pertama digunakan atau ketika tgl_berikutnya tlh tercapai
-		// data pengumuman di input ke database jauh hari sebelumnya
-		// nilai default tgl_berikutnya pasti lebih kecil dr tgl saat pertama sistem digunakan
 		$pengumuman = null;
-		$notif = $this->get_notif_by_kode($kode);
-		$tgl_sekarang = date("Y-m-d H:i:s");
-		$tgl_berikutnya = $notif['tgl_berikutnya'];
-		if ($tgl_berikutnya <= $tgl_sekarang)
-		{
-			// simpan view pengumuman dalam variabel
-			$data['isi_pengumuman'] = $notif['isi'];
-			$data['kode'] = $notif['kode'];
-			$data['judul'] = $notif['judul'];
-			$data['jenis'] = $notif['jenis'];
-			$data['aksi'] = $notif['aksi'];
-			$aksi = explode(',', $notif['aksi']);
-			$data['aksi_ya'] = $aksi[0];
-			$data['aksi_tidak'] = $aksi[1];
-			$pengumuman = $this->load->view('notif/pengumuman', $data, TRUE); // TRUE utk ambil content view sebagai output
-		}
+		// simpan view pengumuman dalam variabel
+		$data['isi_pengumuman'] = $notif['isi'];
+		$data['kode'] = $notif['kode'];
+		$data['judul'] = $notif['judul'];
+		$data['jenis'] = $notif['jenis'];
+		$data['aksi'] = $notif['aksi'];
+		$aksi = explode(',', $notif['aksi']);
+		$data['aksi_ya'] = $aksi[0];
+		$data['aksi_tidak'] = $aksi[1];
+		$pengumuman = $this->load->view('notif/pengumuman', $data, TRUE); // TRUE utk ambil content view sebagai output
 		return $pengumuman;
 	}
 
@@ -93,6 +84,11 @@ class Notif_model extends CI_Model {
 			->order_by('urut', 'ASC')
 			->get('notifikasi')->result_array();
 		return $semua_notif;
+	}
+
+	public function insert_notif($data)
+	{
+		$this->db->insert('notifikasi', $data);
 	}
 
 }

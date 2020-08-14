@@ -248,7 +248,7 @@ class Admin_Controller extends MY_Controller {
 			$notifikasi = $this->notif_model->get_semua_notif();
 			foreach($notifikasi as $notif)
 			{
-				$this->pengumuman = $this->notif_model->notifikasi($notif['kode']);
+				$this->pengumuman = $this->notif_model->notifikasi($notif);
 				if ($notif['jenis'] == 'persetujuan') break;
 			}
 		}
