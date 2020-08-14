@@ -21,6 +21,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 15. #3405: Sekarang gambar galeri yg ditampilkan di Slider web hanya yg aktif saja. Galeri yg ditampilkan di slider sekarang tidak boleh di-nonaktifkan. [bug-fix]
 16. #3454: Sekarang slider besar dengan gambar dari galeri ditampilkan walaupun tidak ada artikel yg dimasukkan ke slider. [bug-fix]
 17. #3457: Supaya lebih jelas, sekarang pilihan Aksi Data Terpilih hanya aktif kalau ada keluarga yg dipilih.
+18. #3439: Di Wilayah Adminisratif, tampilkan RT kosong di bawah setiap RW, termasuk RW kosong, untuk kasus desa yg tidak mempunyai RW ataupun RT.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
