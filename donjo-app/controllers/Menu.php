@@ -53,6 +53,7 @@ class Menu extends Admin_Controller {
 		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_menu_model');
+		$this->load->model('referensi_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 49;
@@ -100,11 +101,13 @@ class Menu extends Admin_Controller {
 		$this->load->model('keuangan_model');
 		$this->load->model('web_dokumen_model');
 
+		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
 		$data['link'] = $this->web_menu_model->list_link();
-		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
-		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
-		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
-		$data['statis_lainnya'] = $this->laporan_penduduk_model->link_statis_lainnya();
+		$data['statistik_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['statistik_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['statistik_program_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['statis_lainnya'] = $this->referensi_model->list_ref(STAT_LAINNYA);
 		$data['artikel_keuangan'] = $this->keuangan_model->artikel_statis_keuangan();
 
 		if ($id)
@@ -148,11 +151,14 @@ class Menu extends Admin_Controller {
 		$data['menu'] = $menu;
 		$data['tip'] = $tip;
 
+
+		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
 		$data['link'] = $this->web_menu_model->list_link();
-		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
-		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
-		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
-		$data['statis_lainnya'] = $this->laporan_penduduk_model->link_statis_lainnya();
+		$data['statistik_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['statistik_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['statistik_program_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['statis_lainnya'] = $this->referensi_model->list_ref(STAT_LAINNYA);
 		$data['artikel_keuangan'] = $this->keuangan_model->artikel_statis_keuangan();
 
 		if ($id)

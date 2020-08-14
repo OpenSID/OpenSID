@@ -50,5 +50,6 @@ version.json
 
 # Abaikan file cache milik phpintel (plugin sublime text)
 .phpintel/*
-
+#Abaikan file environment dibaca di index.php
+.env
 

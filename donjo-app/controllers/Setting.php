@@ -45,9 +45,12 @@ class Setting extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 46;
 
+		$data['ekstensi'] = $this->setting_model->cek_ekstensi();
+		$data['php'] = $this->setting_model->cek_php();
+		$data['mysql'] = $this->setting_model->cek_mysql();
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
-		$this->load->view('setting/info_php');
+		$this->load->view('setting/info_php', $data);
 		$this->load->view('footer');
 	}
 

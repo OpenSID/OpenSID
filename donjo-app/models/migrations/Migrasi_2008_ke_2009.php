@@ -51,6 +51,22 @@ class Migrasi_2008_ke_2009 extends CI_model {
 		$this->db->where('id', 14)
 			->set('url', '')
 			->update('setting_modul');
+
+		// Catatan : u/ field dgn table referensi jika tdk ada maka nilainya NULL, jgn isi 0 agar sesuai saat difilter pd statistik
+		$this->db->where('sakit_menahun_id', 0)
+			->set('sakit_menahun_id', NULL)
+			->update('tweb_penduduk');
+		$this->db->where('cacat_id', 0)
+			->set('cacat_id', NULL)
+			->update('tweb_penduduk');
+
+		// Update isi field_admin pd widget agenda
+		$this->db->where('isi', 'agenda.php')
+			->set('form_admin', 'web/tab/1000')
+			->update('widget');
+
+		// Hapus view lama yg tdk digunakan lagi
+		$this->db->query("DROP VIEW IF EXISTS data_surat");
 	}
 
 }

@@ -153,6 +153,13 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if (ENVIRONMENT == 'development'): ?>
+								<li>
+									<a>
+										<i class="fa fa-cog fa-lg" title="Development"></i><span class="badge">Development</span>
+									</a>
+								</li>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
 								<li>
 									<a href="<?=site_url()?>permohonan_surat_admin/clear">

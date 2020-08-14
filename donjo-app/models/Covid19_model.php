@@ -214,7 +214,7 @@ class Covid19_model extends CI_Model
 
 	private function sterilkan($post)
 	{
-		$tujuan_mudik = $this->referensi_model->list_kode_array(TUJUAN_MUDIK);
+		$tujuan_mudik = $this->referensi_model->list_ref_flip(TUJUAN_MUDIK);
 		$data = array(
 			'tanggal_datang' => $post['tanggal_tiba'],
 			'asal_mudik' => alfanumerik_spasi($post['asal_pemudik']),

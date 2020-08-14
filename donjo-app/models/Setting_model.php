@@ -1,6 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+define("EKSTENSI_WAJIB", serialize(array(
+	"curl",
+	"fileinfo",
+	"gd",
+	"iconv",
+	"json",
+	"mbstring",
+	"mysqli",
+	"mysqlnd",
+	"tidy",
+	"zip"
+)));
+define("VERSI_PHP_MINIMAL", '7.2.0');
+define("VERSI_MYSQL_MINIMAL", '5.6.5');
+
 class Setting_model extends CI_Model {
+
 
 	public function __construct()
 	{
@@ -183,4 +199,39 @@ class Setting_model extends CI_Model {
 		return $rows;
 	}
 
+	public function cek_ekstensi()
+	{
+		$e = get_loaded_extensions();
+		usort($e, 'strcasecmp');
+		$ekstensi = array_flip($e);
+		$e = unserialize(EKSTENSI_WAJIB);
+		usort($e, 'strcasecmp');
+		$ekstensi_wajib = array_flip($e);
+		$lengkap = true;
+		foreach ($ekstensi_wajib as $key => $value)
+		{
+			$ekstensi_wajib[$key] = isset($ekstensi[$key]);
+			$lengkap = $lengkap && $ekstensi_wajib[$key];
+		}
+		$data['lengkap'] = $lengkap;
+		$data['ekstensi'] = $ekstensi_wajib;
+		return $data;
+	}
+
+	public function cek_php()
+	{
+		$data['versi'] = phpversion();
+		$data['versi_minimal'] = VERSI_PHP_MINIMAL;
+		$data['sudah_ok'] = version_compare(phpversion(), VERSI_PHP_MINIMAL) > 0;
+		return $data;
+	}
+
+	public function cek_mysql()
+	{
+		$data['versi'] = $this->db->query('SELECT VERSION() AS version')
+			->row()->version;
+		$data['versi_minimal'] = VERSI_MYSQL_MINIMAL;
+		$data['sudah_ok'] = version_compare($data['versi'], VERSI_MYSQL_MINIMAL) > 0;
+		return $data;
+	}
 }

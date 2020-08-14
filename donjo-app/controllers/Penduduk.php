@@ -2,6 +2,49 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * File ini:
+ *
+ * Controller untuk modul Kependudukan > Penduduk
+ *
+ * donjo-app/views/controllers/Penduduk.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
 class Penduduk extends Admin_Controller {
 
 	private $_header;
@@ -16,7 +59,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'golongan_darah', 'hamil'];
+		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'golongan_darah', 'hamil'];
 	}
 
 	private function clear_session()
@@ -158,9 +201,9 @@ class Penduduk extends Admin_Controller {
 		$data['wajib_ktp'] = $this->referensi_model->list_wajib_ktp();
 		$data['ktp_el'] = $this->referensi_model->list_ktp_el();
 		$data['status_rekam'] = $this->referensi_model->list_status_rekam();
-		$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
-		$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
-		$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
+		$data['tempat_dilahirkan'] = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
+		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
+		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$this->_header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
@@ -532,72 +575,70 @@ class Penduduk extends Admin_Controller {
 		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		// kecuali untuk laporan wajib KTP
-		if ($sex == NULL AND $tipe <> 18)
+		if ($sex == NULL && $tipe <> 18)
 		{
-			if ($nomor != 0) $_SESSION['sex'] = $nomor;
-			else unset($_SESSION['sex']);
-			unset($_SESSION['judul_statistik']);
+			if ($nomor != 0) $this->session->sex  = $nomor;
+			else $this->session->unset_userdata('sex');
+			$this->session->unset_userdata('judul_statistik');
 			redirect('penduduk');
 		}
 
-		if ($sex == 0)
-			unset($_SESSION['sex']);
-		else
-			$_SESSION['sex'] = $sex;
+		$this->session->sex = ($sex == 0) ? NULL : $sex;
 
 		switch ($tipe)
 		{
-			case '0': $_SESSION['pendidikan_kk_id'] = $nomor; $pre = "PENDIDIKAN DALAM KK : "; break;
-			case 1: $_SESSION['pekerjaan_id'] = $nomor; $pre = "PEKERJAAN : "; break;
-			case 2: $_SESSION['status'] = $nomor; $pre = "STATUS PERKAWINAN : "; break;
-			case 3: $_SESSION['agama'] = $nomor; $pre = "AGAMA : "; break;
-			case 4: $_SESSION['sex'] = $nomor; $pre = "JENIS KELAMIN : "; break;
-			case 5: $_SESSION['warganegara'] = $nomor;  $pre = "WARGANEGARA : "; break;
-			case 6: $_SESSION['status_penduduk'] = $nomor; $pre = "STATUS PENDUDUK : "; break;
-			case 7: $_SESSION['golongan_darah'] = $nomor; $pre = "GOLONGAN DARAH : "; break;
-			case 9: $_SESSION['cacat'] = $nomor; $pre = "CACAT : "; break;
-			case 10: $_SESSION['menahun'] = $nomor;  $pre = "SAKIT MENAHUN : "; break;
-			case 13: $_SESSION['umurx'] = $nomor;  $pre = "UMUR "; break;
-			case 14: $_SESSION['pendidikan_sedang_id'] = $nomor; $pre = "PENDIDIKAN SEDANG DITEMPUH : "; break;
-			case 15: $_SESSION['umurx'] = $nomor;  $pre = "KATEGORI UMUR : "; break;
-			case 16: $_SESSION['cara_kb_id'] = $nomor; $pre = "CARA KB : "; break;
-			case 17:
-				$_SESSION['akta_kelahiran'] = $nomor;
-				if ($nomor <> BELUM_MENGISI) $_SESSION['umurx'] = $nomor;
-				$pre = "AKTA KELAHIRAN : ";
-				break;
+			case 0: $session = 'pendidikan_kk_id'; $kategori = 'PENDIDIKAN DALAM KK : '; break;
+			case 1: $session = 'pekerjaan_id'; $kategori = 'PEKERJAAN : '; break;
+			case 2: $session = 'status'; $kategori = 'STATUS PERKAWINAN : '; break;
+			case 3: $session = 'agama'; $kategori = 'AGAMA : '; break;
+			case 4: $session = 'sex'; $kategori = 'JENIS KELAMIN : '; break;
+			case 5: $session = 'warganegara'; $kategori = 'WARGANEGARA : '; break;
+			case 6: $session = 'status_penduduk'; $kategori = 'STATUS PENDUDUK : '; break;
+			case 7: $session = 'golongan_darah'; $kategori = 'GOLONGAN DARAH : '; break;
+			case 9: $session = 'cacat'; $kategori = 'CACAT : '; break;
+			case 10: $session = 'menahun'; $kategori = 'SAKIT MENAHUN : '; break;
+			case 13: $session = 'umurx'; $kategori = 'UMUR (RENTANG) : '; break;
+			case 14: $session = 'pendidikan_sedang_id'; $kategori = 'PENDIDIKAN SEDANG DITEMPUH : '; break;
+			case 15: $session = 'umurx'; $kategori = 'UMUR (KATEGORI) : '; break;
+			case 16: $session = 'cara_kb_id'; $kategori = 'CARA KB : '; break;
+			case 17: $session = 'akta_kelahiran'; $kategori = 'AKTA KELAHIRAN : UMUR '; break;
+			case 19: $session = 'id_asuransi'; $kategori = 'JENIS ASURANSI : '; break;
+			case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
+			case 'bantuan_penduduk': $session = 'penerima_bantuan'; $kategori = 'PENERIMA BANTUAN PENDUDUK : '; break;
 			case 18:
 				if ($sex == NULL)
 				{
-					$_SESSION['status_ktp'] = 0;
-					$_SESSION['sex'] = ($nomor == 0) ? NULL : $nomor;
-					$sex = $_SESSION['sex'];
+					$this->session->status_ktp = 0;
+					$this->session->sex = ($nomor == 0) ? NULL : $nomor;
+					$sex = $this->session->sex;
 					unset($nomor);
 				}
 				else
-					$_SESSION['status_ktp'] = $nomor;
-				$pre = "KEPEMILIKAN WAJIB KTP : ";
-				break;
-			case 19:
-				$_SESSION['id_asuransi'] = $nomor; $pre = "JENIS ASURANSI : ";
-				break;
-			case 'covid':
-				$_SESSION['status_covid'] = $nomor; $pre = "STATUS COVID : ";
-				break;
-			case 'bantuan_penduduk':
-				$_SESSION['penerima_bantuan'] = $nomor; $pre = "PENERIMA BANTUAN (PENDUDUK) : ";
+				{
+					$this->session->status_ktp = $nomor;
+				}
+
+				$kategori = "KEPEMILIKAN WAJIB KTP";
 				break;
 		}
+
+		// Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
+		if ($tipe != 18 && $nomor != TOTAL)
+		{
+			$this->session->$session = $nomor;
+		}
+
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
 		// Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
-		if ($judul['nama'] or $tipe = 18)
+		if ($judul['nama'] OR $tipe = 18)
 		{
-			$_SESSION['judul_statistik'] = $pre.$judul['nama'];
+			$this->session->judul_statistik = $kategori . $judul['nama'];
 		}
 		else
 		{
-			unset($_SESSION['judul_statistik']);
+			$this->session->unset_userdata('judul_statistik');
 		}
+
 		redirect('penduduk');
 	}
 

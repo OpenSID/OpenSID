@@ -1,4 +1,7 @@
 <?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -42,8 +45,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
-
 define("VERSION", '20.08-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
@@ -71,8 +72,10 @@ define("LOKASI_MEDIA", 'desa/upload/media/');
 define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 
-// Kode laporan statistik di mana kode isian belum di isi
+// Kode laporan statistik
+define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
+define('TOTAL', 888);
 
 // Kode laporan mandiri di tabel komentar
 define('LAPORAN_MANDIRI', 775);
@@ -426,12 +429,14 @@ function httpPost($url, $params)
 
 	$postData = '';
 	//create name value pairs seperated by &
-	foreach ($params as $k => $v) {
+	foreach ($params as $k => $v)
+	{
 		$postData .= $k . '=' . $v . '&';
 	}
 	$postData = rtrim($postData, '&');
 
-	try {
+	try
+	{
 		$ch = curl_init();
 
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -448,13 +453,15 @@ function httpPost($url, $params)
 		curl_setopt($ch, CURLOPT_TIMEOUT, 1);
 		$output = curl_exec($ch);
 
-		if ($output === false) {
-			// echo 'Curl error: ' . curl_error($ch);
+		if ($output === false)
+		{
+			log_message('error', 'Curl error: ' . curl_error($ch));
 		}
 		curl_close($ch);
 		return $output;
 	}
-	catch (Exception $e) {
+	catch (Exception $e)
+	{
 		return $e;
 	}
 }
@@ -724,6 +731,13 @@ function autocomplete_data_ke_str($data)
 	}
 	$str = '[' . strtolower(substr($str, 1)) . ']';
 	return $str;
+}
+
+// Periksa apakah nilai bilangan Romawi
+// https://recalll.co/?q=How%20to%20convert%20a%20Roman%20numeral%20to%20integer%20in%20PHP?&type=code
+function is_angka_romawi($roman) {
+  $roman_regex='/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/';
+  return preg_match($roman_regex, $roman) > 0;
 }
 
 function bulan_romawi($bulan)
