@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 13. #2434: Sekarang kesiapan status MYSQL dan PHP terpasang yang dibutuhkan OpenSID dilaporkan di Pengaturan > Info Sistem.
 14. #3447: Perbaiki penulisan kolom nama dan kode kecamatan di Identitas Desa. [bug-fix]
 15. #3405: Sekarang gambar galeri yg ditampilkan di Slider web hanya yg aktif saja. Galeri yg ditampilkan di slider sekarang tidak boleh di-nonaktifkan. [bug-fix]
+16. #3454: Sekarang slider besar dengan gambar dari galeri ditampilkan walaupun tidak ada artikel yg dimasukkan ke slider. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
