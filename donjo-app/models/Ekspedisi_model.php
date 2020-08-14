@@ -5,6 +5,20 @@
 		parent::__construct();
 	}
 
+	public function autocomplete()
+	{
+		$this->db->where('ekspedisi', 1);
+		$data = parent::autocomplete();
+		return $data;
+	}
+
+	public function paging($o=0, $offset=0)
+	{
+		$this->db->where('ekspedisi', 1);
+		$data = parent::paging($o, $offset);
+		return $data;
+	}
+
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		$this->db->where('ekspedisi', 1);
@@ -113,7 +127,8 @@
 
 	private function validasi($post)
 	{
-		$data['tanggal_terima'] = tgl_indo_in($post['tanggal_terima']);
+		$data['tanggal_pengiriman'] = tgl_indo_in($post['tanggal_pengiriman']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
 	}
 
@@ -127,6 +142,12 @@
 		return $tanda_terima;
 	}
 
+	public function list_tahun_surat()
+	{
+		$this->db->where('ekspedisi', 1);
+		$data = parent::list_tahun_surat();
+		return $data;
+	}
 }
 
 ?>

@@ -78,13 +78,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="tanggal_terima">Tanggal Terima</label>
+								<label class="col-sm-3 control-label" for="tanggal_pengiriman">Tanggal Pengiriman</label>
 								<div class="col-sm-3">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right tgl required" name="tanggal_terima" type="text" value="<?= tgl_indo_out($surat_keluar['tanggal_terima'])?>">
+										<input class="form-control input-sm pull-right tgl required" name="tanggal_pengiriman" type="text" value="<?= tgl_indo_out($surat_keluar['tanggal_pengiriman'])?>">
 									</div>
 								</div>
 							</div>
@@ -110,6 +110,12 @@
 										</span>
 									</div>
 									<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+								<div class="col-sm-8">
+									<textarea name="keterangan" class="form-control input-sm" placeholder="Keterangan" rows="3" style="resize:none;"><?= $surat_keluar['keterangan']?></textarea>
 								</div>
 							</div>
 							<div class='box-footer'>

@@ -158,7 +158,7 @@ class Migrasi_fitur_premium extends CI_model {
 	        	'constraint' => 1,
 	        	'default' => 0
 	        );
-  		$fields['tanggal_terima'] = array(
+  		$fields['tanggal_pengiriman'] = array(
 	        	'type' => 'date',
 	        	'null' => TRUE,
 	        	'default' => NULL
@@ -166,6 +166,10 @@ class Migrasi_fitur_premium extends CI_model {
   		$fields['tanda_terima'] = array(
 	        	'type' => 'varchar',
 	        	'constraint' => 200,
+	        );
+  		$fields['keterangan'] = array(
+	        	'type' => 'varchar',
+	        	'constraint' => 500,
 	        );
 			$this->dbforge->add_column('surat_keluar', $fields);
 			$this->dbforge->add_column('surat_keluar', 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');

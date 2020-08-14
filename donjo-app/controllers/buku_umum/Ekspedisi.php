@@ -36,10 +36,10 @@ class Ekspedisi extends Admin_Controller {
 		$this->session->per_page = $this->input->post('per_page') ?: NULL;
 
 		$data['per_page'] = $this->session->per_page;
-		$data['paging'] = $this->surat_keluar_model->paging($p, $o);
+		$data['paging'] = $this->ekspedisi_model->paging($p, $o);
 		$data['main'] = $this->ekspedisi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-		$data['keyword'] = $this->surat_keluar_model->autocomplete();
+		$data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
+		$data['keyword'] = $this->ekspedisi_model->autocomplete();
 		$header = $this->header_model->get_data();
 		$data['main_content'] = 'ekspedisi/table';
 		$data['subtitle'] = "Buku Ekspedisi";
@@ -97,44 +97,24 @@ class Ekspedisi extends Admin_Controller {
 		redirect("ekspedisi/index/$p/$o");
 	}
 
-	public function dialog_cetak($o = 0)
+	public function dialog($aksi = "cetak", $o = 0)
 	{
-		$data['aksi'] = "Cetak";
+		$data['aksi'] = $aksi;
 		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-		$data['form_action'] = site_url("surat_keluar/cetak/$o");
-		$this->load->view('surat_keluar/ajax_cetak', $data);
+		$data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
+		$data['form_action'] = site_url("ekspedisi/daftar/$aksi/$o");
+		$this->load->view('ekspedisi/ajax_cetak', $data);
 	}
 
-	public function dialog_unduh($o = 0)
-	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
-		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-		$data['form_action'] = site_url("surat_keluar/unduh/$o");
-		$this->load->view('surat_keluar/ajax_cetak', $data);
-	}
-
-	public function cetak($o = 0)
+	public function daftar($aksi = "cetak", $o = 1)
 	{
 		$data['input'] = $_POST;
 		$_SESSION['filter'] = $data['input']['tahun'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
-		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
-		$this->load->view('surat_keluar/surat_keluar_print', $data);
-	}
-
-	public function unduh($o = 0)
-	{
-		$data['input'] = $_POST;
-		$_SESSION['filter'] = $data['input']['tahun'];
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
-		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
-		$this->load->view('surat_keluar/surat_keluar_excel', $data);
+		$data['main'] = $this->ekspedisi_model->list_data($o, 0, 10000);
+		$this->load->view("ekspedisi/ekspedisi_$aksi", $data);
 	}
 
 	/**

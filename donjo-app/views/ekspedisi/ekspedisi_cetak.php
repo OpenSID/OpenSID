@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Agenda Surat Keluar</title>
+		<title>Buku Ekspedisi</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
@@ -17,7 +17,7 @@
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
 					<h3>
-						<span>AGENDA SURAT KELUAR</span>
+						<span>BUKU EKSPEDISI</span>
 						<?php if (!empty($_SESSION['filter'])): ?>
 							TAHUN <?= $_SESSION['filter']; ?>
 						<?php endif; ?>
@@ -27,21 +27,23 @@
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th>Nomor Urut</th>
-							<th>Nomor Surat</th>
-							<th>Tanggal Surat</th>
-							<th>Ditujukan Kepada</th>
-							<th>Isi Singkat</th>
+							<th>NOMOR URUT</th>
+							<th>TANGGAL PENGIRIMAN</th>
+							<th>TANGGAL DAN NOMOR SURAT</th>
+							<th>ISI SINGKAT SURAT YANG DIKIRIM</th>
+							<th>DITUJUKAN KEPADA</th>
+							<th>KETERANGAN</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $data): ?>
+						<?php foreach ($main as $indeks => $data): ?>
 						<tr>
-							<td><?= $data['nomor_urut']?></td>
-							<td><?= $data['nomor_surat']?></td>
-							<td><?= tgl_indo($data['tanggal_surat'])?></td>
-							<td><?= $data['tujuan']?></td>
+							<td><?= $indeks + 1?></td>
+							<td><?= tgl_indo($data['tanggal_pengiriman'])?></td>
+							<td><?= tgl_indo($data['tanggal_surat']).' / '.$data['nomor_surat']?></td>
 							<td><?= $data['isi_singkat']?></td>
+							<td><?= $data['tujuan']?></td>
+							<td><?= $data['keterangan']?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

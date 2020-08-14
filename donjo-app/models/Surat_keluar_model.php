@@ -82,6 +82,8 @@
 			case 4: $order = ' u.tanggal_surat DESC'; break;
 			case 5: $order = ' u.tujuan'; break;
 			case 6: $order = ' u.tujuan DESC'; break;
+			case 7: $order = ' u.tanggal_pengiriman'; break;
+			case 8: $order = ' u.tanggal_pengiriman DESC'; break;
 			default:$order = ' u.id';
 		}
 		$data = $this->db

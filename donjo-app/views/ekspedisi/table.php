@@ -11,8 +11,8 @@
 </script>
 <div class="box box-info">
   <div class="box-header with-border">
-		<a href="<?= site_url("{$this->controller}/dialog_cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Agenda Surat Keluar" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Agenda Surat Keluar"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url("{$this->controller}/dialog_unduh/$o")?>" title="Unduh Agenda Surat Keluar" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Agenda Surat Keluar" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Agenda Surat Keluar"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url("{$this->controller}/dialog/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Ekspedisi" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Ekspedisi"><i class="fa fa-print "></i> Cetak</a>
+		<a href="<?= site_url("{$this->controller}/dialog/unduh/$o")?>" title="Unduh Buku Ekspedisi" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Ekspedisi" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Ekspedisi"><i class="fa fa-download"></i> Unduh</a>
 	</div>
 	<div class="box-body">
 		<div class="row">
@@ -45,22 +45,18 @@
 									<table class="table table-bordered dataTable table-hover">
 										<thead class="bg-gray color-palette">
 											<tr>
-												<?php if ($o==2): ?>
-													<th class="nostretch"><a href="<?= site_url("{$this->controller}/index/$p/1")?>">No. Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
-												<?php elseif ($o==1): ?>
-													<th class="nostretch"><a href="<?= site_url("{$this->controller}/index/$p/2")?>">No. Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
-												<?php else: ?>
-													<th class="nostretch"><a href="<?= site_url("{$this->controller}/index/$p/1")?>">No. Urut <i class='fa fa-sort fa-sm'></i></a></th>
-												<?php endif; ?>
+												<th class="nostretch">No.</th>
 												<th class="nostretch">Aksi</th>
-												<th class="nostretch">Nomor Surat</th>
-												<?php if ($o==4): ?>
-													<th><a href="<?= site_url("{$this->controller}/index/$p/3")?>">Tanggal Surat <i class='fa fa-sort-asc fa-sm'></i></a></th>
-												<?php elseif ($o==3): ?>
-													<th><a href="<?= site_url("{$this->controller}/index/$p/4")?>">Tanggal Surat <i class='fa fa-sort-desc fa-sm'></i></a></th>
+												<?php if ($o==8): ?>
+													<th><a href="<?= site_url("{$this->controller}/index/$p/7")?>">Tgl Pengiriman <i class='fa fa-sort-asc fa-sm'></i></a></th>
+												<?php elseif ($o==7): ?>
+													<th><a href="<?= site_url("{$this->controller}/index/$p/8")?>">Tgl Pengiriman <i class='fa fa-sort-desc fa-sm'></i></a></th>
 												<?php else: ?>
-													<th><a href="<?= site_url("{$this->controller}/index/$p/3")?>">Tanggal Surat <i class='fa fa-sort fa-sm'></i></a></th>
+													<th><a href="<?= site_url("{$this->controller}/index/$p/7")?>">Tgl Pengiriman <i class='fa fa-sort fa-sm'></i></a></th>
 												<?php endif; ?>
+												<th class="nostretch">No. Surat</th>
+												<th>Tgl Surat</th>
+												<th>Isi Singkat</th>
 												<?php if ($o==6): ?>
 													<th nowrap><a href="<?= site_url("{$this->controller}/index/$p/5")?>">Ditujukan Kepada <i class='fa fa-sort-asc fa-sm'></i></a></th>
 												<?php elseif ($o==5): ?>
@@ -68,14 +64,13 @@
 												<?php else: ?>
 													<th nowrap><a href="<?= site_url("{$this->controller}/index/$p/5")?>">Ditujukan Kepada <i class='fa fa-sort fa-sm'></i></a></th>
 												<?php endif; ?>
-												<th width="30%">Isi Singkat</th>
-												<th>Tanggal Terima</th>
+												<th>Keterangan</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php foreach ($main as $data): ?>
+											<?php foreach ($main as $indeks => $data): ?>
 												<tr>
-													<td class="nostretch"><?= $data['nomor_urut']?></td>
+													<td class="nostretch"><?= $indeks + 1?></td>
 													<td class="nostretch">
 														<a href="<?= site_url("{$this->controller}/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 														<?php if ($data['tanda_terima']): ?>
@@ -83,11 +78,12 @@
 														<?php endif; ?>
 														<a href="<?= site_url("{$this->controller}/bukan_ekspedisi/$p/$o/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>
 													</td>
+													<td><?= tgl_indo_out($data['tanggal_pengiriman'])?></td>
 													<td class="nostretch"><?= $data['nomor_surat']?></td>
 													<td nowrap><?= tgl_indo_out($data['tanggal_surat'])?></td>
-													<td nowrap><?= $data['tujuan']?></td>
 													<td><?= $data['isi_singkat']?></td>
-													<td><?= tgl_indo_out($data['tanggal_terima'])?></td>
+													<td nowrap><?= $data['tujuan']?></td>
+													<td><?= $data['keterangan']?></td>
 												</tr>
 											<?php endforeach; ?>
 										</tbody>
