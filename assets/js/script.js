@@ -540,11 +540,13 @@ function enableHapusTerpilih()
 {
   if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
   {
+    $(".aksi-terpilih").addClass('disabled');
     $(".hapus-terpilih").addClass('disabled');
     $(".hapus-terpilih").attr('href','#');
   }
   else
   {
+    $(".aksi-terpilih").removeClass('disabled');
     $(".hapus-terpilih").removeClass('disabled');
     $(".hapus-terpilih").attr('href','#confirm-delete');
   }

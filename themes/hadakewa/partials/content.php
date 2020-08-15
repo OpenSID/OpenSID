@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<?php if (count($slide_galeri)>0 OR count($slide_artikel)>0): ?>
+<?php if (count($slider_gambar)>0): ?>
 <?php $this->load->view($folder_themes."/layouts/slider.php") ?>
 <?php endif; ?>
 

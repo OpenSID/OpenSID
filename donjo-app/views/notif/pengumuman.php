@@ -6,6 +6,7 @@
 	.checkbox label
 	{
 		font-weight: bolder;
+		margin-top: 10px;
 	}
 </style>
 <form id="form-pengumuman" method="POST">
