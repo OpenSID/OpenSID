@@ -1280,14 +1280,7 @@ class Penduduk_model extends MY_Model {
 
 	public function tulis_log_penduduk_data($log)
 	{
-		$update_str = '';
-		foreach ($log as $key => $item)
-		{
-				$update_str .= $key.'=VALUES('.$key.'),';
-		}
-		$update_str = rtrim($update_str, ', ');
-
-		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
+		$sql = $this->db->insert_string('log_penduduk', $log) . duplicate_key_update_str($log);
 		$this->db->query($sql);
 	}
 
