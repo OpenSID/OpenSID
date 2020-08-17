@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 20. #3437: Tampilkan pengumuman dari server Pantau OpenSID.
 21. Laporan cetak wilayah RT sekarang diurut nama RT.
 22. #3436: Sekarang artikel menggunakan URL ID otomatis diubah menjadi slug.
+23. Perbaiki tampilan menu kiri di Statistik Kependudukan > Umur (Rentang) > Rentang Umum. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
