@@ -347,6 +347,10 @@ class First extends Web_Controller {
 	*/
 	public function artikel($url)
 	{
+		if(is_numeric($url)){
+			$data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
+			redirect('artikel/'. buat_slug($data_artikel));
+		} 
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
