@@ -24,6 +24,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 18. #3439: Di Wilayah Adminisratif, tampilkan RT kosong di bawah setiap RW, termasuk RW kosong, untuk kasus desa yg tidak mempunyai RW ataupun RT.
 19. #3451: Tambah pilihan Penggunaan dan Asal Usul pada form Inventaris Tanah.
 20. #3437: Tampilkan pengumuman dari server Pantau OpenSID.
+21. Laporan cetak wilayah RT sekarang diurut nama RT.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

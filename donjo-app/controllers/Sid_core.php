@@ -296,18 +296,6 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('sid/wilayah/wilayah_rt_excel', $data);
 	}
 
-	public function list_dusun_rt($dusun = '', $rw = '')
-	{
-		$data['dusun'] = $dusun;
-		$data['rw'] = $rw;
-		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
-
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/list_dusun_rt', $data);
-		$this->load->view('footer');
-	}
-
 	public function form_rt($id_dusun = '', $id_rw = '', $rt = '')
 	{
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
