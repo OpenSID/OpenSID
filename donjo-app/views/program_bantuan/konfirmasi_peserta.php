@@ -88,6 +88,16 @@
 	</div>
 </div>
 <div class="form-group">
+	<label class="col-sm-4 col-lg-3 control-label">Jenis Kelamin <?=$individu['judul']?></label>
+	<div class="col-sm-7">
+		<select class="form-control input-sm" disabled name="kartu_sex">
+			<option value="">Pilih Jenis Kelamin</option>
+			<option value="1" <?= selected($individu['sex'], '1'); ?>>LAKI-LAKI</option>
+			<option value="2" <?= selected($individu['sex'], '2'); ?>>PEREMPUAN</option>
+		</select>
+	</div>
+</div>
+<div class="form-group">
 	<label class="col-sm-4 col-lg-3 control-label">Umur <?=$individu['judul']?></label>
 	<div class="col-sm-7">
 		<input class="form-control input-sm" type="text" disabled value="<?= $individu['umur']?> Tahun">

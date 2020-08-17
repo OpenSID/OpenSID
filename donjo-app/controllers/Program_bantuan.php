@@ -82,7 +82,6 @@ class Program_bantuan extends Admin_Controller {
 			$this->session->per_page = $per_page;
 
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
-		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -248,8 +247,7 @@ class Program_bantuan extends Admin_Controller {
 		}
 		else
 		{
-			$this->program_bantuan_model->set_program();
-			redirect("program_bantuan");
+			redirect('program_bantuan');
 		}
 	}
 

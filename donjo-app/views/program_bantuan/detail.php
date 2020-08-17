@@ -28,6 +28,11 @@
 	th {
 		text-align: center;
 	}
+	.tabel-info, td {
+		height: 30px;
+		padding: 5px;
+		word-wrap: break-word;
+	}
 }
 </style>
 <div class="content-wrapper">
@@ -78,23 +83,27 @@
 													<h3 class="box-title">Rincian Program</h3>
 												</div>
 												<div class="box-body">
-													<table class="table table-bordered table-striped table-hover" >
+													<table class="table table-bordered table-striped table-hover tabel-info">
 														<tbody>
 															<tr>
-																<td style="padding-top : 10px;padding-bottom : 10px; width:15%;" nowrap>Nama Program</td>
-																<td> : <?= strtoupper($detail["nama"])?></td>
+																<td width="30%">Nama Program</td>
+																<td width="1">:</td>
+																<td><?= strtoupper($detail["nama"]); ?></td>
 															</tr>
 															<tr>
-																<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Sasaran Peserta</td>
-																<td> : <?= $sasaran[$detail["sasaran"]]?></td>
+																<td>Sasaran Peserta</td>
+																<td> : </td>
+																<td><?= $sasaran[$detail["sasaran"]]?></td>
 															</tr>
 															<tr>
-																<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Masa Berlaku</td>
-																<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
+																<td>Masa Berlaku</td>
+																<td> : </td>
+																<td><?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
 															</tr>
 															<tr>
-																<td style="padding-top : 10px;padding-bottom : 10px;" nowrap>Keterangan</td>
-																<td> : <?= $detail["ndesc"]?></td>
+																<td>Keterangan</td>
+																<td> : </td>
+																<td><?= $detail["ndesc"]?></td>
 															</tr>
 														</tbody>
 													</table>
@@ -131,7 +140,7 @@
 																	<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
 																<?php endif ;?>
 																<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
-																<th colspan="6">Identitas di Kartu Peserta</th>
+																<th colspan="7">Identitas di Kartu Peserta</th>
 															</tr>
 															<tr>
 																<th rowspan="2" nowrap>No. Kartu Peserta</th>
@@ -139,6 +148,7 @@
 																<th>Nama</th>
 																<th nowrap>Tempat Lahir</th>
 																<th nowrap>Tanggal Lahir</th>
+																<th nowrap>Jenis Kelamin</th>
 																<th>Alamat</th>
 															</tr>
 														</thead>
@@ -165,6 +175,7 @@
 																		<td nowrap><?= $item["kartu_nama"];?></td>
 																		<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
 																		<td nowrap><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
+																		<td nowrap><?= ($item["kartu_sex"] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN';?></td>
 																		<td nowrap><?= $item["kartu_alamat"];?></td>
 																	</tr>
 																<?php endforeach; ?>

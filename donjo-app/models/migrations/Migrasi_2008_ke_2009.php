@@ -67,6 +67,26 @@ class Migrasi_2008_ke_2009 extends CI_model {
 
 		// Hapus view lama yg tdk digunakan lagi
 		$this->db->query("DROP VIEW IF EXISTS data_surat");
+
+		// Tambah kolom kartu_sex di tabel program_peserta
+		if (!$this->db->field_exists('kartu_sex', 'program_peserta'))
+		{
+			$fields['kartu_sex'] = [
+				'type' => 'TINYINT',
+				'constraint' => 4,
+			];
+
+			$this->dbforge->add_column('program_peserta', $fields);
+		}
+
+		// Isi field kartu_sex berdasarkan data peserta program
+		$list_peserta = $this->db->select('id, kartu_nik, kartu_sex')->get('program_peserta')->result_array();
+		foreach ($list_peserta as $peserta)
+		{
+			// Cari penduduk berdasaran kartu_nik
+			$penduduk = $this->db->select('sex')->get_where('penduduk_hidup', ['nik' => $peserta['kartu_nik']])->row_array();
+			if ($penduduk) $this->db->where('id', $peserta['id'])->set('kartu_sex', $penduduk['sex'])->update('program_peserta');
+		}
 	}
 
 }

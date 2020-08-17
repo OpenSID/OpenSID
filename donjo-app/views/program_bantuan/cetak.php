@@ -51,7 +51,7 @@
 										<th rowspan="2">No</th>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta"]?></th>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta_info"]?></th>
-										<th colspan="6" style="text-align: center;">Identitas di Kartu Peserta</th>
+										<th colspan="7" style="text-align: center;">Identitas di Kartu Peserta</th>
 									</tr>
 									<tr class="border thick">
 										<th>No. Kartu Peserta</th>
@@ -59,6 +59,7 @@
 										<th>Nama</th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
+										<th>Jenis Kelamin</th>
 										<th>Alamat</th>
 									</tr>
 								</thead>
@@ -73,6 +74,7 @@
 										<td><?=$item["kartu_nama"]?></td>
 										<td><?=$item["kartu_tempat_lahir"]?></td>
 										<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
+										<td><?= ($item["kartu_sex"] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN'; ?></td>
 										<td><?=$item["kartu_alamat"]?></td>
 									</tr>
 									<?php $i++; endforeach;?>

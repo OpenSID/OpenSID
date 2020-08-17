@@ -911,6 +911,7 @@ class Program_bantuan_model extends MY_Model {
 		$data['kartu_nama'] = nama(htmlentities($post['kartu_nama']));
 		$data['kartu_tempat_lahir'] = alamat(htmlentities($post['kartu_tempat_lahir']));
 		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
+		$data['kartu_sex'] = bilangan(htmlentities($post['kartu_sex']));
 		$data['kartu_alamat'] = alamat(htmlentities($post['kartu_alamat']));
 
 		return $data;
@@ -1176,7 +1177,7 @@ class Program_bantuan_model extends MY_Model {
 	public function get_penduduk($peserta_id)
 	{
 		$data = $this->db
-			->select('p.nama, p.nik, p.id_kk, h.nama as hubungan, p.tempatlahir, p.tanggallahir, a.nama as agama, k.nama as pendidikan, j.nama as pekerjaan, w.nama as warganegara, c.*')
+			->select('p.nama, p.nik, p.id_kk, p.sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
 			->from('penduduk_hidup p')
 			->join('tweb_penduduk_hubungan h','h.id = p.kk_level', 'left')
 			->join('tweb_penduduk_agama a','a.id = p.agama_id', 'left')

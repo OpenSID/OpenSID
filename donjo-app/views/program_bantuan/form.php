@@ -7,7 +7,7 @@
 		padding-top: 0px;
 	}
 
-	.tabel, td {
+	.tabel-info, td {
 		height: 30px;
 		padding: 5px;
 		word-wrap: break-word;
@@ -41,19 +41,22 @@
 											<h4 class="box-title"><b>Rincian Program</b></h4>
 										</div>
 										<div class="box-body">
-											<table class="table table-bordered table-striped table-hover" >
+											<table class="table table-bordered table-striped table-hover tabel-info" >
 												<tbody>
 													<tr>
-														<td width="20%">Nama Program</td>
-														<td> : <?= strtoupper($detail["nama"])?></td>
+														<td width="30%">Nama Program</td>
+														<td width="1">:</td>
+														<td><?= strtoupper($detail["nama"])?></td>
 													</tr>
 													<tr>
 														<td>Sasaran Peserta</td>
-														<td> : <?= $sasaran[$detail["sasaran"]]?></td>
+														<td width="1">:</td>
+														<td><?= $sasaran[$detail["sasaran"]]?></td>
 													</tr>
 													<tr>
 														<td>Masa Berlaku</td>
-														<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
+														<td width="1">:</td>
+														<td><?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
 													</tr>
 												</tbody>
 											</table>
@@ -72,7 +75,7 @@
 															<option value="">-- Silakan Masukan <?= $detail['judul_cari_peserta']?> --</option>
 															<?php foreach ($program[2]as $item):
 																if (strlen($item["id"])>0): ?>
-																	<option value="<?= $item['id']?>" <?php selected($individu['nik'], $item['nik']); ?>><?= $item['nama']." - ".$item['info']?></option>
+																	<option value="<?= $item['id']?>" <?= selected($individu['nik'], $item['nik']); ?>><?= $item['nama']." - ".$item['info']?></option>
 																<?php endif;
 															endforeach;?>
 														</select>
@@ -138,6 +141,16 @@
 																</div>
 																<input class="form-control input-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= tgl_indo_out($individu['tanggallahir'])?>">
 															</div>
+														</div>
+													</div>
+													<div class='form-group'>
+														<label for="kartu_sex" class="col-sm-4 col-lg-3 control-label">Jenis Kelamin</label>
+														<div class="col-sm-7">
+															<select class="form-control input-sm required" name="kartu_sex">
+																<option value="">Pilih Jenis Kelamin</option>
+																<option value="1" <?= selected($individu['sex'], '1'); ?>>LAKI-LAKI</option>
+																<option value="2" <?= selected($individu['sex'], '2'); ?>>PEREMPUAN</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group">
