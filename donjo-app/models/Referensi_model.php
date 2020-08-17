@@ -91,6 +91,7 @@ define("STAT_PENDUDUK", serialize([
 	'16' => 'Akseptor KB',
 	'17' => 'Akta Kelahiran',
 	'18' => 'Kepemilikan KTP',
+	'11' => 'Hubungan Dalam KK',
 	'19' => 'Jenis Asuransi',
 	'covid' => 'Status Covid'
 ]));

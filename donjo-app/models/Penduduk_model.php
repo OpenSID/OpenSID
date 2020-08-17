@@ -323,6 +323,7 @@ class Penduduk_model extends MY_Model {
 			array('agama', 'u.agama_id'), // Kode 3
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
+			array('hubungan', 'u.kk_level'), // Kode 11
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
 			array('status_covid', 'rc.id') // Kode covid
 		);
@@ -494,6 +495,7 @@ class Penduduk_model extends MY_Model {
 			array('agama', 'u.agama_id'), // Kode 3
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
+			array('hubungan', 'u.kk_level'), // Kode 11
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
 			array('status_covid', 'rc.id') // Kode covid
 		);
@@ -1327,6 +1329,7 @@ class Penduduk_model extends MY_Model {
 				case 7: $table = 'tweb_golongan_darah'; break;
 				case 9: $table = 'tweb_cacat'; break;
 				case 10: $table = 'tweb_sakit_menahun'; break;
+				case 11: $table = 'tweb_penduduk_hubungan'; break;
 				case 14: $table = 'tweb_penduduk_pendidikan'; break;
 				case 16: $table = 'tweb_cara_kb'; break;
 				case 13: // = 17
