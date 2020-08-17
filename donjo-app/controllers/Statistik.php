@@ -160,10 +160,10 @@ class Statistik extends Admin_Controller {
 	{
 		$data['lap'] = 13;
 		$data['main'] = $this->laporan_penduduk_model->list_data_rentang();
-		$data['list_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
-		$data['list_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
-		$data['list_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-		$data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
+		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
 
