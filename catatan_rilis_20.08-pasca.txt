@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.08-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi, Nur Hidayat, Masumo dan afa28 yang terus berkontribusi. Terima kasih pula pada Tsamara Ali yang baru mulai berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi, Nur Hidayat, Ahmad Afandi, Masumo dan afa28 yang terus berkontribusi. Terima kasih pula pada Tsamara Ali yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 
@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 19. #3451: Tambah pilihan Penggunaan dan Asal Usul pada form Inventaris Tanah.
 20. #3437: Tampilkan pengumuman dari server Pantau OpenSID.
 21. Laporan cetak wilayah RT sekarang diurut nama RT.
+22. #3436: Sekarang artikel menggunakan URL ID otomatis diubah menjadi slug.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
