@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<?php foreach ($stat_penduduk as $id => $nama): ?>
-				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
+				<li <?= jecho((string)$id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
