@@ -323,7 +323,7 @@ class Penduduk_model extends MY_Model {
 			array('agama', 'u.agama_id'), // Kode 3
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
-			array('hubungan', 'u.kk_level'), // Kode 11
+			array('hubungan', 'u.kk_level'), // Kode hubungan_kk
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
 			array('status_covid', 'rc.id') // Kode covid
 		);
