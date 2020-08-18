@@ -1329,7 +1329,6 @@ class Penduduk_model extends MY_Model {
 				case 7: $table = 'tweb_golongan_darah'; break;
 				case 9: $table = 'tweb_cacat'; break;
 				case 10: $table = 'tweb_sakit_menahun'; break;
-				case 11: $table = 'tweb_penduduk_hubungan'; break;
 				case 14: $table = 'tweb_penduduk_pendidikan'; break;
 				case 16: $table = 'tweb_cara_kb'; break;
 				case 13: // = 17
@@ -1339,6 +1338,7 @@ class Penduduk_model extends MY_Model {
 				case 19: $table = 'tweb_penduduk_asuransi'; break;
 				case 'covid': $table = 'ref_status_covid'; break;
 				case 'bantuan_penduduk': $table = 'program'; break;
+				case 'hubungan_kk' : $table = 'tweb_penduduk_hubungan'; break;
 			}
 
 			if ($tipe == 13 OR $tipe == 17) $this->db->where('STATUS', 1);
