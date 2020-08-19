@@ -225,9 +225,11 @@ class Kelompok_model extends MY_Model {
 
 	public function get_kelompok($id=0)
 	{
-		$sql = "SELECT * FROM kelompok WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
+		$data = $this->db->get_where('kelompok', ['id' => $id])->row_array();
+		$ketua = $this->get_ketua_kelompok($data['id']);
+
+		$data['ketua'] = $ketua['nama'];
+
 		return $data;
 	}
 

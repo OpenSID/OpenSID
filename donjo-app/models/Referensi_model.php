@@ -70,6 +70,7 @@ define("LINK_TIPE", serialize([
 	'4' => 'Statistik Program Bantuan',
 	'5' => 'Halaman Statis Lainnya',
 	'6' => 'Artikel Keuangan',
+	'7' => 'Kelompok',
 	'99' => 'Eksternal'
 ]));
 
