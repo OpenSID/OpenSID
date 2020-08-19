@@ -32,8 +32,42 @@
 								<table class="table table-bordered table-striped table-hover tabel-info">
 									<tbody>
 										<?php if ($individu): ?>
+											<?php if ($detail["sasaran"] == 2): ?>
+												<tr>
+													<td>No. KK</td>
+													<td> : </td>
+													<td><?= $individu['no_kk']; ?></td>
+												</tr>
+												<tr>
+													<td>Nama KK</td>
+													<td> : </td>
+													<td><?= $individu['nama_kk']; ?></td>
+												</tr>
+												<tr>
+													<td>Hubungan KK</td>
+													<td> : </td>
+													<td><?= $individu['hubungan']; ?></td>
+												</tr>
+											<?php endif; ?>
+											<?php if ($detail["sasaran"] == 3): ?>
+												<tr>
+													<td>No. RTM</td>
+													<td> : </td>
+													<td><?= $individu['no_kk']; ?></td>
+												</tr>
+												<tr>
+													<td>Nama Kepala RTM</td>
+													<td> : </td>
+													<td><?= $individu['nama_kepala_rtm']; ?></td>
+												</tr>
+												<tr>
+													<td>Hubungan RTM</td>
+													<td> : </td>
+													<td><?= ($individu['rtm_level'] == 1) ? 'KEPALA RUMAH TANGGA': 'ANGGOTA'; ?></td>
+												</tr>
+											<?php endif; ?>
 											<tr>
-												<td width="20%"><?=$individu['judul_nik']?></td>
+												<td width="20%">NIK Penduduk</td>
 												<td width="1">:</td>
 												<td><?= $individu['nik']; ?></td>
 											</tr>
@@ -42,23 +76,6 @@
 												<td> : </td>
 												<td><?= $individu['nama']; ?></td>
 											</tr>
-											<?php if ($detail["sasaran"] == 2): ?>
-												<tr>
-													<td>No. KK</td>
-													<td> : </td>
-													<td><?= $individu['no_kk']; ?></td>
-												</tr>
-												<tr>
-													<td>Nama Kepala Keluarga</td>
-													<td> : </td>
-													<td><?= $individu['nama_kk']; ?></td>
-												</tr>
-												<tr>
-													<td>Status KK</td>
-													<td> : </td>
-													<td><?= $individu['hubungan']; ?></td>
-												</tr>
-											<?php endif; ?>
 											<tr>
 												<td>Alamat <?=$individu['judul']?></td>
 												<td> : </td>
@@ -77,7 +94,7 @@
 											<tr>
 												<td>Umur <?=$individu['judul']?></td>
 												<td> : </td>
-												<td><?= $individu['umur']?> Tahun</td>
+												<td><?= $individu['umur']?> TAHUN</td>
 											</tr>
 											<tr>
 												<td>Pendidikan <?=$individu['judul']?></td>
@@ -110,13 +127,13 @@
 										<tr>
 											<td>NIK</td>
 											<td> : </td>
-											<td><?= $peserta["kartu_nama"]?></td>
+											<td><?= $peserta["kartu_nik"]?></td>
 										</tr>
 										<tr>
 											<tr>
 												<td>Nama</td>
 												<td> : </td>
-												<td><?= $peserta["kartu_nik"]?></td>
+												<td><?= $peserta["kartu_nama"]?></td>
 											</tr>
 											<tr>
 												<td>Tempat Lahir</td>

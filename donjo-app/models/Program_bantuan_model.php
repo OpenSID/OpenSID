@@ -153,7 +153,6 @@ class Program_bantuan_model extends MY_Model {
 				$data = $this->get_penduduk($peserta_id);
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
 				$data['kartu_nik'] = $data['id_peserta'] = $data['nik']; /// NIK Penduduk digunakan sebagai peserta
-				$data['judul_nik'] = 'NIK Penduduk';
 				$data['judul'] = 'Penduduk';
 				break;
 
@@ -169,16 +168,19 @@ class Program_bantuan_model extends MY_Model {
 				$data['nama_kk'] = $kk['nama_kk'];
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($kk);
 				$data['kartu_nik'] = $data['nik'];
-				$data['judul_nik'] = 'NIK Penduduk';
 				$data['judul'] = 'Penduduk';
 				break;
 
 			case 3:
-				# Data RTM
-				$data = $this->rtm_model->get_kepala_rtm($peserta_id, true);
-				$data['kartu_nik'] = $data['nik'];
-				$data['nik'] = $data['id_peserta'] = $peserta_id; // No rumah tangga (no_kk) digunakan sebagai peserta
-				$data['judul_nik'] = 'No. RTM';
+				// Data Penduduk
+				$data = $this->get_penduduk($peserta_id);
+				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
+
+				// Data RTM
+				//$kk = $this->get_rtm($data['id_rtm']);
+
+				$data['no_kk'] = $data['id_peserta'] = $data['id_rtm']; // No RTM digunakan sebagai peserta
+				$data['nama_kepala_rtm'] = $data['nama'];
 				$data['judul'] = 'Kepala RTM';
 				break;
 
@@ -1178,7 +1180,7 @@ class Program_bantuan_model extends MY_Model {
 	public function get_penduduk($peserta_id)
 	{
 		$data = $this->db
-			->select('p.nama, p.nik, p.id_kk, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
+			->select('p.nama, p.nik, p.id_kk, p.id_rtm, p.rtm_level, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
 			->from('penduduk_hidup p')
 			->join('tweb_penduduk_sex x', 'x.id = p.sex', 'left')
 			->join('tweb_penduduk_hubungan h','h.id = p.kk_level', 'left')
@@ -1214,6 +1216,23 @@ class Program_bantuan_model extends MY_Model {
 					->row_array();
 
 		return $kk;
+	}
+
+	public function get_rtm($id_rtm)
+	{
+		$rtm = $this->db
+					->select('r.nik_kepala, r.nok_kk, c.*')
+					->from('tweb_rtm r')
+					->join('penduduk_hidup p','p.id = r.nik_kepala', 'left')
+					->join('tweb_wil_clusterdesa c','c.id = k.id_cluster', 'left')
+					->group_start()
+						->where('k.no_kk', $id_rtm) // Hapus jika 'peserta' sudah fix menggunakan 'id' (sesuai sasaran) sebagai referensi parameter
+						->or_where('k.id', $id_rtm)
+					->group_end()
+					->get()
+					->row_array();
+
+		return $rtm;
 	}
 }
 
