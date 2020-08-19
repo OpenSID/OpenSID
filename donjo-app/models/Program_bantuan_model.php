@@ -223,9 +223,10 @@ class Program_bantuan_model extends MY_Model {
 		{
 			case 1:
 				# Data penduduk
-				if (!$jumlah) $select_sql = "p.*, o.nama, w.rt, w.rw, w.dusun, k.no_kk";
+				if (!$jumlah) $select_sql = "p.*, o.nama, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =".$slug;
@@ -233,30 +234,33 @@ class Program_bantuan_model extends MY_Model {
 
 			case 2:
 				# Data KK
-				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
 					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =".$slug;
 				break;
 
 			case 3:
 				# Data RTM
-				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, r.no_kk, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=".$slug;
 				break;
 
 			case 4:
 				# Data Kelompok
-				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun";
+				if (!$jumlah) $select_sql = "p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
 					LEFT JOIN tweb_penduduk o ON o.id = r.id_ketua
+					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=".$slug;
@@ -676,7 +680,7 @@ class Program_bantuan_model extends MY_Model {
 
 			$response['paging'] = $this->paging_bantuan($p);
 			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
-			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
+			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id ";
 			$strSQL .= $this->sasaran_sql();
 			$strSQL .= " GROUP BY p.id ";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
@@ -911,8 +915,8 @@ class Program_bantuan_model extends MY_Model {
 		$data['kartu_nama'] = nama(htmlentities($post['kartu_nama']));
 		$data['kartu_tempat_lahir'] = alamat(htmlentities($post['kartu_tempat_lahir']));
 		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
-		$data['kartu_sex'] = bilangan(htmlentities($post['kartu_sex']));
 		$data['kartu_alamat'] = alamat(htmlentities($post['kartu_alamat']));
+		$data['kartu_id_pend'] = bilangan($post['kartu_id_pend']);
 
 		return $data;
 	}
@@ -971,11 +975,8 @@ class Program_bantuan_model extends MY_Model {
 			->get()
 			->row_array();
 
-		// Gunakan field kartu_nik untuk mendapatkan data penduduk
-		if($data['sasaran'] == 2) $data['peserta'] = $data['kartu_nik'];
-
 		// Data tambahan untuk ditampilkan
-		$peserta = $this->get_peserta($data['peserta'], $data['sasaran']);
+		$peserta = $this->get_peserta($data['kartu_id_pend'], $data['sasaran']);
 		switch ($data['sasaran'])
 		{
 			case 1:
@@ -1177,15 +1178,19 @@ class Program_bantuan_model extends MY_Model {
 	public function get_penduduk($peserta_id)
 	{
 		$data = $this->db
-			->select('p.nama, p.nik, p.id_kk, p.sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
+			->select('p.nama, p.nik, p.id_kk, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
 			->from('penduduk_hidup p')
+			->join('tweb_penduduk_sex x', 'x.id = p.sex', 'left')
 			->join('tweb_penduduk_hubungan h','h.id = p.kk_level', 'left')
 			->join('tweb_penduduk_agama a','a.id = p.agama_id', 'left')
 			->join('tweb_penduduk_pendidikan_kk k','k.id = p.pendidikan_kk_id', 'left')
 			->join('tweb_penduduk_pekerjaan j','j.id = p.pekerjaan_id', 'left')
 			->join('tweb_penduduk_warganegara w','w.id = p.warganegara_id', 'left')
 			->join('tweb_wil_clusterdesa c','c.id = p.id_cluster', 'left')
-			->where('nik', $peserta_id)
+			->group_start()
+				->where('p.nik', $peserta_id) // Hapus jika 'peserta' sudah fix menggunakan 'id' (sesuai sasaran) sebagai referensi parameter
+				->or_where('p.id', $peserta_id)
+			->group_end()
 			->get()
 			->row_array();
 
@@ -1201,15 +1206,15 @@ class Program_bantuan_model extends MY_Model {
 					->from('keluarga_aktif k')
 					->join('penduduk_hidup p','p.id = k.nik_kepala', 'left')
 					->join('tweb_wil_clusterdesa c','c.id = k.id_cluster', 'left')
-					->where('k.id', $id_kk)
+					->group_start()
+						->where('k.no_kk', $id_kk) // Hapus jika 'peserta' sudah fix menggunakan 'id' (sesuai sasaran) sebagai referensi parameter
+						->or_where('k.id', $id_kk)
+					->group_end()
 					->get()
 					->row_array();
 
 		return $kk;
 	}
-
-	/* ========= Akhir datatable #peserta_program ============= */
-
 }
 
 ?>

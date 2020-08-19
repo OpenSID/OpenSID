@@ -166,7 +166,7 @@ class Program_bantuan extends Admin_Controller {
 	public function data_peserta($id = 0)
 	{
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
-		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
+		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['kartu_nik'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$this->_header['minsidebar'] = 1;
 
@@ -306,12 +306,7 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$temp = $this->session->per_page;
 			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
-			$data["sasaran"] = array(
-				"1" => "Penduduk",
-				"2" => "Keluarga/KK",
-				"3" => "Rumah Tangga",
-				"4" => "Kelompok/Organisasi Kemasyarakatan"
-			);
+			$data["sasaran"] = unserialize(SASARAN);
 
 			$data['config'] = $this->config_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $program_id);

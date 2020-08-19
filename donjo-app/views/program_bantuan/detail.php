@@ -1,6 +1,5 @@
 <script>
-	$(function()
-	{
+	$(function() {
 		var keyword = <?= $keyword != '' ? $keyword : '""' ?> ;
 		$("#cari").autocomplete(
 		{
@@ -10,19 +9,15 @@
 	});
 </script>
 <style>
-	.input-sm
-	{
+	.input-sm {
 		padding: 4px 4px;
 	}
-	@media (max-width:780px)
-	{
-		.btn-group-vertical
-		{
+	@media (max-width:780px) {
+		.btn-group-vertical {
 			display: block;
 		}
 	}
-	.table-responsive
-	{
+	.table-responsive {
 		min-height:275px;
 	}
 	th {
@@ -37,11 +32,11 @@
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Rincian Program Bantuan</h1>
+		<h1>Detail Program Bantuan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-			<li class="active">Rincian Program Bantuan</li>
+			<li class="active">Detail Program Bantuan</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -74,55 +69,19 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
+								<input type="hidden" id="program_id" name="program_id" value="<?= $detail['id']?>">
+								<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
-										<input type="hidden" id="program_id" name="program_id" value="<?= $detail['id']?>">
 										<div class="row">
-											<div class="col-sm-12">
-												<div class="box-header with-border">
-													<h3 class="box-title">Rincian Program</h3>
-												</div>
-												<div class="box-body">
-													<table class="table table-bordered table-striped table-hover tabel-info">
-														<tbody>
-															<tr>
-																<td width="30%">Nama Program</td>
-																<td width="1">:</td>
-																<td><?= strtoupper($detail["nama"]); ?></td>
-															</tr>
-															<tr>
-																<td>Sasaran Peserta</td>
-																<td> : </td>
-																<td><?= $sasaran[$detail["sasaran"]]?></td>
-															</tr>
-															<tr>
-																<td>Masa Berlaku</td>
-																<td> : </td>
-																<td><?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
-															</tr>
-															<tr>
-																<td>Keterangan</td>
-																<td> : </td>
-																<td><?= $detail["ndesc"]?></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
+											<div class="col-sm-9">
+												<h4>Daftar Peserta Program Bantuan <?php $cari and print("[ Cari : <b>$cari</b> ]") ?></h4>
 											</div>
-											<div class="col-sm-12">
-												<div class="row">
-													<div class="col-sm-9">
-														<div class="box-header with-border">
-															<h3 class="box-title">Daftar Peserta Program <?php $cari and print("[ Cari : <b>$cari</b> ]") ?></h3>
-														</div>
-													</div>
-													<div class="col-sm-3">
-														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
-															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
-															</div>
-														</div>
+											<div class="col-sm-3">
+												<div class="input-group input-group-sm pull-right with-border">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
+													<div class="input-group-btn">
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -175,7 +134,7 @@
 																		<td nowrap><?= $item["kartu_nama"];?></td>
 																		<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
 																		<td nowrap><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
-																		<td nowrap><?= ($item["kartu_sex"] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN';?></td>
+																		<td nowrap><?= $item["sex"];?></td>
 																		<td nowrap><?= $item["kartu_alamat"];?></td>
 																	</tr>
 																<?php endforeach; ?>
@@ -183,10 +142,10 @@
 														</tbody>
 													</table>
 												</div>
+												<?php $this->load->view('global/paging');?>
 											</div>
 										</div>
 									</form>
-									<?php $this->load->view('global/paging');?>
 								</div>
 							</div>
 						</div>

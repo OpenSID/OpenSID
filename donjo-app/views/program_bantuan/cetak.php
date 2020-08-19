@@ -74,7 +74,7 @@
 										<td><?=$item["kartu_nama"]?></td>
 										<td><?=$item["kartu_tempat_lahir"]?></td>
 										<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
-										<td><?= ($item["kartu_sex"] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN'; ?></td>
+										<td><?=$item["sex"]?></td>
 										<td><?=$item["kartu_alamat"]?></td>
 									</tr>
 									<?php $i++; endforeach;?>
