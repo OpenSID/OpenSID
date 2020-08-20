@@ -67,6 +67,11 @@ class Migrasi_2008_ke_2009 extends CI_model {
 
 		// Hapus view lama yg tdk digunakan lagi
 		$this->db->query("DROP VIEW IF EXISTS data_surat");
+
+		// Hapus anggota kelompok yg tdk memiliki kelompok / tdk terhapus saat menghapus kelompok
+		$kelompok = $this->db->select('id')->get('kelompok')->result_array();
+		$list_id_kelompook = sql_in_list(array_column($kelompok, 'id'));
+		$this->db->where("id_kelompok NOT IN ($list_id_kelompook)")->delete('kelompok_anggota');
 	}
 
 }

@@ -55,7 +55,6 @@ class Kelompok extends Admin_Controller {
 
 	public function anggota($id=0)
 	{
-		$data['kel'] = $id;
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
 		$header = $this->header_model->get_data();
@@ -241,20 +240,29 @@ class Kelompok extends Admin_Controller {
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h', "kelompok/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_all();
 		redirect("kelompok/index/$p/$o");
 	}
 
 	public function insert_a($id=0)
 	{
+		$this->redirect_hak_akses('h');
 		$this->kelompok_model->insert_a($id);
 		redirect("kelompok/anggota/$id");
 	}
 
-	public function delete_a($id='', $a=0)
+	public function delete_anggota($id = 0, $a=0)
 	{
-		$this->kelompok_model->delete_a($a);
+		$this->redirect_hak_akses('h');
+		$this->kelompok_model->delete_anggota($a);
+		redirect("kelompok/anggota/$id");
+	}
+
+	public function delete_anggota_all($id = 0)
+	{
+		$this->redirect_hak_akses('h');
+		$this->kelompok_model->delete_anggota_all();
 		redirect("kelompok/anggota/$id");
 	}
 
