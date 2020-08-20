@@ -311,9 +311,11 @@ class Program_bantuan_model extends MY_Model {
 
 	private function sasaran_sql()
 	{
-		if ($kf = $this->session->sasaran)
+		$kf = $this->session->sasaran;
+
+		if (isset($kf))
 		{
-			$sql = " AND p.sasaran = '$kf'";
+			$sql = " AND p.sasaran = $kf ";
 			return $sql;
 		}
 	}
@@ -682,7 +684,7 @@ class Program_bantuan_model extends MY_Model {
 
 			$response['paging'] = $this->paging_bantuan($p);
 			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
-			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id ";
+			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
 			$strSQL .= $this->sasaran_sql();
 			$strSQL .= " GROUP BY p.id ";
 			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
@@ -978,7 +980,7 @@ class Program_bantuan_model extends MY_Model {
 			->row_array();
 
 		// Data tambahan untuk ditampilkan
-		$peserta = $this->get_peserta($data['kartu_id_pend'], $data['sasaran']);
+		$peserta = $this->get_peserta($data['kartu_nik'], $data['sasaran']);
 		switch ($data['sasaran'])
 		{
 			case 1:
@@ -992,7 +994,7 @@ class Program_bantuan_model extends MY_Model {
 				$data['judul_peserta'] = 'No. KK';
 				$data['judul_peserta_info'] = 'Kepala Keluarga';
 				$data['peserta_nama'] = $data['peserta'];
-				$data['peserta_info'] = $peserta['nama'];
+				$data['peserta_info'] = $peserta['nama_kk'];
 				break;
 
 			case 3:
@@ -1180,7 +1182,7 @@ class Program_bantuan_model extends MY_Model {
 	public function get_penduduk($peserta_id)
 	{
 		$data = $this->db
-			->select('p.nama, p.nik, p.id_kk, p.id_rtm, p.rtm_level, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
+			->select('p.id, p.nama, p.nik, p.id_kk, p.id_rtm, p.rtm_level, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
 			->from('penduduk_hidup p')
 			->join('tweb_penduduk_sex x', 'x.id = p.sex', 'left')
 			->join('tweb_penduduk_hubungan h','h.id = p.kk_level', 'left')
@@ -1218,22 +1220,5 @@ class Program_bantuan_model extends MY_Model {
 		return $kk;
 	}
 
-	public function get_rtm($id_rtm)
-	{
-		$rtm = $this->db
-					->select('r.nik_kepala, r.nok_kk, c.*')
-					->from('tweb_rtm r')
-					->join('penduduk_hidup p','p.id = r.nik_kepala', 'left')
-					->join('tweb_wil_clusterdesa c','c.id = k.id_cluster', 'left')
-					->group_start()
-						->where('k.no_kk', $id_rtm) // Hapus jika 'peserta' sudah fix menggunakan 'id' (sesuai sasaran) sebagai referensi parameter
-						->or_where('k.id', $id_rtm)
-					->group_end()
-					->get()
-					->row_array();
-
-		return $rtm;
-	}
 }
-
 ?>

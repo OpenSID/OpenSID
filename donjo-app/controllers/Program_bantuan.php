@@ -67,9 +67,12 @@ class Program_bantuan extends Admin_Controller {
 		redirect('program_bantuan');
 	}
 
-	public function filter($filter = '')
+	public function filter($filter)
 	{
-		$this->session->$filter = $this->input->post($filter);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('program_bantuan');
 	}
 
@@ -85,6 +88,7 @@ class Program_bantuan extends Admin_Controller {
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
+		$data['set_sasaran'] = $this->session->sasaran;
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -247,7 +251,8 @@ class Program_bantuan extends Admin_Controller {
 		}
 		else
 		{
-			redirect('program_bantuan');
+			$this->program_bantuan_model->set_program();
+			redirect("program_bantuan");
 		}
 	}
 
