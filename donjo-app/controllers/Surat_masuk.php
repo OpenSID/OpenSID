@@ -52,7 +52,7 @@ class Surat_masuk extends Admin_Controller {
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_masuk/table', $data);
@@ -157,7 +157,7 @@ class Surat_masuk extends Admin_Controller {
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
-		$this->load->view('surat_masuk/ajax_disposisi', $data);
+		$this->load->view('global/ttd_pamong', $data);
 	}
 
 	public function dialog_cetak($o = 0)

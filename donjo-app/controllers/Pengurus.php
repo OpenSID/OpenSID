@@ -148,7 +148,7 @@ class Pengurus extends Admin_Controller {
 		$data['aksi'] = $aksi;
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("pengurus/daftar/$aksi");
-		$this->load->view('home/ajax_pengurus', $data);
+		$this->load->view('global/ttd_pamong', $data);
 	}
 
 	/*
