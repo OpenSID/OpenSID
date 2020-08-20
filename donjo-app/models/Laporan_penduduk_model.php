@@ -529,6 +529,7 @@ class Laporan_penduduk_model extends MY_Model {
 			"2" => array('id_referensi' => "status_kawin", 'tabel_referensi' => "tweb_penduduk_kawin"),
 			"3" => array('id_referensi' => "agama_id", 'tabel_referensi' => "tweb_penduduk_agama"),
 			"4" => array('id_referensi' => "sex", 'tabel_referensi' => "tweb_penduduk_sex"),
+			"hubungan_kk" => array('id_referensi' => "kk_level", 'tabel_referensi' => "tweb_penduduk_hubungan"),
 			"5" => array('id_referensi' => "warganegara_id", 'tabel_referensi' => "tweb_penduduk_warganegara"),
 			"6" => array('id_referensi' => "status", 'tabel_referensi' => "tweb_penduduk_status"),
 			"7" => array('id_referensi' => "golongan_darah_id", 'tabel_referensi' => "tweb_golongan_darah"),

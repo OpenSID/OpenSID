@@ -323,6 +323,7 @@ class Penduduk_model extends MY_Model {
 			array('agama', 'u.agama_id'), // Kode 3
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
+			array('hubungan', 'u.kk_level'), // Kode hubungan_kk
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
 			array('status_covid', 'rc.id') // Kode covid
 		);
@@ -494,6 +495,7 @@ class Penduduk_model extends MY_Model {
 			array('agama', 'u.agama_id'), // Kode 3
 			array('warganegara', 'u.warganegara_id'), // Kode 5
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
+			array('hubungan', 'u.kk_level'), // Kode 11
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
 			array('status_covid', 'rc.id') // Kode covid
 		);
@@ -1280,14 +1282,7 @@ class Penduduk_model extends MY_Model {
 
 	public function tulis_log_penduduk_data($log)
 	{
-		$update_str = '';
-		foreach ($log as $key => $item)
-		{
-				$update_str .= $key.'=VALUES('.$key.'),';
-		}
-		$update_str = rtrim($update_str, ', ');
-
-		$sql = $this->db->insert_string('log_penduduk',$log) . ' ON DUPLICATE KEY UPDATE ' . $update_str;
+		$sql = $this->db->insert_string('log_penduduk', $log) . duplicate_key_update_str($log);
 		$this->db->query($sql);
 	}
 
@@ -1343,6 +1338,7 @@ class Penduduk_model extends MY_Model {
 				case 19: $table = 'tweb_penduduk_asuransi'; break;
 				case 'covid': $table = 'ref_status_covid'; break;
 				case 'bantuan_penduduk': $table = 'program'; break;
+				case 'hubungan_kk' : $table = 'tweb_penduduk_hubungan'; break;
 			}
 
 			if ($tipe == 13 OR $tipe == 17) $this->db->where('STATUS', 1);

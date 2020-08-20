@@ -347,6 +347,15 @@ class First extends Web_Controller {
 	*/
 	public function artikel($url)
 	{
+		if (is_numeric($url))
+		{
+			$data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
+			if ($data_artikel)
+			{
+				$data_artikel['slug'] = $this->security->xss_clean($data_artikel['slug']);
+				redirect('artikel/'. buat_slug($data_artikel));
+			}
+		}
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
 
@@ -514,8 +523,8 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['main']    = $this->first_penduduk_m->wilayah();
-		$data['heading']="Populasi Per Wilayah";
+		$data['main'] = $this->wilayah_model->list_semua_wilayah();
+		$data['heading'] = "Populasi Per Wilayah";
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
@@ -535,7 +544,7 @@ class First extends Web_Controller {
 		$data['cek'] = $cek;
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
-		$data['heading']="Produk Hukum";
+		$data['heading'] = "Produk Hukum";
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
 		$this->_get_common_data($data);
 

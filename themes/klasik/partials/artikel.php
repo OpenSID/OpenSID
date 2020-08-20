@@ -96,7 +96,7 @@
 				<li class="sbutton" id="fb"><a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url('artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;Facebook</a></li>
 				<li class="sbutton" id="rt"><a href="http://twitter.com/share?url=<?= site_url('artikel/'.buat_slug($single_artikel)) ?>" class="twitter-share-button" target="_blank"><i class="fa fa-twitter"></i>&nbsp;Tweet</a></li>
 				<li class="sbutton" id="wa_share"><a href="https://api.whatsapp.com/send?text=<?= site_url('artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
-				<li class="sbutton" id="tele_share"><a href="https://telegram.me/share/url?url=<?= site_url('artikel/'.buat_slug($single_artikel))?>&text=<?= $single_artikel["judul"]; ?>" target="_blank"><i class="fa fa-telegram" style="color:blue"></i>&nbsp;Telegram</a></li>
+				<li class="sbutton" id="tele_share"><a href="https://telegram.me/share/url?url=<?= site_url('artikel/'.buat_slug($single_artikel))?>&text=<?= htmlspecialchars($single_artikel["judul"]); ?>" target="_blank"><i class="fa fa-telegram" style="color:blue"></i>&nbsp;Telegram</a></li>
 			</ul>
 		</div>
 

@@ -46,9 +46,9 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($main as $data): ?>
+															<?php foreach ($main as $indeks => $data): ?>
 																<tr>
-																	<td><?= $data['no']?></td>
+																	<td><?= $indeks + 1 ?></td>
 																	<td nowrap>
 																		<?php if ($data['rt']!="-"): ?>
 																			<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>

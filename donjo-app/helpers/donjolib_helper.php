@@ -109,8 +109,10 @@
 		return $hasil_rupiah;
 	}
 
-	function jecho($a,$b,$str){
-		if($a==$b){
+	function jecho($a, $b, $str)
+	{
+		if ($a == $b)
+		{
 			echo $str;
 		}
 	}

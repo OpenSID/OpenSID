@@ -52,7 +52,7 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'config_model', 'header_model']);
+		$this->load->model(['wilayah_model', 'config_model', 'pamong_model', 'header_model']);
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
@@ -92,23 +92,31 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function cetak()
+	/*
+	 * $aksi = cetak/unduh
+	 */
+	public function dialog($aksi = 'cetak')
 	{
-		$data['desa'] = $this->_header;
-		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
-		$data['total'] = $this->wilayah_model->total();
-
-		$this->load->view('sid/wilayah/wilayah_print', $data);
+		$data['aksi'] = $aksi;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("sid_core/daftar/$aksi");
+		$this->load->view('global/ttd_pamong', $data);
 	}
 
-	public function excel()
+	/*
+	 * $aksi = cetak/unduh
+	 */
+	public function daftar($aksi = 'cetak')
 	{
+		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
 		$data['desa'] = $this->_header;
-		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
+		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['total'] = $this->wilayah_model->total();
 
-		$this->load->view('sid/wilayah/wilayah_excel', $data);
+		$this->load->view("sid/wilayah/wilayah_$aksi", $data);
 	}
+
 
 	public function form($id = '')
 	{
@@ -294,18 +302,6 @@ class Sid_Core extends Admin_Controller {
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $rw);
 
 		$this->load->view('sid/wilayah/wilayah_rt_excel', $data);
-	}
-
-	public function list_dusun_rt($dusun = '', $rw = '')
-	{
-		$data['dusun'] = $dusun;
-		$data['rw'] = $rw;
-		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $rw);
-
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/list_dusun_rt', $data);
-		$this->load->view('footer');
 	}
 
 	public function form_rt($id_dusun = '', $id_rw = '', $rt = '')
