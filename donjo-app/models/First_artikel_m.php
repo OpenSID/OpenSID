@@ -585,4 +585,8 @@ class First_artikel_m extends CI_Model {
 		$_SESSION['artikel'][] = $id;
 	}
 
+	public function get_artikel_by_id($id)
+	{
+		return $this->db->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where(array('id' => $id))->get('artikel')->row_array();
+	}
 }

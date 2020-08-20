@@ -83,6 +83,7 @@ define("STAT_PENDUDUK", serialize([
 	'2' => 'Status Perkawinan',
 	'3' => 'Agama',
 	'4' => 'Jenis Kelamin',
+	'hubungan_kk' => 'Hubungan Dalam KK',
 	'5' => 'Warga Negara',
 	'6' => 'Status Penduduk',
 	'7' => 'Golongan Darah',

@@ -185,7 +185,9 @@
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1) AS jumlah_warga_l,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
+		FROM tweb_wil_clusterdesa u
+		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
+		WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
@@ -248,16 +250,13 @@
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,(
 		SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun'";
+		FROM tweb_wil_clusterdesa u
+		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
+		WHERE u.rt <> '0' AND u.rw = '$rw' AND u.dusun = '$dusun'
+		ORDER BY u.rt";
 
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
-
-		//Formating Output
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-		}
 		return $data;
 	}
 
@@ -306,14 +305,6 @@
 			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
 			->where('p.id NOT IN (SELECT c.id_kepala FROM tweb_wil_clusterdesa c WHERE c.id_kepala != 0)')
 			->get()->result_array();
-		return $data;
-	}
-
-	public function list_dusun_rt($dusun = '')
-	{
-		$sql = "SELECT * FROM tweb_clusterdesa WHERE dusun = ? AND rt <> '' ";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
 		return $data;
 	}
 
