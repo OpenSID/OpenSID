@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<?= base_url() ?>assets/css/report.css" rel="stylesheet" type="text/css">
 	<style type="text/css">
-		.textx {
+		.textx, td {
 			mso-number-format: "\@";
 		}
 	</style>
@@ -67,10 +67,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php $i = 1;
-								foreach ($peserta[1] as $key => $item) : ?>
+								<?php foreach ($peserta[1] as $key => $item) : ?>
 									<tr>
-										<td align="center"><?= $i ?></td>
+										<td align="center"><?= $key + 1 ?></td>
 										<td class='textx'><?= $item["nik"] ?></td>
 										<?php if (!empty($item['peserta_plus'])) : ?>
 											<td><?= $item["peserta_plus"] ?></td>
@@ -83,8 +82,7 @@
 										<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"]) ?></td>
 										<td><?= $item["kartu_alamat"] ?></td>
 									</tr>
-								<?php $i++;
-								endforeach; ?>
+								<?php endforeach; ?>
 							</tbody>
 						</table>
 					</td>
