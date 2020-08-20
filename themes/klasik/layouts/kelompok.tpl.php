@@ -75,7 +75,24 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			$('#tabel-data').DataTable();
+			$('#tabel-data').DataTable({
+				'processing': true,
+				"pageLength": 10,
+				'order': [],
+				'columnDefs': [
+					{
+						'searchable': false,
+						'targets': 0
+					},
+					{
+						'orderable': false,
+						'targets': 0
+					}
+				],
+				'language': {
+					'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+				},
+			});
 		});
 	</script>
 </body>
