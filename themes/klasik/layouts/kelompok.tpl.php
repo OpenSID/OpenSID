@@ -6,7 +6,7 @@
 			<div class="innertube">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title"> Kelompok <?= $detail['nama']; ?></h3>
+						<h3 class="box-title"> Data Kelompok <?= $detail['nama']; ?></h3>
 					</div>
 					<div class="box-body">
 						<div class="table-responsive">
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 					<div class="box-header with-border">
-						<h3 class="box-title"> Anggota <?= $detail['nama']; ?></h3>
+						<h3 class="box-title"> Anggota Kelompok <?= $detail['nama']; ?></h3>
 					</div>
 					<div class="box-body">
 						<div class="table-responsive">
@@ -41,19 +41,19 @@
 									<tr>
 										<th>No</th>
 										<th>Nomor Anggota</th>
-										<th>NIK</th>
 										<th>Nama</th>
 										<th>Alamat</th>
+										<th>Jenis Kelamin</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php foreach ($anggota as $data): ?>
 										<tr>
 											<td><?= $data['no']?></td>
-											<td><?= $data['no_anggota']?></td>
-											<td><?= $data['nik']?></td>
+											<td><?= $data['no_anggota'] ?:'-'?></td>
 											<td nowrap><?= $data['nama']?></td>
 											<td><?= $data['alamat']?></td>
+											<td><?= ($data['sex'] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN'?></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>
@@ -75,9 +75,7 @@
 	</div>
 	<script>
 		$(document).ready(function(){
-			$('#tabel-data').DataTable({
-				responsive: true
-			});
+			$('#tabel-data').DataTable();
 		});
 	</script>
 </body>
