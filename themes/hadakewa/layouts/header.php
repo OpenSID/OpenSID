@@ -62,8 +62,8 @@
 		<meta property="og:type" content="article"/>
 
 		<?php if (isset($single_artikel)): ?>
-			<meta property="og:title" content="<?= $single_artikel["judul"];?>"/>
-			<meta property="og:url" content="<?= base_url('index.php/artikel/'.buat_slug($single_artikel))?>"/>
+			<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]);?>"/>
+			<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
 			<meta property="og:image" content="<?= base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$single_artikel['gambar']);?>"/>
 			<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
 			<meta name="description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>
