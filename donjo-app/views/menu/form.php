@@ -132,6 +132,12 @@
 											<option value="<?= $id?>" <?= selected($submenu['link'], $id) ?>><?= $nama?></option>
 										<?php endforeach; ?>
 									</select>
+									<select id="kelompok" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=7): ?>display:none;<?php endif; ?>">
+										<option value="">Pilih Kelompok</option>
+										<?php foreach ($kelompok as $kel): ?>
+											<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
+										<?php endforeach; ?>
+									</select>
 									<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">
 										<input name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
 										<span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
@@ -182,6 +188,10 @@
 			$('#artikel_keuangan').show();
 			$('#artikel_keuangan').attr('name', 'link');
 			$('#artikel_keuangan').removeAttr('disabled');
+		} else if (jenis == '7') {
+			$('#kelompok').show();
+			$('#kelompok').attr('name', 'link');
+			$('#kelompok').removeAttr('disabled');
 		} else if (jenis == '99') {
 			$('#eksternal').show();
 			$('#eksternal > input').show();
