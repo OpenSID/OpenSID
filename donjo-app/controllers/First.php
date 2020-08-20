@@ -455,12 +455,15 @@ class First extends Web_Controller {
 
 	public function kelompok($id)
 	{
-		if (!$this->web_menu_model->menu_aktif('kelompok/'. $id)) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
 
 		$data = $this->includes;
 
 		$data['detail'] = $this->kelompok_model->get_kelompok($id);
 		$data['anggota'] = $this->kelompok_model->list_anggota($id);
+
+		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
+		if ($data['detail'] == NULL) show_404();
 
 		$this->_get_common_data($data);
 
