@@ -63,7 +63,7 @@ class Program_bantuan extends Admin_Controller {
 	public function clear()
 	{
 		$this->session->per_page = $this->_set_page[0];
-		$this->session->sasaran = '';
+		$this->session->unset_userdata('sasaran');
 		redirect('program_bantuan');
 	}
 
