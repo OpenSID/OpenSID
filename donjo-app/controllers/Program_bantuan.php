@@ -63,13 +63,16 @@ class Program_bantuan extends Admin_Controller {
 	public function clear()
 	{
 		$this->session->per_page = $this->_set_page[0];
-		$this->session->sasaran = '';
+		$this->session->unset_userdata('sasaran');
 		redirect('program_bantuan');
 	}
 
-	public function filter($filter = '')
+	public function filter($filter)
 	{
-		$this->session->$filter = $this->input->post($filter);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('program_bantuan');
 	}
 
@@ -82,10 +85,10 @@ class Program_bantuan extends Admin_Controller {
 			$this->session->per_page = $per_page;
 
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
-		$data['tampil'] = 0;
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
+		$data['set_sasaran'] = $this->session->sasaran;
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -167,7 +170,7 @@ class Program_bantuan extends Admin_Controller {
 	public function data_peserta($id = 0)
 	{
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
-		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['peserta'], $data['peserta']['sasaran']);
+		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['kartu_nik'], $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$this->_header['minsidebar'] = 1;
 
@@ -308,12 +311,7 @@ class Program_bantuan extends Admin_Controller {
 		{
 			$temp = $this->session->per_page;
 			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
-			$data["sasaran"] = array(
-				"1" => "Penduduk",
-				"2" => "Keluarga/KK",
-				"3" => "Rumah Tangga",
-				"4" => "Kelompok/Organisasi Kemasyarakatan"
-			);
+			$data["sasaran"] = unserialize(SASARAN);
 
 			$data['config'] = $this->config_model->get_data();
 			$data['peserta'] = $this->program_bantuan_model->get_program(1, $program_id);
