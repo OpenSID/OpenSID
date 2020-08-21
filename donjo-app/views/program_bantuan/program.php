@@ -25,9 +25,9 @@
 										<div class="col-sm-9">
 											<form id="mainform" name="mainform" action="" method="post">
 												<select class="form-control input-sm" name="sasaran" onchange="formAction('mainform', '<?=site_url('program_bantuan/filter/sasaran')?>')">
-													<option value="">Sasaran</option>
+													<option value="">Pilih Sasaran</option>
 													<?php foreach ($list_sasaran AS $key => $value): ?>
-														<option value="<?= $key?>" <?php if ($this->session->sasaran == $key): ?>selected<?php endif ?>><?= $value?></option>
+														<option value="<?= $key; ?>" <?= selected($set_sasaran, $key); ?>><?= $value?></option>
 													<?php endforeach; ?>
 												</select>
 											</form>
