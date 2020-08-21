@@ -53,7 +53,7 @@ class Program_bantuan_model extends MY_Model {
 
 	public function __construct()
 	{
-		$this->load->model(['rtm_model', 'kelompok_model']);
+		$this->load->model(['rtm_model', 'kelompok_model', 'wilayah_model']);
 	}
 
 	public function autocomplete($id, $cari)
@@ -149,47 +149,44 @@ class Program_bantuan_model extends MY_Model {
 		switch ($sasaran)
 		{
 			case 1:
-				// Data Penduduk
+				// Data Penduduk; $peserta_id adalah NIK
 				$data = $this->get_penduduk($peserta_id);
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
 				$data['kartu_nik'] = $data['id_peserta'] = $data['nik']; /// NIK Penduduk digunakan sebagai peserta
+				$data['judul_nik'] = 'NIK Penduduk';
 				$data['judul'] = 'Penduduk';
 				break;
 
 			case 2:
-				// Data Penduduk
+				// Data Penduduk; $peserta_id adalah NIK
+				// NIK bisa untuk anggota keluarga, belum tentu kepala KK
 				$data = $this->get_penduduk($peserta_id);
-
 				// Data KK
 				$kk = $this->get_kk($data['id_kk']);
-
 				$data['no_kk'] = $data['id_peserta'] = $kk['no_kk']; // No KK digunakan sebagai peserta
 				$data['nik_kk'] = $kk['nik_kk'];
 				$data['nama_kk'] = $kk['nama_kk'];
 				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($kk);
 				$data['kartu_nik'] = $data['nik'];
-				$data['judul'] = 'Penduduk';
+				$data['judul_nik'] = 'NIK Penduduk';
+				$data['judul'] = 'Peserta';
 				break;
 
 			case 3:
-				// Data Penduduk
-				$data = $this->get_penduduk($peserta_id);
-				$data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
-
-				// Data RTM
-				//$kk = $this->get_rtm($data['id_rtm']);
-
-				$data['no_kk'] = $data['id_peserta'] = $data['id_rtm']; // No RTM digunakan sebagai peserta
+				// Data Penduduk; $peserta_id adalah No RTM (kolom no_kk)
+				$data = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk = true);
+			 	$data['id_peserta'] = $data['no_kk']; // No RTM digunakan sebagai peserta
 				$data['nama_kepala_rtm'] = $data['nama'];
+				$data['kartu_nik'] = $data['nik'];
+				$data['judul_nik'] = 'NIK Kepala RTM';
 				$data['judul'] = 'Kepala RTM';
 				break;
 
 			case 4:
-				# Data Kelompok
+				# Data Kelompok; $peserta_id adalah id kelompok
 				$data = $this->kelompok_model->get_ketua_kelompok($peserta_id);
 				$data['kartu_nik'] = $data['nik'];
 				$data['id_peserta'] = $peserta_id; // Id_kelompok digunakan sebagai peserta
-				$data['nik'] = $data['nama_kelompok'];
 				$data['judul_nik'] = 'Nama Kelompok';
 				$data['judul'] = 'Ketua Kelompok';
 				break;
@@ -198,7 +195,6 @@ class Program_bantuan_model extends MY_Model {
 				break;
 		}
 
-		$data['program'] = $this->program_bantuan_model->get_peserta_program($sasaran, $data['id_peserta']);
 
 		return $data;
 	}
@@ -237,10 +233,12 @@ class Program_bantuan_model extends MY_Model {
 			case 2:
 				# Data KK
 				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun";
-				$strSQL = "SELECT ". $select_sql." FROM program_peserta p
+				$strSQL = "SELECT ". $select_sql."
+					FROM program_peserta p
 					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
 					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
-					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
+					LEFT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
+					LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =".$slug;
 				break;
@@ -583,7 +581,7 @@ class Program_bantuan_model extends MY_Model {
 				// Abaikan keluarga yang sudah terdaftar pada program
 				if(!in_array($data[$i]['no_kk'], $filter))
 				{
-					$hasil2[$j]['id'] = $data[$i]['nik'].'|'.$data[$i]['no_kk'];
+					$hasil2[$j]['id'] = $data[$i]['nik'];
 					$hasil2[$j]['nik'] = $data[$i]['nik'];
 					$hasil2[$j]['nama'] = strtoupper("KK[".$data[$i]['no_kk']."] - [".$data[$i]['kk_level']."] ".$data[$i]['nama']." [".$data[$i]['nik']."]");
 					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
@@ -920,7 +918,7 @@ class Program_bantuan_model extends MY_Model {
 		$data['kartu_tempat_lahir'] = alamat(htmlentities($post['kartu_tempat_lahir']));
 		$data['kartu_tanggal_lahir'] = date_is_empty($post['kartu_tanggal_lahir']) ? NULL : tgl_indo_in($post['kartu_tanggal_lahir']);
 		$data['kartu_alamat'] = alamat(htmlentities($post['kartu_alamat']));
-		$data['kartu_id_pend'] = bilangan($post['kartu_id_pend']);
+		if ($post['kartu_id_pend']) $data['kartu_id_pend'] = bilangan($post['kartu_id_pend']);
 
 		return $data;
 	}
@@ -980,7 +978,7 @@ class Program_bantuan_model extends MY_Model {
 			->row_array();
 
 		// Data tambahan untuk ditampilkan
-		$peserta = $this->get_peserta($data['kartu_nik'], $data['sasaran']);
+		$peserta = $this->get_peserta($data['peserta'], $data['sasaran']);
 		switch ($data['sasaran'])
 		{
 			case 1:
@@ -991,10 +989,12 @@ class Program_bantuan_model extends MY_Model {
 				break;
 
 			case 2:
+				// Data KK; $peserta_id adalah No KK
+				$kk = $this->get_kk($data['peserta']);
 				$data['judul_peserta'] = 'No. KK';
 				$data['judul_peserta_info'] = 'Kepala Keluarga';
 				$data['peserta_nama'] = $data['peserta'];
-				$data['peserta_info'] = $peserta['nama_kk'];
+				$data['peserta_info'] = $kk['nama_kk'];
 				break;
 
 			case 3:
@@ -1182,7 +1182,7 @@ class Program_bantuan_model extends MY_Model {
 	public function get_penduduk($peserta_id)
 	{
 		$data = $this->db
-			->select('p.id, p.nama, p.nik, p.id_kk, p.id_rtm, p.rtm_level, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.*')
+			->select('p.id as id, p.nama, p.nik, p.id_kk, p.id_rtm, p.rtm_level, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.dusun, c.rw, c.rt')
 			->from('penduduk_hidup p')
 			->join('tweb_penduduk_sex x', 'x.id = p.sex', 'left')
 			->join('tweb_penduduk_hubungan h','h.id = p.kk_level', 'left')

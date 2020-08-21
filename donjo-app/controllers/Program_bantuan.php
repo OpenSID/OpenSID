@@ -170,7 +170,19 @@ class Program_bantuan extends Admin_Controller {
 	public function data_peserta($id = 0)
 	{
 		$data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
-		$data['individu'] = $this->program_bantuan_model->get_peserta($data['peserta']['kartu_nik'], $data['peserta']['sasaran']);
+
+		switch ($data['peserta']['sasaran'])
+		{
+			case '1':
+			case '2':
+				$peserta_id = $data['peserta']['kartu_id_pend'];
+				break;
+			case '3':
+			case '4':
+				$peserta_id = $data['peserta']['peserta'];
+				break;
+		}
+		$data['individu'] = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$this->_header['minsidebar'] = 1;
 

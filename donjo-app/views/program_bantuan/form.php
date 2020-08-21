@@ -61,7 +61,7 @@
 												<div class="box box-info box-solid">
 													<div class="box-header with-border">
 														<i class="fa fa-user"></i>
-														<h3 class="box-title">Konfirmsi Peserta</h3>
+														<h3 class="box-title">Konfirmasi Peserta</h3>
 													</div>
 													<div class="box-body">
 														<?php include('donjo-app/views/program_bantuan/konfirmasi_peserta.php'); ?>

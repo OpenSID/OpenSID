@@ -55,19 +55,16 @@
 													<td> : </td>
 													<td><?= $individu['no_kk']; ?></td>
 												</tr>
+											<?php endif; ?>
+											<?php if ($detail["sasaran"] == 4): ?>
 												<tr>
-													<td>Nama Kepala RTM</td>
+													<td>Nama Kelompok</td>
 													<td> : </td>
-													<td><?= $individu['nama_kepala_rtm']; ?></td>
-												</tr>
-												<tr>
-													<td>Hubungan RTM</td>
-													<td> : </td>
-													<td><?= ($individu['rtm_level'] == 1) ? 'KEPALA RUMAH TANGGA': 'ANGGOTA'; ?></td>
+													<td><?= $individu['nama_kelompok']; ?></td>
 												</tr>
 											<?php endif; ?>
 											<tr>
-												<td width="20%">NIK Penduduk</td>
+												<td width="20%">NIK <?=$individu['judul']?></td>
 												<td width="1">:</td>
 												<td><?= $individu['nik']; ?></td>
 											</tr>

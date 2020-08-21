@@ -50,6 +50,9 @@
 									<tr class="border thick">
 										<th rowspan="2">No</th>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta"]?></th>
+										<?php if (!empty($peserta[0]['judul_peserta_plus'])) : ?>
+											<th rowspan="2" nowrap class="text-center"><?= $peserta[0]["judul_peserta_plus"] ?></th>
+										<?php endif; ?>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta_info"]?></th>
 										<th colspan="7" style="text-align: center;">Identitas di Kartu Peserta</th>
 									</tr>
@@ -68,6 +71,9 @@
 									<tr>
 										<td align="center"><?= $key + 1?></td>
 										<td class='textx'><?=$item["nik"]?></td>
+										<?php if (!empty($item['peserta_plus'])) : ?>
+											<td><?= $item["peserta_plus"] ?></td>
+										<?php endif; ?>
 										<td><?=$item["peserta_info"]?></td>
 										<td class='textx' align="center"><?=$item["no_id_kartu"]?></td>
 										<td class='textx'><?=$item["kartu_nik"]?></td>
