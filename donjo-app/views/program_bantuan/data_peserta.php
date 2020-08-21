@@ -1,7 +1,9 @@
 <style type="text/css">
-	.tabel, td {
+	.tabel-info, td {
 		height: 30px;
 		padding: 5px;
+		word-wrap: break-word;
+	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -24,125 +26,139 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title"><b>Rincian Program</b></h3>
-											</div>
-											<div class="box-body">
-												<table class="table table-bordered table-striped table-hover" >
-													<tbody>
-														<tr>
-															<td width="30%">Nama Program</td>
-															<td> : <?= strtoupper($detail["nama"])?></td>
-														</tr>
-														<tr>
-															<td>Sasaran Peserta</td>
-															<td> : <?= $sasaran[$detail["sasaran"]]?></td>
-														</tr>
-														<tr>
-															<td>Masa Berlaku</td>
-															<td> : <?= fTampilTgl($detail["sdate"],$detail["edate"])?></td>
-														</tr>
-														<tr>
-															<td>Keterangan</td>
-															<td> : <?= $detail["ndesc"]?></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title"><b>Data Peserta</b></h3>
-											</div>
-											<div class="box-body">
-												<table class="table table-bordered table-striped table-hover" >
-													<tbody>
-														<?php if ($individu): ?>
-															<tr>
-																<td width="30%"><?=$individu['judul_nik']?></td>
-																<td> : <?= $individu['nik']; ?></td>
-															</tr>
-															<tr>
-																<td>Nama <?=$individu['judul']?></td>
-																<td> : <?= $individu['nama']; ?></td>
-															</tr>
-															<?php if ($detail["sasaran"] == 2): ?>
-																<tr>
-																	<td>No. KK</td>
-																	<td> : <?= $individu['no_kk']; ?></td>
-																</tr>
-																<tr>
-																	<td>Nama Kepala Keluarga</td>
-																	<td> : <?= $individu['nama_kk']; ?></td>
-																</tr>
-																<tr>
-																	<td>Status KK</td>
-																	<td> : <?= $individu['hubungan']; ?></td>
-																</tr>
-															<?php endif; ?>
-															<tr>
-																<td>Alamat <?=$individu['judul']?></td>
-																<td> : <?= $individu['alamat_wilayah']; ?></td>
-															</tr>
-															<tr>
-																<td>Tempat Tanggal Lahir <?=$individu['judul']?></td>
-																<td> : <?= $individu['tempatlahir']?>, <?= tgl_indo($individu['tanggallahir'])?></td>
-															</tr>
-															<tr>
-																<td>Umur <?=$individu['judul']?></td>
-																<td> : <?= $individu['umur']?> Tahun</td>
-															</tr>
-															<tr>
-																<td>Pendidikan <?=$individu['judul']?></td>
-																<td> : <?= $individu['pendidikan']?></td>
-															</tr>
-															<tr>
-																<td>Warganegara / Agama <?=$individu['judul']?></td>
-																<td> : <?= $individu['warganegara']?> / <?= $individu['agama']?></td>
-															</tr>
-														<?php endif; ?>
-														<tr>
-															<td colspan='2'><b>Identitas Pada Kartu Peserta</b></td>
-														</tr>
-														<tr>
-															<td>Nomor Kartu Peserta</td>
-															<td> : <?= $peserta["no_id_kartu"]?></td>
-														</tr>
-														<tr>
-															<td>NIK</td>
-															<td> : <?= $peserta["kartu_nama"]?></td>
-														</tr>
-														<tr>
-														<tr>
-															<td>Nama</td>
-															<td> : <?= $peserta["kartu_nik"]?></td>
-														</tr>
-														<tr>
-															<td>Tempat Lahir</td>
-															<td> : <?= $peserta["kartu_tempat_lahir"]?></td>
-														</tr>
-														<tr>
-															<td>Tanggal Lahir</td>
-															<td> : <?= tgl_indo($peserta["kartu_tanggal_lahir"])?></td>
-														</tr>
-														<tr>
-															<td>Alamat</td>
-															<td> : <?= $peserta["kartu_alamat"]?></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
+								<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
+
+								<h4>Data Peserta Program Bantuan</h4>
+								<table class="table table-bordered table-striped table-hover tabel-info">
+									<tbody>
+										<?php if ($individu): ?>
+											<?php if ($detail["sasaran"] == 2): ?>
+												<tr>
+													<td>No. KK</td>
+													<td> : </td>
+													<td><?= $individu['no_kk']; ?></td>
+												</tr>
+												<tr>
+													<td>Nama KK</td>
+													<td> : </td>
+													<td><?= $individu['nama_kk']; ?></td>
+												</tr>
+												<tr>
+													<td>Hubungan KK</td>
+													<td> : </td>
+													<td><?= $individu['hubungan']; ?></td>
+												</tr>
+											<?php endif; ?>
+											<?php if ($detail["sasaran"] == 3): ?>
+												<tr>
+													<td>No. RTM</td>
+													<td> : </td>
+													<td><?= $individu['no_kk']; ?></td>
+												</tr>
+											<?php endif; ?>
+											<?php if ($detail["sasaran"] == 4): ?>
+												<tr>
+													<td>Nama Kelompok</td>
+													<td> : </td>
+													<td><?= $individu['nama_kelompok']; ?></td>
+												</tr>
+											<?php endif; ?>
+											<tr>
+												<td width="20%">NIK <?=$individu['judul']?></td>
+												<td width="1">:</td>
+												<td><?= $individu['nik']; ?></td>
+											</tr>
+											<tr>
+												<td>Nama <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['nama']; ?></td>
+											</tr>
+											<tr>
+												<td>Alamat <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['alamat_wilayah']; ?></td>
+											</tr>
+											<tr>
+												<td>Tempat Tanggal Lahir <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['tempatlahir']?>, <?= tgl_indo($individu['tanggallahir'])?></td>
+											</tr>
+											<tr>
+												<td>Jenis Kelamin <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['sex']?></td>
+											</tr>
+											<tr>
+												<td>Umur <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['umur']?> TAHUN</td>
+											</tr>
+											<tr>
+												<td>Pendidikan <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['pendidikan']?></td>
+											</tr>
+											<tr>
+												<td>Warganegara / Agama <?=$individu['judul']?></td>
+												<td> : </td>
+												<td><?= $individu['warganegara']?> / <?= $individu['agama']?></td>
+											</tr>
+											<tr>
+												<td>Bantuan <?=$individu['judul']?> Yang Sedang Diterima</td>
+												<td> : </td>
+												<td><?php foreach ($individu['program']['programkerja'] as $item): ?>
+												<?php if ($item[status] == '1'): ?>
+													<?= anchor("program_bantuan/data_peserta/$item[peserta_id]", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
+												<?php endif; ?>
+												<?php endforeach; ?></td>
+											</tr>
+										<?php endif; ?>
+										<tr>
+											<td colspan='3'><b>IDENTITASI PADA KARTU PESERTA</b></td>
+										</tr>
+										<tr>
+											<td>Nomor Kartu Peserta</td>
+											<td> : </td>
+											<td><?= $peserta["no_id_kartu"]?></td>
+										</tr>
+										<tr>
+											<td>NIK</td>
+											<td> : </td>
+											<td><?= $peserta["kartu_nik"]?></td>
+										</tr>
+										<tr>
+											<tr>
+												<td>Nama</td>
+												<td> : </td>
+												<td><?= $peserta["kartu_nama"]?></td>
+											</tr>
+											<tr>
+												<td>Tempat Lahir</td>
+												<td> : </td>
+												<td><?= $peserta["kartu_tempat_lahir"]?></td>
+											</tr>
+											<tr>
+												<td>Tanggal Lahir</td>
+												<td> : </td>
+												<td><?= tgl_indo($peserta["kartu_tanggal_lahir"])?></td>
+											</tr>
+											<tr>
+												<td>Jenis Kelamin</td>
+												<td> : </td>
+												<td><?= $individu['sex']?></td>
+											</tr>
+											<tr>
+												<td>Alamat</td>
+												<td> : </td>
+												<td><?= $peserta["kartu_alamat"]?></td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-</div>
+		</section>
+	</div>
