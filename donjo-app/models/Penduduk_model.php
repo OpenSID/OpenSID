@@ -1307,7 +1307,7 @@ class Penduduk_model extends MY_Model {
 		$this->db->query($query);
 	}
 
-	public function get_judul_statistik($tipe=0, $nomor=1, $sex=0)
+	public function get_judul_statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
 		if ($nomor == JUMLAH)
 			$judul = array("nama" => "JUMLAH");
@@ -1319,7 +1319,7 @@ class Penduduk_model extends MY_Model {
 		{
 			switch ($tipe)
 			{
-				case 0: $table = 'tweb_penduduk_pendidikan_kk'; break;
+				case '0': $table = 'tweb_penduduk_pendidikan_kk'; break;
 				case 1: $table = 'tweb_penduduk_pekerjaan'; break;
 				case 2: $table = 'tweb_penduduk_kawin'; break;
 				case 3: $table = 'tweb_penduduk_agama'; break;

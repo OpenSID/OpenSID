@@ -570,7 +570,7 @@ class Penduduk extends Admin_Controller {
 		$this->load->view('sid/kependudukan/penduduk_excel', $data);
 	}
 
-	public function statistik($tipe = 0, $nomor = 0, $sex = NULL)
+	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
 		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
@@ -587,7 +587,7 @@ class Penduduk extends Admin_Controller {
 
 		switch ($tipe)
 		{
-			case 0: $session = 'pendidikan_kk_id'; $kategori = 'PENDIDIKAN DALAM KK : '; break;
+			case '0': $session = 'pendidikan_kk_id'; $kategori = 'PENDIDIKAN DALAM KK : '; break;
 			case 1: $session = 'pekerjaan_id'; $kategori = 'PEKERJAAN : '; break;
 			case 2: $session = 'status'; $kategori = 'STATUS PERKAWINAN : '; break;
 			case 3: $session = 'agama'; $kategori = 'AGAMA : '; break;
@@ -597,13 +597,13 @@ class Penduduk extends Admin_Controller {
 			case 7: $session = 'golongan_darah'; $kategori = 'GOLONGAN DARAH : '; break;
 			case 9: $session = 'cacat'; $kategori = 'CACAT : '; break;
 			case 10: $session = 'menahun'; $kategori = 'SAKIT MENAHUN : '; break;
-			case 11: $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
 			case 13: $session = 'umurx'; $kategori = 'UMUR (RENTANG) : '; break;
 			case 14: $session = 'pendidikan_sedang_id'; $kategori = 'PENDIDIKAN SEDANG DITEMPUH : '; break;
 			case 15: $session = 'umurx'; $kategori = 'UMUR (KATEGORI) : '; break;
 			case 16: $session = 'cara_kb_id'; $kategori = 'CARA KB : '; break;
 			case 17: $session = 'akta_kelahiran'; $kategori = 'AKTA KELAHIRAN : UMUR '; break;
 			case 19: $session = 'id_asuransi'; $kategori = 'JENIS ASURANSI : '; break;
+			case 'hubungan_kk': $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
 			case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
 			case 'bantuan_penduduk': $session = 'penerima_bantuan'; $kategori = 'PENERIMA BANTUAN PENDUDUK : '; break;
 			case 18:
