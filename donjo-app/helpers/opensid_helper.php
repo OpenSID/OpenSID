@@ -49,7 +49,7 @@ define("VERSION", '20.08-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020080104');
+define('VERSI_DATABASE', '2020080105');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -666,8 +666,11 @@ function xcopy($src, $dest)
 
 function sql_in_list($list_array)
 {
+	if (empty($list_array)) return FALSE;
+
 	$prefix = $list = '';
-	foreach ($list_array as $key => $value) {
+	foreach ($list_array as $key => $value)
+	{
 		$list .= $prefix . "'" . $value . "'";
 		$prefix = ', ';
 	}

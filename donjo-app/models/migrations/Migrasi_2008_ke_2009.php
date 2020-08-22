@@ -87,6 +87,24 @@ class Migrasi_2008_ke_2009 extends CI_model {
 			$penduduk = $this->db->select('id')->get_where('tweb_penduduk', ['nik' => $peserta['kartu_nik']])->row_array();
 			if (($peserta['kartu_id_pend'] == NULL) && $penduduk) $this->db->where('id', $peserta['id'])->update('program_peserta', ['kartu_id_pend' => $penduduk['id']]);
 		}
+
+		// Hapus anggota kelompok yg tdk memiliki kelompok / tdk terhapus saat menghapus kelompok
+		$kelompok = $this->db->select('id')->get('kelompok')->result_array();
+		$list_id_kelompok = sql_in_list(array_column($kelompok, 'id'));
+		$this->db->where("id_kelompok NOT IN ($list_id_kelompok)")->delete('kelompok_anggota');
+		// Buat FOREIGN KEY field id_kelompok jika tdk ada
+		$query = $this->db
+			->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+			->where('CONSTRAINT_NAME', 'kelompok_anggota_fk')
+			->where('TABLE_NAME', 'kelompok_anggota')
+			->get();
+
+		if ($query->num_rows() == 0)
+		{
+			$this->dbforge->add_column('kelompok_anggota', [
+				'CONSTRAINT `kelompok_anggota_fk` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+			]);
+		}
 	}
 
 }
