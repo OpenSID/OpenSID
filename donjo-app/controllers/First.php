@@ -453,6 +453,24 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function kelompok($id)
+	{
+		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
+
+		$data = $this->includes;
+
+		$data['detail'] = $this->kelompok_model->get_kelompok($id);
+		$data['anggota'] = $this->kelompok_model->list_anggota($id);
+
+		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
+		if ($data['detail'] == NULL) show_404();
+
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/kelompok.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
 	public function ajax_peserta_program_bantuan()
 	{
 		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
