@@ -43,7 +43,7 @@
 								<thead class="bg-gray disabled color-palette">
 									<tr>
 										<th>No</th>
-										<th>Nomor Anggota</th>
+										<th>No. Anggota</th>
 										<th>Nama</th>
 										<th>Alamat</th>
 										<th>Jenis Kelamin</th>
