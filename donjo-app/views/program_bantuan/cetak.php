@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<style type="text/css">
-			.textx
+			.textx, td
 			{
 				mso-number-format:"\@";
 			}
@@ -50,8 +50,11 @@
 									<tr class="border thick">
 										<th rowspan="2">No</th>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta"]?></th>
+										<?php if (!empty($peserta[0]['judul_peserta_plus'])) : ?>
+											<th rowspan="2" nowrap class="text-center"><?= $peserta[0]["judul_peserta_plus"] ?></th>
+										<?php endif; ?>
 										<th rowspan="2"><?= $peserta[0]["judul_peserta_info"]?></th>
-										<th colspan="6" style="text-align: center;">Identitas di Kartu Peserta</th>
+										<th colspan="7" style="text-align: center;">Identitas di Kartu Peserta</th>
 									</tr>
 									<tr class="border thick">
 										<th>No. Kartu Peserta</th>
@@ -59,29 +62,35 @@
 										<th>Nama</th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
+										<th>Jenis Kelamin</th>
 										<th>Alamat</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php	$i=1; foreach ($peserta[1] as $key=>$item): ?>
+									<?php	foreach ($peserta[1] as $key => $item): ?>
 									<tr>
-										<td align="center"><?=$i?></td>
+										<td align="center"><?= $key + 1?></td>
 										<td class='textx'><?=$item["nik"]?></td>
+										<?php if (!empty($item['peserta_plus'])) : ?>
+											<td><?= $item["peserta_plus"] ?></td>
+										<?php endif; ?>
 										<td><?=$item["peserta_info"]?></td>
 										<td class='textx' align="center"><?=$item["no_id_kartu"]?></td>
 										<td class='textx'><?=$item["kartu_nik"]?></td>
 										<td><?=$item["kartu_nama"]?></td>
 										<td><?=$item["kartu_tempat_lahir"]?></td>
 										<td class='textx'><?= tgl_indo_out($item["kartu_tanggal_lahir"])?></td>
+										<td><?=$item["sex"]?></td>
 										<td><?=$item["kartu_alamat"]?></td>
 									</tr>
-									<?php $i++; endforeach;?>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</body>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
 </html>
