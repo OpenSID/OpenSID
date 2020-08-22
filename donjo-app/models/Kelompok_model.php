@@ -203,15 +203,6 @@ class Kelompok_model extends MY_Model {
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
-	public function delete_a($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
 	public function delete_all()
 	{
 		$this->session->success = 1;
@@ -220,6 +211,26 @@ class Kelompok_model extends MY_Model {
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
+		}
+	}
+
+	public function delete_anggota($id='', $semua=false)
+	{
+		if (!$semua) $this->session->success = 1;
+
+		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_anggota_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->delete_anggota($id, $semua=true);
 		}
 	}
 
@@ -283,7 +294,7 @@ class Kelompok_model extends MY_Model {
 		if ($ex_kelompok)
 		{
 			$anggota = $this->in_list_anggota($ex_kelompok);
-			$this->db->where("p.id not in ($anggota)");
+			if ($anggota) $this->db->where("p.id not in ($anggota)");
 		}
 		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$this->db
