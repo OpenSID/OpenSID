@@ -269,12 +269,6 @@ class Kelompok extends Admin_Controller {
 		redirect("kelompok/index/$p/$o");
 	}
 
-	public function update_a($id='', $id_a=0)
-	{
-		$this->kelompok_model->update_a($id, $id_a);
-		redirect("kelompok/anggota/$id");
-	}
-
 	public function delete($p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "kelompok/index/$p/$o");
@@ -291,8 +285,13 @@ class Kelompok extends Admin_Controller {
 
 	public function insert_a($id=0)
 	{
-		$this->redirect_hak_akses('h');
 		$this->kelompok_model->insert_a($id);
+		redirect("kelompok/anggota/$id");
+	}
+
+	public function update_a($id='', $id_a=0)
+	{
+		$this->kelompok_model->update_a($id, $id_a);
 		redirect("kelompok/anggota/$id");
 	}
 

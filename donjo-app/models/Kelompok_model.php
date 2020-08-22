@@ -198,10 +198,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if (!$semua) $this->session->success = 1;
 
-		$this->db->where('id', $id)->delete('kelompok');
-
-		// Hapus anggota kelompok
-		$outp = $this->db->where('id_kelompok', $id)->delete('kelompok_anggota');
+		$outp = $this->db->where('id', $id)->delete('kelompok');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
