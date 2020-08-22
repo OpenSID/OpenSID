@@ -1,14 +1,21 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<style type="text/css">
+	h3.subtitle {
+		margin-top: 5px;
+		margin-bottom: 15px;
+	}
+</style>
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 	<div id="contentwrapper">
 		<div id="contentcolumn">
 			<div class="innertube">
 				<div class="box box-danger">
 					<div class="box-header with-border">
-						<h3 class="box-title"> Data Kelompok <?= $detail['nama']; ?></h3>
+						<h3 class="box-title"> Data Kelompok - <?= $detail['nama']; ?></h3>
 					</div>
 					<div class="box-body">
+						<h3 class="subtitle">Rincian & Pengurus</h3>
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover">
 								<tbody>
@@ -30,13 +37,9 @@
 								</tbody>
 							</table>
 						</div>
-					</div>
-					<div class="box-header with-border">
-						<h3 class="box-title"> Anggota Kelompok <?= $detail['nama']; ?></h3>
-					</div>
-					<div class="box-body">
+						<h3 class="subtitle">Daftar Anggota</h3>
 						<div class="table-responsive">
-							<table class="table table-bordered dataTable table-hover nowrap" id="tabel-data">
+							<table class="table table-striped table-bordered dataTable table-hover nowrap" id="tabel-data">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
 										<th>No</th>
@@ -47,9 +50,9 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($anggota as $data): ?>
+									<?php foreach ($anggota as $key => $data): ?>
 										<tr>
-											<td><?= $data['no']?></td>
+											<td><?= $key + 1?></td>
 											<td><?= $data['no_anggota'] ?:'-'?></td>
 											<td nowrap><?= $data['nama']?></td>
 											<td><?= $data['alamat']?></td>

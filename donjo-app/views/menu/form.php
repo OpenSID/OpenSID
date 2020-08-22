@@ -132,7 +132,7 @@
 											<option value="<?= $id?>" <?= selected($submenu['link'], $id) ?>><?= $nama?></option>
 										<?php endforeach; ?>
 									</select>
-									<select id="kelompok" class="form-control input-sm jenis_link" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=7): ?>display:none;<?php endif; ?>">
+									<select id="kelompok" class="form-control input-sm jenis_link required" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php ($submenu['link_tipe'] != 7 ) and print('display:none;') ?>">
 										<option value="">Pilih Kelompok</option>
 										<?php foreach ($kelompok as $kel): ?>
 											<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>

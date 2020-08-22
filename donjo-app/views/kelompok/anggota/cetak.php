@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<style>
-			.textx
+			.textx, td
 			{
 			mso-number-format:"\@";
 			}
@@ -27,6 +27,7 @@
 						<tr class="border thick">
 							<th>No</th>
 							<th>NIK</th>
+							<th>Nomor Anggota</th>
 							<th>Nama</th>
 							<th>Alamat</th>
 							<th>Umur (Tahun)</th>
@@ -34,10 +35,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $data): ?>
+						<?php foreach ($main as $key => $data): ?>
 							<tr>
-								<td><?= $data['no']?></td>
+								<td><?= $key + 1?></td>
 								<td><?= $data['nik']?></td>
+								<td><?= $data['no_anggota']?></td>
 								<td><?= $data['nama']?></td>
 								<td><?= $data['alamat']?></td>
 								<td><?= $data['umur']?></td>

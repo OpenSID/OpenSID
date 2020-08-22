@@ -313,15 +313,18 @@ class Kelompok_model extends MY_Model {
 
 	public function list_anggota($id=0)
 	{
-		$sql = "SELECT u.*,p.nik,p.nama,p.sex,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id) AS umur,a.dusun,a.rw,a.rt FROM kelompok_anggota u LEFT JOIN tweb_penduduk p ON u.id_penduduk = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id WHERE id_kelompok = ?";
-		$query = $this->db->query($sql, $id);
-		$data=$query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-			$data[$i]['alamat'] = "Dusun ".$data[$i]['dusun']." RW".$data[$i]['rw']." RT".$data[$i]['rt'];
-		}
+		$dusun = ucwords($this->setting->sebutan_dusun);
+		$data = $this->db
+			->select('u.*, p.nik, p.nama, p.sex')
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id) AS umur")
+			->select('a.dusun,a.rw,a.rt')
+			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) as alamat")
+			->from('kelompok_anggota u')
+			->join('tweb_penduduk p', 'u.id_penduduk = p.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
+			->where('id_kelompok', $id)
+			->order_by('u.no_anggota')
+			->get()->result_array();
 		return $data;
 	}
 }

@@ -55,10 +55,10 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data): ?>
+																<?php foreach ($main as $key => $data): ?>
 																<tr>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
-																	<td><?= $data['no']?></td>
+																	<td><?= $key + 1?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("kelompok/form_anggota/$kel/$data[id_penduduk]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
 																		<a href="#" data-href="<?= site_url("kelompok/delete_a/$kel/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
