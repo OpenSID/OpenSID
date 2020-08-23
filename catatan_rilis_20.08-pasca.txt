@@ -31,6 +31,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 25. #3467: Sekarang judul artikel berisi tanda petik tidak terpotong pada waktu dibagikan melalui media sosial. [bug-fix]
 26. #3479: Tampilkan data tambahan di laporan program bantuan, seperti Nomor KK untuk program sasaran Penduduk.
 27. #3484: Sekarang anggota kelompok dihapus kalau kelompok dihapus. Juga sediakan tombol untuk menghapus semua anggota kelompok terpilih. [bug-fix]
+28. #3416: Perbaiki tampilkan data kartu peserta bantuan di daftar bantuan pada Layanan Mandiri. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
