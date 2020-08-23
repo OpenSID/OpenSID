@@ -3,7 +3,6 @@
 class Modul extends Admin_Controller {
 
 	private $list_session;
-	private $header;
 
 	public function __construct()
 	{
@@ -13,8 +12,6 @@ class Modul extends Admin_Controller {
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 42;
 		$this->list_session = ['status', 'cari', 'module'];
-		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
-		$this->header = $this->header_model->get_data();
 	}
 
 	public function clear()
