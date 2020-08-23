@@ -47,6 +47,7 @@ class Kelompok_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('wilayah_model');
 	}
 
 	public function autocomplete()
@@ -148,6 +149,7 @@ class Kelompok_model extends MY_Model {
 
 		$datax['id_kelompok'] = $insert_id;
 		$datax['id_penduduk'] = $data['id_ketua'];
+		$datax['no_anggota'] = 1;
 		$outpb = $this->db->insert('kelompok_anggota', $datax);
 
 		if ($outpa && $outpb) $_SESSION['success'] = 1;
@@ -234,32 +236,17 @@ class Kelompok_model extends MY_Model {
 		}
 	}
 
-	public function get_kelompok($id=0)
+	public function get_kelompok($id = 0)
 	{
-		$sql = "SELECT * FROM kelompok WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
-	}
+		$data = $this->db
+			->select('k.*, km.kelompok AS kategori, tp.nama AS nama_ketua')
+			->from('kelompok k')
+			->join('kelompok_master km', 'k.id_master = km.id', 'left')
+			->join('tweb_penduduk tp', 'k.id_ketua = tp.id', 'left')
+			->where('k.id', $id)
+			->get()
+			->row_array();
 
-	public function get_ketua_kelompok($id)
-	{
-		$this->load->model('penduduk_model');
-		$sql = "SELECT u.id, u.nik, u.nama, k.id as id_kelompok, k.nama as nama_kelompok, u.tempatlahir, u.tanggallahir, s.nama as sex,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
-				d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
-				wil.rt, wil.rw, wil.dusun
-			FROM kelompok k
-			LEFT JOIN tweb_penduduk u ON u.id = k.id_ketua
-			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
-			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
-			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
-			LEFT JOIN tweb_penduduk_sex s ON s.id = u.sex
-			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
-			WHERE k.id = $id LIMIT 1";
-		$query = $this->db->query($sql);
-		$data = $query->row_array();
-		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
 		return $data;
 	}
 
@@ -320,17 +307,23 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
-	public function list_anggota($id=0)
+	public function list_anggota($id_kelompok = 0)
 	{
-		$sql = "SELECT u.*,p.nik,p.nama,p.sex,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id) AS umur,a.dusun,a.rw,a.rt FROM kelompok_anggota u LEFT JOIN tweb_penduduk p ON u.id_penduduk = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id WHERE id_kelompok = ?";
-		$query = $this->db->query($sql, $id);
-		$data=$query->result_array();
+		$data = $this->db
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tpx.nama AS sex')
+			->from('kelompok_anggota ka')
+			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
+			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
+			->where('ka.id_kelompok', $id_kelompok)
+			->get()
+			->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no'] = $i + 1;
-			$data[$i]['alamat'] = "Dusun ".$data[$i]['dusun']." RW".$data[$i]['rw']." RT".$data[$i]['rt'];
+			$data[$i]['alamat'] = $this->wilayah_model->get_alamat($data[$i]['id_penduduk']);
+			$data[$i]['umur'] = umur($data[$i]['tanggallahir']);
 		}
+
 		return $data;
 	}
 }
