@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File ini:
  *
@@ -208,7 +209,7 @@ class Admin_Controller extends MY_Controller {
 	public $grup;
 	public $CI = NULL;
 	public $pengumuman = NULL;
-	public $_header;
+	public $header;
 
 	public function __construct()
 	{
@@ -216,7 +217,7 @@ class Admin_Controller extends MY_Controller {
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);
-		$this->_header = $this->header_model->get_data();
+		$this->header = $this->header_model->get_data();
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');

@@ -1,7 +1,5 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 /**
  * File ini:
  *
@@ -45,6 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Kelompok extends Admin_Controller {
 
 	public function __construct()
@@ -87,10 +87,9 @@ class Kelompok extends Admin_Controller {
 		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
-		$header = $this->header_model->get_data();
-		$this->_header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->_header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav');
 		$this->load->view('kelompok/table', $data);
 		$this->load->view('footer');
@@ -100,9 +99,9 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
-		$this->_header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->_header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav');
 		$this->load->view('kelompok/anggota/table', $data);
 		$this->load->view('footer');
@@ -126,10 +125,9 @@ class Kelompok extends Admin_Controller {
 
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-		$header = $this->header_model->get_data();
-		$this->_header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->_header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav');
 		$this->load->view('kelompok/form', $data);
 		$this->load->view('footer');
@@ -151,10 +149,9 @@ class Kelompok extends Admin_Controller {
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
-		$header = $this->header_model->get_data();
-		$this->_header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->_header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav');
 		$this->load->view('kelompok/anggota/form', $data);
 		$this->load->view('footer');
@@ -202,9 +199,7 @@ class Kelompok extends Admin_Controller {
 			default:redirect('kelompok');
 		}
 
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $this->_header);
+		$this->load->view('header', $this->header);
 		$this->load->view('kelompok/nav');
 		$this->load->view('kelompok/menu', $data);
 		$this->load->view('footer');

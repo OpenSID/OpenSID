@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<td><?= strtoupper($kelompok['nama']); ?></td>
 										</tr>
 										<tr>
-											<td>Nama Ketua Kelompok</td>
+											<td>Ketua Kelompok</td>
 											<td>:</td>
 											<td><?= strtoupper($kelompok['nama_ketua']); ?></td>
 										</tr>
