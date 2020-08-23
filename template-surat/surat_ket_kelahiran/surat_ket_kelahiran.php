@@ -81,12 +81,14 @@
 		{
 			$('.ibu_desa').show();
 			$('.ibu_luar_desa').hide();
+			$('#id_ibu').addClass('required');
 		}
 		else
 		{
 			$('.ibu_desa').hide();
 			$('.ibu_luar_desa').show();
 			$('#id_ibu').val('*'); // Hapus $id_wanita
+			$('#id_ibu').removeClass('required');
 			submit_form_ambil_data();
 		}
 		$('input[name=anchor').val('ibu');
@@ -171,7 +173,7 @@
 										<div class="form-group">
 											<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama Ibu	</strong></label>
 											<div class="col-sm-6 col-lg-4">
-										  	<select class="form-control required input-sm select2-nik-ajax" id="id_ibu" name="id_ibu" style ="width:100%;" data-filter-sex="perempuan" data-url="<?= site_url('surat/list_penduduk_ajax')?>" onchange="submit_form_ambil_data(this.id);">
+										  	<select class="form-control input-sm select2-nik-ajax" id="id_ibu" name="id_ibu" style ="width:100%;" data-filter-sex="perempuan" data-url="<?= site_url('surat/list_penduduk_ajax')?>" onchange="submit_form_ambil_data(this.id);">
 													<?php if ($ibu): ?>
 														<option value="<?= $ibu['id']?>" selected><?= $ibu['nik'].' - '.$ibu['nama']?></option>
 													<?php endif;?>
