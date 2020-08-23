@@ -1,3 +1,8 @@
+<style type="text/css">
+  #mandiri i.fa {
+    margin-right: 10px;
+  }
+</style>
 <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td class="text-center">

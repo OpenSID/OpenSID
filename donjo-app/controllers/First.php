@@ -208,20 +208,28 @@ class First extends Web_Controller {
 		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
 	}
 
-	public function kartu_peserta($id=0)
+	// TO DO : Buatkan controller dan core terpisah untuk layanan mandiri web
+	public function kartu_peserta($aksi = 'tampil', $id = 0)
 	{
-		if ($_SESSION['mandiri'] != 1)
-		{
-			redirect('first');
-			return;
-		}
-		$this->load->model('program_bantuan_model');
+		if ($_SESSION['mandiri'] != 1) redirect('first');
+
 		$data = $this->program_bantuan_model->get_program_peserta_by_id($id);
 		// Hanya boleh menampilkan data pengguna yang login
 		// ** Bagi program sasaran pendududk **
+		// TO DO : Ganti parameter nik menjadi id
 		if ($data['peserta'] == $_SESSION['nik'])
 		{
-			$this->load->view('program_bantuan/kartu_peserta',$data);
+			if ($aksi == 'tampil')
+			{
+				$this->load->view('web/mandiri/data_peserta', $data);
+			}
+			else
+			{
+				$this->load->helper('download');
+				if ($data['kartu_peserta']) force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
+
+				redirect('first/mandiri/1/4');
+			}
 		}
 	}
 
@@ -270,7 +278,7 @@ class First extends Web_Controller {
 				break;
 			case 4:
 				$this->load->model('program_bantuan_model','pb');
-				$data['daftar_bantuan'] = $this->pb->daftar_bantuan_yang_diterima($_SESSION['nik']);
+				$data['bantuan_penduduk'] = $this->pb->daftar_bantuan_yang_diterima($_SESSION['nik']);
 				break;
 			case 5:
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
