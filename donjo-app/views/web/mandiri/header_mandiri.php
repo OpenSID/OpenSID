@@ -8,7 +8,7 @@
 			?>
 		</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-		<link rel="shortcut icon" href="<?= base_url()?><?= ( ! is_file(LOKASI_LOGO_DESA . "favicon.ico")) ?: LOKASI_LOGO_DESA; ?>favicon.ico" />
+		<link rel="shortcut icon" href="<?= base_url()?><?= is_file(LOKASI_LOGO_DESA . 'favicon.ico') ? LOKASI_LOGO_DESA . 'favicon.ico' : 'favicon.ico' ?>"/>
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url()?>rss.xml" />
 
 		<link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
