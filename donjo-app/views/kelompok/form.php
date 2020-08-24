@@ -64,13 +64,13 @@
 							<div class="form-group">
 								<label  class="col-sm-3 control-label" for="nama">Nama Kelompok</label>
 								<div class="col-sm-7">
-									<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nama Kelompok" name="nama" value="<?= $kelompok['nama']?>">
+									<input  id="nama" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama Kelompok" name="nama" value="<?= $kelompok['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label  class="col-sm-3 control-label" for="kode">Kode Kelompok</label>
 								<div class="col-sm-7">
-									<input  id="kode" class="form-control input-sm" type="text" placeholder="Kode Kelompok" name="kode" value="<?= $kelompok['kode']?>">
+									<input  id="kode" class="form-control input-sm nomor_sk" type="text" placeholder="Kode Kelompok" name="kode" value="<?= $kelompok['kode']?>">
 								</div>
 							</div>
 							<div class="form-group">

@@ -140,9 +140,19 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data['id_master'] = bilangan($post['id_master']);
+		if ($post['id_ketua']) $data['id_ketua'] = bilangan($post['id_ketua']);
+		$data['nama'] = nama_terbatas($post['nama']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['kode'] = nomor_surat_keputusan($post['nama']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->validasi($this->input->post());
 		$datax = array();
 
 		$outpa = $this->db->insert('kelompok', $data);
@@ -157,16 +167,25 @@ class Kelompok_model extends MY_Model {
 		else $_SESSION['success'] = -1;
 	}
 
+	private function validasi_anggota($post)
+	{
+		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
+		$data['no_anggota'] = bilangan($post['no_anggota']);
+		return $data;
+	}
+
 	public function insert_a($id=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_anggota($this->input->post());
 		$data['id_kelompok'] = $id;
 
-		$sql = "SELECT id FROM kelompok_anggota WHERE id_kelompok = ? AND id_penduduk = ?";
-		$query = $this->db->query($sql,array($data['id_kelompok'],$data['id_penduduk']));
-		$kel = $query->row_array();
-
-		if (!$kel)
+		$sdh_ada = $this->db
+			->select('id')
+			->from('kelompok_anggota')
+			->where('id_kelompok', $id)
+			->where('id_penduduk', $data['id_penduduk'])
+			->get()->row_array();
+		if (! $sdh_ada)
 		{
 			$outp = $this->db->insert('kelompok_anggota', $data);
 		}
@@ -176,9 +195,7 @@ class Kelompok_model extends MY_Model {
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		if ($data['id_ketua'] == "")
-		unset($data['id_ketua']);
+		$data = $this->validasi($this->input->post());
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok', $data);
@@ -188,11 +205,12 @@ class Kelompok_model extends MY_Model {
 
 	public function update_a($id=0, $id_a=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_anggota($this->input->post());
 
-		$this->db->where('id_kelompok', $id);
-		$this->db->where('id_penduduk', $id_a);
-		$outp = $this->db->update('kelompok_anggota', $data);
+		$outp = $this->db
+			->where('id_kelompok', $id)
+			->where('id_penduduk', $id_a)
+			->update('kelompok_anggota', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
