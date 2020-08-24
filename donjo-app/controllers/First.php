@@ -235,10 +235,8 @@ class First extends Web_Controller {
 
 	public function mandiri($p=1, $m=0, $kat=1)
 	{
-		if ($_SESSION['mandiri'] != 1)
-		{
-			redirect('first');
-		}
+		// Buat core mandiri agar tdk mengulang pengecekan yg sama pd layananan mandiri web
+		if ($this->session->mandiri != 1) redirect('first');
 
 		$data = $this->includes;
 		$data['p'] = $p;
@@ -292,10 +290,8 @@ class First extends Web_Controller {
 
 	public function mandiri_surat($id_permohonan='')
 	{
-		if ($_SESSION['mandiri'] != 1)
-		{
-			redirect('first');
-		}
+		// Buat core mandiri agar tdk mengulang pengecekan yg sama pd layananan mandiri web
+		if ($this->session->mandiri != 1) redirect('first');
 
 		$this->load->model('permohonan_surat_model');
 		$data = $this->includes;
