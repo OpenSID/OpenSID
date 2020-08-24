@@ -9,7 +9,7 @@
 <div class="box-header with-border">
 	<span style="font-size: x-large; float: left"><strong>BIODATA PENDUDUK</strong></span>
 	<div class="text-right">
-		<div class="text-right"><a href="<?= site_url("first/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i>CETAK BIODATA</button></a></div>
+		<div class="text-right"><a href="<?= site_url("mandiri_web/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i>CETAK BIODATA</button></a></div>
 	</div>
 </div>
 <div class="artikel layanan">

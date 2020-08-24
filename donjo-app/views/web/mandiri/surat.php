@@ -252,7 +252,7 @@
 	$(document).ready(function(){
 
 		// var id_surat = 0;
-		var url = "<?= site_url('first/cek_syarat')?>";
+		var url = "<?= site_url('mandiri_web/cek_syarat')?>";
 		table = $('#syarat_surat').DataTable({
 			'processing': true,
 			'serverSide': true,

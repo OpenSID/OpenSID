@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
-			<?=$this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . (($desa['nama_desa']) ? ' ' . $desa['nama_desa']:  '') . 'Layanan Mandiri';
+			<?=$this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] ?: '' . 'Layanan Mandiri';
 			?>
 		</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">

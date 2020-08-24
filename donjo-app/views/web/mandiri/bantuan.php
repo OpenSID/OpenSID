@@ -93,8 +93,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td class="text-center"><?= $no + 1; ?></td>
 						<td nowrap>
 							<?php if($bantuan['no_id_kartu']) : ?>
-								<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("first/kartu_peserta/tampil/$bantuan[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-flat btn-sm" ><i class="fa fa-eye"></i></button>
-								<a href="<?= site_url("first/kartu_peserta/unduh/$bantuan[id]")?>" class="btn bg-black btn-flat btn-sm" title="Kartu Peserta" <?php empty($bantuan['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
+								<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("mandiri_web/kartu_peserta/tampil/$bantuan[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-flat btn-sm" ><i class="fa fa-eye"></i></button>
+								<a href="<?= site_url("mandiri_web/kartu_peserta/unduh/$bantuan[id]")?>" class="btn bg-black btn-flat btn-sm" title="Kartu Peserta" <?php empty($bantuan['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
 							<?php endif; ?>
 						</td>
 						<td nowrap><?= fTampilTgl($bantuan["sdate"], $bantuan["edate"]);?></td>
