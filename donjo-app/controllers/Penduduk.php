@@ -427,7 +427,7 @@ class Penduduk extends Admin_Controller {
 	public function adv_search_proses()
 	{
 		$adv_search = $this->validasi_pencarian($this->input->post());
-		$this->session->filter = $adv_search['status_penduduk'];
+		//$this->session->filter = $adv_search['status_penduduk'];
 
 		$i = 0;
 		while ($i++ < count($adv_search))

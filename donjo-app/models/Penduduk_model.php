@@ -146,7 +146,7 @@ class Penduduk_model extends MY_Model {
 
 	protected function umur_max_sql()
 	{
-		$kf = $this->session->umur_min;
+		$kf = $this->session->umur_max;
 		if (isset($kf))
 		{
 			$umur_max_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
