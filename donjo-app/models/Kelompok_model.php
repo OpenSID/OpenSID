@@ -266,6 +266,27 @@ class Kelompok_model extends MY_Model {
 		return $query->result_array();
 	}
 
+	public function get_ketua_kelompok($id)
+	{
+		$this->load->model('penduduk_model');
+		$sql = "SELECT u.id, u.nik, u.nama, k.id as id_kelompok, k.nama as nama_kelompok, u.tempatlahir, u.tanggallahir, s.nama as sex,
+				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+				d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
+				wil.rt, wil.rw, wil.dusun
+			FROM kelompok k
+			LEFT JOIN tweb_penduduk u ON u.id = k.id_ketua
+			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_penduduk_sex s ON s.id = u.sex
+			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
+			WHERE k.id = $id LIMIT 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
+		return $data;
+	}
+
 	private function in_list_anggota($kelompok)
 	{
 		$anggota = $this->db
@@ -289,16 +310,16 @@ class Kelompok_model extends MY_Model {
 			->select('p.id, nik, nama')
 			->select("(
 				case when (p.id_kk IS NULL or p.id_kk = 0)
-				  then
-				  	case when (cp.dusun = '-' or cp.dusun = '')
-				  		then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
-				  		else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
-				  	end
-				  else
-				  	case when (ck.dusun = '-' or ck.dusun = '')
-				  		then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
-				  		else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
-				  	end
+					then
+						case when (cp.dusun = '-' or cp.dusun = '')
+							then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+							else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+						end
+					else
+						case when (ck.dusun = '-' or ck.dusun = '')
+							then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+							else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+						end
 				end) AS alamat")
 			->from('penduduk_hidup p')
 			->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
