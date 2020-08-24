@@ -3,7 +3,6 @@ if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Cdesa extends Admin_Controller {
 
-	private $header;
 	private $set_page;
 	private $list_session;
 
@@ -19,7 +18,6 @@ class Cdesa extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
-		$this->header = $this->header_model->get_data();
 		$this->list_session = ['cari'];
 	}
 

@@ -76,7 +76,7 @@
 								<div class="form-group">
 									<label  class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
 									<div class="col-sm-5">
-										<input  id="no_anggota" class="form-control input-sm" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?=$pend['no_anggota']; ?>">
+										<input  id="no_anggota" class="form-control input-sm number" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?=$pend['no_anggota']; ?>">
 									</div>
 								</div>
 							</div>

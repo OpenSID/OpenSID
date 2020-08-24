@@ -2,7 +2,6 @@
 
 class Web_widget extends Admin_Controller {
 
-	private $header;
 	private $set_page;
 	private $list_session;
 
@@ -21,8 +20,6 @@ class Web_widget extends Admin_Controller {
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 48;
 		$this->set_page = ['20', '50', '100'];
-		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
-		$this->header = $this->header_model->get_data();
 		$this->list_session = ['cari', 'filter'];
 	}
 
