@@ -251,6 +251,28 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
+	public function get_ketua_kelompok($id)
+	{
+		$this->load->model('penduduk_model');
+		$sql = "SELECT u.id, u.nik, u.nama, k.id as id_kelompok, k.nama as nama_kelompok, u.tempatlahir, u.tanggallahir, s.nama as sex,
+				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+				d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
+				wil.rt, wil.rw, wil.dusun
+			FROM kelompok k
+			LEFT JOIN tweb_penduduk u ON u.id = k.id_ketua
+			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+			LEFT JOIN tweb_penduduk_sex s ON s.id = u.sex
+			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
+			WHERE k.id = $id LIMIT 1";
+		$query = $this->db->query($sql);
+		$data = $query->row_array();
+		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
+
+		return  $data;
+	}
+
 	public function get_anggota($id=0, $id_a=0)
 	{
 		$sql = "SELECT * FROM kelompok_anggota WHERE id_kelompok = ? AND id_penduduk = ?";
@@ -316,6 +338,7 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
+			->order_by('CAST (no_anggota as DECIMAL)')
 			->get()
 			->result_array();
 

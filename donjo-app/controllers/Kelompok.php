@@ -183,28 +183,6 @@ class Kelompok extends Admin_Controller {
 		$this->load->view('kelompok/anggota/cetak', $data);
 	}
 
-	public function menu($id='')
-	{
-		$_SESSION['kelompok'] = $id;
-		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-		$da = $data['kelompok'];
-		$master = $da['master_tipe'];
-
-		switch ($master)
-		{
-			case 1: $data['menu_respon'] = "kelompok_respon_penduduk"; break;
-			case 2: $data['menu_respon'] = "kelompok_respon_keluarga"; break;
-			case 3: $data['menu_respon'] = "kelompok_respon_rtm"; break;
-			case 4: $data['menu_respon'] = "kelompok_respon_kelompok"; break;
-			default:redirect('kelompok');
-		}
-
-		$this->load->view('header', $this->header);
-		$this->load->view('kelompok/nav');
-		$this->load->view('kelompok/menu', $data);
-		$this->load->view('footer');
-	}
-
 	public function search()
 	{
 		$cari = $this->input->post('cari');

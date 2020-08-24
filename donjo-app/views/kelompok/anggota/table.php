@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<a href="<?= site_url("kelompok")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
 						</div>
 						<div class="box-body">
-							<h5><b>Rician Kelompok</b></h5>
+							<h5><b>Rincian Kelompok</b></h5>
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover tabel-rincian">
 									<tbody>

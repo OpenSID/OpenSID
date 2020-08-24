@@ -121,23 +121,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</thead>
 								<tbody>
 									<?php foreach ($main as $key => $data): ?>
-									<tr>
-										<td align="center"><?= ($key + 1)?></td>
-										<td class="textx" align="center"><?= $data['no_anggota']?></td>
-										<td class="textx"><?= $data['nik']?></td>
-										<td><?= $data['nama']?></td>
-										<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
-										<td class="textx" align="center"><?= $data['umur']?></td>
-										<td><?= $data['sex']?></td>
-										<td><?= $data['alamat']?></td>
-									</tr>
-								<?php endforeach; ?>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</body>
+										<tr>
+											<td align="center"><?= ($key + 1)?></td>
+											<td class="textx" align="center"><?= $data['no_anggota']?></td>
+											<td class="textx"><?= $data['nik']?></td>
+											<td><?= $data['nama']?></td>
+											<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
+											<td class="textx" align="center"><?= $data['umur']?></td>
+											<td><?= $data['sex']?></td>
+											<td><?= $data['alamat']?></td>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
 </html>
