@@ -356,7 +356,7 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
-			->order_by('CAST (no_anggota as DECIMAL)')
+			->order_by('CAST(no_anggota AS UNSIGNED)')
 			->get()
 			->result_array();
 
