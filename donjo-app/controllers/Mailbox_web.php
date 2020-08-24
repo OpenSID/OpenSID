@@ -16,7 +16,7 @@ class Mailbox_web extends Web_Controller
 
 	public function index()
 	{
-		redirect('first/mandiri/1/3');
+		redirect('mandiri_web/mandiri/1/3');
 	}
 
 	public function form()
@@ -41,7 +41,7 @@ class Mailbox_web extends Web_Controller
 		$post['tipe'] = 1;
 		$post['status'] = 2;
 		$this->mailbox_model->insert($post);
-		redirect('first/mandiri/1/3/2');
+		redirect('mandiri_web/mandiri/1/3/2');
 	}
 
 	public function baca_pesan($kat = 1, $id)
@@ -64,13 +64,13 @@ class Mailbox_web extends Web_Controller
 	{
 		$nik = $this->session->userdata('nik');
 		$this->mailbox_model->ubah_status_pesan($nik, $id, 1);
-		redirect("first/mandiri/1/3");
+		redirect("mandiri_web/mandiri/1/3");
 	}
 
 	public function pesan_unread($id = '')
 	{
 		$nik = $this->session->userdata('nik');
 		$this->mailbox_model->ubah_status_pesan($nik, $id, 2);
-		redirect("first/mandiri/1/3");
+		redirect("mandiri_web/mandiri/1/3");
 	}
 }

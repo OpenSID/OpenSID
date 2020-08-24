@@ -9,7 +9,7 @@
 				<ul class="nav nav-tabs">
 					<?php foreach($submenu as $id => $nama_menu) : ?>
 						<li class="<?php ($_SESSION['mailbox'] == $id) and print('active') ?>">
-							<a href="<?= site_url("first/mandiri/1/3/$id") ?>"><?= $nama_menu ?></a>
+							<a href="<?= site_url("mandiri_web/mandiri/1/3/$id") ?>"><?= $nama_menu ?></a>
 						</li>
 					<?php endforeach ?>
 				</ul>
