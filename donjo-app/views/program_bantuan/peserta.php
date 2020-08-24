@@ -14,7 +14,7 @@
 				<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
 			</div>
 			<div class="box-body">
-				<h4>Profil Penerima Manfaat Program</h4>
+				<h5><b>Profil Penerima Manfaat Program Bantuan</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered  table-striped table-hover tabel-rincian" >
 						<tbody>
@@ -32,14 +32,15 @@
 					</table>
 				</div>
 				<br>
-				<h4>Program Yang Pernah Diikuti</h4>
+
+				<h5><b>Program Bantuan Yang Pernah Diikuti</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered dataTable table-hover tabel-daftar">
 						<thead class="bg-gray disabled color-palette">
 							<tr>
 								<th class="padat">No</th>
-								<th nowrap>Waktu/Tanggal</th>
-								<th nowrap>Nama Program</th>
+								<th width="15%">Waktu/Tanggal</th>
+								<th width="15%">Nama Program</th>
 								<th >Keterangan</th>
 							</tr>
 						</thead>

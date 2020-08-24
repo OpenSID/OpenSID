@@ -16,7 +16,7 @@
 			</div>
 			<div class="box-body">
 				<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
-				<h4>Data Peserta Program Bantuan</h4>
+				<h5><b>Data Peserta</b></h4>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-hover tabel-rincian">
 						<tbody>

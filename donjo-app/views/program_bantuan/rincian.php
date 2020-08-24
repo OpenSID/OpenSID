@@ -1,4 +1,4 @@
-<h4>Rician Program</h4>
+<h5><b>Rician Program</b></h5>
 <div class="table-responsive">
 	<table class="table table-bordered table-striped table-hover tabel-rincian">
 		<tbody>

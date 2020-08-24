@@ -50,7 +50,7 @@
 							<form id="mainform" name="mainform" action="" method="post">
 								<div class="row">
 									<div class="col-sm-9">
-										<h4>Daftar Peserta <?php $cari and print("[ Cari : <b>$cari</b> ]") ?></h4>
+										<h5><b>Daftar Peserta <?php $cari and print("[ Cari : <b>$cari</b> ]") ?></b></h5>
 									</div>
 									<div class="col-sm-3">
 										<div class="input-group input-group-sm pull-right with-border">

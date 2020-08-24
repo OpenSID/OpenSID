@@ -1,22 +1,6 @@
-<style type="text/css">
-	label.control-label.text-left {
-		text-align: left;
-	}
-
-	label.control-label.no-padding-top {
-		padding-top: 0px;
-	}
-
-	.tabel-info, td {
-		height: 30px;
-		padding: 5px;
-		word-wrap: break-word;
-	}
-</style>
 <div class="content-wrapper">
 	<?php $detail = $program[0];?>
 	<section class="content-header">
-		<?= $individu['istri']?>
 		<h1>Peserta Program Bantuan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
@@ -38,7 +22,7 @@
 							<div class="col-sm-12">
 								<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
 
-								<h4>Tambah Peserta Program</h4>
+								<h5><b>Tambah Peserta Program</b></h5>
 								<hr>
 								<form action="" id="main" name="main" method="POST" class="form-horizontal">
 									<div class="form-group" >
