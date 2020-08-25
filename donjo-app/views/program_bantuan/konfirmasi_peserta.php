@@ -106,12 +106,6 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-sm-4 col-lg-5 control-label">Nama Ibu Kandung <?=$individu['judul']?></label>
-	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama_ibu']?>">
-	</div>
-</div>
-<div class="form-group">
 	<label class="col-sm-4 col-lg-5 control-label">Warga Negara / Agama <?=$individu['judul']?></label>
 	<div class="col-sm-7">
 		<input class="form-control input-sm" type="text" disabled value="<?= $individu['warganegara']?> / <?= $individu['agama']?>">
