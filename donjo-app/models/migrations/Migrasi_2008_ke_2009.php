@@ -105,6 +105,25 @@ class Migrasi_2008_ke_2009 extends CI_model {
 				'CONSTRAINT `kelompok_anggota_fk` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
 			]);
 		}
+
+		// Tambah kolom jabatan dan no_sk_jabatan di tabel kelompok_anggota
+		if (!$this->db->field_exists('jabatan', 'kelompok_anggota'))
+		{
+			$fields = array(
+				'jabatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => TRUE
+				),
+				'no_sk_jabatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => TRUE
+				)
+			);
+
+			$this->dbforge->add_column('kelompok_anggota', $fields);
+		}
 	}
 
 }

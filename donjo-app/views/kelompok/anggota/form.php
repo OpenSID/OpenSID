@@ -79,6 +79,18 @@
 										<input  id="no_anggota" class="form-control input-sm number" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?=$pend['no_anggota']; ?>">
 									</div>
 								</div>
+								<div class="form-group">
+									<label  class="col-sm-3 control-label" for="jabatan">Jabatan</label>
+									<div class="col-sm-5">
+										<input  id="jabatan" class="form-control input-sm" type="text" placeholder="Jabatan" name="jabatan" value="<?=$pend['jabatan']; ?>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label  class="col-sm-3 control-label" for="no_sk_jabatan">SK Jabatan</label>
+									<div class="col-sm-5">
+										<input  id="no_sk_jabatan" class="form-control input-sm nomor_sk" type="text" placeholder="SK Jabatan" name="no_sk_jabatan" value="<?=$pend['no_sk_jabatan']; ?>">
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="box-footer">

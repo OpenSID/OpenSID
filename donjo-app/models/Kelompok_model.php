@@ -161,6 +161,7 @@ class Kelompok_model extends MY_Model {
 		$datax['id_kelompok'] = $insert_id;
 		$datax['id_penduduk'] = $data['id_ketua'];
 		$datax['no_anggota'] = 1;
+		$datax['jabatan'] = "Ketua";
 		$outpb = $this->db->insert('kelompok_anggota', $datax);
 
 		if ($outpa && $outpb) $_SESSION['success'] = 1;
@@ -171,6 +172,8 @@ class Kelompok_model extends MY_Model {
 	{
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
+		$data['jabatan'] = htmlentities($post['jabatan']);
+		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		return $data;
 	}
 
