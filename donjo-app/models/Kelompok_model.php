@@ -146,7 +146,7 @@ class Kelompok_model extends MY_Model {
 		if ($post['id_ketua']) $data['id_ketua'] = bilangan($post['id_ketua']);
 		$data['nama'] = nama_terbatas($post['nama']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
-		$data['kode'] = nomor_surat_keputusan($post['nama']);
+		$data['kode'] = nomor_surat_keputusan($post['kode']);
 		return $data;
 	}
 
