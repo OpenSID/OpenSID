@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File ini:
  *
@@ -47,6 +48,7 @@ class Kelompok_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('wilayah_model');
 	}
 
 	public function autocomplete()
@@ -138,9 +140,19 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
+	private function validasi($post)
+	{
+		$data['id_master'] = bilangan($post['id_master']);
+		if ($post['id_ketua']) $data['id_ketua'] = bilangan($post['id_ketua']);
+		$data['nama'] = nama_terbatas($post['nama']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['kode'] = nomor_surat_keputusan($post['kode']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->validasi($this->input->post());
 		$datax = array();
 
 		$outpa = $this->db->insert('kelompok', $data);
@@ -148,22 +160,32 @@ class Kelompok_model extends MY_Model {
 
 		$datax['id_kelompok'] = $insert_id;
 		$datax['id_penduduk'] = $data['id_ketua'];
+		$datax['no_anggota'] = 1;
 		$outpb = $this->db->insert('kelompok_anggota', $datax);
 
 		if ($outpa && $outpb) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 	}
 
+	private function validasi_anggota($post)
+	{
+		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
+		$data['no_anggota'] = bilangan($post['no_anggota']);
+		return $data;
+	}
+
 	public function insert_a($id=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_anggota($this->input->post());
 		$data['id_kelompok'] = $id;
 
-		$sql = "SELECT id FROM kelompok_anggota WHERE id_kelompok = ? AND id_penduduk = ?";
-		$query = $this->db->query($sql,array($data['id_kelompok'],$data['id_penduduk']));
-		$kel = $query->row_array();
-
-		if (!$kel)
+		$sdh_ada = $this->db
+			->select('id')
+			->from('kelompok_anggota')
+			->where('id_kelompok', $id)
+			->where('id_penduduk', $data['id_penduduk'])
+			->get()->row_array();
+		if (! $sdh_ada)
 		{
 			$outp = $this->db->insert('kelompok_anggota', $data);
 		}
@@ -173,9 +195,7 @@ class Kelompok_model extends MY_Model {
 
 	public function update($id=0)
 	{
-		$data = $_POST;
-		if ($data['id_ketua'] == "")
-		unset($data['id_ketua']);
+		$data = $this->validasi($this->input->post());
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok', $data);
@@ -185,11 +205,12 @@ class Kelompok_model extends MY_Model {
 
 	public function update_a($id=0, $id_a=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_anggota($this->input->post());
 
-		$this->db->where('id_kelompok', $id);
-		$this->db->where('id_penduduk', $id_a);
-		$outp = $this->db->update('kelompok_anggota', $data);
+		$outp = $this->db
+			->where('id_kelompok', $id)
+			->where('id_penduduk', $id_a)
+			->update('kelompok_anggota', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -199,15 +220,6 @@ class Kelompok_model extends MY_Model {
 		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kelompok');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_a($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -223,15 +235,36 @@ class Kelompok_model extends MY_Model {
 		}
 	}
 
-	public function get_kelompok($id=0)
+	public function delete_anggota($id='', $semua=false)
 	{
-		$data = $this->db->get_where('kelompok', ['id' => $id])->row_array();
+		if (!$semua) $this->session->success = 1;
 
-		if ($data)
+		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
+
+		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+	}
+
+	public function delete_anggota_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
 		{
-			$ketua = $this->get_ketua_kelompok($id);
-			$data['ketua'] = $ketua['nama'];
+			$this->delete_anggota($id, $semua=true);
 		}
+	}
+
+	public function get_kelompok($id = 0)
+	{
+		$data = $this->db
+			->select('k.*, km.kelompok AS kategori, tp.nama AS nama_ketua')
+			->from('kelompok k')
+			->join('kelompok_master km', 'k.id_master = km.id', 'left')
+			->join('tweb_penduduk tp', 'k.id_ketua = tp.id', 'left')
+			->where('k.id', $id)
+			->get()
+			->row_array();
 
 		return $data;
 	}
@@ -254,7 +287,8 @@ class Kelompok_model extends MY_Model {
 		$query = $this->db->query($sql);
 		$data = $query->row_array();
 		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
-		return $data;
+
+		return  $data;
 	}
 
 	public function get_anggota($id=0, $id_a=0)
@@ -288,7 +322,7 @@ class Kelompok_model extends MY_Model {
 		if ($ex_kelompok)
 		{
 			$anggota = $this->in_list_anggota($ex_kelompok);
-			$this->db->where("p.id not in ($anggota)");
+			if ($anggota) $this->db->where("p.id not in ($anggota)");
 		}
 		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$this->db
@@ -314,20 +348,22 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
-	public function list_anggota($id=0)
+	public function list_anggota($id_kelompok = 0)
 	{
 		$dusun = ucwords($this->setting->sebutan_dusun);
 		$data = $this->db
-			->select('u.*, p.nik, p.nama, p.sex')
-			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id) AS umur")
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tpx.nama AS sex')
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
 			->select('a.dusun,a.rw,a.rt')
 			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) as alamat")
-			->from('kelompok_anggota u')
-			->join('tweb_penduduk p', 'u.id_penduduk = p.id', 'left')
-			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
-			->where('id_kelompok', $id)
-			->order_by('u.no_anggota')
-			->get()->result_array();
+			->from('kelompok_anggota ka')
+			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
+			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
+			->where('ka.id_kelompok', $id_kelompok)
+			->order_by('CAST(no_anggota AS UNSIGNED)')
+			->get()
+			->result_array();
 		return $data;
 	}
 }

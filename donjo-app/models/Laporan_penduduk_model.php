@@ -233,64 +233,67 @@ class Laporan_penduduk_model extends MY_Model {
 		{
 			case 1:
 				# Data penduduk
-			$sql = "SELECT
-			(SELECT COUNT(p.id) FROM program_peserta p
-			LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
-			WHERE p.program_id = $program_id AND o.status_dasar = 1) AS jumlah,
-			(SELECT COUNT(p.id) FROM program_peserta p
-			LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
-			WHERE p.program_id = $program_id AND o.sex = 1 AND o.status_dasar = 1) AS laki,
-			(SELECT COUNT(p.id) FROM program_peserta p
-			LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
-			WHERE p.program_id = $program_id AND o.sex = 2 AND o.status_dasar = 1) AS perempuan";
-				//Total Sasaran
-			$sql_sasaran = "SELECT
-			(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.status_dasar=1) AS jumlah,
-			(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 1 and s.status_dasar=1) AS laki,
-			(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 2 and s.status_dasar=1) AS perempuan";
-			break;
+				$sql = "SELECT
+				(SELECT COUNT(p.id) FROM program_peserta p
+				LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+				WHERE p.program_id = $program_id AND o.status_dasar = 1) AS jumlah,
+				(SELECT COUNT(p.id) FROM program_peserta p
+				LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+				WHERE p.program_id = $program_id AND o.sex = 1 AND o.status_dasar = 1) AS laki,
+				(SELECT COUNT(p.id) FROM program_peserta p
+				LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+				WHERE p.program_id = $program_id AND o.sex = 2 AND o.status_dasar = 1) AS perempuan";
+					//Total Sasaran
+				$sql_sasaran = "SELECT
+				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.status_dasar=1) AS jumlah,
+				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 1 and s.status_dasar=1) AS laki,
+				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 2 and s.status_dasar=1) AS perempuan";
+				break;
+
 			case 2:
 				# Data KK
 				# Kolom laki dan perempuan tidak dipakai
-			$sql = "SELECT
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
-			";
+				$sql = "SELECT
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
+				";
 				//Total Sasaran
-			$sql_sasaran = "SELECT
-			(SELECT COUNT(s.id) FROM keluarga_aktif s) AS jumlah,
-			(SELECT COUNT(s.id) FROM keluarga_aktif s) AS laki,
-			(SELECT COUNT(s.id) FROM keluarga_aktif s) AS perempuan";
-			break;
+				$sql_sasaran = "SELECT
+				(SELECT COUNT(s.id) FROM keluarga_aktif s) AS jumlah,
+				(SELECT COUNT(s.id) FROM keluarga_aktif s) AS laki,
+				(SELECT COUNT(s.id) FROM keluarga_aktif s) AS perempuan";
+				break;
+
 			case 3:
 				# Data Rumah Tangga
 				# Kolom laki dan perempuan tidak dipakai
-			$sql = "SELECT
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
-			";
-				//Total Sasaran
-			$sql_sasaran = "SELECT
-			(SELECT COUNT(s.id) FROM tweb_rtm s) AS jumlah,
-			(SELECT COUNT(s.id) FROM tweb_rtm s) AS laki,
-			(SELECT COUNT(s.id) FROM tweb_rtm s) AS perempuan";
-			break;
+				$sql = "SELECT
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
+				";
+					//Total Sasaran
+				$sql_sasaran = "SELECT
+				(SELECT COUNT(s.id) FROM tweb_rtm s) AS jumlah,
+				(SELECT COUNT(s.id) FROM tweb_rtm s) AS laki,
+				(SELECT COUNT(s.id) FROM tweb_rtm s) AS perempuan";
+				break;
+
 			case 4:
 				# Data Kelompok
 				# Kolom laki dan perempuan tidak dipakai
-			$sql = "SELECT
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
-			(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
-			";
-				//Total Sasaran
-			$sql_sasaran = "SELECT
-			(SELECT COUNT(s.id) FROM kelompok s) AS jumlah,
-			(SELECT COUNT(s.id) FROM kelompok s) AS laki,
-			(SELECT COUNT(s.id) FROM kelompok s) AS perempuan";
-			break;
+				$sql = "SELECT
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
+				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
+				";
+					//Total Sasaran
+				$sql_sasaran = "SELECT
+				(SELECT COUNT(s.id) FROM kelompok s) AS jumlah,
+				(SELECT COUNT(s.id) FROM kelompok s) AS laki,
+				(SELECT COUNT(s.id) FROM kelompok s) AS perempuan";
+				break;
 
 			default:
 				# Tidak lakukan apa-apa
@@ -326,17 +329,19 @@ class Laporan_penduduk_model extends MY_Model {
 			$total['perempuan'] += $data[$i]['perempuan'];
 		}
 
+		$bel['persen'] = 0;
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['persen'] = persen($data[$i]['jumlah'] / $bel['jumlah']);
 			$data[$i]['persen1'] = persen($data[$i]['laki'] / $bel['jumlah']);
 			$data[$i]['persen2'] = persen($data[$i]['perempuan'] / $bel['jumlah']);
+			$bel['persen'] += ($data[$i]['jumlah'] / $bel['jumlah']);
 		}
 
 		$bel['no'] = "";
 		$bel['id'] = TOTAL;
 		$bel['nama'] = "TOTAL";
-		$bel['persen'] = persen(($bel['laki'] + $bel['perempuan']) / $bel['jumlah']);
+		$bel['persen'] = persen($bel['persen']);
 		$bel['persen1'] = persen($bel['laki'] / $bel['jumlah']);
 		$bel['persen2'] = persen($bel['perempuan'] / $bel['jumlah']);
 		$data['total'] = $bel;

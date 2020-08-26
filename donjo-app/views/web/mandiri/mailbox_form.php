@@ -4,7 +4,7 @@
 		<div class="col-md-12">
 			<div class="box no-border">
 				<div class="box-header">
-					<a href="<?= site_url("first/mandiri/1/3")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<a href="<?= site_url("mandiri_web/mandiri/1/3")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 						<i class="fa fa-arrow-circle-left "></i>Kembali ke halaman Kotak Pesan
 					</a>
 				</div>
@@ -34,7 +34,7 @@
 								<textarea class="form-control input-sm required" name="komentar" id="komentar"></textarea>
 							</div>
 						</div>
-						
+
 					</div>
 					<div class='box-footer'>
 						<div class='col-xs-12'>

@@ -1074,7 +1074,7 @@ class Program_bantuan_model extends MY_Model {
 	*/
 	public function daftar_bantuan_yang_diterima($nik)
 	{
-		return $this->db->select('p.*,pp.*')
+		return $this->db->select('p.*, pp.*')
 					->where(array('peserta' => $nik))
 					->join('program p','p.id = pp.program_id', 'left')
 					->get('program_peserta pp')

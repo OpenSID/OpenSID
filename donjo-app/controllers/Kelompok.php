@@ -1,13 +1,56 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+/**
+ * File ini:
+ *
+ * Controller untuk modul Kelompok
+ *
+ * donjo-app/controllers/Kelompok.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('kelompok_model');
-		$this->load->model('header_model');
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
 	}
@@ -22,7 +65,7 @@ class Kelompok extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-    unset($_SESSION['kelompok']);
+		unset($_SESSION['kelompok']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -44,25 +87,22 @@ class Kelompok extends Admin_Controller {
 		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('kelompok/table', $data);
 		$this->load->view('footer');
 	}
 
 	public function anggota($id=0)
 	{
-		$data['kel'] = $id;
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('kelompok/anggota/table', $data);
 		$this->load->view('footer');
 	}
@@ -85,11 +125,10 @@ class Kelompok extends Admin_Controller {
 
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('kelompok/form', $data);
 		$this->load->view('footer');
 	}
@@ -110,22 +149,11 @@ class Kelompok extends Admin_Controller {
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
 		$this->load->view('kelompok/anggota/form', $data);
-		$this->load->view('footer');
-	}
-
-	public function panduan()
-	{
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('kelompok/nav2');
-		$this->load->view('kelompok/panduan');
 		$this->load->view('footer');
 	}
 
@@ -145,46 +173,14 @@ class Kelompok extends Admin_Controller {
 		$this->load->view('kelompok/excel', $data);
 	}
 
-	public function cetak_a($id=0)
+	public function daftar($aksi = 'cetak', $id = 0)
 	{
-		$data['header'] = $this->header_model->get_data();
+		$data['aksi'] = $aksi;
+		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->kelompok_model->list_anggota($id);
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 
 		$this->load->view('kelompok/anggota/cetak', $data);
-	}
-
-	public function excel_a($id=0)
-	{
-		$data['header'] = $this->header_model->get_data();
-		$data['main'] = $this->kelompok_model->list_anggota($id);
-		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-
-		$this->load->view('kelompok/anggota/excel', $data);
-	}
-
-	public function menu($id='')
-	{
-		$_SESSION['kelompok'] = $id;
-		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-		$da = $data['kelompok'];
-		$master = $da['master_tipe'];
-
-		switch ($master)
-		{
-			case 1: $data['menu_respon'] = "kelompok_respon_penduduk"; break;
-			case 2: $data['menu_respon'] = "kelompok_respon_keluarga"; break;
-			case 3: $data['menu_respon'] = "kelompok_respon_rtm"; break;
-			case 4: $data['menu_respon'] = "kelompok_respon_kelompok"; break;
-			default:redirect('kelompok');
-		}
-
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('kelompok/nav');
-		$this->load->view('kelompok/menu', $data);
-		$this->load->view('footer');
 	}
 
 	public function search()
@@ -226,12 +222,6 @@ class Kelompok extends Admin_Controller {
 		redirect("kelompok/index/$p/$o");
 	}
 
-	public function update_a($id='', $id_a=0)
-	{
-		$this->kelompok_model->update_a($id, $id_a);
-		redirect("kelompok/anggota/$id");
-	}
-
 	public function delete($p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "kelompok/index/$p/$o");
@@ -241,7 +231,7 @@ class Kelompok extends Admin_Controller {
 
 	public function delete_all($p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h', "kelompok/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_all();
 		redirect("kelompok/index/$p/$o");
 	}
@@ -252,9 +242,23 @@ class Kelompok extends Admin_Controller {
 		redirect("kelompok/anggota/$id");
 	}
 
-	public function delete_a($id='', $a=0)
+	public function update_a($id='', $id_a=0)
 	{
-		$this->kelompok_model->delete_a($a);
+		$this->kelompok_model->update_a($id, $id_a);
+		redirect("kelompok/anggota/$id");
+	}
+
+	public function delete_anggota($id = 0, $a=0)
+	{
+		$this->redirect_hak_akses('h');
+		$this->kelompok_model->delete_anggota($a);
+		redirect("kelompok/anggota/$id");
+	}
+
+	public function delete_anggota_all($id = 0)
+	{
+		$this->redirect_hak_akses('h');
+		$this->kelompok_model->delete_anggota_all();
 		redirect("kelompok/anggota/$id");
 	}
 
@@ -266,4 +270,5 @@ class Kelompok extends Admin_Controller {
 		else unset($_SESSION['filter']);
 		redirect('kelompok');
 	}
+
 }

@@ -120,7 +120,7 @@ class Penduduk_model extends MY_Model {
 	protected function get_sql_kolom_kode($session, $kolom)
 	{
 		$kf = $this->session->$session;
-		if (isset($kf))
+		if ( ! empty($kf))
 		{
 			if ($kf == JUMLAH)
 				$sql = " AND (" . $kolom . " IS NOT NULL OR " . $kolom . " != '')";
@@ -146,7 +146,7 @@ class Penduduk_model extends MY_Model {
 
 	protected function umur_max_sql()
 	{
-		$kf = $this->session->umur_min;
+		$kf = $this->session->umur_max;
 		if (isset($kf))
 		{
 			$umur_max_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
@@ -309,9 +309,9 @@ class Penduduk_model extends MY_Model {
 		// Filter data penduduk digunakan dibeberapa tempat, termasuk untuk laporan statistik kependudukan.
 		// Filter untuk statistik kependudukan menggunakan kode yang ada di daftar STAT_PENDUDUK di referensi_model.php
 		$kolom_kode = array(
-			array('filter', 'u.status'), // Status : Hidup, Mati, Dll -> Load data awal (filtering combobox)
-			array('status_penduduk', 'u.status'), // Status : Hidup, Maati, Dll -> Hanya u/ Pencarian Spesifik
-			array('status_dasar', 'u.status_dasar'), // Kode 6
+			array('filter', 'u.status'), //  Kode 6 Tetap, Tidak Tetap, Pendatang
+			array('status_penduduk', 'u.status'), // Status Tetap, Tidak Tetap, Pendatang -> Hanya u/ Pencarian Spesifik
+			array('status_dasar', 'u.status_dasar'), // Status : Hidup, Maati, Dll -> Hanya u/ Pencarian Spesifik
 			array('sex', 'u.sex'), // Kode 4
 			array('pendidikan_kk_id', 'u.pendidikan_kk_id'), // Kode 0
 			array('cacat', 'u.cacat_id'), // Kode 9
@@ -1307,7 +1307,7 @@ class Penduduk_model extends MY_Model {
 		$this->db->query($query);
 	}
 
-	public function get_judul_statistik($tipe=0, $nomor=1, $sex=0)
+	public function get_judul_statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
 		if ($nomor == JUMLAH)
 			$judul = array("nama" => "JUMLAH");
@@ -1319,7 +1319,7 @@ class Penduduk_model extends MY_Model {
 		{
 			switch ($tipe)
 			{
-				case 0: $table = 'tweb_penduduk_pendidikan_kk'; break;
+				case '0': $table = 'tweb_penduduk_pendidikan_kk'; break;
 				case 1: $table = 'tweb_penduduk_pekerjaan'; break;
 				case 2: $table = 'tweb_penduduk_kawin'; break;
 				case 3: $table = 'tweb_penduduk_agama'; break;

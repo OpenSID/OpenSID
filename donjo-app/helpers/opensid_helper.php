@@ -666,8 +666,11 @@ function xcopy($src, $dest)
 
 function sql_in_list($list_array)
 {
+	if (empty($list_array)) return FALSE;
+
 	$prefix = $list = '';
-	foreach ($list_array as $key => $value) {
+	foreach ($list_array as $key => $value)
+	{
 		$list .= $prefix . "'" . $value . "'";
 		$prefix = ', ';
 	}
