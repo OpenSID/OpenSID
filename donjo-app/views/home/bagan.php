@@ -13,8 +13,6 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<div class="box-header with-border">
-					</div>
 					<div class="box-body">
 						<figure class="highcharts-figure">
 					    <div id="container"></div>
