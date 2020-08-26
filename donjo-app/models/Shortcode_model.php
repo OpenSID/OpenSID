@@ -53,6 +53,7 @@ class Shortcode_model extends CI_Model {
     $this->load->model('keuangan_grafik_manual_model');
     $this->load->model('laporan_penduduk_model');
     $this->load->model('config_model');
+    $this->load->model('pamong_model');
   }
 
 	// Shortcode untuk isi artikel
@@ -113,13 +114,21 @@ class Shortcode_model extends CI_Model {
 		{
 		  return $this->tabel_rp_apbd_bidang_manual($type, $thn);
 		}
+    elseif ($type == 'sotk_w_bpd')
+		{
+		  return $this->sotk_w_bpd();
+		}
+    elseif ($type == 'sotk_wo_bpd')
+		{
+		  return $this->sotk_wo_bpd();
+		}
 	}
 
 	private function grafik_rp_apbd($type, $thn)
 	{
 		$data = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
 		$data_widget = $data['data_widget'];
-		
+
 		ob_start();
 			include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php");
 		$res = ob_get_clean();
@@ -137,7 +146,7 @@ class Shortcode_model extends CI_Model {
 		$pembiayaan_keluar = $data['pembiayaan_keluar'];
 		$ta = $thn;
 		$sm = $smt1 ? '1' : '2';
-		
+
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
@@ -156,7 +165,7 @@ class Shortcode_model extends CI_Model {
 		$ta = $thn;
 		$sm = $smt1 ? '1' : '2';
 		$jenis = 'bidang';
-		
+
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
@@ -167,7 +176,7 @@ class Shortcode_model extends CI_Model {
 	{
 		$data = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
 		$data_widget = $data['data_widget'];
-		
+
 		ob_start();
 			include("donjo-app/views/keuangan/grafik_rp_apbd_chart.php");
 		$res = ob_get_clean();
@@ -185,7 +194,7 @@ class Shortcode_model extends CI_Model {
 		$pembiayaan_keluar = $data['pembiayaan_keluar'];
 		$ta = $thn;
 		$jenis = 'bidang';
-		
+
 		ob_start();
 			include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel.php");
 		$output = ob_get_clean();
@@ -248,6 +257,30 @@ class Shortcode_model extends CI_Model {
 
 		ob_start();
 			include("donjo-app/views/statistik/peserta_bantuan.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function sotk_w_bpd()
+	{
+    $desa = $this->config_model->get_data();
+		$bagan = $this->pamong_model->list_bagan();
+		$ada_bpd = true;
+
+		ob_start();
+			include("donjo-app/views/home/bagan_sisip.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function sotk_wo_bpd()
+	{
+    $desa = $this->config_model->get_data();
+		$bagan = $this->pamong_model->list_bagan();
+		$ada_bpd = false;
+
+		ob_start();
+			include("donjo-app/views/home/bagan_sisip.php");
 		$res = ob_get_clean();
 		return $res;
 	}
@@ -320,6 +353,16 @@ class Shortcode_model extends CI_Model {
 		elseif ($type == "penerima_bantuan_keluarga_daftar")
 		{
 			$output = "<i class='fa fa-table'></i> Penerima Bantuan (Keluarga)";
+			return $output;
+		}
+    elseif ($type == "sotk_w_bpd")
+		{
+			$output = "<i class='fa fa-table'></i> Struktur Organisasi (BPD)";
+			return $output;
+		}
+    elseif ($type == "sotk_wo_bpd")
+		{
+			$output = "<i class='fa fa-table'></i> Struktur Organisasi";
 			return $output;
 		}
 	}

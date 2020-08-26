@@ -43,5 +43,6 @@ Fitur Premium:
 2. #3465: Sekarang data kelompok bisa ditampilkan di web melalui menu statis.
 3. #2773: Sediakan menu Buku Administrasi Umum.
 
+
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 

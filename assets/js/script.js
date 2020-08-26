@@ -20,8 +20,6 @@ $( window ).on( "load", function() {
 
 $(document).ready(function()
 {
-
-
 	//CheckBox All Selected
 	checkAll();
   $("input[name='id_cb[]'").click(function(){

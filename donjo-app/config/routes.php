@@ -70,10 +70,10 @@ $route['bumindes_umum/([a-z_]+)/(:any)'] = "buku_umum/bumindes_umum/$1/$2";
 $route['bumindes_umum/([a-z_]+)'] = "buku_umum/bumindes_umum/$1";
 $route['bumindes_umum'] = "buku_umum/bumindes_umum";
 
-$route['pengurus/([a-z]+)/(:any)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3/$4";
-$route['pengurus/([a-z]+)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3";
-$route['pengurus/([a-z]+)/(:any)'] = "buku_umum/pengurus/$1/$2";
-$route['pengurus/([a-z]+)'] = "buku_umum/pengurus/$1";
+$route['pengurus/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3/$4";
+$route['pengurus/([a-z_]+)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3";
+$route['pengurus/([a-z_]+)/(:any)'] = "buku_umum/pengurus/$1/$2";
+$route['pengurus/([a-z_]+)'] = "buku_umum/pengurus/$1";
 $route['pengurus'] = "buku_umum/pengurus";
 
 $route['surat_keluar/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/surat_keluar/$1/$2/$3/$4";

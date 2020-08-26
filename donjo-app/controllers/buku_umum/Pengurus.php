@@ -9,7 +9,7 @@ class Pengurus extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
+		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model', 'wilayah_model']);
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 		$this->_set_page = ['20', '50', '100'];
@@ -68,7 +68,7 @@ class Pengurus extends Admin_Controller {
 			$data['pamong'] = NULL;
 			$data['form_action'] = site_url("pengurus/insert");
 		}
-
+		$data['atasan'] = $this->pamong_model->list_atasan($id);
 		$data['penduduk'] = $this->pamong_model->list_penduduk();
 		$data['pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
@@ -165,6 +165,31 @@ class Pengurus extends Admin_Controller {
 		$data['main'] = $this->pamong_model->list_data();
 
 		$this->load->view('home/'.$aksi, $data);
+	}
+
+	public function bagan($ada_bpd = '')
+	{
+		$data['desa'] = $this->config_model->get_data();
+		$data['bagan'] = $this->pamong_model->list_bagan();
+		$data['ada_bpd'] = ! empty($ada_bpd);
+		$this->load->view('header', $this->_header);
+		$this->load->view('nav');
+		$this->load->view('home/bagan', $data);
+		$this->load->view('footer');
+	}
+
+	public function atur_bagan()
+	{
+		$data['atasan'] = $this->pamong_model->list_atasan();
+		$data['form_action'] = site_url("pengurus/update_bagan");
+		$this->load->view('home/ajax_atur_bagan', $data);
+	}
+
+	public function update_bagan()
+	{
+		$post = $this->input->post();
+		$this->pamong_model->update_bagan($post);
+		redirect('pengurus');
 	}
 
 }

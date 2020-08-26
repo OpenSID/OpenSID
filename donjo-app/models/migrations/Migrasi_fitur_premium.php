@@ -49,6 +49,7 @@ class Migrasi_fitur_premium extends CI_model {
 	{
 		// Menu baru -FITUR PREMIUM-
 		$this->buku_administrasi_desa();
+		$this->tambah_kolom_pemerintahan_desa();
 	}
 
 	private function buku_administrasi_desa()
@@ -193,4 +194,40 @@ class Migrasi_fitur_premium extends CI_model {
 		$sql = $this->db->insert_string('setting_modul', $modul) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), parent = VALUES(parent)";
 		$this->db->query($sql);
 	}
+
+	private function tambah_kolom_pemerintahan_desa()
+	{
+		// Struktur pemerintahan desa
+		if (!$this->db->field_exists('atasan', 'tweb_desa_pamong'))
+		{
+  		$fields['atasan'] = [
+	        	'type' => 'INT',
+	        	'constraint' => 11,
+	        ];
+  		$fields['bagan_tingkat'] = array(
+	        	'type' => 'TINYINT',
+	        	'constraint' => 2,
+	        );
+  		$fields['bagan_offset'] = array(
+	        	'type' => 'INT',
+	        	'constraint' => 3,
+	        );
+  		$fields['bagan_layout'] = array(
+	        	'type' => 'VARCHAR',
+	        	'constraint' => 20,
+	        );
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+		// Struktur pemerintahan desa
+		if (!$this->db->field_exists('bagan_warna', 'tweb_desa_pamong'))
+		{
+  		$fields['bagan_warna'] = [
+	        	'type' => 'VARCHAR',
+	        	'constraint' => 10,
+	        	'default' => NULL
+	        ];
+			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+  	}
+	}
+
 }
