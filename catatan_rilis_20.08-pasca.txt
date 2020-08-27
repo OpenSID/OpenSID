@@ -36,6 +36,7 @@ Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
 30. #3490, #3491: Tambahkan alamat, tempat dan tanggal lahir di daftar dan di laporan anggota kelompok.
 31. #2866, #2945: Sederhanakan dan perbaiki tampilan Layanan Mandiri.
 32. Pindahkan script layanan mandiri ke controller terpisah. [teknis]
+33. Sederhanakan penulisan script modul Bantuan. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
