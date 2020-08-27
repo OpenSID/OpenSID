@@ -449,7 +449,6 @@ td.aksi {
 .tabel-daftar > thead > tr > th {
 	text-align: center;
 	white-space: nowrap;
-	padding: 0px !important;
 	text-transform: uppercase;
 }
 

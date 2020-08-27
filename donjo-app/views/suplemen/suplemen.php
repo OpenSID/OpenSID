@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<a href="<?=site_url('suplemen/create')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Suplemen Baru"><i class="fa fa-plus"></i> Tambah Suplemen Baru</a>
+					<a href="<?=site_url('suplemen/form')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Suplemen Baru"><i class="fa fa-plus"></i> Tambah Suplemen Baru</a>
 					<a href="<?=site_url('suplemen/panduan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Program Bantuan Baru"><i class="fa fa-question-circle"></i> Panduan</a>
 				</div>
 				<div class="box-body">
@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td class="padat"><?= ($key + 1); ?></td>
 												<td class="aksi">
 													<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
-													<a href="<?= site_url("suplemen/edit/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
+													<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 													<a href="#" data-href="<?= site_url("suplemen/hapus/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												</td>
 												<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
