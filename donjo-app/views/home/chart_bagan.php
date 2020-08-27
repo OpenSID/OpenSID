@@ -3,7 +3,7 @@
 Highcharts.chart('container', {
 	chart: {
 		height: 600,
-		width: 800,
+		width: <?= $this->setting->ukuran_lebar_bagan ?>,
 		inverted: true
 	},
 
