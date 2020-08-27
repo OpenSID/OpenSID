@@ -5,24 +5,6 @@
 		parent::__construct();
 	}
 
-	public function list_suplemen($sasaran=0)
-	{
-		if ($sasaran > 0)
-		{
-			$strSQL = "SELECT *
-				FROM suplemen s
-				WHERE s.sasaran=".$sasaran;
-		}
-		else
-		{
-			$strSQL = "SELECT *
-				FROM suplemen s WHERE 1";
-		}
-		$query = $this->db->query($strSQL);
-		$data = $query->result_array();
-		return $data;
-	}
-
 	public function create()
 	{
 		$data = $this->validasi($this->input->post());
@@ -42,7 +24,7 @@
 
 	public function list_data($sasaran = 0)
 	{
-		if ($sasaran > 0) $this->db->where('sasaran', $sasaran);
+		if ($sasaran > 0) $this->db->where('s.sasaran', $sasaran);
 
 		$data = $this->db
 			->select('s.*')

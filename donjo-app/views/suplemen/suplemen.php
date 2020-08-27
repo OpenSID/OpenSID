@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</td>
 												<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
 												<td class="padat"><?= $item['jml']?></td>
-												<td><a href="<?= site_url("suplemen/sasaran/$item[sasaran]"); ?>"><?= $sasaran[$item["sasaran"]]?></a></td>
+												<td><?= $sasaran[$item["sasaran"]]?></td>
 												<td width="30%"><?= $item['keterangan']?></td>
 											</tr>
 										<?php endforeach; ?>
