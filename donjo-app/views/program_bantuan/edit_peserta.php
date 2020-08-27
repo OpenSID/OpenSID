@@ -20,33 +20,28 @@
 		format: 'DD-MM-YYYY'
 	});
 </script>
-<style type="text/css">
-	.tabel, td {
-		height: 30px;
-		padding: 5px;
-		word-wrap: break-word;
-	}
-</style>
 <form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 	<div class='modal-body'>
 		<div class="box-header with-border">
 			<h3 class="box-title">Rincian Program</h3>
 		</div>
 		<div class="box-body">
-			<table class="table table-bordered  table-striped table-hover" >
-				<tbody>
-					<tr>
-						<td width="20%"><?= $judul_peserta?></td>
-						<td width="1">:</td>
-						<td><?= $peserta_nama?></td>
-					</tr>
-					<tr>
-						<td><?= $judul_peserta_info?></td>
-						<td>:</td>
-						<td><?= $peserta_info?></td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover tabel-rincian">
+					<tbody>
+						<tr>
+							<td width="20%"><?= $judul_peserta?></td>
+							<td width="1">:</td>
+							<td><?= $peserta_nama?></td>
+						</tr>
+						<tr>
+							<td><?= $judul_peserta_info?></td>
+							<td>:</td>
+							<td><?= $peserta_info?></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div class="box-header with-border">
 			<h3 class="box-title">Identitas Pada Kartu Peserta</h3>
@@ -56,7 +51,7 @@
 			<div class="form-group">
 				<label for="no_id_kartu" class="col-sm-4 control-label">Nomor Kartu Peserta</label>
 				<div class="col-sm-7">
-					<input  id="no_id_kartu" class="form-control input-sm nama_terbatas" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
+					<input id="no_id_kartu" class="form-control input-sm nama_terbatas" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
 				</div>
 			</div>
 			<?php if ($kartu_peserta): ?>
@@ -76,32 +71,32 @@
 						<input type="text" class="form-control" id="file_path">
 						<input type="file" class="hidden" id="file" name="satuan">
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+							<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 						</span>
 					</div>
 					<span class="help-block"><code> Kosongkan jika tidak ingin mengunggah gambar</code></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="kartu_nik"  class="col-sm-4 control-label">NIK</label>
+				<label for="kartu_nik" class="col-sm-4 control-label">NIK</label>
 				<div class="col-sm-7">
-					<input  id="kartu_nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK Penduduk" name="kartu_nik" value="<?= $kartu_nik?>" >
+					<input id="kartu_nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK Penduduk" name="kartu_nik" value="<?= $kartu_nik?>" >
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="kartu_nama"  class="col-sm-4 control-label">Nama</label>
+				<label for="kartu_nama" class="col-sm-4 control-label">Nama</label>
 				<div class="col-sm-7">
-					<input  id="kartu_nama" class="form-control input-sm required nama" type="text" placeholder="Nama Penduduk" name="kartu_nama" value="<?= $kartu_nama?>">
+					<input id="kartu_nama" class="form-control input-sm required nama" type="text" placeholder="Nama Penduduk" name="kartu_nama" value="<?= $kartu_nama?>">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="kartu_tempat_lahir"  class="col-sm-4 control-label">Tempat Lahir</label>
+				<label for="kartu_tempat_lahir" class="col-sm-4 control-label">Tempat Lahir</label>
 				<div class="col-sm-7">
-					<input  id="kartu_tempat_lahir" class="form-control input-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $kartu_tempat_lahir?>">
+					<input id="kartu_tempat_lahir" class="form-control input-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $kartu_tempat_lahir?>">
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="kartu_tanggal_lahir"  class="col-sm-4 control-label">Tanggal Lahir</label>
+				<label for="kartu_tanggal_lahir" class="col-sm-4 control-label">Tanggal Lahir</label>
 				<div class="col-sm-7">
 					<div class="input-group input-group-sm date">
 						<div class="input-group-addon">
@@ -112,9 +107,9 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="kartu_alamat"  class="col-sm-4 control-label">Alamat</label>
+				<label for="kartu_alamat" class="col-sm-4 control-label">Alamat</label>
 				<div class="col-sm-7">
-					<input  id="kartu_alamat" class="form-control input-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $kartu_alamat?>">
+					<input id="kartu_alamat" class="form-control input-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $kartu_alamat?>">
 				</div>
 			</div>
 		</div>
