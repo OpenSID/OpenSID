@@ -60,14 +60,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box-header with-border">
 				<a href="<?= site_url()?>suplemen" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
 			</div>
-			<div class="box-body ">
+			<div class="box-body">
 				<h5><b>Profil Terdata Data Suplemen</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-hover tabel-rincian">
 						<tbody>
 							<tr>
 								<td width="20%">Nama</td>
-								<td width="1">:</td>
+								<td width="1%">:</td>
 								<td><?= strtoupper($profil["nama"])?></td>
 							</tr>
 							<tr>
@@ -78,7 +78,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tbody>
 					</table>
 				</div>
+			</div>
 
+			<div class="box-body">
 				<h5><b>Suplemen Yang Terdata</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered dataTable table-hover tabel-daftar">
@@ -90,14 +92,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</tr>
 						</thead>
 						<tbody>
-							<?php
-							$nomer = 0;
-							foreach ($daftar_suplemen as $item):
-								$nomer++;
-								?>
+							<?php foreach ($daftar_suplemen as $key => $item): ?>
 								<tr>
-									<td align="center" width="2"><?= $nomer; ?></td>
-									<td><a href="<?= site_url('suplemen/rincian/1/'.$item["id"].'/')?>"><?= $item["nama"] ?></a></td>
+									<td class="padat"><?= ($key + 1); ?></td>
+									<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
 									<td><?= $item["keterangan"];?></td>
 								</tr>
 							<?php endforeach; ?>

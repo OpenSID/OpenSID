@@ -65,13 +65,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 						<form id="mainform" name="mainform" action="" method="post">
 							<div class="table-responsive">
-								<table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="table-global">
+								<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th>No</th>
 											<th>Aksi</th>
 											<th>Nama Data</th>
+											<th>Jumlah Terdata</th>
 											<th>Sasaran</th>
+											<th>Keterangan</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -83,8 +85,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<a href="<?= site_url("suplemen/edit/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 													<a href="#" data-href="<?= site_url("suplemen/hapus/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												</td>
-												<td width="70%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
+												<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
+												<td class="padat"><?= $item['jml']?></td>
 												<td><a href="<?= site_url("suplemen/sasaran/$item[sasaran]"); ?>"><?= $sasaran[$item["sasaran"]]?></a></td>
+												<td width="30%"><?= $item['keterangan']?></td>
 											</tr>
 										<?php endforeach; ?>
 									</tbody>

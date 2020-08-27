@@ -65,9 +65,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
 			</div>
+			<?php $this->load->view('suplemen/rincian'); ?>
 			<div class="box-body">
-				<?php $this->load->view('suplemen/rincian'); ?>
-
 				<h5><b>Daftar Anggota</b></h5>
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<form id="mainform" name="mainform" action="" method="post">

@@ -40,16 +40,20 @@
 		return $data;
 	}
 
-	public function list_data($sasaran=0)
+	public function list_data($sasaran = 0)
 	{
-		if ($sasaran > 0)
-		{
-			$data = $this->db->select('*')->where('sasaran',$sasaran)->order_by('nama')->get('suplemen')->result_array();
-		}
-		else
-		{
-			$data = $this->db->select('*')->order_by('nama')->get('suplemen')->result_array();
-		}
+		if ($sasaran > 0) $this->db->where('sasaran', $sasaran);
+
+		$data = $this->db
+			->select('s.*')
+			->select('COUNT(st.id) AS jml')
+			->from('suplemen s')
+			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
+			->order_by('s.nama')
+			->group_by('s.id')
+			->get()
+			->result_array();
+
 		return $data;
 	}
 

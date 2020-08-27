@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</td>
 					</tr>
 					<tr>
-						<td><hr></td>
+						<td><hr class="garis"></td>
 					</tr>
 					<tr>
 						<td class="text-center">
@@ -96,11 +96,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</td>
 					</tr>
 					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
 						<td>
 							<table class="border thick">
 								<thead>
 									<tr class="border thick">
-										<th>No</th>
+										<th class="padat">No</th>
 										<th><?= $suplemen["judul_terdata_nama"]; ?></th>
 										<th><?= $suplemen["judul_terdata_info"]; ?></th>
 										<th>Tempat Lahir</th>
@@ -114,10 +117,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php foreach ($terdata as $key => $item): ?>
 										<tr>
 											<td class="padat"><?= ($key + 1); ?></td>
-											<td><?= $item["terdata_nama"]; ?></td>
+											<td class="textx"><?= $item["terdata_nama"]; ?></td>
 											<td><?= $item["terdata_info"]; ?></td>
 											<td><?= $item["tempat_lahir"]; ?></td>
-											<td><?= $item["tanggal_lahir"]; ?></td>
+											<td class="textx"><?= $item["tanggal_lahir"]; ?></td>
 											<td><?= $item["sex"]; ?></td>
 											<td><?= $item["info"]; ?></td>
 											<td><?= $item["keterangan"]; ?></td>
@@ -129,6 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tr>
 				</tbody>
 			</table>
+			<br>
 			<table>
 				<tr>
 					<td width="10%">&nbsp;</td>
