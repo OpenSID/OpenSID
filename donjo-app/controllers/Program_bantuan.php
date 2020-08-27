@@ -105,6 +105,7 @@ class Program_bantuan extends Admin_Controller {
 		if (isset($nik))
 		{
 			$data['individu'] = $this->program_bantuan_model->get_peserta($nik, $sasaran);
+			$data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($sasaran, $data['individu']['id_peserta']);
 		}
 		else
 		{
@@ -183,6 +184,7 @@ class Program_bantuan extends Admin_Controller {
 				break;
 		}
 		$data['individu'] = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
+		$data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($data['peserta']['sasaran'], $data['peserta']['peserta']);
 		$data['detail'] = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
 		$this->_header['minsidebar'] = 1;
 
