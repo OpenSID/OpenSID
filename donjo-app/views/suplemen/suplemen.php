@@ -94,10 +94,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 												<a href="#" data-href="<?= site_url("suplemen/hapus/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 											</td>
-											<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
+											<td width="20%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
 											<td class="padat"><?= $item['jml']?></td>
-											<td><?= $sasaran[$item["sasaran"]]?></td>
-											<td width="30%"><?= $item['keterangan']?></td>
+											<td class="nostretch"><?= $sasaran[$item["sasaran"]]?></td>
+											<td><?= $item['keterangan']?></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>
