@@ -65,14 +65,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
 						<div class="col-sm-7">
-							<select class="form-control input-sm required" name="cid" id="cid">
+							<?php if ($suplemen['jml'] <> 0): ?>
+								<input type="hidden" name="sasaran" value="<?= $suplemen['sasaran']; ?>">
+								<select class="form-control input-sm" disabled>
+							<?php else: ?>
+								<select class="form-control input-sm required" name="sasaran">
+							<?php endif;?>
 								<option value="">Pilih Sasaran</option>
-								<?php foreach ($list_sasaran AS $key => $value): ?>
-									<?php if (in_array($key, ['1', '2'])) : ?>
-										<option value="<?= $key; ?>" <?= selected($suplemen['sasaran'], $key); ?>><?= $value?></option>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</select>
+									<?php foreach ($list_sasaran AS $key => $value): ?>
+										<?php if (in_array($key, ['1', '2'])) : ?>
+											<option value="<?= $key; ?>" <?= selected($suplemen['sasaran'], $key); ?>><?= $value?></option>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</select>
 						</div>
 					</div>
 					<div class="form-group">
