@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul suplemen
+ * View daftar terdata untuk modul suplemen
  *
  * donjo-app/views/suplemen/suplemen_anggota.php,
  *
@@ -48,11 +48,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Rincian Data Suplemen</h1>
+		<h1>Daftar Terdata Suplemen</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
-			<li class="active">Rincian Data Suplemen</li>
+			<li class="active">Daftar Terdata Suplemen</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -67,7 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<?php $this->load->view('suplemen/rincian'); ?>
 			<div class="box-body">
-				<h5><b>Daftar Anggota</b></h5>
+				<h5><b>Daftar Terdata</b></h5>
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<form id="mainform" name="mainform" action="" method="post">
 						<div class="table-responsive">

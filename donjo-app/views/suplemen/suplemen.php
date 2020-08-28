@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul suplemen
+ * View daftar data suplemen untuk modul Suplemen
  *
  * donjo-app/views/suplemen/suplemen.php,
  *

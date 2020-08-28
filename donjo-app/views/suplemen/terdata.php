@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul suplemen
+ * View profil terdata untuk modul suplemen
  *
  * donjo-app/views/suplemen/terdata.php,
  *
@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('suplemen')?>"><i class="fa fa-home"></i> Data Suplemen</a></li>
-			<li class="active">Profil Data Terdata Suplemen</li>
+			<li class="active">Profil Terdata Data Suplemen</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<a href="<?= site_url()?>suplemen" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
 			</div>
 			<div class="box-body">
-				<h5><b>Profil Terdata Data Suplemen</b></h5>
+				<h5><b>Profil Terdata</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-hover tabel-rincian">
 						<tbody>

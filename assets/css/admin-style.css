@@ -470,17 +470,7 @@ select.select2 {
 	width: 100%;
 }
 
-textarea {
-	resize: none;
-}
-
 .input-sm {
 	padding: 4px 4px;
-}
-
-@media (max-width:780px) {
-	.btn-group-vertical {
-		display: block;
-	}
 }
 

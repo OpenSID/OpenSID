@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul suplemen
+ * View untuk cetak/unduh laporan modul suplemen
  *
  * donjo-app/views/suplemen/cetak.php,
  *
@@ -48,7 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
 
-	if ($aksi == 'unduh') {
+	if ($aksi == 'unduh')
+	{
 		$tgl = date('Y-m-d');
 		$judul = urlencode("laporan_suplemen_$suplemen[nama]_$tgl");
 

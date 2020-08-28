@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="box-body">
-	<h5><b>Rician Suplemen</b></h5>
+	<h5><b>Rincian Suplemen</b></h5>
 	<div class="table-responsive">
 		<table class="table table-bordered table-striped table-hover tabel-rincian">
 			<tbody>
