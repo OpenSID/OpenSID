@@ -58,7 +58,12 @@ class Suplemen extends Admin_Controller {
 	public function index()
 	{
 		$this->session->per_page = 50;
-		$data['suplemen'] = $this->suplemen_model->list_data();
+
+		$sasaran = $this->input->post('sasaran');
+
+		$data['suplemen'] = $this->suplemen_model->list_data($sasaran);
+		$data['list_sasaran'] = unserialize(SASARAN);
+		$data['set_sasaran'] = $sasaran;
 
 		$this->load->view('header', $this->header);
 		$this->load->view('nav');
@@ -79,6 +84,7 @@ class Suplemen extends Admin_Controller {
 			$data['form_action'] = site_url("suplemen/tambah");
 		}
 
+		$data['list_sasaran'] = unserialize(SASARAN);
 		$this->header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->header);

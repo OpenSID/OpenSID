@@ -66,9 +66,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<label class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
 						<div class="col-sm-7">
 							<select class="form-control input-sm required" name="cid" id="cid">
-								<option value="">-- Pilih Sasaran Data Suplemen --</option>
-								<option value="1" <?php ($cid == 1 OR $suplemen['sasaran'] == 1) and print('selected') ?>>Penduduk Perorangan</option>
-								<option value="2" <?php ($cid == 2 OR $suplemen['sasaran'] == 2) and print('selected') ?>>Keluarga - KK</option>
+								<option value="">Pilih Sasaran</option>
+								<?php foreach ($list_sasaran AS $key => $value): ?>
+									<?php if (in_array($key, ['1', '2'])) : ?>
+										<option value="<?= $key; ?>" <?= selected($suplemen['sasaran'], $key); ?>><?= $value?></option>
+									<?php endif; ?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
