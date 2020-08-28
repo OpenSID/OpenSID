@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Data Suplemen</h1>
+		<h1>Data Suplemen <?= ($set_sasaran == 0)? '' : "Sasaran $sasaran[$set_sasaran]"; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Data Suplemen</li>
@@ -64,37 +64,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="box-body">
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 						<form id="mainform" name="mainform" action="" method="post">
-							<div class="table-responsive">
-								<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
-									<thead class="bg-gray disabled color-palette">
-										<tr>
-											<th>No</th>
-											<th>Aksi</th>
-											<th>Nama Data</th>
-											<th>Jumlah Terdata</th>
-											<th>Sasaran</th>
-											<th>Keterangan</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php	foreach ($suplemen as $key => $item):	?>
-											<tr>
-												<td class="padat"><?= ($key + 1); ?></td>
-												<td class="aksi">
-													<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
-													<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
-													<a href="#" data-href="<?= site_url("suplemen/hapus/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-												</td>
-												<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
-												<td class="padat"><?= $item['jml']?></td>
-												<td><?= $sasaran[$item["sasaran"]]?></td>
-												<td width="30%"><?= $item['keterangan']?></td>
-											</tr>
-										<?php endforeach; ?>
-									</tbody>
-								</table>
-							</div>
+							<select class="form-control input-sm" name="sasaran" onchange="formAction('mainform', '<?= site_url('suplemen'); ?>')">
+								<option value="">Pilih Sasaran</option>
+								<?php foreach ($list_sasaran AS $key => $value): ?>
+									<?php if (in_array($key, ['1', '2'])) : ?>
+										<option value="<?= $key; ?>" <?= selected($set_sasaran, $key); ?>><?= $value?></option>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							</select>
 						</form>
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
+								<thead class="bg-gray disabled color-palette">
+									<tr>
+										<th>No</th>
+										<th>Aksi</th>
+										<th>Nama Data</th>
+										<th>Jumlah Terdata</th>
+										<th>Sasaran</th>
+										<th>Keterangan</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php	foreach ($suplemen as $key => $item):	?>
+										<tr>
+											<td class="padat"><?= ($key + 1); ?></td>
+											<td class="aksi">
+												<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
+												<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
+												<a href="#" data-href="<?= site_url("suplemen/hapus/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+											</td>
+											<td width="20%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
+											<td class="padat"><?= $item['jml']?></td>
+											<td class="nostretch"><?= $sasaran[$item["sasaran"]]?></td>
+											<td><?= $item['keterangan']?></td>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
