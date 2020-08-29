@@ -1,4 +1,49 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Controller untuk modul Layanan Mandiri
+ *
+ * donjo-app/controllers/Mandiri_web.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Mandiri_web extends Web_Controller
 {
@@ -36,7 +81,6 @@ class Mandiri_web extends Web_Controller
 				$data['tab'] = 2;
 				$data['m'] = 2;
 			case 2:
-				$this->load->model('permohonan_surat_model');
 				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
 				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
 				break;
@@ -48,8 +92,7 @@ class Mandiri_web extends Web_Controller
 				$_SESSION['mailbox'] = $kat;
 				break;
 			case 4:
-				$this->load->model('program_bantuan_model','pb');
-				$data['bantuan_penduduk'] = $this->pb->daftar_bantuan_yang_diterima($_SESSION['nik']);
+				$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($_SESSION['nik']);
 				break;
 			case 5:
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
@@ -57,6 +100,7 @@ class Mandiri_web extends Web_Controller
 			default:
 				break;
 		}
+
 		$data['desa'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
@@ -64,7 +108,6 @@ class Mandiri_web extends Web_Controller
 
 	public function mandiri_surat($id_permohonan='')
 	{
-		$this->load->model('permohonan_surat_model');
 		$data = $this->includes;
 		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
 		$data['menu_dokumen_mandiri'] = $this->lapor_model->get_surat_ref_all();
@@ -74,10 +117,12 @@ class Mandiri_web extends Web_Controller
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 
 		// Ambil data anggota KK
-		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
+		if ($data['penduduk']['kk_level'] === '1') // Jika Kepala Keluarga
 		{
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
+
+		$data['desa'] = $this->config_model->get_data();
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}

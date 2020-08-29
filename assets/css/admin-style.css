@@ -426,17 +426,51 @@ Warna Bar Realisasi
 Agar Logo Desa di menu navigasi Admin di sisi kiri tidak terlalu rapat ke kiri
 */
 .main-sidebar .pull-left.image {
-    padding: 0px 10px 10px 10px;
+	padding: 0px 10px 10px 10px;
 }
 
 th.padat, td.padat {
-	width: 1px;
+	width: 1%;
 	white-space: nowrap;
 	text-align: center;
+}
+
+td.aksi {
+	width: 1%;
+	white-space: nowrap;
+	text-align: left;
 }
 
 .tabel-rincian, th, td {
 	height: 30px;
 	padding: 5px;
-	white-space: nowrap;
 }
+
+.tabel-daftar > thead > tr > th {
+	text-align: center;
+	white-space: nowrap;
+	text-transform: uppercase;
+}
+
+textarea {
+	resize: none;
+}
+
+.input-sm {
+	padding: 4px 4px;
+}
+
+@media (max-width:780px) {
+	.btn-group-vertical {
+		display: block;
+	}
+}
+
+select.select2 {
+	width: 100%;
+}
+
+.input-sm {
+	padding: 4px 4px;
+}
+
