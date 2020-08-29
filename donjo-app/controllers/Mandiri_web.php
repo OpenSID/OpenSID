@@ -36,7 +36,6 @@ class Mandiri_web extends Web_Controller
 				$data['tab'] = 2;
 				$data['m'] = 2;
 			case 2:
-				$this->load->model('permohonan_surat_model');
 				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
 				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
 				break;
@@ -48,8 +47,7 @@ class Mandiri_web extends Web_Controller
 				$_SESSION['mailbox'] = $kat;
 				break;
 			case 4:
-				$this->load->model('program_bantuan_model','pb');
-				$data['bantuan_penduduk'] = $this->pb->daftar_bantuan_yang_diterima($_SESSION['nik']);
+				$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($_SESSION['nik']);
 				break;
 			case 5:
 				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
@@ -57,6 +55,7 @@ class Mandiri_web extends Web_Controller
 			default:
 				break;
 		}
+
 		$data['desa'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
@@ -64,7 +63,6 @@ class Mandiri_web extends Web_Controller
 
 	public function mandiri_surat($id_permohonan='')
 	{
-		$this->load->model('permohonan_surat_model');
 		$data = $this->includes;
 		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
 		$data['menu_dokumen_mandiri'] = $this->lapor_model->get_surat_ref_all();
@@ -78,6 +76,8 @@ class Mandiri_web extends Web_Controller
 		{
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
+
+		$data['desa'] = $this->config_model->get_data();
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
