@@ -63,7 +63,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$data = [];
 		// Ambil dan bersihkan data input
-		$data['sasaran'] = $post['cid'];
+		$data['sasaran'] = $post['sasaran'];
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
@@ -196,7 +196,16 @@ class Suplemen_model extends CI_Model {
 
 	public function get_suplemen($id)
 	{
-		$data = $this->db->where('id',$id)->get('suplemen')->row_array();
+		$data = $this->db
+			->select('s.*')
+			->select('COUNT(st.id) AS jml')
+			->from('suplemen s')
+			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
+			->where('s.id', $id)
+			->group_by('s.id')
+			->get()
+			->row_array();
+
 		return $data;
 	}
 
