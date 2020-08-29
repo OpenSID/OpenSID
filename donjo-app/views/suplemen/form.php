@@ -71,13 +71,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php else: ?>
 								<select class="form-control input-sm required" name="sasaran">
 							<?php endif;?>
-								<option value="">Pilih Sasaran</option>
-									<?php foreach ($list_sasaran AS $key => $value): ?>
-										<?php if (in_array($key, ['1', '2'])) : ?>
-											<option value="<?= $key; ?>" <?= selected($suplemen['sasaran'], $key); ?>><?= $value?></option>
-										<?php endif; ?>
-									<?php endforeach; ?>
-								</select>
+							<option value="">Pilih Sasaran</option>
+							<?php foreach ($list_sasaran AS $key => $value): ?>
+								<?php if (in_array($key, ['1', '2'])) : ?>
+									<option value="<?= $key; ?>" <?= selected($suplemen['sasaran'], $key); ?>><?= $value?></option>
+								<?php endif; ?>
+							<?php endforeach; ?>
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
