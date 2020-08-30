@@ -119,6 +119,11 @@ class Migrasi_2008_ke_2009 extends CI_model {
 					'type' => 'VARCHAR',
 					'constraint' => 50,
 					'null' => TRUE
+				),
+				'foto' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100,
+					'null' => TRUE
 				)
 			);
 

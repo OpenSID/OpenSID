@@ -151,6 +151,7 @@ class Kelompok extends Admin_Controller {
 		}
 		$this->header['minsidebar'] = 1;
 
+		$data['list_jabatan'] = $this->kelompok_model->list_jabatan();
 		$this->load->view('header', $this->header);
 		$this->load->view('nav');
 		$this->load->view('kelompok/anggota/form', $data);
