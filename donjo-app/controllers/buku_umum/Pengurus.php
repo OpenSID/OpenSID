@@ -192,4 +192,13 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
+	public function atur_bagan_layout()
+	{
+		$data['judul'] = 'Pengaturan Halaman Web';
+		$data['list_setting'] = 'list_setting_bagan';
+		$this->setting_model->load_options();
+
+		$this->load->view('home/ajax_atur_bagan_layout', $data);
+	}
+
 }
