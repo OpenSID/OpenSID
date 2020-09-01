@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.08-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.09-premium, tersedia fitur kesiapan status MYSQL dan PHP terpasang yang dibutuhkan OpenSID dilaporkan di Pengaturan > Info Sistem. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Ariandi Ryan Kahfi, Nur Hidayat, Ahmad Afandi, Zeppy Shiddiq, Masumo dan afa28 yang terus berkontribusi. Terima kasih pula pada Tsamara Ali yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.08-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.09-premium adalah sebagai berikut:
 
 1. #3409: Sekarang tautan statistik bantuan di Dashboard Admin mengarah ke halaman yg benar. [bug-fix]
 2. #3110: Gunakan slug untuk tautan artikel di gambar slider tema klasik dan hadakewa.
@@ -50,5 +50,5 @@ Fitur Premium:
 4. Tampilkan bagan struktur organisasi pemerintahan desa di Buku Aparat Pemerintahan Desa, yg juga bisa disisipkan ke artikel untuk ditampilkan di Web.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.08-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-premium, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 

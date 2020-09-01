@@ -88,7 +88,8 @@ class Database_model extends CI_Model {
 		'20.05' => array('migrate' => 'migrasi_2005_ke_2006', 'nextVersion' => '20.06'),
 		'20.06' => array('migrate' => 'migrasi_2006_ke_2007', 'nextVersion' => '20.07'),
 		'20.07' => array('migrate' => 'migrasi_2007_ke_2008', 'nextVersion' => '20.08'),
-		'20.08' => array('migrate' => 'migrasi_2008_ke_2009', 'nextVersion' => NULL)
+		'20.08' => array('migrate' => 'migrasi_2008_ke_2009', 'nextVersion' => '20.09'),
+		'20.09' => array('migrate' => 'migrasi_2008_ke_2009', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
@@ -175,7 +176,7 @@ class Database_model extends CI_Model {
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
 		$versi = AmbilVersi();
-		$versi = preg_replace('/pasca-|-pasca/', '', $versi);
+		$versi = preg_replace('/pasca-|-pasca|-premium/', '', $versi);
 		$newVersion = array(
 			'value' => $versi
 		);
