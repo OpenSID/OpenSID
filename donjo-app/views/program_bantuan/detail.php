@@ -47,78 +47,78 @@
 						<input type="hidden" id="program_id" name="program_id" value="<?= $detail['id']?>">
 						<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
 						<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-							<form id="mainform" name="mainform" action="" method="post">
-								<div class="row">
-									<div class="col-sm-9">
-										<h5><b>Daftar Peserta <?php $cari and print("[ Cari : <b>$cari</b> ]") ?></b></h5>
-									</div>
-									<div class="col-sm-3">
+							<div class="row">
+								<div class="col-sm-9">
+									<h5><b>Daftar Peserta</b></h5>
+								</div>
+								<div class="col-sm-3">
+									<form id="mainform" name="mainform" action="" method="post">
 										<div class="input-group input-group-sm pull-right with-border">
 											<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();}">
 											<div class="input-group-btn">
 												<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/$detail[id]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 											</div>
 										</div>
-									</div>
-									<div class="col-sm-12">
-										<?php $peserta = $program[1];?>
-										<div class="table-responsive">
-											<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
-												<thead class="bg-gray disabled color-palette">
-													<tr>
-														<th rowspan="2" class="padat"><input type="checkbox" id="checkall"/></th>
-														<th rowspan="2" class="padat">No</th>
-														<th rowspan="2" class="padat">Aksi</th>
-														<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
-														<?php if (!empty($detail['judul_peserta_plus'])): ?>
-															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
-														<?php endif ;?>
-														<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
-														<th colspan="7">Identitas di Kartu Peserta</th>
-													</tr>
-													<tr>
-														<th rowspan="2" class="padat">No. Kartu Peserta</th>
-														<th>NIK</th>
-														<th>Nama</th>
-														<th>Tempat Lahir</th>
-														<th>Tanggal Lahir</th>
-														<th>Jenis Kelamin</th>
-														<th>Alamat</th>
-													</tr>
-												</thead>
-												<tbody>
-													<?php if (is_array($peserta)): ?>
-														<?php foreach ($peserta as $key => $item): ?>
-															<tr>
-																<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $item['id']?>" /></td>
-																<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-																<td class="padat">
-																	<a href="<?= site_url("program_bantuan/edit_peserta_form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Peserta"><i class="fa fa-edit"></i></a>
-																	<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																</td>
-																<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
-																<td nowrap><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
-																<?php if (!empty($item['peserta_plus'])): ?>
-																	<td nowrap><?= $item["peserta_plus"]?></td>
-																<?php endif; ?>
-																<td nowrap><?= $item["peserta_info"]?></td>
-																<td nowrap class="padat"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
-																<td nowrap><?= $item["kartu_nik"];?></td>
-																<td nowrap><?= $item["kartu_nama"];?></td>
-																<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
-																<td nowrap><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
-																<td nowrap><?= $item["sex"];?></td>
-																<td nowrap><?= $item["kartu_alamat"];?></td>
-															</tr>
-														<?php endforeach; ?>
-													<?php endif; ?>
-												</tbody>
-											</table>
-										</div>
-										<?php $this->load->view('global/paging');?>
-									</div>
+									</form>
 								</div>
-							</form>
+								<div class="col-sm-12">
+									<?php $peserta = $program[1];?>
+									<div class="table-responsive">
+										<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
+											<thead class="bg-gray disabled color-palette">
+												<tr>
+													<th rowspan="2" class="padat"><input type="checkbox" id="checkall"/></th>
+													<th rowspan="2" class="padat">No</th>
+													<th rowspan="2" class="padat">Aksi</th>
+													<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
+													<?php if (!empty($detail['judul_peserta_plus'])): ?>
+														<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
+													<?php endif ;?>
+													<th rowspan="2" nowrap><?= $detail["judul_peserta_info"]?></th>
+													<th colspan="7">Identitas di Kartu Peserta</th>
+												</tr>
+												<tr>
+													<th rowspan="2" class="padat">No. Kartu Peserta</th>
+													<th>NIK</th>
+													<th>Nama</th>
+													<th>Tempat Lahir</th>
+													<th>Tanggal Lahir</th>
+													<th>Jenis Kelamin</th>
+													<th>Alamat</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php if (is_array($peserta)): ?>
+													<?php foreach ($peserta as $key => $item): ?>
+														<tr>
+															<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $item['id']?>" /></td>
+															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
+															<td class="padat">
+																<a href="<?= site_url("program_bantuan/edit_peserta_form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Peserta"><i class="fa fa-edit"></i></a>
+																<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															</td>
+															<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
+															<td nowrap><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
+															<?php if (!empty($item['peserta_plus'])): ?>
+																<td nowrap><?= $item["peserta_plus"]?></td>
+															<?php endif; ?>
+															<td nowrap><?= $item["peserta_info"]?></td>
+															<td nowrap class="padat"><a href="<?= site_url("program_bantuan/data_peserta/$item[id]")?>" title="Data peserta"><?= $item['no_id_kartu'];?></a></td>
+															<td nowrap><?= $item["kartu_nik"];?></td>
+															<td nowrap><?= $item["kartu_nama"];?></td>
+															<td nowrap><?= $item["kartu_tempat_lahir"];?></td>
+															<td nowrap><?= tgl_indo_out($item["kartu_tanggal_lahir"]);?></td>
+															<td nowrap><?= $item["sex"];?></td>
+															<td nowrap><?= $item["kartu_alamat"];?></td>
+														</tr>
+													<?php endforeach; ?>
+												<?php endif; ?>
+											</tbody>
+										</table>
+									</div>
+									<?php $this->load->view('global/paging');?>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

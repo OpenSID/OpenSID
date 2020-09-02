@@ -6,6 +6,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 
 1. #3514: Sekarang judul produk hukum dan informasi publik diperpanjang sampai 200 karakter.
 2. #3522: Data suplemen tidak bisa lagi dihapus kalau masih digunakan, yaitu masih ada terdata.
+3. #3523: Sekarang perubahan jumlah data paginasi di Program Bantuan berfungsi benar. [bug-fix]
 
 
 
