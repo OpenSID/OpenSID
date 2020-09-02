@@ -92,7 +92,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<td class="aksi">
 												<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
 												<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
-												<a href="#" data-href="<?= site_url("suplemen/hapus/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+												<a
+													<?php if ($item['jml'] <= 0): ?>
+														href="#" data-href="<?= site_url("suplemen/hapus/$item[id]")?>" data-toggle="modal" data-target="#confirm-delete"
+													<?php endif; ?>
+													class="btn bg-maroon btn-flat btn-sm" title="Hapus" <?= jecho($item['jml'] > 0, true, 'disabled'); ?>><i class="fa fa-trash-o"></i>
+												</a>
 											</td>
 											<td width="20%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
 											<td class="padat"><?= $item['jml']?></td>
