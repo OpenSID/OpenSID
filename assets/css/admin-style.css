@@ -470,6 +470,11 @@ select.select2 {
 	width: 100%;
 }
 
+/* Supaya select2 tampil serasi di ukuran layar berbeda */
+span.select2.select2-container {
+	width: 100% !important;
+}
+
 .input-sm {
 	padding: 4px 4px;
 }
