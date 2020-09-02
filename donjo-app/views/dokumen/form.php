@@ -27,9 +27,9 @@
 				</div>
 				<div class="box-body">
 					<div class="form-group">
-						<label class="control-label col-sm-4" for="nama">Nama Dokumen</label>
+						<label class="control-label col-sm-4" for="nama">Judul Dokumen</label>
 						<div class="col-sm-6">
-							<input name="nama" class="form-control input-sm nomor_sk required" type="text" maxlength="100" value="<?=$dokumen['nama']?>"></input>
+							<input name="nama" class="form-control input-sm nomor_sk required" type="text" maxlength="200" value="<?=$dokumen['nama']?>"></input>
 						</div>
 					</div>
 					<?php if ($dokumen['satuan']): ?>

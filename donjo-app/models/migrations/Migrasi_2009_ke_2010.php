@@ -5,7 +5,7 @@
  *
  * Model untuk migrasi database
  *
- * donjo-app/models/migrations/Migrasi_2008_ke_2009.php
+ * donjo-app/models/migrations/Migrasi_2009_ke_2010.php
  *
  */
 
@@ -47,8 +47,8 @@ class Migrasi_2009_ke_2010 extends CI_model {
 
 	public function up()
 	{
-		// Sesuaikan panjang varchar menjadi 100
-		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(100) NOT NULL");
+		// Sesuaikan panjang judul dokumen menjadi 200
+		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL");
 	}
 
 }
