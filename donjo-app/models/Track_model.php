@@ -100,8 +100,8 @@
         unset($notif['id']);
         $notif['tgl_berikutnya'] = date("Y-m-d H:i:s");
         $notif['updated_by'] = 0;
-        $notif['aksi_ya'] = $notif['aksi_ya'] ?: "notif/update_pengumuman";
-        $notif['aksi_tidak'] = $notif['aksi_tidak'] ?: "notif/update_pengumuman";
+        $notif['aksi_ya'] = $this->aksi_valid($notif['aksi_ya']) ?: "notif/update_pengumuman";
+        $notif['aksi_tidak'] = $this->aksi_valid($notif['aksi_tidak']) ?: "notif/update_pengumuman";
         $notif['aksi'] = $notif['aksi_ya'] . "," . $notif['aksi_tidak'];
         unset($notif['aksi_ya']);
         unset($notif['aksi_tidak']);
@@ -109,6 +109,13 @@
         $this->notif_model->insert_notif($notif);
       }
     }
+  }
+
+  private function aksi_valid($aksi)
+  {
+    $aksi_valid = ['setting/aktifkan_tracking'];
+    $aksi = in_array($aksi, $aksi_valid) ? $aksi : '';
+    return $aksi;
   }
 
   /*
