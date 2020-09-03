@@ -193,7 +193,7 @@
 						<label for="status">Status Penduduk </label>
 						<select class="form-control input-sm required" name="status">
 							<option value="1" <?php if ($penduduk['status'] == "TETAP" OR $penduduk['status'] == "1" OR $penduduk['status'] == ""): ?>selected<?php endif; ?>>Tetap</option>
-							<option value="2" <?php if ($penduduk['status'] == "TIDAK AKTIF" OR $penduduk['status'] == "2"): ?>selected<?php endif; ?>>Tidak Tetap</option>
+							<option value="2" <?php if ($penduduk['status'] == "TIDAK TETAP" OR $penduduk['status'] == "2"): ?>selected<?php endif; ?>>Tidak Tetap</option>
 							<option value="3" <?php if ($penduduk['status'] == "PENDATANG" OR $penduduk['status'] == "3"): ?>selected<?php endif; ?> >Pendatang</option>
 						</select>
 					</div>
