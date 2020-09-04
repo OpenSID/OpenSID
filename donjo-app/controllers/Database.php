@@ -153,7 +153,13 @@ class Database extends Admin_Controller {
 			$data['nama_file'] = 'penduduk_'.$tgl;
 		}
 		$data['opendk'] = $opendk;
-		$this->load->view('export/penduduk_excel', $data);
+		//$this->load->view('export/penduduk_excel', $data);
+		$this->load->library('excel');
+		$excel = new Excel();
+		$excel->setHeader($data['judul']);
+		$excel->setData($data['main']);
+		$excel->setFilename($data['nama_file']);
+		$excel->download();
 	}
 
 	public function export_dasar()
