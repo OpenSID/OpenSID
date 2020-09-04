@@ -418,12 +418,6 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
-	public function list_jabatan()
-	{
-		$jabatan = array("KETUA", "WAKIL KETUA", "SEKRETARIS", "BENDAHARA", "ANGGOTA");
-		return $jabatan;
-	}
-
 	public function ubah_jabatan($id_kelompok,$id_penduduk,$jabatan,$jabatan_lama)
 	{
 		// jika ada orang lain yang sudah jabat KETUA ubah jabatan menjadi anggota
