@@ -50,7 +50,6 @@ class Statistik_web extends Web_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');

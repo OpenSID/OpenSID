@@ -5,7 +5,6 @@ class Analisis_laporan extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('analisis_laporan_model');
 		$this->load->model('analisis_respon_model');
 		$this->load->model('header_model');

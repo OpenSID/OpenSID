@@ -7,7 +7,6 @@ class Modul extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model(['modul_model', 'header_model']);
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 42;

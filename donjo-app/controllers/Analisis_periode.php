@@ -5,7 +5,6 @@ class Analisis_periode extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('analisis_periode_model');
 		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Data Periode";
@@ -77,7 +76,7 @@ class Analisis_periode extends Admin_Controller {
 		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_periode/form', $data);

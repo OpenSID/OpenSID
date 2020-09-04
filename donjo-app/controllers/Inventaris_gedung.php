@@ -5,7 +5,6 @@ class Inventaris_gedung extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('inventaris_gedung_model');
 		$this->load->model('referensi_model');
@@ -116,7 +115,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/gedung/form_mutasi', $data);
@@ -129,7 +128,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/gedung/table_mutasi', $data);

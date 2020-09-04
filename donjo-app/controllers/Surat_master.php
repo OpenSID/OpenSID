@@ -5,7 +5,6 @@ class Surat_master extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('surat_master_model');
 		$this->load->model('klasifikasi_model');
 		$this->load->model('header_model');
@@ -77,7 +76,7 @@ class Surat_master extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_master/form', $data);
@@ -111,7 +110,7 @@ class Surat_master extends Admin_Controller {
 	public function insert()
 	{
 		$syarat = $this->input->post('syarat');
-		unset($_POST['syarat']);		
+		unset($_POST['syarat']);
 		$this->surat_master_model->insert();
 		$surat_format_id = $this->db->insert_id();
 		if (!empty($syarat))

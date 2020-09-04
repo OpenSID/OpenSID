@@ -5,7 +5,6 @@ class Surat_keluar extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
 		$this->load->model('surat_keluar_model');

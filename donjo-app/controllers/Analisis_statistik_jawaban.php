@@ -5,7 +5,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('analisis_statistik_jawaban_model');
 		$this->load->model('analisis_respon_model');
 		$this->load->model('header_model');
@@ -221,7 +220,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_statistik_jawaban/parameter/subjek_table', $data);

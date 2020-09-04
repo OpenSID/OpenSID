@@ -5,7 +5,6 @@ class Keluar extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
 		$this->load->model('header_model');

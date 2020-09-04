@@ -7,7 +7,6 @@ class Mandiri extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('mandiri_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 14;
@@ -64,14 +63,14 @@ class Mandiri extends Admin_Controller {
 		{
 			$data['penduduk'] = $this->mandiri_model->get_penduduk($id_pend);
 			$data['id_pend'] = $id_pend;
-			$data['form_action'] = site_url("mandiri/update/$id_pend");	
+			$data['form_action'] = site_url("mandiri/update/$id_pend");
 		}
 		else
 		{
 			$data['penduduk'] = $this->mandiri_model->list_penduduk();
 			$data['id_pend'] = NULL;
 			$data['form_action'] = site_url("mandiri/insert");
-			
+
 		}
 		$this->load->view('mandiri/ajax_pin', $data);
 	}
@@ -99,7 +98,7 @@ class Mandiri extends Admin_Controller {
 	public function delete($id = '')
 	{
 		$this->redirect_hak_akses('h', $this->kembali);
-		$this->mandiri_model->delete($id);		
+		$this->mandiri_model->delete($id);
 		redirect($this->kembali);
 	}
 }

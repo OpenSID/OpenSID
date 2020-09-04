@@ -10,7 +10,6 @@ class Api_inventaris_kontruksi extends Admin_Controller
 {
 	function __construct(){
 		parent::__construct();
-		session_start();
 		$this->load->model('inventaris_kontruksi_model');
 	}
 
