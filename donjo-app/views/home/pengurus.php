@@ -25,7 +25,7 @@
 			<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 			<ul class="dropdown-menu" role="menu">
 				<li>
-					<a href="<?= site_url("pengurus/atur_bagan")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Bagan" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" ><i class="fa fa-sitemap"></i> Atur Bagan</a>
+					<a href="<?= site_url("pengurus/atur_bagan")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Struktur Bagan" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" ><i class="fa fa-sitemap"></i> Atur Struktur Bagan</a>
 				</li>
 				<?php if ($this->CI->cek_hak_akses('h')): ?>
 					<li>
@@ -46,7 +46,7 @@
 					<a href="<?= site_url("pengurus/bagan/bpd")?>" title="Bagan Dengan BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
 				</li>
 				<li>
-					<a href="<?= site_url("pengurus/atur_bagan_layout")?>" title="Atur Ukuran Bagan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Bagan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-cogs"></i> Pengaturan Bagan</a>
+					<a href="<?= site_url("pengurus/atur_bagan_layout")?>" title="Atur Ukuran Bagan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Ukuran Bagan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-cogs"></i> Atur Ukuran Bagan</a>
 				</li>
 			</ul>
 		</div>

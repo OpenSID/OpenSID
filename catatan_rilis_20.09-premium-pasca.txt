@@ -11,7 +11,7 @@ Lengkapnya, isi rilis versi 20.09-premium-pasca adalah sebagai berikut:
 
 Fitur Premium:
 
-1. [untuk diisi]
+1. #3512: Sediakan menu mengatur ukuran bagan.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

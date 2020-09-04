@@ -194,7 +194,7 @@ class Pengurus extends Admin_Controller {
 
 	public function atur_bagan_layout()
 	{
-		$data['judul'] = 'Pengaturan Halaman Web';
+		$data['judul'] = 'Atur Ukuran Bagan';
 		$data['list_setting'] = 'list_setting_bagan';
 		$this->setting_model->load_options();
 

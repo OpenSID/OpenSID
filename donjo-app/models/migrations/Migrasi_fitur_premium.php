@@ -48,6 +48,12 @@ class Migrasi_fitur_premium extends CI_model {
 	public function up()
 	{
 		// Menu baru -FITUR PREMIUM-
+
+		// Ubah judul setting ukuran lebar bagan
+		$this->db->where('key', 'ukuran_lebar_bagan')
+			->set('keterangan', 'Ukuran Lebar Bagan (800 / 1200 / 1400)')
+			->set('kategori', 'conf_bagan')
+			->update('setting_aplikasi');
 	}
 
 }
