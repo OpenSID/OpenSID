@@ -62,11 +62,7 @@
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 						<div class="col-md-3">
 							<div class="box-body box-profile">
-								<?php if ($pend['foto']): ?>
-									<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pend['foto'])?>" alt="Foto">
-								<?php else: ?>
-									<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
-								<?php endif; ?>
+								<img class="profile-user-img img-responsive img-circle" src="<?= $pend['foto'] ? AmbilFoto($pend['foto']) : base_url() . 'assets/files/user_pict/kuser.png'; ?>" alt="Foto">
 								<br/>
 								<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah foto)</code></p>
 								<br/>
@@ -107,8 +103,8 @@
 									<div class="col-sm-5">
 										<select class="form-control input-sm" id="jabatan" name="jabatan">
 											<option option value="">-- Silakan Pilih Jabatan --</option>
-											<?php foreach ($list_jabatan as $data): ?>
-												<option value="<?= $data?>"  <?= selected($data, $pend['jabatan']); ?> ><?= $data?></option>
+											<?php foreach ($list_jabatan as $key => $value): ?>
+												<option value="<?= $value?>"  <?= selected($value, $pend['jabatan']); ?> ><?= $value?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
