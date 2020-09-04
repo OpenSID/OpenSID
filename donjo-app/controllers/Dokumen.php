@@ -49,7 +49,7 @@ class Dokumen extends Admin_Controller {
 
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/table_dokumen', $data);
+		$this->load->view('dokumen/table', $data);
 		$this->load->view('footer');
 	}
 
