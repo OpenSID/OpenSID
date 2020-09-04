@@ -11,7 +11,6 @@ class Api_inventaris_tanah extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('inventaris_tanah_model');
 	}
 

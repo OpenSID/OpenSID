@@ -5,7 +5,6 @@ class Inventaris_jalan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('inventaris_jalan_model');
 		$this->load->model('referensi_model');
@@ -32,7 +31,7 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['tip'] = 1;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/jalan/table', $data);

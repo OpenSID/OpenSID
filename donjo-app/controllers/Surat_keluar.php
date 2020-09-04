@@ -5,7 +5,6 @@ class Surat_keluar extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
 		$this->load->model('surat_keluar_model');
@@ -50,7 +49,7 @@ class Surat_keluar extends Admin_Controller {
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat_keluar/table', $data);

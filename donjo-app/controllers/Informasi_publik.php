@@ -1,11 +1,10 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Informasi_publik extends Admin_Controller 
+class Informasi_publik extends Admin_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
 		$this->load->model('log_ekspor_model');
@@ -27,12 +26,12 @@ class Informasi_publik extends Admin_Controller
 		// Siapkan daftar berkas untuk dimasukkan ke zip
 		$berkas = array();
 		$berkas[] = array(
-			'nama' => $filename, 
+			'nama' => $filename,
 			'file' => $tmpfname
 		);
 		// Folder untuk berkas dokumen dalam zip
 		$berkas[] = array(
-			'nama' => 'dir', 
+			'nama' => 'dir',
 			'file' => 'berkas'
 		);
 

@@ -208,12 +208,8 @@ class User_model extends CI_Model {
 		}
 		// Catat jumlah penduduk saat ini
 		$this->laporan_bulanan_model->tulis_log_bulanan();
-		unset(
-			$_SESSION['user'],
-			$_SESSION['sesi'],
-			$_SESSION['cari'],
-			$_SESSION['filter']
-		);
+		// Hapus session -- semua session variable akan terhapus
+		$this->session->sess_destroy();
 	}
 
 	public function autocomplete()

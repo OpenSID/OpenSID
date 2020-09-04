@@ -4,7 +4,6 @@ class Dokumen_web extends Web_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('web_dokumen_model');
 		$this->load->helper('download');
 	}

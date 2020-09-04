@@ -11,7 +11,6 @@ class Api_inventaris_gedung extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('inventaris_gedung_model');
 	}
 

@@ -5,7 +5,6 @@ class Analisis_respon extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		session_start();
 		UNSET($_SESSION['delik']);
 		$this->load->model('analisis_respon_model');
 		$this->load->model('header_model');
@@ -124,7 +123,7 @@ class Analisis_respon extends Admin_Controller {
 		{
 			$data['layarpenuh']= 2;
 		}
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav');
 		$this->load->view('analisis_respon/form',$data);

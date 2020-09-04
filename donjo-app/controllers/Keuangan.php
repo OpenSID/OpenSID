@@ -5,7 +5,6 @@ class Keuangan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('keuangan_model');
 		$this->load->model('header_model');
 		$this->load->model('keuangan_grafik_model');

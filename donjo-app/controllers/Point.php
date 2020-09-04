@@ -47,7 +47,6 @@ class Point extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('plan_point_model');
 		$this->modul_ini = 9;

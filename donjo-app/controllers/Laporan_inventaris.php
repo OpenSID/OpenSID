@@ -5,7 +5,6 @@ class Laporan_inventaris extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('inventaris_laporan_model');
 		$this->load->model('referensi_model');

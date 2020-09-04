@@ -9,7 +9,6 @@ class Api_informasi_publik extends Api_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('web_dokumen_model');
 	}
 
@@ -30,9 +29,9 @@ class Api_informasi_publik extends Api_Controller {
 				)
 			);
 		}
-		else 
+		else
 		{
-			$jenis_kirim = empty($get['tgl_dari']) ? 'semua' : 'perubahan'; 
+			$jenis_kirim = empty($get['tgl_dari']) ? 'semua' : 'perubahan';
 			$data = $this->web_dokumen_model->data_ppid($tgl_dari);
 			$json_send = array("status" => "success",
 				"data" => array("ppid" => $data,
@@ -42,7 +41,7 @@ class Api_informasi_publik extends Api_Controller {
 					"total data" => count($data)
 				)
 			);
-		}		
+		}
 		header('Content-Type: application/json');
 		echo json_encode($json_send);
 	}
