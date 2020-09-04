@@ -5,7 +5,6 @@ class Inventaris_peralatan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('inventaris_peralatan_model');
 		$this->load->model('referensi_model');
@@ -129,7 +128,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$data['tip'] = 2;
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('inventaris/peralatan/table_mutasi', $data);

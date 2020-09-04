@@ -5,7 +5,6 @@ class Kelompok_master extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('kelompok_master_model');
 		$this->load->model('header_model');
 		$this->modul_ini = 2;
@@ -67,7 +66,7 @@ class Kelompok_master extends Admin_Controller {
 			$data['kelompok_master'] = null;
 			$data['form_action'] = site_url("kelompok_master/insert");
 		}
-		
+
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
 

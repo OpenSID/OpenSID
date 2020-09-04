@@ -82,7 +82,6 @@ class Suplemen_model extends CI_Model {
 			->group_by('s.id')
 			->get()
 			->result_array();
-
 		return $data;
 	}
 
@@ -385,6 +384,14 @@ class Suplemen_model extends CI_Model {
 
 	public function hapus($id)
 	{
+		$ada = $this->db->where('id_suplemen', $id)
+			->get('suplemen_terdata')->num_rows();
+		if ($ada)
+		{
+			$this->session->success = '-1';
+			$this->session->error_msg = ' --> Tidak bisa dihapus, karena masih digunakan';
+			return;
+		}
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
 
 		status_sukses($hasil); //Tampilkan Pesan

@@ -5,7 +5,6 @@ class Main extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('track_model');

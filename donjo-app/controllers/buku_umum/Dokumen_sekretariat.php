@@ -5,7 +5,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
@@ -54,7 +53,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
-		$data['main_content'] = 'dokumen/table';
+		$data['main_content'] = 'dokumen/table_buku_umum';
 		$data['subtitle'] = ($kat == '3') ? "Buku Peraturan Desa" : "Buku Keputusan Kepala Desa";
 		$data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';
 		$this->_set_tab($kat);

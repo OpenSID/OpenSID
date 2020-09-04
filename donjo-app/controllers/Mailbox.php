@@ -5,7 +5,6 @@ class Mailbox extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->load->model('mandiri_model');
@@ -93,11 +92,11 @@ class Mailbox extends Admin_Controller {
 			$this->web_komentar_model->komentar_lock($id, 1);
 			unset($_SESSION['success']);
 		}
-		
+
 		$data['kat'] = $kat;
 		$data['owner'] = $kat == 1 ? 'Pengirim' : 'Penerima';
 		$data['pesan'] = $this->web_komentar_model->get_komentar($id);
-		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat); 
+		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat);
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
@@ -130,14 +129,14 @@ class Mailbox extends Admin_Controller {
 		else {
 			unset($_SESSION['filter_status']);
 			unset($_SESSION['filter_archived']);
-		} 
+		}
 		redirect("mailbox/index/{$kat}");
 	}
 
 	public function filter_nik($kat = 1)
 	{
 		$nik = $this->input->post('nik');
-		if (!empty($nik) AND $nik != 0) 
+		if (!empty($nik) AND $nik != 0)
 			$_SESSION['filter_nik'] = $nik;
 		else unset($_SESSION['filter_nik']);
 		redirect("mailbox/index/{$kat}");

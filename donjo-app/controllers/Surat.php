@@ -5,7 +5,6 @@ class Surat extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 		$this->load->model('header_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
@@ -49,7 +48,7 @@ class Surat extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 33;
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
 		$this->load->view('surat/panduan');

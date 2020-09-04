@@ -1,0 +1,18 @@
+Di rilis ini, versi 20.09-premium-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Zeppy Shiddiq, Masumo dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.09-premium-pasca adalah sebagai berikut:
+
+1. #3514: Sekarang judul produk hukum dan informasi publik diperpanjang sampai 200 karakter.
+2. #3522: Data suplemen tidak bisa lagi dihapus kalau masih digunakan, yaitu masih ada terdata.
+3. #3523: Sekarang perubahan jumlah data paginasi di Program Bantuan berfungsi benar. [bug-fix]
+4. Rapikan pengelolaan session. Hapus session pada waktu logout. [teknis, security-fix]
+
+Fitur Premium:
+
+1. [untuk diisi]
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+

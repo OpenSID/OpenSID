@@ -50,7 +50,6 @@ class First extends Web_Controller {
 	{
 		parent::__construct();
 		parent::clear_cluster_session();
-		session_start();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
