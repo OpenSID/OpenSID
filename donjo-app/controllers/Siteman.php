@@ -43,12 +43,12 @@
 class Siteman extends CI_Controller
 {
 
+	private $ip_address;
+
 	public function __construct()
 	{
 		parent::__construct();
-		siteman_timeout();
-		$this->load->model('config_model');
-		$this->load->model('user_model');
+		$this->load->model(array('config_model', 'user_model', 'log_siteman_model'));
 	}
 
 	public function index()
@@ -59,14 +59,16 @@ class Siteman extends CI_Controller
 		}
 		unset($_SESSION['balik_ke']);
 		$data['header'] = $this->config_model->get_data();
+
+		$ip_address = get_ip_address();
+		$log_ip = $this->log_siteman_model->ambil_log_ip($ip_address);
+		$status_blokir = $this->log_siteman_model->cek_blokir($ip_address);
+
+		$data['status_blokir'] = $status_blokir;
+		$data['masa_tunggu'] = $status_blokir ? DURASI_BLOKIR_SITEMAN - (time() - strtotime($log_ip->updated_at)) : 0;
+		$data['sisa_percobaan'] = $status_blokir ? 0 : MAX_PERCOBAAN_SITEMAN - $log_ip->counter;
+
 		//Initialize Session ------------
-		if (!isset($_SESSION['siteman']))
-		{
-			// Belum ada session variable
-			$this->session->set_userdata('siteman', 0);
-			$this->session->set_userdata('siteman_try', 4);
-			$this->session->set_userdata('siteman_wait', 0);
-		}
 		$_SESSION['success'] = 0;
 		$_SESSION['per_page'] = 10;
 		$_SESSION['cari'] = '';
@@ -85,9 +87,11 @@ class Siteman extends CI_Controller
 		{
 			redirect('siteman/login');
 		}
-		$this->user_model->siteman();
 
-		if ($_SESSION['siteman'] != 1)
+		$ip_address = get_ip_address();
+		$this->user_model->siteman($ip_address);
+
+		if ($this->session->userdata('siteman') != 1)
 		{
 			// Gagal otentifikasi
 			redirect('siteman');

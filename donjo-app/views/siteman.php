@@ -90,8 +90,8 @@
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<form id="validasi" class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
-									<?php if ($this->session->siteman_wait == 1): ?>
+								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
+									<?php if ($status_blokir): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>
 										</div>
@@ -107,14 +107,14 @@
 										</div>
 										<hr />
 										<button type="submit" class="btn">MASUK</button>
-										<?php if ($this->session->siteman == -1 && $this->session->siteman_try < 4): ?>
+										<?php if ($this->session->userdata('siteman') == -1): ?>
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
 												<?php if ($this->session->siteman_try): ?>
 													Kesempatan mencoba <?= ($this->session->siteman_try - 1); ?> kali lagi.</p>
 												<?php endif; ?>
 											</div>
-										<?php elseif ($this->session->siteman == -2): ?>
+										<?php elseif ($this->session->userdata('siteman') == -2): ?>
 											<div class="error">
 												Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
 											</div>
@@ -132,9 +132,8 @@
 	</body>
 </html>
 <script>
-
-	function start_countdown(){
-		var times = eval(<?= json_encode($this->session->siteman_timeout)?>) - eval(<?= json_encode(time())?>);
+	function start_countdown() {
+		var times = <?= $masa_tunggu ?>;
 		var menit = Math.floor(times / 60);
 		var detik = times % 60;
 		timer = setInterval(function(){
@@ -152,21 +151,18 @@
 		}, 1000)
 	}
 
-	$('document').ready(function()
-	{
+	$('document').ready(function() {
 		var pass = $("#password");
-		$('#checkbox').click(function(){
-			if (pass.attr('type') === "password"){
+		$('#checkbox').click(function() {
+			if (pass.attr('type') === "password") {
 				pass.attr('type', 'text');
 			} else {
 				pass.attr('type', 'password')
 			}
 		});
 
-		if ($('#countdown').length)
-		{
+		if ($('#countdown').length) {
 			start_countdown();
 		}
 	});
-
 </script>

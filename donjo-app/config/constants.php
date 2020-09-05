@@ -83,3 +83,14 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+/**
+ * --------------------------------------------------------
+ * KONSTANTA TAMBAHAN
+ * --------------------------------------------------------
+ */
+// Masa tunggu jika telah melebihi batas percobaan login (dalam satuan detik)
+defined('DURASI_BLOKIR_SITEMAN') OR define('DURASI_BLOKIR_SITEMAN', 300);
+// Batas maksimum percobaan login
+defined('MAX_PERCOBAAN_SITEMAN') OR define('MAX_PERCOBAAN_SITEMAN', 3);
+

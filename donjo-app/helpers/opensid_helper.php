@@ -1061,3 +1061,7 @@ function crawler()
 
 	return FALSE;
 }
+
+function get_ip_address() {
+	return getenv('HTTP_X_FORWARDED_FOR') ? getenv('HTTP_X_FORWARDED_FOR') : getenv('REMOTE_ADDR');
+}

@@ -60,7 +60,27 @@ class Migrasi_2009_ke_2010 extends MY_model {
 							keterangan = VALUES(keterangan)
 							");
 		$hasil =& $this->db->query('ALTER TABLE tweb_desa_pamong MODIFY COLUMN pamong_niap varchar(25) default 0');
+
+		$hasil =& $this->add_log_siteman();
+
 		status_sukses($hasil);
+	}
+
+	private function add_log_siteman()
+	{
+		if (!$this->db->table_exists('log_siteman'))
+		{
+			$query = "
+				CREATE TABLE `log_siteman`(
+					`id` int(11) NOT NULL AUTO_INCREMENT,
+					`ip_address` varchar(45),
+					`counter` int(11) DEFAULT 1,
+					`created_at` DATETIME,
+					`updated_at` DATETIME,
+					PRIMARY KEY (id)
+				)";
+			$this->db->query($query);
+		}
 	}
 
 }

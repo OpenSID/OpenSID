@@ -67,7 +67,7 @@ class User_model extends CI_Model {
 			'allowed_types' => 'gif|jpg|jpeg|png',
 			'max_size' => max_upload()*1024,
 		);
-		$this->load->model('laporan_bulanan_model');
+		$this->load->model(array('laporan_bulanan_model', 'log_siteman_model'));
 		// Untuk password hashing
 		$this->load->helper('password');
         // Helper upload file
@@ -105,17 +105,9 @@ class User_model extends CI_Model {
 		// Login gagal: user tidak ada atau tidak lolos verifikasi
 		if ($userAda === FALSE || $authLolos === FALSE)
 		{
-			$_SESSION['siteman'] = -1;
-			if ($_SESSION['siteman_try'] > 2)
-			{
-				$_SESSION['siteman_try'] = $_SESSION['siteman_try']-1;
-			}
-			else
-			{
-				$_SESSION['siteman_wait'] = 1;
-				unset($_SESSION['siteman_timeout']);
-				siteman_timer();
-			}
+			$ip_address = get_ip_address();
+			$this->log_siteman_model->update_log_ip($ip_address);
+			$this->session->set_userdata('siteman', -1);
 		}
 		// Login sukses: ubah pass di db ke bcrypt jika masih md5 dan set session
 		else
