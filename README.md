@@ -57,7 +57,7 @@ Komunitas SID juga bebas, bahkan diajak, untuk turut membuat kontribusi pada pan
 
 ### 🧑 Pendukung
 
-Peduli dengan OpenSID dan misinya membangun desa? [Jadilah pendudukung OpenSID](https://opencollective.com/OpenSID#backer).
+Peduli dengan OpenSID dan misinya membangun desa? [Jadilah pendukung OpenSID](https://opencollective.com/OpenSID#backer).
 <a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/backers.svg?width=890"></a>
 
 > Atau bisa donasi langsung ke rekening bank. Lihat informasi lengkap [di sini](https://opendesa.id/donasi).
