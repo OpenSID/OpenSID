@@ -97,21 +97,21 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input name="username" type="text" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, "disabled") ?> value="" class="form-username form-control required">
+											<input name="username" type="text" placeholder="Nama pengguna" value="" required class="form-username form-control input-error" <?php $status_blokir and print('disabled') ?>>
 										</div>
 										<div class="form-group">
-											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, "disabled") ?> value="" class="form-username form-control required">
+											<input name="password" id="password" type="password" placeholder="Kata sandi" value="" required class="form-username form-control input-error" <?php $status_blokir and print('disabled') ?>>
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
 										</div>
 										<hr />
-										<button type="submit" class="btn">MASUK</button>
+										<button type="submit" class="btn" <?php $status_blokir and print('disabled') ?>>MASUK</button>
 										<?php if ($this->session->userdata('siteman') == -1): ?>
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
-												<?php if ($this->session->siteman_try): ?>
-													Kesempatan mencoba <?= ($this->session->siteman_try - 1); ?> kali lagi.</p>
+												<?php if (!$status_blokir): ?>
+													Kesempatan mencoba <?= $sisa_percobaan ?> kali lagi.</p>
 												<?php endif; ?>
 											</div>
 										<?php elseif ($this->session->userdata('siteman') == -2): ?>

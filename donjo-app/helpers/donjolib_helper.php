@@ -374,23 +374,6 @@ function mandiri_timeout(){
 	}
 }
 
-//time out Admin set 3 login per 5 menit
-function siteman_timer()
-{
-	$time = 300;  //300 detik
-	$_SESSION['siteman_try'] = 4;
-	$_SESSION['siteman_timeout'] = time() + $time;
-}
-
-function siteman_timeout()
-{
-	$timeout = (isset($_SESSION['siteman_timeout'])) ? $_SESSION['siteman_timeout'] : null;
-	if (time() > $timeout)
-	{
-		$_SESSION['siteman_wait'] = 0;
-	}
-}
-
 function get_identitas()
 {
 	$ci =& get_instance();

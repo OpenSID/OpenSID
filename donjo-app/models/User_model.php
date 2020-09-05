@@ -76,73 +76,77 @@ class User_model extends CI_Model {
 		$this->load->helper('file');
 	}
 
-	public function siteman()
+	public function siteman($ip_address)
 	{
 		$this->_username = $username = trim($this->input->post('username'));
 		$this->_password = $password = trim($this->input->post('password'));
 		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
 
-		// User 'admin' tidak bisa di-non-aktifkan
-		if ($username !== 'admin')
+		$status_blokir = $this->log_siteman_model->cek_blokir($ip_adrress);
+
+		if (!$status_blokir) 
 		{
-			$sql .= ' AND active = 1';
-		}
-
-		$query = $this->db->query($sql, array($username));
-		$row = $query->row();
-
-		// Cek hasil query ke db, ada atau tidak data user ybs.
-		$userAda = is_object($row);
-		$pwMasihMD5 = $userAda ?
-		(
-			(strlen($row->password) == 32) && (stripos($row->password, '$') === FALSE)
-		) : FALSE;
-
-		$authLolos = $pwMasihMD5
-			? (md5($password) == $row->password)
-			: password_verify($password, $row->password);
-
-		// Login gagal: user tidak ada atau tidak lolos verifikasi
-		if ($userAda === FALSE || $authLolos === FALSE)
-		{
-			$ip_address = get_ip_address();
-			$this->log_siteman_model->update_log_ip($ip_address);
-			$this->session->set_userdata('siteman', -1);
-		}
-		// Login sukses: ubah pass di db ke bcrypt jika masih md5 dan set session
-		else
-		{
-			if ($pwMasihMD5)
+			// User 'admin' tidak bisa di-non-aktifkan
+			if ($username !== 'admin')
 			{
-				// Ganti pass md5 jadi bcrypt
-				$pwBcrypt = $this->generatePasswordHash($password);
+				$sql .= ' AND active = 1';
+			}
 
-				// Modifikasi panjang karakter di kolom user.password menjadi 100 untuk -
-				// backward compatibility dengan kolom di database lama yang hanya 40 karakter.
-				// Hal ini menyebabkan string bcrypt (yang default lengthnya 60 karakter) jadi -
-				// terpotong sehingga $authLolos selalu mereturn FALSE.
-				$sql = "ALTER TABLE user MODIFY COLUMN password VARCHAR(100) NOT NULL";
-				$this->db->query($sql);
-				// Lanjut ke update password di database
-				$sql = "UPDATE user SET password = ? WHERE id = ?";
-				$this->db->query($sql, array($pwBcrypt, $row->id));
-			}
-			// Lanjut set session
-			if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2))
+			$query = $this->db->query($sql, array($username));
+			$row = $query->row();
+
+			// Cek hasil query ke db, ada atau tidak data user ybs.
+			$userAda = is_object($row);
+			$pwMasihMD5 = $userAda ?
+			(
+				(strlen($row->password) == 32) && (stripos($row->password, '$') === FALSE)
+			) : FALSE;
+
+			$authLolos = $pwMasihMD5
+				? (md5($password) == $row->password)
+				: password_verify($password, $row->password);
+
+			// Login gagal: user tidak ada atau tidak lolos verifikasi
+			if ($userAda === FALSE || $authLolos === FALSE)
 			{
-				$_SESSION['siteman'] = -2;
+				$ip_address = get_ip_address();
+				$this->session->set_userdata('siteman', -1);
 			}
+			// Login sukses: ubah pass di db ke bcrypt jika masih md5 dan set session
 			else
 			{
-				$_SESSION['siteman'] = 1;
-				$_SESSION['sesi'] = $row->session;
-				$_SESSION['user'] = $row->id;
-				$_SESSION['grup'] = $row->id_grup;
-				$_SESSION['per_page'] = 10;
-				$_SESSION['siteman_wait'] = 0;
-				$_SESSION['siteman_try'] = 4;
+				if ($pwMasihMD5)
+				{
+					// Ganti pass md5 jadi bcrypt
+					$pwBcrypt = $this->generatePasswordHash($password);
+
+					// Modifikasi panjang karakter di kolom user.password menjadi 100 untuk -
+					// backward compatibility dengan kolom di database lama yang hanya 40 karakter.
+					// Hal ini menyebabkan string bcrypt (yang default lengthnya 60 karakter) jadi -
+					// terpotong sehingga $authLolos selalu mereturn FALSE.
+					$sql = "ALTER TABLE user MODIFY COLUMN password VARCHAR(100) NOT NULL";
+					$this->db->query($sql);
+					// Lanjut ke update password di database
+					$sql = "UPDATE user SET password = ? WHERE id = ?";
+					$this->db->query($sql, array($pwBcrypt, $row->id));
+				}
+				// Lanjut set session
+				if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2))
+				{
+					$_SESSION['siteman'] = -2;
+				}
+				else
+				{
+					$_SESSION['siteman'] = 1;
+					$_SESSION['sesi'] = $row->session;
+					$_SESSION['user'] = $row->id;
+					$_SESSION['grup'] = $row->id_grup;
+					$_SESSION['per_page'] = 10;
+				}
 			}
 		}
+
+		$this->log_siteman_model->update_log_ip($ip_address);
 	}
 
 	//Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus

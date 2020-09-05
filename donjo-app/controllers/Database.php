@@ -72,7 +72,6 @@ class Database extends Admin_Controller {
 			log_message('debug', "Reset tracking");
 			unset($_SESSION['track_web']);
 			unset($_SESSION['track_admin']);
-			unset($_SESSION['siteman_timeout']);
 		}
 
 		$data['act_tab'] = 1;

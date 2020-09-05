@@ -42,6 +42,7 @@
 
 class Siteman extends CI_Controller
 {
+	private $ip_address;
 
 	private $ip_address;
 
@@ -49,6 +50,7 @@ class Siteman extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model(array('config_model', 'user_model', 'log_siteman_model'));
+
 	}
 
 	public function index()
