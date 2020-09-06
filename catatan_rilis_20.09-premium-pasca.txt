@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.09-premium-pasca, tersedia fitur [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Zeppy Shiddiq, Masumo dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq, Masumo dan afa28 yang terus berkontribusi. Terima kasih pula pada yonathanrizky yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.09-premium-pasca adalah sebagai berikut:
 
@@ -8,10 +8,12 @@ Lengkapnya, isi rilis versi 20.09-premium-pasca adalah sebagai berikut:
 2. #3522: Data suplemen tidak bisa lagi dihapus kalau masih digunakan, yaitu masih ada terdata.
 3. #3523: Sekarang perubahan jumlah data paginasi di Program Bantuan berfungsi benar. [bug-fix]
 4. Rapikan pengelolaan session. Hapus session pada waktu logout. [teknis, security-fix]
+5. #3532: Sekarang kolom status penduduk tampil benar di form ubah biodata penduduk. [bug-fix]
 
 Fitur Premium:
 
 1. #3512: Sediakan menu mengatur ukuran bagan.
+2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
