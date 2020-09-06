@@ -631,7 +631,7 @@
 			LEFT JOIN tweb_penduduk_hubungan h ON u.kk_level = h.id
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
 			LEFT JOIN tweb_keluarga k ON u.id_kk = k.id
-			WHERE status = 1 AND status_dasar = 1 AND id_kk = ?";
+			WHERE status_dasar = 1 AND id_kk = ?";
 		if ($options['dengan_kk'] !== NULL AND !$options['dengan_kk']) $sql .= " AND kk_level <> 1";
 		if (!empty($options['pilih'])) $sql .= " AND u.nik IN (".$options['pilih'].")";
 		$sql .= " ORDER BY kk_level, tanggallahir";
