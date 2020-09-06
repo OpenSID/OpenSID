@@ -5,8 +5,8 @@
 		margin-top: 5px;
 		margin-bottom: 15px;
 	}
-	p.awal {
-		margin-top: 10px;
+	p.info {
+		margin-bottom: 15px;
 	}
 </style>
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
@@ -16,9 +16,9 @@
 				<div class="box box-danger">
 					<div class="box-header with-border">
 						<h3 class="box-title"> Data Kelompok - <?= $detail['nama']; ?></h3>
-						<p class='awal'><?= $detail['keterangan']?></p>
 					</div>
 					<div class="box-body">
+						<p class="info"><?= $detail['keterangan']?></p>
 						<h3 class="subtitle">Daftar Pengurus</h3>
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover">
