@@ -294,7 +294,8 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['detail'] = $this->kelompok_model->get_kelompok($id);
-		$data['anggota'] = $this->kelompok_model->list_anggota($id);
+		$data['pengurus'] = $this->kelompok_model->list_pengurus($id);
+		$data['anggota'] = $this->kelompok_model->list_anggota($id, $sub='anggota');
 
 		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
 		if ($data['detail'] == NULL) show_404();

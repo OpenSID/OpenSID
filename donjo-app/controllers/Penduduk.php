@@ -205,9 +205,9 @@ class Penduduk extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
+		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$this->_header['minsidebar'] = 1;
 		unset($_SESSION['dari_internal']);
-
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
 		$this->load->view('sid/kependudukan/penduduk_form', $data);

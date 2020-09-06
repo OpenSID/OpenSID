@@ -110,7 +110,6 @@ class Migrasi_2008_ke_2009 extends CI_model {
 		$migrasi = 'migrasi_fitur_premium_2009';
   	$this->load->model('migrations/'.$migrasi);
   	$this->$migrasi->up();
-
 	}
 
 }

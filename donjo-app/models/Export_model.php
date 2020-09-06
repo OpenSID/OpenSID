@@ -174,7 +174,21 @@
 	public function restore()
 	{
 		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename =='') return;
+		if ($filename =='')
+		{
+			$this->session->success = -1;
+			switch ($_FILES['userfile']['error'])
+			{
+				case UPLOAD_ERR_INI_SIZE:
+					$this->session->error_msg = " --> File melebihi batas unggah. Ubah setting php.ini";
+					break;
+
+				default:
+					$this->session->error_msg = " --> Ada error sewaktu unggah file";
+					break;
+			}
+			return;
+		}
 
 		$this->drop_views();
 		$this->drop_tables();

@@ -123,6 +123,14 @@ define("STAT_LAINNYA", serialize([
 	'peta' => 'Peta'
 ]));
 
+// Jabatan Kelompok
+define("JABATAN_KELOMPOK", serialize([
+	1 => 'KETUA',
+	2 => 'WAKIL KETUA',
+	3 => 'SEKRETARIS',
+	4 => 'BENDAHARA',
+	90 => 'ANGGOTA'
+]));
 
 class Referensi_model extends CI_Model {
 

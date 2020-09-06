@@ -54,6 +54,40 @@ class Migrasi_fitur_premium extends CI_model {
 			->set('keterangan', 'Ukuran Lebar Bagan (800 / 1200 / 1400)')
 			->set('kategori', 'conf_bagan')
 			->update('setting_aplikasi');
+
+		// Tambah kolom jabatan dan no_sk_jabatan di tabel kelompok_anggota
+		if (!$this->db->field_exists('jabatan', 'kelompok_anggota'))
+		{
+			$fields = array(
+				'jabatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'default' => 90
+				),
+				'no_sk_jabatan' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => TRUE
+				),
+				'foto' => array(
+					'type' => 'VARCHAR',
+					'constraint' => 100,
+					'null' => TRUE
+				)
+			);
+
+			$this->dbforge->add_column('kelompok_anggota', $fields);
+		}
+		// Sesuaikan panjang keterangan kelompok menjadi 200
+		$field = [
+			'keterangan' => [
+				'type' => 'VARCHAR',
+				'constraint' => 300,
+				'null' => TRUE,
+				'default' => NULL
+			]
+		];
+		$this->dbforge->modify_column('kelompok', $field);
 	}
 
 }
