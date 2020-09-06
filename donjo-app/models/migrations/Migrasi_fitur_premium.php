@@ -77,7 +77,18 @@ class Migrasi_fitur_premium extends CI_model {
 			);
 
 			$this->dbforge->add_column('kelompok_anggota', $fields);
+			// Sesuaikan jabatan ketua yg sudah ada
+			$list_kelompok = $this->db->get('kelompok')->result_array();
+			foreach ($list_kelompok as $kelompok)
+			{
+				$this->db
+					->set('jabatan', 1)
+					->where('id_kelompok', $kelompok['id'])
+					->where('id_penduduk', $kelompok['id_ketua'])
+					->update('kelompok_anggota');
+			}
 		}
+
 		// Sesuaikan panjang keterangan kelompok menjadi 200
 		$field = [
 			'keterangan' => [
