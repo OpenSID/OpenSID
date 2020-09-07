@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.09-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada yonathanrizky yang baru mulai berkontribusi.
+Terima kasih pada afa28 dan Masumo yang terus berkontribusi. Terima kasih pula pada yonathanrizky yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 
@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 3. #3523: Sekarang perubahan jumlah data paginasi di Program Bantuan berfungsi benar. [bug-fix]
 4. Rapikan pengelolaan session. Hapus session pada waktu logout. [teknis, security-fix]
 5. #3532: Sekarang kolom status penduduk tampil benar di form ubah biodata penduduk. [bug-fix]
+6. #3503: Data ibu untuk Surat Keterangan Penghasilan Orangtua telah diperbaiki. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

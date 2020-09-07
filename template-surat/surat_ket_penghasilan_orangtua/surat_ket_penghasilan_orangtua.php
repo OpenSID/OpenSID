@@ -59,13 +59,13 @@
 
 							<div class="form-group">
 								<label for="keperluan"  class="col-sm-3 control-label">Jumlah Penghasilan Ayah</label>
-								<div class="col-sm-8">
+								<div class="col-sm-4">
 									<input type="text" id="rupiah_ayah" name="hasil_ayah" class="rupiah form-control input-sm required" placeholder="Penghasilan Ayah dalam Rupiah tanpa sen"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="keperluan"  class="col-sm-3 control-label">Jumlah Penghasilan Ibu</label>
-								<div class="col-sm-8">
+								<div class="col-sm-4">
 									<input type="text" id="rupiah_ibu" name="hasil_ibu" class="rupiah form-control input-sm required" placeholder="Penghasilan Ibu dalam Rupiah tanpa sen"></input>
 								</div>
 							</div>
