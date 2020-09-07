@@ -137,12 +137,9 @@ class Referensi_model extends CI_Model {
 
 	public function list_data($tabel, $kecuali='', $id=null)
 	{
-		if (!empty($kecuali))
-			$this->db->where("id NOT IN ($kecuali)");
+		if (!empty($kecuali)) $this->db->where("id NOT IN ($kecuali)");
 			
-		if(!empty($id)){
-			$this->db->where(['id' => $id]);
-		}
+		if(!empty($id)) $this->db->where(['id' => $id]);
 
 		$data = $this->db->select('*')->order_by('id')->get($tabel)->result_array();
 		return $data;
