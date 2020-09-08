@@ -95,6 +95,25 @@
 			$search_sql = " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw' OR t.tag_id_card LIKE '$kw')";
 			return $search_sql;
 		}
+
+		if (isset($_SESSION['kumpulan_kk']))
+		{
+			$cari_kumpulan_kk = $_SESSION['kumpulan_kk'];
+			$kw = $this->db->escape_like_str($cari_kumpulan_kk);
+			$search_val = preg_match_all("/,/i", $kw);
+			$count = 1;
+			if(($search_val) || ( is_numeric($kw) && (strlen($kw) === 16))){
+				$val_sql = [];
+				$explode_value = explode(",",$kw);
+				foreach ($explode_value as $key => $value) {
+					if($count <= 20)
+						if( (is_numeric($value)) && (strlen($value) === 16)) array_push($val_sql,"'$value',"); $count+1;
+				}
+				$val_sql = substr(implode(" ",$val_sql),0,-1);
+			}
+			$search_sql = " AND u.no_kk in ($val_sql)";
+			return $search_sql;
+		}
 	}
 
 	public function paging($p = 1)
