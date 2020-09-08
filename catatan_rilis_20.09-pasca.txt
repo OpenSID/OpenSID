@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 4. Rapikan pengelolaan session. Hapus session pada waktu logout. [teknis, security-fix]
 5. #3532: Sekarang kolom status penduduk tampil benar di form ubah biodata penduduk. [bug-fix]
 6. #3503: Data ibu untuk Surat Keterangan Penghasilan Orangtua telah diperbaiki. [bug-fix]
+7. #3544: Sekarang Responsive File Manager dapat diakses di OS Windows untuk memasukkan gambar ke artikel. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

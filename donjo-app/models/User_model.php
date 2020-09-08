@@ -898,8 +898,11 @@ class User_model extends CI_Model {
 			$salt = strrev($salt);
 			$fm_key = MD5($fmHash.'OpenSID'.$salt);
 			$this->session->fm_key = $fm_key;
-			$tmpfname = tempnam(sys_get_temp_dir(), "config_rfm_");
-			$sesi = str_replace('config_rfm_', '', basename($tmpfname));
+			// Gunakan cara penambahan prefix ini karena Windows hanya menggunakan 3 karakter dari prefix
+			$fname = tempnam(sys_get_temp_dir(), '');
+			$sesi = basename($fname);
+			$tmpfname = sys_get_temp_dir()."/config_rfm_".$sesi;
+			rename($fname, $tmpfname);
 			$this->session->fm_key_file = $sesi;
 			$rfm = '<?php $config["fm_key_'.$sesi.'"] ="' . $fm_key . '";';
 			$handle = fopen($tmpfname, "w");
