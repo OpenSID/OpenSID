@@ -101,6 +101,7 @@
 																<th>No</th>
 																<th><input type="checkbox" id="checkall"/></th>
 																<th width="85">Aksi</th>
+																<th >Foto</th>
 																<?php if ($o==2): ?>
 																	<th><a href="<?= site_url("penduduk_log/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o==1): ?>
@@ -154,6 +155,13 @@
 																	<td nowrap>
 																		<a href="<?= site_url("penduduk_log/edit/$p/$o/$data[id_log]")?>" class="btn bg-orange btn-flat btn-sm"  title="Edit Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Edit Log Penduduk" ><i class="fa fa-edit"></i></a>
 																		<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>
+																	</td>
+																	<td nowrap>
+																		<div class="user-panel">
+																			<div class="image2">
+																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																			</div>
+																		</div>
 																	</td>
 																	<td>
 																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
