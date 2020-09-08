@@ -63,6 +63,9 @@
 								<li>
 									<a href="" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url("keluarga/doc_kk_all")?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 								</li>
+								<li>
+									<a href="<?= site_url("keluarga/search_kumpulan_kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan KK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan KK"><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
+								</li>
 								<?php if ($this->CI->cek_hak_akses('h')): ?>
 									<li>
 										<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keluarga/delete_all/$p/$o")?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
