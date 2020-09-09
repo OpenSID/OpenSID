@@ -783,15 +783,9 @@ class Penduduk extends Admin_Controller {
 		{
 			$data[$session] = $this->session->userdata($session) ?: '';
 		}
-		$data['form_action'] = site_url("penduduk/search_kumpulan_nik_proses");
+		$data['form_action'] = site_url("penduduk/filter/kumpulan_nik");
 
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_nik", $data);
-	}
-
-	public function search_kumpulan_nik_proses()
-	{
-		$this->session->kumpulan_nik = $this->input->post('kumpulan_nik');
-		redirect('penduduk');
 	}
 
 }

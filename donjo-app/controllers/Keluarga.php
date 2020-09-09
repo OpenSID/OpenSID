@@ -569,14 +569,9 @@ class Keluarga extends Admin_Controller {
 		{
 			$data[$session] = $this->session->userdata($session) ?: '';
 		}
-		$data['form_action'] = site_url("keluarga/search_kumpulan_kk_proses");
+		$data['form_action'] = site_url("keluarga/filter/kumpulan_kk");
 
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_kk", $data);
 	}
-
-	public function search_kumpulan_kk_proses()
-	{
-		$this->session->kumpulan_kk = $this->input->post('kumpulan_kk');
-		redirect('keluarga');
-	}
+	
 }
