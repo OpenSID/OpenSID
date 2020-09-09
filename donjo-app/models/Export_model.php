@@ -20,8 +20,42 @@
     if ($str == "0" and !in_array($key, $kecuali)) $str = "";
   }
 
-  // Export data penduduk ke format Import Excel
+	// Export data penduduk ke format Import Excel
 	public function export_excel($tgl_update = '')
+	{
+		$data = $this->db
+			->select('k.alamat, c.dusun, c.rw, c.rt, p.nama, k.no_kk, p.nik, p.sex, p.tempatlahir, p.tanggallahir, p.agama_id, p.pendidikan_kk_id, p.pendidikan_sedang_id, p.pekerjaan_id, p.status_kawin, p.kk_level, p.warganegara_id, p.nama_ayah, p.nama_ibu, p.golongan_darah_id, p.akta_lahir, p.dokumen_pasport, p.tanggal_akhir_paspor, p.dokumen_kitas, p.ayah_nik, p.ibu_nik, p.akta_perkawinan, p.tanggalperkawinan, p.akta_perceraian, p.tanggalperceraian, p.cacat_id, p.cara_kb_id, p.hamil, p.id, p.status_dasar, p.ktp_el, p.status_rekam, p.alamat_sekarang, p.created_at, p.updated_at')
+			->from('tweb_penduduk p')
+			->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
+			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+			->order_by('k.no_kk ASC', 'p.kk_level ASC')
+			->get()->result();
+
+			for ($i=0; $i<count($data); $i++)
+			{
+				$baris = $data[$i];
+				array_walk($baris, array($this, 'bersihkanData'));
+				if (!empty($baris->tanggallahir))
+					$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
+				if (!empty($baris->tanggalperceraian))
+					$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
+				if (!empty($baris->tanggalperkawinan))
+					$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
+				if (!empty($baris->tanggal_akhir_paspor))
+					$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
+				if (empty($baris->dusun))
+					$baris->dusun = '-';
+				if (empty($baris->rt))
+					$baris->rt = '-';
+				if (empty($baris->rw))
+					$baris->rw = '-';
+				$data[$i] = $baris;
+			}
+
+			return $data;
+	}
+
+	public function export_csv($tgl_update = '')
 	{
 		$sql = "SELECT k.alamat, c.dusun, c.rw, c.rt, p.nama, k.no_kk, p.nik, p.sex, p.tempatlahir, p.tanggallahir, p.agama_id, p.pendidikan_kk_id, p.pendidikan_sedang_id, p.pekerjaan_id, p.status_kawin, p.kk_level, p.warganegara_id, p.nama_ayah, p.nama_ibu, p.golongan_darah_id, p.akta_lahir, p.dokumen_pasport, p.tanggal_akhir_paspor, p.dokumen_kitas, p.ayah_nik, p.ibu_nik, p.akta_perkawinan, p.tanggalperkawinan, p.akta_perceraian, p.tanggalperceraian, p.cacat_id, p.cara_kb_id, p.hamil, p.id, p.status_dasar, p.ktp_el, p.status_rekam, p.alamat_sekarang, p.created_at, p.updated_at
 
