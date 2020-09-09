@@ -81,8 +81,10 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw' OR u.nik LIKE '$kw')";
-			return $search_sql;
+			$this->db->group_start()
+						->or_like('u.nama', $kw,'both',FALSE)
+						->or_like('u.nik', $kw,'both',FALSE)
+					 ->group_end();
 		}
 	}
 
@@ -91,8 +93,7 @@
 		if (isset($_SESSION['status_dasar']))
 		{
 			$kf = $_SESSION['status_dasar'];
-			$sql = " AND u.status_dasar = $kf";
-			return $sql;
+			$this->db->where('u.status_dasar', $kf);
 		}
 	}
 
@@ -101,8 +102,7 @@
 		if (isset($_SESSION['sex']))
 		{
 			$kf = $_SESSION['sex'];
-			$sex_sql = " AND u.sex = $kf";
-			return $sex_sql;
+			$this->db->where('u.sex', $kf);
 		}
 	}
 
@@ -111,8 +111,7 @@
 		if (isset($_SESSION['agama']))
 		{
 			$kf = $_SESSION['agama'];
-			$sql = " AND u.agama_id = $kf";
-			return $sql;
+			$this->db->where('u.agama_id', $kf);			
 		}
 	}
 
@@ -121,8 +120,7 @@
 		if (isset($_SESSION['dusun']))
 		{
 			$kf = $_SESSION['dusun'];
-			$dusun_sql= " AND a.dusun = '$kf'";
-			return $dusun_sql;
+			$this->db->where('a.dusun', $kf);	
 		}
 	}
 
@@ -131,8 +129,7 @@
 		if (isset($_SESSION['rw']))
 		{
 			$kf = $_SESSION['rw'];
-			$rw_sql = " AND a.rw = '$kf'";
-			return $rw_sql;
+			$this->db->where('a.rw', $kf);	
 		}
 	}
 
@@ -141,17 +138,15 @@
 		if (isset($_SESSION['rt']))
 		{
 			$kf = $_SESSION['rt'];
-			$rt_sql= " AND a.rt = '$kf'";
-			return $rt_sql;
+			$this->db->where('a.rt', $kf);	
 		}
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$list_data_sql = $this->list_data_sql($log);
-		$sql = "SELECT COUNT(u.id) AS id ".$list_data_sql;
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(u.id) AS id');
+		$this->list_data_sql();
+		$row = $this->db->get()->row_array();
 		$jml_data = $row['id'];
 
 		$this->load->library('paging');
@@ -173,66 +168,56 @@
 
 	private function list_data_sql()
 	{
-		$sql = "
-		FROM tweb_penduduk u
-		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
-		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
-		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
-		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
-		LEFT JOIN tweb_status_dasar sd ON u.status_dasar = sd.id
-		LEFT JOIN log_penduduk log ON u.id = log.id_pend
-		LEFT JOIN ref_pindah rp ON rp.id = log.ref_pindah
-		WHERE u.status_dasar > 1
-		AND log.id_detail IN (2,3,4)
-		";
+		$this->db->from('tweb_penduduk u');
+		$this->db->join('tweb_keluarga d', 'u.id_kk = d.id', 'left');
+		$this->db->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left');
+		$this->db->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left');
+		$this->db->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left');
+		$this->db->join('tweb_status_dasar sd', 'u.status_dasar = sd.id', 'left');
+		$this->db->join('log_penduduk log', 'u.id = log.id_pend', 'left');
+		$this->db->join('ref_pindah rp', 'rp.id = log.ref_pindah', 'left');
 
-		$sql .= $this->search_sql();
-		$sql .= $this->status_dasar_sql();
-		$sql .= $this->sex_sql();
-		$sql .= $this->agama_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
+		$this->db->where('u.status_dasar >', 1);
+		$this->db->where_in('log.id_detail', array(2,3,4));
 
-		return $sql;
+		$this->search_sql();
+		$this->status_dasar_sql();
+		$this->sex_sql();
+		$this->agama_sql();
+		$this->dusun_sql();
+		$this->rw_sql();
+		$this->rt_sql();
 	}
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$select_sql = "SELECT u.id, u.nik, u.tanggallahir, u.id_kk, u.nama, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk,
-			(CASE when log.id_detail = 3 then rp.nama else sd.nama end) as status_dasar,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
-			x.nama AS sex,g.nama AS agama,log.tanggal,log.tgl_peristiwa,log.id_detail
-				";
 		//Main Query
-		$list_data_sql = $this->list_data_sql();
-		$sql = $select_sql." ".$list_data_sql;
+		$this->db->select('u.id, u.nik, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk');
+		$this->db->select('(CASE when log.id_detail = 3 then rp.nama else sd.nama end) as status_dasar');
+		$this->db->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa");
+		$this->db->select('x.nama AS sex,g.nama AS agama,log.tanggal,log.tgl_peristiwa,log.id_detail');
 
-		//Ordering SQL
+		$this->list_data_sql();
+
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.nik'; break;
-			case 2: $order_sql = ' ORDER BY u.nik DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.nama'; break;
-			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY d.no_kk'; break;
-			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
-			case 7: $order_sql = ' ORDER BY umur_pada_peristiwa'; break;
-			case 8: $order_sql = ' ORDER BY umur_pada_peristiwa DESC'; break;
+			case 1: $this->db->order_by('u.nik', 'ASC'); break;
+			case 2: $this->db->order_by('u.nik', 'DESC'); break;
+			case 3: $this->db->order_by('u.nama', 'ASC'); break;
+			case 4: $this->db->order_by('u.nama', 'DESC'); break;
+			case 5: $this->db->order_by('d.no_kk', 'ASC'); break;
+			case 6: $this->db->order_by('d.no_kk', 'DESC'); break;
+			case 7: $this->db->order_by('umur_pada_peristiwa', 'ASC'); break;
+			case 8: $this->db->order_by('umur_pada_peristiwa', 'DESC'); break;
 			// Untuk Log Penduduk
-			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
-			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
-			default:$order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
+			case 9:  $this->db->order_by('log.tgl_peristiwa', 'ASC'); break;
+			case 10: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
+			default:$this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
 		}
 
 		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$this->db->limit($limit, $offset);
+		$data = $this->db->get()->result_array();
 
 		//Formating Output
 		$j = $offset;
@@ -242,13 +227,11 @@
 			if (!$data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0)
 			{
 				// Ambil alamat penduduk
-				$sql = "SELECT p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt
-					FROM tweb_penduduk p
-					LEFT JOIN tweb_wil_clusterdesa c on p.id_cluster = c.id
-					WHERE p.id = ?
-					";
-				$query = $this->db->query($sql, $data[$i]['id']);
-				$penduduk = $query->row_array();
+				$query = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
+									->from('tweb_penduduk p')
+									->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+									->where('p.id', $data[$i]['id']);
+				$penduduk = $query->get()->row_array();
 				$data[$i]['alamat'] = $penduduk['alamat_sekarang'];
 				$data[$i]['dusun'] = $penduduk['dusun'];
 				$data[$i]['rw'] = $penduduk['rw'];
