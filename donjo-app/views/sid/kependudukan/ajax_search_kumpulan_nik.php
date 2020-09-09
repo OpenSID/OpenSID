@@ -9,19 +9,15 @@
 </style>
 <form method="post" action="<?= $form_action?>" id="validasi">
 	<div class='modal-body'>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
-						<div class="row">
-							<div class="col-sm-12">
-								<label for="nama">Kumpulan NIK</label>
-							</div>
-							<div class="col-sm-12">
-								<div class="form-group">
-									<textarea class="form-control  input-sm kumpulan_nik_kk" maxlength="340" type="text" placeholder="Gunakan Pemisah koma (,)" id="kumpulan_nik" name="kumpulan_nik"  rows="4"><?= $kumpulan_nik?></textarea>
-								</div>
-							</div>
+		<div class="box box-danger">
+			<div class="box-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<label for="nama">Kumpulan NIK</label>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<textarea class="form-control  input-sm kumpulan_nik_kk" maxlength="340" type="text" placeholder="Gunakan Pemisah koma (,)" id="kumpulan_nik" name="kumpulan_nik"  rows="4"><?= $kumpulan_nik?></textarea>
 						</div>
 					</div>
 				</div>
