@@ -191,11 +191,11 @@
 				<div class='col-sm-5'>
 					<div class='form-group'>
 						<label for="status">Status Penduduk </label>
-						<select class="form-control input-sm required" name="status">
-						<option value="">Pilih Status Penduduk</option>
-						<?php foreach ($status_penduduk as $data): ?>
-							<option value="<?= $data['id']?>" <?php selected($penduduk['id_status'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
-						<?php endforeach;?>
+						<select class="form-control input-sm required" name="status" <?php ($penduduk['no_kk']) and print('disabled') ?>>
+							<option value="">Pilih Status Penduduk</option>
+							<?php foreach ($status_penduduk as $data): ?>
+								<option value="<?= $data['id']?>" <?php selected($penduduk['id_status'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+							<?php endforeach;?>
 						</select>
 					</div>
 				</div>
