@@ -1,4 +1,51 @@
-<?php class Penduduk_log_model extends CI_Model {
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model Log Penduduk untuk modul Kependudukan > Penduduk
+ *
+ * donjo-app/models/Penduduk_log_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+	class Penduduk_log_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -76,69 +123,62 @@
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($cari = $this->session->cari)
 		{
-			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$this->db->group_start()
-						->or_like('u.nama', $kw,'both',FALSE)
-						->or_like('u.nik', $kw,'both',FALSE)
-					 ->group_end();
+			$this->db
+				->group_start()
+					->or_like('u.nama', $kw, 'both', FALSE)
+					->or_like('u.nik', $kw, 'both', cFALSE)
+				->group_end();
 		}
 	}
 
 	private function status_dasar_sql()
 	{
-		if (isset($_SESSION['status_dasar']))
+		if ($kf = $this->session->status_dasar)
 		{
-			$kf = $_SESSION['status_dasar'];
 			$this->db->where('u.status_dasar', $kf);
 		}
 	}
 
 	private function sex_sql()
 	{
-		if (isset($_SESSION['sex']))
+		if ($kf = $this->session->sex)
 		{
-			$kf = $_SESSION['sex'];
 			$this->db->where('u.sex', $kf);
 		}
 	}
 
 	private function agama_sql()
 	{
-		if (isset($_SESSION['agama']))
+		if ($kf = $this->session->agama)
 		{
-			$kf = $_SESSION['agama'];
-			$this->db->where('u.agama_id', $kf);			
+			$this->db->where('u.agama_id', $kf);
 		}
 	}
 
 	private function dusun_sql()
 	{
-		if (isset($_SESSION['dusun']))
+		if ($kf = $this->session->dusun)
 		{
-			$kf = $_SESSION['dusun'];
-			$this->db->where('a.dusun', $kf);	
+			$this->db->where('a.dusun', $kf);
 		}
 	}
 
 	private function rw_sql()
 	{
-		if (isset($_SESSION['rw']))
+		if ($kf = $this->session->rw)
 		{
-			$kf = $_SESSION['rw'];
-			$this->db->where('a.rw', $kf);	
+			$this->db->where('a.rw', $kf);
 		}
 	}
 
 	private function rt_sql()
 	{
-		if (isset($_SESSION['rt']))
+		if ($kf = $this->session->rt)
 		{
-			$kf = $_SESSION['rt'];
-			$this->db->where('a.rt', $kf);	
+			$this->db->where('a.rt', $kf);
 		}
 	}
 
@@ -146,8 +186,8 @@
 	{
 		$this->db->select('COUNT(u.id) AS id');
 		$this->list_data_sql();
-		$row = $this->db->get()->row_array();
-		$jml_data = $row['id'];
+		$jml_data = $this->db->get()
+			->row()->id;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -168,17 +208,17 @@
 
 	private function list_data_sql()
 	{
-		$this->db->from('tweb_penduduk u');
-		$this->db->join('tweb_keluarga d', 'u.id_kk = d.id', 'left');
-		$this->db->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left');
-		$this->db->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left');
-		$this->db->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left');
-		$this->db->join('tweb_status_dasar sd', 'u.status_dasar = sd.id', 'left');
-		$this->db->join('log_penduduk log', 'u.id = log.id_pend', 'left');
-		$this->db->join('ref_pindah rp', 'rp.id = log.ref_pindah', 'left');
-
-		$this->db->where('u.status_dasar >', 1);
-		$this->db->where_in('log.id_detail', array(2,3,4));
+		$this->db
+			->from('tweb_penduduk u')
+			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
+			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+			->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left')
+			->join('tweb_status_dasar sd', 'u.status_dasar = sd.id', 'left')
+			->join('log_penduduk log', 'u.id = log.id_pend', 'left')
+			->join('ref_pindah rp', 'rp.id = log.ref_pindah', 'left')
+			->where('u.status_dasar >', 1)
+			->where_in('log.id_detail', array(2, 3, 4));
 
 		$this->search_sql();
 		$this->status_dasar_sql();
@@ -192,10 +232,11 @@
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		//Main Query
-		$this->db->select('u.id, u.nik, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk');
-		$this->db->select('(CASE when log.id_detail = 3 then rp.nama else sd.nama end) as status_dasar');
-		$this->db->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa");
-		$this->db->select('x.nama AS sex,g.nama AS agama,log.tanggal,log.tgl_peristiwa,log.id_detail');
+		$this->db
+			->select('u.id, u.nik, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk')
+			->select('(CASE when log.id_detail = 3 then rp.nama else sd.nama end) as status_dasar')
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa")
+			->select('x.nama AS sex, g.nama AS agama, log.tanggal, log.tgl_peristiwa, log.id_detail');
 
 		$this->list_data_sql();
 
@@ -228,9 +269,9 @@
 			{
 				// Ambil alamat penduduk
 				$query = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
-									->from('tweb_penduduk p')
-									->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-									->where('p.id', $data[$i]['id']);
+					->from('tweb_penduduk p')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+					->where('p.id', $data[$i]['id']);
 				$penduduk = $query->get()->row_array();
 				$data[$i]['alamat'] = $penduduk['alamat_sekarang'];
 				$data[$i]['dusun'] = $penduduk['dusun'];
