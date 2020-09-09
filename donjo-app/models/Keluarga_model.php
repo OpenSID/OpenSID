@@ -598,7 +598,7 @@
 		$sql = "SELECT u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
-			WHERE (status = 1 OR status = 3) AND id_kk = 0";
+			WHERE (status = 1 ) AND id_kk = 0";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
