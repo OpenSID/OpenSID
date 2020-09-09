@@ -102,7 +102,8 @@
 			$kw = $this->db->escape_like_str($cari_kumpulan_kk);
 			$search_val = preg_match_all("/,/i", $kw);
 			$count = 1;
-			if(($search_val) || ( is_numeric($kw) && (strlen($kw) === 16))){
+			if(($search_val) || ( is_numeric($kw) && (strlen($kw) === 16)))
+			{
 				$val_sql = [];
 				$explode_value = explode(",",$kw);
 				foreach ($explode_value as $key => $value) 
