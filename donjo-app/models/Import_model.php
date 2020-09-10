@@ -138,7 +138,7 @@ class Import_model extends CI_Model {
 		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
 
 		// Validasi data lain
-		//if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
+		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
 
 		return '';
 	}
@@ -347,7 +347,7 @@ class Import_model extends CI_Model {
 		{
 			if (empty($value))
 			{
-				unset($data[$key]);
+				if ( ! ($key == 'nik' && $value == '0')) unset($data[$key]); // Kecuali untuk kolom NIk boleh 0
 			}
 		}
 		// Masukkan penduduk ke tabel tweb_penduduk apabila
@@ -386,6 +386,7 @@ class Import_model extends CI_Model {
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 			$data['created_by'] = $this->session->user;
 			$hasil = $this->db->insert('tweb_penduduk', $data);
+
 			$id = $this->db->insert_id();
 			$penduduk_baru = $id;
 		}
