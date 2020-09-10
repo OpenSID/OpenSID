@@ -12,11 +12,13 @@ class Siteman extends CI_Controller
 	}
 
 	public function index()
-	{
-		unset($_SESSION['balik_ke']);
-		$this->user_model->logout();
+	{		
+		if (isset($_SESSION['siteman']) and 1 == $_SESSION['siteman']) 
+		{
+			redirect('main');
+		}
+		unset($_SESSION['balik_ke']);		
 		$data['header'] = $this->config_model->get_data();
-
 		//Initialize Session ------------
 		if (!isset($_SESSION['siteman']))
 		{
@@ -36,7 +38,13 @@ class Siteman extends CI_Controller
 	}
 
 	public function auth()
-	{
+	{		
+		$method = $this->input->method(TRUE);
+        $allow_method = ['POST'];
+		if(!in_array($method,$allow_method))
+		{
+			redirect('siteman/login');
+		}
 		$this->user_model->siteman();
 
 		if ($_SESSION['siteman'] != 1)
@@ -78,6 +86,12 @@ class Siteman extends CI_Controller
 	public function flash()
 	{
 		$this->load->view('config');
+	}
+
+	public function logout()
+	{
+		$this->user_model->logout();
+		$this->index();
 	}
 
 }
