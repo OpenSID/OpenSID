@@ -58,7 +58,7 @@ class Keluarga extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 22;
 		$this->_set_page = ['20', '50', '100'];
-		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga'];
+		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 	}
 
 	public function clear()
@@ -560,4 +560,13 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data_statistik($tipe);
 		$this->load->view('sid/kependudukan/keluarga_print', $data);
 	}
+
+	public function search_kumpulan_kk()
+	{
+		$data['kumpulan_kk'] = $this->session->kumpulan_kk ?: '';
+		$data['form_action'] = site_url("keluarga/filter/kumpulan_kk");
+
+		$this->load->view("sid/kependudukan/ajax_search_kumpulan_kk", $data);
+	}
+
 }

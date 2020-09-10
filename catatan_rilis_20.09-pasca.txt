@@ -13,6 +13,8 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 7. #3544: Sekarang Responsive File Manager dapat diakses di OS Windows untuk memasukkan gambar ke artikel. [bug-fix]
 8. #3527: Anggota KK sekarang hanya boleh penduduk dengan status TETAP.
 9. #3519: Tampilkan foto penduduk di Log Penduduk.
+10. #3422: Sekarang bisa menyaring daftar penduduk untuk sekumpulan NIK sekaligus.
+11. #3422: Sekarang bisa menyaring daftar keluarga untuk sekumpulan No. KK sekaligus.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
