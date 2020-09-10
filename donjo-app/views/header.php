@@ -207,7 +207,7 @@
 											</a>
 										</div>
 										<div class="pull-right">
-											<a href="<?=site_url()?>siteman" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
+											<a href="<?=site_url()?>siteman/logout" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
 										</div>
 									</li>
 								</ul>
