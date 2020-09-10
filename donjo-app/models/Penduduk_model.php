@@ -76,6 +76,32 @@ class Penduduk_model extends MY_Model {
 			$search_sql = " AND (u.nama LIKE '$kw' OR u.nik LIKE '$kw' OR u.tag_id_card LIKE '$kw')";
 			return $search_sql;
 		}
+
+		if ($this->session->kumpulan_nik)
+		{
+			$cari_kumpulan_nik = $this->session->kumpulan_nik;
+			$kw = $this->db->escape_like_str($cari_kumpulan_nik);
+			$search_val = preg_match_all("/,/i", $kw);
+			$count = 1;
+			if(($search_val) || ( is_numeric($kw) && (strlen($kw) === 16)))
+			{
+				$val_sql = [];
+				$explode_value = explode(",",$kw);
+				foreach ($explode_value as $key => $value) 
+				{
+					if($count <= 20)
+					{
+						if( (is_numeric($value)) && (strlen($value) === 16))
+						{
+							array_push($val_sql,"'$value',"); $count+1;	
+						} 
+					}
+				}
+				$val_sql = substr(implode(" ",$val_sql),0,-1);
+			}
+			$search_sql = " AND u.nik in ($val_sql)";
+			return $search_sql;
+		}
 	}
 
 	protected function keluarga_sql()

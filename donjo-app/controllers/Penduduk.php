@@ -59,7 +59,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil'];
+		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 	}
 
 	private function clear_session()
@@ -773,6 +773,19 @@ class Penduduk extends Admin_Controller {
 	{
 		$data = $this->penduduk_model->autocomplete($this->input->post('cari'));
 		echo json_encode($data);
+	}
+
+	public function search_kumpulan_nik()
+	{
+		$list_session = array('kumpulan_nik');
+
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
+		$data['form_action'] = site_url("penduduk/filter/kumpulan_nik");
+
+		$this->load->view("sid/kependudukan/ajax_search_kumpulan_nik", $data);
 	}
 
 }
