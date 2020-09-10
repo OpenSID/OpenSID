@@ -418,7 +418,7 @@ class Import_model extends CI_Model {
 		for ($i=2; $i<=$baris; $i++)
 		{
       // Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
-      if($rowData[1] == '###')
+      if ($rowData[1] == '###')
       {
         $baris_data = $i - 1;
         break;
@@ -458,14 +458,16 @@ class Import_model extends CI_Model {
     $reader = ReaderEntityFactory::createXLSXReader();
     $reader->open($_FILES['userfile']['tmp_name']);
 
-    foreach ($reader->getSheetIterator() as $sheet) {
-      foreach ($sheet->getRowIterator() as $row) {
-
+    foreach ($reader->getSheetIterator() as $sheet)
+    {
+      foreach ($sheet->getRowIterator() as $row)
+      {
         $rowData = [];
         $cells = $row->getCells();
         $numRows++;
 
-        foreach ($cells as $cell) {
+        foreach ($cells as $cell)
+        {
         	$rowData[] = $cell->getValue();
         }
 
@@ -489,7 +491,7 @@ class Import_model extends CI_Model {
         for ($i=2; $i<=$baris_data; $i++)
         {
           // Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
-          if($rowData[1] == '###')
+          if ($rowData[1] == '###')
           {
             $baris_data = $i - 1;
             break;
@@ -567,85 +569,87 @@ class Import_model extends CI_Model {
     $reader = ReaderEntityFactory::createXLSXReader();
     $reader->open($_FILES['userfile']['tmp_name']);
 
-    foreach ($reader->getSheetIterator() as $sheet) {
-      foreach ($sheet->getRowIterator() as $row) {
+    foreach ($reader->getSheetIterator() as $sheet)
+    {
+      foreach ($sheet->getRowIterator() as $row)
+      {
+        $rowData = [];
+        $cells = $row->getCells();
+        $numRows++;
 
-          $rowData = [];
-          $cells = $row->getCells();
-          $numRows++;
-
-          foreach ($cells as $cell) {
-          	$rowData[] = $cell->getValue();
-          }
-
-      		//$sheet = 0;
-      		$baris = $numRows;
-
-      		$gg = 0;
-      		for ($i=2; $i<=$baris; $i++)
-      		{
-      			//ID RuTa
-      			$id_rtm	= $rowData[1];
-
-      			//Level
-      			$rtm_level = $rowData[2];
-      			if ($rtm_level > 1) $rtm_level = 2;
-
-      			//NIK
-      			$nik = $rowData[0];
-
-      			$sql = "SELECT nama FROM tweb_penduduk WHERE nik = ?";
-      			$query = $this->db->query($sql, $nik);
-      			$pdd = $query->row_array();
-
-      			$nama = "--> GAGAL";
-      			if ($pdd)
-      			{
-      				$upd['id_rtm'] = $id_rtm;
-      				$upd['rtm_level'] = $rtm_level;
-      				$upd['updated_at'] = date('Y-m-d H:i:s');
-      				$upd['updated_by'] = $this->session->user;
-
-      				$this->db->where('nik', $nik);
-      				$outp = $this->db->update('tweb_penduduk', $upd);
-      				$nama = $pdd['nama'];
-
-      				echo "<a>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
-      			}
-      			else
-      			{
-      				$penduduk = "";
-      				$penduduk['id_cluster']	= 0;
-      				$penduduk['status']	= 2;
-      				$penduduk['nama']	= $rowData[3];
-      				$penduduk['nik'] = $nik;
-      				$penduduk['id_rtm']	= $id_rtm;
-      				$penduduk['rtm_level'] = $rtm_level;
-      				$penduduk['created_by'] = $this->session->user;
-
-      				$outp = $this->db->insert('tweb_penduduk', $penduduk);
-
-      				echo "<a style='color:#f00;'>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
-
-      				$gg++;
-      			}
-      		}
+        foreach ($cells as $cell)
+        {
+        	$rowData[] = $cell->getValue();
         }
 
-    		$a = "TRUNCATE tweb_rtm; ";
-    		$this->db->query($a);
+    		//$sheet = 0;
+    		$baris = $numRows;
 
-    		$a = "INSERT INTO tweb_rtm (no_kk, nik_kepala) SELECT id_rtm, id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
-    		$outp = $this->db->query($a);
+    		$gg = 0;
+    		for ($i=2; $i<=$baris; $i++)
+    		{
+    			//ID RuTa
+    			$id_rtm	= $rowData[1];
 
-    		$_SESSION['ggl'] = $gg;
+    			//Level
+    			$rtm_level = $rowData[2];
+    			if ($rtm_level > 1) $rtm_level = 2;
 
-    		status_sukses($outp); //Tampilkan Pesan
+    			//NIK
+    			$nik = $rowData[0];
 
-    		echo "<br>JUMLAH GAGAL : $gg</br>";
-    		echo "<a href='".site_url()."database/import'>LANJUT</a>";
+    			$sql = "SELECT nama FROM tweb_penduduk WHERE nik = ?";
+    			$query = $this->db->query($sql, $nik);
+    			$pdd = $query->row_array();
 
-        exit;
+    			$nama = "--> GAGAL";
+    			if ($pdd)
+    			{
+    				$upd['id_rtm'] = $id_rtm;
+    				$upd['rtm_level'] = $rtm_level;
+    				$upd['updated_at'] = date('Y-m-d H:i:s');
+    				$upd['updated_by'] = $this->session->user;
+
+    				$this->db->where('nik', $nik);
+    				$outp = $this->db->update('tweb_penduduk', $upd);
+    				$nama = $pdd['nama'];
+
+    				echo "<a>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
+    			}
+    			else
+    			{
+    				$penduduk = "";
+    				$penduduk['id_cluster']	= 0;
+    				$penduduk['status']	= 2;
+    				$penduduk['nama']	= $rowData[3];
+    				$penduduk['nik'] = $nik;
+    				$penduduk['id_rtm']	= $id_rtm;
+    				$penduduk['rtm_level'] = $rtm_level;
+    				$penduduk['created_by'] = $this->session->user;
+
+    				$outp = $this->db->insert('tweb_penduduk', $penduduk);
+
+    				echo "<a style='color:#f00;'>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
+
+    				$gg++;
+    			}
+    		}
+      }
+
+  		$a = "TRUNCATE tweb_rtm; ";
+  		$this->db->query($a);
+
+  		$a = "INSERT INTO tweb_rtm (no_kk, nik_kepala) SELECT id_rtm, id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
+  		$outp = $this->db->query($a);
+
+  		$_SESSION['ggl'] = $gg;
+
+  		status_sukses($outp); //Tampilkan Pesan
+
+  		echo "<br>JUMLAH GAGAL : $gg</br>";
+  		echo "<a href='".site_url()."database/import'>LANJUT</a>";
+
+      exit;
     }
     $reader->close();
 	}

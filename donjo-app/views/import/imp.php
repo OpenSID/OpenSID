@@ -22,7 +22,7 @@
 																					</ul>
 																				</div>
 																				<li>Simpan (Save) file Excel sebagai .xlsx file </li>
-																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 keatas)</li>
+																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan di bawah ini :
 																					<div class="timeline-footer row">
 																						<a href="<?= base_url()?>assets/import/FormatImportExcel.xlsm" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
@@ -106,7 +106,7 @@
 																			<ol>
 																				<li value="1">Pastikan format data yang akan diimpor sudah sesuai dengan aturan impor data</li>
 																				<li>Simpan (Save) file spreadsheet sebagai .xlsx file</li>
-																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 keatas)</li>
+																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk impor dengan memenuhi aturan data, lihat tautan di bawah ini :
 																					<div class="timeline-footer row">
 																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ATURANGRUP.xlsx" ><i class="fa fa-download"></i> Aturan Data</a>

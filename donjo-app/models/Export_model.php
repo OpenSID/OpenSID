@@ -31,28 +31,28 @@
 			->order_by('k.no_kk ASC', 'p.kk_level ASC')
 			->get()->result();
 
-			for ($i=0; $i<count($data); $i++)
-			{
-				$baris = $data[$i];
-				array_walk($baris, array($this, 'bersihkanData'));
-				if (!empty($baris->tanggallahir))
-					$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
-				if (!empty($baris->tanggalperceraian))
-					$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
-				if (!empty($baris->tanggalperkawinan))
-					$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
-				if (!empty($baris->tanggal_akhir_paspor))
-					$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
-				if (empty($baris->dusun))
-					$baris->dusun = '-';
-				if (empty($baris->rt))
-					$baris->rt = '-';
-				if (empty($baris->rw))
-					$baris->rw = '-';
-				$data[$i] = $baris;
-			}
+		for ($i=0; $i<count($data); $i++)
+		{
+			$baris = $data[$i];
+			array_walk($baris, array($this, 'bersihkanData'));
+			if (!empty($baris->tanggallahir))
+				$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
+			if (!empty($baris->tanggalperceraian))
+				$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
+			if (!empty($baris->tanggalperkawinan))
+				$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
+			if (!empty($baris->tanggal_akhir_paspor))
+				$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
+			if (empty($baris->dusun))
+				$baris->dusun = '-';
+			if (empty($baris->rt))
+				$baris->rt = '-';
+			if (empty($baris->rw))
+				$baris->rw = '-';
+			$data[$i] = $baris;
+		}
 
-			return $data;
+		return $data;
 	}
 
 	public function export_csv($tgl_update = '')
