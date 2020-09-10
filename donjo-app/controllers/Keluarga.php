@@ -192,6 +192,7 @@ class Keluarga extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
+		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
 
 		unset($_SESSION['dari_internal']);
 		$this->_header['minsidebar'] = 1;
@@ -231,6 +232,7 @@ class Keluarga extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
+		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
 
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
 		if ($_SESSION['validation_error'])

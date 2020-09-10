@@ -52,4 +52,7 @@ version.json
 .phpintel/*
 #Abaikan file environment dibaca di index.php
 .env
+# obfuscator
+Obfuscator.php
+make_obfuscate.php
 
