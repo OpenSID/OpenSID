@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.09-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 dan Masumo yang terus berkontribusi. Terima kasih pula pada yonathanrizky yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ahmad Afandi dan Masumo yang terus berkontribusi. Terima kasih pula pada yonathanrizky yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 
@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 9. #3519: Tampilkan foto penduduk di Log Penduduk.
 10. #3422: Sekarang bisa menyaring daftar penduduk untuk sekumpulan NIK sekaligus.
 11. #3422: Sekarang bisa menyaring daftar keluarga untuk sekumpulan No. KK sekaligus.
+12. #3552, #2942: Perbaiki supaya kesempatan gagal login 3 kali dan timeout kembali normal. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
