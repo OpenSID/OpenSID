@@ -23,6 +23,9 @@
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
+		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="login">
@@ -42,17 +45,17 @@
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<form class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
+								<form id="validasi" class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
 									<?php if ($_SESSION['siteman_wait']==1): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input name="username" type="text" placeholder="Nama pengguna" <?php if ($_SESSION['siteman_wait']==1): ?> disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+											<input name="username" type="text" placeholder="Nama pengguna" <?php jecho($_SESSION['siteman_wait'], 1, "disabled") ?> value="" class="form-username form-control required">
 										</div>
 										<div class="form-group">
-											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php if ($_SESSION['siteman_wait']==1): ?>disabled="disabled"<?php endif ?> value="" required class="form-username form-control input-error">
+											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php jecho($_SESSION['siteman_wait'], 1, "disabled") ?> value="" class="form-username form-control required">
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
@@ -74,7 +77,7 @@
 									<?php endif; ?>
 								</form>
 								<hr/>
-								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
 							</div>
 						</div>
 					</div>
@@ -83,21 +86,20 @@
 		</div>
 	</body>
 </html>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 <script>
 
 	function start_countdown(){
 		var times = eval(<?= json_encode($_SESSION['siteman_timeout'])?>) - eval(<?= json_encode(time())?>);
-		var menit = Math.floor(times / 60); 
+		var menit = Math.floor(times / 60);
 		var detik = times % 60;
-		timer = setInterval(function(){ 
+		timer = setInterval(function(){
 			detik--;
-			if (detik <= 0 && menit >=1){ 
-				detik = 60; 
+			if (detik <= 0 && menit >=1){
+				detik = 60;
 				menit--;
 			}
-			if (menit <= 0 && detik <= 0){ 
-				clearInterval(timer); 
+			if (menit <= 0 && detik <= 0){
+				clearInterval(timer);
 				location.reload();
 			} else {
 				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
