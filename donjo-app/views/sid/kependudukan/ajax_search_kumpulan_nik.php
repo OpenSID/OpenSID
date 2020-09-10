@@ -17,7 +17,7 @@
 					</div>
 					<div class="col-sm-12">
 						<div class="form-group">
-							<textarea class="form-control  input-sm kumpulan_nik_kk" maxlength="340" type="text" placeholder="Gunakan Pemisah koma (,)" id="kumpulan_nik" name="kumpulan_nik"  rows="4"><?= $kumpulan_nik?></textarea>
+							<textarea class="form-control  input-sm kumpulan_nik_kk" maxlength="340" type="text" placeholder="Isi maks 20 NIK, dengan pemisah koma (,). Contoh: 5201142005716996, 5201144609786995" name="kumpulan_nik"  rows="4"><?= $kumpulan_nik?></textarea>
 						</div>
 					</div>
 				</div>

@@ -95,32 +95,18 @@
 			$search_sql = " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw' OR t.tag_id_card LIKE '$kw')";
 			return $search_sql;
 		}
+	}
 
-		if ($this->session->kumpulan_kk)
-		{
-			$cari_kumpulan_kk = $this->session->kumpulan_kk;
-			$kw = $this->db->escape_like_str($cari_kumpulan_kk);
-			$search_val = preg_match_all("/,/i", $kw);
-			$count = 1;
-			if(($search_val) || ( is_numeric($kw) && (strlen($kw) === 16)))
-			{
-				$val_sql = [];
-				$explode_value = explode(",",$kw);
-				foreach ($explode_value as $key => $value) 
-				{
-					if($count <= 20)
-					{
-						if( (is_numeric($value)) && (strlen($value) === 16)) 
-						{
-							array_push($val_sql,"'$value',"); $count+1;
-						}
-					}
-				}
-				$val_sql = substr(implode(" ",$val_sql),0,-1);
-			}
-			$search_sql = " AND u.no_kk in ($val_sql)";
-			return $search_sql;
-		}
+	private function kumpulan_kk_sql()
+	{
+		if (empty($this->session->kumpulan_kk)) return;
+
+		$kumpulan_kk = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
+		$kumpulan_kk = array_filter(array_slice(explode(",", $kumpulan_kk), 0, 20)); // ambil 20 saja
+		$kumpulan_kk = implode(',', $kumpulan_kk);
+		$this->session->kumpulan_kk = $kumpulan_kk;
+		$sql = " AND u.no_kk in ($kumpulan_kk)";
+		return $sql;
 	}
 
 	public function paging($p = 1)
@@ -147,6 +133,7 @@
 
 		$sql .= " WHERE 1 ";
 		$sql .=	$this->search_sql();
+		$sql .=	$this->kumpulan_kk_sql();
 		$sql .=	$this->status_dasar_sql();
 
 		$kolom_kode = [
