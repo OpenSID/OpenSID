@@ -78,6 +78,18 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
+	protected function kumpulan_nik_sql()
+	{
+		if (empty($this->session->kumpulan_nik)) return;
+
+		$kumpulan_nik = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_nik);
+		$kumpulan_nik = array_filter(array_slice(explode(",", $kumpulan_nik), 0, 20)); // ambil 20 saja
+		$kumpulan_nik = implode(',', $kumpulan_nik);
+		$this->session->kumpulan_nik = $kumpulan_nik;
+		$sql = " AND u.nik in ($kumpulan_nik)";
+		return $sql;
+	}
+
 	protected function keluarga_sql()
 	{
 		if ($_SESSION['layer_keluarga'] == 1)
@@ -302,6 +314,7 @@ class Penduduk_model extends MY_Model {
 
 		$sql .= " WHERE 1 ";
 		$sql .= $this->search_sql();
+		$sql .= $this->kumpulan_nik_sql();
 		$sql .= $this->dusun_sql();
 		$sql .= $this->rw_sql();
 		$sql .= $this->rt_sql();

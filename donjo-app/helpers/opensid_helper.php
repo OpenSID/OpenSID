@@ -456,7 +456,7 @@ function httpPost($url, $params)
 		if ($output === false)
 		{
 			log_message('error', 'Curl error: ' . curl_error($ch));
-			log_message('error', var_dump(curl_getinfo($ch)));
+			log_message('error', print_r(curl_getinfo($ch), true));
 		}
 		curl_close($ch);
 		return $output;

@@ -97,6 +97,18 @@
 		}
 	}
 
+	private function kumpulan_kk_sql()
+	{
+		if (empty($this->session->kumpulan_kk)) return;
+
+		$kumpulan_kk = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
+		$kumpulan_kk = array_filter(array_slice(explode(",", $kumpulan_kk), 0, 20)); // ambil 20 saja
+		$kumpulan_kk = implode(',', $kumpulan_kk);
+		$this->session->kumpulan_kk = $kumpulan_kk;
+		$sql = " AND u.no_kk in ($kumpulan_kk)";
+		return $sql;
+	}
+
 	public function paging($p = 1)
 	{
 		$sql = "SELECT COUNT(*) AS jml ".$this->list_data_sql();
@@ -121,6 +133,7 @@
 
 		$sql .= " WHERE 1 ";
 		$sql .=	$this->search_sql();
+		$sql .=	$this->kumpulan_kk_sql();
 		$sql .=	$this->status_dasar_sql();
 
 		$kolom_kode = [
