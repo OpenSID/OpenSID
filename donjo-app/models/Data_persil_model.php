@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * Model di Modul Persil
+ * Model untuk Modul Persil
  *
  * donjo-app/models/Data_persil_model.php
  *

@@ -2,9 +2,9 @@
 /**
  * File ini:.
  *
- * Modul Persil OpenSID
+ * Laporan daftar Persil
  *
- * /donjo-app/views/data_persil/persil_print.php
+ * donjo-app/views/data_persil/persil_cetak.php
  */
 
 /*
@@ -57,10 +57,6 @@
 			{
 				mso-number-format:"\@";
 			}
-			td,th
-			{
-				font-size:6.5pt;
-			}
 		</style>
 	</head>
 	<body>
@@ -75,7 +71,7 @@
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th>No</th>							
+							<th>No</th>
 							<th>No. Persil : No. Urut Bidang</th>
 							<th>Kelas Tanah</th>
 							<th>Luas (M2)</th>

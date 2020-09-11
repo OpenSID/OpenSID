@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * Model di Modul Persil
+ * Controller untuk Modul Persil
  *
  * donjo-app/controllers/Data_persil.php
  *
@@ -99,7 +99,7 @@ class Data_persil extends Admin_Controller {
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
 
-		$this->load->view('header', $this->header);		
+		$this->load->view('header', $this->header);
 		$this->load->view('data_persil/persil', $data);
 		$this->load->view('footer');
 	}
@@ -110,7 +110,7 @@ class Data_persil extends Admin_Controller {
 		$data = [];
 		$data['persil'] = $this->data_persil_model->get_persil($id);
 		$data['mutasi'] = $this->data_persil_model->get_list_mutasi($id);
-		$this->load->view('header', $this->header);		
+		$this->load->view('header', $this->header);
 		$this->load->view('data_persil/rincian_persil', $data);
 		$this->load->view('footer');
 	}
@@ -126,7 +126,7 @@ class Data_persil extends Admin_Controller {
 		$data['list_cdesa'] = $this->cdesa_model->list_c_desa();
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
-		$this->load->view('header', $header);		
+		$this->load->view('header', $header);
 		$this->load->view('data_persil/form_persil', $data);
 		$this->load->view('footer');
 	}
@@ -174,18 +174,18 @@ class Data_persil extends Admin_Controller {
 		redirect("data_persil");
 	}
 
-	public function cetak_persil($o=0)
-	{		
-		$data['persil'] = $this->data_persil_model->list_data(0,10000);
-        $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
-		$this->load->view('data_persil/persil_print', $data);
+	public function cetak($o=0)
+	{
+		$data['persil'] = $this->data_persil_model->list_data(0, 10000);
+    $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
+		$this->load->view('data_persil/persil_cetak', $data);
 	}
 
-	public function excel($mode="", $o=0)
-	{		
-		$data['persil'] = $this->data_persil_model->list_data(0,10000);
-        $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
-		$this->load->view('data_persil/persil_excel', $data);
+	public function unduh($mode="", $o=0)
+	{
+		$data['persil'] = $this->data_persil_model->list_data(0, 10000);
+    $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
+		$this->load->view('data_persil/persil_unduh', $data);
 	}
 
 	public function kelasid()
@@ -193,13 +193,13 @@ class Data_persil extends Admin_Controller {
 		$data =[];
 		$id = $this->input->post('id');
 		$kelas = $this->data_persil_model->list_persil_kelas($id);
-		foreach ($kelas as $key => $item) 
+		foreach ($kelas as $key => $item)
 		{
 			$data[] = array('id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']);
 		}
 		echo json_encode($data);
 	}
-	
+
 }
 
 ?>
