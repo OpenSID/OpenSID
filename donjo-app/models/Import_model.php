@@ -413,7 +413,7 @@ class Import_model extends CI_Model {
 	private function cari_baris_pertama($rowData, $baris)
 	{
 		if ($baris <=1 )
-			return 0;
+			return;
 
 		$baris_pertama = 1;
 		for ($i=2; $i<=$baris; $i++)
@@ -472,13 +472,6 @@ class Import_model extends CI_Model {
         	$rowData[] = $cell->getValue();
         }
 
-        $baris = count($rowData);
-        if ($this->cari_baris_pertama($rowData, $baris) <= 1)
-        {
-          $_SESSION['error_msg'] .= " -> Tidak ada data";
-          $_SESSION['success'] = -1;
-          return;
-        }
         $baris_data = $numRows;
 
         $this->db->query("SET character_set_connection = utf8");
@@ -487,23 +480,6 @@ class Import_model extends CI_Model {
         $gagal = 0;
         $baris_gagal = "";
         $baris_kosong = 0;
-
-        // Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
-        for ($i=2; $i<=$baris_data; $i++)
-        {
-          // Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
-          if ($rowData[1] == '###')
-          {
-            $baris_data = $i - 1;
-            break;
-          }
-          // Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
-          if ($rowData[1] == '' AND $rowData[2] == '' AND $rowData[3] == '')
-          {
-            $baris_kosong++;
-            continue;
-          }
-        }
 
         $isi_baris = $this->get_isi_baris($rowData);
         $error_validasi = $this->data_import_valid($isi_baris);
@@ -519,6 +495,15 @@ class Import_model extends CI_Model {
           $baris_gagal .= $i." (".$error_validasi.")<br>";
         }
 
+      }
+
+      // Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
+      $baris = $baris_data;
+      if ($this->cari_baris_pertama($rowData, $baris) <= 1)
+      {
+        $_SESSION['error_msg'] .= " -> Tidak ada data";
+        $_SESSION['success'] = -1;
+        return;
       }
 
       $sukses = $baris_data - $baris_kosong - $gagal - 1;
