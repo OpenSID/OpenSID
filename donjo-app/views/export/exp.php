@@ -9,13 +9,13 @@
 															<div class="col-md-8">
 																<table class="table table-striped table-hover">
 																	<tr>
-																		<td class="col-sm-10">Ekspor Data Penduduk (Format .xls untuk di impor ke database SID melalui menu Impor Database)</td>
+																		<td class="col-sm-10">Ekspor Data Penduduk (Format .xlsx untuk di impor ke database SID melalui menu Impor Database)</td>
 																		<td class="col-sm-2">
 																			<a href="<?= site_url("database")?>/export_excel" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
 																		</td>
 																	</tr>
 																	<tr>
-																		<td class="col-sm-10">Ekspor Data Penduduk untuk diimpor ke database OpenDK</td>
+																		<td class="col-sm-10">Ekspor Data Penduduk untuk diimpor ke database OpenDK (.xlsx)</td>
 																		<td class="col-sm-2">
 																			<a href="<?= site_url("database")?>/export_excel/opendk" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
 																		</td>
