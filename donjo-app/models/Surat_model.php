@@ -475,6 +475,7 @@
 		{
 			$data = $this->db
 				->select('u.id')
+				->from('tweb_penduduk u')
 				->where('nik', $penduduk['ibu_nik'])
 				->limit(1)->get()
 				->row_array();
