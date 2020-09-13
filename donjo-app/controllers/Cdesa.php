@@ -312,10 +312,7 @@ class Cdesa extends Admin_Controller {
 		$id_cdesa = $this->input->post('id');
 		if ($id_cdesa) $this->db->where('id <>', $id_cdesa);
 		$ada = $this->db
-			->group_start()
-				->where('nomor', $nomor)
-				//->or_where('nama_kepemilikan', $this->input->post('nama_kepemilikan'))
-			->group_end()
+			->where('nomor', $nomor)
 			->get('cdesa')->num_rows();
 
 		if ($ada)
