@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 12. #3552, #2942: Perbaiki supaya kesempatan gagal login 3 kali dan timeout kembali normal. [bug-fix]
 13. #3543: Terapkan menu cetak dan unduh untuk Pertanahan > Daftar Persil.
 14. Ganti library Excel supaya ekspor dan impor data penduduk bisa menggunakan format .xslx. [teknis]
+15. #3549: Bolehkan adanya nama kepemilikan yang sama untuk C-Desa yang berbeda.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
