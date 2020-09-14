@@ -41,7 +41,10 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
   use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
+
 class Import_model extends CI_Model {
+
+  public $error_tulis_penduduk; // error pada pemanggilan terakhir tulis_tweb_penduduk()
 
 	public function __construct()
 	{
@@ -145,6 +148,11 @@ class Import_model extends CI_Model {
 
 	protected function format_tanggal($kolom_tanggal)
 	{
+		// spout mengambil kolom tanggal sebagai DateTime object
+		if (is_a($kolom_tanggal, 'DateTime'))
+		{
+			return $kolom_tanggal->format("Y-m-d");
+		}
 		$tanggal = ltrim(trim($kolom_tanggal),"'");
 		if (strlen($tanggal) == 0)
 		{
@@ -194,7 +202,6 @@ class Import_model extends CI_Model {
 
 		$isi_baris['sex'] = $this->get_konversi_kode($this->kode_sex, trim($rowData[$kolom_impor_keluarga['sex']]));
 		$isi_baris['tempatlahir']= trim($rowData[$kolom_impor_keluarga['tempatlahir']]);
-
 		$isi_baris['tanggallahir'] = $this->format_tanggal($rowData[$kolom_impor_keluarga['tanggallahir']]);
 
 		$isi_baris['agama_id']= $this->get_konversi_kode($this->kode_agama, trim($rowData[$kolom_impor_keluarga['agama_id']]));
@@ -335,6 +342,8 @@ class Import_model extends CI_Model {
 
 	protected function tulis_tweb_penduduk($isi_baris)
 	{
+		$this->error_tulis_penduduk = null;
+
 		// Siapkan data penduduk
 		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar');
 		foreach ($kolom_baris as $kolom)
@@ -369,14 +378,14 @@ class Import_model extends CI_Model {
 					$data['updated_by'] = $this->session->user;
 					$id = $res['id'];
 					$this->db->where('id',$id);
-					$hasil = $this->db->update('tweb_penduduk', $data);
+					if ( ! $this->db->update('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
 				}
 			}
 			else
 			{
 				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 				$data['created_by'] = $this->session->user;
-				$hasil = $this->db->insert('tweb_penduduk', $data);
+				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
 			}
@@ -385,7 +394,7 @@ class Import_model extends CI_Model {
 		{
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 			$data['created_by'] = $this->session->user;
-			$hasil = $this->db->insert('tweb_penduduk', $data);
+			if (! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 
 			$id = $this->db->insert_id();
 			$penduduk_baru = $id;
@@ -473,6 +482,11 @@ class Import_model extends CI_Model {
           $this->tulis_tweb_wil_clusterdesa($isi_baris);
           $this->tulis_tweb_keluarga($isi_baris);
           $this->tulis_tweb_penduduk($isi_baris);
+          if ($error = $this->error_tulis_penduduk)
+          {
+	          $gagal++;
+	          $baris_gagal .= $nomor_baris." (".$error['message'].")<br>";
+          }
         }
         else
         {
