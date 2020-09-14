@@ -2,6 +2,11 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Common\Entity\Row;
+
 class Database extends Admin_Controller {
 
 	private $_header;
@@ -97,63 +102,175 @@ class Database extends Admin_Controller {
 	*/
 	public function export_excel($opendk = '')
 	{
-		$judul = array(
-			'Alamat' => 'alamat',
-			'Dusun' => 'dusun',
-			'RW' => 'rw',
-			'RT' => 'rt',
-			'Nama' => 'nama',
-			'Nomor KK' => 'nomor_kk',
-			'Nomor NIK' => 'nomor_nik',
-			'Jenis Kelamin' => 'jenis_kelamin',
-			'Tempat Lahir' => 'tempat_lahir',
-			'Tanggal Lahir' => 'tanggal_lahir',
-			'Agama' => 'agama',
-			'Pendidikan (dlm KK)' => 'pendidikan_dlm_kk',
-			'Pendidikan (sdg ditempuh)' => 'pendidikan_sdg_ditempuh',
-			'Pekerjaan' => 'pekerjaan',
-			'Kawin' => 'kawin',
-			'Hub. Keluarga' => 'hubungan_keluarga',
-			'Kewarganegaraan' => 'kewarganegaraan',
-			'Nama Ayah' => 'nama_ayah',
-			'Nama Ibu' => 'nama_ibu',
-			'Gol. Darah' => 'gol_darah',
-			'Akta Lahir' => 'akta_lahir',
-			'Nomor Dokumen Paspor' => 'nomor_dokumen_pasport',
-			'Tanggal Akhir Paspor' => 'tanggal_akhir_pasport',
-			'Nomor Dokumen KITAS' => 'nomor_dokumen_kitas',
-			'NIK Ayah' => 'nik_ayah',
-			'NIK Ibu' => 'nik_ibu',
-			'Nomor Akta Perkawinan' => 'nomor_akta_perkawinan',
-			'Tanggal Perkawinan' => 'tanggal_perkawinan',
-			'Nomor Akta Perceraian' => 'nomor_akta_perceraian',
-			'Tanggal Perceraian' => 'tanggal_perceraian',
-			'Cacat' => 'cacat',
-			'Cara KB' => 'cara_kb',
-			'Hamil' => 'hamil',
-			'KTP-el' => 'ktp_el',
-			'Status Rekam' => 'status_rekam',
-			'Alamat Sekarang' => 'alamat_sekarang'
-		);
-		$data['main'] = $this->export_model->export_excel();
+		$writer = WriterEntityFactory::createXLSXWriter();
+
+		//Nama File
 		$tgl =  date('d_m_Y');
 		if ($opendk)
 		{
-			$data['judul'] = array_values($judul);
-			// Kolom tambahan khusus OpenDK
-			$data['judul'][] = 'id';
-			$data['judul'][] = 'status_dasar';
-			$data['judul'][] = 'created_at';
-			$data['judul'][] = 'updated_at';
-			$data['nama_file'] = 'penduduk_'.$tgl.'_opendk';
+			$fileName = 'penduduk_'.$tgl.'_opendk.xlsx';
 		}
 		else
 		{
-			$data['judul'] = array_keys($judul);
-			$data['nama_file'] = 'penduduk_'.$tgl;
+			$fileName = 'penduduk_'.$tgl.'.xlsx';
 		}
-		$data['opendk'] = $opendk;
-		$this->load->view('export/penduduk_excel', $data);
+		$writer->openToBrowser($fileName); // stream data directly to the browser
+
+		//Header Tabel
+		$judul = [
+			'Alamat',
+			'Dusun',
+			'RW',
+			'RT',
+			'Nama',
+			'Nomor KK',
+			'Nomor NIK',
+			'Jenis Kelamin',
+			'Tempat Lahir',
+			'Tanggal Lahir',
+			'Agama',
+			'Pendidikan (dlm KK)',
+			'Pendidikan (sdg ditempuh)',
+			'Pekerjaan',
+			'Kawin',
+			'Hub. Keluarga',
+			'Kewarganegaraan',
+			'Nama Ayah',
+			'Nama Ibu',
+			'Gol. Darah',
+			'Akta Lahir',
+			'Nomor Dokumen Paspor',
+			'Tanggal Akhir Paspor',
+			'Nomor Dokumen KITAS',
+			'NIK Ayah',
+			'NIK Ibu',
+			'Nomor Akta Perkawinan',
+			'Tanggal Perkawinan',
+			'Nomor Akta Perceraian',
+			'Tanggal Perceraian',
+			'Cacat',
+			'Cara KB',
+			'Hamil',
+			'KTP-el',
+			'Status Rekam',
+			'Alamat Sekarang'
+		];
+		if ($opendk)
+		{
+			$judul = array_values($judul);
+			// Kolom tambahan khusus OpenDK
+			$judul[] = 'id';
+			$judul[] = 'status_dasar';
+			$judul[] = 'created_at';
+			$judul[] = 'updated_at';
+		}
+		else
+		{
+			$judul = array_values($judul);
+		}
+		$header = WriterEntityFactory::createRowFromArray($judul);
+		$writer->addRow($header);
+
+		//Isi Tabel
+		$get = $this->export_model->export_excel();
+		if ($opendk)
+		{
+			foreach ($get as $row)
+			{
+				$penduduk = array(
+					$row->alamat,
+					$row->dusun,
+					$row->rw,
+					$row->rt,
+					$row->nama,
+					$row->no_kk,
+					$row->nik,
+					$row->sex,
+					$row->tempatlahir,
+					$row->tanggallahir,
+					$row->agama_id,
+					$row->pendidikan_kk_id,
+					$row->pendidikan_sedang_id,
+					$row->pekerjaan_id,
+					$row->status_kawin,
+					$row->kk_level,
+					$row->warganegara_id,
+					$row->nama_ayah,
+					$row->nama_ibu,
+					$row->golongan_darah_id,
+					$row->akta_lahir,
+					$row->dokumen_pasport,
+					$row->tanggal_akhir_pasport,
+					$row->dokumen_kitas,
+					$row->ayah_nik,
+					$row->ibu_nik,
+					$row->akta_perkawinan,
+					$row->tanggalperkawinan,
+					$row->akta_perceraian,
+					$row->tanggalperceraian,
+					$row->cacat_id,
+					$row->cara_kb_id,
+					$row->hamil,
+					$row->ktp_el,
+					$row->status_rekam,
+					$row->alamat_sekarang,
+					$row->id,
+					$row->status_dasar,
+					$row->created_at,
+					$row->updated_at
+				);
+				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
+				$writer->addRow($rowFromValues);
+			}
+		}
+		else
+		{
+			foreach ($get as $row)
+			{
+				$penduduk = array(
+					$row->alamat,
+					$row->dusun,
+					$row->rw,
+					$row->rt,
+					$row->nama,
+					$row->no_kk,
+					$row->nik,
+					$row->sex,
+					$row->tempatlahir,
+					$row->tanggallahir,
+					$row->agama_id,
+					$row->pendidikan_kk_id,
+					$row->pendidikan_sedang_id,
+					$row->pekerjaan_id,
+					$row->status_kawin,
+					$row->kk_level,
+					$row->warganegara_id,
+					$row->nama_ayah,
+					$row->nama_ibu,
+					$row->golongan_darah_id,
+					$row->akta_lahir,
+					$row->dokumen_pasport,
+					$row->tanggal_akhir_pasport,
+					$row->dokumen_kitas,
+					$row->ayah_nik,
+					$row->ibu_nik,
+					$row->akta_perkawinan,
+					$row->tanggalperkawinan,
+					$row->akta_perceraian,
+					$row->tanggalperceraian,
+					$row->cacat_id,
+					$row->cara_kb_id,
+					$row->hamil,
+					$row->ktp_el,
+					$row->status_rekam,
+					$row->alamat_sekarang
+				);
+				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
+				$writer->addRow($rowFromValues);
+			}
+		}
+
+		$writer->close();
 	}
 
 	public function export_dasar()
@@ -228,7 +345,7 @@ class Database extends Admin_Controller {
 
 	public function export_csv()
 	{
-		$data['main'] = $this->export_model->export_excel();
+		$data['main'] = $this->export_model->export_csv();
 		$this->load->view('export/penduduk_csv', $data);
 	}
 }

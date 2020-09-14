@@ -43,12 +43,14 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_2009_ke_2010 extends CI_model {
+class Migrasi_2009_ke_2010 extends MY_model {
 
 	public function up()
 	{
 		// Sesuaikan panjang judul dokumen menjadi 200
 		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL");
+		// Bolehkan C-Desa berbeda berisi nama kepemilikan sama
+		$this->hapus_indeks('cdesa', 'nama_kepemilikan');
 	}
 
 }
