@@ -43,7 +43,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_fitur_premium extends CI_model {
+class Migrasi_fitur_premium extends MY_model {
 
 	public function up()
 	{
@@ -99,6 +99,21 @@ class Migrasi_fitur_premium extends CI_model {
 			]
 		];
 		$this->dbforge->modify_column('kelompok', $field);
+
+	// Tambah menu IDM
+		$modul = array(
+			'id' => '101',
+			'modul' => 'Status ' . ucwords($this->setting->sebutan_desa),
+			'url' => 'status_desa',
+			'aktif' => '1',
+			'ikon' => 'fa-dot-circle-o',
+			'urut' => '4',
+			'level' => '0',
+			'parent' => '200',
+			'hidden' => '0',
+			'ikon_kecil' => ''
+		);
+		$this->tambah_modul($modul);
 	}
 
 }
