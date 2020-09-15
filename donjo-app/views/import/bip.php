@@ -14,13 +14,14 @@
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2016.xls" ><i class="fa fa-download"></i>Contoh BIP 2016</a>
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_ektp.xls"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2016_luwutimur.xls"><i class="fa fa-download"></i>Contoh BIP 2016 Luwu Timur</a>
-																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_siak.xls"><i class="fa fa-download"></i>Contoh Data SIAK</a>
+																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_siak.xlsx"><i class="fa fa-download"></i>Contoh Data SIAK</a>
 																	<p></p>
 																	<p>Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun menjadi satu worksheet per dusun, proses ini akan mengimpor data semua dusun.</p>
 																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																		<small>
 																			<strong>
 																				<i class="fa fa-info-circle text-red"></i> Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls <br>
+																				<i class="fa fa-info-circle text-red"></i> Pastikan berkas BIP format Excel 2007 ke atas, ber-ekstensi .xlsx (untuk dokumen SIAK) <br>
 																				<i class="fa fa-info-circle text-red"></i> Sebelum di-impor ganti semua format tanggal (seperti tanggal lahir) menjadi dd/mm/yyyy (misalnya 26/07/1964).
 																			</strong>
 																		</small>
@@ -35,7 +36,20 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file" class="col-md-3 control-label">Pilih File .xls:</label>
+																						<label for="file" class="col-md-6 control-label">Pilih Jenis Dokumen</label>
+																						<div class="col-md-5">
+																							<select id="format_bip" name="format_bip" class="form-control select2 input-sm required">
+																								<option value="">Pilih Jenis Dokumen</option>
+																								<?php foreach ($list_format_bip AS $key => $value): ?>
+																									<option value="<?= $key ?>" <?= selected($format_bip, $key) ?>><?= $value ?></option>
+																								<?php endforeach; ?>
+																							</select>
+																						</div>
+																					</div>
+																				</td>
+																				<td style="padding-top:20px;padding-bottom:10px;">
+																					<div class="form-group">
+																						<label for="file" class="col-md-3 control-label">Pilih File .xls/.xlsx:</label>
 																						<div class="col-md-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path2" name="userfile">

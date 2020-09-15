@@ -22,12 +22,7 @@ class Bip_model extends CI_Model {
 	private function cari_format_bip($data)
 	{
 		$data_sheet = $data->sheets[0]['cells'];
-		if (strtolower($data_sheet[1][1]) == "nomor kk" and strtolower($data_sheet[1][34]) == "petugas registrasi")
-		{
-		  require_once APPPATH.'/models/Siak_model.php';
-			return new Siak_Model();
-		}
-		elseif ($data_sheet[1][1] == "BUKU INDUK PENDUDUK WNI")
+		if ($data_sheet[1][1] == "BUKU INDUK PENDUDUK WNI")
 		{
 		  require_once APPPATH.'/models/Bip2016_model.php';
 			return new BIP2016_Model();

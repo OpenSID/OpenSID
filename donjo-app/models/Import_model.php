@@ -70,7 +70,7 @@ class Import_model extends CI_Model {
 		IMPORT EXCEL
 		========================================================
 */
-	private function file_import_valid()
+	public function file_import_valid()
 	{
 		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
 		// TODO: pakai cara upload yg disediakan Codeigniter

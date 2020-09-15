@@ -116,6 +116,14 @@ define("STAT_LAINNYA", serialize([
 	'peta' => 'Peta'
 ]));
 
+// List Import BIP
+define("DOKUMEN_BIP", serialize([
+	"SIAK" => "1",
+	"BIP 2016" => "2",
+	"BIP 2016 Luwutimur" => "3",
+	"BIP E-KTP" => "4",
+	"BIP 2012" => "5"
+]));
 
 class Referensi_model extends CI_Model {
 
