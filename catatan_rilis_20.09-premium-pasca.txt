@@ -26,7 +26,7 @@ Fitur Premium:
 
 1. #3512: Sediakan menu mengatur ukuran bagan.
 2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
-3. #3531: Tampilkan rumusan pokok IDM di Info Desa > Status Desa dari portal IDM Kemendesa.
+3. #3531: Tampilkan rumusan pokok IDM di Info Desa > Status Desa dari portal IDM Kemendesa. Dan bisa ditampilkan di Web melalui menu statis.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

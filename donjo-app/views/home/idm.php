@@ -1,5 +1,9 @@
 <style type="text/css">
-	tr.judul {background-color: lightgrey !important;}
+	.table-striped > tbody >tr.judul {background-color: lightgrey !important;}
+	tr.judul > td,
+	tr.judul > th {
+	background-color: inherit !important;
+	}
 	thead tr, th {height: auto !important;}
 	th.horizontal {
 		white-space: nowrap;
@@ -7,13 +11,15 @@
 	}
 </style>
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Status IDM <?= ucwords($this->setting->sebutan_desa)?></h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Status IDM <?= ucwords($this->setting->sebutan_desa)?></li>
-		</ol>
-	</section>
+	<?php if (empty($halaman_statis)): ?>
+		<section class="content-header">
+			<h1>Status IDM <?= ucwords($this->setting->sebutan_desa)?></h1>
+			<ol class="breadcrumb">
+				<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+				<li class="active">Status IDM <?= ucwords($this->setting->sebutan_desa)?></li>
+			</ol>
+		</section>
+	<?php endif; ?>
 	<section class="content">
 		<div class="box box-info">
 			<div class="box-body">

@@ -630,4 +630,33 @@ class First extends Web_Controller {
 		}
 	}
 
+	public function status_idm()
+	{
+		if (!$this->web_menu_model->menu_aktif('status_idm')) show_404();
+
+		$data = $this->includes;
+		$this->load->library('data_publik');
+		$this->_get_common_data($data);
+		$kode_desa = $data['desa']['kode_desa'];
+		if ($this->data_publik->has_internet_connection())
+		{
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
+				->set_interval(7)
+				->set_cache_folder(FCPATH.'desa');
+
+			$idm = $this->data_publik->get_url_content();
+			if ($idm->body->error)
+			{
+				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" .
+					"Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
+			}
+			$data['idm'] = $idm->body->mapData;
+		}
+
+		$data['halaman_statis'] = 'home/idm';
+
+		$this->set_template('layouts/halaman_statis.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
 }

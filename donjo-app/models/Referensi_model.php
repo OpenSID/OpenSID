@@ -120,7 +120,8 @@ define("STAT_LAINNYA", serialize([
 	'wilayah' => 'Wilayah Administratif',
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
-	'peta' => 'Peta'
+	'peta' => 'Peta',
+	'status_idm' => 'Status IDM'
 ]));
 
 // Jabatan Kelompok
