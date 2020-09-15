@@ -15,7 +15,7 @@ class Database extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->dbforge();
-		$this->load->model(['header_model', 'import_model', 'export_model', 'database_model']);
+		$this->load->model(['header_model', 'import_model', 'export_model', 'database_model', 'referensi_model', 'siak_model']);
 		$this->_header = $this->header_model->get_data();
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 45;
@@ -65,6 +65,7 @@ class Database extends Admin_Controller {
 	{
 		$tab['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
+		$data['list_format_bip'] = $this->referensi_model->list_ref_flip(DOKUMEN_BIP);
 
 		$this->load->view('header', $this->_header);
 		$this->load->view('nav');
@@ -287,9 +288,35 @@ class Database extends Admin_Controller {
 
 	public function import_data_bip()
 	{
-		$hapus = isset($_POST['hapus_data']);
-		$this->import_model->import_bip($hapus);
-		redirect('database/import_bip/1');
+		$format_bip = $this->input->post('format_bip');
+		switch ($format_bip)
+		{
+			case '1':
+				$hapus = isset($_POST['hapus_data']);
+				$this->siak_model->impor_data_bip($hapus);
+				redirect('database/import_bip/1');
+				break;
+			case '2':
+				$hapus = isset($_POST['hapus_data']);
+				$this->import_model->import_bip($hapus);
+				redirect('database/import_bip/1');
+				break;
+			case '3':
+				$hapus = isset($_POST['hapus_data']);
+				$this->import_model->import_bip($hapus);
+				redirect('database/import_bip/1');
+				break;
+			case '4':
+				$hapus = isset($_POST['hapus_data']);
+				$this->import_model->import_bip($hapus);
+				redirect('database/import_bip/1');
+				break;
+			case '5':
+				$hapus = isset($_POST['hapus_data']);
+				$this->import_model->import_bip($hapus);
+				redirect('database/import_bip/1');
+				break;
+		}
 	}
 
 	public function migrasi_db_cri()
