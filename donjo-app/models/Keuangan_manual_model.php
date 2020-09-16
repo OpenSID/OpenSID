@@ -75,21 +75,20 @@ class Keuangan_manual_model extends CI_model {
   }
 
   public function list_belanja($tahun = NULL)
-  {	
-    
+  {	    
     $filter = ['Kd_Akun' => '5.BELANJA'];
-    if (!empty($tahun)) {
+    if (!empty($tahun)) 
+    {
       $filter['Tahun'] = $tahun;
     }
-
     return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
   }
 
   public function list_pembiayaan($tahun = NULL)
-  {    
-    
+  {        
     $filter = ['Kd_Akun' => '6.PEMBIAYAAN'];
-    if (!empty($tahun)) {
+    if (!empty($tahun)) 
+    {
       $filter['Tahun'] = $tahun;
     }
     return $this->db->where($filter)->get('keuangan_manual_rinci')->result();    
@@ -128,7 +127,7 @@ class Keuangan_manual_model extends CI_model {
   }
 
   public function list_rek_pendapatan()
-	{    
+	{
     $this->db->select('*');
     $this->db->where("Jenis LIKE '4.%'");
     $this->db->order_by('Jenis', 'asc');

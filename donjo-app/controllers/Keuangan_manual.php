@@ -50,7 +50,7 @@ class Keuangan_manual extends Admin_Controller {
 		$this->load->model('keuangan_manual_model');
 		$this->load->model('header_model');
 		$this->load->model('keuangan_grafik_manual_model');
-		$this->modul_ini = 201;			
+		$this->modul_ini = 201;
 	}
 
 	// Manual Input Anggaran dan Realisasi APBDes
@@ -137,8 +137,10 @@ class Keuangan_manual extends Admin_Controller {
 		$this->sub_modul_ini = 209;		
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();		
 		$default_tahun = !empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : NULL;
-		if($default_tahun){
-			if(!$this->session->userdata('set_tahun')){
+		if ($default_tahun)
+		{
+			if (!$this->session->userdata('set_tahun'))
+			{
 				$this->session->set_userdata('set_tahun',$default_tahun);				
 			}
 		}
