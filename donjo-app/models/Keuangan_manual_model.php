@@ -56,14 +56,12 @@ class Keuangan_manual_model extends CI_model {
   }
 
   public function list_apbdes($tahun = NULL)
-  {
-    
+  {    
     if (!empty($tahun)) 
     {
-        $this->db->where('Tahun', $tahun);
+      $filter['Tahun'] = $tahun;
     }
-    $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE 1");
-    return $hasil->result();
+    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
   }
 
   public function list_pendapatan($tahun = NULL)
