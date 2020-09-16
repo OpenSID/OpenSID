@@ -17,16 +17,15 @@
 																					<ul>
 																						<li> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,</li>
 																						<li> Kolom Nama, Dusun, RW, RT dan NIK harus diisi. Tanda '-' bisa dipakai di mana RW atau RT tidak diketahui atau tidak ada,</li>
-																						<li> NIK dan Nomor KK harus didahului dengan tanda ' (petik satu) agar menjadi text pada cell Excel bukan bilangan (yang dibulatkan),</li>
 																						<li> NIK harus bilangan dengan 16 angka atau 0 untuk menunjukkan belum ada NIK,</li>
 																						<li> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2</li>
 																					</ul>
 																				</div>
-																				<li>Simpan (Save) file Excel sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </li>
-																				<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
+																				<li>Simpan (Save) file Excel sebagai .xlsx file </li>
+																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan di bawah ini :
 																					<div class="timeline-footer row">
-																						<a href="<?= base_url()?>assets/import/FormatImportExcel.xls" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
+																						<a href="<?= base_url()?>assets/import/FormatImportExcel.xlsm" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
 																					</div>
 																				</li>
 																			</ol>
@@ -43,7 +42,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<label for="file"  class="col-md-2 col-lg-3 control-label">Pilih File .xls:</label>
+																						<label for="file"  class="col-md-2 col-lg-3 control-label">Pilih File .xlsx:</label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">
@@ -106,12 +105,12 @@
 																		<div class="row">
 																			<ol>
 																				<li value="1">Pastikan format data yang akan diimpor sudah sesuai dengan aturan impor data</li>
-																				<li>Simpan (Save) file speradsheet sebagai .xls file (jika Anda memakai excel 2007 gunakan Save As pilih format .xls) </li>
-																				<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
+																				<li>Simpan (Save) file spreadsheet sebagai .xlsx file</li>
+																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk impor dengan memenuhi aturan data, lihat tautan di bawah ini :
 																					<div class="timeline-footer row">
-																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ATURANGRUP.xls" ><i class="fa fa-download"></i> Aturan Data</a>
-																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ContohGrup.xls"><i class="fa fa-download"></i> Contoh Format</a>
+																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ATURANGRUP.xlsx" ><i class="fa fa-download"></i> Aturan Data</a>
+																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ContohGrup.xlsx"><i class="fa fa-download"></i> Contoh Format</a>
 																					</div>
 																				</li>
 																			</ol>
@@ -123,7 +122,7 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .xls:</label>
+																						<label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .xlsx:</label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path2" name="userfile">
