@@ -51,7 +51,7 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td><?= $data['nik']?></td>
+							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 							<td><?= strtoupper($data['nama'])?></td>
 							<td>
 								<?= $data['no_kk']?>

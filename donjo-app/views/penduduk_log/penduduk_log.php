@@ -76,7 +76,18 @@
 									<a href="#confirm-status" title="Kembalikan Status" onclick="aksiBorongan('mainform', '<?=site_url("penduduk_log/kembalikan_status_all")?>')" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-undo'></i> Kembalikan Status Terpilih</a>
 									<a href="<?= site_url("penduduk_log/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 									<a href="<?= site_url("penduduk_log/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
-									<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
+									<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
+									<div class="btn-group-vertical">
+										<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+										<ul class="dropdown-menu" role="menu">
+											<li>
+												<a href="<?= site_url("penduduk_log/cetak_privasi_nik/$o/log_print")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data Dengan Privasi NIK" target="_blank"><i class="fa fa-file"></i> Cetak Dengan Privasi NIK</a>
+											</li>
+											<li>
+												<a href="<?= site_url("penduduk_log/cetak_privasi_nik/$o/log_excel")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data Dengan Privasi NIK" target="_blank"><i class="fa fa-cloud-download"></i> Unduh Dengan Privasi NIK</a>
+											</li>
+										</ul>
+									</div>
 									<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 								</div>
 							</div>

@@ -344,4 +344,11 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data_statistik($tipe);
 		$this->load->view('sid/kependudukan/rtm_print', $data);
 	}
+
+	public function cetak_privasi_nik($aksi = '')
+	{
+		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0, 10000);
+		$data['privasi_nik'] = true;
+		$this->load->view("sid/kependudukan/rtm_$aksi", $data);
+	}
 }

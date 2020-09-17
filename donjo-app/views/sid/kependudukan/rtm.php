@@ -81,6 +81,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php endif; ?>
 						<a href="<?= site_url("rtm/daftar/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url("rtm/daftar/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+						<div class="btn-group-vertical">
+							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a href="<?= site_url("rtm/cetak_privasi_nik/cetak")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data Dengan Privasi NIK" target="_blank"><i class="fa fa-file"></i> Cetak Dengan Privasi NIK</a>
+								</li>
+								<li>
+									<a href="<?= site_url("rtm/cetak_privasi_nik/unduh")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data Dengan Privasi NIK" target="_blank"><i class="fa fa-cloud-download"></i> Unduh Dengan Privasi NIK</a>
+								</li>
+							</ul>
+						</div>
 						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 					</div>
 					<div class="box-body">

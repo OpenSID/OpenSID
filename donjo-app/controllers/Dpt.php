@@ -171,4 +171,11 @@ class Dpt extends Admin_Controller {
 		$this->load->view('dpt/dpt_excel', $data);
 	}
 
+	public function cetak_dengan_privasi($o = 0, $aksi = '')
+	{
+		$data['main'] = $this->dpt_model->list_data($o, 0, 10000);
+		$data['privasi_nik'] = true;
+		$this->load->view("dpt/dpt_$aksi", $data);
+	}
+
 }

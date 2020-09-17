@@ -74,6 +74,12 @@
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
+									<a href="<?= site_url("keluarga/cetak_privasi_kk/$o/print")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data Dengan Privasi KK" target="_blank"><i class="fa fa-file"></i> Cetak Dengan Privasi KK</a>
+								</li>
+								<li>
+									<a href="<?= site_url("keluarga/cetak_privasi_kk/$o/excel")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data Dengan Privasi KK" target="_blank"><i class="fa fa-cloud-download"></i> Unduh Dengan Privasi KK</a>
+								</li>
+								<li>
 									<a href="<?= site_url("keluarga/search_kumpulan_kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan KK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan KK"><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
 								</li>
 							</ul>

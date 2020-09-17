@@ -569,4 +569,11 @@ class Keluarga extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_kk", $data);
 	}
 
+	public function cetak_privasi_kk($o = 0, $aksi = '')
+	{
+		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
+		$data['privasi_kk'] = true;
+		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
+	}
+
 }

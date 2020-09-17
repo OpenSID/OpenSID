@@ -36,7 +36,21 @@
 							<div class="row">
 								<a href="<?= site_url("dpt/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 								<a href="<?= site_url("dpt/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-								<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
+								<div class="btn-group-vertical">
+									<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+									<ul class="dropdown-menu" role="menu">
+										<li>
+											<a href="<?= site_url("dpt/cetak_dengan_privasi/$o/print")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data Dengan Privasi NIK / KK" target="_blank"><i class="fa fa-file"></i> Cetak Dengan Privasi NIK / KK</a>
+										</li>
+										<li>
+											<a href="<?= site_url("dpt/cetak_dengan_privasi/$o/excel")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data Dengan Privasi NIK / KK" target="_blank"><i class="fa fa-cloud-download"></i> Unduh Dengan Privasi NIK / KK</a>
+										</li>
+										<li>
+											<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
+										</li>
+									</ul>
+								</div>
+								
 								<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
 							</div>
 						</div>

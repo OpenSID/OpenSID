@@ -162,4 +162,11 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->view('penduduk_log/penduduk_log_excel', $data);
 	}
 
+	public function cetak_privasi_nik($o = 0, $aksi = '')
+	{
+		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
+		$data['privasi_nik'] = true;
+		$this->load->view("penduduk_log/penduduk_$aksi", $data);
+	}
+
 }

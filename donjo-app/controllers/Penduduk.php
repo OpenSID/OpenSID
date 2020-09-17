@@ -783,4 +783,11 @@ class Penduduk extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_nik", $data);
 	}
 
+	public function cetak_privasi_nik($o = 0, $aksi = '')
+	{
+		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
+		$data['privasi_nik'] = true;
+		$this->load->view("sid/kependudukan/penduduk_$aksi", $data);
+	}
+
 }

@@ -42,8 +42,8 @@
 							<td><?= $data['rw']?></td>
 							<td><?= $data['rt']?></td>
 							<td><?= strtoupper($data['nama'])?></td>
-							<td><?= $data['no_kk']?> </td>
-							<td><?= $data['nik']?></td>
+							<td><?= $privasi_nik ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>
+							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 							<td><?= $data['sex']?></td>
 							<td><?= $data['tempatlahir']?></td>
 							<td><?= $data['tanggallahir']?></td>
