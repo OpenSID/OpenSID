@@ -72,7 +72,7 @@
 																<th class="padat">No</th>
 																<th class="padat">Aksi</th>
 																<th class="text-center">Foto</th>
-																<th>Nama, NIP/NIAP, NIK</th>
+																<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa  ?>, NIK</th>
 																<th nowrap>Tempat, <p>Tanggal Lahir</p></th>
 																<th>Jenis Kelamin</th>
 																<th>Agama</th>
@@ -131,7 +131,7 @@
 																			<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
 																				<i>NIP :<?=$data['pamong_nip']?></i></br>
 																			<?php else: ?>
-																				<i>NIAP :<?=$data['pamong_niap']?></i></br>
+																				<i><?= $this->setting->sebutan_nip_desa  ?> :<?=$data['pamong_niap']?></i></br>
 																			<?php endif; ?>
 																			<i>NIK :<?=$data['nik']?></i>
 																		</p>

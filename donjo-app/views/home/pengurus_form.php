@@ -88,9 +88,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_niap">NIAP</label>
+								<label class="col-sm-4 control-label" for="pamong_niap"><?= $this->setting->sebutan_nip_desa  ?></label>
 								<div class="col-sm-7">
-									<input id="pamong_niap" name="pamong_niap" class="form-control input-sm digits" type="text" placeholder="NIAP" value="<?=$pamong['pamong_niap']?>" ></input>
+									<input id="pamong_niap" name="pamong_niap" class="form-control input-sm digits" type="text" placeholder="<?= $this->setting->sebutan_nip_desa  ?>" value="<?=$pamong['pamong_niap']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
