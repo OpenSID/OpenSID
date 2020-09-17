@@ -66,6 +66,15 @@ $(document).ready(function () {
 </script>
 
 <style>
+	.status-idm-kiri {
+		padding-right: 5px;
+	}
+	.status-idm-kanan {
+		padding-left: 5px;
+	}
+	.tabel-skor {
+		padding-right: 0px;
+	}
 	.table-striped > tbody >tr.judul {
 		background-color: lightgrey !important;
 	}
@@ -79,7 +88,7 @@ $(document).ready(function () {
 	.table > thead > tr > td,
 	.table > tbody > tr > td,
 	.table > tfoot > tr > td {
-		font-size: 14px;
+		font-size: 12px;
 		padding: 5px;
 	}
 	tr.lebih {
@@ -87,7 +96,9 @@ $(document).ready(function () {
 	}
 	.small-box .icon {
 		font-size: 75px;
-		padding-top: 10px;
+	}
+	.small-box h3 {
+		font-size: 30px;
 	}
 	.input-sm {
 		padding: 4px 4px;
@@ -163,7 +174,7 @@ $(document).ready(function () {
 							</div>
 						<?php endif; ?>
 						<div class="row">
-							<div class="col-lg-3 col-xs-6">
+							<div class="col-lg-3 col-xs-6 status-idm-kiri">
 								<div class="small-box bg-blue">
 									<div class="inner">
 										<h3><?= number_format($idm->SUMMARIES->SKOR_SAAT_INI, 4) ?></sup></h3>
@@ -174,7 +185,7 @@ $(document).ready(function () {
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3 col-xs-6">
+							<div class="col-lg-3 col-xs-6 status-idm-kiri status-idm-kanan">
 								<div class="small-box bg-yellow">
 									<div class="inner">
 										<h3><?= $idm->SUMMARIES->STATUS ?><sup style="font-size: 20px"></sup></h3>
@@ -185,7 +196,7 @@ $(document).ready(function () {
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3 col-xs-6">
+							<div class="col-lg-3 col-xs-6 status-idm-kiri status-idm-kanan">
 								<div class="small-box bg-green">
 									<div class="inner">
 										<h3><?= $idm->SUMMARIES->TARGET_STATUS ?><sup style="font-size: 20px"></sup></h3>
@@ -196,7 +207,7 @@ $(document).ready(function () {
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3 col-xs-6">
+							<div class="col-lg-3 col-xs-6 status-idm-kanan">
 								<div class="small-box bg-red">
 									<div class="inner">
 										<h3><?= number_format($idm->SUMMARIES->SKOR_MINIMAL, 4) ?><sup style="font-size: 20px"></sup></h2>
@@ -211,7 +222,7 @@ $(document).ready(function () {
 						<div class="row">
 							<div class="col-md-12">
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-4 tabel-skor">
 										<!-- Tabel Data -->
 										<div class="table-responsive">
 											<table class="table table-bordered table-striped dataTable table-hover">
@@ -223,7 +234,7 @@ $(document).ready(function () {
 															</tr>
 															<tr>
 																<th class="horizontal">KABUPATEN</th>
-																<td> : <?= $idm->IDENTITAS[0]->nama_kab_kota ?></td>
+																<td nowrap> : <?= $idm->IDENTITAS[0]->nama_kab_kota ?></td>
 															</tr>
 															<tr>
 																<th class="horizontal"><?= strtoupper($this->setting->sebutan_kecamatan) ?></th>
