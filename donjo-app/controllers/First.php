@@ -655,7 +655,7 @@ class First extends Web_Controller {
 
 		$data['halaman_statis'] = 'home/idm';
 
-		$this->set_template('layouts/halaman_statis.tpl.php');
+		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
 	}
 

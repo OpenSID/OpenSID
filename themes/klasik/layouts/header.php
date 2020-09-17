@@ -88,6 +88,10 @@
 		<?php if ($single_artikel OR $gallery): ?>
 			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<?php endif ?>
+		<!-- Ionicons -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
+		
+		<!-- DataTables -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">

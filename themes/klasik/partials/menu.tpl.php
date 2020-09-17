@@ -1,6 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <!-- https://stackoverflow.com/questions/25692514/bootstrap-how-do-i-make-dropdown-navigation-parent-links-an-active-link -->
 <script>
 	jQuery(function($) {
@@ -15,6 +14,7 @@
 	});
 </script>
 
+<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <link rel="stylesheet" href="<?= base_url()?>assets/front/css/default.css" />
 <link rel="stylesheet" href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" />
 <?php if (is_file("desa/css/".$this->theme."/desa-default.css")): ?>
