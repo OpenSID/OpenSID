@@ -320,7 +320,7 @@
 	 */
 	public function list_aparatur_desa()
 	{
-		$data['daftar_perangkat'] = $this->db->select('dp.jabatan, dp.foto,
+		$data['daftar_perangkat'] = $this->db->select('dp.jabatan,dp.pamong_niap, dp.foto,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
 			ELSE p.nama END AS nama', FALSE)
 			->from('tweb_desa_pamong dp')
