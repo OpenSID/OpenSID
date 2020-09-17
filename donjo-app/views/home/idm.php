@@ -1,6 +1,9 @@
 <?php  if ($halaman_statis): ?>
 	<style>
 		.content {padding: 0px !important}
+		.small-box .icon {
+			padding-top: 10px;
+		}
 	</style>
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.css" />
 	<?php if (is_file($this->theme_folder."/".$this->theme.'/css/first.css')): ?>
