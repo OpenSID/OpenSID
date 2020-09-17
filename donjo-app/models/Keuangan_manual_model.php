@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * Model di Modul Keuangan Manual
+ * Model keuangan manual untuk Modul Keuangan Manual
  *
  * /donjo-app/models/Keuangan_manual_model.php
  *
@@ -56,18 +56,15 @@ class Keuangan_manual_model extends CI_model {
   }
 
   public function list_apbdes($tahun = NULL)
-  {    
-    if (!empty($tahun)) 
-    {
-      $filter['Tahun'] = $tahun;
-    }
-    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
+  {
+    if ( ! empty($tahun)) $this->db->where('Tahun', $tahun);
+    return $this->db->get('keuangan_manual_rinci')->result();
   }
 
   public function list_pendapatan($tahun = NULL)
-  { 
+  {
     $filter = ['Kd_Akun' => '4.PENDAPATAN'];
-    if (!empty($tahun)) 
+    if ( ! empty($tahun))
     {
       $filter['Tahun'] = $tahun;
     }
@@ -75,9 +72,9 @@ class Keuangan_manual_model extends CI_model {
   }
 
   public function list_belanja($tahun = NULL)
-  {	    
+  {
     $filter = ['Kd_Akun' => '5.BELANJA'];
-    if (!empty($tahun)) 
+    if ( ! empty($tahun))
     {
       $filter['Tahun'] = $tahun;
     }
@@ -85,13 +82,13 @@ class Keuangan_manual_model extends CI_model {
   }
 
   public function list_pembiayaan($tahun = NULL)
-  {        
+  {
     $filter = ['Kd_Akun' => '6.PEMBIAYAAN'];
-    if (!empty($tahun)) 
+    if ( ! empty($tahun))
     {
       $filter['Tahun'] = $tahun;
     }
-    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();    
+    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
   }
 
   public function simpan_anggaran($Tahun,$Kd_Akun,$Kd_Keg,$Kd_Rincian,$Nilai_Anggaran,$Nilai_Realisasi)

@@ -85,7 +85,7 @@ class Keuangan_manual extends Admin_Controller {
 		$this->sub_modul_ini = 210;
 
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
+		$tahun = $this->session->set_tahun ?: $data['tahun_anggaran'][0];
 		$sess_manual = array(
 			'set_tahun' => $tahun,
 		);
@@ -119,7 +119,7 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		$data = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['ta'] = $this->session->set_tahun;
 		$this->session->submenu = "Laporan Keuangan " . $judul;
 		$this->load->view('keuangan/rincian_realisasi_manual', $data);
 	}
@@ -134,26 +134,20 @@ class Keuangan_manual extends Admin_Controller {
 
 	public function manual_apbdes()
 	{
-		$this->sub_modul_ini = 209;		
-		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();		
+		$this->sub_modul_ini = 209;
+		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$default_tahun = !empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : NULL;
-		if ($default_tahun)
-		{
-			if (!$this->session->userdata('set_tahun'))
-			{
-				$this->session->set_userdata('set_tahun',$default_tahun);				
-			}
-		}
-		$tahun_anggaran = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $default_tahun;		
+		$this->session->set_tahun = $this->session->set_tahun ?: $default_tahun;
+		$tahun_anggaran = $this->session->set_tahun ?: $default_tahun;
 		$data['lpendapatan'] = $this->keuangan_manual_model->list_rek_pendapatan();
 		$data['lbelanja'] = $this->keuangan_manual_model->list_rek_belanja();
 		$data['lbiaya'] = $this->keuangan_manual_model->list_rek_biaya();
 		$data['lakun'] = $this->keuangan_manual_model->list_akun();
 		$data['main']= $this->keuangan_manual_model->list_apbdes($tahun_anggaran);
-		//$data['main_pd']= $this->keuangan_manual_model->list_pendapatan();
+		$data['main_pd']= $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
 		$data['main_bl']= $this->keuangan_manual_model->list_belanja($tahun_anggaran);
 		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
-		$header = $this->header_model->get_data();		
+		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
 		$this->load->view('nav');
@@ -169,21 +163,21 @@ class Keuangan_manual extends Admin_Controller {
 
 	public function data_pendapatan()
 	{
-		$tahun_anggaran = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : NULL;
+		$tahun_anggaran = $this->session->set_tahun ?: NULL;
 		$data = $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
 		echo json_encode($data);
 	}
 
 	public function data_belanja()
 	{
-		$tahun_anggaran = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : null;
+		$tahun_anggaran = $this->session->set_tahun ?: NULL;
 		$data = $this->keuangan_manual_model->list_belanja($tahun_anggaran);
 		echo json_encode($data);
 	}
 
 	public function data_pembiayaan()
 	{
-		$tahun_anggaran = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : null;
+		$tahun_anggaran = $this->session->set_tahun ?: NULL;
 		$data = $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
 		echo json_encode($data);
 	}
@@ -253,13 +247,13 @@ class Keuangan_manual extends Admin_Controller {
 		}
 		echo json_encode($list_tahun);
 	}
-	/** untuk menghindari double post browser 
+	/** untuk menghindari double post browser
 	 * https://en.wikipedia.org/wiki/Post/Redirect/Get
 	*/
 	public function set_tahun_terpilih()
 	{
 		$post_tahun = $this->input->post('tahun_anggaran');
-		$this->session->set_userdata('set_tahun',$post_tahun);
+		$this->session->set_tahun = $post_tahun;
 		redirect('keuangan_manual/manual_apbdes');
-	}	
+	}
 }

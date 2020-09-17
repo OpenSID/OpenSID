@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * View untuk Modul Keuangan Manual
+ * View daftar anggaran dan realisasi Modul Keuangan Manual
  *
  * /donjo-app/views/keuangan/manual_apbdes.php
  *
@@ -64,8 +64,8 @@
 							<div class="row">
 								<div class="col-md-2">
 									<label>Tahun Anggaran: </label>
-								</div>								
-								<div class="col-md-10">
+								</div>
+								<div class="col-md-2">
 									<select class="form-control input-sm" name="tahun_anggaran" onchange="this.form.submit()">
 										<option value="">Pilih Tahun</option>
 										<?php foreach ($tahun_anggaran as $tahun) :?>
@@ -74,7 +74,7 @@
 									</select>
 								</div>
 							</div>
-						</form>						
+						</form>
 					</div>
 					<div class="box-body">
 						<!-- tab panes -->
@@ -322,7 +322,7 @@
 							<select class="form-control input-sm" id="Kd_Rincian2_pd" name="Kd_Rincian_edit_pd">
 								<option value="">Pilih Rekening Pendapatan</option>
 								<?php foreach ($lpendapatan as $data): ?>
-									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?php selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
+									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?php selected($main_pd['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
 								<?php endforeach;?>
 							</select>
 						</div>
