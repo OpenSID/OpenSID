@@ -145,6 +145,7 @@ class Database_model extends CI_Model {
 
 	public function migrasi_db_cri()
 	{
+	 	$_SESSION['success'] = 1;
 		$versi = $this->getCurrentVersion();
 		$nextVersion = $versi;
 		$versionMigrate = $this->versionMigrate;
@@ -181,7 +182,6 @@ class Database_model extends CI_Model {
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
 		$this->catat_versi_database();
-	 	$_SESSION['success'] = 1;
   }
 
   private function catat_versi_database()

@@ -1,3 +1,48 @@
+<?php
+/*
+ * File ini:
+ *
+ * View daftar anggaran dan realisasi Modul Keuangan Manual
+ *
+ * /donjo-app/views/keuangan/manual_apbdes.php
+ *
+ */
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
+?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Manual Input Anggaran dan Realisasi APBDes</h1>
@@ -13,6 +58,23 @@
 					<div class="box-header">
 						<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#ModalAdd"><i class="fa fa-plus"></i> Tambah Data</a>
 						<a href="#" id="btn_salin" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Data dari Template</a>
+					</div>
+					<div class="box-header with-border">
+						<form action="<?= site_url('keuangan_manual/set_tahun_terpilih') ?>" method="POST" class="form form-horizontal">
+							<div class="row">
+								<div class="col-md-2">
+									<label>Tahun Anggaran: </label>
+								</div>
+								<div class="col-md-2">
+									<select class="form-control input-sm" name="tahun_anggaran" onchange="this.form.submit()">
+										<option value="">Pilih Tahun</option>
+										<?php foreach ($tahun_anggaran as $tahun) :?>
+											<option value="<?= $tahun ?>" <?php selected($tahun, $this->session->set_tahun)?>><?= $tahun ?></option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+						</form>
 					</div>
 					<div class="box-body">
 						<!-- tab panes -->
@@ -260,7 +322,7 @@
 							<select class="form-control input-sm" id="Kd_Rincian2_pd" name="Kd_Rincian_edit_pd">
 								<option value="">Pilih Rekening Pendapatan</option>
 								<?php foreach ($lpendapatan as $data): ?>
-									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?php selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
+									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?php selected($main_pd['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
 								<?php endforeach;?>
 							</select>
 						</div>
