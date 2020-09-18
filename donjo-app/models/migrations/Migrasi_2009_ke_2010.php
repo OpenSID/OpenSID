@@ -51,8 +51,15 @@ class Migrasi_2009_ke_2010 extends MY_model {
 		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL");
 		// Bolehkan C-Desa berbeda berisi nama kepemilikan sama
 		$this->hapus_indeks('cdesa', 'nama_kepemilikan');
-		$this->db->query("ALTER TABLE tweb_desa_pamong CHANGE COLUMN pamong_niap pamong_niap varchar(25) default(0)");
-		$this->db->query("INSERT INTO setting_aplikasi (`key`,value,keterangan) VALUES ('sebutan_nip_desa','NIPD','Pengganti sebutan label niap')");        
+		$this->db->query("ALTER TABLE tweb_desa_pamong MODIFY COLUMN pamong_niap varchar(25) default 0");
+		// set column key enjadi unique pada tabel setting_aplikasi
+		$this->hapus_indeks('setting_aplikasi', 'unique_key');
+        $this->db->query('ALTER TABLE setting_aplikasi ADD CONSTRAINT unique_key UNIQUE KEY (`key`)');
+		$this->db->query("INSERT INTO setting_aplikasi (`key`,value,keterangan) VALUES ('sebutan_nip_desa','NIPD','Pengganti sebutan label niap/nipd') 
+							ON DUPLICATE KEY UPDATE
+							value = VALUES(value),
+							keterangan = VALUES(keterangan)
+							");
 	}
 
 }
