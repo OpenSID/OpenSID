@@ -1,4 +1,46 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ * File ini:
+ *
+ * Controller untuk modul keuangan manual
+ *
+ * donjo-app/controllers/Keuangan_manual.php
+ *
+ */
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Keuangan_manual extends Admin_Controller {
 
@@ -43,7 +85,7 @@ class Keuangan_manual extends Admin_Controller {
 		$this->sub_modul_ini = 210;
 
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
+		$tahun = $this->session->set_tahun ?: $data['tahun_anggaran'][0];
 		$sess_manual = array(
 			'set_tahun' => $tahun,
 		);
@@ -53,7 +95,7 @@ class Keuangan_manual extends Admin_Controller {
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$thn = $this->session->set_tahun;
 
 		switch ($jenis)
@@ -77,7 +119,7 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		$data = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$data['ta'] = $this->session->userdata('set_tahun');
+		$data['ta'] = $this->session->set_tahun;
 		$this->session->submenu = "Laporan Keuangan " . $judul;
 		$this->load->view('keuangan/rincian_realisasi_manual', $data);
 	}
@@ -93,19 +135,22 @@ class Keuangan_manual extends Admin_Controller {
 	public function manual_apbdes()
 	{
 		$this->sub_modul_ini = 209;
-
+		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
+		$default_tahun = !empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : NULL;
+		$this->session->set_tahun = $this->session->set_tahun ?: $default_tahun;
+		$tahun_anggaran = $this->session->set_tahun ?: $default_tahun;
 		$data['lpendapatan'] = $this->keuangan_manual_model->list_rek_pendapatan();
 		$data['lbelanja'] = $this->keuangan_manual_model->list_rek_belanja();
 		$data['lbiaya'] = $this->keuangan_manual_model->list_rek_biaya();
 		$data['lakun'] = $this->keuangan_manual_model->list_akun();
-		$data['main']= $this->keuangan_manual_model->list_apbdes();
-		$data['main_pd']= $this->keuangan_manual_model->list_pendapatan();
-		$data['main_bl']= $this->keuangan_manual_model->list_belanja();
-		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan();
+		$data['main']= $this->keuangan_manual_model->list_apbdes($tahun_anggaran);
+		$data['main_pd']= $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
+		$data['main_bl']= $this->keuangan_manual_model->list_belanja($tahun_anggaran);
+		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('keuangan/manual_apbdes', $data);
 		$this->load->view('footer');
 	}
@@ -118,19 +163,22 @@ class Keuangan_manual extends Admin_Controller {
 
 	public function data_pendapatan()
 	{
-		$data = $this->keuangan_manual_model->list_pendapatan();
+		$tahun_anggaran = $this->session->set_tahun ?: NULL;
+		$data = $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
 		echo json_encode($data);
 	}
 
 	public function data_belanja()
 	{
-		$data = $this->keuangan_manual_model->list_belanja();
+		$tahun_anggaran = $this->session->set_tahun ?: NULL;
+		$data = $this->keuangan_manual_model->list_belanja($tahun_anggaran);
 		echo json_encode($data);
 	}
 
 	public function data_pembiayaan()
 	{
-		$data = $this->keuangan_manual_model->list_pembiayaan();
+		$tahun_anggaran = $this->session->set_tahun ?: NULL;
+		$data = $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
 		echo json_encode($data);
 	}
 
@@ -198,5 +246,14 @@ class Keuangan_manual extends Admin_Controller {
 			);
 		}
 		echo json_encode($list_tahun);
+	}
+	/** untuk menghindari double post browser
+	 * https://en.wikipedia.org/wiki/Post/Redirect/Get
+	*/
+	public function set_tahun_terpilih()
+	{
+		$post_tahun = $this->input->post('tahun_anggaran');
+		$this->session->set_tahun = $post_tahun;
+		redirect('keuangan_manual/manual_apbdes');
 	}
 }

@@ -1,4 +1,47 @@
 <?php
+/*
+ * File ini:
+ *
+ * Model keuangan manual untuk Modul Keuangan Manual
+ *
+ * /donjo-app/models/Keuangan_manual_model.php
+ *
+ */
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
 class Keuangan_manual_model extends CI_model {
 
   // Manual Input Anggaran dan Realisasi APBDes
@@ -12,28 +55,40 @@ class Keuangan_manual_model extends CI_model {
     return array_column($data, 'Tahun');
   }
 
-  public function list_apbdes()
+  public function list_apbdes($tahun = NULL)
   {
-    $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE 1");
-    return $hasil->result();
+    if ( ! empty($tahun)) $this->db->where('Tahun', $tahun);
+    return $this->db->get('keuangan_manual_rinci')->result();
   }
 
-  public function list_pendapatan()
+  public function list_pendapatan($tahun = NULL)
   {
-    $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE Kd_Akun='4.PENDAPATAN' ");
-    return $hasil->result();
+    $filter = ['Kd_Akun' => '4.PENDAPATAN'];
+    if ( ! empty($tahun))
+    {
+      $filter['Tahun'] = $tahun;
+    }
+    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
   }
 
-  public function list_belanja()
+  public function list_belanja($tahun = NULL)
   {
-    $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE Kd_Akun='5.BELANJA' ");
-    return $hasil->result();
+    $filter = ['Kd_Akun' => '5.BELANJA'];
+    if ( ! empty($tahun))
+    {
+      $filter['Tahun'] = $tahun;
+    }
+    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
   }
 
-  public function list_pembiayaan()
+  public function list_pembiayaan($tahun = NULL)
   {
-    $hasil = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE Kd_Akun='6.PEMBIAYAAN' ");
-    return $hasil->result();
+    $filter = ['Kd_Akun' => '6.PEMBIAYAAN'];
+    if ( ! empty($tahun))
+    {
+      $filter['Tahun'] = $tahun;
+    }
+    return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
   }
 
   public function simpan_anggaran($Tahun,$Kd_Akun,$Kd_Keg,$Kd_Rincian,$Nilai_Anggaran,$Nilai_Realisasi)

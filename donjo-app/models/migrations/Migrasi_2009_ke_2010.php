@@ -47,10 +47,14 @@ class Migrasi_2009_ke_2010 extends MY_model {
 
 	public function up()
 	{
+		$hasil = true;
 		// Sesuaikan panjang judul dokumen menjadi 200
 		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL");
 		// Bolehkan C-Desa berbeda berisi nama kepemilikan sama
-		$this->hapus_indeks('cdesa', 'nama_kepemilikan');
+		$hasil =& $this->hapus_indeks('cdesa', 'nama_kepemilikan');
+		// Key di setting_aplikasi seharusnya unik
+		$hasil =& $this->tambah_indeks('setting_aplikasi', 'key');
+		status_sukses($hasil);
 	}
 
 }
