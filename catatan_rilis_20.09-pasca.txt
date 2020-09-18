@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 16. #3558: Sekarang Surat Keterangan Kematian berjalan normal apabila data penduduk ybs berisi NIK Ibu. [bug-fix]
 17. #3560: Impor data penduduk sekarang melaporkan error pada waktu menyimpan data ke database. [bug-fix]
 18. #3180: Sekarang bisa saring daftar anggaran dan realisasi keuangan manual berdasarkan tahun anggaran.
+19. #3564: Sediakan setting aplikasi supaya bisa menggunakan NIPD atau NIAP di data Pemerintahan Desa.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
