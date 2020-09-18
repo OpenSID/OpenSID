@@ -51,6 +51,8 @@ class Migrasi_2009_ke_2010 extends MY_model {
 		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL");
 		// Bolehkan C-Desa berbeda berisi nama kepemilikan sama
 		$this->hapus_indeks('cdesa', 'nama_kepemilikan');
+		// Key di setting_aplikasi seharusnya unik
+		$this->tambah_indeks('setting_aplikasi', 'key');
 	}
 
 }

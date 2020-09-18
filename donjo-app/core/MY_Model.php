@@ -84,4 +84,17 @@ class MY_Model extends CI_Model {
 		if ($ada) $this->db->query("DROP INDEX $indeks ON $tabel");
 	}
 
+	public function tambah_indeks($tabel, $kolom)
+	{
+		$db = $this->db->database;
+		$ada = $this->db
+			->select("COUNT(index_name) as ada")
+			->from('INFORMATION_SCHEMA.STATISTICS')
+			->where('table_schema', $db)
+			->where('table_name', $tabel)
+			->where('index_name', $kolom)
+			->get()->row()->ada;
+		if ( ! $ada) $this->db->query("ALTER TABLE $tabel ADD UNIQUE $kolom (`$kolom`)");
+	}
+
 }
