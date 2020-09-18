@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * Model untuk modul
+ * Model pamong untuk modul Pemerintahan Desa
  *
  * donjo-app/models/Pamong_model.php
  *
