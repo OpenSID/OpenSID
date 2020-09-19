@@ -4,9 +4,12 @@
 <script>
     function cetak() {
         const privasi_nik = $('#privasi_nik:checked').val();
-        if(privasi_nik == "on"){
+        if (privasi_nik == "on")
+        {
             $("#cetak_data").attr("href", "<?= $form_action_privasi ?>");
-        }else{
+        }
+        else
+        {
             $("#cetak_data").attr("href", "<?= $form_action ?>");
         }
         $('#modalBox').modal('hide');
