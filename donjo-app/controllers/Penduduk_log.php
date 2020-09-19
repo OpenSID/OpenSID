@@ -161,8 +161,6 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$data["o"] = $o;
 		$data['aksi'] = $aksi;
-		$data['judul'] = $aksi === "print" ? "Cetak Data" : "Unduh Data";
-		$data['deskripsi_cetak'] = "Dengan Privasi NIK ?";
 		$data['form_action'] = "penduduk_log/cetak/$o/$aksi";
 		$data['form_action_privasi'] = "penduduk_log/cetak/$o/$aksi/1";
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);

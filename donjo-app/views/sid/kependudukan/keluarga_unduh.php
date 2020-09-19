@@ -4,6 +4,6 @@
   header("Pragma: no-cache");
   header("Expires: 0");
 
-  include("donjo-app/views/sid/kependudukan/keluarga_print.php");
+  include("donjo-app/views/sid/kependudukan/keluarga_cetak.php");
 
 ?>

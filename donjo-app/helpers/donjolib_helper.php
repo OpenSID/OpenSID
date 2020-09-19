@@ -572,15 +572,10 @@ function persen($data)
 function sensor_nik_kk($data)
 {
 	$count = strlen($data);
-	if ($count > 10)
-	{
-		$output = substr_replace($data, str_repeat('X', $count - 7), 8, $count - 7);
-		return $output;
-	}
-	else
-	{
-		return null;
-	}
+	if ($count <= 10) return null;
+
+	$output = substr_replace($data, str_repeat('X', $count - 7), 8, $count - 7);
+	return $output;
 }
 
 
