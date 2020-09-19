@@ -79,19 +79,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("rtm/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
-						<a href="<?= site_url("rtm/daftar/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-						<a href="<?= site_url("rtm/daftar/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-						<div class="btn-group-vertical">
-							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
-							<ul class="dropdown-menu" role="menu">
-								<li>
-									<a href="<?= site_url("rtm/cetak_privasi_nik/cetak")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data Dengan Privasi NIK" target="_blank"><i class="fa fa-file"></i> Cetak Dengan Privasi NIK</a>
-								</li>
-								<li>
-									<a href="<?= site_url("rtm/cetak_privasi_nik/unduh")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data Dengan Privasi NIK" target="_blank"><i class="fa fa-cloud-download"></i> Unduh Dengan Privasi NIK</a>
-								</li>
-							</ul>
-						</div>
+						<a href="<?= site_url("rtm/ajax_cetak/$o/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+						<a href="<?= site_url("rtm/ajax_cetak/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 					</div>
 					<div class="box-body">
