@@ -30,7 +30,7 @@
 														<?php if ($id_rw): ?>
 															<input type="hidden" name="id_rw" value="<?= $id_rw?>">
 														<?php endif; ?>
-														<input  id="rw" class="form-control input-sm required" type="text" placeholder="Nama RW" name="rw" value="<?= $rw?>">
+														<input  id="rw" class="form-control input-sm nama_terbatas required" maxlength="100" type="text" placeholder="Nama RW" name="rw" value="<?= $rw?>">
 													</div>
 												</div>
 											</div>
@@ -79,6 +79,7 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script type="text/javascript">
 	setTimeout(function() {
 		$('#rw').rules('add', {

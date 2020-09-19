@@ -11,7 +11,7 @@
 		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("api_inventaris_tanah/add"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-					<?= $this->load->view('inventaris/menu_kiri'); ?>
+					<?php $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -127,6 +127,8 @@
 											<option value="Permukiman">Permukiman</option>
 											<option value="Tanah Publik">Tanah Publik</option>
 											<option value="Tanah Kosong">Tanah Kosong</option>
+											<option value="Perkebunan">Perkebunan</option>
+											<option value="Pertanian">Pertanian</option>
 										</select>
 									</div>
 								</div>
@@ -140,6 +142,8 @@
 											<option value="Bantuan Provinsi">Bantuan Provinsi</option>
 											<option value="Pembelian Sendiri">Pembelian Sendiri</option>
 											<option value="Sumbangan">Sumbangan</option>
+											<option value="Hak Adat">Hak Adat</option>
+											<option value="Hibah">Hibah</option>
 										</select>
 									</div>
 								</div>

@@ -57,7 +57,7 @@ class Laporan_rentan extends Admin_Controller {
 
 	public function excel()
 	{
-		$data['config'] = $this->$this->config_model->get_data();
+		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
 		$this->load->view('laporan/kelompok_excel', $data);
 	}

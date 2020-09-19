@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script>
 	$('#tgl_1').datetimepicker(
 	{
@@ -45,8 +46,8 @@
 						</div>
 						<div class="form-group">
 							<label for="catatan">Catatan Peristiwa</label>
-							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan'] ?></textarea>
-							<p class="help-block">*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</p>
+							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" rows="5" style="resize:none;"><?= $log_status_dasar['catatan'] ?></textarea>
+							<span class="help-block"><code>*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</code></span>
 						</div>
 					</div>
 				</div>

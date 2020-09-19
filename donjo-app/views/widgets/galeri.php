@@ -1,5 +1,5 @@
 <!-- widget Galeri-->
-<div class="box box-warning box-solid">
+<div class="box box-primary box-solid">
 	<div class="box-header">
 		<h3 class="box-title"><a href="<?= site_url();?>first/gallery"><i class="fa fa-camera"></i> Galeri Foto</a></h3>
 	</div>

@@ -1,4 +1,4 @@
-<?php class Surat_keluar_model extends CI_Model {
+<?php class Surat_keluar_model extends MY_Model {
   // Konfigurasi untuk library 'upload'
   protected $uploadConfig = array();
 
@@ -21,8 +21,7 @@
 	public function autocomplete()
 	{
 		// TODO: tambahkan kata2 dari isi_singkat
-		$str = autocomplete_str('tujuan', 'surat_keluar');
-		return $str;
+		return $this->autocomplete_str('tujuan', 'surat_keluar');
 	}
 
 	private function search_sql()
@@ -326,7 +325,7 @@
 	 */
 	public function delete($idSuratMasuk, $semua=false)
 	{
-		if (!$semua) 
+		if (!$semua)
 		{
 			$this->session->success = 1;
 			$this->session->error_msg = '';

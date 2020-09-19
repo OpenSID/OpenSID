@@ -12,7 +12,7 @@
 			<input type="hidden" name="id_inventaris_tanah" id="id_inventaris_tanah" value="<?= $main->id; ?>">
 			<div class="row">
 				<div class="col-md-3">
-          <?php	$this->load->view('inventaris/tanah/menu_kiri.php')?>
+          <?php	$this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">

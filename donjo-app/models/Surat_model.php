@@ -77,7 +77,13 @@
 		if ($filter['bersurat']) $this->db->join('log_surat h', 'u.id = h.id_pend');
 		if ($cari)
 		{
-			$this->db->where("(nik like '%{$cari}%' or nama like '%{$cari}%' or tag_id_card like '%{$cari}%')");
+			$cari = $this->db->escape_like_str($cari);
+			$this->db
+				->group_start()
+					->like('nik', $cari)
+					->or_like('nama', $cari)
+					->or_like('tag_id_card', $cari)
+				->group_end();
 		}
 	}
 
@@ -709,22 +715,8 @@
 
 	private function penandatangan_lampiran($data)
 	{
-		//Data penandatangan
-		$input = $data['input'];
-		$config = $data['config'];
-		$this->load->model('pamong_model');
-		$pamong_ttd = $this->pamong_model->get_ttd();
-		$penandatangan = '';
-		if (!empty($input['pilih_atas_nama']))
-		{
-			$penandatangan = 'a.n. ' . ucwords($pamong_ttd['jabatan'].' '.$config['nama_desa']);
-			$penandatangan .= ' <br> ';
-			$penandatangan .= $input['jabatan'];
-		}
-		else
-		{
-			$penandatangan .= $input['jabatan'].' '.$config['nama_desa'];
-		}
+		$penandatangan = str_replace('\par', '<br>', $this->atas_nama($data));
+
 		return $penandatangan;
 	}
 

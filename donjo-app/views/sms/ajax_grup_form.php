@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <form action="<?= $form_action?>" method="post" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
@@ -8,7 +9,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label" for="nama_grup">Nama Group</label>
-							<input name="nama_grup" class="form-control input-sm required" type="text" value="<?=$grup['nama_grup']?>"></input>
+							<input name="nama_grup" class="form-control input-sm required nomor_sk" maxlength="30" type="text" value="<?=$grup['nama_grup']?>"></input>
 							<input name="id_grup" type="hidden" value="<?=$grup['id_grup']?>"></input>
 						</div>
 					</div>

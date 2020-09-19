@@ -1,5 +1,50 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk Halaman Website
+ *
+ * donjo-app/models/First_artikel_m.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
 class First_artikel_m extends CI_Model {
 
 	public function __construct()
@@ -19,14 +64,14 @@ class First_artikel_m extends CI_Model {
 			WHERE headline = 1 AND a.tgl_upload < NOW()
 			ORDER BY tgl_upload DESC LIMIT 1 ";
 		$query = $this->db->query($sql);
-		$data  = $query->row_array();
+		$data = $query->row_array();
 		if (empty($data))
 			$data = null;
 		else
 		{
 			$id = $data['id'];
 			//$panjang=str_split($data['isi'],800);
-			//$data['isi'] = "<label>".strip_tags($panjang[0])."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
+			//$data['isi'] = "<label>".strip_tags($panjang[0])."...</label><a href='".site_url("artikel/$id")."'>Baca Selengkapnya</a>";
 		}
 		return $data;
 	}
@@ -36,16 +81,10 @@ class First_artikel_m extends CI_Model {
 		$sumber_feed = 'https://www.covid19.go.id/feed/';
 		if (!cek_bisa_akses_site($sumber_feed)) return NULL;
 
-	  $this->load->library('Feed_Reader');
+		$this->load->library('Feed_Reader');
 		$feed = new Feed_Reader($sumber_feed);
 		$items = array_slice($feed->items, 0, 2);
 		return $items;
-	}
-
-	public function get_teks_berjalan()
-	{
-		$this->load->model('teks_berjalan_model');
-		return $this->teks_berjalan_model->isi_teks_berjalan();
 	}
 
 	public function get_widget()
@@ -67,7 +106,7 @@ class First_artikel_m extends CI_Model {
 			$cfg['suffix'] = "?cari=$cari";
 		}
 		$jml = $this->db->get()
-			->row()->jml;	
+			->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -95,23 +134,28 @@ class First_artikel_m extends CI_Model {
 			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
-				->like('a.judul', $cari)->or_like('a.isi', $cari)
+				->like('a.judul', $cari)
+				->or_like('a.isi', $cari)
 				->group_end();
 		}
 	}
 
 	public function artikel_show($offset, $limit)
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
 		$this->paging_artikel_sql();
-		$data = $this->db->order_by('a.tgl_upload DESC')
+		$data = $this->db
+			->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->order_by('a.tgl_upload DESC')
 			->limit($limit, $offset)
-			->get()->result_array();
+			->get()
+			->result_array();
+
 		for ($i=0; $i < count($data); $i++)
 		{
 			$this->sterilkan_artikel($data[$i]);
 			$this->icon_keuangan($data[$i]);
 		}
+
 		return $data;
 	}
 
@@ -130,38 +174,39 @@ class First_artikel_m extends CI_Model {
 		$data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
 	}
 
-	public function arsip_show($rand = false)
+	public function arsip_show($type = '')
 	{
 		// Artikel agenda (kategori=1000) tidak ditampilkan
-		$sql = "SELECT a.*, u.nama AS owner, k.kategori
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN kategori k ON a.id_kategori = k.id
-			WHERE a.enabled = ?
-			AND a.id_kategori NOT IN (1000)
-			AND a.tgl_upload < NOW() ";
-		if ($rand)
-			$sql .= "	ORDER BY RAND() DESC LIMIT 7 ";
-		else
-			$sql .= "	ORDER BY a.tgl_upload DESC LIMIT 7 ";
-		$query = $this->db->query($sql, 1);
-		$data = $query->result_array();
+		$this->db
+			->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->where('a.enabled', 1)
+			->where('a.id_kategori NOT IN (1000)')
+			->where('a.tgl_upload < NOW()');
 
-		for ($i=0; $i<count($data); $i++)
+		switch ($type)
 		{
-			$id = $data[$i]['id'];
-			$pendek = str_split($data[$i]['isi'], 100);
-			$pendek2 = str_split($pendek[0], 90);
-			$data[$i]['isi_short'] = $pendek2[0]."...";
-			$panjang = str_split($data[$i]['isi'], 150);
-			$data[$i]['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>baca selengkapnya</a>";
-		}
-		return $data;
-	}
+			case 'acak':
+				$this->db->order_by('rand()');
+				break;
 
-	public function arsip_rand()
-	{
-		return $this->arsip_show($rand = true);
+			case 'populer':
+				$this->db->order_by('a.hit', DESC);
+				break;
+
+			default:
+				$this->db->order_by('a.tgl_upload', DESC);
+				break;
+		}
+
+		$this->db->limit(7);
+		$data = $this->db->get('artikel a')->result_array();
+
+		for ($i=0; $i < count($data); $i++)
+		{
+			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+		}
+
+		return $data;
 	}
 
 	public function paging_arsip($p=1)
@@ -190,7 +235,7 @@ class First_artikel_m extends CI_Model {
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql,1);
-		$data  = $query->result_array();
+		$data = $query->result_array();
 		if ($query->num_rows()>0)
 		{
 			for ($i=0; $i<count($data); $i++)
@@ -200,30 +245,8 @@ class First_artikel_m extends CI_Model {
 				$tgl = date("d/m/Y",strtotime($data[$i]['tgl_upload']));
 				$data[$i]['no'] = $nomer;
 				$data[$i]['tgl'] = $tgl;
-				$data[$i]['isi'] = "<a href='".site_url("first/artikel/$id")."'>".$data[$i]['judul']."</a>, <i class=\"fa fa-user\"></i> ".$data[$i]['owner'];
+				$data[$i]['isi'] = "<a href='".site_url("artikel/$id")."'>".$data[$i]['judul']."</a>, <i class=\"fa fa-user\"></i> ".$data[$i]['owner'];
 			}
-		}
-		else
-		{
-			$data  = false;
-		}
-		return $data;
-	}
-
-	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
-	public function slide_show($gambar_utama=FALSE)
-	{
-		$sql = "SELECT id,judul,gambar FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())";
-		if (!$gambar_utama) $sql .= "
-			UNION SELECT id,judul,gambar1 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-			UNION SELECT id,judul,gambar2 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-			UNION SELECT id,judul,gambar3 FROM artikel WHERE (enabled=1 AND headline=3 AND tgl_upload < NOW())
-		";
-		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
-		$query = $this->db->query($sql);
-		if ($query->num_rows()>0)
-		{
-			$data = $query->result_array();
 		}
 		else
 		{
@@ -232,74 +255,109 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	private function sql_gambar_slide_show($gambar)
+	{
+		$this->db
+			->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->from('artikel')
+			->where('enabled', 1)
+			->where('headline', 3)
+			->where($gambar.' !=', '')
+			->where('tgl_upload < NOW()');
+		return $this->db->get_compiled_select();
+
+	}
+
+	// Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
+	public function slide_show($gambar_utama=FALSE)
+	{
+		$sql = [];
+		$sql[] = $this->sql_gambar_slide_show('gambar');
+		if (!$gambar_utama)
+		{
+			$sql[] = $this->sql_gambar_slide_show('gambar1');
+			$sql[] = '('.$this->sql_gambar_slide_show('gambar2').')';
+			$sql[] = '('.$this->sql_gambar_slide_show('gambar3').')';
+		}
+		$sql = implode('
+		UNION
+		', $sql);
+
+		$sql .= ($gambar_utama) ? "ORDER BY tgl_upload DESC LIMIT 10" : "ORDER BY RAND() LIMIT 10";
+		$data = $this->db->query($sql)->result_array();
+		return $data;
+	}
+
 	// Ambil gambar slider besar tergantung dari settingnya.
 	public function slider_gambar()
 	{
-		$slider_gambar = array();
-		switch ($this->setting->sumber_gambar_slider)
+		$sumber = $this->setting->sumber_gambar_slider;
+
+		$slider_gambar = [];
+		switch ($sumber)
 		{
 			case '1':
 				# 10 gambar utama semua artikel terbaru
-				$slider_gambar['gambar'] = $this->db->select('id,judul,gambar')->where('enabled',1)->where('gambar !=','')->where('tgl_upload < NOW()')->order_by('tgl_upload DESC')->limit(10)->get('artikel')->result_array();
+				$slider_gambar['gambar'] = $this->db
+					->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+					->where('enabled', 1)
+					->where('gambar !=', '')
+					->where('tgl_upload < NOW()')
+					->order_by('tgl_upload DESC')
+					->limit(10)->get('artikel')->result_array();
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
+
 			case '2':
 				# 10 gambar utama artikel terbaru yang masuk ke slider atas
 				$slider_gambar['gambar'] = $this->slide_show(true);
 				$slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
 				break;
+
 			case '3':
 				# 10 gambar dari galeri yang masuk ke slider besar
 				$this->load->model('web_gallery_model');
 				$slider_gambar['gambar'] = $this->web_gallery_model->list_slide_galeri();
 				$slider_gambar['lokasi'] = LOKASI_GALERI;
 				break;
+
 			default:
 				# code...
 				break;
 		}
+
+		$slider_gambar['sumber'] = $sumber;
 		return $slider_gambar;
 	}
 
-	public function agenda_show()
+	public function agenda_show($type = '')
 	{
-		$data = array();
-		//Hari Ini
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
+		$this->db
+			->select('a.*, g.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+			->join('artikel a', 'a.id = g.id_artikel', 'LEFT')
 			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) = CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');				
-				
-		$data['hari_ini'] = $sql->result_array();
+			->where('a.id_kategori', '1000');
 
-		//Yang Akan Datang
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) > CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
-		$data['yad'] = $sql->result_array();
+		switch ($type)
+		{
+			case 'yad':
+				$this->db->where('DATE(g.tgl_agenda) > CURDATE()')
+					->order_by('g.tgl_agenda');
+				break;
 
-		//Lama/Sudah Lewat
-		$sql = $this->db->select('a.*, g.*, u.nama AS owner, k.kategori, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->join('user u', 'u.id = a.id', 'LEFT')
-			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
-			->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
-			->where('a.enabled', 1)
-			->where('a.id_kategori', '1000')
-			->where('DATE(g.tgl_agenda) < CURDATE()')
-			->order_by('g.tgl_agenda', DESC)
-			->get('artikel a');
-		$data['lama'] = $sql->result_array();
+			case 'lama':
+				$this->db->where('DATE(g.tgl_agenda) < CURDATE()');
+				break;
+
+			default:
+				$this->db->where('DATE(g.tgl_agenda) = CURDATE()');
+				break;
+		}
+
+		$data = $this->db
+			->get('agenda g')
+			->result_array();
+
 		return $data;
 	}
 
@@ -307,7 +365,7 @@ class First_artikel_m extends CI_Model {
 	{
 		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
 			FROM komentar a
-			INNER JOIN artikel b ON  a.id_artikel = b.id
+			INNER JOIN artikel b ON a.id_artikel = b.id
 			WHERE a.status = ? AND a.id_artikel <> 775
 			ORDER BY a.tgl_upload DESC LIMIT 10 ";
 		$query = $this->db->query($sql, 1);
@@ -320,18 +378,19 @@ class First_artikel_m extends CI_Model {
 			$pendek2 = str_split($pendek[0], 90);
 			$data[$i]['komentar_short'] = $pendek2[0]."...";
 			$panjang = str_split($data[$i]['komentar'], 50);
-			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("first/artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
+			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
 		}
+
 		return $data;
 	}
-	
+
 	public function get_kategori($id=0)
 	{
 		$data = $this->db->select('kategori')
 			->where('id', $id)->or_where('slug', $id)
 			->limit(1)->get('kategori')
 			->row()->kategori;
-		
+
 		if (empty($data))
 		{
 			// untuk artikel jenis statis = "AGENDA"
@@ -345,21 +404,24 @@ class First_artikel_m extends CI_Model {
 		// Bukan kategori yg dikenal
 		if (empty($data))
 			$data = "Artikel Kategori '$id'";
+
 		return $data;
 	}
 
-	public function get_artikel($slug, $is_id=false)
+	public function get_artikel($url)
 	{
-		$this->hit($slug, $is_id); // catat artikel diakses
+		$this->hit($url); // catat artikel diakses
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
 			->where('a.enabled', 1)
-			->where('tgl_upload < NOW()');
+			->where('a.tgl_upload < NOW()')
+			->group_start()
+				->where('a.slug', $url)
+				->or_where('a.id', $url)
+			->group_end();
 
-		// $slug adalah id atau slug
-		$this->db->where($is_id ? 'a.id' : 'a.slug', $slug);
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
@@ -371,9 +433,10 @@ class First_artikel_m extends CI_Model {
 		{
 			$data = false;
 		}
+
 		return $data;
 	}
-	
+
 	public function get_agenda($id)
 	{
 		$data = $this->db->where('id_artikel', $id)
@@ -381,7 +444,7 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function paging_kat($p=1, $id=0)
+	public function paging_kat($p = 1, $id = 0)
 	{
 		$this->list_artikel_sql($id);
 		$this->db->select('COUNT(a.id) AS jml');
@@ -406,18 +469,24 @@ class First_artikel_m extends CI_Model {
 			->where('a.enabled', 1)
 			->where('tgl_upload < NOW()');
 
-		if (!empty($id)){
-			$this->db->where('k.id', $id)->or_where('k.slug', $id);
+		if (!empty($id))
+		{
+			$this->db
+				->group_start()
+					->where('k.slug', $id)
+					->or_where('k.id', $id)
+				->group_end();
 		}
 	}
 
-	public function list_artikel($offset=0, $limit=50, $id=0)
+	public function list_artikel($offset = 0, $limit = 50, $id = 0)
 	{
 		$this->list_artikel_sql($id);
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
 		$this->db->order_by('a.tgl_upload', DESC);
 		$this->db->limit($limit, $offset);
 		$data = $this->db->get()->result_array();
+
 		for ($i=0; $i < count($data); $i++)
 		{
 			$data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
@@ -426,6 +495,7 @@ class First_artikel_m extends CI_Model {
 				// ganti shortcode menjadi icon
 				$data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
 		}
+
 		return $data;
 	}
 
@@ -456,6 +526,7 @@ class First_artikel_m extends CI_Model {
 		{
 			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
 		}
+
 		if ($outp)
 		{
 			$_SESSION['success'] = 1;
@@ -463,53 +534,59 @@ class First_artikel_m extends CI_Model {
 		}
 
 		$_SESSION['success'] = -1;
+
 		return false;
 	}
 
-	public function list_komentar($id=0)
+	public function list_komentar($id = 0)
 	{
-		$sql = "SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC";
-		$query = $this->db->query($sql,$id);
-		if ($query->num_rows()>0)
-		{
-			$data = $query->result_array();
-		}
-		else
-		{
-			$data = false;
-		}
+		$data = $this->db->from('komentar')
+			->where('id_artikel', $id)
+			->where('status', 1)
+			->order_by('tgl_upload DESC')
+			->get()->result_array();
+
 		return $data;
 	}
 
 	// Tampilan di widget sosmed
 	public function list_sosmed()
 	{
-		$sql = "SELECT * FROM media_sosial WHERE enabled=1";
-		$query = $this->db->query($sql);
+		$query = $this->db->where('enabled', 1)->get('media_sosial');
+
 		if ($query->num_rows()>0)
 		{
-			$data  = $query->result_array();
+			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link']);
+				$data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
 			}
 		}
-		else
-		{
-			$data = false;
-		}
+
 		return $data;
 	}
-	
-	public function hit($slug, $is_id=false)
+
+	public function hit($url)
 	{
-		$this->db->where($is_id ? 'id' : 'slug', $slug);
-		$id = $this->db->select('id')->get('artikel')->row()->id;
+		$this->load->library('user_agent');
+
+		$id = $this->db->select('id')
+			->where('slug', $url)
+			->or_where('id', $url)
+			->get('artikel')
+			->row()->id;
+
 		//membatasi hit hanya satu kali dalam setiap session
-		if (in_array($id, $_SESSION['artikel'])) return;
+		if (in_array($id, $_SESSION['artikel']) OR $this->agent->is_robot() OR crawler() === TRUE) return;
+
 		$this->db->set('hit', 'hit + 1', false)
 			->where('id', $id)
 			->update('artikel');
 		$_SESSION['artikel'][] = $id;
+	}
+
+	public function get_artikel_by_id($id)
+	{
+		return $this->db->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where(array('id' => $id))->get('artikel')->row_array();
 	}
 }

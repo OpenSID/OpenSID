@@ -1,4 +1,4 @@
-<?php class Web_artikel_model extends CI_Model {
+<?php class Web_artikel_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -6,31 +6,36 @@
 		$this->load->model('agenda_model');
 	}
 
-	public function autocomplete()
+	public function autocomplete($cat)
 	{
-		$str = autocomplete_str('judul', 'artikel');
-		return $str;
+		$this->db->where('id_kategori', $cat);
+
+		return $this->autocomplete_str('judul', 'artikel');
 	}
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		$cari = $this->session->cari;
+
+		if (isset($cari))
 		{
-			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (judul LIKE '$kw' OR isi LIKE '$kw')";
-			return $search_sql;
+			$sql = " AND (judul LIKE '$kw' OR isi LIKE '$kw')";
+
+			return $sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		$status = $this->session->status;
+
+		if (isset($status))
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND a.enabled = $kf";
-			return $filter_sql;
+			$sql = " AND a.enabled = $status";
+
+			return $sql;
 		}
 	}
 
@@ -89,8 +94,8 @@
 		{
 		case 1: $order_sql = ' ORDER BY judul'; break;
 		case 2: $order_sql = ' ORDER BY judul DESC'; break;
-		case 3: $order_sql = ' ORDER BY enabled'; break;
-		case 4: $order_sql = ' ORDER BY enabled DESC'; break;
+		case 3: $order_sql = ' ORDER BY hit'; break;
+		case 4: $order_sql = ' ORDER BY hit DESC'; break;
 		case 5: $order_sql = ' ORDER BY tgl_upload'; break;
 		case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
 		default:$order_sql = ' ORDER BY id DESC';
@@ -121,15 +126,32 @@
 		return $data;
 	}
 
+	private function kategori($id)
+	{
+		$data	= $this->db
+			->where('parrent', $id)
+			->order_by('urut')
+			->get('kategori')
+			->result_array();
+
+		return $data;
+	}
+
 	public function list_kategori()
 	{
-		$sql = "SELECT * FROM kategori WHERE 1 order by urut";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		$data[] = array(
+		$data = $this->kategori(0);
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['submenu'] = $this->kategori($data[$i]['id']);
+		}
+
+		$data[] = [
 			'id' => '0',
-			'kategori' => '[Tidak Berkategori]');
-		return  $data;
+			'kategori' => '[Tidak Berkategori]'
+		];
+
+		return $data;
 	}
 
 	public function get_kategori_artikel($id)
@@ -141,7 +163,7 @@
 	{
 		$sql = "SELECT kategori FROM kategori WHERE id = ?";
 		$query = $this->db->query($sql, $cat);
-		return  $query->row_array();
+		return $query->row_array();
 	}
 
 	public function insert($cat=1)
@@ -149,15 +171,15 @@
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
 		$data = $_POST;
-		if (empty($data['judul'])  || empty($data['isi']))
+		if (empty($data['judul']) || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
-		  $_SESSION['success'] = -1;
-		  return;
+			$_SESSION['success'] = -1;
+			return;
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
-		
+
 		// Gunakan judul untuk url artikel
 		$slug = $this->str_slug($data['judul']);
 
@@ -165,14 +187,14 @@
 		$list_gambar = array('gambar','gambar1','gambar2','gambar3');
 		foreach ($list_gambar as $gambar)
 		{
-		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
-		  if (!empty($lokasi_file))
-		  {
-			  $tipe_file = TipeFile($_FILES[$gambar]);
+			$lokasi_file = $_FILES[$gambar]['tmp_name'];
+			$nama_file   = $fp."_".$_FILES[$gambar]['name'];
+			if (!empty($lokasi_file))
+			{
+				$tipe_file = TipeFile($_FILES[$gambar]);
 				$hasil = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
 				if ($hasil) $data[$gambar] = $nama_file;
-		  }
+			}
 		}
 		$data['id_kategori'] = $cat;
 		$data['id_user'] = $_SESSION['user'];
@@ -188,8 +210,8 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
-	  $ext = get_extension($nama_file);
-		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
+		$ext = get_extension($nama_file);
+		$nama_file = str_replace(' ', '-', $nama_file); // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
@@ -251,7 +273,7 @@
 			$cek_slug = $this->db->where('slug', $slug_unik)->get('artikel')->num_rows();
 			if ($cek_slug)
 			{
-			  $slug_unik = $slug . '-' . $n++;
+				$slug_unik = $slug . '-' . $n++;
 			}
 		}
 		return $slug_unik;
@@ -287,26 +309,26 @@
 	{
 		$_SESSION['success'] = 1;
 		$_SESSION['error_msg'] = "";
-	  $data = $_POST;
+		$data = $_POST;
 		if (empty($data['judul']) || empty($data['isi']))
 		{
 			$_SESSION['error_msg'].= " -> Data harus diisi";
-		  $_SESSION['success'] = -1;
-		  return;
+			$_SESSION['success'] = -1;
+			return;
 		}
 		// Batasi judul menggunakan teks polos
 		$data['judul'] = strip_tags($data['judul']);
 
-	  $fp = time();
+		$fp = time();
 		$list_gambar = array('gambar', 'gambar1', 'gambar2', 'gambar3');
 		foreach ($list_gambar as $gambar)
 		{
-		  $lokasi_file = $_FILES[$gambar]['tmp_name'];
-		  $nama_file   = $fp."_".$_FILES[$gambar]['name'];
+			$lokasi_file = $_FILES[$gambar]['tmp_name'];
+			$nama_file   = $fp."_".$_FILES[$gambar]['name'];
 
-		  if (!empty($lokasi_file))
-		  {
-			  $tipe_file = TipeFile($_FILES[$gambar]);
+			if (!empty($lokasi_file))
+			{
+				$tipe_file = TipeFile($_FILES[$gambar]);
 				$hasil = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
 				if ($hasil)
 				{
@@ -317,11 +339,11 @@
 				{
 					unset($data[$gambar]);
 				}
-		  }
-		  else
-		  {
+			}
+			else
+			{
 				unset($data[$gambar]);
-		  }
+			}
 		}
 
 		foreach ($list_gambar as $gambar)
@@ -339,8 +361,8 @@
 		$lokasi_file = $_FILES['dokumen']['tmp_name'];
 		$tipe_file = TipeFile($_FILES['dokumen']);
 		$nama_file = $_FILES['dokumen']['name'];
-	  $ext = get_extension($nama_file);
-		$nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
+		$ext = get_extension($nama_file);
+		$nama_file = str_replace(' ', '-', $nama_file); // normalkan nama file
 
 		if ($nama_file AND !empty($lokasi_file))
 		{
@@ -428,9 +450,9 @@
 		{
 			HapusArtikel($gambar);
 		}
-		
+
 		$outp = $this->db->where('id', $id)->delete('artikel');
-		
+
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
@@ -452,7 +474,7 @@
 	public function hapus($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('kategori');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -517,7 +539,7 @@
 		{
 			$id = $data['id'];
 			$panjang = str_split($data['isi'], 300);
-			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("first/artikel/$id")."'>Baca Selengkapnya</a>";
+			$data['isi'] = "<label>".$panjang[0]."...</label><a href='".site_url("artikel/$id")."'>Baca Selengkapnya</a>";
 		}
 		return $data;
 	}
@@ -591,5 +613,24 @@
 		// Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
 		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
 		return ($user == $id_user or $_SESSION['grup'] != 4);
+	}
+
+	public function reset($cat)
+	{
+		// Normalkan kembali hit artikel kategori 999 (yg ditampilkan di menu) akibat robot (crawler)
+		$persen = $this->input->post('hit');
+		$list_menu = $this->db->distinct()
+			->select('link')
+			->like('link', 'artikel/')
+			->where('enabled', 1)
+			->get('menu')->result_array();
+		foreach ($list_menu as $list)
+		{
+			$id = str_replace('artikel/', '', $list['link']);
+			$artikel = $this->db->where('id', $id)->get('artikel')->row_array();
+			$hit = $artikel['hit'] * ($persen / 100);
+			if ($artikel)
+				$this->db->where('id', $id)->update('artikel', array('hit' => $hit));
+		}
 	}
 }

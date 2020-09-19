@@ -58,8 +58,10 @@
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 																	<td><?= $key+1?></td>
 																	<td nowrap>
-																		<a href="<?= site_url("penduduk/dokumen_form/$penduduk[id]/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?= site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php if(!$data['hidden']): ?>
+																			<a href="<?= site_url("penduduk/dokumen_form/$penduduk[id]/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<a href="#" data-href="<?= site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif ?>
 																	</td>
 																	<td width="40%"><?= $data['nama']?></td>
 																	<td width="30%"><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" rel=”noopener noreferrer” target="_blank" ><?= $data['satuan']?></a></td>
@@ -75,29 +77,10 @@
 								</div>
 							</div>
 						</div>
-						<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-							<div class='modal-dialog'>
-								<div class='modal-content'>
-									<div class='modal-header'>
-										<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-										<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-									</div>
-									<div class='modal-body btn-info'>
-										Apakah Anda yakin ingin menghapus data ini?
-									</div>
-									<div class='modal-footer'>
-										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-										<a class='btn-ok'>
-											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
-
+<?php $this->load->view('global/confirm_delete');?>

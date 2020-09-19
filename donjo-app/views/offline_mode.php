@@ -7,7 +7,7 @@
 	<br/><br/><br/>
 	<div align="center">
 		<?php if ($main['logo']): ?>
-			<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
+			<img class="profile-user-img img-responsive img-circle" src="<?=gambar_desa($main['logo'])?>" alt="Logo">
 		<?php else: ?>
 			<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/logo/home.png" alt="Logo">
 		<?php endif ?>

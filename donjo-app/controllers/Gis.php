@@ -1,4 +1,49 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Controller untuk modul Peta
+ *
+ * donjo-app/controllers/Gis.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Gis extends Admin_Controller {
 
@@ -13,6 +58,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_garis_model');
 		$this->load->model('header_model');
 		$this->load->model('wilayah_model');
+		$this->load->model('referensi_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 62;
 	}
@@ -21,7 +67,7 @@ class Gis extends Admin_Controller {
 	{
 		unset($_SESSION['log']);
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		unset($_SESSION['filter']); // ini status_penduduk
 		unset($_SESSION['sex']);
 		unset($_SESSION['warganegara']);
 		unset($_SESSION['fisik']);
@@ -35,8 +81,9 @@ class Gis extends Admin_Controller {
 		unset($_SESSION['umur_min']);
 		unset($_SESSION['umur_max']);
 		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_id']);
+		unset($_SESSION['status']); // status kawin
+		unset($_SESSION['pendidikan_sedang_id']);
+		unset($_SESSION['pendidikan_kk_id']);
 		unset($_SESSION['status_penduduk']);
 		unset($_SESSION['layer_penduduk']);
 		unset($_SESSION['layer_keluarga']);
@@ -49,10 +96,11 @@ class Gis extends Admin_Controller {
 
 	public function index()
 	{
-		$variabel_sesi = array('cari', 'filter', 'sex', 'agama');
-		foreach ($variabel_sesi as $variabel)
+		$list_session = array('filter', 'sex', 'cari', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+
+		foreach ($list_session as $session)
 		{
-			$data[$variabel] = $this->session->userdata($variabel) ?: '';
+			$data[$session] = $this->session->userdata($session) ?: '';
 		}
 
 		if (isset($_SESSION['dusun']))
@@ -81,10 +129,10 @@ class Gis extends Admin_Controller {
 			$data[$variabel] = $this->session->userdata($variabel) ?: 0;
 		}
 
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
-		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['list_pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['desa'] = $this->config_model->get_data();
 		$data['lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['garis'] = $this->plan_garis_model->list_data();
@@ -94,37 +142,14 @@ class Gis extends Admin_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['list_lap'] = $this->list_lap();
+		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$header = $this->header_model->get_data();
 		$header['minsidebar'] = 1;
-		
+
 		$this->load->view('header', $header);
 		$this->load->view('nav',$nav);
 		$this->load->view('gis/maps', $data);
 		$this->load->view('footer');
-	}
-
-	private function list_lap()
-	{
-		$data = array(
-			'13' => 'Umur',
-			'0' => 'Pendidikan dalam KK',
-			'14' => 'Pendidikan sedang Ditempuh',
-			'1' => 'Pekerjaan',
-			'2' => 'Status Perkawinan',
-			'3' => 'Agama',
-			'4' => 'Jenis Kelamin',
-			'5' => 'Warga Negara',
-			'6' => 'Status Penduduk',
-			'7' => 'Golongan Darah',
-			'9' => 'Penyandang Cacat',
-			'10' => 'Sakit Menahun',
-			'16' => 'Akseptor KB',
-			'17' => 'Akte Kelahiran',
-			'18' => 'Kepemilikan KTP',
-			'19' => 'Jenis Asuransi'
-		);
-		return $data;
 	}
 
 	public function search()
@@ -265,18 +290,27 @@ class Gis extends Admin_Controller {
 
 	public function ajax_adv_search()
 	{
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
+		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
+
+		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
+		$data['list_pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
+		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
+		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
+		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("gis/adv_search_proses");
 
-		$this->load->view("gis/ajax_adv_search_form", $data);
+		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
 	}
 
 	public function adv_search_proses()
 	{
-		$adv_search = $_POST;
+		$adv_search = $this->validasi_pencarian($this->input->post());
 		$i = 0;
 		while ($i++ < count($adv_search))
 		{
@@ -296,6 +330,19 @@ class Gis extends Admin_Controller {
 			}
 		}
 		redirect('gis');
+	}
+
+	private function validasi_pencarian($post)
+	{
+		$data['umur_min'] = bilangan($post['umur_min']);
+		$data['umur_max'] = bilangan($post['umur_max']);
+		$data['pekerjaan_id'] = $post['pekerjaan_id'];
+		$data['status'] = $post['status'];
+		$data['agama'] = $post['agama'];
+		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
+		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
+		$data['status_penduduk'] = $post['status_penduduk'];
+		return $data;
 	}
 
 	public function layer_garis()

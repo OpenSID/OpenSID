@@ -1,4 +1,4 @@
-<?php class Analisis_periode_model extends CI_Model {
+<?php class Analisis_periode_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -6,8 +6,7 @@
 	}
 
 	public function autocomplete(){
-		$str = autocomplete_str('nama', 'analisis_periode');
-		return $str;
+		return $this->autocomplete_str('nama', 'analisis_periode');
 	}
 
 	private function search_sql()
@@ -100,26 +99,37 @@
 		return $data;
 	}
 
+	private function validasi_data($post)
+	{
+		$data = array();
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['id_state'] = $post['id_state'] ?: null;
+		$data['tahun_pelaksanaan'] = bilangan($post['tahun_pelaksanaan']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['aktif'] = $post['aktif'] ?: null;
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
+		$data = $this->validasi_data($this->input->post());
 		$dp = $data['duplikasi'];
 		unset($data['duplikasi']);
 
 		if ($dp == 1)
 		{
 			$sqld = "SELECT id FROM analisis_periode WHERE id_master = ? ORDER BY id DESC LIMIT 1";
-			$queryd = $this->db->query($sqld,$_SESSION['analisis_master']);
+			$queryd = $this->db->query($sqld,$this->session->analisis_master);
 			$dpd = $queryd->row_array();
 			$sblm = $dpd['id'];
 		}
 
 		$akt = array();
-		$data['id_master'] = $_SESSION['analisis_master'];
+		$data['id_master'] = $this->session->analisis_master;
 		if ($data['aktif'] == 1)
 		{
 			$akt['aktif'] = 2;
-			$this->db->where('id_master',$_SESSION['analisis_master']);
+			$this->db->where('id_master',$this->session->analisis_master);
 			$this->db->update('analisis_periode', $akt);
 		}
 		$outp = $this->db->insert('analisis_periode', $data);
@@ -127,7 +137,7 @@
 		if ($dp == 1)
 		{
 			$sqld = "SELECT id FROM analisis_periode WHERE id_master = ? ORDER BY id DESC LIMIT 1";
-			$queryd = $this->db->query($sqld, $_SESSION['analisis_master']);
+			$queryd = $this->db->query($sqld, $this->session->analisis_master);
 			$dpd = $queryd->row_array();
 			$skrg = $dpd['id'];
 
@@ -149,27 +159,27 @@
 
 	public function update($id=0)
 	{
-		$data = $_POST;
+		$data = $this->validasi_data($this->input->post());
 		$akt = array();
 
-		$data['id_master'] = $_SESSION['analisis_master'];
+		$data['id_master'] = $this->session->analisis_master;
 		if ($data['aktif'] == 1)
 		{
 			$akt['aktif'] = 2;
-			$this->db->where('id_master',$_SESSION['analisis_master']);
+			$this->db->where('id_master',$this->session->analisis_master);
 			$this->db->update('analisis_periode', $akt);
 		}
-		$data['id_master'] = $_SESSION['analisis_master'];
+		$data['id_master'] = $this->session->analisis_master;
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_periode', $data);
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$outp = $this->db->where('id', $id)->delete('analisis_periode');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan

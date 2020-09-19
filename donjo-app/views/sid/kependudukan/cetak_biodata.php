@@ -18,7 +18,7 @@
 				</table>
 				<table width="100%" style="border: solid 0px black; text-align: center;">
 					<tr>
-						<td align="center"><img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
+						<td align="center"><img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
 					</tr>
 					<tr>
 						</td>
@@ -109,6 +109,14 @@
 					<tr>
 						<td>Status Kependudukan</td><td >:</td>
 						<td><?= strtoupper($penduduk['status'])?></td>
+					</tr>
+					<tr>
+						<td>Nomor Telpon/HP</td><td >:</td>
+						<td><?= strtoupper($penduduk['telepon'])?></td>
+					</tr>
+					<tr>
+						<td>Alamat Email</td><td >:</td>
+						<td><?= strtoupper($penduduk['email'])?></td>
 					</tr>
 					<tr>
 						<td>Alamat</td><td >:</td>

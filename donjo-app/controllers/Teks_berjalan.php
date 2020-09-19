@@ -5,10 +5,10 @@ class Teks_berjalan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
 
 		$this->load->model('header_model');
 		$this->load->model('teks_berjalan_model');
+		$this->load->model('web_artikel_model');
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 64;
 	}
@@ -17,17 +17,17 @@ class Teks_berjalan extends Admin_Controller {
 	{
 		$data['main'] = $this->teks_berjalan_model->list_data();
 		$header = $this->header_model->get_data();
-		
+
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('web/teks_berjalan/table', $data);
 		$this->load->view('footer');
 	}
 
 	public function form($id = '')
 	{
-		$this->load->model('web_artikel_model');
-		$data['list_artikel'] = $this->web_artikel_model->list_data($cat=-1, $o=6, $offset=0, $limit=500);
+		$data['list_artikel'] = $this->web_artikel_model->list_data(999, 6, 0);
+
 		if ($id)
 		{
 			$data['teks'] = $this->teks_berjalan_model->get_teks($id);
@@ -42,7 +42,7 @@ class Teks_berjalan extends Admin_Controller {
 		$header = $this->header_model->get_data();
 
 		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
+		$this->load->view('nav');
 		$this->load->view('web/teks_berjalan/form', $data);
 		$this->load->view('footer');
 	}
@@ -79,15 +79,9 @@ class Teks_berjalan extends Admin_Controller {
  		redirect("teks_berjalan/index/$page");
 	}
 
-	public function lock($id = 0)
+	public function lock($id = 0, $val = 1)
 	{
-		$this->teks_berjalan_model->lock($id, 1);
-		redirect("teks_berjalan");
-	}
-
-	public function unlock($id = 0)
-	{
-		$this->teks_berjalan_model->lock($id, 2);
+		$this->teks_berjalan_model->lock($id, $val);
 		redirect("teks_berjalan");
 	}
 

@@ -42,37 +42,38 @@
 								<label class="col-sm-3 control-label" for="group">Group</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
-										<?php if ($user['id_grup'] != '1'): ?>
-											<option value="4" <?php if ($user['id_grup'] == '4'): ?>selected<?php endif ?>>Kontributor</option>
-											<option value="3" <?php if ($user['id_grup'] == '3' ): ?>selected<?php endif ?>>Redaksi</option>
-											<option value="2" <?php if ($user['id_grup'] == '2' ): ?>selected<?php endif ?>>Operator</option>
+										<?php if ($user['id_grup'] == '1'): ?>
+											<option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
+										<?php else: ?>
+											<?php foreach ($user_group as $item): ?>
+												<option <?php selected($user['id_grup'], $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
+											<?php endforeach ?>
 										<?php endif ?>
-										<option value="1" <?php if ($user['id_grup'] == '1' ): ?>selected<?php endif ?>>Administrator</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="username">Username</label>
 								<div class="col-sm-8">
-									<input id="username" name="username" class="form-control input-sm required" type="text" placeholder="Username" value="<?=$user['username']?>"></input>
+									<input id="username" name="username" class="form-control input-sm required username" type="text" placeholder="Username" value="<?=$user['username']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="password">Password</label>
+								<label class="col-sm-3 control-label" for="password">Kata Sandi</label>
 								<div class="col-sm-8">
-									<input id="password" name="password" class="form-control input-sm required" type="password" placeholder="Password" <?php if ($user): ?>value="radiisi"<?php endif ?> ></input>
+									<input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Kata Sandi" <?php if ($user): ?>value="radiisi"<?php endif ?> ></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama</label>
 								<div class="col-sm-8">
-									<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama" value="<?=$user['nama']?>"></input>
+									<input id="nama" name="nama" class="form-control input-sm required nama" minlength="3" maxlength="50" type="text" placeholder="Nama" value="<?=$user['nama']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="phone">Nomor HP</label>
 								<div class="col-sm-8">
-									<input id="phone" name="phone" class="form-control input-sm" type="text" placeholder="Nomor HP" value="<?=$user['phone']?>"></input>
+									<input id="phone" name="phone" class="form-control input-sm bilangan" minlength="8" maxlength="15" type="text" placeholder="Nomor HP" value="<?=$user['phone']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

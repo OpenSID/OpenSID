@@ -109,8 +109,10 @@
 		return $hasil_rupiah;
 	}
 
-	function jecho($a,$b,$str){
-		if($a==$b){
+	function jecho($a, $b, $str)
+	{
+		if ($a == $b)
+		{
 			echo $str;
 		}
 	}
@@ -176,7 +178,7 @@
 	function getBulan($bln)
 	{
 		return bulan($bln);
-	}	
+	}
 
 	function nama_bulan($tgl)
 	{
@@ -544,8 +546,28 @@ function comma($number)
 }
 
 function hit($angka)
-{	
-	$hasil = number_format($angka, 0, '.', '.')." Kali";
-	return $hasil;
+{
+	$hit = ($angka === NULL OR $angka === '') ? '0' : ribuan($angka);
+
+	return $hit." Kali";
 }
+
+function ribuan($angka)
+{
+	return number_format($angka, 0, '.', '.');
+}
+
+// Kalau angka romawi jangan ubah
+function set_ucwords($data)
+{
+	if (is_angka_romawi($data)) return $data;
+	return ucwords(strtolower($data));
+}
+
+function persen($data)
+{
+	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
+}
+
+
 // =======================================

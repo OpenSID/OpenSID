@@ -1,10 +1,58 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View daftar anggota kelompok di modul Kelompok
+ *
+ * donjo-app/views/kelompok/anggota/table.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Data Anggota Kelompok</h1>
+		<h1>Data Kelompok <?= ucwords($kelompok['nama']); ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
-			<li class="active">Data Anggota Kelompok</li>
+			<li class="active"><?= ucwords($kelompok['nama']); ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -12,111 +60,80 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
-            <div class="box-header with-border">
-						<a href="<?= site_url("kelompok/form_anggota/$kel")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Anggota Kelompok"><i class="fa fa-plus"></i> Tambah Anggota Kelompok</a>
-							<a href="<?= site_url("kelompok/cetak_a/$kel")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("kelompok/excel_a/$kel")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
+						<div class="box-header with-border">
+							<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Anggota Kelompok"><i class="fa fa-plus"></i> Tambah Anggota Kelompok</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_anggota_all/$kelompok[id]")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url("kelompok/daftar/cetak/$kelompok[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+							<a href="<?= site_url("kelompok/daftar/unduh/$kelompok[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?= site_url("kelompok")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
 						</div>
 						<div class="box-body">
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
-											<div class="row">
-												<div class="col-sm-12">
-													<div class="table-responsive">
-														<table class="table table-bordered table-striped table-hover">
-															<tbody>
-															<tr >
-																<td style="padding-top : 10px;padding-bottom : 10px; width:20%;" >Nama Kelompok</td>
-																<td> : <?= $kelompok['nama']?></td>
-															</tr>
-															<tr>
-																<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
-																<td> : <?= $kelompok['keterangan']?></td>
-															</tr>
-															</tbody>
-														</table>
-													</div>
-													<div class="table-responsive">
-														<table class="table table-bordered dataTable table-hover nowrap">
-															<thead class="bg-gray disabled color-palette">
-																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
-																	<th>No</th>
-																	<th >Aksi</th>
-																	<th width="100">NIK</th>
-																	<th width="100">Nomor Anggota</th>
-																	<th>Nama</th>
-																	<th>Alamat</th>
-																	<th>Umur (Tahun)</th>
-																	<th>Jenis Kelamin</th>
-																</tr>
-															</thead>
-															<tbody>
-																<?php foreach ($main as $data): ?>
-																<tr>
-																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
-																	<td><?= $data['no']?></td>
-																	<td nowrap>
-																		<a href="<?= site_url("kelompok/form_anggota/$kel/$data[id_penduduk]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?= site_url("kelompok/delete_a/$kel/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																	</td>
-																	<td><?= $data['nik']?></td>
-																	<td><?= $data['no_anggota']?></td>
-																	<td nowrap><?= $data['nama']?></td>
-																	<td width="50%"><?= $data['alamat']?></td>
-																	<td><?= $data['umur']?></td>
-																	<td><?php if ($data['sex']==1): ?>Laki-laki <?php else: ?>Perempuan <?php endif; ?></td>
-																</tr>
-																	<?php endforeach; ?>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
+							<h5><b>Rincian Kelompok</b></h5>
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-hover tabel-rincian">
+									<tbody>
+										<tr>
+											<td width="20%">Nama Kelompok</td>
+											<td width="1">:</td>
+											<td><?= strtoupper($kelompok['nama']); ?></td>
+										</tr>
+										<tr>
+											<td>Ketua Kelompok</td>
+											<td>:</td>
+											<td><?= strtoupper($kelompok['nama_ketua']); ?></td>
+										</tr>
+										<tr>
+											<td>Kategori Kelompok</td>
+											<td>:</td>
+											<td><?= strtoupper($kelompok['kategori']); ?></td>
+										</tr>
+
+										<tr>
+											<td>Keterangan</td>
+											<td>:</td>
+											<td><?= $kelompok['keterangan']; ?></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-								<div class='modal-dialog'>
-									<div class='modal-content'>
-										<div class='modal-header'>
-											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-										</div>
-										<div class='modal-body btn-info'>
-											Apakah Anda yakin ingin menghapus data ini?
-										</div>
-										<div class='modal-footer'>
-											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-											<a class='btn-ok'>
-												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-								<div class='modal-dialog'>
-									<div class='modal-content'>
-										<div class='modal-header'>
-											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-										</div>
-										<div class='modal-body btn-info'>
-											Apakah Anda yakin ingin mengembalikan status data penduduk ini?
-										</div>
-										<div class='modal-footer'>
-											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-											<a class='btn-ok'>
-												<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Ya</button>
-											</a>
-										</div>
-									</div>
-								</div>
+
+							<h5><b>Anggota Kelompok</b></h5>
+							<div class="table-responsive">
+								<table class="table table-bordered dataTable table-hover">
+									<thead class="bg-gray disabled color-palette">
+										<tr>
+											<th><input type="checkbox" id="checkall"/></th>
+											<th class="padat">No</th>
+											<th class="padat">Aksi</th>
+											<th class="padat">Nomor Anggota</th>
+											<th width="10%">NIK</th>
+											<th width="10%">Nama</th>
+											<th width="10%">Tempat / Tanggal Lahir</th>
+											<th class="padat">Umur (Tahun)</th>
+											<th class="padat">Jenis Kelamin</th>
+											<th width="50%">Alamat</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach ($main as $key => $data): ?>
+											<tr>
+												<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
+												<td class="padat"><?= ($key + 1) ?></td>
+												<td class="padat">
+													<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
+													<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+												</td>
+												<td class="padat"><?= $data['no_anggota']?></td>
+												<td><?= $data['nik']?></td>
+												<td><?= $data['nama']?></td>
+												<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
+												<td class="padat"><?= $data['umur']?></td>
+												<td><?= $data['sex']?></td>
+												<td><?= $data['alamat']?></td>
+											</tr>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -125,4 +142,5 @@
 		</form>
 	</section>
 </div>
+<?php $this->load->view('global/confirm_delete');?>
 

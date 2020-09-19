@@ -1,12 +1,5 @@
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Surat Pengantar Permohonan Duplikat Surat Nikah</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Cetak Surat</a></li>
-			<li class="active">Surat Pengantar Permohonan Duplikat Surat Nikah</li>
-		</ol>
-	</section>
+	<?php $this->load->view("surat/form/breadcrumb.php"); ?>
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">

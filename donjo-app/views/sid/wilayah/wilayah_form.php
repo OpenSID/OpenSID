@@ -26,7 +26,7 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label" for="dusun">Nama  <?= ucwords($this->setting->sebutan_dusun)?></label>
 													<div class="col-sm-7">
-														<input  id="dusun" class="form-control input-sm required" type="text" placeholder="Nama  <?= ucwords($this->setting->sebutan_dusun)?>" name="dusun" value="<?= $dusun?>">
+														<input  id="dusun" class="form-control input-sm nama_terbatas required" maxlength="100" type="text" placeholder="Nama  <?= ucwords($this->setting->sebutan_dusun)?>" name="dusun" value="<?= $dusun?>">
 													</div>
 												</div>
 											</div>
@@ -75,6 +75,7 @@
 </div>
 <script src="<?= base_url()?>assets/js/validasi.js"></script>
 <script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script type="text/javascript">
 	setTimeout(function() {
 		$('#dusun').rules('add', {

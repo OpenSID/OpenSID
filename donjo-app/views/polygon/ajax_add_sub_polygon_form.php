@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script>
  	$('.my-colorpicker2').colorpicker();
 </script>
@@ -11,7 +12,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label">Nama Kategori Area</label>
-							<input name="nama" class="form-control input-sm" type="text" value="<?=$polygon['nama']?>"></input>
+							<input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" value="<?=$polygon['nama']?>"></input>
 						</div>
 						<div class="form-group">
 							<label class="control-label">Warna</label>

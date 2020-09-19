@@ -1,49 +1,88 @@
-<?php class Suplemen_model extends CI_Model {
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk modul Suplemen
+ *
+ * donjo-app/models/Suplemen_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+class Suplemen_model extends CI_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function list_suplemen($sasaran=0)
-	{
-		if ($sasaran > 0)
-		{
-			$strSQL = "SELECT *
-				FROM suplemen s
-				WHERE s.sasaran=".$sasaran;
-		}
-		else
-		{
-			$strSQL = "SELECT *
-				FROM suplemen s WHERE 1";
-		}
-		$query = $this->db->query($strSQL);
-		$data = $query->result_array();
-		return $data;
-	}
-
 	public function create()
 	{
-		$data = array(
-			'sasaran' => $this->input->post('cid'),
-			'nama' => $this->input->post('nama'),
-			'keterangan' => $this->input->post('keterangan')
-		);
+		$data = $this->validasi($this->input->post());
 		$hasil = $this->db->insert('suplemen', $data);
 		$_SESSION["success"] = $hasil ? 1 : -1;
 	}
 
-	public function list_data($sasaran=0)
+	private function validasi($post)
 	{
-		if ($sasaran > 0)
-		{
-			$data = $this->db->select('*')->where('sasaran',$sasaran)->order_by('nama')->get('suplemen')->result_array();
-		}
-		else
-		{
-			$data = $this->db->select('*')->order_by('nama')->get('suplemen')->result_array();
-		}
+		$data = [];
+		// Ambil dan bersihkan data input
+		$data['sasaran'] = $post['sasaran'];
+		$data['nama'] = nomor_surat_keputusan($post['nama']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
+		return $data;
+	}
+
+	public function list_data($sasaran = 0)
+	{
+		if ($sasaran > 0) $this->db->where('s.sasaran', $sasaran);
+
+		$data = $this->db
+			->select('s.*')
+			->select('COUNT(st.id) AS jml')
+			->from('suplemen s')
+			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
+			->order_by('s.nama')
+			->group_by('s.id')
+			->get()
+			->result_array();
+
 		return $data;
 	}
 
@@ -157,7 +196,16 @@
 
 	public function get_suplemen($id)
 	{
-		$data = $this->db->where('id',$id)->get('suplemen')->row_array();
+		$data = $this->db
+			->select('s.*')
+			->select('COUNT(st.id) AS jml')
+			->from('suplemen s')
+			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
+			->where('s.id', $id)
+			->group_by('s.id')
+			->get()
+			->row_array();
+
 		return $data;
 	}
 
@@ -338,17 +386,13 @@
 	public function hapus($id)
 	{
 		$hasil = $this->db->where('id', $id)->delete('suplemen');
-		
+
 		status_sukses($hasil); //Tampilkan Pesan
 	}
 
 	public function update($id)
 	{
-		$data = array(
-			'sasaran' => $this->input->post('cid'),
-			'nama' => $this->input->post('nama'),
-			'keterangan' => $this->input->post('keterangan')
-		);
+		$data = $this->validasi($this->input->post());
 		$hasil = $this->db->where('id',$id)->update('suplemen', $data);
 
 		status_sukses($hasil); //Tampilkan Pesan
@@ -369,7 +413,7 @@
 				'id_suplemen' => $id,
 				'id_terdata' => $id_terdata,
 				'sasaran' => $sasaran,
-				'keterangan' => $post['keterangan']
+				'keterangan' => substr(htmlentities($post['keterangan']), 0, 100) // Batasi 100 karakter
 			);
 			return $this->db->insert('suplemen_terdata', $data);
 		}
@@ -384,7 +428,7 @@
 	// $id = suplemen_terdata.id
 	public function edit_terdata($post,$id)
 	{
-		$data = $post;
+		$data['keterangan'] = substr(htmlentities($post['keterangan']), 0, 100); // Batasi 100 karakter
 		$this->db->where('id',$id);
 		$this->db->update('suplemen_terdata', $data);
 	}

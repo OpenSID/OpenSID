@@ -125,154 +125,22 @@ class Migrasi_1911_ke_1912 extends CI_model {
 			$this->db->query("CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1");
 		// Sesuaikan tabel config dengan sql_mode STRICT_TRANS_TABLES
 	  $this->dbforge->modify_column('config', 'logo varchar(100) NULL DEFAULT NULL');
-	  $this->dbforge->modify_column('config', 'lat varchar(20) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('config', 'lng varchar(20) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('config', 'zoom tinyint(4) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('config', 'map_tipe varchar(20) NULL DEFAULT NULL');		
+	  $this->dbforge->modify_column('config', 'lat varchar(20) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('config', 'lng varchar(20) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('config', 'zoom tinyint(4) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('config', 'map_tipe varchar(20) NULL DEFAULT NULL');
 	  $this->dbforge->modify_column('config', 'path text NULL');
   	if ($this->db->field_exists('g_analytic','config'))
 		{
-		  $this->dbforge->drop_column('config', 'g_analytic');					
+		  $this->dbforge->drop_column('config', 'g_analytic');
 		}
 		// Sesuaikan impor analisis dengan sql_mode STRICT_TRANS_TABLES
-	  $this->dbforge->modify_column('analisis_master', 'id_kelompok int(11) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('analisis_master', 'id_child smallint(4) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('analisis_master', 'format_impor tinyint(2) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('analisis_kategori_indikator', 'kategori_kode varchar(3) NULL DEFAULT NULL');		
-	  $this->dbforge->modify_column('analisis_kategori_indikator', 'id int(11) NOT NULL AUTO_INCREMENT');		
-	  $this->dbforge->modify_column('analisis_indikator', 'id_kategori int(4) NOT NULL');		
-
-	  $this->siskeudes_2019();
+	  $this->dbforge->modify_column('analisis_master', 'id_kelompok int(11) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('analisis_master', 'id_child smallint(4) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('analisis_master', 'format_impor tinyint(2) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('analisis_kategori_indikator', 'kategori_kode varchar(3) NULL DEFAULT NULL');
+	  $this->dbforge->modify_column('analisis_kategori_indikator', 'id int(11) NOT NULL AUTO_INCREMENT');
+	  $this->dbforge->modify_column('analisis_indikator', 'id_kategori int(4) NOT NULL');
 	}
 
-	private function siskeudes_2019()
-	{
-		// Ubah tabel keuangan untuk Siskeudes 2019
-		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_anggaran'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_anggaran ADD Kd_SubRinci varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_anggaran_log ADD No_Perkades varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_anggaran_log ADD Petugas varchar(80) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_anggaran_log add Tanggal varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_anggaran_log MODIFY COLUMN UserID VARCHAR(50) NOT NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_kegiatan add Jbt_PPTKD varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_kegiatan add Kd_Sub varchar(30) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_kegiatan add Nilai BIGINT UNSIGNED");
-			$this->db->query("ALTER TABLE keuangan_ta_kegiatan add NilaiPAK BIGINT UNSIGNED");
-			$this->db->query("ALTER TABLE keuangan_ta_kegiatan add Satuan VARCHAR(30)");
-			$this->db->query("ALTER TABLE keuangan_ta_kegiatan MODIFY COLUMN Kd_Bid varchar(100) NULL");		
-		}
-		if (!$this->db->field_exists('ID_Bank','keuangan_ref_bank_desa'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ref_bank_desa ADD ID_Bank varchar(10) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ref_bank_desa MODIFY COLUMN Alamat_Pemilik varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ref_bank_desa MODIFY COLUMN Nama_Pemilik varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ref_bank_desa MODIFY COLUMN No_Identitas varchar(20) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ref_bank_desa MODIFY COLUMN No_Telepon varchar(20) NULL");		
-		if (!$this->db->field_exists('Jns_Kegiatan','keuangan_ref_kegiatan'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ref_kegiatan ADD Jns_Kegiatan tinyint(5)");
-			$this->db->query("ALTER TABLE keuangan_ref_kegiatan ADD Kd_Sub varchar(30) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ref_kegiatan MODIFY COLUMN Kd_Bid varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ref_korolari MODIFY COLUMN Jenis varchar(11) NULL");		
-		if (!$this->db->field_exists('ID_Bank','keuangan_ta_mutasi'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_mutasi ADD ID_Bank varchar(10) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_mutasi MODIFY COLUMN Keterangan varchar(200) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_mutasi MODIFY COLUMN Kd_Bank varchar(100) NULL");		
-		if (!$this->db->field_exists('ID_Bank','keuangan_ta_pajak'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_pajak ADD ID_Bank varchar(10) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_pemda MODIFY COLUMN Logo MEDIUMBLOB NULL");		
-		if (!$this->db->field_exists('ID_Bank','keuangan_ta_pencairan'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_pencairan ADD ID_Bank varchar(10) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_pencairan ADD Kunci varchar(10) NULL");
-		}	
-		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_rab'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_rab ADD Kd_SubRinci varchar(10) NULL");
-		}	
-		if (!$this->db->field_exists('Kd_Sub','keuangan_ta_rpjm_kegiatan'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_rpjm_kegiatan ADD Kd_Sub varchar(30) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_rpjm_kegiatan MODIFY COLUMN Kd_Bid varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_rpjm_misi MODIFY COLUMN Uraian_Misi varchar(200) NULL");		
-		if (!$this->db->field_exists('No_ID','keuangan_ta_rpjm_pagu_tahunan'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_rpjm_pagu_tahunan ADD No_ID varchar(20) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_rpjm_visi MODIFY COLUMN Uraian_Visi varchar(250) NULL");		
-		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_sppbukti'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_sppbukti ADD Kd_SubRinci varchar(10) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_sppbukti ADD No_SPP varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_sppbukti ADD Rek_Bank varchar(100) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_sppbukti MODIFY COLUMN Keterangan varchar(200) NULL");		
-		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_spp_rinci'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_spp_rinci ADD Kd_SubRinci varchar(10) NULL");
-		}	
-		if (!$this->db->field_exists('ID_Bank','keuangan_ta_tbp'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_tbp ADD ID_Bank varchar(10) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_tbp MODIFY COLUMN Uraian varchar(250) NULL");		
-		if (!$this->db->field_exists('Kd_SubRinci','keuangan_ta_tbp_rinci'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_tbp_rinci ADD Kd_SubRinci varchar(10) NULL");
-		}	
-		if (!$this->db->field_exists('Agt','keuangan_ta_triwulan'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Jan varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Peb varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Mar varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Apr varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Mei varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Jun varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Jul varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Agt varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Sep varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Okt varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Nop varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Des varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan ADD Kd_SubRinci varchar(10) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan MODIFY COLUMN Tw1Rinci varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan MODIFY COLUMN Tw2Rinci varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan MODIFY COLUMN Tw3Rinci varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan MODIFY COLUMN Tw4Rinci varchar(100) NULL");		
-		if (!$this->db->field_exists('Agt','keuangan_ta_triwulan_rinci'))
-		{
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Jan varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Peb varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Mar varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Apr varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Mei varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Jun varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Jul varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Agt varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Sep varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Okt varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Nop varchar(100) NULL");
-			$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci ADD Des varchar(100) NULL");
-		}	
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci MODIFY COLUMN Tw1Rinci varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci MODIFY COLUMN Tw2Rinci varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci MODIFY COLUMN Tw3Rinci varchar(100) NULL");		
-		$this->db->query("ALTER TABLE keuangan_ta_triwulan_rinci MODIFY COLUMN Tw4Rinci varchar(100) NULL");
-		// Sesuaikan tabel keuangan dengan sql_mode STRICT_TRANS_TABLES
-		$this->db->query("ALTER TABLE keuangan_ta_spj_rinci MODIFY COLUMN Alamat varchar(100) NULL");
-		$this->db->query("ALTER TABLE keuangan_ref_bank_desa MODIFY COLUMN Kantor_Cabang varchar(100) NULL");
-		$this->db->query("ALTER TABLE keuangan_ta_pajak MODIFY COLUMN Keterangan varchar(250) NULL");
-		$this->db->query("ALTER TABLE keuangan_ta_pencairan MODIFY COLUMN Keterangan varchar(250) NULL");
-		$this->db->query("ALTER TABLE keuangan_ta_spp MODIFY COLUMN Keterangan varchar(250) NULL");
-		$this->db->query("ALTER TABLE keuangan_ta_pemda MODIFY COLUMN Logo MEDIUMBLOB NULL");		
-	}
 }

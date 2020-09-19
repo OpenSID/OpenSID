@@ -9,69 +9,52 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-					</div>
-					<div class="box-body">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Profil Penerima Manfaat Program</h3>
-											</div>
-											<div class="box-body">
-												<table class="table table-bordered  table-striped table-hover" >
-													<tbody>
-														<tr>
-															<td style="padding-top : 10px;padding-bottom : 10px; width:30%;" >Nama Penerima</td>
-															<td> : <?= strtoupper($profil["nama"])?></td>
-														</tr>
-														<tr>
-															<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
-															<td> : <?= $profil["ndesc"]?></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Program yang pernah diikuti</h3>
-											</div>
-											<div class="table-responsive">
-												<table class="table table-bordered dataTable table-hover">
-													<thead class="bg-gray disabled color-palette">
-														<tr>
-															<th>No</th>
-															<th nowrap>Waktu/Tanggal</th>
-															<th nowrap>Nama Program</th>
-															<th >Keterangan</th>
-														</tr>
-													</thead>
-													<tbody>
-														<?php $nomer = 0;?>
-														<?php foreach ($programkerja as $item): $nomer++;?>
-															<tr>
-																<td><?= $nomer?></td>
-																<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
-																<td nowrap><a href="<?= site_url('program_bantuan/detail/1/'.$item["id"].'/');?>/1"><?= $item["nama"] ?></a></td>
-																<td nowrap width="60%"><?= $item["ndesc"];?></td>
-															</tr>
-														<?php endforeach; ?>
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+		<div class="box box-info">
+			<div class="box-header with-border">
+				<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+			</div>
+			<div class="box-body">
+				<h5><b>Profil Penerima Manfaat Program Bantuan</b></h5>
+				<div class="table-responsive">
+					<table class="table table-bordered  table-striped table-hover tabel-rincian" >
+						<tbody>
+							<tr>
+								<td width ="20%">Nama Penerima</td>
+								<td width ="1">:</td>
+								<td><?= strtoupper($profil["nama"])?></td>
+							</tr>
+							<tr>
+								<td>Keterangan</td>
+								<td>:</td>
+								<td><?= $profil["ndesc"]?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
+
+				<h5><b>Program Bantuan Yang Pernah Diikuti</b></h5>
+				<div class="table-responsive">
+					<table class="table table-bordered dataTable table-hover tabel-daftar">
+						<thead class="bg-gray disabled color-palette">
+							<tr>
+								<th class="padat">No</th>
+								<th width="15%">Waktu/Tanggal</th>
+								<th width="15%">Nama Program</th>
+								<th >Keterangan</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($programkerja as $key => $item): ?>
+								<tr>
+									<td class="padat"><?= ($key + 1); ?></td>
+									<td nowrap><?= fTampilTgl($item["sdate"],$item["edate"]);?></td>
+									<td nowrap><a href="<?= site_url("program_bantuan/detail/$item[id]")?>"><?= $item["nama"] ?></a></td>
+									<td><?= $item["ndesc"];?></td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

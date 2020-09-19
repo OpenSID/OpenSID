@@ -1,5 +1,5 @@
 <!-- widget Peta Wilayah Desa -->
-<div class="box box-default box-solid">
+<div class="box box-primary box-solid">
     <div class="box-header">
         <h3 class="box-title">
         <i class="fa fa-map-marker"></i>
@@ -20,6 +20,7 @@
     var posisi = [-1.0546279422758742,116.71875000000001];
     var zoom = 10;
   <?php endif; ?>
+
   //Style polygon
   var style_polygon = {
     stroke: true,
@@ -32,12 +33,7 @@
   var wilayah_desa = L.map('map_wilayah').setView(posisi, zoom);
 
   //Menampilkan BaseLayers Peta
-  var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(wilayah_desa);
-
-  var baseLayers = {
-    'OpenStreetMap': defaultLayer,
-    'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a>'}),
-  };
+  var baseLayers = getBaseLayers(wilayah_desa, '<?=$this->setting->google_key?>');
 
   L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(wilayah_desa);
 

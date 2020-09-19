@@ -5,29 +5,22 @@
 	public function __construct()
 	{
 		parent::__construct();
-	  require_once APPPATH.'/models/Urut_model.php';
+		require_once APPPATH.'/models/Urut_model.php';
 		$this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
+		$this->load->model(['referensi_model']);
 	}
 
-	public function list_data($aktif = false)
+	public function list_data($offset = 0, $limit = 500)
 	{
-		$sql = "SELECT u.*, p.nama as nama, p.nik as nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama
-			FROM tweb_desa_pamong u
-			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk b ON p.pendidikan_kk_id = b.id
-			LEFT JOIN tweb_penduduk_sex x ON p.sex = x.id
-			LEFT JOIN tweb_penduduk_agama g ON p.agama_id = g.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk b2 ON u.pamong_pendidikan = b2.id
-			LEFT JOIN tweb_penduduk_sex x2 ON u.pamong_sex = x2.id
-			LEFT JOIN tweb_penduduk_agama g2 ON u.pamong_agama = g2.id
-			WHERE 1";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql($aktif);
-		$sql .= ' ORDER BY urut';
+		$this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
 
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+		$this->list_data_sql();
+		$this->db->order_by('u.urut')
+			->limit($limit, $offset);
 
+		$data = $this->db->get()->result_array();
+
+		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
 			if (empty($data[$i]['id_pend']))
@@ -47,9 +40,43 @@
 			{
 				if (empty($data[$i]['tempatlahir'])) $data[$i]['tempatlahir'] = '-';
 			}
-			$data[$i]['no'] = $i + 1;
+			$data[$i]['no'] = $j + 1;
+			$j++;
 		}
+
 		return $data;
+	}
+
+	public function paging($p)
+	{
+		$this->db->select('COUNT(u.pamong_id) AS jml');
+		$this->list_data_sql();
+
+		$row = $this->db->get()->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_sql()
+	{
+		$this->db
+			->from('tweb_desa_pamong u')
+			->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
+			->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+			->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+			->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
+			->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
+			->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
+			->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT');
+		$this->search_sql();
+		$this->filter_sql();
 	}
 
 	public function autocomplete()
@@ -67,36 +94,36 @@
 				UNION SELECT pamong_nip FROM tweb_desa_pamong";
 		$query = $this->db->query($sql);
 		$data  = $query->result_array();
+
 		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (p.nama LIKE '$kw' OR u.pamong_nama LIKE '$kw' OR u.pamong_niap LIKE '$kw' OR u.pamong_nip LIKE '$kw' OR u.pamong_nik LIKE '$kw' OR p.nik LIKE '$kw')";
-			return $search_sql;
+			$cari = $this->db->escape_like_str($this->session->cari);
+			$this->db
+				->group_start()
+					->like('p.nama', $cari)
+					->or_like('u.pamong_nama', $cari)
+					->or_like('u.pamong_niap', $cari)
+					->or_like('u.pamong_nip', $cari)
+					->or_like('u.pamong_nik', $cari)
+					->or_like('p.nik', $cari)
+				->group_end();
 		}
 	}
 
-	private function filter_sql($aktif=false)
+	private function filter_sql()
 	{
-		if ($aktif)
+		if ($this->session->has_userdata('status'))
 		{
-			return " AND u.pamong_status = '1'";
-		}
-		if (!empty($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND u.pamong_status = $kf";
-			return $filter_sql;
+			$this->db->where('u.pamong_status', $this->session->status);
 		}
 	}
 
-	public function get_data($id=0)
+	public function get_data($id = 0)
 	{
 		$sql = "SELECT u.*, p.nama as nama
 			FROM tweb_desa_pamong u
@@ -113,9 +140,10 @@
 		return $data;
 	 }
 
-	public function get_pamong_by_nama($nama='')
+	public function get_pamong($id = null)
 	{
-		$pamong = $this->db->select('*')->from('tweb_desa_pamong')->where('pamong_nama', $nama)->limit(1)->get()->row_array();
+		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();;
+
 		return $pamong;
 	}
 
@@ -165,7 +193,7 @@
 		$data['pamong_status'] = $this->input->post('pamong_status');
 		$data['pamong_nosk'] = strip_tags($this->input->post('pamong_nosk'));
 		$data['pamong_tglsk'] = !empty($this->input->post('pamong_tglsk')) ? tgl_indo_in($this->input->post('pamong_tglsk')) : NULL;
-		$data['pamong_tanggallahir'] = !empty($this->input->post('pamong_tanggallahir')) ? tgl_indo_in($this->input->post('pamong_tanggallahir')) : NULL;		
+		$data['pamong_tanggallahir'] = !empty($this->input->post('pamong_tanggallahir')) ? tgl_indo_in($this->input->post('pamong_tanggallahir')) : NULL;
 		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? strip_tags($this->input->post('pamong_nohenti')) : NULL;
 		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
 		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab')) ?: NULL;
@@ -218,14 +246,14 @@
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
 		if (!empty($foto))
 		{
 			unlink(LOKASI_USER_PICT.$foto);
 			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
 		}
-		
+
 		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
@@ -242,24 +270,14 @@
 		}
 	}
 
-	public function ttd($id='', $val=0)
+	public function ttd($jenis, $id, $val)
 	{
 		if ($val == 1)
 		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / default
-			$this->db->where('pamong_ttd', 1)->update('tweb_desa_pamong', array('pamong_ttd'=>0));
+			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
+			$this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
 		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ttd'=>$val));
-	}
-
-	public function ub($id='', $val=0)
-	{
-		if ($val == 1)
-		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd u.b
-			$this->db->where('pamong_ub', 1)->update('tweb_desa_pamong', array('pamong_ub'=>0));
-		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', array('pamong_ub'=>$val));
+		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
 	}
 
 	public function get_ttd()
@@ -279,7 +297,7 @@
 	// 		2 - naik
 	public function urut($id, $arah)
 	{
-  	$this->urut_model->urut($id, $arah);
+		$this->urut_model->urut($id, $arah);
 	}
 
 	/*
@@ -295,6 +313,44 @@
 			->result_array();
 
 		return $data;
+	}
+
+	/*
+	 * Ambil data untuk widget aparatur desa
+	 */
+	public function list_aparatur_desa()
+	{
+		$data['daftar_perangkat'] = $this->db->select('dp.jabatan, dp.foto,
+			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
+			ELSE p.nama END AS nama', FALSE)
+			->from('tweb_desa_pamong dp')
+			->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
+			->where('dp.pamong_status', '1')
+			->order_by('dp.urut')
+			->get()
+			->result_array();
+
+		foreach ($data['daftar_perangkat'] as $key => $perangkat)
+		{
+			$perangkat['foto'] = AmbilFoto($perangkat['foto'], "besar");
+			if (!$data['foto_pertama'] and $perangkat['foto'] != FOTO_DEFAULT) $data['foto_pertama'] = $key;
+		 	$data['daftar_perangkat'][$key] = $perangkat;
+		}
+
+		return $data;
+	}
+
+	//----------------------------------------------------------------------------------------------------
+
+	/**
+	 * @param $id id
+	 * @param $val status : 1 = Unlock, 2 = Lock
+	 */
+	public function lock($id, $val)
+	{
+		$this->db
+			->where('pamong_id', $id)
+			->update('tweb_desa_pamong', ['pamong_status' => $val]);
 	}
 
 }

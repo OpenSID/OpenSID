@@ -2,7 +2,6 @@
 	$data['jenazah'] = $data['individu'];
 	$data['mati'] = $this->penduduk_model->list_penduduk_status_dasar(2); // status mati
 	$data['warganegara'] = $this->penduduk_model->list_warganegara();
-	$data['agama'] = $this->penduduk_model->list_agama();
 	$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
 	$data['sex'] = $this->penduduk_model->list_sex();
 	$data['sebab'] = array(

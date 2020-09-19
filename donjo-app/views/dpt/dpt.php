@@ -63,34 +63,33 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
 									<form id="mainform" name="mainform" action="" method="post">
 										<input type="hidden" name="rt" value="">
-
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/sex/1/'.$o)?>')">
+												<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('dpt/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
-													<option value="1" <?php if ($sex==1 ): ?>selected<?php endif ?>>Laki-Laki</option>
-													<option value="2" <?php if ($sex==2 ): ?>selected<?php endif ?>>Perempuan</option>
+													<?php foreach ($list_jenis_kelamin AS $data): ?>
+														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
+													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('dpt/dusun')?>')">
 													<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 													<?php foreach ($list_dusun AS $data): ?>
-														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
+														<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= set_ucwords($data['dusun'])?></option>
 													<?php endforeach;?>
 												</select>
 												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('dpt/rw')?>')" >
-														<option value="">RW</option>
+														<option value="">Pilih RW</option>
 														<?php foreach ($list_rw AS $data): ?>
-															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
+															<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= set_ucwords($data['rw'])?></option>
 														<?php endforeach;?>
 													</select>
 												<?php endif; ?>
 												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('dpt/rt')?>')">
-														<option value="">RT</option>
+														<option value="">Pilih RT</option>
 														<?php foreach ($list_rt AS $data): ?>
 															<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
 														<?php endforeach;?>
@@ -99,9 +98,9 @@
 											</div>
 											<div class="col-sm-3">
 												<div class="input-group input-group-sm pull-right">
-													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();}">
+													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/filter/cari")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -114,38 +113,38 @@
 															<tr>
 																<th>No</th>
 																<?php if ($o==2): ?>
-                                  <th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                 <?php elseif ($o==1): ?>
-                                  <th><a href="<?= site_url("dpt/index/$p/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
-                                <?php if ($o==4): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                <?php elseif ($o==3): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
+																	<th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==1): ?>
+																	<th><a href="<?= site_url("dpt/index/$p/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th><a href="<?= site_url("dpt/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
+																<?php if ($o==4): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==3): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<?php if ($o==6): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                <?php elseif ($o==5): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/6")?>">No. KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==5): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/6")?>">No. KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<th>Alamat</th>
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>
 																<th>RT</th>
 																<th nowrap>Pendidikan dalam KK</th>
 																<?php if ($o==8): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
-                                <?php elseif ($o==7): ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/8")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
-                                <?php else: ?>
-                                  <th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort fa-sm'></i></a></th>
-                                <?php endif; ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o==7): ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/8")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php else: ?>
+																	<th nowrap><a href="<?= site_url("dpt/index/$p/7")?>">Umur Pada <?= $_SESSION['tanggal_pemilihan']?> <i class='fa fa-sort fa-sm'></i></a></th>
+																<?php endif; ?>
 																<th nowrap>Pekerjaan</th>
 																<th nowrap>Kawin</th>
 															</tr>
@@ -175,83 +174,7 @@
 											</div>
 										</div>
 									</form>
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("dpt")?>" method="post" class="form-horizontal">
-													<label>
-														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="50" <?php selected($per_page,50); ?> >50</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
-															<option value="200" <?php selected($per_page,200); ?> >200</option>
-														</select>
-														Dari
-														<strong><?= $paging->num_rows?></strong>
-														Total Data
-													</label>
-												</form>
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="dataTables_paginate paging_simple_numbers">
-												<ul class="pagination">
-													<?php if ($paging->start_link): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
-													<?php endif; ?>
-													<?php if ($paging->prev): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-													<?php endif; ?>
-													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("dpt/index/$i/$o")?>"><?= $i?></a></li>
-													<?php endfor; ?>
-													<?php if ($paging->next): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-													<?php endif; ?>
-													<?php if ($paging->end_link): ?>
-														<li><a href="<?= site_url("dpt/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
-													<?php endif; ?>
-												</ul>
-											</div>
-										</div>
-									</div>
-							</div>
-						</div>
-					</div>
-					<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-						<div class='modal-dialog'>
-							<div class='modal-content'>
-								<div class='modal-header'>
-									<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-									<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-								</div>
-								<div class='modal-body btn-info'>
-									Apakah Anda yakin ingin menghapus data ini?
-								</div>
-								<div class='modal-footer'>
-									<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-									<a class='btn-ok'>
-										<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-						<div class='modal-dialog'>
-							<div class='modal-content'>
-								<div class='modal-header'>
-									<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-									<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-								</div>
-								<div class='modal-body btn-info'>
-									Apakah Anda yakin ingin mengembalikan status data penduduk ini?
-								</div>
-								<div class='modal-footer'>
-									<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-									<a class='btn-ok'>
-										<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Ya</button>
-									</a>
+									<?php $this->load->view('global/paging');?>
 								</div>
 							</div>
 						</div>
@@ -261,4 +184,3 @@
 		</div>
 	</section>
 </div>
-

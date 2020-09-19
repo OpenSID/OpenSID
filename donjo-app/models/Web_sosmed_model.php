@@ -7,56 +7,109 @@ class Web_sosmed_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function get_sosmed($id=0)
+	public function get_sosmed($sosmed)
 	{
-		$sql = "SELECT * FROM media_sosial WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
+		$id = $this->get_id($sosmed);
+
+		$data = $this->db->where('id', $id)->get('media_sosial')->row_array();
+
 		return $data;
 	}
 
 	public function list_sosmed()
 	{
-		$sql = "SELECT * FROM media_sosial WHERE 1";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db->get('media_sosial')->result_array();
+
 		return $data;
 	}
 
-	public function update($id=0)
+	public function get_id($sosmed)
 	{
-		$data = $_POST;
+		$list_sosmed = $this->list_sosmed();
 
-		$sql = "SELECT * FROM media_sosial WHERE id = ? ";
-		$query = $this->db->query($sql, $id);
-		$hasil = $query->result_array();
+		foreach ($list_sosmed as $list)
+		{
+			$nama = str_replace(' ', '-', strtolower($list['nama']));
 
-		if ($hasil)
-		{
-			$this->db->where('id', $id);
-			$outp = $this->db->update('media_sosial', $data);
+			if($nama == $sosmed) return $list['id'];
 		}
-		else
+	}
+
+	public function update($sosmed)
+	{
+		$id = $this->get_id($sosmed);
+
+		$data = $this->input->post();
+		$link = trim(strip_tags($this->input->post('link')));
+
+		switch ($id)
 		{
-			$outp = $this->db->insert('media_sosial', $data);
+			case '6':
+				$data['link'] = preg_replace('/[^A-Za-z0-9]/', '', $link);
+				break;
+
+			case '7':
+				$data['link'] = preg_replace('/[^A-Za-z0-9_]/', '', $link);
+				break;
+
+			default:
+				$data['link'] = $link;
+				break;
 		}
+
+		$this->db->where('id', $id);
+		$outp = $this->db->update('media_sosial', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	// Penanganan khusus sesuai jenis sosmed
-	public function link_sosmed($id, $link)
+	public function link_sosmed($id = 0, $link = '', $tipe = 1)
 	{
 		if (empty($link)) return $link;
 
-		switch ($id) {
-			case '6':
-				// Whatsapp. $link adalah nomor telpon WA seperti +6281234567890
-				$link = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $link);
+		switch (true)
+		{
+			case ($id == 1 && $tipe == 1) :
+				$link = 'https://web.facebook.com/' . $link;
 				break;
+
+			case ($id == 1 && $tipe == 2) :
+				$link = 'https://web.facebook.com/groups/' . $link;
+				break;
+
+			case ($id == 2) :
+				$link = 'https://twitter.com/' . $link;
+				break;
+
+			case ($id == 4) :
+				$link = 'https://www.youtube.com/channel/' . $link;
+				break;
+
+			case ($id == 5) :
+				$link = 'https://www.instagram.com/' . $link . '/';
+				break;
+
+			case ($id == 6 && $tipe == 1) :
+				$link = 'https://api.whatsapp.com/send?phone=' . $link;
+				break;
+
+			case ($id == 6 && $tipe == 2) :
+				$link = 'https://chat.whatsapp.com/' . $link;
+				break;
+
+			case ($id == 7 && $tipe == 1) :
+				$link = 'https://t.me/' . $link;
+				break;
+
+			case ($id == 7 && $tipe == 2) :
+				$link = 'https://t.me/joinchat/' . $link;
+				break;
+
 			default:
 				break;
 		}
+
 		return $link;
 	}
 

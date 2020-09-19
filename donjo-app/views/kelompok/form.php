@@ -1,3 +1,48 @@
+<?php
+/**
+ * File ini:
+ *
+ * Form kelompok di modul Kelompok
+ *
+ * donjo-app/views/kelompok/form.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Master Kelompok</h1>
@@ -19,13 +64,13 @@
 							<div class="form-group">
 								<label  class="col-sm-3 control-label" for="nama">Nama Kelompok</label>
 								<div class="col-sm-7">
-									<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nama Kelompok" name="nama" value="<?= $kelompok['nama']?>">
+									<input  id="nama" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama Kelompok" name="nama" value="<?= $kelompok['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label  class="col-sm-3 control-label" for="kode">Kode Kelompok</label>
 								<div class="col-sm-7">
-									<input  id="kode" class="form-control input-sm" type="text" placeholder="Kode Kelompok" name="kode" value="<?= $kelompok['kode']?>">
+									<input  id="kode" class="form-control input-sm nomor_sk" type="text" placeholder="Kode Kelompok" name="kode" value="<?= $kelompok['kode']?>">
 								</div>
 							</div>
 							<div class="form-group">
@@ -34,7 +79,7 @@
 									<select class="form-control input-sm select2 required" id="id_master" name="id_master">
 										<option value="">-- Silakan Masukkan Kategori Kelompok--</option>
 										<?php foreach ($list_master AS $data): ?>
-											<option value="<?= $data['id']?>" <?php if ($kelompok['id_master'] == $data['id']): ?>selected<?php endif ?>><?= $data['kelompok']?></option>
+											<option value="<?= $data['id']; ?>" <?= selected($kelompok['id_master'], $data['id']); ?>><?= $data['kelompok']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -45,11 +90,7 @@
 									<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
 										<option value="">-- Silakan Masukkan NIK / Nama--</option>
 										<?php foreach ($list_penduduk as $data): ?>
-											<?php if ($data['id'] === $kelompok['id_ketua']): ?>
-												<option value="<?= $data['id']?>" selected>NIK :<?= $data['nik']." - ".$data['nama']?></option>
-											<?php else: ?>
-												<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']?></option>
-											<?php endif ?>
+											<option value="<?= $data['id']; ?>" <?= selected($data['id'], $kelompok['id_ketua']); ?>>NIK :<?= $data['nik'] . " - " . $data['nama'] . " - " . $data['alamat']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>

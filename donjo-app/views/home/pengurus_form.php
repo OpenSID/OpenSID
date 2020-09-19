@@ -162,7 +162,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nosk">Nomor SK Pengangkatan</label>
 								<div class="col-sm-7">
-									<input name="pamong_nosk" class="form-control input-sm" type="text" placeholder="Nomor SK Pengangkatan" value="<?= $pamong['pamong_nosk']?>" ></input>
+									<input name="pamong_nosk" class="form-control input-sm" type="text" maxlength="30" placeholder="Nomor SK Pengangkatan" value="<?= $pamong['pamong_nosk']?>" ></input>
 								</div>
 							</div>
 							<div class='form-group'>

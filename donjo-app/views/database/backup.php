@@ -6,18 +6,20 @@
 													</div>
 													<div class="box-body">
 														<div class="row">
-															<div class="col-sm-12">
+															<div class="col-sm-8">
 																<form class="form-horizontal">
 																	<table class="table table-bordered">
 																		<tbody>
 																			<tr>
-																				<td style="padding-top:20px;padding-bottom:10px;">
-																					<div class="form-group">
-																						<label for="file"  class="col-md-4 col-lg-3 control-label">Backup Seluruh Database SID (.sql)</label>
-																						<div class="col-sm-12 col-md-3 col-lg-2">
-																							<a href="<?= site_url("database")?>/exec_backup" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i>  Unduh</a>
-																						</div>
-																					</div>
+																				<td class="col-sm-10"><b>Backup Seluruh Database SID (.sql)</b></td>
+																				<td class="col-sm-2">
+																					<a href="<?= site_url("database/exec_backup")?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Database</a>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td class="col-sm-10"><b>Backup Seluruh Folder Desa SID (.zip)</b> </td>
+																				<td class="col-sm-2">
+																					<a href="<?= site_url("database/desa_backup"); ?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Folder Desa</a>
 																				</td>
 																			</tr>
 																		</tbody>
@@ -30,9 +32,6 @@
 																		<li> Backup yang dihasilkan sebaiknya disimpan di komputer terpisah dari server SID. </li>
 																	</ul>
 																</div>
-																<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
-																	<small><strong><i class="fa fa-info-circle text-red"></i> Proses ini tidak melakukan backup folder desa. Folder desa berisi berkas desa dan perlu dibackup juga secara rutin.</strong></small>
-																</p>
 															</div>
 														</div>
 													</div>
@@ -49,14 +48,8 @@
 																	<?php if (strlen(@$_SESSION["SIAK"])>1): ?>
 																			<?=$_SESSION["SIAK"]?>
 																	<?php endif ?>
-																	<?php
-																	  $_SESSION["SIAK"] = "";
-																	  $max_upload = (int)(ini_get('upload_max_filesize'));
-																	  $max_post = (int)(ini_get('post_max_size'));
-																	  $memory_limit = (int)(ini_get('memory_limit'));
-																		$upload_mb = min($max_upload, $max_post, $memory_limit);
-																	?>
-																	<p>Batas maksimal pengunggahan berkas <strong><?=$upload_mb?> MB.</strong></p>
+																	<?php $_SESSION["SIAK"] = ""; ?>
+																	<p>Batas maksimal pengunggahan berkas <strong><?= max_upload() ?> MB.</strong></p>
 																	<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi
 																	  komputer server SID dan sambungan internet yang tersedia.</p>
 																	<p></p>

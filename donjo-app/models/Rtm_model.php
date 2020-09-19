@@ -1,4 +1,49 @@
-<?php class Rtm_model extends CI_Model {
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk modul Rumah Tangga
+ *
+ * donjo-app/models/Rtm_model.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+class Rtm_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -6,67 +51,7 @@
 		$this->load->model('config_model');
 	}
 
-	public function autocomplete()
-	{
-		$sql = "SELECT t.nama
-			FROM tweb_rtm u
-			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			WHERE 1  ";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		$outp = '';
-		for ($i=0; $i<count($data); $i++)
-		{
-			$outp .= ',"'.$data[$i]['nama'].'"';
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
-		return $outp;
-	}
-
-	private function dusun_sql()
-	{
-		if (isset($_SESSION['dusun']))
-		{
-			$kf = $_SESSION['dusun'];
-			$dusun_sql = " AND c.dusun = '$kf'";
-			return $dusun_sql;
-		}
-	}
-
-	private function rw_sql()
-	{
-		if (isset($_SESSION['rw']))
-		{
-			$kf = $_SESSION['rw'];
-			$rw_sql = " AND c.rw = '$kf'";
-			return $rw_sql;
-		}
-	}
-
-	private function rt_sql()
-	{
-		if (isset($_SESSION['rt']))
-		{
-			$kf = $_SESSION['rt'];
-			$rt_sql = " AND c.rt = '$kf'";
-			return $rt_sql;
-		}
-	}
-
-	private function search_sql()
-	{
-		if (isset($_SESSION['cari']))
-		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND t.nama LIKE '$kw'";
-			return $search_sql;
-			}
-		}
-
+	// Digunakan dimana ????
 	private function jenis_sql()
 	{
 		if (isset($_SESSION['jenis']))
@@ -75,89 +60,6 @@
 			$jenis_sql = " AND jenis = $kh";
 			return $jenis_sql;
 		}
-	}
-
-	private function kelas_sql()
-	{
-		if (isset($_SESSION['kelas']))
-		{
-			$kh = $_SESSION['kelas'];
-			$kelas_sql = " AND kelas_sosial= $kh";
-			return $kelas_sql;
-		}
-	}
-
-	public function paging($p=1, $o=0)
-	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
-	}
-
-	private function list_data_sql()
-	{
-		$sql = " FROM tweb_rtm u
-			LEFT JOIN tweb_penduduk t ON u.no_kk = t.id_rtm AND t.rtm_level = 1
-			LEFT JOIN tweb_keluarga k ON t.id_kk = k.id
-			LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
-			WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->kelas_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
-		return $sql;
-	}
-
-	public function list_data($o=0, $offset=0, $limit=500)
-	{
-		//Ordering SQL
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY u.no_kk'; break;
-			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
-			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
-			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.nama'; break;
-			case 6: $order_sql = ' ORDER BY g.nama DESC'; break;
-			default:$order_sql = ' ';
-		}
-
-		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		$select_sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, k.alamat AS alamat,
-			(SELECT COUNT(id)
-				FROM tweb_penduduk
-				WHERE id_rtm = u.no_kk ) AS jumlah_anggota,
-			c.dusun, c.rw, c.rt ";
-		$sql = $select_sql . $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		//Formating Output
-		$j = $offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $j + 1;
-			if ($data[$i]['jumlah_anggota'] == 0)
-				$data[$i]['jumlah_anggota'] = "-";
-
-			$j++;
-		}
-		return $data;
 	}
 
 	public function insert()
@@ -203,7 +105,7 @@
 	public function delete($no_kk='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
-		
+
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
@@ -227,7 +129,7 @@
 		}
 	}
 
-	public function add_anggota($id=0)
+	public function add_anggota($id)
 	{
 		$data = $_POST;
 		$no_rtm = $this->db->select('no_kk')
@@ -244,24 +146,35 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_anggota($id=0, $id_kk)
+	// id = id_penduduk pd tweb_penduduk, id = nik_kepala pd tweb_rtm
+	public function update_anggota($id, $id_rtm)
 	{
-		$data = $_POST;
+		// Krn tweb_penduduk menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
+		$no_rtm = $this->db->get_where('tweb_rtm', ['id' => $id_rtm])->row();
 
-		$data['updated_at'] = date('Y-m-d H:i:s');
-		$data['updated_by'] = $this->session->user;
-		$this->db->where('id', $id);
-		$outp = $this->db->update('tweb_penduduk', $data);
-		// Kalau menjadi kepala rumah tangga, tweb_rtm perlu diupdate juga
-		if ($data['rtm_level'] == 1)
+		$rtm_level = $this->input->post('rtm_level');
+
+		$data = [
+			'rtm_level' => $rtm_level,
+			'updated_at' => date('Y-m-d H:i:s'),
+			'updated_by' => $this->session->user
+		];
+
+		if ($rtm_level == 1)
 		{
-			$this->db->where('id', $id_kk)->update('tweb_rtm', array('nik_kepala' => $id));
+			// Ganti semua level penduduk dgn id_rtm yg sma -> rtm_level = 2 (Anggota)
+			$this->db->where('id_rtm', $no_rtm->no_kk)->update('tweb_penduduk', ['rtm_level' => '2']);
+
+			// nik_kepala = id_penduduk pd table tweb_penduduk
+			$this->db->where('id', $no_rtm->no_kk)->update('tweb_rtm', ['nik_kepala' => $id]);
 		}
+
+		$outp = $this->db->where('id', $id)->update('tweb_penduduk', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function rem_anggota($kk=0, $id=0)
+	public function rem_anggota($kk, $id)
 	{
 		$temp['id_rtm'] = 0;
 		$temp['rtm_level'] = 0;
@@ -290,7 +203,7 @@
 		}
 	}
 
-	public function get_dusun($id=0)
+	public function get_dusun($id)
 	{
 		$sql = "SELECT * FROM tweb_rtm WHERE dusun_id = ?";
 		$query = $this->db->query($sql, $id);
@@ -298,7 +211,7 @@
 		return $data;
 	}
 
-	public function get_rtm($id=0)
+	public function get_rtm($id)
 	{
 		$sql = "SELECT * FROM tweb_rtm WHERE id = ?";
 		$query = $this->db->query($sql, $id);
@@ -306,7 +219,7 @@
 		return $data;
 	}
 
-	public function get_anggota($id=0)
+	public function get_anggota($id)
 	{
 		$sql = "SELECT * FROM tweb_penduduk WHERE id_rtm = ?";
 		$query = $this->db->query($sql, $id);
@@ -340,7 +253,7 @@
 		return $data;
 	}
 
-	public function list_anggota($id=0)
+	public function list_anggota($id)
 	{
 		$sql = "SELECT b.dusun, b.rw, b.rt, u.id, nik, x.nama as sex, k.no_kk, u.rtm_level, tempatlahir, tanggallahir, a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, w.nama as status_kawin, f.nama as warganegara, nama_ayah, nama_ibu, g.nama as golongan_darah, u.nama, status, h.nama AS hubungan
 			FROM tweb_penduduk u
@@ -372,11 +285,14 @@
 
 	public function get_kepala_rtm($id, $is_no_kk=false)
 	{
+		if (empty($id)) return;
+
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
 		$this->load->model('penduduk_model');
-		$sql = "SELECT u.id, u.nik, u.nama, r.no_kk, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
+		$sql = "SELECT u.id, u.nik, u.nama, r.no_kk, x.nama AS sex, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
 			FROM tweb_rtm r
 			LEFT JOIN tweb_penduduk u ON u.id = r.nik_kepala
+			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
 			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
@@ -395,7 +311,7 @@
 		return $query->result_array();
 	}
 
-	public function update_nokk($id=0)
+	public function update_nokk($id)
 	{
 		$data = $_POST;
 		if ($data['no_kk'])
@@ -417,6 +333,104 @@
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
+
+	/*
+	 * -----------------------------------------------------------------------------------------------------
+	 * Susun ulang afa28
+	 */
+
+	public function autocomplete()
+	{
+		$this->db
+			->select('t.nama')
+			->from('tweb_rtm u')
+			->join('tweb_penduduk t', 'u.nik_kepala = t.id', LEFT);
+
+		$data = $this->db->get()->result_array();
+
+		return autocomplete_data_ke_str($data);
+	}
+
+	public function paging($p)
+	{
+		$this->db->select('COUNT(u.id) AS jml');
+		$this->list_data_sql();
+
+		$row = $this->db->get()->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	public function list_data($o = 0, $offset = 0, $limit = 500)
+	{
+		$this->db->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.no_kk ) AS jumlah_anggota, c.dusun, c.rw, c.rt, u.tgl_daftar');
+
+		$this->list_data_sql();
+
+		switch ($o)
+		{
+			case 1: $this->db->order_by('u.no_kk'); break;
+			case 2: $this->db->order_by('u.no_kk', DESC); break;
+			case 3: $this->db->order_by('t.nama'); break;
+			case 4: $this->db->order_by('t.nama', DESC); break;
+			case 5: $this->db->order_by('u.tgl_daftar'); break;
+			case 6: $this->db->order_by('u.tgl_daftar', DESC); break;
+			default: ' ';
+		}
+
+		$this->db->limit($limit, $offset);
+
+		$data = $this->db->get()->result_array();
+
+		return $data;
+	}
+
+	private function list_data_sql()
+	{
+		$this->db
+			->from('tweb_rtm u')
+			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'LEFT')
+			->join('tweb_keluarga k', 't.id_kk = k.id', 'LEFT')
+			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'LEFT');
+
+		$this->search_sql();
+
+		//['kelas', 'kelas_sosial']
+
+		$list_kode = [['dusun', 'c.dusun'], ['rw', 'c.rw'], ['rt', 'c.rt']];
+		foreach ($list_kode as $list)
+		{
+			$this->filter_sql($list[0], $list[1]);
+		}
+	}
+
+	private function search_sql()
+	{
+		$cari = $this->session->cari;
+		if ($cari)
+		{
+			$cari = $this->db->escape_like_str($cari);
+			$this->db->like('t.nama', $cari);
+		}
+	}
+
+	private function filter_sql($session, $field)
+	{
+		$value = $this->session->$session;
+
+		if (isset($value))
+		{
+				$this->db->where($field, $value);
+		}
+	}
+
 
 }
 ?>

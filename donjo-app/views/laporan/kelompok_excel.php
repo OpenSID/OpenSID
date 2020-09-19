@@ -9,10 +9,9 @@ header("Expires: 0");
 	<!-- Print Body -->
 	<div id="body">
    	<table  width="100%">
-		 	<?php foreach ($config as $data): ?>
 				<tbody>
 					<tr align="center">
-						<td width="100%" colspan="15"><h3>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($data['nama_kabupaten']) ?></h3></td>
+						<td width="100%" colspan="15"><h3>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($config['nama_kabupaten']) ?></h3></td>
 					</tr>
 					<tr align="center">
 						<td width="100%" colspan="15"><h4>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</h4></td>
@@ -25,13 +24,13 @@ header("Expires: 0");
 					<tr>
 						<td><?= ucwords($this->setting->sebutan_desa)?>/Kelurahan</td>
 						<td width="3%">:</td>
-						<td width="38.5%"><?= $data['nama_desa']?></h4></td>
+						<td width="38.5%"><?= $config['nama_desa']?></h4></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><?= ucwords($this->setting->sebutan_kecamatan)?></td>
 						<td width="3%">:</td>
-						<td width="38.5%"><?= $data['nama_kecamatan']?></td>
+						<td width="38.5%"><?= $config['nama_kecamatan']?></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -53,7 +52,6 @@ header("Expires: 0");
 						<?php endif; ?>
 					</tbody>
 				</table>
-			<?php endforeach; ?>
 			<br>
 				<table class="border thick">
 					<thead>

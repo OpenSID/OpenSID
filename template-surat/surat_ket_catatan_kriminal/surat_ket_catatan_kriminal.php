@@ -1,12 +1,5 @@
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Surat Pengantar SKCK</h1>
-		<ol class="breadcrumb tdk-permohonan tdk-periksa">
-			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
-			<li class="active">Surat Pengantar SKCK</li>
-		</ol>
-	</section>
+	<?php $this->load->view("surat/form/breadcrumb.php"); ?>
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">

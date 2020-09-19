@@ -1,5 +1,5 @@
 <?php
-class First_menu_m extends CI_Model{
+class First_menu_m extends MY_Model{
 
 	public function __construct()
 	{
@@ -14,9 +14,10 @@ class First_menu_m extends CI_Model{
 			// 99 adalah link eksternal
 			if ($data[$i]['link_tipe']!=99)
 			{
-				$data[$i]['link'] = site_url()."first/".$data[$i]['link'];
+				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 			}
 		}
+
 		return $data;
 	}
 
@@ -29,7 +30,7 @@ class First_menu_m extends CI_Model{
 		{
 			if ($data[$i]['link_tipe'] != 99)
 			{
-				$data[$i]['link'] = site_url()."first/".$data[$i]['link'];
+				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
 			}
 			$data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
 		}

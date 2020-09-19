@@ -1,8 +1,53 @@
+<?php
+/**
+ * File ini:
+ *
+ * Modul Header OpenSID
+ *
+ * /donjo-app/views/header.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
 			<?=$this->setting->admin_title
 				. ' ' . ucwords($this->setting->sebutan_desa)
@@ -50,34 +95,50 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Locate.min.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Shapefile.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
-    <!-- Diperlukan untuk script jquery khusus halaman -->
+		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
+
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-    <script src="<?= base_url()?>assets/js/turf.min.js"></script>
+		<script src="<?= base_url()?>assets/js/turf.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-geoman.min.js"></script>
-    <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-    <script src="<?= base_url()?>assets/js/togeojson.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
+		<script src="<?= base_url()?>assets/js/togeojson.js"></script>
 		<script src="<?= base_url()?>assets/js/togpx.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
-		
-    <!-- Diperlukan untuk global automatic base_url oleh external js file -->
+		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
+		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
+		<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
+		<script src="<?= base_url()?>assets/js/shp.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
+
+		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
+			var SITE_URL = "<?= site_url(); ?>";
 		</script>
 
 		<!-- Highcharts JS -->
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
@@ -92,6 +153,13 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if (ENVIRONMENT == 'development'): ?>
+								<li>
+									<a>
+										<i class="fa fa-cog fa-lg" title="Development"></i><span class="badge">Development</span>
+									</a>
+								</li>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
 								<li>
 									<a href="<?=site_url()?>permohonan_surat_admin/clear">
@@ -135,7 +203,7 @@
 									<li class="user-footer">
 										<div class="pull-left">
 											<a href="<?=site_url()?>user_setting/" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox">
-												<button  data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
+												<button data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
 											</a>
 										</div>
 										<div class="pull-right">
@@ -150,7 +218,7 @@
 			</header>
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
 			<!-- Untuk menampilkan modal bootstrap umum  -->
-			<div  class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class='modal-dialog'>
 					<div class='modal-content'>
 						<div class='modal-header'>
@@ -161,23 +229,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- Untuk menampilkan modal / pemberitahuan perubahan password default  -->
-			<div  class="modal fade" id="massageBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class='modal-dialog'>
-					<div class='modal-content'>
-						<div class='modal-header btn-info'>
-							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> &nbsp;<?= $_SESSION['admin_warning'][0]; ?></h4>
-						</div>
-						<div class='modal-body'>
-							<?= $_SESSION['admin_warning'][1]; ?>
-						</div>
-						<div class='modal-footer'>
-							<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-arrow-circle-o-left'></i> Lain Kali</button>
-							<a href="<?= site_url()?>user_setting/" data-remote="false" data-tittle="Pengaturan Pengguna" data-toggle="modal" data-target="#modalBox" id="ok">
-								<button type="button" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-edit'></i> Ubah</button>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			<!-- Untuk menampilkan dialog pengumuman  -->
+			<?= $this->pengumuman; ?>
+

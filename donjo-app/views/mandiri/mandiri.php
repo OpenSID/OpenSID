@@ -1,7 +1,7 @@
-<script>
+<script type="text/javascript">	
 	$(function()
 	{
-		var keyword = <?= $keyword?> ;
+		var keyword = <?=$keyword?> ;
 		$( "#cari" ).autocomplete(
 		{
 			source: keyword,
@@ -23,7 +23,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Hasilkan PIN</a>
+							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Tambah Pengguna Layanan Mandiri</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -61,7 +61,8 @@
 																	<tr>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="#" data-href="<?=site_url("mandiri/delete/$p/$o/$data[id_pend]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="<?=site_url('mandiri/ajax_pin/'.$data[id_pend])?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ganti PIN Warga" title="Ganti PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
+																			<a href="#" data-href="<?=site_url('mandiri/delete/'.$data[id_pend])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		</td>
 																		<td>
 																			<?=$data['nik'];?>
@@ -120,25 +121,6 @@
 									</div>
 								</div>
 							</div>
-							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-								<div class='modal-dialog'>
-									<div class='modal-content'>
-										<div class='modal-header'>
-											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-										</div>
-										<div class='modal-body btn-info'>
-											Apakah Anda yakin ingin menghapus data ini?
-										</div>
-										<div class='modal-footer'>
-											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-											<a class='btn-ok'>
-												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
 							<div  class="modal fade" id="pinBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class='modal-dialog'>
 									<div class='modal-content'>
@@ -162,4 +144,5 @@
 		</form>
 	</section>
 </div>
+<?php $this->load->view('global/confirm_delete');?>
 

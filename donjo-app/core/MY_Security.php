@@ -10,7 +10,7 @@ class MY_Security extends CI_Security {
 			'iframe', 'input', 'button', 'select', 'isindex', 'layer', 'link', 'meta', 'keygen', 'object',
 			'plaintext', 'style', 'script', 'textarea', 'title', 'math', 'video', 'svg', 'xml', 'xss'
 		);
-    
+
     //attribut style dihilangkan disini, dampak issue #761
 		static $evil_attributes = array(
 			'on\w+', 'xmlns', 'formaction', 'form', 'xlink:href', 'FSCommand', 'seekSegmentTime'
@@ -81,5 +81,21 @@ class MY_Security extends CI_Security {
 		}
 
 		return $matches[0];
+	}
+
+	/** @inheritdoc */
+	public function csrf_show_error()
+	{
+		/* ==== Uncomment berikut untuk debugging masalah CSRF */
+		// print("<pre>".print_r(getallheaders(),true)."</pre>");
+		// print("<pre>".print_r($_POST, true)."</pre>");
+		// die();
+
+		$heading = 'Bad Request';
+		$message = "Verifikasi CSRF Gagal. <br><br>
+			Kembali ke halaman sebelumnya di <a href='".$_SERVER['HTTP_REFERER']."'>sini</a>, dan ulangi.<br><br>
+			Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
+			Kalau masih bermasalah, silakan laporkan.";
+		show_error($message, 400, $heading);
 	}
 }

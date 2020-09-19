@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <style>
 	.input-hidden[type=radio]:checked  +  label
 	{
@@ -75,14 +76,14 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label" for="nama">Nama Kategori Lokasi</label>
-							<input id="nama" name="nama" class="form-control input-sm" type="text" placeholder="Nama Kategori Lokasi"></input>
+							<input id="nama" name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Kategori Lokasi" value="<?=$point['nama']?>"></input>
 						</div>
 						<div class="form-group">
 							<label for="nomor"  class="control-label">Simbol</label>
 							<?php if ($point['simbol']!=""): ?>
-								<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
+								<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $point['simbol']?>"/>
 							<?php else: ?>
-								<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
+								<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?>default.png"/>
 							<?php endif; ?>
 						</div>
 						<div class="form-group">
@@ -94,7 +95,7 @@
 											<li <?php if ($point['simbol']==$data['simbol']): ?>class="active"<?php endif; ?> onclick="li_active($(this).val());">
 												<label>
 													<input type="radio" name="simbol" id="simbol" class="input-hidden hidden" value="<?= $data['simbol']?>" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
-													<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
+													<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $data['simbol']?>">
 													<span class="glyphicon-class"><?= $data['simbol']?></span>
 												</label>
 											</li>

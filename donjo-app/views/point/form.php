@@ -80,16 +80,16 @@
 							<div class="form-group">
 								<label for="nama"  class="col-sm-2 control-label">Nama Jenis Lokasi</label>
 								<div class="col-sm-8">
-									<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
+									<input  id="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="nomor"  class="col-sm-2 control-label">Simbol</label>
 								<div class="col-sm-4">
 									<?php if ($point['simbol']!=""): ?>
-										<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
+										<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $point['simbol']?>"/>
 									<?php else: ?>
-										<img src="<?= base_url(); ?>assets/images/gis/point/default.png"/>
+										<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?>default.png"/>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -102,7 +102,7 @@
 												<li <?php if ($point['simbol']==$data['simbol']): ?>class="active" id="simbol_active" <?php endif; ?> onclick="li_active($(this).val());">
 													<label>
 														<input type="radio" name="simbol" id="simbol" class="hidden" value="<?= $data['simbol']?>" <?php if ($point['simbol']==$data['simbol']): ?>checked<?php endif; ?>>
-														<img src="<?= base_url(); ?>assets/images/gis/point/<?= $data['simbol']?>">
+														<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $data['simbol']?>">
 														<span class="glyphicon-class"><?= $data['simbol']?></span>
 													</label>
 												</li>

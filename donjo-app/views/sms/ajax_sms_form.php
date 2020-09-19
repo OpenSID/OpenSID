@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
+<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <script>
 	$(function ()
 	{
@@ -14,7 +15,7 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label" for="hp">No HP Tujuan</label>
-							<input name="DestinationNumber" class="form-control input-sm" type="text" value="<?=$sms['DestinationNumber']?>"></input>
+							<input name="DestinationNumber" class="form-control input-sm required bilangan" type="text" value="<?=$sms['DestinationNumber']?>"></input>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="pesan">Isi Pesan</label>

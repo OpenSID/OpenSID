@@ -1,11 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 	$data['warganegara'] = $this->penduduk_model->list_warganegara();
-	$data['agama'] = $this->penduduk_model->list_agama();
 	$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan('ucwords');
 	$data['sex'] = $this->penduduk_model->list_sex();
-	$data['tempat_dilahirkan'] = $this->referensi_model->list_kode_array(TEMPAT_DILAHIRKAN);
-	$data['jenis_kelahiran'] = $this->referensi_model->list_kode_array(JENIS_KELAHIRAN);
-	$data['penolong_kelahiran'] = $this->referensi_model->list_kode_array(PENOLONG_KELAHIRAN);
+	$data['tempat_dilahirkan'] = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
+	$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
+	$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 	$data['nomor'] = $this->input->post('nomor_main');
 	$_SESSION['post'] = $_POST;
 	$_SESSION['post']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];

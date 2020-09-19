@@ -2,46 +2,23 @@
 
 class Dpt extends Admin_Controller {
 
+	private $set_page;
+	private $list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		$this->load->model('penduduk_model');
-		$this->load->model('dpt_model');
-		$this->load->model('header_model');
+		$this->load->model(['penduduk_model', 'dpt_model', 'referensi_model', 'wilayah_model', 'header_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 26;
+		$this->set_page = ['20', '50', '100'];
+		$this->list_session = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['warganegara']);
-		unset($_SESSION['cacat']);
-		unset($_SESSION['menahun']);
-		unset($_SESSION['cacatx']);
-		unset($_SESSION['menahunx']);
-		unset($_SESSION['golongan_darah']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['agama']);
-		unset($_SESSION['umur_min']);
-		unset($_SESSION['umur_max']);
-		unset($_SESSION['pekerjaan_id']);
-		unset($_SESSION['status']);
-		unset($_SESSION['pendidikan_sedang_id']);
-		unset($_SESSION['pendidikan_kk_id']);
-		unset($_SESSION['umurx']);
-		unset($_SESSION['status_penduduk']);
-		unset($_SESSION['judul_statistik']);
-		unset($_SESSION['hamil']);
-		unset($_SESSION['cara_kb_id']);
-		unset($_SESSION['akta_kelahiran']);
-		unset($_SESSION['tanggal_pemilihan']);
-		$_SESSION['per_page'] = 50;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->set_page[0];
 		redirect('dpt');
 	}
 
@@ -50,227 +27,107 @@ class Dpt extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
-
-		if (isset($_SESSION['dusun']))
+		foreach ($this->list_session as $list)
 		{
-			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '';
+		}
 
-			if (isset($_SESSION['rw']))
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+
+			if (isset($rw))
 			{
-				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
-				if (isset($_SESSION['rt']))
-					$data['rt'] = $_SESSION['rt'];
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
 		}
 		else
 		{
-			$data['dusun'] = '';
-			$data['rw'] = '';
-			$data['rt'] = '';
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
 
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
-    if (isset($_SESSION['cacat']))
-			$data['cacat'] = $_SESSION['cacat'];
-		else $data['cacat'] = '';
-
-    if (isset($_SESSION['cara_kb_id']))
-			$data['cara_kb_id'] = $_SESSION['cara_kb_id'];
-		else $data['cara_kb_id'] = '';
-
-    if (isset($_SESSION['akta_kelahiran']))
-			$data['akta_kelahiran'] = $_SESSION['akta_kelahiran'];
-		else $data['akta_kelahiran'] = '';
-
-		if (isset($_SESSION['pekerjaan_id']))
-			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
-		else $data['pekerjaan_id'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['pendidikan_sedang_id']))
-			$data['pendidikan_sedang_id'] = $_SESSION['pendidikan_sedang_id'];
-		else $data['pendidikan_sedang_id'] = '';
-
-		if (isset($_SESSION['pendidikan_kk_id']))
-			$data['pendidikan_kk_id'] = $_SESSION['pendidikan_kk_id'];
-		else $data['pendidikan_kk_id'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
+		$data['func'] = 'index';
+		$data['set_page'] = $this->set_page;
+		$data['per_page'] = $this->session->per_page;
+		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['paging'] = $this->dpt_model->paging($p, $o);
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->dpt_model	->autocomplete();
-		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$header = $this->header_model->get_data();
+		$data['keyword'] = $this->dpt_model->autocomplete();
+
 		$header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav',$nav);
 		$this->load->view('dpt/dpt', $data);
 		$this->load->view('footer');
 	}
 
-	public function search()
+	public function filter($filter)
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('dpt');
 	}
 
-	public function sex($p=1, $o=0)
+	public function dusun()
 	{
-		$sex = $this->input->post('sex');
-		if ($sex != "")
-			$_SESSION['sex'] = $sex;
-		else unset($_SESSION['sex']);
-		redirect("dpt/index/$p/$o");
-	}
-
-	public function agama()
-	{
-		$agama = $this->input->post('agama');
-		if ($agama != "")
-			$_SESSION['agama'] = $agama;
-		else unset($_SESSION['agama']);
-		redirect('dpt');
-	}
-
-	public function warganegara()
-	{
-		$warganegara = $this->input->post('warganegara');
-		if ($warganegara != "")
-			$_SESSION['warganegara']=$warganegara;
-		else unset($_SESSION['warganegara']);
-		redirect('dpt');
-	}
-
-	public function dusun($p=1, $o=0)
-	{
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
+		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
-			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
-		redirect("dpt/index/$p/$o");
+			$this->session->dusun = $dusun;
+		else $this->session->unset_userdata('dusun');
+		redirect('dpt');
 	}
 
-	public function rw($p=1, $o=0)
+	public function rw()
 	{
-		unset($_SESSION['rt']);
+		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
-			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
-		redirect("dpt/index/$p/$o");
+			$this->session->rw = $rw;
+		else $this->session->unset_userdata('rw');
+		redirect('dpt');
 	}
 
-	public function rt($p=1, $o=0)
+	public function rt()
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
-			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
-		redirect("dpt/index/$p/$o");
+			$this->session->rt = $rt;
+		else $this->session->unset_userdata('rt');
+		redirect('dpt');
 	}
 
 	public function ajax_adv_search()
 	{
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->list_session as $list)
+		{
+				$data[$list] = $this->session->$list ?: '';
+		}
 
-		if (isset($_SESSION['judul_statistik']))
-			$data['judul_statistik'] = $_SESSION['judul_statistik'];
-		else $data['judul_statistik'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_SESSION['sex']))
-			$data['sex'] = $_SESSION['sex'];
-		else $data['sex'] = '';
-
-		if (isset($_SESSION['umur_min']))
-			$data['umur_min'] = $_SESSION['umur_min'];
-		else $data['umur_min'] = '';
-
-		if (isset($_SESSION['umur_max']))
-			$data['umur_max'] = $_SESSION['umur_max'];
-		else $data['umur_max'] = '';
-
-		if (isset($_SESSION['agama']))
-			$data['agama'] = $_SESSION['agama'];
-		else $data['agama'] = '';
-
-		if (isset($_SESSION['tahun']))
-			$data['tahun'] = $_SESSION['tahun'];
-		else $data['tahun'] = date("Y");
-
-    if (isset($_SESSION['cacat']))
-			$data['cacat'] = $_SESSION['cacat'];
-		else $data['cacat'] = '';
-
-		if (isset($_SESSION['pekerjaan_id']))
-			$data['pekerjaan_id'] = $_SESSION['pekerjaan_id'];
-		else $data['pekerjaan_id'] = '';
-
-		if (isset($_SESSION['status']))
-			$data['status'] = $_SESSION['status'];
-		else $data['status'] = '';
-
-		if (isset($_SESSION['pendidikan_sedang_id']))
-			$data['pendidikan_sedang_id'] = $_SESSION['pendidikan_sedang_id'];
-		else $data['pendidikan_sedang_id'] = '';
-
-		if (isset($_SESSION['pendidikan_kk_id']))
-			$data['pendidikan_kk_id'] = $_SESSION['pendidikan_kk_id'];
-		else $data['pendidikan_kk_id'] = '';
-
-		if (isset($_SESSION['status_penduduk']))
-			$data['status_penduduk'] = $_SESSION['status_penduduk'];
-		else $data['status_penduduk'] = '';
-
-		$data['list_agama'] = $this->penduduk_model->list_agama();
-		$data['pendidikan'] = $this->penduduk_model->list_pendidikan();
-		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
-		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
-		$data['status_kawin'] = $this->penduduk_model->list_status_kawin();
+		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
+		$data['list_pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
+		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
+		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
+		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['form_action'] = site_url("dpt/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
@@ -298,35 +155,8 @@ class Dpt extends Admin_Controller {
 				$_SESSION[$col[$i]] = $adv_search[$col[$i]];
 			}
 		}
+
 		redirect("dpt/index/1/$o");
-	}
-
-	public function ajax_penduduk_cari_rw($dusun='')
-	{
-		$rw = $this->penduduk_model->list_rw($dusun);
-
-		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
-		<option value=''>Pilih RW&nbsp;</option>";
-		foreach ($rw as $data)
-		{
-			echo "<option>".$data['rw']."</option>";
-		}
-		echo"</select></td>";
-	}
-
-	public function ajax_penduduk_cari_rt($dusun='', $rw='')
-	{
-		$rt = $this->penduduk_model->list_rt($dusun,$rw);
-
-		echo "<td>RT</td>
-		<td><select name='rt'>
-		<option value=''>Pilih RT&nbsp;</option>";
-		foreach ($rt as $data)
-		{
-			echo "<option value=".$data['rt'].">".$data['rt']."</option>";
-		}
-		echo"</select></td>";
 	}
 
 	public function cetak($o=0)

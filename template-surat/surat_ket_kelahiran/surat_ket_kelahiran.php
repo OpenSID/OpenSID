@@ -81,12 +81,14 @@
 		{
 			$('.ibu_desa').show();
 			$('.ibu_luar_desa').hide();
+			$('#id_ibu').addClass('required');
 		}
 		else
 		{
 			$('.ibu_desa').hide();
 			$('.ibu_luar_desa').show();
 			$('#id_ibu').val('*'); // Hapus $id_wanita
+			$('#id_ibu').removeClass('required');
 			submit_form_ambil_data();
 		}
 		$('input[name=anchor').val('ibu');
@@ -129,14 +131,7 @@
 	});
 </script>
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Surat Keterangan Kelahiran</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_desa/about')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= site_url('surat')?>"> Daftar Cetak Surat</a></li>
-			<li class="active">Surat Keterangan Kelahiran</li>
-		</ol>
-	</section>
+	<?php $this->load->view("surat/form/breadcrumb.php"); ?>
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
@@ -178,7 +173,7 @@
 										<div class="form-group">
 											<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama Ibu	</strong></label>
 											<div class="col-sm-6 col-lg-4">
-										  	<select class="form-control required input-sm select2-nik-ajax" id="id_ibu" name="id_ibu" style ="width:100%;" data-filter-sex="perempuan" data-url="<?= site_url('surat/list_penduduk_ajax')?>" onchange="submit_form_ambil_data(this.id);">
+										  	<select class="form-control input-sm select2-nik-ajax" id="id_ibu" name="id_ibu" style ="width:100%;" data-filter-sex="perempuan" data-url="<?= site_url('surat/list_penduduk_ajax')?>" onchange="submit_form_ambil_data(this.id);">
 													<?php if ($ibu): ?>
 														<option value="<?= $ibu['id']?>" selected><?= $ibu['nik'].' - '.$ibu['nama']?></option>
 													<?php endif;?>
