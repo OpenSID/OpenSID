@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<br><?= $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa']?>
 						<br><br><br><br>
 						<br><u>( <?= $pamong_ketahui['pamong_nama']?> )</u>
-						<br>NIAP/NIP : <?= $pamong_ketahui['pamong_nip']?>
+						<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
 					</td>
 					<td>&nbsp;</td>
 					<td width="20%" nowrap>
@@ -150,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<br><?= $pamong_ttd['jabatan'] . ' ' . $config['nama_desa']?>
 						<br><br><br><br>
 						<br><u>( <?= $pamong_ttd['pamong_nama']?> )</u>
-						<br>NIAP/NIP : <?= $pamong_ketahui['pamong_nip']?>
+						<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
 					</td>
 					<td width="10%">&nbsp;</td>
 				</tr>

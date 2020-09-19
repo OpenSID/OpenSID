@@ -47,7 +47,7 @@
 		<?php foreach ($aparatur_desa['daftar_perangkat'] as $data) : ?>
 				<img src="<?= $data['foto'] ?>"
 				data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>"
-				data-cycle-desc="<?= $data['jabatan'] ?>">
+				data-cycle-desc="<?= $data['jabatan'] ?><br /><?= $this->setting->sebutan_nip_desa ?> : <?= $data['pamong_niap'] ?>">
 		<?php endforeach; ?>
 	</div>
 </div>
