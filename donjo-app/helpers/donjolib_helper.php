@@ -569,5 +569,14 @@ function persen($data)
 	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
 }
 
+function sensor_nik_kk($data)
+{
+	$count = strlen($data);
+	if ($count <= 10) return null;
+
+	$output = substr_replace($data, str_repeat('X', $count - 7), 8, $count - 7);
+	return $output;
+}
+
 
 // =======================================

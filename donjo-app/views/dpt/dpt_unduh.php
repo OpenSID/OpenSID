@@ -4,5 +4,5 @@
   header("Pragma: no-cache");
   header("Expires: 0");
 
-  include("donjo-app/views/dpt/dpt_print.php");
+  include("donjo-app/views/dpt/dpt_cetak.php");
 ?>

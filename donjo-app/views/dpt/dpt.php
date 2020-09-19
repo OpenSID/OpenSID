@@ -34,8 +34,8 @@
 					<div class="box-header with-border">
 						<div class="col-sm-8 col-lg-9">
 							<div class="row">
-								<a href="<?= site_url("dpt/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-								<a href="<?= site_url("dpt/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+								<a href="<?= site_url("dpt/ajax_cetak/$o/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" ><i class="fa fa-print "></i> Cetak</a>
+								<a href="<?= site_url("dpt/ajax_cetak/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
 								<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
 								<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
 							</div>

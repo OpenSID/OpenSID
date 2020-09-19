@@ -120,9 +120,10 @@ class Rtm extends Admin_Controller {
 	/*
 	* $aksi = cetak/unduh
 	*/
-	public function daftar($aksi = '')
+	public function daftar($aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0, 10000);
+		if ($privasi_nik == 1) $data['privasi_nik'] = true;
 		$this->load->view("sid/kependudukan/rtm_$aksi", $data);
 	}
 
@@ -343,5 +344,13 @@ class Rtm extends Admin_Controller {
 	{
 		$data['main'] = $this->rtm_model->list_data_statistik($tipe);
 		$this->load->view('sid/kependudukan/rtm_print', $data);
+	}
+
+	public function ajax_cetak($aksi = '')
+	{
+		$data['aksi'] = $aksi;
+		$data['form_action'] = "rtm/daftar/$aksi";
+		$data['form_action_privasi'] = "rtm/daftar/$aksi/1";
+		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 }
