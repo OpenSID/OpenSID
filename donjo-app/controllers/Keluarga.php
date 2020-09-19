@@ -127,16 +127,11 @@ class Keluarga extends Admin_Controller {
 		echo json_encode($data);
 	}
 
-	public function cetak($o = 0)
+	public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
 	{
 		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/keluarga_print', $data);
-	}
-
-	public function excel($o = 0)
-	{
-		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/keluarga_excel', $data);
+		if ($privasi_kk == 1) $data['privasi_kk'] = true;
+		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
 	}
 
 	/*
@@ -569,11 +564,15 @@ class Keluarga extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_kk", $data);
 	}
 
-	public function cetak_privasi_kk($o = 0, $aksi = '')
+	public function ajax_cetak($o = 0, $aksi = '')
 	{
-		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
-		$data['privasi_kk'] = true;
-		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
+		$data["o"] = $o;
+		$data['aksi'] = $aksi;
+		$data['judul'] = $aksi === "print" ? "Cetak Data" : "Unduh Data";
+		$data['deskripsi_cetak'] = "Cetak Dengan Privasi KK ?";
+		$data['form_action'] = "keluarga/cetak/$o/$aksi";
+		$data['form_action_privasi'] = "keluarga/cetak/$o/$aksi/1";
+		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 
 }

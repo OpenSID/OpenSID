@@ -159,23 +159,22 @@ class Dpt extends Admin_Controller {
 		redirect("dpt/index/1/$o");
 	}
 
-	public function cetak($o=0)
+	public function cetak($o=0, $aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->dpt_model->list_data($o, 0, 10000);
-		$this->load->view('dpt/dpt_print', $data);
-	}
-
-	public function excel($o=0)
-	{
-		$data['main'] = $this->dpt_model->list_data($o, 0, 10000);
-		$this->load->view('dpt/dpt_excel', $data);
-	}
-
-	public function cetak_dengan_privasi($o = 0, $aksi = '')
-	{
-		$data['main'] = $this->dpt_model->list_data($o, 0, 10000);
-		$data['privasi_nik'] = true;
+		if ($privasi_nik == 1) $data['privasi_nik'] = true;
 		$this->load->view("dpt/dpt_$aksi", $data);
+	}
+
+	public function ajax_cetak($o = 0, $aksi = '')
+	{
+		$data['o'] = $o;
+		$data['aksi'] = $aksi;
+		$data['judul'] = "Dengan Privasi NIK / KK?";
+		$data['deskripsi_cetak'] = $aksi === "print" ? "Cetak Data" : "Unduh Data";
+		$data['form_action'] = "dpt/cetak/$o/$aksi";
+		$data['form_action_privasi'] = "dpt/cetak/$o/$aksi/1";
+		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 
 }

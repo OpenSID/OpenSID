@@ -558,10 +558,11 @@ class Penduduk extends Admin_Controller {
 		redirect("penduduk/index/$p/$o");
 	}
 
-	public function cetak($o = 0)
-	{
+	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+	{	
 		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/penduduk_print', $data);
+		if ($privasi_nik == 1) $data['privasi_nik'] = true;
+		$this->load->view("sid/kependudukan/penduduk_$aksi", $data);
 	}
 
 	public function excel($o = 0)
@@ -783,11 +784,15 @@ class Penduduk extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_nik", $data);
 	}
 
-	public function cetak_privasi_nik($o = 0, $aksi = '')
+	public function ajax_cetak($o = 0, $aksi = '')
 	{
-		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
-		$data['privasi_nik'] = true;
-		$this->load->view("sid/kependudukan/penduduk_$aksi", $data);
+		$data['o'] = $o;
+		$data['aksi'] = $aksi;
+		$data['judul'] = $aksi === "print" ? "Cetak Data" : "Unduh Data";
+		$data['deskripsi_cetak'] = "Dengan Privasi NIK ?";
+		$data['form_action'] = "penduduk/cetak/$o/$aksi";
+		$data['form_action_privasi'] = "penduduk/cetak/$o/$aksi/1";
+		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 
 }

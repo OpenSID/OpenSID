@@ -150,23 +150,22 @@ class Penduduk_log extends Admin_Controller {
 		redirect("penduduk_log");
 	}
 
-	public function cetak($o = 0)
+	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
-		$this->load->view('penduduk_log/penduduk_log_print', $data);
+		if ($privasi_nik == 1) $data['privasi_nik'] = true;
+		$this->load->view("penduduk_log/penduduk_log_$aksi", $data);
 	}
 
-	public function excel($o = 0)
+	public function ajax_cetak($o = 0, $aksi = '')
 	{
-		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
-		$this->load->view('penduduk_log/penduduk_log_excel', $data);
-	}
-
-	public function cetak_privasi_nik($o = 0, $aksi = '')
-	{
-		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
-		$data['privasi_nik'] = true;
-		$this->load->view("penduduk_log/penduduk_$aksi", $data);
+		$data["o"] = $o;
+		$data['aksi'] = $aksi;
+		$data['judul'] = $aksi === "print" ? "Cetak Data" : "Unduh Data";
+		$data['deskripsi_cetak'] = "Dengan Privasi NIK ?";
+		$data['form_action'] = "penduduk_log/cetak/$o/$aksi";
+		$data['form_action_privasi'] = "penduduk_log/cetak/$o/$aksi/1";
+		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 
 }
