@@ -6,14 +6,20 @@ class Siteman extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		siteman_timeout();
+		// session_start();
+		// Nggak guna cuma clear cookie sudah bisa bypass.
+		// Dilihat dari efek keamanan vs kemudahan. fitur ini hanya mempersusah user.
+		// siteman_timeout();
 		$this->load->model('config_model');
 		$this->load->model('user_model');
 	}
 
 	public function index()
 	{
+		if( $this->config->config["hack_mode"] ){
+			return redirect('first#perangkat');
+		}
+
 		unset($_SESSION['balik_ke']);
 		$this->user_model->logout();
 		$data['header'] = $this->config_model->get_data();
@@ -43,10 +49,13 @@ class Siteman extends CI_Controller
 		if ($_SESSION['siteman'] != 1)
 		{
 			// Gagal otentifikasi
+			if( $this->config->config["hack_mode"] ){
+				return redirect('first#perangkat-error');
+			}
 			redirect('siteman');
 		}
 
-		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode))
+		if (!$this->config->config["hack_mode"] and !$this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode))
 		{
 			// Password tidak memenuhi syarat kecuali di website demo
 			redirect('user_setting/change_pwd');

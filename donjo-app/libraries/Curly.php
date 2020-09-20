@@ -17,7 +17,7 @@ class Curly
 	 *
 	 * @var bool
 	 */
-	public static $secure = true;
+	public static $secure = false;
 
 	/**
 	 * Path to CA bundle file (absolute).
@@ -116,7 +116,7 @@ class Curly
 
 			// Obtain the CA bundle if we do not habe yet.
 			// It is important for us to be able to use TLS later on.
-		if (! is_file(static::$certificate)) {
+		if (static::$secure && ! is_file(static::$certificate)) {
 			try {
 							// Deactivate secure connection because we don't have the CA bundle yet.
 							// We will re-activate it later on.
