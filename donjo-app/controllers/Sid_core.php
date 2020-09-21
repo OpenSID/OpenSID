@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Sid_Core extends Admin_Controller {
 
 	private $_set_page;
-	private $_header;
 
 	public function __construct()
 	{
@@ -58,7 +57,7 @@ class Sid_Core extends Admin_Controller {
 		$this->sub_modul_ini = 20;
 		$this->_set_page = ['20', '50', '100'];
 		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
-		$this->_header = $this->header_model->get_data();
+		
 	}
 
 	public function clear()
@@ -86,15 +85,14 @@ class Sid_Core extends Admin_Controller {
 		$data['keyword'] = $this->wilayah_model->autocomplete();
 		$data['total'] = $this->wilayah_model->total();
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/wilayah', $data);
-		$this->load->view('footer');
+		$this->render('sid/wilayah/wilayah', $data);
+		
 	}
 
 	public function cetak()
 	{
-		$data['desa'] = $this->_header;
+		$this->header = $this->header_model->get_data();
+		$data['desa'] = $this->header;
 		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
 		$data['total'] = $this->wilayah_model->total();
 
@@ -103,7 +101,8 @@ class Sid_Core extends Admin_Controller {
 
 	public function excel()
 	{
-		$data['desa'] = $this->_header;
+		$this->header = $this->header_model->get_data();
+		$data['desa'] = $this->header;
 		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
 		$data['total'] = $this->wilayah_model->total();
 
@@ -129,10 +128,8 @@ class Sid_Core extends Admin_Controller {
 
 		$data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/wilayah_form', $data);
-		$this->load->view('footer');
+		$this->render('sid/wilayah/wilayah_form', $data);
+		
 	}
 
 	public function search()
@@ -174,10 +171,8 @@ class Sid_Core extends Admin_Controller {
 		$data['main'] = $this->wilayah_model->list_data_rw($id_dusun );
 		$data['total'] = $this->wilayah_model->total_rw($nama_dusun );
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/wilayah_rw', $data);
-		$this->load->view('footer');
+		$this->render('sid/wilayah/wilayah_rw', $data);
+		
 	}
 
 	public function cetak_rw($id_dusun = '')
@@ -227,10 +222,8 @@ class Sid_Core extends Admin_Controller {
 			$data['form_action'] = site_url("sid_core/insert_rw/$id_dusun");
 		}
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/wilayah_form_rw', $data);
-		$this->load->view('footer');
+		$this->render('sid/wilayah/wilayah_form_rw', $data);
+		
 	}
 
 	public function insert_rw($dusun = '')
@@ -258,10 +251,8 @@ class Sid_Core extends Admin_Controller {
 		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $data['rw']);
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $data['rw']);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/wilayah_rt', $data);
-		$this->load->view('footer');
+		$this->render('sid/wilayah/wilayah_rt', $data);
+		
 	}
 
 	public function cetak_rt($id_dusun = '', $id_rw = '')
@@ -321,10 +312,8 @@ class Sid_Core extends Admin_Controller {
 			$data['form_action'] = site_url("sid_core/insert_rt/$id_dusun/$id_rw");
 		}
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/wilayah/wilayah_form_rt', $data);
-		$this->load->view('footer');
+		$this->render('sid/wilayah/wilayah_form_rt', $data);
+		
 	}
 
 	public function insert_rt($id_dusun = '', $id_rw = '')
@@ -402,10 +391,8 @@ class Sid_Core extends Admin_Controller {
 
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
-			$this->load->view('header', $this->_header);
-			$this->load->view('nav');
-			$this->load->view("sid/wilayah/maps_kantor", $data);
-			$this->load->view('footer');
+			$this->render("sid/wilayah/maps_kantor", $data);
+			
 		}
 		else
 		{
@@ -432,10 +419,8 @@ class Sid_Core extends Admin_Controller {
 		$namadesa =  $data['wil_atas']['nama_desa'];
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
-			$this->load->view('header', $this->_header);
-			$this->load->view('nav');
-			$this->load->view("sid/wilayah/maps_wilayah", $data);
-			$this->load->view('footer');
+			$this->render("sid/wilayah/maps_wilayah", $data);
+			
 		}
 		else
 		{
@@ -490,10 +475,8 @@ class Sid_Core extends Admin_Controller {
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-			$this->load->view('header', $this->_header);
-			$this->load->view('nav');
-			$this->load->view("sid/wilayah/maps_kantor", $data);
-			$this->load->view('footer');
+			$this->render("sid/wilayah/maps_kantor", $data);
+			
 		}
 		else
 		{
@@ -528,10 +511,8 @@ class Sid_Core extends Admin_Controller {
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-			$this->load->view('header', $this->_header);
-			$this->load->view('nav');
-			$this->load->view("sid/wilayah/maps_wilayah", $data);
-			$this->load->view('footer');
+			$this->render("sid/wilayah/maps_wilayah", $data);
+			
 		}
 		else
 		{
@@ -579,10 +560,8 @@ class Sid_Core extends Admin_Controller {
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-			$this->load->view('header', $this->_header);
-			$this->load->view('nav');
-			$this->load->view("sid/wilayah/maps_kantor", $data);
-			$this->load->view('footer');
+			$this->render("sid/wilayah/maps_kantor", $data);
+			
 		}
 		else
 		{
@@ -616,10 +595,8 @@ class Sid_Core extends Admin_Controller {
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
-			$this->load->view('header', $this->_header);
-			$this->load->view('nav');
-			$this->load->view("sid/wilayah/maps_wilayah", $data);
-			$this->load->view('footer');
+			$this->render("sid/wilayah/maps_wilayah", $data);
+			
 		}
 		else
 		{

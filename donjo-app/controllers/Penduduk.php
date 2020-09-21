@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Penduduk extends Admin_Controller {
 
-	private $_header;
+	
 	private $_set_page;
 	private $_list_session;
 
@@ -55,7 +55,7 @@ class Penduduk extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'header_model', 'config_model', 'program_bantuan_model']);
-		$this->_header = $this->header_model->get_data();
+		
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
@@ -121,12 +121,10 @@ class Penduduk extends Admin_Controller {
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$this->_header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/kependudukan/penduduk', $data);
-		$this->load->view('footer');
+		$this->render('sid/kependudukan/penduduk', $data);
+		
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -206,12 +204,10 @@ class Penduduk extends Admin_Controller {
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-		$this->_header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 		unset($_SESSION['dari_internal']);
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/kependudukan/penduduk_form', $data);
-		$this->load->view('footer');
+		$this->render('sid/kependudukan/penduduk_form', $data);
+		
 	}
 
 	public function detail($p = 1, $o = 0, $id = 0)
@@ -221,12 +217,10 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
-		$this->_header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/kependudukan/penduduk_detail', $data);
-		$this->load->view('footer');
+		$this->render('sid/kependudukan/penduduk_detail', $data);
+		
 	}
 
 	public function dokumen($id = '')
@@ -234,10 +228,8 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('sid/kependudukan/penduduk_dokumen', $data);
-		$this->load->view('footer');
+		$this->render('sid/kependudukan/penduduk_dokumen', $data);
+		
 	}
 
 	public function dokumen_form($id = 0, $id_dokumen = 0)
@@ -319,7 +311,8 @@ class Penduduk extends Admin_Controller {
 
 	public function cetak_biodata($id = '')
 	{
-		$data['desa'] = $this->_header['desa'];
+		$this->header = $this->header_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
 	}
@@ -522,10 +515,8 @@ class Penduduk extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view("sid/kependudukan/ajax_penduduk_maps", $data);
-		$this->load->view('footer');
+		$this->render("sid/kependudukan/ajax_penduduk_maps", $data);
+		
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '', $edit = '')

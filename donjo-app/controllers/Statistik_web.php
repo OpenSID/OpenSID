@@ -53,7 +53,7 @@ class Statistik_web extends Web_Controller {
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('pamong_model');
 		$this->load->model('program_bantuan_model');
-		$this->load->model('header_model');
+		
 		$_SESSION['per_page'] = 500;
 	}
 
