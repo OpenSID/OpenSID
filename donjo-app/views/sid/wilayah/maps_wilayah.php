@@ -178,10 +178,13 @@
 												</td>
 											</tr>
 											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
+												<td align="center"></td>
+											</tr>
+											<tr>
+												<td align="center"></td>
+											</tr>
+											<tr>
+												<td align="center"></td>
 											</tr>
 											<tr>
 												<td align="center"><img src="<?= base_url()?>assets/images/kompas.png" alt="OpenSID"></td>
