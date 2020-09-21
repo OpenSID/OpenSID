@@ -126,6 +126,10 @@
 		<script src="<?= base_url()?>assets/js/shp.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.browser.print.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.browser.print.utils.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.browser.print.sizes.js"></script>
+		<script src="<?= base_url()?>assets/js/dom-to-image.min.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
@@ -138,6 +142,10 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
+
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
@@ -231,4 +239,3 @@
 			</div>
 			<!-- Untuk menampilkan dialog pengumuman  -->
 			<?= $this->pengumuman; ?>
-
