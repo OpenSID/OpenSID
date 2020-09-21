@@ -142,10 +142,6 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
-
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
