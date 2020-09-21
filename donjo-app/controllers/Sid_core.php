@@ -52,7 +52,7 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'config_model', 'pamong_model', 'header_model']);
+		$this->load->model(['wilayah_model', 'config_model', 'header_model']);
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
@@ -92,37 +92,23 @@ class Sid_Core extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	/*
-	 * $aksi = cetak/unduh
-	 */
-	public function dialog($aksi = 'cetak')
+	public function cetak()
 	{
-		$data['aksi'] = $aksi;
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("sid_core/daftar/$aksi");
-		$this->load->view('global/ttd_pamong', $data);
-
-		// $data['desa'] = $this->_header;
-		// $data['main'] = $this->wilayah_model->list_semua_wilayah();
-		// $data['total'] = $this->wilayah_model->total();
-
-		// $this->load->view('sid/wilayah/wilayah_print', $data);
-	}
-
-	/*
-	 * $aksi = cetak/unduh
-	 */
-	public function daftar($aksi = 'cetak')
-	{
-		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
 		$data['desa'] = $this->_header;
-		$data['main'] = $this->wilayah_model->list_semua_wilayah();
+		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
 		$data['total'] = $this->wilayah_model->total();
 
-		$this->load->view("sid/wilayah/wilayah_$aksi", $data);
+		$this->load->view('sid/wilayah/wilayah_print', $data);
 	}
 
+	public function excel()
+	{
+		$data['desa'] = $this->_header;
+		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
+		$data['total'] = $this->wilayah_model->total();
+
+		$this->load->view('sid/wilayah/wilayah_excel', $data);
+	}
 
 	public function form($id = '')
 	{
@@ -446,7 +432,6 @@ class Sid_Core extends Admin_Controller {
 		$data['form_action'] = site_url("sid_core/update_wilayah_dusun_map/$id");
 		$namadesa =  $data['wil_atas']['nama_desa'];
 		$data['logo'] = $this->config_model->get_data();
-		
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
 			$this->load->view('header', $this->_header);
