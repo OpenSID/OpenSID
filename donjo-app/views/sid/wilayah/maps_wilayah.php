@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * View di Modul Identitas Desa di OpenSID
+ * View pemetaan wilayah di Modul Identitas Desa dan Wilayah Administratif OpenSID
  *
  * /donjo-app/views/sid/wilayah/maps_wilayah.php
  *
@@ -61,43 +61,39 @@
 	.leaflet-control-locate a {
 	font-size: 2em;
 	}
-</style>
-<style>
-.grid-print-container {
-  grid-template: auto 1fr auto / 1fr;
-  background-color: white;
-}
-.grid-map-print {
-  grid-row: 2;
-}
+	.grid-print-container {
+	  grid-template: auto 1fr auto / 1fr;
+	  background-color: white;
+	}
+	.grid-map-print {
+	  grid-row: 2;
+	}
 
-.grid-print-container > .title,
-.grid-print-container > .sub-content {
-  color: black;
-}
-.title {
-  grid-row: 1;
-  justify-self: center;
-  text-align: center;
-  color: grey;
-  box-sizing: border-box;
-  margin-top: 0;
-}
-.sub-content {
-  grid-row: 5;
-  padding-left: 10px;
-  text-align: center;
-  color: grey;
-  box-sizing: border-box;
-}
-</style>
-<style>
-[leaflet-browser-print-pages] {
-  display: none;
-}
-.pages-print-container [leaflet-browser-print-pages] {
-  display: block;
-}
+	.grid-print-container > .title,
+	.grid-print-container > .sub-content {
+	  color: black;
+	}
+	.title {
+	  grid-row: 1;
+	  justify-self: center;
+	  text-align: center;
+	  color: grey;
+	  box-sizing: border-box;
+	  margin-top: 0;
+	}
+	.sub-content {
+	  grid-row: 5;
+	  padding-left: 10px;
+	  text-align: center;
+	  color: grey;
+	  box-sizing: border-box;
+	}
+	[leaflet-browser-print-pages] {
+	  display: none;
+	}
+	.pages-print-container [leaflet-browser-print-pages] {
+	  display: block;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
