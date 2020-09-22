@@ -24,7 +24,7 @@
 					<thead>
 						<tr class="border thick">
 							<th>No</th>
-							<th width="150" >Nomor Rumah Tangga</th>
+							<th width="150">Nomor Rumah Tangga</th>
 							<th width="200">Kepala Rumah Tangga</th>
 							<th width="100">NIK</th>
 							<th width="100">Jumlah Anggota</th>
@@ -41,7 +41,7 @@
 								<td width="2"><?= $data['no']?></td>
 								<td><?= $data['no_kk']?></td>
 								<td><?= strtoupper($data['kepala_kk'])?></td>
-								<td><?= strtoupper($data['nik'])?></td>
+								<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 								<td><?= $data['jumlah_anggota']?></td>
 								<td><?= strtoupper($data['alamat'])?></td>
 								<td><?= strtoupper($data['dusun'])?></td>

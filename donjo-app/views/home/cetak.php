@@ -64,7 +64,7 @@
 						<tr class="border thick">
 							<th width="3%">NO</th>
 							<th width="10%">NAMA</th>
-							<th>NIAP</th>
+							<th><?= $this->setting->sebutan_nip_desa  ?></th>
 							<th>NIP</th>
 							<th>JENIS KELAMIN</th>
 							<th>TEMPAT TANGGAL LAHIR</th>

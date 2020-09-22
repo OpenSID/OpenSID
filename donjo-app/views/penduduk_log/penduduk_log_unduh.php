@@ -4,5 +4,5 @@
   header("Pragma: no-cache");
   header("Expires: 0");
 
-  include("donjo-app/views/penduduk_log/penduduk_log_print.php");
+  include("donjo-app/views/penduduk_log/penduduk_log_cetak.php");
 ?>

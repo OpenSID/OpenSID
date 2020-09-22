@@ -127,16 +127,11 @@ class Keluarga extends Admin_Controller {
 		echo json_encode($data);
 	}
 
-	public function cetak($o = 0)
+	public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
 	{
 		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/keluarga_print', $data);
-	}
-
-	public function excel($o = 0)
-	{
-		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
-		$this->load->view('sid/kependudukan/keluarga_excel', $data);
+		if ($privasi_kk == 1) $data['privasi_kk'] = true;
+		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
 	}
 
 	/*
@@ -567,6 +562,15 @@ class Keluarga extends Admin_Controller {
 		$data['form_action'] = site_url("keluarga/filter/kumpulan_kk");
 
 		$this->load->view("sid/kependudukan/ajax_search_kumpulan_kk", $data);
+	}
+
+	public function ajax_cetak($o = 0, $aksi = '')
+	{
+		$data["o"] = $o;
+		$data['aksi'] = $aksi;
+		$data['form_action'] = "keluarga/cetak/$o/$aksi";
+		$data['form_action_privasi'] = "keluarga/cetak/$o/$aksi/1";
+		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 
 }

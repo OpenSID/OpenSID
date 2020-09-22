@@ -51,10 +51,10 @@
 					<tbody>
 						<?php foreach ($main as $data): ?>
 							<tr>
-								<td width="2"><?= $data['no']?></td>
-								<td><?= $data['no_kk']?></td>
+								<td><?= $data['no']?></td>
+								<td><?= $privasi_kk ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>
 								<td><?= strtoupper($data['kepala_kk'])?></td>
-								<td><?= strtoupper($data['nik'])?></td>
+								<td><?= $privasi_kk ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 								<td><?= $data['jumlah_anggota']?></td>
 								<td><?= $data['sex']?></td>
 								<td><?= strtoupper($data['alamat'])?></td>
