@@ -22,12 +22,16 @@ Lengkapnya, isi rilis versi 20.09-premium-pasca adalah sebagai berikut:
 16. #3558: Sekarang Surat Keterangan Kematian berjalan normal apabila data penduduk ybs berisi NIK Ibu. [bug-fix]
 17. #3560: Impor data penduduk sekarang melaporkan error pada waktu menyimpan data ke database. [bug-fix]
 18. #3180: Sekarang bisa saring daftar anggaran dan realisasi keuangan manual berdasarkan tahun anggaran.
+19. #3564: Sediakan setting aplikasi supaya bisa menggunakan NIPD atau NIAP di data Pemerintahan Desa.
+20. #3193: Sediakan opsi mensensor NIK dan No. KK pada waktu mencetak/mengunduh data penduduk.
+
 
 Fitur Premium:
 
 1. #3512: Sediakan menu mengatur ukuran bagan.
 2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
 3. #3531: Tampilkan rumusan pokok IDM di Info Desa > Status Desa dari portal IDM Kemendesa. Dan bisa ditampilkan di Web melalui menu statis.
+4. #3571: Sediakan fitur untuk mencetak peta wilayah desa/dusun/rw/rt.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
