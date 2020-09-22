@@ -177,9 +177,6 @@
 												<td align="center"></td>
 											</tr>
 											<tr>
-												<td align="center"></td>
-											</tr>
-											<tr>
 												<td align="center"><img src="<?= base_url()?>assets/images/kompas.png" alt="OpenSID"></td>
 											</tr>
 										</table>
