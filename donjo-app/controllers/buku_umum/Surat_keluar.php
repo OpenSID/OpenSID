@@ -13,8 +13,8 @@ class Surat_keluar extends Admin_Controller {
 		$this->load->model('pamong_model');
 		$this->load->model('header_model');
 		$this->load->model('penomoran_surat_model');
-		$this->modul_ini = 15;
-		$this->sub_modul_ini = 58;
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 302;
 	}
 
 	public function clear($id = 0)
@@ -48,11 +48,14 @@ class Surat_keluar extends Admin_Controller {
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$header = $this->header_model->get_data();
+		$data['main_content'] = 'surat_keluar/table';
+		$data['subtitle'] = "Buku Agenda - Surat Keluar";
+		$data['selected_nav'] = 'agenda_keluar';
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('surat_keluar/table', $data);
+		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
 	}
 
@@ -206,4 +209,9 @@ class Surat_keluar extends Admin_Controller {
    	echo $hasil ? 'false' : 'true';
 	}
 
+	public function untuk_ekspedisi($p = 1, $o = 0, $id)
+	{
+		$this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 1);
+		redirect("ekspedisi/index/$p/$o");
+	}
 }

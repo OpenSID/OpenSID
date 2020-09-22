@@ -106,7 +106,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required" maxlength="6" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
+									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required" maxlength="10" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">

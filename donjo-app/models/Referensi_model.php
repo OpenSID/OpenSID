@@ -47,6 +47,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Model ini digunakan untuk data referensi statis yg tidak disimpan pd database atau sebagai referensi global
 
+define("JENIS_PERATURAN_DESA", serialize([
+	"Peraturan Desa (Perdes)",
+	"Peraturan Kepala Desa (Perkades)",
+	"Peraturan Bersama Kepala Desa"
+]));
+
 define("KATEGORI_PUBLIK", serialize([
 	"Informasi Berkala" => "1",
 	"Informasi Serta-merta" => "2",
@@ -70,6 +76,7 @@ define("LINK_TIPE", serialize([
 	'4' => 'Statistik Program Bantuan',
 	'5' => 'Halaman Statis Lainnya',
 	'6' => 'Artikel Keuangan',
+	'7' => 'Kelompok',
 	'99' => 'Eksternal'
 ]));
 
@@ -113,9 +120,18 @@ define("STAT_LAINNYA", serialize([
 	'wilayah' => 'Wilayah Administratif',
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
-	'peta' => 'Peta'
+	'peta' => 'Peta',
+	'status_idm' => 'Status IDM'
 ]));
 
+// Jabatan Kelompok
+define("JABATAN_KELOMPOK", serialize([
+	1 => 'KETUA',
+	2 => 'WAKIL KETUA',
+	3 => 'SEKRETARIS',
+	4 => 'BENDAHARA',
+	90 => 'ANGGOTA'
+]));
 
 class Referensi_model extends CI_Model {
 

@@ -7,7 +7,14 @@
 <div class="form-group">
 	<label class="control-label col-sm-4" for="nama">Jenis Peraturan</label>
 	<div class="col-sm-6">
-		<input name="attr[jenis_peraturan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['jenis_peraturan']?>"></input>
+		<select class="form-control input-sm select2-tags required" name="attr[jenis_peraturan]" style="width: 100%;">
+			<option value=''>-- Pilih Jenis Peraturan --</option>
+			<?php foreach ($jenis_peraturan as $item): ?>
+				<option value="<?= $item ?>" <?php selected($item, $dokumen['attr']['jenis_peraturan'])?>><?= $item?></option>
+			<?php endforeach;?>
+		</select>
+
+		<!-- <input name="attr[jenis_peraturan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['jenis_peraturan']?>"></input> -->
 	</div>
 </div>
 <div class="form-group">

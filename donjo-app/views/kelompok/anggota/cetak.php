@@ -111,6 +111,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<tr class="border thick">
 										<th>No.</th>
 										<th>No. Anggota</th>
+										<th>Jabatan</th>
+										<th>SK Jabatan</th>
 										<th>NIK</th>
 										<th>Nama</th>
 										<th>Tempat / Tanggal Lahir</th>
@@ -124,6 +126,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<tr>
 											<td align="center"><?= ($key + 1)?></td>
 											<td class="textx" align="center"><?= $data['no_anggota']?></td>
+											<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
+											<td><?= $data['no_sk_jabatan']?></td>
 											<td class="textx"><?= $data['nik']?></td>
 											<td><?= $data['nama']?></td>
 											<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>

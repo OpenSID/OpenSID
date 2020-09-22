@@ -117,6 +117,11 @@
 		}
 	}
 
+	function compared_return($a, $b, $retval=null)
+	{
+		($a===$b) and print('active');
+	}
+
 	function selected($a, $b, $opt=0)
 	{
 		if ($a == $b)
@@ -241,8 +246,9 @@
 		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
-	function tgl_indo_dari_str($tgl_str) {
-		$tanggal = tgl_indo(date('Y m d',strtotime($tgl_str)));
+	function tgl_indo_dari_str($tgl_str, $kosong='-') {
+		$time = strtotime($tgl_str);
+		$tanggal = $time ? tgl_indo(date('Y m d',strtotime($tgl_str))) : $kosong;
 		return $tanggal;
 	}
 
@@ -578,5 +584,3 @@ function sensor_nik_kk($data)
 	return $output;
 }
 
-
-// =======================================

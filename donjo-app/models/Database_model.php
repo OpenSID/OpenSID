@@ -166,6 +166,9 @@ class Database_model extends CI_Model {
 		{
 			$this->_migrasi_db_cri();
 		}
+		// Jalankan migrasi untuk fitur premium
+		$this->jalankan_migrasi('migrasi_fitur_premium');
+
 		$this->folder_desa_model->amankan_folder_desa();
 		$this->surat_master_model->impor_surat_desa();
 		$this->db->where('id', 13)->update('setting_aplikasi', array('value' => TRUE));
@@ -174,7 +177,7 @@ class Database_model extends CI_Model {
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
 		$versi = AmbilVersi();
-		$versi = preg_replace('/pasca-|-pasca/', '', $versi);
+		$versi = preg_replace('/pasca-|-pasca|-premium|-premium-pasca/', '', $versi);
 		$newVersion = array(
 			'value' => $versi
 		);

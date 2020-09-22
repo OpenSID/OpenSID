@@ -95,6 +95,9 @@
 			<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
 		<?php endif; ?>
 
+		<!-- Ionicons -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
+
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/front/js/layout.js"></script>
@@ -113,6 +116,9 @@
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
+		<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>

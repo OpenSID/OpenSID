@@ -8,8 +8,9 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
-		$this->modul_ini = 15;
-		$this->sub_modul_ini = 95;
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 302;
+		$this->_list_session = ['filter', 'cari', 'jenis_peraturan'];
 	}
 
 	public function index($kat=2, $p=1, $o=0)
@@ -28,10 +29,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
@@ -41,6 +38,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
+		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
     $_SESSION['menu_kategori'] = TRUE;
 
@@ -55,19 +53,21 @@ class Dokumen_sekretariat extends Admin_Controller {
 		}
 
 		$header = $this->header_model->get_data();
+		$data['main_content'] = 'dokumen/table_buku_umum';
+		$data['subtitle'] = ($kat == '3') ? "Buku Peraturan Desa" : "Buku Keputusan Kepala Desa";
+		$data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';
 		$this->_set_tab($kat);
 		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav', $nav);
-		$this->load->view('dokumen/table', $data);
+		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
 	}
 
 	public function clear($kat=2)
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		$this->session->unset_userdata($this->_list_session);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
@@ -77,11 +77,16 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
+		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 
 		if ($id)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id);
 			$data['form_action'] = site_url("dokumen_sekretariat/update/$kat/$id/$p/$o");
+			if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] and !in_array($jenis_peraturan, $data['jenis_peraturan']))
+			{
+				$data['jenis_peraturan'][] = $jenis_peraturan;
+			}
 		}
 		else
 		{
@@ -108,13 +113,10 @@ class Dokumen_sekretariat extends Admin_Controller {
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
-	public function filter()
+	public function filter($filter = 'filter')
 	{
-		$filter = $this->input->post('filter');
+		$this->session->$filter = $this->input->post($filter);
 		$kat = $this->input->post('kategori');
-		if ($filter != 0)
-			$_SESSION['filter']=$filter;
-		else unset($_SESSION['filter']);
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
