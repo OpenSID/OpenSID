@@ -153,7 +153,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
-		
 		$this->set_nav('analisis_master/nav');
 		$this->render('analisis_statistik_jawaban/form', $data);		
 	}

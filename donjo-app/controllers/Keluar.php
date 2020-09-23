@@ -163,7 +163,6 @@ class Keluar extends Admin_Controller {
 
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no'] = $nik;
-		
 		$this->render('surat/surat_keluar_perorangan', $data);
 	}
 
