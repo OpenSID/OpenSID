@@ -45,7 +45,7 @@ class Line extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
+		
 		$this->load->model('plan_line_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
@@ -78,14 +78,10 @@ class Line extends Admin_Controller {
 		$data['paging'] = $this->plan_line_model->paging($p, $o);
 		$data['main'] = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_line_model->autocomplete();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 2;
+		$this->set_minsidebar(1);		$nav['tip'] = 2;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('line/table', $data);
-		$this->load->view('footer');
+		$this->render('line/table', $data);
+		
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -104,27 +100,19 @@ class Line extends Admin_Controller {
 			$data['form_action'] = site_url("line/insert");
 		}
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 2;
+		$this->set_minsidebar(1);		$nav['tip'] = 2;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('line/form', $data);
-		$this->load->view('footer');
+		$this->render('line/form', $data);
+		
 	}
 
 	public function sub_line($line = 1)
 	{
 		$data['subline'] = $this->plan_line_model->list_sub_line($line);
 		$data['line'] = $this->plan_line_model->get_line($line);
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 2;
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('line/sub_line_table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);		$nav['tip'] = 2;
+		$this->render('line/sub_line_table', $data);
+		
 	}
 
 	public function ajax_add_sub_line($line = 0, $id = 0)

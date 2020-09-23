@@ -47,14 +47,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Statistik extends Admin_Controller {
 
-	private $_header;
+	
 	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model', 'referensi_model']);
-		$this->_header = $this->header_model->get_data();
+		
 		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
@@ -76,10 +76,8 @@ class Statistik extends Admin_Controller {
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('statistik/penduduk', $data);
-		$this->load->view('footer');
+		$this->render('statistik/penduduk', $data);
+		
 	}
 
 	public function clear($lap = '0', $order_by = '1')
@@ -166,10 +164,8 @@ class Statistik extends Admin_Controller {
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('statistik/rentang_umur', $data);
-		$this->load->view('footer');
+		$this->render('statistik/rentang_umur', $data);
+		
 	}
 
 	public function form_rentang($id = 0)

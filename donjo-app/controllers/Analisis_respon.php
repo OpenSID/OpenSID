@@ -1,4 +1,44 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul
+ *
+ * donjo-app/controllers/Analisis_respon.php
+ *
+ */
+/*
+ *  File ini bagian dari: 
+ * 
+ * OpenSID
+ * 
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ * 
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ * 
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * 
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ * 
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ * 
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ * 
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Analisis_respon extends Admin_Controller {
 
@@ -7,7 +47,7 @@ class Analisis_respon extends Admin_Controller {
 		parent::__construct();
 		UNSET($_SESSION['delik']);
 		$this->load->model('analisis_respon_model');
-		$this->load->model('header_model');
+		
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
 		$this->modul_ini = 5;
@@ -84,13 +124,9 @@ class Analisis_respon extends Admin_Controller {
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_respon/table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_respon/table', $data);
+		
 	}
 
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
@@ -115,19 +151,15 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		if (isset($_SESSION['fullscreen']))
+		$this->set_minsidebar(1);		if (isset($_SESSION['fullscreen']))
 			$data['layarpenuh']= 1;
 		else
 		{
 			$data['layarpenuh']= 2;
 		}
 
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_respon/form',$data);
-		$this->load->view('footer');
+		$this->render('analisis_respon/form',$data);
+		
 	}
 
 	public function update_kuisioner($p=1, $o=0, $id='')

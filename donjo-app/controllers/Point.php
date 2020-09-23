@@ -47,7 +47,7 @@ class Point extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
+		
 		$this->load->model('plan_point_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
@@ -86,13 +86,11 @@ class Point extends Admin_Controller {
 		$data['main'] = $this->plan_point_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_point_model->autocomplete();
 		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 		$nav['tip'] = 0;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('point/table', $data);
-		$this->load->view('footer');
+		$this->render('point/table', $data);
+		
 
 	}
 
@@ -113,28 +111,20 @@ class Point extends Admin_Controller {
 		}
 
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 0;
+		$this->set_minsidebar(1);		$nav['tip'] = 0;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('point/form', $data);
-		$this->load->view('footer');
+		$this->render('point/form', $data);
+		
 	}
 
 	public function sub_point($point = 1)
 	{
 		$data['subpoint'] = $this->plan_point_model->list_sub_point($point);
 		$data['point'] = $this->plan_point_model->get_point($point);
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 0;
+		$this->set_minsidebar(1);		$nav['tip'] = 0;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('point/sub_point_table', $data);
-		$this->load->view('footer');
+		$this->render('point/sub_point_table', $data);
+		
 	}
 
 	public function ajax_add_sub_point($point = 0, $id = 0)
@@ -257,14 +247,10 @@ class Point extends Admin_Controller {
 	public function form_simbol($id = '')
 	{
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$nav['tip'] = 6;
+		$this->set_minsidebar(1);		$nav['tip'] = 6;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('point/form_simbol', $data);
-		$this->load->view('footer');
+		$this->render('point/form_simbol', $data);
+		
 	}
 
 	public function delete_simbol($id = '', $simbol = '')
