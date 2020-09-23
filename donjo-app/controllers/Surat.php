@@ -106,8 +106,8 @@ class Surat extends Admin_Controller {
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/doc/$url");
-		$this->set_minsidebar(1);
-		$this->render("surat/form_surat", $data);
+		
+		$this->render("surat/form_surat", $data, TRUE);
 	}
 
 	public function periksa_doc($id, $url)

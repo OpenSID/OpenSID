@@ -102,9 +102,8 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
-		$this->set_minsidebar(1);
-
-		$this->render('web/artikel/table', $data);
+		
+		$this->render('web/artikel/table', $data, TRUE);
 	}
 
 	public function tab($cat = 0)
@@ -135,9 +134,8 @@ class Web extends Admin_Controller {
 		}
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$this->set_minsidebar(1);
-
-		$this->render('web/artikel/form',$data);
+		
+		$this->render('web/artikel/form', $data, TRUE);
 	}
 
 	public function filter($filter, $cat = 1)

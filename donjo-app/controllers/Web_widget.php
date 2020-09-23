@@ -129,11 +129,10 @@ class Web_widget extends Admin_Controller {
 
 	public function admin($widget)
 	{
-		$this->set_minsidebar(1);
 		$data['form_action'] = site_url("web_widget/update_setting/".$widget);
 		$data['setting'] = $this->web_widget_model->get_setting($widget);
 
-		$this->render('widgets/admin_'.$widget, $data);
+		$this->render('widgets/admin_'.$widget, $data, TRUE);
 	}
 
 	public function update_setting($widget)

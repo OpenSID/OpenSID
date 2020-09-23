@@ -109,9 +109,7 @@ class Dpt extends Admin_Controller {
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->dpt_model->autocomplete();
 
-		$this->set_minsidebar(1);
-
-		$this->render('dpt/dpt', $data);
+		$this->render('dpt/dpt', $data, TRUE);
 	}
 
 	public function filter($filter)

@@ -88,8 +88,8 @@ class Analisis_periode extends Admin_Controller {
 		$data['keyword'] = $this->analisis_periode_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
 		$data['list_state'] = $this->analisis_periode_model->list_state();
-		$this->set_minsidebar(1);
-		$this->render('analisis_periode/table', $data);
+		
+		$this->render('analisis_periode/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -108,11 +108,9 @@ class Analisis_periode extends Admin_Controller {
 			$data['form_action'] = site_url("analisis_periode/insert");
 		}
 
-		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
-		$this->set_minsidebar(1);
 
-		$this->render('analisis_periode/form', $data);
+		$this->render('analisis_periode/form', $data, TRUE);
 	}
 
 	public function search()

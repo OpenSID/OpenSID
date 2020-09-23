@@ -78,10 +78,9 @@ class Line extends Admin_Controller {
 		$data['paging'] = $this->plan_line_model->paging($p, $o);
 		$data['main'] = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_line_model->autocomplete();
-		$this->set_minsidebar(1);
-		$nav['tip'] = 2;
 
-		$this->render('line/table', $data);
+		$nav['tip'] = 2;
+		$this->render('line/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -100,18 +99,17 @@ class Line extends Admin_Controller {
 			$data['form_action'] = site_url("line/insert");
 		}
 
-		$this->set_minsidebar(1);
 		$nav['tip'] = 2;
-		$this->render('line/form', $data);
+		$this->render('line/form', $data, TRUE);
 	}
 
 	public function sub_line($line = 1)
 	{
 		$data['subline'] = $this->plan_line_model->list_sub_line($line);
 		$data['line'] = $this->plan_line_model->get_line($line);
-		$this->set_minsidebar(1);
+
 		$nav['tip'] = 2;
-		$this->render('line/sub_line_table', $data);
+		$this->render('line/sub_line_table', $data, TRUE);
 	}
 
 	public function ajax_add_sub_line($line = 0, $id = 0)

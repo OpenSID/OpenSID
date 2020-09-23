@@ -80,9 +80,8 @@ class Suplemen extends Admin_Controller {
 		}
 
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$this->set_minsidebar(1);
-
-		$this->render('suplemen/form', $data);
+		
+		$this->render('suplemen/form', $data, TRUE);
 	}
 
 	public function tambah()
@@ -120,9 +119,8 @@ class Suplemen extends Admin_Controller {
 		$data['func'] = "rincian/$id";
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = ['20', '50', '100'];
-		$this->set_minsidebar(1);
-
-		$this->render('suplemen/suplemen_anggota', $data);
+		
+		$this->render('suplemen/suplemen_anggota', $data, TRUE);
 	}
 
 	public function form_terdata($id)

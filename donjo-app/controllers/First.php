@@ -221,12 +221,12 @@ class First extends Web_Controller {
 		$data = $this->includes;
 		$data['p'] = $p;
 		$data['paging']  = $this->first_artikel_m->paging_arsip($p);
-		$data['farsip'] = $this->first_artikel_m->full_arsip($data['paging']->offset,$data['paging']->per_page);
+		$data['farsip'] = $this->first_artikel_m->full_arsip($data['paging']->offset, $data['paging']->per_page);
 
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/arsip.tpl.php');
-		$this->load->view($this->template,$data);
+		$this->load->view($this->template, $data);
 	}
 
 	// Halaman arsip album galeri
@@ -259,7 +259,7 @@ class First extends Web_Controller {
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
-		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal,$data['paging']->offset, $data['paging']->per_page);
+		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal, $data['paging']->offset, $data['paging']->per_page);
 		$data['parrent'] = $this->first_gallery_m->get_parrent($gal);
 		$data['mode'] = 1;
 
@@ -600,7 +600,7 @@ class First extends Web_Controller {
 				break;
 		}
 
-		$this->load->view('gis/aparatur_wilayah',$data);
+		$this->load->view('gis/aparatur_wilayah', $data);
 	}
 
 	public function ambil_data_covid()

@@ -68,64 +68,63 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['main'] = $this->inventaris_kontruksi_model->list_inventaris();
 		$data['total'] = $this->inventaris_kontruksi_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
+
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/table', $data);
+		$this->render('inventaris/kontruksi/table', $data, TRUE);
 	}
 
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
+
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/view_inventaris', $data);
+		$this->render('inventaris/kontruksi/view_inventaris', $data, TRUE);
 	}
 
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view_mutasi($id);
+
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/view_mutasi', $data);
+		$this->render('inventaris/kontruksi/view_mutasi', $data, TRUE);
 	}
 
 	public function edit($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
+
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/edit_inventaris', $data);
+		$this->render('inventaris/kontruksi/edit_inventaris', $data, TRUE);
 	}
 
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->edit_mutasi($id);
+		
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/edit_mutasi', $data);
+		$this->render('inventaris/kontruksi/edit_mutasi', $data, TRUE);
 	}
 
 	public function form()
 	{
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/form_tambah', $data);
+		$this->render('inventaris/kontruksi/form_tambah', $data, TRUE);
 	}
 
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
+		
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/form_mutasi', $data);
+		$this->render('inventaris/kontruksi/form_mutasi', $data, TRUE);
 	}
 
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->list_mutasi_inventaris();
+		
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/kontruksi/table_mutasi', $data);
+		$this->render('inventaris/kontruksi/table_mutasi', $data, TRUE);
 	}
 
 	public function cetak($tahun, $penandatangan)

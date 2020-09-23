@@ -68,25 +68,25 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['main'] = $this->inventaris_jalan_model->list_inventaris();
 		$data['total'] = $this->inventaris_jalan_model->sum_inventaris();
 		$data['pamong'] = $this->surat_model->list_pamong();
+
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/table', $data);
+		$this->render('inventaris/jalan/table', $data, TRUE);
 	}
 
 	public function view($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view($id);
+
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/view_inventaris', $data);
+		$this->render('inventaris/jalan/view_inventaris', $data, TRUE);
 	}
 
 	public function view_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view_mutasi($id);
+
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/view_mutasi', $data);
+		$this->render('inventaris/jalan/view_mutasi', $data, TRUE);
 	}
 
 	public function edit($id)
@@ -96,17 +96,17 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
 		$data['get_kode'] = $this->config_model->get_data();
 		$data['kd_reg'] = $this->inventaris_jalan_model->list_inventaris_kd_register();
+		
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/edit_inventaris', $data);
+		$this->render('inventaris/jalan/edit_inventaris', $data, TRUE);
 	}
 
 	public function edit_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->edit_mutasi($id);
+		
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/edit_mutasi', $data);
+		$this->render('inventaris/jalan/edit_mutasi', $data, TRUE);
 	}
 
 	public function form()
@@ -116,25 +116,24 @@ class Inventaris_jalan extends Admin_Controller {
 		$data['main'] = $this->config_model->get_data();
 		$data['aset'] = $this->inventaris_jalan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
-		$this->set_minsidebar(1);
 
-		$this->render('inventaris/jalan/form_tambah', $data);
+		$this->render('inventaris/jalan/form_tambah', $data, TRUE);
 	}
 
 	public function form_mutasi($id)
 	{
 		$data['main'] = $this->inventaris_jalan_model->view($id);
+
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/form_mutasi', $data);
+		$this->render('inventaris/jalan/form_mutasi', $data, TRUE);
 	}
 
 	public function mutasi()
 	{
 		$data['main'] = $this->inventaris_jalan_model->list_mutasi_inventaris();
+		
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/jalan/table_mutasi', $data);
+		$this->render('inventaris/jalan/table_mutasi', $data, TRUE);
 	}
 
 	public function cetak($tahun, $penandatangan)

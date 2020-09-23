@@ -100,7 +100,7 @@ class Bip_ektp_model extends Import_model {
 		$rtrw = $this->ambil_kolom($alamat, 'RT/RW :', ' DUSUN :');
 		if ($rtrw)
 		{
-			list($data_keluarga['rt'],$data_keluarga['rw']) = explode('/',$rtrw);
+			list($data_keluarga['rt'], $data_keluarga['rw']) = explode('/',$rtrw);
 		}
 
 		$dusun = $this->ambil_kolom($alamat, 'DUSUN :');

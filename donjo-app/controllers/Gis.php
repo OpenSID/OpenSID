@@ -109,7 +109,7 @@ class Gis extends Admin_Controller {
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
+				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -142,8 +142,8 @@ class Gis extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
-		$this->set_minsidebar(1);
-		$this->render('gis/maps', $data);
+
+		$this->render('gis/maps', $data, TRUE);
 	}
 
 	public function search()

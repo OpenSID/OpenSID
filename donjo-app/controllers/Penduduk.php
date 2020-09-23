@@ -120,9 +120,8 @@ class Penduduk extends Admin_Controller {
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$this->set_minsidebar(1);
-
-		$this->render('sid/kependudukan/penduduk', $data);
+		
+		$this->render('sid/kependudukan/penduduk', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -202,9 +201,9 @@ class Penduduk extends Admin_Controller {
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-		$this->set_minsidebar(1);
 		unset($_SESSION['dari_internal']);
-		$this->render('sid/kependudukan/penduduk_form', $data);
+		
+		$this->render('sid/kependudukan/penduduk_form', $data, TRUE);
 	}
 
 	public function detail($p = 1, $o = 0, $id = 0)
@@ -214,9 +213,8 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
-		$this->set_minsidebar(1);
 
-		$this->render('sid/kependudukan/penduduk_detail', $data);
+		$this->render('sid/kependudukan/penduduk_detail', $data, TRUE);
 	}
 
 	public function dokumen($id = '')

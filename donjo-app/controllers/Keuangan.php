@@ -90,7 +90,6 @@ class Keuangan extends Admin_Controller {
 		);
 		$this->session->set_userdata( $sess );
 		$this->load->model('keuangan_grafik_model');
-		$this->set_minsidebar(1);
 
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
@@ -143,7 +142,7 @@ class Keuangan extends Admin_Controller {
 		$data['main'] = $this->keuangan_model->list_data();
 		$data['form_action'] = site_url("keuangan/proses_impor");
 
-		$this->render('keuangan/impor_data', $data);
+		$this->render('keuangan/impor_data', $data, TRUE);
 	}
 
 	public function proses_impor()

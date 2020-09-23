@@ -108,9 +108,8 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
-		$this->set_minsidebar(1);
-
-		$this->render('sid/kependudukan/rtm', $data);
+		
+		$this->render('sid/kependudukan/rtm', $data, TRUE);
 	}
 
 	/*
@@ -240,9 +239,8 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, $data['kepala_kk']['no_kk']);
-		$this->set_minsidebar(1);
-
-		$this->render('sid/kependudukan/rtm_anggota', $data);
+		
+		$this->render('sid/kependudukan/rtm_anggota', $data, TRUE);
 	}
 
 	public function ajax_add_anggota($id = 0)
@@ -284,9 +282,8 @@ class Rtm extends Admin_Controller {
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/print");
-		$this->set_minsidebar(1);
-
-		$this->render("sid/kependudukan/kartu_rtm", $data);
+		
+		$this->render("sid/kependudukan/kartu_rtm", $data, TRUE);
 	}
 
 	public function cetak_kk($id = 0)

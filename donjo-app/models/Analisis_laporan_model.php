@@ -288,7 +288,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			$ret = $this->list_jawab2($id,$data[$i]['id']);
+			$ret = $this->list_jawab2($id, $data[$i]['id']);
 			$data[$i]['jawaban'] = $ret['jawaban'];
 			$data[$i]['nilai'] = $ret['nilai'];
 			$data[$i]['poin'] = $data[$i]['bobot']*$ret['nilai'];

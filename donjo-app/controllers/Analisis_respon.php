@@ -123,8 +123,8 @@ class Analisis_respon extends Admin_Controller {
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
-		$this->set_minsidebar(1);
-		$this->render('analisis_respon/table', $data);
+		
+		$this->render('analisis_respon/table', $data, TRUE);
 	}
 
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
@@ -149,14 +149,14 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
-		$this->set_minsidebar(1);		if (isset($_SESSION['fullscreen']))
+		if (isset($_SESSION['fullscreen']))
 			$data['layarpenuh']= 1;
 		else
 		{
 			$data['layarpenuh']= 2;
 		}
 
-		$this->render('analisis_respon/form',$data);
+		$this->render('analisis_respon/form', $data, TRUE);
 	}
 
 	public function update_kuisioner($p=1, $o=0, $id='')
@@ -174,7 +174,7 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_jawab'] = $this->analisis_respon_model->list_indikator_child($idc);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner_child/$p/$o/$id/$idc");
 
-		$this->load->view('analisis_respon/form_ajax',$data);
+		$this->load->view('analisis_respon/form_ajax', $data);
 	}
 
 	public function update_kuisioner_child($p=1, $o=0, $id='', $idc='')
@@ -264,7 +264,7 @@ class Analisis_respon extends Admin_Controller {
 
 	public function form_impor_bdt(){
 		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
-		$this->load->view('analisis_respon/import/impor_bdt',$data);
+		$this->load->view('analisis_respon/import/impor_bdt', $data);
 	}
 
 	public function impor_bdt()

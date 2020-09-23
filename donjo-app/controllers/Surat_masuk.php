@@ -89,8 +89,8 @@ class Surat_masuk extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
-		$this->set_minsidebar(1);
-		$this->render('surat_masuk/table', $data);
+		
+		$this->render('surat_masuk/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -122,9 +122,8 @@ class Surat_masuk extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$this->set_minsidebar(1);
-
-		$this->render('surat_masuk/form', $data);
+		
+		$this->render('surat_masuk/form', $data, TRUE);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')

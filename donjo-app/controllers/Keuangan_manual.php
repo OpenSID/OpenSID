@@ -91,7 +91,6 @@ class Keuangan_manual extends Admin_Controller {
 		);
 		$this->session->set_userdata( $sess_manual );
 		$this->load->model('keuangan_grafik_manual_model');
-		$this->set_minsidebar(1);
 		$thn = $this->session->set_tahun;
 
 		switch ($jenis)
@@ -115,7 +114,7 @@ class Keuangan_manual extends Admin_Controller {
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$data['ta'] = $this->session->set_tahun;
 		$this->session->submenu = "Laporan Keuangan " . $judul;
-		$this->render('keuangan/rincian_realisasi_manual', $data);
+		$this->render('keuangan/rincian_realisasi_manual', $data, TRUE);
 	}
 
 	private function grafik_rp_apbd_manual($thn)
@@ -123,7 +122,7 @@ class Keuangan_manual extends Admin_Controller {
 		$data = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$this->session->submenu = "Grafik Keuangan";
-		$this->render('keuangan/grafik_rp_apbd_manual', $data);
+		$this->render('keuangan/grafik_rp_apbd_manual', $data, TRUE);
 	}
 
 	public function manual_apbdes()
@@ -142,7 +141,7 @@ class Keuangan_manual extends Admin_Controller {
 		$data['main_bl']= $this->keuangan_manual_model->list_belanja($tahun_anggaran);
 		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
 
-		$this->render('keuangan/manual_apbdes', $data);
+		$this->render('keuangan/manual_apbdes', $data, TRUE);
 	}
 
 	public function data_anggaran()

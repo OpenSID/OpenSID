@@ -112,9 +112,8 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$this->set_minsidebar(1);
-
-		$this->render('sid/kependudukan/keluarga', $data);
+		
+		$this->render('sid/kependudukan/keluarga', $data, TRUE);
 	}
 
 	public function autocomplete()
@@ -186,9 +185,8 @@ class Keluarga extends Admin_Controller {
 		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
 
 		unset($_SESSION['dari_internal']);
-		$this->set_minsidebar(1);
-
-		$this->render('sid/kependudukan/keluarga_form', $data);
+		
+		$this->render('sid/kependudukan/keluarga_form', $data, TRUE);
 	}
 
 	// Tambah anggota keluarga dari penduduk baru
@@ -230,8 +228,7 @@ class Keluarga extends Admin_Controller {
 			$data['penduduk'] = $_SESSION['post'];
 		}
 
-		$this->set_minsidebar(1);
-		$this->render('sid/kependudukan/keluarga_form_a', $data);
+		$this->render('sid/kependudukan/keluarga_form_a', $data, TRUE);
 	}
 
 	public function edit_nokk($p = 1, $o = 0, $id = 0)
@@ -363,9 +360,8 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(2, $data['kepala_kk']['no_kk']);
-		$this->set_minsidebar(1);
-
-		$this->render('sid/kependudukan/keluarga_anggota', $data);
+		
+		$this->render('sid/kependudukan/keluarga_anggota', $data, TRUE);
 	}
 
 	public function ajax_add_anggota($p = 1, $o = 0, $id = 0)
@@ -424,9 +420,8 @@ class Keluarga extends Admin_Controller {
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/print");
-		$this->set_minsidebar(1);
-
-		$this->render("sid/kependudukan/kartu_keluarga", $data);
+		
+		$this->render("sid/kependudukan/kartu_keluarga", $data, TRUE);
 	}
 
 	public function cetak_kk($id = 0)

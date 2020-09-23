@@ -58,11 +58,10 @@ class Laporan_inventaris extends Admin_Controller {
 	public function index()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-
 		$data = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
+		
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/laporan/table', $data);
+		$this->render('inventaris/laporan/table', $data, TRUE);
 	}
 
 	public function cetak($tahun, $penandatangan)
@@ -86,12 +85,10 @@ class Laporan_inventaris extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-
-		$data['tip'] = 2;
-		$this->set_minsidebar(1);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 
-		$this->render('inventaris/laporan/table_mutasi', $data);
+		$data['tip'] = 2;
+		$this->render('inventaris/laporan/table_mutasi', $data, TRUE);
 	}
 
 	public function cetak_mutasi($tahun, $penandatangan)

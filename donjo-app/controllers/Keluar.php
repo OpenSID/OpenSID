@@ -91,7 +91,7 @@ class Keluar extends Admin_Controller {
 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
-		$this->render('surat/surat_keluar',$data);
+		$this->render('surat/surat_keluar', $data);
 	}
 
 	public function edit_keterangan($id=0)

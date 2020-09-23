@@ -410,7 +410,7 @@
 				return;
 		  }
 		  $nama_file  = urlencode(generator(6)."_".$_FILES['gambar']['name']);
-			UploadGallery($nama_file,$data['old_gambar'], $tipe_file);
+			UploadGallery($nama_file, $data['old_gambar'], $tipe_file);
 			$data['gambar'] = $nama_file;
 		}
 

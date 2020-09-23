@@ -78,8 +78,8 @@ class Laporan_rentan extends Admin_Controller {
 		$data['list_dusun'] = $this->laporan_bulanan_model->list_dusun();
 		$data['config'] = $this->config_model->get_data();
 		$data['main'] = $this->laporan_bulanan_model->list_data();
-		$this->set_minsidebar(1);
-		$this->render('laporan/kelompok', $data);
+		
+		$this->render('laporan/kelompok', $data, TRUE);
 	}
 
 	public function cetak()

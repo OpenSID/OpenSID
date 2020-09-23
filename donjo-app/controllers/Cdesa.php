@@ -85,7 +85,6 @@ class Cdesa extends Admin_Controller {
 	public function index($page=1, $o=0)
 	{
 		$this->tab_ini = 12;
-		$this->set_minsidebar(1);
 
 		$data['cari'] = isset($_SESSION['cari']) ? $_SESSION['cari'] : '';
 		$_SESSION['per_page'] = $_POST['per_page'] ?: null;
@@ -99,7 +98,7 @@ class Cdesa extends Admin_Controller {
 		$data["cdesa"] = $this->cdesa_model->list_c_desa($data['paging']->offset, $data['paging']->per_page);
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 
-		$this->render('data_persil/c_desa', $data);
+		$this->render('data_persil/c_desa', $data, TRUE);
 	}
 
 	public function rincian($id)
@@ -131,7 +130,7 @@ class Cdesa extends Admin_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
-		$this->set_minsidebar(1);		$this->tab_ini = empty($mode) ? 10 : 12;
+		$this->tab_ini = empty($mode) ? 10 : 12;
 
 		$post = $this->input->post();
 		$data = array();
@@ -160,7 +159,7 @@ class Cdesa extends Admin_Controller {
 			}
 		}
 
-		$this->render('data_persil/create', $data);
+		$this->render('data_persil/create', $data, TRUE);
 	}
 
 	private function ubah_pemilik($id, &$data, $post)
@@ -234,7 +233,6 @@ class Cdesa extends Admin_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
-		$this->set_minsidebar(1);
 		if (empty($id_persil)) $id_persil = $this->input->post('id_persil');
 
 		if ($id_persil)
@@ -260,7 +258,7 @@ class Cdesa extends Admin_Controller {
 		$data["persil_kelas"] = $this->referensi_model->list_by_id('ref_persil_kelas');
 		$data["persil_sebab_mutasi"] = $this->referensi_model->list_by_id('ref_persil_mutasi');
 
-		$this->render('data_persil/create_mutasi', $data);
+		$this->render('data_persil/create_mutasi', $data, TRUE);
 	}
 
 	public function simpan_mutasi($id_cdesa, $id_mutasi='')
@@ -309,10 +307,9 @@ class Cdesa extends Admin_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		$this->set_minsidebar(1);
 		$this->tab_ini = 15;
 		$nav['act'] = 7;
-		$this->render('data_persil/panduan');
+		$this->render('data_persil/panduan', NULL, TRUE);
 	}
 
 	public function hapus($id)

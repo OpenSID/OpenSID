@@ -85,11 +85,9 @@ class Point extends Admin_Controller {
 		$data['paging'] = $this->plan_point_model->paging($p, $o);
 		$data['main'] = $this->plan_point_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_point_model->autocomplete();
-		$header= $this->header_model->get_data();
-		$this->set_minsidebar(1);
-		$nav['tip'] = 0;
-
-		$this->render('point/table', $data);
+		
+		$data['tip'] = 0;
+		$this->render('point/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -109,20 +107,18 @@ class Point extends Admin_Controller {
 		}
 
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-		$this->set_minsidebar(1);
+		
 		$nav['tip'] = 0;
-
-		$this->render('point/form', $data);
+		$this->render('point/form', $data, TRUE);
 	}
 
 	public function sub_point($point = 1)
 	{
 		$data['subpoint'] = $this->plan_point_model->list_sub_point($point);
 		$data['point'] = $this->plan_point_model->get_point($point);
-		$this->set_minsidebar(1);
+		
 		$nav['tip'] = 0;
-
-		$this->render('point/sub_point_table', $data);
+		$this->render('point/sub_point_table', $data, TRUE);
 	}
 
 	public function ajax_add_sub_point($point = 0, $id = 0)
@@ -245,10 +241,9 @@ class Point extends Admin_Controller {
 	public function form_simbol($id = '')
 	{
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-		$this->set_minsidebar(1);
+		
 		$nav['tip'] = 6;
-
-		$this->render('point/form_simbol', $data);
+		$this->render('point/form_simbol', $data, TRUE);
 	}
 
 	public function delete_simbol($id = '', $simbol = '')

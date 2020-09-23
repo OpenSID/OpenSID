@@ -95,9 +95,8 @@ class Dokumen_sekretariat extends Admin_Controller {
 		}
 
 		$this->_set_tab($kat);
-		$this->set_minsidebar(1);
 
-		$this->render('dokumen/table', $data);
+		$this->render('dokumen/table', $data, TRUE);
 	}
 
 	public function clear($kat=2)

@@ -80,9 +80,8 @@ class Pengurus extends Admin_Controller {
 		$data['paging'] = $this->pamong_model->paging($p);
 		$data['main'] = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->pamong_model->autocomplete();
-		$this->set_minsidebar(1);
-
-		$this->render('home/pengurus', $data);
+		
+		$this->render('home/pengurus', $data, TRUE);
 	}
 
 	public function form($id = 0)

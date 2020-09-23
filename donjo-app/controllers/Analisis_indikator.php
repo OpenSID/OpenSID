@@ -96,8 +96,8 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-		$this->set_minsidebar(1);
-		$this->render('analisis_indikator/table',$data);
+		
+		$this->render('analisis_indikator/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -119,9 +119,8 @@ class Analisis_indikator extends Admin_Controller{
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
 
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-		$this->set_minsidebar(1);
-
-		$this->render('analisis_indikator/form',$data);
+		
+		$this->render('analisis_indikator/form', $data, TRUE);
 	}
 
 	public function parameter($id=''){
@@ -133,8 +132,7 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['main'] = $this->analisis_indikator_model->list_indikator($id);
 
-		$this->set_minsidebar(1);
-		$this->render('analisis_indikator/parameter/table',$data);
+		$this->render('analisis_indikator/parameter/table', $data, TRUE);
 	}
 
 	public function form_parameter($in='', $id='')
@@ -152,7 +150,7 @@ class Analisis_indikator extends Admin_Controller{
 
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($in);
-		$this->load->view('analisis_indikator/parameter/ajax_form',$data);
+		$this->load->view('analisis_indikator/parameter/ajax_form', $data);
 	}
 
 	public function search()

@@ -203,7 +203,7 @@ class Dokumen extends Admin_Controller {
 		if ($kat == 2) $template = 'sk_kades_print';
 		elseif ($kat == 3) $template = 'perdes_print';
 		else $template = 'dokumen_print';
-		$this->load->view("dokumen/$template",$data);
+		$this->load->view("dokumen/$template", $data);
 	}
 
 	public function dialog_excel($kat=1)

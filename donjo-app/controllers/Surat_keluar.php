@@ -87,8 +87,8 @@ class Surat_keluar extends Admin_Controller {
 		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
-		$this->set_minsidebar(1);
-		$this->render('surat_keluar/table', $data);
+		
+		$this->render('surat_keluar/table', $data, TRUE);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -116,9 +116,8 @@ class Surat_keluar extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$this->set_minsidebar(1);
-
-		$this->render('surat_keluar/form', $data);
+		
+		$this->render('surat_keluar/form', $data, TRUE);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')

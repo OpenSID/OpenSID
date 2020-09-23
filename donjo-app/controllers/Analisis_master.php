@@ -88,8 +88,8 @@ class Analisis_master extends Admin_Controller {
 		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
-		$this->set_minsidebar(1);
-		$this->render('analisis_master/table', $data);
+		
+		$this->render('analisis_master/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -111,21 +111,19 @@ class Analisis_master extends Admin_Controller {
 		$data['list_format_impor'] = array('1' => 'BDT 2015');
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
-		$this->set_minsidebar(1);
-		$this->render('analisis_master/form', $data);
+		
+		$this->render('analisis_master/form', $data, TRUE);
 	}
 
 	public function panduan()
 	{
-		$this->set_minsidebar(1);
-		$this->render('analisis_master/panduan');
+		$this->render('analisis_master/panduan', NULL, TRUE);
 	}
 
 	public function import_analisis()
 	{
-		$this->set_minsidebar(1);
 		$data['form_action'] = site_url("analisis_master/import");
-		$this->load->view('analisis_master/import', $data);
+		$this->load->view('analisis_master/import', $data, TRUE);
 	}
 
 	public function menu($id='')
@@ -164,8 +162,7 @@ class Analisis_master extends Admin_Controller {
 		/* TODO: Periksa apakah perlu lakukan pre_update */
 		// $this->load->model('analisis_respon_model');
 		// $this->analisis_respon_model->pre_update();
-		$this->set_minsidebar(1);
-		$this->render('analisis_master/menu', $data);
+		$this->render('analisis_master/menu', $data, TRUE);
 	}
 
 	public function search()

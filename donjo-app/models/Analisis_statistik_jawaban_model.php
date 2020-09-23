@@ -163,7 +163,7 @@
 			$sql1 .= $this->rw_sql();
 			$sql1 .= $this->rt_sql();
 			//$sql1 .= "  GROUP BY r.id_indikator  ";
-			$query1 = $this->db->query($sql1,$data[$i]['id']);
+			$query1 = $this->db->query($sql1, $data[$i]['id']);
 			$respon= $query1->row_array();
 			$data[$i]['bobot']=$respon['jml'];
 

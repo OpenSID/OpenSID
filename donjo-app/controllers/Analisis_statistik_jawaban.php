@@ -131,8 +131,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
-		$this->set_minsidebar(1);
-		$this->render('analisis_statistik_jawaban/table', $data);
+		
+		$this->render('analisis_statistik_jawaban/table', $data, TRUE);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -167,8 +167,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
 
-		$this->set_minsidebar(1);
-		$this->render('analisis_statistik_jawaban/parameter/table', $data);
+		$this->render('analisis_statistik_jawaban/parameter/table', $data, TRUE);
 	}
 
 	public function grafik_parameter($id='')
@@ -181,7 +180,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'],$data['rw']);
+				$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -200,8 +199,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
 
-		$this->set_minsidebar(1);
-		$this->render('analisis_statistik_jawaban/parameter/grafik_table', $data);
+		$this->render('analisis_statistik_jawaban/parameter/grafik_table', $data, TRUE);
 	}
 
 	public function subjek_parameter($id='',$par='')
@@ -235,8 +233,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_subjek($par);
 
-		$this->set_minsidebar(1);
-		$this->render('analisis_statistik_jawaban/parameter/subjek_table', $data);
+		$this->render('analisis_statistik_jawaban/parameter/subjek_table', $data, TRUE);
 	}
 
 	public function cetak($o=0)
