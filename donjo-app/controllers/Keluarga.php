@@ -112,7 +112,7 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		
+
 		$this->render('sid/kependudukan/keluarga', $data, TRUE);
 	}
 
@@ -185,7 +185,7 @@ class Keluarga extends Admin_Controller {
 		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
 
 		unset($_SESSION['dari_internal']);
-		
+
 		$this->render('sid/kependudukan/keluarga_form', $data, TRUE);
 	}
 
@@ -360,7 +360,7 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(2, $data['kepala_kk']['no_kk']);
-		
+
 		$this->render('sid/kependudukan/keluarga_anggota', $data, TRUE);
 	}
 
@@ -420,7 +420,7 @@ class Keluarga extends Admin_Controller {
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/print");
-		
+
 		$this->render("sid/kependudukan/kartu_keluarga", $data, TRUE);
 	}
 
