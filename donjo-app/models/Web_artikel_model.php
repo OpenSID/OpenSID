@@ -503,6 +503,9 @@
 			->get()
 			->row_array();
 
+		// Jika artikel tdk ditemukan
+		if ( ! $data) return FALSE;
+
 		$data['judul'] = $this->security->xss_clean($data['judul']);
 		if (empty($this->setting->user_admin) OR $data['id_user'] != $this->setting->user_admin)
 			$data['isi'] = $this->security->xss_clean($data['isi']);

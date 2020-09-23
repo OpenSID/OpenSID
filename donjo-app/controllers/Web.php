@@ -116,12 +116,19 @@ class Web extends Admin_Controller {
 
 		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
+		$cek_data = $this->web_artikel_model->get_artikel($id);
+
 		if ($id)
 		{
-			$data['artikel'] = $this->web_artikel_model->get_artikel($id);
+			if ( ! $cek_data)
+			{
+				$this->session->kategori = 0;
 
-			if ( ! $data['artikel']) redirect("web/form");
+				redirect("web/form");
+			}
 
+			$this->session->kategori = $cek_data['id_kategori'];
+			$data['artikel'] = $cek_data;
 			$data['form_action'] = site_url("web/update/$id");
 		}
 		else
