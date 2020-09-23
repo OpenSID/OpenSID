@@ -125,7 +125,8 @@ class Keuangan extends Admin_Controller {
 		$data['ta'] = $this->session->userdata('set_tahun');
 		$data['sm'] = $smt1 ? '1' : '2';
 		$_SESSION['submenu'] = "Laporan Keuangan " . $judul;
-		$this->load->view('keuangan/rincian_realisasi', $data);
+
+		$this->render('keuangan/rincian_realisasi', $data, TRUE);
 	}
 
 	private function grafik_rp_apbd($thn)
@@ -133,7 +134,8 @@ class Keuangan extends Admin_Controller {
 		$data = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$_SESSION['submenu'] = "Grafik Keuangan";
-		$this->load->view('keuangan/grafik_rp_apbd', $data);
+
+		$this->render('keuangan/grafik_rp_apbd', $data, TRUE);
 	}
 
 	public function impor_data()
@@ -217,7 +219,8 @@ class Keuangan extends Admin_Controller {
 	{
 		$data['desa_ganda'] = $this->keuangan_model->cek_desa($id_master);
 		$data['id_master'] = $id_master;
-		$this->load->view('keuangan/pilih_desa', $data);
+
+		$this->render('keuangan/pilih_desa', $data, TRUE);
 	}
 
 	public function bersihkan_desa($id_master)
