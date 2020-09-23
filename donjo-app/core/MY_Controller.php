@@ -288,7 +288,6 @@ class Admin_Controller extends MY_Controller {
 		$this->load->view('footer');
 	}
 
-
 	/**
 	 * Get the value of minsidebar
 	 */
@@ -311,7 +310,7 @@ class Admin_Controller extends MY_Controller {
 
 	/**
 	 * Get the value of nav
-	 */ 
+	 */
 	public function get_nav()
 	{
 		return $this->nav;
@@ -321,7 +320,7 @@ class Admin_Controller extends MY_Controller {
 	 * Set the value of nav
 	 *
 	 * @return  self
-	 */ 
+	 */
 	public function set_nav($nav)
 	{
 		$this->nav = $nav;
