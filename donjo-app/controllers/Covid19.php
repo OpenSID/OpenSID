@@ -1,4 +1,43 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Covid19
+ * donjo-app/controllers/Covid19.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Covid19 extends Admin_Controller {
 
@@ -7,7 +46,7 @@ class Covid19 extends Admin_Controller {
 		parent::__construct();
 
 		$this->load->library('session');
-		$this->load->model('header_model');
+
 		$this->load->model('covid19_model');
 		$this->load->model('referensi_model');
 		$this->load->model('wilayah_model');
@@ -33,11 +72,7 @@ class Covid19 extends Admin_Controller {
 		$data = $this->covid19_model->get_list_pemudik($page);
 		$data['per_page'] = $this->session->userdata('per_page');
 
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('covid19/data_pemudik', $data);
-		$this->load->view('footer');
+		$this->render('covid19/data_pemudik', $data);
 	}
 
 	public function form_pemudik()
@@ -70,14 +105,10 @@ class Covid19 extends Admin_Controller {
 		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
 
 		$nav['act'] = 206;
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
 
 		$data['form_action'] = site_url("covid19/add_pemudik");
 		$data['form_action_penduduk'] = site_url("covid19/insert_penduduk");
-		$this->load->view('covid19/form_pemudik', $data);
-		$this->load->view('footer');
+		$this->render('covid19/form_pemudik', $data);
 	}
 
 	public function insert_penduduk()
@@ -123,7 +154,6 @@ class Covid19 extends Admin_Controller {
 	public function detil_pemudik($id)
 	{
 		$nav['act'] = 206;
-		$header = $this->header_model->get_data();
 
 		$data['terdata'] = $this->covid19_model->get_pemudik_by_id($id);
 		$data['individu'] = $this->covid19_model->get_penduduk_by_id($data['terdata']['id_terdata']);
@@ -145,11 +175,7 @@ class Covid19 extends Admin_Controller {
 		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
 
 		$data['form_action_penduduk'] = site_url("covid19/update_penduduk/".$data['terdata']['id_terdata']."/".$id);
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('covid19/detil_pemudik', $data);
-		$this->load->view('footer');
+		$this->render('covid19/detil_pemudik', $data);
 	}
 
 	public function update_penduduk($id_pend, $id_pemudik)
@@ -193,17 +219,12 @@ class Covid19 extends Admin_Controller {
 		$data['this_url'] = site_url("covid19/pantau");
 		$data['form_action'] = site_url("covid19/add_pantau");
 
-
 		$url_delete_front = "covid19/hapus_pantau";
 		$url_delete_rare = "$page";
 		$data['url_delete_front'] = $url_delete_front;
 		$data['url_delete_rare'] = $url_delete_rare;
 
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('covid19/pantau_pemudik', $data);
-		$this->load->view('footer');
+		$this->render('covid19/pantau_pemudik', $data);
 	}
 
 	public function add_pantau()
@@ -251,5 +272,4 @@ class Covid19 extends Admin_Controller {
 
 		$this->load->view('covid19/'.$data['aksi'], $data);
 	}
-
 }

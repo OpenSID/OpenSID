@@ -48,7 +48,7 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model('keuangan_manual_model');
-		$this->load->model('header_model');
+
 		$this->load->model('keuangan_grafik_manual_model');
 		$this->modul_ini = 201;
 	}
@@ -91,11 +91,7 @@ class Keuangan_manual extends Admin_Controller {
 		);
 		$this->session->set_userdata( $sess_manual );
 		$this->load->model('keuangan_grafik_manual_model');
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
+		$this->set_minsidebar(1);
 		$thn = $this->session->set_tahun;
 
 		switch ($jenis)
@@ -111,8 +107,6 @@ class Keuangan_manual extends Admin_Controller {
 				$this->grafik_rp_apbd_manual($thn);
 				break;
 		}
-
-		$this->load->view('footer');
 	}
 
 	private function rincian_realisasi_manual($thn, $judul)
@@ -121,7 +115,7 @@ class Keuangan_manual extends Admin_Controller {
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$data['ta'] = $this->session->set_tahun;
 		$this->session->submenu = "Laporan Keuangan " . $judul;
-		$this->load->view('keuangan/rincian_realisasi_manual', $data);
+		$this->render('keuangan/rincian_realisasi_manual', $data);
 	}
 
 	private function grafik_rp_apbd_manual($thn)
@@ -129,7 +123,7 @@ class Keuangan_manual extends Admin_Controller {
 		$data = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$this->session->submenu = "Grafik Keuangan";
-		$this->load->view('keuangan/grafik_rp_apbd_manual', $data);
+		$this->render('keuangan/grafik_rp_apbd_manual', $data);
 	}
 
 	public function manual_apbdes()
@@ -147,12 +141,8 @@ class Keuangan_manual extends Admin_Controller {
 		$data['main_pd']= $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
 		$data['main_bl']= $this->keuangan_manual_model->list_belanja($tahun_anggaran);
 		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('keuangan/manual_apbdes', $data);
-		$this->load->view('footer');
+		$this->render('keuangan/manual_apbdes', $data);
 	}
 
 	public function data_anggaran()

@@ -46,7 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web extends Admin_Controller {
 
-	private $_header;
 	private $_set_page;
 
 	public function __construct()
@@ -62,7 +61,7 @@ class Web extends Admin_Controller {
 		}
 
 		$this->load->model(['header_model', 'web_artikel_model', 'web_kategori_model']);
-		$this->_header = $this->header_model->get_data();
+
 		$this->_set_page = ['20', '50', '100'];
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 47;
@@ -103,12 +102,9 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
-		$this->_header['minsidebar'] =1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('web/artikel/table', $data);
-		$this->load->view('footer');
+		$this->render('web/artikel/table', $data);
 	}
 
 	public function tab($cat = 0)
@@ -139,12 +135,9 @@ class Web extends Admin_Controller {
 		}
 
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$this->_header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('web/artikel/form',$data);
-		$this->load->view('footer');
+		$this->render('web/artikel/form',$data);
 	}
 
 	public function filter($filter, $cat = 1)
@@ -311,10 +304,7 @@ class Web extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 54;
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('slider/admin_slider.php');
-		$this->load->view('footer');
+		$this->render('slider/admin_slider.php');
 	}
 
 	public function update_slider()
@@ -334,10 +324,7 @@ class Web extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 64;
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('web/admin_teks_berjalan.php');
-		$this->load->view('footer');
+		$this->render('web/admin_teks_berjalan.php');
 	}
 
 	public function update_teks_berjalan()
@@ -360,5 +347,4 @@ class Web extends Admin_Controller {
 
 		redirect("web/index/$cat");
 	}
-
 }

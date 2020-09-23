@@ -49,7 +49,7 @@ class Hom_sid extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
+
 		$this->load->model('program_bantuan_model');
 		$this->load->model('surat_model');
 		$this->load->model('notif_model');
@@ -80,12 +80,8 @@ class Hom_sid extends Admin_Controller {
 		$data['rtm'] = $this->header_model->rtm_total();
 		$data['dusun'] = $this->header_model->dusun_total();
 		$data['jumlah_surat'] = $this->surat_model->surat_total();
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('home/desa', $data);
-		$this->load->view('footer');
+		$this->render('home/desa', $data);
 	}
 
 	public function dialog_pengaturan()
