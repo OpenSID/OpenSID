@@ -1,4 +1,46 @@
-<?php class Lapor_model extends CI_Model {
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Model untuk modul Layanan Mandiri Web
+ *
+ * donjo-app/models/Lapor_model.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+class Lapor_model extends CI_Model {
 
 	/**
 	 * Gunakan model ini untuk memindahkan semua method terkait laporan layanan mandiri.
@@ -38,7 +80,7 @@
 			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
 			$_SESSION['success'] = -1;
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -176,29 +218,29 @@
 		$sql = "DELETE FROM ref_syarat_surat WHERE ref_syarat_id = ?";
 		$hasil = $this->db->query($sql, array($idUser));
 
-    if ($hasil)
+		if ($hasil)
 		{
-	    $_SESSION['error_msg'] = 'Sukses menghapus data';
+			$_SESSION['error_msg'] = 'Sukses menghapus data';
 			$_SESSION['success'] = 1;
 		}
 	}
 
 	public function delete_all()
 	{
-    $id_cb = $_POST['id_cb'];
-    // Cek apakah ada data yang dicentang atau dipilih
-    if (!is_null($id_cb))
-    {
-      foreach ($id_cb as $id)
-      {
-        $this->delete($id);
-      }
-    }
-    else
-    {
-      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
-      $_SESSION['success'] = -1;
-    }
+		$id_cb = $_POST['id_cb'];
+		// Cek apakah ada data yang dicentang atau dipilih
+		if (!is_null($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$this->delete($id);
+			}
+		}
+		else
+		{
+			$_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
+			$_SESSION['success'] = -1;
+		}
 	}
 
 	public function get_surat($id = 0)
@@ -212,7 +254,7 @@
 	public function get_surat_ref_all()
 	{
 		$this->db->select('*')
-		         ->from('ref_syarat_surat');
+						 ->from('ref_syarat_surat');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -252,7 +294,7 @@
 		}
 
 		// Tambahkan syarat baru
-		foreach ($insert_syarat as $syarat) 
+		foreach ($insert_syarat as $syarat)
 		{
 			$data = array('ref_syarat_id' => $syarat, 'surat_format_id' => $surat_format_id);
 			$result = $this->db->insert('syarat_surat', $data);

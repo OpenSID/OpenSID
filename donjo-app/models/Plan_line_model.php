@@ -1,5 +1,5 @@
-<?php
-/**
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
  * File ini:
  *
  * Model untuk modul Pemetaan (Garis)
@@ -7,8 +7,7 @@
  * /donjo-app/models/Plan_line_model.php
  *
  */
-
-/**
+/*
  *
  * File ini bagian dari:
  *

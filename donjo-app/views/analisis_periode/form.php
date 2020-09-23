@@ -1,7 +1,49 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * View untuk modul Analisis
+ *
+ * donjo-app/views/analisis_priode/form.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <script>
-	function reset_form()
-	{
-    <?php if ($analisis_periode['aktif'] =='1' OR $analisis_periode['aktif'] == NULL): ?>
+	function reset_form() {
+		<?php if ($analisis_periode['aktif'] =='1' OR $analisis_periode['aktif'] == NULL): ?>
 			$("#ss3").addClass('active');
 			$("#ss4").removeClass("active");
 		<?php endif ?>
@@ -19,18 +61,17 @@
 			$("#sx3").removeClass("active");
 		<?php endif ?>
 		<?php if ($analisis_periode['id_state'] =='2'): ?>
-      $("#sx2").addClass('active');
+			$("#sx2").addClass('active');
 			$("#sx1").removeClass("active");
 			$("#sx3").removeClass("active");
 		<?php endif ?>
 		<?php if ($analisis_periode['id_state'] =='3'): ?>
-      $("#sx3").addClass('active');
+			$("#sx3").addClass('active');
 			$("#sx2").removeClass("active");
 			$("#sx1").removeClass("active");
 		<?php endif ?>
 	};
 </script>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Priode Analisis [ <?= $analisis_master['nama']?> ]</h1>
@@ -51,14 +92,14 @@
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?= site_url()?>analisis_periode" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Priode Analisis</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="box-body">
 									<div class="row">
-                    <div class="col-sm-12">
+										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nama">Nama Periode</label>
 												<div class="col-sm-8">
@@ -90,22 +131,22 @@
 												</div>
 											</div>
 										</div>
-                    <?php if ($analisis_periode == null): ?>
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label" for="act_analisis">Duplikat data pendataan sebelumnya</label>
-                          <div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-                            <label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label">
-                              <input id="g1" type="radio" name="duplikasi" class="form-check-input" type="radio" value="1"autocomplete="off"> Ya
-                            </label>
-                            <label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label active">
-                              <input id="g2" type="radio" name="duplikasi" class="form-check-input" type="radio" value="2" checked autocomplete="off"> Tidak
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    <?php endif; ?>
-                    <div class="col-sm-12">
+										<?php if ($analisis_periode == null): ?>
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 control-label" for="act_analisis">Duplikat data pendataan sebelumnya</label>
+													<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+														<label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label">
+															<input id="g1" type="radio" name="duplikasi" class="form-check-input" type="radio" value="1"autocomplete="off"> Ya
+														</label>
+														<label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label active">
+															<input id="g2" type="radio" name="duplikasi" class="form-check-input" type="radio" value="2" checked autocomplete="off"> Tidak
+														</label>
+													</div>
+												</div>
+											</div>
+										<?php endif; ?>
+										<div class="col-sm-12">
 											<div class="form-group" id="delik">
 												<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">
@@ -113,7 +154,7 @@
 												</div>
 											</div>
 										</div>
-                    <div class="col-sm-12">
+										<div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="act_analisis">Status</label>
 												<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">

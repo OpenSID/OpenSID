@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  *  File ini:
  *
@@ -83,7 +83,7 @@ class Analisis_kategori extends Admin_Controller {
 		$data['main'] = $this->analisis_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_kategori_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_kategori_model->get_analisis_master();
-		
+
 		$this->render('analisis_kategori/table', $data, TRUE);
 	}
 

@@ -1,5 +1,5 @@
-<?php
-/**
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
  * File ini:
  *
  * Controller halaman Keluarga untuk komponen Admin
@@ -8,7 +8,7 @@
  *
  */
 
-/**
+/*
  *
  * File ini bagian dari:
  *
@@ -41,8 +41,6 @@
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-
-defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller {
 

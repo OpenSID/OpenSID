@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  *  File ini:
  *
@@ -96,7 +96,7 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-		
+
 		$this->render('analisis_indikator/table', $data, TRUE);
 	}
 
@@ -119,7 +119,7 @@ class Analisis_indikator extends Admin_Controller{
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
 
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-		
+
 		$this->render('analisis_indikator/form', $data, TRUE);
 	}
 
