@@ -98,7 +98,7 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
-		$this->header['minsidebar'] =1;
+		$this->header['minsidebar'] = 1;
 
 		$this->load->view('header', $this->header);
 		$this->load->view('nav');
@@ -117,7 +117,7 @@ class Web extends Admin_Controller {
 	{
 		$cat = $this->session->kategori ?: 0;
 
-		if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 		if ($id)
 		{
@@ -130,6 +130,7 @@ class Web extends Admin_Controller {
 			$data['form_action'] = site_url("web/insert");
 		}
 
+		$data['cat'] = $cat;
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$this->header['minsidebar'] = 1;
 
