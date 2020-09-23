@@ -98,12 +98,9 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
-		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('web/artikel/table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('web/artikel/table', $data);
 	}
 
 	public function tab($cat = 0)
@@ -122,6 +119,9 @@ class Web extends Admin_Controller {
 		if ($id)
 		{
 			$data['artikel'] = $this->web_artikel_model->get_artikel($id);
+
+			if ( ! $data['artikel']) redirect("web/form");
+
 			$data['form_action'] = site_url("web/update/$id");
 		}
 		else
@@ -132,12 +132,9 @@ class Web extends Admin_Controller {
 
 		$data['cat'] = $cat;
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('web/artikel/form', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('web/artikel/form',$data);
 	}
 
 	public function filter($filter)
@@ -271,20 +268,13 @@ class Web extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 54;
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('slider/admin_slider');
-		$this->load->view('footer');
+		$this->render('slider/admin_slider.php');
 	}
 
 	public function update_slider()
 	{
 		// Kontributor tidak boleh melakukan ini
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/slider");
-		}
+		$this->redirect_hak_akses('u');
 
 		$this->setting_model->update_slider();
 		redirect("web/slider");
@@ -294,10 +284,7 @@ class Web extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 64;
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('web/admin_teks_berjalan');
-		$this->load->view('footer');
+		$this->render('web/admin_teks_berjalan.php');
 	}
 
 	public function update_teks_berjalan()
@@ -317,5 +304,4 @@ class Web extends Admin_Controller {
 
 		redirect("web");
 	}
-
 }

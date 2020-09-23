@@ -1,11 +1,51 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Sekretariat
+ *
+ * donjo-app/controllers/Dokumen_sekretariat.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Dokumen_sekretariat extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
+
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 15;
@@ -54,14 +94,10 @@ class Dokumen_sekretariat extends Admin_Controller {
 			}
 		}
 
-		$header = $this->header_model->get_data();
 		$this->_set_tab($kat);
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('dokumen/table', $data);
-		$this->load->view('footer');
+		$this->render('dokumen/table', $data);
 	}
 
 	public function clear($kat=2)
@@ -89,13 +125,10 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$data['form_action'] = site_url("dokumen_sekretariat/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-		$header = $this->header_model->get_data();
+
 		$this->_set_tab($kat);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('dokumen/form', $data);
-		$this->load->view('footer');
+		$this->render('dokumen/form', $data);
 	}
 
 	public function search()

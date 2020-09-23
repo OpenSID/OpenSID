@@ -47,7 +47,7 @@ class Garis extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
+
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
 		$this->load->model('plan_lokasi_model');
@@ -98,13 +98,10 @@ class Garis extends Admin_Controller {
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
 
 		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 		$nav['tip'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('garis/table', $data);
-		$this->load->view('footer');
+		$this->render('garis/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -125,13 +122,10 @@ class Garis extends Admin_Controller {
 			$data['form_action'] = site_url("garis/insert");
 		}
 		$header= $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 		$nav['tip'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('garis/form',$data);
-		$this->load->view('footer');
+		$this->render('garis/form',$data);
 	}
 
 	public function ajax_garis_maps($p=1, $o=0, $id='')
@@ -154,11 +148,7 @@ class Garis extends Admin_Controller {
 		$data['all_area'] = $this->plan_area_model->list_data();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
 
-		$header = $this->header_model->get_data();
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view("garis/maps", $data);
-		$this->load->view('footer');
+		$this->render("garis/maps", $data);
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

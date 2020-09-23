@@ -1,4 +1,44 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Analisis
+ *
+ * donjo-app/controllers/Analisis_statistik_jawaban.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Analisis_statistik_jawaban extends Admin_Controller {
 
@@ -7,7 +47,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('analisis_statistik_jawaban_model');
 		$this->load->model('analisis_respon_model');
-		$this->load->model('header_model');
+
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
 		$this->modul_ini = 5;
@@ -74,10 +114,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			if (isset($_SESSION['rt']))
 				$data['rt'] = $_SESSION['rt'];
 			else $data['rt'] = '';
-
 			}
 			else $data['rw'] = '';
-
 		}
 		else
 		{
@@ -93,13 +131,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] =1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('analisis_statistik_jawaban/table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_statistik_jawaban/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -119,13 +152,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		}
 
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
-		$header = $this->header_model->get_data();
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
-
-		$this->load->view('header', $header);
-		$this->load->view('analisis_master/nav');
-		$this->load->view('analisis_statistik_jawaban/form', $data);
-		$this->load->view('footer');
+		$this->set_nav('analisis_master/nav');
+		$this->render('analisis_statistik_jawaban/form', $data);		
 	}
 
 	public function parameter($id='')
@@ -138,13 +167,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_statistik_jawaban/parameter/table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_statistik_jawaban/parameter/table', $data);
 	}
 
 	public function grafik_parameter($id='')
@@ -163,7 +187,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
-
 		}
 		else
 		{
@@ -177,13 +200,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_statistik_jawaban/parameter/grafik_table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_statistik_jawaban/parameter/grafik_table', $data);
 	}
 
 	public function subjek_parameter($id='',$par='')
@@ -202,7 +220,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
-
 		}
 		else
 		{
@@ -218,13 +235,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_subjek($par);
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('analisis_statistik_jawaban/parameter/subjek_table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_statistik_jawaban/parameter/subjek_table', $data);
 	}
 
 	public function cetak($o=0)

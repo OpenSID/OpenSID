@@ -52,7 +52,7 @@ class Cdesa extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('header_model');
+
 		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
 		$this->load->model('cdesa_model');
@@ -85,7 +85,7 @@ class Cdesa extends Admin_Controller {
 	public function index($page=1, $o=0)
 	{
 		$this->tab_ini = 12;
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
 		$data['cari'] = isset($_SESSION['cari']) ? $_SESSION['cari'] : '';
 		$_SESSION['per_page'] = $_POST['per_page'] ?: null;
@@ -99,10 +99,7 @@ class Cdesa extends Admin_Controller {
 		$data["cdesa"] = $this->cdesa_model->list_c_desa($data['paging']->offset, $data['paging']->per_page);
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('data_persil/c_desa', $data);
-		$this->load->view('footer');
+		$this->render('data_persil/c_desa', $data);
 	}
 
 	public function rincian($id)
@@ -112,15 +109,12 @@ class Cdesa extends Admin_Controller {
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id);
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id);
 		$data['persil'] = $this->cdesa_model->get_list_persil($id);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav',$nav);
-		$this->load->view('data_persil/rincian', $data);
-		$this->load->view('footer');
+		$this->render('data_persil/rincian', $data);
 	}
 
 	public function mutasi($id_cdesa, $id_persil)
 	{
-		$header = $this->header_model->get_data();
+
 		$data = array();
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id_cdesa);
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id_cdesa);
@@ -128,10 +122,7 @@ class Cdesa extends Admin_Controller {
 		$data['persil'] = $this->data_persil_model->get_persil($id_persil);
 		if (empty($data['cdesa'])) show_404();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('data_persil/mutasi_persil', $data);
-		$this->load->view('footer');
+		$this->render('data_persil/mutasi_persil', $data);
 	}
 
 	public function create($mode=0, $id=0)
@@ -140,9 +131,7 @@ class Cdesa extends Admin_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-		$this->tab_ini = empty($mode) ? 10 : 12;
+		$this->set_minsidebar(1);		$this->tab_ini = empty($mode) ? 10 : 12;
 
 		$post = $this->input->post();
 		$data = array();
@@ -171,10 +160,7 @@ class Cdesa extends Admin_Controller {
 			}
 		}
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('data_persil/create', $data);
-		$this->load->view('footer');
+		$this->render('data_persil/create', $data);
 	}
 
 	private function ubah_pemilik($id, &$data, $post)
@@ -215,10 +201,6 @@ class Cdesa extends Admin_Controller {
 
 		if ($this->form_validation->run() != false)
 		{
-			$header = $this->header_model->get_data();
-			$header['minsidebar'] = 1;
-			$this->load->view('header', $header);
-
 			$id_cdesa = $this->cdesa_model->simpan_cdesa();
 			if ($this->input->post('id')) redirect("cdesa");
 			else redirect("cdesa/create_mutasi/$id_cdesa");
@@ -252,9 +234,7 @@ class Cdesa extends Admin_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
+		$this->set_minsidebar(1);
 		if (empty($id_persil)) $id_persil = $this->input->post('id_persil');
 
 		if ($id_persil)
@@ -280,10 +260,7 @@ class Cdesa extends Admin_Controller {
 		$data["persil_kelas"] = $this->referensi_model->list_by_id('ref_persil_kelas');
 		$data["persil_sebab_mutasi"] = $this->referensi_model->list_by_id('ref_persil_mutasi');
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('data_persil/create_mutasi', $data);
-		$this->load->view('footer');
+		$this->render('data_persil/create_mutasi', $data);
 	}
 
 	public function simpan_mutasi($id_cdesa, $id_mutasi='')
@@ -332,14 +309,10 @@ class Cdesa extends Admin_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 		$this->tab_ini = 15;
-		$this->load->view('header', $header);
 		$nav['act'] = 7;
-		$this->load->view('nav', $nav);
-		$this->load->view('data_persil/panduan');
-		$this->load->view('footer');
+		$this->render('data_persil/panduan');
 	}
 
 	public function hapus($id)
@@ -387,7 +360,6 @@ class Cdesa extends Admin_Controller {
 		$this->data_persil_model->awal_persil($id_cdesa, $id_persil, $hapus);
 		redirect("cdesa/mutasi/$id_cdesa/$id_persil");
 	}
-
 }
 
 ?>

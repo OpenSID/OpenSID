@@ -1,6 +1,44 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Database
+ *
+ * donjo-app/controllers/Database.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
 
@@ -9,14 +47,12 @@ use Box\Spout\Common\Entity\Row;
 
 class Database extends Admin_Controller {
 
-	private $_header;
-
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->dbforge();
 		$this->load->model(['header_model', 'import_model', 'export_model', 'database_model']);
-		$this->_header = $this->header_model->get_data();
+
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 45;
 	}
@@ -41,11 +77,8 @@ class Database extends Admin_Controller {
 
 		$tab['act_tab'] = 1;
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('export/tab_menu', $tab);
+		$this->render('export/tab_menu', $tab);
 		$this->load->view('export/exp');
-		$this->load->view('footer');
 	}
 
 	public function import()
@@ -54,11 +87,8 @@ class Database extends Admin_Controller {
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('export/tab_menu', $tab);
+		$this->render('export/tab_menu', $tab);
 		$this->load->view('import/imp', $data);
-		$this->load->view('footer');
 	}
 
 	public function import_bip()
@@ -66,11 +96,8 @@ class Database extends Admin_Controller {
 		$tab['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('export/tab_menu', $tab);
+		$this->render('export/tab_menu', $tab);
 		$this->load->view('import/bip', $data);
-		$this->load->view('footer');
 	}
 
 	public function migrasi_cri()
@@ -78,11 +105,8 @@ class Database extends Admin_Controller {
 		$tab['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('export/tab_menu', $tab);
+		$this->render('export/tab_menu', $tab);
 		$this->load->view('database/migrasi_cri', $data);
-		$this->load->view('footer');
 	}
 
 	public function backup()
@@ -90,11 +114,8 @@ class Database extends Admin_Controller {
 		$tab['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('export/tab_menu', $tab);
+		$this->render('export/tab_menu', $tab);
 		$this->load->view('database/backup', $data);
-		$this->load->view('footer');
 	}
 
 	/*
@@ -302,11 +323,8 @@ class Database extends Admin_Controller {
 	{
 		$tab['act_tab'] = 6;
 
-		$this->load->view('header', $this->_header);
-		$this->load->view('nav');
-		$this->load->view('export/tab_menu', $tab);
+		$this->render('export/tab_menu', $tab);
 		$this->load->view('database/kosongkan', $data);
-		$this->load->view('footer');
 	}
 
 	public function kosongkan_db()

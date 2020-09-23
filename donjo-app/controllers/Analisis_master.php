@@ -1,4 +1,44 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Analisis
+ *
+ * donjo-app/controllers/Analisis_master.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Analisis_master extends Admin_Controller {
 
@@ -7,7 +47,7 @@ class Analisis_master extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('analisis_master_model');
 		$this->load->model('analisis_import_model');
-		$this->load->model('header_model');
+
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
 		$this->modul_ini = 5;
@@ -48,13 +88,8 @@ class Analisis_master extends Admin_Controller {
 		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/table', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_master/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -76,30 +111,19 @@ class Analisis_master extends Admin_Controller {
 		$data['list_format_impor'] = array('1' => 'BDT 2015');
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/form', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_master/form', $data);
 	}
 
 	public function panduan()
 	{
-		$header['minsidebar'] = 1;
-		$header = $this->header_model->get_data();
-
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/panduan');
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_master/panduan');
 	}
 
 	public function import_analisis()
 	{
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 		$data['form_action'] = site_url("analisis_master/import");
 		$this->load->view('analisis_master/import', $data);
 	}
@@ -136,16 +160,12 @@ class Analisis_master extends Admin_Controller {
 		}
 		$data['menu_respon'] = "analisis_respon";
 		$data['menu_laporan'] = "analisis_laporan";
-		$header = $this->header_model->get_data();
+
 		/* TODO: Periksa apakah perlu lakukan pre_update */
 		// $this->load->model('analisis_respon_model');
 		// $this->analisis_respon_model->pre_update();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('analisis_master/menu', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('analisis_master/menu', $data);
 	}
 
 	public function search()

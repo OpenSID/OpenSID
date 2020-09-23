@@ -45,6 +45,5 @@ class Api_informasi_publik extends Api_Controller {
 		header('Content-Type: application/json');
 		echo json_encode($json_send);
 	}
-
 }
 
