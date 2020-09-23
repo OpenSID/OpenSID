@@ -299,6 +299,11 @@
 			return layer;
 		});
 
+		L.Control.BrowserPrint.Utils.registerLayer(L.MapboxGL, 'L.MapboxGL', function(layer, utils) {
+				return L.mapboxGL(layer.options);
+			}
+		);
+
 		peta_wilayah.on("browser-print-start", function(e){
         L.control.scale({
             position: 'bottomleft',
