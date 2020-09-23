@@ -3,36 +3,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  *  File ini:
  *
- * Controller untuk modul
+ * Controller untuk modul Pengaturan > Aplikasi
  *
  * donjo-app/controllers/Setting.php
  *
  */
 /*
- *  File ini bagian dari: 
- * 
+ *  File ini bagian dari:
+ *
  * OpenSID
- * 
+ *
  * Sistem informasi desa sumber terbuka untuk memajukan desa
- * 
+ *
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- * 
+ *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * 
+ *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- * 
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- * 
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- * 
+ *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
  * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
@@ -43,13 +43,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Setting extends Admin_Controller {
 
-	
-
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['config_model', 'header_model','theme_model', 'notif_model']);
-		
+
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
 	}
@@ -62,7 +60,6 @@ class Setting extends Admin_Controller {
 		$this->setting_model->load_options();
 
 		$this->render('setting/setting_form', $data);
-		
 	}
 
 	public function update()
@@ -86,7 +83,6 @@ class Setting extends Admin_Controller {
 		$data['php'] = $this->setting_model->cek_php();
 		$data['mysql'] = $this->setting_model->cek_mysql();
 		$this->render('setting/info_php', $data);
-		
 	}
 
 	/* Pengaturan web */
@@ -100,7 +96,6 @@ class Setting extends Admin_Controller {
 		$this->setting_model->load_options();
 
 		$this->render('setting/setting_form', $data);
-		
 	}
 
 	public function qrcode($aksi = '', $file = '')
@@ -129,7 +124,7 @@ class Setting extends Admin_Controller {
 				$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
 
 				$this->render('setting/setting_qr', $data);
-				
+
 				break;
 		}
 	}
@@ -184,5 +179,4 @@ class Setting extends Admin_Controller {
 			$this->session->success = -1;
 		}
 	}
-
 }

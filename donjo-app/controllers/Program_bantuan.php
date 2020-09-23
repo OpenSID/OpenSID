@@ -45,7 +45,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-
 class Program_bantuan extends Admin_Controller {
 
 	private $_set_page;
@@ -88,7 +87,6 @@ class Program_bantuan extends Admin_Controller {
 		$data['set_sasaran'] = $this->session->sasaran;
 
 		$this->render('program_bantuan/program', $data);
-		
 	}
 
 	public function form($program_id = 0)
@@ -110,13 +108,11 @@ class Program_bantuan extends Admin_Controller {
 		$data['form_action'] = site_url("program_bantuan/add_peserta/".$program_id);
 
 		$this->render('program_bantuan/form', $data);
-		
 	}
 
 	public function panduan()
 	{
 		$this->render('program_bantuan/panduan', $data);
-		
 	}
 
 	public function detail($program_id = 0, $p = 1)
@@ -136,7 +132,6 @@ class Program_bantuan extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('program_bantuan/detail', $data);
-		
 	}
 
 	// $id = program_peserta.id
@@ -145,7 +140,6 @@ class Program_bantuan extends Admin_Controller {
 		$data = $this->program_bantuan_model->get_peserta_program($cat, $id);
 
 		$this->render('program_bantuan/peserta', $data);
-		
 	}
 
 	// $id = program_peserta.id
@@ -170,7 +164,6 @@ class Program_bantuan extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('program_bantuan/data_peserta', $data);
-		
 	}
 
 	public function add_peserta($program_id = 0)
@@ -238,7 +231,6 @@ class Program_bantuan extends Admin_Controller {
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->render('program_bantuan/create', $data);
-			
 		}
 		else
 		{
@@ -267,7 +259,6 @@ class Program_bantuan extends Admin_Controller {
 		if ($this->form_validation->run() === FALSE)
 		{
 			$this->render('program_bantuan/edit', $data);
-			
 		}
 		else
 		{
@@ -321,5 +312,4 @@ class Program_bantuan extends Admin_Controller {
 
 		redirect("program_bantuan/detail/$program_id");
 	}
-
 }

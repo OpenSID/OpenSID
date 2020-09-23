@@ -48,7 +48,7 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model('keuangan_manual_model');
-		
+
 		$this->load->model('keuangan_grafik_manual_model');
 		$this->modul_ini = 201;
 	}
@@ -91,7 +91,7 @@ class Keuangan_manual extends Admin_Controller {
 		);
 		$this->session->set_userdata( $sess_manual );
 		$this->load->model('keuangan_grafik_manual_model');
-		$this->set_minsidebar(1);		
+		$this->set_minsidebar(1);
 		$thn = $this->session->set_tahun;
 
 		switch ($jenis)
@@ -107,8 +107,6 @@ class Keuangan_manual extends Admin_Controller {
 				$this->grafik_rp_apbd_manual($thn);
 				break;
 		}
-
-		
 	}
 
 	private function rincian_realisasi_manual($thn, $judul)
@@ -142,10 +140,9 @@ class Keuangan_manual extends Admin_Controller {
 		$data['main']= $this->keuangan_manual_model->list_apbdes($tahun_anggaran);
 		$data['main_pd']= $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
 		$data['main_bl']= $this->keuangan_manual_model->list_belanja($tahun_anggaran);
-		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);		
+		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
 
 		$this->render('keuangan/manual_apbdes', $data);
-		
 	}
 
 	public function data_anggaran()

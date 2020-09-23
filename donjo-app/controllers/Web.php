@@ -46,7 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web extends Admin_Controller {
 
-	
 	private $_set_page;
 
 	public function __construct()
@@ -62,7 +61,7 @@ class Web extends Admin_Controller {
 		}
 
 		$this->load->model(['header_model', 'web_artikel_model', 'web_kategori_model']);
-		
+
 		$this->_set_page = ['20', '50', '100'];
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 47;
@@ -106,7 +105,6 @@ class Web extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('web/artikel/table', $data);
-		
 	}
 
 	public function tab($cat = 0)
@@ -140,7 +138,6 @@ class Web extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('web/artikel/form',$data);
-		
 	}
 
 	public function filter($filter, $cat = 1)
@@ -308,7 +305,6 @@ class Web extends Admin_Controller {
 		$this->sub_modul_ini = 54;
 
 		$this->render('slider/admin_slider.php');
-		
 	}
 
 	public function update_slider()
@@ -329,7 +325,6 @@ class Web extends Admin_Controller {
 		$this->sub_modul_ini = 64;
 
 		$this->render('web/admin_teks_berjalan.php');
-		
 	}
 
 	public function update_teks_berjalan()
@@ -352,5 +347,4 @@ class Web extends Admin_Controller {
 
 		redirect("web/index/$cat");
 	}
-
 }

@@ -326,5 +326,4 @@ class Mandiri_web extends Web_Controller
 		else
 			$this->output->set_status_header('404');
 	}
-
 }

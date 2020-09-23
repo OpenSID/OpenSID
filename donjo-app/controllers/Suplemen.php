@@ -3,7 +3,7 @@
 /**
  * File ini:
  *
- * Controller untuk modul Suplemen
+ * Controller untuk modul Kependudukan > Data Suplemen
  *
  * donjo-app/controllers/suplemen.php,
  *
@@ -64,7 +64,6 @@ class Suplemen extends Admin_Controller {
 		$data['set_sasaran'] = $sasaran;
 
 		$this->render('suplemen/suplemen', $data);
-		
 	}
 
 	public function form($id = '')
@@ -82,9 +81,8 @@ class Suplemen extends Admin_Controller {
 
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$this->set_minsidebar(1);
-		
-		$this->render('suplemen/form', $data);		
-		
+
+		$this->render('suplemen/form', $data);
 	}
 
 	public function tambah()
@@ -109,7 +107,6 @@ class Suplemen extends Admin_Controller {
 	public function panduan()
 	{
 		$this->render('suplemen/panduan');
-		
 	}
 
 	public function rincian($id, $p = 1)
@@ -126,7 +123,6 @@ class Suplemen extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('suplemen/suplemen_anggota', $data);
-		
 	}
 
 	public function form_terdata($id)
@@ -147,7 +143,6 @@ class Suplemen extends Admin_Controller {
 		$data['form_action'] = site_url("suplemen/add_terdata");
 
 		$this->render('suplemen/form_terdata', $data);
-		
 	}
 
 	public function terdata($sasaran = 0, $id = 0)
@@ -155,7 +150,6 @@ class Suplemen extends Admin_Controller {
 		$data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
 
 		$this->render('suplemen/terdata', $data);
-		
 	}
 
 	public function data_terdata($id)
@@ -165,7 +159,6 @@ class Suplemen extends Admin_Controller {
 		$data['individu'] = $this->suplemen_model->get_terdata($data['terdata']['id_terdata'], $data['suplemen']['sasaran']);
 
 		$this->render('suplemen/data_terdata', $data);
-		
 	}
 
 	public function edit_terdata_form($id = 0)
@@ -227,5 +220,4 @@ class Suplemen extends Admin_Controller {
 			$this->load->view('suplemen/cetak', $data);
 		}
 	}
-
 }

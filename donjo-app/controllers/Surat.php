@@ -2,36 +2,36 @@
 /*
  *  File ini:
  *
- * Controller untuk modul
+ * Controller untuk modul Layanan Surat
  *
  * donjo-app/controllers/Surat.php
  *
  */
 /*
- *  File ini bagian dari: 
- * 
+ *  File ini bagian dari:
+ *
  * OpenSID
- * 
+ *
  * Sistem informasi desa sumber terbuka untuk memajukan desa
- * 
+ *
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- * 
+ *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * 
+ *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- * 
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- * 
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- * 
+ *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
  * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
@@ -45,7 +45,7 @@ class Surat extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
@@ -60,7 +60,7 @@ class Surat extends Admin_Controller {
 
 	public function index()
 	{
-		
+
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
@@ -79,16 +79,13 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['id_penerima_kuasa']);
 
 		$this->render('surat/format_surat', $data);
-		
 	}
 
 	public function panduan()
 	{
 		$this->sub_modul_ini = 33;
-		
 
 		$this->render('surat/panduan');
-		
 	}
 
 	public function form($url = '', $clear = '')
@@ -111,7 +108,6 @@ class Surat extends Admin_Controller {
 		$data['form_action'] = site_url("surat/doc/$url");
 		$this->set_minsidebar(1);
 		$this->render("surat/form_surat", $data);
-		
 	}
 
 	public function periksa_doc($id, $url)
@@ -285,5 +281,4 @@ class Surat extends Admin_Controller {
 		$penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari,$page);
 		echo json_encode($penduduk);
 	}
-
 }

@@ -90,7 +90,6 @@ class Dokumen extends Admin_Controller {
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
 		$this->render('dokumen/table', $data);
-		
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')
@@ -113,7 +112,6 @@ class Dokumen extends Admin_Controller {
 		$data['list_kategori_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK);
 
 		$this->render('dokumen/form', $data);
-		
 	}
 
 	public function search()
@@ -251,5 +249,4 @@ class Dokumen extends Admin_Controller {
 		else
 			$this->output->set_status_header('404');
 	}
-
 }

@@ -57,7 +57,6 @@ class Sid_Core extends Admin_Controller {
 		$this->sub_modul_ini = 20;
 		$this->_set_page = ['20', '50', '100'];
 		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
-		
 	}
 
 	public function clear()
@@ -86,7 +85,6 @@ class Sid_Core extends Admin_Controller {
 		$data['total'] = $this->wilayah_model->total();
 
 		$this->render('sid/wilayah/wilayah', $data);
-		
 	}
 
 	public function cetak()
@@ -129,7 +127,6 @@ class Sid_Core extends Admin_Controller {
 		$data['dusun_id'] = $this->wilayah_model->get_dusun_maps($id);
 
 		$this->render('sid/wilayah/wilayah_form', $data);
-		
 	}
 
 	public function search()
@@ -172,7 +169,6 @@ class Sid_Core extends Admin_Controller {
 		$data['total'] = $this->wilayah_model->total_rw($nama_dusun );
 
 		$this->render('sid/wilayah/wilayah_rw', $data);
-		
 	}
 
 	public function cetak_rw($id_dusun = '')
@@ -223,7 +219,6 @@ class Sid_Core extends Admin_Controller {
 		}
 
 		$this->render('sid/wilayah/wilayah_form_rw', $data);
-		
 	}
 
 	public function insert_rw($dusun = '')
@@ -252,7 +247,6 @@ class Sid_Core extends Admin_Controller {
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $data['rw']);
 
 		$this->render('sid/wilayah/wilayah_rt', $data);
-		
 	}
 
 	public function cetak_rt($id_dusun = '', $id_rw = '')
@@ -313,7 +307,6 @@ class Sid_Core extends Admin_Controller {
 		}
 
 		$this->render('sid/wilayah/wilayah_form_rt', $data);
-		
 	}
 
 	public function insert_rt($id_dusun = '', $id_rw = '')
@@ -392,7 +385,6 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
 			$this->render("sid/wilayah/maps_kantor", $data);
-			
 		}
 		else
 		{
@@ -420,7 +412,6 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
 			$this->render("sid/wilayah/maps_wilayah", $data);
-			
 		}
 		else
 		{
@@ -476,7 +467,6 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
 			$this->render("sid/wilayah/maps_kantor", $data);
-			
 		}
 		else
 		{
@@ -512,7 +502,6 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
 			$this->render("sid/wilayah/maps_wilayah", $data);
-			
 		}
 		else
 		{
@@ -561,7 +550,6 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
 			$this->render("sid/wilayah/maps_kantor", $data);
-			
 		}
 		else
 		{
@@ -596,7 +584,6 @@ class Sid_Core extends Admin_Controller {
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
 			$this->render("sid/wilayah/maps_wilayah", $data);
-			
 		}
 		else
 		{
@@ -617,5 +604,4 @@ class Sid_Core extends Admin_Controller {
 		$this->wilayah_model->update_wilayah_rt_map($id);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
-
 }

@@ -2,36 +2,36 @@
 /*
  *  File ini:
  *
- * Controller untuk modul
+ * Controller untuk modul Keuangan
  *
  * donjo-app/controllers/Keuangan.php
  *
  */
 /*
- *  File ini bagian dari: 
- * 
+ *  File ini bagian dari:
+ *
  * OpenSID
- * 
+ *
  * Sistem informasi desa sumber terbuka untuk memajukan desa
- * 
+ *
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- * 
+ *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * 
+ *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- * 
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- * 
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- * 
+ *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
  * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
@@ -46,7 +46,7 @@ class Keuangan extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model('keuangan_model');
-		
+
 		$this->load->model('keuangan_grafik_model');
 		$this->modul_ini = 201;
 	}
@@ -91,7 +91,7 @@ class Keuangan extends Admin_Controller {
 		$this->session->set_userdata( $sess );
 		$this->load->model('keuangan_grafik_model');
 		$this->set_minsidebar(1);
-		
+
 		$smt = $this->session->userdata('set_semester');
 		$thn = $this->session->userdata('set_tahun');
 
@@ -117,8 +117,6 @@ class Keuangan extends Admin_Controller {
 				$this->grafik_rp_apbd($thn);
 				break;
 		}
-
-		
 	}
 
 	private function rincian_realisasi($thn, $judul, $smt1=false)
@@ -144,9 +142,8 @@ class Keuangan extends Admin_Controller {
 		$this->sub_modul_ini = 202;
 		$data['main'] = $this->keuangan_model->list_data();
 		$data['form_action'] = site_url("keuangan/proses_impor");
-		
+
 		$this->render('keuangan/impor_data', $data);
-		
 	}
 
 	public function proses_impor()

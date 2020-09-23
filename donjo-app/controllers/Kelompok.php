@@ -90,7 +90,6 @@ class Kelompok extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('kelompok/table', $data);
-		
 	}
 
 	public function anggota($id=0)
@@ -100,7 +99,6 @@ class Kelompok extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('kelompok/anggota/table', $data);
-		
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -124,7 +122,6 @@ class Kelompok extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('kelompok/form', $data);
-		
 	}
 
 	public function form_anggota($id=0, $id_a=0)
@@ -146,7 +143,6 @@ class Kelompok extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('kelompok/anggota/form', $data);
-		
 	}
 
 	public function cetak()
@@ -262,5 +258,4 @@ class Kelompok extends Admin_Controller {
 		else unset($_SESSION['filter']);
 		redirect('kelompok');
 	}
-
 }

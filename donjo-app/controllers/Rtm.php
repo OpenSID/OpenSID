@@ -45,7 +45,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Rtm extends Admin_Controller {
 
-	
 	private $_set_page;
 	private $_list_session;
 
@@ -53,7 +52,7 @@ class Rtm extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model(['header_model', 'rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
-		
+
 		$this->_set_page = ['50', '100', '200'];
 		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
 		$this->modul_ini = 2;
@@ -112,7 +111,6 @@ class Rtm extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/rtm', $data);
-		
 	}
 
 	/*
@@ -245,7 +243,6 @@ class Rtm extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/rtm_anggota', $data);
-		
 	}
 
 	public function ajax_add_anggota($id = 0)
@@ -290,7 +287,6 @@ class Rtm extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render("sid/kependudukan/kartu_rtm", $data);
-		
 	}
 
 	public function cetak_kk($id = 0)

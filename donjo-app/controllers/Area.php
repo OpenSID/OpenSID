@@ -47,7 +47,7 @@ class Area extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
 		$this->load->model('plan_lokasi_model');
@@ -101,7 +101,6 @@ class Area extends Admin_Controller {
 		$nav['tip'] = 4;
 
 		$this->render('area/table',$data);
-		
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -129,8 +128,6 @@ class Area extends Admin_Controller {
 		$nav['tip'] = 4;
 
 		$this->render('area/form', $data);
-		
-
 	}
 
 	public function ajax_area_maps($p=1, $o=0, $id='')
@@ -152,10 +149,8 @@ class Area extends Admin_Controller {
 		$data['all_garis'] = $this->plan_garis_model->list_data();
 		$data['all_area'] = $this->plan_area_model->list_data();
 		$data['form_action'] = site_url("area/update_maps/$p/$o/$id");
-		
 
 		$this->render("area/maps", $data);
-		
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

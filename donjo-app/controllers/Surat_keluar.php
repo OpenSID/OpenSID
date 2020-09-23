@@ -2,36 +2,36 @@
 /*
  *  File ini:
  *
- * Controller untuk modul
+ * Controller untuk modul Surat Keluar
  *
  * donjo-app/controllers/Surat_keluar.php
  *
  */
 /*
- *  File ini bagian dari: 
- * 
+ *  File ini bagian dari:
+ *
  * OpenSID
- * 
+ *
  * Sistem informasi desa sumber terbuka untuk memajukan desa
- * 
+ *
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- * 
+ *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * 
+ *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- * 
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- * 
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- * 
+ *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
  * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
@@ -51,7 +51,7 @@ class Surat_keluar extends Admin_Controller {
 		$this->load->model('klasifikasi_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
-		
+
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 58;
@@ -89,7 +89,6 @@ class Surat_keluar extends Admin_Controller {
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
 		$this->set_minsidebar(1);
 		$this->render('surat_keluar/table', $data);
-		
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -110,7 +109,6 @@ class Surat_keluar extends Admin_Controller {
 			$data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
 			$data['form_action'] = site_url("surat_keluar/insert");
 		}
-		
 
 		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_keluar']['berkas_scan']);
@@ -121,7 +119,6 @@ class Surat_keluar extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('surat_keluar/form', $data);
-		
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')
@@ -239,5 +236,4 @@ class Surat_keluar extends Admin_Controller {
 			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $_POST['nomor_urut']);
    	echo $hasil ? 'false' : 'true';
 	}
-
 }

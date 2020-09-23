@@ -52,7 +52,7 @@ class Data_persil extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
 		$this->load->model('cdesa_model');
@@ -100,7 +100,6 @@ class Data_persil extends Admin_Controller {
 		$data['keyword'] = $this->data_persil_model->autocomplete();
 
 		$this->render('data_persil/persil', $data);
-		
 	}
 
 	public function rincian($id=0)
@@ -110,21 +109,19 @@ class Data_persil extends Admin_Controller {
 		$data['persil'] = $this->data_persil_model->get_persil($id);
 		$data['mutasi'] = $this->data_persil_model->get_list_mutasi($id);
 		$this->render('data_persil/rincian_persil', $data);
-		
 	}
 
 	public function form($id='', $id_cdesa='')
 	{
-		$this->set_minsidebar(1);		
+		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
 		if ($id) $data["persil"] = $this->data_persil_model->get_persil($id);
 		if ($id_cdesa) $data["id_cdesa"] = $id_cdesa;
 		$data['list_cdesa'] = $this->cdesa_model->list_c_desa();
 		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
-		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();		
+		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$this->render('data_persil/form_persil', $data);
-		
 	}
 
 	public function simpan_persil($page=1)
@@ -195,7 +192,6 @@ class Data_persil extends Admin_Controller {
 		}
 		echo json_encode($data);
 	}
-
 }
 
 ?>

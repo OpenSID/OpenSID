@@ -3,7 +3,7 @@
 /**
  * File ini:
  *
- * Core di MY_Controller
+ * File ini controller utama yg mengatur controller lain
  *
  * donjo-app/core/MY_Controller.php
  *
@@ -216,7 +216,7 @@ class Admin_Controller extends MY_Controller {
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model(['header_model', 'user_model', 'notif_model']);		
+		$this->load->model(['header_model', 'user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -278,7 +278,7 @@ class Admin_Controller extends MY_Controller {
 	}
 
 	public function render($view,Array $data = [])
-	{		
+	{
 		$this->header = $this->header_model->get_data();
 		$this->header['minsidebar'] = $this->get_minsidebar();
 		$this->load->view('header', $this->header);
@@ -290,7 +290,7 @@ class Admin_Controller extends MY_Controller {
 
 	/**
 	 * Get the value of minsidebar
-	 */ 
+	 */
 	public function get_minsidebar()
 	{
 		return $this->minsidebar;
@@ -300,7 +300,7 @@ class Admin_Controller extends MY_Controller {
 	 * Set the value of minsidebar
 	 *
 	 * @return  self
-	 */ 
+	 */
 	public function set_minsidebar($minsidebar)
 	{
 		$this->minsidebar = $minsidebar;

@@ -50,7 +50,7 @@ class Menu extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('web_menu_model');
 		$this->load->model('referensi_model');
 		$this->load->model('laporan_penduduk_model');
@@ -86,10 +86,8 @@ class Menu extends Admin_Controller {
 		$data['paging'] = $this->web_menu_model->paging($tip, $p, $o);
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_menu_model->autocomplete($data['cari']);
-		
 
 		$this->render('menu/table', $data);
-		
 	}
 
 	public function form($tip = 1, $id = '')
@@ -118,11 +116,9 @@ class Menu extends Admin_Controller {
 			$data['form_action'] = site_url("menu/insert/$tip");
 		}
 
-		
 		$data['tip'] = $tip;
 
 		$this->render('menu/form', $data);
-		
 	}
 
 	public function sub_menu($tip = 1, $menu = 1)
@@ -130,10 +126,8 @@ class Menu extends Admin_Controller {
 		$data['submenu'] = $this->web_menu_model->list_sub_menu($menu);
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
-		
 
 		$this->render('menu/sub_menu_table', $data);
-		
 	}
 
 	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')
@@ -143,7 +137,6 @@ class Menu extends Admin_Controller {
 		$this->load->model('keuangan_model');
 		$data['menu'] = $menu;
 		$data['tip'] = $tip;
-
 
 		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
 		$data['link'] = $this->web_menu_model->list_link();

@@ -47,7 +47,7 @@ class Point extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('plan_point_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
@@ -90,8 +90,6 @@ class Point extends Admin_Controller {
 		$nav['tip'] = 0;
 
 		$this->render('point/table', $data);
-		
-
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -111,20 +109,20 @@ class Point extends Admin_Controller {
 		}
 
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-		$this->set_minsidebar(1);		$nav['tip'] = 0;
+		$this->set_minsidebar(1);
+		$nav['tip'] = 0;
 
 		$this->render('point/form', $data);
-		
 	}
 
 	public function sub_point($point = 1)
 	{
 		$data['subpoint'] = $this->plan_point_model->list_sub_point($point);
 		$data['point'] = $this->plan_point_model->get_point($point);
-		$this->set_minsidebar(1);		$nav['tip'] = 0;
+		$this->set_minsidebar(1);
+		$nav['tip'] = 0;
 
 		$this->render('point/sub_point_table', $data);
-		
 	}
 
 	public function ajax_add_sub_point($point = 0, $id = 0)
@@ -247,10 +245,10 @@ class Point extends Admin_Controller {
 	public function form_simbol($id = '')
 	{
 		$data['simbol'] = $this->plan_point_model->list_simbol();
-		$this->set_minsidebar(1);		$nav['tip'] = 6;
+		$this->set_minsidebar(1);
+		$nav['tip'] = 6;
 
 		$this->render('point/form_simbol', $data);
-		
 	}
 
 	public function delete_simbol($id = '', $simbol = '')
@@ -265,5 +263,4 @@ class Point extends Admin_Controller {
 		$this->plan_point_model->salin_simbol_default();
 		redirect("point/form_simbol");
 	}
-
 }

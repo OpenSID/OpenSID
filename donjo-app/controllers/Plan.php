@@ -47,7 +47,7 @@ class Plan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
 		$this->load->model('plan_lokasi_model');
@@ -101,7 +101,6 @@ class Plan extends Admin_Controller {
 		$this->set_minsidebar(1);		$nav['tip'] = 3;
 
 		$this->render('lokasi/table', $data);
-		
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -129,7 +128,6 @@ class Plan extends Admin_Controller {
 		$nav['tip'] = 3;
 
 		$this->render('lokasi/form', $data);
-		
 	}
 
 	public function ajax_lokasi_maps($p = 1, $o = 0, $id = '')
@@ -155,7 +153,6 @@ class Plan extends Admin_Controller {
 		$header= $this->header_model->get_data();
 
 		$this->render("lokasi/maps", $data);
-		
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '')

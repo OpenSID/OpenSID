@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Penduduk extends Admin_Controller {
 
-	
 	private $_set_page;
 	private $_list_session;
 
@@ -55,7 +54,7 @@ class Penduduk extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'header_model', 'config_model', 'program_bantuan_model']);
-		
+
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
@@ -124,7 +123,6 @@ class Penduduk extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/penduduk', $data);
-		
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -207,7 +205,6 @@ class Penduduk extends Admin_Controller {
 		$this->set_minsidebar(1);
 		unset($_SESSION['dari_internal']);
 		$this->render('sid/kependudukan/penduduk_form', $data);
-		
 	}
 
 	public function detail($p = 1, $o = 0, $id = 0)
@@ -220,7 +217,6 @@ class Penduduk extends Admin_Controller {
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/penduduk_detail', $data);
-		
 	}
 
 	public function dokumen($id = '')
@@ -229,7 +225,6 @@ class Penduduk extends Admin_Controller {
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 
 		$this->render('sid/kependudukan/penduduk_dokumen', $data);
-		
 	}
 
 	public function dokumen_form($id = 0, $id_dokumen = 0)
@@ -516,7 +511,6 @@ class Penduduk extends Admin_Controller {
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
 
 		$this->render("sid/kependudukan/ajax_penduduk_maps", $data);
-		
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '', $edit = '')
@@ -754,7 +748,6 @@ class Penduduk extends Admin_Controller {
 		redirect("penduduk");
 	}
 
-
 	public function autocomplete()
 	{
 		$data = $this->penduduk_model->autocomplete($this->input->post('cari'));
@@ -777,5 +770,4 @@ class Penduduk extends Admin_Controller {
 		$data['form_action_privasi'] = "penduduk/cetak/$o/$aksi/1";
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
-
 }

@@ -46,13 +46,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Identitas_desa extends Admin_Controller {
 
-	
-
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['header_model', 'config_model', 'wilayah_model', 'provinsi_model']);
-		
+
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 17;
 	}
@@ -65,7 +63,6 @@ class Identitas_desa extends Admin_Controller {
 		$data['kabupaten'] = ucwords($this->setting->sebutan_kabupaten);
 
 		$this->render('identitas_desa/index', $data);
-		
 	}
 
 	public function form()
@@ -83,7 +80,6 @@ class Identitas_desa extends Admin_Controller {
 			$data['form_action'] = site_url('identitas_desa/insert');
 
 		$this->render('identitas_desa/form', $data);
-		
 	}
 
 	public function insert()
@@ -119,7 +115,6 @@ class Identitas_desa extends Admin_Controller {
 		$data['form_action'] = site_url("identitas_desa/update_maps/$tipe");
 
 		$this->render('sid/wilayah/maps_' . $tipe, $data);
-		
 	}
 
 	public function update_maps($tipe = 'kantor')
@@ -131,5 +126,4 @@ class Identitas_desa extends Admin_Controller {
 
 		redirect("identitas_desa");
 	}
-
 }

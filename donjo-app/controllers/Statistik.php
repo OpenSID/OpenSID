@@ -47,14 +47,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Statistik extends Admin_Controller {
 
-	
 	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'header_model', 'config_model', 'referensi_model']);
-		
+
 		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
@@ -77,7 +76,6 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $data['lap']);
 
 		$this->render('statistik/penduduk', $data);
-		
 	}
 
 	public function clear($lap = '0', $order_by = '1')
@@ -165,7 +163,6 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $data['lap']);
 
 		$this->render('statistik/rentang_umur', $data);
-		
 	}
 
 	public function form_rentang($id = 0)
@@ -350,5 +347,4 @@ class Statistik extends Admin_Controller {
 		);
 		echo json_encode($output);
 	}
-
 }

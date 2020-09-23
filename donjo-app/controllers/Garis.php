@@ -47,7 +47,7 @@ class Garis extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
 		$this->load->model('plan_lokasi_model');
@@ -102,7 +102,6 @@ class Garis extends Admin_Controller {
 		$nav['tip'] = 1;
 
 		$this->render('garis/table', $data);
-		
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -127,7 +126,6 @@ class Garis extends Admin_Controller {
 		$nav['tip'] = 1;
 
 		$this->render('garis/form',$data);
-		
 	}
 
 	public function ajax_garis_maps($p=1, $o=0, $id='')
@@ -150,9 +148,7 @@ class Garis extends Admin_Controller {
 		$data['all_area'] = $this->plan_area_model->list_data();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
 
-		
 		$this->render("garis/maps", $data);
-		
 	}
 
 	public function update_maps($p=1, $o=0, $id='')

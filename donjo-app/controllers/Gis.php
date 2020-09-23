@@ -55,7 +55,7 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
-		
+
 		$this->load->model('wilayah_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 9;
@@ -144,7 +144,6 @@ class Gis extends Admin_Controller {
 		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$this->set_minsidebar(1);
 		$this->render('gis/maps', $data);
-		
 	}
 
 	public function search()
