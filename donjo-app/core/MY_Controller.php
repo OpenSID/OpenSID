@@ -210,6 +210,7 @@ class Admin_Controller extends MY_Controller {
 	public $CI = NULL;
 	public $pengumuman = NULL;
 	public $header;
+	protected $nav = 'nav';
 	protected $minsidebar = 0;
 	public function __construct()
 	{
@@ -282,7 +283,7 @@ class Admin_Controller extends MY_Controller {
 		$this->header = $this->header_model->get_data();
 		$this->header['minsidebar'] = $this->get_minsidebar();
 		$this->load->view('header', $this->header);
-		$this->load->view('nav');
+		$this->load->view($this->get_nav());
 		$this->load->view($view, $data);
 		$this->load->view('footer');
 	}
@@ -304,6 +305,26 @@ class Admin_Controller extends MY_Controller {
 	public function set_minsidebar($minsidebar)
 	{
 		$this->minsidebar = $minsidebar;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of nav
+	 */ 
+	public function get_nav()
+	{
+		return $this->nav;
+	}
+
+	/**
+	 * Set the value of nav
+	 *
+	 * @return  self
+	 */ 
+	public function set_nav($nav)
+	{
+		$this->nav = $nav;
 
 		return $this;
 	}

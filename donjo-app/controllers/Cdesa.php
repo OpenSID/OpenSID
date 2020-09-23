@@ -201,10 +201,6 @@ class Cdesa extends Admin_Controller {
 
 		if ($this->form_validation->run() != false)
 		{
-
-			$this->set_minsidebar(1);
-			$this->load->view('header', $header);
-
 			$id_cdesa = $this->cdesa_model->simpan_cdesa();
 			if ($this->input->post('id')) redirect("cdesa");
 			else redirect("cdesa/create_mutasi/$id_cdesa");
