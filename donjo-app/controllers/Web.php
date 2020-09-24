@@ -51,7 +51,6 @@ class Web extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
 		if ($this->setting->offline_mode >= 2)
@@ -60,8 +59,7 @@ class Web extends Admin_Controller {
 			exit;
 		}
 
-		$this->load->model(['header_model', 'web_artikel_model', 'web_kategori_model']);
-
+		$this->load->model(['web_artikel_model', 'web_kategori_model']);
 		$this->_set_page = ['20', '50', '100'];
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 47;
@@ -71,14 +69,12 @@ class Web extends Admin_Controller {
 	{
 		$this->session->unset_userdata(['cari, status']);
 		$this->session->per_page = $this->_set_page[0];
-		redirect('web');
+		redirect("web");
 	}
 
-	public function index($cat = 0, $p = 1, $o = 0)
+	public function index($p = 1, $o = 0)
 	{
-		$cat = $this->session->kategori;
-
-		if(!$cat) $cat = 0;
+		$cat = $this->session->kategori ?: 0;
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -91,7 +87,7 @@ class Web extends Admin_Controller {
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
 
-		$data['func'] = "index/$cat";
+		$data['func'] = "index";
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = $this->_set_page;
 
@@ -102,8 +98,8 @@ class Web extends Admin_Controller {
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('web/artikel/table', $data);
 	}
 
@@ -111,87 +107,96 @@ class Web extends Admin_Controller {
 	{
 		$this->session->kategori = $cat;
 
-		redirect('web');
+		redirect("web");
 	}
 
-	public function form($cat = 1, $p = 1, $o = 0, $id = 0)
+	public function form($id = 0)
 	{
-		if (!empty($id) and !$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
-			redirect("web/index/$cat/$p/$o");
+		$cat = $this->session->kategori ?: 0;
 
-		$data['p'] = $p;
-		$data['o'] = $o;
-		$data['cat'] = $cat;
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 		if ($id)
 		{
-			$data['artikel'] = $this->web_artikel_model->get_artikel($id);
-			$data['form_action'] = site_url("web/update/$cat/$id/$p/$o");
+			$cek_data = $this->web_artikel_model->get_artikel($id);
+			if ( ! $cek_data) show_404();
+
+			$this->session->kategori = $cek_data['id_kategori'];
+			$data['artikel'] = $cek_data;
+			$data['form_action'] = site_url("web/update/$id");
 		}
 		else
 		{
-			$data['artikel'] = null;
-			$data['form_action'] = site_url("web/insert/$cat");
+			$data['artikel'] = NULL;
+			$data['form_action'] = site_url("web/insert");
 		}
 
+		$data['cat'] = $cat;
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('web/artikel/form',$data);
 	}
 
-	public function filter($filter, $cat = 1)
+	public function filter($filter)
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
-		redirect("web/index/$cat");
+		redirect("web");
 	}
 
-	public function insert($cat = 1)
+	public function insert()
 	{
+		$cat = $this->session->kategori ?: 0;
+
 		$this->web_artikel_model->insert($cat);
-		redirect("web/index/$cat");
+		redirect("web");
 	}
 
-	public function update($cat = 0, $id = '', $p = 1, $o = 0){
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
-			redirect("web/index/$cat/$p/$o");
+	public function update($id = 0)
+	{
+		$cat = $this->session->kategori ?: 0;
+
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 		$this->web_artikel_model->update($cat, $id);
 		if ($this->session->success == -1)
-			redirect("web/form/$cat/$p/$o/$id");
+			redirect("web/form/$id");
 		else
-			redirect("web/index/$cat");
+			redirect("web");
 	}
 
-	public function delete($cat = 1, $p = 1, $o = 0, $id = '')
+	public function delete($id = 0)
 	{
-		$this->redirect_hak_akses('h', "web/index/$cat/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->delete($id);
-		redirect("web/index/$cat/$p/$o");
+		redirect("web");
 	}
 
-	// Hapus kategori
-	public function hapus($cat = 1, $p = 1, $o = 0)
+	public function delete_all()
 	{
-		$this->redirect_hak_akses('h', "web/index/1/$p/$o", 'kategori');
-		$this->web_artikel_model->hapus($cat);
-		redirect("web/index/1/$p/$o");
-	}
-
-	public function delete_all($cat = 1, $p = 1, $o = 0)
-	{
-		$this->redirect_hak_akses('h', "web/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->delete_all();
-		redirect("web/index/$p/$o");
+		redirect("web");
 	}
 
+	// TODO: Pindahkan ke controller kategori
+	public function hapus()
+	{
+		$cat = $this->session->kategori ?: 0;
+
+		$this->redirect_hak_akses('h');
+		$this->web_artikel_model->hapus($cat);
+		$this->session->kategori = 0;
+		redirect("web");
+	}
+
+	// TODO: Pindahkan ke controller kategoris
 	public function ubah_kategori_form($id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
-			redirect("web/index");
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 		$data['list_kategori'] = $this->web_kategori_model->list_kategori("kategori");
 		$data['form_action'] = site_url("web/update_kategori/$id");
@@ -201,72 +206,40 @@ class Web extends Admin_Controller {
 
 	public function update_kategori($id = 0)
 	{
-		if (!$this->web_artikel_model->boleh_ubah($id, $_SESSION['user']))
-			redirect("web/index/$cat");
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
-		$cat = $_POST['kategori'];
+		$cat = $this->input->post('kategori');
 		$this->web_artikel_model->update_kategori($id, $cat);
-		redirect("web/index/$cat");
+		$this->session->kategori = $cat;
+		redirect("web");
 	}
 
-	public function artikel_lock($cat = 1, $id = 0)
+	public function artikel_lock($id = 0, $val = 1)
 	{
 		// Kontributor tidak boleh mengubah status aktif artikel
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/index/$cat");
-		}
+		$this->redirect_hak_akses('u');
 
-		$this->web_artikel_model->artikel_lock($id, 1);
-		redirect("web/index/$cat");
+		$this->web_artikel_model->artikel_lock($id, $val);
+		redirect("web");
 	}
 
-	public function artikel_unlock($cat = 1, $id = 0)
-	{
-		// Kontributor tidak boleh mengubah status aktif artikel
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/index/$cat");
-		}
-
-		$this->web_artikel_model->artikel_lock($id, 2);
-		redirect("web/index/$cat");
-	}
-
-	public function komentar_lock($cat = 1, $id = 0)
+	public function komentar_lock($id = 0, $val = 1)
 	{
 		// Kontributor tidak boleh mengubah status komentar artikel
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/index/$cat");
-		}
+		$this->redirect_hak_akses('u');
 
-		$this->web_artikel_model->komentar_lock($id, 0);
-		redirect("web/index/$cat");
+		$this->web_artikel_model->komentar_lock($id, $val);
+		redirect("web");
 	}
 
-	public function komentar_unlock($cat = 1, $id = 0)
-	{
-		// Kontributor tidak boleh mengubah status komentar artikel
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/index/$cat");
-		}
-
-		$this->web_artikel_model->komentar_lock($id, 1);
-		redirect("web/index/$cat");
-	}
-
+	// TODO: Pindahkan ke controller kategori
 	public function ajax_add_kategori($cat = 1, $p = 1, $o = 0)
 	{
 		$data['form_action'] = site_url("web/insert_kategori/$cat/$p/$o");
 		$this->load->view('web/artikel/ajax_add_kategori_form', $data);
 	}
 
+	// TODO: Pindahkan ke controller kategori
 	public function insert_kategori($cat = 1, $p = 1, $o = 0)
 	{
 		redirect_hak_akses('u', "web/index/$cat/$p/$o", 'kategori');
@@ -274,30 +247,22 @@ class Web extends Admin_Controller {
 		redirect("web/index/$cat/$p/$o");
 	}
 
-	public function headline($cat = 1, $p = 1, $o = 0, $id = 0)
+	public function headline($id = 0)
 	{
 		// Kontributor tidak boleh melakukan ini
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/index/$cat/$p/$o");
-		}
+		$this->redirect_hak_akses('u');
 
 		$this->web_artikel_model->headline($id);
-		redirect("web/index/$cat/$p/$o");
+		redirect("web");
 	}
 
-	public function slide($cat = 1, $p = 1, $o = 0, $id = 0)
+	public function slide($id = 0)
 	{
 		// Kontributor tidak boleh melakukan ini
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/index/$cat/$p/$o");
-		}
+		$this->redirect_hak_akses('u');
 
 		$this->web_artikel_model->slide($id);
-		redirect("web/index/$cat/$p/$o");
+		redirect("web");
 	}
 
 	public function slider()
@@ -310,11 +275,7 @@ class Web extends Admin_Controller {
 	public function update_slider()
 	{
 		// Kontributor tidak boleh melakukan ini
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/slider");
-		}
+		$this->redirect_hak_akses('u');
 
 		$this->setting_model->update_slider();
 		redirect("web/slider");
@@ -330,21 +291,18 @@ class Web extends Admin_Controller {
 	public function update_teks_berjalan()
 	{
 		// Kontributor tidak boleh melakukan ini
-		if ($_SESSION['grup'] == 4)
-		{
-			session_error("Anda tidak mempunyai akses pada fitur ini");
-			redirect("web/teks_berjalan");
-		}
+		$this->redirect_hak_akses('u');
 
 		$this->setting_model->update_teks_berjalan();
 		redirect("web/teks_berjalan");
 	}
 
-	public function reset($cat = 999)
+	public function reset()
 	{
-		if ($cat == 999)
-			$this->web_artikel_model->reset($cat);
+		$cat = $this->session->kategori ?: 0;
 
-		redirect("web/index/$cat");
+		if ($cat == 999) $this->web_artikel_model->reset($cat);
+
+		redirect("web");
 	}
 }

@@ -42,9 +42,9 @@
 	private function grup_sql()
 	{
 		// Kontributor hanya dapat melihat artikel yg dibuatnya sendiri
-		if ($_SESSION['grup'] == 4)
+		if ($this->session->grup == 4)
 		{
-			$kf = $_SESSION['user'];
+			$kf = $this->session->user;
 			$filter_sql= " AND a.id_user = $kf";
 			return $filter_sql;
 		}
@@ -114,18 +114,13 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
 			$data[$i]['boleh_ubah'] = $this->boleh_ubah($data[$i]['id'], $this->session->user);
-
 			$j++;
 		}
 		return $data;
 	}
 
+	// TODO: pindahkan dan gunakan web_kategori_model
 	private function kategori($id)
 	{
 		$data	= $this->db
@@ -137,6 +132,7 @@
 		return $data;
 	}
 
+	// TODO: pindahkan dan gunakan web_kategori_model
 	public function list_kategori()
 	{
 		$data = $this->kategori(0);
@@ -154,11 +150,13 @@
 		return $data;
 	}
 
+	// TODO: pindahkan dan gunakan web_kategori_model
 	public function get_kategori_artikel($id)
 	{
 		return $this->db->select('id_kategori')->where('id', $id)->get('artikel')->row_array();
 	}
 
+	// TODO: pindahkan dan gunakan web_kategori_model
 	public function get_kategori($cat=0)
 	{
 		$sql = "SELECT kategori FROM kategori WHERE id = ?";
@@ -435,17 +433,19 @@
 
 	public function update_kategori($id, $id_kategori)
 	{
-		$this->db->where('id', $id)->update('artikel', array('id_kategori' => $id_kategori));
+		$this->db->where('id', $id)->update('artikel', ['id_kategori' => $id_kategori]);
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id = 0, $semua = FALSE)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
-		$list_gambar = $this->db->
-			select('gambar, gambar1, gambar2, gambar3')->
-			where('id', $id)->
-			get('artikel')->row_array();
+		$list_gambar = $this->db
+			->select('gambar, gambar1, gambar2, gambar3')
+			->where('id', $id)
+			->get('artikel')
+			->row_array();
+
 		foreach ($list_gambar as $key => $gambar)
 		{
 			HapusArtikel($gambar);
@@ -453,66 +453,68 @@
 
 		$outp = $this->db->where('id', $id)->delete('artikel');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
 
 	public function delete_all()
 	{
 		$this->session->success = 1;
 
-		$id_cb = $_POST['id_cb'];
+		$id_cb = $this->input->post('id_cb');
 		foreach ($id_cb as $id)
 		{
-			if ($this->boleh_ubah($id, $_SESSION['user']))
-			{
-				$this->delete($id, $semua=true);
-			}
+			if ($this->boleh_ubah($id, $this->session->user)) $this->delete($id, TRUE);
 		}
 	}
 
-	// TODO: ubah supaya menggunakan web_kategori_model
-	public function hapus($id='', $semua=false)
+	// TODO: pindahkan dan gunakan web_kategori_model
+	public function hapus($id = 0, $semua = FALSE)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kategori');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
 
-	public function artikel_lock($id='', $val=0)
+	public function artikel_lock($id = 0, $val = 1)
 	{
-		$sql = "UPDATE artikel SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
+		$outp = $this->db->where('id', $id)->update('artikel', ['enabled' => $val]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function komentar_lock($id='', $val=0)
+	public function komentar_lock($id = 0, $val = 1)
 	{
-		$_SESSION['success'] = 1;
-		$outp = $this->db->where('id', $id)->update('artikel', array('boleh_komentar'=>$val));
-		if (!$outp) $_SESSION['success'] = -1;
+		$outp = $this->db->where('id', $id)->update('artikel', array('boleh_komentar' => $val));
+
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_artikel($id=0)
+	public function get_artikel($id = 0)
 	{
-		$sql = "SELECT a.*, g.*, g.id as id_agenda, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			LEFT JOIN agenda g ON g.id_artikel = a.id
-			WHERE a.id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
+		$data = $this->db
+			->select('a.*, g.*, g.id as id_agenda, u.nama AS owner')
+			->select('YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+			->from('artikel a')
+			->join('user u', 'a.id_user = u.id', 'LEFT')
+			->join('agenda g', 'g.id_artikel = a.id', 'LEFT')
+			->where('a.id', $id)
+			->get()
+			->row_array();
+
+		// Jika artikel tdk ditemukan
+		if ( ! $data) return FALSE;
+
 		$data['judul'] = $this->security->xss_clean($data['judul']);
-		if (empty($this->setting->user_admin) or $data['id_user'] != $this->setting->user_admin)
+		if (empty($this->setting->user_admin) OR $data['id_user'] != $this->setting->user_admin)
 			$data['isi'] = $this->security->xss_clean($data['isi']);
 
-		//digunakan untuk timepicker
+		// Digunakan untuk timepicker
 		$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);
 		$data['tgl_upload'] = $tempTgl->format('d-m-Y H:i:s');
 		// Data artikel terkait agenda
-		if (!empty($data['tgl_agenda']))
+		if ( ! empty($data['tgl_agenda']))
 		{
 			$tempTgl = date_create_from_format('Y-m-d H:i:s', $data['tgl_agenda']);
 			$data['tgl_agenda'] = $tempTgl->format('d-m-Y H:i:s');
@@ -544,6 +546,7 @@
 		return $data;
 	}
 
+	// TODO: pindahkan dan gunakan web_kategori_model
 	public function insert_kategori()
 	{
 		$data['kategori'] = $_POST['kategori'];
@@ -612,18 +615,21 @@
 	{
 		// Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
 		$id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
-		return ($user == $id_user or $_SESSION['grup'] != 4);
+		return ($user == $id_user OR $this->session->grup != 4);
 	}
 
 	public function reset($cat)
 	{
 		// Normalkan kembali hit artikel kategori 999 (yg ditampilkan di menu) akibat robot (crawler)
 		$persen = $this->input->post('hit');
-		$list_menu = $this->db->distinct()
+		$list_menu = $this->db
+			->distinct()
 			->select('link')
 			->like('link', 'artikel/')
 			->where('enabled', 1)
-			->get('menu')->result_array();
+			->get('menu')
+			->result_array();
+
 		foreach ($list_menu as $list)
 		{
 			$id = str_replace('artikel/', '', $list['link']);

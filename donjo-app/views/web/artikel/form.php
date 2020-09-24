@@ -38,24 +38,24 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Form Artikel : <?php if ($kategori): ?><?=$kategori['kategori'];?><?php else: ?>Artikel Statis<?php endif; ?></h1>
+		<h1>Form Artikel <?= $kategori['kategori']; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?=site_url("web/index/$cat")?>"> Daftar Artikel</a></li>
+			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url("web"); ?>"> Daftar Artikel</a></li>
 			<li class="active">Form Artikel</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
+		<form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?=site_url("web/index/$cat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
+							<a href="<?=site_url("web")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
 							</a>
 							<?php if ($artikel['slug']): ?>
-								<a href="<?= site_url('artikel/'.buat_slug($artikel)) ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+								<a href="<?= site_url('artikel/' . buat_slug($artikel)); ?>" target="_blank" class="btn btn-social btn-flat bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
 							<?php endif; ?>
 						</div>
 						<div class="box-body">
