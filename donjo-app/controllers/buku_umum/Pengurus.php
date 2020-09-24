@@ -71,8 +71,7 @@ class Pengurus extends Admin_Controller {
 		}
 
 		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
+		if (isset($per_page)) $this->session->per_page = $per_page;
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -83,9 +82,9 @@ class Pengurus extends Admin_Controller {
 		$data['main_content'] = 'home/pengurus';
 		$data['subtitle'] = "Buku Aparat Pemerintah Desa";
 		$data['selected_nav'] = 'aparat';
-		$this->_header['minsidebar'] = 1;
+		$this->header['minsidebar'] = 1;
 
-		$this->load->view('header', $this->_header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav');
 		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
