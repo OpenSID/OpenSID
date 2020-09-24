@@ -196,8 +196,8 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$data["o"] = $o;
 		$data['aksi'] = $aksi;
-		$data['form_action'] = "penduduk_log/cetak/$o/$aksi";
-		$data['form_action_privasi'] = "penduduk_log/cetak/$o/$aksi/1";
+		$data['form_action'] = site_url("penduduk_log/cetak/$o/$aksi");
+		$data['form_action_privasi'] = site_url("penduduk_log/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 }

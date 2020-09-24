@@ -546,6 +546,7 @@ class Penduduk extends Admin_Controller {
 	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
+
 		if ($privasi_nik == 1) $data['privasi_nik'] = true;
 		$this->load->view("sid/kependudukan/penduduk_$aksi", $data);
 	}
@@ -766,8 +767,8 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['o'] = $o;
 		$data['aksi'] = $aksi;
-		$data['form_action'] = "penduduk/cetak/$o/$aksi";
-		$data['form_action_privasi'] = "penduduk/cetak/$o/$aksi/1";
+		$data['form_action'] = site_url("penduduk/cetak/$o/$aksi");
+		$data['form_action_privasi'] = site_url("penduduk/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 }

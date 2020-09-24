@@ -339,8 +339,8 @@ class Rtm extends Admin_Controller {
 	public function ajax_cetak($aksi = '')
 	{
 		$data['aksi'] = $aksi;
-		$data['form_action'] = "rtm/daftar/$aksi";
-		$data['form_action_privasi'] = "rtm/daftar/$aksi/1";
+		$data['form_action'] = site_url("rtm/daftar/$aksi");
+		$data['form_action_privasi'] = site_url("rtm/daftar/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 }
