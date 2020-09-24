@@ -75,47 +75,53 @@ class Database extends Admin_Controller {
 			unset($_SESSION['siteman_timeout']);
 		}
 
-		$tab['act_tab'] = 1;
-
-		$this->render('export/tab_menu', $tab);
-		$this->load->view('export/exp');
+		$data['act_tab'] = 1;
+		$data['content'] = 'export/exp';
+		$this->load->view('database/database.tpl.php', $data);
 	}
 
 	public function import()
 	{
-		$tab['act_tab'] = 2;
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
 
-		$this->render('export/tab_menu', $tab);
-		$this->load->view('import/imp', $data);
+		$data['act_tab'] = 2;
+		$data['content'] = 'import/imp';
+		$this->load->view('database/database.tpl.php', $data);
 	}
 
 	public function import_bip()
 	{
-		$tab['act_tab'] = 3;
 		$data['form_action'] = site_url("database/import_data_bip");
 
-		$this->render('export/tab_menu', $tab);
-		$this->load->view('import/bip', $data);
+		$data['act_tab'] = 3;
+		$data['content'] = 'import/bip';
+		$this->load->view('database/database.tpl.php', $data);
 	}
 
 	public function migrasi_cri()
 	{
-		$tab['act_tab'] = 5;
 		$data['form_action'] = site_url("database/migrasi_db_cri");
 
-		$this->render('export/tab_menu', $tab);
-		$this->load->view('database/migrasi_cri', $data);
+		$data['act_tab'] = 5;
+		$data['content'] = 'database/migrasi_cri';
+		$this->load->view('database/database.tpl.php', $data);
 	}
 
 	public function backup()
 	{
-		$tab['act_tab'] = 4;
 		$data['form_action'] = site_url("database/restore");
 
-		$this->render('export/tab_menu', $tab);
-		$this->load->view('database/backup', $data);
+		$data['act_tab'] = 4;
+		$data['content'] = 'database/backup';
+		$this->load->view('database/database.tpl.php', $data);
+	}
+
+	public function kosongkan()
+	{
+		$data['act_tab'] = 6;
+		$data['content'] = 'database/kosongkan';
+		$this->load->view('database/database.tpl.php', $data);
 	}
 
 	/*
@@ -317,14 +323,6 @@ class Database extends Admin_Controller {
 	{
 		$this->database_model->migrasi_db_cri();
 		redirect('database/migrasi_cri/1');
-	}
-
-	public function kosongkan()
-	{
-		$tab['act_tab'] = 6;
-
-		$this->render('export/tab_menu', $tab);
-		$this->load->view('database/kosongkan', $data);
 	}
 
 	public function kosongkan_db()

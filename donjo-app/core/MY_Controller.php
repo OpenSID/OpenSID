@@ -241,7 +241,8 @@ class Admin_Controller extends MY_Controller {
 			}
 		}
 		$this->cek_pengumuman();
-
+		$this->header = $this->header_model->get_data();
+		$this->header['minsidebar'] = $this->get_minsidebar();
 	}
 
 	private function cek_pengumuman()
@@ -280,8 +281,6 @@ class Admin_Controller extends MY_Controller {
 
 	public function render($view,Array $data = [])
 	{
-		$this->header = $this->header_model->get_data();
-		$this->header['minsidebar'] = $this->get_minsidebar();
 		$this->load->view('header', $this->header);
 		$this->load->view($this->get_nav());
 		$this->load->view($view, $data);
