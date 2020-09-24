@@ -180,7 +180,7 @@ class Dokumen extends Admin_Controller {
 	public function dialog_cetak($kat=1)
 	{
 		$data['form_action'] = site_url("dokumen/cetak/$kat");
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -189,7 +189,7 @@ class Dokumen extends Admin_Controller {
 	{
 		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
 		$data['input'] = $this->input->post();
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['kat'] = $kat;
 		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)
@@ -209,7 +209,7 @@ class Dokumen extends Admin_Controller {
 	public function dialog_excel($kat=1)
 	{
 		$data['form_action'] = site_url("dokumen/excel/$kat");
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -218,7 +218,7 @@ class Dokumen extends Admin_Controller {
 	{
 		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
 		$data['input'] = $this->input->post();
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['kat'] = $kat;
 		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)

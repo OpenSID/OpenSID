@@ -86,7 +86,7 @@ class Surat_masuk extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_masuk_model->paging($p, $o);
 		$data['main'] = $this->surat_masuk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
 		$this->set_minsidebar(1);
@@ -185,7 +185,7 @@ class Surat_masuk extends Admin_Controller {
 	public function dialog_disposisi($o = 0, $id)
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
 		$this->load->view('global/ttd_pamong', $data);
 	}
@@ -193,7 +193,7 @@ class Surat_masuk extends Admin_Controller {
 	public function dialog_cetak($o = 0)
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_masuk/cetak/$o");
 		$this->load->view('surat_masuk/ajax_cetak', $data);
@@ -202,7 +202,7 @@ class Surat_masuk extends Admin_Controller {
 	public function dialog_unduh($o = 0)
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_masuk/unduh/$o");
 		$this->load->view('surat_masuk/ajax_cetak', $data);

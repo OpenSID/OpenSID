@@ -96,7 +96,7 @@ class Laporan extends Admin_Controller {
 		$data['bulan'] = $data['bulanku'];
 		$data['tahun'] = $data['tahunku'];
 		$data['config'] = $this->config_model->get_data();
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
 		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
@@ -112,7 +112,7 @@ class Laporan extends Admin_Controller {
 	public function dialog_cetak()
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("laporan/cetak");
 		$this->load->view('laporan/ajax_cetak', $data);
 	}
@@ -120,7 +120,7 @@ class Laporan extends Admin_Controller {
 	public function dialog_unduh()
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("laporan/unduh");
 		$this->load->view('laporan/ajax_cetak', $data);
 	}

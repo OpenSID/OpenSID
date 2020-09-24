@@ -206,7 +206,7 @@ class Keluar extends Admin_Controller {
   public function dialog_cetak($o = 0)
   {
 	  $data['aksi'] = "Cetak";
-	  $data['pamong'] = $this->pamong_model->list_data(true);
+	  $data['pamong'] = $this->pamong_model->list_data();
 	  $data['form_action'] = site_url("keluar/cetak/$o");
 	  $this->load->view('surat/ajax_cetak', $data);
   }
@@ -214,7 +214,7 @@ class Keluar extends Admin_Controller {
 	public function dialog_unduh($o = 0)
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 	  $data['form_action'] = site_url("keluar/unduh/$o");
 	  $this->load->view('surat/ajax_cetak', $data);
 	}

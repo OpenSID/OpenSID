@@ -144,7 +144,7 @@ class Statistik extends Admin_Controller {
 		}
 		else
 		{
-			$data['pamong'] = $this->pamong_model->list_data(true);
+			$data['pamong'] = $this->pamong_model->list_data();
 			$data['form_action'] = site_url("statistik/daftar/$aksi/$data[lap]");
 
 			$this->load->view("statistik/ajax_daftar", $data);
