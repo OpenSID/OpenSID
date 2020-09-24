@@ -24,6 +24,10 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 18. #3180: Sekarang bisa saring daftar anggaran dan realisasi keuangan manual berdasarkan tahun anggaran.
 19. #3564: Sediakan setting aplikasi supaya bisa menggunakan NIPD atau NIAP di data Pemerintahan Desa.
 20. #3193: Sediakan opsi mensensor NIK dan No. KK pada waktu mencetak/mengunduh data penduduk.
+21. Sederhanakan script controller dan buat lebih konsisten. [teknis]
+22. Buat script Admin Web > Artikel lebih konsisten. [teknis]
+23. #3581: Sekarang tombol Kembali di halaman Analisis > Indikator & Pertanyaan mengarah ke halaman yg benar. [bug-fix]
+24. #3583: Sekarang semua pamong tampil di pilihan penandatangan di form cetak dan unduh. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

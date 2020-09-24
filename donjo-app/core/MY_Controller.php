@@ -3,7 +3,7 @@
 /**
  * File ini:
  *
- * Core di MY_Controller
+ * File ini controller utama yg mengatur controller lain
  *
  * donjo-app/core/MY_Controller.php
  *
@@ -210,14 +210,14 @@ class Admin_Controller extends MY_Controller {
 	public $CI = NULL;
 	public $pengumuman = NULL;
 	public $header;
-
+	protected $nav = 'nav';
+	protected $minsidebar = 0;
 	public function __construct()
 	{
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);
-		$this->header = $this->header_model->get_data();
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -241,7 +241,8 @@ class Admin_Controller extends MY_Controller {
 			}
 		}
 		$this->cek_pengumuman();
-
+		$this->header = $this->header_model->get_data();
+		$this->header['minsidebar'] = $this->get_minsidebar();
 	}
 
 	private function cek_pengumuman()
@@ -278,4 +279,51 @@ class Admin_Controller extends MY_Controller {
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 
+	public function render($view,Array $data = [])
+	{
+		$this->load->view('header', $this->header);
+		$this->load->view($this->get_nav());
+		$this->load->view($view, $data);
+		$this->load->view('footer');
+	}
+
+	/**
+	 * Get the value of minsidebar
+	 */
+	public function get_minsidebar()
+	{
+		return $this->minsidebar;
+	}
+
+	/**
+	 * Set the value of minsidebar
+	 *
+	 * @return  self
+	 */
+	public function set_minsidebar($minsidebar)
+	{
+		$this->minsidebar = $minsidebar;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of nav
+	 */
+	public function get_nav()
+	{
+		return $this->nav;
+	}
+
+	/**
+	 * Set the value of nav
+	 *
+	 * @return  self
+	 */
+	public function set_nav($nav)
+	{
+		$this->nav = $nav;
+
+		return $this;
+	}
 }

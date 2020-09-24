@@ -1,4 +1,44 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Kependudukan > Penduduk
+ *
+ * donjo-app/controllers/Penduduk_log.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Penduduk_log extends Admin_Controller {
 
@@ -11,7 +51,7 @@ class Penduduk_log extends Admin_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('penduduk_log_model');
-		$this->load->model('header_model');
+
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->set_page = ['20', '50', '100'];
@@ -76,13 +116,8 @@ class Penduduk_log extends Admin_Controller {
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
-
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('penduduk_log/penduduk_log', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('penduduk_log/penduduk_log', $data);
 	}
 
 	public function filter($filter)
@@ -161,9 +196,8 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$data["o"] = $o;
 		$data['aksi'] = $aksi;
-		$data['form_action'] = "penduduk_log/cetak/$o/$aksi";
-		$data['form_action_privasi'] = "penduduk_log/cetak/$o/$aksi/1";
+		$data['form_action'] = site_url("penduduk_log/cetak/$o/$aksi");
+		$data['form_action_privasi'] = site_url("penduduk_log/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
-
 }

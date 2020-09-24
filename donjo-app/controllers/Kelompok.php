@@ -87,24 +87,18 @@ class Kelompok extends Admin_Controller {
 		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('kelompok/table', $data);
-		$this->load->view('footer');
+		$this->render('kelompok/table', $data);
 	}
 
 	public function anggota($id=0)
 	{
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('kelompok/anggota/table', $data);
-		$this->load->view('footer');
+		$this->render('kelompok/anggota/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -125,12 +119,9 @@ class Kelompok extends Admin_Controller {
 
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('kelompok/form', $data);
-		$this->load->view('footer');
+		$this->render('kelompok/form', $data);
 	}
 
 	public function form_anggota($id=0, $id_a=0)
@@ -149,13 +140,10 @@ class Kelompok extends Admin_Controller {
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
 		$data['list_jabatan'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('kelompok/anggota/form', $data);
-		$this->load->view('footer');
+		$this->render('kelompok/anggota/form', $data);
 	}
 
 	public function cetak()
@@ -271,5 +259,4 @@ class Kelompok extends Admin_Controller {
 		else unset($_SESSION['filter']);
 		redirect('kelompok');
 	}
-
 }

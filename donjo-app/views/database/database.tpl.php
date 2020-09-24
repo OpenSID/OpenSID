@@ -1,3 +1,6 @@
+<?php	$this->load->view('header', $this->header); ?>
+<?php	$this->load->view('nav'); ?>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Database</h1>
@@ -23,3 +26,6 @@
 													<li <?php if ($act_tab==5): ?>class="active"<?php endif ?>><a href="<?= site_url('database/migrasi_cri')?>">Migrasi DB</a></li>
 												</ul>
 												<div class="tab-content">
+
+<?php	$this->load->view($content); ?>
+<?php	$this->load->view('footer'); ?>

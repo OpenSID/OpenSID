@@ -1,4 +1,44 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Layanan Mandiri
+ *
+ * donjo-app/controllers/Mandiri.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Mandiri extends Admin_Controller {
 
@@ -8,7 +48,7 @@ class Mandiri extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model('mandiri_model');
-		$this->load->model('header_model');
+
 		$this->modul_ini = 14;
 		$this->sub_modul_ini = 56;
 		$this->kembali = $_SERVER['HTTP_REFERER'];
@@ -40,12 +80,8 @@ class Mandiri extends Admin_Controller {
 		$data['paging'] = $this->mandiri_model->paging($p, $o);
 		$data['main'] = $this->mandiri_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->mandiri_model->autocomplete();
-		$header = $this->header_model->get_data();
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('mandiri/mandiri', $data);
-		$this->load->view('footer');
+		$this->render('mandiri/mandiri', $data);
 	}
 
 	public function search()
@@ -70,7 +106,6 @@ class Mandiri extends Admin_Controller {
 			$data['penduduk'] = $this->mandiri_model->list_penduduk();
 			$data['id_pend'] = NULL;
 			$data['form_action'] = site_url("mandiri/insert");
-
 		}
 		$this->load->view('mandiri/ajax_pin', $data);
 	}

@@ -1,4 +1,44 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
+ *
+ * Controller untuk modul Surat Keluar
+ *
+ * donjo-app/controllers/Surat_keluar.php
+ *
+ */
+/*
+ *  File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
 
 class Surat_keluar extends Admin_Controller {
 
@@ -11,7 +51,7 @@ class Surat_keluar extends Admin_Controller {
 		$this->load->model('klasifikasi_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
-		$this->load->model('header_model');
+
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
@@ -77,7 +117,6 @@ class Surat_keluar extends Admin_Controller {
 			$data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
 			$data['form_action'] = site_url("surat_keluar/insert");
 		}
-		$header = $this->header_model->get_data();
 
 		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_keluar']['berkas_scan']);
@@ -85,12 +124,9 @@ class Surat_keluar extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('surat_keluar/form', $data);
-		$this->load->view('footer');
+		$this->render('surat_keluar/form', $data);
 	}
 
 	public function form_upload($p = 1, $o = 0, $url = '')
@@ -151,7 +187,7 @@ class Surat_keluar extends Admin_Controller {
 	public function dialog_cetak($o = 0)
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_keluar/cetak/$o");
 		$this->load->view('surat_keluar/ajax_cetak', $data);
@@ -160,7 +196,7 @@ class Surat_keluar extends Admin_Controller {
 	public function dialog_unduh($o = 0)
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_keluar/unduh/$o");
 		$this->load->view('surat_keluar/ajax_cetak', $data);

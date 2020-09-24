@@ -1,11 +1,9 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
  * File ini:
  *
- * Controller untuk modul Suplemen
+ * Controller untuk modul Kependudukan > Data Suplemen
  *
  * donjo-app/controllers/suplemen.php,
  *
@@ -65,10 +63,7 @@ class Suplemen extends Admin_Controller {
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['set_sasaran'] = $sasaran;
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('suplemen/suplemen', $data);
-		$this->load->view('footer');
+		$this->render('suplemen/suplemen', $data);
 	}
 
 	public function form($id = '')
@@ -85,12 +80,9 @@ class Suplemen extends Admin_Controller {
 		}
 
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('suplemen/form', $data);
-		$this->load->view('nav');
-		$this->load->view('footer');
+		$this->render('suplemen/form', $data);
 	}
 
 	public function tambah()
@@ -114,10 +106,7 @@ class Suplemen extends Admin_Controller {
 
 	public function panduan()
 	{
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('suplemen/panduan');
-		$this->load->view('footer');
+		$this->render('suplemen/panduan');
 	}
 
 	public function rincian($id, $p = 1)
@@ -131,12 +120,9 @@ class Suplemen extends Admin_Controller {
 		$data['func'] = "rincian/$id";
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = ['20', '50', '100'];
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('suplemen/suplemen_anggota', $data);
-		$this->load->view('footer');
+		$this->render('suplemen/suplemen_anggota', $data);
 	}
 
 	public function form_terdata($id)
@@ -156,20 +142,14 @@ class Suplemen extends Admin_Controller {
 
 		$data['form_action'] = site_url("suplemen/add_terdata");
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('suplemen/form_terdata', $data);
-		$this->load->view('footer');
+		$this->render('suplemen/form_terdata', $data);
 	}
 
 	public function terdata($sasaran = 0, $id = 0)
 	{
 		$data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('suplemen/terdata', $data);
-		$this->load->view('footer');
+		$this->render('suplemen/terdata', $data);
 	}
 
 	public function data_terdata($id)
@@ -178,10 +158,7 @@ class Suplemen extends Admin_Controller {
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
 		$data['individu'] = $this->suplemen_model->get_terdata($data['terdata']['id_terdata'], $data['suplemen']['sasaran']);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('suplemen/data_terdata', $data);
-		$this->load->view('footer');
+		$this->render('suplemen/data_terdata', $data);
 	}
 
 	public function edit_terdata_form($id = 0)
@@ -243,5 +220,4 @@ class Suplemen extends Admin_Controller {
 			$this->load->view('suplemen/cetak', $data);
 		}
 	}
-
 }

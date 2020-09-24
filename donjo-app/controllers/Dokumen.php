@@ -89,10 +89,7 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('dokumen/table', $data);
-		$this->load->view('footer');
+		$this->render('dokumen/table', $data);
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')
@@ -114,10 +111,7 @@ class Dokumen extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['list_kategori_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('dokumen/form', $data);
-		$this->load->view('footer');
+		$this->render('dokumen/form', $data);
 	}
 
 	public function search()
@@ -188,7 +182,7 @@ class Dokumen extends Admin_Controller {
 		$data['form_action'] = site_url("dokumen/cetak/$kat");
 		$data['kat'] = $kat;
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -205,7 +199,7 @@ class Dokumen extends Admin_Controller {
 		$post = $this->input->post();
 		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
 		$data['input'] = $post;
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['kat'] = $kat;
 		$data['tahun'] = $post['tahun'];
 		if ($kat == 1)
@@ -227,7 +221,7 @@ class Dokumen extends Admin_Controller {
 		$data['form_action'] = site_url("dokumen/excel/$kat");
 		$data['kat'] = $kat;
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -252,5 +246,4 @@ class Dokumen extends Admin_Controller {
 		else
 			$this->output->set_status_header('404');
 	}
-
 }
