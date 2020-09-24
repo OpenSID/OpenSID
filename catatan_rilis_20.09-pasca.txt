@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 20. #3193: Sediakan opsi mensensor NIK dan No. KK pada waktu mencetak/mengunduh data penduduk.
 21. Sederhanakan script controller dan buat lebih konsisten. [teknis]
 22. Buat script Admin Web > Artikel lebih konsisten. [teknis]
+23. #3581: Sekarang tombol Kembali di halaman Analisis > Indikator & Pertanyaan mengarah ke halaman yg benar. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
