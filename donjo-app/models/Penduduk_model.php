@@ -361,7 +361,7 @@ class Penduduk_model extends MY_Model {
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
 				else
-					case when u.akta_perkawinan = ''
+					case when u.tanggalperkawinan = ''
 						then 'KAWIN BELUM TERCATAT'
 						else 'KAWIN TERCATAT'
 					end
@@ -960,7 +960,7 @@ class Penduduk_model extends MY_Model {
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
 				else
-					case when u.akta_perkawinan = ''
+					case when u.tanggalperkawinan = ''
 						then 'KAWIN BELUM TERCATAT'
 						else 'KAWIN TERCATAT'
 					end
