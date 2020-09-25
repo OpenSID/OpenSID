@@ -242,7 +242,6 @@ class Admin_Controller extends MY_Controller {
 		}
 		$this->cek_pengumuman();
 		$this->header = $this->header_model->get_data();
-		$this->header['minsidebar'] = $this->get_minsidebar();
 	}
 
 	private function cek_pengumuman()
@@ -304,6 +303,7 @@ class Admin_Controller extends MY_Controller {
 	public function set_minsidebar($minsidebar)
 	{
 		$this->minsidebar = $minsidebar;
+		$this->header['minsidebar'] = $this->get_minsidebar();
 
 		return $this;
 	}
