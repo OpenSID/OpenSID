@@ -614,7 +614,7 @@
 			(CASE when u.status_kawin <> 2
 				then w.nama
 				else
-					case when u.akta_perkawinan = ''
+					case when u.tanggalperkawinan = ''
 						then 'KAWIN BELUM TERCATAT'
 						else 'KAWIN TERCATAT'
 					end
