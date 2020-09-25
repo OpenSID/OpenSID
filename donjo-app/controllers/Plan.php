@@ -98,8 +98,8 @@ class Plan extends Admin_Controller {
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-		$this->set_minsidebar(1);		$nav['tip'] = 3;
-
+		$this->set_minsidebar(1);
+		$data['tip'] = 3;
 		$this->render('lokasi/table', $data);
 	}
 
@@ -125,7 +125,7 @@ class Plan extends Admin_Controller {
 
 		$header= $this->header_model->get_data();
 		$this->set_minsidebar(1);
-		$nav['tip'] = 3;
+		$data['tip'] = 3;
 
 		$this->render('lokasi/form', $data);
 	}

@@ -99,7 +99,7 @@ class Garis extends Admin_Controller {
 
 		$header= $this->header_model->get_data();
 		$this->set_minsidebar(1);
-		$nav['tip'] = 1;
+		$data['tip'] = 1;
 
 		$this->render('garis/table', $data);
 	}
@@ -123,7 +123,7 @@ class Garis extends Admin_Controller {
 		}
 		$header= $this->header_model->get_data();
 		$this->set_minsidebar(1);
-		$nav['tip'] = 1;
+		$data['tip'] = 1;
 
 		$this->render('garis/form',$data);
 	}
