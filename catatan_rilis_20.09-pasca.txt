@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 22. Buat script Admin Web > Artikel lebih konsisten. [teknis]
 23. #3581: Sekarang tombol Kembali di halaman Analisis > Indikator & Pertanyaan mengarah ke halaman yg benar. [bug-fix]
 24. #3583: Sekarang semua pamong tampil di pilihan penandatangan di form cetak dan unduh. [bug-fix]
+25. #3584: Perbaiki tampilan pilihan bulan dan tahun pada widget tanggalan di form penduduk. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
