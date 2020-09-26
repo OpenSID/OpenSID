@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 20.09-premium-pasca adalah sebagai berikut:
 22. Buat script Admin Web > Artikel lebih konsisten. [teknis]
 23. #3581: Sekarang tombol Kembali di halaman Analisis > Indikator & Pertanyaan mengarah ke halaman yg benar. [bug-fix]
 24. #3583: Sekarang semua pamong tampil di pilihan penandatangan di form cetak dan unduh. [bug-fix]
+25. #3584: Perbaiki tampilan pilihan bulan dan tahun pada widget tanggalan di form penduduk. [bug-fix]
 
 Fitur Premium:
 
