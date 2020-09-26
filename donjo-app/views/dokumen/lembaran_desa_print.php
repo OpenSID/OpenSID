@@ -96,7 +96,7 @@
 						-->
 						<td colspan="1">&nbsp;</td>
 						<td colspan="2" align="center">MENGETAHUI</td>
-						<td colspan="3" align="center"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.$desa['nama_kecamatan'].', '.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="3" align="center"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.tgl_indo(date("Y m d")))?></span></td>
 						<td colspan="1">&nbsp;</td>
 					</tr>
 					<tr>
