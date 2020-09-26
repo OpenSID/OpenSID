@@ -479,3 +479,15 @@ span.select2.select2-container {
 	padding: 4px 4px;
 }
 
+/* Untuk datetimepicker */
+
+.bootstrap-datetimepicker-widget .datepicker-months .table-condensed,
+.bootstrap-datetimepicker-widget .datepicker-years .table-condensed,
+.bootstrap-datetimepicker-widget .datepicker-decades .table-condensed {
+	width: 100%;
+}
+
+.datepicker table tr td span.decade {
+	width: 100%;
+}
+
