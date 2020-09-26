@@ -82,7 +82,7 @@ class Pengurus extends Admin_Controller {
 		$data['main_content'] = 'home/pengurus';
 		$data['subtitle'] = "Buku Aparat Pemerintah Desa";
 		$data['selected_nav'] = 'aparat';
-		$this->header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
 		$this->load->view('header', $this->header);
 		$this->load->view('nav');

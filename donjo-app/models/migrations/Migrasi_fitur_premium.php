@@ -100,7 +100,7 @@ class Migrasi_fitur_premium extends MY_model {
 		];
 		$this->dbforge->modify_column('kelompok', $field);
 
-	// Tambah menu IDM
+		// Tambah menu IDM
 		$modul = array(
 			'id' => '101',
 			'modul' => 'Status ' . ucwords($this->setting->sebutan_desa),
@@ -110,6 +110,21 @@ class Migrasi_fitur_premium extends MY_model {
 			'urut' => '4',
 			'level' => '0',
 			'parent' => '200',
+			'hidden' => '0',
+			'ikon_kecil' => ''
+		);
+		$this->tambah_modul($modul);
+
+		// Tambah modul Lembaran Desa
+		$modul = array(
+			'id' => '311',
+			'modul' => 'Buku Lembaran Dan Berita Desa',
+			'url' => 'lembaran_desa/clear',
+			'aktif' => '1',
+			'ikon' => 'fa-files-o',
+			'urut' => '0',
+			'level' => '0',
+			'parent' => '302',
 			'hidden' => '0',
 			'ikon_kecil' => ''
 		);
