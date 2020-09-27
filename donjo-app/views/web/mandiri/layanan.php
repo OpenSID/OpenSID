@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <section class="content">
 	<div class="row">
@@ -37,7 +37,7 @@
 											<a href="<?= site_url("mandiri_web/mandiri_surat/$data[id]")?>" title="Lengkapi Surat" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], array('0', '1'))): ?>
-											<a href="<?= site_url("permohonan_surat/batalkan/$data[id]")?>" title="Batalkan" class="btn bg-red btn-flat btn-sm"><i class="fa fa-trash"></i></a>
+											<a href="<?= site_url("permohonan_surat/batalkan/$data[id]")?>" title="Batalkan" class="btn bg-maroon btn-flat btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 									</td>
 									<td><?=$data['nama']?></td>
