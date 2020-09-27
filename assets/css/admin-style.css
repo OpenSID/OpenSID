@@ -169,30 +169,26 @@
 	padding: 7px;
 }
 
-@media (max-width:480px)
-{
-	.selecta, .inputa
-	{
+@media (max-width:480px) {
+	.selecta, .inputa {
 		width:150px
 	}
-	.form-group
-	{
-    margin-bottom: 0px;
+
+	.form-group {
+		margin-bottom: 5px;
 	}
-	.leaflet-control-layers-expanded
-	{
+
+	.leaflet-control-layers-expanded {
 		display:none;
 	}
-	}
 }
-@media (max-width:767px)
-{
-	.selecta, .inputa
-	{
+
+@media (max-width:767px) {
+	.selecta, .inputa {
 		width:150px
 	}
 	.form-group {
-    margin-bottom: 0px;
+		margin-bottom: 5px;
 	}
 }
 /* Modifikasi Select2 --- */
