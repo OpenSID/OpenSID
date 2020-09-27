@@ -30,6 +30,8 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 24. #3583: Sekarang semua pamong tampil di pilihan penandatangan di form cetak dan unduh. [bug-fix]
 25. #3584: Perbaiki tampilan pilihan bulan dan tahun pada widget tanggalan di form penduduk. [bug-fix]
 26. Perbaiki tampilan tabel di Layanan Mandiri di layar kecil.
+27. #3589: Sekarang tombol ubah hubungan keluarga selalu muncul di Daftar Anggota Keluarga. Juga hubungan keluarga sekarang harus diisi pada waktu menambah anggota keluarga dari penduduk baru.
+28. #3587: Sediakan opsi menambahkan penduduk baru pada waktu menambah anggota keluarga. Juga hapus tombol tambah anggota keluarga pada halaman Salinan Kartu Keluarga, dan seragamkan tombol kembali.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
