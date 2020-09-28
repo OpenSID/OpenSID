@@ -11,11 +11,10 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah RT</a>
-				<a href="<?= site_url("sid_core/cetak_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-				<a href="<?= site_url("sid_core/excel_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-				<a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW">
-					<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RW
+				<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw"); ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah RT</a>
+				<a href="<?= site_url("sid_core/cetak_rt/$id_dusun/$id_rw"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+				<a href="<?= site_url("sid_core/excel_rt/$id_dusun/$id_rw"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+				<a href="<?= site_url("sid_core/sub_rw/$id_dusun"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW"><i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar RW
 				</a>
 			</div>
 			<div class="box-header with-border">
@@ -43,18 +42,18 @@
 										<td class="padat"><?= ($key + 1); ?></td>
 										<td class="aksi">
 											<?php if ($data['rt'] != "-"): ?>
-												<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-												<a href="#" data-href="<?= site_url("sid_core/delete/rt/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+												<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw/$data[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+												<a href="#" data-href="<?= site_url("sid_core/delete/rt/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 											<?php endif; ?>
 											<?php if ($data['rt'] != "-"): ?>
 												<div class="btn-group">
 													<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
 													<ul class="dropdown-menu" role="menu">
 														<li>
-															<a href="<?= site_url("sid_core/ajax_kantor_rt_maps/$id_dusun/$id_rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RT</a>
+															<a href="<?= site_url("sid_core/ajax_kantor_rt_maps/$id_dusun/$id_rw/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RT</a>
 														</li>
 														<li>
-															<a href="<?= site_url("sid_core/ajax_wilayah_rt_maps/$id_dusun/$id_rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah RT</a>
+															<a href="<?= site_url("sid_core/ajax_wilayah_rt_maps/$id_dusun/$id_rw/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map'></i> Peta Wilayah RT</a>
 														</li>
 													</ul>
 												</div>
@@ -72,10 +71,10 @@
 							<tfoot class="bg-gray disabled color-palette">
 								<tr>
 									<th colspan="4">TOTAL</th>
-									<th class="padat"><?= $total['jmlkk']?></th>
-									<th class="padat"><?= $total['jmlwarga']?></th>
-									<th class="padat"><?= $total['jmlwargal']?></th>
-									<th class="padat"><?= $total['jmlwargap']?></th>
+									<th class="padat"><?= $total['jmlkk'] ?: '0'?></th>
+									<th class="padat"><?= $total['jmlwarga'] ?: '0'?></th>
+									<th class="padat"><?= $total['jmlwargal'] ?: '0'?></th>
+									<th class="padat"><?= $total['jmlwargap'] ?: '0'?></th>
 								</tr>
 							</tfoot>
 						</table>
