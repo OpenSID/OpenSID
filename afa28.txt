@@ -1,0 +1,6 @@
+Ubahan afa28:
+
+1. Hapus inline css, gunakan class select_row untuk jenis surat != 1.
+2. Gunakan css class padat menggantikan nostretch.
+3. Hapus tag form dan div yg tdk diperlukan.
+4. Gunakan style ekssternal css yg sudah disediakan.

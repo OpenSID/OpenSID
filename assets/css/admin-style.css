@@ -266,11 +266,6 @@ table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:
 	opacity: 0.3 !important;
 	width: 6px !important;
 }
-/* Supaya kolom tabel tidak wrap dan menggunakan spasi terkecil */
-td.nostretch, th.nostretch{
-  width:1%;
-  white-space:nowrap;
-}
 
 /* Style untuk isian checkbox berkolom (input analisis, surat masuk) */
 .form-horizontal .checkbox,
@@ -418,19 +413,19 @@ Warna Bar Realisasi
 	text-align: right;
 }
 
-/*
-Agar Logo Desa di menu navigasi Admin di sisi kiri tidak terlalu rapat ke kiri
-*/
+/* Agar Logo Desa di menu navigasi Admin di sisi kiri tidak terlalu rapat ke kiri */
 .main-sidebar .pull-left.image {
 	padding: 0px 10px 10px 10px;
 }
 
+/* Supaya kolom tabel tidak wrap, menggunakan spasi terkecil dan rata tengah */
 th.padat, td.padat {
 	width: 1%;
 	white-space: nowrap;
 	text-align: center;
 }
 
+/* Supaya kolom tabel tidak wrap, menggunakan spasi terkecil dan rata kiri (untuk kolom aksi) */
 td.aksi {
 	width: 1%;
 	white-space: nowrap;
@@ -476,7 +471,6 @@ span.select2.select2-container {
 }
 
 /* Untuk datetimepicker */
-
 .bootstrap-datetimepicker-widget .datepicker-months .table-condensed,
 .bootstrap-datetimepicker-widget .datepicker-years .table-condensed,
 .bootstrap-datetimepicker-widget .datepicker-decades .table-condensed {
@@ -487,3 +481,6 @@ span.select2.select2-container {
 	width: 100%;
 }
 
+.select_row {
+	background-color:#f8deb5 !important;
+}
