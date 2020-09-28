@@ -195,7 +195,7 @@
 		$insert_id = $this->db->insert_id();
 
 		// insert ke tabel disposisi surat masuk
-		$this->insert_disposisi_surat_masuk($insert_id, $jabatan);
+		if ($jabatan) $this->insert_disposisi_surat_masuk($insert_id, $jabatan);
 
 		// transaction selesai
 		$this->db->trans_complete();
