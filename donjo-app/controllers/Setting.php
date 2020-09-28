@@ -46,7 +46,7 @@ class Setting extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'header_model','theme_model', 'notif_model']);
+		$this->load->model(['config_model','theme_model', 'notif_model']);
 
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;

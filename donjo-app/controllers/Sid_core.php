@@ -51,12 +51,11 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'config_model', 'header_model']);
+		$this->load->model(['wilayah_model', 'config_model']);
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
 		$this->_set_page = ['20', '50', '100'];
-		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
 	}
 
 	public function clear()
@@ -89,8 +88,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function cetak()
 	{
-		$this->header = $this->header_model->get_data();
-		$data['desa'] = $this->header;
+		$data['header'] = $this->header['desa'];
 		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
 		$data['total'] = $this->wilayah_model->total();
 
@@ -99,8 +97,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function excel()
 	{
-		$this->header = $this->header_model->get_data();
-		$data['desa'] = $this->header;
+		$data['header'] = $this->header['desa'];
 		$data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
 		$data['total'] = $this->wilayah_model->total();
 

@@ -84,7 +84,7 @@ class Analisis_kategori extends Admin_Controller {
 		$data['keyword'] = $this->analisis_kategori_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_kategori_model->get_analisis_master();
 		$this->set_minsidebar(1);
-		$this->render('analisis_kategori/table',$data);
+		$this->render('analisis_kategori/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id=''){
