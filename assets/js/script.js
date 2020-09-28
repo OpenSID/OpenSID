@@ -62,7 +62,10 @@ $(document).ready(function()
 	}, 2000);
 
 	// Select2 dengan fitur pencarian
-	$('.select2').select2();
+	$('.select2').select2({
+		width: '100%',
+		dropdownAutoWidth : true
+	});
 
 	$('.select2-nik-ajax').select2({
 	  ajax: {
