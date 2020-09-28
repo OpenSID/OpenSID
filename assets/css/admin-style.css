@@ -369,6 +369,7 @@ img.profile-user-img.penduduk
 }
 
 /* Tabel umum */
+/* TODO : Gunakan class padat; */
 td.bilangan, th.bilangan, td.no_urut
 {
 	text-align: center;
