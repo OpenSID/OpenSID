@@ -10,15 +10,11 @@ PR #42
 5. Sesuaikan ulang tampilan modul wilayah administrasi
 
 PR #43
-6. Hapus load model header krn sudah dipanggil di core Admin_Controller
+6. Hapus load model header krn sudah dipanggil di core Admin_Controller.
 7. Hapus get_nav() yg tdk digunakan.
-8. Tambahkan spasi setelah koma (,)
+8. Tambahkan spasi setelah koma (,).
 
-Commit #124d742a
-9. Perbaikan view pengurus
-
-Commit #8b90b4b2
-10. Perbaikan view penduduk
-
-Commit #d4cd4d51
-11. Perbaikan view dokumen penduduk
+9. Perbaikan view pengurus #124d742a
+10. Perbaikan view penduduk #8b90b4b2
+11. Perbaikan view dokumen penduduk #d4cd4d51
+12. Perbaikan tampilan detail penduduk #d8173e24
