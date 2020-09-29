@@ -97,8 +97,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/$cat")?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
-														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
+														<option value="1" <?= selected($status, 1); ?>>Aktif</option>
+														<option value="2" <?= selected($status, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">

@@ -43,31 +43,31 @@
 										<?php elseif ($setting->key == 'timezone'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" name="<?= $setting->key?>" >
-													<option value="Asia/Jakarta" <?php selected($setting->value, 'Asia/Jakarta') ?>>Asia/Jakarta</option>
-													<option value="Asia/Makassar" <?php selected($setting->value, 'Asia/Makassar') ?>>Asia/Makassar</option>
-													<option value="Asia/Jayapura" <?php selected($setting->value, 'Asia/Jayapura') ?>>Asia/Jayapura</option>
+													<option value="Asia/Jakarta" <?= selected($setting->value, 'Asia/Jakarta') ?>>Asia/Jakarta</option>
+													<option value="Asia/Makassar" <?= selected($setting->value, 'Asia/Makassar') ?>>Asia/Makassar</option>
+													<option value="Asia/Jayapura" <?= selected($setting->value, 'Asia/Jayapura') ?>>Asia/Jayapura</option>
 												</select>
 											</div>
 										<?php elseif ($setting->key == 'sumber_gambar_slider'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" id="<?= $setting->key?>" name="<?= $setting->key?>">
-													<option value="1" <?php selected($setting->value, 1) ?>>Gambar utama artikel terbaru</option>
-													<option value="2" <?php selected($setting->value, 2) ?>>Gambar utama artikel terbaru yang masuk ke slider atas</option>
-													<option value="3" <?php selected($setting->value, 3) ?>>Gambar dalam album galeri yang dimasukkan ke slider</option>
+													<option value="1" <?= selected($setting->value, 1) ?>>Gambar utama artikel terbaru</option>
+													<option value="2" <?= selected($setting->value, 2) ?>>Gambar utama artikel terbaru yang masuk ke slider atas</option>
+													<option value="3" <?= selected($setting->value, 3) ?>>Gambar dalam album galeri yang dimasukkan ke slider</option>
 												</select>
 											</div>
 										<?php elseif ($setting->jenis == 'boolean'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" id="<?= $setting->key?>" name="<?= $setting->key?>">
-												<option value="1" <?php selected($setting->value, 1) ?>>Ya</option>
-													<option value="0" <?php selected($setting->value, 0) ?>>Tidak</option>
+												<option value="1" <?= selected($setting->value, 1) ?>>Ya</option>
+													<option value="0" <?= selected($setting->value, 0) ?>>Tidak</option>
 												</select>
 											</div>
 										<?php elseif ($setting->key == 'web_theme'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" name="<?= $setting->key?>" >
 													<?php foreach ($list_tema as $tema): ?>
-														<option value="<?= $tema?>" <?php selected($setting->value, $tema) ?>><?= $tema?></option>
+														<option value="<?= $tema?>" <?= selected($setting->value, $tema) ?>><?= $tema?></option>
 													<?php endforeach;?>
 												</select>
 											</div>

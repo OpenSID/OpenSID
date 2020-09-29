@@ -51,7 +51,7 @@ class Database extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->dbforge();
-		$this->load->model(['header_model', 'import_model', 'export_model', 'database_model']);
+		$this->load->model(['import_model', 'export_model', 'database_model']);
 
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 45;

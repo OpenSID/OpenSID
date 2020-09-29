@@ -15,7 +15,7 @@
 	<label class="col-sm-3 control-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control required input-sm" id="pamong" name="pamong" onchange="ambil_pamong($(this).find(':selected'))">
-			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?>--</option>
+			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?> --</option>
 			<?php foreach ($pamong AS $data): ?>
 				<?php $tmp_nip = trim($data['pamong_nip'],'-'); ?>
 				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd']==1): $pamong_nip =	$data['pamong_nip']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
@@ -31,7 +31,7 @@
 	<label for="jabatan"  class="col-sm-3 control-label">Menjabat Sebagai</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm required" id="jabatan" name="jabatan">
-			<option value='' selected="selected" >-- Pilih Jabatan--</option>
+			<option value='' selected="selected" >-- Pilih Jabatan --</option>
 			<?php foreach ($pamong AS $data): ?>
 				<option <?php if ($data['pamong_ttd']==1): ?>selected<?php endif; ?>><?= $data['jabatan']?></option>
 			<?php endforeach; ?>

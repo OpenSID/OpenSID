@@ -73,7 +73,7 @@
 												<?php endif; ?>
 											</option>
 											<?php foreach ($klasifikasi as $item): ?>
-												<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_keluar["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+												<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_keluar["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>

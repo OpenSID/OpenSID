@@ -42,18 +42,18 @@
                     <div class="col-sm-3 col-md-2">
                       <select class="form-control input-sm" name="bulan" onchange="formAction('mainform','<?= site_url('laporan/bulan')?>')" width="100%">
                         <option value="">Pilih bulan</option>
-                        <option value="1" <?php selected($bulan, "1"); ?>>Januari</option>
-                        <option value="2" <?php selected($bulan, "2"); ?>>Februari</option>
-                        <option value="3" <?php selected($bulan, "3"); ?>>Maret</option>
-                        <option value="4" <?php selected($bulan, "4"); ?>>April</option>
-                        <option value="5" <?php selected($bulan, "5"); ?>>Mei</option>
-                        <option value="6" <?php selected($bulan, "6"); ?>>Juni</option>
-                        <option value="7" <?php selected($bulan, "7"); ?>>Juli</option>
-                        <option value="8" <?php selected($bulan, "8"); ?>>Agustus</option>
-                        <option value="9" <?php selected($bulan, "9"); ?>>September</option>
-                        <option value="10" <?php selected($bulan, "10"); ?>>Oktober</option>
-                        <option value="11" <?php selected($bulan, "11"); ?>>November</option>
-                        <option value="12" <?php selected($bulan, "12"); ?>>Desember</option>
+                        <option value="1" <?= selected($bulan, "1"); ?>>Januari</option>
+                        <option value="2" <?= selected($bulan, "2"); ?>>Februari</option>
+                        <option value="3" <?= selected($bulan, "3"); ?>>Maret</option>
+                        <option value="4" <?= selected($bulan, "4"); ?>>April</option>
+                        <option value="5" <?= selected($bulan, "5"); ?>>Mei</option>
+                        <option value="6" <?= selected($bulan, "6"); ?>>Juni</option>
+                        <option value="7" <?= selected($bulan, "7"); ?>>Juli</option>
+                        <option value="8" <?= selected($bulan, "8"); ?>>Agustus</option>
+                        <option value="9" <?= selected($bulan, "9"); ?>>September</option>
+                        <option value="10" <?= selected($bulan, "10"); ?>>Oktober</option>
+                        <option value="11" <?= selected($bulan, "11"); ?>>November</option>
+                        <option value="12" <?= selected($bulan, "12"); ?>>Desember</option>
                       </select>
                     </div>
                   </div>

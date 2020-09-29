@@ -36,7 +36,7 @@
 						<label class="col-sm-3 control-label" for="id_kepala">NIK / Nama Kepala <?= ucwords($this->setting->sebutan_dusun)?></label>
 						<div class="col-sm-7">
 							<select class="form-control select2" id="id_kepala" name="id_kepala">
-								<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
+								<option selected="selected">-- Silakan Masukan NIK / Nama --</option>
 								<?php foreach ($penduduk as $data): ?>
 									<option value="<?= $data['id']; ?>">NIK : <?= $data['nik'] . " - " . $data['nama'] . " - " . $data['dusun']; ?></option>
 								<?php endforeach; ?>

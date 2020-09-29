@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					Tampilkan
 					<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
 						<?php foreach ($set_page as $set): ?>
-							<option value="<?=$set?>" <?php selected($per_page = $per_page ?: $paging->per_page, $set); ?> ><?= $set ?></option>
+							<option value="<?=$set?>" <?= selected($per_page = $per_page ?: $paging->per_page, $set); ?> ><?= $set ?></option>
 						<?php endforeach; ?>
 					</select>
 					Dari

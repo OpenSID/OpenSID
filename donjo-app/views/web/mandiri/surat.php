@@ -80,7 +80,7 @@
 					<select class="form-control select2 required input-sm" name="id_surat" id="id_surat" style="width:100%;">
 						<option value=""> -- Pilih Jenis Surat -- </option>
 						<?php foreach ($menu_surat_mandiri AS $data): ?>
-							<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
+							<option value="<?= $data['id']?>" <?= selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
 						<?php endforeach;?>
 					</select>
 				</div>

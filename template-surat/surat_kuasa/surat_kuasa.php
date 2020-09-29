@@ -73,9 +73,9 @@
 									<label for="pemberi_kuasa_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control input-sm select2-nik" id="id_pemberi_kuasa" name="id_pemberi_kuasa" style ="width:100%;"  onchange="submit_form_ambil_data('a_pemberi_kuasa');">
-											<option value="">--  Cari NIK / Nama Penduduk--</option>
+											<option value="">--  Cari NIK / Nama Penduduk --</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php selected($pemberi_kuasa['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+												<option value="<?= $data['id']?>" <?= selected($pemberi_kuasa['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -109,9 +109,9 @@
 									<label for="penerima_kuasa_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control input-sm select2-nik" id="id_penerima_kuasa" name="id_penerima_kuasa" style ="width:100%;"  onchange="submit_form_ambil_data('a_penerima_kuasa');">
-											<option value="">--  Cari NIK / Nama Penduduk--</option>
+											<option value="">--  Cari NIK / Nama Penduduk --</option>
 											<?php foreach ($penduduk as $data): ?>
-												<option value="<?= $data['id']?>" <?php selected($penerima_kuasa['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+												<option value="<?= $data['id']?>" <?= selected($penerima_kuasa['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>

@@ -22,7 +22,7 @@
 								<select class="form-control input-sm select2 required" id="nik" name="nik" style="width:100%;">
 								<option option value="">-- Silakan Cari NIK | Nama Penduduk --</option>
 								<?php foreach ($penduduk as $data): ?>
-									<option value="<?=$data['id']?>" <?php selected($id_pend, $data['id']) ?>><?=$data['nik']." | ".$data['nama']?></option>
+									<option value="<?=$data['id']?>" <?= selected($id_pend, $data['id']) ?>><?=$data['nik']." | ".$data['nama']?></option>
 								<?php endforeach; ?>
 							<?php endif;?>
 							</select>
