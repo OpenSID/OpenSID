@@ -436,12 +436,17 @@ td.aksi {
 .tabel-rincian, th, td {
 	height: 30px;
 	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .tabel-daftar > thead > tr > th {
 	text-align: center;
 	white-space: nowrap;
 	text-transform: uppercase;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 textarea {
