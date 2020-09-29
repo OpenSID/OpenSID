@@ -14,6 +14,10 @@ PR #43
 7. Hapus get_nav() yg tdk digunakan.
 8. Tambahkan spasi setelah koma (,)
 
-Commit 124d742ac144e97f554abf66fe99e617872d340d
+Commit #124d742a
 9. Perbaikan view pengurus
+
+Commit #8b90b4b2
+10. Perbaikan view penduduk
+
 
