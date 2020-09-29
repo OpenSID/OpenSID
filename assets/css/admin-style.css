@@ -169,30 +169,26 @@
 	padding: 7px;
 }
 
-@media (max-width:480px)
-{
-	.selecta, .inputa
-	{
+@media (max-width:480px) {
+	.selecta, .inputa {
 		width:150px
 	}
-	.form-group
-	{
-    margin-bottom: 0px;
+
+	.form-group {
+		margin-bottom: 5px;
 	}
-	.leaflet-control-layers-expanded
-	{
+
+	.leaflet-control-layers-expanded {
 		display:none;
 	}
-	}
 }
-@media (max-width:767px)
-{
-	.selecta, .inputa
-	{
+
+@media (max-width:767px) {
+	.selecta, .inputa {
 		width:150px
 	}
 	.form-group {
-    margin-bottom: 0px;
+		margin-bottom: 5px;
 	}
 }
 /* Modifikasi Select2 --- */
@@ -353,20 +349,20 @@ img { margin-bottom: 5px; }
 
 /* Notif */
 .badge {
-  display: inline-block;
+	display: inline-block;
 	min-width: 10px;
 	padding: 4px;
-	margin-left: 3px;
+	margin-left: -10px;
 	font-size: 10px;
 	font-weight: normal;
-	margin-top: -11px;
+	margin-top: -10px;
 	line-height: 0.5;
 	color: #fff;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: middle;
 	background-color: #ff0505;
-	border-radius: 6px
+	border-radius: 6px;
 }
 
 /* Penduduk */

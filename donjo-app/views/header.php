@@ -168,52 +168,47 @@
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
 								<li>
-									<a href="<?=site_url()?>permohonan_surat_admin/clear">
-										<i class="fa fa-print fa-lg" title="Permohonan surat baru"></i><span class="badge" id="b_permohonan_surat"></span>
+									<a href="<?= site_url('permohonan_surat_admin/clear'); ?>">
+										<span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+										<span class="badge" id="b_permohonan_surat"></span>
 									</a>
 								</li>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
 								<li>
-									<a href="<?=site_url()?>komentar">
-										<i class="fa fa-commenting fa-lg" title="Komentar baru"></i><span class="badge" id="b_komentar"></span>
+									<a href="<?= site_url('komentar'); ?>">
+										<span><i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;</span>
+										<span class="badge" id="b_komentar"></span>
 									</a>
 								</li>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
 								<li>
-									<a href="<?=site_url()?>mailbox">
-										<i class="fa fa-envelope fa-lg" title="Pesan masuk baru"></i><span class="badge" id="b_inbox"></span>
+									<a href="<?= site_url('mailbox'); ?>">
+										<span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
+										<span class="badge" id="b_inbox"></span>
 									</a>
 								</li>
 							<?php endif; ?>
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<?php if ($foto): ?>
-									<img src="<?= AmbilFoto($foto)?>" class="user-image" alt="User Image"/>
-								<?php else :?>
-									<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="user-image" alt="User Image"/>
-								<?php endif; ?>
-									<span class="hidden-xs"><?=$nama?> </span>
+									<img src="<?= AmbilFoto($foto); ?>" class="user-image" alt="User Image"/>
+									<span class="hidden-xs"><?=$nama?></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="user-header">
-										<?php if ($foto): ?>
-											<img src="<?=AmbilFoto($foto)?>" class="img-circle" alt="User Image"/>
-										<?php else :?>
-											<img src="<?= base_url()?>assets/files/user_pict/kuser.png" class="img-circle" alt="User Image"/>
-										<?php endif; ?>
-										<p>Anda Login Sebagai</p>
-										<p><strong><?=$nama?></strong></p>
+										<img src="<?= AmbilFoto($foto); ?>" class="img-circle" alt="User Image"/>
+										<p>
+											Anda Login Sebagai
+											<strong><?=$nama?></strong>
+										</p>
 									</li>
 									<li class="user-footer">
 										<div class="pull-left">
-											<a href="<?=site_url()?>user_setting/" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox">
-												<button data-toggle="modal"  class="btn bg-maroon btn-flat btn-sm" >Profil</button>
-											</a>
+											<a href="<?= site_url('user_setting'); ?>" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-flat btn-sm">Profil</a>
 										</div>
 										<div class="pull-right">
-											<a href="<?=site_url()?>siteman/logout" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
+											<a href="<?= site_url('siteman/logout'); ?>" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
 										</div>
 									</li>
 								</ul>

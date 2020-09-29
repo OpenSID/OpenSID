@@ -313,7 +313,7 @@ class Keluarga extends Admin_Controller {
 		}
 		else
 		{
-			redirect("keluarga/kartu_keluarga/1/0/$id_kk");
+			redirect("keluarga/anggota/1/0/$id_kk");
 		}
 	}
 
@@ -347,7 +347,7 @@ class Keluarga extends Admin_Controller {
 		redirect('keluarga');
 	}
 
-	public function delete_all($p = 1, $o = 0)
+	public function delete_all()
 	{
 		$this->redirect_hak_akses('h', 'keluarga');
 		$this->keluarga_model->delete_all();
