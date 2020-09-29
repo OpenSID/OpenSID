@@ -18,13 +18,13 @@
 				</table>
 				<table width="100%" style="border: solid 0px black; text-align: center;">
 					<tr>
-						<td align="center"><img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
+						<td align="center"><img src="<?= gambar_desa($header['logo']);?>" alt="<?= $header['nama_desa']?>"  class="logo_mandiri">
 					</tr>
 					<tr>
 						</td>
 						<td>
 							<h3>BIODATA PENDUDUK WARGA NEGARA INDONESIA</h3>
-							<h5><?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $desa['nama_kabupaten']?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= $desa['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?></h5>
+							<h5><?= ucwords($this->setting->sebutan_kabupaten_singkat)?> <?= $header['nama_kabupaten']?>, <?= ucwords($this->setting->sebutan_kecamatan_singkat)?> <?= $header['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $header['nama_desa']?></h5>
 						</td>
 					</tr>
 				</table>
@@ -161,22 +161,20 @@
 					<tr>
 						<td align="center" scope="col" width="40%">Yang Bersangkutan</td>
 						<td align="center" scope="col" width="10%">&nbsp;</td>
-						<td align="center" scope="col" width="50%"><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
+						<td align="center" scope="col" width="50%"><?= ucwords($this->setting->sebutan_desa . ' '. $header['nama_desa']) . ', ' . tgl_indo(date("Y m d"))?></td>
 					</tr>
 					<tr>
 						<td align="center">&nbsp;</td>
 						<td align="center">&nbsp;</td>
-						<td align="center">Kepala <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?></td>
+						<td align="center">Kepala <?= ucwords($this->setting->sebutan_desa . ' ' . $header['nama_desa']); ?></td>
 					</tr>
 					<tr>
-						<td align="center" height="100">&nbsp;</td>
-						<td align="center">&nbsp;</td>
-						<td align="center">&nbsp;</td>
+						<td align="center" colspan="3" height="100">&nbsp;</td>
 					</tr>
 					<tr>
-						<td align="center" height="100">( <?= strtoupper($penduduk['nama'])?> )</td>
+						<td align="center"><b>( <?= strtoupper($penduduk['nama'])?> )</b></td>
 						<td align="center">&nbsp;</td>
-						<td align="center"><b>( <?= $desa['nama_kepala_desa']?> )</b></td>
+						<td align="center"><b>( <?= $header['nama_kepala_desa']?> )</b></td>
 					</tr>
 				</table>
 			</div>

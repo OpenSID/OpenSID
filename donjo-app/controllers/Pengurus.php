@@ -48,12 +48,11 @@ class Pengurus extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
+		$this->load->model(['pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 18;
 		$this->_set_page = ['20', '50', '100'];
 		$this->_list_session = ['status', 'cari'];
-		// TODO: Hapus header_model jika sudah dibuatkan librari tempalte admin
 	}
 
 	public function clear()
