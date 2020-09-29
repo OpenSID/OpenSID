@@ -8,3 +8,8 @@ PR #41
 
 PR #42
 5. Sesuaikan ulang tampilan modul wilayah administrasi
+
+PR #43
+6. Hapus load model header krn sudah dipanggil di core Admin_Controller
+7. Hapus get_nav() yg tdk digunakan.
+8. Tambahkan spasi setelah koma (,)
