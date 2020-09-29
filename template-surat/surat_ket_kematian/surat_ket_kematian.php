@@ -98,7 +98,7 @@
 										<select class="form-control  input-sm select2-nik" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
 											<option value="">--  Cari NIK / Nama Penduduk Berstatus Dasar 'MATI' --</option>
 											<?php foreach ($mati as $data): ?>
-												<option value="<?= $data['id']?>" <?php selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+												<option value="<?= $data['id']?>" <?= selected($individu['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>

@@ -22,7 +22,7 @@
 							<select class="form-control input-sm" name="tahun">
 								<option value="">Semua</option>
 								<?php foreach ($tahun_surat as $tahun): ?>
-									<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
+									<option value="<?= $tahun['tahun']?>" <?= selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>

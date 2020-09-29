@@ -45,7 +45,7 @@
 									<select class="form-control select2-ikon" id="ikon" name="ikon">
 										<option selected="selected">Pilih Icon</option>
 										<?php foreach ($list_icon as $icon): ?>
-											<option value="<?=$icon?>" <?php selected($icon, $modul['ikon']); ?>><?=$icon?></option>
+											<option value="<?=$icon?>" <?= selected($icon, $modul['ikon']); ?>><?=$icon?></option>
 										 <?php endforeach; ?>
 									</select>
 								</div>
@@ -57,7 +57,7 @@
 										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php ($modul['aktif'] =='1' OR $modul['aktif'] == NULL) and print('checked'); ?> autocomplete="off"> Aktif
 									</label>
 									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php ($modul['aktif'] == '2' ) and print('active'); ?>">
-										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php selected($modul['aktif'], '2', true); ?> autocomplete="off"> Tidak Aktif
+										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?= selected($modul['aktif'], '2', true); ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>

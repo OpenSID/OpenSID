@@ -70,8 +70,8 @@ $(document).ready(function()
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
-														<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
+														<option value="1" <?= selected($filter, 1); ?>>Aktif</option>
+														<option value="2" <?= selected($filter, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -170,9 +170,9 @@ $(document).ready(function()
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-                                <option value="20" <?php selected($per_page, 20); ?> >20</option>
-                                <option value="50" <?php selected($per_page, 50); ?> >50</option>
-                                <option value="100" <?php selected($per_page, 100); ?> >100</option>
+                                <option value="20" <?= selected($per_page, 20); ?>>20</option>
+                                <option value="50" <?= selected($per_page, 50); ?>>50</option>
+                                <option value="100" <?= selected($per_page, 100); ?>>100</option>
                               </select>
                               Dari
                               <strong><?= $paging->num_rows?></strong>

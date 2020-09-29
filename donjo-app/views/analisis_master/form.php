@@ -44,9 +44,9 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm required" id="subjek_tipe" name="subjek_tipe">
 												<option value="1" <?php ($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == '') and print('selected') ?>>Penduduk</option>
-												<option value="2" <?php selected($analisis_master['subjek_tipe'], '2') ?>>Keluarga / KK</option>
-												<option value="3" <?php selected($analisis_master['subjek_tipe'], '3') ?>>Rumah Tangga</option>
-												<option value="4" <?php selected($analisis_master['subjek_tipe'], '4') ?>>Kelompok Masyarakat</option>
+												<option value="2" <?= selected($analisis_master['subjek_tipe'], '2') ?>>Keluarga / KK</option>
+												<option value="3" <?= selected($analisis_master['subjek_tipe'], '3') ?>>Rumah Tangga</option>
+												<option value="4" <?= selected($analisis_master['subjek_tipe'], '4') ?>>Kelompok Masyarakat</option>
 											</select>
 										</div>
 									</div>
@@ -56,9 +56,9 @@
 										<label class="col-sm-3 control-label" for="nama">Kategori Kelompok</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_kelompok" name="id_kelompok" style="width:100%">
-												<option value="">--Kategori Kelompok--</option>
+												<option value="">-- Kategori Kelompok --</option>
 												<?php foreach ($list_kelompok AS $data): ?>
-													 <option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_kelompok'], $data['id']) ?>><?= $data['kelompok'] ?></option>
+													 <option value="<?= $data['id'] ?>" <?= selected($analisis_master['id_kelompok'], $data['id']) ?>><?= $data['kelompok'] ?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -79,10 +79,10 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Format Impor Tambahan</label>
 										<div class="col-sm-7 col-lg-4">
-											<select class="form-control input-sm" id="format_impor" name="format_impor" <?php selected($analisis_master['jenis'], 1) ?>>
-												<option value="">--Pilih Format Impor--</option>
+											<select class="form-control input-sm" id="format_impor" name="format_impor" <?= selected($analisis_master['jenis'], 1) ?>>
+												<option value="">-- Pilih Format Impor --</option>
 												<?php foreach ($list_format_impor AS $key => $nama): ?>
-													<option value="<?= $key?>" <?php selected($analisis_master['format_impor'], $key) ?>><?= $nama?></option>
+													<option value="<?= $key?>" <?= selected($analisis_master['format_impor'], $key) ?>><?= $nama?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -114,7 +114,7 @@
 											<select class="form-control input-sm" id="id_child" name="id_child">
 												<option value="">-- Silakan Masukan Analisis Terhubung--</option>
 												<?php foreach ($list_analisis AS $data): ?>
-													<option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_child'], $data['id']) ?>><?= $data['nama'] ?></option>
+													<option value="<?= $data['id'] ?>" <?= selected($analisis_master['id_child'], $data['id']) ?>><?= $data['nama'] ?></option>
 											 	<?php endforeach; ?>
 											</select>
 											<p class="help-block"><code>Kosongkan jika tidak ada Analisis yang terhubung</code></p>

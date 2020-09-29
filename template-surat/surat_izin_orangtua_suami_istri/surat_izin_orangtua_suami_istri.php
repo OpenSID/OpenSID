@@ -92,9 +92,9 @@
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama Yang Diberi Izin</label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control input-sm select2-nik" id="id_diberi_izin" name="id_diberi_izin" style ="width:100%;" onchange="submit_form_ambil_data(this.id);">
-											<option value="">--  Cari NIK / Nama Penduduk--</option>
+											<option value="">--  Cari NIK / Nama Penduduk --</option>
 											<?php foreach ($penduduk_diberi_izin as $data): ?>
-												<option value="<?= $data['id']?>" <?php selected($diberi_izin['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
+												<option value="<?= $data['id']?>" <?= selected($diberi_izin['nik'], $data['nik']); ?>><?= $data['info_pilihan_penduduk']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>

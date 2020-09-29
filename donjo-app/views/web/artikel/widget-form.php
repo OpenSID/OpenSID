@@ -30,8 +30,8 @@
 								<div class="col-sm-6">
 									<select id="jenis_widget" name="jenis_widget" class="form-control input-sm">
 										<option value="">-- Pilih Jenis Widget --</option>
-										<option value="2" <?php selected($widget['jenis_widget'], 2);?>>Statis</option>
-										<option value="3" <?php selected($widget['jenis_widget'], 3);?>>Dinamis</option>
+										<option value="2" <?= selected($widget['jenis_widget'], 2);?>>Statis</option>
+										<option value="3" <?= selected($widget['jenis_widget'], 3);?>>Dinamis</option>
 									</select>
 								</div>
 							</div>
@@ -50,7 +50,7 @@
 										<select id="isi-statis" name="isi-statis" class="form-control input-sm">
 											<option value="">-- Pilih Widget --</option>
 											<?php foreach ($list_widget as $list):?>
-												<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
+												<option value="<?=$list?>" <?= selected($list, $widget['isi']); ?>><?=$list?></option>
 											<?php endforeach;?>
 										</select>
 									<?php else:?>

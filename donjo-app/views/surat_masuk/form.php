@@ -73,7 +73,7 @@
 												<?php endif; ?>
 											</option>
 											<?php foreach ($klasifikasi as $item): ?>
-												<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+												<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
 											<?php endforeach;?>
 										</select>
 									</div>
@@ -116,7 +116,7 @@
 													<label>
 														<input name="disposisi_kepada[]" value="<?= $data?>" type="checkbox"
 														<?php foreach ($disposisi_surat_masuk as $value): ?>
-															<?php selected($value['disposisi_ke'], $data, 1) ?>
+															<?= selected($value['disposisi_ke'], $data, 1) ?>
 														<?php endforeach; ?>
 														>
 														<?= strtoupper($data)?>

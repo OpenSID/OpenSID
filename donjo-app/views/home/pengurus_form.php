@@ -34,7 +34,7 @@
 				  			<label class="col-sm-4 col-lg-2 control-label" for="id_pend">NIK / Nama Penduduk </label>
 								<div class="col-sm-7">
 									<select class="form-control select2 input-sm" id="id_pend" name="id_pend"  onchange="formAction('main')" style="width:100%" >
-										<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
+										<option selected="selected">-- Silakan Masukan NIK / Nama --</option>
 										<?php foreach ($penduduk as $data): ?>
 											<option value="<?= $data['id']?>" <?php if ($individu['id']==$data['id']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
 										<?php endforeach;?>
@@ -124,8 +124,8 @@
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="<?= $individu['sex']?>" disabled="disabled"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" onchange="show_hide_hamil($(this).find(':selected').val());" style="display: none;">
 										<option value="">Jenis Kelamin</option>
-										<option value="1" <?php selected($pamong['pamong_sex'], '1'); ?>>Laki-Laki</option>
-										<option value="2" <?php selected($pamong['pamong_sex'], '2'); ?> >Perempuan</option>
+										<option value="1" <?= selected($pamong['pamong_sex'], '1'); ?>>Laki-Laki</option>
+										<option value="2" <?= selected($pamong['pamong_sex'], '2'); ?> >Perempuan</option>
 									</select>
 								</div>
 							</div>
@@ -136,7 +136,7 @@
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_pendidikan" style="display: none;">
 										<option value="">Pilih Pendidikan (Dalam KK) </option>
 										<?php foreach ($pendidikan_kk as $data): ?>
-											<option value="<?= $data['id']?>" <?php selected($pamong['pamong_pendidikan'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+											<option value="<?= $data['id']?>" <?= selected($pamong['pamong_pendidikan'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 										<?php endforeach?>
 									</select>
 								</div>
@@ -148,7 +148,7 @@
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_agama" style="display: none;">
 										<option value="">Pilih Agama</option>
 										<?php foreach ($agama as $data): ?>
-											<option value="<?= $data['id']?>" <?php selected($pamong['pamong_agama'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+											<option value="<?= $data['id']?>" <?= selected($pamong['pamong_agama'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

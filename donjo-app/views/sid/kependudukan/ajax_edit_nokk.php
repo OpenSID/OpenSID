@@ -61,7 +61,7 @@
 						<select id="dusun" name="dusun" class="form-control input-sm required">
 							<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 							<?php foreach ($dusun as $data): ?>
-								<option value="<?= $data['dusun']?>" <?php selected($kk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
+								<option value="<?= $data['dusun']?>" <?= selected($kk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -70,7 +70,7 @@
 						<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/')?>" data-valueKey="rw" data-displayKey="rw" >
 							<option class="placeholder" value="">Pilih RW</option>
 							<?php foreach ($rw as $data): ?>
-								<option value="<?= $data['rw']?>" <?php selected($kk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
+								<option value="<?= $data['rw']?>" <?= selected($kk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -79,7 +79,7 @@
 						<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/')?>" data-valueKey="id" data-displayKey="rt">
 							<option class="placeholder" value="">Pilih RT </option>
 							<?php foreach ($rt as $data): ?>
-								<option value="<?= $data['id']?>" <?php selected($kk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
+								<option value="<?= $data['id']?>" <?= selected($kk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -98,7 +98,7 @@
 					<select id="kelas_sosial" name="kelas_sosial" class="form-control input-sm">
 						<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
 						<?php foreach ($keluarga_sejahtera as $data): ?>
-							<option value="<?= $data['id']?>" <?php selected($kk['kelas_sosial'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+							<option value="<?= $data['id']?>" <?= selected($kk['kelas_sosial'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 						<?php endforeach;?>
 					</select>
 				</div>
