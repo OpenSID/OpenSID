@@ -18,3 +18,11 @@ PR #43
 10. Perbaikan view penduduk #8b90b4b2
 11. Perbaikan view dokumen penduduk #d4cd4d51
 12. Perbaikan tampilan detail penduduk #d8173e24
+
+PR #44
+13. Ubah Bersihkan Filter menjadi Bersihkan
+14. Hapus css yg sama pada admin-stle.css
+15. Ubah padding tag input menjadi padding: 5px 10px;
+16. Ubah <?php selected(); ?> menjadi <?= selected(); ?>
+17. Tambahkan spasi pada opsi select pertama untuk --
+18. Ubah font menjadi Quicksand
