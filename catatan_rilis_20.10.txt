@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.09-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.10, tersedia ekspor dan impor data penduduk bisa menggunakan format .xslx. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Ahmad Afandi, Rudy Purwanto, Zeppy Shiddiq dan Masumo yang terus berkontribusi. Terima kasih pula pada Yonathan Rizky yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.10 adalah sebagai berikut:
 
 1. #3514: Sekarang judul produk hukum dan informasi publik diperpanjang sampai 200 karakter.
 2. #3522: Data suplemen tidak bisa lagi dihapus kalau masih digunakan, yaitu masih ada terdata.
