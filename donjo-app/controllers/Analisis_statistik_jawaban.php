@@ -42,6 +42,8 @@
 
 class Analisis_statistik_jawaban extends Admin_Controller {
 
+	private $_set_page;
+
 	function __construct()
 	{
 		parent::__construct();
@@ -50,6 +52,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
+		// TODO : Simpan di pengaturan aplikasi agar bisa disesuaikan oleh pengguna
+		$this->_set_page = ['20', '50', '100'];
 		$this->modul_ini = 5;
 	}
 
@@ -62,6 +66,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['dusun']);
 		unset($_SESSION['rw']);
 		unset($_SESSION['rt']);
+		$this->session->per_page = $this->_set_page[0];
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -111,9 +116,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 				$data['rw'] = $_SESSION['rw'];
 				$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'], $data['rw']);
 
-			if (isset($_SESSION['rt']))
-				$data['rt'] = $_SESSION['rt'];
-			else $data['rt'] = '';
+				if (isset($_SESSION['rt']))
+					$data['rt'] = $_SESSION['rt'];
+				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
 		}
@@ -124,6 +129,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			$data['rt'] = '';
 		}
 
+		$data['func'] = 'index';
+		$data['set_page'] = $this->_set_page;
 		$data['paging']  = $this->analisis_statistik_jawaban_model->paging($p,$o);
 		$data['main']    = $this->analisis_statistik_jawaban_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_statistik_jawaban_model->autocomplete();
@@ -131,44 +138,9 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
+
 		$this->set_minsidebar(1);
 		$this->render('analisis_statistik_jawaban/table', $data);
-	}
-
-	public function form($p=1, $o=0, $id='')
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if ($id)
-		{
-			$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-			$data['form_action'] = site_url("analisis_statistik_jawaban/update/$p/$o/$id");
-		}
-		else
-		{
-			$data['analisis_statistik_jawaban'] = null;
-			$data['form_action'] = site_url("analisis_statistik_jawaban/insert");
-		}
-
-		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
-		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
-		$this->set_nav('analisis_master/nav');
-		$this->render('analisis_statistik_jawaban/form', $data);		
-	}
-
-	public function parameter($id='')
-	{
-		$ai = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-		if ($ai['id_tipe'] == 3 OR $ai['id_tipe'] == 4)
-		redirect('analisis_statistik_jawaban');
-
-		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
-		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
-
-		$this->set_minsidebar(1);
-		$this->render('analisis_statistik_jawaban/parameter/table', $data);
 	}
 
 	public function grafik_parameter($id='')
@@ -391,18 +363,6 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			$_SESSION['rt'] = $rt;
 		else unset($_SESSION['rt']);
 		redirect("analisis_statistik_jawaban/grafik_parameter/$id");
-	}
-
-	public function insert()
-	{
-		$this->analisis_statistik_jawaban_model->insert();
-		redirect('analisis_statistik_jawaban');
-	}
-
-	public function update($p=1, $o=0, $id='')
-	{
-		$this->analisis_statistik_jawaban_model->update($id);
-		redirect("analisis_statistik_jawaban/index/$p/$o");
 	}
 
 	public function delete($p=1, $o=0, $id='')
