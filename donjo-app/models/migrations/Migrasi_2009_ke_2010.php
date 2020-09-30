@@ -60,6 +60,8 @@ class Migrasi_2009_ke_2010 extends MY_model {
 							keterangan = VALUES(keterangan)
 							");
 		$hasil =& $this->db->query('ALTER TABLE tweb_desa_pamong MODIFY COLUMN pamong_niap varchar(25) default 0');
+		// Ubah tipe data field nilai menjadi INT
+		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN nilai INT(3) NOT NULL DEFAULT 0');
 		status_sukses($hasil);
 	}
 
