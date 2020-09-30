@@ -544,3 +544,8 @@ span.select2.select2-container {
 .select_row {
 	background-color: #f8deb5 !important;
 }
+
+/* Ganti breadcrumb > jadi / */
+.content-header>.breadcrumb>li+li:before {
+	content: '/\00a0';
+}
