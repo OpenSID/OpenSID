@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.09-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.10-premium, tersedia fitur untuk menampilkan status IDM desa. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Ahmad Afandi, Rudy Purwanto, Zeppy Shiddiq dan Masumo yang terus berkontribusi. Terima kasih pula pada Yonathan Rizky yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.10-premium adalah sebagai berikut:
 
 1. #3514: Sekarang judul produk hukum dan informasi publik diperpanjang sampai 200 karakter.
 2. #3522: Data suplemen tidak bisa lagi dihapus kalau masih digunakan, yaitu masih ada terdata.
@@ -35,5 +35,14 @@ Lengkapnya, isi rilis versi 20.09-pasca adalah sebagai berikut:
 29. #3591: Perbaiki tampilan pilihan jenis surat di filter Arsip Layanan surat.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Fitur Premium:
+
+1. #3512: Sediakan menu mengatur ukuran bagan.
+2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
+3. #3531: Tampilkan rumusan pokok IDM di Info Desa > Status Desa dari portal IDM Kemendesa. Dan bisa ditampilkan di Web melalui menu statis.
+4. #3571: Sediakan fitur untuk mencetak peta wilayah desa/dusun/rw/rt.
+5. #2775: Sediakan Buku Lembaran dan Berita Desa.
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-premium, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
