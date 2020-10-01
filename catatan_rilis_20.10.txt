@@ -35,5 +35,5 @@ Lengkapnya, isi rilis versi 20.10 adalah sebagai berikut:
 29. #3591: Perbaiki tampilan pilihan jenis surat di filter Arsip Layanan surat.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.09-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
