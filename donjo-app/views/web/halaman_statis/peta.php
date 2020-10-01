@@ -69,7 +69,11 @@
 		//Inisialisasi tampilan peta
     var mymap = L.map('map').setView(posisi, zoom);
 
-    //1. Menampilkan overlayLayers Peta Semua Wilayah
+    <?php if (!empty($desa['path'])): ?>
+      mymap.fitBounds(<?=$desa['path']?>);
+    <?php endif; ?>
+
+    //Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];
     var marker_dusun = [];
     var marker_rw = [];
@@ -79,6 +83,7 @@
     var marker_lokasi = [];
     var markers = new L.MarkerClusterGroup();
     var markersList = [];
+    var marker_legend = [];
 
     //OVERLAY WILAYAH DESA
     <?php if (!empty($desa['path'])): ?>
@@ -87,17 +92,17 @@
 
     //OVERLAY WILAYAH DUSUN
     <?php if (!empty($dusun_gis)): ?>
-      set_marker_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_');
+      set_marker_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RW
     <?php if (!empty($rw_gis)): ?>
-      set_marker_content(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw', '#isi_popup_rw_');
+      set_marker_content(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RT
     <?php if (!empty($rt_gis)): ?>
-      set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt', '#isi_popup_rt_');
+      set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //Menampilkan overlayLayers Peta Semua Wilayah
@@ -112,8 +117,47 @@
     //Menambahkan zoom scale ke peta
     L.control.scale().addTo(mymap);
 
+    //Mencetak peta ke PNG
+		cetakPeta(mymap);
+
+    //Menambahkan Legenda Ke Peta
+    var legenda_desa = L.control({position: 'bottomright'});
+    var legenda_dusun = L.control({position: 'bottomright'});
+    var legenda_rw = L.control({position: 'bottomright'});
+    var legenda_rt = L.control({position: 'bottomright'});
+
+    mymap.on('overlayadd', function (eventLayer) {
+      if (eventLayer.name === 'Peta Wilayah Desa') {
+        setlegendPetaDesa(legenda_desa, mymap, <?=json_encode($desa)?>, '<?=ucwords($this->setting->sebutan_desa)?>', '<?=$desa['nama_desa']?>');
+      }
+      if (eventLayer.name === 'Peta Wilayah Dusun') {
+        setlegendPeta(legenda_dusun, mymap, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '', '');
+      }
+      if (eventLayer.name === 'Peta Wilayah RW') {
+        setlegendPeta(legenda_rw, mymap, '<?=addslashes(json_encode($rw_gis))?>', 'RW', 'rw', '<?=ucwords($this->setting->sebutan_dusun)?>');
+      }
+      if (eventLayer.name === 'Peta Wilayah RT') {
+        setlegendPeta(legenda_rt, mymap, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', 'RW');
+      }
+    });
+
+    mymap.on('overlayremove', function (eventLayer) {
+      if (eventLayer.name === 'Peta Wilayah Desa') {
+        mymap.removeControl(legenda_desa);
+      }
+      if (eventLayer.name === 'Peta Wilayah Dusun') {
+        mymap.removeControl(legenda_dusun);
+      }
+      if (eventLayer.name === 'Peta Wilayah RW') {
+        mymap.removeControl(legenda_rw);
+      }
+      if (eventLayer.name === 'Peta Wilayah RT') {
+        mymap.removeControl(legenda_rt);
+      }
+    });
+
     // Menampilkan OverLayer Area, Garis, Lokasi
-    layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
+    var layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
 
     var mylayer = L.featureGroup();
     var layerControl = {
@@ -150,30 +194,32 @@
       mylayer.addLayer(datalayer);
     });
 
-    mymap.on('layeradd layerremove', function () {
-      var bounds = new L.LatLngBounds();
-      mymap.eachLayer(function (layer) {
-        if(mymap.hasLayer(mylayer)) {
-          $('#covid_status').show();
-          $('#covid_status_local').show();
+    mylayer.on('add', function () {
+      setTimeout(function () {
+        var bounds = new L.LatLngBounds();
+        if (mylayer instanceof L.FeatureGroup) {
+          bounds.extend(mylayer.getBounds());
+        }
+        if (bounds.isValid()) {
+          mymap.fitBounds(bounds);
         } else {
-          $('#covid_status').hide();
-          $('#covid_status_local').hide();
+          <?php if (!empty($desa['path'])): ?>
+            mymap.fitBounds(<?=$desa['path']?>);
+          <?php endif; ?>
         }
-        if(mymap.hasLayer(layerCustom)) {
-          mymap.addLayer(markers);
-        } else {
-          mymap.removeLayer(markers);
-        }
-        if (layer instanceof L.FeatureGroup) {
-          bounds.extend(layer.getBounds());
-        }
+        $('#covid_status').show();
+        $('#covid_status_local').show();
       });
-      //if (bounds.isValid()) {
-      //  mymap.fitBounds(bounds);
-      //} else {
-      //  mymap.fitBounds(<?=$desa['path']?>);
-      //}
+    });
+
+    mylayer.on('remove', function () {
+      setTimeout(function () {
+        $('#covid_status').hide();
+        $('#covid_status_local').hide();
+        <?php if (!empty($desa['path'])): ?>
+          mymap.fitBounds(<?=$desa['path']?>);
+        <?php endif; ?>
+      });
     });
 
     var mainlayer = L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
@@ -210,7 +256,7 @@
               <?php $this->load->view("gis/covid_peta_local.php") ?>
             </div>
           </div>
-          <div class="leaflet-bottom leaflet-right">
+          <div class="leaflet-bottom leaflet-left">
             <div id="qrcode">
               <div class="panel-body-lg">
                 <a href="https://github.com/OpenSID/OpenSID">
@@ -267,3 +313,7 @@
 <script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.browser.print.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.browser.print.utils.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet.browser.print.sizes.js"></script>
+<script src="<?= base_url()?>assets/js/dom-to-image.min.js"></script>
