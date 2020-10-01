@@ -352,7 +352,8 @@
 				$data['jenis'] = 2;
 				$data['url_surat'] = $surat;
 				$data['nama'] = ucwords(trim(str_replace(array("surat","-","_"), ' ', $surat)));
-				$this->db->insert('tweb_surat_format', $data);
+				$sql = $this->db->insert_string('tweb_surat_format', $data) . " ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)";
+				$this->db->query($sql);
 			}
 		}
 	}
