@@ -134,7 +134,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 		if (!$this->db->field_exists('warna', 'config'))
 		{
 			$fields = array(
-				'jabatan' => array(
+				'warna' => array(
 					'type' => 'VARCHAR',
 					'constraint' => 10,
 					'default' => NULL
@@ -148,7 +148,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 		if (!$this->db->field_exists('warna', 'tweb_wil_clusterdesa'))
 		{
 			$fields = array(
-				'jabatan' => array(
+				'warna' => array(
 					'type' => 'VARCHAR',
 					'constraint' => 10,
 					'default' => NULL
