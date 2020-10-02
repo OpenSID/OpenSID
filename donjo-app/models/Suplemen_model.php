@@ -82,12 +82,13 @@ class Suplemen_model extends CI_Model {
 			->group_by('s.id')
 			->get()
 			->result_array();
+
 		return $data;
 	}
 
 	public function list_sasaran($id, $sasaran)
 	{
-		$data = array();
+		$data = [];
 		switch ($sasaran)
 		{
 			case '1':
@@ -104,7 +105,7 @@ class Suplemen_model extends CI_Model {
 
 	private function get_id_terdata_penduduk($id_suplemen)
 	{
-		$hasil = array();
+		$hasil = [];
 		$sql = "SELECT p.id
 			FROM tweb_penduduk p
 			LEFT JOIN suplemen_terdata t ON p.id = t.id_terdata
@@ -127,13 +128,13 @@ class Suplemen_model extends CI_Model {
 			$terdata .= ",".$value;
 		}
 		$terdata = ltrim($terdata, ",");
-		if (!empty($terdata))
+		if ( ! empty($terdata))
 			$this->db->where("p.id NOT IN ($terdata)");
 		$data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
 			->from('tweb_penduduk p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->get()->result_array();
-		$hasil = array();
+		$hasil = [];
 		foreach ($data as $item)
 		{
 			$penduduk = array(
@@ -146,9 +147,9 @@ class Suplemen_model extends CI_Model {
 		return $hasil;
 	}
 
-	private function get_id_terdata_kk($id_suplemen)
+	private function get_id_no_kk($id_suplemen)
 	{
-		$hasil = array();
+		$hasil = [];
 		$sql = "SELECT k.id
 			FROM tweb_keluarga k
 			LEFT JOIN suplemen_terdata t ON k.id = t.id_terdata
@@ -165,13 +166,13 @@ class Suplemen_model extends CI_Model {
 	{
 		// Keluarga yang sudah terdata untuk suplemen ini
 		$terdata = "";
-		$list_terdata = $this->get_id_terdata_kk($id);
+		$list_terdata = $this->get_id_no_kk($id);
 		foreach ($list_terdata as $key => $value)
 		{
 			$terdata .= ",".$value;
 		}
 		$terdata = ltrim($terdata, ",");
-		if (!empty($terdata))
+		if ( ! empty($terdata))
 			$this->db->where("k.id NOT IN ($terdata)");
 		// Daftar keluarga, tidak termasuk keluarga yang sudah terdata
 		$data = $this->db->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
@@ -179,7 +180,7 @@ class Suplemen_model extends CI_Model {
 			->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->get()->result_array();
-		$hasil = array();
+		$hasil = [];
 		foreach ($data as $item)
 		{
 			$item['id'] = preg_replace('/[^a-zA-Z0-9]/', '', $item['id']); //hapus non_alpha di no_kk
@@ -210,21 +211,23 @@ class Suplemen_model extends CI_Model {
 
 	public function get_rincian($p, $suplemen_id)
 	{
-		$suplemen = $this->db->where('id',$suplemen_id)->get('suplemen')->row_array();
+		$suplemen = $this->db->where('id', $suplemen_id)->get('suplemen')->row_array();
 		$sasaran = $suplemen['sasaran'];
 		switch ($sasaran)
 		{
+			// Sasaran Penduduk
 			case '1':
-				$suplemen['judul_terdata_nama'] = 'NIK';
-				$suplemen['judul_terdata_info'] = 'Nama Penduduk';
 				$data = $this->get_penduduk_terdata($suplemen_id, $p);
-				break;
-			case '2': # sasaran KK
-				$suplemen['judul_terdata_nama'] = 'NO. KK';
-				$suplemen['judul_terdata_info'] = 'Kepala Keluarga';
-				$data = $this->get_kk_terdata($suplemen_id, $p);
+				$suplemen['judul_sasaran'] = 'Penduduk';
 				break;
 
+			// Sasaran KK
+			case '2':
+				$data = $this->get_kk_terdata($suplemen_id, $p);
+				$suplemen['judul_sasaran'] = 'KK';
+				break;
+
+			// Sasaran X
 			default:
 				# code...
 				break;
@@ -262,13 +265,13 @@ class Suplemen_model extends CI_Model {
 
 	private function get_penduduk_terdata($suplemen_id, $p)
 	{
-		$hasil = array();
+		$hasil = [];
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun,
+		$select_sql = "SELECT s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun,
 			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 		 ";
 		$sql = $select_sql.$get_terdata_sql;
-		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
 			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
@@ -281,17 +284,15 @@ class Suplemen_model extends CI_Model {
 			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['terdata_nama'] = $data[$i]['terdata_id'];
-				$data[$i]['terdata_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
 				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
-				$data[$i]['info'] = $data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ". "Dusun " . strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = $data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw'] . " - " . "Dusun " . strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
 		}
+
 		return $hasil;
 	}
 
@@ -309,11 +310,11 @@ class Suplemen_model extends CI_Model {
 
 	private function get_kk_terdata($suplemen_id, $p)
 	{
-		$hasil = array();
+		$hasil = [];
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk as terdata_id, s.id_suplemen as nama, o.nik_kepala, o.no_kk, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
-		if (!empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
 			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
@@ -326,10 +327,7 @@ class Suplemen_model extends CI_Model {
 			$data = $query->result_array();
 			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['id'] = $data[$i]['id'];
-				$data[$i]['terdata_nama'] = $data[$i]['no_kk'];
-				$data[$i]['terdata_info'] = $data[$i]['nama'];
-				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['no_kk']."]";
+				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
 				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
@@ -400,7 +398,7 @@ class Suplemen_model extends CI_Model {
 	public function update($id)
 	{
 		$data = $this->validasi($this->input->post());
-		$hasil = $this->db->where('id',$id)->update('suplemen', $data);
+		$hasil = $this->db->where('id', $id)->update('suplemen', $data);
 
 		status_sukses($hasil); //Tampilkan Pesan
 	}
@@ -436,7 +434,7 @@ class Suplemen_model extends CI_Model {
 	public function edit_terdata($post,$id)
 	{
 		$data['keterangan'] = substr(htmlentities($post['keterangan']), 0, 100); // Batasi 100 karakter
-		$this->db->where('id',$id);
+		$this->db->where('id', $id);
 		$this->db->update('suplemen_terdata', $data);
 	}
 
@@ -469,7 +467,7 @@ class Suplemen_model extends CI_Model {
 
 	public function get_terdata_suplemen($sasaran,$id_terdata)
 	{
-		$list_suplemen = array();
+		$list_suplemen = [];
 		/*
 		 * Menampilkan keterlibatan $id_terdata dalam data suplemen yang ada
 		 *
@@ -492,8 +490,8 @@ class Suplemen_model extends CI_Model {
 				 * */
 				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
 					FROM tweb_penduduk o
-				 	LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-				 	WHERE o.id = '".$id_terdata."'";
+					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+					WHERE o.id = '".$id_terdata."'";
 				$query = $this->db->query($strSQL);
 				if ($query->num_rows() > 0)
 				{
@@ -532,7 +530,7 @@ class Suplemen_model extends CI_Model {
 			default:
 
 		}
-		if (!empty($list_suplemen))
+		if ( ! empty($list_suplemen))
 		{
 			$hasil = array("daftar_suplemen" => $list_suplemen, "profil" => $data_profil);
 			return $hasil;
@@ -542,5 +540,6 @@ class Suplemen_model extends CI_Model {
 			return null;
 		}
 	}
+
 }
 ?>
