@@ -37,7 +37,7 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left',$data);?>
+					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div id="box-full-screen" class="box box-info">
