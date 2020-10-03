@@ -1538,7 +1538,7 @@ blockquote p {
 	background-color: #3c8dbc !important;
 	color: black;
 }
-#mandiri button { 
+#mandiri button {
 	margin-bottom: 1px;
 	overflow-wrap: break-word;
 	white-space: pre-line;
@@ -1609,3 +1609,8 @@ Warna Bar Realisasi
 .highcharts-data-label-connector.highcharts-color-1 {
 	stroke: #2b2b29; /*warna tooltip pada bar lebih gelap agar terlihat*/
 }
+
+.error {
+	color: #dd4b39;
+}
+

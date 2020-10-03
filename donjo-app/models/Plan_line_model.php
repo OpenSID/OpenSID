@@ -155,13 +155,13 @@ class Plan_line_model extends MY_Model {
 			{
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
-				$outp = $this->db->insert('line',$data);
+				$outp = $this->db->insert('line', $data);
 			}
 		}
 		else
 		{
 			unset($data['simbol']);
-			$outp = $this->db->insert('line',$data);
+			$outp = $this->db->insert('line', $data);
 		}
 
 		status_sukses($outp); //Tampilkan Pesan
@@ -181,14 +181,14 @@ class Plan_line_model extends MY_Model {
 				UploadSimbol($nama_file);
 				$data['simbol'] = $nama_file;
 				$this->db->where('id',$id);
-				$outp = $this->db->update('line',$data);
+				$outp = $this->db->update('line', $data);
 			}
 			$_SESSION['success'] = 1;
 		}
 
 		unset($data['simbol']);
 		$this->db->where('id',$id);
-		$outp = $this->db->update('line',$data);
+		$outp = $this->db->update('line', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}

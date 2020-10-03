@@ -134,7 +134,7 @@ class Mandiri_web extends Web_Controller
 
 		$data['desa'] = $this->config_model->get_data();
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-		$this->load->view('sid/kependudukan/cetak_biodata',$data);
+		$this->load->view('sid/kependudukan/cetak_biodata', $data);
 	}
 
 	public function cetak_kk($id='')

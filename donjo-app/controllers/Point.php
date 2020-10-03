@@ -85,10 +85,9 @@ class Point extends Admin_Controller {
 		$data['paging'] = $this->plan_point_model->paging($p, $o);
 		$data['main'] = $this->plan_point_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_point_model->autocomplete();
-		$header= $this->header_model->get_data();
+		
+		$data['tip'] = 0;		
 		$this->set_minsidebar(1);
-		$data['tip'] = 0;
-
 		$this->render('point/table', $data);
 	}
 

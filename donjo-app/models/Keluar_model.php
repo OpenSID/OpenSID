@@ -318,7 +318,7 @@
 		}
 		else
 		{
-			$this->db->insert('log_surat',$data);
+			$this->db->insert('log_surat', $data);
 		}
 
 	}

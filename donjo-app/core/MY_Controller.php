@@ -278,11 +278,11 @@ class Admin_Controller extends MY_Controller {
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 
-	public function render($view,Array $data = [])
+	public function render($view, Array $data = [])
 	{
 		$this->header['minsidebar'] = $this->get_minsidebar();
 		$this->load->view('header', $this->header);
-		$this->load->view($this->get_nav());
+		$this->load->view('nav');
 		$this->load->view($view, $data);
 		$this->load->view('footer');
 	}
@@ -308,23 +308,4 @@ class Admin_Controller extends MY_Controller {
 		return $this;
 	}
 
-	/**
-	 * Get the value of nav
-	 */
-	public function get_nav()
-	{
-		return $this->nav;
-	}
-
-	/**
-	 * Set the value of nav
-	 *
-	 * @return  self
-	 */
-	public function set_nav($nav)
-	{
-		$this->nav = $nav;
-
-		return $this;
-	}
 }
