@@ -80,6 +80,7 @@
 		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 		<script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
+		<?php $this->load->view('global/validasi_form'); ?>
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url(); ?>";
 		</script>
