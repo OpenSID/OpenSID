@@ -175,7 +175,7 @@
 	}
 
 	.form-group {
-		margin-bottom: 5px;
+		margin-bottom: 10px;
 	}
 
 	.leaflet-control-layers-expanded {
@@ -188,7 +188,7 @@
 		width:150px
 	}
 	.form-group {
-		margin-bottom: 5px;
+		margin-bottom: 10px;
 	}
 }
 /* Modifikasi Select2 --- */
