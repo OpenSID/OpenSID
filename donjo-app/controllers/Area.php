@@ -96,11 +96,10 @@ class Area extends Admin_Controller {
 		$data['keyword'] = $this->plan_area_model->autocomplete();
 		$data['list_polygon'] = $this->plan_area_model->list_polygon();
 		$data['list_subpolygon'] = $this->plan_area_model->list_subpolygon();
-		$header= $this->header_model->get_data();
-		$this->set_minsidebar(1);
-		$data['tip'] = 4;
 
-		$this->render('area/table',$data);
+		$data['tip'] = 4;
+		$this->set_minsidebar(1);
+		$this->render('area/table', $data);
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -123,10 +122,8 @@ class Area extends Admin_Controller {
 			$data['form_action'] = site_url("area/insert");
 		}
 
-		$header= $this->header_model->get_data();
-		$this->set_minsidebar(1);
 		$data['tip'] = 4;
-
+		$this->set_minsidebar(1);
 		$this->render('area/form', $data);
 	}
 

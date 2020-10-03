@@ -31,7 +31,7 @@
 			unset($_SESSION['validation_error']);
 			$data['status'] = 2;
 			$data['id_artikel'] = 775; //id_artikel untuk laporan layanan mandiri
-			$outp = $this->db->insert('komentar',$data);
+			$outp = $this->db->insert('komentar', $data);
 		}
 		else
 		{
