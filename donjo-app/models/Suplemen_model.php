@@ -94,42 +94,36 @@ class Suplemen_model extends CI_Model {
 			case '1':
 				$data = $this->list_penduduk($id);
 				break;
+
 			case '2': # sasaran KK
 				$data = $this->list_kk($id);
+
 			default:
 				# code...
 				break;
 		}
+
 		return $data;
 	}
 
 	private function get_id_terdata_penduduk($id_suplemen)
 	{
-		$hasil = [];
-		$sql = "SELECT p.id
-			FROM tweb_penduduk p
-			LEFT JOIN suplemen_terdata t ON p.id = t.id_terdata
-			WHERE t.id_suplemen = ?";
-		$data = $this->db->query($sql, $id_suplemen)->result_array();
-		foreach ($data as $item)
-		{
-			$hasil[] = $item['id'];
-		}
-		return $hasil;
+		$list_penduduk = $this->db
+			->select('k.id')
+			->from('tweb_penduduk p')
+			->join('suplemen_terdata t', 'p.id = t.id_terdata', 'left')
+			->where('t.id_suplemen', $id_suplemen)
+			->get()->result_array();
+
+		return sql_in_list(array_column($list_kk, 'id'));
 	}
 
 	private function list_penduduk($id)
 	{
 		// Penduduk yang sudah terdata untuk suplemen ini
-		$terdata = "";
-		$list_terdata = $this->get_id_terdata_penduduk($id);
-		foreach ($list_terdata as $key => $value)
-		{
-			$terdata .= ",".$value;
-		}
-		$terdata = ltrim($terdata, ",");
-		if ( ! empty($terdata))
-			$this->db->where("p.id NOT IN ($terdata)");
+		$terdata = $this->get_id_terdata_penduduk($id);
+		if ($terdata) $this->db->where("p.id NOT IN ($terdata)");
+
 		$data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
 			->from('tweb_penduduk p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
@@ -147,33 +141,24 @@ class Suplemen_model extends CI_Model {
 		return $hasil;
 	}
 
-	private function get_id_no_kk($id_suplemen)
+	private function get_id_terdata_kk($id_suplemen)
 	{
-		$hasil = [];
-		$sql = "SELECT k.id
-			FROM tweb_keluarga k
-			LEFT JOIN suplemen_terdata t ON k.id = t.id_terdata
-			WHERE t.id_suplemen = ?";
-		$data = $this->db->query($sql, $id_suplemen)->result_array();
-		foreach ($data as $item)
-		{
-			$hasil[] = $item['id'];
-		}
-		return $hasil;
+		$list_kk = $this->db
+			->select('k.id')
+			->from('tweb_keluarga k')
+			->join('suplemen_terdata t', 'k.id = t.id_terdata', 'left')
+			->where('t.id_suplemen', $id_suplemen)
+			->get()->result_array();
+
+		return sql_in_list(array_column($list_kk, 'id'));
 	}
 
 	private function list_kk($id)
 	{
 		// Keluarga yang sudah terdata untuk suplemen ini
-		$terdata = "";
-		$list_terdata = $this->get_id_no_kk($id);
-		foreach ($list_terdata as $key => $value)
-		{
-			$terdata .= ",".$value;
-		}
-		$terdata = ltrim($terdata, ",");
-		if ( ! empty($terdata))
-			$this->db->where("k.id NOT IN ($terdata)");
+		$terdata = $this->get_id_terdata_kk($id);
+		if ($terdata) $this->db->where("k.id NOT IN ($terdata)");
+
 		// Daftar keluarga, tidak termasuk keluarga yang sudah terdata
 		$data = $this->db->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
 			->from('tweb_keluarga k')

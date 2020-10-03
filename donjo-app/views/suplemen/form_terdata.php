@@ -59,11 +59,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<section class="content">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
-				<a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Data Suplemen</a>
+				<a href="<?= site_url("suplemen"); ?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
+				<a href="<?= site_url("suplemen/rincian/$suplemen[id]"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Data Suplemen</a>
 			</div>
 			<?php $this->load->view('suplemen/rincian'); ?>
-
 			<div class="box-body">
 				<h5><b>Tambahkan Warga Terdata</b></h5>
 				<hr>

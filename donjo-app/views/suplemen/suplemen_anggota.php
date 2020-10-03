@@ -87,25 +87,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($terdata as $key => $item): ?>
+									<?php if($terdata): ?>
+										<?php foreach ($terdata as $key => $item): ?>
+											<tr>
+												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
+												<td class="aksi">
+													<?php if ($this->CI->cek_hak_akses('h')): ?>
+														<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+													<?php endif; ?>
+												</td>
+												<td nowrap><?= $item["no_kk"]; ?></td>
+												<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["nik"]; ?></a></td>
+												<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['nama'];?></a></td>
+												<td><?= $item["tempat_lahir"]; ?></td>
+												<td><?= $item["tanggal_lahir"]; ?></td>
+												<td><?= $item["sex"]; ?></td>
+												<td><?= $item["info"];?></td>
+												<td width="25%"><?= $item["keterangan"]; ?></td>
+											</tr>
+										<?php endforeach; ?>
+									<?php else: ?>
 										<tr>
-											<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-											<td class="aksi">
-												<?php if ($this->CI->cek_hak_akses('h')): ?>
-													<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-													<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-												<?php endif; ?>
-											</td>
-											<td nowrap><?= $item["no_kk"]; ?></td>
-											<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["nik"]; ?></a></td>
-											<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['nama'];?></a></td>
-											<td><?= $item["tempat_lahir"]; ?></td>
-											<td><?= $item["tanggal_lahir"]; ?></td>
-											<td><?= $item["sex"]; ?></td>
-											<td><?= $item["info"];?></td>
-											<td width="25%"><?= $item["keterangan"]; ?></td>
+											<td class="text-center" colspan="10">Data Tidak Tersedia</td>
 										</tr>
-									<?php endforeach; ?>
+									<?php endif; ?>
 								</tbody>
 							</table>
 						</div>
