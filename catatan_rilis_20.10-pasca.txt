@@ -6,6 +6,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 
 1. #3594: Sekarang form Surat Masuk mengharuskan klasifikasi surat diisi, dan tidak error apabila tujuan disposisi belum diisi. [bug-fix]
 2. Perbaikan script controller menyeluruh menghapus yg tidak diperlukan dan menyesuaikan dengan aturan penulisan. [teknis]
+3. #3596: Sekarang nilai indikator analisis bisa sampai 999.
 
 
 
