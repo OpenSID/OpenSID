@@ -21,13 +21,13 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="owner">Pengirim</label>
 								<div class="col-sm-9">
-									<input name="owner" class="form-control input-sm" type="text" value="<?= $komentar['owner']?>"></input>
+									<input name="owner" class="form-control input-sm required" type="text" maxlength="50" value="<?= $komentar['owner']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
 								<label class="control-label col-sm-2" for="no_hp">No. HP</label>
 								<div class="col-sm-9">
-									<input name="no_hp" class="form-control input-sm" type="text" value="<?= $komentar['no_hp']?>"></input>
+									<input name="no_hp" class="form-control input-sm required bilangan" type="text" value="<?= $komentar['no_hp']?>"></input>
 								</div>
 							</div>
               <div class="form-group">

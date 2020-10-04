@@ -226,7 +226,7 @@ class First extends Web_Controller {
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/arsip.tpl.php');
-		$this->load->view($this->template,$data);
+		$this->load->view($this->template, $data);
 	}
 
 	// Halaman arsip album galeri
@@ -619,7 +619,7 @@ class First extends Web_Controller {
 				break;
 		}
 
-		$this->load->view('gis/aparatur_wilayah',$data);
+		$this->load->view('gis/aparatur_wilayah', $data);
 	}
 
 	public function ambil_data_covid()
