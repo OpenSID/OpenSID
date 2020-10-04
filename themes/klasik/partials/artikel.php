@@ -137,30 +137,30 @@
 						<?php unset($_SESSION['validation_error']); ?>
 					<?php endif; ?>
 					<div class="box-body">
-						<form id="form-komentar" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
+						<form id="form-komentar" class="form-validasi" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
 							<table width="100%">
 								<tr class="komentar nama">
 									<td>Nama</td>
 									<td>
-										<input type="text" name="owner" maxlength="30" value="<?= !empty($_SESSION['post']['owner']) ? $_SESSION['post']['owner'] : $_SESSION['nama'] ?>">
+										<input type="text" name="owner" class="required" maxlength="50" value="<?= !empty($_SESSION['post']['owner']) ? $_SESSION['post']['owner'] : $_SESSION['nama'] ?>">
 									</td>
 								</tr>
 								<tr class="komentar alamat">
 									<td>No. HP</td>
 									<td>
-										<input type="text" name="no_hp" maxlength="30" value="<?= $_SESSION['post']['no_hp'] ?>">
+										<input type="text" class="number required" name="no_hp" maxlength="30" value="<?= $_SESSION['post']['no_hp'] ?>">
 									</td>
 								</tr>
 								<tr class="komentar alamat">
 									<td>Alamat e-mail</td>
 									<td>
-										<input type="text" name="email" maxlength="30" value="<?= $_SESSION['post']['email'] ?>">
+										<input type="text" name="email" class="email" maxlength="30" value="<?= $_SESSION['post']['email'] ?>">
 									</td>
 								</tr>
 								<tr class="komentar pesan">
 									<td valign="top">Komentar</td>
 									<td>
-										<textarea name="komentar"><?= $_SESSION['post']['komentar']?></textarea>
+										<textarea class="required" name="komentar"><?= $_SESSION['post']['komentar']?></textarea>
 									</td>
 								</tr>
 								<tr class="captcha"><td>&nbsp;</td>
@@ -172,7 +172,7 @@
 								<tr class="captcha_code">
 									<td>&nbsp;</td>
 									<td>
-										<input type="text" name="captcha_code" maxlength="6" value="<?= $_SESSION['post']['captcha_code']?>"/> Isikan kode di gambar
+										<input type="text" name="captcha_code" class="required" maxlength="6" value="<?= $_SESSION['post']['captcha_code']?>"/> Isikan kode di gambar
 									</td>
 								</tr>
 								<tr class="submit">
