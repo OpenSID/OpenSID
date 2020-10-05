@@ -33,14 +33,20 @@
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
 								<label for="keperluan" class="col-sm-3 control-label">Keperluan</label>
-								<div class="col-sm-8">
-									<textarea name="keperluan" class="form-control input-sm required" placeholder="Keperluan"></textarea>
+								<div class="input-group col-sm-8">
+									<textarea name="keperluan" id="keperluan" class="form-control input-sm required" placeholder="Keperluan"></textarea>
+									<span class="input-group-addon">
+										<button id="keperluan-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o"></i></button>
+									</span>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
-								<div class="col-sm-8">
-									<textarea  id="keterangan" class="form-control input-sm required" placeholder="Keterangan" name="keterangan"></textarea>
+								<div class="input-group col-sm-8">
+									<textarea name="keterangan" id="keterangan" class="form-control input-sm required" placeholder="Keterangan"></textarea>
+									<span class="input-group-addon">
+										<button id="keterangan-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o"></i></button>
+									</span>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>
@@ -53,3 +59,80 @@
 		</div>
 	</section>
 </div>
+<script type='text/javascript'>
+
+	$(function(){
+
+		$('#keperluan')
+		.keyboard({
+			openOn : null,
+			stayOpen : true,
+			layout: 'custom',
+
+			display: {
+				'bksp'   : '\u2190',
+				'enter'  : '\u23CE',
+				'normal' : 'ABC',
+				'accept' : 'Lanjut',
+				'cancel' : 'Tutup'
+			},
+
+			layout: 'custom',
+			customLayout: {
+			'normal': [
+				'a b c d e f g h i j k l',
+				'm n o p q r s t u v w x',
+				'y z 1 2 3 4 5 6 7 8 9 0',
+				'{enter} {bksp} {space} {cancel} {accept}'
+			]
+		}
+		})
+		.addTyping();
+
+		$('#keterangan')
+		.keyboard({
+			openOn : null,
+			stayOpen : true,
+			layout: 'custom',
+
+			display: {
+				'bksp'   : '\u2190',
+				'enter'  : '\u23CE',
+				'normal' : 'ABC',
+				'accept' : 'Lanjut',
+				'cancel' : 'Tutup'
+			},
+
+			layout: 'custom',
+			customLayout: {
+			'normal': [
+				'a b c d e f g h i j k l',
+				'm n o p q r s t u v w x',
+				'y z 1 2 3 4 5 6 7 8 9 0',
+				'{enter} {bksp} {space} {cancel} {accept}'
+			]
+		}
+		})
+		.addTyping();
+
+		$('#keperluan-opener').click(function(){
+			var kb1 = $('#keperluan').getkeyboard();
+			if ( kb1.isOpen ) {
+				kb1.close();
+			} else {
+				kb1.reveal();
+			}
+		});
+
+		$('#keterangan-opener').click(function(){
+			var kb2 = $('#keterangan').getkeyboard();
+			if ( kb2.isOpen ) {
+				kb2.close();
+			} else {
+				kb2.reveal();
+			}
+		});
+
+	});
+
+</script>

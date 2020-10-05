@@ -27,9 +27,12 @@
 							<?php	endif; ?>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
-								<label for="keterangan"  class="col-sm-3 control-label">Keperluan</label>
-								<div class="col-sm-8">
-									<textarea  id="keterangan" class="form-control input-sm required" placeholder="Keperluan" name="keterangan"></textarea>
+								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
+								<div class="input-group col-sm-8">
+									<textarea name="keterangan" id="keterangan" class="form-control input-sm required" placeholder="Keterangan"></textarea>
+									<span class="input-group-addon">
+										<button id="keterangan-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o"></i></button>
+									</span>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
@@ -41,3 +44,45 @@
 		</div>
 	</section>
 </div>
+<script type='text/javascript'>
+
+	$(function(){
+
+		$('#keterangan')
+		.keyboard({
+			openOn : null,
+			stayOpen : true,
+			layout: 'custom',
+
+			display: {
+				'bksp'   : '\u2190',
+				'enter'  : '\u23CE',
+				'normal' : 'ABC',
+				'accept' : 'Lanjut',
+				'cancel' : 'Tutup'
+			},
+
+			layout: 'custom',
+			customLayout: {
+			'normal': [
+				'a b c d e f g h i j k l',
+				'm n o p q r s t u v w x',
+				'y z 1 2 3 4 5 6 7 8 9 0',
+				'{enter} {bksp} {space} {cancel} {accept}'
+			]
+		}
+		})
+		.addTyping();
+
+		$('#keterangan-opener').click(function(){
+			var kb1 = $('#keterangan').getkeyboard();
+			if ( kb1.isOpen ) {
+				kb1.close();
+			} else {
+				kb1.reveal();
+			}
+		});
+
+	});
+
+</script>

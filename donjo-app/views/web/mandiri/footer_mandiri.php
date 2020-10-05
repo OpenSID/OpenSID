@@ -64,6 +64,15 @@
 			</div>
 		</div>
 
+	<!-- Jquery UI -->
+	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
+
+	<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
+	<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
+	<link rel="stylesheet" href="<?= base_url("assets/css/mandiri.css")?>">
+
 	<!-- jQuery 3 -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Jquery UI -->
@@ -105,5 +114,12 @@
 	<script src="<?= base_url()?>assets/js/script.js"></script>
 	<!-- Khusus modul layanan mandiri -->
 	<script src="<?= base_url() ?>assets/front/js/mandiri.js"></script>
+
+	<!-- keyboard widget css & script -->
+	<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
+	<script src="<?= base_url("assets/js/jquery.keyboard.extension-mobile.min.js")?>"></script>
+	<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
+	<script src="<?= base_url("assets/js/jquery.keyboard.extension-typing.min.js")?>"></script>
+	<script src="<?= base_url("assets/js/jquery.keyboard.extension-autocomplete.min.js")?>"></script>
 </body>
 </html>

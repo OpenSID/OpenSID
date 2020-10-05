@@ -2,10 +2,16 @@
 
 <div class="box box-primary box-solid">
 	<div class="box-body">
-	<form method=get action="<?php echo site_url('first');?>" class="form-inline">
-		<input type="text" name="cari" class="form-control" maxlength="50" value="<?= $cari ?>" placeholder="Cari artikel...">
-		<button type="submit" class="btn btn-primary">Cari</button>
-	</form>
+		<a href="<?= site_url('mandiri_web') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-user fa-lg"></i> Pelayanan Dokumen Mandiri</button></a>
+	</div>
+</div>
+
+<div class="box box-primary box-solid">
+	<div class="box-body">
+		<form method=get action="<?php echo site_url('first');?>" class="form-inline">
+			<input type="text" name="cari" class="form-control" maxlength="50" value="<?= $cari ?>" placeholder="Cari artikel...">
+			<button type="submit" class="btn btn-primary">Cari</button>
+		</form>
 	</div>
 </div>
 
