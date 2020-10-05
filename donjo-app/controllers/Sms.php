@@ -128,27 +128,6 @@ class Sms extends Admin_Controller {
 		redirect('sms/setting');
 	}
 
-	public function polling($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_SESSION['cari_polling']))
-			$data['cari_polling'] = $_SESSION['cari_polling'];
-		else $data['cari_polling'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-
-		$data['paging'] = $this->sms_model->paging_polling($p, $o);
-		$data['main'] = $this->sms_model->list_data_polling($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$this->render('sms/polling', $data);
-	}
-
 	public function outbox($p = 1, $o = 0)
 	{
 		$data['p'] = $p;
@@ -734,59 +713,5 @@ class Sms extends Admin_Controller {
 		$this->sms_model->delete_all_anggota($grup);
 		echo "<script>self.history.back();</script>";
 	}
-	public function form_polling($id = 0)
-	{
-		$data['main'] = $this->sms_model->get_data_polling($id);
-		$data['form_action'] = site_url("sms/insert_polling/$id");
-		$this->load->view('sms/ajax_polling_form', $data);
-	}
 
-	public function insert_polling($id = 0)
-	{
-		$data['insert'] = $this->sms_model->insert_polling($id);
-		redirect("sms/polling");
-	}
-
-	public function polling_delete($id = 0)
-	{
-		$this->redirect_hak_akses('h', "sms/polling");
-		$data['hapus'] = $this->sms_model->delete_polling($id);
-		redirect("sms/polling");
-	}
-
-	public function delete_all_polling()
-	{
-		$this->redirect_hak_akses('h', "sms/polling");
-		$this->sms_model->delete_all_polling();
-		redirect("sms/polling");
-	}
-
-	public function pertanyaan($id = 0, $p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging']  = $this->sms_model->paging_pertanyaan($id, $p, $o);
-		$data['main'] = $this->sms_model->list_data_pertanyaan($id, $o, $data['paging']->offset, $data['paging']->per_page);
-		$data['polling']['id_polling'] = $id;
-		$data['keyword'] = $this->sms_model->autocomplete();
-
-		$this->render('sms/pertanyaan', $data);
-	}
-
-	public function form_pertanyaan($id = 0)
-	{
-		$data['form_action'] = site_url("sms/pertanyaan_insert/$id");
-		$this->load->view('sms/ajax_pertanyaan_form', $data);
-	}
-
-	public function pertanyaan_insert($id = 0)
-	{
-		$data['insert'] = $this->sms_model->insert_pertanyaan($id);
-		redirect("sms/pertanyaan/$id");
-	}
 }
