@@ -50,11 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	if ($aksi == 'unduh')
 	{
-		$tgl = date('Y-m-d');
-		$judul = urlencode("laporan_suplemen_$suplemen[nama]_$tgl");
-
 		header("Content-type: application/xls");
-		header("Content-Disposition: attachment; filename=".$judul.".xls");
+		header("Content-Disposition: attachment; filename=" . urlencode("laporan_suplemen_$suplemen[nama]") . "_" . date("Y-m-d") . ".xls");
 		header("Pragma: no-cache");
 		header("Expires: 0");
 	}

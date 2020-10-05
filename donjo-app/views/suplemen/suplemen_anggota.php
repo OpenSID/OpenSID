@@ -102,8 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['terdata_nama'];?></a></td>
 												<td><?= $item["tempat_lahir"]; ?></td>
 												<td nowrap><?= $item["tanggal_lahir"]; ?></td>
-												<td><?= $item["sex"]; ?></td>
-												<td><?= $item["info"];?></td>
+												<td nowrap><?= $item["sex"]; ?></td>
+												<td nowrap><?= $item["info"];?></td>
 												<td width="25%"><?= $item["keterangan"]; ?></td>
 											</tr>
 										<?php endforeach; ?>
