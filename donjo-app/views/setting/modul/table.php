@@ -80,16 +80,16 @@
 									<div class="col-sm-9 col-lg-4">
 										<select class="form-control required input-sm" name="jenis_server" onchange="ubah_jenis_server($(this).val())">
 											<option value='' selected="selected">-- Pilih Penggunaan OpenSID --</option>
-											<option value="1" <?php selected($this->setting->penggunaan_server, '1')?>>
+											<option value="1" <?= selected($this->setting->penggunaan_server, '1')?>>
 												Offline saja di kantor desa
 											</option>
-											<option value="2" <?php selected($this->setting->penggunaan_server, '2')?>>
+											<option value="2" <?= selected($this->setting->penggunaan_server, '2')?>>
 												Online saja di hosting
 											</option>
 											<option value="3" <?php in_array($this->setting->penggunaan_server, array('3', '5', '6')) and print('selected') ?>>
 												Offline di kantor desa dan online di hosting
 											</option>
-											<option value="4" <?php selected($this->setting->penggunaan_server, '4')?>>
+											<option value="4" <?= selected($this->setting->penggunaan_server, '4')?>>
 												Offline dan online di kantor desa
 											</option>
 										</select>
@@ -100,10 +100,10 @@
 									<div class="col-sm-9 col-lg-4">
 										<select class="form-control input-sm" name="server_mana" onchange="ubah_server($(this).val())">
 											<option value='' selected="selected">-- Pilih Server Ini --</option>
-											<option value="5" <?php selected($this->setting->penggunaan_server, '5')?>>
+											<option value="5" <?= selected($this->setting->penggunaan_server, '5')?>>
 												Offline di kantor desa
 											</option>
-											<option value="6" <?php selected($this->setting->penggunaan_server, '6')?>>
+											<option value="6" <?= selected($this->setting->penggunaan_server, '6')?>>
 												Online di hosting
 											</option>
 										</select>
@@ -173,8 +173,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?=site_url('modul/filter/status/')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php selected($status, 1);?>>Aktif</option>
-														<option value="2" <?php selected($status, 2);?>>Tidak Aktif</option>
+														<option value="1" <?= selected($status, 1);?>>Aktif</option>
+														<option value="2" <?= selected($status, 2);?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">

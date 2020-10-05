@@ -122,7 +122,7 @@
 												<label class="col-sm-3 control-label" for="id_tipe">Kategori Indikator</label>
 												<div class="col-sm-5">
 													<select class="form-control select2 required"  id="id_kategori" name="id_kategori" <?php if ($analisis_master['jenis']==1): ?>disabled="disabled"<?php endif; ?>>
-														<option value="" selected="selected">-- Kategori Indikator--</option>
+														<option value="" selected="selected">-- Kategori Indikator --</option>
 														<?php foreach ($list_kategori AS $data): ?>
 															<option value="<?= $data['id']?>"  <?php if ($analisis_indikator['id_kategori'] == $data['id']): ?>selected <?php endif; ?>><?= $data['kategori']?></option>
 														<?php endforeach;?>

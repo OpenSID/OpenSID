@@ -83,7 +83,7 @@
 														<select class="form-control select2 input-sm" name="id_persil"  onchange="formAction('main')" style="width:100%" >
 															<option value='' selected="selected">-- Pilih Nomor Persil --</option>
 															<?php foreach ($list_persil as $data): ?>
-																<option value="<?= $data['id']?>" <?php selected($persil['id'], $data['id']); ?>> <?= $data['nomor']." : ".$data['nomor_urut_bidang']." - ".$data['lokasi']?></option>
+																<option value="<?= $data['id']?>" <?= selected($persil['id'], $data['id']); ?>> <?= $data['nomor']." : ".$data['nomor_urut_bidang']." - ".$data['lokasi']?></option>
 															<?php endforeach;?>
 														</select>
 													</div>
@@ -211,9 +211,9 @@
 															<label for="jenis_mutasi" class="col-sm-3 control-label required">Sebab Mutasi</label>
 															<div class="col-sm-4">
 																<select class="form-control input-sm required" name="jenis_mutasi" >
-																	<option value>-- Pilih Sebab Mutasi--</option>
+																	<option value>-- Pilih Sebab Mutasi --</option>
 																	<?php foreach ($persil_sebab_mutasi as $key => $item): ?>
-																		<option value="<?= $item['id'] ?>" <?php selected($key, $mutasi['jenis_mutasi'])?>><?= $item['nama']?></option>
+																		<option value="<?= $item['id'] ?>" <?= selected($key, $mutasi['jenis_mutasi'])?>><?= $item['nama']?></option>
 																	<?php endforeach;?>
 																</select>
 															</div>
@@ -230,7 +230,7 @@
 																<select class="form-control select2 input-sm" id="cdesa_keluar" name="cdesa_keluar">
 																	<option value='' selected="selected">-- Pilih C-DESA dari mana bidang persil ini dimutasikan --</option>
 																	<?php foreach ($list_cdesa as $data): ?>
-																		<option value="<?= $data['id_cdesa']?>" <?php selected($mutasi['cdesa_keluar'], $data['id_cdesa']); ?>> <?= $data['nomor']." - ".$data['namapemilik']?></option>
+																		<option value="<?= $data['id_cdesa']?>" <?= selected($mutasi['cdesa_keluar'], $data['id_cdesa']); ?>> <?= $data['nomor']." - ".$data['namapemilik']?></option>
 																	<?php endforeach;?>
 																</select>
 																<label for="" class="col-sm-3 control-label"></label>

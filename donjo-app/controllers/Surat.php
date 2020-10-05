@@ -61,7 +61,7 @@ class Surat extends Admin_Controller {
 	public function index()
 	{
 
-		$data['menu_surat'] = $this->surat_model->list_surat();
+		//$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
 

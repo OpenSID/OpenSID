@@ -26,7 +26,7 @@
 						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
 						<a href="<?= site_url('keluar/dialog_cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Arsip Layanan Surat"><i class="fa fa-print"></i> Cetak</a>
 						<a href="<?= site_url('keluar/dialog_unduh')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Arsip Layanan Surat"><i class="fa fa-download"></i> Unduh</a>
-						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -39,7 +39,7 @@
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
 														<option value="">Tahun</option>
 														<?php foreach ($tahun_surat as $tahun): ?>
-															<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
+															<option value="<?= $tahun['tahun']?>" <?= selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -47,7 +47,7 @@
 													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')" style="width: 100%;">
 														<option value="">Pilih Jenis Surat</option>
 														<?php foreach ($jenis_surat as $data): ?>
-															<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
+															<option value="<?= $data['nama_surat']?>" <?= selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -154,9 +154,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="20" <?php selected($per_page,20); ?> >20</option>
-															<option value="50" <?php selected($per_page,50); ?> >50</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
+															<option value="20" <?= selected($per_page, 20); ?>>20</option>
+															<option value="50" <?= selected($per_page, 50); ?>>50</option>
+															<option value="100" <?= selected($per_page, 100); ?>>100</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>

@@ -26,10 +26,10 @@
 								<select class="form-control input-sm required" name="cid" id="cid">
 							<?php endif;?>
 								<option value="">Pilih Sasaran Program</option>
-								<option value="1" <?php selected($cid, 1); ?>>Penduduk Perorangan</option>
-								<option value="2" <?php selected($cid, 2); ?>>Keluarga - KK</option>
-								<option value="3" <?php selected($cid, 3); ?>>Rumah Tangga</option>
-								<option value="4" <?php selected($cid, 4); ?>>Kelompok / Organisasi</option>
+								<option value="1" <?= selected($cid, 1); ?>>Penduduk Perorangan</option>
+								<option value="2" <?= selected($cid, 2); ?>>Keluarga - KK</option>
+								<option value="3" <?= selected($cid, 3); ?>>Rumah Tangga</option>
+								<option value="4" <?= selected($cid, 4); ?>>Kelompok / Organisasi</option>
 							</select>
 						</div>
 					</div>
@@ -52,7 +52,7 @@
 							<select class="form-control input-sm required" name="asaldana" id="asaldana">
 								<option value="">Sumber Dana</option>
 								<?php foreach ($asaldana AS $ad): ?>
-									<option value="<?= $ad?>" <?php selected($val, $ad); ?>><?= $ad?></option>
+									<option value="<?= $ad?>" <?= selected($val, $ad); ?>><?= $ad?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
@@ -81,8 +81,8 @@
 						<label class="col-sm-3 control-label" for="status">Status</label>
 						<div class="col-sm-3">
 							<select class="form-control input-sm required" name="status" id="status">
-								<option value="1" <?php selected($status, 1); ?>>Aktif</option>
-								<option value="0" <?php selected($status, 0); ?>>Tidak Aktif</option>
+								<option value="1" <?= selected($status, 1); ?>>Aktif</option>
+								<option value="0" <?= selected($status, 0); ?>>Tidak Aktif</option>
 								<!-- Default Value Aktif -->
 							</select>
 						</div>

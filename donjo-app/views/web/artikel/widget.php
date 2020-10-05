@@ -39,8 +39,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('web_widget/filter/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php selected($filter, 1); ?>>Aktif</option>
-														<option value="2" <?php selected($filter, 2); ?>>Tidak Aktif</option>
+														<option value="1" <?= selected($filter, 1); ?>>Aktif</option>
+														<option value="2" <?= selected($filter, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">

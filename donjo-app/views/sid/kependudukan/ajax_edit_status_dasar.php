@@ -39,7 +39,7 @@
 							<select id="status_dasar" name="status_dasar" class="form-control select2 input-sm required">
 								<option value="">Pilih Status Dasar</option>
 								<?php foreach ($list_status_dasar AS $data): ?>
-									<option value="<?=$data['id']?>" <?php selected($data['id'], $nik['status_dasar_id'])?>><?=$data['nama']?></option>
+									<option value="<?=$data['id']?>" <?= selected($data['id'], $nik['status_dasar_id'])?>><?=$data['nama']?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
@@ -48,7 +48,7 @@
 							<select  name="ref_pindah" class="form-control select2 input-sm required">
 								<option value="">Pilih Tujuan Pindah</option>
 								<?php foreach ($list_ref_pindah AS $data): ?>
-									<option value="<?=$data['id']?>" <?php selected($data['id'], $nik['ref_pindah'])?>><?=$data['nama']?></option>
+									<option value="<?=$data['id']?>" <?= selected($data['id'], $nik['ref_pindah'])?>><?=$data['nama']?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
