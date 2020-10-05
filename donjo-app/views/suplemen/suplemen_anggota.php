@@ -59,8 +59,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= ucwords($suplemen[nama]); ?> "><i class="fa fa-print "></i> Cetak</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= ucwords($suplemen[nama]); ?> "><i class="fa fa-download "></i> Unduh</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
 				<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
@@ -76,9 +76,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<tr>
 										<th>No</th>
 										<th>Aksi</th>
-										<th>No. KK</th>
-										<th>NIK <?= $suplemen['judul_sasaran']; ?></th>
-										<th>Nama <?= $suplemen['judul_sasaran']; ?></th>
+										<th><?= $judul['judul_terdata_info']; ?></th>
+										<th><?= $judul['judul_terdata_plus']; ?> </th>
+										<th><?= $judul['judul_terdata_nama']; ?></th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
 										<th>Jenis-kelamin</th>
@@ -97,11 +97,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													<?php endif; ?>
 												</td>
-												<td nowrap><?= $item["no_kk"]; ?></td>
-												<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["nik"]; ?></a></td>
-												<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['nama'];?></a></td>
+												<td nowrap><?= $item["terdata_info"]; ?></td>
+												<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_plus"]; ?></a></td>
+												<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['terdata_nama'];?></a></td>
 												<td><?= $item["tempat_lahir"]; ?></td>
-												<td><?= $item["tanggal_lahir"]; ?></td>
+												<td nowrap><?= $item["tanggal_lahir"]; ?></td>
 												<td><?= $item["sex"]; ?></td>
 												<td><?= $item["info"];?></td>
 												<td width="25%"><?= $item["keterangan"]; ?></td>

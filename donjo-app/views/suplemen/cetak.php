@@ -105,9 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<thead>
 									<tr class="border thick">
 										<th class="padat">No</th>
-										<th>No. KK</th>
-										<th>NIK <?= $suplemen['judul_sasaran']; ?></th>
-										<th>Nama <?= $suplemen['judul_sasaran']; ?></th>
+										<th><?= $judul['judul_terdata_info']; ?></th>
+										<th><?= $judul['judul_terdata_plus']; ?> </th>
+										<th><?= $judul['judul_terdata_nama']; ?></th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
 										<th>Jenis Kelamin</th>
@@ -119,9 +119,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php foreach ($terdata as $key => $item): ?>
 										<tr>
 											<td class="padat"><?= ($key + 1); ?></td>
-											<td class="textx"><?= $item["no_kk"]; ?></td>
-											<td class="textx"><?= $item["nik"]; ?></td>
-											<td><?= $item["nama"]; ?></td>
+											<td class="textx"><?= $item["terdata_info"]; ?></td>
+											<td class="textx"><?= $item["terdata_plus"]; ?></td>
+											<td><?= $item["terdata_nama"]; ?></td>
 											<td><?= $item["tempat_lahir"]; ?></td>
 											<td class="textx"><?= $item["tanggal_lahir"]; ?></td>
 											<td><?= $item["sex"]; ?></td>

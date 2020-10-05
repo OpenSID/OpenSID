@@ -68,11 +68,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<hr>
 				<form action="" id="main" name="main" method="POST" class="form-horizontal">
 					<div class="form-group" >
-						<label for="terdata" class="col-sm-3 control-label"><?= ($sasaran == 1) ? 'No. KK / Nama KK' : 'No. KK / Nama KK'; ?></label>
+						<label for="terdata" class="col-sm-3 control-label"><?= $list_sasaran['judul']; ?></label>
 						<div class="col-sm-8">
 							<select class="form-control select2 required" id="terdata" name="terdata" onchange="formAction('main')">
-								<option selected="selected">-- Silakan Masukan <?= ($sasaran == 1) ? 'No. KK / Nama KK' : 'No. KK / Nama KK'; ?>  --</option>
-								<?php foreach ($list_sasaran as $item): ?>
+								<option selected="selected">-- Silakan Masukan <?= $list_sasaran['judul']; ?>  --</option>
+								<?php foreach ($list_sasaran['data'] as $item): ?>
 									<?php if (strlen($item["id"])>0): ?>
 										<option value="<?= $item['id']?>" <?= selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama'] . ' - ' . $item['info']; ?></option>
 									<?php endif; ?>

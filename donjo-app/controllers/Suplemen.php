@@ -48,7 +48,7 @@ class Suplemen extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'suplemen_model', 'pamong_model']);
+		$this->load->model(['suplemen_model', 'pamong_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
 	}
@@ -152,7 +152,7 @@ class Suplemen extends Admin_Controller {
 		$this->render('suplemen/terdata', $data);
 	}
 
-	public function data_terdata($id)
+	public function data_terdata($id = 0)
 	{
 		$data['terdata'] = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
@@ -165,6 +165,7 @@ class Suplemen extends Admin_Controller {
 	{
 		$data = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['form_action'] = site_url("suplemen/edit_terdata/$id");
+
 		$this->load->view('suplemen/edit_terdata', $data);
 	}
 
@@ -193,9 +194,10 @@ class Suplemen extends Admin_Controller {
 	*/
 	public function dialog_daftar($id = 0, $aksi = '')
 	{
-		$data['aksi'] = ucwords($aksi);
+		$data['aksi'] = $aksi;
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("suplemen/daftar/$id/$aksi");
+
 		$this->load->view('global/ttd_pamong', $data);
 	}
 
@@ -211,7 +213,7 @@ class Suplemen extends Admin_Controller {
 			$this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
 			$data = $this->suplemen_model->get_rincian(1, $id);
 			$data['sasaran'] = unserialize(SASARAN);
-			$data['config'] = $this->config_model->get_data();
+			$data['config'] = $this->header['desa'];
 			$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
 			$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
 			$data['aksi'] = $aksi;
