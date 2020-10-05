@@ -11,9 +11,9 @@
 	<section class="content-header">
 		<h1>Laporan Statistik Jawaban</h1>
 		<ol class="breadcrumb">
-			<li><a href="<? =site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<? =site_url('analisis_master'); ?>"> Master Analisis</a></li>
-			<li><a href="<?=site_url('analisis_statistik_jawaban/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
+			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master'); ?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('analisis_statistik_jawaban/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
 			<li class="active">Laporan Per Indikator</li>
 		</ol>
 	</section>
@@ -45,13 +45,13 @@
 								<form id="mainform" name="mainform" action="" method="post">
 									<div class="row">
 										<div class="col-sm-9">
-											<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<? =site_url('analisis_statistik_jawaban/tipe'); ?>')">
+											<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/tipe'); ?>')">
 												<option value="">Pilih Tipe Indikator</option>
 												<?php foreach ($list_tipe AS $data): ?>
 													<option value="<?= $data['id']; ?>" <?php if ($tipe == $data['id']): ?>selected<?php endif ?>><?= $data['tipe']; ?></option>
 												<?php endforeach;?>
 											</select>
-											<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<? =site_url('analisis_statistik_jawaban/kategori'); ?>')">
+											<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/kategori'); ?>')">
 												<option value="">Pilih Tipe Kategori</option>
 												<?php foreach ($list_kategori AS $data): ?>
 													<option value="<?= $data['id']; ?>" <?php if ($kategori == $data['id']): ?>selected<?php endif ?>><?= $data['kategori']; ?></option>

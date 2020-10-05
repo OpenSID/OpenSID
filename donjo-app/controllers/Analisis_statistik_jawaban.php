@@ -89,7 +89,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if( isset($_SESSION['cari']))
+		if (isset($_SESSION['cari']))
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
@@ -103,8 +103,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			$data['kategori'] = $_SESSION['kategori'];
 		else $data['kategori'] = '';
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
+		$data['per_page'] = $this->session->per_page;
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -131,8 +131,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
-		$data['paging']  = $this->analisis_statistik_jawaban_model->paging($p,$o);
-		$data['main']    = $this->analisis_statistik_jawaban_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['paging'] = $this->analisis_statistik_jawaban_model->paging($p,$o);
+		$data['main'] = $this->analisis_statistik_jawaban_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_statistik_jawaban_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
