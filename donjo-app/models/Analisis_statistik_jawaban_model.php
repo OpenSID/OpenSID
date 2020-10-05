@@ -58,7 +58,7 @@
 		{
 			$kf = $_SESSION['kategori'];
 			$filter_sql = " AND u.id_kategori = $kf";
-		return $filter_sql;
+			return $filter_sql;
 		}
 	}
 
@@ -137,7 +137,11 @@
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$sql = "SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE 1 ";
+		$sql = "SELECT u.*, t.tipe AS tipe_indikator, k.kategori AS kategori
+			FROM analisis_indikator u
+			LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id
+			LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id
+			WHERE 1 ";
 
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
