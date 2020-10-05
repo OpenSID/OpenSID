@@ -197,7 +197,7 @@
 
 	public function get_alamat_wilayah($data)
 	{
-		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".set_ucwords($this->setting->sebutan_dusun)." ".set_ucwords($data['dusun']);
 		return trim($alamat_wilayah);
 	}
 
@@ -310,12 +310,13 @@
 
 	public function format_data_surat(&$data)
 	{
-		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex",
-			"status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu","alamat","alamat_sebelumnya",
-			"alamat_wilayah","cacat");
+		// Asumsi kolom "alamat_wilayah" sdh dalam format ucwords
+		$kolomUpper = array("tanggallahir", "tempatlahir", "dusun", "pekerjaan", "gol_darah", "agama", "sex",
+			"status_kawin", "pendidikan", "hubungan", "nama_ayah", "nama_ibu", "alamat", "alamat_sebelumnya",
+			"cacat");
 		foreach ($kolomUpper as $kolom)
 		{
-			if (isset($data[$kolom])) $data[$kolom] = ucwords(strtolower($data[$kolom]));
+			if (isset($data[$kolom])) $data[$kolom] = set_ucwords($data[$kolom]);
 		}
 		if (isset($data["pendidikan"]))
 		{
@@ -323,14 +324,6 @@
 			foreach ($namaPendidikan as $key => $value)
 			{
 				$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
-			}
-		}
-		if (isset($data["alamat_wilayah"]))
-		{
-			$rt_rw = array("Rt"=>"RT", "Rw"=>"RW");
-			foreach ($rt_rw as $key => $value)
-			{
-				$data["alamat_wilayah"] = str_replace($key, $value, $data["alamat_wilayah"]);
 			}
 		}
 		if (isset($data["pekerjaan"]))
@@ -1041,6 +1034,7 @@
 				$data['ibu'] = $this->get_data_ibu($id);
 				break;
 		}
+
 		return $data;
 	}
 
