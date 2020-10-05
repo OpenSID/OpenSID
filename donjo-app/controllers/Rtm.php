@@ -51,7 +51,7 @@ class Rtm extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
+		$this->load->model(['rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
 
 		$this->_set_page = ['50', '100', '200'];
 		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos

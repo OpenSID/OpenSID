@@ -56,7 +56,7 @@ class Web_widget extends Admin_Controller {
 			exit;
 		}
 
-		$this->load->model(['web_widget_model', 'header_model']);
+		$this->load->model(['web_widget_model']);
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 48;
 		$this->set_page = ['20', '50', '100'];

@@ -129,9 +129,19 @@
 		return  $query->result_array();
 	}
 
+	private function bersihkan_data($post)
+	{
+		$data['owner'] = htmlentities($post['owner']);
+		$data['no_hp'] = bilangan($post['no_hp']);
+		$data['email'] = email($post['email']);
+		$data['komentar'] = htmlentities($post['komentar']);
+		$data['status'] = bilangan($post['status']);
+		return $data;
+	}
+
 	public function insert()
 	{
-		$data = $_POST;
+	  $data = $this->bersihkan_data($this->input->post());
 		$data['id_user'] = $_SESSION['user'];
 		$outp = $this->db->insert('komentar', $data);
 
@@ -140,7 +150,7 @@
 
 	public function update($id=0)
 	{
-	  $data = $_POST;
+	  $data = $this->bersihkan_data($this->input->post());
 	  $data['updated_at'] = date('Y-m-d H:i:s');
 		$this->db->where('id', $id);
 		$outp = $this->db->update('komentar', $data);
