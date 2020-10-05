@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 3. #3596: Sekarang nilai indikator analisis bisa sampai 999.
 4. #3606: Tutup celah JSO di form komentar admin. [security]
 5. #3577: Rapikan dan hapus script tidak digunakan di modul Analisis Statistik Jawaban. [teknis]
+6. #3617: Perbaiki supaya dusun dengan nama angka Romawi tampil betul di surat. [bug-fix]
 
 
 
