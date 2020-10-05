@@ -5,7 +5,7 @@
  *
  * Model untuk modul database
  *
- * Migrasi_fitur_premium.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2010.php
  *
  */
 
@@ -129,6 +129,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			'ikon_kecil' => ''
 		);
 		$this->tambah_modul($modul);
+
 	}
 
 }

@@ -200,6 +200,66 @@
   animation-timing-function: linear;
 }
 
+.grid-print-container {
+  grid-template: auto 1fr auto / 1fr;
+  background-color: white;
+}
+.grid-map-print {
+  grid-row: 2;
+}
+
+.grid-print-container > .title,
+.grid-print-container > .sub-content {
+  color: black;
+}
+.title {
+  grid-row: 1;
+  justify-self: center;
+  text-align: center;
+  color: grey;
+  box-sizing: border-box;
+  margin-top: 0;
+}
+.sub-content {
+  grid-row: 5;
+  padding-left: 10px;
+  text-align: center;
+  color: grey;
+  box-sizing: border-box;
+}
+
+[leaflet-browser-print-pages] {
+  display: none;
+}
+.pages-print-container [leaflet-browser-print-pages] {
+  display: block;
+}
+
+.info.legend {
+  padding: 6px 8px;
+  font: 10px/12px Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+.info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: left; line-height: 10px; color: #555; }
+.legend > * {
+  display: flex;
+  margin-bottom: 5px;
+}
+.legend i { width: 10px; height: 10px; float: left; margin-right: 8px; opacity: 1; }
+
+.leaflet-tooltip-pane .text {
+  color: #000000;
+  font-weight: bold;
+  background: transparent;
+  border:0;
+  box-shadow: none;
+  font-size:0.8em;
+}
+
 @keyframes placeholderShimmer {
   0% {
     background-position: -468px 0;
@@ -239,8 +299,8 @@
 }
 
 #qrcode .panel-body-lg {
-  margin-right: 5px;
-  margin-bottom: 20px;
+  margin-left: 5px;
+  margin-bottom: 40px;
   pointer-events: visiblePainted;
 	pointer-events: auto;
   position: relative;
