@@ -235,7 +235,15 @@
   display: block;
 }
 
-.info { padding: 6px 8px; font: 10px/12px Arial, Helvetica, sans-serif; font-weight: bold; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+.info.legend {
+  padding: 6px 8px;
+  font: 10px/12px Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+.info h4 { margin: 0 0 5px; color: #777; }
 .legend { text-align: left; line-height: 10px; color: #555; }
 .legend > * {
   display: flex;
