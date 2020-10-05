@@ -126,7 +126,7 @@ class Siteman extends CI_Controller
 	public function logout()
 	{
 		$this->user_model->logout();
-		$this->index;
+		$this->index();
 	}
 
 }
