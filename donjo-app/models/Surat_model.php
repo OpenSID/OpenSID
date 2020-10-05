@@ -310,12 +310,13 @@
 
 	public function format_data_surat(&$data)
 	{
-		$kolomUpper = array("tanggallahir","tempatlahir","dusun","pekerjaan","gol_darah","agama","sex",
-			"status_kawin","pendidikan","hubungan","nama_ayah","nama_ibu","alamat","alamat_sebelumnya",
-			"alamat_wilayah","cacat");
+		// Asumsi kolom "alamat_wilayah" sdh dalam format ucwords
+		$kolomUpper = array("tanggallahir", "tempatlahir", "dusun", "pekerjaan", "gol_darah", "agama", "sex",
+			"status_kawin", "pendidikan", "hubungan", "nama_ayah", "nama_ibu", "alamat", "alamat_sebelumnya",
+			"cacat");
 		foreach ($kolomUpper as $kolom)
 		{
-			if (isset($data[$kolom]) && ! $data["alamat_wilayah"]) $data[$kolom] = ucwords(strtolower($data[$kolom]));
+			if (isset($data[$kolom])) $data[$kolom] = set_ucwords($data[$kolom]);
 		}
 		if (isset($data["pendidikan"]))
 		{
@@ -1033,6 +1034,7 @@
 				$data['ibu'] = $this->get_data_ibu($id);
 				break;
 		}
+
 		return $data;
 	}
 
