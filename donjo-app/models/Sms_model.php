@@ -887,5 +887,130 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
+	public function paging_polling($p = 1, $o = 0)
+	{
+		$sql = "SELECT count(*) as jml " . $this->list_data_polling_sql();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_polling_sql()
+	{
+		$sql = " FROM polling a WHERE 1 ";
+		return $sql;
+	}
+
+	public function list_data_polling($o = 0, $offset = 0, $limit = 500)
+	{
+		$paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+		$select_sql = "SELECT a.*, (SELECT COUNT(b.id) FROM pertanyaan b WHERE b.id_polling = a.id_polling) as jumlah_pertanyaan ";
+
+		$sql = $select_sql . $this->list_data_polling_sql();
+		$sql .= $paging_sql;
+		$query = $this->db->query($sql);
+		$data  = $query->result_array();
+
+		//Formating Output
+		$j = $offset;
+
+		return $data;
+	}
+
+	public function get_data_polling($id = 0)
+	{
+		$sql = "SELECT * FROM polling WHERE id_polling = '$id'";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		return $data;
+	}
+
+	public function insert_polling($id = 0)
+	{
+		$data = $_POST;
+		if ($id == 0)
+		{
+			$outp = $this->db->insert('polling', $data);
+		} else {
+			$this->db->where('id_polling', $id);
+			$outp = $this->db->update('polling', $data);
+		}
+
+		status_sukses($outp); //Tampilkan Pesan
+	}
+
+	public function delete_polling($id = 0)
+	{
+		$sql = "DELETE FROM polling WHERE id_polling = '$id' ";
+		$query = $this->db->query($sql);
+	}
+
+	public function delete_all_polling()
+	{
+		$id_cb = $_POST['id_cb'];
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM  polling WHERE id_polling = '$id' ";
+				$outp = $this->db->query($sql, array(
+					$id
+				));
+			}
+		} else
+			$outp = false;
+
+		status_sukses($outp); //Tampilkan Pesan
+	}
+
+	public function paging_pertanyaan($id = 0, $p = 1, $o = 0)
+	{
+		$sql = "SELECT COUNT(*) as jml " . $this->list_data_pertanyaan_sql($id);
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_pertanyaan_sql($id)
+	{
+		$sql = " FROM kontak_grup a
+			LEFT JOIN kontak b ON a.id_kontak = b.id
+			LEFT JOIN tweb_penduduk c ON b.id_pend = c.id
+			WHERE a.id_kontak <> '0' AND nama_grup = '$id' ";
+		$sql .= $this->search_anggota_sql();
+		return $sql;
+	}
+
+	public function list_data_pertanyaan($id = 0, $o = 0, $offset = 0, $limit = 500)
+	{
+		$paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+
+		$select_sql = "SELECT a.*, c.*, b.*, (CASE when sex = '1' then 'Laki-laki' else 'Perempuan' end) as sex ";
+		$sql = $select_sql . $this->list_data_pertanyaan_sql($id);
+		$sql .= $paging_sql;
+
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+
+		$j = $offset;
+
+		return $data;
+	}
 }
 ?>

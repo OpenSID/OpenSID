@@ -80,7 +80,7 @@ class Siteman extends CI_Controller
 	public function auth()
 	{
 		$method = $this->input->method(TRUE);
-				$allow_method = ['POST'];
+        $allow_method = ['POST'];
 		if(!in_array($method,$allow_method))
 		{
 			redirect('siteman/login');
@@ -103,7 +103,7 @@ class Siteman extends CI_Controller
 		// Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
 		if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === false)
 		{
-			$request_awal = site_url() . substr($_SESSION['request_uri'], 1);
+			$request_awal = str_replace(parse_url(site_url(), PHP_URL_PATH), '', $_SESSION['request_uri']);
 			unset($_SESSION['request_uri']);
 			redirect($request_awal);
 		}
@@ -123,9 +123,14 @@ class Siteman extends CI_Controller
 		$this->load->view('siteman', $data);
 	}
 
+	public function flash()
+	{
+		$this->load->view('config');
+	}
+
 	public function logout()
 	{
 		$this->user_model->logout();
-		redirect('siteman');
+		$this->index();
 	}
 }
