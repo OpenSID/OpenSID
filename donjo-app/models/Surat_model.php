@@ -197,7 +197,7 @@
 
 	public function get_alamat_wilayah($data)
 	{
-		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".set_ucwords($this->setting->sebutan_dusun)." ".set_ucwords($data['dusun']);
 		return trim($alamat_wilayah);
 	}
 
@@ -315,7 +315,7 @@
 			"alamat_wilayah","cacat");
 		foreach ($kolomUpper as $kolom)
 		{
-			if (isset($data[$kolom])) $data[$kolom] = ucwords(strtolower($data[$kolom]));
+			if (isset($data[$kolom]) && ! $data["alamat_wilayah"]) $data[$kolom] = ucwords(strtolower($data[$kolom]));
 		}
 		if (isset($data["pendidikan"]))
 		{
@@ -323,14 +323,6 @@
 			foreach ($namaPendidikan as $key => $value)
 			{
 				$data["pendidikan"] = str_replace($key, $value, $data["pendidikan"]);
-			}
-		}
-		if (isset($data["alamat_wilayah"]))
-		{
-			$rt_rw = array("Rt"=>"RT", "Rw"=>"RW");
-			foreach ($rt_rw as $key => $value)
-			{
-				$data["alamat_wilayah"] = str_replace($key, $value, $data["alamat_wilayah"]);
 			}
 		}
 		if (isset($data["pekerjaan"]))
