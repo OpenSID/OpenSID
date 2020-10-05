@@ -147,7 +147,6 @@ class Kelompok extends Admin_Controller {
 
 	public function cetak()
 	{
-		$data['header'] = $this->header_model->get_data();
 		$data['main'] = $this->kelompok_model->list_data();
 
 		$this->load->view('kelompok/cetak', $data);
@@ -155,7 +154,6 @@ class Kelompok extends Admin_Controller {
 
 	public function excel()
 	{
-		$data['header'] = $this->header_model->get_data();
 		$data['main'] = $this->kelompok_model->list_data();
 
 		$this->load->view('kelompok/excel', $data);

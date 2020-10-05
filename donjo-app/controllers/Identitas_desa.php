@@ -49,7 +49,7 @@ class Identitas_desa extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'config_model', 'wilayah_model', 'provinsi_model']);
+		$this->load->model(['config_model', 'wilayah_model', 'provinsi_model']);
 
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 17;

@@ -156,7 +156,7 @@ class Analisis_respon extends Admin_Controller {
 			$data['layarpenuh']= 2;
 		}
 
-		$this->render('analisis_respon/form',$data);
+		$this->render('analisis_respon/form', $data);
 	}
 
 	public function update_kuisioner($p=1, $o=0, $id='')
@@ -174,7 +174,7 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_jawab'] = $this->analisis_respon_model->list_indikator_child($idc);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner_child/$p/$o/$id/$idc");
 
-		$this->load->view('analisis_respon/form_ajax',$data);
+		$this->load->view('analisis_respon/form_ajax', $data);
 	}
 
 	public function update_kuisioner_child($p=1, $o=0, $id='', $idc='')
@@ -264,7 +264,7 @@ class Analisis_respon extends Admin_Controller {
 
 	public function form_impor_bdt(){
 		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
-		$this->load->view('analisis_respon/import/impor_bdt',$data);
+		$this->load->view('analisis_respon/import/impor_bdt', $data);
 	}
 
 	public function impor_bdt()
