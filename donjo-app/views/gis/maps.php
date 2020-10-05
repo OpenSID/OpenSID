@@ -78,22 +78,22 @@
     var markersList = [];
 
     //OVERLAY WILAYAH DESA
-    <?php if (!empty($desa['path'])): ?>
+    <?php if ( ! empty($desa['path'])): ?>
       set_marker_desa_content(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>", '#isi_popup');
     <?php endif; ?>
 
     //OVERLAY WILAYAH DUSUN
-    <?php if (!empty($dusun_gis)): ?>
+    <?php if ( ! empty($dusun_gis)): ?>
       set_marker_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RW
-    <?php if (!empty($rw_gis)): ?>
+    <?php if ( ! empty($rw_gis)): ?>
       set_marker_content(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RT
-    <?php if (!empty($rt_gis)): ?>
+    <?php if ( ! empty($rt_gis)): ?>
       set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa()?>');
     <?php endif; ?>
 

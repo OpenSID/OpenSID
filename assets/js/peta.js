@@ -3,7 +3,7 @@
  *
  * Javascript untuk Modul Pemetaan di OpenSID
  *
- * peta.js
+ * assets/js/peta.js
  *
  */
 
