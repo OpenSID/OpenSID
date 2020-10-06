@@ -103,7 +103,8 @@ class Siteman extends CI_Controller
 		// Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
 		if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === FALSE)
 		{
-			$request_awal = $_SESSION['request_uri'];
+			// Lengkapi url supaya tidak diubah oleh redirect
+			$request_awal = $_SERVER['HTTP_ORIGIN'] . $_SESSION['request_uri'];
 			unset($_SESSION['request_uri']);
 			redirect($request_awal);
 		}
