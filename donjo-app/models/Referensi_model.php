@@ -107,13 +107,14 @@ define("STAT_BANTUAN", serialize([
 	'bantuan_keluarga' => 'Penerima Bantuan Keluarga'
 ]));
 
-// Statistik Keluarga
+// Statistik Lainnya
 define("STAT_LAINNYA", serialize([
 	'dpt' => 'Calon Pemilih',
 	'wilayah' => 'Wilayah Administratif',
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
-	'peta' => 'Peta'
+	'peta' => 'Peta',
+	'data_analisis' => 'Data Analisis'
 ]));
 
 
