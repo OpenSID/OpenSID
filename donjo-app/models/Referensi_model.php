@@ -101,13 +101,13 @@ define("STAT_KELUARGA", serialize([
 	'kelas_sosial' => 'Kelas Sosial'
 ]));
 
-// Statistik Keluarga
+// Statistik Bantuan
 define("STAT_BANTUAN", serialize([
 	'bantuan_penduduk' => 'Penerima Bantuan Penduduk',
 	'bantuan_keluarga' => 'Penerima Bantuan Keluarga'
 ]));
 
-// Statistik Keluarga
+// Statistik Lainnya
 define("STAT_LAINNYA", serialize([
 	'dpt' => 'Calon Pemilih',
 	'wilayah' => 'Wilayah Administratif',
