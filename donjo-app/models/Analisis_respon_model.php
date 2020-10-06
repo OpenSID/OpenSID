@@ -249,7 +249,8 @@
 
 	public function update_kuisioner($id=0, $per=0)
 	{
-		$outp = false;
+		$outp = true;
+		$this->session->error_msg = '';
 		if ($per == 0)
 		{
 			$per = $this->get_aktif_periode();
@@ -326,7 +327,7 @@
 					$data['id_periode'] = $per;
 					$data['id_indikator'] = $p[0];
 					$data['id_parameter'] = $p[1];
-					$outp = $this->db->insert('analisis_respon', $data);
+					$outp &= $this->db->insert('analisis_respon', $data);
 				}
 			}
 			if (isset($_POST['cb']))
@@ -342,7 +343,7 @@
 						$data['id_periode'] = $per;
 						$data['id_indikator'] = $p[0];
 						$data['id_parameter'] = $p[1];
-						$outp = $this->db->insert('analisis_respon', $data);
+						$outp &= $this->db->insert('analisis_respon', $data);
 					}
 				}
 			}
@@ -364,7 +365,7 @@
 						{
 							$data['id_indikator'] = $indikator;
 							$data['jawaban'] = $id_p;
-							$this->db->insert('analisis_parameter', $data);
+							$outp &= $this->db->insert('analisis_parameter', $data);
 							unset($data);
 
 							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
@@ -375,7 +376,7 @@
 							$data['id_indikator'] = $indikator;
 							$data['id_subjek'] = $id;
 							$data['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data);
+							$outp &= $this->db->insert('analisis_respon', $data);
 						}
 						else
 						{
@@ -384,7 +385,7 @@
 							$data['id_parameter'] = $dx['id'];
 							$data['id_subjek'] = $id;
 							$data['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data);
+							$outp &= $this->db->insert('analisis_respon', $data);
 						}
 					}
 					next($id_ia);
@@ -407,7 +408,7 @@
 						{
 							$data['id_indikator'] = $indikator;
 							$data['jawaban'] = $id_p;
-							$this->db->insert('analisis_parameter', $data);
+							$outp &= $this->db->insert('analisis_parameter', $data);
 							unset($data);
 
 							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
@@ -418,7 +419,7 @@
 							$data2['id_indikator'] = $indikator;
 							$data2['id_subjek'] = $id;
 							$data2['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data2);
+							$outp &= $this->db->insert('analisis_respon', $data2);
 						}
 						else
 						{
@@ -428,7 +429,7 @@
 
 							$data['id_subjek'] = $id;
 							$data['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data);
+							$outp &= $this->db->insert('analisis_respon', $data);
 						}
 					}
 					next($id_it);
@@ -446,7 +447,7 @@
 
 			$sql = "DELETE FROM analisis_respon_hasil WHERE id_subjek = ? AND id_periode=?";
 			$this->db->query($sql, array($id, $per));
-			$outp = $this->db->insert('analisis_respon_hasil', $upx);
+			$outp &= $this->db->insert('analisis_respon_hasil', $upx);
 		}
 		if (isset($_FILES['pengesahan']))
 		{
@@ -471,12 +472,11 @@
 					if ($ada_bukti > 0)
 						$outp = $this->db->where(array('id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per))->update('analisis_respon_bukti', $bukti);
 					else
-						$outp = $this->db->insert('analisis_respon_bukti', $bukti);
+						$outp &= $this->db->insert('analisis_respon_bukti', $bukti);
 				}
 			}
 		}
-		if ($outp) $_SESSION['sukses'] = 1;
-			else $_SESSION['sukses'] = -1;
+		status_sukses($outp);
 	}
 
 	private function list_jawab2($id=0, $in=0, $per=0)
