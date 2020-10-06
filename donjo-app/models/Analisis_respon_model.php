@@ -250,6 +250,7 @@
 	public function update_kuisioner($id=0, $per=0)
 	{
 		$outp = true;
+		$this->session->error_msg = '';
 		if ($per == 0)
 		{
 			$per = $this->get_aktif_periode();
