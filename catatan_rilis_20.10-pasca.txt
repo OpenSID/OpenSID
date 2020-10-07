@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.10-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 
@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 7. #3619: Perbaiki respons analisis tidak bisa disimpan pada status MySQL STRICT_TRANS_TABLES. [bug-fix]
 8. #3602: Perbaiki redirect ke halaman permintaan awal pada login admin di server di mana index.php dihilangkan. [bug-fix]
 9. #2629: Perbaiki supaya semua fungsi input data survei modul analisis menggunakan data penduduk hidup dan keluarga aktif saja secara konsisten. [bug-fix]
+10. #3624: Data analisis sekarang hanya bisa ditampilkan di web melalui menu statis.
 
 
 

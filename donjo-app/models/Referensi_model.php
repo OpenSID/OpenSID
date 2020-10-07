@@ -101,7 +101,7 @@ define("STAT_KELUARGA", serialize([
 	'kelas_sosial' => 'Kelas Sosial'
 ]));
 
-// Statistik Keluarga
+// Statistik Bantuan
 define("STAT_BANTUAN", serialize([
 	'bantuan_penduduk' => 'Penerima Bantuan Penduduk',
 	'bantuan_keluarga' => 'Penerima Bantuan Keluarga'
