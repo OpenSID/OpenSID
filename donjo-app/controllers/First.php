@@ -314,6 +314,8 @@ class First extends Web_Controller {
 
 	public function data_analisis($stat="", $sb=0, $per=0)
 	{
+		if (!$this->web_menu_model->menu_aktif('data_analisis')) show_404();
+		
 		$data = $this->includes;
 
 		if ($stat == "")
