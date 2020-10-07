@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.10-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 
@@ -8,6 +8,14 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 2. Perbaikan script controller menyeluruh menghapus yg tidak diperlukan dan menyesuaikan dengan aturan penulisan. [teknis]
 3. #3596: Sekarang nilai indikator analisis bisa sampai 999.
 4. #3606: Tutup celah JSO di form komentar admin. [security]
+5. #3577: Rapikan dan hapus script tidak digunakan di modul Analisis Statistik Jawaban. [teknis]
+6. #3617: Perbaiki supaya dusun dengan nama angka Romawi tampil betul di surat. [bug-fix]
+7. #3619: Perbaiki respons analisis tidak bisa disimpan pada status MySQL STRICT_TRANS_TABLES. [bug-fix]
+8. #3602: Perbaiki redirect ke halaman permintaan awal pada login admin di server di mana index.php dihilangkan. [bug-fix]
+9. #2629: Perbaiki supaya semua fungsi input data survei modul analisis menggunakan data penduduk hidup dan keluarga aktif saja secara konsisten. [bug-fix]
+10. #3624: Data analisis sekarang hanya bisa ditampilkan di web melalui menu statis.
+11. Hapus script tidak digunakan di modul SMS. [teknis]
+12. #3608, #3609: Tampilkan No. KK dan NIK untuk terdata sasaran penduduk dan keluarga di modul Data Suplemen.
 
 
 

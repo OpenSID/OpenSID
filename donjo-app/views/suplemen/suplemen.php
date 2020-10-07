@@ -86,25 +86,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</tr>
 								</thead>
 								<tbody>
-									<?php	foreach ($suplemen as $key => $item):	?>
+									<?php if ($suplemen): ?>
+										<?php	foreach ($suplemen as $key => $item):	?>
+											<tr>
+												<td class="padat"><?= ($key + 1); ?></td>
+												<td class="aksi">
+													<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
+													<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
+													<a
+														<?php if ($item['jml'] <= 0): ?>
+															href="#" data-href="<?= site_url("suplemen/hapus/$item[id]")?>" data-toggle="modal" data-target="#confirm-delete"
+														<?php endif; ?>
+														class="btn bg-maroon btn-flat btn-sm" title="Hapus" <?= jecho($item['jml'] > 0, true, 'disabled'); ?>><i class="fa fa-trash-o"></i>
+													</a>
+												</td>
+												<td width="20%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
+												<td class="padat"><?= $item['jml']?></td>
+												<td class="nostretch"><?= $sasaran[$item["sasaran"]]?></td>
+												<td><?= $item['keterangan']?></td>
+											</tr>
+										<?php endforeach; ?>
+									<?php else: ?>
 										<tr>
-											<td class="padat"><?= ($key + 1); ?></td>
-											<td class="aksi">
-												<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
-												<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
-												<a
-													<?php if ($item['jml'] <= 0): ?>
-														href="#" data-href="<?= site_url("suplemen/hapus/$item[id]")?>" data-toggle="modal" data-target="#confirm-delete"
-													<?php endif; ?>
-													class="btn bg-maroon btn-flat btn-sm" title="Hapus" <?= jecho($item['jml'] > 0, true, 'disabled'); ?>><i class="fa fa-trash-o"></i>
-												</a>
-											</td>
-											<td width="20%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
-											<td class="padat"><?= $item['jml']?></td>
-											<td class="nostretch"><?= $sasaran[$item["sasaran"]]?></td>
-											<td><?= $item['keterangan']?></td>
+											<td class="text-center" colspan="6">Data Tidak Tersedia</td>
 										</tr>
-									<?php endforeach; ?>
+									<?php endif; ?>
 								</tbody>
 							</table>
 						</div>
