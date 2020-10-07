@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</tr>
 								</thead>
 								<tbody>
-									<?php if($suplemen): ?>
+									<?php if ($suplemen): ?>
 										<?php	foreach ($suplemen as $key => $item):	?>
 											<tr>
 												<td class="padat"><?= ($key + 1); ?></td>

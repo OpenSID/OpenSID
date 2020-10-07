@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 9. #2629: Perbaiki supaya semua fungsi input data survei modul analisis menggunakan data penduduk hidup dan keluarga aktif saja secara konsisten. [bug-fix]
 10. #3624: Data analisis sekarang hanya bisa ditampilkan di web melalui menu statis.
 11. Hapus script tidak digunakan di modul SMS. [teknis]
+12. #3608, #3609: Tampilkan No. KK dan NIK untuk terdata sasaran penduduk dan keluarga di modul Data Suplemen.
 
 
 
