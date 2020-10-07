@@ -59,9 +59,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= ucwords($suplemen[nama]); ?> "><i class="fa fa-print "></i> Cetak</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= ucwords($suplemen[nama]); ?> "><i class="fa fa-download "></i> Unduh</a>
-				<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Data Suplemen">
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
+				<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
 			</div>
@@ -76,8 +76,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<tr>
 										<th>No</th>
 										<th>Aksi</th>
-										<th><?= $suplemen["judul_terdata_nama"]?></th>
-										<th><?= $suplemen["judul_terdata_info"]?></th>
+										<th><?= $judul['judul_terdata_info']; ?></th>
+										<th><?= $judul['judul_terdata_plus']; ?> </th>
+										<th><?= $judul['judul_terdata_nama']; ?></th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
 										<th>Jenis-kelamin</th>
@@ -86,24 +87,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($terdata as $key => $item): ?>
+									<?php if($terdata): ?>
+										<?php foreach ($terdata as $key => $item): ?>
+											<tr>
+												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
+												<td class="aksi">
+													<?php if ($this->CI->cek_hak_akses('h')): ?>
+														<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+													<?php endif; ?>
+												</td>
+												<td nowrap><?= $item["terdata_info"]; ?></td>
+												<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_plus"]; ?></a></td>
+												<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['terdata_nama'];?></a></td>
+												<td><?= $item["tempat_lahir"]; ?></td>
+												<td nowrap><?= $item["tanggal_lahir"]; ?></td>
+												<td nowrap><?= $item["sex"]; ?></td>
+												<td nowrap><?= $item["info"];?></td>
+												<td width="25%"><?= $item["keterangan"]; ?></td>
+											</tr>
+										<?php endforeach; ?>
+									<?php else: ?>
 										<tr>
-											<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-											<td class="aksi">
-												<?php if ($this->CI->cek_hak_akses('h')): ?>
-													<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-													<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-												<?php endif; ?>
-											</td>
-											<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_nama"] ?></a></td>
-											<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['terdata_info'];?></a></td>
-											<td><?= $item["tempat_lahir"] ?></td>
-											<td><?= $item["tanggal_lahir"] ?></td>
-											<td><?= strtoupper($item['sex'])?></td>
-											<td><?= $item["info"];?></td>
-											<td width="25%"><?= $item["keterangan"];?></td>
+											<td class="text-center" colspan="10">Data Tidak Tersedia</td>
 										</tr>
-									<?php endforeach; ?>
+									<?php endif; ?>
 								</tbody>
 							</table>
 						</div>
