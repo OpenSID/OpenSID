@@ -46,9 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<?php $this->load->view('global/validasi_form'); ?>
 <form action="<?= $form_action; ?>" method="post" id="validasi" target="_blank">
 	<div class="modal-body">
 		<div class="form-group">
@@ -71,8 +69,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> <?= $aksi?></button>
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
 	</div>
 </form>
 <script type="text/javascript">

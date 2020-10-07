@@ -50,11 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	if ($aksi == 'unduh')
 	{
-		$tgl = date('Y-m-d');
-		$judul = urlencode("laporan_suplemen_$suplemen[nama]_$tgl");
-
 		header("Content-type: application/xls");
-		header("Content-Disposition: attachment; filename=".$judul.".xls");
+		header("Content-Disposition: attachment; filename=" . urlencode("laporan_suplemen_$suplemen[nama]") . "_" . date("Y-m-d") . ".xls");
 		header("Pragma: no-cache");
 		header("Expires: 0");
 	}
@@ -64,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Data Suplemen <?= ucwords($suplemen['nama']);?></title>
+		<title>Data Suplemen <?= set_ucwords($suplemen['nama']); ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="<?= base_url('assets/css/report.css'); ?>">
 	</head>
@@ -75,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td>
 							<?php if ($aksi != 'unduh'): ?>
-								<img class="logo" src="<?= gambar_desa($config['logo']);?>" alt="logo-desa">
+								<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 							<?php endif; ?>
 							<h1 class="judul">
 								PEMERINTAH <?= $this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']; ?>
@@ -87,12 +84,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tr>
 					<tr>
 						<td class="text-center">
-							<h4><u>Daftar Terdata Suplemen <?= $suplemen["nama"];?></u></h4>
+							<h4><u>Daftar Terdata Suplemen <?= set_ucwords($suplemen["nama"]); ?></u></h4>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<strong>Sasaran Suplemen: </strong><?= $sasaran[$suplemen["sasaran"]];?><br>
+							<strong>Sasaran Suplemen : </strong><?= $sasaran[$suplemen["sasaran"]];?><br>
 							<strong>Keterangan : </strong><?= $suplemen["keterangan"];?>
 						</td>
 					</tr>
@@ -105,8 +102,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<thead>
 									<tr class="border thick">
 										<th class="padat">No</th>
-										<th><?= $suplemen["judul_terdata_nama"]; ?></th>
-										<th><?= $suplemen["judul_terdata_info"]; ?></th>
+										<th><?= $judul['judul_terdata_info']; ?></th>
+										<th><?= $judul['judul_terdata_plus']; ?> </th>
+										<th><?= $judul['judul_terdata_nama']; ?></th>
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
 										<th>Jenis Kelamin</th>
@@ -118,8 +116,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php foreach ($terdata as $key => $item): ?>
 										<tr>
 											<td class="padat"><?= ($key + 1); ?></td>
-											<td class="textx"><?= $item["terdata_nama"]; ?></td>
-											<td><?= $item["terdata_info"]; ?></td>
+											<td class="textx"><?= $item["terdata_info"]; ?></td>
+											<td class="textx"><?= $item["terdata_plus"]; ?></td>
+											<td><?= $item["terdata_nama"]; ?></td>
 											<td><?= $item["tempat_lahir"]; ?></td>
 											<td class="textx"><?= $item["tanggal_lahir"]; ?></td>
 											<td><?= $item["sex"]; ?></td>
