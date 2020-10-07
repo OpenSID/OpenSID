@@ -44,13 +44,6 @@
 ?>
 
 <style>
-span.input-group-btn {
-	position: absolute;
-	display: inline-block;
-	cursor: pointer;
-	left: 10%;
-	z-index: 2;
-}
 .fa-keyboard-o {
 	position: absolute;
 	top: 50%;
@@ -82,7 +75,7 @@ span.input-group-btn {
 
 		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
 		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-		<link rel="stylesheet" href="<?= base_url("assets/css/mandiri.css")?>">
+		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
 
 		<?php if (is_file("desa/css/siteman.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
@@ -107,6 +100,7 @@ span.input-group-btn {
 		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
 		<script src="<?= base_url("assets/js/jquery.keyboard.extension-typing.min.js")?>"></script>
 		<script src="<?= base_url("assets/js/jquery.keyboard.extension-autocomplete.min.js")?>"></script>
+		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
 
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
@@ -119,7 +113,7 @@ span.input-group-btn {
 							<div class="form-top">
 								<a href="<?=site_url(); ?>first/"><img src="<?=gambar_desa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
 								<div class="login-footer-top">
-									<h1>Anjungan Layanan Mandiri</h1>
+									<h1>Layanan Mandiri</h1>
 									<br /><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 									<h3>
 										<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>
@@ -137,103 +131,47 @@ span.input-group-btn {
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<span class="input-group-btn">
-												<button id="nik-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
-											</span>
-											<input class="form-control input-sm required" name="nik" id="nik" type="text" placeholder="NIK" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+											<div class="input-group col-sm-10">
+												<input class="form-control input-sm required kbvnumber" name="nik" id="nik" type="text" placeholder="NIK" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+												<span class="input-group-btn">
+													<button id="nik-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
+												</span>
+											</div>
 										</div>
 										<div class="form-group">
-											<span class="input-group-btn">
-												<button id="pin-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
-											</span>
-											<input class="form-control input-sm required" name="pin" id="pin" type="password" placeholder="PIN" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+											<div class="input-group col-sm-10">
+												<input class="form-control input-sm required kbvnumber1" name="pin" id="pin" type="password" placeholder="PIN" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+												<span class="input-group-btn">
+													<button id="pin-opener" class="btn btn-default kbvopenernum1" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
+												</span>
+											</div>
 										</div>
 										<hr />
 										<button type="submit" class="btn">MASUK</button>
+										<div class="login-footer-top">
+											<br /><h3>Silakan datang atau hubungi operator <?php echo $this->setting->sebutan_desa?> untuk mendapatkan kode PIN anda.</h3>
+										</div>
 										<?php if ($this->session->mandiri == -1 && $this->session->mandiri_try < 4): ?>
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
-												<?php if ($this->session->mandiri_try): ?>
-													Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-												<?php endif; ?>
-											</div>
-										<?php elseif ($this->session->mandiri == -2): ?>
-											<div class="error">
-												Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
-											</div>
+													<?php if ($this->session->mandiri_try): ?>
+														Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+													<?php endif; ?>
+												</div>
+											<?php elseif ($this->session->mandiri == -2): ?>
+												<div class="error">
+													Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
+												</div>
+											<?php endif; ?>
 										<?php endif; ?>
-									<?php endif; ?>
-								</form>
-								<hr/>
-								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
+									</form>
+									<hr/>
+									<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
 	</body>
 </html>
-
-<script>
-$(function(){
-
-	$('#nik')
-	.keyboard({
-		display: {
-			'bksp'   : '\u2190',
-			'accept' : 'Lanjut',
-			'cancel' : 'Tutup',
-		},
-		openOn : null,
-		stayOpen : true,
-		layout: 'custom',
-		customLayout: {
-			'normal': [
-				'1 2 3 4 5 6 7 8 9 0 {bksp}',
-				'{cancel} {accept}'
-			]
-		}
-	})
-	.addTyping();
-
-	$('#pin')
-	.keyboard({
-		display: {
-			'bksp'   : '\u2190',
-			'accept' : 'Lanjut',
-			'cancel' : 'Tutup',
-		},
-		openOn : null,
-		stayOpen : true,
-		layout: 'custom',
-		customLayout: {
-			'normal': [
-				'1 2 3 4 5 6 7 8 9 0 {bksp}',
-				'{cancel} {accept}'
-			]
-		}
-	})
-	.addTyping();
-
-
-	$('#nik-opener').click(function(){
-		var kbnik = $('#nik').getkeyboard();
-		if ( kbnik.isOpen ) {
-			kbnik.close();
-		} else {
-			kbnik.reveal();
-		}
-	});
-
-	$('#pin-opener').click(function(){
-		var kbpin = $('#pin').getkeyboard();
-		if ( kbpin.isOpen ) {
-			kbpin.close();
-		} else {
-			kbpin.reveal();
-		}
-	});
-
-});
-</script>

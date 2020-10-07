@@ -71,7 +71,7 @@
 
 	<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
 	<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-	<link rel="stylesheet" href="<?= base_url("assets/css/mandiri.css")?>">
+	<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
 
 	<!-- jQuery 3 -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
@@ -121,5 +121,6 @@
 	<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
 	<script src="<?= base_url("assets/js/jquery.keyboard.extension-typing.min.js")?>"></script>
 	<script src="<?= base_url("assets/js/jquery.keyboard.extension-autocomplete.min.js")?>"></script>
+	<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
 </body>
 </html>

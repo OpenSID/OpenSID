@@ -77,31 +77,37 @@
 			<?php endif; ?>
 			<div class="form-group">
 				<label for="nama_surat" class="col-sm-3 control-label">Jenis Surat Yang Dimohon</label>
-				<div class="input-group col-sm-8 col-lg-8">
-					<select class="form-control select2 required" name="id_surat" id="id_surat" style="width:100%;">
-						<option value=""> -- Pilih Jenis Surat -- </option>
-						<?php foreach ($menu_surat_mandiri AS $data): ?>
-							<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
-						<?php endforeach;?>
-					</select>
+				<div class="col-sm-8">
+					<div class="input-group col-sm-12">
+						<select class="form-control select2 required" name="id_surat" id="id_surat" style="width:100%;">
+							<option value=""> -- Pilih Jenis Surat -- </option>
+							<?php foreach ($menu_surat_mandiri AS $data): ?>
+								<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
+							<?php endforeach;?>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
-				<div class="input-group col-sm-8 col-lg-8">
-					<textarea class="form-control" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']?></textarea>
-					<span class="input-group-addon">
-						<button id="keterangan-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o"></i></button>
-					</span>
+				<div class="col-sm-8">
+					<div class="input-group col-sm-12">
+						<textarea class="form-control input-sm kbvtext" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']?></textarea>
+						<span class="input-group-addon">
+							<button id="keterangan-opener" class="btn btn-default kbvopener" type="button"><i class="fa fa-keyboard-o"></i></button>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
-				<div class="input-group col-sm-8 col-lg-8">
-					<input class="form-control input-lg bilangan_spasi required" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']?>"/>
-					<span class="input-group-addon">
-						<button id="no_hp_aktif-opener" class="btn btn-default" type="button"><i class="fa fa-keyboard-o"></i></button>
-					</span>
+				<div class="col-sm-8">
+					<div class="input-group col-sm-12">
+						<input class="form-control input-lg bilangan_spasi required kbvnumber" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']?>"/>
+						<span class="input-group-addon">
+							<button id="no_hp_aktif-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o"></i></button>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -328,72 +334,4 @@
 		});
 
 	});
-
-	$(function(){
-
-		$('#keterangan')
-		.keyboard({
-			openOn : null,
-			stayOpen : true,
-			layout: 'custom',
-
-			display: {
-				'bksp'   : '\u2190',
-				'enter'  : '\u23CE',
-				'normal' : 'ABC',
-				'accept' : 'Lanjut',
-				'cancel' : 'Tutup'
-			},
-
-			layout: 'custom',
-			customLayout: {
-			'normal': [
-				'a b c d e f g h i j k l',
-				'm n o p q r s t u v w x',
-				'y z 1 2 3 4 5 6 7 8 9 0',
-				'{enter} {bksp} {space} {cancel} {accept}'
-			]
-		}
-		})
-		.addTyping();
-
-		$('#no_hp_aktif')
-		.keyboard({
-			display: {
-				'bksp'   : '\u2190',
-				'accept' : 'Lanjut',
-				'cancel' : 'Tutup',
-			},
-			openOn : null,
-			stayOpen : true,
-			layout: 'custom',
-			customLayout: {
-				'normal': [
-					'1 2 3 4 5 6 7 8 9 0 {bksp}',
-					'{cancel} {accept}'
-				]
-			}
-		})
-		.addTyping();
-
-		$('#keterangan-opener').click(function(){
-			var kb1 = $('#keterangan').getkeyboard();
-			if ( kb1.isOpen ) {
-				kb1.close();
-			} else {
-				kb1.reveal();
-			}
-		});
-
-		$('#no_hp_aktif-opener').click(function(){
-			var kb2 = $('#no_hp_aktif').getkeyboard();
-			if ( kb2.isOpen ) {
-				kb2.close();
-			} else {
-				kb2.reveal();
-			}
-		});
-
-	});
-
 </script>
