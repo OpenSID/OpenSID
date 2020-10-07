@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 8. #3602: Perbaiki redirect ke halaman permintaan awal pada login admin di server di mana index.php dihilangkan. [bug-fix]
 9. #2629: Perbaiki supaya semua fungsi input data survei modul analisis menggunakan data penduduk hidup dan keluarga aktif saja secara konsisten. [bug-fix]
 10. #3624: Data analisis sekarang hanya bisa ditampilkan di web melalui menu statis.
+11. Hapus script tidak digunakan di modul SMS. [teknis]
 
 
 
