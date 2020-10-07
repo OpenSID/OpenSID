@@ -11,10 +11,10 @@
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT nik AS no_kk FROM tweb_penduduk UNION SELECT u.nama FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE status_dasar = 1 "; break;
-			case 2: $sql = "SELECT no_kk FROM tweb_keluarga UNION SELECT p.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE p.status_dasar = 1"; break;
-			case 3: $sql = "SELECT no_kk FROM tweb_rtm UNION SELECT p.nama FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
-			case 4: $sql = "SELECT u.nama AS no_kk FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
+			case 1: $sql = "SELECT nik AS no_kk FROM penduduk_hidup UNION SELECT u.nama FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id "; break;
+			case 2: $sql = "SELECT no_kk FROM keluarga_aktif UNION SELECT p.nama FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
+			case 3: $sql = "SELECT no_kk FROM tweb_rtm UNION SELECT p.nama FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
+			case 4: $sql = "SELECT u.nama AS no_kk FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
 			default: return null;
 		}
 		$sql .= $this->dusun_sql();
@@ -46,7 +46,7 @@
 			{
 				case 1: $search_sql = " AND (u.nik LIKE '$kw' OR u.nama LIKE '$kw')"; break;
 				case 2: $search_sql = " AND (u.no_kk LIKE '$kw' OR p.nama LIKE '$kw')"; break;
-				case 3: $search_sql = " AND ((u.no_kk LIKE '$kw' OR p.nama LIKE '$kw') OR ((SELECT COUNT(id) FROM tweb_penduduk WHERE nik LIKE '$kw' AND id_rtm = u.id) > 1) OR ((SELECT COUNT(id) FROM tweb_penduduk WHERE nama LIKE '$kw' AND id_rtm = u.id) > 1))"; break;
+				case 3: $search_sql = " AND ((u.no_kk LIKE '$kw' OR p.nama LIKE '$kw') OR ((SELECT COUNT(id) FROM penduduk_hidup WHERE nik LIKE '$kw' AND id_rtm = u.id) > 1) OR ((SELECT COUNT(id) FROM penduduk_hidup WHERE nama LIKE '$kw' AND id_rtm = u.id) > 1))"; break;
 				case 4: $search_sql = " AND (u.nama LIKE '$kw' OR p.nama LIKE '$kw')"; break;
 				default: return null;
 			}
@@ -130,23 +130,23 @@
 		switch ($subjek)
 		{
 			case 1:
-				$sql = " FROM tweb_penduduk u
+				$sql = " FROM penduduk_hidup u
 					LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-					WHERE u.status_dasar = 1
+					WHERE 1
 				";
 				break;
 
 			case 2:
-				$sql = " FROM tweb_keluarga u
-					LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				$sql = " FROM keluarga_aktif u
+					LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id
 					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE p.status_dasar = 1
+					WHERE 1
 				" ;
 				break;
 
 			case 3:
 				$sql = " FROM tweb_rtm u
-					LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+					LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id
 					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
 					WHERE 1
 				";
@@ -154,7 +154,7 @@
 
 			case 4:
 				$sql = " FROM kelompok u
-					LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
+					LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id
 					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
 					WHERE 1
 				";
@@ -249,7 +249,8 @@
 
 	public function update_kuisioner($id=0, $per=0)
 	{
-		$outp = false;
+		$outp = true;
+		$this->session->error_msg = '';
 		if ($per == 0)
 		{
 			$per = $this->get_aktif_periode();
@@ -326,7 +327,7 @@
 					$data['id_periode'] = $per;
 					$data['id_indikator'] = $p[0];
 					$data['id_parameter'] = $p[1];
-					$outp = $this->db->insert('analisis_respon', $data);
+					$outp &= $this->db->insert('analisis_respon', $data);
 				}
 			}
 			if (isset($_POST['cb']))
@@ -342,7 +343,7 @@
 						$data['id_periode'] = $per;
 						$data['id_indikator'] = $p[0];
 						$data['id_parameter'] = $p[1];
-						$outp = $this->db->insert('analisis_respon', $data);
+						$outp &= $this->db->insert('analisis_respon', $data);
 					}
 				}
 			}
@@ -364,7 +365,7 @@
 						{
 							$data['id_indikator'] = $indikator;
 							$data['jawaban'] = $id_p;
-							$this->db->insert('analisis_parameter', $data);
+							$outp &= $this->db->insert('analisis_parameter', $data);
 							unset($data);
 
 							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
@@ -375,7 +376,7 @@
 							$data['id_indikator'] = $indikator;
 							$data['id_subjek'] = $id;
 							$data['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data);
+							$outp &= $this->db->insert('analisis_respon', $data);
 						}
 						else
 						{
@@ -384,7 +385,7 @@
 							$data['id_parameter'] = $dx['id'];
 							$data['id_subjek'] = $id;
 							$data['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data);
+							$outp &= $this->db->insert('analisis_respon', $data);
 						}
 					}
 					next($id_ia);
@@ -407,7 +408,7 @@
 						{
 							$data['id_indikator'] = $indikator;
 							$data['jawaban'] = $id_p;
-							$this->db->insert('analisis_parameter', $data);
+							$outp &= $this->db->insert('analisis_parameter', $data);
 							unset($data);
 
 							$sql = "SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?";
@@ -418,7 +419,7 @@
 							$data2['id_indikator'] = $indikator;
 							$data2['id_subjek'] = $id;
 							$data2['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data2);
+							$outp &= $this->db->insert('analisis_respon', $data2);
 						}
 						else
 						{
@@ -428,7 +429,7 @@
 
 							$data['id_subjek'] = $id;
 							$data['id_periode'] = $per;
-							$outp = $this->db->insert('analisis_respon', $data);
+							$outp &= $this->db->insert('analisis_respon', $data);
 						}
 					}
 					next($id_it);
@@ -446,7 +447,7 @@
 
 			$sql = "DELETE FROM analisis_respon_hasil WHERE id_subjek = ? AND id_periode=?";
 			$this->db->query($sql, array($id, $per));
-			$outp = $this->db->insert('analisis_respon_hasil', $upx);
+			$outp &= $this->db->insert('analisis_respon_hasil', $upx);
 		}
 		if (isset($_FILES['pengesahan']))
 		{
@@ -471,12 +472,11 @@
 					if ($ada_bukti > 0)
 						$outp = $this->db->where(array('id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per))->update('analisis_respon_bukti', $bukti);
 					else
-						$outp = $this->db->insert('analisis_respon_bukti', $bukti);
+						$outp &= $this->db->insert('analisis_respon_bukti', $bukti);
 				}
 			}
 		}
-		if ($outp) $_SESSION['sukses'] = 1;
-			else $_SESSION['sukses'] = -1;
+		status_sukses($outp);
 	}
 
 	private function list_jawab2($id=0, $in=0, $per=0)
@@ -650,13 +650,13 @@
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = ? "; break;
+			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = ? "; break;
 
-			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? " ; break;
+			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? " ; break;
 
-			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
 
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
 
 			default: return null;
 		}
@@ -671,8 +671,8 @@
 		{
 			switch ($subjek)
 			{
-				case 2: $sql = "SELECT u.* FROM tweb_penduduk u WHERE u.id_kk = ? ORDER BY kk_level" ;break;
-				case 3: $sql = "SELECT u.* FROM tweb_penduduk u WHERE u.id_rtm = ? ORDER BY rtm_level" ;break;
+				case 2: $sql = "SELECT u.* FROM penduduk_hidup u WHERE u.id_kk = ? ORDER BY kk_level" ;break;
+				case 3: $sql = "SELECT u.* FROM penduduk_hidup u WHERE u.id_rtm = ? ORDER BY rtm_level" ;break;
 				default: return null;
 			}
 			$query = $this->db->query($sql, $id);
@@ -740,10 +740,10 @@
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE 1 "; break;
-			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 "; break;
-			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1" ; break;
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 "; break;
+			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE 1 "; break;
+			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 "; break;
+			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1" ; break;
+			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 "; break;
 
 			default: return null; break;
 		}
@@ -963,7 +963,7 @@
 				$id_subjek = $data->val($i, $kl-1, $s);
 				if (strlen($id_subjek) > 14 AND $subjek == 1)
 				{
-					$sqls = "SELECT id FROM tweb_penduduk WHERE nik = ?;";
+					$sqls = "SELECT id FROM penduduk_hidup WHERE nik = ?;";
 					$querys = $this->db->query($sqls, array($id_subjek));
 					$isbj = $querys->row_array();
 					$id_subjek = $isbj['id'];
