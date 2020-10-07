@@ -121,7 +121,7 @@ define("STAT_LAINNYA", serialize([
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
-	'status_idm' => 'Status IDM'
+	'status_idm' => 'Status IDM',
 	'data_analisis' => 'Data Analisis'
 ]));
 
