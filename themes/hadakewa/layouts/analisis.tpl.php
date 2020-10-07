@@ -5,7 +5,7 @@
 		<div id="contentcolumn">
 			<div class="innertube">
 				<?php if($list_jawab): ?>
-					<?php $this->load->view("$folder_themes/partials/analisis.php"); ?>
+					<?php $this->load->view(Web_Controller::fallback_default($this->theme, "/partials/analisis.php"))?>
 				<?php else: ?>
 					<div class="box box-danger">
 						<div class="box-header with-border">
