@@ -106,7 +106,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required"  minlength="4" maxlength="4" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
+									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required"  minlength="10" maxlength="10" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -160,7 +160,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamatan; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text"  minlength="2" maxlength="2" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
+									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text"  minlength="6" maxlength="6" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -184,7 +184,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kabupaten">Kode <?= $kabupaten; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm bilangan required" minlength="2" maxlength="2" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
+									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm bilangan required" minlength="4" maxlength="4" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
