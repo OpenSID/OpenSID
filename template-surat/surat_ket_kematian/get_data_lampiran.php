@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit ('No direct script access allowed');
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');

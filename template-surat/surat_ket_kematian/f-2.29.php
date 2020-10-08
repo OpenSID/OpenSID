@@ -1,7 +1,8 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<!-- CSS Template Surat -->
-<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/lampiran-surat.css'); ?>" />
+<style type="text/css">
+	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
+</style>
 
 <page orientation="portrait" format="215x330" style="font-size: 7pt">
 	<table id="kode" align="right">
@@ -51,34 +52,7 @@
 		<tr>
 			<td colspan="10">Kode Wilayah</td>
 			<td style="border-right: 1px solid black;">:</td>
-			<?php for ($i=0; $i<2; $i++): ?>
-				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_propinsi'][$i])): ?>
-						<?= $config['kode_propinsi'][$i];?>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
-			<?php for ($i=0; $i<2; $i++): ?>
-				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_kabupaten'][$i])): ?>
-						<?= $config['kode_kabupaten'][$i];?>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
-			<?php for ($i=0; $i<2; $i++): ?>
-				<td class="kotak padat tengah">
-					<?php if (isset($config['kode_kecamatan'][$i])): ?>
-						<?= $config['kode_kecamatan'][$i];?>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
-			<?php for ($i=0; $i<4; $i++): ?>
+			<?php for ($i=0; $i<10; $i++): ?>
 				<td class="kotak padat tengah">
 					<?php if (isset($config['kode_desa'][$i])): ?>
 						<?= $config['kode_desa'][$i];?>
