@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <!-- CSS Template Surat -->
-<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/lampiran-surat.css'); ?>" />
+<link rel="stylesheet" href="<?= base_url('assets/css/lampiran-surat.css'); ?>" type="text/css" />
 
 <page orientation="portrait" format="215x330" style="font-size: 7pt">
 	<table id="kode" align="right">
