@@ -202,8 +202,13 @@
 								<div class="box-body">
 									<div class="form-group">
 										<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-										<input id="nama_dokumen" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Dokumen" value=""/>
-										<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
+											<div class="input-group col-sm-10">
+												<input id="nama_dokumen" name="nama" class="form-control input-sm required kbvtext3" type="text" placeholder="Nama Dokumen" value=""/>
+												<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
+												<span class="input-group-append">
+													<button id="nama_dokumen-opener" class="btn btn-default kbvopener3" type="button"><i class="fa fa-keyboard-o"></i></button>
+												</span>
+											</div>
 									</div>
 									<div class="form-group">
 										<select class="form-control required input-sm" name="id_syarat" id="id_syarat">

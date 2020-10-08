@@ -117,10 +117,8 @@
 
 	<!-- keyboard widget css & script -->
 	<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.keyboard.extension-mobile.min.js")?>"></script>
 	<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.keyboard.extension-typing.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.keyboard.extension-autocomplete.min.js")?>"></script>
+	<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
 	<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
 </body>
 </html>

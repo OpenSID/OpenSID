@@ -24,17 +24,26 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="subjek">Subjek</label>
-							<div class="col-sm-9">
-								<input class="form-control input-sm required" id="subjek" name="subjek" value="<?php $subjek and print($subjek) ?>">
+							<div class="col-sm-10">
+								<div class="input-group col-sm-10">
+									<input class="form-control input-sm required kbvtext" id="subjek" name="subjek" value="<?php $subjek and print($subjek) ?>"></input>
+									<span class="input-group-append">
+										<button id="subjek-opener" class="btn btn-default kbvopener" type="button"><i class="fa fa-keyboard-o"></i></button>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="komentar">Pesan</label>
-							<div class="col-sm-9">
-								<textarea class="form-control input-sm required" name="komentar" id="komentar"></textarea>
+							<div class="col-sm-10">
+								<div class="input-group col-sm-10">
+									<textarea class="form-control input-sm required kbvtext1" name="komentar" id="komentar"></textarea>
+									<span class="input-group-append">
+										<button id="komentar-opener" class="btn btn-default kbvopener1" type="button"><i class="fa fa-keyboard-o"></i></button>
+									</span>
+								</div>
 							</div>
 						</div>
-
 					</div>
 					<div class='box-footer'>
 						<div class='col-xs-12'>
