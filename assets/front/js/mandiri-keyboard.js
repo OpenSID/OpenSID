@@ -47,24 +47,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -73,24 +62,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -99,24 +77,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -125,24 +92,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -151,24 +107,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -177,24 +122,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -203,24 +137,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -229,24 +152,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -255,24 +167,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -281,24 +182,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
@@ -307,24 +197,13 @@ $(document).ready(function () {
     .keyboard({
       openOn : null,
       stayOpen : true,
-      layout: 'custom',
-
+      layout : 'qwerty',
       display: {
         'bksp'   : '\u2190',
         'enter'  : '\u23CE',
         'normal' : 'ABC',
         'accept' : 'Lanjut',
         'cancel' : 'Tutup'
-      },
-
-      layout: 'custom',
-      customLayout: {
-        'normal': [
-          'a b c d e f g h i j k l',
-          'm n o p q r s t u v w x',
-          'y z 1 2 3 4 5 6 7 8 9 0',
-          '{enter} {bksp} {space} {cancel} {accept}'
-        ]
       }
     })
     .addTyping();
