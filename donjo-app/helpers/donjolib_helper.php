@@ -326,9 +326,9 @@ function cek_login(){
 	}
 }
 
-//time out Mandiri set 3 login per 5 menit
+//time out Mandiri set 3 login per 1 menit
 function mandiri_timer(){
-	$time=300;  //300 detik
+	$time=60;  //60 detik
 	$_SESSION['mandiri_try'] = 4;
 	$_SESSION['mandiri_wait']=0;
 	$_SESSION['mandiri_timeout']=time()+$time;
@@ -583,4 +583,3 @@ function sensor_nik_kk($data)
 	$output = substr_replace($data, str_repeat('X', $count - 7), 8, $count - 7);
 	return $output;
 }
-

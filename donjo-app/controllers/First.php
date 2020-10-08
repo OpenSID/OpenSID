@@ -69,8 +69,6 @@ class First extends Web_Controller {
 			}
 		}
 
-		//mandiri_timeout();
-
 		$this->load->model('config_model');
 		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');
@@ -100,27 +98,6 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
-		$this->load->model('mandiri_model');
-	}
-
-	public function auth()
-	{
-		$this->mandiri_model->login();
-
-		if ($_SESSION['mandiri'] == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect('mandiri_web');
-		}
-	}
-
-	public function logout()
-	{
-		$this->mandiri_model->logout();
-		redirect('first');
 	}
 
 	public function index($p=1)
