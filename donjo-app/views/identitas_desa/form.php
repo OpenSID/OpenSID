@@ -112,7 +112,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_pos">Kode Pos <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_pos" name="kode_pos" class="form-control input-sm number"  minlength="5" maxlength="5" type="text" placeholder="Kode Pos <?= $desa; ?>" value="<?= $main["kode_pos"]; ?>"></input>
+									<input id="kode_pos" name="kode_pos" class="form-control input-sm number" minlength="5" maxlength="5" type="text" placeholder="Kode Pos <?= $desa; ?>" value="<?= $main["kode_pos"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -160,7 +160,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamatan; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text"  minlength="6" maxlength="6" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
+									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text" minlength="6" maxlength="6" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
