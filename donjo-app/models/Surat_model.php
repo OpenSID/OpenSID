@@ -994,7 +994,7 @@
 
     // get the HTML using output buffer
     ob_start();
-    foreach($daftar_lampiran as $format_lampiran)
+    foreach ($daftar_lampiran as $format_lampiran)
     {
 	    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
     }
