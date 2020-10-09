@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 11. Hapus script tidak digunakan di modul SMS. [teknis]
 12. #3608, #3609: Tampilkan No. KK dan NIK untuk terdata sasaran penduduk dan keluarga di modul Data Suplemen.
 13. #3630: Perbaiki penampilan kode wilayah dan umur di lampiran Surat Keterangan Kematian. [bug-fix]
+14. Perbaiki error pada waktu klik gambar di slider atas di tema klasik. [bug-fix]
 
 
 
