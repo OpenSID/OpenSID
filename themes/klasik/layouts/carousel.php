@@ -17,18 +17,12 @@
 			pauseOnHover: true
 		});
 	});
-
-	function tampil_artikel(id_artikel){
-		href = window.location.href;
-		first = '/first';
-		url = href.substring(0,href.indexOf(first)+first.length)+'/artikel/'+id_artikel;
-		window.location = url;
-	}
 </script>
 <div class="carousel">
   <?php foreach ($slide_artikel as $gambar) : ?>
-  	<?php if (is_file(LOKASI_FOTO_ARTIKEL.'kecil_'.$gambar['gambar'])) : ?>
-	    <img src="<?= base_url().LOKASI_FOTO_ARTIKEL.'kecil_'.$gambar['gambar']?>" data-artikel="<?= $gambar['id']?>" onclick="tampil_artikel($(this).data('artikel'));">
+		<?php $file_gambar = LOKASI_FOTO_ARTIKEL . 'kecil_' . $gambar['gambar']; ?>
+  	<?php if (is_file($file_gambar)) : ?>
+	    <img src="<?= base_url($file_gambar)?>" onclick="location.href='<?= site_url('artikel/' . buat_slug($gambar)); ?>'">
 	   <?php endif; ?>
   <?php endforeach; ?>
 </div>
