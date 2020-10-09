@@ -64,15 +64,6 @@
 			</div>
 		</div>
 
-	<!-- Jquery UI -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
-
-	<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-	<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-	<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
-
 	<!-- jQuery 3 -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Jquery UI -->

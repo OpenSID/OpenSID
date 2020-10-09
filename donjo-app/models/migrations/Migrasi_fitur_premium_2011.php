@@ -76,7 +76,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 		}
 
 		//Hapus widget layanan mandiri
-		$this->db->delete('widget', ['judul' => 'Layanan Mandiri']);
+		$this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
 	}
 
 }
