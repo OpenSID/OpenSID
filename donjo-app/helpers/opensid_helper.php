@@ -915,7 +915,8 @@ function buat_slug($data_slug)
 
 function namafile($str)
 {
-	$filename = str_replace(' ', '_', strtolower($str));
+	$tgl =  date('d_m_Y');
+	$filename = urlencode(underscore(strtolower($str))."_".$tgl);
 	return $filename;
 }
 

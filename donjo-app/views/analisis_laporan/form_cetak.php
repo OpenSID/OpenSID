@@ -1,17 +1,24 @@
 <?php
-$tgl =  date('d_m_Y');
+
 $subjek_tipe = $_SESSION['subjek_tipe'];
-switch ($subjek_tipe):
+switch ($subjek_tipe){
 	case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
 	case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
 	case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;
 	case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
 	default: return null;
-endswitch;
-header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=".namafile("Laporan Hasil Analisis ".$asubjek." ".$subjek['nama']).".xls");
-header("Pragma: no-cache");
-header("Expires: 0");
+}
+
+	if ($aksi == 'unduh')
+	{
+		$judul = namafile("Laporan Hasil Analisis ".$asubjek." ".$subjek['nama']);
+
+		header("Content-type: application/xls");
+		header("Content-Disposition: attachment; filename=".$judul.".xls");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+	}
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -20,38 +27,41 @@ header("Expires: 0");
 	<title>Laporan Hasil Analisis <?= $asubjek ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-	<style>
-		td
-		{
-			mso-number-format:"\@";
-		}
-		td,th
-		{
-			font-size:8pt;
-		}
-	</style>
 </head>
 <body>
 	<div id="container">
 		<!-- Print Body -->
 		<div id="body">
-			<div class="header" align="center">
-				<label align="left"><?= get_identitas()?></label>
-				<h3>Laporan Hasil Analisis <?= $asubjek ?></h3>
-			</div>
-			<br>
 			<table>
-				<tr>
-					<td>Nomor Identitas</td>
-					<td>: <?= $subjek['nid']?></td>
-				</tr>
-				<tr>
-					<td>Nama Subjek</td>
-					<td>: <?= $subjek['nama']?></td>
-				</tr>
+				<tbody>
+					<tr>
+						<td colspan='6'>
+							<?php if ($aksi != 'unduh'): ?>
+								<img class="logo" src="<?= gambar_desa($config['logo']);?>" alt="logo-desa">
+							<?php endif; ?>
+							<h1 class="judul">
+								PEMERINTAH <?= $this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']; ?>
+							<h1>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='6'><hr class="garis"></td>
+					</tr>
+					<tr>
+						<td colspan='6' class="text-center">
+							<h4><u>Laporan Hasil Analisis <?= $asubjek ?></u></h4>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='6'>
+							<strong>Nomor Identitas : </strong><?= $subjek['nid']?><br>
+							<strong>Nama Subjek : </strong><?= $subjek['nama']?>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 			<br>
-			<p>DAFTAR ANGGOTA</p>
+			<strong><p>DAFTAR ANGGOTA</p></strong>
 			<table class="border thick">
 				<thead>
 					<tr class="border thick">
@@ -67,7 +77,7 @@ header("Expires: 0");
 					<?php $i=1; foreach ($list_anggota AS $ang): ?>
 					<tr>
 						<td  align="center" width="2"><?= $i?></td>
-						<td><?= $ang['nik']?></td>
+						<td class="textx"><?= $ang['nik']?></td>
 						<td width="45%"><?= $ang['nama']?></td>
 						<td><?= tgl_indo($ang['tanggallahir']) ?></td>
 						<td><?php if ($ang['sex'] == 1): ?>LAKI-LAKI<?php endif; ?><?php if ($ang['sex'] == 2): ?>PEREMPUAN<?php endif; ?></td>
@@ -76,7 +86,7 @@ header("Expires: 0");
 				</tbody>
 			</table>
 			<br />
-
+			<br />
 			<table class="border thick">
 				<thead>
 					<tr class="border thick">
@@ -109,9 +119,30 @@ header("Expires: 0");
 					</tr>
 				</tfoot>
 			</table>
-
 		</div>
-		<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
+		<table>
+			<tr>
+				<td width="10%">&nbsp;</td>
+				<td width="20%">
+					Mengetahui
+					<br><?= $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa']?>
+					<br><br><br><br>
+					<br><u>( <?= $pamong_ketahui['pamong_nama']?> )</u>
+					<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
+				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td width="20%" nowrap>
+					<?= ucwords($this->setting->sebutan_desa) . ' ' . $config['nama_desa']?>, <?= tgl_indo(date("Y m d"))?>
+					<br><?= $pamong_ttd['jabatan'] . ' ' . $config['nama_desa']?>
+					<br><br><br><br>
+					<br><u>( <?= $pamong_ttd['pamong_nama']?> )</u>
+					<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
+				</td>
+				<td width="10%">&nbsp;</td>
+			</tr>
+		</table>
+	
 	</div>
 </body>
 </html>
