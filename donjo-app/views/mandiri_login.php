@@ -145,7 +145,7 @@
 										</div>
 										<?php if ($this->session->mandiri == -1 && $this->session->mandiri_try < 4): ?>
 											<div class="error">
-												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
+												<p style="color:red; text-transform:uppercase">Login Gagal.<br />NIK atau PIN yang Anda masukkan salah!<br />
 												<?php if ($this->session->mandiri_try): ?>
 													Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
 												<?php endif; ?>
