@@ -314,7 +314,13 @@
 				$_SESSION['nik'] = $row->nik;
 				$_SESSION['id'] = $row->id;
 				$_SESSION['no_kk'] = $row->no_kk;
-				$_SESSION['mandiri'] = 1;
+				//$_SESSION['mandiri'] = 1;
+
+				if ($_SESSION['lg'] == 2)
+				{
+					$_SESSION['mandiri'] = 1;
+				}
+				
 			}
 		}
 
@@ -343,7 +349,7 @@
 		unset($_SESSION['nama']);
 	}
 
-	public function ganti()
+	public function update_pin($nik = 0)
 	{
 		if ($_POST['pin1'] != $_POST['pin2'])
 		{
