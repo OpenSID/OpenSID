@@ -20,6 +20,8 @@ Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 Fitur Premium:
 
 1. Tampilkan legenda dan kustomisasi warna wilayah di Peta.
+2. #3136: Sediakan tombol dan form login terpisah untuk Layanan Mandiri.
+3. #2888: Sediakan keyboard virtual untuk Layanan Mandiri.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
