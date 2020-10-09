@@ -2,9 +2,9 @@
 /**
  * File ini:
  *
- * Form login modul Layanan MAnfiti
+ * Form login layanan mandiri
  *
- * donjo-app/views/mandiri.php
+ * donjo-app/views/mandiri_login.php
  *
  */
 
@@ -42,7 +42,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
-
 <style>
 .fa-keyboard-o {
 	position: absolute;
@@ -72,11 +71,6 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
-
-		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
-
 		<?php if (is_file("desa/css/siteman.css")): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
@@ -85,21 +79,20 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
+		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
+		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
 
-		<!-- jQuery 3 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-		<!-- Jquery UI -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery-ui.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.ui.autocomplete.scroll.min.js"></script>
-		<!-- Bootstrap 3.3.7 -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap.min.js"></script>
-
+		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
+		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 		<!-- keyboard widget css & script -->
 		<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
 		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
 		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
 		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
-
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="login">
@@ -111,12 +104,11 @@
 							<div class="form-top">
 								<a href="<?=site_url(); ?>first/"><img src="<?=gambar_desa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
 								<div class="login-footer-top">
-									<h1>Layanan Mandiri</h1>
+									<h1>LAYANAN MANDIRI</h1>
 									<br /><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 									<h3>
 										<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>
-										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
-										<br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
+										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
 									</h3>
 								</div>
 								<hr />
@@ -144,7 +136,9 @@
 												</span>
 											</div>
 										</div>
-										<hr />
+										<div class="form-group">
+											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan PIN
+										</div>
 										<button type="submit" class="btn">MASUK</button>
 										<div class="login-footer-top">
 											<br /><h3>Silakan datang atau hubungi operator <?php echo $this->setting->sebutan_desa?> untuk mendapatkan kode PIN anda.</h3>
@@ -152,24 +146,63 @@
 										<?php if ($this->session->mandiri == -1 && $this->session->mandiri_try < 4): ?>
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
-													<?php if ($this->session->mandiri_try): ?>
-														Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-													<?php endif; ?>
-												</div>
-											<?php elseif ($this->session->mandiri == -2): ?>
-												<div class="error">
-													Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
-												</div>
-											<?php endif; ?>
+												<?php if ($this->session->mandiri_try): ?>
+													Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+												<?php endif; ?>
+											</div>
+										<?php elseif ($this->session->mandiri == -2): ?>
+											<div class="error">
+												Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
+											</div>
 										<?php endif; ?>
-									</form>
-									<hr/>
-									<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
-								</div>
+									<?php endif; ?>
+								</form>
+								<hr/>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
 		</div>
 	</body>
 </html>
+<script>
+
+	function start_countdown(){
+		var times = eval(<?= json_encode($this->session->mandiri_timeout)?>) - eval(<?= json_encode(time())?>);
+		var menit = Math.floor(times / 60);
+		var detik = times % 60;
+		timer = setInterval(function(){
+			detik--;
+			if (detik <= 0 && menit >=1){
+				detik = 60;
+				menit--;
+			}
+			if (menit <= 0 && detik <= 0){
+				clearInterval(timer);
+				location.reload();
+			} else {
+				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
+			}
+		}, 1000)
+	}
+
+	$('document').ready(function()
+	{
+		var pass = $("#pin");
+		$('#checkbox').click(function(){
+			if (pass.attr('type') === "password"){
+				pass.attr('type', 'text');
+			} else {
+				pass.attr('type', 'password')
+			}
+		});
+
+		if ($('#countdown').length)
+		{
+			start_countdown();
+		}
+	});
+
+</script>

@@ -281,7 +281,7 @@
 
 	#Login Layanan Mandiri
 
-	public function login()
+	public function siteman()
 	{
 		$_SESSION['mandiri'] = -1;
 		$nik = $this->input->post('nik');
@@ -315,13 +315,16 @@
 				$_SESSION['id'] = $row->id;
 				$_SESSION['no_kk'] = $row->no_kk;
 				$_SESSION['mandiri'] = 1;
-				$_SESSION['mandiri_try'] = 1;
 			}
 		}
 
-		if ($_SESSION['mandiri_try'] > 0)
+		if ($_SESSION['mandiri_try'] > 2)
 		{
 			$_SESSION['mandiri_try'] = $_SESSION['mandiri_try'] - 1;
+		}
+		else
+		{
+			$_SESSION['mandiri_wait'] = 1;
 		}
 	}
 
@@ -354,4 +357,5 @@
 		$outp = $this->db->update('tweb_penduduk_mandiri', $data);
 		$_SESSION['lg'] = 2;
 	}
+
 }

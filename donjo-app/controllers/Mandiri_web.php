@@ -50,6 +50,7 @@ class Mandiri_web extends Web_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		mandiri_timeout();
 		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model']);
 		$this->load->helper('download');
 	}
@@ -67,7 +68,8 @@ class Mandiri_web extends Web_Controller
 		{
 			// Belum ada session variable
 			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 0);
+			$this->session->set_userdata('mandiri_try', 4);
+			$this->session->set_userdata('mandiri_wait', 0);
 		}
 		$_SESSION['success'] = 0;
 		//-------------------------------
@@ -77,8 +79,10 @@ class Mandiri_web extends Web_Controller
 
 	public function auth()
 	{
-		$this->mandiri_model->login();
-
+		if ($_SESSION['mandiri_wait'] != 1)
+		{
+			$this->mandiri_model->siteman();
+		}
 		if ($_SESSION['mandiri'] == 1)
 		{
 			redirect('mandiri_web/mandiri/1/1');
