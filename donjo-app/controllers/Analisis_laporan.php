@@ -132,6 +132,7 @@ class Analisis_laporan extends Admin_Controller {
 	public function kuisioner($p=1, $o=0, $id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['id'] = $id;
 
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
@@ -144,6 +145,36 @@ class Analisis_laporan extends Admin_Controller {
 		$data['form_action'] = site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
 		$this->set_minsidebar(1);
 		$this->render('analisis_laporan/form', $data);
+	}
+
+	public function kuisioner_cetak($p=1, $o=0, $id=''){
+		$data['p'] = $p;
+		$data['o'] = $o;
+
+		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
+		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
+		$data['total'] = $this->analisis_laporan_model->get_total($id);
+
+		$this->load->model('analisis_respon_model');
+		$data['list_bukti'] = $this->analisis_respon_model->list_bukti($id);
+		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
+		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
+		$this->load->view('analisis_laporan/form_print', $data);
+	}
+
+	public function kuisioner_excel($p=1, $o=0, $id=''){
+		$data['p'] = $p;
+		$data['o'] = $o;
+
+		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
+		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
+		$data['total'] = $this->analisis_laporan_model->get_total($id);
+
+		$this->load->model('analisis_respon_model');
+		$data['list_bukti'] = $this->analisis_respon_model->list_bukti($id);
+		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
+		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
+		$this->load->view('analisis_laporan/form_excel', $data);
 	}
 
 	public function cetak($o=0)

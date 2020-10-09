@@ -913,6 +913,12 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
+function namafile($str)
+{
+	$filename = str_replace(' ', '_', strtolower($str));
+	return $filename;
+}
+
 function luas($int=0, $satuan="meter")
 {
 	if (($int / 10000) >= 1)

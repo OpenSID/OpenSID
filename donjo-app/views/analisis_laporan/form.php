@@ -18,6 +18,14 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
+							<a href="<?= site_url("analisis_laporan/kuisioner_cetak/$p/$o/$id") ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+								<i class="fa fa-print"></i>Cetak</a>
+						  <a href="<?= site_url("analisis_laporan/kuisioner_excel/$p/$o/$id") ?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
+								<i class="fa fa-download"></i>Unduh</a>
+							<a href="<?=site_url("analisis_laporan/clear")."/".$analisis_master['id']?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Laporan Hasil Klasifikasi">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Laporan Hasil Klasifikasi</a>
+						</div>
+						<div class="box-header with-border">
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover" >
 									<tr>
