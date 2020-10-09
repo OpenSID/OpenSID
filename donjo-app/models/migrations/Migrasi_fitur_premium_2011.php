@@ -74,6 +74,9 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 
 			$this->dbforge->add_column('tweb_wil_clusterdesa', $fields);
 		}
+
+		//Hapus widget layanan mandiri
+		$this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
 	}
 
 }

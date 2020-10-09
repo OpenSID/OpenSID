@@ -153,11 +153,16 @@
 			set_wilayah('kecamatan_tujuan');
 			set_wilayah('kabupaten_tujuan');
 			set_wilayah('provinsi_tujuan');
+			$('#desa_tujuan-opener').hide();
+			$('#kecamatan_tujuan-opener').hide();
+			$('#kabupaten_tujuan-opener').hide();
+			$('#provinsi_tujuan-opener').hide();
 		}
 		if (klasifikasi_pindah > 1)
 		{
 			$('#kode_format').val('F-1.25');
 			$('#desa_tujuan_show').removeAttr('disabled');
+			$('#desa_tujuan-opener').show();
 		}
 		else
 		{
@@ -167,16 +172,19 @@
 		{
 			$('#kode_format').val('F-1.29');
 			$('#kecamatan_tujuan_show').removeAttr('disabled');
+			$('#kecamatan_tujuan-opener').show();
 		}
 		if (klasifikasi_pindah > 3)
 		{
 			$('#kode_format').val('F-1.34');
 			$('#kabupaten_tujuan_show').removeAttr('disabled');
+			$('#kabupaten_tujuan-opener').show();
 		}
 		if (klasifikasi_pindah > 4)
 		{
 			$('#kode_format').val('F-1.34');
 			$('#provinsi_tujuan_show').removeAttr('disabled');
+			$('#provinsi_tujuan-opener').show();
 		}
 		if ($('#pakai_format').val() == 'f108')
 		{
@@ -215,8 +223,13 @@
 							<?php	endif; ?>
 							<div class="form-group">
 								<label for="telpon"  class="col-sm-3 control-label">Telepon Pemohon</label>
-								<div class="col-sm-8">
-									<input  name="telepon" id="telepon" class="form-control input-sm required" type="text" placeholder="Nomor Telepon">
+								<div class="input-group col-sm-8">
+									<div class="col-sm-4">
+										<input  name="telepon" id="telepon" class="form-control input-sm required kbvnumber" type="text" placeholder="Nomor Telepon"></input>
+										<span class="input-group-append">
+											<button id="telepon-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -257,51 +270,96 @@
 							</div>
 							<div class="form-group">
 								<label for="alamat_tujuan"  class="col-sm-3 control-label">Alamat Tujuan</label>
-								<div class="col-sm-8">
-									<input  id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm required" type="text" placeholder="Alamat Tujuan">
+								<div class="input-group col-sm-8">
+									<div class="col-sm-12">
+										<input  id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm required kbvtext1" type="text" placeholder="Alamat Tujuan"></input>
+										<span class="input-group-append">
+											<button id="alamat_tujuan-opener" class="btn btn-default kbvopener1" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="rt_tujuan"  class="col-sm-3 control-label">RT/RW/Dusun Tujuan</label>
-								<div class="col-sm-2">
-									<input  id="rt_tujuan" name="rt_tujuan" class="form-control input-sm required" type="text" placeholder="RT ">
-								</div>
-								<div class="col-sm-2">
-									<input  id="rw_tujuan" name="rw_tujuan" class="form-control input-sm required" type="text" placeholder="RW ">
-								</div>
-								<div class="col-sm-4">
-									<input  id="dusun_tujuan" name="dusun_tujuan" class="form-control input-sm required" type="text" placeholder="Dusun">
+								<div class="input-group col-sm-8">
+									<div class="col-sm-2">
+										<input  id="rt_tujuan" name="rt_tujuan" class="form-control input-sm required kbvtext2" type="text" placeholder="RT "></input>
+										<span class="input-group-append">
+											<button id="rt_tujuan-opener" class="btn btn-default kbvopener2" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-2">
+										<input  id="rw_tujuan" name="rw_tujuan" class="form-control input-sm required kbvtext3" type="text" placeholder="RW "></input>
+										<span class="input-group-append">
+											<button id="rw_tujuan-opener" class="btn btn-default kbvopener3" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-4">
+										<input  id="dusun_tujuan" name="dusun_tujuan" class="form-control input-sm required kbvtext4" type="text" placeholder="Dusun"></input>
+										<span class="input-group-append">
+											<button id="dusun_tujuan-opener" class="btn btn-default kbvopener4" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="desa_tujuan"  class="col-sm-3 control-label">Desa/Kelurahan Tujuan</label>
-								<div class="col-sm-8">
-									<input  id="desa_tujuan" name="desa_tujuan" class="form-control input-sm" type="hidden" data-awal="<?= $lokasi['nama_desa'];?>">
-									<input  id="desa_tujuan_show" class="form-control input-sm required" type="text" placeholder="Desa/Kelurahan"  onchange="$('#desa_tujuan').val($(this).val());">
+								<div class="input-group col-sm-8">
+									<div class="col-sm-12">
+										<input  id="desa_tujuan" name="desa_tujuan" class="form-control input-sm" type="hidden" data-awal="<?= $lokasi['nama_desa'];?>">
+										<input  id="desa_tujuan_show" class="form-control input-sm required kbvtext5" type="text" placeholder="Desa/Kelurahan"  onchange="$('#desa_tujuan').val($(this).val());">
+										<span class="input-group-append">
+											<button id="desa_tujuan-opener" class="btn btn-default kbvopener5" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="kecamatan_tujuan"  class="col-sm-3 control-label">Kec/Kab/Prop Tujuan</label>
-								<div class="col-sm-2">
-									<input id="kecamatan_tujuan" name="kecamatan_tujuan" type="hidden" data-awal="<?= $lokasi['nama_kecamatan'];?>"/>
-									<input  id="kecamatan_tujuan_show" class="form-control input-sm required" type="text" placeholder="Kecamatan " onchange="$('#kecamatan_tujuan').val($(this).val());">
-								</div>
-								<div class="col-sm-3">
-									<input id="kabupaten_tujuan" name="kabupaten_tujuan" type="hidden" data-awal="<?= $lokasi['nama_kabupaten'];?>"/>
-									<input   id="kabupaten_tujuan_show" class="form-control input-sm required" type="text" placeholder="Kabupaten" onchange="$('#kabupaten_tujuan').val($(this).val());">
-								</div>
-								<div class="col-sm-3">
-									<input id="provinsi_tujuan" name="provinsi_tujuan" type="hidden" data-awal="<?= $lokasi['nama_propinsi'];?>"/>
-									<input  id="provinsi_tujuan_show" class="form-control input-sm required" type="text" placeholder="Provinsi" onchange="$('#provinsi_tujuan').val($(this).val());">
+								<div class="input-group col-sm-8">
+									<div class="col-sm-2">
+										<input id="kecamatan_tujuan" name="kecamatan_tujuan" type="hidden" data-awal="<?= $lokasi['nama_kecamatan'];?>"/>
+										<input  id="kecamatan_tujuan_show" class="form-control input-sm required kbvtext6" type="text" placeholder="Kecamatan " onchange="$('#kecamatan_tujuan').val($(this).val());">
+										<span class="input-group-append">
+											<button id="kecamatan_tujuan-opener" class="btn btn-default kbvopener6" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-3">
+										<input id="kabupaten_tujuan" name="kabupaten_tujuan" type="hidden" data-awal="<?= $lokasi['nama_kabupaten'];?>"/>
+										<input   id="kabupaten_tujuan_show" class="form-control input-sm required kbvtext7" type="text" placeholder="Kabupaten" onchange="$('#kabupaten_tujuan').val($(this).val());">
+										<span class="input-group-append">
+											<button id="kabupaten_tujuan-opener" class="btn btn-default kbvopener7" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-3">
+										<input id="provinsi_tujuan" name="provinsi_tujuan" type="hidden" data-awal="<?= $lokasi['nama_propinsi'];?>"/>
+										<input  id="provinsi_tujuan_show" class="form-control input-sm required kbvtext8" type="text" placeholder="Provinsi" onchange="$('#provinsi_tujuan').val($(this).val());">
+										<span class="input-group-append">
+											<button id="provinsi_tujuan-opener" class="btn btn-default kbvopener8" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="kode_pos_tujuan"  class="col-sm-3 control-label">Kode Pos/ Telpon</label>
-								<div class="col-sm-2">
-									<input  id="kode_pos_tujuan" name="kode_pos_tujuan" class="form-control input-sm" type="text" placeholder="Kode Pos">
-								</div>
-								<div class="col-sm-3">
-									<input  id="telepon_tujuan" name="telepon_tujuan" class="form-control input-sm required" type="text" placeholder="Telpon">
+								<div class="input-group col-sm-8">
+									<div class="col-sm-2">
+										<input  id="kode_pos_tujuan" name="kode_pos_tujuan" class="form-control input-sm kbvnumber1" type="text" placeholder="Kode Pos">
+										<span class="input-group-append">
+											<button id="kode_pos_tujuan-opener" class="btn btn-default kbvopenernum1" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
+									<div class="col-sm-2"></div>
+									<div class="col-sm-3">
+										<input  id="telepon_tujuan" name="telepon_tujuan" class="form-control input-sm required kbvnumber2" type="text" placeholder="Telpon">
+										<span class="input-group-append">
+											<button id="telepon_tujuan-opener" class="btn btn-default kbvopenernum2" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">

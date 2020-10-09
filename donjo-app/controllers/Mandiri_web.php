@@ -50,10 +50,59 @@ class Mandiri_web extends Web_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model']);
+		mandiri_timeout();
+		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model']);
 		$this->load->helper('download');
+	}
 
-		if ($this->session->mandiri != 1) redirect('first');
+	public function index()
+	{
+		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
+		{
+			redirect('mandiri_web/mandiri/1/1');
+		}
+		unset($_SESSION['balik_ke']);
+		$data['header'] = $this->config_model->get_data();
+		//Initialize Session ------------
+		if (!isset($_SESSION['mandiri']))
+		{
+			// Belum ada session variable
+			$this->session->set_userdata('mandiri', 0);
+			$this->session->set_userdata('mandiri_try', 4);
+			$this->session->set_userdata('mandiri_wait', 0);
+		}
+		$_SESSION['success'] = 0;
+		//-------------------------------
+
+		$this->load->view('mandiri_login', $data);
+	}
+
+	public function auth()
+	{
+		if ($_SESSION['mandiri_wait'] != 1)
+		{
+			$this->mandiri_model->siteman();
+		}
+		if ($_SESSION['mandiri'] == 1)
+		{
+			redirect('mandiri_web/mandiri/1/1');
+		}
+		else
+		{
+			redirect('mandiri_web');
+		}
+	}
+
+	public function logout()
+	{
+		$this->mandiri_model->logout();
+		redirect('mandiri_web');
+	}
+
+	public function ganti()
+	{
+		$this->mandiri_model->ganti();
+		redirect('mandiri_web');
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)

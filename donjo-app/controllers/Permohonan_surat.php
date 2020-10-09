@@ -81,6 +81,7 @@ class Permohonan_surat extends Web_Controller {
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->get_data_untuk_form($url, $data);
+		$data['desa'] = $this->config_model->get_data();
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");

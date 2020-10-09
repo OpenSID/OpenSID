@@ -27,9 +27,14 @@
 							<?php	endif; ?>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
-								<label for="keterangan"  class="col-sm-3 control-label">Keperluan</label>
+								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<textarea  id="keterangan" class="form-control input-sm required" placeholder="Keperluan" name="keterangan"></textarea>
+									<div class="input-group col-sm-12">
+										<textarea name="keterangan" id="keterangan" class="form-control input-sm required kbvtext1" placeholder="Keterangan"></textarea>
+										<span class="input-group-append">
+											<button id="keterangan-opener" class="btn btn-default kbvopener1" type="button"><i class="fa fa-keyboard-o"></i></button>
+										</span>
+									</div>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>

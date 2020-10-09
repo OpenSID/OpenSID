@@ -66,6 +66,7 @@ navigasi ke tautannya.
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<a href="<?= site_url('siteman') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-lock fa-lg"></i> Login Admin</button></a>
+				<a href="<?= site_url('mandiri_web') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-user fa-lg"></i> Layanan Mandiri</button></a>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div>
