@@ -83,6 +83,10 @@ class Mandiri_web extends Web_Controller
 		{
 			$this->mandiri_model->siteman();
 		}
+		if ($_SESSION['lg'] == 1)
+		{
+			redirect('mandiri_web/change_pin');
+		}
 		if ($_SESSION['mandiri'] == 1)
 		{
 			redirect('mandiri_web/mandiri/1/1');
@@ -91,6 +95,7 @@ class Mandiri_web extends Web_Controller
 		{
 			redirect('mandiri_web');
 		}
+
 	}
 
 	public function logout()
@@ -99,10 +104,22 @@ class Mandiri_web extends Web_Controller
 		redirect('mandiri_web');
 	}
 
-	public function ganti()
+	public function update_pin($nik = '')
 	{
-		$this->mandiri_model->ganti();
-		redirect('mandiri_web');
+		$this->mandiri_model->update_pin($nik);
+		if ($this->session->success == -1)
+		{
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+		else redirect('mandiri_web/logout');
+	}
+
+	public function change_pin()
+	{
+		$nik = $_SESSION['nik'];
+		$data['main'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
+		$data['header'] = $this->config_model->get_data();
+		$this->load->view('mandiri_pin', $data);
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)
