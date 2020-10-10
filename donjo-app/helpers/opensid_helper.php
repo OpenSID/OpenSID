@@ -913,6 +913,13 @@ function buat_slug($data_slug)
 	return $slug;
 }
 
+function namafile($str)
+{
+	$tgl =  date('d_m_Y');
+	$filename = urlencode(underscore(strtolower($str))."_".$tgl);
+	return $filename;
+}
+
 function luas($int=0, $satuan="meter")
 {
 	if (($int / 10000) >= 1)
