@@ -153,16 +153,18 @@
 		return $sql;
 	}
 
-	protected function get_sql_kolom_kode($kode_session, $kode_kolom)
+	protected function get_sql_kolom_kode($session, $kolom)
 	{
-		$value = $this->session->$kode_session;
-
-		if (isset($value))
+		$kf = $this->session->$session;
+		if ( ! empty($kf))
 		{
-			if ($value == BELUM_MENGISI)
-				$sql = " AND (".$kode_kolom." IS NULL OR ".$kode_kolom." = '')";
+			if ($kf == JUMLAH)
+				$sql = " AND (" . $kolom . " IS NOT NULL OR " . $kolom . " != '')";
+			else if ($kf == BELUM_MENGISI)
+				$sql = " AND (" . $kolom . " IS NULL OR " . $kolom . " = '')";
 			else
-				$sql = " AND ".$kode_kolom." = '$value'";
+				$sql = " AND " . $kolom . " = $kf";
+
 			return $sql;
 		}
 	}
@@ -882,7 +884,9 @@
 
 	public function get_judul_statistik($tipe = 0, $nomor = 1, $sex = 0)
 	{
-		if ($nomor == BELUM_MENGISI)
+		if ($nomor == JUMLAH)
+			$judul = array("nama" => "JUMLAH");
+		else if ($nomor == BELUM_MENGISI)
 			$judul = array("nama" => "BELUM MENGISI");
 		else
 		{
