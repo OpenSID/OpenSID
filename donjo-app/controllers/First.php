@@ -192,7 +192,7 @@ class First extends Web_Controller {
 		}
 		$this->load->model('shortcode_model');
 		$data = $this->includes;
-
+		$this->first_artikel_m->hit($url); // catat artikel diakses
 		$data['single_artikel'] = $this->first_artikel_m->get_artikel($url);
 		$id = $data['single_artikel']['id'];
 
