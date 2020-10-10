@@ -47,7 +47,7 @@ class Analisis_laporan extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('analisis_laporan_model');
 		$this->load->model('analisis_respon_model');
-		$this->load->model('pamong_model');	
+		$this->load->model('pamong_model');
 
 		$_SESSION['submenu'] = "Laporan Analisis";
 		$_SESSION['asubmenu'] = "analisis_laporan";
@@ -159,6 +159,20 @@ class Analisis_laporan extends Admin_Controller {
 		$this->load->view('global/ttd_pamong', $data);
 	}
 
+	private function subjek_tipe()
+	{
+		$subjek_tipe = $this->session->subjek_tipe;
+		switch ($subjek_tipe)
+		{
+			case 1: $asubjek = "Penduduk"; break;
+			case 2: $asubjek = "Keluarga"; break;
+			case 3: $asubjek = "Rumahtangga"; break;
+			case 4: $asubjek = "Kelompok"; break;
+			default: return null;
+		}
+		return $asubjek;
+	}
+
 	public function daftar($p=1, $o=0, $id='', $aksi = '')
 	{
 		$post = $this->input->post();
@@ -167,6 +181,7 @@ class Analisis_laporan extends Admin_Controller {
 
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
+		$data['asubjek'] = $this->subjek_tipe();
 		$data['total'] = $this->analisis_laporan_model->get_total($id);
 
 		$this->load->model('analisis_respon_model');

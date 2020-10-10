@@ -1,14 +1,4 @@
 <?php
-
-$subjek_tipe = $_SESSION['subjek_tipe'];
-switch ($subjek_tipe){
-	case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
-	case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-	case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;
-	case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
-	default: return null;
-}
-
 	if ($aksi == 'unduh')
 	{
 		$judul = namafile("Laporan Hasil Analisis ".$asubjek." ".$subjek['nama']);
@@ -18,7 +8,6 @@ switch ($subjek_tipe){
 		header("Pragma: no-cache");
 		header("Expires: 0");
 	}
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -40,7 +29,7 @@ switch ($subjek_tipe){
 								<img class="logo" src="<?= gambar_desa($config['logo']);?>" alt="logo-desa">
 							<?php endif; ?>
 							<h1 class="judul">
-								PEMERINTAH <?= $this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']; ?>
+								PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
 							<h1>
 						</td>
 					</tr>
@@ -65,7 +54,7 @@ switch ($subjek_tipe){
 			<table class="border thick">
 				<thead>
 					<tr class="border thick">
-						<th width="10">No</th>
+						<th width="10">NO</th>
 						<th align="left">NIK</th>
 						<th align="left">NAMA</th>
 						<th align="left">TANGGAL LAHIR</th>
@@ -90,12 +79,12 @@ switch ($subjek_tipe){
 			<table class="border thick">
 				<thead>
 					<tr class="border thick">
-						<th width="10">No</th>
-						<th align="left">Pertanyaan / Indikator</th>
-						<th align="left">Bobot</th>
-						<th align="left">Jawaban</th>
-						<th align="left">Nilai</th>
-						<th align="left">Poin</th>
+						<th width="10">NO</th>
+						<th align="left">PERTANYAAN / INDIKATOR</th>
+						<th align="left">BOBOT</th>
+						<th align="left">JAWABAN</th>
+						<th align="left">NILAI</th>
+						<th align="left">POIN</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -142,7 +131,7 @@ switch ($subjek_tipe){
 				<td width="10%">&nbsp;</td>
 			</tr>
 		</table>
-	
+
 	</div>
 </body>
 </html>
