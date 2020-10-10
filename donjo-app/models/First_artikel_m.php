@@ -409,8 +409,7 @@ class First_artikel_m extends CI_Model {
 	}
 
 	public function get_artikel($url)
-	{
-		$this->hit($url); // catat artikel diakses
+	{		
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
