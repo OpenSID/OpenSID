@@ -491,7 +491,7 @@ class Keluarga extends Admin_Controller {
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		if ($sex == NULL)
 		{
-			if ($nomor != 0) $this->session->sex  = $nomor;
+			if ($nomor != 0) $this->session->sex = $nomor;
 			else $this->session->unset_userdata('sex');
 			$this->session->unset_userdata('judul_statistik');
 			redirect('penduduk');
@@ -501,9 +501,15 @@ class Keluarga extends Admin_Controller {
 
 		switch ($tipe)
 		{
-			case 'kelas_sosial': $session = 'kelas'; $kategori = 'KLASIFIKASI SOSIAL : '; break;
+			case 'kelas_sosial':
+				$session = 'kelas';
+				$kategori = 'KLASIFIKASI SOSIAL : ';
+				break;
 
-			case 'bantuan_keluarga': $session = 'bantuan_keluarga'; $kategori = 'PENERIMA BANTUAN (KELUARGA) : '; break;
+			case 'bantuan_keluarga':
+				$session = 'bantuan_keluarga';
+				$kategori = 'PENERIMA BANTUAN (KELUARGA) : ';
+				break;
 		}
 
 		// Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
@@ -516,7 +522,7 @@ class Keluarga extends Admin_Controller {
 
 		if ($judul['nama'])
 		{
-			$_SESSION['judul_statistik'] = $pre.$judul['nama'];
+			$_SESSION['judul_statistik'] = $kategori . $judul['nama'];
 		}
 		else
 		{

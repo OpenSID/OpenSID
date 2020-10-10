@@ -884,7 +884,9 @@
 
 	public function get_judul_statistik($tipe = 0, $nomor = 1, $sex = 0)
 	{
-		if ($nomor == BELUM_MENGISI)
+		if ($nomor == JUMLAH)
+			$judul = array("nama" => "JUMLAH");
+		else if ($nomor == BELUM_MENGISI)
 			$judul = array("nama" => "BELUM MENGISI");
 		else
 		{
