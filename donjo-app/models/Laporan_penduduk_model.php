@@ -461,7 +461,7 @@ class Laporan_penduduk_model extends MY_Model {
 		->select('COUNT(k.id) as jumlah')
 		->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
 		->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
-		->from('tweb_keluarga k')
+		->from('keluarga_aktif k')
 		->join('tweb_penduduk p', 'p.id=k.nik_kepala', 'left')
 		->get()->row_array();
 
@@ -554,7 +554,7 @@ class Laporan_penduduk_model extends MY_Model {
 			->select('COUNT(CASE WHEN kelas_sosial = u.id AND p.sex = 1 THEN p.id END) AS laki')
 			->select('COUNT(CASE WHEN kelas_sosial = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
 			->from('tweb_keluarga_sejahtera u')
-			->join('tweb_keluarga k', 'k.kelas_sosial = u.id', 'left')
+			->join('keluarga_aktif k', 'k.kelas_sosial = u.id', 'left')
 			->join('tweb_penduduk p', 'p.id=k.nik_kepala', 'left')
 			->group_by('u.id');
 			break;
