@@ -482,49 +482,47 @@ class Keluarga extends Admin_Controller {
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
-	public function statistik($tipe = 0, $nomor = 0, $sex = null, $p = 1, $o = 0)
+	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
-		$_SESSION['per_page'] = 50;
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		$_SESSION['status_dasar'] = 1; // tampilkan KK aktif saja
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['sex']);
-		unset($_SESSION['kelas']);
-		unset($_SESSION['bantuan_keluarga']);
-		unset($_SESSION['id_bos']);
+		$this->session->unset_userdata($this->_list_session);
+		$this->session->per_page = $this->_set_page[0];
+		$this->session->status_dasar = 1; // tampilkan KK aktif saja
 
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		if ($sex == NULL)
 		{
-			if ($nomor != 0) $_SESSION['sex'] = $nomor;
-			else unset($_SESSION['sex']);
-			unset($_SESSION['judul_statistik']);
-			redirect('keluarga');
+			if ($nomor != 0) $this->session->sex = $nomor;
+			else $this->session->unset_userdata('sex');
+			$this->session->unset_userdata('judul_statistik');
+			redirect('penduduk');
 		}
 
-		if ($sex == 0)
-			unset($_SESSION['sex']);
-		else
-			$_SESSION['sex'] = $sex;
+		$this->session->sex = ($sex == 0) ? NULL : $sex;
 
 		switch ($tipe)
 		{
 			case 'kelas_sosial':
-				$_SESSION['kelas'] = $nomor;
-				$pre = "KLASIFIKASI SOSIAL : ";
+				$session = 'kelas';
+				$kategori = 'KLASIFIKASI SOSIAL : ';
 				break;
+
 			case 'bantuan_keluarga':
-				$_SESSION['bantuan_keluarga'] = $nomor;
-				$pre = "PENERIMA BANTUAN (KELUARGA): ";
+				$session = 'bantuan_keluarga';
+				$kategori = 'PENERIMA BANTUAN (KELUARGA) : ';
 				break;
 		}
-		$judul = $this->keluarga_model->get_judul_statistik($tipe,$nomor,$sex);
+
+		// Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
+		if ($nomor != TOTAL)
+		{
+			$this->session->$session = $nomor;
+		}
+
+		$judul = $this->keluarga_model->get_judul_statistik($tipe, $nomor, $sex);
+
 		if ($judul['nama'])
 		{
-			$_SESSION['judul_statistik'] = $pre.$judul['nama'];
+			$_SESSION['judul_statistik'] = $kategori . $judul['nama'];
 		}
 		else
 		{
