@@ -275,9 +275,7 @@ class Suplemen_model extends CI_Model {
 		$sql .= $this->search_sql('penduduk');
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
-			$get_terdata_sql = $get_terdata_sql;
-			$get_terdata_sql .= $this->search_sql('penduduk');
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
+			$hasil["paging"] = $this->paging($p, $get_terdata_sql.$this->search_sql('penduduk'));
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
 			$sql .= $paging_sql;
 		}
@@ -323,9 +321,7 @@ class Suplemen_model extends CI_Model {
 		$sql .= $this->search_sql('kk');
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
-			$get_terdata_sql = $get_terdata_sql;
-			$get_terdata_sql .= $this->search_sql('kk');
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
+			$hasil["paging"] = $this->paging($p, $get_terdata_sql.$this->search_sql('kk'));
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
 			$sql .= $paging_sql;
 		}
