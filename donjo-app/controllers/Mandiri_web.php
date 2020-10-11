@@ -128,6 +128,12 @@ class Mandiri_web extends Web_Controller
 		else redirect('mandiri_web');
 	}
 
+	public function balik_first()
+	{
+		$this->mandiri_model->logout();
+		redirect('first');
+	}
+
 	public function mandiri($p=1, $m=0, $kat=1)
 	{
 		$data = $this->includes;
