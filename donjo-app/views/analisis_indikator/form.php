@@ -1,23 +1,4 @@
 <script>
-	$(function()
-	{
-		if ($('input[name=id_tipe]:unchecked').next('label').text()=='Pilihan (Tunggal)'):
-			$('div.delik').hide();
-		endif;
-		if ($('input[name=id_tipe]:checked').next('label').text()=='Pilihan (Tunggal)'):
-			$('div.delik').show();
-		endif;
-		$('input[name=id_tipe]').click(function()
-		{
-			if ($(this).next('label').text()=='Pilihan (Tunggal)'):
-				$('div.delik').show();
-			else:
-				$('div.delik').hide();
-			endif;
-		});
-	});
-</script>
-<script>
 	function reset_form()
 	{
 		<?php if ($analisis_indikator['is_publik'] =='1' OR $analisis_indikator['is_publik'] == NULL): ?>
@@ -110,7 +91,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12">
-											<div class="form-group" id="delik">
+											<div class="form-group">
 												<label class="col-sm-3 control-label" for="pertanyaan">Pertanyaan</label>
 												<div class="col-sm-8">
 													<textarea  id="pertanyaan" class="form-control input-sm required" placeholder="Pertanyaan" name="pertanyaan" <?php if ($analisis_master['jenis']==1): ?> readonly="readonly" <?php endif; ?>><?= $analisis_indikator['pertanyaan']?></textarea>
@@ -130,8 +111,8 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-sm-12 hide">
-											<div class="form-group" id="delik">
+										<div class="col-sm-12">
+											<div class="form-group">
 												<label class="col-sm-3 control-label" for="bobot">Bobot</label>
 												<div class="col-sm-2">
 													<input  id="bobot" class="form-control input-sm" type="text" placeholder="Bobot Pertanyaan" name="bobot" value="<?php if ($analisis_indikator['bobot']==""): ?>1<?php else: ?><?=$analisis_indikator['bobot'];?><?php endif; ?>">
@@ -139,7 +120,20 @@
 											</div>
 										</div>
 										<div class="col-sm-12">
-											<div class="form-group" id="delik">
+											<div class="form-group">
+												<label class="col-sm-3 control-label" for="act_analisis">Aksi Analisis</label>
+												<div class="btn-group col-sm-7" data-toggle="buttons">
+													<label id="aksi1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['act_analisis'] =='1'): ?>active<?php endif ?>">
+														<input id="aksi1" type="radio" name="act_analisis" class="form-check-input" type="radio" value="1" <?php if ($analisis_indikator['act_analisis']=='1'): ?>checked <?php endif ?> autocomplete="off"> Ya
+													</label>
+													<label id="aksi2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['act_analisis'] == '2' OR $analisis_indikator['act_analisis'] == NULL): ?>active<?php endif ?>">
+														<input id="aksi2" type="radio" name="act_analisis" class="form-check-input" type="radio" value="2" <?php if ($analisis_indikator['act_analisis'] == '2' OR $analisis_indikator['act_analisis'] == NULL): ?>checked<?php endif ?> autocomplete="off"> Tidak
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="form-group">
 												<label class="col-sm-3 control-label" for="act_analisis">Publikasi Indikator</label>
 												<div class="btn-group col-sm-7" data-toggle="buttons">
 													<label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_indikator['is_publik'] =='1'): ?>active<?php endif ?>">
