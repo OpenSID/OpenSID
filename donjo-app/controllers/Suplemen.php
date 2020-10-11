@@ -51,6 +51,7 @@ class Suplemen extends Admin_Controller {
 		$this->load->model(['suplemen_model', 'pamong_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
+		$this->_list_session = ['filter', 'id_rincian'];
 	}
 
 	public function index()
@@ -120,6 +121,7 @@ class Suplemen extends Admin_Controller {
 		$data['func'] = "rincian/$id";
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = ['20', '50', '100'];
+		$data['cari'] = $this->session->cari;
 		$this->set_minsidebar(1);
 
 		$this->render('suplemen/suplemen_anggota', $data);
@@ -220,6 +222,27 @@ class Suplemen extends Admin_Controller {
 			$this->session->per_page = $temp;
 
 			$this->load->view('suplemen/cetak', $data);
+		}
+	}
+
+	public function filter($filter)
+	{
+		$value = $this->input->post($filter);
+		$id_rincian = $this->session->id_rincian;
+		if ($value != '')
+			$this->session->$filter = $value;
+		else 
+			$this->session->unset_userdata($filter);
+		redirect("suplemen/rincian/$id_rincian");
+	}
+
+	public function clear($id)
+	{
+		if ($id)
+		{
+			$this->session->id_rincian = $id;
+			$this->session->unset_userdata('cari');
+			redirect("suplemen/rincian/$id");
 		}
 	}
 }

@@ -272,8 +272,11 @@ class Suplemen_model extends CI_Model {
 			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 		 ";
 		$sql = $select_sql.$get_terdata_sql;
+		$sql .= $this->search_sql('penduduk');
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
+			$get_terdata_sql = $get_terdata_sql;
+			$get_terdata_sql .= $this->search_sql('penduduk');
 			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
 			$sql .= $paging_sql;
@@ -317,8 +320,11 @@ class Suplemen_model extends CI_Model {
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
 		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
+		$sql .= $this->search_sql('kk');
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
+			$get_terdata_sql = $get_terdata_sql;
+			$get_terdata_sql .= $this->search_sql('kk');
 			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
 			$sql .= $paging_sql;
@@ -551,6 +557,21 @@ class Suplemen_model extends CI_Model {
 		else
 		{
 			return null;
+		}
+	}
+
+	protected function search_sql($berdasarkan = '')
+	{
+		if ( $this->session->cari)
+		{
+			$cari = $this->session->cari;
+			$kw = $this->db->escape_like_str($cari);
+			$kw = '%' .$kw. '%';
+			if ( $berdasarkan === 'penduduk')
+				$search_sql = " AND (o.nama LIKE '$kw' OR o.nik LIKE '$kw' OR k.no_kk like '$kw')";
+			else
+				$search_sql = " AND (o.no_kk LIKE '$kw' OR o.nik_kepala LIKE '$kw' OR q.nik LIKE '$kw' OR q.nama LIKE '$kw')";
+			return $search_sql;
 		}
 	}
 
