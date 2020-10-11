@@ -114,7 +114,7 @@
 								<?php if ($this->session->success == -1): ?>
 									<?= $this->session->error_msg ?>
 								<?php else: ?>
-									Untuk keamanan silahkan ubah PIN anda
+									Untuk keamanan silakan ubah PIN anda
 								<?php endif; ?>
 							</div>
 						</div>
@@ -122,17 +122,25 @@
 							<form action="<?=site_url("mandiri_web/update_pin/$main[nik]")?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
 									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required kbvnumber" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+										<input class="form-control input-sm required pinMandiri kbvnumber" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 										<span class="input-group-btn">
-											<button id="nik-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
+											<button id="pin_lama-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
 										</span>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required kbvnumber1" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+										<input class="form-control input-sm required pinMandiri kbvnumber1" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 										<span class="input-group-btn">
-											<button id="pin-opener" class="btn btn-default kbvopenernum1" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
+											<button id="pin1-opener" class="btn btn-default kbvopenernum1" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group col-sm-10">
+										<input class="form-control input-sm required pinMandiri kbvnumber2" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+										<span class="input-group-btn">
+											<button id="pin2-opener" class="btn btn-default kbvopenernum2" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
 										</span>
 									</div>
 								</div>
@@ -141,7 +149,7 @@
 								</div>
 								<button type="submit" id="btnSubmit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i>Simpan</button>
 								<div class="login-footer-top">
-									<br /><h3>Silahkan coba login kembali setelah PIN baru disimpan</h3>
+									<br /><h3>Silakan coba login kembali setelah PIN baru berhasil disimpan</h3>
 								</div>
 							</form>
 							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>
@@ -156,7 +164,6 @@
 <script>
 $('document').ready(function()
 {
-
 	$('#checkbox').click(function(){
 		var $pwd = $(".input-sm");
 		if ($pwd.attr('type') === 'password') {
@@ -165,12 +172,5 @@ $('document').ready(function()
 			$pwd.attr('type', 'password');
 		}
 	});
-
-	setTimeout(function() {
-		$('#pin2').rules('add', {
-			equalTo: '#pin1'
-		})
-	}, 500);
-
 });
 </script>

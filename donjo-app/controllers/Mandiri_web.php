@@ -83,10 +83,12 @@ class Mandiri_web extends Web_Controller
 		{
 			$this->mandiri_model->siteman();
 		}
+
 		if ($_SESSION['lg'] == 1)
 		{
-			redirect('mandiri_web/change_pin');
+			redirect('mandiri_web/ganti_pin');
 		}
+
 		if ($_SESSION['mandiri'] == 1)
 		{
 			redirect('mandiri_web/mandiri/1/1');
@@ -114,12 +116,16 @@ class Mandiri_web extends Web_Controller
 		else redirect('mandiri_web/logout');
 	}
 
-	public function change_pin()
+	public function ganti_pin()
 	{
-		$nik = $_SESSION['nik'];
-		$data['main'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
-		$data['header'] = $this->config_model->get_data();
-		$this->load->view('mandiri_pin', $data);
+		if (isset($_SESSION['nik']))
+		{
+			$nik = $this->session->nik;
+			$data['main'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
+			$data['header'] = $this->config_model->get_data();
+			$this->load->view('mandiri_pin', $data);
+		}
+		else redirect('mandiri_web');
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)
