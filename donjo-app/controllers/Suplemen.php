@@ -122,6 +122,7 @@ class Suplemen extends Admin_Controller {
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = ['20', '50', '100'];
 		$data['cari'] = $this->session->cari;
+		$data['keyword'] = $this->suplemen_model->autocomplete();
 		$this->set_minsidebar(1);
 
 		$this->render('suplemen/suplemen_anggota', $data);

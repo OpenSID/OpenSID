@@ -46,6 +46,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Daftar Terdata Suplemen</h1>

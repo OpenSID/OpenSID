@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Suplemen_model extends CI_Model {
+class Suplemen_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -569,6 +569,11 @@ class Suplemen_model extends CI_Model {
 				$search_sql = " AND (o.no_kk LIKE '$kw' OR o.nik_kepala LIKE '$kw' OR q.nik LIKE '$kw' OR q.nama LIKE '$kw')";
 			return $search_sql;
 		}
+	}
+
+	public function autocomplete()
+	{
+		return $this->autocomplete_str('nama', 'tweb_penduduk');
 	}
 
 }
