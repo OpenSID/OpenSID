@@ -571,9 +571,39 @@ class Suplemen_model extends MY_Model {
 		}
 	}
 
-	public function autocomplete()
+	public function autocomplete($id_suplemen)
 	{
-		return $this->autocomplete_str('nama', 'tweb_penduduk');
+		switch ($id_suplemen) 
+		{
+			case '1':
+				## sasaran penduduk
+				$data = $this->db
+					->select('p.nama')
+					->from('suplemen_terdata s')
+					->join('tweb_penduduk p', 'p.id = s.id_terdata', 'left')
+					->where('s.id_suplemen', $id_suplemen)
+					->group_by('p.nama')
+					->get()
+					->result_array();
+				break;
+
+			case '2':
+				## sasaran keluarga / KK
+				$data = $this->db
+					->select('p.nama')
+					->from('suplemen_terdata s')
+					->join('tweb_keluarga k', 'k.id = s.id_terdata', 'left')
+					->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+					->where('s.id_suplemen', $id_suplemen)
+					->group_by('p.nama')
+					->get()
+					->result_array();
+				break;
+			default:
+				break;
+		}
+
+		return autocomplete_data_ke_str($data);
 	}
 
 }
