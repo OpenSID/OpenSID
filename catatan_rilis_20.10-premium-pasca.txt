@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 13. #3630: Perbaiki penampilan kode wilayah dan umur di lampiran Surat Keterangan Kematian. [bug-fix]
 14. Perbaiki error pada waktu klik gambar di slider atas di tema klasik. [bug-fix]
 15. #3641: Sekarang hanya keluarga aktif yg dilaporkan di Statistik Kependudukan > Statistik Keluarga. [bug-fix]
+16. #3623: Sediakan cetak/unduh laporan hasil klasifikasi di modul Analisis.
 
 Fitur Premium:
 
