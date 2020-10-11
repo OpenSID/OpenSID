@@ -867,27 +867,27 @@
                 "[ttl]"                  => "$individu[tempatlahir]/$tgllhr",
                 "[usia]"                 => "$individu[umur] Tahun",
                 "*usia"                  => "$individu[umur] Tahun",
-                "[warga_negara]"         => "$individu[warganegara]",
+                "[warga_negara]"         => $individu['warganegara'],
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
 			// DATA AYAH dan IBU
 			$array_replace = array(
-                "[d_nama_ibu]"          => "$ibu[nama]",
+                "[d_nama_ibu]"          => $ibu['nama'],
                 "[d_nik_ibu]"           => $ibu['nik'] ?: '-',
                 "[d_tempatlahir_ibu]"   => $ibu['tempatlahir'] ?: '-',
                 "[d_tanggallahir_ibu]"  => $ibu['tanggallahir'] ? tgl_indo_dari_str($ibu['tanggallahir']) : '-',
-                "[d_warganegara_ibu]"   => "$ibu[wn]",
+                "[d_warganegara_ibu]"   => $ibu['wn'],
                 "[d_agama_ibu]"         => $ibu['agama'] ?: '-',
                 "[d_pekerjaan_ibu]"     => $ibu['pek'] ?: '-',
                 "[d_alamat_ibu]"        => "RT $ibu[rt] / RW $ibu[rw] $ibu[dusun]",
-                "[d_nama_ayah]"         => "$ayah[nama]",
-                "[d_nik_ayah]"          => "$ayah[nik]",
-                "[d_tempatlahir_ayah]"  => "$ayah[tempatlahir]",
+                "[d_nama_ayah]"         => $ayah['nama'],
+                "[d_nik_ayah]"          => $ayah['nik'],
+                "[d_tempatlahir_ayah]"  => $ayah['tempatlahir'],
                 "[d_tanggallahir_ayah]" => tgl_indo_dari_str($ayah['tanggallahir']),
-                "[d_warganegara_ayah]"  => "$ayah[wn]",
-                "[d_agama_ayah]"        => "$ayah[agama]",
-                "[d_pekerjaan_ayah]"    => "$ayah[pek]",
+                "[d_warganegara_ayah]"  => $ayah['wn'],
+                "[d_agama_ayah]"        => $ayah['agama'],
+                "[d_pekerjaan_ayah]"    => $ayah['pek'],
                 "[d_alamat_ayah]"       => "RT $ayah[rt] / RW $ayah[rw] $ayah[dusun]",
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
@@ -899,11 +899,11 @@
 				$buffer = str_replace("[mulai_berlaku]", tgl_indo(date('Y m d',strtotime($input['berlaku_dari']))), $buffer);
 			if (isset($input['berlaku_sampai']))
 				$buffer = str_replace("[tgl_akhir]", tgl_indo(date('Y m d',strtotime($input['berlaku_sampai']))), $buffer);
-			$buffer = str_replace("[jabatan]","$input[jabatan]", $buffer);
-			$buffer = str_replace("[nama_pamong]","$input[pamong]", $buffer);
-			$buffer = str_replace("[keterangan]","$input[keterangan]", $buffer);
+			$buffer = str_replace("[jabatan]", "$input[jabatan]", $buffer);
+			$buffer = str_replace("[nama_pamong]", "$input[pamong]", $buffer);
+			$buffer = str_replace("[keterangan]", "$input[keterangan]", $buffer);
 			if (isset($input['keperluan']))
-				$buffer = str_replace("[keperluan]","$input[keperluan]", $buffer);
+				$buffer = str_replace("[keperluan]", "$input[keperluan]", $buffer);
 			// $input adalah isian form surat. Kode isian dari form bisa berbentuk [form_isian]
 			// sesuai dengan panduan, atau boleh juga langsung [isian] saja
 			$isian_tanggal = array("berlaku_dari", "berlaku_sampai", "tanggal", "tgl_meninggal",
