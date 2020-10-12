@@ -234,6 +234,8 @@ class Suplemen_model extends MY_Model {
 		}
 
 		$data['suplemen'] = $suplemen;
+		$data['keyword'] = $this->autocomplete($suplemen['sasaran']);
+
 		return $data;
 	}
 
@@ -556,14 +558,14 @@ class Suplemen_model extends MY_Model {
 		}
 	}
 
-	protected function search_sql($berdasarkan = '')
+	protected function search_sql($sasaran = '')
 	{
 		if ( $this->session->cari)
 		{
 			$cari = $this->session->cari;
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			if ( $berdasarkan === 'penduduk')
+			if ( $sasaran === 'penduduk')
 				$search_sql = " AND (o.nama LIKE '$kw' OR o.nik LIKE '$kw' OR k.no_kk like '$kw')";
 			else
 				$search_sql = " AND (o.no_kk LIKE '$kw' OR o.nik_kepala LIKE '$kw' OR q.nik LIKE '$kw' OR q.nama LIKE '$kw')";
@@ -571,9 +573,9 @@ class Suplemen_model extends MY_Model {
 		}
 	}
 
-	public function autocomplete($id_suplemen)
+	private function autocomplete($sasaran)
 	{
-		switch ($id_suplemen) 
+		switch ($sasaran) 
 		{
 			case '1':
 				## sasaran penduduk
@@ -581,7 +583,7 @@ class Suplemen_model extends MY_Model {
 					->select('p.nama')
 					->from('suplemen_terdata s')
 					->join('tweb_penduduk p', 'p.id = s.id_terdata', 'left')
-					->where('s.id_suplemen', $id_suplemen)
+					->where('s.sasaran', $sasaran)
 					->group_by('p.nama')
 					->get()
 					->result_array();
@@ -594,7 +596,7 @@ class Suplemen_model extends MY_Model {
 					->from('suplemen_terdata s')
 					->join('tweb_keluarga k', 'k.id = s.id_terdata', 'left')
 					->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
-					->where('s.id_suplemen', $id_suplemen)
+					->where('s.sasaran', $sasaran)
 					->group_by('p.nama')
 					->get()
 					->result_array();
