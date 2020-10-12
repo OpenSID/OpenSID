@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.10-premium-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ians Shinichi Kudo dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 
@@ -16,10 +16,16 @@ Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 10. #3624: Data analisis sekarang hanya bisa ditampilkan di web melalui menu statis.
 11. Hapus script tidak digunakan di modul SMS. [teknis]
 12. #3608, #3609: Tampilkan No. KK dan NIK untuk terdata sasaran penduduk dan keluarga di modul Data Suplemen.
+13. #3630: Perbaiki penampilan kode wilayah dan umur di lampiran Surat Keterangan Kematian. [bug-fix]
+14. Perbaiki error pada waktu klik gambar di slider atas di tema klasik. [bug-fix]
+15. #3641: Sekarang hanya keluarga aktif yg dilaporkan di Statistik Kependudukan > Statistik Keluarga. [bug-fix]
+16. #3623: Sediakan cetak/unduh laporan hasil klasifikasi di modul Analisis.
 
 Fitur Premium:
 
 1. Tampilkan legenda dan kustomisasi warna wilayah di Peta.
+2. #3136: Sediakan tombol dan form login terpisah untuk Layanan Mandiri.
+3. #2888: Sediakan keyboard virtual untuk Layanan Mandiri.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

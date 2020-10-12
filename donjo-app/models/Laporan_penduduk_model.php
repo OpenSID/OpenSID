@@ -461,7 +461,7 @@ class Laporan_penduduk_model extends MY_Model {
 		->select('COUNT(k.id) as jumlah')
 		->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
 		->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
-		->from('tweb_keluarga k')
+		->from('keluarga_aktif k')
 		->join('tweb_penduduk p', 'p.id=k.nik_kepala', 'left')
 		->get()->row_array();
 
@@ -549,78 +549,78 @@ class Laporan_penduduk_model extends MY_Model {
 		{
 			//Bagian Keluarga
 			case 'kelas_sosial':
-			$this->db
-			->select('u.*, COUNT(k.id) as jumlah')
-			->select('COUNT(CASE WHEN kelas_sosial = u.id AND p.sex = 1 THEN p.id END) AS laki')
-			->select('COUNT(CASE WHEN kelas_sosial = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
-			->from('tweb_keluarga_sejahtera u')
-			->join('tweb_keluarga k', 'k.kelas_sosial = u.id', 'left')
-			->join('tweb_penduduk p', 'p.id=k.nik_kepala', 'left')
-			->group_by('u.id');
-			break;
+				$this->db
+				->select('u.*, COUNT(k.id) as jumlah')
+				->select('COUNT(CASE WHEN kelas_sosial = u.id AND p.sex = 1 THEN p.id END) AS laki')
+				->select('COUNT(CASE WHEN kelas_sosial = u.id AND p.sex = 2 THEN p.id END) AS perempuan')
+				->from('tweb_keluarga_sejahtera u')
+				->join('keluarga_aktif k', 'k.kelas_sosial = u.id', 'left')
+				->join('tweb_penduduk p', 'p.id=k.nik_kepala', 'left')
+				->group_by('u.id');
+				break;
 
 			//STATUS_COVID
 			case 'covid':
-			$this->db
-			->select('u.*, COUNT(k.id) as jumlah')
-			->select('COUNT(CASE WHEN k.status_covid = u.nama AND p.sex = 1 THEN k.id_terdata END) AS laki')
-			->select('COUNT(CASE WHEN k.status_covid = u.nama AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
-			->from('ref_status_covid u')
-			->join('covid19_pemudik k', 'k.status_covid = u.nama', 'left')
-			->join('tweb_penduduk p', 'p.id=k.id_terdata', 'left')
-			->group_by('u.id');
-			break;
+				$this->db
+				->select('u.*, COUNT(k.id) as jumlah')
+				->select('COUNT(CASE WHEN k.status_covid = u.nama AND p.sex = 1 THEN k.id_terdata END) AS laki')
+				->select('COUNT(CASE WHEN k.status_covid = u.nama AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
+				->from('ref_status_covid u')
+				->join('covid19_pemudik k', 'k.status_covid = u.nama', 'left')
+				->join('tweb_penduduk p', 'p.id=k.id_terdata', 'left')
+				->group_by('u.id');
+				break;
 
 			//penerima_bantuan
 			case 'bantuan_penduduk': $sql =
-			"SELECT u.*,
-			(SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id) AS jumlah,
-			(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1) AS laki,
-			(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2) AS perempuan
-			FROM program u";
-			break;
+				"SELECT u.*,
+				(SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id) AS jumlah,
+				(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1) AS laki,
+				(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2) AS perempuan
+				FROM program u";
+				break;
 
 			case in_array($lap, array_keys($statistik_penduduk)):
-			$this->select_jml_penduduk_per_kategori($statistik_penduduk["$lap"]['id_referensi'], $statistik_penduduk["$lap"]['tabel_referensi']);
-			break;
+				$this->select_jml_penduduk_per_kategori($statistik_penduduk["$lap"]['id_referensi'], $statistik_penduduk["$lap"]['tabel_referensi']);
+				break;
 
 			case "13":
-				// Umur rentang
-			$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
-			$this->select_jml($where);
-			$this->db->select('u.*')
-			->from('tweb_penduduk_umur u')
-			->where('u.status', "1");
-			break;
+					// Umur rentang
+				$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai";
+				$this->select_jml($where);
+				$this->db->select('u.*')
+				->from('tweb_penduduk_umur u')
+				->where('u.status', "1");
+				break;
 
 			case "15":
-				// Umur kategori
-			$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai ";
-			$this->select_jml($where);
-			$this->db->select("u.*, concat(u.nama, ' (', u.dari, ' - ', u.sampai, ')') as nama")
-			->from('tweb_penduduk_umur u')
-			->where('u.status', "0");
-			break;
+					// Umur kategori
+				$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai ";
+				$this->select_jml($where);
+				$this->db->select("u.*, concat(u.nama, ' (', u.dari, ' - ', u.sampai, ')') as nama")
+				->from('tweb_penduduk_umur u')
+				->where('u.status', "0");
+				break;
 
 			case "17":
-				// Akta kelahiran
-			$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND akta_lahir <> '' ";
-			$this->select_jml($where);
-			$this->db->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
-			->from('tweb_penduduk_umur u')
-			->where('u.status', "1");
-			break;
+					// Akta kelahiran
+				$where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND akta_lahir <> '' ";
+				$this->select_jml($where);
+				$this->db->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
+				->from('tweb_penduduk_umur u')
+				->where('u.status', "1");
+				break;
 
 			case "18":
-				// Kepemilikan ktp
-			$where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam ";
-			$this->select_jml($where);
-			$this->db->select("u.*")
-			->from('tweb_status_ktp u');
-			break;
+					// Kepemilikan ktp
+				$where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam ";
+				$this->select_jml($where);
+				$this->db->select("u.*")
+				->from('tweb_status_ktp u');
+				break;
 
 			default:
-			$this->select_jml_penduduk_per_kategori($statistik_penduduk["0"]['id_referensi'], $statistik_penduduk["0"]['tabel_referensi']);
+				$this->select_jml_penduduk_per_kategori($statistik_penduduk["0"]['id_referensi'], $statistik_penduduk["0"]['tabel_referensi']);
 		}
 
 	}
