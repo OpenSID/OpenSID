@@ -163,7 +163,7 @@
 			else if ($kf == BELUM_MENGISI)
 				$sql = " AND (" . $kolom . " IS NULL OR " . $kolom . " = '')";
 			else
-				$sql = " AND " . $kolom . " = $kf";
+				$sql = " AND " . $kolom . " = '$kf'";
 
 			return $sql;
 		}
