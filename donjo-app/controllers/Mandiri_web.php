@@ -79,17 +79,17 @@ class Mandiri_web extends Web_Controller
 
 	public function auth()
 	{
-		if ($_SESSION['mandiri_wait'] != 1)
+		if ($this->session->mandiri_wait != 1)
 		{
 			$this->mandiri_model->siteman();
 		}
 
-		if ($_SESSION['lg'] == 1)
+		if ($this->session->lg == 1)
 		{
 			redirect('mandiri_web/ganti_pin');
 		}
 
-		if ($_SESSION['mandiri'] == 1)
+		if ($this->session->mandiri == 1)
 		{
 			redirect('mandiri_web/mandiri/1/1');
 		}
@@ -118,7 +118,7 @@ class Mandiri_web extends Web_Controller
 
 	public function ganti_pin()
 	{
-		if (isset($_SESSION['nik']))
+		if ($this->session->nik)
 		{
 			$nik = $this->session->nik;
 			$data['main'] = $this->mandiri_model->get_pendaftar_mandiri($nik);

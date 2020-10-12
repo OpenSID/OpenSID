@@ -349,13 +349,13 @@
 
 	public function update_pin($nik = 0)
 	{
-		$_SESSION['success'] = 1;
-		$_SESSION['error_msg'] = '';
+		$this->session->success = 1;
+		$this->session->error_msg = '';
 
-		$nik = $_SESSION['nik'];
-		$pin_lama = hash_pin($_POST['pin_lama']);
-		$pin1 = hash_pin($_POST['pin1']);
-		$pin2 = hash_pin($_POST['pin2']);
+		$nik = $this->session->nik;
+		$pin_lama = hash_pin($this->input->post('pin_lama'));
+		$pin1 = hash_pin($this->input->post('pin1'));
+		$pin2 = hash_pin($this->input->post('pin2'));
 
 		// Ganti password
 		if ($pin_lama != ''	|| $pin1 != '' || $pin2 != '')
@@ -368,19 +368,19 @@
 
 			if ($pin_lama != $row->pin)
 			{
-				$_SESSION['error_msg'] .= 'PIN lama salah<br />';
+				$this->session->error_msg .= 'PIN lama salah<br />';
 			}
 			if (empty($pin1))
 			{
-				$_SESSION['error_msg'] .= 'PIN baru tidak boleh kosong<br />';
+				$this->session->error_msg .= 'PIN baru tidak boleh kosong<br />';
 			}
 			if ($pin1 != $pin2)
 			{
-				$_SESSION['error_msg'] .= 'Ulang PIN baru tidak cocok<br />';
+				$this->session->error_msg .= 'Ulang PIN baru tidak cocok<br />';
 			}
-			if (!empty($_SESSION['error_msg']))
+			if ( ! empty($this->session->error_msg))
 			{
-				$_SESSION['success'] = -1;
+				$this->session->success = -1;
 			}
 			else
 			{
@@ -388,7 +388,7 @@
 				$data['pin'] = $hash_pin;
 				$this->db->where("id_pend = (SELECT id FROM tweb_penduduk WHERE strcmp(nik, {$_SESSION['nik']}) = 0)");
 				$outp = $this->db->update('tweb_penduduk_mandiri', $data);
-				$_SESSION['lg'] = 2;
+				$this->session->lg = 2;
 			}
 		}
 	}

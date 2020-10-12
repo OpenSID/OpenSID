@@ -270,16 +270,9 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
 
-	jQuery.validator.addMethod("pinMandiri", function(value, element) {
+	jQuery.validator.addMethod("pin_mandiri", function(value, element) {
 		angka_valid = /^(?=.*\d).{6,6}$/.test(value);
 		return this.optional(element) || angka_valid;
 	}, "Hanya boleh berisi 6 angka numerik");
-
-	$('.pinMandiri').each(function() {
-		$(this).rules("add",
-			{
-				pinMandiri: true,
-			});
-	});
 
 })

@@ -122,7 +122,7 @@
 							<form action="<?=site_url("mandiri_web/update_pin/$main[nik]")?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
 									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required pinMandiri kbvnumber" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+										<input class="form-control input-sm required pin_mandiri kbvnumber" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 										<span class="input-group-btn">
 											<button id="pin_lama-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
 										</span>
@@ -130,7 +130,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required pinMandiri kbvnumber1" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+										<input class="form-control input-sm required pin_mandiri kbvnumber1" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 										<span class="input-group-btn">
 											<button id="pin1-opener" class="btn btn-default kbvopenernum1" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
 										</span>
@@ -138,7 +138,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required pinMandiri kbvnumber2" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
+										<input class="form-control input-sm required pin_mandiri kbvnumber2" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 										<span class="input-group-btn">
 											<button id="pin2-opener" class="btn btn-default kbvopenernum2" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
 										</span>
