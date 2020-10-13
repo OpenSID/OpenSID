@@ -501,8 +501,10 @@ class Suplemen_model extends CI_Model {
 				/*
 				 * Rincian Penduduk
 				 * */
-				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
+				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun,
+				(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 					FROM tweb_penduduk o
+					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE o.id = '".$id_terdata."'";
 				$query = $this->db->query($strSQL);
@@ -512,7 +514,7 @@ class Suplemen_model extends CI_Model {
 					$data_profil = array(
 						"id" => $id,
 						"nama" => $row["nama"] ." - ".$row["nik"],
-						"ndesc" => "Alamat: RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
+						"ndesc" => "Alamat: ".strtoupper($row["alamat"])." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
 						"foto" => $row["foto"]
 						);
 				}
@@ -522,7 +524,7 @@ class Suplemen_model extends CI_Model {
 				/*
 				 * KK
 				 * */
-				$strSQL = "SELECT o.nik_kepala, o.no_kk, p.nama, w.rt, w.rw, w.dusun
+				$strSQL = "SELECT o.nik_kepala, o.no_kk, o.alamat, p.nama, w.rt, w.rw, w.dusun
 					FROM tweb_keluarga o
 					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
@@ -534,7 +536,7 @@ class Suplemen_model extends CI_Model {
 					$data_profil = array(
 						"id" => $id,
 						"nama" => "Kepala KK : ".$row["nama"].", NO KK: ".$row["no_kk"],
-						"ndesc" => "Alamat: RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
+						"ndesc" => "Alamat: ".strtoupper($row["alamat"])." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
 						"foto" => ""
 						);
 				}
