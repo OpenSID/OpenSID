@@ -134,6 +134,11 @@
 		$data['bobot'] = bilangan($post['bobot']);
 		$data['act_analisis'] = $post['act_analisis'];
 		$data['is_publik'] = $post['is_publik'];
+		if ($data['id_tipe'] != 1)
+			{
+				$data['act_analisis'] = 2;
+				$data['bobot'] = 0;
+			}
 		return $data;
 	}
 

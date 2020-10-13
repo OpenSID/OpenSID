@@ -1,13 +1,46 @@
+
 <script>
+	$(function()
+	{
+		if ($('input[name=id_tipe]:checked').val()=='1')
+		{
+			$('.delik').show();
+		}
+		else
+		{
+			$('.delik').hide();
+		}
+
+		$('input[name="id_tipe"]').change(function()
+		{
+			if ($(this).val()=='1'){
+				$('.delik').show();
+			}
+			else
+			{
+				$('.delik').hide();
+			}
+		});
+	});
+
 	function reset_form()
 	{
-		<?php if ($analisis_indikator['is_publik'] =='1' OR $analisis_indikator['is_publik'] == NULL): ?>
-			$("#ss1").addClass('active');
-			$("#ss2").removeClass("active");
-		<?php endif ?>
-		<?php if ($analisis_indikator['is_publik'] =='2'): ?>
+		<?php if ($analisis_indikator['is_publik'] =='0' OR $analisis_indikator['is_publik'] == NULL): ?>
 			$("#ss2").addClass('active');
 			$("#ss1").removeClass("active");
+		<?php endif ?>
+		<?php if ($analisis_indikator['is_publik'] =='1'): ?>
+			$("#ss2").removeClass("active");
+			$("#ss1").addClass('active');
+		<?php endif ?>
+
+		<?php if ($analisis_indikator['act_analisis'] =='1'): ?>
+			$("#aksi2").removeClass("active");
+			$("#aksi1").addClass('active');
+		<?php endif ?>
+		<?php if ($analisis_indikator['act_analisis'] =='2' OR $analisis_indikator['act_analisis'] == NULL): ?>
+			$("#aksi2").addClass('active');
+			$("#aksi1").removeClass("active");
 		<?php endif ?>
 
 		<?php if ($analisis_indikator['id_tipe'] =='1' OR $analisis_indikator['id_tipe'] == NULL): ?>
@@ -111,7 +144,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-sm-12">
+										<div class="col-sm-12 delik">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="bobot">Bobot</label>
 												<div class="col-sm-2">
@@ -119,7 +152,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-sm-12">
+										<div class="col-sm-12 delik">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="act_analisis">Aksi Analisis</label>
 												<div class="btn-group col-sm-7" data-toggle="buttons">
