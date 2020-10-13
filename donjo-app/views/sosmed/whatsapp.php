@@ -5,8 +5,8 @@
 				<label class="col-sm-3 control-label">Tipe</label>
 				<div class="col-sm-9">
 					<select class="form-control input-sm required" id="tipe" name="tipe" style="width:50%"; onchange="ubah_pesan(this.value);">
-						<option value="1" <?php selected($main['tipe'], 1) ?>>Personal Chat</option>
-						<option value="2" <?php selected($main['tipe'], 2) ?>>Group Chat</option>
+						<option value="1" <?= selected($main['tipe'], 1) ?>>Personal Chat</option>
+						<option value="2" <?= selected($main['tipe'], 2) ?>>Group Chat</option>
 					</select>
 				</div>
 			</div>

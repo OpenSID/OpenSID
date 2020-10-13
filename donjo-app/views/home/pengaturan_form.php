@@ -10,7 +10,7 @@
 							<select name="program_bantuan" class="form-control select2 input-sm required" style="width: 100%;">
 								<option value="">Pilih Program Bantuan</option>
 								<?php foreach ($list_program_bantuan AS $data): ?>
-									<option value="<?=$data['id']?>" <?php selected($this->setting->dashboard_program_bantuan, $data['id']) ?>><?=$data['nama'].' - ['.$sasaran[$data['sasaran']].']'?></option>
+									<option value="<?=$data['id']?>" <?= selected($this->setting->dashboard_program_bantuan, $data['id']) ?>><?=$data['nama'].' - ['.$sasaran[$data['sasaran']].']'?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>

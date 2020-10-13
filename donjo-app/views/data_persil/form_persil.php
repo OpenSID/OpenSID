@@ -40,7 +40,7 @@
 											<label for="kelas"  class="col-sm-3 control-label">Tipe Tanah</label>
 											<div class="col-sm-4">
 												<select class="form-control input-sm" id="tipe" name="tipe" type="text" placeholder="Tuliskan Kelas Tanah" >
-													<option value>-- Pilih Tipe Tanah--</option>
+													<option value>-- Pilih Tipe Tanah --</option>
 													<option value="BASAH" <?php selected('BASAH', $persil_kelas[$persil['kelas']]["tipe"]) ?>>Tanah Basah</option>
 													<option value="KERING" <?php selected('KERING', $persil_kelas[$persil['kelas']]["tipe"]) ?>>Tanah Kering</option>
 													</select>
@@ -50,9 +50,9 @@
 											<label for="kelas" class="col-sm-3 control-label">Kelas Tanah</label>
 											<div class="col-sm-4">
 												<select class="form-control input-sm required" id="kelas" name="kelas" type="text" placeholder="Tuliskan Kelas Tanah" >
-													<option value="">-- Pilih Jenis Kelas--</option>
+													<option value="">-- Pilih Jenis Kelas --</option>
 													<?php foreach ($persil_kelas  as $item): ?>
-														<option value="<?= $item['id'] ?>" <?php selected($item['id'], $persil["kelas"]); ?>><?= $item['kode'].' '.$item['ndesc']?></option>
+														<option value="<?= $item['id'] ?>" <?= selected($item['id'], $persil["kelas"]); ?>><?= $item['kode'].' '.$item['ndesc']?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -79,9 +79,9 @@
 											<div id="pilih">
 												<div class="col-sm-4" >
 													<select class="form-control input-sm select2 required" id="id_wilayah" name="id_wilayah" style="width:100%">
-														<option value='' >-- Pilih Lokasi Tanah--</option>
+														<option value='' >-- Pilih Lokasi Tanah --</option>
 														<?php foreach ($persil_lokasi as $key=>$item): ?>
-															<option value="<?= $item["id"] ?>" <?php selected($item["id"], $persil["id_wilayah"]) ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
+															<option value="<?= $item["id"] ?>" <?= selected($item["id"], $persil["id_wilayah"]) ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
 														<?php endforeach;?>
 													</select>
 												</div>

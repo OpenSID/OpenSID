@@ -30,7 +30,7 @@
 								<select  name="ref_pindah" class="form-control select2 input-sm required">
 									<option value="">Pilih Tujuan Pindah</option>
 									<?php foreach ($list_ref_pindah AS $data): ?>
-										<option value="<?=$data['id']?>" <?php selected($data['id'], $log_status_dasar['ref_pindah'])?>><?=$data['nama']?></option>
+										<option value="<?=$data['id']?>" <?= selected($data['id'], $log_status_dasar['ref_pindah'])?>><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>

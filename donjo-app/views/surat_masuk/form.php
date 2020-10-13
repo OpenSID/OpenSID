@@ -25,11 +25,9 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -110,10 +108,10 @@
 							<select class="form-control input-sm select2 required" id="kode_surat" name="kode_surat">
 								<option value="">-- Pilih Kode/Klasifikasi Surat --</option>
 								<?php foreach ($klasifikasi as $item): ?>
-									<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+									<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'] . ' - ' . $item['nama']?></option>
 								<?php endforeach;?>
 							</select>
-							</div>
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>

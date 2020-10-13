@@ -547,7 +547,7 @@
 									<label for="id_wanita" class="col-sm-3 control-label" ><strong>NIK / Nama :</strong></label>
 									<div class="col-sm-5">
 										<select class="form-control  input-sm select2" id="id_wanita" name="id_wanita" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
-											<option value="">--  Cari NIK / Nama--</option>
+											<option value="">--  Cari NIK / Nama --</option>
 											<?php foreach ($perempuan as $data): ?>
 												<option value="<?= $data['id']?>" <?php if ($wanita['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
 											<?php endforeach;?>

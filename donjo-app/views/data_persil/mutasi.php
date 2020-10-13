@@ -28,9 +28,9 @@
 								<label for="nama"  class="col-sm-3 control-label">Sebab Mutasi</label>
 								<div class="col-sm-4">
 									<select class="form-control input-sm" name="jenis_mutasi" >
-										<option value>-- Pilih Jenis Mutasi--</option>
+										<option value>-- Pilih Jenis Mutasi --</option>
 										<?php foreach ($persil_jenis_mutasi as $key => $item): ?>
-											<option value="<?= $item['id'] ?>" <?php selected($key, $persil_mutasi["jenis_mutasi"]) ?>><?= $item['nama']?></option>
+											<option value="<?= $item['id'] ?>" <?= selected($key, $persil_mutasi["jenis_mutasi"]) ?>><?= $item['nama']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -58,9 +58,9 @@
 								<label for="nama"  class="col-sm-3 control-label">Sebab Mutasi</label>
 								<div class="col-sm-4">
 									<select class="form-control input-sm" name="sebabmutasi" >
-										<option value>-- Pilih Sebab Mutasi--</option>
+										<option value>-- Pilih Sebab Mutasi --</option>
 										<?php foreach ($persil_sebab_mutasi as $key => $item): ?>
-											<option value="<?= $item['id'] ?>" <?php selected($key, $persil_mutasi["sebabmutasi"]) ?>><?= $item['nama']?></option>
+											<option value="<?= $item['id'] ?>" <?= selected($key, $persil_mutasi["sebabmutasi"]) ?>><?= $item['nama']?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

@@ -150,7 +150,7 @@
 																		<?php foreach ($data['parameter_respon'] AS $data2): ?>
 																			<div class="checkbox">
 																				<label>
-																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" type="checkbox" <?php selected($data2['cek'], true, 1) ?>>
+																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" type="checkbox" <?= selected($data2['cek'], true, 1) ?>>
 																					<?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?>
 																				</label>
 																			</div>

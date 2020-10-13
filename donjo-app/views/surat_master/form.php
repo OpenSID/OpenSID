@@ -33,7 +33,7 @@
 														<?php endif; ?>
 													</option>
 													<?php foreach ($klasifikasi as $item): ?>
-														<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_master["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+														<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_master["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
 													<?php endforeach;?>
 												</select>
 											</div>
@@ -52,7 +52,7 @@
 										<div class="form-group">
 											<label class="col-sm-3 control-label" >Disediakan pada Layanan Mandiri</label>
 											<div class="col-sm-7">
-												<input type="checkbox" id="mandiri" name="mandiri" onclick="myFunction1()" style="font-size: larger;" <?php selected($surat_master['mandiri'], 1, 1)?>/>
+												<input type="checkbox" id="mandiri" name="mandiri" onclick="myFunction1()" style="font-size: larger;" <?= selected($surat_master['mandiri'], 1, 1)?>/>
 											</div>
 										</div>
 									</div>
