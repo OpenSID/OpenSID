@@ -51,7 +51,6 @@ class Suplemen extends Admin_Controller {
 		$this->load->model(['suplemen_model', 'pamong_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
-		$this->_list_session = ['filter', 'id_rincian'];
 	}
 
 	public function index()
@@ -109,7 +108,7 @@ class Suplemen extends Admin_Controller {
 	{
 		$this->render('suplemen/panduan');
 	}
-	
+
 	public function filter($filter)
 	{
 		## untuk filter pada data rincian suplemen
@@ -117,7 +116,7 @@ class Suplemen extends Admin_Controller {
 		$id_rincian = $this->session->id_rincian;
 		if ($value != '')
 			$this->session->$filter = $value;
-		else 
+		else
 			$this->session->unset_userdata($filter);
 		redirect("suplemen/rincian/$id_rincian");
 	}
