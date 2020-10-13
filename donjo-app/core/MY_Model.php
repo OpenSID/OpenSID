@@ -22,9 +22,11 @@ class MY_Model extends CI_Model {
 				$data = $this->first_artikel_m->get_artikel($cut[1]);
 				$url = ($data) ? ($cut[0].'/'.buat_slug($data)) : ($url);
 				break;
-
-			default:
+			case 'informasi_publik':
 				$url = 'first/'.$url;
+				break;
+			default:
+				//$url = 'first/'.$url;
 				break;
 		}
 
