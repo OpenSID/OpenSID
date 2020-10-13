@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.10-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 
@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 14. Perbaiki error pada waktu klik gambar di slider atas di tema klasik. [bug-fix]
 15. #3641: Sekarang hanya keluarga aktif yg dilaporkan di Statistik Kependudukan > Statistik Keluarga. [bug-fix]
 16. #3623: Sediakan cetak/unduh laporan hasil klasifikasi di modul Analisis.
+17. #3649: Sekarang komentar artikel kembali bisa ditutup dan dibuka. [bug-fix]
 
 
 
