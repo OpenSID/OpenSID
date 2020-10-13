@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<tr>
 												<td class="padat"><?= ($key + 1); ?></td>
 												<td class="aksi">
-													<a href="<?= site_url("suplemen/rincian/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
+													<a href="<?= site_url("suplemen/clear/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
 													<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 													<a
 														<?php if ($item['jml'] <= 0): ?>
