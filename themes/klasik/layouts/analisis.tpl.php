@@ -13,7 +13,7 @@
 						</div>
 						<div class="box-body">
 							<?php foreach ($list_indikator AS $data): ?>
-								<a href="<?= site_url("first/data_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5>&nbsp;<b><?= $data['indikator']?></b></h5></a>
+								<a href="<?= site_url("data_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5>&nbsp;<b><?= $data['indikator']?></b></h5></a>
 								<div class="table-responsive">
 									<table>
 											<tr>
