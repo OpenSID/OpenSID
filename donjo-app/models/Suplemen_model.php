@@ -514,7 +514,7 @@ class Suplemen_model extends CI_Model {
 					$data_profil = array(
 						"id" => $id,
 						"nama" => $row["nama"] ." - ".$row["nik"],
-						"ndesc" => "Alamat: ".strtoupper($row["alamat"])." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
+						"ndesc" => "Alamat: ".$row["alamat"]." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
 						"foto" => $row["foto"]
 						);
 				}
@@ -536,7 +536,7 @@ class Suplemen_model extends CI_Model {
 					$data_profil = array(
 						"id" => $id,
 						"nama" => "Kepala KK : ".$row["nama"].", NO KK: ".$row["no_kk"],
-						"ndesc" => "Alamat: ".strtoupper($row["alamat"])." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
+						"ndesc" => "Alamat: ".$row["alamat"]." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
 						"foto" => ""
 						);
 				}
