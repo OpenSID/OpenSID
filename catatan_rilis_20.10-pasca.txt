@@ -21,6 +21,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 15. #3641: Sekarang hanya keluarga aktif yg dilaporkan di Statistik Kependudukan > Statistik Keluarga. [bug-fix]
 16. #3623: Sediakan cetak/unduh laporan hasil klasifikasi di modul Analisis.
 17. #3649: Sekarang komentar artikel kembali bisa ditutup dan dibuka. [bug-fix]
+18. #3511: Sediakan fitur cari di daftar terdata data suplemen.
 
 
 
