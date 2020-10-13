@@ -315,7 +315,7 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = [];
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
@@ -336,7 +336,7 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
 				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
-				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = $data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw'] . " - " . "Dusun " . strtoupper($data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
 		}
