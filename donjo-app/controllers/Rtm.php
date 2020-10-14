@@ -327,15 +327,6 @@ class Rtm extends Admin_Controller {
 		redirect("rtm/anggota/$kk");
 	}
 
-	/*
-		TODO: aktifkan di menu. Kalau tidak diperlukan lagi, hapus
-	*/
-	public function cetak_statistik($tipe = 0)
-	{
-		$data['main'] = $this->rtm_model->list_data_statistik($tipe);
-		$this->load->view('sid/kependudukan/rtm_print', $data);
-	}
-
 	public function ajax_cetak($aksi = '')
 	{
 		$data['aksi'] = $aksi;
