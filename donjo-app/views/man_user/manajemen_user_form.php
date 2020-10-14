@@ -43,10 +43,10 @@
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
 										<?php if ($user['id_grup'] == '1'): ?>
-											<option <?= selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
+											<option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
 										<?php else: ?>
 											<?php foreach ($user_group as $item): ?>
-												<option <?= selected($user['id_grup'], $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
+												<option <?php selected($user['id_grup'], $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
 											<?php endforeach ?>
 										<?php endif ?>
 									</select>
