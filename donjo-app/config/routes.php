@@ -66,6 +66,7 @@ $route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : 
 $route['first/artikel/(:num)'] = 'first/artikel/$1'; // Contoh : Contoh : first/artikel/1
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : first/artikel/2020/5/15/contoh-artikel
 
+$route['index/(:num)'] = 'first/index/$1';
 $route['(:num)'] = 'first/index/$1';
 $route['arsip'] = 'first/arsip';
 $route['arsip/(:num)'] = 'first/arsip/$1';
