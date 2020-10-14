@@ -22,6 +22,8 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 16. #3623: Sediakan cetak/unduh laporan hasil klasifikasi di modul Analisis.
 17. #3649: Sekarang komentar artikel kembali bisa ditutup dan dibuka. [bug-fix]
 18. #3511: Sediakan fitur cari di daftar terdata data suplemen.
+19. #3644: Sekarang bobot dan aksi analisis indikator analisis bisa diubah. [bug-fix]
+20. #3610: Lengkapi alamat di daftar terdata data suplemen.
 
 
 
