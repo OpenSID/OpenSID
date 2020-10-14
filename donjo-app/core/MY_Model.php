@@ -22,8 +22,7 @@ class MY_Model extends CI_Model {
 				$data = $this->first_artikel_m->get_artikel($cut[1]);
 				$url = ($data) ? ($cut[0].'/'.buat_slug($data)) : ($url);
 				break;
-			case 'arsip':
-			case 'kategori':
+			case 'arsip':			
 			case 'peraturan_desa':
 			case 'data_analisis':
 			case 'ambil_data_covid':

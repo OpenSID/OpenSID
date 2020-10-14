@@ -70,7 +70,6 @@ $route['index/(:num)'] = 'first/index/$1';
 $route['(:num)'] = 'first/index/$1';
 $route['arsip'] = 'first/arsip';
 $route['arsip/(:num)'] = 'first/arsip/$1';
-$route['kategori/(:any)'] = 'first/kategori/$1';
 $route['peraturan_desa'] = 'first/peraturan_desa';
 $route['data_analisis'] = 'first/data_analisis';
 $route['data_analisis/(.+)'] = 'first/data_analisis/$1';

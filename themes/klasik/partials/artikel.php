@@ -52,7 +52,7 @@
 			<i class="fa fa-user"></i> <?= $single_artikel['owner']?> |
 			<i class="fa fa-clock-o"></i><?= tgl_indo2($single_artikel['tgl_upload']);?> |
 			<?php if (trim($single_artikel['kategori']) != '') : ?>
-				<i class='fa fa-tag'></i> <a href="<?= site_url('kategori/'.$single_artikel['kat_slug'])?>"><?= $single_artikel['kategori']?></a> |
+				<i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$single_artikel['kat_slug'])?>"><?= $single_artikel['kategori']?></a> |
 			<?php endif; ?>
 			<i class="fa fa-eye"></i> <?= hit($single_artikel['hit']) ?>
 		</h3>
