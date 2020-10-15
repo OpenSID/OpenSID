@@ -7,7 +7,7 @@
 </style>
 <div class="box box-primary box-solid">
 	<div class="box-header">
-		<h3 class="box-title"><a href="<?= site_url("first/arsip")?>"><i class="fa fa-archive"></i> Arsip Artikel</a></h3>
+		<h3 class="box-title"><a href="<?= site_url("arsip")?>"><i class="fa fa-archive"></i> Arsip Artikel</a></h3>
 	</div>
 	<div id="arsip_artikel" class="box-body">
 		<ul class="nav nav-tabs">

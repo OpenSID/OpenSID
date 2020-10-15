@@ -36,6 +36,6 @@
     <td><h4><a href="<?= site_url();?>mandiri_web/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-handshake-o"></i>Program Bantuan</button></a></h4></td>
   </tr>
   <tr>
-    <td><h4><a href="<?= site_url();?>first/logout"  class=""><button type="button" class="btn btn-danger btn-block"><i class="fa fa-sign-out"></i>Keluar</button></a></h4></td>
+    <td><h4><a href="<?= site_url('logout');?>"  class=""><button type="button" class="btn btn-danger btn-block"><i class="fa fa-sign-out"></i>Keluar</button></a></h4></td>
   </tr>
 </table>

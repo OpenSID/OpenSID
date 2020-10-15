@@ -98,7 +98,7 @@
 			</tbody>
 		</table>
 		<div>
-			<a href="<?= site_url('first/data_analisis'); ?>" class="uibutton icon prev">Kembali</a>
+			<a href="<?= site_url('data_analisis'); ?>" class="uibutton icon prev">Kembali</a>
 		</div>
 	</div>
 </div>

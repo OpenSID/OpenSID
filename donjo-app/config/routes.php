@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'main';
+$route['default_controller'] = 'first';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -65,3 +65,21 @@ $route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : 
 // Route lama (Agar url lama masih dpt di akases)
 $route['first/artikel/(:num)'] = 'first/artikel/$1'; // Contoh : Contoh : first/artikel/1
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : first/artikel/2020/5/15/contoh-artikel
+
+$route['index/(:num)'] = 'first/index/$1';
+$route['(:num)'] = 'first/index/$1';
+$route['arsip'] = 'first/arsip';
+$route['arsip/(:num)'] = 'first/arsip/$1';
+$route['peraturan_desa'] = 'first/peraturan_desa';
+$route['data_analisis'] = 'first/data_analisis';
+$route['data_analisis/(.+)'] = 'first/data_analisis/$1';
+$route['add_comment/(:any)'] = 'first/add_comment/$1';
+$route['ambil_data_covid'] = 'first/ambil_data_covid';
+$route['load_aparatur_desa'] = 'first/load_aparatur_desa';
+$route['load_apbdes'] = 'first/load_apbdes';
+$route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
+$route['logout'] = 'first/logout';
+$route['ganti'] = 'first/ganti';
+$route['auth'] = 'first/auth';
+$route['peta'] = 'first/peta';
+$route['informasi_publik'] = 'first/informasi_publik';

@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.10-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 
@@ -24,6 +24,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 18. #3511: Sediakan fitur cari di daftar terdata data suplemen.
 19. #3644: Sekarang bobot dan aksi analisis indikator analisis bisa diubah. [bug-fix]
 20. #3610: Lengkapi alamat di daftar terdata data suplemen.
+21. Hilangkan 'first' dari URL beberapa halaman web. [teknis]
 
 
 
