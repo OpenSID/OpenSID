@@ -25,6 +25,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 19. #3644: Sekarang bobot dan aksi analisis indikator analisis bisa diubah. [bug-fix]
 20. #3610: Lengkapi alamat di daftar terdata data suplemen.
 21. Hilangkan 'first' dari URL beberapa halaman web. [teknis]
+22. #1680: Hapus script tidak digunakan dan rapikan modul RTM. [teknis]
 
 
 
