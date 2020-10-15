@@ -116,7 +116,7 @@
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
 						<div class="navbar-header">
-							<a class="navbar-brand" href="<?= site_url(); ?>first/">
+							<a class="navbar-brand" href="<?= site_url(); ?>">
 								<img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
 							</a>
 							<p class="navbar-brand">
