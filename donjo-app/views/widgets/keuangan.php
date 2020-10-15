@@ -95,7 +95,7 @@
 </style>
 <div class="box box-primary box-solid">
   <div class="box-header">
-    <h3 class="box-title"><a href="<?= base_url('index.php/first/kategori/1001') ?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
+    <h3 class="box-title"><a href="<?= site_url('first/kategori/1001') ?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
   </div>
   <div class="box-body">
     <div id="widget-keuangan-container">

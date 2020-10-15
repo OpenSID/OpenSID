@@ -137,7 +137,7 @@
 						<?php unset($_SESSION['validation_error']); ?>
 					<?php endif; ?>
 					<div class="box-body">
-						<form id="form-komentar" class="form-validasi" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
+						<form id="form-komentar" class="form-validasi" name="form" action="<?= site_url('add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
 							<table width="100%">
 								<tr class="komentar nama">
 									<td>Nama</td>
