@@ -81,3 +81,5 @@ $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 $route['logout'] = 'first/logout';
 $route['ganti'] = 'first/ganti';
 $route['auth'] = 'first/auth';
+$route['peta'] = 'first/peta';
+$route['informasi_publik'] = 'first/informasi_publik';
