@@ -48,7 +48,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 	public function up()
 	{
 		// Tambah kolom warna di tabel config
-		if (!$this->db->field_exists('warna', 'config'))
+		if ( ! $this->db->field_exists('warna', 'config'))
 		{
 			$fields = array(
 				'warna' => array(
@@ -62,7 +62,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 		}
 
 		// Tambah kolom warna di tabel tweb_
-		if (!$this->db->field_exists('warna', 'tweb_wil_clusterdesa'))
+		if ( ! $this->db->field_exists('warna', 'tweb_wil_clusterdesa'))
 		{
 			$fields = array(
 				'warna' => array(
@@ -75,8 +75,22 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 			$this->dbforge->add_column('tweb_wil_clusterdesa', $fields);
 		}
 
-		//Hapus widget layanan mandiri
+		// Hapus widget layanan mandiri
 		$this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
+
+		// Tambahkan vpin pd tabel tweb_penduduk_mandiri
+		if ( ! $this->db->field_exists('vpin', 'tweb_penduduk_mandiri'))
+		{
+			$fields = [
+				'vpin' => [
+					'type' => 'CHAR',
+					'constraint' => 32,
+					'default' => NULL
+				]
+			];
+
+			$this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+		}
 	}
 
 }
