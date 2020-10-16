@@ -52,14 +52,13 @@ class Mandiri extends Admin_Controller {
 
 		$this->modul_ini = 14;
 		$this->sub_modul_ini = 56;
-		$this->_set_page = ['10', '2', '3'];
+		$this->_set_page = ['20', '50', '100'];
 		$this->_list_session = ['cari', 'order_by'];
-		//$this->_set_page = ['50', '100', '200'];
 	}
 
 	public function clear()
 	{
-		$this->session->unset_userdata(['cari']);
+		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
 		$this->session->order_by = 6;
 		redirect('mandiri');
@@ -134,7 +133,7 @@ class Mandiri extends Admin_Controller {
 		$data = $this->mandiri_model->get_mandiri($id_pend);
 		$desa = $this->header['desa'];
 
-		if (cek_koneksi_internet() && $data['telepon'])
+		if (cek_koneksi_internet() && $data['vpin'] && $data['telepon'])
 		{
 			$no_tujuan = "+62" . substr($data['telepon'], 1);
 
