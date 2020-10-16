@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.10-premium-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 
@@ -20,6 +20,12 @@ Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 14. Perbaiki error pada waktu klik gambar di slider atas di tema klasik. [bug-fix]
 15. #3641: Sekarang hanya keluarga aktif yg dilaporkan di Statistik Kependudukan > Statistik Keluarga. [bug-fix]
 16. #3623: Sediakan cetak/unduh laporan hasil klasifikasi di modul Analisis.
+17. #3649: Sekarang komentar artikel kembali bisa ditutup dan dibuka. [bug-fix]
+18. #3511: Sediakan fitur cari di daftar terdata data suplemen.
+19. #3644: Sekarang bobot dan aksi analisis indikator analisis bisa diubah. [bug-fix]
+20. #3610: Lengkapi alamat di daftar terdata data suplemen.
+21. Hilangkan 'first' dari URL beberapa halaman web. [teknis]
+22. #1680: Hapus script tidak digunakan dan rapikan modul RTM. [teknis]
 
 Fitur Premium:
 

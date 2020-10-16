@@ -6,7 +6,7 @@
  *
  * View untuk Tema Klasik, Bagian Artikel
  *
- * artikel.php
+ * themes/klasik/partials/artikel.php
  *
  */
 
@@ -119,12 +119,12 @@
 						<?php endforeach; ?>
 					</div>
 				</div>
-			<?php elseif($single_artikel['boleh_komentar']): ?>
+			<?php elseif ($single_artikel['boleh_komentar'] == 1): ?>
 				<div>Silakan tulis komentar dalam formulir berikut ini (Gunakan bahasa yang santun)</div>
 			<?php endif; ?>
 		</div>
 		<div class="form-group group-komentar">
-			<?php if($single_artikel['boleh_komentar']): ?>
+			<?php if ($single_artikel['boleh_komentar'] == 1): ?>
 				<div class="box box-default">
 					<div class="box-header">
 						<h3 class="box-title">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3>
@@ -137,7 +137,7 @@
 						<?php unset($_SESSION['validation_error']); ?>
 					<?php endif; ?>
 					<div class="box-body">
-						<form id="form-komentar" class="form-validasi" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
+						<form id="form-komentar" class="form-validasi" name="form" action="<?= site_url('add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
 							<table width="100%">
 								<tr class="komentar nama">
 									<td>Nama</td>

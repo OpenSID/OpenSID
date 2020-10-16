@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Suplemen_model extends CI_Model {
+class Suplemen_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -234,6 +234,8 @@ class Suplemen_model extends CI_Model {
 		}
 
 		$data['suplemen'] = $suplemen;
+		$data['keyword'] = $this->autocomplete($suplemen['sasaran']);
+
 		return $data;
 	}
 
@@ -272,9 +274,10 @@ class Suplemen_model extends CI_Model {
 			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 		 ";
 		$sql = $select_sql.$get_terdata_sql;
+		$sql .= $this->search_sql('1');
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
+			$hasil["paging"] = $this->paging($p, $get_terdata_sql.$this->search_sql('1'));
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
 			$sql .= $paging_sql;
 		}
@@ -291,7 +294,7 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
 				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
-				$data[$i]['info'] = $data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw'] . " - " . "Dusun " . strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = strtoupper($data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw'] . " - " . $this->setting->sebutan_dusun . " " . $data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
 		}
@@ -315,11 +318,12 @@ class Suplemen_model extends CI_Model {
 	{
 		$hasil = [];
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
+		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
 		$sql = $select_sql.$get_terdata_sql;
+		$sql .= $this->search_sql('2');
 		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
 		{
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql);
+			$hasil["paging"] = $this->paging($p, $get_terdata_sql.$this->search_sql('2'));
 			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
 			$sql .= $paging_sql;
 		}
@@ -336,7 +340,7 @@ class Suplemen_model extends CI_Model {
 				$data[$i]['tempat_lahir'] = strtoupper($data[$i]['tempatlahir']);
 				$data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
 				$data[$i]['sex'] = ($data[$i]['sex'] == 1) ? "LAKI-LAKI" : "PEREMPUAN";
-				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = strtoupper($data[$i]['alamat'] . " "  .  "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw'] . " - " . $this->setting->sebutan_dusun . " " . $data[$i]['dusun']);
 			}
 			$hasil['terdata'] = $data;
 		}
@@ -501,8 +505,10 @@ class Suplemen_model extends CI_Model {
 				/*
 				 * Rincian Penduduk
 				 * */
-				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
+				$strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun,
+				(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
 					FROM tweb_penduduk o
+					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE o.id = '".$id_terdata."'";
 				$query = $this->db->query($strSQL);
@@ -512,7 +518,7 @@ class Suplemen_model extends CI_Model {
 					$data_profil = array(
 						"id" => $id,
 						"nama" => $row["nama"] ." - ".$row["nik"],
-						"ndesc" => "Alamat: RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
+						"ndesc" => "Alamat: ".$row["alamat"]." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
 						"foto" => $row["foto"]
 						);
 				}
@@ -522,7 +528,7 @@ class Suplemen_model extends CI_Model {
 				/*
 				 * KK
 				 * */
-				$strSQL = "SELECT o.nik_kepala, o.no_kk, p.nama, w.rt, w.rw, w.dusun
+				$strSQL = "SELECT o.nik_kepala, o.no_kk, o.alamat, p.nama, w.rt, w.rw, w.dusun
 					FROM tweb_keluarga o
 					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
@@ -534,7 +540,7 @@ class Suplemen_model extends CI_Model {
 					$data_profil = array(
 						"id" => $id,
 						"nama" => "Kepala KK : ".$row["nama"].", NO KK: ".$row["no_kk"],
-						"ndesc" => "Alamat: RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
+						"ndesc" => "Alamat: ".$row["alamat"]." RT ".strtoupper($row["rt"])." / RW ".strtoupper($row["rw"])." ".strtoupper($row["dusun"]),
 						"foto" => ""
 						);
 				}
@@ -552,6 +558,63 @@ class Suplemen_model extends CI_Model {
 		{
 			return null;
 		}
+	}
+
+	protected function search_sql($sasaran = '')
+	{
+		if ( $this->session->cari)
+		{
+			$cari = $this->session->cari;
+			$kw = $this->db->escape_like_str($cari);
+			$kw = '%' .$kw. '%';
+			switch ($sasaran)
+			{
+				case '1':
+					## sasaran penduduk
+					$search_sql = " AND (o.nama LIKE '$kw' OR o.nik LIKE '$kw' OR k.no_kk like '$kw')";
+					break;
+				case '2':
+					## sasaran keluarga / KK
+					$search_sql = " AND (o.no_kk LIKE '$kw' OR o.nik_kepala LIKE '$kw' OR q.nik LIKE '$kw' OR q.nama LIKE '$kw')";
+					break;
+			}
+			return $search_sql;
+		}
+	}
+
+	private function autocomplete($sasaran)
+	{
+		switch ($sasaran)
+		{
+			case '1':
+				## sasaran penduduk
+				$data = $this->db
+					->select('p.nama')
+					->from('suplemen_terdata s')
+					->join('tweb_penduduk p', 'p.id = s.id_terdata', 'left')
+					->where('s.sasaran', $sasaran)
+					->group_by('p.nama')
+					->get()
+					->result_array();
+				break;
+
+			case '2':
+				## sasaran keluarga / KK
+				$data = $this->db
+					->select('p.nama')
+					->from('suplemen_terdata s')
+					->join('tweb_keluarga k', 'k.id = s.id_terdata', 'left')
+					->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+					->where('s.sasaran', $sasaran)
+					->group_by('p.nama')
+					->get()
+					->result_array();
+				break;
+			default:
+				break;
+		}
+
+		return autocomplete_data_ke_str($data);
 	}
 
 }

@@ -82,7 +82,7 @@
 				dataType: 'json',
 				async: true,
 				cache: true,
-				url: '<?= site_url("first/ambil_data_covid")?>',
+				url: '<?= site_url("ambil_data_covid")?>',
 				data: {
 					endpoint: COVID_API_URL + ENDPOINT
 				},

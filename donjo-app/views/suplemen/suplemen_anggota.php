@@ -46,6 +46,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<script>
+	$(function()
+	{
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete(
+		{
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Daftar Terdata Suplemen</h1>
@@ -70,6 +82,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h5><b>Daftar Terdata</b></h5>
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<form id="mainform" name="mainform" action="" method="post">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group input-group-sm pull-right">
+									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" value="<?= $cari ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("suplemen/filter/cari")?>');$('#'+'mainform').submit();}">
+									<div class="input-group-btn">
+										<button type="submit" class="btn btn-default" value="<?= $cari ?>" onclick="$('#'+'mainform').attr('action', '<?=site_url("suplemen/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="table-responsive">
 							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 								<thead class="bg-gray disabled color-palette">

@@ -45,13 +45,13 @@ navigasi ke tautannya.
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<?= site_url(); ?>first/">
+			<a class="navbar-brand" href="<?= site_url(); ?>">
 				<img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
 			</a>
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="<?= site_url()."first"?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
+				<li><a href="<?= site_url()?>"><i class="fa fa-home fa-lg"></i> Beranda</a></li>
 				<?php foreach ($menu_atas as $data): ?>
 					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="<?= $data['link']?>"><i class="fa fa-th-large"></i> <?= $data['nama'] ?><?php (count($data['submenu']) > 0) and print("<span class='caret'></span>") ?></a>
 						<?php if (count($data['submenu']) > 0): ?>
