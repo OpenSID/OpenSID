@@ -275,4 +275,9 @@ $(document).ready(function() {
 		return this.optional(element) || angka_valid;
 	}, "Hanya boleh berisi 6 angka numerik");
 
+	jQuery.validator.addMethod("ip_address", function(value, element) {
+		valid = /^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/.test(value);
+		return this.optional(element) || valid;
+	}, "Isi IP address yang valid");
+
 })
