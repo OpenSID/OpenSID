@@ -52,6 +52,19 @@ class Anjungan_model extends CI_Model {
 		parent::__construct();
 	}
 
+	public function cek_ip()
+	{
+		$ip = $this->input->ip_address();
+
+		$data = $this->db
+			->where('ip_address', $ip)
+			->where('status', 1)
+			->get('anjungan')
+			->result_array();
+
+		return $data;
+	}
+
 	public function list_data()
 	{
 		$data = $this->db->order_by('ip_address')

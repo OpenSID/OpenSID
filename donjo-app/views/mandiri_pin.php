@@ -87,11 +87,14 @@
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
 	<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
-	<!-- keyboard widget css & script -->
-	<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
-	<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+
+	<?php if ($cek_ip): ?>
+		<!-- keyboard widget css & script -->
+		<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
+		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
+		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
+		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+	<?php endif; ?>
 	<?php require __DIR__ .'/head_tags.php' ?>
 </head>
 <body class="login">
@@ -121,27 +124,18 @@
 						<div class="form-bottom">
 							<form action="<?=site_url("mandiri_web/update_pin/$main[nik]")?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
-									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required pin_mandiri kbvnumber" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
-										<span class="input-group-btn">
-											<button id="pin_lama-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
-										</span>
+									<div class="input-group col-sm-12">
+										<input class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvnumber kbvopenernum'); ?>" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required pin_mandiri kbvnumber1" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
-										<span class="input-group-btn">
-											<button id="pin1-opener" class="btn btn-default kbvopenernum1" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
-										</span>
+									<div class="input-group col-sm-12">
+										<input class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvnumber1 kbvopenernum1'); ?>" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="input-group col-sm-10">
-										<input class="form-control input-sm required pin_mandiri kbvnumber2" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?php jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
-										<span class="input-group-btn">
-											<button id="pin2-opener" class="btn btn-default kbvopenernum2" type="button"><i class="fa fa-keyboard-o fa-2x"></i></button>
-										</span>
+									<div class="input-group col-sm-12">
+										<input class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvnumber2 kbvopenernum2'); ?>" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
 									</div>
 								</div>
 								<div class="form-group">

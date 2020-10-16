@@ -26,10 +26,7 @@
 							<label class="control-label col-sm-2" for="subjek">Subjek</label>
 							<div class="col-sm-10">
 								<div class="input-group col-sm-10">
-									<input class="form-control input-sm required kbvtext" id="subjek" name="subjek" value="<?php $subjek and print($subjek) ?>"></input>
-									<span class="input-group-append">
-										<button id="subjek-opener" class="btn btn-default kbvopener" type="button"><i class="fa fa-keyboard-o"></i></button>
-									</span>
+									<input class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvtext kbvopener'); ?>" id="subjek" name="subjek" value="<?php $subjek and print($subjek) ?>"></input>
 								</div>
 							</div>
 						</div>
@@ -37,10 +34,7 @@
 							<label class="col-sm-2 control-label" for="komentar">Pesan</label>
 							<div class="col-sm-10">
 								<div class="input-group col-sm-10">
-									<textarea class="form-control input-sm required kbvtext1" name="komentar" id="komentar"></textarea>
-									<span class="input-group-append">
-										<button id="komentar-opener" class="btn btn-default kbvopener1" type="button"><i class="fa fa-keyboard-o"></i></button>
-									</span>
+									<textarea class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvtext1 kbvopener1'); ?>" name="komentar" id="komentar"></textarea>
 								</div>
 							</div>
 						</div>
