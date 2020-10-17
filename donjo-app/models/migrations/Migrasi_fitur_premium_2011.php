@@ -48,7 +48,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 	public function up()
 	{
 		// Tambah kolom warna di tabel config
-		if (!$this->db->field_exists('warna', 'config'))
+		if ( ! $this->db->field_exists('warna', 'config'))
 		{
 			$fields = array(
 				'warna' => array(
@@ -62,7 +62,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 		}
 
 		// Tambah kolom warna di tabel tweb_
-		if (!$this->db->field_exists('warna', 'tweb_wil_clusterdesa'))
+		if ( ! $this->db->field_exists('warna', 'tweb_wil_clusterdesa'))
 		{
 			$fields = array(
 				'warna' => array(
