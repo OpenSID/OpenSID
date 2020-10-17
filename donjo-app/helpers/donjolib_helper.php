@@ -578,5 +578,12 @@ function sensor_nik_kk($data)
 	return $output;
 }
 
+function kode_wilayah($kode_wilayah)
+{
+	$code1 = str_split(substr($kode_wilayah, 0, 6), 2);
+	$code2 = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
+	$data = implode('.', $code1) . $code2;
 
-// =======================================
+	return $data;
+
+}
