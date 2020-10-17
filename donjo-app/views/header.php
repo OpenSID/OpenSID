@@ -141,7 +141,7 @@
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
 		<div class="wrapper">
 			<header class="main-header">
-				<a href="<?=site_url()?>first"  target="_blank" class="logo">
+				<a href="<?= site_url(); ?>"  target="_blank" class="logo">
 					<span class="logo-mini"><b>SID</b></span>
 					<span class="logo-lg"><b>OpenSID</b></span>
 				</a>
