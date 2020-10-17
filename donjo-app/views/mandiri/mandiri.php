@@ -131,9 +131,6 @@
 													<td class="aksi">
 														<a href="<?= site_url("mandiri/ajax_pin/$data[id_pend]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ganti PIN Warga" title="Ganti PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
 														<a href="#" data-href="<?= site_url("mandiri/delete/$data[id_pend]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-														<?php if (cek_koneksi_internet() && $data['vpin'] && $data['telepon']): ?>
-															<a href="<?= site_url("mandiri/kirim/$data[id_pend]"); ?>" class="btn btn-success btn-flat btn-sm" title="Kirim PIN Layanan Mandiri" target="_blank"><i class="fa fa-whatsapp"></i></a>
-														<?php endif; ?>
 													</td>
 													<td><?= $data['nik']; ?></td>
 													<td><?= $data['nama']; ?></td>
@@ -153,20 +150,21 @@
 						<?php $this->load->view('global/paging'); ?>
 					</div>
 					<?php $info = $this->session->flashdata('info'); ?>
-					<div class="modal fade" id="pinBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal fade" id="pinBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false" data-keyboard="false">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header btn-info">
 									<button type='button' class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title' id='myModalLabel">PIN Warga</h4>
+									<h4 class="modal-title' id='myModalLabel">PIN Warga (<?= $info['nama']; ?>)</h4>
 								</div>
 								<form action="<?= site_url("mandiri/kirim/$info[id_pend]"); ?>" method="post" id="validasi" target="_blank">
+									<input type="hidden" id="pin" name="pin" value="<?= $info['pin']; ?>">
 									<div class="modal-body">
-										Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja.<br /><h4>Kode PIN : <?= $info['vpin']; ?></h4>
+										Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik, kode pin ini sangat rahasia, dan hanya bisa dilihat sekali ini lalu setelah itu hanya bisa di reset saja.<br /><h4>Kode PIN : <?= $info['pin']; ?></h4>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
-										<?php if (cek_koneksi_internet() && $info['vpin'] && $info['telepon']): ?>
+										<?php if (cek_koneksi_internet() && $info['pin'] && $info['telepon']): ?>
 											<button type="submit" class="btn btn-social btn-flat btn-success btn-sm"><i class="fa fa-whatsapp"></i> Kirim</button>
 										<?php endif; ?>
 									</div>

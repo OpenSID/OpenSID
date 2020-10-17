@@ -77,20 +77,6 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 
 		// Hapus widget layanan mandiri
 		$this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
-
-		// Tambahkan vpin pd tabel tweb_penduduk_mandiri
-		if ( ! $this->db->field_exists('vpin', 'tweb_penduduk_mandiri'))
-		{
-			$fields = [
-				'vpin' => [
-					'type' => 'CHAR',
-					'constraint' => 32,
-					'default' => NULL
-				]
-			];
-
-			$this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
-		}
 	}
 
 }
