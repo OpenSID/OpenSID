@@ -29,12 +29,7 @@
 							<div class="form-group">
 								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<div class="input-group col-sm-12">
-										<textarea name="keterangan" id="keterangan" class="form-control input-sm required kbvtext1" placeholder="Keterangan"></textarea>
-										<span class="input-group-append">
-											<button id="keterangan-opener" class="btn btn-default kbvopener1" type="button"><i class="fa fa-keyboard-o"></i></button>
-										</span>
-									</div>
+									<textarea name="keterangan" id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext kbvopener'); ?>" placeholder="Keterangan"></textarea>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>
