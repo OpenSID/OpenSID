@@ -265,7 +265,7 @@ class Mandiri_model extends CI_Model {
 		($id_nik === TRUE) ? $this->db->where('nik', $id_pend) : $this->db->where('id', $id_pend);
 
 		$data = $this->db
-			->select('id, nik, nama')
+			->select('id, nik, nama, telepon')
 			->get('penduduk_hidup')
 			->row_array();
 

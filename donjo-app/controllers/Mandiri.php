@@ -109,6 +109,22 @@ class Mandiri extends Admin_Controller {
 		$this->load->view('mandiri/ajax_pin', $data);
 	}
 
+	public function ajax_hp($id_pend)
+	{
+		$data['form_action'] = site_url("mandiri/ubah_hp/$id_pend");
+		$data['penduduk'] = $this->mandiri_model->get_penduduk($id_pend);
+		$this->load->view('mandiri/ajax_hp', $data);
+	}
+
+	public function ubah_hp($id_pend)
+	{
+		$outp = $this->db->where('id', $id_pend)
+			->set('telepon', bilangan($this->input->post('telepon')))
+			->update('tweb_penduduk');
+		status_sukses($outp);
+		redirect('mandiri');
+	}
+
 	public function insert()
 	{
 		$this->mandiri_model->insert();
