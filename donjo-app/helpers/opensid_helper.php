@@ -967,9 +967,10 @@ function ket_mutasi_persil($id=0)
 	return $ket;
 }
 
-function status_sukses($outp, $gagal_saja=false)
+function status_sukses($outp, $gagal_saja=false, $msg='')
 {
 	$CI =& get_instance();
+	if ($msg) $CI->session->error_msg = $msg;
 	if ($gagal_saja)
 	{
 		if (!$outp) $CI->session->success = -1;

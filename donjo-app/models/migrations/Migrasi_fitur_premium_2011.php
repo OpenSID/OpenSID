@@ -77,6 +77,37 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 
 		// Hapus widget layanan mandiri
 		$this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
-	}
 
+		// Tambah pencatatan anjungan
+		$modul = array(
+			'id' => '312',
+			'modul' => 'Anjungan',
+			'url' => 'anjungan',
+			'aktif' => '1',
+			'ikon' => 'fa-desktop',
+			'urut' => '4',
+			'level' => '2',
+			'parent' => '14',
+			'hidden' => '0',
+			'ikon_kecil' => ''
+		);
+		$this->tambah_modul($modul);
+		// Tabel anjungan
+		if ( ! $this->db->table_exists('anjungan') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS anjungan (
+				id int(11) NOT NULL AUTO_INCREMENT,
+				ip_address varchar(100) NOT NULL,
+				keterangan varchar(300) DEFAULT NULL,
+				status tinyint(1) NOT NULL DEFAULT '1',
+				created_by int(11) NOT NULL,
+				updated_by int(11) NOT NULL,
+				created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (id)
+			)";
+			$this->db->query($query);
+		}
+	}
 }
