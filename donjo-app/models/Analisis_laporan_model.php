@@ -1,4 +1,46 @@
-<?php class Analisis_laporan_model extends CI_Model {
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ * File ini:
+ *
+ * Model untuk modul Analisis > Analisis Laporan
+ *
+ * donjo-app/models/Analisis_laporan_model.php
+ *
+ */
+/*
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+class Analisis_laporan_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -164,31 +206,36 @@
 	public function get_judul()
 	{
 		$subjek_tipe = $this->session->subjek_tipe;
+
 		switch ($subjek_tipe)
 		{
-			case 1: 
-				$data['nama']="Nama"; 
-				$data['nomor']="NIK Penduduk";
-				$data['nomor_kk']="No. KK";
-				$data['asubjek']="Penduduk"; 
+			case 1:
+				$data['nama'] = "Nama";
+				$data['nomor'] = "NIK Penduduk";
+				$data['nomor_kk'] = "No. KK";
+				$data['asubjek'] = "Penduduk";
 				break;
-			case 2: 
-				$data['nama']="Kepala Keluarga"; 
-				$data['nomor']="Nomor KK";
-				$data['nomor_kk']="NIK KK";
-				$data['asubjek']="Keluarga"; 
+
+			case 2:
+				$data['nama'] = "Kepala Keluarga";
+				$data['nomor'] = "Nomor KK";
+				$data['nomor_kk'] = "NIK KK";
+				$data['asubjek'] = "Keluarga";
 				break;
-			case 3: 
-				$data['nama']="Kepala Rumah Tangga"; 
-				$data['nomor']="Nomor Rumah Tangga";
-				$data['nomor_kk']="NIK KK";
-				$data['asubjek']="Rumah Tangga"; 
+
+			case 3:
+				$data['nama'] = "Kepala Rumah Tangga";
+				$data['nomor'] = "Nomor Rumah Tangga";
+				$data['nomor_kk'] = "NIK KK";
+				$data['asubjek'] = "Rumah Tangga";
 				break;
-			case 4: 
-				$data['nama']="Nama Kelompok"; 
-				$data['nomor']="ID Kelompok";
-				$data['asubjek']="Kelompok"; 
+
+			case 4:
+				$data['nama'] = "Nama Kelompok";
+				$data['nomor'] = "ID Kelompok";
+				$data['asubjek'] = "Kelompok";
 				break;
+
 			default:
 				# code...
 				break;
@@ -281,9 +328,9 @@
 			}
 			$data[$i]['jk'] = "-";
 			if ($data[$i]['sex'] == 1)
-				$data[$i]['jk'] = "L";
+				$data[$i]['jk'] = "LAKI-LAKI";
 			else
-				$data[$i]['jk'] = "P";
+				$data[$i]['jk'] = "PEREMPUAN";
 
 			$j++;
 		}
@@ -436,30 +483,6 @@
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data = $query->row_array();
 		return $data['nama'];
-	}
-
-	public function list_dusun()
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
-		return $data;
-	}
-
-	public function list_rw($dusun='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND dusun = ? AND rw <> '0'";
-		$query = $this->db->query($sql,$dusun);
-		$data=$query->result_array();
-		return $data;
-	}
-
-	public function list_rt($dusun='', $rw='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rw = ? AND dusun = ? AND rt <> '0'";
-		$query = $this->db->query($sql, array($rw, $dusun));
-		$data=$query->result_array();
-		return $data;
 	}
 
 	public function list_klasifikasi()
