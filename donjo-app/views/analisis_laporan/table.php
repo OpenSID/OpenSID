@@ -9,16 +9,6 @@
 		});
 	});
 </script>
-<?php
-	$subjek = $_SESSION['subjek_tipe'];
-	switch ($subjek):
-		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
-		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumah Tangga"; $nomor="Nomor Rumah Tangga";$asubjek="Rumah Tangga"; break;
-		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
-		default: return null;
-	endswitch;
-?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Hasil Analisis</h1>
@@ -39,10 +29,10 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("analisis_laporan/cetak/$o") ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+							<a href="<?= site_url("analisis_laporan/dialog/$o/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $judul['asubjek']?>" title="Cetak">
 								<i class="fa fa-print"></i>Cetak
             	</a>
-						  <a href="<?= site_url("analisis_laporan/excel/$o") ?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
+						  <a href="<?= site_url("analisis_laporan/dialog/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $judul['asubjek']?>" title="Unduh">
 								<i class="fa fa-download"></i>Unduh
             	</a>
 							<a href="<?= site_url("analisis_laporan/ajax_multi_jawab") ?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Filter Indikator" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Filter Indikator">
@@ -63,7 +53,7 @@
 									<tr>
 										<td>Subjek Analisis</td>
 										<td>:</td>
-										<td><?= $asubjek?></td>
+										<td><?= $judul['asubjek']?></td>
 									</tr>
 									<tr>
 										<td>Priode</td>
@@ -83,20 +73,20 @@
 													<select class="form-control input-sm" name="klasifikasi" onchange="formAction('mainform', '<?= site_url('analisis_laporan/klasifikasi') ?>')">
 														<option value=""> --- Klasifikasi --- </option>
 														<?php foreach ($list_klasifikasi AS $data): ?>
-															<option value="<?= $data['id'] ?>" <?php if ($klasifikasi == $data['id']): ?>selected<?php endif ?>><?= $data['nama'] ?></option>
+															<option value="<?= $data['id'] ?>" <?php selected($klasifikasi, $data['id']); ?>><?= $data['nama'] ?></option>
 														<?php endforeach;?>
 													</select>
 													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_laporan/dusun') ?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun) ?></option>
 														<?php foreach ($list_dusun AS $data): ?>
-															<option value="<?= $data['dusun'] ?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun']) ?></option>
+															<option value="<?= $data['dusun'] ?>" <?php selected($dusun, $data['dusun']); ?>><?= strtoupper($data['dusun']) ?></option>
 														<?php endforeach;?>
 													</select>
 													<?php if ($dusun): ?>
 														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('analisis_laporan/rw') ?>')" >
 															<option value="">RW</option>
 															<?php foreach ($list_rw AS $data): ?>
-																<option value="<?= $data['rw'] ?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw'] ?></option>
+																<option value="<?= $data['rw'] ?>" <?php selected($rw, $data['rw']); ?>><?= $data['rw'] ?></option>
 															<?php endforeach;?>
 														</select>
 													<?php endif; ?>
@@ -104,7 +94,7 @@
 														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_laporan/rt') ?>')">
 															<option value="">RT</option>
 															<?php foreach ($list_rt AS $data): ?>
-																<option value="<?= $data['rt'] ?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt'] ?></option>
+																<option value="<?= $data['rt'] ?>"<?php selected($rt, $data['rt']); ?>><?= $data['rt'] ?></option>
 															<?php endforeach;?>
 														</select>
 													<?php endif; ?>
@@ -126,39 +116,15 @@
 																<tr>
 																	<th>No</th>
 																	<th>Aksi</th>
-																	<?php if ($o==2): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/1") ?>"><?= $nomor?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																	<?php elseif ($o==1): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/2") ?>"><?= $nomor?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/1") ?>"><?= $nomor?> <i class='fa fa-sort fa-sm'></i></a></th>
-																	<?php endif; ?>
-
-																	<?php if ($o==4): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/3") ?>"><?= $nama?> <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																	<?php elseif ($o==3): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/4") ?>"><?= $nama?> <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/3") ?>"><?= $nama?> <i class='fa fa-sort fa-sm'></i></a></th>
-																	<?php endif; ?>
+																	<th><?= url_order($o, site_url("analisis_laporan/index/$p"), 1, 2, $judul['nomor']) ?></th>
+																	<?php if($analisis_master['subjek_tipe'] != 4): ?>
+																		<th><?= url_order($o, site_url("analisis_laporan/index/$p"), 7, 8, $judul['nomor_kk']) ?></th>
+																	<?php endif;?>
+																	<th><?= url_order($o, site_url("analisis_laporan/index/$p"), 3, 4, $judul['nama']) ?></th>
 																	<th>L/P</th>
-																	<th>Dusun</th>
-																	<th>RW</th>
-																	<th>RT</th>
-																	<?php if ($o==6): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/5") ?>">Nilai <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																	<?php elseif ($o==5): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/6") ?>">Nilai <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/5") ?>">Nilai <i class='fa fa-sort fa-sm'></i></a></th>
-																	<?php endif; ?>
-																	<?php if ($o==6): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/5") ?>">Klasifikasi <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																	<?php elseif ($o==5): ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/6") ?>">Klasifikasi <i class='fa fa-sort-desc fa-sm'></i></a></th>
-																	<?php else: ?>
-																		<th><a href="<?= site_url("analisis_laporan/index/$p/5") ?>">Klasifikasi <i class='fa fa-sort fa-sm'></i></a></th>
-																	<?php endif; ?>
+																	<th>Alamat</th>
+																	<th><?= url_order($o, site_url("analisis_laporan/index/$p"), 5, 6, "Nilai") ?></th>
+																	<th><?= url_order($o, site_url("analisis_laporan/index/$p"), 5, 6, "Klasifikasi") ?></th>
 																</tr>
 															</thead>
 															<tbody>
@@ -169,11 +135,12 @@
 																			<a href="<?= site_url("analisis_laporan/kuisioner/$p/$o/$data[id]") ?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class='fa fa-list'></i></a>
 																		</td>
 																		<td><?= $data['uid'] ?></td>
+																		<?php if($analisis_master['subjek_tipe'] != 4): ?>
+																			<td><?= $data['kk'] ?></td>
+																		<?php endif; ?>
 																		<td nowrap><?= $data['nama'] ?></td>
 																		<td><?= $data['jk'] ?></td>
-																		<td><?= $data['dusun'] ?></td>
-																		<td><?= $data['rw'] ?></td>
-																		<td><?= $data['rt'] ?></td>
+																		<td><?= strtoupper($data['alamat'] . " "  .  "RT/RW ". $data['rt']."/".$data['rw'] . " - " . $this->setting->sebutan_dusun . " " . $data['dusun']) ?></td>
 																		<td><?= $data['nilai'] ?></td>
 																		<td><?= $data['klasifikasi'] ?></td>
 																	</tr>

@@ -161,6 +161,41 @@
 		return $this->paging;
 	}
 
+	public function get_judul()
+	{
+		$subjek_tipe = $this->session->subjek_tipe;
+		switch ($subjek_tipe)
+		{
+			case 1: 
+				$data['nama']="Nama"; 
+				$data['nomor']="NIK Penduduk";
+				$data['nomor_kk']="No. KK";
+				$data['asubjek']="Penduduk"; 
+				break;
+			case 2: 
+				$data['nama']="Kepala Keluarga"; 
+				$data['nomor']="Nomor KK";
+				$data['nomor_kk']="NIK KK";
+				$data['asubjek']="Keluarga"; 
+				break;
+			case 3: 
+				$data['nama']="Kepala Rumah Tangga"; 
+				$data['nomor']="Nomor Rumah Tangga";
+				$data['nomor_kk']="NIK KK";
+				$data['asubjek']="Rumah Tangga"; 
+				break;
+			case 4: 
+				$data['nama']="Nama Kelompok"; 
+				$data['nomor']="ID Kelompok";
+				$data['asubjek']="Kelompok"; 
+				break;
+			default:
+				# code...
+				break;
+		}
+		return $data;
+	}
+
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		$per = $this->get_aktif_periode();
@@ -171,30 +206,33 @@
 		{
 			case 1: $order_sql = ' ORDER BY u.id'; break;
 			case 2: $order_sql = ' ORDER BY u.id DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.id'; break;
-			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
+			case 3: $order_sql = ' ORDER BY nama'; break;
+			case 4: $order_sql = ' ORDER BY nama DESC'; break;
 			case 5: $order_sql = ' ORDER BY cek'; break;
 			case 6: $order_sql = ' ORDER BY cek DESC'; break;
+			case 7: $order_sql = ' ORDER BY kk '; break;
+			case 8: $order_sql = ' ORDER BY kk DESC'; break;
 			default:$order_sql = '';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id,u.nik AS uid,u.nama,c.dusun,c.rw,c.rt,u.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id "; break;
+			case 1: $sql = "SELECT u.id, u.nik AS uid, kk.no_kk AS kk, u.nama, kk.alamat, c.dusun,c.rw,c.rt,u.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id LEFT JOIN tweb_keluarga kk ON kk.id = u.id_kk "; break;
 
-			case 2: $sql = "SELECT u.id,u.no_kk AS uid,p.nama,c.dusun,c.rw,c.rt,p.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id " ; break;
+			case 2: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, u.alamat, c.dusun,c.rw,c.rt,p.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id " ; break;
 
-			case 3: $sql = "SELECT u.id,u.no_kk AS uid,p.nama,c.dusun,c.rw,c.rt,p.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
+			case 3: $sql = "SELECT u.id, u.no_kk AS uid,  p.nik AS kk, p.nama, kk.alamat, c.dusun,c.rw,c.rt,p.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id  LEFT JOIN  tweb_keluarga kk ON kk.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
 
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
+			case 4: $sql = "SELECT u.id, u.kode AS uid, u.nama,p.sex,c.dusun,c.rw,c.rt,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
 
 			default: return null;
 		}
 
-		if (isset($_SESSION['jawab']))
+
+		if (isset($this->session->jawab))
 		{
 			$sql .= "LEFT JOIN analisis_respon x ON u.id = x.id_subjek ";
 			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi > k.minval AND h.akumulasi/$pembagi <= k.maxval ";

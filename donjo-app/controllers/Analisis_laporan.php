@@ -119,6 +119,7 @@ class Analisis_laporan extends Admin_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
+		$data['judul'] = $this->analisis_laporan_model->get_judul();
 		$data['list_dusun'] = $this->analisis_laporan_model->list_dusun();
 		$data['list_klasifikasi'] = $this->analisis_laporan_model->list_klasifikasi();
 		$data['paging']  = $this->analisis_laporan_model->paging($p,$o);
@@ -196,16 +197,28 @@ class Analisis_laporan extends Admin_Controller {
 		$this->load->view('analisis_laporan/form_cetak', $data);
 	}
 
-	public function cetak($o=0)
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function dialog($o=0, $aksi = '')
 	{
-		$data['main'] = $this->analisis_laporan_model->list_data($o, 0, 10000);
-		$this->load->view('analisis_laporan/table_print', $data);
+		$data['aksi'] = ucwords($aksi);
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("analisis_laporan/cetak/$o/$aksi");
+		$this->load->view('global/ttd_pamong', $data);
 	}
 
-	public function excel($o=0)
+	public function cetak($o=0, $aksi = '')
 	{
+		$post = $this->input->post();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+		$data['aksi'] = $aksi;
+		$data['config'] = $this->config_model->get_data();
+		$data['judul'] = $this->analisis_laporan_model->get_judul();
+		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['main'] = $this->analisis_laporan_model->list_data($o, 0, 10000);
-		$this->load->view('analisis_laporan/table_excel', $data);
+		$this->load->view('analisis_laporan/table_print', $data);
 	}
 
 	public function multi_jawab(){

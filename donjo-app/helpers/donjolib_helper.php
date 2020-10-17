@@ -578,5 +578,14 @@ function sensor_nik_kk($data)
 	return $output;
 }
 
+function url_order($o, $url, $asc, $desc, $text)
+{
+	switch ($o) {
+		case $desc: $link = "<a href=\"$url/$asc \">$text <i class='fa fa-sort-asc fa-sm'></i></a>"; break;
+		case $asc: $link = "<a href=\"$url/$desc \">$text <i class='fa fa-sort-desc fa-sm'></i></a>"; break;
+		default: $link = "<a href=\"$url/$asc \">$text <i class='fa fa-sort fa-sm'></i></a>"; break;
+	}
+	return $link;
+}
 
 // =======================================
