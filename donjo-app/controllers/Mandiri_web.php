@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mandiri_web extends Web_Controller
 {
-	private $_cek_ip;
+	private $cek_anjungan;
 
 	public function __construct()
 	{
@@ -56,7 +56,7 @@ class Mandiri_web extends Web_Controller
 		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'anjungan_model']);
 		$this->load->helper('download');
 
-		$this->_cek_ip = $this->anjungan_model->cek_ip();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 	}
 
 	public function index()
@@ -78,7 +78,7 @@ class Mandiri_web extends Web_Controller
 		$_SESSION['success'] = 0;
 		//-------------------------------
 
-		$data['cek_ip'] = $this->_cek_ip;
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('mandiri_login', $data);
 	}
@@ -129,7 +129,7 @@ class Mandiri_web extends Web_Controller
 			$nik = $this->session->nik;
 			$data['main'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
 			$data['header'] = $this->config_model->get_data();
-			$data['cek_ip'] = $this->_cek_ip;
+			$data['cek_anjungan'] = $this->cek_anjungan;
 
 			$this->load->view('mandiri_pin', $data);
 		}
@@ -209,7 +209,7 @@ class Mandiri_web extends Web_Controller
 		}
 
 		$data['desa'] = $this->config_model->get_data();
-		$data['cek_ip'] = $this->_cek_ip;
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}

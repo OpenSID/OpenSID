@@ -52,7 +52,7 @@ class Anjungan_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function cek_ip()
+	public function cek_anjungan()
 	{
 		$ip = $this->input->ip_address();
 

@@ -44,7 +44,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
 		<!-- Jquery UI -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
-		<?php if ($cek_ip): ?>
+		<?php if ($cek_anjungan): ?>
 			<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
 			<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
 			<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">

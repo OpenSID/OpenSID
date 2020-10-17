@@ -40,21 +40,20 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mailbox_web extends Web_Controller
-{
-	private $_cek_ip;
+class Mailbox_web extends Web_Controller {
+
+	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'mailbox_model', 'mandiri_model', 'anjungan_model']);
-
 		if ( ! isset($_SESSION['mandiri'])) {
 			redirect('first');
 		}
 		else
 		{
-			$this->_cek_ip = $this->anjungan_model->cek_ip();
+			$this->load->model(['config_model', 'mailbox_model', 'mandiri_model', 'anjungan_model']);
+			$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 		}
 	}
 
@@ -72,7 +71,7 @@ class Mailbox_web extends Web_Controller
 		$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
 		$data['form_action'] = site_url("mailbox_web/kirim_pesan");
 		$data['views_partial_layout'] = "web/mandiri/mailbox_form";
-		$data['cek_ip'] = $this->_cek_ip;
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
@@ -101,7 +100,7 @@ class Mailbox_web extends Web_Controller
 		$data['pesan'] = $this->mailbox_model->get_pesan($nik, $id);
 		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat);
 		$data['views_partial_layout'] = "web/mandiri/mailbox_detail";
-		$data['cek_ip'] = $this->_cek_ip;
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}

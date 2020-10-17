@@ -89,7 +89,7 @@
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
 		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 
-		<?php if ($cek_ip): ?>
+		<?php if ($cek_anjungan): ?>
 			<!-- keyboard widget css & script -->
 			<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
 			<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
@@ -117,21 +117,17 @@
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<form id="validasi" class="login-form" action="<?=site_url('mandiri_web/auth')?>" method="post" >
+								<form id="validasi" class="login-form" action="<?= site_url('mandiri_web/auth'); ?>" method="post" >
 									<?php if ($this->session->mandiri_wait == 1): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<div class="input-group col-sm-12">
-												<input class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvnumber kbvopenernum'); ?>" name="nik" id="nik" type="text" placeholder="NIK" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
-											</div>
+											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber kbvopenernum'); ?>" name="nik" id="nik" type="text" placeholder="NIK" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 										</div>
 										<div class="form-group">
-											<div class="input-group col-sm-12">
-												<input class="form-control input-sm required <?= jecho($cek_ip, TRUE, 'kbvnumber1 kbvopenernum1'); ?>" name="pin" id="pin" type="password" placeholder="PIN" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value=""> </input>
-											</div>
+											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber1 kbvopenernum1'); ?>" name="pin" id="pin" type="password" placeholder="PIN" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan PIN
@@ -155,7 +151,7 @@
 									<?php endif; ?>
 								</form>
 								<hr/>
-								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?><br />IP Adress : <?= $this->input->ip_address(); ?></div>
 							</div>
 						</div>
 					</div>
