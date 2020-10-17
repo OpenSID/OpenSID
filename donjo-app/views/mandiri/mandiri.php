@@ -126,7 +126,7 @@
 									<tbody>
 										<?php if($main): ?>
 											<?php foreach ($main as $key => $data): ?>
-												<tr <?= jecho($data['telepon'], FALSE, 'class="select_row"'); ?>>
+												<tr <?= jecho($data['telepon'], FALSE, 'class="select-row"'); ?>>
 													<td class="padat"><?= ($key + 1); ?></td>
 													<td class="aksi">
 														<a href="<?= site_url("mandiri/ajax_pin/$data[id_pend]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ganti PIN Warga" title="Ganti PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>

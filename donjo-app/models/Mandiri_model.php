@@ -223,7 +223,8 @@ class Mandiri_model extends CI_Model {
 			->limit($result_count, $offset);
 		$data = $this->db->get()->result_array();
 
-		foreach ($data as $row ) {
+		foreach ($data as $row )
+		{
 			$nama = addslashes($row['nama']);
 			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
 			$outp = "{$row['nik']} - {$nama} \n {$alamat}";

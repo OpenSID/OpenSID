@@ -33,6 +33,7 @@ Fitur Premium:
 2. #3136: Sediakan tombol dan form login terpisah untuk Layanan Mandiri.
 3. #2888: Sediakan keyboard virtual untuk Layanan Mandiri.
 4. #3634: Tambah fitur untuk mendaftarkan IP address anjungan layanan mandiri.
+5. #3188: Kirim PIN baru ke nomor WA warga setelah mendaftar Layanan Mandiri atau PIN diganti.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
