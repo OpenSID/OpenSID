@@ -43,7 +43,7 @@
 													<select class="form-control input-sm select2" style="width: 100%;" id="nik" name="nik" onchange="ubah_pemilik($('#jenis_pemilik').val());">
 														<option value="">-- Silakan Masukan NIK / Nama --</option>
 														<?php foreach ($penduduk as $item): ?>
-															<option value="<?= $item['id']?>" <?php selected($pemilik['nik'], $item['id'])?>>Nama : <?= $item['nama']." Alamat : ".$item['info']?></option>
+															<option value="<?= $item['id']?>" <?= selected($pemilik['nik'], $item['id'])?>>Nama : <?= $item['nama']." Alamat : ".$item['info']?></option>
 														<?php endforeach;?>
 													</select>
 												</div>

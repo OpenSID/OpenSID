@@ -29,7 +29,7 @@
 									<select class="form-control select2 " id="tautan" name="tautan" style="width: 100%;">
 										<option value="">-- Cari Judul Artikel --</option>
 										<?php foreach ($list_artikel as $artikel): ?>
-											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']).' | '.$artikel['judul']?></option>
+											<option value="<?= $artikel['id']?>" <?= selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']).' | '.$artikel['judul']?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>

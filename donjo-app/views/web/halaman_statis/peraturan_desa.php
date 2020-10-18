@@ -12,7 +12,7 @@
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($kategori as $s): ?>
-  							<option value="<?= $s['id'] ?>" <?php selected($s['id'], $kategori_dokumen) ?>><?= $s['nama'] ?></option>
+  							<option value="<?= $s['id'] ?>" <?= selected($s['id'], $kategori_dokumen) ?>><?= $s['nama'] ?></option>
   						<?php endforeach; ?>
   					</select>
   				</div>
@@ -23,7 +23,7 @@
   					<select class="form-control" name="tahun" id="tahun" onchange="formAction()">
   						<option value="">Semua</option>
   						<?php foreach($tahun as $t): ?>
-  							<option value="<?= $t['tahun'] ?>" <?php selected($t['tahun'], $tahun_dokumen) ?> ><?= $t['tahun'] ?></option>
+  							<option value="<?= $t['tahun'] ?>" <?= selected($t['tahun'], $tahun_dokumen) ?> ><?= $t['tahun'] ?></option>
   						<?php endforeach; ?>
   					</select>
   				</div>

@@ -35,7 +35,7 @@
 												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('man_user/filter')?>')">
 													<option value="">Semua</option>
 													<?php foreach ($user_group as $item): ?>
-														<option <?php selected($filter, $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
+														<option <?= selected($filter, $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
 													<?php endforeach ?>
 												</select>
 											</div>
@@ -124,9 +124,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="20" <?php selected($per_page,20); ?> >20</option>
-															<option value="50" <?php selected($per_page,50); ?> >50</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
+															<option value="20" <?= selected($per_page, 20); ?>>20</option>
+															<option value="50" <?= selected($per_page, 50); ?>>50</option>
+															<option value="100" <?= selected($per_page, 100); ?>>100</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>

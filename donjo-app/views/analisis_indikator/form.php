@@ -56,7 +56,7 @@
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Indikator Analisis [ <?= $analisis_master['nama']?> ]</h1>
+		<h1>Pengaturan Indikator Analisis [ <?= $analisis_master['nama']; ?> ]</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('analisis_master')?>"> Master Analisis</a></li>
@@ -69,7 +69,7 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left', $data);?>
+					<?php $this->load->view('analisis_master/left', $data); ?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
@@ -103,7 +103,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nomor">Kode Pertanyaan</label>
 												<div class="col-sm-2">
-													<input id="nomor" class="form-control input-sm bilangan" type="text" placeholder="Kode Pertanyaan" name="nomor" value="<?= $analisis_indikator['nomor']?>" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>>
+													<input id="nomor" class="form-control input-sm bilangan" type="text" placeholder="Kode Pertanyaan" name="nomor" value="<?= $analisis_indikator['nomor']; ?>" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>>
 												</div>
 											</div>
 										</div>
@@ -111,7 +111,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="pertanyaan">Pertanyaan</label>
 												<div class="col-sm-8">
-													<textarea  id="pertanyaan" class="form-control input-sm required" placeholder="Pertanyaan" name="pertanyaan" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>><?= $analisis_indikator['pertanyaan']?></textarea>
+													<textarea  id="pertanyaan" class="form-control input-sm required" placeholder="Pertanyaan" name="pertanyaan" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>><?= $analisis_indikator['pertanyaan']; ?></textarea>
 												</div>
 											</div>
 										</div>
@@ -122,8 +122,8 @@
 													<select class="form-control select2 required" id="id_kategori" name="id_kategori" <?= jecho($analisis_master['jenis'], 1, 'disabled="disabled"') ?>>
 														<option value="" selected="selected">-- Kategori Indikator--</option>
 														<?php foreach ($list_kategori AS $data): ?>
-															<option value="<?= $data['id']?>"  <?php selected($analisis_indikator['id_kategori'], $data['id']) ?>><?= $data['kategori']?></option>
-														<?php endforeach;?>
+															<option value="<?= $data['id']; ?>"  <?= selected($analisis_indikator['id_kategori'], $data['id']); ?>><?= $data['kategori']; ?></option>
+														<?php endforeach; ?>
 													</select>
 												</div>
 											</div>
@@ -132,7 +132,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="bobot">Bobot</label>
 												<div class="col-sm-2">
-													<input  id="bobot" class="form-control input-sm number" type="text" placeholder="Bobot Pertanyaan" max="100" name="bobot" value="<?= ($analisis_indikator['bobot'] == "") ? '1' : $analisis_indikator['bobot'] ?>">
+													<input  id="bobot" class="form-control input-sm number" type="text" placeholder="Bobot Pertanyaan" max="100" name="bobot" value="<?= ($analisis_indikator['bobot'] == "") ? '1' : $analisis_indikator['bobot']; ?>">
 												</div>
 											</div>
 										</div>

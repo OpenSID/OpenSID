@@ -31,7 +31,7 @@
 							<div class="form-group">
 								<label for="nama">NIK/Nama</label>
 								<select class="form-control select2" id="terdata" name="terdata" style="width: 100%;">
-									<option value="">-- Silakan Masukan NIK / Nama--</option>
+									<option value="">-- Silakan Masukan NIK / Nama --</option>
 									<?php foreach ($pemudik_array as $item): ?>
 									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['status_covid']?>" data-tgltiba="<?= $item['tanggal_datang']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
 									<?php endforeach; ?>
@@ -211,9 +211,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="10" <?php selected($per_page,10); ?> >10</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
-															<option value="200" <?php selected($per_page,200); ?> >200</option>
+															<option value="10" <?= selected($per_page,10); ?> >10</option>
+															<option value="100" <?= selected($per_page, 100); ?>>100</option>
+															<option value="200" <?= selected($per_page,200); ?> >200</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>
