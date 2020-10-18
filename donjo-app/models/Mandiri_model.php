@@ -272,13 +272,14 @@ class Mandiri_model extends CI_Model {
 		return $data;
 	}
 
-	public function get_mandiri($id)
+	public function get_mandiri($id_pend, $id_nik = FALSE)
 	{
+		($id_nik === TRUE) ? $this->db->where('p.nik', $id_pend) : $this->db->where('pm.id_pend', $id_pend);
+
 		$data = $this->db
-			->select('pm.*, p.nama, p.nik, p.telepon')
+			->select('pm.*, p.nama, p.nik, p.email, p.telepon')
 			->from('tweb_penduduk_mandiri pm')
 			->join('penduduk_hidup p', 'pm.id_pend = p.id', 'LEFT')
-			->where('pm.id_pend', $id)
 			->get()
 			->row_array();
 

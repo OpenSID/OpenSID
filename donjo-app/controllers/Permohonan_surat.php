@@ -42,17 +42,27 @@
 
 class Permohonan_surat extends Web_Controller {
 
+	private $cek_anjungan;
+
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('penduduk_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('surat_model');
-		$this->load->model('keluar_model');
-		$this->load->model('config_model');
-		$this->load->model('referensi_model');
-		$this->load->model('penomoran_surat_model');
-		$this->load->model('permohonan_surat_model');
+		if ( ! isset($_SESSION['mandiri'])) {
+			redirect('first');
+		}
+		else
+		{
+			$this->load->model('penduduk_model');
+			$this->load->model('keluarga_model');
+			$this->load->model('surat_model');
+			$this->load->model('keluar_model');
+			$this->load->model('config_model');
+			$this->load->model('referensi_model');
+			$this->load->model('penomoran_surat_model');
+			$this->load->model('permohonan_surat_model');
+			$this->load->model('anjungan_model');
+			$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		}
 	}
 
 	public function form($id_permohonan='')
@@ -87,6 +97,8 @@ class Permohonan_surat extends Web_Controller {
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['views_partial_layout'] = "surat/form_surat.php";
 		$data['data'] = $data;
+		$data['cek_anjungan'] = $this->cek_anjungan;
+
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 

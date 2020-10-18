@@ -92,10 +92,7 @@
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
 				<div class="col-sm-8">
 					<div class="input-group col-sm-12">
-						<textarea class="form-control input-sm kbvtext" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']?></textarea>
-						<span class="input-group-addon">
-							<button id="keterangan-opener" class="btn btn-default kbvopener" type="button"><i class="fa fa-keyboard-o"></i></button>
-						</span>
+						<textarea class="form-control input-sm <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']?></textarea>
 					</div>
 				</div>
 			</div>
@@ -103,10 +100,7 @@
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
 				<div class="col-sm-8">
 					<div class="input-group col-sm-12">
-						<input class="form-control input-lg bilangan_spasi required kbvnumber" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']?>"/>
-						<span class="input-group-addon">
-							<button id="no_hp_aktif-opener" class="btn btn-default kbvopenernum" type="button"><i class="fa fa-keyboard-o"></i></button>
-						</span>
+						<input class="form-control input-lg bilangan_spasi required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>"/>
 					</div>
 				</div>
 			</div>
@@ -202,12 +196,9 @@
 								<div class="box-body">
 									<div class="form-group">
 										<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-											<div class="input-group col-sm-10">
-												<input id="nama_dokumen" name="nama" class="form-control input-sm required kbvtext3" type="text" placeholder="Nama Dokumen" value=""/>
+											<div class="input-group col-sm-12">
+												<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
 												<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
-												<span class="input-group-append">
-													<button id="nama_dokumen-opener" class="btn btn-default kbvopener3" type="button"><i class="fa fa-keyboard-o"></i></button>
-												</span>
 											</div>
 									</div>
 									<div class="form-group">
