@@ -2,9 +2,9 @@
 /*
  *  File ini:
  *
- * View untuk modul Layanan Mandiri
+ * View untuk ubah telepon warga di modul Layanan Mandiri
  *
- * donjo-app/views/ajax_pin.php
+ * donjo-app/views/mandiri/ajax_hp.php
  *
  */
 /*
@@ -40,31 +40,30 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
+<style type="text/css">
+	#ubah_hp th { width: 20%; }
+</style>
 
 <?php $this->load->view('global/validasi_form'); ?>
-<script>
-	$(function () {
-		$('.select2').select2()
-	});
-</script>
-<form action="<?= $form_action; ?>" method="post" id="validasi">
-	<div class="modal-body">
-		<?php if ( ! $id_pend):?>
-			<div class="form-group">
-				<label for="id_pend">NIK / Nama Penduduk <?= $id_pend; ?></label>
-				<select class="form-control input-sm select2 required" id="id_pend" name="id_pend">
-					<option option value="">-- Silakan Cari NIK - Nama Penduduk --</option>
-					<?php foreach ($penduduk as $data): ?>
-						<option value="<?= $data['id']; ?>" <?= selected($id_pend, $data['id']); ?>><?= $data['nik'] . " - " . $data['nama']; ?></option>
-					<?php endforeach; ?>
-				</select>
+<form action="<?= $form_action; ?>" method="post" class="form-validasi">
+	<div class="modal-body" id="ubah_hp">
+		<table class="table table-hover" >
+			<tr>
+				<th>NIK</td>
+				<td> : <?= $penduduk['nik']?></td>
+			</tr>
+			<tr>
+				<th>Nama Warga</td>
+				<td> : <?= $penduduk['nama']?></td>
+			</tr>
+		</table>
+		<div class="box box-danger">
+			<div class="box-body">
+				<div class="form-group">
+					<label class="control-label" for="telepon">Nomor Telepon</label>
+					<input name="telepon" class="form-control input-sm digits" minlength="8" maxlength="16" type="text" placeholder="No. HP Warga" value="<?= $penduduk['telepon'] ?>"></input>
+				</div>
 			</div>
-		<?php endif; ?>
-		<div class="form-group">
-			<label class="control-label" for="pin">PIN</label>
-			<input id="pin" name="pin" class="form-control input-sm digits" minlength="6" maxlength="6" type="text" placeholder="PIN Warga"></input>
-			<p class="help-block"><code>*) Jika PIN tidak di isi maka sistem akan menghasilkan PIN secara acak.</code></p>
-			<p class="help-block"><code>**) 6 (enam) digit Angka.</code></p>
 		</div>
 	</div>
 	<div class="modal-footer">
