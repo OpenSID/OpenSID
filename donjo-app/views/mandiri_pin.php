@@ -124,13 +124,13 @@
 						<div class="form-bottom">
 							<form action="<?=site_url("mandiri_web/update_pin/$main[nik]"); ?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
-									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber kbvopenernum'); ?>" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 								</div>
 								<div class="form-group">
-									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber1 kbvopenernum1'); ?>" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 								</div>
 								<div class="form-group">
-									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber2 kbvopenernum2'); ?>" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 								</div>
 								<div class="form-group">
 									<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan PIN
@@ -140,7 +140,10 @@
 									<br /><h3>Silakan coba login kembali setelah PIN baru berhasil disimpan</h3>
 								</div>
 							</form>
-							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11); ?><br />IP Adress : <?= $this->input->ip_address(); ?></div>
+							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">
+								OpenSID</a> <?= AmbilVersi(); ?><br />
+								IP Adress : <?= $this->input->ip_address(); ?>
+							</div>
 						</div>
 					</div>
 				</div>

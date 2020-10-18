@@ -109,5 +109,18 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 			)";
 			$this->db->query($query);
 		}
+		// Update view supaya kolom baru ikut masuk
+		$this->db->query("DROP VIEW penduduk_hidup");
+		$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
+		// komentar.email boleh null
+		$field = [
+			'email' => [
+				'type' => 'VARCHAR',
+				'constraint' => 50,
+				'null' => TRUE,
+				'default' => NULL
+			]
+		];
+		$this->dbforge->modify_column('komentar', $field);
 	}
 }

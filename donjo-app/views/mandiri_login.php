@@ -124,10 +124,10 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber kbvopenernum'); ?>" name="nik" id="nik" type="text" placeholder="NIK" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="nik" id="nik" type="text" placeholder="NIK" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 										</div>
 										<div class="form-group">
-											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber1 kbvopenernum1'); ?>" name="pin" id="pin" type="password" placeholder="PIN" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin" id="pin" type="password" placeholder="PIN" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan PIN
@@ -151,7 +151,10 @@
 									<?php endif; ?>
 								</form>
 								<hr/>
-								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?><br />IP Adress : <?= $this->input->ip_address(); ?></div>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">
+									OpenSID</a> <?= AmbilVersi() ?><br />
+									IP Adress : <?= $this->input->ip_address(); ?>
+								</div>
 							</div>
 						</div>
 					</div>

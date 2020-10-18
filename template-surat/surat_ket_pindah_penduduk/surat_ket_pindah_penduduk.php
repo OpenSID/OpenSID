@@ -225,7 +225,7 @@
 								<label for="telpon" class="col-sm-3 control-label">Telepon Pemohon</label>
 								<div class="input-group col-sm-8">
 									<div class="col-sm-4">
-										<input name="telepon" id="telepon" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber kbvopenernum'); ?>" type="text" placeholder="Nomor Telepon"></input>
+										<input name="telepon" id="telepon" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" type="text" placeholder="Nomor Telepon"></input>
 									</div>
 								</div>
 							</div>
@@ -269,7 +269,7 @@
 								<label for="alamat_tujuan" class="col-sm-3 control-label">Alamat Tujuan</label>
 								<div class="input-group col-sm-8">
 									<div class="col-sm-12">
-										<input id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext1 kbvopener1'); ?>" type="text" placeholder="Alamat Tujuan"></input>
+										<input id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Alamat Tujuan"></input>
 									</div>
 								</div>
 							</div>
@@ -277,15 +277,15 @@
 								<label for="rt_tujuan" class="col-sm-3 control-label">RT/RW/Dusun Tujuan</label>
 								<div class="input-group col-sm-8">
 									<div class="col-sm-2">
-										<input id="rt_tujuan" name="rt_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext2 kbvopener2'); ?>" type="text" placeholder="RT"></input>
+										<input id="rt_tujuan" name="rt_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="RT"></input>
 									</div>
 									<div class="col-sm-2"></div>
 									<div class="col-sm-2">
-										<input id="rw_tujuan" name="rw_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext3 kbvopener3'); ?>" type="text" placeholder="RW"></input>
+										<input id="rw_tujuan" name="rw_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="RW"></input>
 									</div>
 									<div class="col-sm-2"></div>
 									<div class="col-sm-4">
-										<input id="dusun_tujuan" name="dusun_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext4 kbvopener4'); ?>" type="text" placeholder="Dusun"></input>
+										<input id="dusun_tujuan" name="dusun_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Dusun"></input>
 									</div>
 								</div>
 							</div>
@@ -294,7 +294,7 @@
 								<div class="input-group col-sm-8">
 									<div class="col-sm-12">
 										<input id="desa_tujuan" name="desa_tujuan" class="form-control input-sm" type="hidden" data-awal="<?= $lokasi['nama_desa'];?>">
-										<input id="desa_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext5 kbvopener5'); ?>" type="text" placeholder="Desa/Kelurahan" onchange="$('#desa_tujuan').val($(this).val());">
+										<input id="desa_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Desa/Kelurahan" onchange="$('#desa_tujuan').val($(this).val());">
 									</div>
 								</div>
 							</div>
@@ -303,17 +303,17 @@
 								<div class="input-group col-sm-8">
 									<div class="col-sm-2">
 										<input id="kecamatan_tujuan" name="kecamatan_tujuan" type="hidden" data-awal="<?= $lokasi['nama_kecamatan'];?>"/>
-										<input id="kecamatan_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext6 kbvopener6'); ?>" type="text" placeholder="Kecamatan " onchange="$('#kecamatan_tujuan').val($(this).val());">
+										<input id="kecamatan_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Kecamatan " onchange="$('#kecamatan_tujuan').val($(this).val());">
 									</div>
 									<div class="col-sm-2"></div>
 									<div class="col-sm-3">
 										<input id="kabupaten_tujuan" name="kabupaten_tujuan" type="hidden" data-awal="<?= $lokasi['nama_kabupaten'];?>"/>
-										<input  id="kabupaten_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext7 kbvopener7'); ?>" type="text" placeholder="Kabupaten" onchange="$('#kabupaten_tujuan').val($(this).val());">
+										<input  id="kabupaten_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Kabupaten" onchange="$('#kabupaten_tujuan').val($(this).val());">
 									</div>
 									<div class="col-sm-2"></div>
 									<div class="col-sm-3">
 										<input id="provinsi_tujuan" name="provinsi_tujuan" type="hidden" data-awal="<?= $lokasi['nama_propinsi'];?>"/>
-										<input id="provinsi_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext8 kbvopener8'); ?>" type="text" placeholder="Provinsi" onchange="$('#provinsi_tujuan').val($(this).val());">
+										<input id="provinsi_tujuan_show" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Provinsi" onchange="$('#provinsi_tujuan').val($(this).val());">
 									</div>
 								</div>
 							</div>
@@ -321,11 +321,11 @@
 								<label for="kode_pos_tujuan" class="col-sm-3 control-label">Kode Pos/ Telpon</label>
 								<div class="input-group col-sm-8">
 									<div class="col-sm-2">
-										<input id="kode_pos_tujuan" name="kode_pos_tujuan" class="form-control input-sm <?= jecho($cek_anjungan, TRUE, 'kbvnumber1 kbvopenernum1'); ?>" type="text" placeholder="Kode Pos">
+										<input id="kode_pos_tujuan" name="kode_pos_tujuan" class="form-control input-sm <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" type="text" placeholder="Kode Pos">
 									</div>
 									<div class="col-sm-2"></div>
 									<div class="col-sm-3">
-										<input id="telepon_tujuan" name="telepon_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber2 kbvopenernum2'); ?>" type="text" placeholder="Telpon">
+										<input id="telepon_tujuan" name="telepon_tujuan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" type="text" placeholder="Telpon">
 									</div>
 								</div>
 							</div>
@@ -434,7 +434,7 @@
 							<div class="form-group">
 								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<input id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext9 kbvopener9'); ?>" type="text" placeholder="Keterangan" name="keterangan">
+									<input id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Keterangan" name="keterangan">
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>

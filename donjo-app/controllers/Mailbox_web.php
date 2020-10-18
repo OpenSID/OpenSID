@@ -68,7 +68,7 @@ class Mailbox_web extends Web_Controller {
 			$data['subjek'] = $subjek;
 		}
 		$data['desa'] = $this->config_model->get_data();
-		$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
+		$data['individu'] = $this->mandiri_model->get_mandiri($this->session->nik, true);
 		$data['form_action'] = site_url("mailbox_web/kirim_pesan");
 		$data['views_partial_layout'] = "web/mandiri/mailbox_form";
 		$data['cek_anjungan'] = $this->cek_anjungan;
@@ -76,11 +76,12 @@ class Mailbox_web extends Web_Controller {
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
+	// TODO: pisahkan mailbox dari komentar
 	public function kirim_pesan()
 	{
 		$post = $this->input->post();
-		$individu = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
-		$post['email'] = $individu['nik'];
+		$individu = $this->mandiri_model->get_mandiri($this->session->nik, true);
+		$post['email'] = $individu['nik']; // kolom email diisi nik untuk pesan
 		$post['owner'] = $individu['nama'];
 		$post['tipe'] = 1;
 		$post['status'] = 2;
