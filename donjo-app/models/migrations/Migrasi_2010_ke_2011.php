@@ -51,21 +51,6 @@ class Migrasi_2010_ke_2011 extends MY_model {
 		// Ubah tipe data field nilai menjadi INT
 		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN nilai INT(3) NOT NULL DEFAULT 0');
 		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN kode_jawaban INT(3) DEFAULT 0');
-		// Kode wilayah
-		$kode = $this->db->where('id', 1)->get('config')->row_array();
-		$kode_wilayah = $kode['kode_propinsi'] . $kode['kode_kabupaten'] . $kode['kode_kecamatan'] . $kode['kode_desa'];
-		if (strlen($kode_wilayah) >= 10)
-		{
-			$config = [
-				'kode_desa' => substr($kode_wilayah, 0, 10),
-				'kode_kecamatan' => substr($kode_wilayah, 0, 6),
-				'kode_kabupaten' => substr($kode_wilayah, 0, 4),
-				'kode_propinsi' => substr($kode_wilayah, 0, 2)
-			];
-
-			$hasil =& $this->db->where('id', 1)->update('config', $config);
-		}
-
 		status_sukses($hasil);
 	}
 
