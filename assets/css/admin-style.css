@@ -23,6 +23,7 @@ body {
 	color: #fff;
 	border-top: 0;
 	border-left-color: #1f2427;
+}
 
 /* Modifikasi input group */
 .input-group .form-control,
@@ -142,7 +143,7 @@ body {
 	.main-header .navbar {
 		width: 100%;
 	}
-  
+
 	.main-header .navbar {
 		margin: 0;
 	}
@@ -543,7 +544,7 @@ span.select2.select2-container {
 .table-min-height {
 	min-height: 350px;
 }
-  
+
 .select_row {
 	background-color: #f8deb5 !important;
 }
@@ -552,7 +553,7 @@ span.select2.select2-container {
 .content-header>.breadcrumb>li+li:before {
 	content: '/\00a0';
 }
-  
+
 .paging {
 	margin-top: 5px;
 }
