@@ -32,6 +32,11 @@
 													<td class="padat"><?= $i + 1 ?></td>
 													<td class="aksi">
 														<a href="<?= site_url("anjungan/form/$data[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
+														<?php if ($data['status'] == '1'): ?>
+															<a href="<?= site_url("anjungan/lock/$data[id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+														<?php else: ?>
+															<a href="<?= site_url("anjungan/lock/$data[id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+														<?php endif ?>
 														<a href="#" data-href="<?=site_url('anjungan/delete/'.$data[id])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</td>
 													<td><?= $data['ip_address'] ?></td>

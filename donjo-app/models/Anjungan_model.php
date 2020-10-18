@@ -111,4 +111,16 @@ class Anjungan_model extends CI_Model {
 			->get('anjungan')->row_array();
 		return $data;
 	}
+
+	/**
+	 * @param $id id
+	 * @param $val status : 1 = Unlock, 2 = Lock
+	 */
+	public function lock($id, $val)
+	{
+		$outp = $this->db
+			->where('id', $id)
+			->update('anjungan', ['status' => $val]);
+		status_sukses($outp);
+	}
 }

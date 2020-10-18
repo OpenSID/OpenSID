@@ -95,4 +95,11 @@ class Anjungan extends Admin_Controller {
 		$this->anjungan_model->delete($id);
 		redirect('anjungan');
 	}
+
+	public function lock($id = 0, $val = 1)
+	{
+		$this->anjungan_model->lock($id, $val);
+		redirect('anjungan');
+	}
+
 }
