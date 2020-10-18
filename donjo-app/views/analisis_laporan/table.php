@@ -41,7 +41,15 @@
  */
 ?>
 
-<?php $this->load->view('global/autocomplete'); ?>
+<script>
+	$(function() {
+		var keyword = <?= $keyword?> ;
+		$("#cari").autocomplete( {
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Hasil Analisis</h1>
