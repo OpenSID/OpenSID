@@ -70,13 +70,13 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if (isset($this->session->cari))
 		{
-		$cari = $_SESSION['cari'];
+		$cari = $this->session->cari;
 			//$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$cari. '%';
 
-			$subjek = $_SESSION['subjek_tipe'];
+			$subjek = $this->session->subjek_tipe;
 			switch ($subjek)
 			{
 				case 1: $search_sql = " AND (u.nik LIKE '$kw' OR u.nama LIKE '$kw')"; break;
@@ -91,9 +91,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function master_sql()
 	{
-		if (isset($_SESSION['analisis_master']))
+		if (isset($this->session->analisis_master))
 		{
-			$kf = $_SESSION['analisis_master'];
+			$kf = $this->session->analisis_master;
 			$filter_sql = " AND u.id_master = $kf";
 			return $filter_sql;
 		}
@@ -101,9 +101,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function dusun_sql()
 	{
-		if (isset($_SESSION['dusun']))
+		if (isset($this->session->dusun))
 		{
-			$kf = $_SESSION['dusun'];
+			$kf = $this->session->dusun;
 			$dusun_sql = " AND c.dusun = '$kf'";
 			return $dusun_sql;
 		}
@@ -111,9 +111,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function rw_sql()
 	{
-		if (isset($_SESSION['rw']))
+		if (isset($this->session->rw))
 		{
-			$kf = $_SESSION['rw'];
+			$kf = $this->session->rw;
 			$rw_sql = " AND c.rw = '$kf'";
 			return $rw_sql;
 		}
@@ -121,9 +121,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function rt_sql()
 	{
-		if (isset($_SESSION['rt']))
+		if (isset($this->session->rt))
 		{
-			$kf = $_SESSION['rt'];
+			$kf = $this->session->rt;
 			$rt_sql = " AND c.rt = '$kf'";
 			return $rt_sql;
 		}
@@ -131,9 +131,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function klasifikasi_sql()
 	{
-		if (isset($_SESSION['klasifikasi']))
+		if (isset($this->session->klasifikasi))
 		{
-			$kf = $_SESSION['klasifikasi'];
+			$kf = $this->session->klasifikasi;
 			$klasifikasi_sql = " AND k.id = '$kf' ";
 			return $klasifikasi_sql;
 		}
@@ -141,11 +141,11 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function jawab_sql()
 	{
-		if (isset($_SESSION['jawab']))
+		if (isset($this->session->jawab))
 		{
 			$per = $this->get_aktif_periode();
-			$kf = $_SESSION['jawab'];
-			$jmkf = $_SESSION['jmkf'];
+			$kf = $this->session->jawab;
+			$jmkf = $this->session->jmkf;
 			$jawab_sql = "AND x.id_parameter IN ($kf) AND ((SELECT COUNT(id_parameter) FROM analisis_respon WHERE id_subjek = u.id AND id_periode = $per AND id_parameter IN ($kf)) = $jmkf) ";
 		return $jawab_sql;
 		}
@@ -153,7 +153,7 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function paging($p=1, $o=0)
 	{
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->session->subjek_tipe;
 		$master = $this->get_analisis_master();
 		$id_kelompok = $master['id_kelompok'];
 
@@ -171,7 +171,7 @@ class Analisis_laporan_model extends CI_Model {
 			default: return null;
 		}
 
-		if (isset($_SESSION['jawab']))
+		if (isset($this->session->jawab))
 		{
 			$sql .= " LEFT JOIN analisis_respon x ON u.id = x.id_subjek";
 			$sql .= " LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval WHERE h.id_periode = ? AND x.id_periode = ? AND k.id_master = ? ";
@@ -181,7 +181,7 @@ class Analisis_laporan_model extends CI_Model {
 			$sql .= $this->rw_sql();
 			$sql .= $this->rt_sql();
 			$sql .= $this->jawab_sql();
-			$query = $this->db->query($sql, array($per, $per, $_SESSION['analisis_master']));
+			$query = $this->db->query($sql, array($per, $per, $this->session->analisis_master));
 		}
 		else
 		{
@@ -192,7 +192,7 @@ class Analisis_laporan_model extends CI_Model {
 			$sql .= $this->rw_sql();
 			$sql .= $this->rt_sql();
 			$sql .= $this->jawab_sql();
-			$query = $this->db->query($sql, array($per, $_SESSION['analisis_master']));
+			$query = $this->db->query($sql, array($per, $this->session->analisis_master));
 		}
 
 		$row = $query->row_array();
@@ -200,7 +200,7 @@ class Analisis_laporan_model extends CI_Model {
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -303,7 +303,7 @@ class Analisis_laporan_model extends CI_Model {
 		if (isset($this->session->jawab))
 		{
 			$sql .= "LEFT JOIN analisis_respon x ON u.id = x.id_subjek ";
-			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi > k.minval AND h.akumulasi/$pembagi <= k.maxval ";
+			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval ";
 			$sql .= "WHERE h.id_periode = ? AND x.id_periode = ? AND k.id_master = ? ";
 			$sql .= $this->search_sql();
 			$sql .= $this->klasifikasi_sql();
@@ -314,11 +314,11 @@ class Analisis_laporan_model extends CI_Model {
 			$sql .= " GROUP BY u.id ";
 			$sql .= $order_sql;
 			$sql .= $paging_sql;
-			$query = $this->db->query($sql, array($per, $per, $_SESSION['analisis_master']));
+			$query = $this->db->query($sql, array($per, $per, $this->session->analisis_master));
 		}
 		else
 		{
-			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi > k.minval AND h.akumulasi/$pembagi <= k.maxval ";
+			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval ";
 			$sql .= "WHERE h.id_periode = ? AND k.id_master = ?";
 			$sql .= $this->search_sql();
 			$sql .= $this->klasifikasi_sql();
@@ -327,7 +327,7 @@ class Analisis_laporan_model extends CI_Model {
 			$sql .= $this->rt_sql();
 			$sql .= $order_sql;
 			$sql .= $paging_sql;
-			$query = $this->db->query($sql, array($per, $_SESSION['analisis_master']));
+			$query = $this->db->query($sql, array($per, $this->session->analisis_master));
 		}
 		$data = $query->result_array();
 
@@ -424,13 +424,13 @@ class Analisis_laporan_model extends CI_Model {
 	public function get_analisis_master()
 	{
 		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
+		$query = $this->db->query($sql, $this->session->analisis_master);
 		return $query->row_array();
 	}
 
 	public function get_subjek($id=0)
 	{
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
 			case 1: $sql = "SELECT u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt
@@ -469,8 +469,8 @@ class Analisis_laporan_model extends CI_Model {
 	public function multi_jawab($p=0, $o=0)
 	{
 		$master = $this->get_analisis_master();
-		if (isset($_SESSION['jawab']))
-			$kf = $_SESSION['jawab'];
+		if (isset($this->session->jawab))
+			$kf = $this->session->jawab;
 		else
 			$kf = "7777777";
 
@@ -505,9 +505,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function group_parameter()
 	{
-		if (isset($_SESSION['jawab']))
+		if (isset($this->session->jawab))
 		{
-			$idcb = $_SESSION['jawab'];
+			$idcb = $this->session->jawab;
 			$sql = "SELECT DISTINCT(id_indikator) AS id_jmkf
 				FROM analisis_parameter
 				WHERE id IN($idcb)";
@@ -526,7 +526,7 @@ class Analisis_laporan_model extends CI_Model {
 		$sql = "SELECT *
 			FROM analisis_periode
 			WHERE aktif = 1 AND id_master = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
+		$query = $this->db->query($sql, $this->session->analisis_master);
 		$data = $query->row_array();
 		return $data['id'];
 	}
@@ -536,7 +536,7 @@ class Analisis_laporan_model extends CI_Model {
 		$sql = "SELECT *
 			FROM analisis_periode
 			WHERE aktif=1 AND id_master=?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
+		$query = $this->db->query($sql, $this->session->analisis_master);
 		$data = $query->row_array();
 		return $data['nama'];
 	}
@@ -546,7 +546,7 @@ class Analisis_laporan_model extends CI_Model {
 		$sql = "SELECT *
 			FROM analisis_klasifikasi
 			WHERE id_master=?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
+		$query = $this->db->query($sql, $this->session->analisis_master);
 		$data = $query->result_array();
 		return $data;
 	}
