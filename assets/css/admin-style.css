@@ -494,3 +494,6 @@ span.select2.select2-container {
 .select-row {
 	background-color: #f8deb5 !important;
 }
+.paging {
+	margin-top: 5px;
+}
