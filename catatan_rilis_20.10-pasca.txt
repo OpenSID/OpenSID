@@ -26,6 +26,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 20. #3610: Lengkapi alamat di daftar terdata data suplemen.
 21. Hilangkan 'first' dari URL beberapa halaman web. [teknis]
 22. #1680: Hapus script tidak digunakan dan rapikan modul RTM. [teknis]
+23. #3622: Tampilkan informasi tambahan di daftar/cetak Analisis > Laporan Hasil Klasifikasi.
 
 
 
