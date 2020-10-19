@@ -2,7 +2,9 @@
 /*
  * File ini:
  *
- * View untuk global Format Cetak
+ * Template untuk mencetak/mengunduh laporan admin.
+ * $isi berisi view laporan yang akan ditampilkan/diunduh.
+ *
  *
  * donjo-app/views/global/format_cetak.php
  *

@@ -108,7 +108,7 @@
 													<option value="<?= $data['id']; ?>" <?= selected($klasifikasi, $data['id']); ?>><?= $data['nama']; ?></option>
 												<?php endforeach;?>
 											</select>
-											<?php $this->load->view('global/combobox_wilayah'); ?>
+											<?php $this->load->view('global/filter_wilayah', ['form' => 'mainform']); ?>
 										</div>
 										<div class="col-sm-4">
 											<div class="input-group input-group-sm pull-right">

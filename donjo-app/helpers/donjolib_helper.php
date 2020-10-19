@@ -621,6 +621,8 @@ function sensor_nik_kk($data)
 	return $output;
 }
 
+// Asumsi nilai order untuk desc (di model) selalu bernilai asc + 1.
+// Contoh: asc untuk nama = 5 maka desc untuk nama = 6
 function url_order($o = 1, $url = '', $asc = 1, $text = 'Field')
 {
 	$url = site_url($url);

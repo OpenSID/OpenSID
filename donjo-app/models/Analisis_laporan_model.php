@@ -50,7 +50,11 @@ class Analisis_laporan_model extends CI_Model {
 	public function autocomplete()
 	{
 		$sql = "SELECT no_kk FROM tweb_keluarga
-		UNION SELECT t.nama FROM tweb_keluarga u LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id WHERE 1 ";
+			UNION SELECT t.nama
+				FROM tweb_keluarga u
+				LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
+				LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
+				WHERE 1 ";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
@@ -267,13 +271,30 @@ class Analisis_laporan_model extends CI_Model {
 		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id, u.nik AS uid, kk.no_kk AS kk, u.nama, kk.alamat, c.dusun,c.rw,c.rt,u.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id LEFT JOIN tweb_keluarga kk ON kk.id = u.id_kk "; break;
+			case 1: $sql = "SELECT u.id, u.nik AS uid, kk.no_kk AS kk, u.nama, kk.alamat, c.dusun, c.rw, c.rt, u.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
+				FROM tweb_penduduk u
+				LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+				LEFT JOIN tweb_keluarga kk ON kk.id = u.id_kk ";
+				break;
 
-			case 2: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, u.alamat, c.dusun,c.rw,c.rt,p.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id " ; break;
+			case 2: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, u.alamat, c.dusun, c.rw, c.rt, p.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
+				FROM tweb_keluarga u
+				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id " ;
+				break;
 
-			case 3: $sql = "SELECT u.id, u.no_kk AS uid,  p.nik AS kk, p.nama, kk.alamat, c.dusun,c.rw,c.rt,p.sex,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id  LEFT JOIN  tweb_keluarga kk ON kk.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
+			case 3: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, kk.alamat, c.dusun, c.rw, c.rt, p.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
+				FROM tweb_rtm u
+				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				LEFT JOIN  tweb_keluarga kk ON kk.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id ";
+				break;
 
-			case 4: $sql = "SELECT u.id, u.kode AS uid, u.nama,p.sex,c.dusun,c.rw,c.rt,h.akumulasi/$pembagi AS cek,k.nama AS klasifikasi FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
+			case 4: $sql = "SELECT u.id, u.kode AS uid, u.nama, p.sex, c.dusun, c.rw, c.rt, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
+				FROM kelompok u
+				LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id ";
+				break;
 
 			default: return null;
 		}
@@ -340,7 +361,10 @@ class Analisis_laporan_model extends CI_Model {
 	private function list_jawab2($id=0, $in=0)
 	{
 		$per = $this->get_aktif_periode();
-		$sql = "SELECT s.id as id_parameter,s.jawaban as jawaban,s.nilai FROM analisis_respon r LEFT JOIN analisis_parameter s ON r.id_parameter = s.id WHERE r.id_subjek = ? AND r.id_periode = ? AND r.id_indikator = ?";
+		$sql = "SELECT s.id as id_parameter,s.jawaban as jawaban,s.nilai
+			FROM analisis_respon r
+			LEFT JOIN analisis_parameter s ON r.id_parameter = s.id
+			WHERE r.id_subjek = ? AND r.id_periode = ? AND r.id_indikator = ?";
 		$query = $this->db->query($sql, array($id, $per, $in));
 		$data = $query->row_array();
 
@@ -365,7 +389,12 @@ class Analisis_laporan_model extends CI_Model {
 		}
 		$cb = $cb."7777777";
 
-		$sql = "SELECT u.*,(SELECT COUNT(id) FROM analisis_indikator WHERE id = u.id AND id IN($cb)) AS cek FROM analisis_indikator u WHERE 1 ";
+		$sql = "SELECT u.*,
+			(SELECT COUNT(id)
+				FROM analisis_indikator
+				WHERE id = u.id AND id IN($cb)) AS cek
+			FROM analisis_indikator u
+			WHERE 1 ";
 		$sql .= $this->master_sql();
  		$sql .= " ORDER BY u.nomor ASC";
 		$query = $this->db->query($sql, $id);
@@ -384,7 +413,9 @@ class Analisis_laporan_model extends CI_Model {
 	public function get_total($id=0)
 	{
 		$per = $this->get_aktif_periode();
-		$sql = "SELECT akumulasi FROM analisis_respon_hasil u WHERE id_subjek = ? AND id_periode = ? ";
+		$sql = "SELECT akumulasi
+			FROM analisis_respon_hasil u
+			WHERE id_subjek = ? AND id_periode = ? ";
 		$query = $this->db->query($sql, array($id, $per));
 		$data = $query->row_array();
 		return $data['akumulasi'];
@@ -402,13 +433,32 @@ class Analisis_laporan_model extends CI_Model {
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = ? "; break;
+			case 1: $sql = "SELECT u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt
+				FROM tweb_penduduk u
+				LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+				WHERE u.id = ? ";
+				break;
 
-			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? " ; break;
+			case 2: $sql = "SELECT u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt
+				FROM tweb_keluarga u
+				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+				WHERE u.id = ? " ;
+				break;
 
-			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 3: $sql = "SELECT u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt
+				FROM tweb_rtm u
+				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+				WHERE u.id = ? ";
+				break;
 
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 4: $sql = "SELECT u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt
+				FROM kelompok u
+				LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+				WHERE u.id = ? ";
+				break;
 
 			default: return null;
 		}
@@ -458,7 +508,9 @@ class Analisis_laporan_model extends CI_Model {
 		if (isset($_SESSION['jawab']))
 		{
 			$idcb = $_SESSION['jawab'];
-			$sql = "SELECT DISTINCT(id_indikator) AS id_jmkf FROM analisis_parameter WHERE id IN($idcb)";
+			$sql = "SELECT DISTINCT(id_indikator) AS id_jmkf
+				FROM analisis_parameter
+				WHERE id IN($idcb)";
 			$query = $this->db->query($sql);
 			$data = $query->result_array();
 			return $data;
@@ -471,7 +523,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function get_aktif_periode()
 	{
-		$sql = "SELECT * FROM analisis_periode WHERE aktif = 1 AND id_master = ?";
+		$sql = "SELECT *
+			FROM analisis_periode
+			WHERE aktif = 1 AND id_master = ?";
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data = $query->row_array();
 		return $data['id'];
@@ -479,7 +533,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function get_periode()
 	{
-		$sql = "SELECT * FROM analisis_periode WHERE aktif=1 AND id_master=?";
+		$sql = "SELECT *
+			FROM analisis_periode
+			WHERE aktif=1 AND id_master=?";
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data = $query->row_array();
 		return $data['nama'];
@@ -487,7 +543,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function list_klasifikasi()
 	{
-		$sql = "SELECT * FROM analisis_klasifikasi WHERE id_master=?";
+		$sql = "SELECT *
+			FROM analisis_klasifikasi
+			WHERE id_master=?";
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data = $query->result_array();
 		return $data;

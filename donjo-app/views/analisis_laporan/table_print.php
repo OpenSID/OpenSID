@@ -69,7 +69,7 @@
 		<tr class="border thick">
 			<th width="10">NO</th>
 			<th align="left"><?= strtoupper($judul['nomor']) ?></th>
-			<?php if($analisis_master['subjek_tipe'] != 4): ?>
+			<?php if ($analisis_master['subjek_tipe'] != 4): ?>
 				<th align="left"><?= strtoupper($judul['nomor_kk']) ?></th>
 			<?php endif;?>
 			<th align="left"><?= strtoupper($judul['nama']) ?></th>
@@ -84,7 +84,7 @@
 			<tr>
 				<td align="center" width="2"><?= ($key + 1); ?></td>
 				<td class="textx" ><?= $data['uid'] ?></td>
-				<?php if($analisis_master['subjek_tipe'] != 4): ?>
+				<?php if ($analisis_master['subjek_tipe'] != 4): ?>
 					<td class="textx"><?= $data['kk'] ?></td>
 				<?php endif;?>
 				<td><?= $data['nama'] ?></td>
