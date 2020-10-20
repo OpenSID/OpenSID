@@ -38,11 +38,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
  * @package OpenSID
- * @author  Tim Pengembang OpenDesa
+ * @author Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ * @license http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link https://github.com/OpenSID/OpenSID
  */
 
 class Kelompok_model extends MY_Model {
@@ -181,7 +181,7 @@ class Kelompok_model extends MY_Model {
 			->where('id_kelompok', $id)
 			->where('id_penduduk', $data['id_penduduk'])
 			->get()->row_array();
-		if ( !  $sdh_ada)
+		if ( ! $sdh_ada)
 		{
 			$outp = $this->db->insert('kelompok_anggota', $data);
 		}
@@ -284,7 +284,7 @@ class Kelompok_model extends MY_Model {
 		$data = $query->row_array();
 		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
 
-		return  $data;
+		return $data;
 	}
 
 	public function get_anggota($id = 0, $id_a = 0)
