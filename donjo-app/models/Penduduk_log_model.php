@@ -229,7 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->rt_sql();
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	public function list_data($o = 0, $offset = 0, $limit = 30000)
 	{
 		//Main Query
 		$this->db

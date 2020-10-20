@@ -368,7 +368,7 @@ class Rtm_model extends CI_Model {
 		return $this->paging;
 	}
 
-	public function list_data($o = 0, $offset = 0, $limit = 500)
+	public function list_data($o = 0, $offset = 0, $limit = 30000)
 	{
 		$this->db->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.no_kk ) AS jumlah_anggota, c.dusun, c.rw, c.rt, u.tgl_daftar');
 

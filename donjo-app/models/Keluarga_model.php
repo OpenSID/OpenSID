@@ -169,7 +169,7 @@
 		}
 	}
 
-	public function list_data($o = 0, $offset = 0, $limit = 500)
+	public function list_data($o = 0, $offset = 0, $limit = 30000)
 	{
 		//Ordering SQL
 		switch ($o)

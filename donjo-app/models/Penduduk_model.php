@@ -361,7 +361,7 @@ class Penduduk_model extends MY_Model {
 		return $sql;
 	}
 
-	public function list_data($o = 1, $offset = 0, $limit = 500)
+	public function list_data($o = 1, $offset = 0, $limit = 30000)
 	{
 		$select_sql = "SELECT DISTINCT ";
 		if ($_SESSION['penerima_bantuan'])
