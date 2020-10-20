@@ -47,41 +47,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok extends Admin_Controller {
 
+	private $_set_page;
+	private $_list_session;
+
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('kelompok_model');
+		$this->load->model(['kelompok_model', 'pamong_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
+		$this->_set_page = ['20', '50', '100'];
+		$this->_list_session = ['cari', 'filter', 'state'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['state']);
+		$this->session->unset_userdata($this->_list_session);
+		$this->session->per_page = $this->_set_page[0];
 		redirect('kelompok');
 	}
 
 	public function index($p=1, $o=0)
 	{
-		unset($_SESSION['kelompok']);
+
+		$this->session->unset_userdata(['kelompok']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->_list_session as $list)
+		{
+			if (in_array($list, ['cari', 'filter', 'state']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '';
+		}
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-		if (isset($_SESSION['state']))
-			$data['state'] = $_SESSION['state'];
-		else $data['state'] = '';
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+		$data['per_page'] = $this->session->per_page;
+		$data['filter'] = $this->session->filter;
 
 		$data['paging'] = $this->kelompok_model->paging($p,$o);
 		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
@@ -145,36 +150,71 @@ class Kelompok extends Admin_Controller {
 		$this->render('kelompok/anggota/form', $data);
 	}
 
-	public function cetak()
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function dialog_anggota($aksi = 'cetak', $id = 0)
 	{
-		$data['main'] = $this->kelompok_model->list_data();
 
-		$this->load->view('kelompok/cetak', $data);
+		$data['aksi'] = ucwords($aksi);
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("kelompok/daftar/$aksi/$id");
+
+		$this->load->view('global/ttd_pamong', $data);
 	}
 
-	public function excel()
+	/*
+	* $aksi = cetak/unduh 
+	*/
+	public function dialog($aksi = 'cetak')
 	{
+
+		$data['aksi'] = ucwords($aksi);
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("kelompok/cetak/$aksi");
+
+		$this->load->view('global/ttd_pamong', $data);
+	}
+
+	public function cetak($aksi = 'cetak')
+	{
+		$post = $this->input->post();
+		$data['aksi'] = $aksi;
+		$data['config'] = $this->header['desa'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+
 		$data['main'] = $this->kelompok_model->list_data();
 
-		$this->load->view('kelompok/excel', $data);
+		$data['file'] = "Data Kelompok"; // nama file
+		$data['isi'] = "kelompok/cetak";
+
+		$this->load->view('global/format_cetak', $data);
 	}
 
 	public function daftar($aksi = 'cetak', $id = 0)
 	{
+		$post = $this->input->post();
 		$data['aksi'] = $aksi;
-		$data['config'] = $this->config_model->get_data();
+		$data['config'] = $this->header['desa'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+
 		$data['main'] = $this->kelompok_model->list_anggota($id);
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 
-		$this->load->view('kelompok/anggota/cetak', $data);
+		$data['file'] = "Laporan Data Kelompok " . $data['kelompok']['nama']; // nama file
+		$data['isi'] = "kelompok/anggota/cetak";
+
+		$this->load->view('global/format_cetak', $data);
 	}
 
 	public function search()
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+			$this->session->cari = $cari;
+		else $this->session->unset_userdata(['cari']);
 		redirect('kelompok');
 	}
 
@@ -182,8 +222,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+			$this->session->filter = $filter;
+		else $this->session->unset_userdata(['filter']);
 		redirect('kelompok');
 	}
 
@@ -191,8 +231,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$filter = $this->input->post('state');
 		if ($filter != 0)
-			$_SESSION['state'] = $filter;
-		else unset($_SESSION['state']);
+			$this->session->state = $filter;
+		else $this->session->unset_userdata(['state']);
 		redirect('kelompok');
 	}
 
@@ -252,8 +292,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$filter = $id;
 		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+			$this->session->filter = $filter;
+		else  $this->session->unset_userdata(['filter']);
 		redirect('kelompok');
 	}
 }

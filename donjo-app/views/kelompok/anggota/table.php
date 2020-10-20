@@ -50,8 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<section class="content-header">
 		<h1>Data Kelompok <?= ucwords($kelompok['nama']); ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
+			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
 			<li class="active"><?= ucwords($kelompok['nama']); ?></li>
 		</ol>
 	</section>
@@ -61,11 +61,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Anggota Kelompok"><i class="fa fa-plus"></i> Tambah Anggota Kelompok</a>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_anggota_all/$kelompok[id]")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<a href="<?= site_url("kelompok/daftar/cetak/$kelompok[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print"></i> Cetak</a>
-							<a href="<?= site_url("kelompok/daftar/unduh/$kelompok[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?= site_url("kelompok")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
+							<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Anggota Kelompok"><i class="fa fa-plus"></i> Tambah Anggota Kelompok</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_anggota_all/$kelompok[id]"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url("kelompok/dialog_anggota/cetak/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota Kelopok <?= $kelompok['nama']; ?>"><i class="fa fa-print"></i> Cetak</a>
+							<a href="<?= site_url("kelompok/dialog_anggota/unduh/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Daftar Anggota Kelopok <?= $kelompok['nama']; ?>"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?= site_url("kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
 						</div>
 						<div class="box-body">
 							<h5><b>Rincian Kelompok</b></h5>
@@ -111,7 +111,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<th width="10%">Tempat / Tanggal Lahir</th>
 											<th class="padat">Umur (Tahun)</th>
 											<th class="padat">Jenis Kelamin</th>
-											<th width="50%">Alamat</th>
+											<th width="30%">Alamat</th>
+											<th width="20%">Keterangan</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -120,16 +121,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 												<td class="padat"><?= ($key + 1) ?></td>
 												<td class="padat">
-													<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
-													<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+													<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
+													<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												</td>
-												<td class="padat"><?= $data['no_anggota']?></td>
-												<td><?= $data['nik']?></td>
-												<td><?= $data['nama']?></td>
-												<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
-												<td class="padat"><?= $data['umur']?></td>
-												<td><?= $data['sex']?></td>
-												<td><?= $data['alamat']?></td>
+												<td class="padat"><?= $data['no_anggota']; ?></td>
+												<td><?= $data['nik']; ?></td>
+												<td><?= $data['nama']; ?></td>
+												<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
+												<td class="padat"><?= $data['umur']; ?></td>
+												<td><?= $data['sex']; ?></td>
+												<td><?= $data['alamat']; ?></td>
+												<td><?= $data['keterangan']; ?></td>
 											</tr>
 										<?php endforeach; ?>
 									</tbody>

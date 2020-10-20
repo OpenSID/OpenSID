@@ -161,6 +161,7 @@ class Kelompok_model extends MY_Model {
 		$datax['id_kelompok'] = $insert_id;
 		$datax['id_penduduk'] = $data['id_ketua'];
 		$datax['no_anggota'] = 1;
+		$datax['keterangan'] = 'Ketua Kelompok'; // keteranga Default untuk Ketua Kelompok
 		$outpb = $this->db->insert('kelompok_anggota', $datax);
 
 		if ($outpa && $outpb) $_SESSION['success'] = 1;
@@ -171,6 +172,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
 	}
 
