@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -43,8 +45,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Kelompok extends Admin_Controller {
 
 	private $_set_page;
@@ -67,33 +67,29 @@ class Kelompok extends Admin_Controller {
 		redirect('kelompok');
 	}
 
-	public function index($p=1, $o=0)
+	public function index($p = 1, $o = 0)
 	{
-
-		$this->session->unset_userdata(['kelompok']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
 		foreach ($this->_list_session as $list)
 		{
-			if (in_array($list, ['cari', 'filter', 'state']))
-				$$list = $this->session->$list;
-			else
-				$data[$list] = $this->session->$list ?: '';
+			$data[$list] = $this->session->$list ?: '';
 		}
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
-		$data['per_page'] = $this->session->per_page;
-		$data['filter'] = $this->session->filter;
 
-		$data['paging'] = $this->kelompok_model->paging($p,$o);
+		$data['func'] = 'index';
+		$data['set_page'] = $this->_set_page;
+		$data['filter'] = $this->session->filter;
+		$data['paging'] = $this->kelompok_model->paging($p, $o);
 		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('kelompok/table', $data);
 	}
 
@@ -101,12 +97,12 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('kelompok/anggota/table', $data);
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function form($p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -118,23 +114,23 @@ class Kelompok extends Admin_Controller {
 		}
 		else
 		{
-			$data['kelompok'] = null;
+			$data['kelompok'] = NULL;
 			$data['form_action'] = site_url("kelompok/insert");
 		}
 
 		$data['list_master'] = $this->kelompok_model->list_master();
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('kelompok/form', $data);
 	}
 
-	public function form_anggota($id=0, $id_a=0)
+	public function form_anggota($id = 0, $id_a = 0)
 	{
 		if ($id_a == 0)
 		{
 			$data['kelompok'] = $id;
-			$data['pend'] = null;
+			$data['pend'] = NULL;
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk($ex_kelompok=$id);
 			$data['form_action'] = site_url("kelompok/insert_a/$id");
 		}
@@ -145,8 +141,8 @@ class Kelompok extends Admin_Controller {
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('kelompok/anggota/form', $data);
 	}
 
@@ -155,7 +151,6 @@ class Kelompok extends Admin_Controller {
 	*/
 	public function dialog_anggota($aksi = 'cetak', $id = 0)
 	{
-
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("kelompok/daftar/$aksi/$id");
@@ -164,11 +159,10 @@ class Kelompok extends Admin_Controller {
 	}
 
 	/*
-	* $aksi = cetak/unduh 
+	* $aksi = cetak/unduh
 	*/
 	public function dialog($aksi = 'cetak')
 	{
-
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("kelompok/cetak/$aksi");
@@ -209,24 +203,16 @@ class Kelompok extends Admin_Controller {
 		$this->load->view('global/format_cetak', $data);
 	}
 
-	public function search()
+	public function filter($filter)
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$this->session->cari = $cari;
-		else $this->session->unset_userdata(['cari']);
+		$value = $this->input->post($filter);
+		if ($value != "")
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('kelompok');
 	}
 
-	public function filter()
-	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$this->session->filter = $filter;
-		else $this->session->unset_userdata(['filter']);
-		redirect('kelompok');
-	}
-
+	// Digunakan dimana ???
 	public function state()
 	{
 		$filter = $this->input->post('state');
@@ -242,33 +228,33 @@ class Kelompok extends Admin_Controller {
 		redirect('kelompok');
 	}
 
-	public function update($p=1, $o=0, $id='')
+	public function update($p = 1, $o = 0, $id = '')
 	{
 		$this->kelompok_model->update($id);
 		redirect("kelompok/index/$p/$o");
 	}
 
-	public function delete($p=1, $o=0, $id='')
+	public function delete($p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('h', "kelompok/index/$p/$o");
 		$this->kelompok_model->delete($id);
 		redirect("kelompok/index/$p/$o");
 	}
 
-	public function delete_all($p=1, $o=0)
+	public function delete_all($p = 1, $o = 0)
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_all();
 		redirect("kelompok/index/$p/$o");
 	}
 
-	public function insert_a($id=0)
+	public function insert_a($id = 0)
 	{
 		$this->kelompok_model->insert_a($id);
 		redirect("kelompok/anggota/$id");
 	}
 
-	public function update_a($id='', $id_a=0)
+	public function update_a($id = '', $id_a = 0)
 	{
 		$this->kelompok_model->update_a($id, $id_a);
 		redirect("kelompok/anggota/$id");
@@ -293,7 +279,7 @@ class Kelompok extends Admin_Controller {
 		$filter = $id;
 		if ($filter != 0)
 			$this->session->filter = $filter;
-		else  $this->session->unset_userdata(['filter']);
+		else $this->session->unset_userdata(['filter']);
 		redirect('kelompok');
 	}
 }

@@ -27,20 +27,20 @@
 					<thead>
 						<tr class="border thick">
 							<th>NO</th>
-							<th>NAMA</th>
+							<th>NAMA KELOMPOK</th>
 							<th>NAMA KETUA</th>
 							<th>KATEGORI KELOMPOK</th>
 							<th>JUMLAH ANGGOTA</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $data): ?>
+						<?php foreach ($main as $key => $data): ?>
 							<tr>
-								<td><?= $data['no']; ?></td>
+								<td align="center"><?= ($key + 1); ?></td>
 								<td><?= $data['nama']; ?></td>
 								<td><?= $data['ketua']; ?></td>
 								<td><?= $data['master']; ?></td>
-								<td><?= $data['jml_anggota']; ?></td>
+								<td align="center"><?= $data['jml_anggota']; ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

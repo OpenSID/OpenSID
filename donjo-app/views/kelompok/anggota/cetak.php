@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</tr>
 		<tr>
 			<td align="center" >
-				<h4><u>Daftar Anggota Kelopok <?= ucwords($kelompok['nama']); ?></u></h4>
+				<h4><u>Daftar Anggota Kelompok <?= ucwords($kelompok['nama']); ?></u></h4>
 			</td>
 		</tr>
 		<tr>
