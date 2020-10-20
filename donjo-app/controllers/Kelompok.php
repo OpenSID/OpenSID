@@ -57,7 +57,7 @@ class Kelompok extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
 		$this->_set_page = ['20', '50', '100'];
-		$this->_list_session = ['cari', 'filter', 'state'];
+		$this->_list_session = ['cari', 'filter'];
 	}
 
 	public function clear()
@@ -212,40 +212,30 @@ class Kelompok extends Admin_Controller {
 		redirect('kelompok');
 	}
 
-	// Digunakan dimana ???
-	public function state()
-	{
-		$filter = $this->input->post('state');
-		if ($filter != 0)
-			$this->session->state = $filter;
-		else $this->session->unset_userdata(['state']);
-		redirect('kelompok');
-	}
-
 	public function insert()
 	{
 		$this->kelompok_model->insert();
 		redirect('kelompok');
 	}
 
-	public function update($p = 1, $o = 0, $id = '')
+	public function update($id = '')
 	{
 		$this->kelompok_model->update($id);
-		redirect("kelompok/index/$p/$o");
+		redirect("kelompok");
 	}
 
-	public function delete($p = 1, $o = 0, $id = '')
+	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h', "kelompok/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete($id);
-		redirect("kelompok/index/$p/$o");
+		redirect("kelompok");
 	}
 
-	public function delete_all($p = 1, $o = 0)
+	public function delete_all()
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_all();
-		redirect("kelompok/index/$p/$o");
+		redirect("kelompok");
 	}
 
 	public function insert_a($id = 0)

@@ -75,7 +75,7 @@ class Kelompok_model extends MY_Model {
 		$value = $this->session->filter;
 		if (isset($value))
 		{
-			$filter_sql= " AND u.id_master = $value";
+			$filter_sql = " AND u.id_master = $value";
 			return $filter_sql;
 		}
 	}
