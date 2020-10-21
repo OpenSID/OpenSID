@@ -180,7 +180,8 @@
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	// $limit = 0 mengambil semua
+	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		$tanggal_pemilihan = $this->tanggal_pemilihan();
 		$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
@@ -208,7 +209,7 @@
 		}
 
 		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
 
 		$sql .= $order_sql;
 		$sql .= $paging_sql;

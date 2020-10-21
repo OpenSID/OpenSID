@@ -544,7 +544,7 @@ class Penduduk extends Admin_Controller {
 
 	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
 	{
-		$data['main'] = $this->penduduk_model->list_data($o, 0, 10000);
+		$data['main'] = $this->penduduk_model->list_data($o, 0);
 
 		if ($privasi_nik == 1) $data['privasi_nik'] = true;
 		$this->load->view("sid/kependudukan/penduduk_$aksi", $data);

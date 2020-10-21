@@ -124,7 +124,7 @@ class Keluarga extends Admin_Controller {
 
 	public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
 	{
-		$data['main'] = $this->keluarga_model->list_data($o, 0, 10000);
+		$data['main'] = $this->keluarga_model->list_data($o, 0);
 		if ($privasi_kk == 1) $data['privasi_kk'] = true;
 		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
 	}
