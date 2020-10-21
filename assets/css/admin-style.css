@@ -449,7 +449,7 @@ td.aksi {
 }
 
 textarea {
-	resize: none;
+	resize: vertical;
 }
 
 .input-sm {

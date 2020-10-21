@@ -79,6 +79,12 @@
 										<input  id="no_anggota" class="form-control input-sm number" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?=$pend['no_anggota']; ?>">
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+									<div class="col-sm-5">
+										 <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3"><?= $pend['keterangan']; ?></textarea>
+									 </div>
+								</div>
 							</div>
 						</div>
 						<div class="box-footer">

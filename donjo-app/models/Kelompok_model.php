@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -36,11 +38,11 @@
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
  * @package OpenSID
- * @author  Tim Pengembang OpenDesa
+ * @author Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ * @license http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link https://github.com/OpenSID/OpenSID
  */
 
 class Kelompok_model extends MY_Model {
@@ -58,39 +60,38 @@ class Kelompok_model extends MY_Model {
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		$value = $this->session->cari;
+		if (isset($value))
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
+			$kw = $this->db->escape_like_str($value);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
+			$search_sql = " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		$value = $this->session->filter;
+		if (isset($value))
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND u.id_master = $kf";
+			$filter_sql = " AND u.id_master = $value";
 			return $filter_sql;
 		}
 	}
 
-	public function paging($p=1, $o=0)
+	public function paging($p = 1, $o = 0)
 	{
 		$sql = "SELECT COUNT(*) AS jml ";
 		$sql .= $this->list_data_sql();
 
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
-		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $row['jml'];
 		$this->paging->init($cfg);
 
 		return $this->paging;
@@ -107,20 +108,21 @@ class Kelompok_model extends MY_Model {
 		return $sql;
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	// $limit = 0 mengambil semua
+	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		switch ($o)
 		{
 			case 1: $order_sql = ' ORDER BY u.nama'; break;
 			case 2: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.nama'; break;
-			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
+			case 3: $order_sql = ' ORDER BY c.nama'; break;
+			case 4: $order_sql = ' ORDER BY c.nama DESC'; break;
 			case 5: $order_sql = ' ORDER BY master'; break;
 			case 6: $order_sql = ' ORDER BY master DESC'; break;
 			default:$order_sql = ' ORDER BY u.nama';
 		}
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
 
 		$select_sql = "SELECT u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota ";
 
@@ -131,12 +133,6 @@ class Kelompok_model extends MY_Model {
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 
-		$j = $offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no']=$j+1;
-			$j++;
-		}
 		return $data;
 	}
 
@@ -153,7 +149,7 @@ class Kelompok_model extends MY_Model {
 	public function insert()
 	{
 		$data = $this->validasi($this->input->post());
-		$datax = array();
+		$datax = [];
 
 		$outpa = $this->db->insert('kelompok', $data);
 		$insert_id = $this->db->insert_id();
@@ -161,20 +157,21 @@ class Kelompok_model extends MY_Model {
 		$datax['id_kelompok'] = $insert_id;
 		$datax['id_penduduk'] = $data['id_ketua'];
 		$datax['no_anggota'] = 1;
+		$datax['keterangan'] = 'Ketua Kelompok'; // keteranga Default untuk Ketua Kelompok
 		$outpb = $this->db->insert('kelompok_anggota', $datax);
 
-		if ($outpa && $outpb) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outpb); //Tampilkan Pesan
 	}
 
 	private function validasi_anggota($post)
 	{
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
+		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
 	}
 
-	public function insert_a($id=0)
+	public function insert_a($id = 0)
 	{
 		$data = $this->validasi_anggota($this->input->post());
 		$data['id_kelompok'] = $id;
@@ -185,7 +182,7 @@ class Kelompok_model extends MY_Model {
 			->where('id_kelompok', $id)
 			->where('id_penduduk', $data['id_penduduk'])
 			->get()->row_array();
-		if (! $sdh_ada)
+		if ( ! $sdh_ada)
 		{
 			$outp = $this->db->insert('kelompok_anggota', $data);
 		}
@@ -193,7 +190,7 @@ class Kelompok_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update($id=0)
+	public function update($id = 0)
 	{
 		$data = $this->validasi($this->input->post());
 
@@ -203,7 +200,7 @@ class Kelompok_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_a($id=0, $id_a=0)
+	public function update_a($id = 0, $id_a = 0)
 	{
 		$data = $this->validasi_anggota($this->input->post());
 
@@ -215,13 +212,13 @@ class Kelompok_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id = '', $semua = FALSE)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kelompok');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -231,17 +228,17 @@ class Kelompok_model extends MY_Model {
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id, $semua=true);
+			$this->delete($id, $semua=TRUE);
 		}
 	}
 
-	public function delete_anggota($id='', $semua=false)
+	public function delete_anggota($id = '', $semua = FALSE)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, $gagal_saja=TRUE); //Tampilkan Pesan
 	}
 
 	public function delete_anggota_all()
@@ -251,7 +248,7 @@ class Kelompok_model extends MY_Model {
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete_anggota($id, $semua=true);
+			$this->delete_anggota($id, $semua=TRUE);
 		}
 	}
 
@@ -288,10 +285,10 @@ class Kelompok_model extends MY_Model {
 		$data = $query->row_array();
 		$data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
 
-		return  $data;
+		return $data;
 	}
 
-	public function get_anggota($id=0, $id_a=0)
+	public function get_anggota($id = 0, $id_a = 0)
 	{
 		$sql = "SELECT * FROM kelompok_anggota WHERE id_kelompok = ? AND id_penduduk = ?";
 		$query = $this->db->query($sql,array($id, $id_a));
@@ -317,7 +314,7 @@ class Kelompok_model extends MY_Model {
 		return sql_in_list(array_column($anggota, 'id'));
 	}
 
-	public function list_penduduk($ex_kelompok='')
+	public function list_penduduk($ex_kelompok = '')
 	{
 		if ($ex_kelompok)
 		{
@@ -329,16 +326,16 @@ class Kelompok_model extends MY_Model {
 			->select('p.id, nik, nama')
 			->select("(
 				case when (p.id_kk IS NULL or p.id_kk = 0)
-				  then
-				  	case when (cp.dusun = '-' or cp.dusun = '')
-				  		then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
-				  		else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
-				  	end
-				  else
-				  	case when (ck.dusun = '-' or ck.dusun = '')
-				  		then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
-				  		else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
-				  	end
+					then
+						case when (cp.dusun = '-' or cp.dusun = '')
+							then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+							else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+						end
+					else
+						case when (ck.dusun = '-' or ck.dusun = '')
+							then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+							else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+						end
 				end) AS alamat")
 			->from('penduduk_hidup p')
 			->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
