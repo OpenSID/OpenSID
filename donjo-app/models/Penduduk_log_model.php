@@ -229,7 +229,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->rt_sql();
 	}
 
-	public function list_data($o=0, $offset=0, $limit=500)
+	// $limit = 0 mengambil semua
+	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		//Main Query
 		$this->db
@@ -257,7 +258,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 
 		//Paging SQL
-		$this->db->limit($limit, $offset);
+		if ($limit > 0) $this->db->limit($limit, $offset);
 		$data = $this->db->get()->result_array();
 
 		//Formating Output
