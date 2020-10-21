@@ -153,7 +153,7 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("kelompok/daftar/$aksi/$id");
+		$data['form_action'] = site_url("kelompok/daftar_anggota/$aksi/$id");
 
 		$this->load->view('global/ttd_pamong', $data);
 	}
@@ -165,12 +165,12 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("kelompok/cetak/$aksi");
+		$data['form_action'] = site_url("kelompok/daftar/$aksi");
 
 		$this->load->view('global/ttd_pamong', $data);
 	}
 
-	public function cetak($aksi = 'cetak')
+	public function daftar($aksi = 'cetak')
 	{
 		$post = $this->input->post();
 		$data['aksi'] = $aksi;
@@ -186,7 +186,7 @@ class Kelompok extends Admin_Controller {
 		$this->load->view('global/format_cetak', $data);
 	}
 
-	public function daftar($aksi = 'cetak', $id = 0)
+	public function daftar_anggota($aksi = 'cetak', $id = 0)
 	{
 		$post = $this->input->post();
 		$data['aksi'] = $aksi;

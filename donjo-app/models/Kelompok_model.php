@@ -65,7 +65,7 @@ class Kelompok_model extends MY_Model {
 		{
 			$kw = $this->db->escape_like_str($value);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
+			$search_sql = " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -108,7 +108,8 @@ class Kelompok_model extends MY_Model {
 		return $sql;
 	}
 
-	public function list_data($o = 0, $offset = 0, $limit = 3000)
+	// $limit = 0 mengambil semua
+	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		switch ($o)
 		{
@@ -121,7 +122,7 @@ class Kelompok_model extends MY_Model {
 			default:$order_sql = ' ORDER BY u.nama';
 		}
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
 
 		$select_sql = "SELECT u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota ";
 
