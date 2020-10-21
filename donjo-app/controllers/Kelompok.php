@@ -182,6 +182,7 @@ class Kelompok extends Admin_Controller {
 
 		$data['file'] = "Data Kelompok"; // nama file
 		$data['isi'] = "kelompok/cetak";
+		$data['letak_ttd'] = ['1', '1', '1'];
 
 		$this->load->view('global/format_cetak', $data);
 	}
@@ -199,6 +200,7 @@ class Kelompok extends Admin_Controller {
 
 		$data['file'] = "Laporan Data Kelompok " . $data['kelompok']['nama']; // nama file
 		$data['isi'] = "kelompok/anggota/cetak";
+		$data['letak_ttd'] = ['2', '3', '2'];
 
 		$this->load->view('global/format_cetak', $data);
 	}

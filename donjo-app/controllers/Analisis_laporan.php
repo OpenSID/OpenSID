@@ -224,6 +224,7 @@ class Analisis_laporan extends Admin_Controller {
 		$data['isi'] = "analisis_laporan/table_print";
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['main'] = $this->analisis_laporan_model->list_data($o, 0, 10000);
+		$data['letak_ttd'] = ['2', '2', '1'];
 
 		$this->load->view('global/format_cetak', $data);
 	}
