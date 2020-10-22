@@ -31,6 +31,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 25. #3670: Sekarang jumlah data tidak dibatasi untuk cetak/unduh Penduduk, Keluarga, Rumah Tangga, Calon Pemilih dan Log Penduduk.
 26. #3681: Tambah kolom keterangan untuk anggota kelompok di Kependudukan > Kelompok.
 27. #3695: Ikon notifikasi di header halaman admin tidak tampil merah apabila tidak ada notifikasi. [bug-fix]
+28. #3694: Sekarang tautan ke rumah tangga di daftar penduduk mengarah ke halaman yang benar. [bug-fix]
 
 
 
