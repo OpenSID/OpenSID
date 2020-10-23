@@ -70,13 +70,15 @@
 			<table width="100%">
 				<tr>
 					<td colspan="<?= $letak_ttd[0]; ?>" width="10%">&nbsp;</td>
-					<td colspan="<?= $letak_ttd[1]; ?>" width="20%">
-						Mengetahui
-						<br><?= $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa']?>
-						<br><br><br><br>
-						<br><u>( <?= $pamong_ketahui['pamong_nama']?> )</u>
-						<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
-					</td>
+					<?php if(!empty($pamong_ketahui)) :?>
+						<td colspan="<?= $letak_ttd[1]; ?>" width="20%">
+							Mengetahui
+							<br><?= $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa']?>
+							<br><br><br><br>
+							<br><u>( <?= $pamong_ketahui['pamong_nama']?> )</u>
+							<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
+						</td>
+					<?php endif; ?>
 					<td colspan="<?= $letak_ttd[2]; ?>" width="40%">&nbsp;</td>
 					<td width="20%" nowrap>
 						<?= ucwords($this->setting->sebutan_desa) . ' ' . $config['nama_desa']?>, <?= tgl_indo(date("Y m d"))?>
