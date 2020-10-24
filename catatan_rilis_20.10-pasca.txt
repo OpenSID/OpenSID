@@ -34,6 +34,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 28. #3694: Sekarang tautan ke rumah tangga di daftar penduduk mengarah ke halaman yang benar. [bug-fix]
 29. #3685: Sekarang nomor urut tampil di cetak/unduh laporan Rumah Tangga. [bug-fix]
 30. #3664: Perjelas keterangan apabila tidak ada penduduk 'lepas' yang dapat ditambahkan sebagai kepala keluarga atau anggota keluarga baru.
+31. #3693: Sesuaikan sebutan kepala desa di laporan cetak/unduh statistik kependudukan.
 
 
 
