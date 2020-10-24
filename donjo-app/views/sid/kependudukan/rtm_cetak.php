@@ -36,9 +36,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $data): ?>
+						<?php foreach ($main as $key => $data): ?>
 							<tr>
-								<td width="2"><?= $data['no']?></td>
+								<td class="text-center" width="2"><?= ($key + 1); ?></td>
 								<td><?= $data['no_kk']?></td>
 								<td><?= strtoupper($data['kepala_kk'])?></td>
 								<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>

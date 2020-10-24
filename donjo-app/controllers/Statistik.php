@@ -117,38 +117,40 @@ class Statistik extends Admin_Controller {
 		}
 	}
 
+	public function dialog($aksi = '')
+	{
+		$data['aksi'] = $aksi;
+		$data['lap'] = $this->session->lap;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("statistik/daftar/$aksi/$data[lap]");
+
+		$this->load->view("statistik/ajax_daftar", $data);
+	}
+
 	/*
 	* $aksi = cetak/unduh
 	*/
 	public function daftar($aksi = '', $lap = '')
 	{
+		foreach ($this->_list_session as $list)
+		{
+			$data[$list] = $this->session->$list;
+		}
+
+		$post = $this->input->post();
 		$data['aksi'] = $aksi;
-		$data['lap'] = $this->session->lap;
+		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
+		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+		$data['config'] = $this->header['desa'];
+		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
+		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+		$data['laporan_no'] = $post['laporan_no'];
 
-		if ($lap or $lap == '0')
-		{
-			foreach ($this->_list_session as $list)
-			{
-				$data[$list] = $this->session->$list;
-			}
+		$data['file'] = "Statistik penduduk"; // nama file
+		$data['isi'] = "statistik/penduduk_cetak";
+		$data['letak_ttd'] = ['1', '1', '1'];
 
-			$post = $this->input->post();
-			$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
-			$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-			$data['config'] = $this->config_model->get_data();
-			$data['main'] = $this->laporan_penduduk_model->list_data($lap);
-			$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
-			$data['laporan_no'] = $post['laporan_no'];
-
-			$this->load->view("statistik/penduduk_$aksi", $data);
-		}
-		else
-		{
-			$data['pamong'] = $this->pamong_model->list_data();
-			$data['form_action'] = site_url("statistik/daftar/$aksi/$data[lap]");
-
-			$this->load->view("statistik/ajax_daftar", $data);
-		}
+		$this->load->view('global/format_cetak', $data);
 	}
 
 	public function rentang_umur()

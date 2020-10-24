@@ -30,6 +30,12 @@ Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 24. #3683: Analisis > Laporan Hasil Klasifikasi sekarang menampilkan hasil dengan nilai minimal. [bug-fix]
 25. #3670: Sekarang jumlah data tidak dibatasi untuk cetak/unduh Penduduk, Keluarga, Rumah Tangga, Calon Pemilih dan Log Penduduk.
 26. #3681: Tambah kolom keterangan untuk anggota kelompok di Kependudukan > Kelompok.
+27. #3695: Ikon notifikasi di header halaman admin tidak tampil merah apabila tidak ada notifikasi. [bug-fix]
+28. #3694: Sekarang tautan ke rumah tangga di daftar penduduk mengarah ke halaman yang benar. [bug-fix]
+29. #3685: Sekarang nomor urut tampil di cetak/unduh laporan Rumah Tangga. [bug-fix]
+30. #3664: Perjelas keterangan apabila tidak ada penduduk 'lepas' yang dapat ditambahkan sebagai kepala keluarga atau anggota keluarga baru.
+31. #3693: Sesuaikan sebutan kepala desa di laporan cetak/unduh statistik kependudukan.
+32. #3702: Ubah data master kelompok sekarang membuka form yang benar. [bug-fix]
 
 Fitur Premium:
 

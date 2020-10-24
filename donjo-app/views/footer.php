@@ -47,36 +47,39 @@
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
 
+			function tampil_badge(elem, url)
+			{
+				elem.load(url);
+				setTimeout(function()
+				{
+					if ( elem.text().trim().length )
+						elem.show();
+					else
+						elem.hide();
+				}, 500);
+			}
+
+			function refresh_badge(elem, url)
+			{
+				if ( ! elem.length) return;
+
+				tampil_badge(elem, url);
+				var refreshInbox = setInterval(function()
+				{
+					tampil_badge(elem, url);
+				}, 10000);
+			}
+
 			$('document').ready(function()
 			{
 
 				setTimeout(function()
 				{
-					if ( $("#b_permohonan_surat").length )
-					{
-						$("#b_permohonan_surat").load("<?= site_url()?>notif/permohonan_surat");
-						var refreshPermohonan = setInterval(function()
-						{
-							$("#b_permohonan_surat").load("<?= site_url()?>notif/permohonan_surat");
-						}, 10000);
-					}
-					if ( $("#b_komentar").length )
-					{
-						$("#b_komentar").load("<?= site_url()?>notif/komentar");
-						var refreshKomentar = setInterval(function()
-						{
-							$("#b_komentar").load("<?= site_url()?>notif/komentar");
-						}, 10000);
-					}
-					if ( $("#b_inbox").length )
-					{
-						$("#b_inbox").load("<?= site_url()?>notif/inbox");
-						var refreshInbox = setInterval(function()
-						{
-							$("#b_inbox").load("<?= site_url()?>notif/inbox");
-						}, 10000);
-					}
+					refresh_badge($("#b_permohonan_surat"), "<?= site_url('notif/permohonan_surat'); ?>");
+					refresh_badge($("#b_komentar"), "<?= site_url('notif/komentar'); ?>");
+					refresh_badge($("#b_inbox"), "<?= site_url('notif/inbox'); ?>");
 				}, 500);
+
 				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';
