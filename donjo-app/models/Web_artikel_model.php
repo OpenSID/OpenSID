@@ -556,16 +556,6 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function insert_comment($id=0)
-	{
-		$data = $_POST;
-		$data['enabled'] = 2;
-		$data['id_artikel'] = $id;
-		$outp = $this->db->insert('komentar', $data);
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
 	public function list_komentar($id=0)
 	{
 		$sql = "SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC";

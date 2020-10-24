@@ -409,7 +409,7 @@ class First_artikel_m extends CI_Model {
 	}
 
 	public function get_artikel($url)
-	{		
+	{
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
 			->from('artikel a')
 			->join('user u', 'a.id_user = u.id', 'left')
@@ -503,10 +503,10 @@ class First_artikel_m extends CI_Model {
 	 */
 	public function insert_comment($id=0)
 	{
-		$data['komentar'] = strip_tags($_POST["komentar"]);
-		$data['owner'] = strip_tags($_POST["owner"]);
-		$data['no_hp'] = strip_tags($_POST["no_hp"]);
-		$data['email'] = strip_tags($_POST["email"]);
+		$data['komentar'] = htmlentities($_POST["komentar"]);
+		$data['owner'] = htmlentities($_POST["owner"]);
+		$data['no_hp'] = bilangan($_POST["no_hp"]);
+		$data['email'] = email($_POST["email"]);
 
 		// load library form_validation
 		$this->load->library('form_validation');
