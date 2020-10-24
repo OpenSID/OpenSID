@@ -220,10 +220,10 @@ class Kelompok extends Admin_Controller {
 		redirect('kelompok');
 	}
 
-	public function update($id = '')
+	public function update($p = 1, $o = 0, $id = '')
 	{
 		$this->kelompok_model->update($id);
-		redirect("kelompok");
+		redirect("kelompok/index/$p/$o");
 	}
 
 	public function delete($id = '')
