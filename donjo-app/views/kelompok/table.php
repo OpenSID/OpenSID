@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * File ini:
  *
- * View untuk modul Kelompok
+ * View daftar kelompok di modul Kelompok
  *
  * donjo-app/views/kelompok/table.php
  *
@@ -137,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 															<td class="aksi">
 																<a href="<?= site_url("kelompok/anggota/$data[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Kelompok"><i class="fa fa-list-ol"></i></a>
-																<a href="<?= site_url("kelompok/form/$data[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data Kelompok"><i class='fa fa-edit'></i></a>
+																<a href="<?= site_url("kelompok/form/$p/$o/$data[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data Kelompok"><i class='fa fa-edit'></i></a>
 																<a href="#" data-href="<?= site_url("kelompok/delete/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															</td>
 															<td nowrap><?= $data['nama']; ?></td>
