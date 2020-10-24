@@ -102,12 +102,15 @@ class Kelompok extends Admin_Controller {
 		$this->render('kelompok/anggota/table', $data);
 	}
 
-	public function form($id = 0)
+	public function form($p = 1, $o = 0, $id = '')
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+
 		if ($id)
 		{
 			$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-			$data['form_action'] = site_url("kelompok/update/$id");
+			$data['form_action'] = site_url("kelompok/update/$p/$o/$id");
 		}
 		else
 		{
@@ -217,10 +220,10 @@ class Kelompok extends Admin_Controller {
 		redirect('kelompok');
 	}
 
-	public function update($id = '')
+	public function update($p = 1, $o = 0, $id = '')
 	{
 		$this->kelompok_model->update($id);
-		redirect("kelompok");
+		redirect("kelompok/index/$p/$o");
 	}
 
 	public function delete($id = '')
