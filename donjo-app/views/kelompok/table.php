@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * File ini:
  *
- * View untuk modul Kelompok
+ * View daftar kelompok di modul Kelompok
  *
  * donjo-app/views/kelompok/table.php
  *
