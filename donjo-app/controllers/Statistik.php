@@ -150,7 +150,7 @@ class Statistik extends Admin_Controller {
 		$data['isi'] = "statistik/penduduk_cetak";
 		$data['letak_ttd'] = ['1', '1', '1'];
 
-		$this->load->view('global/format_cetak', $data);		
+		$this->load->view('global/format_cetak', $data);
 	}
 
 	public function rentang_umur()

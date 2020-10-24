@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Statistik Kependudukan
+ * Format cetak untuk modul Statistik Kependudukan
  *
  * donjo-app/views/statistik/penduduk_cetak.php,
  *
@@ -76,37 +76,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</td>
 						</tr>
 						<?php if ($dusun) : ?>
-						<tr>
-							<td class="top" width="60%">
-								<div class="nowrap">
-									<label style="width: 150px;"><?= ucwords($this->setting->sebutan_dusun) ?></label>
-									<label>:</label>
-									<span><?= ucwords($dusun) ?></span>
-								</div>
-							</td>
-						</tr>
+							<tr>
+								<td class="top" width="60%">
+									<div class="nowrap">
+										<label style="width: 150px;"><?= ucwords($this->setting->sebutan_dusun) ?></label>
+										<label>:</label>
+										<span><?= ucwords($dusun) ?></span>
+									</div>
+								</td>
+							</tr>
 						<?php endif ?>
 						<?php if ($rw) : ?>
-						<tr>
-							<td class="top" width="60%">
-								<div class="nowrap">
-									<label style="width: 150px;">RW</label>
-									<label>:</label>
-									<span><?= $rw ?></span>
-								</div>
-							</td>
-						</tr>
+							<tr>
+								<td class="top" width="60%">
+									<div class="nowrap">
+										<label style="width: 150px;">RW</label>
+										<label>:</label>
+										<span><?= $rw ?></span>
+									</div>
+								</td>
+							</tr>
 						<?php endif ?>
 						<?php if ($rt) : ?>
-						<tr>
-							<td class="top" width="60%">
-								<div class="nowrap">
-									<label style="width: 150px;">RT</label>
-									<label>:</label>
-									<span><?= $rt ?></span>
-								</div>
-							</td>
-						</tr>
+							<tr>
+								<td class="top" width="60%">
+									<div class="nowrap">
+										<label style="width: 150px;">RT</label>
+										<label>:</label>
+										<span><?= $rt ?></span>
+									</div>
+								</td>
+							</tr>
 						<?php endif ?>
 					</tbody>
 				</table>
@@ -115,11 +115,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr class="thick">
 							<th class="thick">No</th>
-							<th class="thick"><?= $stat?></th>
-							<th class="thick">Jumlah</th>
+							<th class="thick" width="50%"><?= $stat?></th>
+							<th class="thick" width="16%">Jumlah</th>
 							<?php if ($lap<=20): ?>
-								<th class="thick" width="60">Laki-laki</th>
-								<th class="thick" width="60">Perempuan</th>
+								<th class="thick" width="16%">Laki-laki</th>
+								<th class="thick" width="16%">Perempuan</th>
 							<?php endif; ?>
 						</tr>
 					</thead>
@@ -155,4 +155,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</tr>
 	</tbody>
 </table>
-			
