@@ -51,7 +51,7 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 		  ->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
 			->from('program u')
 			->join('program_peserta pp', 'u.id = pp.program_id', 'left')
-			->join('penduduk_hidup p', 'pp.peserta = p.nik')
+			->join('tweb_penduduk p', 'pp.peserta = p.nik')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
 			->where('u.sasaran', '1')
 			->where('u.status', '1')
