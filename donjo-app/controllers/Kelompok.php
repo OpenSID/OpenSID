@@ -250,7 +250,7 @@ class Kelompok extends Admin_Controller {
 	public function insert_a($id = 0)
 	{
 		$this->kelompok_model->insert_a($id);
-		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "kelompok/anggota/$id";
+		$redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "kelompok/anggota/$id";
 
 		$this->session->unset_userdata('aksi');
 
