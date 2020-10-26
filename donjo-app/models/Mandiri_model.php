@@ -301,7 +301,6 @@ class Mandiri_model extends CI_Model {
 			->join('tweb_penduduk p', 'm.id_pend = p.id', 'left')
 			->get()
 			->row();
-
 		$lg = $row->last_login;
 
 		if ($hash_pin == $row->pin)
@@ -316,8 +315,8 @@ class Mandiri_model extends CI_Model {
 			if (!empty($row))
 			{
 				// Kalau pertama kali login, pengguna perlu mengganti PIN ($_SESSION['lg'] == 1)
-				if ($lg == NULL OR $lg == "0000-00-00 00:00:00")
-					$_SESSION['lg'] = 1;
+				$this->session->lg = ($lg == NULL OR $lg == "0000-00-00 00:00:00") ? 1 : 2;
+
 				$_SESSION['nama'] = $row->nama;
 				$_SESSION['nik'] = $row->nik;
 				$_SESSION['id'] = $row->id;
@@ -328,8 +327,8 @@ class Mandiri_model extends CI_Model {
 					$_SESSION['mandiri'] = 1;
 				}
 			}
+			return;
 		}
-
 		if ($_SESSION['mandiri_try'] > 2)
 		{
 			$_SESSION['mandiri_try'] = $_SESSION['mandiri_try'] - 1;
