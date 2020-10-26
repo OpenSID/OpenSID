@@ -61,7 +61,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Anggota Kelompok"><i class="fa fa-plus"></i> Tambah Anggota Kelompok</a>
+							<div class="btn-group btn-group-vertical">
+								<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota Kelompok</a>
+								<ul class="dropdown-menu" role="menu">
+									<li>
+										<a href="<?= site_url("kelompok/aksi/1/".$kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu Anggota Kelompok</a>
+									</li>
+									<li>
+										<a href="<?= site_url("kelompok/aksi/2/".$kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa Anggota Kelompok</a>
+									</li>
+								</ul>
+							</div>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_anggota_all/$kelompok[id]"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url("kelompok/dialog_anggota/cetak/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota Kelompok <?= $kelompok['nama']; ?>"><i class="fa fa-print"></i> Cetak</a>
 							<a href="<?= site_url("kelompok/dialog_anggota/unduh/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Daftar Anggota Kelompok <?= $kelompok['nama']; ?>"><i class="fa fa-download"></i> Unduh</a>

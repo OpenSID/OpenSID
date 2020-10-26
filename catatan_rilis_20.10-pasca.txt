@@ -36,6 +36,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 30. #3664: Perjelas keterangan apabila tidak ada penduduk 'lepas' yang dapat ditambahkan sebagai kepala keluarga atau anggota keluarga baru.
 31. #3693: Sesuaikan sebutan kepala desa di laporan cetak/unduh statistik kependudukan.
 32. #3702: Ubah data master kelompok sekarang membuka form yang benar. [bug-fix]
+33. #3690: Sekarang bisa tambah beberapa anggota kelompok sekaligus.
 
 
 
