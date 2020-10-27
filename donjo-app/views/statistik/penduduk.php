@@ -193,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<br>
 										1. "Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan".
 										<br>
-										2. "Pada jumlah BUKAN PESERTA dan TOTAL adalah jumlah Penduduk saat ini"
+										2. "Pada jumlah BUKAN PESERTA dan TOTAL berdasarkan jumlah Penduduk yang aktif saat ini"
 									</p>
 									<br><br>
 								<?php endif; ?>
