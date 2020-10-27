@@ -51,7 +51,7 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 		  ->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
 			->from('program u')
 			->join('program_peserta pp', 'u.id = pp.program_id', 'left')
-			->join('penduduk_hidup p', 'pp.peserta = p.nik')
+			->join('tweb_penduduk p', 'pp.peserta = p.nik')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
 			->where('u.sasaran', '1')
 			->where('u.status', '1')
@@ -68,11 +68,15 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 	}
 
 	// hitung jumlah unik penerima bantuan (terkadang satu peserta menerima lebih dari 1 bantuan)
+	// hitung jumlah unik penerima yg bukan penduduk hidup
 	public function hitung_total()
 	{
 		$data = $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
 			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END)) AS laki')
 			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END)) AS perempuan')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.status_dasar <> 1 THEN p.id END))as jumlah_nonaktif')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.status_dasar <> 1 AND p.sex = 1 THEN p.id END)) AS jumlah_nonaktif_laki')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.status_dasar <> 1 AND p.sex = 2 THEN p.id END)) AS jumlah_nonaktif_perempuan')
 			->from('program u')
 			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
 			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
@@ -121,6 +125,9 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 		$data = $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
 			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 1 THEN p.id END)) AS laki')
 			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.sex = 2 THEN p.id END)) AS perempuan')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.status_dasar <> 1 THEN p.id END))as jumlah_nonaktif')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.status_dasar <> 1 AND p.sex = 1 THEN p.id END)) AS jumlah_nonaktif_laki')
+			->select('COUNT(DISTINCT(CASE WHEN pp.program_id = u.id AND p.status_dasar <> 1 AND p.sex = 2 THEN p.id END)) AS jumlah_nonaktif_perempuan')
 			->from('program u')
 			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
 			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
