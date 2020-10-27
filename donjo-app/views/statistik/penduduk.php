@@ -189,7 +189,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</table>
 								</div>
 								<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-									<p class="text-muted text-justify text-red"><b>Catatan:</b> "Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan".</p>
+									<p class="text-muted text-justify text-red"><b>Catatan:</b> 
+										<br>
+										1. "Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan".
+										<br>
+										2. "Pada jumlah BUKAN PESERTA dan TOTAL adalah jumlah Penduduk saat ini"
+									</p>
 									<br><br>
 								<?php endif; ?>
 							</div>
