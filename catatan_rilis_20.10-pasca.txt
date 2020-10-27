@@ -38,6 +38,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 32. #3702: Ubah data master kelompok sekarang membuka form yang benar. [bug-fix]
 33. #3690: Sekarang bisa tambah beberapa anggota kelompok sekaligus.
 34. #3653: Sekarang laporan statistik bantuan penduduk dan keluarga menampilkan semua penerima termasuk yang sudah mati atau pindah. [bug-fix]
+35. Tata ulang script statistik program bantuan. [teknis]
 
 
 
