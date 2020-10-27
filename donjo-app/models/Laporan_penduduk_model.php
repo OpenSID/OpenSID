@@ -245,9 +245,9 @@ class Laporan_penduduk_model extends MY_Model {
 				WHERE p.program_id = $program_id AND o.sex = 2) AS perempuan";
 					//Total Sasaran
 				$sql_sasaran = "SELECT
-				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.status_dasar=1) AS jumlah,
-				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 1 and s.status_dasar=1) AS laki,
-				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 2 and s.status_dasar=1) AS perempuan";
+				(SELECT COUNT(s.id) FROM penduduk_hidup s) AS jumlah,
+				(SELECT COUNT(s.id) FROM penduduk_hidup s WHERE s.sex = 1) AS laki,
+				(SELECT COUNT(s.id) FROM penduduk_hidup s WHERE s.sex = 2) AS perempuan";
 				break;
 
 			case 2:
@@ -416,6 +416,12 @@ class Laporan_penduduk_model extends MY_Model {
 			'perempuan' => $semua['perempuan'] - $total['perempuan'],
 			'laki' => $semua['laki'] - $total['laki']
 		);
+		if (isset($total['jumlah_nonaktif']))
+		{
+			$baris_belum['jumlah'] += $total['jumlah_nonaktif'];
+			$baris_belum['perempuan'] += $total['jumlah_nonaktif_perempuan'];
+			$baris_belum['laki'] += $total['jumlah_nonaktif_laki'];
+		}
 
 		return $baris_belum;
 	}
