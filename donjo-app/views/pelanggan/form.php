@@ -18,7 +18,7 @@
 					<div id="error_msg" class="alert alert-danger" style="display: none;">
 						<h5>Data gagal dimuat, Harap diperiksa di bawah ini : <br></h5>
 						<h5>* API Key tidak terotentifikasi. Periksa API Key di Pengaturan Aplikasi. <br></h5>
-						<h5>* Nama / Kode Desa tidak terdaftar / salah. Periksa Nama Desa yang di daftarkan pada Halaman Pelanggan di Pantau.opensid.my.id. <br></h5>
+						<h5>* Nama / Kode Desa tidak terdaftar / salah. Periksa Nama Desa yang didaftarkan pada Halaman Pelanggan di pantau.opensid.my.id. <br></h5>
 					</div>
 					<div id="isi" class="row">
 						<div class="col-lg-3 col-xs-6">
@@ -113,7 +113,7 @@
 														</tr>
 														<tr>
 															<th class="horizontal">PELAKSANA</th>
-															<td> <span class="pelaksana"> ?></td>
+															<td> <span class="pelaksana"></td>
 														</tr>
 														<tr>
 															<th class="horizontal">API KEY</th>
@@ -135,9 +135,10 @@
 </div>
 <script src="<?= base_url()?>assets/js/axios.min.js"></script>
 <script>
+var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
 async function getPelanggan() {
 	await axios
-	.get('https://pantau.opensid.my.id/index.php/api/pelanggan/customer?token=<?=$this->setting->api_key_opensid?>')
+	.get(tracker_host + '/index.php/api/pelanggan/customer?token=<?=$this->setting->api_key_opensid?>')
 	.then(response => {
 		let info = response.data.PELANGGAN_PREMIUM[0];
 		let id = info.id;
@@ -189,7 +190,7 @@ getPelanggan();
 async function getDesa() {
 	var input = document.getElementById("id_desa").value;
 
-	let response = await axios.get('https://pantau.opensid.my.id/index.php/api/wilayah/desa?token=<?=$this->setting->api_key_opensid?>&id_desa=' + input);
+	let response = await axios.get(tracker_host + '/index.php/api/wilayah/desa?token=<?=$this->setting->api_key_opensid?>&id_desa=' + input);
 	let infodesa = response.data.KODE_WILAYAH[0];
 	let nama_desa = infodesa.nama_desa;
 	let kode_desa = infodesa.kode_desa;
