@@ -117,10 +117,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th class="thick">No</th>
 							<th class="thick" width="50%"><?= $stat?></th>
 							<th class="thick" width="16%">Jumlah</th>
-							<?php if ($lap<=20): ?>
-								<th class="thick" width="16%">Laki-laki</th>
-								<th class="thick" width="16%">Perempuan</th>
-							<?php endif; ?>
+							<th class="thick" width="16%">Laki-laki</th>
+							<th class="thick" width="16%">Perempuan</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -129,10 +127,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="thick" align="center" width="2"><?= $data['no']?></td>
 								<td class="thick"><?= strtoupper($data['nama'])?></td>
 								<td class="thick"><?= $data['jumlah']?></td>
-								<?php if ($lap<=20): ?>
-									<td class="thick"><?= $data['laki']?></td>
-									<td class="thick"><?= $data['perempuan']?></td>
-								<?php endif; ?>
+								<td class="thick"><?= $data['laki']?></td>
+								<td class="thick"><?= $data['perempuan']?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

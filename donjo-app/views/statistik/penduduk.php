@@ -139,21 +139,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<?php else: ?>
 													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/5"); ?>">Jumlah<i class='fa fa-sort fa-sm'></i></a></th>
 												<?php endif; ?>
-												<?php if ($jenis_laporan == 'penduduk'): ?>
-													<?php if ($order_by==4): ?>
-														<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/3"); ?>">Laki-Laki<i class='fa fa-sort-asc fa-sm'></i></a></th>
-													<?php elseif ($order_by==3): ?>
-														<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/4"); ?>">Laki-Laki<i class='fa fa-sort-desc fa-sm'></i></a></th>
-													<?php else: ?>
-														<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/3"); ?>">Laki-Laki<i class='fa fa-sort fa-sm'></i></a></th>
-													<?php endif; ?>
-													<?php if ($order_by==8): ?>
-														<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/7"); ?>">Perempuan<i class='fa fa-sort-asc fa-sm'></i></a></th>
-													<?php elseif ($order_by==7): ?>
-														<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/8"); ?>">Perempuan<i class='fa fa-sort-desc fa-sm'></i></a></th>
-													<?php else: ?>
-														<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/7"); ?>">Perempuan<i class='fa fa-sort fa-sm'></i></a></th>
-													<?php endif; ?>
+												<?php if ($order_by==4): ?>
+													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/3"); ?>">Laki-Laki<i class='fa fa-sort-asc fa-sm'></i></a></th>
+												<?php elseif ($order_by==3): ?>
+													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/4"); ?>">Laki-Laki<i class='fa fa-sort-desc fa-sm'></i></a></th>
+												<?php else: ?>
+													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/3"); ?>">Laki-Laki<i class='fa fa-sort fa-sm'></i></a></th>
+												<?php endif; ?>
+												<?php if ($order_by==8): ?>
+													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/7"); ?>">Perempuan<i class='fa fa-sort-asc fa-sm'></i></a></th>
+												<?php elseif ($order_by==7): ?>
+													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/8"); ?>">Perempuan<i class='fa fa-sort-desc fa-sm'></i></a></th>
+												<?php else: ?>
+													<th colspan="2"><a href="<?= site_url("statistik/order_by/$lap/7"); ?>">Perempuan<i class='fa fa-sort fa-sm'></i></a></th>
 												<?php endif; ?>
 											</tr>
 										</thead>
@@ -177,20 +175,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													elseif ($lap<50):
 														$tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");
 													endif; ?>
-													<?php if ($jenis_laporan == 'penduduk'): ?>
-														<td class="text-right"><a href="<?= $tautan_jumlah?>/1" target="_blank"><?= $data['laki']; ?></a></td>
-														<td class="text-right"><?= $data['persen1']; ?></td>
-														<td class="text-right"><a href="<?= $tautan_jumlah?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
-														<td class="text-right"><?= $data['persen2'];?></td>
-													<?php endif; ?>
+													<td class="text-right"><a href="<?= $tautan_jumlah?>/1" target="_blank"><?= $data['laki']; ?></a></td>
+													<td class="text-right"><?= $data['persen1']; ?></td>
+													<td class="text-right"><a href="<?= $tautan_jumlah?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
+													<td class="text-right"><?= $data['persen2'];?></td>
 												</tr>
 											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
 								<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
-									<p class="text-muted text-justify text-red"><b>Catatan:</b> "Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan".</p>
+									<p class="text-muted text-justify text-red"><b>Catatan:</b>
+										<br>
+										1. Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan.
+										<br>
+										2. Jumlah BUKAN PENERIMA dan TOTAL berdasarkan jumlah peserta yang aktif saat ini.
+									</p>
 									<br><br>
+								<?php endif; ?>
+								<?php if ($lap > 50): ?>
+									<p class="text-muted text-justify text-red"><b>Catatan:</b>
+										<br>
+										1. Jumlah BUKAN PESERTA dan TOTAL berdasarkan jumlah peserta yang aktif saat ini.
+									</p>
 								<?php endif; ?>
 							</div>
 

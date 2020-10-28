@@ -204,7 +204,6 @@ class Shortcode_model extends CI_Model {
   private function penerima_bantuan_penduduk_grafik($stat=0, $tipe=0)
 	{
     $heading = 'Penerima Bantuan (Penduduk)';
-		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_penduduk');
 		$stat = $this->laporan_penduduk_model->list_data('bantuan_penduduk',0);
 		$tipe = $tipe;
 		$st = $stat;
@@ -219,7 +218,6 @@ class Shortcode_model extends CI_Model {
   private function penerima_bantuan_penduduk_daftar($stat=0, $tipe=0)
 	{
 		$heading = 'Penerima Bantuan (Penduduk)';
-		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_penduduk');
 		$stat = $this->laporan_penduduk_model->list_data('bantuan_penduduk',0);
 		$tipe = $tipe;
 		$st = $stat;
@@ -234,7 +232,6 @@ class Shortcode_model extends CI_Model {
   private function penerima_bantuan_keluarga_grafik($stat=0, $tipe=0)
 	{
 		$heading = 'Penerima Bantuan (Keluarga)';
-		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_keluarga');
 		$stat = $this->laporan_penduduk_model->list_data('bantuan_keluarga',0);
 		$tipe = $tipe;
 		$st = $stat;
@@ -249,7 +246,6 @@ class Shortcode_model extends CI_Model {
   private function penerima_bantuan_keluarga_daftar($stat=0, $tipe=0)
 	{
 		$heading = 'Penerima Bantuan (Keluarga)';
-		$jenis_laporan = $this->laporan_penduduk_model->jenis_laporan('bantuan_keluarga');
 		$stat = $this->laporan_penduduk_model->list_data('bantuan_keluarga',0);
 		$tipe = $tipe;
 		$st = $stat;
