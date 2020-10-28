@@ -60,7 +60,6 @@
 					<a href="<?= site_url("kelompok/anggota/$kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Anggota Kelompok</a>
 					</div>
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
-<<<<<<< HEAD
 						<div class="col-md-3">
 							<div class="box-body box-profile">
 								<img class="profile-user-img img-responsive img-circle" src="<?= $pend['foto'] ? AmbilFoto($pend['foto']) : base_url() . 'assets/files/user_pict/kuser.png'; ?>" alt="Foto">
@@ -131,7 +130,6 @@
 							</div>
 						</div>
 					</form>
-
 				</div>
 			</div>
 		</div>
