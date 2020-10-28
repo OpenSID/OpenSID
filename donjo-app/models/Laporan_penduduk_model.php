@@ -205,150 +205,6 @@ class Laporan_penduduk_model extends MY_Model {
 		return $list_judul[$lap];
 	}
 
-	public function jenis_laporan($lap)
-	{
-		$jenis_laporan = "penduduk";
-		if ($lap>50)
-		{
-			// Untuk program bantuan, $lap berbentuk '50<program_id>'
-			$program_id = preg_replace('/^50/', '', $lap);
-			$program = $this->program_bantuan_model->get_sasaran($program_id);
-			// Hanya sasaran=1 yang sasarannya penduduk, yang lain keluarga atau kelompok
-			if ($program['sasaran'] != 1) $jenis_laporan = "keluarga_kelompok";
-		}
-		elseif ($lap>20)
-		{
-			$jenis_laporan = "keluarga_kelompok";
-		}
-
-		return $jenis_laporan;
-	}
-
-	// $lap berbentuk '50<program_id>'
-	public function statistik_program_bantuan($lap=0)
-	{
-		$program_id = preg_replace('/^50/', '', $lap);
-		$program = $this->program_bantuan_model->get_sasaran($program_id);
-		switch ($program['sasaran'])
-		{
-			case 1:
-				# Data penduduk
-				$sql = "SELECT
-				(SELECT COUNT(p.id) FROM program_peserta p
-				LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
-				WHERE p.program_id = $program_id AND o.status_dasar = 1) AS jumlah,
-				(SELECT COUNT(p.id) FROM program_peserta p
-				LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
-				WHERE p.program_id = $program_id AND o.sex = 1 AND o.status_dasar = 1) AS laki,
-				(SELECT COUNT(p.id) FROM program_peserta p
-				LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
-				WHERE p.program_id = $program_id AND o.sex = 2 AND o.status_dasar = 1) AS perempuan";
-					//Total Sasaran
-				$sql_sasaran = "SELECT
-				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.status_dasar=1) AS jumlah,
-				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 1 and s.status_dasar=1) AS laki,
-				(SELECT COUNT(s.id) FROM tweb_penduduk s WHERE s.sex = 2 and s.status_dasar=1) AS perempuan";
-				break;
-
-			case 2:
-				# Data KK
-				# Kolom laki dan perempuan tidak dipakai
-				$sql = "SELECT
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
-				";
-				//Total Sasaran
-				$sql_sasaran = "SELECT
-				(SELECT COUNT(s.id) FROM keluarga_aktif s) AS jumlah,
-				(SELECT COUNT(s.id) FROM keluarga_aktif s) AS laki,
-				(SELECT COUNT(s.id) FROM keluarga_aktif s) AS perempuan";
-				break;
-
-			case 3:
-				# Data Rumah Tangga
-				# Kolom laki dan perempuan tidak dipakai
-				$sql = "SELECT
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
-				";
-					//Total Sasaran
-				$sql_sasaran = "SELECT
-				(SELECT COUNT(s.id) FROM tweb_rtm s) AS jumlah,
-				(SELECT COUNT(s.id) FROM tweb_rtm s) AS laki,
-				(SELECT COUNT(s.id) FROM tweb_rtm s) AS perempuan";
-				break;
-
-			case 4:
-				# Data Kelompok
-				# Kolom laki dan perempuan tidak dipakai
-				$sql = "SELECT
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS jumlah,
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS laki,
-				(SELECT COUNT(p.id) FROM program_peserta p WHERE p.program_id = $program_id) AS perempuan
-				";
-					//Total Sasaran
-				$sql_sasaran = "SELECT
-				(SELECT COUNT(s.id) FROM kelompok s) AS jumlah,
-				(SELECT COUNT(s.id) FROM kelompok s) AS laki,
-				(SELECT COUNT(s.id) FROM kelompok s) AS perempuan";
-				break;
-
-			default:
-				# Tidak lakukan apa-apa
-			break;
-		}
-
-		// Peserta
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		$data[0]['no'] = 1;
-		$data[0]['nama'] ="PESERTA";
-
-		// Total sasaran
-		$query_sasaran = $this->db->query($sql_sasaran);
-		$bel = $query_sasaran->row_array();
-
-		// Yang tidak terdaftar
-		$data[1]['no'] = 2;
-		$data[1]['id'] = "";
-		$data[1]['nama'] = "BUKAN PESERTA";
-		$data[1]['jumlah'] = $bel['jumlah'] - $data[0]['jumlah'];
-		$data[1]['perempuan'] = $bel['perempuan'] - $data[0]['perempuan'];
-		$data[1]['laki'] = $bel['laki'] - $data[0]['laki'];
-
-		$total['jumlah'] = 0;
-		$total['laki'] = 0;
-		$total['perempuan'] = 0;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-			$total['jumlah'] += $data[$i]['jumlah'];
-			$total['laki'] += $data[$i]['laki'];
-			$total['perempuan'] += $data[$i]['perempuan'];
-		}
-
-		$bel['persen'] = 0;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['persen'] = persen($data[$i]['jumlah'] / $bel['jumlah']);
-			$data[$i]['persen1'] = persen($data[$i]['laki'] / $bel['jumlah']);
-			$data[$i]['persen2'] = persen($data[$i]['perempuan'] / $bel['jumlah']);
-			$bel['persen'] += ($data[$i]['jumlah'] / $bel['jumlah']);
-		}
-
-		$bel['no'] = "";
-		$bel['id'] = TOTAL;
-		$bel['nama'] = "TOTAL";
-		$bel['persen'] = persen($bel['persen']);
-		$bel['persen1'] = persen($bel['laki'] / $bel['jumlah']);
-		$bel['persen2'] = persen($bel['perempuan'] / $bel['jumlah']);
-		$data['total'] = $bel;
-
-		return $data;
-	}
-
 	// -------------------- Siapkan data untuk statistik kependudukan -------------------
 
 	protected function hitung_total(&$data)
@@ -416,6 +272,12 @@ class Laporan_penduduk_model extends MY_Model {
 			'perempuan' => $semua['perempuan'] - $total['perempuan'],
 			'laki' => $semua['laki'] - $total['laki']
 		);
+		if (isset($total['jumlah_nonaktif']))
+		{
+			$baris_belum['jumlah'] += $total['jumlah_nonaktif'];
+			$baris_belum['perempuan'] += $total['jumlah_nonaktif_perempuan'];
+			$baris_belum['laki'] += $total['jumlah_nonaktif_laki'];
+		}
 
 		return $baris_belum;
 	}
@@ -622,7 +484,7 @@ class Laporan_penduduk_model extends MY_Model {
 			default:
 				$this->select_jml_penduduk_per_kategori($statistik_penduduk["0"]['id_referensi'], $statistik_penduduk["0"]['tabel_referensi']);
 		}
-
+		return true;
 	}
 
 	protected function get_data_jml()
@@ -649,11 +511,6 @@ class Laporan_penduduk_model extends MY_Model {
 	public function list_data($lap = 0, $o = 0)
 	{
 		$this->lap = $lap;
-		// Laporan program bantuan
-		if ($lap > 50)
-		{
-			return $this->statistik_program_bantuan($lap, $o);
-		}
 
 		$this->load->model('statistik_penduduk_model');
 		if ($statistik = $this->statistik_penduduk_model->statistik($lap))
@@ -670,10 +527,13 @@ class Laporan_penduduk_model extends MY_Model {
 			$judul_belum = 'BELUM MENGISI';
 		}
 
-		$namespace->select_per_kategori();
-		$this->order_by($o);
-		$data = $this->db->get()->result_array();
-		$this->isi_nomor($data);
+		if ($namespace->select_per_kategori())
+		{
+			$this->order_by($o);
+			$data = $this->db->get()->result_array();
+			$this->isi_nomor($data);
+		}
+		else $data = [];
 
 		$semua = $namespace->get_data_jml();
 		$semua = $this->persentase_semua($semua);

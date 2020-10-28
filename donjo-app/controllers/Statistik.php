@@ -67,7 +67,6 @@ class Statistik extends Admin_Controller {
 		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
 		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($data['lap']);
 		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
 		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
@@ -139,7 +138,6 @@ class Statistik extends Admin_Controller {
 
 		$post = $this->input->post();
 		$data['aksi'] = $aksi;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
 		$data['config'] = $this->header['desa'];
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
@@ -283,7 +281,6 @@ class Statistik extends Admin_Controller {
 		$data = $this->get_cluster_session();
 		$data['main'] = $this->laporan_penduduk_model->list_data($lap);
 		$data['lap'] = $lap;
-		$data['jenis_laporan'] = $this->laporan_penduduk_model->jenis_laporan($lap);
 		$this->get_data_stat($data, $lap);
 		$this->load->view('gis/penduduk_gis', $data);
 	}

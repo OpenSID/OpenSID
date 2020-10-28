@@ -39,7 +39,7 @@
 
         case 'testing':
         case 'production':
-          $tracker = "https://pantau.opensid.my.id";
+          $tracker = $this->setting->tracker;
         break;
 
         default:

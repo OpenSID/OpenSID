@@ -125,6 +125,13 @@ class Kelompok extends Admin_Controller {
 		$this->render('kelompok/form', $data);
 	}
 
+	public function aksi($aksi = '', $id = 0)
+	{
+		$this->session->set_userdata('aksi', $aksi);
+
+		redirect("kelompok/form_anggota/$id");
+	}
+
 	public function form_anggota($id = 0, $id_a = 0)
 	{
 		if ($id_a == 0)
@@ -245,7 +252,11 @@ class Kelompok extends Admin_Controller {
 	public function insert_a($id = 0)
 	{
 		$this->kelompok_model->insert_a($id);
-		redirect("kelompok/anggota/$id");
+		$redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "kelompok/anggota/$id";
+
+		$this->session->unset_userdata('aksi');
+
+		redirect($redirect);
 	}
 
 	public function update_a($id = '', $id_a = 0)

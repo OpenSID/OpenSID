@@ -47,12 +47,12 @@
 	<section class="content-header">
 		<h1>Data Anggota Kelompok</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('kelompok')?>"> Daftar Kelompok</a></li>
+			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
 			<li class="active">Data Anggota Kelompok</li>
 		</ol>
 	</section>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
@@ -135,3 +135,5 @@
 		</div>
 	</section>
 </div>
+
+
