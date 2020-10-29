@@ -112,14 +112,14 @@ class Web extends Admin_Controller {
 
 	public function form($id = 0)
 	{
-		$cat = $this->session->kategori ?: 0;
-
-		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
+		$cat = $this->session->kategori ? : 0;
 
 		if ($id)
 		{
 			$cek_data = $this->web_artikel_model->get_artikel($id);
 			if ( ! $cek_data) show_404();
+
+			if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 			$this->session->kategori = $cek_data['id_kategori'];
 			$data['artikel'] = $cek_data;

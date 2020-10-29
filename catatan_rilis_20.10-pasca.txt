@@ -40,6 +40,7 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 34. #3653: Sekarang laporan statistik bantuan penduduk dan keluarga menampilkan semua penerima termasuk yang sudah mati atau pindah. [bug-fix]
 35. Tata ulang script statistik program bantuan. [teknis]
 36. #3713: Sekarang jumlah 'bukan peserta' di statistik bantuan penduduk/keluarga tidak menghitung peserta yang sudah meninggal/pindah/hilang. [bug-fix]
+37. #3712: Sekarang pengguna kontributor dapat membuat artikel kembali. [bug-fix]
 
 
 
