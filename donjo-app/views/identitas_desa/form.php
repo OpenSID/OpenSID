@@ -100,13 +100,15 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_desa" name="nama_desa" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $desa; ?>" value="<?= $main["nama_desa"]; ?>"></input>
+									<select id="mySelect" name="mySelect" class="form-control required input-sm select2-desa" style ="width:100%;"></select>
 								</div>
+								<input type="hidden" id="id_desa" name="id_desa" value="">
+								<input type="hidden" id="nama_desa" name="nama_desa" value="">
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required"  minlength="10" maxlength="10" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
+									<input readonly id="kode_desa" name="kode_desa" class="form-control input-sm" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -154,13 +156,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?= $kecamatan; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kecamatan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
+									<input readonly id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kecamatan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamatan; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text" minlength="6" maxlength="6" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
+									<input readonly id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm" type="text" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -178,30 +180,25 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kabupaten">Nama <?= $kabupaten; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kabupaten; ?>" value="<?= $main["nama_kabupaten"]; ?>"></input>
+									<input readonly id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kabupaten; ?>" value="<?= $main["nama_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kabupaten">Kode <?= $kabupaten; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm bilangan required" minlength="4" maxlength="4" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
+									<input readonly id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
-								<div class="col-sm-4">
-									<select name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));" style="width: 100%;">
-										<option value="">Pilih Provinsi</option>
-										<?php foreach ($list_provinsi AS $data): ?>
-											<option value="<?= $data['nama']; ?>" data-kode="<?= $data['kode']; ?>" <?= selected(strtolower($main['nama_propinsi']), strtolower($data['nama'])); ?>><?= $data['nama']; ?></option>
-										<?php endforeach; ?>
-									</select>
+								<label class="col-sm-3 control-label" for="nama_propinsi">Nama Provinsi</label>
+								<div class="col-sm-8">
+									<input readonly id="nama_propinsi" name="nama_propinsi" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama Propinsi" value="<?= $main["nama_propinsi"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
 								<div class="col-sm-2">
-									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm bilangan required" minlength="2" maxlength="2" type="text" placeholder="Kode Provinsi" value="<?= $main["kode_propinsi"]; ?>"></input>
+									<input readonly id="kode_propinsi" name="kode_propinsi" class="form-control input-sm" type="text" placeholder="Kode Provinsi" value="<?= $main["kode_propinsi"]; ?>"></input>
 								</div>
 							</div>
 						</div>
@@ -215,3 +212,74 @@
 		</div>
 	</section>
 </div>
+<script src="<?= base_url()?>assets/js/axios.min.js"></script>
+
+<script>
+$(document).ready(function()
+{
+	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
+
+	async function cariDesa() {
+
+		let response = await axios.get(tracker_host + '/index.php/api/wilayah/caridesa?q=&page=&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw');
+
+		$('.select2-desa').select2({
+		  ajax: {
+				url: tracker_host + '/index.php/api/wilayah/caridesa?q=&page=&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw',
+		    dataType: 'json',
+		    delay: 250,
+		    data: function (params) {
+		      return {
+		        q: params.term || '',
+		        page: params.page || 1,
+		      };
+		    },
+		    processResults: function (data, params) {
+		      return {
+		        results: data.results,
+		        pagination: data.pagination
+		      };
+		    },
+		    cache: true
+		  },
+			placeholder: '--  Cari Nama Desa --',
+		  minimumInputLength: 0,
+		});
+
+	}
+	cariDesa();
+
+	$(function(){
+		$('#mySelect').select2({}).on('change', function(e) {
+			var data = $("#mySelect option:selected").val();
+			$("#id_desa").val(data);
+			ambilDesa();
+		});
+	});
+
+	async function ambilDesa() {
+		var input = document.getElementById("id_desa").value;
+
+		let response = await axios.get(tracker_host + '/index.php/api/wilayah/ambildesa?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw&id_desa=' + input);
+		let infodesa = response.data.KODE_WILAYAH[0];
+		let nama_desa = infodesa.nama_desa;
+		let kode_desa = infodesa.kode_desa;
+		let nama_kec = infodesa.nama_kec;
+		let kode_kec = infodesa.kode_kec;
+		let nama_kab = infodesa.nama_kab;
+		let kode_kab = infodesa.kode_kab;
+		let nama_prov = infodesa.nama_prov;
+		let kode_prov= infodesa.kode_prov;
+
+		$('[name="nama_desa"]').val(infodesa.nama_desa);
+		$('[name="kode_desa"]').val(infodesa.kode_desa);
+		$('[name="nama_kecamatan"]').val(infodesa.nama_kec);
+		$('[name="kode_kecamatan"]').val(infodesa.kode_kec);
+		$('[name="nama_kabupaten"]').val(infodesa.nama_kab);
+		$('[name="kode_kabupaten"]').val(infodesa.kode_kab);
+		$('[name="nama_propinsi"]').val(infodesa.nama_prov);
+		$('[name="kode_propinsi"]').val(infodesa.kode_prov);
+	}
+
+});
+</script>
