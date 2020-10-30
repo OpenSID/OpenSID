@@ -17,7 +17,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav custom_nav">
-                <li class=""><a href="<?= site_url()."first"?>">Beranda</a></li>
+                <li class=""><a href="<?= site_url(); ?>">Beranda</a></li>
                 <?php foreach($menu_atas as $data) { ?>
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="<?= $data['link']?>"><?= $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
@@ -34,7 +34,7 @@
                 <?php } ?>
                 <li><a href="<?= site_url()."siteman"?>" target="_blank">Login</a></li>
                 <div class="hidden-xs navbar-right" style="margin-right: 15px; margin-top: 10px">
-                	<form method=get action="<?= site_url('first');?>" class="form-inline">
+                	<form method=get action="<?= site_url(); ?>" class="form-inline">
                 		<input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel">
                 		<button type="submit" class="btn btn-primary">Cari</button>
                 	</form>	

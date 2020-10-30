@@ -10,7 +10,7 @@
 							<tr>
 								<td class="hidden-xs"><img class="tlClogo" src="<?= gambar_desa($desa['logo']);?>" width="30" valign="top" alt="<?= $desa['nama_desa']?>"/></td>
 								<td>
-									<a href="<?= site_url(); ?>first">
+									<a href="<?= site_url(); ?>">
 										<font size="4"><?= $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
 									</font><br /><font size="2">
 										<?= ucwords($this->setting->sebutan_kecamatan_singkat." ".$desa['nama_kecamatan'])?>

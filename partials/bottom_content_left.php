@@ -22,9 +22,9 @@
                         <li>
                             <div class="catgimg2_container2">
                                 <h5 class="catg_titile">
-                                    <a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
+                                    <a href="<?= site_url('artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
                                 </h5>
-                                <a href="<?= site_url('first/artikel/'.buat_slug($headline))?>">
+                                <a href="<?= site_url('artikel/'.buat_slug($headline))?>">
                                 <?php if ($headline["gambar"] != ""): ?>
                                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
                                 <img src="<?= AmbilFotoArtikel($headline['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" />
@@ -65,7 +65,7 @@
                     <li>
                         <div class="catgimg2_container2">
                             <h5 class="catg_titile">
-                                <a href="<?= site_url('first/artikel/'.buat_slug($data))?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
+                                <a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
                             </h5>
                             <div class="post_commentbox">
                                 <span class="meta_date"><?= tgl_indo($data['tgl_upload']);?>&nbsp;
@@ -75,7 +75,7 @@
                                 echo number_format($komentarku,0,',','.'); ?>&nbsp;
                                 </span>
                             </div>
-                            <a href="<?= site_url('first/artikel/'.buat_slug($data))?>" title="Baca Selengkapnya" style="font-weight:bold">
+                            <a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya" style="font-weight:bold">
                             <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])): ?>
                             <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
                             <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
@@ -111,11 +111,11 @@
     <div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
     <ul class="pagination">
         <?php if ($paging->start_link): ?>
-        <li><a href="<?= site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
+        <li><a href="<?= site_url($paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
         <?php endif; ?>
         <?php foreach ($pages as $i): ?>
         <li <?= ($p == $i) ? 'class="active"' : "" ?>>
-            <a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
+            <a href="<?= site_url($paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
         </li>
         <?php endforeach; ?>
         <?php if ($i != $paging->end_link): ?>
@@ -124,7 +124,7 @@
         </li>
         <?php endif; ?>
         <?php if ($paging->end_link): ?>
-        <li><a href="<?= site_url("first/".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
+        <li><a href="<?= site_url($paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
         <?php endif; ?>
     </ul>
 </div>
