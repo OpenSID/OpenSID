@@ -1,4 +1,4 @@
-Di rilis ini, versi 20.11. Rilis ini berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.11 tersedia perbaikan modul analisis. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi.
 
@@ -44,5 +44,5 @@ Lengkapnya, isi rilis versi 20.11 adalah sebagai berikut:
 
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
