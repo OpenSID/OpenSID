@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.10-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.11 tersedia perbaikan modul analisis. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.11 adalah sebagai berikut:
 
 1. #3594: Sekarang form Surat Masuk mengharuskan klasifikasi surat diisi, dan tidak error apabila tujuan disposisi belum diisi. [bug-fix]
 2. Perbaikan script controller menyeluruh menghapus yg tidak diperlukan dan menyesuaikan dengan aturan penulisan. [teknis]
@@ -44,5 +44,5 @@ Lengkapnya, isi rilis versi 20.10-pasca adalah sebagai berikut:
 
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
