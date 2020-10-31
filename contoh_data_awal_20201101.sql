@@ -249,8 +249,8 @@ CREATE TABLE `analisis_parameter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_indikator` int(11) NOT NULL,
   `jawaban` varchar(200) NOT NULL,
-  `nilai` tinyint(4) NOT NULL DEFAULT 0,
-  `kode_jawaban` int(3) NOT NULL,
+  `nilai` int(3) NOT NULL DEFAULT 0,
+  `kode_jawaban` int(3) DEFAULT 0,
   `asign` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id_indikator` (`id_indikator`)
@@ -6996,7 +6996,7 @@ CREATE TABLE `log_bulanan` (
   `wna_lk` int(11) DEFAULT NULL,
   `wna_pr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1609 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1610 DEFAULT CHARSET=latin1;
 
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1, 97, 46, 51, 37, '2019-11-30 22:04:42', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (983, 97, 46, 51, 37, '2019-12-31 20:11:58', 28, 9, 0, 0);
@@ -7841,7 +7841,7 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
@@ -7851,6 +7851,8 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (5, '2020070106');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (6, '2020080101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (7, '2020090101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (8, '2020090102');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (9, '2020100103');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (10, '2020110101');
 
 
 #
@@ -8339,7 +8341,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '1', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '20.10', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '20.11', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
@@ -14358,6 +14360,7 @@ CREATE TABLE `kelompok_anggota` (
   `id_kelompok` int(11) NOT NULL,
   `id_penduduk` int(11) NOT NULL,
   `no_anggota` varchar(20) DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_kelompok` (`id_kelompok`,`id_penduduk`),
   CONSTRAINT `kelompok_anggota_fk` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
