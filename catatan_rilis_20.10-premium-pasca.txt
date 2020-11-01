@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.10-premium-pasca, tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.11-premium tersedia perbaikan Layanan Mandiri termasuk penyesuaian untuk anjungan. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ians Shinichi Kudo, Tsamara Ali, Yonathan Rizky, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.11-premium adalah sebagai berikut:
 
 1. #3594: Sekarang form Surat Masuk mengharuskan klasifikasi surat diisi, dan tidak error apabila tujuan disposisi belum diisi. [bug-fix]
 2. Perbaikan script controller menyeluruh menghapus yg tidak diperlukan dan menyesuaikan dengan aturan penulisan. [teknis]
@@ -40,6 +40,7 @@ Lengkapnya, isi rilis versi 20.10-premium-pasca adalah sebagai berikut:
 34. #3653: Sekarang laporan statistik bantuan penduduk dan keluarga menampilkan semua penerima termasuk yang sudah mati atau pindah. [bug-fix]
 35. Tata ulang script statistik program bantuan. [teknis]
 36. #3713: Sekarang jumlah 'bukan peserta' di statistik bantuan penduduk/keluarga tidak menghitung peserta yang sudah meninggal/pindah/hilang. [bug-fix]
+37. #3712: Sekarang pengguna kontributor dapat membuat artikel kembali. [bug-fix]
 
 Fitur Premium:
 
@@ -53,5 +54,5 @@ Fitur Premium:
 8. Sediakan fitur untuk menampilkan status langganan layanan OpenDesa.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-premium, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
