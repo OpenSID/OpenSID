@@ -226,7 +226,7 @@ class Database_model extends CI_Model {
 			// Ulangi migrasi terakhir
 			$terakhir = key(array_slice($this->versionMigrate, -1, 1, true));
 			$sebelumnya = key(array_slice($this->versionMigrate, -2, 1, true));
-			$this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+			$this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
 			$this->migrasi_db_cri();
 		}
 	}
