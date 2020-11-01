@@ -98,6 +98,9 @@ class Database_model extends CI_Model {
 	{
 		parent::__construct();
 
+		$this->load->dbutil();
+		if( ! $this->dbutil->database_exists($this->db->database)) return;
+
 		$this->cek_engine_db();
 		$this->load->dbforge();
 		$this->load->model('surat_master_model');

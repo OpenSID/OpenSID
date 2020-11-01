@@ -24,19 +24,13 @@ class Setting_model extends CI_Model {
 		$pre = array();
 		$CI = &get_instance();
 
-		if ($this->setting)
+		if ($this->setting or ! $this->db->table_exists('setting_aplikasi'))
 		{
 			return;
 		}
+
 		if ($this->config->item("useDatabaseConfig"))
 		{
-			// Paksa menjalankan migrasi kalau tabel setting_aplikasi
-			// belum ada
-			if (!$this->db->table_exists('setting_aplikasi'))
-			{
-				$this->load->model('database_model');
-				$this->database_model->migrasi_db_cri();
-			}
 			$pr = $this->db
 				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' ")
 				->order_by('key')->get("setting_aplikasi")->result();
