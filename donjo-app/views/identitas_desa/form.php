@@ -42,7 +42,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Identitas <?= $desa; ?></h1>
@@ -100,9 +99,8 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<select id="mySelect" name="mySelect" class="form-control required input-sm select2-desa" style ="width:100%;"></select>
+									<select id="select_desa" name="select_desa" class="form-control input-sm select-nama-desa" style ="width:100%;"></select>
 								</div>
-								<input type="hidden" id="id_desa" name="id_desa" value="">
 								<input type="hidden" id="nama_desa" name="nama_desa" value="">
 							</div>
 							<div class="form-group">
@@ -156,13 +154,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?= $kecamatan; ?></label>
 								<div class="col-sm-8">
-									<input readonly id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kecamatan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
+									<input readonly id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm required" type="text" placeholder="Nama <?= $kecamatan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamatan; ?></label>
 								<div class="col-sm-2">
-									<input readonly id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm" type="text" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
+									<input readonly id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm required" type="text" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -180,25 +178,25 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kabupaten">Nama <?= $kabupaten; ?></label>
 								<div class="col-sm-8">
-									<input readonly id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kabupaten; ?>" value="<?= $main["nama_kabupaten"]; ?>"></input>
+									<input readonly id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm required" type="text" placeholder="Nama <?= $kabupaten; ?>" value="<?= $main["nama_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kabupaten">Kode <?= $kabupaten; ?></label>
 								<div class="col-sm-2">
-									<input readonly id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
+									<input readonly id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm required" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_propinsi">Nama Provinsi</label>
 								<div class="col-sm-8">
-									<input readonly id="nama_propinsi" name="nama_propinsi" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama Propinsi" value="<?= $main["nama_propinsi"]; ?>"></input>
+									<input readonly id="nama_propinsi" name="nama_propinsi" class="form-control input-sm required" type="text" placeholder="Nama Propinsi" value="<?= $main["nama_propinsi"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
 								<div class="col-sm-2">
-									<input readonly id="kode_propinsi" name="kode_propinsi" class="form-control input-sm" type="text" placeholder="Kode Provinsi" value="<?= $main["kode_propinsi"]; ?>"></input>
+									<input readonly id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="<?= $main["kode_propinsi"]; ?>"></input>
 								</div>
 							</div>
 						</div>
@@ -212,74 +210,52 @@
 		</div>
 	</section>
 </div>
-<script src="<?= base_url()?>assets/js/axios.min.js"></script>
 
 <script>
 $(document).ready(function()
 {
 	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
 
-	async function cariDesa() {
-
-		let response = await axios.get(tracker_host + '/index.php/api/wilayah/caridesa?q=&page=&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw');
-
-		$('.select2-desa').select2({
-		  ajax: {
-				url: tracker_host + '/index.php/api/wilayah/caridesa?q=&page=&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw',
-		    dataType: 'json',
-		    delay: 250,
-		    data: function (params) {
-		      return {
-		        q: params.term || '',
-		        page: params.page || 1,
-		      };
-		    },
-		    processResults: function (data, params) {
-		      return {
-		        results: data.results,
-		        pagination: data.pagination
-		      };
-		    },
-		    cache: true
-		  },
+	// Select2 - Cari Nama Desa di API Server
+	$('.select-nama-desa').select2({
+		ajax: {
+			url: tracker_host + '/index.php/api/wilayah/caridesa?&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw',
+			dataType: 'json',
+			data: function (params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
+			},
+			processResults: function (data) {
+					return {
+						results: data.results,
+						pagination: data.pagination,
+					}
+				}
+			},
 			placeholder: '--  Cari Nama Desa --',
-		  minimumInputLength: 0,
-		});
-
-	}
-	cariDesa();
-
-	$(function(){
-		$('#mySelect').select2({}).on('change', function(e) {
-			var data = $("#mySelect option:selected").val();
-			$("#id_desa").val(data);
-			ambilDesa();
-		});
+			minimumInputLength: 0,
 	});
 
-	async function ambilDesa() {
-		var input = document.getElementById("id_desa").value;
-
-		let response = await axios.get(tracker_host + '/index.php/api/wilayah/ambildesa?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw&id_desa=' + input);
-		let infodesa = response.data.KODE_WILAYAH[0];
-		let nama_desa = infodesa.nama_desa;
-		let kode_desa = infodesa.kode_desa;
-		let nama_kec = infodesa.nama_kec;
-		let kode_kec = infodesa.kode_kec;
-		let nama_kab = infodesa.nama_kab;
-		let kode_kab = infodesa.kode_kab;
-		let nama_prov = infodesa.nama_prov;
-		let kode_prov= infodesa.kode_prov;
-
-		$('[name="nama_desa"]').val(infodesa.nama_desa);
-		$('[name="kode_desa"]').val(infodesa.kode_desa);
-		$('[name="nama_kecamatan"]').val(infodesa.nama_kec);
-		$('[name="kode_kecamatan"]').val(infodesa.kode_kec);
-		$('[name="nama_kabupaten"]').val(infodesa.nama_kab);
-		$('[name="kode_kabupaten"]').val(infodesa.kode_kab);
-		$('[name="nama_propinsi"]').val(infodesa.nama_prov);
-		$('[name="kode_propinsi"]').val(infodesa.kode_prov);
-	}
+	// Ambil Nama dan Kode Wilayah dari API Server
+	$('[name="select_desa"]').change(function(){
+		$.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/ambildesa?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw&id_desa=' + $(this).val(),
+        dataType: 'json',
+        success: function(data) {
+					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
+				  $('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+				  $('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+				  $('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+				  $('[name="nama_kabupaten"]').val(data.KODE_WILAYAH[0].nama_kab);
+				  $('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+				  $('[name="nama_propinsi"]').val(data.KODE_WILAYAH[0].nama_prov);
+				  $('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+        }
+    });
+	});
 
 });
 </script>
