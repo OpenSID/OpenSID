@@ -60,7 +60,10 @@ $(document).ready(function()
 	}, 2000);
 
 	// Select2 dengan fitur pencarian
-	$('.select2').select2({
+	// Nama class ini harus diganti dgn nama class spesifik jgn nama general "select2" krn berimbas ke semua form yg memakai select2
+	// Pada form yg ada select2 dgn data dari API server, data tidak akan bisa ditampikan
+	// $('.select2').select2({
+	$('.select2-gantinama').select2({
 		width: '100%',
 		dropdownAutoWidth : true
 	});
