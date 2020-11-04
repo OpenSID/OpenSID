@@ -1,0 +1,12 @@
+Di rilis ini, versi 20.11-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru berkontribusi.
+
+Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
+
+1. Perbaiki kode desa/kecamatan/kabupaten yang ditampilkan di beberapa lampiran surat. [bug-fix]
+
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+
