@@ -99,7 +99,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<select id="select_desa" name="select_desa" class="form-control input-sm select-nama-desa" style ="width:100%;"></select>
+									<select id="select_desa" name="select_desa" class="form-control input-sm select-nama-desa" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>' style="width:100%;"></select>
 								</div>
 								<input type="hidden" id="nama_desa" name="nama_desa" value="">
 							</div>
@@ -216,33 +216,11 @@ $(document).ready(function()
 {
 	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
 
-	// Select2 - Cari Nama Desa di API Server
-	$('.select-nama-desa').select2({
-		ajax: {
-			url: tracker_host + '/index.php/api/wilayah/caridesa?&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw',
-			dataType: 'json',
-			data: function (params) {
-				return {
-					q: params.term || '',
-					page: params.page || 1,
-				};
-			},
-			processResults: function (data) {
-					return {
-						results: data.results,
-						pagination: data.pagination,
-					}
-				}
-			},
-			placeholder: '--  Cari Nama Desa --',
-			minimumInputLength: 0,
-	});
-
 	// Ambil Nama dan Kode Wilayah dari API Server
 	$('[name="select_desa"]').change(function(){
 		$.ajax({
         type: 'GET',
-        url: tracker_host + '/index.php/api/wilayah/ambildesa?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw&id_desa=' + $(this).val(),
+        url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
         dataType: 'json',
         success: function(data) {
 					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);

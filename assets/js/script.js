@@ -60,12 +60,33 @@ $(document).ready(function()
 	}, 2000);
 
 	// Select2 dengan fitur pencarian
-	// Nama class ini harus diganti dgn nama class spesifik jgn nama general "select2" krn berimbas ke semua form yg memakai select2
-	// Pada form yg ada select2 dgn data dari API server, data tidak akan bisa ditampikan
-	// $('.select2').select2({
-	$('.select2-gantinama').select2({
+	$('.select2').select2({
 		width: '100%',
 		dropdownAutoWidth : true
+	});
+
+	// Select2 - Cari Nama Desa di API Server
+	$('.select-nama-desa').select2({
+		ajax: {
+			url: function () {
+				return $(this).data('tracker') + '/index.php/api/wilayah/caridesa?&token=' + $(this).data('token');
+			},
+			dataType: 'json',
+			data: function (params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
+			},
+			processResults: function (data) {
+					return {
+						results: data.results,
+						pagination: data.pagination,
+					}
+				}
+			},
+			placeholder: '--  Cari Nama Desa --',
+			minimumInputLength: 0,
 	});
 
 	$('.select2-nik-ajax').select2({
