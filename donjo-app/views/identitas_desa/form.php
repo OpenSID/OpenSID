@@ -99,7 +99,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<select id="select_desa" name="select_desa" class="form-control input-sm select-nama-desa" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>' style="width:100%;"></select>
+									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>'></select>
 								</div>
 								<input type="hidden" id="nama_desa" name="nama_desa" value="">
 							</div>
@@ -217,7 +217,7 @@ $(document).ready(function()
 	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
 
 	// Ambil Nama dan Kode Wilayah dari API Server
-	$('[name="select_desa"]').change(function(){
+	$('[name="pilih_desa"]').change(function(){
 		$.ajax({
         type: 'GET',
         url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
