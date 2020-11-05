@@ -43,11 +43,19 @@
  */
 ?>
 
-<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
-<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
-<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+  <link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.css" />
+  <link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
+  <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
+  <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
+</head>
 <script>
 (function()
 {
@@ -84,6 +92,8 @@
     var markers = new L.MarkerClusterGroup();
     var markersList = [];
     var marker_legend = [];
+    var mark_desa = [];
+    var mark_covid = [];
 
     //OVERLAY WILAYAH DESA
     <?php if (!empty($desa['path'])): ?>
@@ -159,46 +169,23 @@
     // Menampilkan OverLayer Area, Garis, Lokasi
     var layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
 
+    // Menampilkan OverLayer Covid dan Desa Pengguna OpenSID
     var mylayer = L.featureGroup();
-    var layerControl = {
-      "Peta Sebaran Covid19": mylayer, // opsi untuk show/hide Peta Sebaran covid19 dari geojson dibawah
+    var layer_desa = L.featureGroup();
+    var layer_desa_sid = {
+      "Peta Sebaran Covid19": mylayer,
+      "Desa Pengguna OpenSID": layer_desa
     }
 
-    //loading Peta Covid - data geoJSON dari BNPB- https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
-    $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
-    	var datalayer = L.geoJson(data ,{
-    		onEachFeature: function (feature, layer) {
-    			var custom_icon = L.icon({"iconSize": 32, "iconUrl": "<?= base_url()?>assets/images/covid.png"});
-    			layer.setIcon(custom_icon);
-
-    			var popup_0 = L.popup({"maxWidth": "100%"});
-
-    			var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
-          + '<h4><b>' + feature.properties.Provinsi + '</b></h4>'
-          + '<table><tr>'
-          + '<th style="color:red">Positif&nbsp;&nbsp;</th>'
-          + '<th style="color:green">Sembuh&nbsp;&nbsp;</th>'
-          + '<th style="color:black">Meninggal&nbsp;&nbsp;</th>'
-          + '</tr><tr>'
-          + '<td><center><b style="color:red">' + feature.properties.Kasus_Posi + '</b></center></td>'
-          + '<td><center><b style="color:green">' + feature.properties.Kasus_Semb + '</b></center></td>'
-          + '<td><center><b>' + feature.properties.Kasus_Meni + '</b></center></td>'
-          + '</tr></table></div>')[0];
-
-    			popup_0.setContent(html_a);
-
-    			layer.bindPopup(popup_0, {'className' : 'covid_pop'});
-    			layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
-    		},
-    	});
-      mylayer.addLayer(datalayer);
-    });
+    peta_covid(mylayer, mymap, '<?= base_url()?>assets/images/covid.png');
 
     mylayer.on('add', function () {
       setTimeout(function () {
         var bounds = new L.LatLngBounds();
         if (mylayer instanceof L.FeatureGroup) {
           bounds.extend(mylayer.getBounds());
+          mark_covid = L.marker([<?=$desa['lat'].",".$desa['lng']?>]).addTo(mymap)
+          .bindTooltip(<?=json_encode(ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))?> + ' berada di lokasi ini', {direction: 'top'});
         }
         if (bounds.isValid()) {
           mymap.fitBounds(bounds);
@@ -214,6 +201,7 @@
 
     mylayer.on('remove', function () {
       setTimeout(function () {
+        mymap.removeLayer(mark_covid);
         $('#covid_status').hide();
         $('#covid_status_local').hide();
         <?php if (!empty($desa['path'])): ?>
@@ -222,54 +210,137 @@
       });
     });
 
-    var mainlayer = L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
-    var customlayer = L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(mymap);
-    var covidlayer = L.control.layers('', layerControl, {position: 'topleft', collapsed: false}).addTo(mymap);
+    //loading Peta Desa Pengguna OpenSID (Data dari API Server)
+    pantau_desa(layer_desa, '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>', <?=json_encode($desa['nama_propinsi'])?>, <?=json_encode($desa['nama_kabupaten'])?>, <?=json_encode($desa['nama_kecamatan'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_tracksid')?>");
+
+    layer_desa.on('add', function () {
+      setTimeout(function () {
+        var bounds = new L.LatLngBounds();
+        if (layer_desa instanceof L.FeatureGroup) {
+          bounds.extend(layer_desa.getBounds());
+          mark_desa = L.marker([<?=$desa['lat'].",".$desa['lng']?>]).addTo(mymap)
+          .bindTooltip(<?=json_encode(ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))?> + ' berada di lokasi ini', {direction: 'top'});
+        }
+        if (bounds.isValid()) {
+          mymap.fitBounds(bounds);
+        } else {
+          <?php if (!empty($desa['path'])): ?>
+            mymap.fitBounds(<?=$desa['path']?>);
+          <?php endif; ?>
+        }
+        $('#desa_online').show();
+        $('#desa_online1').show();
+      });
+    });
+
+    layer_desa.on('remove', function () {
+      setTimeout(function () {
+        $('#desa_online').hide();
+        mymap.removeLayer(mark_desa);
+        <?php if (!empty($desa['path'])): ?>
+          mymap.fitBounds(<?=$desa['path']?>);
+        <?php endif; ?>
+      });
+    });
+
+    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(mymap);
+    L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(mymap);
+    L.control.layers('', layer_desa_sid, {position: 'topleft', collapsed: true}).addTo(mymap);
 
 		$('#isi_popup_dusun').remove();
 		$('#isi_popup_rw').remove();
 		$('#isi_popup_rt').remove();
     $('#isi_popup').remove();
-    $('#covid_status').hide();
-    $('#covid_status_local').hide();
 
   }; //EOF window.onload
 
 })();
 </script>
-<div class="content-wrapper">
-  <form id="mainform_map" name="mainform_map" action="" method="post">
-    <div class="row">
-      <div class="col-md-12">
-        <div id="map">
-          <div class="leaflet-top leaflet-left">
-            <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
-            <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-            <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-            <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-            <div id="covid_status">
-              <?php $this->load->view("gis/covid_peta.php") ?>
+<body class="hold-transition skin-blue layout-top-nav">
+  <div class="content-wrapper">
+    <form id="mainform_map" name="mainform_map" action="" method="post">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="map">
+            <div class="leaflet-top leaflet-left">
+              <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
+              <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+              <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+              <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+              <div id="covid_status" style="display: none;">
+                <?php $this->load->view("gis/covid_peta.php") ?>
+              </div>
             </div>
-          </div>
-          <div class="leaflet-top leaflet-right">
-            <div id="covid_status_local">
-              <?php $this->load->view("gis/covid_peta_local.php") ?>
+            <div id="desa_online" style="display: none;">
+              <div class="leaflet-top leaflet-right">
+                <section class="content">
+                  <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>NEGARA</h5></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text nama_negara"></span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                      <span class="info-box-number jml_desa"></span>
+                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                    </div>
+                  </div>
+                  <div class="info-box bg-red">
+                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>PROV.</h5></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text nama_prov"></span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                      <span class="info-box-number jml_desa_prov"></span>
+                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                    </div>
+                  </div>
+                  <div class="info-box bg-green">
+                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>KAB.</h5></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text nama_kab"></span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                      <span class="info-box-number jml_desa_kab"></span>
+                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                    </div>
+                  </div>
+                  <div class="info-box bg-blue">
+                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>KEC.</h5></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text nama_kec"></span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width: 100%"></div>
+                      </div>
+                      <span class="info-box-number jml_desa_kec"></span>
+                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                    </div>
+                  </div>
+                </section>
+              </div>
             </div>
-          </div>
-          <div class="leaflet-bottom leaflet-left">
-            <div id="qrcode">
-              <div class="panel-body-lg">
-                <a href="https://github.com/OpenSID/OpenSID">
-                  <img src="<?= base_url()?>assets/images/opensid.png" alt="OpenSID">
-                </a>
+            <div class="leaflet-top leaflet-right">
+              <div id="covid_status_local" style="display: none;">
+                <?php $this->load->view("gis/covid_peta_local.php") ?>
+              </div>
+            </div>
+            <div class="leaflet-bottom leaflet-left">
+              <div id="qrcode">
+                <div class="panel-body-lg">
+                  <a href="https://github.com/OpenSID/OpenSID">
+                    <img src="<?= base_url()?>assets/images/opensid.png" alt="OpenSID">
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+</body>
 
 <div  class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
   <div class="modal-dialog modal-sm">
@@ -306,7 +377,7 @@
     </div>
   </div>
 </div>
-
+<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 <script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
