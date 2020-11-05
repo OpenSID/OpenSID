@@ -135,7 +135,7 @@
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
 					<?php if (isset($config['kode_kabupaten'][$i])): ?>
-						<?= $config['kode_kabupaten'][$i];?>
+						<?= substr($config['kode_kabupaten'], 2, 4)[$i]; ?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
@@ -154,7 +154,7 @@
 			<?php for ($i=0; $i<2; $i++): ?>
 				<td class="kotak padat tengah">
 					<?php if (isset($config['kode_kecamatan'][$i])): ?>
-						<?= $config['kode_kecamatan'][$i];?>
+						<?= substr($config['kode_kecamatan'], 4, 6)[$i]; ?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
@@ -206,7 +206,7 @@
 			<?php for ($i=0; $i<4; $i++): ?>
 				<td class="kotak padat tengah">
 					<?php if (isset($config['kode_desa'][$i])): ?>
-						<?= $config['kode_desa'][$i];?>
+						<?= substr($config['kode_desa'], 6, 10)[$i]; ?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>

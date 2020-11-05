@@ -47,6 +47,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		// Tambah kolom warna di tabel config
 		if ( ! $this->db->field_exists('warna', 'config'))
 		{
