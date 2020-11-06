@@ -52,8 +52,12 @@ class Menu extends Admin_Controller {
 		parent::__construct();
 
 		$this->load->model('web_menu_model');
+		$this->load->model('web_artikel_model');
+		$this->load->model('web_kategori_model');
 		$this->load->model('referensi_model');
-		$this->load->model('laporan_penduduk_model');
+		$this->load->model('program_bantuan_model');
+		$this->load->model('web_dokumen_model');
+		$this->load->model('keuangan_model');
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 49;
 	}
@@ -92,12 +96,9 @@ class Menu extends Admin_Controller {
 
 	public function form($tip = 1, $id = '')
 	{
-		$this->load->model('program_bantuan_model');
-		$this->load->model('keuangan_model');
-		$this->load->model('web_dokumen_model');
-
 		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
-		$data['link'] = $this->web_menu_model->list_link();
+		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
+		$data['kategori_artikel'] = $this->web_kategori_model->list_kategori();
 		$data['statistik_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['statistik_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
 		$data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
@@ -132,14 +133,12 @@ class Menu extends Admin_Controller {
 
 	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')
 	{
-		$this->load->model('program_bantuan_model');
-		$this->load->model('web_dokumen_model');
-		$this->load->model('keuangan_model');
 		$data['menu'] = $menu;
 		$data['tip'] = $tip;
 
 		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
-		$data['link'] = $this->web_menu_model->list_link();
+		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
+		$data['kategori_artikel'] = $this->web_kategori_model->list_kategori();
 		$data['statistik_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['statistik_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
 		$data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
