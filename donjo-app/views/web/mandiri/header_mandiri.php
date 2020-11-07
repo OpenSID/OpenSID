@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
-			<?=$this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] ?: '' . 'Layanan Mandiri';
+			<?=$this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . ' '. $header['nama_desa'] ?: '' . 'Layanan Mandiri';
 			?>
 		</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -117,10 +117,10 @@
 					<div class="container-fluid">
 						<div class="navbar-header">
 							<a class="navbar-brand" href="<?= site_url(); ?>">
-								<img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>" width="30px" style="margin:-7px"/>
+								<img src="<?= gambar_desa($header['logo']);?>" alt="<?= $header['nama_desa']?>" width="30px" style="margin:-7px"/>
 							</a>
 							<p class="navbar-brand">
-								<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'] ?>
+								<?= ucwords($this->setting->sebutan_desa).' '.$header['nama_desa'] ?>
 							</p>
 						</div>
 					</div>
