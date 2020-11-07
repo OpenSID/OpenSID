@@ -1,24 +1,59 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ * File ini:
+ *
+ * View untuk modul Kependudukan > Dpt
+ *
+ * donjo-app/views/dpt/dpt.php
+ *
+ */
+/*
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <script>
-	$(document).ready(function()
-	{
+	$(document).ready(function() {
 		$('#tglform').validate();
 	});
-	$(function()
-	{
+
+	$(function() {
 		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
+		$( "#cari" ).autocomplete( {
 			source: keyword,
 			maxShowItems: 10,
 		});
 	});
 </script>
-<style>
-	.input-sm
-	{
-		padding: 4px 4px;
-	}
-</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Data Calon Pemilih</h1>
@@ -35,7 +70,7 @@
 						<div class="col-sm-8 col-lg-9">
 							<div class="row">
 								<a href="<?= site_url("dpt/ajax_cetak/$o/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" ><i class="fa fa-print "></i> Cetak</a>
-								<a href="<?= site_url("dpt/ajax_cetak/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
+								<a href="<?= site_url("dpt/ajax_cetak/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 								<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
 								<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
 							</div>
@@ -134,7 +169,7 @@
 																	<th nowrap><a href="<?= site_url("dpt/index/$p/5")?>">No. KK <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Alamat</th>
-																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
+																<th><?= ucwords($this->setting->sebutan_dusun); ?></th>
 																<th>RW</th>
 																<th>RT</th>
 																<th nowrap>Pendidikan dalam KK</th>

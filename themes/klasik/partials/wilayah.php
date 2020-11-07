@@ -10,8 +10,8 @@
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>Nama Dusun</th>
-						<th>Nama Kepala Dusun</th>
+						<th>Nama <?= ucwords($this->setting->sebutan_dusun); ?></th>
+						<th>Nama Kepala <?= ucwords($this->setting->sebutan_dusun); ?></th>
 						<th>Jumlah RT</th>
 						<th>Jumlah KK</th>
 						<th>Jiwa</th>
