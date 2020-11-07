@@ -5,7 +5,7 @@
 	<div class="box-body">
 		<ul id="ul-menu" class="main">
 			<?php foreach($menu_kiri as $data): ?>
-				<li><a href="<?= site_url("artikel/kategori/$data[slug]"); ?>"><?= $data['kategori']; ?><?php if(count($data['submenu']) > 0) { echo "<span class='caret'></span>"; } ?></a>
+				<li><a href="<?= site_url("artikel/kategori/$data[slug]"); ?>"><?= $data['kategori']; ?></a>
 					<?php if(count($data['submenu']) > 0): ?>
 						<ul class="submenu">
 							<?php foreach($data['submenu'] as $submenu): ?>

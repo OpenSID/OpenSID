@@ -45,7 +45,7 @@ class First_menu_m extends MY_Model{
 			->order_by('urut')
 			->get('kategori')
 			->result_array();
-		
+
 		return $data;
 	}
 
@@ -54,7 +54,7 @@ class First_menu_m extends MY_Model{
 		$data	= $this->list_kategori();
 
 		foreach ($data AS $key => $sub_menu) {
-			$data[$key]['submenu'] = $this->list_kategori($sub_menu[$key]['id']);
+			$data[$key]['submenu'] = $this->list_kategori($sub_menu['id']);
 		}
 
 		return $data;
