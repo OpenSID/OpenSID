@@ -222,19 +222,20 @@ function poligonWil(marker)
 	return poligon_wil;
 }
 
-function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt)
+function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_desa, sebutan_dusun)
 {
   var poligon_wil_desa = poligonWil(marker_desa);
   var poligon_wil_dusun = poligonWil(marker_dusun);
   var poligon_wil_rw = poligonWil(marker_rw);
   var poligon_wil_rt = poligonWil(marker_rt);
 
-  var overlayLayers = {
-    'Peta Wilayah Desa': poligon_wil_desa,
-    'Peta Wilayah Dusun': poligon_wil_dusun,
-    'Peta Wilayah RW': poligon_wil_rw,
-    'Peta Wilayah RT': poligon_wil_rt
-  };
+  var peta_desa = 'Peta Wilayah ' + sebutan_desa;
+  var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
+  var overlayLayers = new Object;
+  overlayLayers[peta_desa] = poligon_wil_desa;
+  overlayLayers[peta_dusun] = poligon_wil_dusun;
+  overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
+  overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
   return overlayLayers;
 }
 
