@@ -211,7 +211,7 @@
     });
 
     //loading Peta Desa Pengguna OpenSID (Data dari API Server)
-    pantau_desa(layer_desa, '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>', <?=json_encode($desa['nama_propinsi'])?>, <?=json_encode($desa['nama_kabupaten'])?>, <?=json_encode($desa['nama_kecamatan'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_tracksid')?>");
+    pantau_desa(layer_desa, '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>', <?=json_encode($desa['kode_desa'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_tracksid')?>");
 
     layer_desa.on('add', function () {
       setTimeout(function () {
@@ -342,7 +342,7 @@
   </div>
 </body>
 
-<div  class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
   <div class="modal-dialog modal-sm">
     <div class='modal-content'>
       <div class='modal-header'>
@@ -354,7 +354,7 @@
   </div>
 </div>
 
-<div  class="modal fade" id="modalSedang" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="modalSedang" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
   <div class="modal-dialog">
     <div class='modal-content'>
       <div class='modal-header'>
@@ -366,7 +366,7 @@
   </div>
 </div>
 
-<div  class="modal fade" id="modalBesar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="modalBesar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
   <div class="modal-dialog modal-lg">
     <div class='modal-content'>
       <div class='modal-header'>

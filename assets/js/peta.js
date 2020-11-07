@@ -1473,9 +1473,9 @@ function peta_covid(mylayer, mymap, img)
 }
 
 //loading Peta Desa Pengguna OpenSID (Data dari API Server)
-function pantau_desa(layer_desa, tracker_host, prov, kab, kec, img, token)
+function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
 {
-  var pantau_desa = $.getJSON(tracker_host + '/index.php/api/wilayah/geoprov?token=' + token + '&prov=' + prov,function(data){
+  var pantau_desa = $.getJSON(tracker_host + '/index.php/api/wilayah/geoprov?token=' + token + '&kode_desa=' + kode_desa, function(data){
     var datalayer = L.geoJson(data ,{
       onEachFeature: function (feature, layer) {
         var custom_icon = L.icon({"iconSize": [16, 16], "iconUrl": img});
@@ -1519,7 +1519,7 @@ function pantau_desa(layer_desa, tracker_host, prov, kab, kec, img, token)
 
     $.ajax({
         type: 'GET',
-        url: tracker_host + '/index.php/api/wilayah/geokab?token=' + token + '&prov=' + prov + '&kab=' + kab,
+        url: tracker_host + '/index.php/api/wilayah/geokab?token=' + token + '&kode_desa=' + kode_desa,
         dataType: 'json',
         success: function(data) {
           var nama_kab = data.nama_kabupaten;
@@ -1533,7 +1533,7 @@ function pantau_desa(layer_desa, tracker_host, prov, kab, kec, img, token)
 
     $.ajax({
         type: 'GET',
-        url: tracker_host + '/index.php/api/wilayah/geokec?token=' + token + '&prov=' + prov + '&kab=' + kab + '&kec=' + kec,
+        url: tracker_host + '/index.php/api/wilayah/geokec?token=' + token + '&kode_desa=' + kode_desa,
         dataType: 'json',
         success: function(data) {
           var nama_kec = data.nama_kecamatan;
