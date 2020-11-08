@@ -104,7 +104,7 @@ class Mandiri_web extends Web_Controller
 				break;
 		}
 
-		$data['header'] = $this->header['desa'];
+		$data['desa'] = $this->header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
@@ -125,14 +125,14 @@ class Mandiri_web extends Web_Controller
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
 
-		$data['header'] = $this->header['desa'];
+		$data['desa'] = $this->header['desa'];
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
 	public function cetak_biodata($id = '')
 	{
-		$data['header'] = $this->header['desa'];
+		$data['desa'] = $this->header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
 
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
