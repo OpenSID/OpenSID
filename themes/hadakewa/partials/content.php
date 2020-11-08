@@ -1,7 +1,7 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <?php if (count($slider_gambar)>0): ?>
-<?php $this->load->view($folder_themes."/layouts/slider.php") ?>
+	<?php $this->load->view($folder_themes."/layouts/slider.php") ?>
 <?php endif; ?>
 
 <?php if ($headline): ?>
@@ -33,20 +33,12 @@
 	</div>
 <?php endif; ?>
 
-<?php	$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/feed.php'));?>
+<?php	$this->load->view(Web_Controller::fallback_default($this->theme, '/partials/feed.php')); ?>
 
-<!--
- List Konten
--->
-<?php $title = (!empty($judul_kategori))? $judul_kategori : "Artikel Terkini" ?>
+<!-- List Konten -->
+<?php $title = ( ! empty($judul_kategori)) ? $judul_kategori['kategori'] : "Artikel Terkini"; ?>
 
-<?php if (is_array($title)): ?>
-	<?php foreach ($title as $item): ?>
-		<?php $title= $item ?>
-	<?php endforeach; ?>
-<?php endif; ?>
-
-<div class="box box-primary" style="margin-left:.2	5em;">
+<div class="box box-primary">
 	<div class="box-header with-border">
 		<h3 class="box-title"><?= $title ?></h3>
 	</div>
@@ -68,7 +60,7 @@
 									<i class="fa fa-user"></i> <?= $data['owner'] ?> |
 									<i class="fa fa-eye"></i> <?= hit($data['hit']) ?>
 									<?php if (trim($data['kategori']) != ''): ?>
-										| <i class='fa fa-tag'></i> <a href="<?= site_url('first/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
+										| <i class='fa fa-tag'></i> <a href="<?= site_url('artikel/kategori/'.$data['kat_slug']) ?>"><?= $data['kategori'] ?></a>
 									<?php endif; ?>
 								</div>
 								<div class="img">

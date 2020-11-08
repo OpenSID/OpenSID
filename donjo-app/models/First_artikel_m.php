@@ -384,26 +384,27 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
-	public function get_kategori($id=0)
+	public function get_kategori($id = 0)
 	{
-		$data = $this->db->select('kategori')
-			->where('id', $id)->or_where('slug', $id)
-			->limit(1)->get('kategori')
-			->row()->kategori;
+		$data = $this->db
+			->group_start()
+				->where('id', $id)
+				->or_where('slug', $id)
+			->group_end()
+			->get('kategori')
+			->row_array();
 
 		if (empty($data))
 		{
-			// untuk artikel jenis statis = "AGENDA"
-			$judul = array(
+			$judul = [
 				999 => "Halaman Statis",
 				1000 => "Agenda",
 				1001 => "Artikel Keuangan",
-			);
-			$data = $judul[$id];
+				$id => "Artikel Kategori $id"
+			];
+
+			$data['kategori'] = $judul[$id];
 		}
-		// Bukan kategori yg dikenal
-		if (empty($data))
-			$data = "Artikel Kategori '$id'";
 
 		return $data;
 	}

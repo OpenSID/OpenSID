@@ -37,21 +37,26 @@ class First_menu_m extends MY_Model{
 		return $data;
 	}
 
-	private function list_subkategori($kategori_id)
+	private function list_kategori($parrent = 0)
 	{
-		$data	= $this->db->select('*')->select('kategori as nama')->where(array('parrent'=>$kategori_id, 'enabled'=>1))->order_by('urut')->get('kategori')->result_array();
+		$data = $this->db
+			->where('enabled', 1)
+			->where('parrent', $parrent)
+			->order_by('urut')
+			->get('kategori')
+			->result_array();
+
 		return $data;
 	}
 
 	public function list_menu_kiri()
 	{
-		$sql = "SELECT m.*, m.kategori as nama FROM kategori m WHERE m.parrent = 0 AND m.enabled = 1 AND m.kategori <> 'teks_berjalan' order by urut asc";
-		$query = $this->db->query($sql);
-		$data	= $query->result_array();
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['submenu'] = $this->list_subkategori($data[$i]['id']);
+		$data	= $this->list_kategori();
+
+		foreach ($data AS $key => $sub_menu) {
+			$data[$key]['submenu'] = $this->list_kategori($sub_menu['id']);
 		}
+
 		return $data;
 	}
 

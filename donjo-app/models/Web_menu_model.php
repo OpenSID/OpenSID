@@ -209,22 +209,6 @@ class Web_menu_model extends MY_Model {
 		return $data;
 	}
 
-	public function list_link()
-	{
-		// '999' adalah id_kategori untuk artikel statis
-		$sql = "SELECT a.id,a.judul FROM artikel a WHERE a.id_kategori = '999'";
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-		}
-
-		return $data;
-	}
-
 	public function insert_sub_menu($menu=0)
 	{
 		$post = $this->input->post();

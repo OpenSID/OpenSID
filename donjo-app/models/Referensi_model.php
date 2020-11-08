@@ -65,6 +65,7 @@ define("STATUS_PERMOHONAN", serialize([
 
 define("LINK_TIPE", serialize([
 	'1' => 'Artikel Statis',
+	'7' => 'Kategori Artikel',
 	'2' => 'Statistik Penduduk',
 	'3' => 'Statistik Keluarga',
 	'4' => 'Statistik Program Bantuan',
