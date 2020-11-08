@@ -12,6 +12,7 @@
 						<th>No</th>
 						<th>Nama <?= ucwords($this->setting->sebutan_dusun); ?></th>
 						<th>Nama Kepala <?= ucwords($this->setting->sebutan_dusun); ?></th>
+						<th>Jumlah RW</th>
 						<th>Jumlah RT</th>
 						<th>Jumlah KK</th>
 						<th>Jiwa</th>
@@ -25,6 +26,7 @@
 							<td><?= $data['no'] ?></td>
 							<td><?= strtoupper($data['dusun']) ?></td>
 							<td><?= strtoupper($data['nama_kadus']) ?></td>
+							<td class="angka"><?= $data['jumlah_rw'] ?></td>
 							<td class="angka"><?= $data['jumlah_rt'] ?></td>
 							<td class="angka"><?= $data['jumlah_kk'] ?></td>
 							<td class="angka"><?= $data['jumlah_warga'] ?></td>
@@ -36,6 +38,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="3">TOTAL</td>
+						<td class="angka"><?= $total['total_rw'] ?></td>
 						<td class="angka"><?= $total['total_rt'] ?></td>
 						<td class="angka"><?= $total['total_kk'] ?></td>
 						<td class="angka"><?= $total['total_warga'] ?></td>
