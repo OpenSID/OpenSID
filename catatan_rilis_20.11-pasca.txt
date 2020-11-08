@@ -6,6 +6,7 @@ Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
 
 1. Perbaiki kode desa/kecamatan/kabupaten yang ditampilkan di beberapa lampiran surat. [bug-fix]
 2. #3721: Tampilkan sebutan desa dan dusun di halaman Calon Pemilih, statistik Wilayah dan menu untuk menampilkan desa dan dusun di peta. [bug-fix]
+3. #2097: Menu statis sekarang dapat menampilkan kategori artikel dinamis.
 
 
 
