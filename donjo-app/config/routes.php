@@ -57,14 +57,16 @@ $route['sitemap\.xml'] = "Sitemap/index";
 $route['feed\.xml'] = "Feed/index";
 $route ['ppid'] = "Api_informasi_publik/ppid";
 
-// ARTIKEL WEB
-// Route baru
+// Artikel
 $route['artikel/(:num)'] = 'first/artikel/$1'; // Contoh : artikel/1
 $route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : artikel/2020/5/15/contoh-artikel
-
-// Route lama (Agar url lama masih dpt di akases)
+// Artikel lama (Agar url lama masih dpt di akases)
 $route['first/artikel/(:num)'] = 'first/artikel/$1'; // Contoh : Contoh : first/artikel/1
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : first/artikel/2020/5/15/contoh-artikel
+
+// Kategori artikel
+$route['artikel/kategori/(:any)'] = 'first/kategori/$1'; // Contoh : Contoh : artikel/kategori/berita-desa
+$route['artikel/kategori/(:any)/(:num)'] = 'first/kategori/$1/$2'; // Contoh : Contoh : artikel/kategori/berita-desa/1
 
 $route['index/(:num)'] = 'first/index/$1';
 $route['(:num)'] = 'first/index/$1';

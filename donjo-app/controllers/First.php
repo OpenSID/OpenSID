@@ -35,11 +35,11 @@
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
  * @package OpenSID
- * @author  Tim Pengembang OpenDesa
+ * @author Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ * @license http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link https://github.com/OpenSID/OpenSID
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -220,7 +220,7 @@ class First extends Web_Controller {
 	{
 		$data = $this->includes;
 		$data['p'] = $p;
-		$data['paging']  = $this->first_artikel_m->paging_arsip($p);
+		$data['paging'] = $this->first_artikel_m->paging_arsip($p);
 		$data['farsip'] = $this->first_artikel_m->full_arsip($data['paging']->offset,$data['paging']->per_page);
 
 		$this->_get_common_data($data);
@@ -358,7 +358,7 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['main']    = $this->first_penduduk_m->wilayah();
+		$data['main']  = $this->first_penduduk_m->wilayah();
 		$data['heading']="Populasi Per Wilayah";
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
@@ -451,14 +451,14 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
-	public function kategori($id, $p=1)
+	public function kategori($id, $p = 1)
 	{
 		$data = $this->includes;
 
 		$data['p'] = $p;
 		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($id);
-		$data['paging']  = $this->first_artikel_m->paging_kat($p, $id);
-		$data['paging_page']  = 'kategori/'.$id;
+		$data['paging'] = $this->first_artikel_m->paging_kat($p, $id);
+		$data['paging_page'] = 'kategori/' . $id;
 		$data['paging_range'] = 3;
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
@@ -471,7 +471,7 @@ class First extends Web_Controller {
 
 	public function add_comment($id=0, $slug = NULL)
 	{
-		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug  FROM artikel a WHERE id=$id ";
+		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug FROM artikel a WHERE id=$id ";
 		$query = $this->db->query($sql,1);
 		$data = $query->row_array();
 		// Periksa isian captcha
