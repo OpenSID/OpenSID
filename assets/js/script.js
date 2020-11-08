@@ -249,18 +249,20 @@ $(document).ready(function()
 		useCurrent: false,
 		date: moment(new Date())
 	});
+	var masa_berlaku_surat = document.getElementById("masa_berlaku").value;
+	masa_berlaku_surat = masa_berlaku_surat ? masa_berlaku_surat : 1;
 	$('#tgl_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
 		useCurrent: false,
 		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
-		date: moment(new Date()).add(1, 'M')
+		date: moment(new Date()).add(masa_berlaku_surat, 'd')
 	});
 	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
 		$('#tgl_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
 		$(this).data("DateTimePicker").hide();
 		var tglAkhir = moment(new Date(e.date));
-		tglAkhir.add(1, 'M');
+		tglAkhir.add(masa_berlaku_surat, 'd');
 		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 

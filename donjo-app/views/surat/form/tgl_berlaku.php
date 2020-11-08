@@ -1,4 +1,5 @@
 							<div class="form-group">
+							<input type="hidden" id="masa_berlaku" value="<?= $masa_berlaku ?>">
 								<label for="berlaku_dari"  class="col-sm-3 control-label">Berlaku Dari - Sampai</label>
 								<div class="col-sm-3 col-lg-2">
 									<div class="input-group input-group-sm date">
