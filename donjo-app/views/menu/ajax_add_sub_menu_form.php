@@ -90,6 +90,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#jenis_link').hide();
 		}
 	}
+	$(document).ready(function()
+	{
+		$('#link_tipe').change();
+	});
 </script>
 <?php $this->load->view('global/validasi_form'); ?>
 <form action="<?=$form_action; ?>" method="post" id="validasi">

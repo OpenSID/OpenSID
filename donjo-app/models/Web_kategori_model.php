@@ -221,10 +221,12 @@ class Web_kategori_model extends CI_Model {
 		if (empty($o)) $urut = "urut";
 		else $urut = $o;
 
-		$sql = "SELECT k.* FROM kategori k WHERE 1 ORDER BY $urut";
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('k.*')
+			->where('enabled', 1)
+			->order_by($urut)
+			->get('kategori k')
+			->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
