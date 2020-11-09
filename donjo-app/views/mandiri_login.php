@@ -153,7 +153,8 @@
 								<hr/>
 								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">
 									OpenSID</a> <?= AmbilVersi() ?><br />
-									IP Adress : <?= $this->input->ip_address(); ?>
+									IP Address : <?= $this->input->ip_address(); ?>
+									<?= jecho($cek_anjungan, TRUE, '<br>Anjungan Mandiri'); ?>
 								</div>
 							</div>
 						</div>

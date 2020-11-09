@@ -54,6 +54,8 @@ class Anjungan_model extends CI_Model {
 
 	public function cek_anjungan()
 	{
+		if ($this->input->server('HTTP_USER_AGENT') == 'Anjungan OpenSID') return true;
+
 		$ip = $this->input->ip_address();
 
 		$data = $this->db
