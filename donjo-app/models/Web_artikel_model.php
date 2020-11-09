@@ -629,4 +629,17 @@
 				$this->db->where('id', $id)->update('artikel', array('hit' => $hit));
 		}
 	}
+
+	public function list_artikel_statis()
+	{
+		// '999' adalah id_kategori untuk artikel statis
+		$data = $this->db
+			->select('id, judul')
+			->where('id_kategori', '999')
+			->get('artikel')
+			->result_array();
+
+		return $data;
+	}
+
 }

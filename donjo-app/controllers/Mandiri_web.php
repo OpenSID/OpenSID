@@ -48,13 +48,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mandiri_web extends Web_Controller
 {
 	private $cek_anjungan;
+	private $header;
 
 	public function __construct()
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'anjungan_model']);
+		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'anjungan_model']);
 		$this->load->helper('download');
+		$this->header = $this->header_model->get_data();
 
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 	}
@@ -187,7 +189,7 @@ class Mandiri_web extends Web_Controller
 				break;
 		}
 
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
@@ -208,29 +210,23 @@ class Mandiri_web extends Web_Controller
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
 
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
-	public function cetak_biodata($id='')
+	public function cetak_biodata($id = '')
 	{
-		// Hanya boleh mencetak data pengguna yang login
-		$id = $_SESSION['id'];
+		$data['desa'] = $this->header['desa'];
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
 
-		$data['desa'] = $this->config_model->get_data();
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
 	}
 
 	public function cetak_kk($id='')
 	{
-		// Hanya boleh mencetak data pengguna yang login
-		$id = $_SESSION['id'];
-
-		// $id adalah id penduduk. Cari id_kk dulu
-		$id_kk = $this->penduduk_model->get_id_kk($id);
+		$id_kk = $this->penduduk_model->get_id_kk($this->session->id);
 		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
 
 		$this->load->view("sid/kependudukan/cetak_kk_all", $data);

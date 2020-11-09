@@ -430,7 +430,8 @@ class Import_model extends CI_Model {
 
     // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
     // atau tidak sebelum melakukan impor
-    if ($hapus) { $this->hapus_data_penduduk(); }
+    // Tidak boleh menghapus jika dalam demo_mode
+    if ($hapus && ! $this->setting->demo_mode) { $this->hapus_data_penduduk(); }
 
     $numRows = 0;
 

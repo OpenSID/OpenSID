@@ -1,0 +1,16 @@
+Di rilis ini, versi 20.11-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada afa28, Zeppy Shiddiq dan Yonathan Rizky yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru berkontribusi.
+
+Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
+
+1. Perbaiki kode desa/kecamatan/kabupaten yang ditampilkan di beberapa lampiran surat. [bug-fix]
+2. #3721: Tampilkan sebutan desa dan dusun di halaman Calon Pemilih, statistik Wilayah dan menu untuk menampilkan desa dan dusun di peta. [bug-fix]
+3. #2097: Menu statis sekarang dapat menampilkan kategori artikel dinamis.
+4. #3726: Sekarang data desa kembali tampil di laporan biodata penduduk. [bug-fix]
+5. #3722: Tampilkan jumlah RW di halaman statis Wilayah Administratif.
+
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+

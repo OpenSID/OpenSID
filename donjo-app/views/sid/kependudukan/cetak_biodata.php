@@ -3,7 +3,7 @@
 		<div id="content" class="container_12 clearfix">
 			<div id="content-main" class="grid_7">
 				<link href="<?= base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
-				<table width="100%" style="border: solid 0px black; text-align: left;">
+				<table width="100%" style="border: solid 0px black; text-align: left; margin-bottom: -15px;">
 					<tr>
 						<td width="8%">NIK</td>
 						<td width="2%">:</td>
@@ -169,7 +169,7 @@
 						<td align="center">Kepala <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']); ?></td>
 					</tr>
 					<tr>
-						<td align="center" colspan="3" height="100">&nbsp;</td>
+						<td align="center" colspan="3" height="90px">&nbsp;</td>
 					</tr>
 					<tr>
 						<td align="center"><b>( <?= strtoupper($penduduk['nama'])?> )</b></td>
