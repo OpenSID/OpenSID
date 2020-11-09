@@ -82,7 +82,7 @@
 						<th class="angka"><?= $total['total_warga_p']; ?></th>
 					</tr>
 				</tfooter>
-			</table>";
+			</table>
 		<?php else: ?>
 			<div class="">Data tidak tersedia</div>;
 		<?php endif; ?>
