@@ -130,11 +130,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php endforeach; ?>
 			</select>
 			<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 8, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 8) and print('display:none;');; ?>">
-						<option value="">-- Pilih Kategori Artikel --</option>
-						<?php foreach ($kategori_artikel as $data): ?>
-							<option value="kategori/<?= $data['slug']; ?>" <?= selected($submenu['link'], "kategori/$data[slug]"); ?>><?=$data['kategori']; ?></option>
-						<?php endforeach; ?>
-					</select>
+				<option value="">-- Pilih Kategori Artikel --</option>
+				<?php foreach ($kategori_artikel as $data): ?>
+					<option value="kategori/<?= $data['slug']; ?>" <?= selected($submenu['link'], "kategori/$data[slug]"); ?>><?=$data['kategori']; ?></option>
+				<?php endforeach; ?>
+			</select>
 			<select id="statistik_penduduk" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 2, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 2) and print('display:none;');; ?>">
 				<option value="">-- Pilih Statistik Penduduk --</option>
 				<?php foreach ($statistik_penduduk as $id => $nama): ?>
