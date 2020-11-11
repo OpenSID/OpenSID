@@ -229,10 +229,9 @@ class Rtm_model extends CI_Model {
 
 	private function get_kode_wilayah()
 	{
-		$d = $this->config_model->get_data();
-		$data = $d['kode_kabupaten'].$d['kode_kecamatan'].$d['kode_desa'];
+		$data = $this->config_model->get_data();
 
-		return $data;
+		return $data['kode_desa'];
 	}
 
 	public function list_penduduk_lepas()
