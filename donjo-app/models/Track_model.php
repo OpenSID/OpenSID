@@ -34,7 +34,7 @@
         case 'development':
           // Di development, panggil tracker hanya jika terinstal
           if (empty($this->setting->dev_tracker)) return;
-          $tracker = "http://".$this->setting->dev_tracker;
+          $tracker = $this->setting->dev_tracker;
         break;
 
         case 'testing':
