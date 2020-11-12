@@ -282,7 +282,7 @@
                         <div class="progress-bar" style="width: 100%"></div>
                       </div>
                       <span class="info-box-number jml_desa"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                      <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
                     </div>
                   </div>
                   <div class="info-box bg-red">
@@ -293,7 +293,7 @@
                         <div class="progress-bar" style="width: 100%"></div>
                       </div>
                       <span class="info-box-number jml_desa_prov"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                      <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
                     </div>
                   </div>
                   <div class="info-box bg-green">
@@ -304,7 +304,7 @@
                         <div class="progress-bar" style="width: 100%"></div>
                       </div>
                       <span class="info-box-number jml_desa_kab"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                      <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
                     </div>
                   </div>
                   <div class="info-box bg-blue">
@@ -315,7 +315,7 @@
                         <div class="progress-bar" style="width: 100%"></div>
                       </div>
                       <span class="info-box-number jml_desa_kec"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
+                      <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
                     </div>
                   </div>
                 </section>
