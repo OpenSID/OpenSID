@@ -36,6 +36,14 @@ $(document).ready(function() {
 							<input id="nama" name="nama" class="form-control input-sm nomor_sk required" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama']?>"></input>	<input type="hidden" name="id_pend" value="<?= $penduduk['id']?>"/>
 						</div>
 						<div class="form-group">
+							<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
+								<option value=""> -- Pilih Jenis Dokumen -- </option>
+								<?php foreach ($jenis_syarat_surat AS $data): ?>
+									<option value="<?= $data['ref_syarat_id']?>" <?= selected($data['ref_syarat_id'], $dokumen['id_syarat']) ?>><?= $data['ref_syarat_nama']?></option>
+								<?php endforeach;?>
+							</select>
+						</div>
+						<div class="form-group">
 							<label for="file" >Pilih File:</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="satuan">

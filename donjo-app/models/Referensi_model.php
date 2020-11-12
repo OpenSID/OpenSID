@@ -165,12 +165,12 @@ class Referensi_model extends CI_Model {
 		return $status_rekam;
 	}
 
-	public function list_by_id($tabel)
+	public function list_by_id($tabel, $id = 'id')
 	{
-		$data = $this->db->order_by('id')
+		$data = $this->db->order_by($id)
 			->get($tabel)
 			->result_array();
-		$data = array_combine(array_column($data, 'id'), $data);
+		$data = array_combine(array_column($data, $id), $data);
 		return $data;
 	}
 
