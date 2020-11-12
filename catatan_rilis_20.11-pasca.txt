@@ -9,6 +9,7 @@ Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
 3. #2097: Menu statis sekarang dapat menampilkan kategori artikel dinamis.
 4. #3726: Sekarang data desa kembali tampil di laporan biodata penduduk. [bug-fix]
 5. #3722: Tampilkan jumlah RW di halaman statis Wilayah Administratif.
+6. #3740: Perbaiki nomor Rumah Tangga kembali menggunakan awalan kode desa saja. [bug-fix]
 
 
 
