@@ -52,7 +52,7 @@ class Mandiri_web extends Web_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model']);
+		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'referensi_model']);
 		$this->load->helper('download');
 		$this->header = $this->header_model->get_data();
 
@@ -204,12 +204,14 @@ class Mandiri_web extends Web_Controller
 	public function ajax_table_surat_permohonan()
 	{
 		$data = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		$jenis_syarat_surat = $this->referensi_model->list_by_id('ref_syarat_surat', 'ref_syarat_id');
 		for ($i=0; $i < count($data); $i++)
 		{
 			$berkas = $data[$i]['satuan'];
 			$list_dokumen[$i][] = $data[$i]['no'];
 			$list_dokumen[$i][] = $data[$i]['id'];
 			$list_dokumen[$i][] = "<a href='".site_url("mandiri_web/unduh_berkas/".$data[$i][id])."/{$data[$i][id_pend]}"."'>".$data[$i]["nama"].'</a>';
+			$list_dokumen[$i][] = $jenis_syarat_surat[$data[$i]['id_syarat']]['ref_syarat_nama'];
 			$list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
 			$list_dokumen[$i][] = $data[$i]['nama'];
 			$list_dokumen[$i][] = $data[$i]['dok_warga'];

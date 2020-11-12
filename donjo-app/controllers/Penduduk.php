@@ -53,7 +53,7 @@ class Penduduk extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'config_model', 'program_bantuan_model']);
+		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'config_model', 'program_bantuan_model', 'lapor_model']);
 
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
@@ -224,6 +224,7 @@ class Penduduk extends Admin_Controller {
 	{
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['jenis_syarat_surat'] = $this->referensi_model->list_by_id('ref_syarat_surat', 'ref_syarat_id');
 
 		$this->render('sid/kependudukan/penduduk_dokumen', $data);
 	}
@@ -231,6 +232,7 @@ class Penduduk extends Admin_Controller {
 	public function dokumen_form($id = 0, $id_dokumen = 0)
 	{
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
+		$data['jenis_syarat_surat'] = $this->lapor_model->get_surat_ref_all();
 
 		if ($data['penduduk']['kk_level'] === '1') //Jika Kepala Keluarga
 		{
