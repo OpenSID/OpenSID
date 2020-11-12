@@ -49,13 +49,22 @@ class Migrasi_2010_ke_2011 extends MY_model {
 	{
 		$hasil = true;
 
-		// penambahan untuk menentukan nilai default masa berlaku surat dalam satuan hari
-		$hasil =& $this->tambah_indeks('setting_aplikasi', 'key');
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`,`value`,keterangan) VALUES ('masa_berlaku_surat','7','Masa berlaku surat dalam satuan hari')
-                                on DUPLICATE KEY UPDATE
-                                `value` = VALUES(`value`),
-                                keterangan = VALUES(keterangan)
-                            ");
+		// Tambah kolom masa_berlaku & satuan_masa_berlaku di tweb_surat_format
+		if (!$this->db->field_exists('masa_berlaku', 'tweb_surat_format') && !$this->db->field_exists('satuan_masa_berlaku', 'tweb_surat_format'))
+		{
+			$fields = [
+				'masa_berlaku' => [
+					'type' => 'INT',
+					'constraint' => 11
+				],
+				'satuan_masa_berlaku' => [
+					'type' => 'VARCHAR',
+					'constraint' => 15
+				]
+			];
+
+			$this->dbforge->add_column('tweb_surat_format', $fields);
+		}
 
 		status_sukses($hasil);
 	}
