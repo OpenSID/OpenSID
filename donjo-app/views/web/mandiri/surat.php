@@ -260,6 +260,15 @@
 </div>
 
 <script type='text/javascript'>
+
+	function cek_perhatian(elem){
+		if ($(elem).val() == '-1') {
+			$(elem).next('.perhatian').show();
+		} else {
+			$(elem).next('.perhatian').hide();
+		}
+	}
+
 	$(document).ready(function(){
 
 		// var id_surat = 0;
