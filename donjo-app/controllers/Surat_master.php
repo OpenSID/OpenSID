@@ -47,6 +47,7 @@ class Surat_master extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('surat_master_model');
 		$this->load->model('klasifikasi_model');
+		$this->load->model('referensi_model');
 
 		$this->load->model('lapor_model');
 		$this->modul_ini = 4;
@@ -108,6 +109,7 @@ class Surat_master extends Admin_Controller {
 
 		$data['list_ref_syarat'] = $list_ref_syarat;
 		$data['syarat_surat'] = $syarat_surat;
+		$data['list_ref_masa'] = $this->referensi_model->list_ref(MASA_BERLAKU);
 
 		$this->set_minsidebar(1);
 		$this->render('surat_master/form', $data);

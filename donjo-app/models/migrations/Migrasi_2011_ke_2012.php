@@ -43,27 +43,29 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_2010_ke_2011 extends MY_model {
+class Migrasi_2011_ke_2012 extends MY_model {
 
 	public function up()
 	{
 		$hasil = true;
 
 		// Tambah kolom masa_berlaku & satuan_masa_berlaku di tweb_surat_format
-		if (!$this->db->field_exists('masa_berlaku', 'tweb_surat_format') && !$this->db->field_exists('satuan_masa_berlaku', 'tweb_surat_format'))
+		if ( ! $this->db->field_exists('masa_berlaku', 'tweb_surat_format'))
 		{
 			$fields = [
 				'masa_berlaku' => [
 					'type' => 'INT',
-					'constraint' => 11
+					'constraint' => 3,
+					'default' => '1'
 				],
 				'satuan_masa_berlaku' => [
 					'type' => 'VARCHAR',
-					'constraint' => 15
+					'constraint' => 15,
+					'default' => 'M'
 				]
 			];
 
-			$this->dbforge->add_column('tweb_surat_format', $fields);
+			$hasil = $this->dbforge->add_column('tweb_surat_format', $fields);
 		}
 
 		status_sukses($hasil);

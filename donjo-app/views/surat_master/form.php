@@ -81,10 +81,9 @@
 											<label class="col-sm-3 control-label" for="nama">Satuan Masa Berlaku</label>
 											<div class="col-sm-3">
 												<select class="form-control input-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
-													<option value="d" <?= $surat_master['satuan_masa_berlaku'] === 'd' ? 'selected' : '' ?> >Hari</option>
-													<option value="minggu" <?= $surat_master['satuan_masa_berlaku'] === 'minggu' ? 'selected' : '' ?> >Minggu</option>
-													<option value="M" <?= $surat_master['satuan_masa_berlaku'] === 'M' ? 'selected' : '' ?> >Bulan</option>
-													<option value="Y" <?= $surat_master['satuan_masa_berlaku'] === 'Y' ? 'selected' : '' ?> >Tahun</option>
+													<?php foreach ($list_ref_masa as $kode_masa => $judul_masa): ?>
+														<option value="<?= $kode_masa?>" <?= selected($surat_master['satuan_masa_berlaku'], $kode_masa); ?>><?= $judul_masa ?></option>
+													<?php endforeach; ?>
 												</select>
 											</div>
 										</div>
