@@ -71,20 +71,21 @@
 									<?php endif; ?>
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label class="col-sm-3 control-label" for="nama">Masa Berlaku</label>
+											<label class="col-sm-3 control-label" for="nama">Masa Berlaku Default</label>
 											<div class="col-sm-3">
-												<input type="number" class="form-control input-sm" id="masa_berlaku" name="masa_berlaku" onchange="masaBerlaku()" value="<?= $surat_master['masa_berlaku'] ? $surat_master['masa_berlaku'] : 1 ?>">
-											</div>
-											<label class="col-sm-3 control-label" >Minimal 1 dan Maksimal 31</label>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label" for="nama">Satuan Masa Berlaku</label>
-											<div class="col-sm-3">
-												<select class="form-control input-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
-													<?php foreach ($list_ref_masa as $kode_masa => $judul_masa): ?>
-														<option value="<?= $kode_masa?>" <?= selected($surat_master['satuan_masa_berlaku'], $kode_masa); ?>><?= $judul_masa ?></option>
-													<?php endforeach; ?>
-												</select>
+												<div class="row">
+													<div class="col-sm-3">
+														<input type="number" class="form-control input-sm" id="masa_berlaku" name="masa_berlaku" onchange="masaBerlaku()" value="<?= $surat_master['masa_berlaku'] ? $surat_master['masa_berlaku'] : 1 ?>">
+													</div>
+													<div class="col-sm-6">
+														<select class="form-control input-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
+															<?php foreach ($list_ref_masa as $kode_masa => $judul_masa): ?>
+																<option value="<?= $kode_masa?>" <?= selected($surat_master['satuan_masa_berlaku'], $kode_masa); ?>><?= $judul_masa ?></option>
+															<?php endforeach; ?>
+														</select>
+													</div>
+												</div>
+												<label class="text-muted text-red" >Minimal 1 dan maksimal 31</label>
 											</div>
 										</div>
 									</div>
