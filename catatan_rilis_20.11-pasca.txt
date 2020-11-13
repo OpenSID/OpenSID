@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
 7. Di Layanan Mandiri, sekarang pilihan dokumen kelengkapan dibatasi sesuai dengan jenis dokumen yang diperlukan.
 8. Tampilkan Jenis Dokumen di tabel dokumen kelengkapan penduduk di Layanan Mandiri dan di Admin.
 9. Sekarang jenis dokumen dapat diisi di form Penduduk > Dokumen.
+10. #1763: Sekarang bisa ubah masa berlaku default untuk setiap jenis surat layanan.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
