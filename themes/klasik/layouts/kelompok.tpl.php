@@ -58,10 +58,10 @@
 									<?php foreach ($anggota as $key => $data): ?>
 										<tr>
 											<td><?= $key + 1?></td>
-											<td><?= $data['no_anggota'] ?:'-'?></td>
-											<td nowrap><?= $data['nama']?></td>
-											<td><?= $data['alamat']?></td>
-											<td><?= ($data['sex'] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN'?></td>
+											<td><?= $data['no_anggota'] ?:'-'; ?></td>
+											<td nowrap><?= $data['nama']; ?></td>
+											<td><?= $data['alamat']; ?></td>
+											<td><?= $data['sex']; ?></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>
