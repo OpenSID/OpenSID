@@ -34,13 +34,13 @@
 							<div class="form-group">
 								<label for="keperluan" class="col-sm-3 control-label">Keperluan</label>
 								<div class="col-sm-8">
-									<textarea name="keperluan" id="keperluan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" placeholder="Keperluan"></textarea>
+									<textarea name="keperluan" id="keperluan" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" placeholder="Keperluan"></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<textarea name="keterangan" id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" placeholder="Keterangan"></textarea>
+									<textarea name="keterangan" id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" placeholder="Keterangan"></textarea>
 										<span class="input-group-append">
 								</div>
 							</div>

@@ -62,7 +62,7 @@ class Anjungan_model extends CI_Model {
 			->where('ip_address', $ip)
 			->where('status', 1)
 			->get('anjungan')
-			->result_array();
+			->row_array();
 
 		return $data;
 	}
@@ -79,6 +79,7 @@ class Anjungan_model extends CI_Model {
 	{
 		$data = $this->validasi($this->input->post());
 		$data['created_by'] = $this->session->user;
+		$data['created_at'] = date('Y-m-d H:i:s');
 		$outp = $this->db->insert('anjungan', $data);
 		status_sukses($outp);
 	}
@@ -87,7 +88,8 @@ class Anjungan_model extends CI_Model {
 	{
 		$data['ip_address'] = bilangan_titik($post['ip_address']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
-		$data['status'] = $post['status'];
+		$data['keyboard'] = bilangan($post['keyboard']);
+		$data['status'] = bilangan($post['status']);
 		$data['updated_by'] = $this->session->user;
 		return $data;
 	}

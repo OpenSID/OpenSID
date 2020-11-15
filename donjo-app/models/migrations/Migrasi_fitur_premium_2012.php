@@ -3,9 +3,9 @@
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_2010_ke_2011.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2012.php
  *
  */
 
@@ -43,36 +43,28 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_2011_ke_2012 extends MY_model {
+class Migrasi_fitur_premium_2012 extends MY_model {
 
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		// Tambah kolom masa_berlaku & satuan_masa_berlaku di tweb_surat_format
-		if ( ! $this->db->field_exists('masa_berlaku', 'tweb_surat_format'))
+		// Tambah field keyboard
+		if ( ! $this->db->field_exists('keyboard', 'anjungan'))
 		{
 			$fields = [
-				'masa_berlaku' => [
-					'type' => 'INT',
-					'constraint' => 3,
-					'default' => '1'
-				],
-				'satuan_masa_berlaku' => [
-					'type' => 'VARCHAR',
-					'constraint' => 15,
-					'default' => 'M'
+				'keyboard' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'default' => '1',
+					'after' => 'keterangan'
 				]
 			];
 
-			$hasil = $this->dbforge->add_column('tweb_surat_format', $fields);
+			$hasil = $this->dbforge->add_column('anjungan', $fields);
 		}
 
 		status_sukses($hasil);
-
-		// Migrasi fitur premium
-		$migrasi = 'migrasi_fitur_premium_2012';
-		$this->load->model('migrations/'.$migrasi);
-		$this->$migrasi->up();
 	}
 }
