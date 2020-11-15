@@ -74,9 +74,7 @@
 
     if ($this->abaikan($desa)) return;
 
-    // echo "httppost =========== ".$tracker;
-    // echo httpPost($tracker."/index.php/track/desa",$desa);
-    $trackSID_output = httpPost($tracker."/index.php/track/desa", $desa);
+    $trackSID_output = httpPost($tracker."/index.php/api/track/desa?token=".config_item('token_tracksid'), $desa);
     $this->cek_notifikasi_TrackSID($trackSID_output);
     if (strpos(current_url(), 'first') !== FALSE)
     {
@@ -90,7 +88,7 @@
 
   private function cek_notifikasi_TrackSID($trackSID_output)
   {
-    if ($trackSID_output != null)
+    if (!empty($trackSID_output))
     {
       $array_output = json_decode($trackSID_output, true);
       foreach ($array_output as $notif)
