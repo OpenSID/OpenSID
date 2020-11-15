@@ -14,3 +14,8 @@
 // dapat membuat artikel berisi video yang aktif ditampilkan di Web.
 // Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
 	$config['user_admin'] = 0;
+
+/*
+	Token TrackSID
+*/
+	$config['token_tracksid'] = '$2y$10$tNu3WdWgEz2GE7TGfcyckuJvZT0Zu5BiXYsrwbJpw7LEGAlUHEPkq';
