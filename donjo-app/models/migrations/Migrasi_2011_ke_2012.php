@@ -69,5 +69,16 @@ class Migrasi_2011_ke_2012 extends MY_model {
 		}
 
 		status_sukses($hasil);
+
+		// Pengaturan Token TrackSID
+		if ( ! $this->db->field_exists('token_tracksid', 'setting_aplikasi'))
+		{
+			$query = "
+				INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
+				(43, 'token_tracksid', '$2y$10$tNu3WdWgEz2GE7TGfcyckuJvZT0Zu5BiXYsrwbJpw7LEGAlUHEPkq', 'Token TrackSID', '', '')
+				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
+			$this->db->query($query);
+  	}
+
 	}
 }
