@@ -73,6 +73,11 @@ class Setting_model extends CI_Model {
 		{
 			$this->setting->google_key = config_item('google_key');
 		}
+		// Ambil token tracksid dari desa/config/config.php kalau tidak ada di database
+		if (empty($this->setting->token_tracksid))
+		{
+			$this->setting->token_tracksid = config_item('token_tracksid');
+		}
 		// Ambil dev_tracker dari desa/config/config.php kalau tidak ada di database
 		$this->setting->tracker = "https://pantau.opensid.my.id";
 		if (empty($this->setting->dev_tracker))
