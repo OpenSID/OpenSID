@@ -14,7 +14,7 @@ Lengkapnya, isi rilis versi 20.11-premium-pasca adalah sebagai berikut:
 8. Tampilkan Jenis Dokumen di tabel dokumen kelengkapan penduduk di Layanan Mandiri dan di Admin.
 9. Sekarang jenis dokumen dapat diisi di form Penduduk > Dokumen.
 10. #1763: Sekarang bisa ubah masa berlaku default untuk setiap jenis surat layanan.
-11. #3735: Sekarang persyaratan permohonan surat bisa dikosongkan, dan juga hanya terisi apabila surat disediakan di layanan mandiri. [big-fix]
+11. #3735: Sekarang persyaratan permohonan surat bisa dikosongkan, dan juga hanya terisi apabila surat disediakan di layanan mandiri. [bug-fix]
 
 Fitur Premium:
 
