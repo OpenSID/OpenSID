@@ -19,7 +19,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 						<div class="col-sm-7">
-							<select class="form-control input-sm select2 required" id="kode_surat" name="kode_surat">
+							<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
 								<?php if ( ! empty($surat_master['kode_surat'])): ?>
 									<option value="<?= $surat_master['kode_surat']; ?>"><?= $surat_master['kode_surat']; ?></option>
 								<?php else: ?>
