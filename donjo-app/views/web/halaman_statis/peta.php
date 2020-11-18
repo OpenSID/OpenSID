@@ -43,19 +43,133 @@
  */
 ?>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 
-  <link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.css" />
-  <link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
+<div class="hold-transition skin-blue layout-top-nav">
+  <form id="mainform_map" name="mainform_map" action="" method="post">
+    <div class="row">
+      <div class="col-md-12">
+        <div id="map">
+          <div class="leaflet-top leaflet-left">
+            <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
+            <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+            <div id="covid_status" style="display: none;">
+              <?php $this->load->view("gis/covid_peta.php") ?>
+            </div>
+          </div>
+          <div id="desa_online" style="display: none;">
+            <div class="leaflet-top leaflet-right">
+              <section class="content">
+                <div class="info-box bg-yellow">
+                  <span class="info-box-icon"><i class="fa fa-map-marker"><h5>NEGARA</h5></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text nama_negara"></span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                    <span class="info-box-number jml_desa"></span>
+                    <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
+                  </div>
+                </div>
+                <div class="info-box bg-red">
+                  <span class="info-box-icon"><i class="fa fa-map-marker"><h5>PROV.</h5></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text nama_prov"></span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                    <span class="info-box-number jml_desa_prov"></span>
+                    <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
+                  </div>
+                </div>
+                <div class="info-box bg-green">
+                  <span class="info-box-icon"><i class="fa fa-map-marker"><h5>KAB.</h5></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text nama_kab"></span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                    <span class="info-box-number jml_desa_kab"></span>
+                    <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
+                  </div>
+                </div>
+                <div class="info-box bg-blue">
+                  <span class="info-box-icon"><i class="fa fa-map-marker"><h5>KEC.</h5></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text nama_kec"></span>
+                    <div class="progress">
+                      <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                    <span class="info-box-number jml_desa_kec"></span>
+                    <span class="progress-description"><i>Desa OpenSID Aktif</i></span>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="leaflet-top leaflet-right">
+            <div id="covid_status_local" style="display: none;">
+              <?php $this->load->view("gis/covid_peta_local.php") ?>
+            </div>
+          </div>
+          <div class="leaflet-bottom leaflet-left">
+            <div id="qrcode">
+              <div class="panel-body-lg">
+                <a href="https://github.com/OpenSID/OpenSID">
+                  <img src="<?= base_url()?>assets/images/opensid.png" alt="OpenSID">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
 
-  <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-measure-path.css" />
-  <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
-  <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
-  <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
-</head>
+<div class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-sm">
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+        <h4 class='modal-title' id='myModalLabel'></h4>
+      </div>
+      <div class="fetched-data"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalSedang" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+        <h4 class='modal-title' id='myModalLabel'></h4>
+      </div>
+      <div class="fetched-data"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalBesar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-lg">
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+        <h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i></h4>
+      </div>
+      <div class="fetched-data"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function()
 {
@@ -229,7 +343,6 @@
           <?php endif; ?>
         }
         $('#desa_online').show();
-        $('#desa_online1').show();
       });
     });
 
@@ -256,128 +369,7 @@
 
 })();
 </script>
-<body class="hold-transition skin-blue layout-top-nav">
-  <div class="content-wrapper">
-    <form id="mainform_map" name="mainform_map" action="" method="post">
-      <div class="row">
-        <div class="col-md-12">
-          <div id="map">
-            <div class="leaflet-top leaflet-left">
-              <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
-              <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-              <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-              <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-              <div id="covid_status" style="display: none;">
-                <?php $this->load->view("gis/covid_peta.php") ?>
-              </div>
-            </div>
-            <div id="desa_online" style="display: none;">
-              <div class="leaflet-top leaflet-right">
-                <section class="content">
-                  <div class="info-box bg-yellow">
-                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>NEGARA</h5></i></span>
-                    <div class="info-box-content">
-                      <span class="info-box-text nama_negara"></span>
-                      <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                      </div>
-                      <span class="info-box-number jml_desa"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
-                    </div>
-                  </div>
-                  <div class="info-box bg-red">
-                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>PROV.</h5></i></span>
-                    <div class="info-box-content">
-                      <span class="info-box-text nama_prov"></span>
-                      <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                      </div>
-                      <span class="info-box-number jml_desa_prov"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
-                    </div>
-                  </div>
-                  <div class="info-box bg-green">
-                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>KAB.</h5></i></span>
-                    <div class="info-box-content">
-                      <span class="info-box-text nama_kab"></span>
-                      <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                      </div>
-                      <span class="info-box-number jml_desa_kab"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
-                    </div>
-                  </div>
-                  <div class="info-box bg-blue">
-                    <span class="info-box-icon"><i class="fa fa-map-marker"><h5>KEC.</h5></i></span>
-                    <div class="info-box-content">
-                      <span class="info-box-text nama_kec"></span>
-                      <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                      </div>
-                      <span class="info-box-number jml_desa_kec"></span>
-                      <span class="progress-description"><i><small>Desa OpenSID Aktif</i></span>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-            <div class="leaflet-top leaflet-right">
-              <div id="covid_status_local" style="display: none;">
-                <?php $this->load->view("gis/covid_peta_local.php") ?>
-              </div>
-            </div>
-            <div class="leaflet-bottom leaflet-left">
-              <div id="qrcode">
-                <div class="panel-body-lg">
-                  <a href="https://github.com/OpenSID/OpenSID">
-                    <img src="<?= base_url()?>assets/images/opensid.png" alt="OpenSID">
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-</body>
 
-<div class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-  <div class="modal-dialog modal-sm">
-    <div class='modal-content'>
-      <div class='modal-header'>
-        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-        <h4 class='modal-title' id='myModalLabel'></h4>
-      </div>
-      <div class="fetched-data"></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalSedang" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-  <div class="modal-dialog">
-    <div class='modal-content'>
-      <div class='modal-header'>
-        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-        <h4 class='modal-title' id='myModalLabel'></h4>
-      </div>
-      <div class="fetched-data"></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalBesar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-  <div class="modal-dialog modal-lg">
-    <div class='modal-content'>
-      <div class='modal-header'>
-        <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-        <h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i></h4>
-      </div>
-      <div class="fetched-data"></div>
-    </div>
-  </div>
-</div>
-<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 <script src="<?= base_url()?>assets/js/turf.min.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 <script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>

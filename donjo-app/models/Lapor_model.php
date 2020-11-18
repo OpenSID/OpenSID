@@ -38,7 +38,7 @@
 			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
 			$_SESSION['success'] = -1;
 		}
-		
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -228,35 +228,32 @@
 		return $query->result_array();
 	}
 
-	public function update_syarat_surat($surat_format_id=false, $syarat_surat)
+	public function update_syarat_surat($surat_format_id = FALSE, $syarat_surat, $mandiri = 0)
 	{
-		if(empty($surat_format_id))
+		if (empty($surat_format_id))
 		{
 			return FALSE;
 		}
-		// Bandingkan dengan  daftar syarat sebelumnya
-		$data = $this->db->select('ref_syarat_id')
-			->where('surat_format_id', $surat_format_id)
-			->get('syarat_surat')->result_array();
-		$syarat_lama = array_column($data, 'ref_syarat_id');
-		$hapus_syarat = array_diff($syarat_lama, $syarat_surat);
-		$insert_syarat = array_diff($syarat_surat, $syarat_lama);
 
-		// Hapus syarat lama yg tidak ada lagi
-		if (!empty($hapus_syarat))
-		{
-			$hapus_syarat = implode(",", $hapus_syarat);
-			$this->db->where('surat_format_id', $surat_format_id)
-				->where('ref_syarat_id IN (' . $hapus_syarat . ')')
-				->delete('syarat_surat');
-		}
+		$this->hapus_syarat($surat_format_id);
 
-		// Tambahkan syarat baru
-		foreach ($insert_syarat as $syarat) 
+		if ($mandiri == 1)
 		{
-			$data = array('ref_syarat_id' => $syarat, 'surat_format_id' => $surat_format_id);
-			$result = $this->db->insert('syarat_surat', $data);
+			// Tambahkan syarat baru yg dipilih
+			foreach ($syarat_surat as $syarat)
+			{
+				$data = array('ref_syarat_id' => $syarat, 'surat_format_id' => $surat_format_id);
+				$result = $this->db->insert('syarat_surat', $data);
+			}
 		}
+	}
+
+	private function hapus_syarat($id = 0)
+	{
+		// Hapus semua syarat surat berdasarkan surat_format_id
+		$this->db
+			->where('surat_format_id', $id)
+			->delete('syarat_surat');
 	}
 
 	public function upload($url="")

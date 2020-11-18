@@ -14,12 +14,17 @@ Lengkapnya, isi rilis versi 20.11-premium-pasca adalah sebagai berikut:
 8. Tampilkan Jenis Dokumen di tabel dokumen kelengkapan penduduk di Layanan Mandiri dan di Admin.
 9. Sekarang jenis dokumen dapat diisi di form Penduduk > Dokumen.
 10. #1763: Sekarang bisa ubah masa berlaku default untuk setiap jenis surat layanan.
+11. #3735: Sekarang persyaratan permohonan surat bisa dikosongkan, dan juga hanya terisi apabila surat disediakan di layanan mandiri. [bug-fix]
+12. #3755: Sekarang feed RSS OpenSID kembali normal. [bug-fix]
+
 
 Fitur Premium:
 
 1. #3680: Di Identitas Desa, ambil kode dan nama wilayah dari TrackSID
 2. Tampilkan lokasi desa pengguna OpenSID di Peta web
 3. #3614: Sekarang di anjungan mandiri, pemohon surat dapat memilih membawa bukti syarat secara fisik ke kantor desa.
+4. Rapikan dan hapus script tidak digunakan di halaman statis peta di web. [teknis]
+5. #3750: Sekarang jenis kelamin tampil benar di daftar anggota kelompok di halaman statis web. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
