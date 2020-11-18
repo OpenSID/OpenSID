@@ -23,6 +23,7 @@ Fitur Premium:
 1. #3680: Di Identitas Desa, ambil kode dan nama wilayah dari TrackSID
 2. Tampilkan lokasi desa pengguna OpenSID di Peta web
 3. #3614: Sekarang di anjungan mandiri, pemohon surat dapat memilih membawa bukti syarat secara fisik ke kantor desa.
+4. Rapikan dan hapus script tidak digunakan di halaman statis peta di web. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
