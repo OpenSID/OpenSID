@@ -20,7 +20,19 @@ $( window ).on( "load", function() {
 
 $(document).ready(function()
 {
+	// Fungsi untuk tombol kembali ke atas
+	$(window).on('scroll', function() {
+		if ($(this).scrollTop() > 100) {
+			$(".scrollToTop").fadeIn();
+		} else {
+			$(".scrollToTop").fadeOut();
+		}
+	});
 
+	$(".scrollToTop").on('click', function(e) {
+		$("html, body").animate({scrollTop: 0}, 500);
+		return false;
+	});
 
 	//CheckBox All Selected
 	checkAll();

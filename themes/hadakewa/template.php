@@ -67,12 +67,9 @@
 				<?php $this->load->view($folder_themes. '/partials/copywright.tpl.php');?>
 			</div>
 
-			<div class="backTop"><i class="fa fa-chevron-circle-up fa-3x"></i></div>
 		</div>
 	</body>
 </html>
-<!-- Untuk Costume Js -->
-<script src="<?= base_url("$this->theme_folder/$this->theme/js/costume.js");?>"></script>
 
 
 
