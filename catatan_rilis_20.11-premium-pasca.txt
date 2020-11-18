@@ -25,6 +25,7 @@ Fitur Premium:
 3. #3614: Sekarang di anjungan mandiri, pemohon surat dapat memilih membawa bukti syarat secara fisik ke kantor desa.
 4. Rapikan dan hapus script tidak digunakan di halaman statis peta di web. [teknis]
 5. #3750: Sekarang jenis kelamin tampil benar di daftar anggota kelompok di halaman statis web. [bug-fix]
+6. #3748: Sediakan pengaturan tampilkan/sembunyikan keyboard virtual di anjungan layanan mandiri.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

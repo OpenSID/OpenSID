@@ -77,10 +77,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="keyboard">Keyboard Virtual</label>
 						<div class="btn-group col-sm-7" data-toggle="buttons">
-							<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= jecho($anjungan['keyboard'], '1', 'active') ?>">
+							<label id="sx1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= jecho($anjungan['keyboard'], '1', 'active') ?>">
 								<input type="radio" name="keyboard" class="form-check-input" type="radio" value="1" <?= jecho($anjungan['keyboard'], '1', 'checked') ?>> Aktif
 							</label>
-							<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= jecho($anjungan['keyboard'] != '1', TRUE, 'active') ?>">
+							<label id="sx2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= jecho($anjungan['keyboard'] != '1', TRUE, 'active') ?>">
 								<input type="radio" name="keyboard" class="form-check-input" type="radio" value="0" <?= jecho($anjungan['keyboard'] != '1', TRUE, 'checked') ?>> Tidak Aktif
 							</label>
 						</div>
@@ -108,6 +108,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
 	function reset_form()
 	{
+		<?php if ($anjungan['keyboard'] == '1'): ?>
+			$("#sx1").addClass('active');
+			$("#sx2").removeClass("active");
+		<?php else: ?>
+			$("#sx2").addClass('active');
+			$("#sx1").removeClass("active");
+		<?php endif ?>
 		<?php if ($anjungan['status'] == '1'): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
