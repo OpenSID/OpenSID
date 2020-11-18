@@ -46,7 +46,6 @@
           exit('The application environment is not set correctly.');
       }
     }
-
     $this->db->where('id', 1);
     $query = $this->db->get('config');
     $config = $query->row_array();
@@ -74,7 +73,7 @@
 
     if ($this->abaikan($desa)) return;
 
-    $trackSID_output = httpPost($tracker."/index.php/api/track/desa?token=".$this->setting->token_tracksid, $desa);
+    $trackSID_output = httpPost($tracker."/index.php/api/track/desa?token=".$this->token_opensid(), $desa);
     $this->cek_notifikasi_TrackSID($trackSID_output);
     if (strpos(current_url(), 'first') !== FALSE)
     {
@@ -84,6 +83,19 @@
     {
       $_SESSION['track_admin'] = date("Y m d");
     }
+  }
+
+  // token_opensid digunakan sebagai tanda pemanggilan memang di lakukan dari aplikasi OpenSID
+  // Buat token_opensid kalau belum ada, menggunakan hash file LISENSI
+  private function token_opensid()
+  {
+    if ( ! $this->setting->token_opensid)
+    {
+      $lisensi = fopen('LICENSE', 'r');
+      $token_opensid = sha1(file_get_contents($lisensi));
+      $this->setting_model->update_setting(['token_opensid' => $token_opensid]);
+    }
+    return $this->setting->token_opensid;
   }
 
   private function cek_notifikasi_TrackSID($trackSID_output)
