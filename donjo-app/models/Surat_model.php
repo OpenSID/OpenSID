@@ -1110,4 +1110,15 @@
 			->row()->jml;
 		return $jml;
 	}
+
+	public function masa_berlaku_surat($url)
+	{
+		$masa_berlaku = $this->db
+		->select('masa_berlaku, satuan_masa_berlaku')
+		->from('tweb_surat_format')
+		->where('url_surat', $url)
+		->get()->result_array()[0];
+
+		return $masa_berlaku;
+	}
 }

@@ -47,6 +47,7 @@ class Surat_master extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('surat_master_model');
 		$this->load->model('klasifikasi_model');
+		$this->load->model('referensi_model');
 
 		$this->load->model('lapor_model');
 		$this->modul_ini = 4;
@@ -91,23 +92,21 @@ class Surat_master extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
-		$list_ref_syarat = $this->lapor_model->get_surat_ref_all();
+		$data['list_ref_syarat'] = $this->lapor_model->get_surat_ref_all();
+		$data['list_ref_masa'] = $this->referensi_model->list_ref(MASA_BERLAKU);
 
 		if ($id)
 		{
 			$data['surat_master'] = $this->surat_master_model->get_surat_format($id);
 			$data['form_action'] = site_url("surat_master/update/$p/$o/$id");
-			$syarat_surat = $this->lapor_model->get_current_surat_ref($id);
+			$data['syarat_surat'] = $this->lapor_model->get_current_surat_ref($id);
 		}
 		else
 		{
 			$data['surat_master'] = NULL;
 			$data['form_action'] = site_url("surat_master/insert");
-			$syarat_surat = NULL;
+			$data['syarat_surat'] = NULL;
 		}
-
-		$data['list_ref_syarat'] = $list_ref_syarat;
-		$data['syarat_surat'] = $syarat_surat;
 
 		$this->set_minsidebar(1);
 		$this->render('surat_master/form', $data);
@@ -140,24 +139,21 @@ class Surat_master extends Admin_Controller {
 	public function insert()
 	{
 		$syarat = $this->input->post('syarat');
+		$mandiri = $this->input->post('mandiri');
 		unset($_POST['syarat']);
 		$this->surat_master_model->insert();
-		$surat_format_id = $this->db->insert_id();
-		if (!empty($syarat))
-		{
-			$this->update_surat_mohon($surat_format_id, $syarat);
-		}
+		$id = $this->db->insert_id();
+		$this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
 		redirect('surat_master');
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
-		if ($syarat_surat = $this->input->post('syarat'))
-		{
-			$this->update_surat_mohon($id, $syarat_surat);
-			unset($_POST['syarat']);
-		}
+		$syarat = $this->input->post('syarat');
+		$mandiri = $this->input->post('mandiri');
+		unset($_POST['syarat']);
 		$this->surat_master_model->update($id);
+		$this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
 		redirect("surat_master/index/$p/$o");
 	}
 
@@ -233,10 +229,4 @@ class Surat_master extends Admin_Controller {
 		redirect("surat_master");
 	}
 
-	private function update_surat_mohon($id, $syarat_surat)
-	{
-		if (!empty($syarat_surat)) {
-			$this->lapor_model->update_syarat_surat($id, $syarat_surat);
-		}
-	}
 }

@@ -208,7 +208,7 @@
   	{
   		$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
   		$syarat_surat[$i]['dok_id'] = $dok_id;
-  		$syarat_surat[$i]['dok_nama'] = $dok_syarat[$dok_id];
+  		$syarat_surat[$i]['dok_nama'] = ($dok_id == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dok_syarat[$dok_id];
   	}
 		return $syarat_surat;
 	}

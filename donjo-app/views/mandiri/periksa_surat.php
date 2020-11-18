@@ -136,7 +136,13 @@
 	          <tr>
 	            <td align="center" width="2"><?= $no;?></td>
 	            <td><?= $syarat['ref_syarat_nama']?></td>
-	            <td><a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a></td>
+	            <td>
+	            	<?php if ($syarat['dok_id'] == '-1'): ?>
+	            		<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
+	            	<?php else: ?>
+		            	<a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a>
+		            <?php endif; ?>
+	            </td>
 	          </tr>
           <?php $no++; endforeach; ?>
 	      </table>

@@ -152,6 +152,7 @@
 						<th class="padat">No</th>
 						<th class="padat nowrap">Aksi</th>
 						<th>Judul Dokumen</th>
+						<th>Jenis Dokumen</th>
 						<th width="20%" nowrap>Tanggal Upload</th>
 					</tr>
 				</thead>
@@ -259,6 +260,15 @@
 </div>
 
 <script type='text/javascript'>
+
+	function cek_perhatian(elem){
+		if ($(elem).val() == '-1') {
+			$(elem).next('.perhatian').show();
+		} else {
+			$(elem).next('.perhatian').hide();
+		}
+	}
+
 	$(document).ready(function(){
 
 		// var id_surat = 0;

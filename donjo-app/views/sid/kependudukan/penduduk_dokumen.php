@@ -48,7 +48,7 @@
 																<th>No</th>
 																<th >Aksi</th>
 																<th>Nama Dokumen</th>
-																<th>File</th>
+																<th>Jenis Dokumen</th>
 																<th>Tanggal Upload</th>
 															</tr>
 														</thead>
@@ -59,12 +59,13 @@
 																	<td><?= $key+1?></td>
 																	<td nowrap>
 																		<?php if(!$data['hidden']): ?>
+																			<a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" class="btn bg-info btn-flat btn-sm" rel=”noopener noreferrer” target="_blank" title="Buka Dokumen"><i class="fa fa-eye"></i></a>
 																			<a href="<?= site_url("penduduk/dokumen_form/$penduduk[id]/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<a href="#" data-href="<?= site_url("penduduk/delete_dokumen/$penduduk[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif ?>
 																	</td>
 																	<td width="40%"><?= $data['nama']?></td>
-																	<td width="30%"><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan'])?>" rel=”noopener noreferrer” target="_blank" ><?= $data['satuan']?></a></td>
+																	<td width="30%"><?= $jenis_syarat_surat[$data['id_syarat']]['ref_syarat_nama']?></a></td>
 																	<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																</tr>
 																<?php endforeach; ?>
