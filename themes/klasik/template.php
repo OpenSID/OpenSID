@@ -68,5 +68,3 @@
 		</div>
 	</body>
 </html>
-<!-- Untuk Costume Js -->
-<script src="<?= base_url("$this->theme_folder/$this->theme/js/costume.js");?>"></script>

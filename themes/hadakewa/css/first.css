@@ -614,26 +614,3 @@ table.counter tr td {
 	height: 2.5em;
 	text-align: center;
 }
-
-/* Kembali ke Atas */
-.scrollToTop {
-	position: fixed;
-	bottom: 10px;
-	right: 10px;
-	z-index: 9999;
-	background: #3F3F3F;
-	width: 32px;
-	height: 32px;
-	padding: 1em;
-	margin: 1em;
-	display: none;
-	text-decoration: none;
-	background: #3F3F3F;
-	float:none;
-}
-
-.scrollToTop:hover {
-	cursor: pointer;
-	text-decoration: none;
-	color: #8996A8;
-}
