@@ -20,8 +20,8 @@ a:hover {
 }
 
 body{
-  background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
-  background-size: cover;
+	background: url(images/img1.jpg) no-repeat center center fixed;; /*warna background bodi web*/
+	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -33,27 +33,27 @@ body{
 	margin-left: 0px;
 }
 #maincontainer{
-  background: #fff;
+	background: #fff;
 }
 
 #topsection{
-  height: 288px;
-  background: url(images/bg_header.jpg);
-  margin: 6px 0px 0px 0px;
+	height: 288px;
+	background: url(images/bg_header.jpg);
+	margin: 6px 0px 0px 0px;
 }
 #footer{
-  padding: 0;
-  background: rgba(32,124,229,1);
-  background: -moz-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(32,124,229,1)), color-stop(100%, rgba(75,182,232,1)));
-  background: -webkit-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-  background: -o-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-  background: -ms-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-  background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
+	padding: 0;
+	background: rgba(32,124,229,1);
+	background: -moz-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(32,124,229,1)), color-stop(100%, rgba(75,182,232,1)));
+	background: -webkit-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+	background: -o-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+	background: -ms-linear-gradient(top, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+	background: linear-gradient(to bottom, rgba(32,124,229,1) 0%, rgba(75,182,232,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
 #footer-left{
-  text-align: left;
+	text-align: left;
 	padding: 10px;
 	width: 53%;
 }
@@ -199,8 +199,8 @@ body{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#4bb6e8', GradientType=0 );
 }
 .box-header.label-danger {
-  background-color: #d9534f;
-  background-image: none !important;
+	background-color: #d9534f;
+	background-image: none !important;
 }
 .box-header > .fa,
 .box-header > .glyphicon,
@@ -276,14 +276,14 @@ body{
 	border-radius: 3px;
 }
 .box-footer {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-top: 1px solid #f4f4f4;
-  padding: 0px;
-  background-color: #ffffff;
-  margin-right: auto;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-top: 1px solid #f4f4f4;
+	padding: 0px;
+	background-color: #ffffff;
+	margin-right: auto;
 	margin-left: auto;
 	margin-top: -10px;
 	text-align: center;
@@ -339,12 +339,12 @@ blockquote {
 	margin: 10px 10px;
 }
 blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 3em;
-  line-height: 0.1em;
-  margin-right: 0.25em;
-  vertical-align: -0.4em;
+	color: #ccc;
+	content: open-quote;
+	font-size: 3em;
+	line-height: 0.1em;
+	margin-right: 0.25em;
+	vertical-align: -0.4em;
 }
 .gb{
 	border-bottom:solid 2px #eee;
@@ -471,9 +471,9 @@ textarea {
 } /* End Chart Button */
 /* Start Button Layanan Mandiri */
 .btn-block {
-  display: block;
-  width: 100%;
-  margin-top: 5px;
+	display: block;
+	width: 100%;
+	margin-top: 5px;
 }
 #mandiri td {
 	padding-right: 10px;
@@ -485,7 +485,7 @@ textarea {
 .table > caption + thead > tr:first-child > td,
 .table > colgroup + thead > tr:first-child > td,
 .table > thead:first-child > tr:first-child > td {
-  text-align: center;
+	text-align: center;
 } /* End Table Bantuan Layanan Mandiri */
 /* Layanan Mandiri */
 .artikel.layanan .judul {
@@ -605,13 +605,12 @@ table.counter tr td {
 }
 /* Mengubah styles dari bootstrap */
 @media (min-width: 768px) {
-  .navbar-nav {
+	.navbar-nav {
 	text-transform: none !important;
-  }
+	}
 }
 /* Tampilan APBDesa */
 .judul-apbdesa {
 	height: 2.5em;
 	text-align: center;
 }
-
