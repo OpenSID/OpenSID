@@ -12,3 +12,5 @@
 	  	Hosting didukung <a target="_blank" href="https://idcloudhost.com"><img src="<?= base_url('/assets/images/Logo-IDcloudhost.png')?>" height='15px' alt="Logo-IDCloudHost" title="Logo-IDCloudHost"></a>
 	  <?php endif; ?>
 	</p>
+
+	<div class="scrollToTop"><i class="fa fa-arrow-up fa-lg"></i></div>

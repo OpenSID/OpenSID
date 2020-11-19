@@ -114,6 +114,8 @@
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
 		<?php $this->load->view('global/validasi_form'); ?>
+		<!-- Script-->
+		<script src="<?= base_url(); ?>assets/js/script.js"></script>
 
 		<!-- Diperlukan untuk javascript yg mengakses resources -->
 		<script type="text/javascript">
