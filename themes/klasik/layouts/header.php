@@ -59,7 +59,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta property="og:site_name" content="<?= $desa['nama_desa'];?>"/>
 		<meta property="og:type" content="article"/>
-
+		
 		<?php if (isset($single_artikel)): ?>
 			<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]);?>"/>
 			<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
@@ -69,7 +69,8 @@
 		<?php else: ?>
 			<meta name="description" content="Website <?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'];?>"/>
 		<?php endif; ?>
-
+		<link rel="apple-touch-icon" href="/assets/images/icon/icon-192x192.png">
+    	<link rel="manifest" href="/manifest.json" />
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>

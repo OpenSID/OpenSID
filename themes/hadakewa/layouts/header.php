@@ -59,8 +59,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta property="og:site_name" content="<?= $desa['nama_desa'];?>"/>
-		<meta property="og:type" content="article"/>
-
+		<meta property="og:type" content="article"/>		
 		<?php if (isset($single_artikel)): ?>
 			<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]);?>"/>
 			<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
@@ -76,7 +75,8 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
-
+		<link rel="apple-touch-icon" href="/assets/images/icon/icon-192x192.png">
+    	<link rel="manifest" href="/manifest.json" />
 		<link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />

@@ -25,4 +25,21 @@
 			</div>
 		</div>
 	</body>
+	<script>		
+		// Periksa service worker
+		if (!('serviceWorker' in navigator)) {
+			console.log("Service worker tidak didukung browser ini.");
+		} else {
+			window.addEventListener("load", () => {
+				navigator.serviceWorker
+				.register("./sw.js")
+				.then(registration => {
+					console.log("Pendaftaran ServiceWorker berhasil", registration);                
+				})
+				.catch(registrationError => {
+					console.log("Pendaftaran ServiceWorker gagal", registrationError);
+				});
+			})
+		}	        
+	</script>
 </html>
