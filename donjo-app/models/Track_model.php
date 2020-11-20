@@ -6,6 +6,7 @@
     $this->load->model('penduduk_model');
     $this->load->model('web_artikel_model');
     $this->load->model('keluar_model');
+    $this->load->model('setting_model');
   }
 
   public function track_desa($dari)
