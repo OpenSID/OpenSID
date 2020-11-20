@@ -64,3 +64,5 @@
 		<?php endforeach; ?>
 	</ul>
 </div>
+
+<div class="scrollToTop"><i class="fa fa-arrow-up fa-lg"></i></div>

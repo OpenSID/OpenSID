@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
 10. #1763: Sekarang bisa ubah masa berlaku default untuk setiap jenis surat layanan.
 11. #3735: Sekarang persyaratan permohonan surat bisa dikosongkan, dan juga hanya terisi apabila surat disediakan di layanan mandiri. [bug-fix]
 12. #3755: Sekarang feed RSS OpenSID kembali normal. [bug-fix]
+13. #3736: Sediakan tombol Kembali ke Atas di tampilan web.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
