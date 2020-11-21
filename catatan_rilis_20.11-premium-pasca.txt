@@ -17,6 +17,8 @@ Lengkapnya, isi rilis versi 20.11-premium-pasca adalah sebagai berikut:
 11. #3735: Sekarang persyaratan permohonan surat bisa dikosongkan, dan juga hanya terisi apabila surat disediakan di layanan mandiri. [bug-fix]
 12. #3755: Sekarang feed RSS OpenSID kembali normal. [bug-fix]
 13. #3736: Sediakan tombol Kembali ke Atas di tampilan web.
+14. Kirim token ke TrackSID sebagai verifikasi OpenSID valid. [teknis]
+15. Sekarang impor data Rumah Tangga melaporkan error kepala Rumah Tangga ganda, dan jika terjadi menghapus rumah tangga secara konsisten. [bug-fix]
 
 
 Fitur Premium:

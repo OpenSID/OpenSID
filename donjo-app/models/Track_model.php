@@ -46,7 +46,6 @@
           exit('The application environment is not set correctly.');
       }
     }
-
     $this->db->where('id', 1);
     $query = $this->db->get('config');
     $config = $query->row_array();
@@ -74,9 +73,7 @@
 
     if ($this->abaikan($desa)) return;
 
-    // echo "httppost =========== ".$tracker;
-    // echo httpPost($tracker."/index.php/track/desa",$desa);
-    $trackSID_output = httpPost($tracker."/index.php/track/desa", $desa);
+    $trackSID_output = httpPost($tracker."/index.php/api/track/desa?token=".$this->token_opensid(), $desa);
     $this->cek_notifikasi_TrackSID($trackSID_output);
     if (strpos(current_url(), 'first') !== FALSE)
     {
@@ -88,9 +85,24 @@
     }
   }
 
+  // token_opensid digunakan sebagai tanda pemanggilan memang di lakukan dari aplikasi OpenSID
+  // Buat token_opensid kalau belum ada, menggunakan hash file LISENSI
+  private function token_opensid()
+  {
+    if (empty($this->setting->token_opensid))
+    {
+      $lisensi = fopen('LICENSE', 'r');
+      $token_opensid = sha1(file_get_contents($lisensi));
+      // TODO: Ganti nama, karena ada masalah dengan loading setting_model dari proses migrasi
+      $this->load->model('setting_model', 'settingmodel');
+      $this->settingmodel->update_setting(['token_opensid' => $token_opensid]);
+    }
+    return $this->setting->token_opensid;
+  }
+
   private function cek_notifikasi_TrackSID($trackSID_output)
   {
-    if ($trackSID_output != null)
+    if (!empty($trackSID_output))
     {
       $array_output = json_decode($trackSID_output, true);
       foreach ($array_output as $notif)

@@ -545,16 +545,28 @@ class Import_model extends CI_Model {
 		$bip->impor_bip();
 	}
 
+	private function hapus_rtm_penduduk()
+	{
+ 		// Hapus status rtm di tabel tweb_penduduk
+  		$this->db->set('id_rtm', '0')
+  			->set('rtm_level', '0')
+  			->where('id_rtm <>', '0')->or_where('rtm_level <>', '0')
+  			->update('tweb_penduduk');
+	}
+
 	// Impor Pengelompokan Data Rumah Tangga
+	// Data rumah tangga sebelumnya dihapus dan digantikan dengan data impor
 	public function pbdt_individu()
 	{
     $reader = ReaderEntityFactory::createXLSXReader();
     $reader->open($_FILES['userfile']['tmp_name']);
-
+    $outp = true;
     foreach ($reader->getSheetIterator() as $sheet)
     {
     	$baris_pertama = false;
   		$gg = 0;
+
+  		$this->hapus_rtm_penduduk();
 
       foreach ($sheet->getRowIterator() as $row)
       {
@@ -581,9 +593,10 @@ class Import_model extends CI_Model {
   			//NIK
   			$nik = $rowData[0];
 
-  			$sql = "SELECT nama FROM tweb_penduduk WHERE nik = ?";
-  			$query = $this->db->query($sql, $nik);
-  			$pdd = $query->row_array();
+  			$pdd = $this->db->select('nama')
+  				->where('nik', $nik)
+  				->get('tweb_penduduk')
+  				->row_array();
 
   			$nama = "--> GAGAL";
   			if ($pdd)
@@ -594,7 +607,7 @@ class Import_model extends CI_Model {
   				$upd['updated_by'] = $this->session->user;
 
   				$this->db->where('nik', $nik);
-  				$outp = $this->db->update('tweb_penduduk', $upd);
+  				$outp =& $this->db->update('tweb_penduduk', $upd);
   				$nama = $pdd['nama'];
 
   				echo "<a>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
@@ -610,7 +623,7 @@ class Import_model extends CI_Model {
   				$penduduk['rtm_level'] = $rtm_level;
   				$penduduk['created_by'] = $this->session->user;
 
-  				$outp = $this->db->insert('tweb_penduduk', $penduduk);
+  				$outp =& $this->db->insert('tweb_penduduk', $penduduk);
 
   				echo "<a style='color:#f00;'>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
 
@@ -618,17 +631,31 @@ class Import_model extends CI_Model {
   			}
       }
 
-  		$a = "TRUNCATE tweb_rtm; ";
-  		$this->db->query($a);
+      $this->db->truncate('tweb_rtm');
 
-  		$a = "INSERT INTO tweb_rtm (no_kk, nik_kepala) SELECT id_rtm, id FROM tweb_penduduk WHERE tweb_penduduk.id_rtm > 0 AND rtm_level = 1; ";
-  		$outp = $this->db->query($a);
+ 			$ketua_rtm = $this->db->select('id_rtm as no_kk, id as nik_kepala')
+ 				->from('tweb_penduduk')
+ 				->where('id_rtm >', 0)
+ 				->where('rtm_level', 1)
+ 				->get()->result_array();
+
+ 			$hasil_insert = $this->db
+ 				->insert_batch('tweb_rtm', $ketua_rtm);
+
+  		$outp =& $hasil_insert;
+
+  		if (! $hasil_insert)
+  		{
+  			$error = $this->db->error();
+  			echo "<a style='color:#f00;'> Ada rumah tangga dengan kepala ganda. ".$error['code'].': '.$error['message']."</a><br><br>";
+	  		$this->hapus_rtm_penduduk();
+  		}
 
   		$_SESSION['ggl'] = $gg;
 
   		status_sukses($outp); //Tampilkan Pesan
 
-  		echo "<br>JUMLAH GAGAL : $gg</br>";
+  		if ($hasil_insert) echo "<br>JUMLAH GAGAL : $gg</br>";
   		echo "<a href='".site_url()."database/import'>LANJUT</a>";
 
       exit;
