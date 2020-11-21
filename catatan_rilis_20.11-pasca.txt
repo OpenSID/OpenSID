@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
 12. #3755: Sekarang feed RSS OpenSID kembali normal. [bug-fix]
 13. #3736: Sediakan tombol Kembali ke Atas di tampilan web.
 14. Kirim token ke TrackSID sebagai verifikasi OpenSID valid. [teknis]
+15. Sekarang impor data Rumah Tangga melaporkan error kepala Rumah Tangga ganda, dan jika terjadi menghapus rumah tangga secara konsisten. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
