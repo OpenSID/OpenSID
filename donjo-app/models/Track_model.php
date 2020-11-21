@@ -6,7 +6,6 @@
     $this->load->model('penduduk_model');
     $this->load->model('web_artikel_model');
     $this->load->model('keluar_model');
-    $this->load->model('setting_model');
   }
 
   public function track_desa($dari)
@@ -90,11 +89,13 @@
   // Buat token_opensid kalau belum ada, menggunakan hash file LISENSI
   private function token_opensid()
   {
-    if ( ! $this->setting->token_opensid)
+    if (empty($this->setting->token_opensid))
     {
       $lisensi = fopen('LICENSE', 'r');
       $token_opensid = sha1(file_get_contents($lisensi));
-      $this->setting_model->update_setting(['token_opensid' => $token_opensid]);
+      // TODO: Ganti nama, karena ada masalah dengan loading setting_model dari proses migrasi
+      $this->load->model('setting_model', 'settingmodel');
+      $this->settingmodel->update_setting(['token_opensid' => $token_opensid]);
     }
     return $this->setting->token_opensid;
   }
