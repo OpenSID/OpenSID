@@ -47,6 +47,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		// Menu baru -FITUR PREMIUM-
 
 		// Ubah judul setting ukuran lebar bagan
