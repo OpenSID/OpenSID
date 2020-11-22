@@ -354,9 +354,11 @@ class Database extends Admin_Controller {
 
 	public function restore()
 	{
+		$this->session->sedang_restore = 1;
 		$this->redirect_hak_akses('h', "database/backup");
 		$this->export_model->restore();
 		redirect('database/backup');
+		$this->session->sedang_restore = 0;
 	}
 
 	public function export_csv()

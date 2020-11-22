@@ -150,6 +150,9 @@ class Database_model extends CI_Model {
 
 	public function migrasi_db_cri()
 	{
+		// Tunggu restore selesai sebelum migrasi
+		if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) return;
+
 	 	$_SESSION['success'] = 1;
 		$versi = $this->getCurrentVersion();
 		$nextVersion = $versi;
@@ -215,16 +218,21 @@ class Database_model extends CI_Model {
   	// Tidak lakukan apa-apa
   }
 
+  private function versi_database_terbaru()
+  {
+		$sudah = false;
+		if ($this->db->table_exists('migrasi') )
+			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
+				->get('migrasi')->num_rows();
+		return $sudah;
+  }
+
 	// Cek apakah migrasi perlu dijalankan
 	public function cek_migrasi()
 	{
 		// Paksa menjalankan migrasi kalau belum
 		// Migrasi direkam di tabel migrasi
-		$sudah = false;
-		if ($this->db->table_exists('migrasi') )
-			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-				->get('migrasi')->num_rows();
-		if ( ! $sudah)
+		if ( ! $this->versi_database_terbaru())
 		{
 			// Ulangi migrasi terakhir
 			$terakhir = key(array_slice($this->versionMigrate, -1, 1, true));
