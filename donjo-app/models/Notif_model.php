@@ -17,11 +17,18 @@ class Notif_model extends CI_Model {
 		return $num_rows;
 	}
 
-	public function inbox_baru()
+	/**
+	 * Tipe 1: Inbox untuk admin, Outbox untuk pengguna layanan mandiri
+	 * Tipe 2: Outbox untuk admin, Inbox untuk pengguna layanan mandiri
+	 */
+	public function inbox_baru($tipe=1, $nik='')
 	{
-		$num_rows = $this->db->where("id_artikel", LAPORAN_MANDIRI)
+		if ($nik) $this->db->where('email', $nik);
+
+		$num_rows = $this->db
+			->where("id_artikel", LAPORAN_MANDIRI)
 			->where('status', 2)
-			->where('tipe', 1)
+			->where('tipe', $tipe)
 			->where('is_archived', 0)
 			->get('komentar')->num_rows();
 		return $num_rows;

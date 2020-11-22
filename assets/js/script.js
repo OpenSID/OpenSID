@@ -754,3 +754,27 @@ $('document').ready(function()
   })
 });
 
+// Notifikasi
+function tampil_badge(elem, url)
+{
+  elem.load(url);
+  setTimeout(function()
+  {
+    if ( elem.text().trim().length )
+      elem.show();
+    else
+      elem.hide();
+  }, 500);
+}
+
+function refresh_badge(elem, url)
+{
+  if ( ! elem.length) return;
+
+  tampil_badge(elem, url);
+  var refreshInbox = setInterval(function()
+  {
+    tampil_badge(elem, url);
+  }, 10000);
+}
+
