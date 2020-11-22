@@ -316,7 +316,7 @@ body{
 	font-weight: normal;
 	margin-bottom: 5px;
 	margin-top: 5px;
-	text-transform: uppercase;
+	text-transform: capitalize;
 }
 .artikel .kecil{
 	font-size:11px;
