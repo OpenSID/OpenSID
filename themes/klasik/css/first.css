@@ -125,14 +125,15 @@ nav.navbar.navbar-inverse{
 	color: #fd070d;
 	line-height: 1em;
 	margin-bottom: .5em; 
-	text-transform: capitalize
+	text-transform: capitalize;
 }
 .artikel .kecil {
 	font-size: .8em;
 	color:#040404;
 	font-style: italic;
 	font-weight: 400;
-	margin-bottom: .5em;}
+	margin-bottom: .5em;
+}
 .artikel .teks {
 	font-size: 1em; 
 	margin-right: .5em;
