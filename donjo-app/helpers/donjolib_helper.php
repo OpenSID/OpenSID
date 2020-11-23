@@ -603,8 +603,15 @@ function ribuan($angka)
 // Kalau angka romawi jangan ubah
 function set_ucwords($data)
 {
-	if (is_angka_romawi($data)) return $data;
-	return ucwords(strtolower($data));
+	$exp = explode(' ', $data);
+
+	$data = '';
+	for ($i = 0; $i < count($exp); $i++)
+	{
+		$data .= " " . (is_angka_romawi($exp[$i]) ?  $exp[$i] : ucwords(strtolower($exp[$i])));
+	}
+
+	return $data;
 }
 
 function persen($data)
