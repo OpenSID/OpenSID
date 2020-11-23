@@ -135,7 +135,12 @@
 							</form>
 							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">
 								OpenSID</a> <?= AmbilVersi() ?><br />
-								<?= jecho($cek_anjungan, TRUE, "IP Address : $cek_anjungan[ip_address] <br>Anjungan Mandiri"); jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+								<?php if ( ! $cek_anjungan): ?>
+									IP Address : <?= $this->input->ip_address(); ?>
+								<?php else: ?>
+									<?= "IP Address : " . $cek_anjungan['ip_address'] . "<br>Anjungan Mandiri" ?>
+									<?=jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
