@@ -168,6 +168,7 @@ class First extends Web_Controller {
 
 		// replace isi artikel dengan shortcodify
 		$data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
+		$data['title'] = ucwords($data['single_artikel']['judul']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 		$this->_get_common_data($data);
@@ -246,6 +247,7 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
+		$data['title'] = 'Statistik '. $data['heading'];
 		$data['stat'] = $this->laporan_penduduk_model->list_data($stat);
 		$data['tipe'] = $tipe;
 		$data['st'] = $stat;
@@ -349,6 +351,7 @@ class First extends Web_Controller {
 
 		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
+		$data['title'] = $data['heading'];
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
@@ -369,6 +372,7 @@ class First extends Web_Controller {
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading'] = "Produk Hukum";
+		$data['title'] = $data['heading'];
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
 		$this->_get_common_data($data);
 
@@ -406,6 +410,7 @@ class First extends Web_Controller {
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading'] ="Informasi Publik";
+		$data['title'] = $data['heading'];
 		$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
 		$this->_get_common_data($data);
 
@@ -446,6 +451,7 @@ class First extends Web_Controller {
 
 		$data['p'] = $p;
 		$data["judul_kategori"] = $this->first_artikel_m->get_kategori($id);
+		$data['title'] = 'Artikel ' . $data['judul_kategori']['kategori'];
 		$data['paging'] = $this->first_artikel_m->paging_kat($p, $id);
 		$data['paging_page'] = 'kategori/' . $id;
 		$data['paging_range'] = 3;
@@ -539,6 +545,7 @@ class First extends Web_Controller {
 		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
+		$data['title'] = 'Peta ' . ucwords($this->setting->sebutan_desa . ' ' . $data['desa']['nama_desa']);
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();

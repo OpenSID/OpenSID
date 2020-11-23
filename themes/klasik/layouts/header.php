@@ -47,12 +47,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>
-			<?=
-				$this->setting->website_title
-				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
-				. get_dynamic_title_page_from_path();
-			?>
+			<?php if ($title):?>
+				<?= $title; ?>
+			<?php else:?>
+				<?=
+					get_dynamic_title_page_from_path()
+					. ' ' . ucwords($this->setting->sebutan_desa)
+					. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
+				?>
+			<?php endif?>
 		</title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa <?= $desa['nama_desa'];?>">

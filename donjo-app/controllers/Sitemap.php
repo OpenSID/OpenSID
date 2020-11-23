@@ -55,6 +55,7 @@ class Sitemap extends CI_Controller {
 
 		$data['artikel'] = $query->result_array();
 
+		$this->output->set_content_type('text/xml', 'UTF-8');
 		$this->load->view('sitemap', $data);
 	}
 }
