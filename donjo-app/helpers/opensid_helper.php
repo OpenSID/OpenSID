@@ -556,24 +556,6 @@ function get_dynamic_title_page_from_path()
 	), ' ', $title));
 }
 
-function get_first_dynamic_title_page_from_path()
-{
-
-	$parse = str_replace(array(
-		'/first'
-	), '', $_SERVER['PATH_INFO']);
-	$explo = explode('/', $parse);
-
-	if ($parse != '/') {
-		$title = str_replace('-', ' ', $explo[5]);
-	} else {
-		$title = null;
-	}
-
-	return $title;
-
-}
-
 function show_zero_as($val, $str)
 {
 	return (empty($val) ? $str : $val);
