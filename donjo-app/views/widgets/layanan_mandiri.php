@@ -25,9 +25,9 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   <div class="box-body">
     <h4>Masukan NIK dan PIN</h4>
     <form action="<?php echo site_url('auth')?>" method="post">
-    <input name="nik" type="text" placeholder="NIK" style="margin-left:0px" value="" required>
-    <input name="pin" type="password" placeholder="PIN" style="margin-left:0px" value="" required>
-    <button type="submit" id="but" style="margin-left:0px">Masuk</button>
+    <input name="nik" type="text" placeholder="NIK" style="margin-left:0px;width: 100%;display: inline-block;" value="" required>
+    <input name="pin" type="password" placeholder="PIN" style="margin-left:0px;width: 100%;display: inline-block;" value="" required>
+    <button class="btn btn-block btn-success" type="submit" id="but" style="margin-left:0px">Masuk</button>
       <?php  if($_SESSION['mandiri_try'] AND isset($_SESSION['mandiri']) AND $_SESSION['mandiri']==-1){ ?>
       <div id="note">
         Kesempatan mencoba <?php echo ($_SESSION['mandiri_try']-1); ?> kali lagi.
@@ -95,9 +95,9 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
       <div class="box-body">
         <h4>Masukkan PIN Baru</h4>
         <form action="<?php echo site_url('ganti')?>" method="post">
-          <input name="pin1" type="password" placeholder="PIN" value="" style="margin-left:0px">
-          <input name="pin2" type="password" placeholder="Ulangi PIN" value="" style="margin-left:0px">
-          <button type="submit" id="but" style="margin-left:0px">Ganti</button>
+          <input class="form-control" name="pin1" type="password" placeholder="PIN" value="" style="margin-left:0px">
+          <input class="form-control" name="pin2" type="password" placeholder="Ulangi PIN" value="" style="margin-left:0px">
+          <button class="btn btn-block btn-success" type="submit" id="but" style="margin-left:0px">Ganti</button>
         </form>
         <?php if ($flash_message) { ?>
           <div id="notification" class='box-header label-danger'><?php echo $flash_message ?></div>
