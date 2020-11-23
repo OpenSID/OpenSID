@@ -95,8 +95,8 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
       <div class="box-body">
         <h4>Masukkan PIN Baru</h4>
         <form action="<?php echo site_url('ganti')?>" method="post">
-          <input class="form-control" name="pin1" type="password" placeholder="PIN" value="" style="margin-left:0px">
-          <input class="form-control" name="pin2" type="password" placeholder="Ulangi PIN" value="" style="margin-left:0px">
+          <input name="pin1" type="password" placeholder="PIN" value="" style="margin-left:0px">
+          <input name="pin2" type="password" placeholder="Ulangi PIN" value="" style="margin-left:0px">
           <button class="btn btn-block btn-success" type="submit" id="but" style="margin-left:0px">Ganti</button>
         </form>
         <?php if ($flash_message) { ?>
