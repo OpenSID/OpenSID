@@ -611,7 +611,7 @@ function set_ucwords($data)
 		$data .= " " . (is_angka_romawi($exp[$i]) ?  $exp[$i] : ucwords(strtolower($exp[$i])));
 	}
 
-	return $data;
+	return trim($data);
 }
 
 function persen($data)
