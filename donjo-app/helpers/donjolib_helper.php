@@ -6,8 +6,7 @@
  *
  * donjo-app/helpers/donjolib_helper.php
  *
- */
-/*
+ *
  * File ini bagian dari:
  *
  * OpenSID
@@ -39,9 +38,6 @@
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
-
-<?php
 
 	/*
 		Mencari nilai di nested array (array dalam array).
@@ -620,7 +616,7 @@ function set_ucwords($data)
 		$data .= " " . (is_angka_romawi($exp[$i]) ?  $exp[$i] : ucwords(strtolower($exp[$i])));
 	}
 
-	return $data;
+	return trim($data);
 }
 
 function persen($data)
