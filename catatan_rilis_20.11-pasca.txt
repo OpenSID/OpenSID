@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi 20.11-pasca adalah sebagai berikut:
 17. #3767: Perbaiki judul tab browser modul web mengutamakan keterangan isi halaman.
 18. #3771: Sekarang tampilan case huruf Romawi bagian dari teks judul atau nama dusun tidak diubah.
 19. #3758: Sekarang sitemap.xml tampil benar kembali. [bug-fix]
+20. Sesuaikan baris header ekspor data penduduk untuk OpenDK di Pengaturan > Database.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
