@@ -42,7 +42,6 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -63,30 +62,38 @@
 		<?php endif; ?>
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url()?>rss.xml" />
 
-		<!-- Bootstrap 3.3.7 -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.min.css">
-		<!-- Jquery UI -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/plugins/jquery-ui/jquery-ui.min.css">
 		<!-- Font Awesome -->
+	  <link rel="stylesheet" href="<?= base_url()?>assets/plugins/fontawesome-free/css/all.min.css">
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
 		<!-- Ionicons -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
+	  <link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
 		<!-- DataTables -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 		<!-- bootstrap wysihtml5 - text editor -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap3-wysihtml5.min.css">
 		<!-- Select2 -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/select2.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/plugins/select2/css/select2.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 		<!-- Bootstrap Color Picker -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-colorpicker.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
 		<!-- bootstrap datepicker -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-datepicker.min.css">
 		<!-- Theme style -->
-		<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/adminlte-3.0.5/css/adminlte.min.css">
 		<!-- AdminLTE Skins. -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 		<!-- Style Admin Modification Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
+
+	  <!-- overlayScrollbars -->
+	  <link rel="stylesheet" href="<?= base_url()?>assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+	  <!-- Daterange picker -->
+	  <link rel="stylesheet" href="<?= base_url()?>assets/plugins/daterangepicker/daterangepicker.css">
+		<!-- Google Font: Source Sans Pro -->
+	  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet-geoman.css" />
@@ -104,26 +111,7 @@
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
-		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
-
-		<!-- OpenStreetMap Js-->
-		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
-		<script src="<?= base_url()?>assets/js/turf.min.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet-geoman.min.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-		<script src="<?= base_url()?>assets/js/togeojson.js"></script>
-		<script src="<?= base_url()?>assets/js/togpx.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
-		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
-		<script src="<?= base_url()?>assets/js/peta.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
-		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
-		<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
-		<script src="<?= base_url()?>assets/js/shp.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
-		<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
+		<script src="<?= base_url() ?>assets/plugins/jquery/jquery-3.5.1.min.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
@@ -131,84 +119,81 @@
 			var SITE_URL = "<?= site_url(); ?>";
 		</script>
 
-		<!-- Highcharts JS -->
-		<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-		<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
-	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
-		<div class="wrapper">
-			<header class="main-header">
-				<a href="<?=site_url()?>first"  target="_blank" class="logo">
-					<span class="logo-mini"><b>SID</b></span>
-					<span class="logo-lg"><b>OpenSID</b></span>
-				</a>
-				<nav class="navbar navbar-static-top">
-					<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-						<span class="sr-only">Toggle navigation</span>
-					</a>
-					<div class="navbar-custom-menu">
-						<ul class="nav navbar-nav">
-							<?php if (ENVIRONMENT == 'development'): ?>
-								<li>
-									<a>
-										<i class="fa fa-cog fa-lg" title="Development"></i><span class="badge">Development</span>
-									</a>
-								</li>
-							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
-								<li>
-									<a href="<?= site_url('permohonan_surat_admin/clear'); ?>">
-										<span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
-										<span class="badge" id="b_permohonan_surat" style="display: none;"></span>
-									</a>
-								</li>
-							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
-								<li>
-									<a href="<?= site_url('komentar'); ?>">
-										<span><i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;</span>
-										<span class="badge" id="b_komentar" style="display: none;"></span>
-									</a>
-								</li>
-							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
-								<li>
-									<a href="<?= site_url('mailbox'); ?>">
-										<span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
-										<span class="badge" id="b_inbox" style="display: none;"></span>
-									</a>
-								</li>
-							<?php endif; ?>
-							<li class="dropdown user user-menu">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<img src="<?= AmbilFoto($foto); ?>" class="user-image" alt="User Image"/>
-									<span class="hidden-xs"><?=$nama?></span>
-								</a>
-								<ul class="dropdown-menu">
-									<li class="user-header">
-										<img src="<?= AmbilFoto($foto); ?>" class="img-circle" alt="User Image"/>
-										<p>
-											Anda Login Sebagai
-											<strong><?=$nama?></strong>
-										</p>
-									</li>
-									<li class="user-footer">
-										<div class="pull-left">
-											<a href="<?= site_url('user_setting'); ?>" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-flat btn-sm">Profil</a>
-										</div>
-										<div class="pull-right">
-											<a href="<?= site_url('siteman/logout'); ?>" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
-										</div>
-									</li>
-								</ul>
+
+	<body class="<?= $this->setting->warna_tema_admin; ?> hold-transition sidebar-mini layout-fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
+    <div class="wrapper">
+			<nav class="main-header navbar navbar-expand navbar-dark-primary navbar-dark sticky-top">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<?php if (ENVIRONMENT == 'development'): ?>
+							<a class="nav-link" href="#">
+								<i class="fa fa-cogs" title="Development"></i>
+								<span class="badge badge-danger navbar-badge">development</span>
+							</a>
+						<?php endif; ?>
+					</li>
+					<li class="nav-item">
+						<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
+							<a class="nav-link" href="<?= site_url('permohonan_surat_admin/clear'); ?>">
+								<span><i class="fa fa-print" title="Permohonan Surat"></i>&nbsp;</span>
+								<span class="badge badge-warning navbar-badge" id="b_permohonan_surat" style="display: none;"></span>
+							</a>
+						<?php endif; ?>
+					</li>
+					<li class="nav-item">
+						<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
+							<a class="nav-link" href="<?= site_url('komentar'); ?>">
+								<span><i class="fas fa-comments" title="Komentar"></i>&nbsp;</span>
+								<span class="badge badge-info navbar-badge" id="b_komentar" style="display: none;"></span>
+							</a>
+						<?php endif; ?>
+					</li>
+					<li class="nav-item">
+						<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
+							<a class="nav-link" href="<?= site_url('mailbox'); ?>">
+								<span ><i class="fa fa-envelope" title="Pesan Masuk"></i>&nbsp;</span>
+								<span class="badge badge-warning navbar-badge" id="b_inbox" style="display: none;"></span>
+							</a>
+						<?php endif; ?>
+					</li>
+					<li class="nav-item dropdown user user-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="<?= AmbilFoto($foto); ?>" class="user-image" alt="User Image"/>
+							<span class="badge badge-info hidden-xs"><?=$nama?></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="user-header">
+								<img src="<?= AmbilFoto($foto); ?>" class="rounded-circle" alt="User Image"/>
+								<p>
+									Anda Login Sebagai
+									<strong><?=$nama?></strong>
+								</p>
+							</li>
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="<?= site_url('user_setting'); ?>" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-flat btn-xs">Profil</a>
+								</div>
+								<div class="pull-right">
+									<a href="<?= site_url('siteman/logout'); ?>" class="btn bg-maroon btn-flat btn-xs">Keluar</a>
+								</div>
 							</li>
 						</ul>
-					</div>
-				</nav>
-			</header>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+							<i class="fas fa-th-large"></i>
+						</a>
+					</li>
+				</ul>
+			</nav>
+
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
 			<!-- Untuk menampilkan modal bootstrap umum  -->
 			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -224,4 +209,3 @@
 			</div>
 			<!-- Untuk menampilkan dialog pengumuman  -->
 			<?= $this->pengumuman; ?>
-
