@@ -52,6 +52,7 @@
 			<?php else:?>
 				<?=
 					get_dynamic_title_page_from_path()
+					. ' ' . $this->setting->website_title
 					. ' ' . ucwords($this->setting->sebutan_desa)
 					. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
 				?>

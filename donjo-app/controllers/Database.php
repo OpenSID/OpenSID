@@ -142,49 +142,48 @@ class Database extends Admin_Controller {
 			$fileName = 'penduduk_'.$tgl.'.xlsx';
 		}
 		$writer->openToBrowser($fileName); // stream data directly to the browser
-
 		//Header Tabel
-		$judul = [
-			'Alamat',
-			'Dusun',
-			'RW',
-			'RT',
-			'Nama',
-			'Nomor KK',
-			'Nomor NIK',
-			'Jenis Kelamin',
-			'Tempat Lahir',
-			'Tanggal Lahir',
-			'Agama',
-			'Pendidikan (dlm KK)',
-			'Pendidikan (sdg ditempuh)',
-			'Pekerjaan',
-			'Kawin',
-			'Hub. Keluarga',
-			'Kewarganegaraan',
-			'Nama Ayah',
-			'Nama Ibu',
-			'Gol. Darah',
-			'Akta Lahir',
-			'Nomor Dokumen Paspor',
-			'Tanggal Akhir Paspor',
-			'Nomor Dokumen KITAS',
-			'NIK Ayah',
-			'NIK Ibu',
-			'Nomor Akta Perkawinan',
-			'Tanggal Perkawinan',
-			'Nomor Akta Perceraian',
-			'Tanggal Perceraian',
-			'Cacat',
-			'Cara KB',
-			'Hamil',
-			'KTP-el',
-			'Status Rekam',
-			'Alamat Sekarang'
+		$daftar_kolom = [
+			['Alamat', 'alamat'],
+			['Dusun', 'dusun'],
+			['RW', 'rw'],
+			['RT', 'rt'],
+			['Nama', 'nama'],
+			['Nomor KK', 'nomor_kk'],
+			['Nomor NIK', 'nomor_nik'],
+			['Jenis Kelamin', 'jenis_kelamin'],
+			['Tempat Lahir', 'tempat_lahir'],
+			['Tanggal Lahir', 'tanggal_lahir'],
+			['Agama', 'agama'],
+			['Pendidikan (dlm KK)', 'pendidikan_dlm_kk'],
+			['Pendidikan (sdg ditempuh)', 'pendidikan_sdg_ditempuh'],
+			['Pekerjaan', 'pekerjaan'],
+			['Kawin', 'kawin'],
+			['Hub. Keluarga', 'hubungan_keluarga'],
+			['Kewarganegaraan', 'kewarganegaraan'],
+			['Nama Ayah', 'nama_ayah'],
+			['Nama Ibu', 'nama_ibu'],
+			['Gol. Darah', 'gol_darah'],
+			['Akta Lahir', 'akta_lahir'],
+			['Nomor Dokumen Paspor', 'nomor_dokumen_pasport'],
+			['Tanggal Akhir Paspor', 'tanggal_akhir_pasport'],
+			['Nomor Dokumen KITAS', 'nomor_dokumen_kitas'],
+			['NIK Ayah', 'nik_ayah'],
+			['NIK Ibu', 'nik_ibu'],
+			['Nomor Akta Perkawinan', 'nomor_akta_perkawinan'],
+			['Tanggal Perkawinan', 'tanggal_perkawinan'],
+			['Nomor Akta Perceraian', 'nomor_akta_perceraian'],
+			['Tanggal Perceraian', 'tanggal_perceraian'],
+			['Cacat', 'cacat'],
+			['Cara KB', 'cara_kb'],
+			['Hamil', 'hamil'],
+			['KTP-el', 'ktp_el'],
+			['Status Rekam', 'status_rekam'],
+			['Alamat Sekarang', 'alamat_sekarang']
 		];
 		if ($opendk)
 		{
-			$judul = array_values($judul);
+			$judul = array_column($daftar_kolom, 1);
 			// Kolom tambahan khusus OpenDK
 			$judul[] = 'id';
 			$judul[] = 'status_dasar';
@@ -193,7 +192,7 @@ class Database extends Admin_Controller {
 		}
 		else
 		{
-			$judul = array_values($judul);
+			$judul = array_column($daftar_kolom, 0);
 		}
 		$header = WriterEntityFactory::createRowFromArray($judul);
 		$writer->addRow($header);
