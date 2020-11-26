@@ -1,10 +1,10 @@
 										<div class="tab-pane <?php if ($act_tab==6): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border">
+													<div class="card-header with-border">
 														<h3 class="box-title"><strong>Kosongkan Database SID</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
 																<p>Biasanya pada saat menginstall SID, <?= $this->setting->sebutan_desa ?> mengimpor data awal yang merupakan
@@ -23,7 +23,7 @@
 																					<div class="form-group">
 																						<label for="file" class="col-md-4 col-lg-3 control-label">Kosongkan Database SID</label>
 																						<div class="col-sm-12 col-md-3 col-lg-2">
-																							<a href="#" form="kosongkan" class="btn btn-social btn-flat btn-block btn-danger btn-sm"  title="Kosongkan DB" data-toggle="modal" data-target="#confirmsubmit"><i class="fa fa-trash-o"></i> Kosongkan DB</a>
+																							<a href="#" form="kosongkan" class="btn btn-flat btn-block btn-danger btn-xs"  title="Kosongkan DB" data-toggle="modal" data-target="#confirmsubmit"><i class="fa fa-trash-o"></i> Kosongkan DB</a>
 																						</div>
 																						<p class="help-block col-sm-12 col-md-5 col-lg-5"><input type="checkbox" name="kosongkan_menu" value='kosongkan'></input>	Juga kosongkan contoh menu statis dan dinamis</p>
 																					</div>
@@ -47,7 +47,7 @@
 																Apakah anda yakin? Proses ini akan menghapus semua data penduduk dan data masukan lainnya.
 															</div>
 															<div class='modal-footer'>
-																<button type='button' class='btn btn-social btn-flat btn-warning btn-sm' data-dismiss='modal'><i class='fa fa-sign-out'></i> Tutup</button> <a href="#" id="submit" class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Hapus</a>
+																<button type='button' class='btn btn-flat btn-warning btn-xs' data-dismiss='modal'><i class='fa fa-sign-out'></i> Tutup</button> <a href="#" id="submit" class='btn btn-flat btn-danger btn-xs'><i class='fa fa-times'></i> Hapus</a>
 															</div>
 														</div>
 													</div>

@@ -44,11 +44,11 @@
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_jalan" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+						<a href="<?= site_url() ?>inventaris_jalan" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
@@ -60,8 +60,8 @@
 											<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$get_kode["kode_kabupaten"]?>">
 											<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$get_kode["kode_kecamatan"]?>">
 											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$get_kode["kode_desa"]?>">
-											<!-- <input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" /> -->
-											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
+											<!-- <input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control form-control-sm required" name="nama_barang" id="nama_barang" type="text" /> -->
+											<select class="form-control form-control-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
 												<option value="<?= $main->nama_barang; ?>"><?= $main->nama_barang; ?></option>
 												<?php foreach ($aset as $data): ?>
 													<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
@@ -72,13 +72,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" />
+											<input maxlength="50" value="<?= $main->kode_barang; ?>" class="form-control form-control-sm required" name="kode_barang" id="kode_barang" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-5">
-											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" placeholder="Nomor Register"/>
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control form-control-sm required" name="register" id="register" type="text" placeholder="Nomor Register"/>
 										</div>
 										<div class="col-sm-3">
 											<a style="cursor: pointer;" id="view_modal" name="view_modal" >Lihat Kode yang terdaftar</a>
@@ -87,7 +87,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kondisi">Kondisi Bangunan</label>
 										<div class="col-sm-4">
-											<select name="kondisi" id="kondisi" class="form-control input-sm required" >
+											<select name="kondisi" id="kondisi" class="form-control form-control-sm required" >
 												<option value="<?= $main->kondisi; ?>"> <?= $main->kondisi; ?> </option>
 												<option value="Baik">Baik</option>
 												<option value="Rusak Ringan">Rusak Ringan</option>
@@ -99,14 +99,14 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi</label>
 										<div class="col-sm-8">
-											<textarea class="form-control input-sm required" name="kontruksi" id="kontruksi" ><?= $main->kontruksi; ?></textarea>
+											<textarea class="form-control form-control-sm required" name="kontruksi" id="kontruksi" ><?= $main->kontruksi; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="panjang">Panjang</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text"/>
+												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control form-control-sm number required" id="panjang" name="panjang" type="text"/>
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
@@ -115,7 +115,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="lebar">Lebar</label>
 										<div class="col-sm-4">
 										<div class="input-group">
-											<input value="<?= (!empty($main->lebar) ? $main->lebar : '0'); ?>"  class="form-control input-sm number required" id="lebar" name="lebar" type="text"/>
+											<input value="<?= (!empty($main->lebar) ? $main->lebar : '0'); ?>"  class="form-control form-control-sm number required" id="lebar" name="lebar" type="text"/>
 											<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 										</div>
 										</div>
@@ -124,7 +124,7 @@
 										<label class="col-sm-3 control-label " style="text-align:left;" for="luas">Luas</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (!empty($main->luas) ? $main->luas : '0'); ?>"  class="form-control input-sm number required" id="luas" name="luas" type="text"/>
+												<input value="<?= (!empty($main->luas) ? $main->luas : '0'); ?>"  class="form-control form-control-sm number required" id="luas" name="luas" type="text"/>
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -132,13 +132,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="alamat">Letak / Lokasi </label>
 										<div class="col-sm-8">
-											<textarea class="form-control input-sm required" name="alamat" id="alamat" ><?= $main->letak; ?></textarea>
+											<textarea class="form-control form-control-sm required" name="alamat" id="alamat" ><?= $main->letak; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun_pengadaan">Tahun Pembelian</label>
 										<div class="col-sm-4">
-											<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm required">
+											<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control form-control-sm required">
 												<option value="<?= date('Y',strtotime($main->tanggal_dokument)); ?>"><?= date('Y',strtotime($main->tanggal_dokument)); ?></option>
 												<?php for ($i=date("Y"); $i>=1900; $i--): ?>
 													<option value="<?= $i ?>"><?= $i ?></option>
@@ -149,19 +149,19 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text"/>
+											<input maxlength="50" value="<?= (!empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control form-control-sm required" name="no_bangunan" id="no_bangunan" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="tanggal_bangunan">Tanggal Dokumen Kepemilikan</label>
 										<div class="col-sm-4">
-											<input maxlength="50" type="date" value="<?= $main->tanggal_dokument;?>" class="form-control input-sm required" name="tanggal_bangunan" id="tanggal_bangunan" />
+											<input maxlength="50" type="date" value="<?= $main->tanggal_dokument;?>" class="form-control form-control-sm required" name="tanggal_bangunan" id="tanggal_bangunan" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="status_tanah">Status Tanah</label>
 										<div class="col-sm-8">
-											<select name="status_tanah" id="status_tanah" class="form-control input-sm required">
+											<select name="status_tanah" id="status_tanah" class="form-control form-control-sm required">
 												<option value="<?= $main->status_tanah; ?>"> <?= $main->status_tanah; ?> </option>
 												<option value="Tanah milik Pemda">Tanah milik Pemda</option>
 												<option value="Tanah Negara">Tanah Negara (Tanah yang dikuasai langsung oleh Negara)</option>
@@ -173,13 +173,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50"value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>"  class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text"/>
+											<input maxlength="50"value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>"  class="form-control form-control-sm required" name="kode_tanah" id="kode_tanah" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Penggunaan Barang </label>
 										<div class="col-sm-4">
-											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
+											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control form-control-sm required" placeholder="Hak Tanah" required>
 											<?php
 												$value = '';
 												if(substr($main->kode_barang,-7,2)==01){
@@ -209,7 +209,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="asal">Asal Usul </label>
 										<div class="col-sm-8">
-											<select name="asal" id="asal" class="form-control input-sm required" >
+											<select name="asal" id="asal" class="form-control form-control-sm required" >
 												<option value="<?= $main->asal; ?>"> <?= $main->asal; ?> </option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
@@ -224,28 +224,28 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
-												<input onkeyup="price()"  class="form-control input-sm number required" id="harga" name="harga" value="<?= $main->harga; ?>" />
+												<input onkeyup="price()"  class="form-control form-control-sm number required" id="harga" name="harga" value="<?= $main->harga; ?>" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled/>
+												<input type="text" class="form-control form-control-sm required" id="output" name="output" placeholder="" disabled/>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ><?= $main->keterangan; ?></textarea>
+											<textarea rows="5" class="form-control form-control-sm required" name="keterangan" id="keterangan" ><?= $main->keterangan; ?></textarea>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
+						<div class="card-footer">
 							<div class="col-xs-12">
-								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</div>

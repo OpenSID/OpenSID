@@ -1,11 +1,11 @@
-<div class="box box-info">
-	<div class="box-header with-border">
+<div class="card card-outline card-info">
+	<div class="card-header with-border">
 		<h3 class="box-title">Inventaris</h3>
-		<div class="box-tools">
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 		</div>
 	</div>
-	<div class="box-body no-padding">
+	<div class="card-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<?php if ($this->tab_ini == 7): ?>
 				<li <?php if ($tip==1): ?>class="active"<?php endif; ?>><a href="<?=site_url('laporan_inventaris')?>"><i class="fa fa-list"></i> Laporan Semua Asset</a></li>
@@ -19,14 +19,14 @@
 		</ul>
 	</div>
 </div>
-<div class="box box-info">
-	<div class="box-header with-border">
+<div class="card card-outline card-info">
+	<div class="card-header with-border">
 		<h3 class="box-title">Kategori Inventaris</h3>
-		<div class="box-tools">
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 		</div>
 	</div>
-	<div class="box-body no-padding">
+	<div class="card-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<li class="<?php ($this->tab_ini == 1) and print('active')?>"><a href="<?=site_url('inventaris_tanah')?>"><i class="fa fa-tags"></i> Tanah</a></li>
 			<li class="<?php ($this->tab_ini == 2) and print('active')?>"><a href="<?=site_url('inventaris_peralatan')?>"><i class="fa fa-tags"></i> Peralatan Dan Mesin</a></li>

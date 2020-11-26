@@ -20,11 +20,11 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-outline card-danger">
+					<div class="card-body">
 						<label class="control-label" for="nama">Unggah Template Format Surat</label>
 						<div class="input-group input-group-sm">
-							<input type="text" class="form-control input-sm required" id="file_path">
+							<input type="text" class="form-control form-control-sm required" id="file_path">
 							<input type="file" class="hidden" id="file" name="foto">
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
@@ -35,8 +35,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+			<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 		</div>
 	</div>
 </form>

@@ -13,8 +13,8 @@
 				<?php $this->load->view('data_persil/menu_kiri.php')?>
 			</div>
 			<div class="col-md-9">
-				<div class="box box-info">
-					<div class="box-header">
+				<div class="card card-outline card-info">
+					<div class="card-header">
 							<?php if ($persil_detail["id"]): ?>
 								<h4 class="text-center"><strong>Sebab Dan Tanggal Perubahan Persil <?= $persil_detail["nopersil"] ?> / C-DESA <?= $persil_detail["c_desa"] ?></strong></h4>
 							<?php else: ?>
@@ -23,11 +23,11 @@
 
 						</div>
 					<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<label for="nama"  class="col-sm-3 control-label">Sebab Mutasi</label>
 								<div class="col-sm-4">
-									<select class="form-control input-sm" name="jenis_mutasi" >
+									<select class="form-control form-control-sm" name="jenis_mutasi" >
 										<option value>-- Pilih Jenis Mutasi--</option>
 										<?php foreach ($persil_jenis_mutasi as $key => $item): ?>
 											<option value="<?= $item['id'] ?>" <?php selected($key, $persil_mutasi["jenis_mutasi"]) ?>><?= $item['nama']?></option>
@@ -42,7 +42,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_1" name="tanggalmutasi" type="text" value="<?= $persil_mutasi["tanggalmutasi"]?>">
+										<input class="form-control form-control-sm pull-right" id="tgl_1" name="tanggalmutasi" type="text" value="<?= $persil_mutasi["tanggalmutasi"]?>">
 									</div>
 								</div>
 							</div>
@@ -57,7 +57,7 @@
 							<div class="form-group">
 								<label for="nama"  class="col-sm-3 control-label">Sebab Mutasi</label>
 								<div class="col-sm-4">
-									<select class="form-control input-sm" name="sebabmutasi" >
+									<select class="form-control form-control-sm" name="sebabmutasi" >
 										<option value>-- Pilih Sebab Mutasi--</option>
 										<?php foreach ($persil_sebab_mutasi as $key => $item): ?>
 											<option value="<?= $item['id'] ?>" <?php selected($key, $persil_mutasi["sebabmutasi"]) ?>><?= $item['nama']?></option>
@@ -68,26 +68,26 @@
 							<div class="form-group">
 								<label for="nama"  class="col-sm-3 control-label">Luas Mutasi</label>
 								<div class="col-sm-9">
-									<input  name="luasmutasi"  type="text"  class="form-control input-sm luas" placeholder="Luas Mutasi" value="<?= $persil_mutasi["luasmutasi"] ?>">
+									<input  name="luasmutasi"  type="text"  class="form-control form-control-sm luas" placeholder="Luas Mutasi" value="<?= $persil_mutasi["luasmutasi"] ?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="nama"  class="col-sm-3 control-label">Perolehan Dari</label>
 								<div class="col-sm-9">
-									<input name="no_c_desa"  type="text"  class="form-control input-sm angka" placeholder="Nomor C-DESA" value="<?= $persil_mutasi["no_c_desa"] ?>">
+									<input name="no_c_desa"  type="text"  class="form-control form-control-sm angka" placeholder="Nomor C-DESA" value="<?= $persil_mutasi["no_c_desa"] ?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="nama"  class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-9">
-									<textarea  id="ket" class="form-control input-sm" type="text" placeholder="Sebab Dan Tanggal Perubahan" name="ket" ><?= $persil_mutasi["keterangan"] ?></textarea>
+									<textarea  id="ket" class="form-control form-control-sm" type="text" placeholder="Sebab Dan Tanggal Perubahan" name="ket" ><?= $persil_mutasi["keterangan"] ?></textarea>
 								</div>
 							</div>
 						</div>	
-						<div class='box-footer'>
+						<div class='card-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</form>

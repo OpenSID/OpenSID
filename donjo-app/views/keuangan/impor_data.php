@@ -2,13 +2,23 @@
 	.nowrap { white-space: nowrap; }
 </style>
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Impor Data Siskeudes</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Impor Data Siskeudes</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Impor Data Siskeudes
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fas fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item active">Impor Data Siskeudes</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="jenis_impor" id="jenis_impor" value="baru">
@@ -16,8 +26,8 @@
 			<div class='modal-body'>
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="box box-danger">
-							<div class="box-body">
+						<div class="card card-outline card-info">
+							<div class="card-body">
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label for="file"  class="control-label">Berkas Database Siskuedes :</label>
@@ -33,7 +43,7 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
+								<button type="button" class="btn btn-flat btn-info btn-xs" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
 							</div>
 
 							<hr>
@@ -57,15 +67,15 @@
 														<td><?=$data['no']?></td>
 														<td nowrap>
 															<?php if (count($data['desa_ganda']) > 1): ?>
-																<a href="<?= site_url("keuangan/pilih_desa/{$data['id']}")?>" title="Bersihkan desa ganda" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Bersihkan Desa Ganda" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-minus-square"></i></a>
+																<a href="<?= site_url("keuangan/pilih_desa/{$data['id']}")?>" title="Bersihkan desa ganda" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Bersihkan Desa Ganda" class="btn bg-orange btn-flat btn-xs"><i class="fa fa-minus-square"></i></a>
 															<?php endif; ?>
-															<a href="#" data-href="<?= site_url("keuangan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															<a href="#" data-href="<?= site_url("keuangan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<td><?=$data['versi_database']?></td>
 														<td>
 															<?=$data['tahun_anggaran']?>
 															<?php if (count($data['desa_ganda']) > 1): ?>
 																<span style="padding-left: 5px;">(Berisi data dari beberapa desa. Bersihkan dulu data desa ganda.)</span>
-															<?php endif; ?>																
+															<?php endif; ?>
 														</td>
 														<td><?=tgl_indo_out($data['tanggal_impor'])?></td>
 													</tr>
@@ -96,8 +106,8 @@
 				<p>Apakah anda ingin melanjutkan proses impor untuk menindih datanya?</p>
 			</div>
 			<div class="modal-footer">
-				<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-				<button type="button" class="btn btn-social btn-flat btn-info btn-sm" onclick="simpanDataUpdate()"><i class='fa fa-check'></i> Lanjutkan impor</button>
+				<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<button type="button" class="btn btn-flat btn-info btn-xs" onclick="simpanDataUpdate()"><i class='fa fa-check'></i> Lanjutkan impor</button>
 			</div>
 		</div>
 	</div>
@@ -114,7 +124,7 @@
 				<p id="kata_peringatan"></p>
 			</div>
 			<div class="modal-footer">
-				<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 			</div>
 		</div>
 	</div>

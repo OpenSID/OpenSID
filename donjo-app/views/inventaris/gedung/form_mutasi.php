@@ -14,36 +14,36 @@
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+						<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="nama_barang">Nama Barang</label>
 										<div class="col-sm-8">
 											<input type="hidden" name="id_inventaris_gedung" id="id_inventaris_gedung" value="<?= $main->id; ?>">
-											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control form-control-sm required" name="nama_barang" id="nama_barang" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->kode_barang; ?>"  class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->kode_barang; ?>"  class="form-control form-control-sm required" name="kode_barang" id="kode_barang" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="register" id="register" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control form-control-sm required" name="register" id="register" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
+											<select name="mutasi" id="mutasi" class="form-control form-control-sm required">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
 												<option value="Rusak">Status Rusak</option>
 												<option value="Diperbaiki">Status Diperbaiki</option>
@@ -61,19 +61,19 @@
 									<div class="form-group disumbangkan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="sumbangkan">Disumbangkan ke-</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  class="form-control input-sm" name="sumbangkan" id="sumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
+											<input maxlength="50"  class="form-control form-control-sm" name="sumbangkan" id="sumbangkan" type="text" value="<?= $main->sumbangkan; ?>"/>
 										</div>
 									</div>
 									<div class="form-group harga_jual">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="harga_jual">Harga Penjualan</label>
 										<div class="col-sm-4">
-											<input maxlength="50"  class="form-control input-sm number" name="harga_jual" id="harga_jual" type="text" value="<?= $main->harga_jual; ?>"/>
+											<input maxlength="50"  class="form-control form-control-sm number" name="harga_jual" id="harga_jual" type="text" value="<?= $main->harga_jual; ?>"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
 										<div class="col-sm-4">
-											<select name="" id="" class="form-control input-sm required" disabled>
+											<select name="" id="" class="form-control form-control-sm required" disabled>
 												<option value="<?= $main->tanggal_dokument; ?>"><?= date('Y',strtotime($main->tanggal_dokument)); ?></option>
 											</select>
 										</div>
@@ -81,22 +81,22 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="tahun_mutasi">Tahun Mutasi</label>
 										<div class="col-sm-4">
-											<input type="date" maxlength="50" class="form-control input-sm required" name="tahun_mutasi" id="tahun_mutasi" value="<?= $main->tahun_mutasi; ?>" />
+											<input type="date" maxlength="50" class="form-control form-control-sm required" name="tahun_mutasi" id="tahun_mutasi" value="<?= $main->tahun_mutasi; ?>" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ></textarea>
+											<textarea rows="5" class="form-control form-control-sm required" name="keterangan" id="keterangan" ></textarea>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
+						<div class="card-footer">
 							<div class="col-xs-12">
-								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</div>

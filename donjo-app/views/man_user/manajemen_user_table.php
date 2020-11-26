@@ -20,19 +20,19 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url('man_user/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Pengguna Baru</a>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("man_user/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?= site_url('man_user/form')?>" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-plus"></i> Tambah Pengguna Baru</a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("man_user/delete_all/$p/$o")?>')" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-6">
-												<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?=site_url('man_user/filter')?>')">
+												<select class="form-control form-control-sm" name="filter" onchange="formAction('mainform','<?=site_url('man_user/filter')?>')">
 													<option value="">Semua</option>
 													<?php foreach ($user_group as $item): ?>
 														<option <?php selected($filter, $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
@@ -40,7 +40,7 @@
 												</select>
 											</div>
 											<div class="col-sm-6">
-												<div class="box-tools">
+												<div class="card-tools">
 													<div class="input-group input-group-sm pull-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?=site_url('man_user/search')?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
@@ -95,14 +95,14 @@
 																	</td>
 																	<td><?=$data['no']?></td>
 																	<td nowrap>
-																		<a href="<?=site_url("Man_user/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																		<a href="<?=site_url("Man_user/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-xs"  title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php if ($data['id']!=1): ?>
 																			<?php if ($data['active'] == '0'): ?>
-																				<a href="<?=site_url('Man_user/user_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?=site_url('Man_user/user_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-xs"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['active'] == '1'): ?>
-																				<a href="<?=site_url('Man_user/user_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a>
+																				<a href="<?=site_url('Man_user/user_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-xs"  title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
-																			<a href="#" data-href="<?=site_url("Man_user/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?=site_url("Man_user/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['username']?></td>
@@ -123,7 +123,7 @@
 												<form id="paging" action="<?= site_url("man_user")?>" method="post" class="form-horizontal">
 													<label>
 														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+														<select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
 															<option value="20" <?php selected($per_page,20); ?> >20</option>
 															<option value="50" <?php selected($per_page,50); ?> >50</option>
 															<option value="100" <?php selected($per_page,100); ?> >100</option>

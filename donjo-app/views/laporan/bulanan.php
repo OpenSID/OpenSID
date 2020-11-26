@@ -10,12 +10,12 @@
 		<form id="mainform" name="mainform" action="<?= site_url('laporan')?>" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url("{$this->controller}/dialog_cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("{$this->controller}/dialog_unduh")?>" title="Unduh Laporan" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-download"></i> Unduh</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url("{$this->controller}/dialog_cetak")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("{$this->controller}/dialog_unduh")?>" title="Unduh Laporan" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-download"></i> Unduh</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
                   <h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($config['nama_kabupaten'])?></strong></h4>
@@ -24,23 +24,23 @@
 									<div class="form-group">
                     <label class="col-sm-2 control-label" for="kelurahan"><?= ucwords($this->setting->sebutan_desa)?>/Kelurahan</label>
                     <div class="col-sm-7 col-md-5">
-                      <input type="text" class="form-control input-sm" value="<?= $config['nama_desa']?>" disabled/></input>
+                      <input type="text" class="form-control form-control-sm" value="<?= $config['nama_desa']?>" disabled/></input>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="kecamatan"><?= ucwords($this->setting->sebutan_kecamatan)?></label>
                     <div class="col-sm-7 col-md-5">
-                      <input type="text" class="form-control input-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
+                      <input type="text" class="form-control form-control-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="tahun">Tahun</label>
                     <div class="col-sm-2">
-                      <input name="tahun" placeholder="Tahun" type="text" class="form-control input-sm required" value="<?= $tahun ?>"  onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("laporan/bulan")?>');$('#'+'mainform').submit();}" /></input>
+                      <input name="tahun" placeholder="Tahun" type="text" class="form-control form-control-sm required" value="<?= $tahun ?>"  onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("laporan/bulan")?>');$('#'+'mainform').submit();}" /></input>
                     </div>
 										<label class="col-sm-2 col-md-1 control-label" for="tahun">Bulan</label>
                     <div class="col-sm-3 col-md-2">
-                      <select class="form-control input-sm" name="bulan" onchange="formAction('mainform','<?= site_url('laporan/bulan')?>')" width="100%">
+                      <select class="form-control form-control-sm" name="bulan" onchange="formAction('mainform','<?= site_url('laporan/bulan')?>')" width="100%">
                         <option value="">Pilih bulan</option>
                         <option value="1" <?php selected($bulan, "1"); ?>>Januari</option>
                         <option value="2" <?php selected($bulan, "2"); ?>>Februari</option>
@@ -57,7 +57,7 @@
                       </select>
                     </div>
                   </div>
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-12">
 												<?php include ("donjo-app/views/laporan/tabel_bulanan.php"); ?>

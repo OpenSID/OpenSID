@@ -31,28 +31,28 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?=site_url("cdesa/create_mutasi/".$cdesa['id'])."/".$persil['id']?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?=site_url("cdesa/create_mutasi/".$cdesa['id'])."/".$persil['id']?>" class="btn btn-flat btn-success btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Persil">
 							<i class="fa fa-plus"></i>Tambah Mutasi Persil
 						</a>
-						<a href="<?=site_url('cdesa')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
+						<a href="<?=site_url('cdesa')?>" class="btn btn-flat btn-primary btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
 						</a>
-						<a href="<?=site_url('cdesa/rincian/'.$cdesa[id])?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian C-DESA</a>
+						<a href="<?=site_url('cdesa/rincian/'.$cdesa[id])?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian C-DESA</a>
 						</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 										<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="box-header with-border">
+												<div class="card-header with-border">
 													<h3 class="box-title">Rincian C-DESA</h3>
 												</div>
-												<div class="box-body">
+												<div class="card-body">
 													<table class="table table-bordered table-striped table-hover" >
 														<tbody>
 															<tr>
@@ -81,10 +81,10 @@
 											</div>
 
 											<div class="col-sm-12">
-												<div class="box-header with-border">
+												<div class="card-header with-border">
 													<h3 class="box-title">Rincian Persil</h3>
 												</div>
-												<div class="box-body">
+												<div class="card-body">
 													<table class="table table-bordered table-striped table-hover" >
 														<tbody>
 															<tr>
@@ -111,7 +111,7 @@
 											<div class="col-sm-12">
 												<div class="row">
 													<div class="col-sm-9">
-														<div class="box-header with-border">
+														<div class="card-header with-border">
 															<h3 class="box-title">Daftar Mutasi Persil <?= $persil["nomor"]?></h3>
 														</div>
 													</div>
@@ -138,11 +138,11 @@
 																<tr>
 																	<td class="text-center"><?= $nomer?></td>
 																	<td nowrap class="text-center">
-																		<a href="<?= site_url("cdesa/create_mutasi/$item[id_cdesa_masuk]/$item[id_persil]/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																		<a href="<?= site_url("cdesa/create_mutasi/$item[id_cdesa_masuk]/$item[id_persil]/$item[id]")?>" class="btn bg-orange btn-flat btn-xs" title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php if ($item['jenis_mutasi'] != '9'): ?>
-																			<a href="#" data-href="<?= site_url("cdesa/hapus_mutasi/$cdesa[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("cdesa/hapus_mutasi/$cdesa[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php else: ?>
-																			<a href="#" data-href="<?= site_url('cdesa/awal_persil/'.$cdesa['id'].'/' .$persil['id'].'/1')?>" class="btn bg-maroon btn-flat btn-sm"  title="Bukan pemilik awal" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url('cdesa/awal_persil/'.$cdesa['id'].'/' .$persil['id'].'/1')?>" class="btn bg-maroon btn-flat btn-xs"  title="Bukan pemilik awal" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $item['no_bidang_persil']?></td>
@@ -181,9 +181,9 @@
 										Apakah Anda yakin ingin menghapus data ini?
 									</div>
 									<div class='modal-footer'>
-										<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+										<button type="button" class="btn btn-flat btn-warning btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 										<a class='btn-ok'>
-											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											<button type="button" class="btn btn-flat btn-danger btn-xs" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
 										</a>
 									</div>
 								</div>

@@ -7,18 +7,18 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
 					<a href="<?= site_url('sms/form/0/0/1')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tulis Pesan Baru"  class="btn btn-primary btn-block margin-bottom">Tulis Pesan Baru</a>
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
 							<h3 class="box-title">SMS</h3>
-							<div class="box-tools">
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="active"><a href="<?= site_url('sms/clear')?>"><i class="fa fa-inbox"></i> Kotak Masuk</a></li>
 								<li><a href="<?= site_url('sms/outbox')?>"><i class="fa fa-pencil"></i> Tulis Pesan</a></li>
@@ -29,15 +29,15 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("sms/delete_all/$p/$o/1")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("sms/delete_all/$p/$o/1")?>')" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
@@ -71,8 +71,8 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['ID']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("sms/form/$p/$o/1/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a>
-																			<a href="#" data-href="<?= site_url("sms/delete/$p/$o/1/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="<?= site_url("sms/form/$p/$o/1/$data[ID]")?>" class="btn bg-orange btn-flat btn-xs" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a>
+																			<a href="#" data-href="<?= site_url("sms/delete/$p/$o/1/$data[ID]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td nowrap><?=$data['nama']?></td>
 																		<td><?=$data['SenderNumber']?></td>
@@ -92,7 +92,7 @@
                           <form id="paging" action="<?= site_url("sms")?>" method="post" class="form-horizontal">
                             <label>
                               Tampilkan
-                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                              <select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
                                 <option value="20" <?php selected($per_page, 20); ?> >20</option>
                                 <option value="50" <?php selected($per_page, 50); ?> >50</option>
                                 <option value="100" <?php selected($per_page, 100); ?> >100</option>

@@ -9,25 +9,25 @@
 		</ol>
 	</section>
 	<section class="content"  id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rincian Anggota Keluarga">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Rincian Anggota Keluarga">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Anggota Keluarga
 							</a>
-							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Keluarga">
+							<a href="<?=site_url("keluarga")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Anggota Keluarga">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
 							</a>
 						</div>
-						<div class="box-header">
+						<div class="card-header">
 							<h3 class="text-center"><strong>SALINAN KARTU KELUARGA</strong></h3>
 							<h5 class="text-center"><strong>No.  <?= $kepala_kk['no_kk']?> </strong></h5>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-8">
 									<div class="form-group">

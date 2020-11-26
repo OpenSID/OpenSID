@@ -12,12 +12,12 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-						<a href="<?= site_url("program_bantuan/detail/$detail[id]")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?= site_url('program_bantuan')?>" class="btn btn-flat btn-primary btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+						<a href="<?= site_url("program_bantuan/detail/$detail[id]")?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
@@ -42,31 +42,31 @@
 									<?php if ($individu['nik']): ?>
 										<div class="row">
 											<div class="col-sm-6">
-												<div class="box box-info box-solid">
-													<div class="box-header with-border">
+												<div class="card card-outline card-info box-solid">
+													<div class="card-header with-border">
 														<i class="fa fa-user"></i>
 														<h3 class="box-title">Konfirmasi Peserta</h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<?php include('donjo-app/views/program_bantuan/konfirmasi_peserta.php'); ?>
 													</div>
 												</div>
 											</div>
 										</form>
 										<div class="col-sm-6">
-											<div class="box box-success box-solid">
-												<div class="box-header with-border">
+											<div class="card card-outline card-success box-solid">
+												<div class="card-header with-border">
 													<i class="fa fa-credit-card"></i>
 													<h3 class="box-title">Identitas Pada Kartu Peserta</h3>
 												</div>
 												<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-													<div class="box-body">
+													<div class="card-body">
 														<input name="peserta" type="hidden" value="<?= $individu['id_peserta']?>">
 														<input name="kartu_id_pend" type="hidden" value="<?= $individu['id']?>">
 														<div class="form-group">
 															<label for="no_id_kartu" class="col-sm-4 col-lg-4 control-label">Nomor Kartu Peserta</label>
 															<div class="col-sm-8">
-																<input id="no_id_kartu" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" maxlength="30">
+																<input id="no_id_kartu" class="form-control form-control-sm nama_terbatas required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" maxlength="30">
 															</div>
 														</div>
 														<div class="form-group">
@@ -85,19 +85,19 @@
 														<div class="form-group">
 															<label for="kartu_nik" class="col-sm-4 col-lg-4 control-label">NIK</label>
 															<div class="col-sm-8">
-																<input id="kartu_nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik" value="<?= $individu['kartu_nik']?>">
+																<input id="kartu_nik" class="form-control form-control-sm required nik" type="text" placeholder="Nomor NIK Peserta" name="kartu_nik" value="<?= $individu['kartu_nik']?>">
 															</div>
 														</div>
 														<div class="form-group">
 															<label for="kartu_nama" class="col-sm-4 col-lg-4 control-label">Nama</label>
 															<div class="col-sm-8">
-																<input id="kartu_nama" class="form-control input-sm required nama" type="text" maxlength="100" placeholder="Nama Peserta" name="kartu_nama" value="<?= $individu['nama']?>">
+																<input id="kartu_nama" class="form-control form-control-sm required nama" type="text" maxlength="100" placeholder="Nama Peserta" name="kartu_nama" value="<?= $individu['nama']?>">
 															</div>
 														</div>
 														<div class="form-group">
 															<label for="kartu_tempat_lahir" class="col-sm-4 col-lg-4 control-label">Tempat Lahir</label>
 															<div class="col-sm-8">
-																<input id="kartu_tempat_lahir" class="form-control input-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="100" value="<?= $individu['tempatlahir']?>">
+																<input id="kartu_tempat_lahir" class="form-control form-control-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="100" value="<?= $individu['tempatlahir']?>">
 															</div>
 														</div>
 														<div class="form-group">
@@ -107,20 +107,20 @@
 																	<div class="input-group-addon">
 																		<i class="fa fa-calendar"></i>
 																	</div>
-																	<input class="form-control input-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= tgl_indo_out($individu['tanggallahir'])?>">
+																	<input class="form-control form-control-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= tgl_indo_out($individu['tanggallahir'])?>">
 																</div>
 															</div>
 														</div>
 														<div class="form-group">
 															<label for="kartu_alamat" class="col-sm-4 col-lg-4 control-label">Alamat</label>
 															<div class="col-sm-8">
-																<input id="kartu_alamat" class="form-control input-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $individu['alamat_wilayah']?>">
+																<input id="kartu_alamat" class="form-control form-control-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $individu['alamat_wilayah']?>">
 															</div>
 														</div>
 													</div>
-													<div class="box-footer">
-														<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-														<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+													<div class="card-footer">
+														<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+														<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 													</div>
 												</form>
 											</div>

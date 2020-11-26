@@ -41,22 +41,22 @@
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div id="box-full-screen" class="box box-info">
-            <div class="box-header with-border">
+            <div class="card-header with-border">
 						<?php if (isset($_SESSION['fullscreen'])): ?>
-							<a id="toggle-btn" href="<?= current_url()?>/2" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+							<a id="toggle-btn" href="<?= current_url()?>/2" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left">
 								<i class="fa fa-search-minus"></i>Normal
             	</a>
 						<?php else: ?>
-							<a id="toggle-expand-btn" href="<?= current_url()?>/1" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+							<a id="toggle-expand-btn" href="<?= current_url()?>/1" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left">
 								<i class="fa fa-search-plus"></i>Full Screen
             	</a>
 						<?php endif; ?>
-							<a href="<?= site_url()?>analisis_respon" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
+							<a href="<?= site_url()?>analisis_respon" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
@@ -99,7 +99,7 @@
 																		<td><?= $i?></td>
 																		<?php if ($analisis_master['id_child']!=0): ?>
 																			<td nowrap>
-																				<a href="<?= site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="btn bg-purple btn-flat btn-sm"  title="Input Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $ang['nama']?> - [<?= $ang['nik']?>]"><i class='fa fa-check-square-o'></i></a>
+																				<a href="<?= site_url("analisis_respon/kuisioner_child/$p/$o/$id/$idc")?>" class="btn bg-purple btn-flat btn-xs"  title="Input Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $ang['nama']?> - [<?= $ang['nik']?>]"><i class='fa fa-check-square-o'></i></a>
 																			</td>
 																		<?php endif; ?>
 																		<td><?= $ang['nik']?></td>
@@ -135,7 +135,7 @@
 																<tr>
 																	<td width="35px;"></td>
 																	<td class="col-xs-12 col-sm-6 pull-left">
-																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
+																		<select class="form-control form-control-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
 																			<option value="">Pilih Jawaban</option>
 																			<?php foreach ($data['parameter_respon'] AS $data2): ?>
 																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']): ?>selected<?php endif ?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
@@ -164,9 +164,9 @@
 																		<td>
 																			<?php if ($data['parameter_respon']): ?>
 																				<?php $data2=$data['parameter_respon'];?>
-																				<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="<?= $data2['jawaban']?>" type="text">
+																				<input class="form-control form-control-sm" name="ia[<?= $data['id']?>]" value="<?= $data2['jawaban']?>" type="text">
 																			<?php else: ?>
-																				<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="" type="text">
+																				<input class="form-control form-control-sm" name="ia[<?= $data['id']?>]" value="" type="text">
 																			<?php endif; ?>
 																		</td>
 																	</tr>
@@ -178,9 +178,9 @@
 																		<td>
 																			<?php if ($data['parameter_respon']): ?>
 																				<?php $data2=$data['parameter_respon'];?>
-																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data2['jawaban']?></textarea>
+																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control form-control-sm" style="width:100%"><?= $data2['jawaban']?></textarea>
 																			<?php else: ?>
-																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"></textarea>
+																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control form-control-sm" style="width:100%"></textarea>
 																			<?php endif; ?>
 																		</td>
 																	</tr>
@@ -195,7 +195,7 @@
 														<label class="col-sm-2 no-padding">Berkas Form Pendaftaran</label>
 														<div class="col-sm-2">
 															<input type="hidden" name="old_file" value="<?= $list_bukti[0]['pengesahan']?>">
-															<img class="attachment-img img-responsive" src="<?= base_url().LOKASI_PENGESAHAN.$list_bukti[0]['pengesahan']?>" alt="Bukti Pengesahan">
+															<img class="attachment-img img-fluid" src="<?= base_url().LOKASI_PENGESAHAN.$list_bukti[0]['pengesahan']?>" alt="Bukti Pengesahan">
 														</div>
 													</div>
 												<?php endif; ?>
@@ -221,10 +221,10 @@
 							</div>
 						</div>
 					</div>
-					<div class='box-footer'>
+					<div class='card-footer'>
 						<div class='col-xs-12'>
-							<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+							<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>
@@ -247,4 +247,3 @@
 	</script>
 <?php endif; ?>
 <?php $_SESSION['sukses']=0;?>
-

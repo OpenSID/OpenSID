@@ -55,14 +55,14 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
 							<h3 class="box-title">Media Sosial</h3>
-							<div class="box-tools">
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_sosmed as $list) :?>
 									<?php $nama = str_replace(' ', '-', strtolower($list['nama']))?>
@@ -73,12 +73,12 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
+					<div class="card card-outline card-info">
 						<?php $this->load->view('sosmed/'.$media); ?>
-						<div class='box-footer'>
+						<div class='card-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='reset' class='btn btn-flat btn-danger btn-xs reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

@@ -20,22 +20,22 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url("analisis_laporan/dialog_kuisioner/$p/$o/$id/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $asubjek?> <?= $subjek['nama']?> "><i class="fa fa-print "></i> Cetak</a>
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?= site_url("analisis_laporan/dialog_kuisioner/$p/$o/$id/cetak")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $asubjek?> <?= $subjek['nama']?> "><i class="fa fa-print "></i> Cetak</a>
 
-							<a href="<?= site_url("analisis_laporan/dialog_kuisioner/$p/$o/$id/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan Hasil Analisis <?= $asubjek?> <?= $subjek['nama']?> "><i class="fa fa-download "></i> Unduh</a>
+							<a href="<?= site_url("analisis_laporan/dialog_kuisioner/$p/$o/$id/unduh")?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan Hasil Analisis <?= $asubjek?> <?= $subjek['nama']?> "><i class="fa fa-download "></i> Unduh</a>
 
-							<a href="<?=site_url("analisis_laporan/clear")."/".$analisis_master['id']?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Laporan Hasil Klasifikasi">
+							<a href="<?=site_url("analisis_laporan/clear")."/".$analisis_master['id']?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Kembali Ke Laporan Hasil Klasifikasi">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Laporan Hasil Klasifikasi</a>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover" >
 									<tr>
@@ -56,7 +56,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<h5 class="box-title">DAFTAR ANGGOTA</h5>

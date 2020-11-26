@@ -16,17 +16,17 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
 							<h3 class="box-title">Kategori Artikel</h3>
-							<div class="box-tools">
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_kategori AS $data): ?>
 									<li class="<?= jecho($cat, $data['id'], 'active'); ?>">
@@ -45,14 +45,14 @@
 							</ul>
 						</div>
 					</div>
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
 							<h3 class="box-title">Artikel Statis</h3>
-							<div class="box-tools">
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="<?= jecho($cat, 999, 'active'); ?>"><a href="<?= site_url('web/tab/999')?>">Halaman Statis</a></li>
 								<li class="<?= jecho($cat, 1000, 'active'); ?>"><a href="<?= site_url('web/tab/1000')?>">Agenda</a></li>
@@ -62,10 +62,10 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
 							<?php if ($cat > 0): ?>
-								<a href="<?= site_url("web/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
+								<a href="<?= site_url("web/form")?>" class="btn btn-flat btn-success btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Tambah Artikel">
 									<i class="fa fa-plus"></i>Tambah
 									<?php if ($kategori): ?>
 										<?= $kategori['kategori']; ?>
@@ -79,30 +79,30 @@
 								</a>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
-								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("web/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("web/delete_all")?>')" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<?php if ($cat > 0 and $cat < 999): ?>
-								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?= site_url("web/hapus")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
+								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?= site_url("web/hapus")?>')" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
 							<?php endif; ?>
 							<?php if ($cat == 999): ?>
-								<a href="<?= site_url("web/reset")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
+								<a href="<?= site_url("web/reset")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
 							<?php endif; ?>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/$cat")?>')">
+													<select class="form-control form-control-sm " name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/$cat")?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
 														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
-													<div class="box-tools">
+													<div class="card-tools">
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('web/filter/cari/$cat')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
@@ -151,29 +151,29 @@
 																		<td class="padat"><?=$data['no']?></td>
 																		<td class="aksi">
 																			<?php if ($data['boleh_ubah']): ?>
-																				<a href="<?= site_url("web/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																				<a href="<?= site_url("web/form/$data[id]")?>" class="btn bg-orange btn-flat btn-xs" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="#" data-href="<?= site_url("web/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																					<a href="#" data-href="<?= site_url("web/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
-																				<a href="<?= site_url("web/ubah_kategori_form/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>
+																				<a href="<?= site_url("web/ubah_kategori_form/$data[id]")?>" class="btn bg-purple btn-flat btn-xs" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>
 																				<?php if ($data['boleh_komentar'] == 1): ?>
-																					<a href="<?= site_url("web/komentar_lock/$data[id]/2")?>" class="btn bg-info btn-flat btn-sm" title="Tutup Komentar Artikel"><i class="fa fa-comment-o"></i></a>
+																					<a href="<?= site_url("web/komentar_lock/$data[id]/2")?>" class="btn bg-info btn-flat btn-xs" title="Tutup Komentar Artikel"><i class="fa fa-comment-o"></i></a>
 																				<?php else: ?>
-																					<a href="<?= site_url("web/komentar_lock/$data[id]/1")?>" class="btn bg-info btn-flat btn-sm" title="Buka Komentar Artikel"><i class="fa fa-comment"></i></a>
+																					<a href="<?= site_url("web/komentar_lock/$data[id]/1")?>" class="btn bg-info btn-flat btn-xs" title="Buka Komentar Artikel"><i class="fa fa-comment"></i></a>
 																				<?php endif ?>
 																				<?php if ($data['enabled'] == '1'): ?>
-																					<a href="<?= site_url("web/artikel_lock/$data[id]/2"); ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
-																					<a href="<?= site_url("web/headline/$data[id]")?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline">
+																					<a href="<?= site_url("web/artikel_lock/$data[id]/2"); ?>" class="btn bg-navy btn-flat btn-xs" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
+																					<a href="<?= site_url("web/headline/$data[id]")?>" class="btn bg-teal btn-flat btn-xs" title="Jadikan Headline">
 																						<i class="<?= ($data['headline']==1) ? 'fa fa-star-o' : 'fa fa-star' ?>"></i>
 																					</a>
-																					<a href="<?= site_url("web/slide/$data[id]"); ?>" class="btn bg-gray btn-flat btn-sm" title="<?= ($data['headline']==3) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide' ?>">
+																					<a href="<?= site_url("web/slide/$data[id]"); ?>" class="btn bg-gray btn-flat btn-xs" title="<?= ($data['headline']==3) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide' ?>">
 																						<i class="<?= ($data['headline']==3) ? 'fa fa-pause' : 'fa fa-play' ?>"></i>
 																					</a>
 																				<?php else: ?>
-																					<a href="<?= site_url("web/artikel_lock/$data[id]/1"); ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock"></i></a>
+																					<a href="<?= site_url("web/artikel_lock/$data[id]/1"); ?>" class="btn bg-navy btn-flat btn-xs" title="Aktifkan Artikel"><i class="fa fa-lock"></i></a>
 																				<?php endif ?>
 																			<?php endif; ?>
-																			<a href="<?= site_url('artikel/'.buat_slug($data)); ?>" target="_blank" class="btn bg-green btn-flat btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('artikel/'.buat_slug($data)); ?>" target="_blank" class="btn bg-green btn-flat btn-xs" title="Lihat Artikel"><i class="fa fa-eye"></i></a>
 																		</td>
 																		<td><?= $data['judul']?></td>
 																		<td nowrap><?= hit($data['hit'])?></td>
@@ -212,7 +212,7 @@
 					<div class="form-group">
 						<code>Lakukan hapus hit ini jika artikel statis di menu atas website anda terkena kunjungan tak terduga, seperti robot(crawler), yang berlebihan. </code><br><br>
 						<label for="hit">Reset Hit</label>
-						<select class="form-control input-sm" required name="hit" width="100%">
+						<select class="form-control form-control-sm" required name="hit" width="100%">
 							<option value="">Pilih persen hit yang akan dihapus</option>
 							<?php for ($i=1; $i <= 10; $i++): ?>
 								<option value="<?=($i * 10)?>"><?=($i * 10).'%'?></option>
@@ -221,8 +221,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+					<button type="button" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="submit" class="btn btn-flat btn-info btn-xs"><i class='fa fa-check'></i> Simpan</button>
 				</div>
 			</div>
 		</div>

@@ -10,23 +10,23 @@
   <section class="content" id="maincontent">
     <div class="row">
       <div class="col-md-12">
-        <div class="box box-info">
+        <div class="card card-outline card-info">
 
-          <div class="box-header with-border">
-            <a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Pemudik</a>
+          <div class="card-header with-border">
+            <a href="<?= site_url('covid19')?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Pemudik</a>
             <?php if ($penduduk['id_status'] === '2' OR $penduduk['id_status'] === '3'): ?>
-              <a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">
+              <a href="#" class="btn btn-success btn-xs" data-toggle="modal" data-target="#edit-warga">
                 <i class="fa fa-edit"></i>
                 Ubah Data Penduduk Non Domisili
               </a>
             <?php endif ?>
           </div>
 
-          <div class="box-header with-border">
+          <div class="card-header with-border">
             <h3 class="box-title">Detil Pemudik</h3>
           </div>
 
-          <div class="box-body">
+          <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" >
                 <tbody>
@@ -111,9 +111,9 @@
       </div>
 
       <div class='modal-footer'>
-        <button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+        <button type="button" class="btn btn-flat btn-warning btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
         <a class='btn-ok'>
-          <button type="submit" class="btn btn-social btn-flat btn-success btn-sm" onclick="$('#'+'form_penduduk').submit();"><i class='fa fa-trash-o'></i> Simpan</button>
+          <button type="submit" class="btn btn-flat btn-success btn-xs" onclick="$('#'+'form_penduduk').submit();"><i class='fa fa-trash-o'></i> Simpan</button>
         </a>
       </div>
     </div>

@@ -3,8 +3,8 @@
   #info_publik_wrapper .row .col-sm-6 { width: 50% !important; }
 </style>
 
-<div class="box box-danger" style="padding-bottom: 2rem;">
-	<div class="box-header with-border" style="margin-bottom: 15px;">
+<div class="card card-outline card-danger" style="padding-bottom: 2rem;">
+	<div class="card-header with-border" style="margin-bottom: 15px;">
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
 	<div style="margin-right: 1rem; margin-left: 1rem;">

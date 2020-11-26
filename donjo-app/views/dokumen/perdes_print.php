@@ -33,7 +33,7 @@
 		<div id="container">
 			<div id="body">
 				<div class="header" align="center">
-					<h3>BUKU PERATURAN DESA <?= strtoupper($desa['nama_desa'])?></h3>
+					<h3>A.1 BUKU PERATURAN DESA <?= strtoupper($desa['nama_desa'])?></h3>
 					<h3><?= strtoupper($this->setting->sebutan_kecamatan.' '.$desa['nama_kecamatan'].' '.$this->setting->sebutan_kabupaten.' '.$desa['nama_kabupaten'])?></h3>
 					<h3><?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></h3>
 					<br>
@@ -52,19 +52,31 @@
 							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM BERITA DESA</th>
 							<th>KET.</th>
 						</tr>
+						<tr class="border thick">
+							<th>1</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+							<th>5</th>
+							<th>6</th>
+							<th>7</th>
+							<th>8</th>
+							<th>9</th>
+							<th>10</th>
+						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $data['attr']['jenis_peraturan']?></td>
-							<td><?= 'Nomor '.$data['attr']['no_ditetapkan'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_ditetapkan'])?></td>
+							<td><?= 'Nomor '.strip_kosong($data['attr']['no_ditetapkan']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_ditetapkan'])?></td>
 							<td><?= $data['nama']?></td>
 							<td><?= $data['attr']['uraian']?></td>
 							<td><?= tgl_indo_dari_str($data['attr']['tgl_kesepakatan'])?></td>
-							<td><?= 'Nomor '.$data['attr']['no_lapor'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lapor'])?></td>
-							<td><?= 'Nomor '.$data['attr']['no_lembaran_desa'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lembaran_desa'])?></td>
-							<td><?= 'Nomor '.$data['attr']['no_berita_desa'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_berita_desa'])?></td>
+							<td><?= 'Nomor '.strip_kosong($data['attr']['no_lapor']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lapor'])?></td>
+							<td><?= 'Nomor '.strip_kosong($data['attr']['no_lembaran_desa']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lembaran_desa'])?></td>
+							<td><?= 'Nomor '.strip_kosong($data['attr']['no_berita_desa']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_berita_desa'])?></td>
 							<td><?= $data['attr']['keterangan']?></td>
 						</tr>
 						<?php endforeach; ?>
@@ -80,7 +92,7 @@
 						-->
 						<td colspan="2">&nbsp;</td>
 						<td colspan="3">MENGETAHUI</td>
-						<td colspan="3"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.$desa['nama_kecamatan'].', '.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="3"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.tgl_indo(date("Y m d")))?></span></td>
 						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>

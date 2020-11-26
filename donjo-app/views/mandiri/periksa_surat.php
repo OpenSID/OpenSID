@@ -70,8 +70,8 @@
 	<section class="content periksa">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-body">
+				<div class="card card-outline card-info">
+					<div class="card-body">
 						<form class="form-horizontal">
 						  <div class="form-group">
 						    <label class="control-label col-sm-2">Pemohon:</label>
@@ -98,14 +98,14 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-warning collapsed-box">
-					<div class="box-header">
-	          <div class="box-tools pull-right">
+				<div class="card card-outline card-warning collapsed-box">
+					<div class="card-header">
+	          <div class="card-tools pull-right">
 	            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 	          </div>
 						<h4>Periksa persyaratan</h4>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						Periksa setiap dokumen untuk memastikan sesuai dengan persyaratan surat ini.
 						Kalau persyaratan belum lengkap:
 						<ul>
@@ -118,14 +118,14 @@
 			</div>
 		</div>
 
-	 	<div class="box box-info" style="margin-top: 10px;">
-	    <div class="box-header with-border">
+	 	<div class="card card-outline card-info" style="margin-top: 10px;">
+	    <div class="card-header with-border">
 	      <h4 class="box-title">Status Kelengkapan Dokumen</h4>
-	      <div class="box-tools">
+	      <div class="card-tools">
 	        <button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#surat"><i class="fa fa-minus"></i></button>
 	      </div>
 	    </div>
-	    <div class="box-body">
+	    <div class="card-body">
 	      <table class="table table-striped table-bordered table-responsive" id="surat">
 	        <tr>
 	          <th width="2"><center>No</center></th>
@@ -136,7 +136,13 @@
 	          <tr>
 	            <td align="center" width="2"><?= $no;?></td>
 	            <td><?= $syarat['ref_syarat_nama']?></td>
-	            <td><a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a></td>
+	            <td>
+	            	<?php if ($syarat['dok_id'] == '-1'): ?>
+	            		<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
+	            	<?php else: ?>
+		            	<a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a>
+		            <?php endif; ?>
+	            </td>
 	          </tr>
           <?php $no++; endforeach; ?>
 	      </table>
@@ -145,14 +151,14 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-warning collapsed-box">
-					<div class="box-header">
-	          <div class="box-tools pull-right">
+				<div class="card card-outline card-warning collapsed-box">
+					<div class="card-header">
+	          <div class="card-tools pull-right">
 	            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 	          </div>
 						<h4>Periksa isian form</h4>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						Kalau isian sudah lengkap:
 						<ul>
 							<li>Klik Ekspor Dok untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>

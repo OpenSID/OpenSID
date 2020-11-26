@@ -32,8 +32,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-outline card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="status_dasar">Status Dasar Baru</label>
 							<select id="status_dasar" name="status_dasar" class="form-control select2 input-sm required">
@@ -58,12 +58,12 @@
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right" id="tgl_1" name="tgl_peristiwa" type="text" value="<?= $sekarang;?>">
+								<input class="form-control form-control-sm pull-right" id="tgl_1" name="tgl_peristiwa" type="text" value="<?= $sekarang;?>">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Catatan Peristiwa</label>
-							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan'];?></textarea>
+							<textarea id="catatan" name="catatan" class="form-control form-control-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan'];?></textarea>
 							<p class="help-block">*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</p>
 						</div>
 					</div>
@@ -71,8 +71,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+			<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 		</div>
 	</div>
 </form>

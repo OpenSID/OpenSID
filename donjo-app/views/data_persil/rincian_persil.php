@@ -28,22 +28,22 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?=site_url('data_persil/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar PersilA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Persil</a>
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?=site_url('data_persil/clear')?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar PersilA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Persil</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 										<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="box-header with-border">
+												<div class="card-header with-border">
 													<h3 class="box-title">Rincian Persil</h3>
 												</div>
-												<div class="box-body">
+												<div class="card-body">
 													<table class="table table-bordered  table-striped table-hover" >
 														<tbody>
 															<tr>
@@ -71,7 +71,7 @@
 											<div class="col-sm-12">
 												<div class="row">
 													<div class="col-sm-9">
-														<div class="box-header with-border">
+														<div class="card-header with-border">
 															<h3 class="box-title">Daftar Mutasi Persil</h3>
 														</div>
 													</div>

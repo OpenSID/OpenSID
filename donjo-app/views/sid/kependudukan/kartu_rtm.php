@@ -1,50 +1,60 @@
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Kartu Rumah Tangga</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
-			<li><a href="<?= site_url("rtm/anggota/$id_kk")?>"> Daftar Anggota Rumah Tangga</a></li>
-			<li class="active">Kartu Rumah Tangga</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Kartu Rumah Tangga
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fas fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url("rtm/anggota/$id_kk")?>"> Daftar Anggota Rumah Tangga</a></li>
+						<li class="breadcrumb-item active">Kartu Rumah Tangga</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url("rtm/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?=site_url("rtm/anggota/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali ke Daftar Anggota Rumah Tangga">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?= site_url("rtm/cetak_kk/$id_kk")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?=site_url("rtm/anggota/$id_kk")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali ke Daftar Anggota Rumah Tangga">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Anggota Rumah Tangga
 							</a>
 						</div>
-						<div class="box-header">
+						<div class="card-header">
 							<h3 class="text-center"><strong>KARTU RUMAH TANGGA</strong></h3>
 							<h5 class="text-center"><strong>No. <?= $kepala_kk['no_kk']?> </strong></h5>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-8">
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-3 control-label">ALAMAT</label>
 										<div class="col-sm-8">
 											<p class="text-muted">: <?= strtoupper($kepala_kk['dusun'])?></p>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-3 control-label">RT/RW</label>
 										<div class="col-sm-9">
 											<p class="text-muted">: <?=$kepala_kk['rt'] ?> / <?= $kepala_kk['rw'] ?></p>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-3 control-label">DESA / KELURAHAN</label>
 										<div class="col-sm-9">
 											<p class="text-muted">: <?= strtoupper($desa['nama_desa']) ?></p>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-3 control-label">KECAMATAN</label>
 										<div class="col-sm-9">
 											<p class="text-muted">: <?= strtoupper($desa['nama_kecamatan']) ?></p>
@@ -52,25 +62,25 @@
 									</div>
 								</div>
 								<div class="col-sm-4">
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-5 control-label">KABUPATEN</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= strtoupper($desa['nama_kabupaten']) ?></p>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-5 control-label">KODE POS</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= $desa['kode_pos'] ?></p>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-5 control-label">PROVINSI</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= strtoupper($desa['nama_propinsi']) ?></p>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="row mb-2">
 										<label class="col-sm-5 control-label">JUMLAH ANGGOTA</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= count($main)?></p>
@@ -148,7 +158,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="box-footer">
+							<div class="card-footer">
 								<p class="pull-right">Dikeluarkan Tanggal : <?= tgl_indo(date("Y m d"))?></p>
 							</div>
 						</div>
@@ -158,4 +168,3 @@
 		</form>
 	</section>
 </div>
-

@@ -68,20 +68,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
-				<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-flat bg-olive btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
+				<a href="<?= site_url("suplemen")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Data Suplemen">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
 			</div>
 			<?php $this->load->view('suplemen/rincian'); ?>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Daftar Terdata</b></h5>
-				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-					<form id="mainform" name="mainform" action="" method="post">
+				<div class="dataTables_wrapper dt-bootstrap no-footer">
+					<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="input-group input-group-sm pull-right">
@@ -115,8 +115,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 												<td class="aksi">
 													<?php if ($this->CI->cek_hak_akses('h')): ?>
-														<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-xs"><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													<?php endif; ?>
 												</td>
 												<td nowrap><?= $item["terdata_info"]; ?></td>

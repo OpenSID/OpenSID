@@ -12,17 +12,17 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url("gallery/sub_gallery/$album")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url("gallery/sub_gallery/$album")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Gambar Album
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<label class="control-label col-sm-4" for="nama">Nama Gambar</label>
 								<div class="col-sm-6">
-									<input name="nama" class="form-control input-sm nomor_sk" maxlength="50" type="text" value="<?=$gallery['nama']?>"></input>
+									<input name="nama" class="form-control form-control-sm nomor_sk" maxlength="50" type="text" value="<?=$gallery['nama']?>"></input>
 								</div>
 							</div>
 							<?php if ($gallery['gambar']): ?>
@@ -30,7 +30,7 @@
 									<label class="control-label col-sm-4" for="nama"></label>
 									<div class="col-sm-6">
 										<input type="hidden" name="old_gambar" value="<?=  $gallery['gambar']?>">
-									  <img class="attachment-img img-responsive img-circle" src="<?= AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt="Gambar Album">
+									  <img class="attachment-img img-fluid rounded-circle" src="<?= AmbilGaleri($gallery['gambar'], 'sedang') ?>" alt="Gambar Album">
 									</div>
 								</div>
 							<?php endif; ?>
@@ -49,10 +49,10 @@
 									</div>
 								</div>
 						</div>
-						<div class='box-footer'>
+						<div class='card-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

@@ -42,25 +42,35 @@
 ?>
 
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Daftar Anggota Rumah Tangga</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
-			<li class="active">Daftar Anggota Rumah Tangga</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Daftar Anggota Rumah Tangga
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('rtm/clear')?>"> Daftar Rumah Tangga</a></li>
+						<li class="breadcrumb-item active">Daftar Anggota Rumah Tangga</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url("rtm/ajax_add_anggota/$kk")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
-				<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("rtm/delete_all_anggota/$kk")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-				<a href="<?= site_url("rtm/kartu_rtm/$kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Rumah Tangga</a>
-				<a href="<?= site_url("rtm/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Rumah Tangga">
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url("rtm/ajax_add_anggota/$kk")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class='fa fa-plus'></i> Tambah Anggota</a>
+				<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("rtm/delete_all_anggota/$kk")?>')" class="btn btn-flat	btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+				<a href="<?= site_url("rtm/kartu_rtm/$kk")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-book"></i> Kartu Rumah Tangga</a>
+				<a href="<?= site_url("rtm/clear")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Rumah Tangga">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Rumah Tangga
 				</a>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Rincian Keluarga</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-hover tabel-rincian">
@@ -99,9 +109,9 @@
 					</table>
 				</div>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Daftar Anggota</b></h5>
-				<form id="mainform" name="mainform" action="" method="post">
+				<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 					<div class="table-responsive">
 						<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 							<thead class="bg-gray disabled color-palette">
@@ -124,8 +134,8 @@
 											<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 											<td class="padat"><?= ($key + 1); ?></td>
 											<td class="aksi">
-												<a href="<?= site_url("rtm/edit_anggota/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-flat btn-sm"><i class="fa fa-link"></i></a>
-												<a href="#" data-href="<?= site_url("rtm/delete_anggota/$kk/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+												<a href="<?= site_url("rtm/edit_anggota/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-flat btn-xs"><i class="fa fa-link"></i></a>
+												<a href="#" data-href="<?= site_url("rtm/delete_anggota/$kk/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 											</td>
 											<td><?= $data['nik']?></td>
 											<td><?= $data['no_kk']?></td>

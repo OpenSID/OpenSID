@@ -53,20 +53,20 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url("surat_masuk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url("surat_masuk")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Wilayah">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Surat Masuk
 				</a>
 			</div>
 			<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal nomor-urut">
-				<div class="box-body">
+				<div class="card-body">
 					<input type="hidden" id="nomor_urut_lama" name="nomor_urut_lama" value="<?= $surat_masuk['nomor_urut']?>">
 					<input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat_masuk/nomor_surat_duplikat')?>">
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="nomor_urut">Nomor Urut</label>
 						<div class="col-sm-8">
-							<input id="nomor_urut" name="nomor_urut" class="form-control input-sm required" type="text" placeholder="Nomor Urut" value="<?= $surat_masuk['nomor_urut']?>"></input>
+							<input id="nomor_urut" name="nomor_urut" class="form-control form-control-sm required" type="text" placeholder="Nomor Urut" value="<?= $surat_masuk['nomor_urut']?>"></input>
 						</div>
 					</div>
 					<div class="form-group">
@@ -76,7 +76,7 @@
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggal_penerimaan" type="text" value="<?= tgl_indo_out($surat_masuk['tanggal_penerimaan'])?>">
+								<input class="form-control form-control-sm pull-right required" id="tgl_1" name="tanggal_penerimaan" type="text" value="<?= tgl_indo_out($surat_masuk['tanggal_penerimaan'])?>">
 							</div>
 						</div>
 					</div>
@@ -107,7 +107,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 						<div class="col-sm-8">
-							<select class="form-control input-sm select2 required" id="kode_surat" name="kode_surat">
+							<select class="form-control form-control-sm select2 required" id="kode_surat" name="kode_surat">
 								<option value="">-- Pilih Kode/Klasifikasi Surat --</option>
 								<?php foreach ($klasifikasi as $item): ?>
 									<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
@@ -118,7 +118,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>
 						<div class="col-sm-8">
-							<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_masuk['nomor_surat']?>"></input>
+							<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control form-control-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_masuk['nomor_surat']?>"></input>
 						</div>
 					</div>
 					<div class="form-group">
@@ -128,20 +128,20 @@
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right required" id="tgl_2" name="tanggal_surat" type="text" value="<?= tgl_indo_out($surat_masuk['tanggal_surat'])?>">
+								<input class="form-control form-control-sm pull-right required" id="tgl_2" name="tanggal_surat" type="text" value="<?= tgl_indo_out($surat_masuk['tanggal_surat'])?>">
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="pengirim">Pengirim</label>
 						<div class="col-sm-8">
-							<input id="pengirim" name="pengirim" class="form-control input-sm required" type="text" placeholder="Pengirim" value="<?= $surat_masuk['pengirim']?>"></input>
+							<input id="pengirim" name="pengirim" class="form-control form-control-sm required" type="text" placeholder="Pengirim" value="<?= $surat_masuk['pengirim']?>"></input>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="disposisi_kepada">Isi Singkat/Perihal</label>
 						<div class="col-sm-8">
-							<textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm required" placeholder="Isi Singkat/Perihal" rows="5"><?= $surat_masuk['isi_singkat']?></textarea>
+							<textarea id="isi_singkat" name="isi_singkat" class="form-control form-control-sm required" placeholder="Isi Singkat/Perihal" rows="5"><?= $surat_masuk['isi_singkat']?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -166,13 +166,13 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="isi_disposisi">Isi Disposisi</label>
 						<div class="col-sm-8">
-							<textarea id="isi_disposisi" name="isi_disposisi" class="form-control input-sm required" placeholder="Isi Disposisi" rows="5"><?= $surat_masuk['isi_disposisi']?></textarea>
+							<textarea id="isi_disposisi" name="isi_disposisi" class="form-control form-control-sm required" placeholder="Isi Disposisi" rows="5"><?= $surat_masuk['isi_disposisi']?></textarea>
 						</div>
 					</div>
 				</div>
-				<div class='box-footer'>
-					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-					<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+				<div class='card-footer'>
+					<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+					<button type='submit' class='btn btn-flat btn-info btn-xs pull-right'><i class='fa fa-check'></i> Simpan</button>
 				</div>
 			</form>
 		</div>

@@ -14,22 +14,22 @@
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_asset" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+						<a href="<?= site_url() ?>inventaris_asset" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
 						</div>
 						<?php
 							$reg = $count_reg->count + 1;
 							$jumlah_kata = strlen($reg);
 							$hasil = sprintf("%06s",$reg);
 						?>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
 										<div class="col-sm-8">
-											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
+											<select class="form-control form-control-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
 												<?php foreach ($aset as $data): ?>
 													<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
 												<?php endforeach; ?>
@@ -44,19 +44,19 @@
 											<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$main["kode_kabupaten"]?>">
 											<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$main["kode_kecamatan"]?>">
 											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$main["kode_desa"]?>">
-											<input maxlength="50" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text"/>
+											<input maxlength="50" class="form-control form-control-sm required" name="kode_barang" id="kode_barang" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="nomor_register" id="nomor_register" type="text"/>
+											<input maxlength="50" class="form-control form-control-sm required" name="nomor_register" id="nomor_register" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_asset">Jenis Asset</label>
 										<div class="col-sm-4">
-											<select name="jenis_asset" id="jenis_asset" class="form-control input-sm  required">
+											<select name="jenis_asset" id="jenis_asset" class="form-control form-control-sm  required">
 												<option value="">-- Pilih Jensi Asset --</option>
 												<option value="Buku">Buku</option>
 												<option value="Barang Kesenian">Barang Kesenian</option>
@@ -68,44 +68,44 @@
 									<div class="form-group judul">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="judul">Judul dan Pencipta Buku</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="judul" name="judul" type="text"/>
+											<input class="form-control form-control-sm" id="judul" name="judul" type="text"/>
 										</div>
 									</div>
 									<div class="form-group spesifikasi">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="spesifikasi">Spesifikasi Buku</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="spesifikasi" name="spesifikasi" type="text"/>
+											<input class="form-control form-control-sm" id="spesifikasi" name="spesifikasi" type="text"/>
 										</div>
 									</div>
 									<div class="form-group asal_kesenian">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_kesenian">Asal Daerah Kesenian</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="asal_kesenian" name="asal_kesenian" type="text"/>
+											<input class="form-control form-control-sm" id="asal_kesenian" name="asal_kesenian" type="text"/>
 										</div>
 									</div>
 									<div class="form-group pencipta_kesenian">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="pencipta_kesenian">Pencipta Kesenian </label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="pencipta_kesenian" name="pencipta_kesenian" type="text"/>
+											<input class="form-control form-control-sm" id="pencipta_kesenian" name="pencipta_kesenian" type="text"/>
 										</div>
 									</div>
 									<div class="form-group bahan_kesenian">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="bahan_kesenian">Bahan Kesenian</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="bahan_kesenian" name="bahan_kesenian" type="text"/>
+											<input class="form-control form-control-sm" id="bahan_kesenian" name="bahan_kesenian" type="text"/>
 										</div>
 									</div>
 									<div class="form-group jenis_hewan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_hewan">Jenis Hewan Ternak</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="jenis_hewan" name="jenis_hewan" type="text"/>
+											<input class="form-control form-control-sm" id="jenis_hewan" name="jenis_hewan" type="text"/>
 										</div>
 									</div>
 									<div class="form-group ukuran_hewan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="ukuran_hewan">Ukuran Hewan Ternak</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number" id="ukuran_hewan" name="ukuran_hewan" type="text"/>
+												<input class="form-control form-control-sm number" id="ukuran_hewan" name="ukuran_hewan" type="text"/>
 												<span class="input-group-addon input-sm" id="ukuran_hewan-addon">Kg</span>
 											</div>
 										</div>
@@ -113,14 +113,14 @@
 									<div class="form-group jenis_tumbuhan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_tumbuhan">Jenis Tumbuhan</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" id="jenis_tumbuhan" name="jenis_tumbuhan" type="text"/>
+											<input class="form-control form-control-sm" id="jenis_tumbuhan" name="jenis_tumbuhan" type="text"/>
 										</div>
 									</div>
 									<div class="form-group ukuran_tumbuhan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="ukuran_tumbuhan">Ukuran Tumbuhan</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input class="form-control input-sm number" id="ukuran_tumbuhan" name="ukuran_tumbuhan" type="text"/>
+												<input class="form-control form-control-sm number" id="ukuran_tumbuhan" name="ukuran_tumbuhan" type="text"/>
 												<span class="input-group-addon input-sm" id="ukuran_tumbuhan">M</span>
 											</div>
 										</div>
@@ -128,13 +128,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jumlah">Jumlah</label>
 										<div class="col-sm-4">
-											<input class="form-control input-sm number required" id="jumlah" name="jumlah" type="text"/>
+											<input class="form-control form-control-sm number required" id="jumlah" name="jumlah" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pembelian </label>
 										<div class="col-sm-4">
-											<select name="tahun" id="tahun" class="form-control input-sm">
+											<select name="tahun" id="tahun" class="form-control form-control-sm">
 												<?php for ($i=date("Y");$i>=1900;$i--): ?>
 													<option value="<?= $i ?>"><?= $i ?></option>
 												<?php endfor; ?>
@@ -144,7 +144,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Penggunaan Barang </label>
 										<div class="col-sm-4">
-											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah">
+											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control form-control-sm required" placeholder="Hak Tanah">
 												<option value="01">Pemerintah Desa</option>
 												<option value="02">Badan Permusyawaratan Daerah</option>
 												<option value="03">PKK</option>
@@ -157,7 +157,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
 										<div class="col-sm-4">
-											<select name="asal_usul" id="asal_usul" class="form-control input-sm">
+											<select name="asal_usul" id="asal_usul" class="form-control form-control-sm">
 												<option value="">-- Pilih Asal Usul Lahan --</option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
@@ -172,28 +172,28 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
-												<input onkeyup="price()" class="form-control input-sm number required" id="harga" name="harga" type="text" />
+												<input onkeyup="price()" class="form-control form-control-sm number required" id="harga" name="harga" type="text" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled/>
+												<input type="text" class="form-control form-control-sm required" id="output" name="output" placeholder="" disabled/>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan"></textarea>
+											<textarea rows="5" class="form-control form-control-sm required" name="keterangan" id="keterangan"></textarea>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
+						<div class="card-footer">
 							<div class="col-xs-12">
-								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</div>

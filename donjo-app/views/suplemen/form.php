@@ -47,29 +47,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Form Data Suplemen</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
-			<li class="active">Form Data Suplemen</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Form Data Suplemen
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('suplemen')?>"> Data Suplemen</a></li>
+						<li class="breadcrumb-item active">Form Data Suplemen</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Suplemen</a>
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url('suplemen')?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Suplemen</a>
 			</div>
 			<form id="validasi" action="<?= $form_action; ?>" method="POST" class="form-horizontal">
-				<div class="box-body">
-					<div class="form-group">
+				<div class="card-body">
+					<div class="row mb-2">
 						<label class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
 						<div class="col-sm-7">
 							<?php if ($suplemen['jml'] <> 0): ?>
 								<input type="hidden" name="sasaran" value="<?= $suplemen['sasaran']; ?>">
-								<select class="form-control input-sm" disabled>
+								<select class="form-control form-control-sm" disabled>
 							<?php else: ?>
-								<select class="form-control input-sm required" name="sasaran">
+								<select class="form-control form-control-sm required" name="sasaran">
 							<?php endif;?>
 							<option value="">Pilih Sasaran</option>
 							<?php foreach ($list_sasaran AS $key => $value): ?>
@@ -80,22 +90,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="row mb-2">
 						<label class="col-sm-3 control-label" for="nama">Nama Data Suplemen</label>
 						<div class="col-sm-7">
-							<input class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
+							<input class="form-control form-control-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Data Suplemen" name="nama" id="nama" value="<?= $suplemen['nama']?>">
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="row mb-2">
 						<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 						<div class="col-sm-7">
-							 <textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
+							 <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;"><?= $suplemen['keterangan']?></textarea>
 						 </div>
 					</div>
 				</div>
-				<div class="box-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+				<div class="card-footer">
+					<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+					<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 				</div>
 			</form>
 		</div>

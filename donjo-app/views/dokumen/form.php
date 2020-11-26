@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<?php if (in_array($kat, array('2', '3'))): ?>
-				<li><a href="<?= site_url("$this->controller/peraturan_desa/$kat"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+				<li><a href="<?= $kembali_ke ?: site_url("$this->controller/peraturan_desa/$kat"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
 			<?php else: ?>
 				<li><a href="<?= site_url("$this->controller/index/$kat"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
 			<?php endif; ?>
@@ -13,23 +13,23 @@
 	</section>
 	<section class="content" id="maincontent">
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-			<div class="box box-info">
-				<div class="box-header with-border">
+			<div class="card card-outline card-info">
+				<div class="card-header with-border">
 					<?php if (in_array($kat, array('2', '3'))): ?>
-						<a href="<?= site_url("$this->controller/peraturan_desa/$kat"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+						<a href="<?= $kembali_ke ?: site_url("$this->controller/peraturan_desa/$kat"); ?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
 						</a>
 					<?php else: ?>
-						<a href="<?= site_url("$this->controller/index/$kat"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+						<a href="<?= site_url("$this->controller/index/$kat"); ?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
 						</a>
 					<?php endif; ?>
 				</div>
-				<div class="box-body">
+				<div class="card-body">
 					<div class="form-group">
 						<label class="control-label col-sm-4" for="nama">Judul Dokumen</label>
 						<div class="col-sm-6">
-							<input name="nama" class="form-control input-sm nomor_sk required" type="text" maxlength="200" value="<?=$dokumen['nama']?>"></input>
+							<input name="nama" class="form-control form-control-sm nomor_sk required" type="text" maxlength="200" value="<?=$dokumen['nama']?>"></input>
 						</div>
 					</div>
 					<?php if ($dokumen['satuan']): ?>
@@ -37,7 +37,7 @@
 							<label class="control-label col-sm-4">Dokumen</label>
 							<div class="col-sm-4">
 								<input type="hidden" name="old_file" value="<?= $dokumen['satuan']?>">
-								<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_DOKUMEN . $dokumen['satuan']?>" alt="<?= $dokumen['satuan']?>">
+								<img class="attachment-img img-fluid rounded-circle" src="<?= base_url() . LOKASI_DOKUMEN . $dokumen['satuan']?>" alt="<?= $dokumen['satuan']?>">
 							</div>
 						</div>
 					<?php endif; ?>
@@ -66,9 +66,9 @@
 							include ("donjo-app/views/dokumen/_informasi_publik.php");
 					?>
 				</div>
-				<div class='box-footer'>
-					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-					<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+				<div class='card-footer'>
+					<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+					<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 				</div>
 			</div>
 		</form>

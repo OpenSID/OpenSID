@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<div class="box-body">
+<div class="card-body">
 	<h5><b>Rincian Suplemen</b></h5>
 	<div class="table-responsive">
 		<table class="table table-bordered table-striped table-hover tabel-rincian">

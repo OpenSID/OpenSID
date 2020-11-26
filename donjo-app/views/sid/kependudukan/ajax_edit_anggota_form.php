@@ -16,11 +16,11 @@
 						<td> : <?= $main['nama']?></td>
 					</tr>
 				</table>
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-outline card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="kk_level">Hubungan</label>
-							<select name="kk_level" class="form-control input-sm required" style="width:100%;">
+							<select name="kk_level" class="form-control form-control-sm required" style="width:100%;">
 								<option value=""> ----- Pilih Hubungan ----- </option>
 								<?php foreach ($hubungan as $data): ?>
 									<?php if ($data['id']>0): ?>
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+	<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

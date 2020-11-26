@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-body">
 		<div class="form-group">
 			<label for="pamong_ttd">Laporan Ditandatangani</label>
-			<select class="form-control input-sm required" name="pamong_ttd">
+			<select class="form-control form-control-sm required" name="pamong_ttd">
 				<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
 				<?php foreach ($pamong AS $data): ?>
 					<option value="<?= $data['pamong_id']?>" <?= selected($data['pamong_ttd'], 1); ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
@@ -72,11 +72,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="form-group">
 			<label for="laporan_no">Laporan No.</label>
-			<input id="laporan_no" class="form-control input-sm required" type="text" placeholder="Laporan No." name="laporan_no" value="">
+			<input id="laporan_no" class="form-control form-control-sm required" type="text" placeholder="Laporan No." name="laporan_no" value="">
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
+		<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
 	</div>
 </form>

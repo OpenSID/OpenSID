@@ -19,57 +19,57 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?=site_url("analisis_statistik_jawaban/cetak/$o"); ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?=site_url("analisis_statistik_jawaban/cetak/$o"); ?>" class="btn btn-flat bg-purple btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
 							</a>
-							<a href="<?=site_url("analisis_statistik_jawaban/excel/$o"); ?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
+							<a href="<?=site_url("analisis_statistik_jawaban/excel/$o"); ?>" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh" target="_blank">
 								<i class="fa fa-download"></i>Unduh
 							</a>
-							<a href="<?= site_url(); ?>analisis_laporan/leave" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW">
+							<a href="<?= site_url(); ?>analisis_laporan/leave" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar RW">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']; ?>
 							</a>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 							<h5>Analisis Statistik Jawaban - <a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><?= $analisis_master['nama']; ?></a></a></h5>
 						</div>
-						<div class="box-body">
-							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form id="mainform" name="mainform" action="" method="post">
+						<div class="card-body">
+							<div class="dataTables_wrapper dt-bootstrap no-footer">
+								<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 									<div class="row">
 										<div class="col-sm-9">
-											<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/tipe'); ?>')">
+											<select class="form-control form-control-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/tipe'); ?>')">
 												<option value="">Pilih Tipe Indikator</option>
 												<?php foreach ($list_tipe AS $data): ?>
 													<option value="<?= $data['id']; ?>" <?php if ($tipe == $data['id']): ?>selected<?php endif ?>><?= $data['tipe']; ?></option>
 												<?php endforeach;?>
 											</select>
-											<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/kategori'); ?>')">
+											<select class="form-control form-control-sm" name="kategori" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/kategori'); ?>')">
 												<option value="">Pilih Tipe Kategori</option>
 												<?php foreach ($list_kategori AS $data): ?>
 													<option value="<?= $data['id']; ?>" <?php if ($kategori == $data['id']): ?>selected<?php endif ?>><?= $data['kategori']; ?></option>
 												<?php endforeach;?>
 											</select>
-											<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/filter'); ?>')">
+											<select class="form-control form-control-sm" name="filter" onchange="formAction('mainform', '<?= site_url('analisis_statistik_jawaban/filter'); ?>')">
 												<option value="">Pilih Aksi Analisis</option>
 												<option value="1" <?= selected($filter, 1); ?>>Ya</option>
 												<option value="2" <?= selected($filter, 2); ?>>Tidak</option>
 											</select>
-											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/dusun'); ?>')">
+											<select class="form-control form-control-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/dusun'); ?>')">
 												<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
 												<?php foreach ($list_dusun AS $data): ?>
 													<option value="<?= $data['dusun']; ?>" <?= selected($dusun, $data['dusun']); ?>><?= strtoupper($data['dusun']); ?></option>
 												<?php endforeach;?>
 											</select>
 											<?php if ($dusun): ?>
-												<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rw'); ?>')" >
+												<select class="form-control form-control-sm" name="rw" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rw'); ?>')" >
 													<option value="">Pilih RW</option>
 													<?php foreach ($list_rw AS $data): ?>
 														<option value="<?= $data['rw']; ?>" <?= selected($rw, $data['rw']); ?>><?= $data['rw']; ?></option>
@@ -77,7 +77,7 @@
 												</select>
 											<?php endif; ?>
 											<?php if ($rw): ?>
-												<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rt'); ?>')">
+												<select class="form-control form-control-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rt'); ?>')">
 													<option value="">Pilih RT</option>
 													<?php foreach ($list_rt AS $data): ?>
 														<option value="<?= $data['rt']; ?>" <?= selected($rt, $rt['dusun']); ?>><?= $data['rt']; ?></option>

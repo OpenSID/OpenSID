@@ -29,11 +29,11 @@ $(document).ready(function() {
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-outline card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="nama">Nama / Jenis Dokumen</label>
-							<input id="nama" name="nama" class="form-control input-sm nomor_sk required" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama']?>"></input>	<input type="hidden" name="id_pend" value="<?= $penduduk['id']?>"/>
+							<input id="nama" name="nama" class="form-control form-control-sm nomor_sk required" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama']?>"></input>	<input type="hidden" name="id_pend" value="<?= $penduduk['id']?>"/>
 						</div>
 						<div class="form-group">
 							<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
@@ -93,7 +93,7 @@ $(document).ready(function() {
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

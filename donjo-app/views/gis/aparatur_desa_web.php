@@ -23,9 +23,9 @@
 </style>
 <!-- widget Aparatur Desa -->
 <div class="modal-body" id="maincontent">
-	<div class="box box-info box-solid">
+	<div class="card card-outline card-info box-solid">
 
-			<div class="box-body">
+			<div class="card-body">
 				<div id="aparatur_desa" class="cycle-slideshow"
 					data-cycle-pause-on-hover=true
 					data-cycle-fx=scrollHorz

@@ -56,28 +56,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
 							<div class="btn-group btn-group-vertical">
-								<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota Kelompok</a>
-								<ul class="dropdown-menu" role="menu">
+								<a class="btn btn-flat btn-success btn-xs" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota Kelompok</a>
+								<ul class="dropdown-menu text-xs" role="menu">
 									<li>
-										<a href="<?= site_url("kelompok/aksi/1/".$kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu Anggota Kelompok</a>
+										<a href="<?= site_url("kelompok/aksi/1/".$kelompok['id']); ?>" class="btn btn-flat btn-block btn-xs" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu Anggota Kelompok</a>
 									</li>
 									<li>
-										<a href="<?= site_url("kelompok/aksi/2/".$kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa Anggota Kelompok</a>
+										<a href="<?= site_url("kelompok/aksi/2/".$kelompok['id']); ?>" class="btn btn-flat btn-block btn-xs" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa Anggota Kelompok</a>
 									</li>
 								</ul>
 							</div>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_anggota_all/$kelompok[id]"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<a href="<?= site_url("kelompok/dialog_anggota/cetak/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota Kelompok <?= $kelompok['nama']; ?>"><i class="fa fa-print"></i> Cetak</a>
-							<a href="<?= site_url("kelompok/dialog_anggota/unduh/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Daftar Anggota Kelompok <?= $kelompok['nama']; ?>"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?= site_url("kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_anggota_all/$kelompok[id]"); ?>')" class="btn btn-flat	btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="<?= site_url("kelompok/dialog_anggota/cetak/$kelompok[id]"); ?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota Kelompok <?= $kelompok['nama']; ?>"><i class="fa fa-print"></i> Cetak</a>
+							<a href="<?= site_url("kelompok/dialog_anggota/unduh/$kelompok[id]"); ?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Daftar Anggota Kelompok <?= $kelompok['nama']; ?>"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?= site_url("kelompok"); ?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<h5><b>Rincian Kelompok</b></h5>
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover tabel-rincian">
@@ -113,7 +113,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<th><input type="checkbox" id="checkall"/></th>
 											<th>No</th>
 											<th>Aksi</th>
-											<th>Nomor Anggota</th>
+											<th>Foto</th>
+											<th>No. Anggota</th>
+											<th width="5%">Jabatan</th>
+											<th width="10%">SK Jabatan</th>
 											<th width="10%">NIK</th>
 											<th width="10%">Nama</th>
 											<th width="10%">Tempat / Tanggal Lahir</th>
@@ -130,10 +133,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 													<td class="padat"><?= ($key + 1); ?></td>
 													<td class="aksi">
-														<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
-														<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]"); ?>" class="btn bg-orange btn-flat btn-xs" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</td>
-													<td class="padat"><?= $data['no_anggota']; ?></td>
+													<td class="text-center">
+														<div class="user-panel">
+															<div class="image2">
+															<img src="<?= $data['foto'] ? AmbilFoto($data['foto']) : base_url() . 'assets/files/user_pict/kuser.png'; ?>" class="rounded-circle" alt="User Image"/>
+															</div>
+														</div>
+													</td>
+													<td class="padat"><?= $data['no_anggota']?></td>
+													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
+													<td><?= $data['no_sk_jabatan']?>
 													<td><?= $data['nik']; ?></td>
 													<td><?= $data['nama']; ?></td>
 													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>

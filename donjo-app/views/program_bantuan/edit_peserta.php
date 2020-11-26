@@ -22,10 +22,10 @@
 </script>
 <form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 	<div class='modal-body'>
-		<div class="box-header with-border">
+		<div class="card-header with-border">
 			<h3 class="box-title">Rincian Program</h3>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<div class="table-responsive">
 				<table class="table table-bordered table-striped table-hover tabel-rincian">
 					<tbody>
@@ -43,15 +43,15 @@
 				</table>
 			</div>
 		</div>
-		<div class="box-header with-border">
+		<div class="card-header with-border">
 			<h3 class="box-title">Identitas Pada Kartu Peserta</h3>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<input type="hidden" name="program_id" value="<?= $program_id?>"/>
 			<div class="form-group">
 				<label for="no_id_kartu" class="col-sm-4 control-label">Nomor Kartu Peserta</label>
 				<div class="col-sm-7">
-					<input id="no_id_kartu" class="form-control input-sm nama_terbatas" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
+					<input id="no_id_kartu" class="form-control form-control-sm nama_terbatas" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" value="<?= $no_id_kartu?>" >
 				</div>
 			</div>
 			<?php if ($kartu_peserta): ?>
@@ -59,7 +59,7 @@
 					<label class="control-label col-sm-4" for="nama"></label>
 					<div class="col-sm-6">
 						<input type="hidden" name="old_gambar" value="<?= $kartu_peserta?>">
-						<img class="attachment-img img-responsive img-circle" src="<?= AmbilDokumen($kartu_peserta)?>" alt="Gambar">
+						<img class="attachment-img img-fluid rounded-circle" src="<?= AmbilDokumen($kartu_peserta)?>" alt="Gambar">
 						<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $kartu_peserta?>" /> Hapus Gambar</label></p>
 					</div>
 				</div>
@@ -80,19 +80,19 @@
 			<div class="form-group">
 				<label for="kartu_nik" class="col-sm-4 control-label">NIK</label>
 				<div class="col-sm-7">
-					<input id="kartu_nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK Penduduk" name="kartu_nik" value="<?= $kartu_nik?>" >
+					<input id="kartu_nik" class="form-control form-control-sm required nik" type="text" placeholder="Nomor NIK Penduduk" name="kartu_nik" value="<?= $kartu_nik?>" >
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="kartu_nama" class="col-sm-4 control-label">Nama</label>
 				<div class="col-sm-7">
-					<input id="kartu_nama" class="form-control input-sm required nama" type="text" placeholder="Nama Penduduk" name="kartu_nama" value="<?= $kartu_nama?>">
+					<input id="kartu_nama" class="form-control form-control-sm required nama" type="text" placeholder="Nama Penduduk" name="kartu_nama" value="<?= $kartu_nama?>">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="kartu_tempat_lahir" class="col-sm-4 control-label">Tempat Lahir</label>
 				<div class="col-sm-7">
-					<input id="kartu_tempat_lahir" class="form-control input-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $kartu_tempat_lahir?>">
+					<input id="kartu_tempat_lahir" class="form-control form-control-sm alamat required" type="text" placeholder="Tempat Lahir" name="kartu_tempat_lahir" maxlength="200" value="<?= $kartu_tempat_lahir?>">
 				</div>
 			</div>
 			<div class="form-group">
@@ -102,20 +102,20 @@
 						<div class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</div>
-						<input class="form-control input-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= date_format(date_create($kartu_tanggal_lahir),"d-m-Y")?>">
+						<input class="form-control form-control-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= date_format(date_create($kartu_tanggal_lahir),"d-m-Y")?>">
 					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="kartu_alamat" class="col-sm-4 control-label">Alamat</label>
 				<div class="col-sm-7">
-					<input id="kartu_alamat" class="form-control input-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $kartu_alamat?>">
+					<input id="kartu_alamat" class="form-control form-control-sm alamat required" type="text" placeholder="Alamat" name="kartu_alamat" maxlength="200" value="<?= $kartu_alamat?>">
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

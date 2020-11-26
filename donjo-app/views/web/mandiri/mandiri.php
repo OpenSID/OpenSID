@@ -6,7 +6,7 @@
 	}
 </style>
 
-<div class="box-header with-border">
+<div class="card-header with-border">
 	<span style="font-size: x-large; float: left"><strong>BIODATA PENDUDUK</strong></span>
 	<div class="text-right">
 		<div class="text-right"><a href="<?= site_url("mandiri_web/cetak_biodata/$penduduk[id]"); ?>" target="_blank"><button type="button" class="btn btn-success"><i class="fa fa-print"></i>CETAK BIODATA</button></a></div>
@@ -131,8 +131,8 @@
 			<?php endif ?>
 		</table>
 	</div>
-	<div class="box box-info" style="margin-top: 10px; margin-bottom: 0px; padding-bottom: 0px;">
-		<div class="box-header with-border">
+	<div class="card card-outline card-info" style="margin-top: 10px; margin-bottom: 0px; padding-bottom: 0px;">
+		<div class="card-header with-border">
 			<h4 class="box-title">Data Orang Tua</h4>
 		</div>
 	</div>
@@ -171,14 +171,14 @@
 		</table>
 	</div>
 
-	<div class="box box-info" style="margin-top: 10px;">
-		<div class="box-header with-border">
+	<div class="card card-outline card-info" style="margin-top: 10px;">
+		<div class="card-header with-border">
 			<h4 class="box-title">KEANGGOTAAN KELOMPOK</h4>
-			<div class="box-tools">
+			<div class="card-tools">
 				<button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#kelompok"><i class="fa fa-minus"></i></button>
 			</div>
 		</div>
-		<div class="box-body" id="kelompok">
+		<div class="card-body" id="kelompok">
 			<div class="table-responsive">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped form">
 					<tr>
@@ -201,14 +201,14 @@
 		</div>
 	</div>
 
-	<div class="box box-info" style="margin-top: 10px;">
-		<div class="box-header with-border">
+	<div class="card card-outline card-info" style="margin-top: 10px;">
+		<div class="card-header with-border">
 			<h4 class="box-title">DOKUMEN / KELENGKAPAN PENDUDUK</h4>
-			<div class="box-tools">
+			<div class="card-tools">
 				<button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#dokumen"><i class="fa fa-minus"></i></button>
 			</div>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<div class="table-responsive">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped">
 					<thead>

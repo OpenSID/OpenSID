@@ -1,7 +1,7 @@
 <div class="form-group tdk-permohonan">
 	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
 	<div class="col-sm-6 col-lg-4">
-		<select class="form-control input-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
+		<select class="form-control form-control-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
 			<option value="">-- Atas Nama --</option>
 			<?php foreach ($atas_nama as $data): ?>
 				<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>>
@@ -30,7 +30,7 @@
 <div class="form-group tdk-permohonan">
 	<label for="jabatan"  class="col-sm-3 control-label">Menjabat Sebagai</label>
 	<div class="col-sm-6 col-lg-4">
-		<select class="form-control input-sm required" id="jabatan" name="jabatan">
+		<select class="form-control form-control-sm required" id="jabatan" name="jabatan">
 			<option value='' selected="selected" >-- Pilih Jabatan--</option>
 			<?php foreach ($pamong AS $data): ?>
 				<option <?php if ($data['pamong_ttd']==1): ?>selected<?php endif; ?>><?= $data['jabatan']?></option>

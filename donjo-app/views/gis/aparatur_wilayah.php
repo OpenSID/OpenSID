@@ -17,8 +17,8 @@
 </style>
 <!-- widget Aparatur Dusun/rw/rt -->
 <div class="modal-body" id="maincontent">
-	<div class="box box-primary box-solid">
-		<div class="box-body">
+	<div class="card card-outline card-primary box-solid">
+		<div class="card-body">
 			<div id="aparatur_wilayah" class="cycle-slideshow">
 				<div class="cycle-overlay"></div>
 				<?php if ($penduduk['foto']): ?>

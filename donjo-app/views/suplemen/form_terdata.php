@@ -57,13 +57,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url("suplemen"); ?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
-				<a href="<?= site_url("suplemen/rincian/$suplemen[id]"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Data Suplemen</a>
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url("suplemen"); ?>" class="btn btn-flat btn-primary btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
+				<a href="<?= site_url("suplemen/rincian/$suplemen[id]"); ?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Data Suplemen</a>
 			</div>
 			<?php $this->load->view('suplemen/rincian'); ?>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Tambahkan Warga Terdata</b></h5>
 				<hr>
 				<form action="" id="main" name="main" method="POST" class="form-horizontal">
@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="col-sm-3 control-label"></label>
 							<div class="col-sm-8">
-								<input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required">
+								<input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control form-control-sm required">
 							</div>
 						</div>
 						<?php if ($individu): ?>
@@ -95,15 +95,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 							<div class="col-sm-8">
-								<textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="100" placeholder="Keterangan" rows="5"></textarea>
+								<textarea name="keterangan" id="keterangan" class="form-control form-control-sm" maxlength="100" placeholder="Keterangan" rows="5"></textarea>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
-			<div class="box-footer">
-				<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-				<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
+			<div class="card-footer">
+				<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+				<button type="submit" class="btn btn-flat btn-info btn-xs pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
 			</div>
 		</div>
 	</section>

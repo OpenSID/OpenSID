@@ -9,7 +9,7 @@
 </style>
 <div class="modal-body" id="maincontent">
   <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
-    <div class="box box-info">
+    <div class="card card-outline card-info">
       <?php foreach ($transparansi['data_widget'] as $subdata_name => $subdatas): ?>
         <div class="col-md-4">
         <div align="center" style="height: 0.5em;"><h4><?= ($subdatas['laporan'])?></h4></div><hr/>

@@ -29,28 +29,28 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?=site_url("cdesa/create_mutasi/".$cdesa['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?=site_url("cdesa/create_mutasi/".$cdesa['id'])?>" class="btn btn-flat btn-success btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Persil">
 							<i class="fa fa-plus"></i>Tambah Mutasi Persil
 						</a>
-						<a href="<?=site_url('cdesa')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
-						<a href="<?= site_url("cdesa/form_c_desa/".$cdesa['id'])?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+						<a href="<?=site_url('cdesa')?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
+						<a href="<?= site_url("cdesa/form_c_desa/".$cdesa['id'])?>" class="btn btn-flat bg-purple btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Data" target="_blank">
 							<i class="fa fa-print"></i>Cetak C-DESA
 						</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 										<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="box-header with-border">
+												<div class="card-header with-border">
 													<h3 class="box-title">Rincian C-DESA</h3>
 												</div>
-												<div class="box-body">
+												<div class="card-body">
 													<table class="table table-bordered  table-striped table-hover" >
 														<tbody>
 															<tr>
@@ -80,7 +80,7 @@
 											<div class="col-sm-12">
 												<div class="row">
 													<div class="col-sm-9">
-														<div class="box-header with-border">
+														<div class="card-header with-border">
 															<h3 class="box-title">Daftar Persil C-Desa</h3>
 														</div>
 													</div>
@@ -106,7 +106,7 @@
 																<tr>
 																	<td class="text-center padat"><?= $nomer?></td>
 																	<td nowrap class="padat">
-																		<a href='<?= site_url("cdesa/mutasi/$cdesa[id]/$item[id]")?>' class="btn bg-maroon btn-flat btn-sm"  title="Daftar Mutasi"><i class="fa fa-exchange"></i></a>
+																		<a href='<?= site_url("cdesa/mutasi/$cdesa[id]/$item[id]")?>' class="btn bg-maroon btn-flat btn-xs"  title="Daftar Mutasi"><i class="fa fa-exchange"></i></a>
 																	</td>
 																	<td>
 																		<a href="<?= site_url("data_persil/rincian/".$item["id"])?>">

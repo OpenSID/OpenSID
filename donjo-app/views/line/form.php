@@ -14,24 +14,24 @@
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url("line")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url("line")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Garis
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<label class="control-label col-sm-3">Nama Jenis Garis</label>
 								<div class="col-sm-7">
-									<input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" value="<?=$line['nama']?>"></input>
+									<input name="nama" class="form-control form-control-sm nomor_sk required" maxlength="100" type="text" value="<?=$line['nama']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-3">Warna</label>
 								<div class="col-sm-4">
 									<div class="input-group my-colorpicker2">
-										<input type="text" id="color" name="color" class="form-control input-sm required" placeholder="#FFFFFF" value="<?=  $line['color']?>">
+										<input type="text" id="color" name="color" class="form-control form-control-sm required" placeholder="#FFFFFF" value="<?=  $line['color']?>">
 										<div class="input-group-addon input-sm">
 											<i></i>
 										</div>
@@ -39,10 +39,10 @@
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
+						<div class='card-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='reset' class='btn btn-flat btn-danger btn-xs'><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

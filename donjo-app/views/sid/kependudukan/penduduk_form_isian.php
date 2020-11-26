@@ -2,12 +2,12 @@
 	<?php if (!$kk_baru): ?>
 		<input name="no_kk" type="hidden" value="<?= $penduduk['no_kk'] ?>">
 	<?php endif; ?>
-	<div class="box box-primary">
-		<div class="box-body box-profile">
+	<div class="card card-outline card-primary">
+		<div class="card-body box-profile">
 			<?php if ($penduduk['foto']): ?>
-				 <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+				 <img class="penduduk profile-user-img img-fluid rounded-circle mx-auto d-block card-img-top" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
 			<?php else: ?>
-				<img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+				<img class="penduduk profile-user-img img-fluid rounded-circle mx-auto d-block card-img-top" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
 			<?php endif; ?>
 			<br/>
 			<p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
@@ -24,18 +24,18 @@
 	</div>
 </div>
 <div class="col-md-9">
-	<div class='box box-primary'>
-		<div class="box-header with-border">
-			<a href="<?=site_url()?>penduduk/clear" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk</a>
+	<div class='card card-outline card-primary'>
+		<div class="card-header with-border">
+			<a href="<?=site_url()?>penduduk/clear" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk</a>
 		</div>
-		<div class='box-body'>
+		<div class='card-body'>
       <?php $this->load->view('sid/kependudukan/penduduk_form_isian_bersama'); ?>
     </div>
     <?php if($penduduk['status_dasar_id'] == 1 || !isset($penduduk['status_dasar_id'])): ?>
-      <div class='box-footer'>
+      <div class='card-footer'>
         <div class='col-xs-12'>
-          <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-          <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+          <button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+          <button type='submit' class='btn btn-flat btn-info btn-xs pull-right'><i class='fa fa-check'></i> Simpan</button>
         </div>
       </div>
     <?php endif; ?>

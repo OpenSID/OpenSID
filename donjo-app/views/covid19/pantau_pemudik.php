@@ -6,22 +6,32 @@
 </style>
 
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Pemantauan Isolasi Mandiri Saat Pandemi Covid-19</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Data Pemudik</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Pemantauan Isolasi Mandiri
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item active">Data Pemudik</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
 						<h3 class="box-title"><strong>Form Pemantauan</strong></h3>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data">
 
 							<input type="hidden" id="this_url" value="<?= $this_url ?>" >
@@ -40,27 +50,27 @@
 
 							<div class="form-group">
 								<label for="tgl_jam">Tanggal/Jam</label>
-								<input type="text" class="form-control input-sm" name="tgl_jam" id="tgl_jam" value="<?= $datetime_now; ?>">
+								<input type="text" class="form-control form-control-sm" name="tgl_jam" id="tgl_jam" value="<?= $datetime_now; ?>">
 								</div>
 
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="tgl_jam">Tanggal Tiba</label>
-											<input type="text" class="form-control input-sm" name="tgl_tiba" id="tgl_tiba" value="<?= $datetime_now; ?>" disabled>
+											<input type="text" class="form-control form-control-sm" name="tgl_tiba" id="tgl_tiba" value="<?= $datetime_now; ?>" disabled>
 										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="tgl_jam">Data H+</label>
-											<input type="text" class="form-control input-sm" name="h_plus" id="h_plus" value="3" disabled>
+											<input type="text" class="form-control form-control-sm" name="h_plus" id="h_plus" value="3" disabled>
 										</div>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label for="suhu">Suhu Tubuh</label>
-									<input type="text" class="form-control input-sm" name="suhu" id="suhu" placeholder="36.75">
+									<input type="text" class="form-control form-control-sm" name="suhu" id="suhu" placeholder="36.75">
 								</div>
 
 								<div class="table-responsive-sm">
@@ -95,50 +105,56 @@
 
 							<div class="form-group">
 									<label for="keluhan">Keluhan Lain</label>
-									<textarea name="keluhan" class="form-control input-sm" placeholder="Keluhan Lain" rows="3" style="resize:none;"></textarea>
+									<textarea name="keluhan" class="form-control form-control-sm" placeholder="Keluhan Lain" rows="3" style="resize:none;"></textarea>
 								</div>
 						</form>
 					</div>
-					<div class="box-footer">
-						<div class="box-tools pull-right">
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
+					<div class="card-footer">
+						<div class="card-tools pull-right">
+							<button type="submit" class="btn btn-flat btn-info btn-xs pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-9">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url("covid19/daftar/cetak/$filter_tgl/$filter_nik")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?= site_url("covid19/daftar/cetak/$filter_tgl/$filter_nik")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
 						</a>
-						<a href="<?= site_url("covid19/daftar/unduh/$filter_tgl/$filter_nik")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
+						<a href="<?= site_url("covid19/daftar/unduh/$filter_tgl/$filter_nik")?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
 						</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<form id="filterform" name="filterform" action="" method="post">
 
-								<div class="col-sm-3">
-									<div class="form-group">
-										<input type="hidden" id="hidden_unique_date_select" value="<?= $filter_tgl ?>" >
-										<select class="form-control select2 input-sm" name="unique_date_select" id="unique_date_select" style="width: 100%;">
-											<option value="0">-- Pilih Tanggal --</option>
-											<?php foreach ($unique_date as $row): ?>
-											<option value="<?= $row[tanggal] ?>" > <?= $row[tanggal] ?></option>
-											<?php endforeach; ?>
-										</select>
-									</div>
-								</div>
+								<div class="container-fluid">
+									<div class="row mb-2">
 
-								<div class="col-sm-5">
-									<div class="form-group">
-										<input type="hidden" id="hidden_unique_nik_select" value="<?= $filter_nik ?>" >
-										<select class="form-control select2 input-sm" name="unique_nik_select" id="unique_nik_select" style="width: 100%;">
-											<option value="0">-- Pilih NIK/Nama --</option>
-											<?php foreach ($unique_nik as $row): ?>
-											<option value="<?= $row[id_pemudik] ?>" > <?= $row[nik]." - ".$row[nama] ?></option>
-											<?php endforeach; ?>
-										</select>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<input type="hidden" id="hidden_unique_date_select" value="<?= $filter_tgl ?>" >
+												<select class="form-control select2 input-sm" name="unique_date_select" id="unique_date_select" style="width: 100%;">
+													<option value="0">-- Pilih Tanggal --</option>
+													<?php foreach ($unique_date as $row): ?>
+														<option value="<?= $row[tanggal] ?>" > <?= $row[tanggal] ?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+										</div>
+										
+										<div class="col-sm-6">
+											<div class="form-group">
+												<input type="hidden" id="hidden_unique_nik_select" value="<?= $filter_nik ?>" >
+												<select class="form-control select2 input-sm" name="unique_nik_select" id="unique_nik_select" style="width: 100%;">
+													<option value="0">-- Pilih NIK/Nama --</option>
+													<?php foreach ($unique_nik as $row): ?>
+														<option value="<?= $row[id_pemudik] ?>" > <?= $row[nik]." - ".$row[nama] ?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+										</div>
+
 									</div>
 								</div>
 
@@ -146,9 +162,8 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
-										<div class="row">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="col-sm-12">
 												<div class="table-responsive">
 													<table class="table table-bordered dataTable table-striped table-hover">
@@ -181,7 +196,7 @@
 																<td align="center" width="2"><?= $nomer; ?></td>
 																<td nowrap>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																	<a href="#" data-href="<?= site_url("$url_delete_front/$item[id]/$url_delete_rare")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>																	<?php endif; ?>
+																	<a href="#" data-href="<?= site_url("$url_delete_front/$item[id]/$url_delete_rare")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>																	<?php endif; ?>
 																</td>
 																<td><?= "H+".$item["date_diff"] ?></td>
 																<td><?= $item["tanggal_datang"] ?></td>
@@ -202,62 +217,8 @@
 													</table>
 												</div>
 											</div>
-										</div>
 									</form>
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="dataTables_length">
-												<form id="paging" action="" method="post" class="form-horizontal">
-													<label>
-														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="10" <?php selected($per_page,10); ?> >10</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
-															<option value="200" <?php selected($per_page,200); ?> >200</option>
-														</select>
-														Dari
-														<strong><?= $paging->num_rows?></strong>
-														Total Data
-													</label>
-												</form>
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="dataTables_paginate paging_simple_numbers">
-												<ul class="pagination">
-													<?php if ($paging->start_link): ?>
-														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
-														</li>
-													<?php endif; ?>
-
-													<?php if ($paging->prev): ?>
-														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-														</li>
-													<?php endif; ?>
-
-													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-														<li <?=jecho($p, $i, "class='active'")?>>
-															<a href="<?= site_url('covid19/pantau/'.$i)?>"><?= $i?></a>
-														</li>
-													<?php endfor; ?>
-
-													<?php if ($paging->next): ?>
-														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-														</li>
-													<?php endif; ?>
-
-													<?php if ($paging->end_link): ?>
-														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
-														</li>
-													<?php endif; ?>
-												</ul>
-											</div>
-										</div>
-									</div>
+									<?php $this->load->view('global/paging'); ?>
 								</div>
 							</div>
 						</div>

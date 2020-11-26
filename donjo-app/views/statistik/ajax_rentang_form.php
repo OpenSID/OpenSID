@@ -57,16 +57,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="nama">Rentang Umur</label>
 				</div>
 				<div class="col-xs-6">
-					<input class="form-control input-sm required bilangan" type="text" placeholder="Dari" id="dari" name="dari" value="<?= $rentang['dari']?>"></input>
+					<input class="form-control form-control-sm required bilangan" type="text" placeholder="Dari" id="dari" name="dari" value="<?= $rentang['dari']?>"></input>
 				</div>
 				<div class="col-xs-6">
-					<input id="sampai" class="form-control input-sm required bilangan" type="text" placeholder="Sampai" name="sampai" value="<?= $rentang['sampai']?>"></input>
+					<input id="sampai" class="form-control form-control-sm required bilangan" type="text" placeholder="Sampai" name="sampai" value="<?= $rentang['sampai']?>"></input>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

@@ -21,44 +21,44 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
 							<?php if ($analisis_master['lock']==1): ?>
-								<a href="<?= site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if ($analisis_master['jenis']==1): ?>disabled<?php endif; ?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
+								<a href="<?= site_url('analisis_indikator/form')?>" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left <?php if ($analisis_master['jenis']==1): ?>disabled<?php endif; ?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
 								<a href="#confirm-delete" title="Hapus Data"
 									<?php if ($analisis_master['jenis']!=1): ?>
 										onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/delete_all/$p/$o")?>')"
 									<?php endif; ?>
-									class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-								<a href="<?= site_url()?>analisis_indikator/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+									class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="<?= site_url()?>analisis_indikator/leave" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 							<?php endif; ?>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-8">
-													<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_indikator/tipe')?>')">
+													<select class="form-control form-control-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_indikator/tipe')?>')">
 														<option value="">Tipe Pertanyaan</option>
 														<?php foreach ($list_tipe AS $data): ?>
 															<option value="<?= $data['id']?>" <?php if ($tipe == $data['id']): ?>selected<?php endif ?>><?= $data['tipe']?></option>
 														<?php endforeach;?>
 													</select>
-													<select class="form-control input-sm" name="kategori" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
+													<select class="form-control form-control-sm" name="kategori" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
 														<option value="">Tipe Kategori</option>
 														<?php foreach ($list_kategori AS $data): ?>
 															<option value="<?= $data['id']?>" <?php if ($kategori == $data['id']): ?>selected<?php endif ?>><?= $data['kategori']?></option>
 														<?php endforeach;?>
 													</select>
-													<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('analisis_indikator/filter')?>')">
+													<select class="form-control form-control-sm" name="filter" onchange="formAction('mainform', '<?= site_url('analisis_indikator/filter')?>')">
 														<option value="">Aksi Analisis</option>
 														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Ya</option>
 														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak</option>
@@ -136,11 +136,11 @@
 																		<?php if ($analisis_master['lock']==1): ?>
 																			<td nowrap>
 																				<?php if ($data['id_tipe']==1 OR $data['id_tipe']==2): ?>
-																					<a href="<?= site_url("analisis_indikator/parameter/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Jawaban"><i class='fa fa-list'></i></a>
+																					<a href="<?= site_url("analisis_indikator/parameter/$data[id]")?>" class="btn bg-purple btn-flat btn-xs"  title="Jawaban"><i class='fa fa-list'></i></a>
 																				<?php endif; ?>
-																				<a href="<?= site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
+																				<a href="<?= site_url("analisis_indikator/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-xs"  title="Ubah Data"><i class='fa fa-edit'></i></a>
 																				<?php if ($analisis_master['jenis']!=1): ?>
-																					<a href="#" data-href="<?= site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																					<a href="#" data-href="<?= site_url("analisis_indikator/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																			</td>
 																		<?php endif; ?>
@@ -165,7 +165,7 @@
 													<form id="paging" action="<?= site_url("analisis_indikator")?>" method="post" class="form-horizontal">
 														<label>
 															Tampilkan
-															<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+															<select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
 																<option value="20" <?php selected($per_page,20); ?> >20</option>
 																<option value="50" <?php selected($per_page,50); ?> >50</option>
 																<option value="100" <?php selected($per_page,100); ?> >100</option>

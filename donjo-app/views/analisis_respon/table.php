@@ -33,22 +33,22 @@
 				<?php $this->load->view('analisis_master/left', $data);?>
 			</div>
 			<div class="col-md-8 col-lg-9">
-				<div class="box box-info">
-				<div class="box-header with-border">
-						<a href="<?= site_url("analisis_respon/data_ajax")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh data respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Respon">
+				<div class="card card-outline card-info">
+				<div class="card-header with-border">
+						<a href="<?= site_url("analisis_respon/data_ajax")?>" class="btn btn-flat bg-purple btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh data respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Respon">
 							<i class="fa fa-download"></i>Unduh
 						</a>
-						<a href="<?= site_url("analisis_respon/import")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data Respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data Respon">
+						<a href="<?= site_url("analisis_respon/import")?>" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Impor Data Respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data Respon">
 							<i class="fa fa-upload"></i>Impor
 						</a>
 						<?php if ($analisis_master['format_impor'] == 1): ?>
-							<a href="<?= site_url("analisis_respon/form_impor_bdt")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data BDT 2015" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data BDT 2015">
+							<a href="<?= site_url("analisis_respon/form_impor_bdt")?>" class="btn btn-flat bg-olive btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Impor Data BDT 2015" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data BDT 2015">
 								<i class="fa fa-upload"></i>Impor BDT 2015
 							</a>
 						<?php endif; ?>
-						<a href="<?= site_url()?>analisis_respon/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+						<a href="<?= site_url()?>analisis_respon/leave" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 					</div>
-					<div class="box-header with-border">
+					<div class="card-header with-border">
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover" >
 								<tr>
@@ -69,25 +69,25 @@
 							</table>
 						</div>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="table-responsive">
-							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form id="mainform" name="mainform" action="" method="post">
+							<div class="dataTables_wrapper dt-bootstrap no-footer">
+								<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 									<div class="row">
 										<div class="col-sm-8">
-											<select class="form-control input-sm" name="isi" onchange="formAction('mainform', '<?= site_url('analisis_respon/isi')?>')">
+											<select class="form-control form-control-sm" name="isi" onchange="formAction('mainform', '<?= site_url('analisis_respon/isi')?>')">
 												<option value=""> --- Semua --- </option>
 												<option value="1" <?= selected($isi, 1); ?>>Sudah Terinput</option>
 												<option value="2" <?= selected($isi, 2); ?>>Belum Terinput</option>
 											</select>
-											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_respon/dusun')?>')">
+											<select class="form-control form-control-sm " name="dusun" onchange="formAction('mainform','<?= site_url('analisis_respon/dusun')?>')">
 												<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 												<?php foreach ($list_dusun AS $data): ?>
 													<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 												<?php endforeach;?>
 											</select>
 											<?php if ($dusun): ?>
-												<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('analisis_respon/rw')?>')" >
+												<select class="form-control form-control-sm" name="rw" onchange="formAction('mainform','<?= site_url('analisis_respon/rw')?>')" >
 													<option value="">RW</option>
 													<?php foreach ($list_rw AS $data): ?>
 														<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
@@ -95,7 +95,7 @@
 												</select>
 											<?php endif; ?>
 											<?php if ($rw): ?>
-												<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_respon/rt')?>')">
+												<select class="form-control form-control-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_respon/rt')?>')">
 													<option value="">RT</option>
 													<?php foreach ($list_rt AS $data): ?>
 														<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
@@ -145,9 +145,9 @@
 														<tr>
 															<td class="padat"><?= $data['no']; ?></td>
 															<td class="aksi">
-																<a href="<?= site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Input Data"><i class='fa fa-check-square-o'></i></a>
+																<a href="<?= site_url("analisis_respon/kuisioner/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-xs" title="Input Data"><i class='fa fa-check-square-o'></i></a>
 																<?php if ($data['bukti_pengesahan']): ?>
-																	<a href="<?= base_url(LOKASI_PENGESAHAN.$data['bukti_pengesahan'])?>" class="btn bg-olive btn-flat btn-sm" title="Unduh Bukti Pengesahan" target="_blank"><i class="fa fa-paperclip"></i></a>
+																	<a href="<?= base_url(LOKASI_PENGESAHAN.$data['bukti_pengesahan'])?>" class="btn bg-olive btn-flat btn-xs" title="Unduh Bukti Pengesahan" target="_blank"><i class="fa fa-paperclip"></i></a>
 																<?php endif; ?>
 															</td>
 															<td nowrap><?= $data['nid']?></td>
@@ -174,7 +174,7 @@
 											<form id="paging" action="<?= site_url("analisis_respon")?>" method="post" class="form-horizontal">
 												<label>
 													Tampilkan
-													<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+													<select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
 														<option value="20" <?= selected($per_page, 20); ?>>20</option>
 														<option value="50" <?= selected($per_page, 50); ?>>50</option>
 														<option value="100" <?= selected($per_page, 100); ?>>100</option>

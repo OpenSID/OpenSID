@@ -1,11 +1,11 @@
-<div class="box box-info">
-	<div class="box-header with-border">
+<div class="card card-outline card-info">
+	<div class="card-header with-border">
 		<h3 class="box-title">Menu Pendataan C-Desa</h3>
-		<div class="box-tools">
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 		</div>
 	</div>
-	<div class="box-body no-padding">
+	<div class="card-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<li <?php if ($this->tab_ini == 10): ?>class="active"<?php endif; ?>><a href="<?= site_url('cdesa/create')?>"><i class='fa fa-plus'></i> Tambah C-Desa</a></li>
 			<li <?php if ($this->tab_ini == 12): ?>class="active"<?php endif; ?>><a href="<?= site_url('cdesa/clear')?>"><i class='fa fa-list'></i>Daftar C-DESA</a></li>

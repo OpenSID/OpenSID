@@ -1,23 +1,33 @@
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Info Sistem</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Info Sistem</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Info Sistem
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item active">Info Sistem</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
 		<div class="row" >
 			<div class="col-md-12">
-				<div class="box box-primary">
-					<div class="box-body">
+				<div class="card card-outline card-primary">
+					<div class="card-body">
 						<div class="nav-tabs-custom">
 							<ul class="nav nav-tabs">
-								<li class="active"><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
-								<li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
+								<li class="nav-item" class="active"><a class="nav-link active" data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
+								<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
 							</ul>
 							<div class="tab-content">
-								<div id="ekstensi" class="tab-pane fade in active">
+								<div id="ekstensi" class="tab-pane fade show active">
 									<?php if ($mysql['sudah_ok']): ?>
 										<div class="alert alert-success" role="alert">
 											<p>Versi MYSQL terpasang <?= $mysql['versi']?> sudah memenuhi syarat.</p>
@@ -60,46 +70,39 @@
 										</div>
 									<?php endforeach; ?>
 								</div>
-								<div id="info_sistem" class="tab-pane fade in">
+								<div id="info_sistem" class="tab-pane fade show">
 									<?php
 										ob_start();
 										phpinfo();
-										$phpinfo = array('phpinfo' => array());
-										if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)):
-											foreach ($matches as $match):
-												if (strlen($match[1])):
-													$phpinfo[$match[1]] = array();
-												elseif (isset($match[3])):
-													$phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? array($match[3], $match[4]): $match[3];
-												else:
-													$phpinfo[end(array_keys($phpinfo))][] = $match[2];
-												endif;
-											endforeach;
+										$phpinfo = ob_get_contents();
+										ob_end_clean();
+										$phpinfo = preg_replace('%^.*<body>(.*)</body>.*$%ms', '$1', $phpinfo);
+										echo "
+												<style type='text/css'>
+														#phpinfo {}
+														#phpinfo pre {margin: 0; font-family: monospace;}
+														#phpinfo a:link {color: #009; text-decoration: none; background-color: #fff;}
+														#phpinfo a:hover {text-decoration: underline;}
+														#phpinfo table {border-collapse: collapse; border: 0; width: 934px; box-shadow: 1px 2px 3px #ccc;}
+														#phpinfo .center {text-align: center;}
+														#phpinfo .center table {margin: 1em auto; text-align: left;}
+														#phpinfo .center th {text-align: center !important;}
+														#phpinfo td, th {border: 1px solid #666; font-size: 75%; vertical-align: baseline; padding: 4px 5px;}
+														#phpinfo h1 {font-size: 150%;}
+														#phpinfo h2 {font-size: 125%;}
+														#phpinfo .p {text-align: left;}
+														#phpinfo .e {background-color: #ccf; width: 300px; font-weight: bold;}
+														#phpinfo .h {background-color: #99c; font-weight: bold;}
+														#phpinfo .v {background-color: #ddd; max-width: 300px; overflow-x: auto; word-wrap: break-word;}
+														#phpinfo .v i {color: #999;}
+														#phpinfo img {float: right; border: 0;}
+														#phpinfo hr {width: 934px; background-color: #ccc; border: 0; height: 1px;}
+												</style>
+												<div id='phpinfo'>
+														$phpinfo
+												</div>
+												";
 									?>
-										<?php $i = 0;?>
-										<?php foreach ($phpinfo as $name => $section): ?>
-											<?php $i++;?>
-											<?php if ($i==1): ?>
-												<div class='table-responsive'>
-													<table class='table table-bordered dataTable table-hover'>
-											<?php else: ?>
-												<h3><?=$name?></h3>
-												<div class='table-responsive'>
-													<table class='table table-bordered dataTable table-hover'>
-											<?php endif ?>
-											<?php foreach ($section as $key => $val): ?>
-												<?php if (is_array($val)): ?>
-													<tr><td class="col-md-4 info"><?=$key?></td><td><?=$val[0]?></td><td><?=$val[1]?></td></tr>
-												<?php elseif (is_string($key)): ?>
-													<tr><td class="col-md-4 info"><?=$key?></td><td colspan='2'><?=$val?></td></tr>
-												<?php else: ?>
-													<tr><td class="btn-primary" colspan='3'><?=$val?></td></tr>
-												<?php endif; ?>
-											<?php endforeach;?>
-												</table>
-											</div>
-										<?php endforeach;?>
-									<?php endif; ?>
 								</div>
 							</div>
 						</div>

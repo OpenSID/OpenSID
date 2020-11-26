@@ -1,24 +1,34 @@
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Biodata Anggota Keluarga</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-      <li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
-			<li class="active">Biodata Anggota Keluarga</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Biodata Anggota Keluarga
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fas fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
+						<li class="breadcrumb-item active">Biodata Anggota Keluarga</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
     <form id="mainform" name="mainform" action="<?= $form_action?>" method="post" enctype="multipart/form-data">
       <div class="row">
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-3">
-              <div class="box box-primary">
-                <div class="box-body box-profile">
+              <div class="card card-outline card-primary">
+                <div class="card-body box-profile">
                   <?php if ($penduduk['foto']): ?>
-                    <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+                    <img class="penduduk profile-user-img img-fluid rounded-circle mx-auto d-block card-img-top" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
                   <?php else: ?>
-                    <img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+                    <img class="penduduk profile-user-img img-fluid rounded-circle mx-auto d-block card-img-top" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
                   <?php endif; ?>
                   <br/>
                   <p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
@@ -35,16 +45,16 @@
               </div>
             </div>
             <div class="col-md-9">
-              <div class='box box-primary'>
-        			  <div class="box-header with-border">
-  								<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
+              <div class='card card-outline card-primary'>
+        			  <div class="card-header with-border">
+  								<a href="<?=site_url("keluarga")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Keluarga">
   									<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
   								</a>
-                  <a href="<?=site_url("keluarga/anggota/1/0/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
+                  <a href="<?=site_url("keluarga/anggota/1/0/$id_kk")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Keluarga">
                     <i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Anggota Keluarga
                   </a>
   							</div>
-                <div class='box-body'>
+                <div class='card-body'>
                   <div class="row">
                     <div class='col-sm-12'>
                       <div class="form-group subtitle_head">
@@ -54,7 +64,7 @@
                     <div class='col-sm-4'>
                       <div class='form-group'>
                         <label >No. KK </label>
-                        <input class="form-control input-sm" type="text" value="<?= $kk['no_kk']?>" disabled></input>
+                        <input class="form-control form-control-sm" type="text" value="<?= $kk['no_kk']?>" disabled></input>
                         <input name="id_kk" type="hidden" value="<?= $id_kk?>">
                         <input name="kk_level" type="hidden" value="0">
                         <input name="id_cluster" type="hidden" value="<?= $kk['id_cluster']?>">
@@ -63,13 +73,13 @@
                     <div class='col-sm-8'>
                       <div class='form-group'>
                         <label>Kepala KK</label>
-                        <input class="form-control input-sm" type="text" value="<?= $kk['nama']?>" disabled></input>
+                        <input class="form-control form-control-sm" type="text" value="<?= $kk['nama']?>" disabled></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
                       <div class='form-group'>
                         <label>Alamat </label>
-                        <input class="form-control input-sm" type="text" value="<?= $kk['alamat']?> Dusun <?= $kk['dusun']?> - RW <?= $kk['rw']?> - RT <?= $kk['rt']?>" disabled></input>
+                        <input class="form-control form-control-sm" type="text" value="<?= $kk['alamat']?> Dusun <?= $kk['dusun']?> - RW <?= $kk['rw']?> - RT <?= $kk['rt']?>" disabled></input>
                       </div>
                     </div>
                     <div class='col-sm-12'>
@@ -80,10 +90,10 @@
                   </div>
                   <?php $this->load->view('sid/kependudukan/penduduk_form_isian_bersama'); ?>
                 </div>
-                <div class='box-footer'>
+                <div class='card-footer'>
                   <div class='col-xs-12'>
-                    <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-                    <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                    <button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+                    <button type='submit' class='btn btn-flat btn-info btn-xs pull-right'><i class='fa fa-check'></i> Simpan</button>
                   </div>
                 </div>
                 <div  class="modal fade" id="rumah-penduduk" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

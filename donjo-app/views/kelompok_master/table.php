@@ -54,31 +54,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 </script>
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Kategori Kelompok</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
-			<li class="active">Kategori Kelompok</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Kategori Kelompok
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
+						<li class="breadcrumb-item active">Kategori Kelompok</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
-			<div class="box box-info">
-				<div class="box-header with-border">
-					<a href="<?= site_url('kelompok_master/form'); ?>" title="Tambah Kategori Kelompok Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori Kelompok Baru</a>
-					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('kelompok_master/delete_all'); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-					<a href="<?= site_url('kelompok'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Kelompok</a>
+			<div class="card card-outline card-info">
+				<div class="card-header with-border">
+					<a href="<?= site_url('kelompok_master/form'); ?>" title="Tambah Kategori Kelompok Baru" class="btn btn-flat bg-olive btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-plus"></i> Tambah Kategori Kelompok Baru</a>
+					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('kelompok_master/delete_all'); ?>')" class="btn btn-flat	btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<a href="<?= site_url('kelompok'); ?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Kelompok</a>
 				</div>
-				<div class="box-body">
-					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-						<form id="mainform" name="mainform" action="" method="post">
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="input-group input-group-sm pull-right">
-										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("kelompok_master/filter/cari")?>');$('#'+'mainform').submit();}">
-										<div class="input-group-btn">
-											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("kelompok_master/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+				<div class="card-body">
+					<div class="dataTables_wrapper dt-bootstrap no-footer">
+						<form class="form-inline" id="mainform" name="mainform" action="" method="post">
+							<div class="container-fluid">
+								<div class="row mb-2">
+									<div class="col-sm-9"></div>
+									<div class="col-sm-3">
+										<div class="input-group input-group-sm pull-right">
+											<input name="cari" id="cari" class="form-control form-control-sm" placeholder="Cari..." type="text" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("kelompok_master/filter/cari")?>');$('#'+'mainform').submit();}">
+											<div class="input-group-btn">
+												<button type="submit" class="btn btn-default btn-xs" onclick="$('#'+'mainform').attr('action', '<?= site_url("kelompok_master/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -101,8 +114,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 													<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 													<td class="aksi">
-														<a href="<?= site_url("kelompok_master/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori kelompok"><i class="fa fa-edit"></i></a>
-														<a href="#" data-href="<?= site_url("kelompok_master/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<a href="<?= site_url("kelompok_master/form/$data[id]")?>" class="btn bg-orange btn-flat btn-xs" title="Ubah Kategori kelompok"><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("kelompok_master/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</td>
 													<td nowrap><?= $data['kelompok']?></td>
 													<td><?= $data['deskripsi']?></td>

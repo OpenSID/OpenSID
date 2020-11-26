@@ -9,8 +9,8 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
 						<form id="main" name="main" action="<?= site_url()?>surat/search" method="post">
 							<div class="row">
 								<div class="col-sm-6">
@@ -24,11 +24,11 @@
 							</div>
 						</form>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<?php if ($data['favorit']=1): ?>
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
@@ -48,8 +48,8 @@
 																<tr <?php if ($data['jenis']!=1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><?= $i;?></td>
 																	<td class="nostretch">
-																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-social btn-flat bg-olive btn-sm"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
-																		<a href="<?= site_url("surat/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
+																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-flat bg-olive btn-xs"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
+																		<a href="<?= site_url("surat/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-xs" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
 																	</td>
 																	<td><?= $data['nama']?></td>
 																	<td><?= $data['kode_surat']?></td>
@@ -59,7 +59,7 @@
 															<?php else: ?>
 																<tr>
 																	<td colspan="5" class="box box-warning box-solid">
-																		<div class="box-body text-center">
+																		<div class="card-body text-center">
 																			<span>Belum ada surat favorit</span>
 																		</div>
 																	</td>
@@ -77,7 +77,7 @@
 						<?php endif; ?>
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="table-responsive">
@@ -97,8 +97,8 @@
 																<tr <?php if ($data['jenis']!=1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><?= $nomer;?></td>
 																	<td class="nostretch">
-																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-social btn-flat bg-purple btn-sm"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
-																		<a href="<?= site_url("surat/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm"  title="Tambahkan ke Daftar Favorit" ><i class="fa fa-star-o"></i></a>
+																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-flat bg-purple btn-xs"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
+																		<a href="<?= site_url("surat/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-xs"  title="Tambahkan ke Daftar Favorit" ><i class="fa fa-star-o"></i></a>
 																	</td>
 																	<td><?= $data['nama']?></td>
 																	<td><?= $data['kode_surat']?></td>

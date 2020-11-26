@@ -10,16 +10,16 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-				  <div class="box-header with-border">
-						<a href="<?=site_url("surat_master")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+				<div class="card card-outline card-info">
+				  <div class="card-header with-border">
+						<a href="<?=site_url("surat_master")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Format Surat
            	</a>
 					</div>
-					<div class="box-header with-border">
+					<div class="card-header with-border">
 						<h3 class="box-title"><i class="fa fa-info-circle"></i> <strong>Kode Isian Format Surat <?= $surat_master['nama']?></strong></h3>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-7">
 								<p>

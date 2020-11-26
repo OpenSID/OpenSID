@@ -10,13 +10,13 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url("keluar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?= site_url("keluar")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Arsip Layanan Surat
            	</a>
 					</div>
-					<div class="box-header with-border">
+					<div class="card-header with-border">
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover" >
 								<tbody>
@@ -58,11 +58,11 @@
 							</table>
 						</div>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
@@ -116,14 +116,14 @@
 																	<td nowrap>
 																		<?php
 																			if (is_file($theFile)): ?>
-																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
+																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-flat bg-purple btn-xs" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
 																			<?php	endif; ?>
 																		<?php
 																			if (is_file($lampiran)): ?>
-																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
+																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-flat bg-olive btn-xs" title="Unduh Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
 																			<?php	endif; ?>
-																		<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-xs"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
 																	<td><?= $data['no_surat']?></td>
@@ -147,7 +147,7 @@
 												<form id="paging" action="<?= site_url("keluar/perorangan/$nik[no]")?>" method="post" class="form-horizontal">
 													<label>
 														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+														<select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
 															<option value="20" <?php selected($per_page,20); ?> >20</option>
 															<option value="50" <?php selected($per_page,50); ?> >50</option>
 															<option value="100" <?php selected($per_page,100); ?> >100</option>

@@ -9,8 +9,8 @@
 	<section class='content'>
 		<div class='row'>
 			<div class='col-xs-12'>
-				<div class='box box-danger'>
-					<div class='box-body'>
+				<div class='card card-outline card-danger'>
+					<div class='card-body'>
 						<h4>OpenSID SELALU GRATIS</h4>
 						<div>
 							<p>OpenSID selalu gratis dan bebas digunakan dan dikembangkan desa. OpenSID berlisensi GNU General Public License Version 3, yaitu Open Source, di mana scriptnya selalu bebas diperoleh dan disesuaikan desa.</p>

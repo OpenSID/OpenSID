@@ -70,34 +70,34 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('data_persil/menu_kiri.php')?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-						<div class="box-header">
+					<div class="card card-outline card-info">
+						<div class="card-header">
 							<h4 class="text-center"><strong>DAFTAR PERSIL</strong></h4>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<a href="<?=site_url("data_persil/form/")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<a href="<?=site_url("data_persil/form/")?>" class="btn btn-flat btn-success btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Persil">
 											<i class="fa fa-plus"></i>Tambah Persil
 										</a>
-										<a href="<?=site_url("data_persil/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+										<a href="<?=site_url("data_persil/cetak")?>" class="btn btn-flat bg-purple btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Data" target="_blank">
 											<i class="fa fa-print"></i>Cetak
 										</a>
-										<a href="<?=site_url("data_persil/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank">
+										<a href="<?=site_url("data_persil/unduh")?>" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh Data" target="_blank">
 											<i class="fa fa-download"></i>Unduh
 										</a>
-										<a href="<?= site_url("data_persil/clear")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
-										<form id="mainform" name="mainform" action="" method="post">
+										<a href="<?= site_url("data_persil/clear")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-refresh"></i>Bersihkan</a>
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-12">
-													<div class="box-tools">
+													<div class="card-tools">
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("data_persil/search")?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
@@ -129,15 +129,15 @@
 																		<td><?= $item['no']?></td>
 																		<td nowrap>
 																			<?php if ($item['jml_bidang'] > 0): ?>
-																				<a href="<?= site_url("data_persil/rincian/".$item["id"])?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-bars"></i></a>
+																				<a href="<?= site_url("data_persil/rincian/".$item["id"])?>" class="btn bg-purple btn-flat btn-xs" title="Rincian"><i class="fa fa-bars"></i></a>
 																			<?php else: ?>
-																				<a class="btn bg-purple btn-flat btn-sm" disabled title="Rincian"><i class="fa fa-bars"></i></a>
+																				<a class="btn bg-purple btn-flat btn-xs" disabled title="Rincian"><i class="fa fa-bars"></i></a>
 																			<?php endif ?>
-																			<a href="<?= site_url("data_persil/form/".$item["id"])?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("data_persil/form/".$item["id"])?>" class="btn bg-orange btn-flat btn-xs"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($item['jml_bidang'] == 0): ?>
-																				<a href="#" data-href="<?= site_url("data_persil/hapus/".$item["id"])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<a href="#" data-href="<?= site_url("data_persil/hapus/".$item["id"])?>" class="btn bg-maroon btn-flat btn-xs" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php else: ?>
-																				<a class="btn bg-maroon btn-flat btn-sm" disabled><i class="fa fa-trash-o"></i></a>
+																				<a class="btn bg-maroon btn-flat btn-xs" disabled><i class="fa fa-trash-o"></i></a>
 																			<?php endif ?>
 																			</td>
 																			<td><?= $item['nomor'].' : '.$item['nomor_urut_bidang']?></td>

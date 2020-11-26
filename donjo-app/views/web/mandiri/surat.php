@@ -54,20 +54,21 @@
 		white-space: nowrap;
 	}
 </style>
+
 <script type='text/javascript'>
 	const LOKASI_DOKUMEN = '<?= base_url().LOKASI_DOKUMEN ?>';
 </script>
 
 <form class="contact_form" id="validasi" action="<?= site_url('permohonan_surat/form/'.$permohonan[id])?>" method="POST" enctype="multipart/form-data">
 
-	<div class="box-header with-border">
+	<div class="card-header with-border">
 		<span style="font-size: x-large"><strong>LAYANAN PERMOHONAN SURAT</strong></span>
 		<input type="hidden" name="pemohon" value="<?= $_SESSION['nama']?>"/>
 		<input type="hidden" readonly="readonly" name="nik" value="<?= $_SESSION['nik']?>"/>
 		<input type="hidden" id="id_permohonan" name="id_permohonan" value="<?= $permohonan['id']?>"/>
 	</div>
 
-	<div class="box-body">
+	<div class="card-body">
 		<div class="form form-horizontal">
 			<?php if ($permohonan): ?>
 				<div class="alert alert-warning" role="alert">
@@ -76,38 +77,38 @@
 			<?php endif; ?>
 			<div class="form-group">
 				<label for="nama_surat" class="col-sm-3 control-label">Jenis Surat Yang Dimohon</label>
-				<div class="col-sm-6 col-lg-8">
-					<select class="form-control select2 required input-sm" name="id_surat" id="id_surat" style="width:100%;">
+				<div class="col-sm-9">
+					<select class="form-control select2 required" name="id_surat" id="id_surat">
 						<option value=""> -- Pilih Jenis Surat -- </option>
 						<?php foreach ($menu_surat_mandiri AS $data): ?>
-							<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
+							<option value="<?= $data['id']?>" <?= selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
 						<?php endforeach;?>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
-				<div class="col-sm-8 col-lg-8">
-					<textarea class="form-control input-sm" name="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan." rows="3" style="resize:none;"><?= $permohonan['keterangan']?></textarea>
+				<div class="col-sm-9">
+					<textarea class="form-control form-control-sm <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
-				<div class="col-sm-6 col-lg-8">
-					<input class="form-control input-sm bilangan_spasi required" type="text" name="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']?>"/>
+				<div class="col-sm-9">
+					<input class="form-control form-control-sm bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>" />
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="box box-info" style="margin-top: 10px;">
-		<div class="box-header with-border">
+	<div class="card card-outline card-info" style="margin-top: 10px;">
+		<div class="card-header with-border">
 			<h4 class="box-title">DOKUMEN / KELENGKAPAN PENDUDUK YANG DIBUTUHKAN</h4>
-			<div class="box-tools">
+			<div class="card-tools">
 				<button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#surat"><i class="fa fa-minus"></i></button>
 			</div>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered" id="syarat_surat">
 					<thead>
@@ -120,24 +121,24 @@
 				</table>
 			</div>
 		</div>
-		<div class="box-footer">
+		<div class="card-footer">
 			<div class="col-xs-12">
-				<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm invisible"><i class="fa fa-times"></i> Batal</button>
+				<button type="reset" class="btn btn-flat btn-danger btn-xs invisible"><i class="fa fa-times"></i> Batal</button>
 				<button type="submit" class="btn btn-primary pull-right" id="isi_form"><i class="fa fa-sign-in"></i>Isi Form</button>
 			</div>
 		</div>
 	</div>
 </form>
 
-<div class="box box-info" style="margin-top: 10px;">
-	<div class="box-header with-border">
+<div class="card card-outline card-info" style="margin-top: 10px;">
+	<div class="card-header with-border">
 		<h4 class="box-title">DOKUMEN / KELENGKAPAN PENDUDUK YANG TERSEDIA</h4>
-		<div class="box-tools">
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#dokumen"><i class="fa fa-minus"></i></button>
 		</div>
 	</div>
-	<div class="box-body">
-		<button type="button" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modal" data-title="Tambah Dokumen" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="tambah_dokumen"><i class='fa fa-plus'></i>Tambah Dokumen</button>
+	<div class="card-body">
+		<button type="button" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modal" data-title="Tambah Dokumen" class="btn btn-flat bg-olive btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" id="tambah_dokumen"><i class='fa fa-plus'></i>Tambah Dokumen</button>
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered" id="dokumen">
 				<thead>
@@ -169,7 +170,7 @@
 				<p id="kata_peringatan"></p>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<button class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 			</div>
 		</div>
 	</div>
@@ -186,19 +187,19 @@
 				<div class='modal-body'>
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="box box-danger">
-								<div class="box-body">
+							<div class="card card-outline card-danger">
+								<div class="card-body">
 									<div class="form-group">
 										<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-										<input id="nama_dokumen" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Dokumen" value=""/>
+										<input id="nama_dokumen" name="nama" class="form-control form-control-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
 										<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
 									</div>
 									<div class="form-group">
 										<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
 											<option> -- Pilih Jenis Dokumen -- </option>
 											<?php foreach ($menu_dokumen_mandiri AS $data): ?>
-												<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']?></option>
-											<?php endforeach;?>
+												<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']; ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
 									<div class="form-group">
@@ -242,14 +243,24 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="upload_btn"><i class='fa fa-check'></i> Simpan</button>
+					<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="submit" class="btn btn-flat btn-info btn-xs" id="upload_btn"><i class='fa fa-check'></i> Simpan</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
 <script type='text/javascript'>
+
+	function cek_perhatian(elem){
+		if ($(elem).val() == '-1') {
+			$(elem).next('.perhatian').show();
+		} else {
+			$(elem).next('.perhatian').hide();
+		}
+	}
+
 	$(document).ready(function(){
 
 		// var id_surat = 0;

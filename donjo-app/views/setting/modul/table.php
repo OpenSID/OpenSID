@@ -71,9 +71,9 @@
 		<section class="content" id="maincontent">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
+					<div class="card card-outline card-info">
 						<form id="validasi" action="<?= site_url("modul/ubah_server")?>" method="POST" class="form-horizontal">
-							<div class="box-body">
+							<div class="card-body">
 								<h4>Penggunaan Server</h4>
 								<div class="form-group" >
 									<label class="col-sm-3 control-label">Penggunaan OpenSID di <?= ucwords($this->setting->sebutan_desa)?></label>
@@ -98,7 +98,7 @@
 								<div class="form-group" id="offline_online_hosting" style="<?php !in_array($this->setting->penggunaan_server, array('3', '5', '6')) and print('display: none;') ?>">
 									<label class="col-sm-3 control-label">Server ini digunakan sebagai</label>
 									<div class="col-sm-9 col-lg-4">
-										<select class="form-control input-sm" name="server_mana" onchange="ubah_server($(this).val())">
+										<select class="form-control form-control-sm" name="server_mana" onchange="ubah_server($(this).val())">
 											<option value='' selected="selected">-- Pilih Server Ini --</option>
 											<option value="5" <?php selected($this->setting->penggunaan_server, '5')?>>
 												Offline di kantor desa
@@ -112,7 +112,7 @@
 								<div class="form-group" id="offline_ada_hosting" style="<?php !in_array($this->setting->penggunaan_server, array('5')) and print('display: none;') ?>">
 									<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
 									<div class="col-sm-6 col-lg-4">
-										<select class="form-control input-sm" name="offline_mode">
+										<select class="form-control form-control-sm" name="offline_mode">
 											<option value='' selected="selected">-- Pilih Akses Web --</option>
 											<option value="1" <?php ($this->setting->penggunaan_server == '5' and $this->setting->offline_mode =='1') and print('selected')?>>
 												Web bisa diakses petugas web
@@ -126,7 +126,7 @@
 								<div class="form-group" id="offline_saja" style="<?php !in_array($this->setting->penggunaan_server, array('1')) and print('display: none;') ?>">
 									<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
 									<div class="col-sm-9 col-lg-4">
-										<select class="form-control input-sm" name="offline_mode_saja">
+										<select class="form-control form-control-sm" name="offline_mode_saja">
 											<option value='' selected="selected">-- Pilih Akses Web --</option>
 											<option value="0" <?php ($this->setting->penggunaan_server == '1' and $this->setting->offline_mode == '0') and print('selected')?>>
 												Web bisa diakses publik
@@ -141,10 +141,10 @@
 									</div>
 								</div>
 							</div>
-							<div class='box-footer'>
+							<div class='card-footer'>
 								<div class='col-xs-12'>
-									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+									<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+									<button type='submit' class='btn btn-flat btn-info btn-xs pull-right'><i class='fa fa-check'></i> Simpan</button>
 								</div>
 							</div>
 						</form>
@@ -156,29 +156,29 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
+				<div class="card card-outline card-info">
 					<?php if(!$sub_modul): ?>
-						<div class="box-body">
+						<div class="card-body">
 							<h4>Pengaturan Modul</h4>
 							<div class="row">
 								<div class="col-xs-12 text-center">
-									<a href="<?= site_url("modul/default_server")?>" class="btn btn-social btn-flat btn-success btn-sm" <?php $this->setting->penggunaan_server or print("disabled='disabled'")?>><i class="fa fa-refresh"></i>Kembalikan ke default penggunaan server</a>
+									<a href="<?= site_url("modul/default_server")?>" class="btn btn-flat btn-success btn-xs" <?php $this->setting->penggunaan_server or print("disabled='disabled'")?>><i class="fa fa-refresh"></i>Kembalikan ke default penggunaan server</a>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?=site_url('modul/filter/status/')?>')">
+													<select class="form-control form-control-sm " name="status" onchange="formAction('mainform','<?=site_url('modul/filter/status/')?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php selected($status, 1);?>>Aktif</option>
 														<option value="2" <?php selected($status, 2);?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
-													<div class="box-tools">
+													<div class="card-tools">
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action','<?=site_url('modul/search')?>');$('#'+'mainform').submit();endif;">
 															<div class="input-group-btn">
@@ -193,13 +193,13 @@
 								</div>
 							</div>
 					<?php else: ?>
-						<div class="box-header with-border">
-							<a href="<?= site_url('modul/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
+						<div class="card-header with-border">
+							<a href="<?= site_url('modul/clear')?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 						 <strong> Modul Utama : <?=$sub_modul['modul']?></strong>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 					<?php endif; ?>
 					<div class="row">
 						<div class="col-sm-12">
@@ -219,16 +219,16 @@
 											<tr>
 												<td class="text-center"><?=$data['no']?></td>
 												<td nowrap>
-													<a href="<?=site_url("modul/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a>
+													<a href="<?=site_url("modul/form/$data[id]")?>" class="btn bg-orange btn-flat btn-xs" title="Ubah Data" ><i class="fa fa-edit"></i></a>
 														<?php if ($data['aktif'] == '1'): ?>
-															<a href="<?= site_url("modul/lock/$data[id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+															<a href="<?= site_url("modul/lock/$data[id]/2")?>" class="btn bg-navy btn-flat btn-xs"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 														<?php elseif ($sub_modul AND $sub_modul['aktif'] != '1'): ?>
 															<!-- Jika parrent menu tdk aktif, maka tdk ada aksi lock -->
 														<?php else: ?>
-															<a href="<?= site_url("modul/lock/$data[id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+															<a href="<?= site_url("modul/lock/$data[id]/1")?>" class="btn bg-navy btn-flat btn-xs"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 														<?php endif ?>
 													<?php if (count($data['submodul'])>0): ?>
-														<a href="<?=site_url("modul/sub_modul/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>
+														<a href="<?=site_url("modul/sub_modul/$data[id]")?>" class="btn bg-olive btn-flat btn-xs" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>
 													<?php endif; ?>
 												</td>
 												<td><?=$data['modul']?></td>

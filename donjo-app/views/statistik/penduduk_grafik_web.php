@@ -204,16 +204,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 </style>
 
-<div class="box box-danger">
-	<div class="box-header with-border">
+<div class="card card-outline card-danger">
+	<div class="card-header with-border">
 		<h3 class="box-title"> Grafik <?= $heading ?></h3>
-		<div class="box-tools pull-right">
+		<div class="card-tools pull-right">
 			<div class="btn-group-xs">
 				<a class="btn btn-primary btn-xs" id="barType_<?=$lap?>" onclick="switchType_<?=$lap?>();">Bar Graph</a>
 			</div>
 		</div>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 		<div id="container_<?=$lap?>"></div>
 		<div id="contentpane">
 			<div class="ui-layout-north panel top"></div>
@@ -221,11 +221,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
 
-<div class="box box-danger">
-	<div class="box-header with-border">
+<div class="card card-outline card-danger">
+	<div class="card-header with-border">
 		<h3 class="box-title">Tabel <?= $heading ?></h3>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 		<div class="table-responsive">
 		<table class="table table-striped">
 			<thead>

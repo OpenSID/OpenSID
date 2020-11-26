@@ -21,8 +21,8 @@
 	}
 </style>
 <div class='modal-body'>
-	<div class="box box-danger">
-		<div class="box-body">
+	<div class="card card-outline card-danger">
+		<div class="card-body">
 			<div class="row">
 				<div class="col-sm-12">
 					<label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
@@ -42,6 +42,6 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-	<a href="#" class="btn btn-social btn-flat btn-info btn-sm" title="Simpan" target="_blank" onclick="cetak()" id="cetak_data" ><i class="fa fa-check"></i> <?= ucwords($aksi) ?></a>
+	<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+	<a href="#" class="btn btn-flat btn-info btn-xs" title="Simpan" target="_blank" onclick="cetak()" id="cetak_data" ><i class="fa fa-check"></i> <?= ucwords($aksi) ?></a>
 </div>

@@ -47,18 +47,18 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<label for="no_kk">Nomor KK</label>
-					<input class="form-control input-sm required nik" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
+					<input class="form-control form-control-sm required nik" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
 					<input name="id" type="hidden" value="<?= $kk['id']; ?>">
 					<input name="id_cluster_lama" type="hidden" value="<?= $kk['id_cluster']; ?>">
 				</div>
 				<div class="form-group">
 					<label for="alamat">Alamat </label>
-					<textarea id="alamat" name="alamat" class="form-control input-sm alamat" maxlength="200" placeholder="Alamat Jalan/Perumahan" rows="3" style="resize:none;"><?= $kk['alamat']?></textarea>
+					<textarea id="alamat" name="alamat" class="form-control form-control-sm alamat" maxlength="200" placeholder="Alamat Jalan/Perumahan" rows="3" style="resize:none;"><?= $kk['alamat']?></textarea>
 				</div>
 				<div class="row">
 					<div class='form-group col-sm-6'>
 						<label for="dusun"><?= ucwords($this->setting->sebutan_dusun)?> </label>
-						<select id="dusun" name="dusun" class="form-control input-sm required">
+						<select id="dusun" name="dusun" class="form-control form-control-sm required">
 							<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 							<?php foreach ($dusun as $data): ?>
 								<option value="<?= $data['dusun']?>" <?php selected($kk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
@@ -67,7 +67,7 @@
 					</div>
 					<div class='form-group col-sm-3'>
 						<label for="rw">RW</label>
-						<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/')?>" data-valueKey="rw" data-displayKey="rw" >
+						<select id="rw" name="rw" class="form-control form-control-sm required" data-source="<?= site_url('wilayah/list_rw/')?>" data-valueKey="rw" data-displayKey="rw" >
 							<option class="placeholder" value="">Pilih RW</option>
 							<?php foreach ($rw as $data): ?>
 								<option value="<?= $data['rw']?>" <?php selected($kk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
@@ -76,7 +76,7 @@
 					</div>
 					<div id="isi_rt" class='form-group col-sm-3'>
 						<label for="rt">RT</label>
-						<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/')?>" data-valueKey="id" data-displayKey="rt">
+						<select id="id_cluster" name="id_cluster" class="form-control form-control-sm required" data-source="<?= site_url('wilayah/list_rt/')?>" data-valueKey="id" data-displayKey="rt">
 							<option class="placeholder" value="">Pilih RT </option>
 							<?php foreach ($rt as $data): ?>
 								<option value="<?= $data['id']?>" <?php selected($kk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
@@ -90,12 +90,12 @@
 						<div class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</div>
-						<input id="tgl_1" name="tgl_cetak_kk" class="form-control input-sm" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>
+						<input id="tgl_1" name="tgl_cetak_kk" class="form-control form-control-sm" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="kelas_sosial">Kelas Sosial</label>
-					<select id="kelas_sosial" name="kelas_sosial" class="form-control input-sm">
+					<select id="kelas_sosial" name="kelas_sosial" class="form-control form-control-sm">
 						<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
 						<?php foreach ($keluarga_sejahtera as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($kk['kelas_sosial'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
@@ -106,7 +106,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

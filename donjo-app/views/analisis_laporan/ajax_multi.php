@@ -45,8 +45,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-outline card-danger">
+					<div class="card-body">
 						<input type="hidden" name="rt" value="">
 						<div class="table-responsive" style="height:60vh;">
               <?php $jumlah = count($main); ?>
@@ -82,9 +82,9 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+						<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 						<?php if($jumlah != 0):?>
-              <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+              <button type="submit" class="btn btn-flat btn-info btn-xs" id="ok"><i class='fa fa-check'></i> Simpan</button>
 					  <?php endif; ?>
           </div>
 				</div>

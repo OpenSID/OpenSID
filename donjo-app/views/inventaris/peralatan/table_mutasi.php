@@ -13,11 +13,11 @@
 					<?php $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-						<div class="box-body">
+					<div class="card card-outline card-info">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
@@ -40,11 +40,11 @@
 																	<td></td>
 																	<td nowrap>
 																		<?php if ($data->status == "0"): ?>
-																			<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																			<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-xs"><i class="fa fa-external-link-square"></i></a>
 																		<?php endif; ?>
-																		<a href="<?= site_url('inventaris_peralatan/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																		<a href="<?= site_url('inventaris_peralatan/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="<?= site_url('inventaris_peralatan/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-xs"><i class="fa fa-eye"></i></a>
+																		<a href="<?= site_url('inventaris_peralatan/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-xs"><i class="fa fa-edit"></i> </a>
+																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																  <td><?= $data->nama_barang;?></td>
 																	<td><?= $data->kode_barang;?></td>
@@ -85,7 +85,7 @@
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 													<div class="col-sm-9">
-														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
+														<select name="penandatangan" id="penandatangan" class="form-control form-control-sm">
 															<?php foreach ($pamong AS $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
 																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
@@ -97,8 +97,8 @@
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download" name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
+												<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="submit" class="btn btn-flat btn-info btn-xs" id="form_download" name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
 											</div>
 
 										</form>
@@ -128,7 +128,7 @@
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 													<div class="col-sm-9">
-														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
+														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control form-control-sm">
 															<?php foreach ($pamong AS $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
 																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
@@ -140,8 +140,8 @@
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak" name="form_cetak"  data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
+												<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="submit" class="btn btn-flat btn-info btn-xs" id="form_cetak" name="form_cetak"  data-dismiss="modal"><i class='fa fa-check'></i> Simpan</button>
 											</div>
 										</form>
 									</div>

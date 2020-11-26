@@ -70,17 +70,17 @@
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url("point")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Lokasi
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<label for="nama"  class="col-sm-2 control-label">Nama Jenis Lokasi</label>
 								<div class="col-sm-8">
-									<input  id="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
+									<input  id="nama" class="form-control form-control-sm nomor_sk required" maxlength="100" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
@@ -112,10 +112,10 @@
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
+						<div class='card-footer'>
 							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='reset' class='btn btn-flat btn-danger btn-xs' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

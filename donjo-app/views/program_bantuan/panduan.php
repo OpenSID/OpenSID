@@ -10,11 +10,11 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?=site_url('program_bantuan')?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<h4>Keterangan</h4>
 						<p><strong>Program Bantuan</strong> adalah modul untuk pengelolaan data aktivitas program kerja dan keterlibatan warga, baik secara personal, keluarga, rumah tangga, maupun kelompok/organisasi.</p>
 						<h4>Panduan</h4>

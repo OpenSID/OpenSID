@@ -12,23 +12,23 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url("web_widget")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?= site_url("web_widget")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Widget
 							</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="judul">Judul Widget</label>
 								<div class="col-sm-6">
-									<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Widget" value="<?= $widget['judul']?>"></input>
+									<input id="judul" name="judul" class="form-control form-control-sm required" type="text" placeholder="Judul Widget" value="<?= $widget['judul']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="jenis">Jenis Widget</label>
 								<div class="col-sm-6">
-									<select id="jenis_widget" name="jenis_widget" class="form-control input-sm">
+									<select id="jenis_widget" name="jenis_widget" class="form-control form-control-sm">
 										<option value="">-- Pilih Jenis Widget --</option>
 										<option value="2" <?php selected($widget['jenis_widget'], 2);?>>Statis</option>
 										<option value="3" <?php selected($widget['jenis_widget'], 3);?>>Dinamis</option>
@@ -39,7 +39,7 @@
 							<div id="dinamis" class="form-group" <?php !$dinamis and print('style="display:none;"') ?>>
 								<label class="col-sm-4 control-label" for="alamat_kantor">Kode Widget</label>
 								<div class="col-sm-6">
-									<textarea style="resize:none;height:150px;" id="isi-dinamis" name="isi-dinamis" class="form-control input-sm" placeholder="Kode Widget"><?=$widget['isi']?></textarea>
+									<textarea style="resize:none;height:150px;" id="isi-dinamis" name="isi-dinamis" class="form-control form-control-sm" placeholder="Kode Widget"><?=$widget['isi']?></textarea>
 								</div>
 							</div>
 							<?php if ($widget['jenis_widget'] AND $widget['jenis_widget'] ==2) $statis = true; ?>
@@ -47,7 +47,7 @@
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">
 									<?php if($list_widget):?>
-										<select id="isi-statis" name="isi-statis" class="form-control input-sm">
+										<select id="isi-statis" name="isi-statis" class="form-control form-control-sm">
 											<option value="">-- Pilih Widget --</option>
 											<?php foreach ($list_widget as $list):?>
 												<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
@@ -59,10 +59,10 @@
 									</div>
 								</div>
 							</div>
-							<div class='box-footer'>
+							<div class='card-footer'>
 								<div class='col-xs-12'>
-									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+									<button type='reset' class='btn btn-flat btn-danger btn-xs' ><i class='fa fa-times'></i> Batal</button>
+									<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 								</div>
 							</div>
 						</div>

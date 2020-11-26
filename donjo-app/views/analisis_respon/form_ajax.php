@@ -60,8 +60,8 @@
 		<div class='modal-body'>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="box box-danger">
-						<div class="box-body">
+					<div class="card card-outline card-danger">
+						<div class="card-body">
 							<div class="table-responsive" style="height:60vh;">
 								<table class="table table-bordered dataTable nowrap">
 									<?php foreach ($list_jawab AS $data): ?>
@@ -110,13 +110,13 @@
 												<?php $data2=$data['parameter_respon'];?>
 												<tr>
 													<td id="">
-														<div style="width:100%" ><input name="it[<?= $data['id']?>]" type="text" class="form-control input-sm" value="<?= $data2['jawaban']?>"/></div>
+														<div style="width:100%" ><input name="it[<?= $data['id']?>]" type="text" class="form-control form-control-sm" value="<?= $data2['jawaban']?>"/></div>
 													</td>
 												</tr>
 											<?php else: ?>
 												<tr>
 													<td id="">
-														<div style="width:100%" ><input name="it[<?= $data['id']?>]" type="text" class="form-control input-sm" value=""/></div>
+														<div style="width:100%" ><input name="it[<?= $data['id']?>]" type="text" class="form-control form-control-sm" value=""/></div>
 													</td>
 												</tr>
 											<?php endif; ?>
@@ -126,7 +126,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="kirim"><i class='fa fa-check'></i> Simpan</button>
+							<button type="submit" class="btn btn-flat btn-info btn-xs" id="kirim"><i class='fa fa-check'></i> Simpan</button>
 						</div>
 					</div>
 				</div>

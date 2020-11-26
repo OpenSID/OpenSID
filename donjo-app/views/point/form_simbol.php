@@ -117,14 +117,14 @@
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="#" id="btn_ikon" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Simbol Lokasi</a>
-							<a href="<?= site_url("point/salin_simbol_default")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Salin Simbol Default">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="#" id="btn_ikon" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-plus"></i>Tambah Simbol Lokasi</a>
+							<a href="<?= site_url("point/salin_simbol_default")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Salin Simbol Default">
 								<i class="fa fa-copy"></i>Salin Simbol Default
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<div class="col-sm-10">
 									<div  class="vertical-scrollbar" style="max-height:460px;">
@@ -134,7 +134,7 @@
 													<label>
 														<img src="<?= base_url(LOKASI_SIMBOL_LOKASI)?><?= $data['simbol']?>">
 														<span class="glyphicon-class"><?= $data['simbol']?></span>
-														<a href="#" data-href="<?= site_url("point/delete_simbol/$data[id]/$data[simbol]")?>" class="btn btn-danger btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<a href="#" data-href="<?= site_url("point/delete_simbol/$data[id]/$data[simbol]")?>" class="btn btn-danger btn-xs" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</label>
 												</li>
 											<?php endforeach;?>
@@ -175,8 +175,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal" aria-hidden="true"><i class='fa fa-sign-out'></i> Tutup</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="simpan"><i class='fa fa-check'></i>Simpan</button>
+					<button class="btn btn-flat btn-danger btn-xs" data-dismiss="modal" aria-hidden="true"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="submit" class="btn btn-flat btn-info btn-xs" id="simpan"><i class='fa fa-check'></i>Simpan</button>
 				</div>
 			</form>
 		</div>

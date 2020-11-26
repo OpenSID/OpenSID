@@ -18,37 +18,37 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?=site_url("line/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?=site_url("line/form")?>" class="btn btn-flat btn-success btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Jenis Garis Baru
             	</a>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
-								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all/$p/$o")?>')" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
-							<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+							<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('line/filter')?>')">
+													<select class="form-control form-control-sm " name="filter" onchange="formAction('mainform', '<?=site_url('line/filter')?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php if ($filter==1): ?>selected<?php endif ?>>Aktif</option>
 														<option value="2" <?php if ($filter==2): ?>selected<?php endif ?>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
-													<div class="box-tools">
+													<div class="card-tools">
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url("line/search")?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
@@ -90,15 +90,15 @@
 																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("line/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian <?= $data['nama'] ?>"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Tambah Kategori <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
+																			<a href="<?= site_url("line/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-xs"  title="Ubah"><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("line/sub_line/$data[id]")?>" class="btn bg-purple btn-flat btn-xs"  title="Rincian <?= $data['nama'] ?>"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url("line/ajax_add_sub_line/$data[id]")?>" class="btn bg-olive btn-flat btn-xs"  title="Tambah Kategori <?= $data['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $data['nama']?>"><i class="fa fa-plus"></i></a>
 																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?= site_url('line/line_lock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-xs" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url('line/line_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																				<a href="<?= site_url('line/line_unlock/'.$data['id'])?>" class="btn bg-navy btn-flat btn-xs" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																			<?php endif ?>
-																			<a href="#" data-href="<?= site_url("line/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("line/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	  </td>
 																		<td width="60%"><?= $data['nama']?></td>
 																		<td><?= $data['aktif']?></td>
@@ -117,7 +117,7 @@
                           <form id="paging" action="<?= site_url("line")?>" method="post" class="form-horizontal">
                             <label>
                               Tampilkan
-                              <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+                              <select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
                                 <option value="20" <?php selected($per_page, 20); ?> >20</option>
                                 <option value="50" <?php selected($per_page, 50); ?> >50</option>
                                 <option value="100" <?php selected($per_page, 100); ?> >100</option>

@@ -38,10 +38,10 @@
 				</div>
 				<div class='modal-footer' id='m_footer'>
 					<?php if ($jenis == 'pengumuman'): ?>
-						<button type="reset" data-dismiss="modal" id="btnSetuju" class="btn btn-social btn-flat btn-warning btn-sm"><i class='fa fa-sign-out'></i> OK</button>
+						<button type="reset" data-dismiss="modal" id="btnSetuju" class="btn btn-flat btn-warning btn-xs"><i class='fa fa-sign-out'></i> OK</button>
 					<?php else: ?>
-						<button type="reset" data-dismiss="modal" id="btnTidak" class="btn btn-social btn-flat btn-danger btn-sm"><i class='fa fa-sign-out'></i> Tidak</button>
-						<button  type="submit" id="btnSetuju" class="btn btn-social btn-flat btn-warning btn-sm"><i class='fa fa-check'></i> Setuju</button>
+						<button type="reset" data-dismiss="modal" id="btnTidak" class="btn btn-flat btn-danger btn-xs"><i class='fa fa-sign-out'></i> Tidak</button>
+						<button  type="submit" id="btnSetuju" class="btn btn-flat btn-warning btn-xs"><i class='fa fa-check'></i> Setuju</button>
 					<?php endif; ?>
 				</div>
 			</div>

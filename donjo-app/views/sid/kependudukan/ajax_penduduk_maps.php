@@ -80,29 +80,38 @@ window.onload = function()
 	font-size: 2em;
 	}
 </style>
-<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Lokasi Tempat Tinggal <?= $penduduk['nama']?></h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<?php switch ($edit): ?><?php case '0': ?>
-			<?php case '2': ?>
-				<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
-				<?php break; ?>
-			<?php case '1': ?>
-				<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
-				<li><a href=#> Lokasi Tempat Tinggal</a></li>
-				<?php break; ?>
-			<?php endswitch ?>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Lokasi Tempat Tinggal <?= $penduduk['nama']?>
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fas fa-home"></i> Home</a></li>
+						<?php switch ($edit): ?><?php case '0': ?>
+						<?php case '2': ?>
+						<li class="breadcrumb-item"><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
+						<?php break; ?>
+						<?php case '1': ?>
+						<li class="breadcrumb-item"><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
+						<li class="breadcrumb-item"><a href=#> Lokasi Tempat Tinggal</a></li>
+						<?php break; ?>
+						<?php endswitch ?>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
+				<div class="card card-outline card-info">
 					<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div id="mapx">
@@ -110,63 +119,58 @@ window.onload = function()
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lat">Latitude</label>
-									<div class="col-sm-9">
-										<?php switch ($edit): ?><?php case '0': ?>
-											<input readonly="readonly" class="form-control number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
-											<?php break; ?>
-										<?php case '1': ?>
-											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
-											<?php break; ?>
-										<?php case '2': ?>
-											<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
-											<?php break; ?>
-										<?php endswitch ?>
-									</div>
+						<div class='card-footer'>
+							<div class="row mb-2">
+								<label class="col-sm-3 control-label" for="lat">Latitude</label>
+								<div class="col-sm-9">
+									<?php switch ($edit): ?><?php case '0': ?>
+									<input readonly="readonly" class="form-control form-control-sm number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
+									<?php break; ?>
+									<?php case '1': ?>
+									<input type="text" class="form-control form-control-sm number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
+									<?php break; ?>
+									<?php case '2': ?>
+									<input type="text" class="form-control form-control-sm number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
+									<?php break; ?>
+									<?php endswitch ?>
 								</div>
-
-								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lng">Longitude</label>
-									<div class="col-sm-9">
-										<?php switch ($edit): ?><?php case '0': ?>
-											<input readonly="readonly" class="form-control number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>"/>
-											<?php break; ?>
-										<?php case '1': ?>
-											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
-											<?php break; ?>
-										<?php case '2': ?>
-											<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
-											<?php break; ?>
-										<?php endswitch ?>
-									</div>
-								</div>
-
-								<?php switch ($edit): ?><?php case '0': ?>
-									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-									<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$id/2")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
-									<?php break; ?>
-								<?php case '1': ?>
-									<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-									<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
-										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
-									<?php endif; ?>
-									<?php break; ?>
-								<?php case '2': ?>
-									<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-									<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-									<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-									<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
-										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
-									<?php endif; ?>
-									<?php break; ?>
-								<?php endswitch ?>
-
 							</div>
+							<div class="row mb-2">
+								<label class="col-sm-3 control-label" for="lng">Longitude</label>
+								<div class="col-sm-9">
+									<?php switch ($edit): ?><?php case '0': ?>
+									<input readonly="readonly" class="form-control form-control-sm number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>"/>
+									<?php break; ?>
+									<?php case '1': ?>
+									<input type="text" class="form-control form-control-sm number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
+									<?php break; ?>
+									<?php case '2': ?>
+									<input type="text" class="form-control form-control-sm number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
+									<?php break; ?>
+									<?php endswitch ?>
+								</div>
+							</div>
+							<?php switch ($edit): ?><?php case '0': ?>
+							<a href="<?=site_url("penduduk")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+							<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$id/2")?>" class="btn btn-flat btn-warning btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
+							<?php break; ?>
+							<?php case '1': ?>
+							<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+							<a href="#" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+							<button type='reset' class='btn btn-flat btn-danger btn-xs' id="resetme"><i class='fa fa-times'></i> Reset</button>
+							<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+							<?php endif; ?>
+							<?php break; ?>
+							<?php case '2': ?>
+							<a href="<?=site_url("penduduk")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+							<a href="#" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+							<button type='reset' class='btn btn-flat btn-danger btn-xs' id="resetme"><i class='fa fa-times'></i> Reset</button>
+							<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+							<?php endif; ?>
+							<?php break; ?>
+							<?php endswitch ?>
 						</div>
 					</form>
 				</div>

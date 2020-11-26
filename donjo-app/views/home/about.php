@@ -1,29 +1,31 @@
 <!-- Perubahan script coding untuk bisa menampilkan about dalam bentuk tampilan bootstrap (AdminLTE)  -->
-<div class="box-header with-border">
-	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?= AmbilVersi()?></strong></h3>
+<div class="card-header with-border">
+	<h3 class="card-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?= AmbilVersi()?></strong></h3>
 </div>
-<div class="box-body">
-	<div class="box-group" id="accordion">
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+<div class="card-body">
+	<div class="row">
+	<div class="col" id="accordion">
+
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Aplikasi OpenSID</a>
 				</h4>
 			</div>
-			<div id="collapse1" class="panel-collapse collapse in">
-				<div class="box-body">
+			<div id="collapse1" class="collapse show">
+				<div class="card-body">
 					<p>OpenSID adalah aplikasi Sistem Informasi Desa (SID) yang dikembangkan sejak Mei 2016. OpenSID dirancang dan dikelola supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Informasi lebih lanjut dapat dilihat di <a href= https://github.com/OpenSID/opensid>https://github.com/OpenSID/opensid</a>.</p>
 				</div>
 			</div>
 		</div>
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Apakah SID ?</a>
 				</h4>
 			</div>
-			<div id="collapse2" class="panel-collapse collapse">
-				<div class="box-body">
+			<div id="collapse2" class="collapse">
+				<div class="card-body">
 					<p>Aplikasi Sistem Informasi Desa (SID) adalah sistem olah data dan informasi berbasis komputer yang dapat dikelola oleh pemerintah dan komunitas desa dalam dua ranah:</p>
 					<dl>
 						<dt>1. Offline</dt>
@@ -33,14 +35,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Manajemen Akses SID</a>
 				</h4>
 			</div>
-			<div id="collapse3" class="panel-collapse collapse">
-				<div class="box-body">
+			<div id="collapse3" class="collapse">
+				<div class="card-body">
 					<p>Aplikasi SID dirancang untuk mengelola data dasar desa dan informasi desa. Data dasar yang dikelola meliputi data dasar kependudukan dan data dasar aset/sumber daya desa. Data dasar ini menjadi tanggung jawab pemerintah desa dalam pengelolaannya. Hanya pengguna (user) dari pemerintah desa dan tim yang dikoordinasikan oleh pemerintah desa saja yang akan memiliki kewenangan dan hak akses ke dalam sistem. Sementara, user di luar pemerintah desa hanya akan memiliki akses terbatas pada fungsi olah informasi untuk website desa.</p>
 					<p>Tingkat user (pengguna) dalam SID:</p>
 					<p>
@@ -76,14 +78,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Tahapan Membangun SID</a>
 				</h4>
 			</div>
-			<div id="collapse4" class="panel-collapse collapse">
-				<div class="box-body">
+			<div id="collapse4" class="collapse">
+				<div class="card-body">
 					<P>Bagaimana memulai membangun Sistem Informasi Desa (SID) di desa kita? Caranya sangat mudah, tetapi pasti perlu proses yang harus sabar dan cermat untuk dijalani. Siapa pun Anda, baik perorangan maupun mewakili organisasi/lembaga, dapat mencoba mulai membangun SID di desa masing-masing mengikuti langkah-langkah berikut.</P>
 					<ol>
 						<li>Bentuk tim kerja bersama pemerintah desa</li>
@@ -99,14 +101,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">Hak Cipta, Syarat, Dan Ketentuan</a>
 				</h4>
 			</div>
-			<div id="collapse5" class="panel-collapse collapse">
-				<div class="box-body">
+			<div id="collapse5" class="collapse">
+				<div class="card-body">
 					<p>Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Sistem ini dikelola dengan merujuk pada lisensi GNU General Public License Version 3.</p>
 					<p>Dengan lisensi GPL v3, semua ubahan OpenSID juga berlisensi GPL v3, yaitu bersifat sumber terbuka.<p>
 					<p>OpenSID dikembangkan sejak Mei 2016, dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa.</p>
@@ -114,14 +116,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse6">Kontak Dan Informasi</a>
 				</h4>
 			</div>
-			<div id="collapse6" class="panel-collapse collapse">
-				<div class="box-body">
+			<div id="collapse6" class="collapse">
+				<div class="card-body">
 					<ol>
 						<li>Website OpenDesa, pengelola OpenSID: </li>
 						<a href="http://opendesa.id/" target="_blank">http://opendesa.id </a>
@@ -145,14 +147,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel box box-default">
-			<div class="box-header with-border">
-				<h4 class="box-title">
+		<div class="card card-outline card-secondary">
+			<div class="card-header with-border">
+				<h4 class="card-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#donasi">Donasi</a>
 				</h4>
 			</div>
-			<div id="donasi" class="panel-collapse collapse">
-				<div class="box-body">
+			<div id="donasi" class="collapse">
+				<div class="card-body">
 					<h4>OpenSID SELALU GRATIS</h4>
 					<div>
 						<p>OpenSID selalu gratis dan bebas digunakan dan dikembangkan desa. OpenSID berlisensi GNU General Public License Version 3, yaitu Open Source, di mana scriptnya selalu bebas diperoleh dan disesuaikan desa.</p>
@@ -169,11 +171,11 @@
 						<p>
 							Cara mengirimkan donasi dan informasi lebih lanjut ada di:
 						</p>
-						<a href="https://www.opendesa.id/donasi" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan OpenSID</a>
+						<a href="https://www.opendesa.id/donasi" class="btn btn-flat btn-primary btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan OpenSID</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="box-header with-border"></div>
+	</div>
 </div>

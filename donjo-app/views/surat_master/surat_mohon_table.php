@@ -20,19 +20,19 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url('surat_mohon/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Dokumen Persyaratan</a>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("surat_mohon/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
+						<a href="<?= site_url('surat_mohon/form')?>" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-plus"></i> Tambah Dokumen Persyaratan</a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("surat_mohon/delete_all/$p/$o")?>')" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+								<div class="dataTables_wrapper dt-bootstrap no-footer">
+									<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="box-tools">
+												<div class="card-tools">
 													<div class="input-group input-group-sm pull-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13) {$('#'+'mainform').attr('action','<?=site_url('surat_mohon/search')?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
@@ -68,8 +68,8 @@
 																	</td>
 																	<td width=3><?=$data['no']?></td>
 																	<td width=100 nowrap>
-																		<a href="<?=site_url("surat_mohon/form/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?=site_url("surat_mohon/delete/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="<?=site_url("surat_mohon/form/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-orange btn-flat btn-xs"  title="Ubah"><i class="fa fa-edit"></i></a>
+																		<a href="#" data-href="<?=site_url("surat_mohon/delete/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																	<td><?=$data['ref_syarat_nama']?></td>
 																</tr>
@@ -86,7 +86,7 @@
 												<form id="paging" action="<?= site_url("surat_mohon")?>" method="post" class="form-horizontal">
 													<label>
 														Tampilkan
-														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
+														<select name="per_page" class="form-control form-control-sm" onchange="$('#paging').submit()">
 															<option value="20" <?php selected($per_page,20); ?> >20</option>
 															<option value="50" <?php selected($per_page,50); ?> >50</option>
 															<option value="100" <?php selected($per_page,100); ?> >100</option>

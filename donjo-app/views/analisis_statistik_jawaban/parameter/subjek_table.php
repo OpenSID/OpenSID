@@ -11,23 +11,23 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url("analisis_statistik_jawaban/cetak2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url("analisis_statistik_jawaban/cetak2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-flat bg-purple btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
             	</a>
-						  <a href="<?= site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
+						  <a href="<?= site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh" target="_blank">
 								<i class="fa fa-download"></i>Unduh
             	</a>
-							<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Laporan Per Indikator</a>
+							<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Laporan Per Indikator</a>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover" >
 									<tr>
@@ -43,24 +43,24 @@
 								</table>
 							</div>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 							<h5><strong>Daftar Responden</strong></h5>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+									<div class="dataTables_wrapper dt-bootstrap no-footer">
+										<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-12">
-													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/dusun2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
+													<select class="form-control form-control-sm " name="dusun" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/dusun2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 														<?php foreach ($list_dusun AS $data): ?>
 															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
 														<?php endforeach;?>
 													</select>
 													<?php if ($dusun): ?>
-														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rw2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')" >
+														<select class="form-control form-control-sm" name="rw" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rw2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')" >
 															<option value="">RW</option>
 															<?php foreach ($list_rw AS $data): ?>
 																<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
@@ -68,7 +68,7 @@
 														</select>
 													<?php endif; ?>
 													<?php if ($rw): ?>
-														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rt2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
+														<select class="form-control form-control-sm" name="rt" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rt2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
 															<option value="">RT</option>
 															<?php foreach ($list_rt AS $data): ?>
 																<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>

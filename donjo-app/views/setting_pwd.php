@@ -32,7 +32,7 @@
 				<div class="row">
 					<div class="col-sm-4 col-sm-offset-4 form-box">
 						<div class="form-top">
-							<a href="<?=site_url(); ?>"><img src="<?=gambar_desa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
+							<a href="<?=site_url(); ?>"><img src="<?=gambar_desa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-fluid" /></a>
 							<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 								<h3>
 									<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>
@@ -51,7 +51,7 @@
 							<form action="<?=site_url("user_setting/update_password/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required" type="password" name="pass_lama" placeholder="Kata Sandi Lama" ></input>
+										<input class="form-control form-control-sm required" type="password" name="pass_lama" placeholder="Kata Sandi Lama" ></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
@@ -59,7 +59,7 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" placeholder="Kata Sandi Baru"></input>
+										<input class="form-control form-control-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" placeholder="Kata Sandi Baru"></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
@@ -67,14 +67,14 @@
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" placeholder="Kata Sandi Baru (Ulangi)"></input>
+										<input class="form-control form-control-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" placeholder="Kata Sandi Baru (Ulangi)"></input>
 										<span class="input-group-btn">
 											<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 										</span>
 									</div>
 								</div>
 								<hr />
-								<button type="submit" id="btnSubmit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i>Simpan</button>
+								<button type="submit" id="btnSubmit" class="btn btn-flat btn-info btn-xs"><i class='fa fa-check'></i>Simpan</button>
 							</form>
 							<hr/>
 							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 11)?></div>

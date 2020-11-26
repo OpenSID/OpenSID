@@ -60,14 +60,25 @@
 	}
 </style>
 <div class="content-wrapper">
-	<section class='content-header'>
-		<h1>Tentang OpenSID</h1>
-		<ol class='breadcrumb'>
-			<li><a href='<?=site_url()?>'><i class='fa fa-home'></i> Home</a></li>
-			<li class='active'>Tentang OpenSID</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Tentang OpenSID
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item active">Tentang OpenSID</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class='content' id="maincontent">
+
 		<div class='row'>
 			<?php if (isset($update_available) && $update_available): ?>
 				<div class='col-md-12'>
@@ -76,10 +87,10 @@
 						<p align="justify">
 							OpenSID <code><?=$latest_version ?></code> telah tersedia. Periksa catatan rilis untuk melihat daftar perubahan di versi ini. Sangat dianjurkan untuk update ke versi terkini, karena setiap rilis berisi perbaikan termasuk peningkatan keamanan data sejak versi yang anda gunakan saat ini <code><?=$current_version ?></code>. Petunjuk melakukan update dapat dilihat di <a href="https://github.com/OpenSID/OpenSID/wiki/Panduan-Update-OpenSID" target="_blank">sini</a>.
 						</p>
-						<button class="btn btn-social btn-flat btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
+						<button class="btn btn-flat btn-info btn-xs" data-toggle="modal" data-target="#modal-catatan-rilis">
 							<i class="fa fa-book"></i> Catatan Rilis
 						</button>
-						<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-social btn-flat bg-navy btn-sm" style="text-decoration: none">
+						<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-flat bg-navy btn-xs" style="text-decoration: none">
 							<i class="fa fa-download none"></i> Unduh
 						</a>
 					</div>
@@ -96,8 +107,8 @@
 									<?=nl2br($release_body) ?>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-									<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-social btn-flat bg-navy btn-sm pull-right">
+									<button type="button" class="btn btn-flat btn-danger btn-xs pull-left" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+									<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-flat bg-navy btn-xs pull-right">
 										<i class="fa fa-download"></i> Unduh
 									</a>
 								</div>
@@ -107,10 +118,11 @@
 				</div>
 			<?php endif; ?>
 			<div class='col-md-6'>
-				<div class='box box-info'>
-					<div class='box-body'>
+				<div class='card card-outline card-info'>
+					<div class='card-body'>
+
 						<div class="row">
-							<div class="col-lg-6 col-xs-6">
+							<div class="col-lg-6 col-6">
 								<div class="small-box bg-purple">
 									<div class="inner">
 										<?php foreach ($dusun as $data): ?>
@@ -124,8 +136,8 @@
 									<a href="<?=site_url('sid_core')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-6 col-xs-6">
-								<div class="small-box bg-aqua">
+							<div class="col-lg-6 col-6">
+								<div class="small-box bg-primary">
 									<div class="inner">
 										<?php foreach ($penduduk as $data): ?>
 											<h3><?=$data['jumlah']?></h3>
@@ -138,8 +150,8 @@
 									<a href="<?=site_url('penduduk/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-6 col-xs-6">
-								<div class="small-box bg-green">
+							<div class="col-lg-6 col-6">
+								<div class="small-box bg-success">
 									<div class="inner">
 										<?php foreach ($keluarga as $data): ?>
 											<h3><?=$data['jumlah']?></h3>
@@ -152,8 +164,8 @@
 									<a href="<?=site_url('keluarga/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-6 col-xs-6">
-								<div class="small-box bg-blue">
+							<div class="col-lg-6 col-6">
+								<div class="small-box bg-info">
 									<div class="inner">
 										<h3><?=$jumlah_surat?></h3>
 										<p>Surat Tercetak</p>
@@ -164,8 +176,8 @@
 									<a href="<?=site_url('keluar/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-4 col-xs-4">
-								<div class="small-box bg-red">
+							<div class="col-lg-4 col-4">
+								<div class="small-box bg-danger">
 									<div class="inner">
 										<?php foreach ($kelompok as $data): ?>
 											<h3><?=$data['jumlah']?></h3>
@@ -178,8 +190,8 @@
 									<a href="<?=site_url('kelompok/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-4 col-xs-4">
-								<div class="small-box bg-gray">
+							<div class="col-lg-4 col-4">
+								<div class="small-box bg-secondary">
 									<div class="inner">
 										<?php foreach ($rtm as $data): ?>
 											<h3><?=$data['jumlah']?></h3>
@@ -192,8 +204,8 @@
 									<a href="<?=site_url('rtm/clear')?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-4 col-xs-4">
-								<div class="small-box bg-yellow">
+							<div class="col-lg-4 col-4">
+								<div class="small-box bg-warning">
 									<div class="inner">
 										<h3><?=$bantuan['jumlah']?></h3>
 										<p><?=$bantuan['nama']?></p>
@@ -210,17 +222,15 @@
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div>
 			<div class='col-md-6'>
-				<div class='box box-info'>
+				<div class='card card-outline card-info'>
 					<?php $this->load->view('home/about.php');?>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
-
-
-

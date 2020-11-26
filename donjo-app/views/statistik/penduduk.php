@@ -47,13 +47,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Statistik Kependudukan</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Statistik Kependudukan <?= $dusun; ?></li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Statistik Kependudukan
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fas fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item active">Statistik Kependudukan</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
@@ -61,26 +71,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php $this->load->view('statistik/side_menu.php'); ?>
 				</div>
 				<div class="col-md-8">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?=site_url("statistik/dialog/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i>Cetak
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?=site_url("statistik/dialog/cetak"); ?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan"><i class="fa fa-print "></i>Cetak
 							</a>
-							<a href="<?=site_url("statistik/dialog/unduh"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-print "></i>Unduh
+							<a href="<?=site_url("statistik/dialog/unduh"); ?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Unduh Laporan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Laporan"><i class="fa fa-print "></i>Unduh
 							</a>
-							<a class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block grafikType" title="Grafik Data" id="grafikType" onclick="grafikType();">
+							<a class="btn btn-flat bg-orange btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left grafikType" title="Grafik Data" id="grafikType" onclick="grafikType();">
 								<i class="fa fa-bar-chart"></i>Grafik Data
 							</a>
-							<a class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pieType" title="Pie Data" id="pieType" onclick="pieType();">
+							<a class="btn btn-flat btn-primary btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left pieType" title="Pie Data" id="pieType" onclick="pieType();">
 								<i class="fa fa-pie-chart"></i>Pie Data
 							</a>
 							<?php if ($lap=='13'): ?>
-								<a href="<?=site_url("statistik/rentang_umur"); ?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rentang Umur">
+								<a href="<?=site_url("statistik/rentang_umur"); ?>" class="btn btn-flat bg-olive btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Rentang Umur">
 									<i class="fa fa-arrows-h"></i>Rentang Umur
 								</a>
 							<?php endif; ?>
-							<a href="<?= site_url("{$this->controller}/clear/$lap") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+							<a href="<?= site_url("{$this->controller}/clear/$lap") ?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<?php if ($lap < 50): ?>
 								<h4 class="box-title text-center"><b>Data Kependudukan Menurut <?= ($stat); ?></b></h4>
 							<?php else: ?>
@@ -89,19 +99,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div id="chart" hidden="true"> </div>
 						</div>
 						<hr>
-						<div class="box-body">
+						<div class="card-body">
 							<?php if (($lap <= 20 OR $lap == 'bantuan_penduduk') AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga') : ?>
 								<div class="row">
 									<div class="col-sm-12 form-inline">
 										<form action="" id="mainform" method="post">
-											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun'); ?>')">
+											<select class="form-control form-control-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun'); ?>')">
 												<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
 												<?php foreach ($list_dusun AS $data): ?>
 													<option value="<?= $data['dusun']; ?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun']); ?></option>
 												<?php endforeach; ?>
 											</select>
 											<?php if ($dusun): ?>
-												<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw'); ?>')" >
+												<select class="form-control form-control-sm" name="rw" onchange="formAction('mainform','<?= site_url('statistik/rw'); ?>')" >
 													<option value="">Pilih RW</option>
 													<?php foreach ($list_rw AS $data): ?>
 														<option value="<?= $data['rw']; ?>" <?= selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw']); ?></option>
@@ -109,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</select>
 											<?php endif; ?>
 											<?php if ($rw): ?>
-												<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt'); ?>')">
+												<select class="form-control form-control-sm" name="rt" onchange="formAction('mainform','<?= site_url('statistik/rt'); ?>')">
 													<option value="">Pilih RT</option>
 													<?php foreach ($list_rt AS $data): ?>
 														<option value="<?= $data['rt']; ?>" <?= selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt']); ?></option>

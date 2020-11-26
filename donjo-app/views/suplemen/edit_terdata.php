@@ -65,11 +65,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="form-group">
 			<label for="keterangan">Keterangan</label>
 			<input type="hidden" name="id_suplemen" value="<?= $id_suplemen?>"/>
-			<textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="100" placeholder="Keterangan" rows="5"><?= $keterangan?></textarea>
+			<textarea name="keterangan" id="keterangan" class="form-control form-control-sm" maxlength="100" placeholder="Keterangan" rows="5"><?= $keterangan?></textarea>
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class='fa fa-check'></i> Simpan</button>
+		<button type="reset" class="btn btn-flat btn-danger btn-xs pull-left"><i class="fa fa-times"></i> Batal</button>
+		<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

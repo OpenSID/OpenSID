@@ -11,53 +11,53 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?=site_url("komentar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?=site_url("komentar")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Komentar
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="owner">Pengirim</label>
 								<div class="col-sm-9">
-									<input name="owner" class="form-control input-sm required" type="text" maxlength="50" value="<?= $komentar['owner']?>"></input>
+									<input name="owner" class="form-control form-control-sm required" type="text" maxlength="50" value="<?= $komentar['owner']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
 								<label class="control-label col-sm-2" for="no_hp">No. HP</label>
 								<div class="col-sm-9">
-									<input name="no_hp" class="form-control input-sm required bilangan" type="text" value="<?= $komentar['no_hp']?>"></input>
+									<input name="no_hp" class="form-control form-control-sm required bilangan" type="text" value="<?= $komentar['no_hp']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
 								<label class="control-label col-sm-2" for="email">Email</label>
 								<div class="col-sm-9">
-									<input name="email" class="form-control input-sm email" type="text" value="<?= $komentar['email']?>"></input>
+									<input name="email" class="form-control form-control-sm email" type="text" value="<?= $komentar['email']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
 								<label class="col-sm-2 control-label" for="komentar">Komentar</label>
 								<div class="col-sm-9">
-									<textarea id="komentar" name="komentar" class="form-control input-sm required" placeholder="Isi Komentar" style="height: 200px;"><?= $komentar['komentar']?></textarea>
+									<textarea id="komentar" name="komentar" class="form-control form-control-sm required" placeholder="Isi Komentar" style="height: 200px;"><?= $komentar['komentar']?></textarea>
 								</div>
 							</div>
               <div class="form-group">
 								<label class="col-xs-12 col-sm-2 col-lg-2 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>active<?php endif ?>">
+									<label id="sx3" class="btn btn-info btn-flat btn-xs col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>active<?php endif ?>">
 										<input id="sx1" type="radio" name="status" class="form-check-input" type="radio" value="1" <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2' ): ?>active<?php endif ?>">
+									<label id="sx4" class="btn btn-info btn-flat btn-xs col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2' ): ?>active<?php endif ?>">
 										<input id="sx2" type="radio" name="status" class="form-check-input" type="radio" value="2" <?php if ($komentar['status'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
+						<div class='card-footer'>
 							<div class='col-xs-12'>
-								<button type='button' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='button' class='btn btn-flat btn-danger btn-xs' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+								<button type='submit' class='btn btn-flat btn-info btn-xs pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 

@@ -9,8 +9,8 @@
 	<section class='content'>
 		<div class='row'>
 			<div class='col-xs-12'>
-				<div class='box box-danger'>
-					<div class='box-body'>
+				<div class='card card-outline card-danger'>
+					<div class='card-body'>
 						<?php $this->load->view('surat/signature.php');?>
 					</div>
 				</div>

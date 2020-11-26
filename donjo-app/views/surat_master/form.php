@@ -8,18 +8,18 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url("surat_master"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url("surat_master"); ?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Wilayah">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Format Surat
 				</a>
 			</div>
 			<form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-				<div class="box-body">
+				<div class="card-body">
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 						<div class="col-sm-7">
-							<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
+							<select class="form-control form-control-sm select2-tags required" id="kode_surat" name="kode_surat">
 								<?php if ( ! empty($surat_master['kode_surat'])): ?>
 									<option value="<?= $surat_master['kode_surat']; ?>"><?= $surat_master['kode_surat']; ?></option>
 								<?php else: ?>
@@ -36,7 +36,7 @@
 						<div class="col-sm-7">
 							<div class="input-group">
 								<span class="input-group-addon input-sm">Surat</span>
-								<input type="text" class="form-control input-sm required" id="nama" name="nama" placeholder="Nama Layanan" value="<?= $surat_master['nama']?>"/>
+								<input type="text" class="form-control form-control-sm required" id="nama" name="nama" placeholder="Nama Layanan" value="<?= $surat_master['nama']?>"/>
 							</div>
 						</div>
 					</div>
@@ -44,7 +44,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="nama">Pemohon Surat</label>
 							<div class="col-sm-3">
-								<select class="form-control input-sm" id="pemohon_surat" name="pemohon_surat">
+								<select class="form-control form-control-sm" id="pemohon_surat" name="pemohon_surat">
 									<option value="warga" selected>Warga</option>
 									<option value="non_warga">Bukan Warga</option>
 								</select>
@@ -56,10 +56,10 @@
 						<div class="col-sm-3">
 							<div class="row">
 								<div class="col-sm-3">
-									<input type="number" class="form-control input-sm" id="masa_berlaku" name="masa_berlaku" onchange="masaBerlaku()" value="<?= $surat_master['masa_berlaku'] ? $surat_master['masa_berlaku'] : 1; ?>">
+									<input type="number" class="form-control form-control-sm" id="masa_berlaku" name="masa_berlaku" onchange="masaBerlaku()" value="<?= $surat_master['masa_berlaku'] ? $surat_master['masa_berlaku'] : 1; ?>">
 								</div>
 								<div class="col-sm-6">
-									<select class="form-control input-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
+									<select class="form-control form-control-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
 										<?php foreach ($list_ref_masa as $kode_masa => $judul_masa): ?>
 											<option value="<?= $kode_masa; ?>" <?= selected($surat_master['satuan_masa_berlaku'], $kode_masa); ?>><?= $judul_masa; ?></option>
 										<?php endforeach; ?>
@@ -72,10 +72,10 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
 						<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-							<label id="m1" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['mandiri'], 1, 'active'); ?>">
+							<label id="m1" class="tipe btn btn-info btn-flat btn-xs col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['mandiri'], 1, 'active'); ?>">
 								<input id="g1" type="radio" name="mandiri" class="form-check-input" type="radio" value="1" <?= jecho($surat_master['mandiri'], 1, 'checked'); ?> autocomplete="off">Ya
 							</label>
-							<label id="m2" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['mandiri'] != 1, TRUE, 'active'); ?>">
+							<label id="m2" class="tipe btn btn-info btn-flat btn-xs col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['mandiri'] != 1, TRUE, 'active'); ?>">
 								<input id="g2" type="radio" name="mandiri" class="form-check-input" type="radio" value="0" <?= jecho($surat_master['mandiri'] != 1, TRUE, 'checked'); ?> autocomplete="off">Tidak
 							</label>
 						</div>
@@ -112,9 +112,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="box-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+				<div class="card-footer">
+					<button type="reset" class="btn btn-flat btn-danger btn-xs" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+					<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 				</div>
 			</form>
 		</div>

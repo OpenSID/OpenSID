@@ -2,10 +2,10 @@
 <section class="content no-padding">
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="box-header">
+			<div class="card-header">
 				<a href="<?= site_url('mailbox_web/form') ?>" class="btn text-white btn-flat btn-social btn-success btn-md inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<ul class="nav nav-tabs">
 					<?php foreach($submenu as $id => $nama_menu) : ?>
 						<li class="<?php ($_SESSION['mailbox'] == $id) and print('active') ?>">
@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="col-sm-12">
-			<div class="box-body">
+			<div class="card-body">
 				<div class="table-responsive">
 					<table class="table table-bordered dataTable">
 						<thead class="bg-gray disabled color-palette">
@@ -33,12 +33,12 @@
 								<tr class="<?php ($data['status']!=1) and print('unread')?>">
 									<td><?=$data['no']?></td>
 									<td nowrap>
-										<a href="<?=site_url("mailbox_web/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Baca pesan"><i class="fa fa-list">&nbsp;</i></a>
+										<a href="<?=site_url("mailbox_web/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-xs" title="Baca pesan"><i class="fa fa-list">&nbsp;</i></a>
 										<?php if($kat != 2) : ?>
 											<?php if ($data['status'] == 1): ?>
-												<a href="<?=site_url('mailbox_web/pesan_unread/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
+												<a href="<?=site_url('mailbox_web/pesan_unread/'.$data['id'])?>" class="btn bg-navy btn-flat btn-xs" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
 												<?php else : ?>
-													<a href="<?=site_url('mailbox_web/pesan_read/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
+													<a href="<?=site_url('mailbox_web/pesan_read/'.$data['id'])?>" class="btn bg-navy btn-flat btn-xs" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
 											<?php endif; ?>
 										<?php endif ?>
 									</td>

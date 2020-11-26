@@ -3,39 +3,39 @@
 	<div class="modal-body" id="maincontent">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="box box-primary">
-					<div class="box-body box-profile">
+				<div class="card card-outline card-primary">
+					<div class="card-body box-profile">
 						<?php if ($main['foto']): ?>
-							<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Foto">
+							<img class="profile-user-img img-fluid rounded-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Foto">
 						<?php else: ?>
-							<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+							<img class="profile-user-img img-fluid rounded-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
 						<?php endif; ?>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-9">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-outline card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="tgl_peristiwa">Username</label>
 							<input name="nama" type="hidden" value="<?=$main['nama']?>" />
-							<input class="form-control input-sm" type="text"  value="<?=$main['username']?>" disabled=""></input>
+							<input class="form-control form-control-sm" type="text"  value="<?=$main['username']?>" disabled=""></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Nama Lengkap</label>
-							<input class="form-control input-sm" type="text" name="nama" value="<?=$main['nama']?>" ></input>
+							<input class="form-control form-control-sm" type="text" name="nama" value="<?=$main['nama']?>" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Kata Sandi Lama</label>
-							<input class="form-control input-sm required" type="password" name="pass_lama" ></input>
+							<input class="form-control form-control-sm required" type="password" name="pass_lama" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Kata Sandi Baru</label>
-							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" ></input>
+							<input class="form-control form-control-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Kata Sandi Baru (Ulangi)</label>
-							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" ></input>
+							<input class="form-control form-control-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" ></input>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Ganti Foto</label>
@@ -53,8 +53,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-			<button id="btnSubmit" type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+			<button type="button" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			<button id="btnSubmit" type="submit" class="btn btn-flat btn-info btn-xs"><i class='fa fa-check'></i> Simpan</button>
 		</div>
 	</div>
 </form>

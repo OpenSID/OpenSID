@@ -44,33 +44,43 @@
 ?>
 
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Daftar Anggota Keluarga</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
-			<li class="active">Daftar Anggota Keluarga</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Daftar Anggota Keluarga
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fas fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
+						<li class="breadcrumb-item active">Daftar Anggota Keluarga</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
 				<div class="btn-group btn-group-vertical">
-					<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota</a>
-					<ul class="dropdown-menu" role="menu">
+					<a class="btn btn-flat btn-success btn-xs" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota</a>
+					<ul class="dropdown-menu text-xs" role="menu">
 						<li>
-							<a href="<?= site_url("keluarga/form_a/$p/$o/$kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> Tambah Penduduk Baru</a>
+							<a href="<?= site_url("keluarga/form_a/$p/$o/$kk")?>" class="btn btn-flat btn-block btn-xs" title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> Tambah Penduduk Baru</a>
 						</li>
 						<li>
-							<a href="<?= site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
+							<a href="<?= site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="btn btn-flat btn-block btn-xs" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
 						</li>
 					</ul>
 				</div>
-				<a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Keluarga</a>
-				<a href="<?=site_url("keluarga/index/$p/$o")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga"><i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
+				<a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$kk")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-book"></i> Kartu Keluarga</a>
+				<a href="<?=site_url("keluarga/index/$p/$o")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar Keluarga"><i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 				</a>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Rincian Keluarga</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-hover tabel-rincian">
@@ -109,10 +119,10 @@
 					</table>
 				</div>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Daftar Anggota Keluarga</b></h5>
-				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-					<form id="mainform" name="mainform" action="" method="post">
+				<div class="dataTables_wrapper dt-bootstrap no-footer">
+					<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 						<div class="table-responsive">
 							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 								<thead class="bg-gray disabled color-palette">
@@ -131,10 +141,10 @@
 										<tr>
 											<td class="padat"><?= ($key + 1); ?></td>
 											<td class="aksi">
-												<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
-												<a href="#" data-href="<?= site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Pecah KK" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin memecah Data Keluarga ini?"><i class="fa fa-cut"></i></a>
-												<a href="<?= site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Keluarga" title="Ubah Hubungan Keluarga" class="btn bg-navy btn-flat btn-sm"><i class='fa fa-link'></i></a>
-												<a href="#" data-href="<?= site_url("keluarga/keluarkan_anggota/$kk/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Bukan anggota keluarga ini" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan dikeluarkan dari keluarga ini?"><i class="fa fa-times"></i></a>
+												<a href="<?= site_url("penduduk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-xs" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+												<a href="#" data-href="<?= site_url("keluarga/delete_anggota/$p/$o/$kk/$data[id]")?>" class="btn bg-purple btn-flat btn-xs" title="Pecah KK" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin memecah Data Keluarga ini?"><i class="fa fa-cut"></i></a>
+												<a href="<?= site_url("keluarga/edit_anggota/$p/$o/$kk/$data[id]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Keluarga" title="Ubah Hubungan Keluarga" class="btn bg-navy btn-flat btn-xs"><i class='fa fa-link'></i></a>
+												<a href="#" data-href="<?= site_url("keluarga/keluarkan_anggota/$kk/$data[id]")?>" class="btn bg-maroon btn-flat btn-xs" title="Bukan anggota keluarga ini" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan dikeluarkan dari keluarga ini?"><i class="fa fa-times"></i></a>
 											</td>
 											<td><?= $data['nik']?></td>
 											<td nowrap width="45%"><?= strtoupper($data['nama'])?></td>
@@ -159,9 +169,9 @@
 						<div class='modal-body btn-info'>
 						</div>
 						<div class='modal-footer'>
-							<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+							<button type="button" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 							<a class='btn-ok'>
-								<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-delete"><i class='fa fa-check'></i> Simpan</button>
+								<button type="button" class="btn btn-flat btn-info btn-xs" id="ok-delete"><i class='fa fa-check'></i> Simpan</button>
 							</a>
 						</div>
 					</div>

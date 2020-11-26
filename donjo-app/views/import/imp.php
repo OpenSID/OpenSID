@@ -1,10 +1,10 @@
 											<div class="tab-pane <?php if ($act_tab==2): ?> active<?php endif ?>">
 												<div class="row">
 													<div class="col-md-12">
-														<div class="box-header with-border">
+														<div class="card-header with-border">
 															<h3 class="box-title"><strong>Impor Data Kependudukan</strong></h3>
 														</div>
-														<div class="box-body">
+														<div class="card-body">
 															<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
 																<div class="row">
 																	<div class="col-sm-12">
@@ -25,7 +25,7 @@
 																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan di bawah ini :
 																					<div class="timeline-footer row">
-																						<a href="<?= base_url()?>assets/import/FormatImportExcel.xlsm" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
+																						<a href="<?= base_url()?>assets/import/FormatImportExcel.xlsm" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
 																					</div>
 																				</li>
 																			</ol>
@@ -54,7 +54,7 @@
 																							<p class="help-block"><input type="checkbox" name="hapus_data" value="hapus"></input>	Hapus data penduduk sebelum Impor</p>
 																						</div>
 																						<div class="col-sm-12 col-md-5 col-lg-4">
-																							<a href="#" class="btn btn-block btn-success btn-sm" title=" Impor Data Penduduk Hapus data penduduk sebelum impor " onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data Penduduk</a>
+																							<a href="#" class="btn btn-block btn-success btn-xs" title=" Impor Data Penduduk Hapus data penduduk sebelum impor " onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data Penduduk</a>
 																						</div>
 																					</div>
 																				</td>
@@ -93,10 +93,10 @@
 													</div>
 												</div>
 												<div class="col-md-12">
-													<div class="box-header with-border">
+													<div class="card-header with-border">
 														<h3 class="box-title"><strong>Impor Pengelompokan Data Rumah Tangga</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<form action="<?=$form_action3?>" method="post" enctype="multipart/form-data" id="kelompok" class="form-horizontal">
 															<div class="row">
 																<div class="col-sm-12">
@@ -109,8 +109,8 @@
 																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk impor dengan memenuhi aturan data, lihat tautan di bawah ini :
 																					<div class="timeline-footer row">
-																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ATURANGRUP.xlsx" ><i class="fa fa-download"></i> Aturan Data</a>
-																						<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ContohGrup.xlsx"><i class="fa fa-download"></i> Contoh Format</a>
+																						<a class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left margin" href="<?= base_url()?>assets/import/ATURANGRUP.xlsx" ><i class="fa fa-download"></i> Aturan Data</a>
+																						<a class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left margin" href="<?= base_url()?>assets/import/ContohGrup.xlsx"><i class="fa fa-download"></i> Contoh Format</a>
 																					</div>
 																				</li>
 																			</ol>
@@ -133,7 +133,7 @@
 																							</div>
 																						</div>
 																						<div class="col-sm-12 col-md-5 col-lg-4">
-																							<a href="#" class="btn btn-block btn-success btn-sm"  title="Impor Data Pengelompokan Rumah Tangga" onclick="document.getElementById('kelompok').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data Pengelompokan Rumah Tangga</a>
+																							<a href="#" class="btn btn-block btn-success btn-xs"  title="Impor Data Pengelompokan Rumah Tangga" onclick="document.getElementById('kelompok').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data Pengelompokan Rumah Tangga</a>
 																						</div>
 																					</div>
 																				</td>

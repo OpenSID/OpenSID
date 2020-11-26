@@ -14,36 +14,36 @@
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_jalan/mutasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Jalan, Irigasi dan Jaringan</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+						<a href="<?= site_url() ?>inventaris_jalan/mutasi" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Jalan, Irigasi dan Jaringan</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="nama_barang">Nama Barang</label>
 										<div class="col-sm-8">
 											<input type="hidden" name="id_inventaris" id="id_inventaris" value="<?= $main->id; ?>">
-											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control input-sm" name="nama_barang" id="nama_barang" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control form-control-sm" name="nama_barang" id="nama_barang" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->kode_barang; ?>"  class="form-control input-sm" name="kode_barang" id="kode_barang" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->kode_barang; ?>"  class="form-control form-control-sm" name="kode_barang" id="kode_barang" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm" name="kode_barang" id="kode_barang" type="text" disabled/>
+											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control form-control-sm" name="kode_barang" id="kode_barang" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm" disabled>
+											<select name="mutasi" id="mutasi" class="form-control form-control-sm" disabled>
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
 												<option value="Rusak">Status Rusak</option>
 												<option value="Diperbaiki">Status Diperbaiki</option>
@@ -61,7 +61,7 @@
 									<div class="form-group disumbangkan">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="disumbangkan">Disumbangkan ke-</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  class="form-control input-sm" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>" disabled/>
+											<input maxlength="50"  class="form-control form-control-sm" name="disumbangkan" id="disumbangkan" type="text" value="<?= $main->sumbangkan; ?>" disabled/>
 										</div>
 									</div>
 									<div class="form-group harga_jual">
@@ -73,7 +73,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
 										<div class="col-sm-4">
-											<select name="tahun" id="tahun" class="form-control input-sm" disabled>
+											<select name="tahun" id="tahun" class="form-control form-control-sm" disabled>
 												<option value="<?= $main->tahun_pengadaan; ?>"><?= $main->tahun_pengadaan; ?></option>
 											</select>
 										</div>
@@ -81,13 +81,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="tahun_mutasi">Tahun Mutasi</label>
 										<div class="col-sm-4">
-											<input maxlength="50" class="form-control input-sm" name="tahun_mutasi" id="tahun_mutasi" value="<?= date('d M Y',strtotime($main->tahun_mutasi));;?>" disabled/>
+											<input maxlength="50" class="form-control form-control-sm" name="tahun_mutasi" id="tahun_mutasi" value="<?= date('d M Y',strtotime($main->tahun_mutasi));;?>" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm" name="keterangan" id="keterangan" disabled><?= $main->keterangan; ?></textarea>
+											<textarea rows="5" class="form-control form-control-sm" name="keterangan" id="keterangan" disabled><?= $main->keterangan; ?></textarea>
 										</div>
 									</div>
 								</div>

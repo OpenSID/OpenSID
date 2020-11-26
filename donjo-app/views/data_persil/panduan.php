@@ -8,14 +8,14 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
           <?php $this->load->view('data_persil/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-						<div class="box-body">
+					<div class="card card-outline card-info">
+						<div class="card-body">
 							<h4>Keterangan</h4>
 							<p><strong>Modul Data C-Desa</strong> adalah modul untuk pengelolaan data tentang kepemilikan lahan, termasuk riwayat kepemilikan.</p>
 							<h4>Panduan</h4>

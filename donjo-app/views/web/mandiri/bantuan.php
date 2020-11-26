@@ -70,10 +70,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#'+id+'').dialog('open');
 	}
 </script>
-<div class="box-header with-border">
+<div class="card-header with-border">
 	<h3 class="box-title"><b>DAFTAR BANTUAN YANG DITERIMA</b></h3>
 </div>
-<div class="box-body">
+<div class="card-body">
 	<?php if ($bantuan_penduduk) : ?>
 		<i class="fa fa-caret-right"></i> <b>SASARAN PENDUDUK</b>
 		<div class="table-responsive">
@@ -93,8 +93,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td class="text-center"><?= $no + 1; ?></td>
 						<td nowrap>
 							<?php if($bantuan['no_id_kartu']) : ?>
-								<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("mandiri_web/kartu_peserta/tampil/$bantuan[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-flat btn-sm" ><i class="fa fa-eye"></i></button>
-								<a href="<?= site_url("mandiri_web/kartu_peserta/unduh/$bantuan[id]")?>" class="btn bg-black btn-flat btn-sm" title="Kartu Peserta" <?php empty($bantuan['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
+								<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("mandiri_web/kartu_peserta/tampil/$bantuan[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-flat btn-xs" ><i class="fa fa-eye"></i></button>
+								<a href="<?= site_url("mandiri_web/kartu_peserta/unduh/$bantuan[id]")?>" class="btn bg-black btn-flat btn-xs" title="Kartu Peserta" <?php empty($bantuan['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
 							<?php endif; ?>
 						</td>
 						<td nowrap><?= fTampilTgl($bantuan["sdate"], $bantuan["edate"]);?></td>

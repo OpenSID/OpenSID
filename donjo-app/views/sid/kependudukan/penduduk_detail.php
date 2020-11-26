@@ -8,36 +8,46 @@
 	}
 </style>
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Biodata Penduduk</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
-			<li class="active">Biodata Penduduk</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Biodata Penduduk
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
+						<li class="breadcrumb-item active">Biodata Penduduk</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header">
-							<a href="<?= site_url("penduduk/dokumen/$penduduk[id]")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Manajemen Dokumen Penduduk" ><i class="fa fa-book"></i> Manajemen Dokumen</a>
+					<div class="card card-outline card-info">
+						<div class="card-header">
+							<a href="<?= site_url("penduduk/dokumen/$penduduk[id]")?>" class="btn btn-flat btn-success btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Manajemen Dokumen Penduduk" ><i class="fa fa-book"></i> Manajemen Dokumen</a>
 							<?php if ($penduduk['status_dasar_id']==1): ?>
-								<a href="<?= site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Biodata</a>
+								<a href="<?= site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="btn btn-flat btn-warning btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Biodata</a>
 							<?php endif; ?>
-							<a href="<?= site_url("penduduk/cetak_biodata/$penduduk[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
+							<a href="<?= site_url("penduduk/cetak_biodata/$penduduk[id]")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
 							<?php if ($penduduk['status_dasar_id'] == 1 and !empty($penduduk['id_kk'])): ?>
-								<a href="<?= site_url("keluarga/anggota/$p/$o/$penduduk[id_kk]")?>" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga" ><i class="fa fa-users"></i> Anggota Keluarga</a>
+								<a href="<?= site_url("keluarga/anggota/$p/$o/$penduduk[id_kk]")?>" class="btn btn-flat btn-danger btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Anggota Keluarga" ><i class="fa fa-users"></i> Anggota Keluarga</a>
 							<?php endif; ?>
-							<a href="<?= site_url("penduduk/clear")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
+							<a href="<?= site_url("penduduk/clear")?>" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Kembali Ke Daftar Penduduk">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Penduduk
 							</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="box-header with-border">
+									<div class="card-header with-border">
 										<h3 class="box-title">Biodata Penduduk (NIK : <?= $penduduk['nik']?>)</h3>
 										<br>
 										<?php if (!empty($penduduk['nama_pendaftar'])): ?>
@@ -67,9 +77,9 @@
 											<tr>
 												<td colspan="3">
 													<?php if ($penduduk['foto']): ?>
-														<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+														<img class="penduduk profile-user-img img-fluid rounded-circle mx-auto d-block card-img-top" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
 													<?php else: ?>
-														<img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
+														<img class="penduduk profile-user-img img-fluid rounded-circle mx-auto d-block card-img-top" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
 													<?php endif; ?>
 												</td>
 											</tr>
@@ -337,4 +347,3 @@
 		</form>
 	</section>
 </div>
-

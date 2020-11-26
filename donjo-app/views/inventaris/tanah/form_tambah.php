@@ -14,9 +14,9 @@
 					<?php $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-					<div class="box-header with-border">
-					<a href="<?= site_url() ?>inventaris_tanah" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Tanah</a>
+					<div class="card card-outline card-info">
+					<div class="card-header with-border">
+					<a href="<?= site_url() ?>inventaris_tanah" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Tanah</a>
 					</div>
 
 					<?php
@@ -24,13 +24,13 @@
 						$jumlah_kata = strlen($reg);
 						$hasil = sprintf("%06s",$reg);
 					?>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="nama_barang">Nama Barang</label>
 									<div class="col-sm-8">
-										 <select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
+										 <select class="form-control form-control-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
 
 											<?php foreach ($aset as $data): ?>
 												<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
@@ -47,20 +47,20 @@
 										<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$main["kode_kecamatan"]?>">
 										<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$main["kode_desa"]?>">
 
-										<input maxlength="50" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" placeholder="Kode Barang"/>
+										<input maxlength="50" class="form-control form-control-sm required" name="kode_barang" id="kode_barang" type="text" placeholder="Kode Barang"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register" >Nomor Register</label>
 									<div class="col-sm-8">
-										<input maxlength="50" class="form-control input-sm required" name="register" id="register" type="text" placeholder="Nomor Register"/>
+										<input maxlength="50" class="form-control form-control-sm required" name="register" id="register" type="text" placeholder="Nomor Register"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah</label>
 									<div class="col-sm-4">
 										<div class="input-group">
-											<input type="text" class="form-control input-sm number required" id="luas" name="luas" type="text" placeholder="Luas Tanah"/>
+											<input type="text" class="form-control form-control-sm number required" id="luas" name="luas" type="text" placeholder="Luas Tanah"/>
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -68,7 +68,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
 									<div class="col-sm-4">
-										<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm select2 required datatable" style="width:100%;" placeholder="Tahun Pengadaan">
+										<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control form-control-sm select2 required datatable" style="width:100%;" placeholder="Tahun Pengadaan">
 											<?php for ($i=date("Y"); $i>=1900; $i--): ?>
 												<option value="<?= $i ?>"><?= $i ?></option>
 											<?php endfor; ?>
@@ -78,14 +78,14 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="alamat">Letak / Alamat </label>
 									<div class="col-sm-8">
-										<textarea class="form-control input-sm required" name="letak" id="letak" placeholder="Letak / Alamat"></textarea>
+										<textarea class="form-control form-control-sm required" name="letak" id="letak" placeholder="Letak / Alamat"></textarea>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Hak Tanah </label>
 									<div class="col-sm-4">
-										<select name="hak" id="hak" class="form-control input-sm required" placeholder="Hak Tanah">
+										<select name="hak" id="hak" class="form-control form-control-sm required" placeholder="Hak Tanah">
 											<option value="Hak Pakai">Hak Pakai</option>
 											<option value="Hak Pengelolaan">Hak Pengelolaan</option>
 										</select>
@@ -94,7 +94,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Penggunaan Barang </label>
 									<div class="col-sm-4">
-										<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah">
+										<select name="penggunaan_barang" id="penggunaan_barang" class="form-control form-control-sm required" placeholder="Hak Tanah">
 											<option value="01">Pemerintah Desa</option>
 											<option value="02">Badan Permusyawaratan Daerah</option>
 											<option value="03">PKK</option>
@@ -107,19 +107,19 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label required" style="text-align:left;" for="tanggal_sertifikat">Tanggal Sertifikat</label>
 									<div class="col-sm-4">
-										<input maxlength="50" class="form-control input-sm required" name="tanggal_sertifikat" id="tanggal_sertifikat" type="date" placeholder="Tanggal Sertifikat"/>
+										<input maxlength="50" class="form-control form-control-sm required" name="tanggal_sertifikat" id="tanggal_sertifikat" type="date" placeholder="Tanggal Sertifikat"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="no_sertifikat">Nomor Sertifikat </label>
 									<div class="col-sm-8">
-										<input maxlength="50" class="form-control input-sm required" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
+										<input maxlength="50" class="form-control form-control-sm required" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label required" style="text-align:left;" for="penggunaan">Penggunaan </label>
 									<div class="col-sm-4">
-										<select name="penggunaan" id="penggunaan" class="form-control input-sm required" placeholder="Penggunaan">
+										<select name="penggunaan" id="penggunaan" class="form-control form-control-sm required" placeholder="Penggunaan">
 											<option value="">-- Pilih Kegunaan Lahan --</option>
 											<option value="Industri">Industri</option>
 											<option value="Jalan">Jalan</option>
@@ -135,7 +135,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label required" style="text-align:left;" for="asal">Asal Usul </label>
 									<div class="col-sm-4">
-										<select name="asal" id="asal" class="form-control input-sm required" placeholder="Asal Usul">
+										<select name="asal" id="asal" class="form-control form-control-sm required" placeholder="Asal Usul">
 											<option value="">-- Pilih Asal Usul Lahan --</option>
 											<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 											<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
@@ -152,28 +152,28 @@
 									<div class="col-sm-4">
 										<div class="input-group">
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">Rp</span>
-											<input onkeyup="price()" type="number" class="form-control input-sm number required" id="harga" name="harga" placeholder="Harga"/>
+											<input onkeyup="price()" type="number" class="form-control form-control-sm number required" id="harga" name="harga" placeholder="Harga"/>
 										</div>
 									</div>
 									<div class="col-sm-4">
 										<div class="input-group">
-											<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled/>
+											<input type="text" class="form-control form-control-sm required" id="output" name="output" placeholder="" disabled/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 									<div class="col-sm-8">
-										<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
+										<textarea rows="5" class="form-control form-control-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="box-footer">
+					<div class="card-footer">
 						<div class="col-xs-12">
-							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+							<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 						</div>
 					</div>
 				</div>

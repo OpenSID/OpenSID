@@ -56,11 +56,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url()?>suplemen" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url()?>suplemen" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
 			</div>
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Profil Terdata</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-hover tabel-rincian">
@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
-			<div class="box-body">
+			<div class="card-body">
 				<h5><b>Suplemen Yang Terdata</b></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered dataTable table-hover tabel-daftar">

@@ -45,38 +45,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="content-wrapper">
-	<section class="content-header">
-		<h1>Pengelolaan Kategori Kelompok</h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
-			<li><a href="<?= site_url('kelompok_master'); ?>"> Daftar Ketegori Kelompok</a></li>
-			<li class="active">Pengelolaan Kategori Kelompok</li>
-		</ol>
-	</section>
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">
+						Pengelolaan Kategori Kelompok
+					</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('kelompok_master'); ?>"> Daftar Ketegori Kelompok</a></li>
+						<li class="breadcrumb-item active">Pengelolaan Kategori Kelompok</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
 	<section class="content">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="<?= site_url('kelompok_master'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Kategori Kelompok</a>
+		<div class="card card-outline card-info">
+			<div class="card-header with-border">
+				<a href="<?= site_url('kelompok_master'); ?>" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Kategori Kelompok</a>
 			</div>
 			<form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-				<div class="box-body">
-					<div class="form-group">
+				<div class="card-body">
+					<div class="row mb-2">
 						<label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori Kelompok</label>
 						<div class="col-sm-8">
-							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori Kelompok" name="kelompok" value="<?= $kelompok_master['kelompok']; ?>"></input>
+							<input id="kelompok" class="form-control form-control-sm required" type="text" placeholder="Kategori Kelompok" name="kelompok" value="<?= $kelompok_master['kelompok']; ?>"></input>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="row mb-2">
 						<label class="col-sm-3 control-label" for="Deskripsi">Deskripsi Kelompok</label>
 						<div class="col-sm-8">
-						 	<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi Kelompok" rows="3"><?= $kelompok_master['deskripsi']; ?></textarea>
+						 	<textarea name="deskripsi" class="form-control form-control-sm" placeholder="Deskripsi Kelompok" rows="3"><?= $kelompok_master['deskripsi']; ?></textarea>
 						 </div>
 					</div>
 				</div>
-				<div class="box-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+				<div class="card-footer">
+					<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+					<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 				</div>
 			</form>
 		</div>

@@ -13,19 +13,19 @@
 					<?php $this->load->view('inventaris/menu_kiri'); ?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url('inventaris_peralatan/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url('inventaris_peralatan/form')?>" class="btn btn-flat btn-success btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Data
             	</a>
-							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
+							<a href="#" class="btn btn-flat bg-purple btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
 								<i class="fa fa-print"></i>Cetak
             	</a>
-							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
+							<a href="#" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
 								<i class="fa fa-download"></i>Unduh
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="row">
@@ -59,11 +59,11 @@
 																<td></td>
 																<td nowrap>
 																	<?php if ($data->status == "0"): ?>
-																		<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																		<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-xs"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
-																	<a href="<?= site_url('inventaris_peralatan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<a href="<?= site_url('inventaris_peralatan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																	<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<a href="<?= site_url('inventaris_peralatan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-xs"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_peralatan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-xs"><i class="fa fa-edit"></i> </a>
+																	<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-xs"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
 																<td><?= $data->kode_barang;?></td>
@@ -115,7 +115,7 @@
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 													<div class="col-sm-9">
-														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
+														<select name="penandatangan" id="penandatangan" class="form-control form-control-sm">
 															<?php foreach ($pamong AS $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
 																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
@@ -127,8 +127,8 @@
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download" name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
+												<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="submit" class="btn btn-flat btn-info btn-xs" id="form_download" name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
 											</div>
 
 										</form>
@@ -158,7 +158,7 @@
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 													<div class="col-sm-9">
-														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
+														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control form-control-sm">
 															<?php foreach ($pamong AS $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
 																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
@@ -170,8 +170,8 @@
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak" name="form_cetak"  data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
+												<button type="reset" class="btn btn-flat btn-danger btn-xs" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="submit" class="btn btn-flat btn-info btn-xs" id="form_cetak" name="form_cetak"  data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
 											</div>
 										</form>
 									</div>

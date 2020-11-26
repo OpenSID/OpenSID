@@ -11,33 +11,33 @@
 		<div class="row">
 			<div class="col-md-12">
 				<form id="mainform" name="mainform" action="<?= site_url('laporan/bulan')?>" method="post" class="form-horizontal">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url("laporan_rentan/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("laporan_rentan/excel/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?= site_url("laporan_rentan/cetak")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("laporan_rentan/excel/$lap")?>" class="btn btn-flat bg-navy btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						</div>
-						<div class="box-header  with-border">
+						<div class="card-header  with-border">
 							<h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($config['nama_kabupaten'])?></strong></h4>
 							<h5 class="text-center"><strong>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN A - 9)</strong></h5>
 						</div>
-						<div class="box-header  with-border">
+						<div class="card-header  with-border">
 							<div class="form-group">
 								<label class="col-sm-2 col-md-1 control-label" for="kelurahan"><?= ucwords($this->setting->sebutan_desa)?>/Kel</label>
 								<div class="col-sm-4 col-md-2">
-									<input type="text" class="form-control input-sm" value="<?= $config['nama_desa']?>" disabled/></input>
+									<input type="text" class="form-control form-control-sm" value="<?= $config['nama_desa']?>" disabled/></input>
 								</div>
 								<label class="col-sm-2 col-md-1 control-label" for="kecamatan"><?= ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-4 col-md-2">
-									<input type="text" class="form-control input-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
+									<input type="text" class="form-control form-control-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
 								</div>
 								<?php $bln = date("m");?>
 								<label class="col-sm-2 col-md-2 control-label" for="laporan">Lap. Bulan</label>
 								<div class="col-sm-4 col-md-1">
-									<input type="text" class="form-control input-sm" value="<?= $bln?>" disabled/></input>
+									<input type="text" class="form-control form-control-sm" value="<?= $bln?>" disabled/></input>
 								</div>
 								<label class="col-sm-2 col-md-1 control-label" for="filter"><?= ucwords($this->setting->sebutan_dusun)?></label>
 								<div class="col-sm-4 col-md-2">
-									<select class="form-control input-sm" name="dusun" onchange="formAction('mainform','<?= site_url('laporan_rentan/dusun')?>')">
+									<select class="form-control form-control-sm" name="dusun" onchange="formAction('mainform','<?= site_url('laporan_rentan/dusun')?>')">
 										<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 										<?php foreach ($list_dusun as $data): ?>
 											<option value="<?= $data['dusun']?>" <?php if ($dusun==$data['dusun']): ?>selected<?php endif; ?>><?= $data['dusun']?></option>
@@ -46,7 +46,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<?php if ($dusun!=''): ?>

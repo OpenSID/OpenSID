@@ -45,11 +45,11 @@
 	table#dpt th.kanan {text-align: right;}
 	table#dpt th.kiri {text-align: left;}
 </style>
-<div class="box box-danger">
-	<div class="box-header with-border">
+<div class="card card-outline card-danger">
+	<div class="card-header with-border">
 		<h3 class="box-title">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan <?= $tanggal_pemilihan; ?>)</h3>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 		<?php if(count($main) > 0): ?>
 			<table id="dpt" class="table table-striped">
 				<thead>

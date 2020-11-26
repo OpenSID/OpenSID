@@ -9,17 +9,17 @@
   <section class="content">
     <div class="row">
       <div class="col-md-3">
-        <div class="box box-info">
-          <div class="box-header with-border">
+        <div class="card card-outline card-info">
+          <div class="card-header with-border">
           </div>
-          <div class="box-body no-padding">
+          <div class="card-body no-padding">
             <?php include('donjo-app/views/web/mandiri/layanan_mandiri.php'); ?>
           </div>
         </div>
       </div>
       <div class="col-md-9">
-        <div class="box box-info">
-          <div class="box-body">
+        <div class="card card-outline card-info">
+          <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
                 <?php if (empty($views_partial_layout)): ?>

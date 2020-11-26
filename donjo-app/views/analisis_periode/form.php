@@ -50,19 +50,19 @@
 					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url()?>analisis_periode" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Priode Analisis</a>
+					<div class="card card-outline card-info">
+            <div class="card-header with-border">
+							<a href="<?= site_url()?>analisis_periode" class="btn btn-flat btn-info btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Priode Analisis</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
-								<div class="box-body">
+								<div class="card-body">
 									<div class="row">
                     <div class="col-sm-12">
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="nama">Nama Periode</label>
 												<div class="col-sm-8">
-													<input  id="nama" class="form-control input-sm required nomor_sk" type="text" placeholder="Nama Priode" name="nama" value="<?= $analisis_periode['nama']?>">
+													<input  id="nama" class="form-control form-control-sm required nomor_sk" type="text" placeholder="Nama Priode" name="nama" value="<?= $analisis_periode['nama']?>">
 												</div>
 											</div>
 										</div>
@@ -70,13 +70,13 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="id_state">Tahap Pendataan</label>
 												<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-													<label id="sx1" class="btn btn-info btn-flat btn-sm col-xs-12 col-sm-4 col-lg-3 form-check-label <?php if ($analisis_periode['id_state'] =='1' OR $analisis_periode['id_state'] == NULL): ?>active<?php endif ?>">
+													<label id="sx1" class="btn btn-info btn-flat btn-xs col-xs-12 col-sm-4 col-lg-3 form-check-label <?php if ($analisis_periode['id_state'] =='1' OR $analisis_periode['id_state'] == NULL): ?>active<?php endif ?>">
 														<input id="group1" type="radio" name="id_state" class="form-check-input" type="radio" value="1" <?php if ($analisis_periode['id_state'] =='1' OR $analisis_periode['id_state'] == NULL): ?>checked <?php endif ?> autocomplete="off">Belum Pendataan
 													</label>
-													<label id="sx2" class="btn btn-info btn-flat btn-sm col-xs-12 col-sm-4 col-lg-3 form-check-label <?php if ($analisis_periode['id_state'] =='2'): ?>active<?php endif ?>">
+													<label id="sx2" class="btn btn-info btn-flat btn-xs col-xs-12 col-sm-4 col-lg-3 form-check-label <?php if ($analisis_periode['id_state'] =='2'): ?>active<?php endif ?>">
 														<input id="group2" type="radio" name="id_state" class="form-check-input" type="radio" value="2" <?php if ($analisis_periode['id_state'] =='2'): ?>checked <?php endif ?> autocomplete="off">Sedang Pendataan
 													</label>
-													<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-12 col-sm-4 col-lg-3 form-check-label <?php if ($analisis_periode['id_state'] =='3'): ?>active<?php endif ?>">
+													<label id="sx3" class="btn btn-info btn-flat btn-xs col-xs-12 col-sm-4 col-lg-3 form-check-label <?php if ($analisis_periode['id_state'] =='3'): ?>active<?php endif ?>">
 														<input id="group3" type="radio" name="id_state" class="form-check-input" type="radio" value="3" <?php if ($analisis_periode['id_state'] =='3'): ?>checked <?php endif ?> autocomplete="off">Selesai Pelaksanaan
 													</label>
 												</div>
@@ -86,7 +86,7 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="tahun_pelaksanaan">Tahun Pelaksanaan</label>
 												<div class="col-sm-2">
-													<input  id="tahun_pelaksanaan" class="form-control input-sm required bilangan" maxlength="4" type="text" placeholder="Tahun" name="tahun_pelaksanaan" value="<?= $analisis_periode['tahun_pelaksanaan']?>">
+													<input  id="tahun_pelaksanaan" class="form-control form-control-sm required bilangan" maxlength="4" type="text" placeholder="Tahun" name="tahun_pelaksanaan" value="<?= $analisis_periode['tahun_pelaksanaan']?>">
 												</div>
 											</div>
 										</div>
@@ -95,10 +95,10 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label" for="act_analisis">Duplikat data pendataan sebelumnya</label>
                           <div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-                            <label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label">
+                            <label id="ss1" class="btn btn-info btn-flat btn-xs col-xs-6 col-sm-4 col-lg-2 form-check-label">
                               <input id="g1" type="radio" name="duplikasi" class="form-check-input" type="radio" value="1"autocomplete="off"> Ya
                             </label>
-                            <label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label active">
+                            <label id="ss2" class="btn btn-info btn-flat btn-xs col-xs-6 col-sm-4 col-lg-2 form-check-label active">
                               <input id="g2" type="radio" name="duplikasi" class="form-check-input" type="radio" value="2" checked autocomplete="off"> Tidak
                             </label>
                           </div>
@@ -109,7 +109,7 @@
 											<div class="form-group" id="delik">
 												<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">
-													<textarea  id="keterangan" class="form-control input-sm" placeholder="Keterangan" name="keterangan"><?= $analisis_periode['keterangan']?></textarea>
+													<textarea  id="keterangan" class="form-control form-control-sm" placeholder="Keterangan" name="keterangan"><?= $analisis_periode['keterangan']?></textarea>
 												</div>
 											</div>
 										</div>
@@ -117,10 +117,10 @@
 											<div class="form-group">
 												<label class="col-sm-3 control-label" for="act_analisis">Status</label>
 												<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-													<label id="ss3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] =='1' OR $analisis_periode['aktif'] ==NULL): ?>active<?php endif ?>">
+													<label id="ss3" class="btn btn-info btn-flat btn-xs col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] =='1' OR $analisis_periode['aktif'] ==NULL): ?>active<?php endif ?>">
 														<input id="g3" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if ($analisis_periode['aktif']=='1' OR $analisis_periode['aktif'] ==NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 													</label>
-													<label id="ss4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] == '2' ): ?>active<?php endif ?>">
+													<label id="ss4" class="btn btn-info btn-flat btn-xs col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($analisis_periode['aktif'] == '2' ): ?>active<?php endif ?>">
 														<input id="g4" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if ($analisis_periode['aktif'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak AKtif
 													</label>
 												</div>
@@ -128,10 +128,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="box-footer">
+								<div class="card-footer">
 									<div class="col-xs-12">
-										<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
-										<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+										<button type="reset" class="btn btn-flat btn-danger btn-xs" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+										<button type="submit" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 									</div>
 								</div>
 							</div>

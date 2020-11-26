@@ -1,10 +1,10 @@
 										<div class="tab-pane <?php if ($act_tab==5): ?>active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border">
+													<div class="card-header with-border">
 														<h3 class="box-title"><strong>Migrasi Database Ke OpenSID <?=AmbilVersi()?></strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
 																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
@@ -25,7 +25,7 @@
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
 																						<div class="col-sm-8 col-lg-4">
-																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Migrasi DB" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading" data-backdrop="false" data-keyboard="false"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
+																							<a href="#" class="btn btn-block btn-danger btn-xs ajax"  title="Migrasi DB" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading" data-backdrop="false" data-keyboard="false"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
 																						</div>
 																					</div>
 																					<div class="ajax-content"></div>

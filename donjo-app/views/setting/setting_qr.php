@@ -18,25 +18,25 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
 						<h3 class="box-title">Buat QR Code</h3>
 					</div>
-					<form id="mainform" name="mainform" action="" method="post">
-						<div class="box-body">
+					<form class="form-inline" id="mainform" name="mainform" action="" method="post">
+						<div class="card-body">
 							<div class="form-group">
 								<label for="namaqr">Nama File :</label>
-								<input class="form-control input-sm nama_terbatas required" type="text" id="namaqr" name="namaqr" maxlength="15" value="<?= $qrcode['namaqr']; ?>"></input>
+								<input class="form-control form-control-sm nama_terbatas required" type="text" id="namaqr" name="namaqr" maxlength="15" value="<?= $qrcode['namaqr']; ?>"></input>
 							</div>
 							<div class="form-group">
 								<label for="isiqr">Isi Kode :</label>
-								<textarea class="form-control input-sm tetap required" rows="5" id="isiqr" name="isiqr" maxlength="300"><?= $qrcode['isiqr']; ?></textarea>
+								<textarea class="form-control form-control-sm tetap required" rows="5" id="isiqr" name="isiqr" maxlength="300"><?= $qrcode['isiqr']; ?></textarea>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-4">
 									<div class="form-group">
 										<label for="changeqr" >Sisipkan Logo :</label>
-										<select class="form-control input-sm" id="changeqr" name="changeqr" onchange="load(this.value);">
+										<select class="form-control form-control-sm" id="changeqr" name="changeqr" onchange="load(this.value);">
 											<?php foreach ($list_changeqr as $key => $list): ?>
 												<option value="<?= $key + 1; ?>" <?= selected($qrcode['changeqr'], $key + 1); ?>><?= $list; ?></option>
 											<?php endforeach;?>
@@ -47,10 +47,10 @@
 									<div class="form-group">
 										<label for="logoqr"><code> Kosongkan untuk QR Code polos </code></label>
 										<div class="input-group">
-											<input type="text" class="form-control input-sm" id="logoqr" name="logoqr">
+											<input type="text" class="form-control form-control-sm" id="logoqr" name="logoqr">
 											<span class="input-group-btn">
-												<button type="button" class="btn btn-info btn-flat btn-danger btn-sm" id="kosongkan"><i class="fa fa-refresh" title="Kosongkan"></i>&nbsp;</button>
-												<button type="button" class="btn btn-info btn-flat btn-info btn-sm" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i>&nbsp;</button>
+												<button type="button" class="btn btn-info btn-flat btn-danger btn-xs" id="kosongkan"><i class="fa fa-refresh" title="Kosongkan"></i>&nbsp;</button>
+												<button type="button" class="btn btn-info btn-flat btn-info btn-xs" id="file_browser1" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i>&nbsp;</button>
 											</span>
 										</div>
 									</div>
@@ -59,7 +59,7 @@
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="sizeqr" >Ukuran :</label>
-									<select class="form-control input-sm" id="sizeqr" name="sizeqr">
+									<select class="form-control form-control-sm" id="sizeqr" name="sizeqr">
 										<?php foreach ($list_sizeqr as $key => $list): ?>
 											<option value="<?= $key + 1; ?>" <?= selected($qrcode['sizeqr'], $key + 1); ?>><?= $list.' x '.$list.'px'; ?></option>
 										<?php endforeach;?>
@@ -71,31 +71,31 @@
 										<div class="input-group-addon input-sm">
 											<i></i>
 										</div>
-										<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" value="<?= $qrcode['foreqr'] ?: $qrcode['backqr']; ?>">
+										<input type="text" id="foreqr" name="foreqr" class="form-control form-control-sm" value="<?= $qrcode['foreqr'] ?: $qrcode['backqr']; ?>">
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
-							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<button id="generate" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+						<div class="card-footer">
+							<button type="reset" class="btn btn-flat btn-danger btn-xs"><i class="fa fa-times"></i> Batal</button>
+							<button id="generate" class="btn btn-flat btn-info btn-xs pull-right"><i class="fa fa-check"></i> Simpan</button>
 						</div>
 					</form>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-outline card-info">
+					<div class="card-header with-border">
 						<h3 class="box-title">Scan QR Code</h3>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="pathqr"></label>
 							<center>
-								<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Baru"><i class="fa fa-plus"></i> Baru</a>
-								<a href="<?= site_url("setting/qrcode/hapus/$qrcode[namaqr1]"); ?>" class="btn btn-social btn-flat btn-danger btn-sm <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Buat Baru"><i class="fa fa-trash"></i> Hapus</a>
-								<a href="<?= site_url("setting/qrcode/unduh/$qrcode[namaqr1]"); ?>" class="btn btn-social btn-flat bg-navy btn-sm <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
-								<a href="#" class="btn btn-social btn-flat bg-purple btn-sm" title="Atur" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Atur</a>
+								<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-flat btn-success btn-xs" title="Baru"><i class="fa fa-plus"></i> Baru</a>
+								<a href="<?= site_url("setting/qrcode/hapus/$qrcode[namaqr1]"); ?>" class="btn btn-flat btn-danger btn-xs <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Buat Baru"><i class="fa fa-trash"></i> Hapus</a>
+								<a href="<?= site_url("setting/qrcode/unduh/$qrcode[namaqr1]"); ?>" class="btn btn-flat bg-navy btn-xs <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
+								<a href="#" class="btn btn-flat bg-purple btn-xs" title="Atur" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Atur</a>
 								<?php if ($qrcode['namaqr1']) : ?>
 									<br><br>
 									<img class="img-thumbnail" src="<?= $qrcode['pathqr']; ?>">

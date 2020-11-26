@@ -62,21 +62,21 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left', $data); ?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url("analisis_laporan/dialog/$o/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $judul['asubjek']; ?>" title="Cetak"><i class="fa fa-print"></i>Cetak</a>
-							<a href="<?= site_url("analisis_laporan/dialog/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $judul['asubjek']; ?>" title="Unduh"><i class="fa fa-download"></i>Unduh</a>
-							<a href="<?= site_url("analisis_laporan/ajax_multi_jawab"); ?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Filter Indikator" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Filter Indikator"><i class="fa fa-search"></i>Filter Indikator</a>
-							<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
-							<a href="<?= site_url(); ?>analisis_laporan/leave" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW"><i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']; ?></a>
+					<div class="card card-outline card-info">
+						<div class="card-header with-border">
+							<a href="<?= site_url("analisis_laporan/dialog/$o/cetak")?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $judul['asubjek']; ?>" title="Cetak"><i class="fa fa-print"></i>Cetak</a>
+							<a href="<?= site_url("analisis_laporan/dialog/$o/unduh")?>" class="btn btn-flat bg-navy btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan Hasil Analisis <?= $judul['asubjek']; ?>" title="Unduh"><i class="fa fa-download"></i>Unduh</a>
+							<a href="<?= site_url("analisis_laporan/ajax_multi_jawab"); ?>" class="btn btn-flat bg-olive btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Filter Indikator" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Filter Indikator"><i class="fa fa-search"></i>Filter Indikator</a>
+							<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-flat bg-purple btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left"><i class="fa fa-refresh"></i>Bersihkan</a>
+							<a href="<?= site_url(); ?>analisis_laporan/leave" class="btn btn-flat btn-info btn-xs btn-xs visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block text-left" title="Kembali Ke Daftar RW"><i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']; ?></a>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover tabel-rincian">
 									<tr>
@@ -97,12 +97,12 @@
 								</table>
 							</div>
 						</div>
-						<div class="box-body">
-							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form id="mainform" name="mainform" action="" method="post">
+						<div class="card-body">
+							<div class="dataTables_wrapper dt-bootstrap no-footer">
+								<form class="form-inline" id="mainform" name="mainform" action="" method="post">
 									<div class="row">
 										<div class="col-sm-8">
-											<select class="form-control input-sm" name="klasifikasi" onchange="formAction('mainform', '<?= site_url('analisis_laporan/filter/klasifikasi'); ?>')">
+											<select class="form-control form-control-sm" name="klasifikasi" onchange="formAction('mainform', '<?= site_url('analisis_laporan/filter/klasifikasi'); ?>')">
 												<option value=""> --- Klasifikasi --- </option>
 												<?php foreach ($list_klasifikasi AS $data): ?>
 													<option value="<?= $data['id']; ?>" <?= selected($klasifikasi, $data['id']); ?>><?= $data['nama']; ?></option>
@@ -142,7 +142,7 @@
 														<tr>
 															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 															<td class="aksi">
-																<a href="<?= site_url("analisis_laporan/kuisioner/$p/$o/$data[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class='fa fa-list'></i></a>
+																<a href="<?= site_url("analisis_laporan/kuisioner/$p/$o/$data[id]"); ?>" class="btn bg-purple btn-flat btn-xs" title="Rincian"><i class='fa fa-list'></i></a>
 															</td>
 															<td><?= $data['uid']; ?></td>
 															<?php if($analisis_master['subjek_tipe'] != 4): ?>
