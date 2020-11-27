@@ -99,11 +99,6 @@ class Web extends Admin_Controller {
 		$data = $this->security->xss_clean($data);
 		$data['paging'] = $paging;
 
-		// echo "<pre>";
-		// print_r ($data);
-		// echo "</pre>";
-		// die();
-
 		$this->set_minsidebar(1);
 		$this->render('web/artikel/table', $data);
 	}
