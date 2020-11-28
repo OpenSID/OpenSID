@@ -69,12 +69,13 @@ class Web extends Admin_Controller {
 	{
 		$this->session->unset_userdata(['cari, status']);
 		$this->session->per_page = $this->_set_page[0];
+		$this->session->kategori = -1;
 		redirect("web");
 	}
 
 	public function index($p = 1, $o = 0)
 	{
-		$cat = $this->session->kategori ?: 0;
+		$cat = $this->session->kategori ?: -1;
 
 		$data['p'] = $p;
 		$data['o'] = $o;

@@ -25,7 +25,7 @@
 								<ul class="nav nav-pills nav-stacked">
 									<li class="<?= jecho($cat, -1, 'active'); ?>">
 										<a href='<?= site_url("web/tab/-1")?>'>
-											Semua Artikel
+											Semua Artikel Dinamis
 										</a>
 									</li>
 								</ul>
