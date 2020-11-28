@@ -26,5 +26,14 @@ Catatan versi 4.2.1:
 24. Ubah script baselayer ke library peta.js
 25. Tabel Responsive data Wilayah [bug-fix].
 26. Penerapan Slug pada Slider.
+27. Penyesuaian artikel tanpa insert gambar.
+28. Sekarang slider galeri tdk pengaruh slider artikel.
+29. Perbaikan tag Meta Title dan Form Input Title.
+30. Tampilkan halaman statis default.
+31. Tambah stylesheet untuk grafik IDM.
+32. Penerapan fitur Bagan Organisasi.
+33. Sesuaikan sumber link teks berjalan.
+34. hilangkan first dari domain utama.
+35. Tampilkan submenu/kategori.
 
 ****************************************************************
