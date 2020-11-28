@@ -1636,3 +1636,12 @@ Warna Bar Realisasi
 	text-decoration: none;
 	color: #8996A8;
 }
+
+.kanan {
+		text-align: right;
+}
+
+.kiri {
+	text-align: left;
+}
+
