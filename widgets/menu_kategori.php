@@ -5,13 +5,13 @@
 	<ul id="ul-menu" class="sidebar-latest">
 		<?php foreach($menu_kiri as $data):?>
 			<li>
-				<a href="<?= site_url('first/kategori/'.$data['id']);?>">
-					<?= $data['nama'];?><?php (count($data['submenu'])>0) and print('<span class="caret"></span>');?>
+				<a href="<?= site_url("artikel/kategori/$data[slug]"); ?>">
+					<?= $data['kategori']; ?><?php (count($data['submenu'])>0) and print('<span class="caret"></span>');?>
 				</a>
 				<?php if(count($data['submenu'])>0): ?>
 					<ul class="nav submenu">
 						<?php foreach($data['submenu'] as $submenu):?>
-							<li><a href="<?= site_url('first/kategori/'.$submenu['id'])?>"><?= $submenu['nama']?></a></li>
+							<li><a href="<?= site_url("artikel/kategori/$submenu[slug]"); ?>"><?= $submenu['kategori']?></a></li>
 						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
