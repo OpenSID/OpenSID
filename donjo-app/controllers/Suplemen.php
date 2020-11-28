@@ -132,7 +132,7 @@ class Suplemen extends Admin_Controller {
 		}
 	}
 
-	public function rincian($id, $p = 1)
+	public function rincian($id = '', $p = 1)
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))

@@ -20,6 +20,19 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div class="box box-info">
+						<div class="box-body no-padding">
+							<!-- <h3 class="box-title"> -->
+								<ul class="nav nav-pills nav-stacked">
+									<li class="<?= jecho($cat, -1, 'active'); ?>">
+										<a href='<?= site_url("web/tab/-1")?>'>
+											Semua Artikel Dinamis
+										</a>
+									</li>
+								</ul>
+							<!-- </h3> -->
+						</div>
+					</div>
+					<div class="box box-info">
 						<div class="box-header with-border">
 							<h3 class="box-title">Kategori Artikel</h3>
 							<div class="box-tools">
