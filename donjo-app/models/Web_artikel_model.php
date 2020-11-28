@@ -73,10 +73,10 @@
 				LEFT JOIN kategori k ON a.id_kategori = k.id
 				WHERE id_kategori = ? ";
 		elseif ($cat == -1)
-			// Semua artikel
+			// Semua artikel dinamis (tidak termasuk artikel statis)
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE 1 ";
+				WHERE 1 AND id_kategori NOT IN ('999', '1000', '1001')";
 		else
 			// Artikel dinamis tidak berkategori
 			$sql = "FROM artikel a
