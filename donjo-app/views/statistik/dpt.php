@@ -41,10 +41,6 @@
  */
 ?>
 
-<style type="text/css">
-	table#dpt th.kanan {text-align: right;}
-	table#dpt th.kiri {text-align: left;}
-</style>
 <div class="box box-danger">
 	<div class="box-header with-border">
 		<h3 class="box-title">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan <?= $tanggal_pemilihan; ?>)</h3>
@@ -82,9 +78,9 @@
 						<th class="angka"><?= $total['total_warga_p']; ?></th>
 					</tr>
 				</tfooter>
-			</table>";
+			</table>
 		<?php else: ?>
-			<div class="">Data tidak tersedia</div>;
+			<div class="">Data tidak tersedia</div>
 		<?php endif; ?>
 	</div>
 </div>

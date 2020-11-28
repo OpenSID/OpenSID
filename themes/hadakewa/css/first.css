@@ -614,3 +614,11 @@ table.counter tr td {
 	height: 2.5em;
 	text-align: center;
 }
+
+.kanan {
+		text-align: right;
+}
+
+.kiri {
+	text-align: left;
+}
