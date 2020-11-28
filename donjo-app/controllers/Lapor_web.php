@@ -47,6 +47,8 @@ class Lapor_web extends Web_Controller
 		parent::__construct();
 		$this->load->model('lapor_model');
 		$this->load->model('config_model');
+
+		if ($this->session->mandiri != 1) redirect();
 	}
 	/**
 	 * Kirim laporan pengguna layanan mandiri
@@ -56,10 +58,6 @@ class Lapor_web extends Web_Controller
 	 */
 	public function insert()
 	{
-		if ($_SESSION['mandiri'] != 1)
-		{
-			redirect('first');
-		}
 		$_SESSION['success'] = 1;
 		$res = $this->lapor_model->insert();
 		// cek kalau berhasil disimpan dalam database
