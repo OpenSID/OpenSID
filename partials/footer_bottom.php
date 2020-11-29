@@ -14,7 +14,7 @@
 		   &copy; <a href="https://opendesa.id/" rel="noopener noreferrer" target="_blank">OpenDesa</a>
 		   <i class="fa fa-circle" style="font-size: smaller;"></i>
 		   <a href="https://github.com/OpenSID/OpenSID" rel="noopener noreferrer" target="_blank">OpenSID <?= AmbilVersi()?></a>
-		   <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank"> | Natra 4.2.1</a>
+		   <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank"> | Natra 4.3</a>
           </div>
         </div>
       </div>
