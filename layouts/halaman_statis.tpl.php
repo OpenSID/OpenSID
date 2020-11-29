@@ -27,7 +27,7 @@
 						<?php if ($halaman_statis == 'informasi_publik'): ?>
 							<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/informasi_publik.php'));?>
 						<?php else: ?>
-	            <?php $this->load->view($halaman_statis); ?>
+							<?php $this->load->view($halaman_statis); ?>
 						<?php endif; ?>
 					</div>
 				</div>

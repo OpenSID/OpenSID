@@ -4,50 +4,51 @@
 	<div class="single_page_area">
 		<h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
 	</div>
-	<div class="table-responsive">
-		<?php if(count($main) > 0):?>
-			<table class="table table-striped">
+	<div class="box-body">
+		<?php if(count($main) > 0) : ?>
+			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>Nama Dusun</th>
-						<th>Nama Kepala Dusun</th>
+						<th>Nama <?= ucwords($this->setting->sebutan_dusun); ?></th>
+						<th>Nama Kepala <?= ucwords($this->setting->sebutan_dusun); ?></th>
+						<th>Jumlah RW</th>
 						<th>Jumlah RT</th>
 						<th>Jumlah KK</th>
 						<th>Jiwa</th>
-						<th>L</th>
-						<th>P</th>
+						<th>Lk</th>
+						<th>Pr</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($main as $data):?>
+					<?php foreach($main as $data) : ?>
 						<tr>
-							<tr>
 							<td><?= $data['no'] ?></td>
 							<td><?= strtoupper($data['dusun']) ?></td>
 							<td><?= strtoupper($data['nama_kadus']) ?></td>
+							<td class="angka"><?= $data['jumlah_rw'] ?></td>
 							<td class="angka"><?= $data['jumlah_rt'] ?></td>
 							<td class="angka"><?= $data['jumlah_kk'] ?></td>
 							<td class="angka"><?= $data['jumlah_warga'] ?></td>
 							<td class="angka"><?= $data['jumlah_warga_l'] ?></td>
 							<td class="angka"><?= $data['jumlah_warga_p'] ?></td>
 						</tr>
-						</tr>
-					<?php endforeach;?>
+					<?php endforeach ?>
 				</tbody>
-				<tfooter>
+				<tfoot>
 					<tr>
-						<td class="text-center" colspan="3">TOTAL</td>
+						<td colspan="3">TOTAL</td>
+						<td class="angka"><?= $total['total_rw'] ?></td>
 						<td class="angka"><?= $total['total_rt'] ?></td>
 						<td class="angka"><?= $total['total_kk'] ?></td>
 						<td class="angka"><?= $total['total_warga'] ?></td>
 						<td class="angka"><?= $total['total_warga_l'] ?></td>
 						<td class="angka"><?= $total['total_warga_p'] ?></td>
 					</tr>
-				</tfooter>
+				</tfoot>
 			</table>
-		<?php else:?>
-			<div>Belum ada data</div>
-		<?php endif;?>
+			<?php else : ?>
+				Belum ada data...
+		<?php endif ?>
 	</div>
 </div>
