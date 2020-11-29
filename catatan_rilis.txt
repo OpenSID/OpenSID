@@ -1,4 +1,4 @@
-Catatan versi 4.2.1:
+Catatan Rilis Tema Natra Versi 4.2.1, sbb:
 
 1. Kini data statistik support menampilkan/menyembunyikan nilai 0.
 2. Penambahan kolom dusun pada tabel DPT.
@@ -35,5 +35,7 @@ Catatan versi 4.2.1:
 33. Sesuaikan sumber link teks berjalan.
 34. hilangkan first dari domain utama.
 35. Tampilkan submenu/kategori.
+36. #54 Data Demografi Muncul Kembali.
+37. #53 Perbaiki link tujuan pada slider.
 
 ****************************************************************
