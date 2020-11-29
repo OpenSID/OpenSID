@@ -19,7 +19,10 @@
 						overflow: hidden;
 					}
 				</style>
-				<img class="tlClogo" src="<?= base_url($file_gambar); ?>" onclick="location.href='<?= 'artikel/'.buat_slug($gambar); ?>'">
+				<img class="tlClogo" src="<?= base_url($file_gambar); ?>"
+					<?php if ($slider_gambar['sumber'] != 3): ?>
+					onclick="location.href='<?= site_url().'artikel/'.buat_slug($gambar); ?>'" <?php endif; ?>
+				>
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?>
