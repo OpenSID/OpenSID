@@ -129,19 +129,29 @@ class Database extends Admin_Controller {
 	*/
 	public function export_excel($opendk = '')
 	{
+		$this->load->library('zip');
+
+		// Sesuaiakan format kode_desa dgn OpenDK, untuk kecamatan_id, kabupaten_id, provinsi_id bisa diambil dari desa_id;
+		$kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
+
 		$writer = WriterEntityFactory::createXLSXWriter();
 
 		//Nama File
 		$tgl =  date('d_m_Y');
 		if ($opendk)
 		{
-			$fileName = 'penduduk_'.$tgl.'_opendk.xlsx';
+			$fileName = 'penduduk_' . $kode_desa . '_' . $tgl . '_opendk.xlsx';
 		}
 		else
 		{
-			$fileName = 'penduduk_'.$tgl.'.xlsx';
+			$fileName = 'penduduk_' . $tgl . '.xlsx';
 		}
-		$writer->openToBrowser($fileName); // stream data directly to the browser
+
+		$lokasi = LOKASI_DOKUMEN . $fileName;
+
+		$writer->openToFile($lokasi);
+
+		//$data = $writer->openToBrowser($fileName); // stream data directly to the browser
 		//Header Tabel
 		$daftar_kolom = [
 			['Alamat', 'alamat'],
@@ -186,9 +196,11 @@ class Database extends Admin_Controller {
 			$judul = array_column($daftar_kolom, 1);
 			// Kolom tambahan khusus OpenDK
 			$judul[] = 'id';
+			$judul[] = 'foto';
 			$judul[] = 'status_dasar';
 			$judul[] = 'created_at';
 			$judul[] = 'updated_at';
+			$judul[] = 'desa_id';
 		}
 		else
 		{
@@ -241,13 +253,27 @@ class Database extends Admin_Controller {
 					$row->status_rekam,
 					$row->alamat_sekarang,
 					$row->id,
+					$row->foto,
 					$row->status_dasar,
 					$row->created_at,
-					$row->updated_at
+					$row->updated_at,
+					$kode_desa,
 				);
+
+
+				$file_foto = LOKASI_USER_PICT . $row->foto;
+				if (is_file($file_foto)) {
+					$this->zip->read_file($file_foto);
+				}
+
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
 			}
+
+			$writer->close();
+			$this->zip->read_file($lokasi);
+			$this->zip->download('penduduk_' . $kode_desa . ' .zip');
+			unlink($lokasi);
 		}
 		else
 		{
@@ -294,9 +320,11 @@ class Database extends Admin_Controller {
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
 			}
+
+			$writer->close();
 		}
 
-		$writer->close();
+		redirect('database');
 	}
 
 	public function export_dasar()

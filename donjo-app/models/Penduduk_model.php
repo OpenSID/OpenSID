@@ -655,7 +655,7 @@ class Penduduk_model extends MY_Model {
 
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
+		$nama_file = ($this->input->post('nik')?:'0' . rand()) . get_extension($_FILES['foto']['name']);
 		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto = $data['old_foto'];
 		if (!empty($lokasi_file))
@@ -793,7 +793,7 @@ class Penduduk_model extends MY_Model {
 
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
+		$nama_file = ($this->input->post('nik')?:'0' . rand()) . get_extension($_FILES['foto']['name']);
 		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
 		$old_foto = $data['old_foto'];
 		if (!empty($lokasi_file))
