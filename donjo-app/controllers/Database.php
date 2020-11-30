@@ -140,18 +140,15 @@ class Database extends Admin_Controller {
 		$tgl =  date('d_m_Y');
 		if ($opendk)
 		{
-			$fileName = 'penduduk_' . $kode_desa . '_' . $tgl . '_opendk.xlsx';
+			$lokasi = LOKASI_DOKUMEN . 'penduduk_' . $kode_desa . '_' . $tgl . '_opendk.xlsx';
+			$writer->openToFile($lokasi);
 		}
 		else
 		{
 			$fileName = 'penduduk_' . $tgl . '.xlsx';
+			$writer->openToBrowser($fileName); // stream data directly to the browser
 		}
 
-		$lokasi = LOKASI_DOKUMEN . $fileName;
-
-		$writer->openToFile($lokasi);
-
-		//$data = $writer->openToBrowser($fileName); // stream data directly to the browser
 		//Header Tabel
 		$daftar_kolom = [
 			['Alamat', 'alamat'],
@@ -272,8 +269,8 @@ class Database extends Admin_Controller {
 
 			$writer->close();
 			$this->zip->read_file($lokasi);
-			$this->zip->download('penduduk_' . $kode_desa . ' .zip');
 			unlink($lokasi);
+			$this->zip->download('penduduk_' . $kode_desa . ' .zip');
 		}
 		else
 		{
@@ -320,7 +317,6 @@ class Database extends Admin_Controller {
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
 			}
-
 			$writer->close();
 		}
 
