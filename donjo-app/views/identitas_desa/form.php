@@ -227,13 +227,21 @@ $(document).ready(function()
 				  $('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
 				  $('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
 				  $('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
-				  $('[name="nama_kabupaten"]').val(data.KODE_WILAYAH[0].nama_kab);
+				  $('[name="nama_kabupaten"]').val(hapus_kab_kota(hurup_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
 				  $('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
-				  $('[name="nama_propinsi"]').val(data.KODE_WILAYAH[0].nama_prov);
+				  $('[name="nama_propinsi"]').val(hurup_awal_besar(data.KODE_WILAYAH[0].nama_prov));
 				  $('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
         }
     });
 	});
+
+	function hapus_kab_kota(str) {
+		return str.replace(/KAB |KOTA /gi, '');
+	}
+
+	function hurup_awal_besar(str) {
+		return str.replace(/\S+/g, str => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase());
+	}
 
 });
 </script>
