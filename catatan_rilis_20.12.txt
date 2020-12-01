@@ -27,5 +27,5 @@ Lengkapnya, isi rilis versi 20.12 adalah sebagai berikut:
 21. #3761: Munculkan semua artikel dinamis pada saat membuka Admin Web > Artikel.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.11-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
