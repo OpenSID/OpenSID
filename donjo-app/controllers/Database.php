@@ -131,16 +131,13 @@ class Database extends Admin_Controller {
 	{
 		$this->load->library('zip');
 
-		// Sesuaiakan format kode_desa dgn OpenDK, untuk kecamatan_id, kabupaten_id, provinsi_id bisa diambil dari desa_id;
-		$kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
-
 		$writer = WriterEntityFactory::createXLSXWriter();
 
 		//Nama File
 		$tgl =  date('d_m_Y');
 		if ($opendk)
 		{
-			$lokasi = LOKASI_DOKUMEN . 'penduduk_' . $kode_desa . '_' . $tgl . '_opendk.xlsx';
+			$lokasi = LOKASI_DOKUMEN . 'penduduk_' . $tgl . '_opendk.xlsx';
 			$writer->openToFile($lokasi);
 		}
 		else
@@ -197,7 +194,6 @@ class Database extends Admin_Controller {
 			$judul[] = 'status_dasar';
 			$judul[] = 'created_at';
 			$judul[] = 'updated_at';
-			$judul[] = 'desa_id';
 		}
 		else
 		{
@@ -254,7 +250,6 @@ class Database extends Admin_Controller {
 					$row->status_dasar,
 					$row->created_at,
 					$row->updated_at,
-					$kode_desa,
 				);
 
 
@@ -270,7 +265,7 @@ class Database extends Admin_Controller {
 			$writer->close();
 			$this->zip->read_file($lokasi);
 			unlink($lokasi);
-			$this->zip->download('penduduk_' . $kode_desa . ' .zip');
+			$this->zip->download('penduduk_' . $tgl . '_opendk.zip');
 		}
 		else
 		{
