@@ -51,6 +51,7 @@ class Database extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->dbforge();
+		$this->load->library('zip');
 		$this->load->model(['import_model', 'export_model', 'database_model']);
 
 		$this->modul_ini = 11;
@@ -129,8 +130,6 @@ class Database extends Admin_Controller {
 	*/
 	public function export_excel($opendk = '')
 	{
-		$this->load->library('zip');
-
 		$writer = WriterEntityFactory::createXLSXWriter();
 
 		//Nama File
@@ -363,8 +362,6 @@ class Database extends Admin_Controller {
 
 	public function desa_backup()
 	{
-		$this->load->library('zip');
-
 		$backup_folder = FCPATH.'desa/'; // Folder yg akan di backup
 		$this->zip->read_dir($backup_folder, FALSE);
 		$this->zip->download('backup_folder_desa_'.date('Y_m_d').'.zip');
