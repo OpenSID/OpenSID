@@ -802,3 +802,6 @@ function refresh_badge(elem, url)
   }, 10000);
 }
 
+function huruf_awal_besar(str) {
+	return str.replace(/\S+/g, str => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase());
+}
