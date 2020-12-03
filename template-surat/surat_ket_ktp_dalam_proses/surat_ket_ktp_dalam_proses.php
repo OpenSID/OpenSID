@@ -27,6 +27,7 @@
 							<?php	endif; ?>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>
+							<?php include("donjo-app/views/surat/form/tampil_foto.php"); ?>
 						</form>
 					</div>
 					<?php include("donjo-app/views/surat/form/tombol_cetak.php"); ?>
