@@ -108,14 +108,42 @@ nav.navbar.navbar-inverse{
 /*
  * Menampilkan Artikel mengganti background artikel dll
  * */
-.artikel .sampul img {margin-left: auto; margin-right: auto;}
-.artikel{margin-top: 1em;padding:.8em 1em 1px 1em;background-color:#8abffb;}
-.artikel.feed {background-color: gold; }
-.artikel .judul{font-size:1.25em;color:#fd070d;line-height:1em;margin-bottom:.5em;}
-.artikel .kecil{font-size:.8em;color:#040404;font-style:italic;font-weight:400;margin-bottom:.5em;}
-.artikel .teks{font-size:1em; margin-right:.5em;}
-.artikel .sampul{margin: 1em 0; display:block;width:100%;}
-.gb{border-bottom:solid 2px #eee;}
+.artikel .sampul img {
+	margin-left: auto; 
+	margin-right: auto;
+}
+.artikel {
+	margin-top: 1em;
+	padding:.8em 1em 1px 1em;
+	background-color:#8abffb;
+}
+.artikel.feed {
+	background-color: gold; 
+}
+.artikel .judul {
+	font-size: 1.25em;
+	color: #fd070d;
+	line-height: 1em;
+	margin-bottom: .5em; 
+}
+.artikel .kecil {
+	font-size: .8em;
+	color:#040404;
+	font-style: italic;
+	font-weight: 400;
+	margin-bottom: .5em;
+}
+.artikel .teks {
+	font-size: 1em; 
+	margin-right: .5em;
+}
+.artikel .sampul {
+	margin: 1em 0; 
+	display:block;width:100%;
+}
+.gb {
+	border-bottom: solid 2px #eee;
+}
 .btn-block {
 		display: block;
 		width: 100%;
