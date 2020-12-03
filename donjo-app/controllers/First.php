@@ -114,20 +114,20 @@ class First extends Web_Controller {
 		}
 		else
 		{
-			redirect('first');
+			redirect();
 		}
 	}
 
 	public function logout()
 	{
 		$this->first_m->logout();
-		redirect('first');
+		redirect();
 	}
 
 	public function ganti()
 	{
 		$this->first_m->ganti();
-		redirect('first');
+		redirect();
 	}
 
 	public function index($p=1)
