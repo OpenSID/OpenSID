@@ -1017,7 +1017,7 @@
 		$buffer = str_replace("[ibu]","\caps $nama_ibu", $buffer);
 		$buffer = str_replace("[darah]","\caps $golongan_darah", $buffer);
 		$buffer = str_replace("[tanggalperkawinan]","\caps $tanggalperkawinan", $buffer);
-		$buffer = str_replace("[tgl_perceraian]","\caps $tanggalperceraian", $buffer);
+		$buffer = str_replace("[tanggalperceraian]","\caps $tanggalperceraian", $buffer);
 
 		$h = $data['desa'];
 		$k = $data['kepala_kk'];
