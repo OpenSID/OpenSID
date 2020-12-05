@@ -228,6 +228,7 @@ class Surat extends Admin_Controller {
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+		$tampil_foto = $this->input->post('tampil_foto');
 		if ($pamong_ttd)
 		{
 			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);
