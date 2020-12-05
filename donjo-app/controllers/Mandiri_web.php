@@ -57,7 +57,6 @@ class Mandiri_web extends Web_Controller
 		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'anjungan_model', 'referensi_model']);
 		$this->load->helper('download');
 		$this->header = $this->header_model->get_data();
-
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 	}
 

@@ -12,13 +12,13 @@
 		return $outp;
 	}
 
-  public function delete($id_permohonan)
-  {
-  	$outp = $this->db->where('id', $id_permohonan)
-  		->delete('permohonan_surat');
-  	if (!$outp)
-  		$this->session->set_userdata('success', -1);
-  }
+	public function delete($id_permohonan)
+	{
+		$outp = $this->db->where('id', $id_permohonan)
+			->delete('permohonan_surat');
+		if (!$outp)
+			$this->session->set_userdata('success', -1);
+	}
 
 	public function update($id_permohonan, $data)
 	{
@@ -194,6 +194,8 @@
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
 		$dok_syarat = array_values($syarat_permohonan);
 		$sql_syarat_permohonan = sql_in_list($dok_syarat);
+
+		if ($sql_syarat_permohonan) $this->db->where_in('id', $sql_syarat_permohonan);
   	$dokumen_kelengkapan = $this->db->select('id, nama')
   		->from('dokumen')
   		->where("id in ($sql_syarat_permohonan)")
@@ -214,4 +216,3 @@
 	}
 
 }
-?>
