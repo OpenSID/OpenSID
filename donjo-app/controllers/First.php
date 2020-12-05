@@ -78,6 +78,7 @@ class First extends Web_Controller {
 		$this->load->model('web_menu_model');
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
+		$this->load->model('suplemen_model');
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('web_widget_model');
@@ -274,6 +275,20 @@ class First extends Web_Controller {
 		$this->_get_common_data($data);
 
 		$this->set_template('layouts/kelompok.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function suplemen($id = 0)
+	{
+		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
+
+		$data = $this->includes;
+
+		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
+		$data['sasaran'] = unserialize(SASARAN);
+
+		$this->_get_common_data($data);
+		$this->set_template('layouts/suplemen.tpl.php');
 		$this->load->view($this->template, $data);
 	}
 

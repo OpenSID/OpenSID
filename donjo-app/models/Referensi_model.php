@@ -85,6 +85,7 @@ define("LINK_TIPE", serialize([
 	'5' => 'Halaman Statis Lainnya',
 	'6' => 'Artikel Keuangan',
 	'7' => 'Kelompok',
+	'9' => 'Data Suplemen',
 	'99' => 'Eksternal'
 ]));
 

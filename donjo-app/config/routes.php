@@ -90,6 +90,8 @@ $route['dokumen_sekretariat'] = "buku_umum/dokumen_sekretariat";
 // Kategori artikel
 $route['artikel/kategori/(:any)'] = 'first/kategori/$1'; // Contoh : Contoh : artikel/kategori/berita-desa
 $route['artikel/kategori/(:any)/(:num)'] = 'first/kategori/$1/$2'; // Contoh : Contoh : artikel/kategori/berita-desa/1
+// Data Suplemen
+$route['data-suplemen/(:num)'] = 'first/suplemen/$1';
 
 $route['index/(:num)'] = 'first/index/$1';
 $route['(:num)'] = 'first/index/$1';
