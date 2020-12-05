@@ -76,6 +76,7 @@
 						<th class="text-center" width="7">No</th>
 						<th class="text-center" width='150'>Status Perkawinan</th>
 						<th class="text-center" width='150'>Tanggal Perkawinan</th>
+						<th class="text-center" width="130">Tanggal Perceraian</th>
 						<th class="text-center" width='240'>Status Hubungan dalam Keluarga</th>
 						<th class="text-center" width='140'>Kewarganegaraan</th>
 						<th class="text-center" width='100'>No. Paspor</th>
@@ -90,6 +91,7 @@
 							<td class="text-center" width="2"><?= $key+1?></td>
 							<td><?= $data['status_kawin']?></td>
 							<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
+							<td class="text-center"><?= tgl_indo_out($data['tanggalperceraian'])?></td>
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= $data['dokumen_pasport']?></td>
