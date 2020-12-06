@@ -196,9 +196,9 @@
 		$sql_syarat_permohonan = sql_in_list($dok_syarat);
 
 		if ($sql_syarat_permohonan) $this->db->where_in('id', $sql_syarat_permohonan);
-  	$dokumen_kelengkapan = $this->db->select('id, nama')
+  	$dokumen_kelengkapan = $this->db
+  		->select('id, nama')
   		->from('dokumen')
-  		->where("id in ($sql_syarat_permohonan)")
   		->get()->result_array();
   	$dok_syarat = array();
   	foreach ($dokumen_kelengkapan as $dok)
