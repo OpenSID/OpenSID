@@ -269,7 +269,6 @@ class Penduduk_model extends MY_Model {
 		$list_data_sql = $this->list_data_sql();
 		$sql = "SELECT COUNT(u.id) AS id ".$list_data_sql;
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query(); exit;
 		$row = $query->row_array();
 		$jml_data = $row['id'];
 
