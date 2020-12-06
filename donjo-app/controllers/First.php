@@ -266,6 +266,7 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['detail'] = $this->kelompok_model->get_kelompok($id);
+		$data['title'] = 'Data Kelompok '. $data['detail']['nama'];
 		$data['pengurus'] = $this->kelompok_model->list_pengurus($id);
 		$data['anggota'] = $this->kelompok_model->list_anggota($id, $sub='anggota');
 
@@ -284,6 +285,7 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
+		$data['title'] = 'Data Suplemen '. $data['main']['suplemen']['nama'];
 		$data['sasaran'] = unserialize(SASARAN);
 
 		$this->_get_common_data($data);
