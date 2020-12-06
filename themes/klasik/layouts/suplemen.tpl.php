@@ -18,7 +18,7 @@
 					<h3 class="box-title"> Data Suplemen - <?= $main['suplemen']['nama']; ?></h3>
 				</div>
 				<div class="box-body">
-					<h3 class="subtitle">Rincian Suplemen</h3>
+					<h3 class="subtitle">Rincian Data Suplemen</h3>
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered dataTable table-hover nowrap">
 							<tbody>

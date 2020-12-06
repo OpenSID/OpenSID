@@ -273,7 +273,6 @@ class First extends Web_Controller {
 		if ($data['detail'] == NULL) show_404();
 
 		$this->_get_common_data($data);
-
 		$this->set_template('layouts/kelompok.tpl.php');
 		$this->load->view($this->template, $data);
 	}
