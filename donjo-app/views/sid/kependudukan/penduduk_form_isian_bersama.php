@@ -60,18 +60,21 @@
 			case '4':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").removeClass('required');
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
 				$("input[name=tanggalperkawinan]").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").addClass('required');
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				break;
 			case '3':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").removeClass('required');
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				break;
@@ -159,7 +162,7 @@
 							<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level']?>">
 						<?php endif; ?>
 						<label for="kk_level">Hubungan Dalam Keluarga</label>
-						<select class="form-control input-sm required" name="kk_level">
+						<select class="form-control input-sm <?= jecho($id_kk, true, 'required'); ?>" name="kk_level">
 							<option value="">Pilih Hubungan Keluarga</option>
 							<?php foreach ($hubungan as $data): ?>
 								<option value="<?= $data['id']?>"<?php selected($penduduk['kk_level'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
@@ -327,7 +330,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="pekerjaan_id">Pekerjaaan</label>
-						<select class="form-control input-sm" name="pekerjaan_id">
+						<select class="form-control input-sm required" name="pekerjaan_id">
 							<option value="">Pilih Pekerjaan</option>
 							<?php foreach ($pekerjaan as $data): ?>
 								<option value="<?= $data['id']?>" <?php selected($penduduk['pekerjaan_id'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
