@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 2. #3615: Teruskan penghapusan 'first' dari panggilan modul web dan layanan mandiri. [teknis]
 3. #3793: Sesuaikan cetak Kartu Keluarga dengan format baru dari Disdukcapil.
 4. #3798: Sekarang tidak error pada saat operator memeriksa permohonan surat layanan mandiri yg tidak memiliki syarat. [bug-fix]
+5. #3804: Sekarang garis miring tidak tampil pada pilihan nama yang berisi tanda kutip di form surat. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
