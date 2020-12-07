@@ -147,6 +147,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
 										<?php endforeach; ?>
 									</select>
+									<select id="suplemen" class="form-control input-sm jenis_link required" name="<?= jecho($submenu['link_tipe'], 9, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 9) and print('display:none;'); ?>">
+										<option value="">Pilih Suplemen</option>
+										<?php foreach ($suplemen as $sup): ?>
+											<option value="<?= "data-suplemen/$sup[id]"; ?>" <?= selected($submenu['link'], "data-suplemen/$sup[id]") ?>><?= $sup['nama']; ?></option>
+										<?php endforeach; ?>
+									</select>
 									<span id="eksternal" class="jenis_link" style="<?php ($submenu['link_tipe'] != 99) and print('display:none;'); ?>">
 										<input name="<?= jecho($submenu['link_tipe'], 99, 'link'); ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
 										<span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
@@ -204,6 +210,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#kategori_artikel').show();
 			$('#kategori_artikel').attr('name', 'link');
 			$('#kategori_artikel').addClass('required');
+		} else if (jenis == '9') {
+			$('#suplemen').show();
+			$('#suplemen').attr('name', 'link');
+			$('#suplemen').addClass('required');
 		} else if (jenis == '99') {
 			$('#eksternal').show();
 			$('#eksternal > input').show();

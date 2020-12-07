@@ -95,16 +95,19 @@ $route['index/(:num)'] = 'first/index/$1';
 $route['(:num)'] = 'first/index/$1';
 $route['arsip'] = 'first/arsip';
 $route['arsip/(:num)'] = 'first/arsip/$1';
-$route['peraturan_desa'] = 'first/peraturan_desa';
-$route['data_analisis'] = 'first/data_analisis';
-$route['data_analisis/(.+)'] = 'first/data_analisis/$1';
 $route['add_comment/(:any)'] = 'first/add_comment/$1';
 $route['ambil_data_covid'] = 'first/ambil_data_covid';
-$route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_apbdes'] = 'first/load_apbdes';
-$route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 $route['logout'] = 'first/logout';
 $route['ganti'] = 'first/ganti';
 $route['auth'] = 'first/auth';
-$route['peta'] = 'first/peta';
+
+// Halaman statis
+$route['data-suplemen/(:num)'] = 'first/suplemen/$1';
 $route['informasi_publik'] = 'first/informasi_publik';
+$route['peraturan_desa'] = 'first/peraturan_desa';
+$route['data_analisis'] = 'first/data_analisis';
+$route['data_analisis/(.+)'] = 'first/data_analisis/$1';
+$route['peta'] = 'first/peta';
+$route['load_aparatur_desa'] = 'first/load_aparatur_desa';
+$route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
