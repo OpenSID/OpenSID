@@ -578,7 +578,7 @@ class Penduduk extends Admin_Controller {
 					$this->session->status_ktp = $nomor;
 				}
 
-				$kategori = "KEPEMILIKAN WAJIB KTP";
+				$kategori = "KEPEMILIKAN WAJIB KTP : ";
 				break;
 		}
 
