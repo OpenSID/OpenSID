@@ -112,9 +112,10 @@
 		$penduduk = array();
 		foreach($data as $row)
 		{
-			$nama = addslashes($row['nama']);
+			$nama = $row['nama'];
 			$alamat = addslashes("Alamat: RT-{$row['rt']}, RW-{$row['rw']} {$row['dusun']}");
-			$info_pilihan_penduduk = "NIK/Tag ID Card : {$row['nik']}/{$row['tag_id_card']} - {$nama}\n{$alamat}";
+			$tag_id = empty($row['tag_id_card']) ? '' : '/' . $row['tag_id_card'];
+			$info_pilihan_penduduk = "NIK/Tag ID Card : {$row['nik']}{$tag_id} - {$nama}\n{$alamat}";
 			$penduduk[] = array('id' => $row['id'], 'text' => $info_pilihan_penduduk);
 		}
 
@@ -221,7 +222,7 @@
 		WHERE u.id = ?";
 		$query = $this->db->query($sql, $id);
 		$data  = $query->row_array();
-		$data['nama'] = addslashes($data['nama']);
+		$data['nama'] = $data['nama'];
 		$data['alamat_wilayah']= $this->get_alamat_wilayah($data);
 		return $data;
 	}
