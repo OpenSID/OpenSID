@@ -218,13 +218,16 @@ class Penduduk_model extends MY_Model {
 		if (isset($_SESSION['status_ktp']))
 		{
 			$kf = $_SESSION['status_ktp'];
-			if ($kf == BELUM_MENGISI)
+			if (in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL]))
+			{
 				$sql = $wajib_ktp_sql." AND (u.status_rekam IS NULL OR u.status_rekam = '')";
+			} 
 			else
 			{
 				if ($kf <> 0)
 				{
 					$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
+					
 					$status_rekam = $status_ktp['status_rekam'];
 					$sql = $wajib_ktp_sql." AND u.status_rekam = $status_rekam";
 				}
@@ -234,7 +237,7 @@ class Penduduk_model extends MY_Model {
 					$sql = $wajib_ktp_sql;
 				}
 			}
-		return $sql;
+			return $sql;
 		}
 	}
 
