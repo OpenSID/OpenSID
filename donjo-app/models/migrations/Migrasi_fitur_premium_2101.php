@@ -51,7 +51,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		$hasil = true;
 
 		// Tambahkan key sebutan_nip_desa
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa','NIPD','Pengganti sebutan label niap/nipd')
+		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
 
 		status_sukses($hasil);

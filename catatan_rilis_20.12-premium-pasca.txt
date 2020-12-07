@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 Fitur Premium:
 1. #3794: Sediakan opsi untuk menampilkan foto penduduk di dalam surat keterangan.
 2. #3802: Sekarang data suplemen bisa ditampilkan di web melalui menu statis.
+3. #3803: Kembalikan setting aplikasi sebutan_nip_desa yg terhapus saat migrasi dari rilis umum ke rilis premium. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

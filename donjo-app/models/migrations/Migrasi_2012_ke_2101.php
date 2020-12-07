@@ -50,7 +50,7 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		$hasil = true;
 
 		// Migrasi fitur premium
-  	$daftar_migrasi_premium = ['2012', '2101'];
+  	$daftar_migrasi_premium = ['2009', '2010', '2011', '2012', '2101'];
   	foreach ($daftar_migrasi_premium as $migrasi)
   	{
   		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
