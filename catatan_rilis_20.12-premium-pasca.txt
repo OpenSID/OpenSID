@@ -11,6 +11,7 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 5. #3804: Sekarang garis miring tidak tampil pada pilihan nama yang berisi tanda kutip di form surat. [bug-fix]
 6. #3805: Sekarang daftar penduduk dari baris JUMLAH dan TOTAL di statistik Kepemilikan KTP tampil tanpa error. [bug-fix]
 7. #3715: Di form data penduduk, sekarang kolom isian yg wajib diisi disesuaikan dengan data yg ada di kartu keluarga dan KTP.
+8. #3815: Jadikan tema natra sebagai tema bawaan sistem menggantikan tema hadakewa.
 
 
 Fitur Premium:
