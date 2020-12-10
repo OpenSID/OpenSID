@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 6. #3805: Sekarang daftar penduduk dari baris JUMLAH dan TOTAL di statistik Kepemilikan KTP tampil tanpa error. [bug-fix]
 7. #3715: Di form data penduduk, sekarang kolom isian yg wajib diisi disesuaikan dengan data yg ada di kartu keluarga dan KTP.
 8. #3815: Jadikan tema natra sebagai tema bawaan sistem menggantikan tema hadakewa.
+9. #3818: Sekarang daftar permohonan surat pada admin layanan mandiri dapat diurut berdasarkan waktu masuk.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
