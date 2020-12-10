@@ -103,7 +103,7 @@
 		{
 			case 1: $order_sql = ' ORDER BY u.updated_at'; break;
 			case 2: $order_sql = ' ORDER BY u.updated_at DESC'; break;
-			default:$order_sql = ' ORDER BY u.updated_at';
+			default:$order_sql = ' ORDER BY u.updated_at DESC';
 		}
 
 		//Paging SQL
