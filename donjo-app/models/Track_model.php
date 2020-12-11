@@ -62,6 +62,8 @@
      "lat" => $config['lat'],
      "lng" => $config['lng'],
      "alamat_kantor" => $config['alamat_kantor'],
+     "email_desa" => $config['email_desa'],
+     "telepon" => $config['telepon'],
      "url" => current_url(),
      "ip_address" => $_SERVER['SERVER_ADDR'],
      "external_ip" => get_external_ip(),
