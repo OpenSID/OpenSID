@@ -84,6 +84,7 @@ class Permohonan_surat extends Web_Controller {
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
+		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['views_partial_layout'] = "surat/form_surat.php";
 		$data['data'] = $data;
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
