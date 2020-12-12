@@ -60,7 +60,7 @@ class Data_persil extends Admin_Controller {
 		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
-		$this->list_session = ['cari'];
+		$this->list_session = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
 	}
 
 	public function clear()
@@ -87,7 +87,44 @@ class Data_persil extends Admin_Controller {
 		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
-		$data['cari'] = htmlentities($_SESSION['cari']) ?: '';
+		foreach ($this->list_session as $list)
+		{
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '';
+		}
+
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->data_persil_model->list_rw($dusun);
+
+			if (isset($rw))
+			{
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->data_persil_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
+				else $data['rt'] = '';
+			}
+			else $data['rw'] = '';
+		}
+		else
+		{
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+		}
+
+		if (isset($data['tipe']))
+		{
+			$data['list_kelas'] = $this->data_persil_model->list_kelas($data['tipe']);
+		}
+		else
+		{
+			$data['list_kelas'] = '';
+		}
+
 		$this->session->per_page = $this->input->post('per_page') ?: null;
 		$data['per_page'] = $this->session->per_page;
 
@@ -98,6 +135,7 @@ class Data_persil extends Admin_Controller {
 		$data["persil"] = $this->data_persil_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
+		$data['list_dusun'] = $this->data_persil_model->list_dusun();
 
 		$this->render('data_persil/persil', $data);
 	}
@@ -191,6 +229,20 @@ class Data_persil extends Admin_Controller {
 			$data[] = array('id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']);
 		}
 		echo json_encode($data);
+	}
+
+	public function filter($filter)
+	{
+		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
+		if ($filter == "rw") $this->session->unset_userdata("rt");
+		if ($filter == "tipe") $this->session->unset_userdata("kelas");
+		if ($filter == "lokasi") $this->session->unset_userdata(["dusun", "rw", "rt"]);
+
+		$value = $this->input->post($filter);
+		if ($value != "")
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
+		redirect('data_persil');
 	}
 }
 
