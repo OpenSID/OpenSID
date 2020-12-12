@@ -236,7 +236,7 @@ class Data_persil extends Admin_Controller {
 		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
 		if ($filter == "rw") $this->session->unset_userdata("rt");
 		if ($filter == "tipe") $this->session->unset_userdata("kelas");
-		if ($filter == "lokasi") $this->session->unset_userdata("dusun");
+		if ($filter == "lokasi") $this->session->unset_userdata(["dusun", "rw", "rt"]);
 
 		$value = $this->input->post($filter);
 		if ($value != "")

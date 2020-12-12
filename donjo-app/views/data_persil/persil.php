@@ -102,17 +102,11 @@
 													<form id="mainform" name="mainform" action="" method="post">
 														<div class="row">
 															<div class="col-sm-9">
-																<select class="form-control input-sm" name="lokasi" onchange="formAction('mainform', '<?= site_url("{$this->controller}/filter/lokasi"); ?>')">
-																	<option value="">Tipe Lokasi</option>
-																	<option value="1" <?php selected($lokasi, "1") ?>>Dalam Desa</option>
-																	<option value="2" <?php selected($lokasi, "2") ?>>Luar Desa</option>
-																</select>
 																<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url("{$this->controller}/filter/tipe"); ?>')">
 																	<option value="">Tipe Tanah</option>
 																	<option value="BASAH" <?php selected($tipe, "BASAH") ?>>Tanah Basah</option>
 																	<option value="KERING" <?php selected($tipe, "KERING") ?>>Tanah Kering</option>
 																</select>
-
 																<?php if ($tipe): ?>
 																	<select class="form-control input-sm" name="kelas" onchange="formAction('mainform','<?= site_url("{$this->controller}/filter/kelas"); ?>')" >
 																		<option value="">Kelas Tanah</option>
@@ -121,7 +115,11 @@
 																		<?php endforeach;?>
 																	</select>
 																<?php endif; ?>
-
+																<select class="form-control input-sm" name="lokasi" onchange="formAction('mainform', '<?= site_url("{$this->controller}/filter/lokasi"); ?>')">
+																	<option value="">Tipe Lokasi</option>
+																	<option value="1" <?php selected($lokasi, "1") ?>>Dalam Desa</option>
+																	<option value="2" <?php selected($lokasi, "2") ?>>Luar Desa</option>
+																</select>
 																<?php if ($lokasi === '1'): ?>
 																	<?php $this->load->view('global/filter_wilayah', ['form' => 'mainform']); ?>
 																<?php endif; ?>
