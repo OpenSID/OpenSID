@@ -49,18 +49,19 @@ class Migrasi_2012_ke_2101 extends MY_model {
 	{
 		$hasil = true;
 
-		// Tambahkan key sebutan_nip_desa
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri aktif atau noaktif', 'option-kode')
-			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
-		$setting_id = $this->db->insert_id();
-		$hasil =& $this->db
-			->insert_batch('setting_aplikasi_options',
-				[
-					['id_setting' => $setting_id, 'kode' => '1', 'value' => 'Aktif'],
-					['id_setting' => $setting_id, 'kode' => '0', 'value' => 'Nonaktif']
-			]
-		);
+		// Tambah menu Layanan Mandiri > Pengaturan
+		$query = "
+			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
+			('314', 'Pengaturan', 'setting/mandiri', '1', 'fa-gear', '6', '2', '14', '0', 'fa-gear')
+			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
+		";
+		$this->db->query($query);
+
+		// Tambahkan key layanan_mandiri
+		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri_mode', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
+			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
 		status_sukses($hasil);
 	}
+
 }
