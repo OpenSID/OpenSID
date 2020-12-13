@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.12-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Yonathan Rizky, Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 
@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 8. #3815: Jadikan tema natra sebagai tema bawaan sistem menggantikan tema hadakewa.
 9. #3818: Sekarang daftar permohonan surat pada admin layanan mandiri dapat diurut berdasarkan waktu masuk.
 10. Sekarang di permohonan surat layanan mandiri, masa berlaku tampil benar. [bug-fix]
+11. #3550: Sekarang bisa saring daftar persil berdasarkan kelas dan lokasi tanah.
 
 
 Fitur Premium:

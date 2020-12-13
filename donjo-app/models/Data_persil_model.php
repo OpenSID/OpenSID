@@ -65,6 +65,132 @@ class Data_persil_model extends MY_Model {
 		}
 	}
 
+	// Filter kelas tanah
+	private function filter_kelas()
+	{
+		if (isset($this->session->tipe))
+		{
+			$tipe = $this->session->tipe;
+
+			if ($tipe == "BASAH")
+			{
+				$this->db->where("p.kelas BETWEEN 1 AND 4");
+			}
+			else
+			{
+				$this->db->where("p.kelas BETWEEN 5 AND 8");
+			}
+		}
+		if (isset($this->session->kelas))
+		{
+			$kelas = $this->session->kelas;
+			$this->db->where("p.kelas = $kelas");
+		}
+	}
+
+	// Filter lokasi luar/dalam desa
+	private function filter_lokasi()
+	{
+		if (isset($this->session->lokasi))
+		{
+			$lokasi = $this->session->lokasi;
+			if ($lokasi == "2")
+			{
+				$this->db->where("p.id_wilayah IS NULL");
+			}
+			else
+			{
+				$this->db->where("p.id_wilayah IS NOT NULL");
+			}
+		}
+	}
+
+	// Filter wilayah
+	private function filter_wilayah()
+	{
+		if (isset($this->session->dusun))
+		{
+			$dusun = $this->session->dusun;
+			{
+				$this->db->where("w.dusun = '$dusun'");
+			}
+		}
+		if (isset($this->session->rw))
+		{
+			$rw = $this->session->rw;
+			$this->db->where("w.rw = '$rw'");
+		}
+		if (isset($this->session->rt))
+		{
+			$rt = $this->session->rt;
+			$this->db->where("w.rt = '$rt'");
+		}
+	}
+
+	//list pada data select
+	public function list_kelas($tipe='')
+	{
+		$this->db
+			->distinct()
+			->select('k.id, k.kode')
+			->from('persil p')
+			->join('ref_persil_kelas k', 'k.id = p.kelas', 'left')
+			->where("tipe = '$tipe'");
+
+		$data = $this->db
+			->get()
+			->result_array();
+		return $data;
+	}
+
+	//list pada data select
+	public function list_dusun()
+	{
+		$this->db
+			->distinct()
+			->select('w.dusun')
+			->from('persil p')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
+			->where("w.dusun IS NOT NULL");
+		$this->filter_kelas();
+
+		$data = $this->db
+			->get()
+			->result_array();
+		return $data;
+	}
+
+	//list pada data select
+	public function list_rw($dusun='')
+	{
+		$data = $this->db
+			->distinct()
+			->select('w.rw')
+			->from('persil p')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
+			->where("w.dusun IS NOT NULL")
+			->where('dusun', $dusun)
+			->get()
+			->result_array();
+		return $data;
+	}
+
+	//list pada data select
+	public function list_rt($dusun='', $rw='')
+	{
+		$data = $this->db
+			->distinct()
+			->select('w.rt')
+			->from('persil p')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
+			->where("w.dusun IS NOT NULL")
+			->where('dusun', $dusun)
+			->where('rw', $rw)
+			->get()
+			->result_array();
+		return $data;
+	}
+
 	public function paging($p=1)
 	{
 		$this->main_sql();
@@ -87,6 +213,9 @@ class Data_persil_model extends MY_Model {
 			->join('mutasi_cdesa m', 'p.id = m.id_persil', 'left')
 			->join('cdesa c', 'c.id = p.cdesa_awal', 'left')
 			->group_by('p.id, nomor_urut_bidang');
+		$this->filter_kelas();
+		$this->filter_lokasi();
+		$this->filter_wilayah();
 		$this->search_sql();
 	}
 
