@@ -65,13 +65,13 @@ class Data_persil_model extends MY_Model {
 		}
 	}
 
-	//filter pada data tabel
-	private function filter_tipe()
+	// Filter kelas tanah
+	private function filter_kelas()
 	{
 		if (isset($this->session->tipe))
 		{
 			$tipe = $this->session->tipe;
-			
+
 			if ($tipe == "BASAH")
 			{
 				$this->db->where("p.kelas BETWEEN 1 AND 4");
@@ -81,11 +81,6 @@ class Data_persil_model extends MY_Model {
 				$this->db->where("p.kelas BETWEEN 5 AND 8");
 			}
 		}
-	}
-
-	//filter pada data tabel
-	private function filter_kelas()
-	{
 		if (isset($this->session->kelas))
 		{
 			$kelas = $this->session->kelas;
@@ -93,7 +88,7 @@ class Data_persil_model extends MY_Model {
 		}
 	}
 
-	//filter pada data tabel
+	// Filter lokasi luar/dalam desa
 	private function filter_lokasi()
 	{
 		if (isset($this->session->lokasi))
@@ -105,13 +100,13 @@ class Data_persil_model extends MY_Model {
 			}
 			else
 			{
-				$this->db->where("p.id_wilayah IS NOT NULL");	
+				$this->db->where("p.id_wilayah IS NOT NULL");
 			}
 		}
 	}
 
-	//filter pada data tabel
-	private function filter_dusun()
+	// Filter wilayah
+	private function filter_wilayah()
 	{
 		if (isset($this->session->dusun))
 		{
@@ -120,21 +115,11 @@ class Data_persil_model extends MY_Model {
 				$this->db->where("w.dusun = '$dusun'");
 			}
 		}
-	}
-
-	//filter pada data tabel
-	private function filter_rw()
-	{
 		if (isset($this->session->rw))
 		{
 			$rw = $this->session->rw;
 			$this->db->where("w.rw = '$rw'");
 		}
-	}
-
-	//filter pada data tabel
-	private function filter_rt()
-	{
 		if (isset($this->session->rt))
 		{
 			$rt = $this->session->rt;
@@ -161,26 +146,26 @@ class Data_persil_model extends MY_Model {
 	//list pada data select
 	public function list_dusun()
 	{
-		
 		$this->db
-			->select('w.dusun, w.rw, w.rt')
+			->distinct()
+			->select('w.dusun')
 			->from('persil p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
 			->where("w.dusun IS NOT NULL");
 		$this->filter_kelas();
-		$this->filter_tipe();
 
 		$data = $this->db
 			->get()
 			->result_array();
 		return $data;
 	}
-	
+
 	//list pada data select
 	public function list_rw($dusun='')
 	{
 		$data = $this->db
-			->select('w.dusun, w.rw, w.rt')
+			->distinct()
+			->select('w.rw')
 			->from('persil p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
 			->where("w.dusun IS NOT NULL")
@@ -194,7 +179,8 @@ class Data_persil_model extends MY_Model {
 	public function list_rt($dusun='', $rw='')
 	{
 		$data = $this->db
-			->select('w.dusun, w.rw, w.rt')
+			->distinct()
+			->select('w.rt')
 			->from('persil p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
 			->where("w.dusun IS NOT NULL")
@@ -227,12 +213,9 @@ class Data_persil_model extends MY_Model {
 			->join('mutasi_cdesa m', 'p.id = m.id_persil', 'left')
 			->join('cdesa c', 'c.id = p.cdesa_awal', 'left')
 			->group_by('p.id, nomor_urut_bidang');
-		$this->filter_tipe();
 		$this->filter_kelas();
 		$this->filter_lokasi();
-		$this->filter_dusun();
-		$this->filter_rw();
-		$this->filter_rt();
+		$this->filter_wilayah();
 		$this->search_sql();
 	}
 
