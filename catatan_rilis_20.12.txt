@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.12-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Yonathan Rizky, Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 
