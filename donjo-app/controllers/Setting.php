@@ -93,7 +93,20 @@ class Setting extends Admin_Controller {
 
 		$data['judul'] = 'Pengaturan Halaman Web';
 		$data['list_setting'] = 'list_setting_web';
-		$this->setting_model->load_options();
+		//$this->setting_model->load_options(); // Digunakan apabila jenis = option-value atau option-kode
+
+		$this->render('setting/setting_form', $data);
+	}
+
+	/* Pengaturan mandiri */
+	public function mandiri()
+	{
+		$this->modul_ini = 14;
+		$this->sub_modul_ini = 314;
+
+		$data['judul'] = 'Pengaturan Layanan Mandiri';
+		$data['list_setting'] = 'list_setting_mandiri';
+		//$this->setting_model->load_options(); // Digunakan apabila jenis = option-value atau option-kode
 
 		$this->render('setting/setting_form', $data);
 	}

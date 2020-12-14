@@ -49,7 +49,7 @@ class Mailbox_web extends Web_Controller
 		$this->load->model('mandiri_model');
 		$this->load->model('config_model');
 
-		if ($this->session->mandiri != 1) redirect();
+		if ($this->session->mandiri != 1 OR $this->setting->layanan_mandiri == 0) redirect();
 	}
 
 	public function index()
