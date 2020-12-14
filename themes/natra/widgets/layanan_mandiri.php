@@ -133,3 +133,4 @@
 		}
 	}
 ?>
+<?php $this->load->view('head_tags_front') ?>

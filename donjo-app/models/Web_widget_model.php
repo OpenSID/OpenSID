@@ -48,7 +48,7 @@
 
 	public function get_widget_aktif()
 	{
-		if($this->setting->layanan_mandiri == 0) $this->db->where('isi !=', 'layanan_mandiri.php');
+		if ($this->setting->layanan_mandiri == 0) $this->db->where('isi !=', 'layanan_mandiri.php');
 
 		$data = $this->db->where('enabled', 1)
 			->order_by('urut')

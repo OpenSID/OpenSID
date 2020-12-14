@@ -40,7 +40,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Permohonan_surat extends Web_Controller {
+class Permohonan_surat extends Mandiri_Controller {
 
 	public function __construct()
 	{
@@ -53,8 +53,6 @@ class Permohonan_surat extends Web_Controller {
 		$this->load->model('referensi_model');
 		$this->load->model('penomoran_surat_model');
 		$this->load->model('permohonan_surat_model');
-
-		if ($this->session->mandiri != 1 OR $this->setting->layanan_mandiri == 0) redirect();
 	}
 
 	public function form($id_permohonan='')
