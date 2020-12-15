@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mandiri_web extends Web_Controller
+class Mandiri_web extends Mandiri_Controller
 {
 	private $cek_anjungan;
 	private $header;

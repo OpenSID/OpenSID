@@ -40,7 +40,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Permohonan_surat extends Web_Controller {
+class Permohonan_surat extends Mandiri_Controller {
 
 	private $cek_anjungan;
 
