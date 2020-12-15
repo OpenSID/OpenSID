@@ -108,6 +108,54 @@ class Database extends Admin_Controller {
 		$this->load->view('database/database.tpl.php', $data);
 	}
 
+	public function sinkronasi_opendk()
+	{
+		$data['form_action'] = site_url("database/sinkronasi_db_opendk");
+
+		$data['act_tab'] = 7;
+		$data['content'] = 'database/sinkronasi_opendk';
+		$this->load->view('database/database.tpl.php', $data);
+	}
+
+	public function sinkronasi_db_opendk()
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk",
+			// Jika http gunakan url ini :
+			//CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk?token=".$this->setting->api_opendk_key,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => json_encode($this->export_model->get_penduduk_sinkronasi_opendk()),
+			CURLOPT_HTTPHEADER => array(
+				'Accept: application/json',
+				'Content-Type: application/json',
+				"Authorization: Bearer {$this->setting->api_opendk_key}",
+			),
+		));
+
+		$response = curl_exec($curl);
+		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		if (curl_errno($curl) || $http_code === 422) {
+			$_SESSION['response'] = $response;
+			$_SESSION['success'] = -1;
+		} else {
+			$_SESSION['response'] = $response;
+			$_SESSION['success'] = 1;
+		}
+
+		curl_close($curl);
+
+		redirect('database/sinkronasi_opendk');
+	}
+
 	public function backup()
 	{
 		$data['form_action'] = site_url("database/restore");
