@@ -55,5 +55,32 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
 
 		status_sukses($hasil);
+
+		$key = ['api_opendk_server', 'api_opendk_key', 'api_opendk_user', 'api_opendk_password'];
+
+		if (! in_array($key, $this->db->list_fields('setting_aplikasi'))) {
+			$this->db->insert_batch('setting_aplikasi', [
+				[
+					'key' => 'api_opendk_server',
+					'value' => '',
+					'keterangan' => 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)',
+				],
+				[
+					'key' => 'api_opendk_key',
+					'value' => '',
+					'keterangan' => 'OpenDK API Key untuk Sinkronisasi Data',
+				],
+				[
+					'key' => 'api_opendk_user',
+					'value' => '',
+					'keterangan' => 'Email Login Pengguna OpenDK',
+				],
+				[
+					'key' => 'api_opendk_password',
+					'value' => '',
+					'keterangan' => 'Password Login Pengguna OpenDK',
+				],
+			]);
+		}
 	}
 }
