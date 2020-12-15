@@ -243,7 +243,12 @@ class Suplemen extends Admin_Controller {
 			$data['aksi'] = $aksi;
 			$this->session->per_page = $temp;
 
-			$this->load->view('suplemen/cetak', $data);
+			//pengaturan data untuk format cetak/ unduh
+			$data['file'] = "Laporan Suplemen ".$data['suplemen']['nama'];
+			$data['isi'] = "suplemen/cetak";
+			$data['letak_ttd'] = ['2', '2', '3'];
+
+			$this->load->view('global/format_cetak', $data);
 		}
 	}
 
