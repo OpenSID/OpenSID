@@ -371,10 +371,19 @@
 		->get()
 		->result_array();
 
+		$data_hapus = $this->db->select([
+		  "CONCAT('{$kode_desa}') as desa_id",
+			'p.nik',
+		])
+		->from('tweb_penduduk p')
+		->get()
+		->result_array();
+
 		return [
 			'penduduk' => $data,
 			// TODO: List hapus penduduk dari soft delete.
-			// 'hapus_penduduk' => '',
+			// hapus penduduk sesuai perubahan di tabel tweb_penduduk
+			'hapus_penduduk' => $data_hapus,
 		];
 	}
 }
