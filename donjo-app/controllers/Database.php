@@ -253,7 +253,8 @@ class Database extends Admin_Controller {
 
 
 				$file_foto = LOKASI_USER_PICT . $row->foto;
-				if (is_file($file_foto)) {
+				if (is_file($file_foto))
+				{
 					$this->zip->read_file($file_foto);
 				}
 
