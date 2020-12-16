@@ -51,6 +51,7 @@ class Database extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->dbforge();
+		$this->load->library('zip');
 		$this->load->model(['import_model', 'export_model', 'database_model']);
 
 		$this->modul_ini = 11;
@@ -135,13 +136,15 @@ class Database extends Admin_Controller {
 		$tgl =  date('d_m_Y');
 		if ($opendk)
 		{
-			$fileName = 'penduduk_'.$tgl.'_opendk.xlsx';
+			$lokasi = LOKASI_DOKUMEN . 'penduduk_' . $tgl . '_opendk.xlsx';
+			$writer->openToFile($lokasi);
 		}
 		else
 		{
-			$fileName = 'penduduk_'.$tgl.'.xlsx';
+			$fileName = 'penduduk_' . $tgl . '.xlsx';
+			$writer->openToBrowser($fileName); // stream data directly to the browser
 		}
-		$writer->openToBrowser($fileName); // stream data directly to the browser
+
 		//Header Tabel
 		$daftar_kolom = [
 			['Alamat', 'alamat'],
@@ -186,6 +189,7 @@ class Database extends Admin_Controller {
 			$judul = array_column($daftar_kolom, 1);
 			// Kolom tambahan khusus OpenDK
 			$judul[] = 'id';
+			$judul[] = 'foto';
 			$judul[] = 'status_dasar';
 			$judul[] = 'created_at';
 			$judul[] = 'updated_at';
@@ -241,13 +245,27 @@ class Database extends Admin_Controller {
 					$row->status_rekam,
 					$row->alamat_sekarang,
 					$row->id,
+					$row->foto,
 					$row->status_dasar,
 					$row->created_at,
-					$row->updated_at
+					$row->updated_at,
 				);
+
+
+				$file_foto = LOKASI_USER_PICT . $row->foto;
+				if (is_file($file_foto))
+				{
+					$this->zip->read_file($file_foto);
+				}
+
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
 			}
+
+			$writer->close();
+			$this->zip->read_file($lokasi);
+			unlink($lokasi);
+			$this->zip->download('penduduk_' . $tgl . '_opendk.zip');
 		}
 		else
 		{
@@ -294,9 +312,10 @@ class Database extends Admin_Controller {
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
 			}
+			$writer->close();
 		}
 
-		$writer->close();
+		redirect('database');
 	}
 
 	public function export_dasar()
@@ -344,8 +363,6 @@ class Database extends Admin_Controller {
 
 	public function desa_backup()
 	{
-		$this->load->library('zip');
-
 		$backup_folder = FCPATH.'desa/'; // Folder yg akan di backup
 		$this->zip->read_dir($backup_folder, FALSE);
 		$this->zip->download('backup_folder_desa_'.date('Y_m_d').'.zip');
