@@ -201,7 +201,7 @@ class Mandiri_Controller extends MY_Controller {
 		$this->header = $this->header_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
-		if ($this->session->mandiri != 1 && $this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
+		if ($this->session->mandiri != 1) redirect();
 	}
 
 }
