@@ -132,13 +132,19 @@
 	          <th>Syarat</th>
 	          <th>Dokumen Melengkapi Syarat</th>
 	        </tr>
-	        <?php $no = 1; foreach ($syarat_permohonan as $syarat): ?>
-	          <tr>
-	            <td align="center" width="2"><?= $no;?></td>
-	            <td><?= $syarat['ref_syarat_nama']?></td>
-	            <td><a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a></td>
-	          </tr>
-          <?php $no++; endforeach; ?>
+					<?php if($syarat_permohonan): ?>
+		        <?php $no = 1; foreach ($syarat_permohonan as $syarat): ?>
+		          <tr>
+		            <td align="center" width="2"><?= $no;?></td>
+		            <td><?= $syarat['ref_syarat_nama']?></td>
+		            <td><a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a></td>
+		          </tr>
+	          <?php $no++; endforeach; ?>
+					<?php else: ?>
+						<tr>
+							<td class="text-center" colspan="9">Data Tidak Tersedia</td>
+						</tr>
+					<?php endif; ?>
 	      </table>
 	    </div>
 	  </div>

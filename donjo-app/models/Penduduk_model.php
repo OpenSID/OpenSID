@@ -213,29 +213,32 @@ class Penduduk_model extends MY_Model {
 
 	protected function status_ktp_sql()
 	{
+		if ( ! $this->session->status_ktp) return;
+
 		// Filter berdasarkan data eKTP
 		$wajib_ktp_sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) ";
-		if (isset($_SESSION['status_ktp']))
+
+		$kf = $this->session->status_ktp;
+		switch (true)
 		{
-			$kf = $_SESSION['status_ktp'];
-			if ($kf == BELUM_MENGISI)
+			case ($kf == BELUM_MENGISI):
 				$sql = $wajib_ktp_sql." AND (u.status_rekam IS NULL OR u.status_rekam = '')";
-			else
-			{
-				if ($kf <> 0)
-				{
-					$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
-					$status_rekam = $status_ktp['status_rekam'];
-					$sql = $wajib_ktp_sql." AND u.status_rekam = $status_rekam";
-				}
-				else
-				{
-					// TOTAL hanya yang wajib KTP
-					$sql = $wajib_ktp_sql;
-				}
-			}
-		return $sql;
+				break;
+			case ($kf == JUMLAH):
+				$sql = $wajib_ktp_sql." AND u.status_rekam IS NOT NULL AND u.status_rekam <> ''";
+				break;
+			case ($kf == TOTAL):
+				// TOTAL hanya yang wajib KTP
+				$sql = $wajib_ktp_sql;
+				break;
+			case ($kf <> 0):
+				$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
+				$status_rekam = $status_ktp['status_rekam'];
+				$sql = $wajib_ktp_sql." AND u.status_rekam = $status_rekam";
+				break;
+			default:
 		}
+		return $sql;
 	}
 
 	public function get_alamat_wilayah($id)

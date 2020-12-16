@@ -1,31 +1,23 @@
-Di rilis ini, versi 20.12 tersedia tampilan notifikasi pesan baru bagi pengguna di Layanan Mandiri. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 20.12-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Zeppy Shiddiq, Nopezi Saputra, Agung Sugiarto dan Yonathan Rizky yang terus berkontribusi.
+Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.12 adalah sebagai berikut:
+Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 
-1. Perbaiki kode desa/kecamatan/kabupaten yang ditampilkan di beberapa lampiran surat. [bug-fix]
-2. #3721: Tampilkan sebutan desa dan dusun di halaman Calon Pemilih, statistik Wilayah dan menu untuk menampilkan desa dan dusun di peta. [bug-fix]
-3. #2097: Menu statis sekarang dapat menampilkan kategori artikel dinamis.
-4. #3726: Sekarang data desa kembali tampil di laporan biodata penduduk. [bug-fix]
-5. #3722: Tampilkan jumlah RW di halaman statis Wilayah Administratif.
-6. #3740: Perbaiki nomor Rumah Tangga kembali menggunakan awalan kode desa saja. [bug-fix]
-7. Di Layanan Mandiri, sekarang pilihan dokumen kelengkapan dibatasi sesuai dengan jenis dokumen yang diperlukan.
-8. Tampilkan Jenis Dokumen di tabel dokumen kelengkapan penduduk di Layanan Mandiri dan di Admin.
-9. Sekarang jenis dokumen dapat diisi di form Penduduk > Dokumen.
-10. #1763: Sekarang bisa ubah masa berlaku default untuk setiap jenis surat layanan.
-11. #3735: Sekarang persyaratan permohonan surat bisa dikosongkan, dan juga hanya terisi apabila surat disediakan di layanan mandiri. [bug-fix]
-12. #3755: Sekarang feed RSS OpenSID kembali normal. [bug-fix]
-13. #3736: Sediakan tombol Kembali ke Atas di tampilan web.
-14. Kirim token ke TrackSID sebagai verifikasi OpenSID valid. [teknis]
-15. Sekarang impor data Rumah Tangga melaporkan error kepala Rumah Tangga ganda, dan jika terjadi menghapus rumah tangga secara konsisten. [bug-fix]
-16. #3186: Di Layanan Mandiri, tampilkan notifikasi pesan baru bagi pengguna.
-17. #3767: Perbaiki judul tab browser modul web mengutamakan keterangan isi halaman.
-18. #3771: Sekarang tampilan case huruf Romawi bagian dari teks judul atau nama dusun tidak diubah.
-19. #3758: Sekarang sitemap.xml tampil benar kembali. [bug-fix]
-20. Sesuaikan baris header ekspor data penduduk untuk OpenDK di Pengaturan > Database.
-21. #3761: Munculkan semua artikel dinamis pada saat membuka Admin Web > Artikel.
+1. #3762: Sekarang judul artikel di tampilan web tema hadakewa tidak lagi default huruf besar semua.
+2. #3615: Teruskan penghapusan 'first' dari panggilan modul web dan layanan mandiri. [teknis]
+3. #3793: Sesuaikan cetak Kartu Keluarga dengan format baru dari Disdukcapil.
+4. #3798: Sekarang tidak error pada saat operator memeriksa permohonan surat layanan mandiri yg tidak memiliki syarat. [bug-fix]
+5. #3804: Sekarang garis miring tidak tampil pada pilihan nama yang berisi tanda kutip di form surat. [bug-fix]
+6. #3805: Sekarang daftar penduduk dari baris JUMLAH dan TOTAL di statistik Kepemilikan KTP tampil tanpa error. [bug-fix]
+7. #3715: Di form data penduduk, sekarang kolom isian yg wajib diisi disesuaikan dengan data yg ada di kartu keluarga dan KTP.
+8. #3815: Jadikan tema natra sebagai tema bawaan sistem menggantikan tema hadakewa.
+9. #3818: Sekarang daftar permohonan surat pada admin layanan mandiri dapat diurut berdasarkan waktu masuk.
+10. Sekarang di permohonan surat layanan mandiri, masa berlaku tampil benar. [bug-fix]
+11. #3550: Sekarang bisa saring daftar persil berdasarkan kelas dan lokasi tanah.
+12. #3808: Sekarang ada setting untuk mengaktif/non-aktfikan layanan mandiri.
+13. #3826: Perbaiki supaya judul laporan unduh data suplemen menggunakan huruf besar. [bug-fix]
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 

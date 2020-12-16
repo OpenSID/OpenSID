@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mandiri_web extends Web_Controller
+class Mandiri_web extends Mandiri_Controller
 {
 	private $header;
 
@@ -55,8 +55,6 @@ class Mandiri_web extends Web_Controller
 		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'referensi_model']);
 		$this->load->helper('download');
 		$this->header = $this->header_model->get_data();
-
-		if ($this->session->mandiri != 1) redirect('first');
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)
