@@ -62,49 +62,7 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function index()
 	{
-		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->config_model->get_data();
-		//Initialize Session ------------
-		if (!isset($_SESSION['mandiri']))
-		{
-			// Belum ada session variable
-			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 4);
-			$this->session->set_userdata('mandiri_wait', 0);
-		}
-		$_SESSION['success'] = 0;
-		//-------------------------------
-
-		$data['cek_anjungan'] = $this->cek_anjungan;
-
-		$this->load->view('mandiri_login', $data);
-	}
-
-	public function auth()
-	{
-		if ($this->session->mandiri_wait != 1)
-		{
-			$this->mandiri_model->siteman();
-		}
-
-		if ($this->session->lg == 1)
-		{
-			redirect('mandiri_web/ganti_pin');
-		}
-
-		if ($this->session->mandiri == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect('mandiri_web');
-		}
-
+		redirect('mandiri_web/mandiri/1/1');
 	}
 
 	public function logout()
