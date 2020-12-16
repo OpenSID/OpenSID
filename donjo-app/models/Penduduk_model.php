@@ -656,28 +656,6 @@ class Penduduk_model extends MY_Model {
 			return;
 		}
 
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto = $data['old_foto'];
-		if (!empty($lokasi_file))
-		{
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/jpg" AND $tipe_file != "image/png")
-			{
-				unset($data['foto']);
-			}
-			else
-			{
-				UploadFoto($nama_file, $old_foto, $tipe_file);
-				$data['foto'] = $nama_file;
-			}
-		}
-		else
-		{
-			unset($data['foto']);
-		}
-
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
@@ -693,6 +671,10 @@ class Penduduk_model extends MY_Model {
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		$idku = $this->db->insert_id();
+
+		// Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
+		if ($foto = $this->upload_foto_penduduk($idku))
+			$this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
 
 		$satuan = $_POST['tanggallahir'];
 		$blnlahir = substr($satuan, 3, 2);
@@ -790,31 +772,14 @@ class Penduduk_model extends MY_Model {
 			}
 			unset($data['alamat']);
 		}
+		if ($foto = $this->upload_foto_penduduk($id))
+			$data['foto'] = $foto;
+		else
+			unset($data['foto']);
+
 		unset($data['no_kk']);
 		unset($data['dusun']);
 		unset($data['rw']);
-
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto = $data['old_foto'];
-		if (!empty($lokasi_file))
-		{
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png")
-			{
-				unset($data['foto']);
-			}
-			else
-			{
-				UploadFoto($nama_file, $old_foto, $tipe_file);
-				$data['foto'] = $nama_file;
-			}
-		} else
-		{
-			unset($data['foto']);
-		}
-
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 
@@ -824,6 +789,17 @@ class Penduduk_model extends MY_Model {
 		$outp = $this->db->update('tweb_penduduk', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
+	}
+
+	private function upload_foto_penduduk($id)
+	{
+		if (empty($_FILES['foto']['tmp_name'])) return '';
+
+		$nama_file = ($this->input->post('nik') ?: '0') . '-' . $id . get_extension($_FILES['foto']['name']);
+		$old_foto = $this->input->post('old_foto');
+		UploadFoto($nama_file, $old_foto);
+
+		return $nama_file;
 	}
 
 	public function update_position($id=0)
