@@ -185,6 +185,9 @@ class Web_Controller extends MY_Controller {
 
 class Mandiri_Controller extends MY_Controller {
 
+	public $header;
+	public $cek_anjungan;
+
 	/*
 	 * Constructor
 	 */
@@ -193,7 +196,12 @@ class Mandiri_Controller extends MY_Controller {
 		parent::__construct();
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 		$this->controller = strtolower($this->router->fetch_class());
-		if ($this->session->mandiri != 1 OR $this->setting->layanan_mandiri == 0) redirect();
+		$this->load->model(['header_model', 'anjungan_model']);
+
+		$this->header = $this->header_model->get_data();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
+		if ($this->session->mandiri != 1 && $this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
 	}
 
 }

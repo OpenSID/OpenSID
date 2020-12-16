@@ -56,6 +56,8 @@ class Mandiri_login extends Web_Controller
 		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
 		$this->header = $this->header_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
 	}
 
 	public function index()
@@ -65,7 +67,7 @@ class Mandiri_login extends Web_Controller
 			redirect('mandiri_web/mandiri/1/1');
 		}
 		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->config_model->get_data();
+		$data['header'] = $this->header['desa'];
 		//Initialize Session ------------
 		if (!isset($_SESSION['mandiri']))
 		{

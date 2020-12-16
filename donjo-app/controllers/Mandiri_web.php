@@ -47,17 +47,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mandiri_web extends Mandiri_Controller
 {
-	private $cek_anjungan;
-	private $header;
 
 	public function __construct()
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'anjungan_model', 'referensi_model']);
+		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'referensi_model']);
 		$this->load->helper('download');
-		$this->header = $this->header_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
 	}
 
 	public function index()
@@ -98,7 +95,7 @@ class Mandiri_web extends Mandiri_Controller
 	public function balik_first()
 	{
 		$this->mandiri_model->logout();
-		redirect('first');
+		redirect();
 	}
 
 	public function mandiri($p=1, $m=0, $kat=1)
