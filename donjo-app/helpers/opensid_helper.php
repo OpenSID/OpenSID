@@ -1061,3 +1061,12 @@ function crawler()
 
 	return FALSE;
 }
+
+// Kode Wilayah Dengan Titik
+function kode_wilayah($kode_wilayah)
+{
+	$code1 = str_split(substr($kode_wilayah, 0, 6), 2);
+	$code2 = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
+
+	return implode('.', $code1) . $code2;
+}
