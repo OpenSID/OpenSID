@@ -60,21 +60,18 @@
 			case '4':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").removeClass('required');
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
 				$("input[name=tanggalperkawinan]").attr('disabled', false);
-				$("input[name=tanggalperkawinan]").addClass('required');
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				break;
 			case '3':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").removeClass('required');
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				break;
@@ -527,7 +524,7 @@
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right required" id="tgl_3" name="tanggalperkawinan" type="text" value="<?= $penduduk['tanggalperkawinan']?>">
+							<input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text" value="<?= $penduduk['tanggalperkawinan']?>">
 						</div>
 					</div>
 				</div>
