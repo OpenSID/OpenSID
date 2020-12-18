@@ -447,6 +447,8 @@ class Import_model extends CI_Model {
       $baris_pertama = false;
       $nomor_baris = 0;
 
+      if ( $sheet->getName() == 'Kode Data') continue;
+
       foreach ($sheet->getRowIterator() as $row)
       {
       	$nomor_baris++;
