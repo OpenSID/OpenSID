@@ -36,7 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Feed_model extends CI_Model
 {
-	const BERITA_DESA = 1;
+	const STATIS = 999;
+	const AGENDA = 1000;
 	const ENABLE = 1;
 
 	public function list_feeds()
@@ -46,7 +47,7 @@ class Feed_model extends CI_Model
 			->join('user u', 'a.id_user = u.id', 'left')
 			->join('kategori k', 'a.id_kategori = k.id', 'left')
 			->where('a.enabled', static::ENABLE)
-			->where('a.id_kategori', static::BERITA_DESA)
+			->where_not_in('a.id_kategori', [static::STATIS, static::AGENDA])
 			->order_by('a.tgl_upload', 'DESC');
 		
 		return $this->db->get()->result();

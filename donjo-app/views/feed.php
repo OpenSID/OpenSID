@@ -16,7 +16,7 @@
 				<title><?= htmlspecialchars($key->judul); ?></title>
 				<link><?= site_url("artikel/".buat_slug((array) $key)); ?></link>
 				<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
-				<description><?= htmlentities(strip_tags(substr($key->isi, 0, max(strpos($key->isi, " ", 260), 200))) . '[...]'); ?></description>
+				<description><![CDATA[ <img src="<?= base_url("desa/upload/artikel/sedang_{$key->gambar}") ?>" /><?= htmlentities(strip_tags(substr($key->isi, 0, max(strpos($key->isi, " ", 260), 200))) . '[...]'); ?>]]></description>
 				<content:encoded>
 					<![CDATA[ <?= $key->isi ?>]]>
 				</content:encoded>
