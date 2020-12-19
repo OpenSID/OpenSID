@@ -18,6 +18,9 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 12. #3808: Sekarang ada setting untuk mengaktif/non-aktfikan layanan mandiri.
 13. #3826: Perbaiki supaya judul laporan unduh data suplemen menggunakan huruf besar. [bug-fix]
 14. #DK-9: Ekspor data penduduk untuk OpenDK sekarang mengikutsertakan foto penduduk.
+15. #3825: Perbaiki kode barang di modul Inventaris. [bug-fix]
+16. #3801: Sekarang pesan gagal tidak tampil kalau berhasil impor data penduduk yg dibuat menggunakan template macro FormatImportExcel.xlsm. [bug-fix]
+17. #3837: Perbaiki dan tampilkan gambar utama artikel di feed RSS. Sekarang hanya artikel dinamis yang ditampilkan.
 
 
 Fitur Premium:

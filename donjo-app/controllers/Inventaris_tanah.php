@@ -48,7 +48,6 @@ class Inventaris_tanah extends Admin_Controller {
 
 		$this->load->model('inventaris_tanah_model');
 		$this->load->model('referensi_model');
-		$this->load->model('config_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
@@ -94,7 +93,7 @@ class Inventaris_tanah extends Admin_Controller {
 		$data['main'] = $this->inventaris_tanah_model->view($id);
 		$data['aset'] = $this->inventaris_tanah_model->list_aset();
 		$data['count_reg'] = $this->inventaris_tanah_model->count_reg();
-		$data['get_kode'] = $this->config_model->get_data();
+		$data['get_kode'] = $this->header['desa'];
 		$data['kd_reg'] = $this->inventaris_tanah_model->list_inventaris_kd_register();
 		$data['tip'] = 1;
 		$this->set_minsidebar(1);
@@ -113,7 +112,7 @@ class Inventaris_tanah extends Admin_Controller {
 	{
 		$data['tip'] = 1;
 
-		$data['main'] = $this->config_model->get_data();
+		$data['get_kode'] = $this->header['desa'];
 		$data['aset'] = $this->inventaris_tanah_model->list_aset();
 		$data['count_reg'] = $this->inventaris_tanah_model->count_reg();
 		$this->set_minsidebar(1);
@@ -138,7 +137,7 @@ class Inventaris_tanah extends Admin_Controller {
 
 	public function cetak($tahun, $penandatangan)
 	{
-		$data['header'] = $this->config_model->get_data();
+		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_tanah_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_tanah_model->cetak($tahun);
 		$data['pamong'] = $this->inventaris_tanah_model->pamong($penandatangan);
@@ -147,7 +146,7 @@ class Inventaris_tanah extends Admin_Controller {
 
 	public function download($tahun, $penandatangan)
 	{
-		$data['header'] = $this->config_model->get_data();
+		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_tanah_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_tanah_model->cetak($tahun);
 		$data['pamong'] = $this->inventaris_tanah_model->pamong($penandatangan);

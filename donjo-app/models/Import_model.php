@@ -82,7 +82,7 @@ class Import_model extends CI_Model {
 			return false;
 		}
 
-		$mime_type_excel = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		$mime_type_excel = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12');
 		if (!in_array($_FILES['userfile']['type'], $mime_type_excel))
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
@@ -446,6 +446,8 @@ class Import_model extends CI_Model {
       $baris_data = 0;
       $baris_pertama = false;
       $nomor_baris = 0;
+
+      if ( $sheet->getName() == 'Kode Data') continue;
 
       foreach ($sheet->getRowIterator() as $row)
       {

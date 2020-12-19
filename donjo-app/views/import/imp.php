@@ -17,6 +17,7 @@
 																					<ul>
 																						<li> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,</li>
 																						<li> Kolom Nama, Dusun, RW, RT dan NIK harus diisi. Tanda '-' bisa dipakai di mana RW atau RT tidak diketahui atau tidak ada,</li>
+																						<li> Data Penduduk yang dapat menampilkan data RT/RW/Dusun pada tabel Kependudukan adalah Status Hubungan Dalam Keluarga = Kepala Keluarga atau penduduk yang memiliki Kepala Keluarga</li>
 																						<li> NIK harus bilangan dengan 16 angka atau 0 untuk menunjukkan belum ada NIK,</li>
 																						<li> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2</li>
 																					</ul>
