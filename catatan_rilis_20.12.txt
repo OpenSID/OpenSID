@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 14. #DK-9: Ekspor data penduduk untuk OpenDK sekarang mengikutsertakan foto penduduk.
 15. #3825: Perbaiki kode barang di modul Inventaris. [bug-fix]
 16. #3801: Sekarang pesan gagal tidak tampil kalau berhasil impor data penduduk yg dibuat menggunakan template macro FormatImportExcel.xlsm. [bug-fix]
+17. #3837: Perbaiki dan tampilkan gambar utama artikel di feed RSS. Sekarang hanya artikel dinamis yang ditampilkan.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
