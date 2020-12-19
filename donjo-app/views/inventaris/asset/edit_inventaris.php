@@ -1,33 +1,32 @@
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="opensidInventaris" aria-hidden="true">
 	<div class="modal-dialog">
-	    <div class="modal-content">
-		    <div class="modal-header">
-	        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            	<h4 class="modal-title" id="opensidInventaris">Kode Yang Terdaftar</h4>
-          	</div>
-          	<div class="modal-body">
-		  		<div class="row">
-            		<div class="col-sm-12">
-        				<ul class="list-group">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="opensidInventaris">Kode Yang Terdaftar</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group">
 							<?php
-							foreach($kd_reg as $reg){
-								if(strlen($reg->register) == 21){
-									echo '<li class="list-group-item" data-position-id="123">
-											<div class="companyPosItem">
-												<span class="companyPosLabel">'.substr($reg->register,-6).'</span>
-											</div>
-										</li>';
+								foreach($kd_reg as $reg){
+									if(strlen($reg->register) == 21){
+										echo '<li class="list-group-item" data-position-id="123">
+												<div class="companyPosItem">
+													<span class="companyPosLabel">'.substr($reg->register,-6).'</span>
+												</div>
+											</li>';
+									}
 								}
-							}
 							?>
-        				</ul>
-        			</div>
-        		</div>
-          	</div>
-        </div>
-    </div>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Ubah Data Asset Lainnya</h1>
@@ -45,7 +44,7 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 						<a href="<?= site_url() ?>inventaris_asset" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
 						</div>
 						<div class="box-body">
@@ -56,11 +55,8 @@
 										<div class="col-sm-8">
 											<input maxlength="50" value="<?= $main->id; ?>" class="form-control input-sm required" name="id" id="id" type="hidden"/>
 											<input type="hidden" name="nama_barang_save" id="nama_barang_save" value="<?= $main->nama_barang; ?>">
-											<input type="hidden" name="kode_propinsi" id="kode_propinsi" value="<?=$get_kode["kode_propinsi"]?>">
-											<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$get_kode["kode_kabupaten"]?>">
-											<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$get_kode["kode_kecamatan"]?>">
-											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$get_kode["kode_desa"]?>">
-											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
+											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode["kode_desa"])?>">
+											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" onchange="formAction('main')">
 												<option value="<?= $main->nama_barang; ?>"><?= $main->nama_barang; ?></option>
 												<?php foreach ($aset as $data): ?>
 													<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
@@ -251,61 +247,51 @@
 	</section>
 </div>
 <script>
-	$(document).ready(function()
-	{
-			if($("#jenis_asset").val() == "Buku")
-			{
-				$(".judul").show();
-				$(".spesifikasi").show();
-				$(".asal_kesenian").hide();
-				$(".pencipta_kesenian").hide();
-				$(".bahan_kesenian").hide();
-				$(".jenis_hewan").hide();
-				$(".ukuran_hewan").hide();
-				$(".jenis_tumbuhan").hide();
-				$(".ukuran_tumbuhan").hide();
-			}
-			else if ($("#jenis_asset").val() == "Barang Kesenian")
-			{
-				$(".judul").hide();
-				$(".spesifikasi").hide();
-				$(".asal_kesenian").show();
-				$(".pencipta_kesenian").show();
-				$(".bahan_kesenian").show();
-				$(".jenis_hewan").hide();
-				$(".ukuran_hewan").hide();
-				$(".jenis_tumbuhan").hide();
-				$(".ukuran_tumbuhan").hide();
-			}
-			else if ($("#jenis_asset").val() == "Hewan Ternak")
-			{
-				$(".judul").hide();
-				$(".spesifikasi").hide();
-				$(".asal_kesenian").hide();
-				$(".pencipta_kesenian").hide();
-				$(".bahan_kesenian").hide();
-				$(".jenis_hewan").show();
-				$(".ukuran_hewan").show();
-				$(".jenis_tumbuhan").hide();
-				$(".ukuran_tumbuhan").hide();
-			}
-			else if ($("#jenis_asset").val() == "Tumbuhan")
-			{
-				$(".judul").hide();
-				$(".spesifikasi").hide();
-				$(".asal_kesenian").hide();
-				$(".pencipta_kesenian").hide();
-				$(".bahan_kesenian").hide();
-				$(".jenis_hewan").hide();
-				$(".ukuran_hewan").hide();
-				$(".jenis_tumbuhan").show();
-				$(".ukuran_tumbuhan").show();
-			}
+	$(document).ready(function() {
+		if($("#jenis_asset").val() == "Buku") {
+			$(".judul").show();
+			$(".spesifikasi").show();
+			$(".asal_kesenian").hide();
+			$(".pencipta_kesenian").hide();
+			$(".bahan_kesenian").hide();
+			$(".jenis_hewan").hide();
+			$(".ukuran_hewan").hide();
+			$(".jenis_tumbuhan").hide();
+			$(".ukuran_tumbuhan").hide();
+		} else if ($("#jenis_asset").val() == "Barang Kesenian") {
+			$(".judul").hide();
+			$(".spesifikasi").hide();
+			$(".asal_kesenian").show();
+			$(".pencipta_kesenian").show();
+			$(".bahan_kesenian").show();
+			$(".jenis_hewan").hide();
+			$(".ukuran_hewan").hide();
+			$(".jenis_tumbuhan").hide();
+			$(".ukuran_tumbuhan").hide();
+		} else if ($("#jenis_asset").val() == "Hewan Ternak") {
+			$(".judul").hide();
+			$(".spesifikasi").hide();
+			$(".asal_kesenian").hide();
+			$(".pencipta_kesenian").hide();
+			$(".bahan_kesenian").hide();
+			$(".jenis_hewan").show();
+			$(".ukuran_hewan").show();
+			$(".jenis_tumbuhan").hide();
+			$(".ukuran_tumbuhan").hide();
+		} else if ($("#jenis_asset").val() == "Tumbuhan") {
+			$(".judul").hide();
+			$(".spesifikasi").hide();
+			$(".asal_kesenian").hide();
+			$(".pencipta_kesenian").hide();
+			$(".bahan_kesenian").hide();
+			$(".jenis_hewan").hide();
+			$(".ukuran_hewan").hide();
+			$(".jenis_tumbuhan").show();
+			$(".ukuran_tumbuhan").show();
+		}
 
-		$("#jenis_asset").change(function()
-		{
-			if ($("#jenis_asset").val() == "Buku")
-			{
+		$("#jenis_asset").change(function() {
+			if ($("#jenis_asset").val() == "Buku") {
 				$(".judul").show();
 				$(".spesifikasi").show();
 				$(".asal_kesenian").hide();
@@ -315,9 +301,7 @@
 				$(".ukuran_hewan").hide();
 				$(".jenis_tumbuhan").hide();
 				$(".ukuran_tumbuhan").hide();
-			}
-			else if ($("#jenis_asset").val() == "Barang Kesenian")
-			{
+			} else if ($("#jenis_asset").val() == "Barang Kesenian") {
 				$(".judul").hide();
 				$(".spesifikasi").hide();
 				$(".asal_kesenian").show();
@@ -327,9 +311,7 @@
 				$(".ukuran_hewan").hide();
 				$(".jenis_tumbuhan").hide();
 				$(".ukuran_tumbuhan").hide();
-			}
-			else if ($("#jenis_asset").val() == "Hewan Ternak")
-			{
+			} else if ($("#jenis_asset").val() == "Hewan Ternak") {
 				$(".judul").hide();
 				$(".spesifikasi").hide();
 				$(".asal_kesenian").hide();
@@ -339,9 +321,7 @@
 				$(".ukuran_hewan").show();
 				$(".jenis_tumbuhan").hide();
 				$(".ukuran_tumbuhan").hide();
-			}
-			else if ($("#jenis_asset").val() == "Tumbuhan")
-			{
+			} else if ($("#jenis_asset").val() == "Tumbuhan") {
 				$(".judul").hide();
 				$(".spesifikasi").hide();
 				$(".asal_kesenian").hide();
@@ -356,20 +336,21 @@
 	});
 
 	$( document ).ready(function() {
-		$("#tahun").change(function(){
-			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
+		$("#tahun").change(function() {
+			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
 		});
-		$("#penggunaan_barang").change(function(){
-			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
+
+		$("#penggunaan_barang").change(function() {
+			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
 		});
+
 		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
-		$("#nama_barang").change(function(){
+
+		$("#nama_barang").change(function() {
 			if($('#register').val().length != 21){
 				$('#register').val($('#nama_barang').val().split('_').pop());
 				$('#nama_barang_save').val($('#nama_barang').val().slice(0,-16));
-			}else{
+			} else {
 				$('#register').val($('#nama_barang').val().split('_').pop() + $('#register').val().slice(-6));
 				$('#nama_barang_save').val($('#nama_barang').val().slice(0,-16));
 			}
@@ -380,11 +361,11 @@
 		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
 	}
 
-	$(function(){
+	$(function() {
 		$('.select2').select2();
 	})
 
-	$("#view_modal").click(function(event){
+	$("#view_modal").click(function(event) {
 		$('#modal').modal("show");
 	});
 </script>

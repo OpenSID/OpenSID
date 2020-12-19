@@ -2,8 +2,18 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
- *  File ini bagian dari:
+/**
+ * File ini:
+ *
+ * Controller untuk login Layanan Mandiri
+ *
+ * donjo-app/controllers/Mandiri_login.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -34,24 +44,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-class Feed_model extends CI_Model
+
+class Mandiri_login extends Web_Controller
 {
-	const STATIS = 999;
-	const AGENDA = 1000;
-	const ENABLE = 1;
+	private $cek_anjungan;
 
-	public function list_feeds()
+	public function __construct()
 	{
-		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-			->from('artikel a')
-			->join('user u', 'a.id_user = u.id', 'left')
-			->join('kategori k', 'a.id_kategori = k.id', 'left')
-			->where('a.enabled', static::ENABLE)
-			->where('tgl_upload < NOW()') // jangan tampilkan yg belum di-publish
-			->where_not_in('a.id_kategori', [static::STATIS, static::AGENDA])
-			->order_by('a.tgl_upload', 'DESC')
-			->limit('50');
+		parent::__construct();
+		mandiri_timeout();
+		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
+		$this->header = $this->header_model->get_data();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
-		return $this->db->get()->result();
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
 	}
+
+	public function index()
+	{
+		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
+		{
+			redirect('mandiri_web/mandiri/1/1');
+		}
+		unset($_SESSION['balik_ke']);
+		$data['header'] = $this->header['desa'];
+		//Initialize Session ------------
+		if (!isset($_SESSION['mandiri']))
+		{
+			// Belum ada session variable
+			$this->session->set_userdata('mandiri', 0);
+			$this->session->set_userdata('mandiri_try', 4);
+			$this->session->set_userdata('mandiri_wait', 0);
+		}
+		$_SESSION['success'] = 0;
+		//-------------------------------
+
+		$data['cek_anjungan'] = $this->cek_anjungan;
+
+		$this->load->view('mandiri_login', $data);
+	}
+
+	public function auth()
+	{
+		if ($this->session->mandiri_wait != 1)
+		{
+			$this->mandiri_model->siteman();
+		}
+
+		if ($this->session->lg == 1)
+		{
+			redirect('mandiri_web/ganti_pin');
+		}
+
+		if ($this->session->mandiri == 1)
+		{
+			redirect('mandiri_web/mandiri/1/1');
+		}
+		else
+		{
+			redirect('mandiri_login');
+		}
+
+	}
+
 }

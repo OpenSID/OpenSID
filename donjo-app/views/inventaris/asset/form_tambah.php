@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 						<a href="<?= site_url() ?>inventaris_asset" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
 						</div>
 						<?php
@@ -29,7 +29,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nama_barang">Nama Barang / Jenis Barang</label>
 										<div class="col-sm-8">
-											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
+											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" onchange="formAction('main')">
 												<?php foreach ($aset as $data): ?>
 													<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
 												<?php endforeach; ?>
@@ -40,10 +40,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
 										<div class="col-sm-8">
 											<input type="hidden" name="nama_barang_save" id="nama_barang_save">
-											<input type="hidden" name="kode_propinsi" id="kode_propinsi" value="<?=$main["kode_propinsi"]?>">
-											<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$main["kode_kabupaten"]?>">
-											<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$main["kode_kecamatan"]?>">
-											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$main["kode_desa"]?>">
+											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode["kode_desa"])?>">
 											<input maxlength="50" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text"/>
 										</div>
 									</div>
@@ -202,89 +199,81 @@
 		</form>
 	</section>
 </div>
+
 <script>
-$(document).ready(function()
-{
-	$(".judul").hide();
-	$(".spesifikasi").hide();
-	$(".asal_kesenian").hide();
-	$(".pencipta_kesenian").hide();
-	$(".bahan_kesenian").hide();
-	$(".jenis_hewan").hide();
-	$(".ukuran_hewan").hide();
-	$(".jenis_tumbuhan").hide();
-	$(".ukuran_tumbuhan").hide();
-	$("#jenis_asset").change(function()
-	{
-		if ($("#jenis_asset").val() == "Buku")
-		{
-			$(".judul").show();
-			$(".spesifikasi").show();
-			$(".asal_kesenian").hide();
-			$(".pencipta_kesenian").hide();
-			$(".bahan_kesenian").hide();
-			$(".jenis_hewan").hide();
-			$(".ukuran_hewan").hide();
-			$(".jenis_tumbuhan").hide();
-			$(".ukuran_tumbuhan").hide();
-		} else if ($("#jenis_asset").val() == "Barang Kesenian")
-		{
-			$(".judul").hide();
-			$(".spesifikasi").hide();
-			$(".asal_kesenian").show();
-			$(".pencipta_kesenian").show();
-			$(".bahan_kesenian").show();
-			$(".jenis_hewan").hide();
-			$(".ukuran_hewan").hide();
-			$(".jenis_tumbuhan").hide();
-			$(".ukuran_tumbuhan").hide();
-		} else if ($("#jenis_asset").val() == "Hewan Ternak")
-		{
-			$(".judul").hide();
-			$(".spesifikasi").hide();
-			$(".asal_kesenian").hide();
-			$(".pencipta_kesenian").hide();
-			$(".bahan_kesenian").hide();
-			$(".jenis_hewan").show();
-			$(".ukuran_hewan").show();
-			$(".jenis_tumbuhan").hide();
-			$(".ukuran_tumbuhan").hide();
-		} else if ($("#jenis_asset").val() == "Tumbuhan")
-		{
-			$(".judul").hide();
-			$(".spesifikasi").hide();
-			$(".asal_kesenian").hide();
-			$(".pencipta_kesenian").hide();
-			$(".bahan_kesenian").hide();
-			$(".jenis_hewan").hide();
-			$(".ukuran_hewan").hide();
-			$(".jenis_tumbuhan").show();
-			$(".ukuran_tumbuhan").show();
-		}
+	$(document).ready(function() {
+		$(".judul").hide();
+		$(".spesifikasi").hide();
+		$(".asal_kesenian").hide();
+		$(".pencipta_kesenian").hide();
+		$(".bahan_kesenian").hide();
+		$(".jenis_hewan").hide();
+		$(".ukuran_hewan").hide();
+		$(".jenis_tumbuhan").hide();
+		$(".ukuran_tumbuhan").hide();
+		$("#jenis_asset").change(function() {
+
+			if ($("#jenis_asset").val() == "Buku") {
+				$(".judul").show();
+				$(".spesifikasi").show();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			} else if ($("#jenis_asset").val() == "Barang Kesenian") {
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").show();
+				$(".pencipta_kesenian").show();
+				$(".bahan_kesenian").show();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			} else if ($("#jenis_asset").val() == "Hewan Ternak") {
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").show();
+				$(".ukuran_hewan").show();
+				$(".jenis_tumbuhan").hide();
+				$(".ukuran_tumbuhan").hide();
+			} else if ($("#jenis_asset").val() == "Tumbuhan") {
+				$(".judul").hide();
+				$(".spesifikasi").hide();
+				$(".asal_kesenian").hide();
+				$(".pencipta_kesenian").hide();
+				$(".bahan_kesenian").hide();
+				$(".jenis_hewan").hide();
+				$(".ukuran_hewan").hide();
+				$(".jenis_tumbuhan").show();
+				$(".ukuran_tumbuhan").show();
+			}
+		});
 	});
-});
 
 	$( document ).ready(function() {
-		$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-		$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
+		$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
 
-		$("#tahun").change(function(){
-			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
+		$("#tahun").change(function() {
+			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
 		});
 
-		$("#penggunaan_barang").change(function(){
-			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
+		$("#penggunaan_barang").change(function() {
+			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun').val());
 		});
 
-		$("#nama_barang").change(function(){
+		$("#nama_barang").change(function() {
 			$('#nomor_register').val($('#nama_barang').val().split("_").pop());
 			$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
-			// alert('hello');
 		});
 
-		$("#tahun_pengadaan").change();	
+		$("#tahun_pengadaan").change();
 		$("#penggunaan_barang").change();
 		$("#nama_barang").change();
 	});
@@ -293,9 +282,7 @@ $(document).ready(function()
 		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
 	}
 
-	$(function(){
+	$(function() {
 		$('.select2').select2();
 	})
-
-
 </script>

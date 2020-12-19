@@ -90,7 +90,6 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_model');
 		$this->load->model('keuangan_manual_model');
 		$this->load->model('web_dokumen_model');
-		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('keuangan_manual_model');
@@ -99,6 +98,7 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('anjungan_model');
 	}
 
 	public function index($p=1)
@@ -530,6 +530,7 @@ class First extends Web_Controller {
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
 		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+		$data['cek_anjungan'] = $this->anjungan_model->cek_anjungan();
 
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();

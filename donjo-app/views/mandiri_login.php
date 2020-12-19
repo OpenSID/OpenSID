@@ -109,7 +109,7 @@
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<form id="validasi" class="login-form" action="<?= site_url('mandiri_web/auth'); ?>" method="post" >
+								<form id="validasi" class="login-form" action="<?= site_url('mandiri_login/auth'); ?>" method="post" >
 									<?php if ($this->session->mandiri_wait == 1): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>
