@@ -42,8 +42,7 @@
 
 class Feed extends CI_Controller
 {
-
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -53,9 +52,10 @@ class Feed extends CI_Controller
 
 	public function index()
 	{
-
 		$data["data_config"] = $this->config_model->get_data();
 		$data["feeds"] = $this->feed_model->list_feeds();
+
+		$this->output->set_content_type('text/xml', 'UTF-8');
 		$this->load->view("feed", $data);
 	}
 }
