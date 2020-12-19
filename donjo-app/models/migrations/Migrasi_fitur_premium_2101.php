@@ -54,12 +54,8 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
 
-		status_sukses($hasil);
-
-		$key = ['api_opendk_server', 'api_opendk_key', 'api_opendk_user', 'api_opendk_password'];
-
-		if (! in_array($key, $this->db->list_fields('setting_aplikasi'))) {
-			$this->db->insert_batch('setting_aplikasi', [
+		$list_setting =
+			[
 				[
 					'key' => 'api_opendk_server',
 					'value' => '',
@@ -80,7 +76,24 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 					'value' => '',
 					'keterangan' => 'Password Login Pengguna OpenDK',
 				],
-			]);
+			];
+		foreach ($list_setting as $setting)
+		{
+			$hasil =& $this->tambah_setting($setting);
 		}
+
+		// setting_aplikasi.valud diperpanjang
+		$field = [
+			'value' => [
+				'type' => 'VARCHAR',
+				'constraint' => 500,
+				'null' => TRUE,
+				'default' => NULL
+			]
+		];
+		$hasil =& $this->dbforge->modify_column('setting_aplikasi', $field);
+
+		status_sukses($hasil);
+		return $hasil;
 	}
 }
