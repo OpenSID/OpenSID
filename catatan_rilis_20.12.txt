@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 12. #3808: Sekarang ada setting untuk mengaktif/non-aktfikan layanan mandiri.
 13. #3826: Perbaiki supaya judul laporan unduh data suplemen menggunakan huruf besar. [bug-fix]
 14. #DK-9: Ekspor data penduduk untuk OpenDK sekarang mengikutsertakan foto penduduk.
+15. #3825: Perbaiki kode barang di modul Inventaris. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
