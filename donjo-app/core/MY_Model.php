@@ -128,7 +128,7 @@ class MY_Model extends CI_Model {
 
 	public function tambah_setting($setting)
 	{
-		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)";
+		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan)";
 		return $this->db->query($sql);
 	}
 
