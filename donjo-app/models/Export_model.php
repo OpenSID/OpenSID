@@ -285,91 +285,18 @@
 	}
 
 	/**
-	 * Get data penduduk untuk sinkronasi ke OpenDK.
+	 * Sinkronasi Data dan Foto Penduduk ke OpenDK.
 	 *
 	 * @return array
 	 */
-	public function get_penduduk_sinkronasi_opendk()
+	public function hapus_penduduk_sinkronasi_opendk()
 	{
-		$desa = $this->db->select([
-			'kode_propinsi',
-			'kode_kabupaten',
-			'kode_kecamatan',
-			'kode_desa',
-		])
+		$desa = $this->db
+		->select('kode_desa')
 		->get('config')
 		->row();
 
-		// Ubah 1101012001 dari OpenSID menjadi 11.01.01.2001 sesuai kode wilayah di OpenDK yg memakai titik
 		$kode_desa = substr($desa->kode_desa, 0, 2) . '.' . substr($desa->kode_desa, 2, 2) . '.' . substr($desa->kode_desa, 4, 2) . '.' . substr($desa->kode_desa, 6);
-		$kode_kecamatan = substr($desa->kode_kecamatan, 0, 2) . '.' . substr($desa->kode_kecamatan, 2, 2) . '.' . substr($desa->kode_kecamatan, 4, 2);
-		$kode_kabupaten = substr($desa->kode_kabupaten, 0, 2) . '.' . substr($desa->kode_kabupaten, 2, 2);
-		$kode_propinsi = $desa->kode_propinsi;
-
-		$data = $this->db->select([
-		  'p.id as id_pend_desa',
-		  "CONCAT('{$kode_propinsi}') as provinsi_id",
-		  "CONCAT('{$kode_kabupaten}') as kabupaten_id",
-		  "CONCAT('{$kode_kecamatan}') as kecamatan_id",
-		  "CONCAT('{$kode_desa}') as desa_id",
-			'p.nama',
-			'p.nik',
-			'p.id_kk',
-			'p.kk_level',
-			'p.id_rtm',
-			'p.rtm_level',
-			'p.sex',
-			'p.tempatlahir as tempat_lahir',
-			'p.tanggallahir as tanggal_lahir',
-			'p.agama_id',
-			'p.pendidikan_kk_id',
-			'p.pendidikan_sedang_id',
-			'p.pekerjaan_id',
-			'p.status_kawin',
-			'p.warganegara_id as warga_negara_id',
-			'p.dokumen_pasport',
-			'p.dokumen_kitas',
-			'p.ayah_nik',
-			'p.ibu_nik',
-			'p.nama_ayah',
-			'p.nama_ibu',
-			'p.foto',
-			'p.golongan_darah_id',
-			'p.id_cluster',
-			'p.status',
-			'p.alamat_sebelumnya',
-			'p.alamat_sekarang',
-			'p.status_dasar',
-			'p.hamil',
-			'p.cacat_id',
-			'p.sakit_menahun_id',
-			'p.akta_lahir',
-			'p.akta_perkawinan',
-			'p.tanggalperkawinan as tanggal_perkawinan',
-			'p.akta_perceraian',
-			'p.tanggalperceraian as tanggal_perceraian',
-			'p.cara_kb_id',
-			'p.telepon',
-			'p.tanggal_akhir_paspor as tanggal_akhir_pasport',
-			'k.no_kk',
-			'p.no_kk_sebelumnya',
-			'p.ktp_el',
-			'p.status_rekam',
-			'k.alamat',
-			'c.dusun',
-			'c.rw',
-			'c.rt',
-			'p.created_at',
-			'p.updated_at',
-			'YEAR(p.created_at) as tahun',
-			'NOW() as imported_at',
-		])
-		->from('tweb_penduduk p')
-		->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
-		->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-		->order_by('k.no_kk ASC', 'p.kk_level ASC')
-		->get()
-		->result_array();
 
 		$data_hapus = $this->db->select([
 		  "CONCAT('{$kode_desa}') as desa_id",
@@ -379,11 +306,48 @@
 		->get()
 		->result_array();
 
-		return [
-			'penduduk' => $data,
-			// TODO: List hapus penduduk dari soft delete.
-			// hapus penduduk sesuai perubahan di tabel tweb_penduduk
-			'hapus_penduduk' => $data_hapus,
-		];
+		$response['hapus_penduduk'] = $data_hapus;
+		return $response;
+	}
+
+	public function tambah_penduduk_sinkronasi_opendk()
+	{
+		$desa = $this->db
+		->select('kode_desa')
+		->get('config')
+		->row();
+
+		$kode_desa = substr($desa->kode_desa, 0, 2) . '.' . substr($desa->kode_desa, 2, 2) . '.' . substr($desa->kode_desa, 4, 2) . '.' . substr($desa->kode_desa, 6);
+
+		$data = $this->db->select([
+			'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id", 'YEAR(p.created_at) as tahun'])
+			->from('tweb_penduduk p')
+			->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
+			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+			->order_by('k.no_kk ASC', 'p.kk_level ASC')
+			->get()->result();
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$baris = $data[$i];
+			array_walk($baris, array($this, 'bersihkanData'));
+			if (!empty($baris->tanggallahir))
+				$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
+			if (!empty($baris->tanggalperceraian))
+				$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
+			if (!empty($baris->tanggalperkawinan))
+				$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
+			if (!empty($baris->tanggal_akhir_paspor))
+				$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
+			if (empty($baris->dusun))
+				$baris->dusun = '-';
+			if (empty($baris->rt))
+				$baris->rt = '-';
+			if (empty($baris->rw))
+				$baris->rw = '-';
+			$data[$i] = $baris;
+		}
+
+		return $data;
 	}
 }
