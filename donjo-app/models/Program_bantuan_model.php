@@ -1246,7 +1246,7 @@ class Program_bantuan_model extends MY_Model {
 			case 1:
 				// Penduduk
 				$data = $this->db
-					->select('nik')
+					->select('id, nik')
 					->where('nik', $peserta)
 					->get('penduduk_hidup')
 					->result_array();
@@ -1255,7 +1255,7 @@ class Program_bantuan_model extends MY_Model {
 			case 2:
 				// Keluarga
 				$data = $this->db
-					->select('p.nik')
+					->select('k.id, p.nik')
 					->from('penduduk_hidup p')
 					->join('keluarga_aktif k','k.id = p.id_kk', 'left')
 					->where('k.no_kk', $peserta)
@@ -1267,7 +1267,7 @@ class Program_bantuan_model extends MY_Model {
 				// RTM
 				// no_rtm = no_kk
 				$data = $this->db
-					->select('p.nik')
+					->select('r.id, p.nik')
 					->from('penduduk_hidup p')
 					->join('tweb_rtm r','p.id = r.nik_kepala', 'left')
 					->where('r.no_kk', $peserta)
@@ -1278,7 +1278,7 @@ class Program_bantuan_model extends MY_Model {
 			case 4:
 				// Kelompok
 				$data = $this->db
-					->select('p.nik')
+					->select('kl.id, p.nik')
 					->from('penduduk_hidup p')
 					->join('kelompok kl','p.id = kl.id_ketua', 'left')
 					->where('kl.kode', $peserta)
@@ -1291,7 +1291,12 @@ class Program_bantuan_model extends MY_Model {
 				break;
 		}
 
-		return str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik'))));
+		$data = [
+			'id' => $data[0]['id'],
+			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik'))))
+		];
+
+		return $data;
 	}
 
 }

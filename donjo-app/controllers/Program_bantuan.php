@@ -421,6 +421,10 @@ class Program_bantuan extends Admin_Controller {
 					// Random no. kartu peserta
 					if ($rand_kartu == 1) $no_id_kartu = random_int(1, 100);
 
+					// Ubaha data peserta menjadi id (untuk saat ini masih data kelompok yg menggunakan id)
+					// Berkaitan dgn issue #3417
+					if ($sasaran == 4) $peserta = $cek_peserta[0];
+
 					// Simpan data peserta yg diimport dalam bentuk array
 					$simpan = [
 						'peserta' => $peserta,
@@ -474,14 +478,14 @@ class Program_bantuan extends Admin_Controller {
 
 	public function proses_export($program_id = '')
 	{
-
 		$writer = WriterEntityFactory::createXLSXWriter();
 
 		// Data Program Bantuan
-		$bantuan = $this->program_bantuan_model->get_program(1, $program_id);
+		$data = $this->program_bantuan_model->get_program(1, $program_id);
+		$sasaran = $data[0]['sasaran'];
 
 		//Nama File
-		$fileName = namafile('program_bantuan_' . $bantuan[0]['nama']) . '.xlsx';
+		$fileName = namafile('program_bantuan_' . $data[0]['nama']) . '.xlsx';
 		$writer->openToBrowser($fileName);
 
 		//Header Tabel
@@ -500,10 +504,21 @@ class Program_bantuan extends Admin_Controller {
 		$writer->addRow($header);
 
 		//Isi Tabel
-		foreach ($bantuan[1] as $row)
+		foreach ($data[1] as $row)
 		{
-			$peserta = array(
-				$row['peserta'],
+			$peserta = $row['peserta'];
+			// Ubah id menjadi kode untuk data kelompok
+			// Berkaitan dgn issue #3417
+			// Cari data kelompok berdasarkan id
+			if ($sasaran == 4)
+			{
+				$this->load->model('kelompok_model');
+				$kelompok = $this->kelompok_model->get_kelompok($peserta);
+				$peserta = $kelompok['kode'];
+			}
+
+			$data_peserta = array(
+				$peserta,
 				$row['no_id_kartu'],
 				$row['kartu_nik'],
 				$row['kartu_nama'],
@@ -511,9 +526,10 @@ class Program_bantuan extends Admin_Controller {
 				$row['kartu_tanggal_lahir'],
 				$row['kartu_alamat'],
 			);
-			$rowFromValues = WriterEntityFactory::createRowFromArray($peserta);
+			$rowFromValues = WriterEntityFactory::createRowFromArray($data_peserta);
 			$writer->addRow($rowFromValues);
 		}
 		$writer->close();
 	}
+
 }
