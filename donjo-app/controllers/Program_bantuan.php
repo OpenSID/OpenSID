@@ -45,6 +45,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Box\Spout\Common\Entity\Row;
+
 class Program_bantuan extends Admin_Controller {
 
 	private $_set_page;
@@ -151,12 +157,12 @@ class Program_bantuan extends Admin_Controller {
 		{
 			case '1':
 			case '2':
-				$peserta_id = $data['peserta']['kartu_id_pend'];
-				break;
+			$peserta_id = $data['peserta']['kartu_id_pend'];
+			break;
 			case '3':
 			case '4':
-				$peserta_id = $data['peserta']['peserta'];
-				break;
+			$peserta_id = $data['peserta']['peserta'];
+			break;
 		}
 		$data['individu'] = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
 		$data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($data['peserta']['sasaran'], $data['peserta']['peserta']);
@@ -311,5 +317,203 @@ class Program_bantuan extends Admin_Controller {
 		else $this->session->unset_userdata('cari');
 
 		redirect("program_bantuan/detail/$program_id");
+	}
+
+	public function import($program_id = '')
+	{
+		$data['form_action'] = site_url("program_bantuan/proses_import/$program_id");
+		$this->load->view('program_bantuan/import', $data);
+	}
+
+	public function proses_import($program_id = '')
+	{
+		$kosongkan = $this->input->post('kosongkan');
+		$ganti = $this->input->post('ganti');
+		$rand_kartu = $this->input->post('rand_kartu');
+
+
+		// Data Program Bantuan
+		$bantuan = $this->program_bantuan_model->get_program(1, $program_id);
+		$sasaran = $bantuan[0]['sasaran'];
+		$terdaftar = str_replace("'", "", explode (", ", sql_in_list(array_column($bantuan[1], 'peserta'))));
+
+		$this->load->library('upload');
+
+		$config['upload_path']		= LOKASI_DOKUMEN;
+		$config['allowed_types']	= 'xls|xlsx';
+		//$config['max_size']				= max_upload() * 100024;
+		$config['file_name']			= namafile('Import Peserta Program Bantuan');
+
+		$this->upload->initialize($config);
+
+		if ($this->upload->do_upload('userfile'))
+		{
+			$file = $this->upload->data();
+
+			$reader = ReaderEntityFactory::createXLSXReader();
+			$reader->open(LOKASI_DOKUMEN . $file['file_name']);
+
+			foreach ($reader->getSheetIterator() as $sheet)
+			{
+				$pertama = false;
+				$no_baris = 0;
+				$no_gagal = 0;
+				$no_sukses = 0;
+				$pesan_gagal ='';
+				$data_ganti = '';
+				$tambah = [];
+
+				if ($kosongkan == 1)
+				{
+					$pesan .= "- Total <b>" . count($terdaftar) . " data peserta </b> sukses dikosongkan<br>";
+					$terdaftar = NULL;
+				}
+
+				foreach ($sheet->getRowIterator() as $row)
+				{
+					$no_baris++;
+					$cells = $row->getCells();
+					$peserta = (string) $cells[0];
+					$nik = (string) $cells[2];
+
+					// Data terakhir
+					if ($peserta == '###') break;
+
+					// Abaikan baris pertama / judul
+					if ($pertama == false)
+					{
+						$pertama = true;
+						continue;
+					}
+
+					// Cek valid data peserta sesuai sasaran
+					$cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
+					if ( ! $cek_peserta)
+					{
+						$no_gagal++;
+						$pesan .= "- Data baris <b> Ke-" . ($no_baris - 1) . "</b> => (Data peserta tidak ditemukan) <br>";
+						continue;
+					}
+
+					// Cek valid data penduduk sesuai nik
+					$cek_penduduk = $this->penduduk_model->get_penduduk_by_nik($nik);
+					if ( ! $cek_penduduk['id'])
+					{
+						$no_gagal++;
+						$pesan .= "- Data baris <b> Ke-" . ($no_baris - 1) . "</b> => (NIK penduduk tidak ditemukan) <br>";
+						continue;
+					}
+
+					// Cek data peserta yg akan dimport dan yg sudah ada
+					if (in_array($peserta, $terdaftar) && $ganti != 1)
+					{
+						$no_gagal++;
+						$pesan .= "- Data baris <b> Ke-" . ($no_baris - 1) . "</b> => (Data peserta sudah ada) <br>";
+						continue;
+					}
+
+					if (in_array($peserta, $terdaftar) && $ganti == 1)
+					{
+						$data_ganti .= ", " . $peserta;
+						$pesan .= "- Data baris <b> Ke-" . ($no_baris - 1) . "</b> => (Data ditambahkan menggantikan data lama) <br>";
+					}
+
+					// Random no. kartu peserta
+					if ($rand_kartu == 1) $no_id_kartu = random_int(1, 100);
+
+					// Simpan data peserta yg diimport dalam bentuk array
+					$simpan = [
+						'peserta' => $peserta,
+						'program_id' => $program_id,
+						'no_id_kartu' => ((string) $cells[1]) ? $cells[1] : $no_id_kartu,
+						'kartu_nik' => $nik,
+						'kartu_nama' => ((string) $cells[3]) ? $cells[3] : $cek_penduduk['nama'],
+						'kartu_tempat_lahir' => ((string) $cells[4]) ? $cells[4] : $cek_penduduk['tempatlahir'],
+						'kartu_tanggal_lahir' => ((string) $cells[5]) ? $cells[5] : $cek_penduduk['tanggallahir'],
+						'kartu_alamat' => ((string) $cells[6]) ? $cells[6] : $cek_penduduk['alamat_wilayah'],
+						'kartu_id_pend' => $cek_penduduk['id'],
+					];
+
+					array_push($tambah, $simpan);
+					$no_sukses++;
+				}
+			}
+
+			$reader->close();
+			unlink(LOKASI_DOKUMEN . $file['file_name']);
+
+			$total = ($no_sukses + $no_gagal);
+
+			if ($total <= 0)
+			{
+				$this->session->error_msg = " -> Tidak ada data yang bisa diimport";
+				$this->session->success = -1;
+			}
+			else
+			{
+				$this->program_bantuan_model->import_data($program_id, $tambah, $kosongkan, $data_ganti);
+
+				if ($no_gagal == 0) $pesan .= "- Semua data sukses di import";
+
+				$notif = [
+					'gagal' => $no_gagal,
+					'sukses' => $no_sukses,
+					'pesan' => $pesan,
+					'total' => $total . ' => ' . $cek_peserta,
+				];
+
+				$this->session->set_flashdata('notif', $notif);
+			}
+		} else {
+			$this->session->error_msg = $this->upload->display_errors();
+			$this->session->success = -1;
+		}
+
+		redirect("program_bantuan/detail/$program_id");
+	}
+
+	public function proses_export($program_id = '')
+	{
+
+		$writer = WriterEntityFactory::createXLSXWriter();
+
+		// Data Program Bantuan
+		$bantuan = $this->program_bantuan_model->get_program(1, $program_id);
+
+		//Nama File
+		$fileName = namafile('program_bantuan_' . $bantuan[0]['nama']) . '.xlsx';
+		$writer->openToBrowser($fileName);
+
+		//Header Tabel
+		$daftar_kolom = [
+			['Peserta', 'peserta'],
+			['No. Peserta', 'no_id_kartu'],
+			['NIK', 'kartu_nik'],
+			['Nama', 'kartu_nama'],
+			['Tempat Lahir', 'kartu_tempat_lahir'],
+			['Tanggal Lahir', 'kartu_tanggal_lahir'],
+			['Alamat', 'kartu_alamat'],
+		];
+
+		$judul = array_column($daftar_kolom, 0);
+		$header = WriterEntityFactory::createRowFromArray($judul);
+		$writer->addRow($header);
+
+		//Isi Tabel
+		foreach ($bantuan[1] as $row)
+		{
+			$peserta = array(
+				$row['peserta'],
+				$row['no_id_kartu'],
+				$row['kartu_nik'],
+				$row['kartu_nama'],
+				$row['kartu_tempat_lahir'],
+				$row['kartu_tanggal_lahir'],
+				$row['kartu_alamat'],
+			);
+			$rowFromValues = WriterEntityFactory::createRowFromArray($peserta);
+			$writer->addRow($rowFromValues);
+		}
+		$writer->close();
 	}
 }

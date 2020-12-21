@@ -53,7 +53,7 @@ class Program_bantuan_model extends MY_Model {
 
 	public function __construct()
 	{
-		$this->load->model(['rtm_model', 'kelompok_model', 'wilayah_model']);
+		$this->load->model(['penduduk_model', 'rtm_model', 'kelompok_model', 'wilayah_model']);
 	}
 
 	public function autocomplete($id, $cari)
@@ -1218,6 +1218,56 @@ class Program_bantuan_model extends MY_Model {
 					->row_array();
 
 		return $kk;
+	}
+
+	public function import_data($program_id = '', $data_tambah = [], $kosongkan = 0, $data_ganti = '')
+	{
+		$this->session->success = 1;
+
+		if ($kosongkan == 1) $this->db->where('program_id', $program_id)->delete('program_peserta');
+
+		if ($data_ganti)
+		{
+			$data_ganti = explode(", ", ltrim($data_ganti, ", "));
+
+			$this->db->where_in('peserta', $data_ganti)->where('program_id', $program_id)->delete('program_peserta');
+		}
+
+		$outp = $this->db->insert_batch('program_peserta', $data_tambah);
+		status_sukses($outp, true);
+	}
+
+	public function cek_peserta($peserta = '', $sasaran = 1)
+	{
+		switch ($sasaran)
+		{
+			case 1:
+				// Penduduk
+				$data = $this->db->where('nik', $peserta)->get('penduduk_hidup')->result_array();
+				break;
+
+			case 2:
+				// Keluarga
+				$data = $this->db->where('no_kk', $peserta)->get('keluarga_aktif')->result_array();
+				break;
+
+			case 3:
+				// RTM
+				// no_rtm = no_kk
+				$data = $this->db->where('no_kk', $peserta)->get('tweb_rtm')->result_array();
+				break;
+
+			case 4:
+				// Kelompok
+				$data = $this->db->where('kode', $peserta)->get('kelompok')->result_array();
+				break;
+
+			default:
+				// Lainnya
+				break;
+		}
+
+		return $data;
 	}
 
 }

@@ -8060,7 +8060,7 @@ CREATE TABLE `program` (
   `sdate` date NOT NULL,
   `edate` date NOT NULL,
   `userid` mediumint(9) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `asaldana` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -8091,18 +8091,18 @@ CREATE TABLE `program_peserta` (
   `kartu_peserta` varchar(100) DEFAULT NULL,
   `kartu_id_pend` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (2, '5201140104126994', 1, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (3, '5201140105136997', 1, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (4, '5201140104126995', 2, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (5, '5201140105136997', 2, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (6, '5201140104126995', 3, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (7, '5201140105136997', 3, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (8, '5201140104166999', 4, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (9, '5201140105136997', 4, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (10, '5201142005716996', 5, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
-INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (11, '5201140706966997', 5, NULL, '', NULL, NULL, NULL, NULL, '', NULL);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (1, '5201140105136997', 1, '1', '5201143112797117', 'DAHRI', 'MASBAGIK', '1978-12-31', 'RT 003  RW - Dusun Loco', NULL, 12);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (2, '5201140104126994', 1, '2', '5201142005716996', 'AHLUL', 'MANGSIT', '1970-05-20', 'RT 004  RW - Dusun Mangsit', NULL, 1);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (3, '5201140104126995', 2, '1', '5201141003666996', 'AHYAR', 'JAKARTA', '1965-03-10', 'RT 001  RW - Dusun Senggigi', NULL, 5);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (4, '5201140105136997', 2, '2', '5201143112797117', 'DAHRI', 'MASBAGIK', '1978-12-31', 'RT 003  RW - Dusun Loco', NULL, 12);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (5, '5201140104126995', 3, '1', '5201141003666996', 'AHYAR', 'JAKARTA', '1965-03-10', 'RT 001  RW - Dusun Senggigi', NULL, 5);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (6, '5201140105136997', 3, '2', '5201143112797117', 'DAHRI', 'MASBAGIK', '1978-12-31', 'RT 003  RW - Dusun Loco', NULL, 12);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (7, '5201140104166999', 4, '1', '5201140107867064', 'ASHARI', 'KERANDANGAN', '1985-12-30', 'RT 002  RW - Dusun Kerandangan', NULL, 9);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (8, '5201140105136997', 4, '2', '5201143112797117', 'DAHRI', 'MASBAGIK', '1978-12-31', 'RT 003  RW - Dusun Loco', NULL, 12);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (9, '5201142005716996', 5, '1', '5201142005716996', 'AHLUL', 'MANGSIT', '1970-05-20', 'RT 004  RW - Dusun Mangsit', NULL, 1);
+INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (10, '5201140706966997', 5, '2', '5201140706966997', 'AHMAD ALLIF RIZKI', 'MANGSIT', '1995-06-07', 'RT 004  RW - Dusun Mangsit', NULL, 2);
 
 
 #

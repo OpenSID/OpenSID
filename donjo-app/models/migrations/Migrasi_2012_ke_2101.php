@@ -61,6 +61,9 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
+		// Field unik pd tabel kelompok
+		$this->db->query("ALTER TABLE `kelompok` ADD UNIQUE INDEX `kode` (`kode`)");
+
 		status_sukses($hasil);
 	}
 
