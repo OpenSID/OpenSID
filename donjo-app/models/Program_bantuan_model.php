@@ -1239,27 +1239,51 @@ class Program_bantuan_model extends MY_Model {
 
 	public function cek_peserta($peserta = '', $sasaran = 1)
 	{
+		if (in_array($peserta, [NULL, '-', ' ', '0'])) return false;
+
 		switch ($sasaran)
 		{
 			case 1:
 				// Penduduk
-				$data = $this->db->where('nik', $peserta)->get('penduduk_hidup')->result_array();
+				$data = $this->db
+					->select('nik')
+					->where('nik', $peserta)
+					->get('penduduk_hidup')
+					->result_array();
 				break;
 
 			case 2:
 				// Keluarga
-				$data = $this->db->where('no_kk', $peserta)->get('keluarga_aktif')->result_array();
+				$data = $this->db
+					->select('p.nik')
+					->from('penduduk_hidup p')
+					->join('keluarga_aktif k','k.id = p.id_kk', 'left')
+					->where('k.no_kk', $peserta)
+					->get()
+					->result_array();
 				break;
 
 			case 3:
 				// RTM
 				// no_rtm = no_kk
-				$data = $this->db->where('no_kk', $peserta)->get('tweb_rtm')->result_array();
+				$data = $this->db
+					->select('p.nik')
+					->from('penduduk_hidup p')
+					->join('tweb_rtm r','p.id = r.nik_kepala', 'left')
+					->where('r.no_kk', $peserta)
+					->get()
+					->result_array();
 				break;
 
 			case 4:
 				// Kelompok
-				$data = $this->db->where('kode', $peserta)->get('kelompok')->result_array();
+				$data = $this->db
+					->select('p.nik')
+					->from('penduduk_hidup p')
+					->join('kelompok kl','p.id = kl.id_ketua', 'left')
+					->where('kl.kode', $peserta)
+					->get()
+					->result_array();
 				break;
 
 			default:
@@ -1267,7 +1291,7 @@ class Program_bantuan_model extends MY_Model {
 				break;
 		}
 
-		return $data;
+		return str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik'))));
 	}
 
 }

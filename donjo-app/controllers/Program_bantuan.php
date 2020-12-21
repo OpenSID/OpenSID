@@ -388,7 +388,7 @@ class Program_bantuan extends Admin_Controller {
 
 					// Cek valid data peserta sesuai sasaran
 					$cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
-					if ( ! $cek_peserta)
+					if ( ! $cek_peserta OR ! in_array($nik, $cek_peserta))
 					{
 						$no_gagal++;
 						$pesan .= "- Data baris <b> Ke-" . ($no_baris - 1) . "</b> => (Data peserta tidak ditemukan) <br>";
@@ -459,7 +459,7 @@ class Program_bantuan extends Admin_Controller {
 					'gagal' => $no_gagal,
 					'sukses' => $no_sukses,
 					'pesan' => $pesan,
-					'total' => $total . ' => ' . $cek_peserta,
+					'total' => $total,
 				];
 
 				$this->session->set_flashdata('notif', $notif);
