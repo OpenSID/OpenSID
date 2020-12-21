@@ -157,12 +157,12 @@ class Program_bantuan extends Admin_Controller {
 		{
 			case '1':
 			case '2':
-			$peserta_id = $data['peserta']['kartu_id_pend'];
-			break;
+				$peserta_id = $data['peserta']['kartu_id_pend'];
+				break;
 			case '3':
 			case '4':
-			$peserta_id = $data['peserta']['peserta'];
-			break;
+				$peserta_id = $data['peserta']['peserta'];
+				break;
 		}
 		$data['individu'] = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
 		$data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($data['peserta']['sasaran'], $data['peserta']['peserta']);
