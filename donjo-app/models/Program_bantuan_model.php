@@ -1220,7 +1220,30 @@ class Program_bantuan_model extends MY_Model {
 		return $kk;
 	}
 
-	public function impor_data($program_id = '', $data_tambah = [], $kosongkan = 0, $data_ganti = '')
+	public function impor_program($program_id = NULL, $data_program = [], $ganti_program = 0)
+	{
+		$this->session->success = 1;
+		$sekarang = date("Y m d");
+		$data_tambahan = [
+			'userid' => $this->session->user,
+			'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
+		];
+
+		$data_program = array_merge($data_program, $data_tambahan);
+
+		if ($program_id == NULL)
+		{
+			$this->db->insert('program', $data_program);
+
+			return $this->db->insert_id();
+		}
+
+		if ($ganti_program == 1) $this->db->where('id', $program_id)->update('program', $data_program);
+
+		return $program_id;
+	}
+
+	public function impor_peserta($program_id = '', $data_peserta = [], $kosongkan = 0, $data_ganti = '')
 	{
 		$this->session->success = 1;
 
@@ -1233,7 +1256,7 @@ class Program_bantuan_model extends MY_Model {
 			$this->db->where_in('peserta', $data_ganti)->where('program_id', $program_id)->delete('program_peserta');
 		}
 
-		$outp = $this->db->insert_batch('program_peserta', $data_tambah);
+		$outp = $this->db->insert_batch('program_peserta', $data_peserta);
 		status_sukses($outp, true);
 	}
 
@@ -1292,8 +1315,8 @@ class Program_bantuan_model extends MY_Model {
 		}
 
 		$data = [
-			'id' => $data[0]['id'],
-			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik'))))
+			'id' => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
+			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik')))) // untuk daftar valid anggota keluarga
 		];
 
 		return $data;

@@ -34,13 +34,13 @@
 							</ul>
 						</div>
 						<div class="btn-group btn-group-vertical">
-							<a class="btn btn-social btn-flat bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-database'></i> Expor/Impor</a>
+							<a class="btn btn-social btn-flat bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-database'></i> Expor / Impor</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="<?= site_url("program_bantuan/impor/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="impor Peserta <?= strtoupper($detail["nama"]); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="impor Peserta <?= strtoupper($detail["nama"]); ?>" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> Impor</a>
+									<a href="<?= site_url("program_bantuan/impor"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Program Bantuan" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> Impor Program Bantuan</a>
 								</li>
 								<li>
-									<a href="<?= site_url("program_bantuan/proses_expor/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Export"><i class="fa fa-download"></i> Expor</a>
+									<a href="<?= site_url("program_bantuan/proses_expor/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Expor Program Bantuan"><i class="fa fa-download"></i> Expor Program Bantuan</a>
 								</li>
 							</ul>
 						</div>
@@ -159,12 +159,12 @@
 						<table class="table table-bordered table-striped table-hover tabel-rincian">
 							<tbody>
 								<tr>
-									<td width="30%">Data Gagal</td>
+									<td width="30%">Data Peserta Gagal</td>
 									<td width="1">:</td>
 									<td><?= $data['gagal']; ?></td>
 								</tr>
 								<tr>
-									<td>Data Sukses</td>
+									<td>Data Peserta Sukses</td>
 									<td> : </td>
 									<td><?= $data['sukses']; ?></td>
 								</tr>
@@ -172,11 +172,6 @@
 									<td>Informasi Tambahan </td>
 									<td> : </td>
 									<td><?= $data['pesan']; ?></td>
-								</tr>
-								<tr>
-									<td>Data impor</td>
-									<td> : </td>
-									<td><?= $data['total']; ?></td>
 								</tr>
 							</tbody>
 						</table>
