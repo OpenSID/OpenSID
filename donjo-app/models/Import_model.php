@@ -82,8 +82,8 @@ class Import_model extends CI_Model {
 			return false;
 		}
 
-		$mime_type_excel = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroEnabled.12');
-		if (!in_array($_FILES['userfile']['type'], $mime_type_excel))
+		$mime_type_excel = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12');
+		if ( ! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel))
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
 			$_SESSION['success'] = -1;
