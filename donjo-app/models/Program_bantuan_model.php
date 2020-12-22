@@ -1220,7 +1220,7 @@ class Program_bantuan_model extends MY_Model {
 		return $kk;
 	}
 
-	public function import_data($program_id = '', $data_tambah = [], $kosongkan = 0, $data_ganti = '')
+	public function impor_data($program_id = '', $data_tambah = [], $kosongkan = 0, $data_ganti = '')
 	{
 		$this->session->success = 1;
 

@@ -319,13 +319,13 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/detail/$program_id");
 	}
 
-	public function import($program_id = '')
+	public function impor($program_id = '')
 	{
-		$data['form_action'] = site_url("program_bantuan/proses_import/$program_id");
-		$this->load->view('program_bantuan/import', $data);
+		$data['form_action'] = site_url("program_bantuan/proses_impor/$program_id");
+		$this->load->view('program_bantuan/impor', $data);
 	}
 
-	public function proses_import($program_id = '')
+	public function proses_impor($program_id = '')
 	{
 		$kosongkan = $this->input->post('kosongkan');
 		$ganti = $this->input->post('ganti');
@@ -342,7 +342,7 @@ class Program_bantuan extends Admin_Controller {
 		$config['upload_path']		= LOKASI_DOKUMEN;
 		$config['allowed_types']	= 'xls|xlsx';
 		//$config['max_size']				= max_upload() * 100024;
-		$config['file_name']			= namafile('Import Peserta Program Bantuan');
+		$config['file_name']			= namafile('impor Peserta Program Bantuan');
 
 		$this->upload->initialize($config);
 
@@ -388,7 +388,7 @@ class Program_bantuan extends Admin_Controller {
 
 					// Cek valid data peserta sesuai sasaran
 					$cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
-					if ( ! $cek_peserta OR ! in_array($nik, $cek_peserta))
+					if (! in_array($nik, $cek_peserta))
 					{
 						$no_gagal++;
 						$pesan .= "- Data baris <b> Ke-" . ($no_baris - 1) . "</b> => (Data peserta tidak ditemukan) <br>";
@@ -404,7 +404,7 @@ class Program_bantuan extends Admin_Controller {
 						continue;
 					}
 
-					// Cek data peserta yg akan dimport dan yg sudah ada
+					// Cek data peserta yg akan dimpor dan yg sudah ada
 					if (in_array($peserta, $terdaftar) && $ganti != 1)
 					{
 						$no_gagal++;
@@ -419,13 +419,13 @@ class Program_bantuan extends Admin_Controller {
 					}
 
 					// Random no. kartu peserta
-					if ($rand_kartu == 1) $no_id_kartu = random_int(1, 100);
+					if ($rand_kartu == 1) $no_id_kartu = 'acak-' . random_int(1, 100);
 
 					// Ubaha data peserta menjadi id (untuk saat ini masih data kelompok yg menggunakan id)
 					// Berkaitan dgn issue #3417
 					if ($sasaran == 4) $peserta = $cek_peserta[0];
 
-					// Simpan data peserta yg diimport dalam bentuk array
+					// Simpan data peserta yg diimpor dalam bentuk array
 					$simpan = [
 						'peserta' => $peserta,
 						'program_id' => $program_id,
@@ -450,14 +450,14 @@ class Program_bantuan extends Admin_Controller {
 
 			if ($total <= 0)
 			{
-				$this->session->error_msg = " -> Tidak ada data yang bisa diimport";
+				$this->session->error_msg = " -> Tidak ada data yang bisa diimpor";
 				$this->session->success = -1;
 			}
 			else
 			{
-				$this->program_bantuan_model->import_data($program_id, $tambah, $kosongkan, $data_ganti);
+				$this->program_bantuan_model->impor_data($program_id, $tambah, $kosongkan, $data_ganti);
 
-				if ($no_gagal == 0) $pesan .= "- Semua data sukses di import";
+				if ($no_gagal == 0) $pesan .= "- Semua data sukses di impor";
 
 				$notif = [
 					'gagal' => $no_gagal,
@@ -476,7 +476,7 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/detail/$program_id");
 	}
 
-	public function proses_export($program_id = '')
+	public function proses_expor($program_id = '')
 	{
 		$writer = WriterEntityFactory::createXLSXWriter();
 
