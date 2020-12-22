@@ -21,6 +21,7 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 15. #3825: Perbaiki kode barang di modul Inventaris. [bug-fix]
 16. #3801: Sekarang pesan gagal tidak tampil kalau berhasil impor data penduduk yg dibuat menggunakan template macro FormatImportExcel.xlsm. [bug-fix]
 17. #3837: Perbaiki dan tampilkan gambar utama artikel di feed RSS. Sekarang hanya artikel dinamis yang ditampilkan.
+18. #2687: Sekarang jumlah surat yg dicetak dan diunduh dari arsip layanan surat tidak dibatasi.
 
 
 Fitur Premium:

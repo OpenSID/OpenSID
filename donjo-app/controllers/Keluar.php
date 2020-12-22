@@ -191,51 +191,42 @@ class Keluar extends Admin_Controller {
 		redirect('keluar');
 	}
 
-  public function cetak_surat_keluar($id)
-  {
-    $berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
-    ambilBerkas($berkas->nama_surat, 'keluar');
-  }
-
-  public function unduh_lampiran($id)
-  {
-    $berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
-    ambilBerkas($berkas->lampiran, 'keluar');
-  }
-
-  public function dialog_cetak($o = 0)
-  {
-	  $data['aksi'] = "Cetak";
-	  $data['pamong'] = $this->pamong_model->list_data();
-	  $data['form_action'] = site_url("keluar/cetak/$o");
-	  $this->load->view('surat/ajax_cetak', $data);
-  }
-
-	public function dialog_unduh($o = 0)
+	public function cetak_surat_keluar($id)
 	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data();
-	  $data['form_action'] = site_url("keluar/unduh/$o");
-	  $this->load->view('surat/ajax_cetak', $data);
+		$berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
+		ambilBerkas($berkas->nama_surat, 'keluar');
 	}
 
-  public function cetak($o=0)
-  {
-	  $data['input'] = $_POST;
-	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-	  $data['desa'] = $this->config_model->get_data();
-	  $data['main'] = $this->keluar_model->list_data();
-	  $this->load->view('surat/keluar_print', $data);
-  }
+	public function unduh_lampiran($id)
+	{
+		$berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
+		ambilBerkas($berkas->lampiran, 'keluar');
+	}
 
-  public function unduh($o=0)
-  {
-	  $data['input'] = $_POST;
-	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-	  $data['desa'] = $this->config_model->get_data();
-	  $data['main'] = $this->keluar_model->list_data();
-	  $this->load->view('surat/keluar_excel', $data);
-  }
+	public function dialog_cetak($aksi = '')
+	{
+		$data['aksi'] = $aksi;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("keluar/cetak/$aksi");
+		$this->load->view('global/ttd_pamong', $data);
+	}
+
+	public function cetak($aksi = '')
+	{
+		$data['aksi'] = $aksi;
+		$data['input'] = $this->input->post();
+		$data['config'] = $this->header['desa'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+		$data['desa'] = $this->config_model->get_data();
+		$data['main'] = $this->keluar_model->list_data();
+
+		//pengaturan data untuk format cetak/ unduh
+		$data['file'] = "Data Arsip Layanan Desa ";
+		$data['isi'] = "surat/cetak";
+		$data['letak_ttd'] = ['2', '2', '3'];
+
+		$this->load->view('global/format_cetak', $data);
+	}
+
 }
