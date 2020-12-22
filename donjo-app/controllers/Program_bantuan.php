@@ -47,8 +47,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
 
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Common\Entity\Style\Color;
 use Box\Spout\Common\Entity\Row;
 
 class Program_bantuan extends Admin_Controller {
@@ -478,46 +480,64 @@ class Program_bantuan extends Admin_Controller {
 
 	public function proses_expor($program_id = '')
 	{
-		$writer = WriterEntityFactory::createXLSXWriter();
-
 		// Data Program Bantuan
+		$temp = $this->session->per_page;
+		$this->session->per_page = '100000';
 		$data = $this->program_bantuan_model->get_program(1, $program_id);
-		$sasaran = $data[0]['sasaran'];
+		$tbl_program = $data[0];
+		$tbl_peserta = $data[1];
 
 		//Nama File
-		$fileName = namafile('program_bantuan_' . $data[0]['nama']) . '.xlsx';
+		$writer = WriterEntityFactory::createXLSXWriter();
+		$fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
 		$writer->openToBrowser($fileName);
 
-		//Header Tabel
-		$daftar_kolom = [
-			['Peserta', 'peserta'],
-			['No. Peserta', 'no_id_kartu'],
-			['NIK', 'kartu_nik'],
-			['Nama', 'kartu_nama'],
-			['Tempat Lahir', 'kartu_tempat_lahir'],
-			['Tanggal Lahir', 'kartu_tanggal_lahir'],
-			['Alamat', 'kartu_alamat'],
+		// Sheet Program
+		$writer->getCurrentSheet()->setName('Program');
+		$isi = [
+			['id', $tbl_program['id']],
+			['Nama Program', $tbl_program['nama']],
+			['Sasaran Program', $tbl_program['sasaran']],
+			['Keterangan', $tbl_program['ndesc']],
+			['Asal Dana', $tbl_program['asaldana']],
+			['Rentang Waktu (Awal)', $tbl_program['sdate']],
+			['Rentang Waktu (Akhir)', $tbl_program['edate']],
+			['Status', $tbl_program['status']],
 		];
 
-		$judul = array_column($daftar_kolom, 0);
-		$header = WriterEntityFactory::createRowFromArray($judul);
+		foreach ($isi as $row)
+		{
+			$data_program = [$row[0], $row[1]];
+			$rowFromValues = WriterEntityFactory::createRowFromArray($data_program);
+			$writer->addRow($rowFromValues);
+		}
+
+		// Sheet Peserta
+		$writer->addNewSheetAndMakeItCurrent()->setName('Peserta');
+		$judul = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
+		$style = (new StyleBuilder())
+			->setFontBold()
+			->setFontSize(12)
+			->setBackgroundColor(Color::YELLOW)
+			->build();
+		$header = WriterEntityFactory::createRowFromArray($judul, $style);
 		$writer->addRow($header);
 
 		//Isi Tabel
-		foreach ($data[1] as $row)
+		foreach ($tbl_peserta as $row)
 		{
 			$peserta = $row['peserta'];
 			// Ubah id menjadi kode untuk data kelompok
 			// Berkaitan dgn issue #3417
 			// Cari data kelompok berdasarkan id
-			if ($sasaran == 4)
+			if ($tbl_program['sasaran'] == 4)
 			{
 				$this->load->model('kelompok_model');
 				$kelompok = $this->kelompok_model->get_kelompok($peserta);
 				$peserta = $kelompok['kode'];
 			}
 
-			$data_peserta = array(
+			$data_peserta = [
 				$peserta,
 				$row['no_id_kartu'],
 				$row['kartu_nik'],
@@ -525,11 +545,15 @@ class Program_bantuan extends Admin_Controller {
 				$row['kartu_tempat_lahir'],
 				$row['kartu_tanggal_lahir'],
 				$row['kartu_alamat'],
-			);
+			];
 			$rowFromValues = WriterEntityFactory::createRowFromArray($data_peserta);
 			$writer->addRow($rowFromValues);
 		}
 		$writer->close();
+
+		$this->session->per_page = $temp;
+
+		redirect("program_bantuan/detail/$program_id");
 	}
 
 }
