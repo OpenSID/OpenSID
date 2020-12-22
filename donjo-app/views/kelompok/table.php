@@ -123,6 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<th><input type="checkbox" id="checkall"/></th>
 													<th>No</th>
 													<th>Aksi</th>
+													<th>Kode Kelompok</th>
 													<th width="50%"><?= url_order($o, "{$this->controller}/{$func}/$p", 1, 'Nama Kelompok'); ?></th>
 													<th><?= url_order($o, "{$this->controller}/{$func}/$p", 3, 'Ketua Kelompok'); ?></th>
 													<th><?= url_order($o, "{$this->controller}/{$func}/$p", 5, 'Kategori Kelompok'); ?></th>
@@ -140,6 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																<a href="<?= site_url("kelompok/form/$p/$o/$data[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data Kelompok"><i class='fa fa-edit'></i></a>
 																<a href="#" data-href="<?= site_url("kelompok/delete/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															</td>
+															<td nowrap><?= $data['kode']; ?></td>
 															<td nowrap><?= $data['nama']; ?></td>
 															<td nowrap><?= $data['ketua']; ?></td>
 															<td><?= $data['master']; ?></td>

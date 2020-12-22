@@ -34,13 +34,13 @@
 							</ul>
 						</div>
 						<div class="btn-group btn-group-vertical">
-							<a class="btn btn-social btn-flat bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-database'></i> Export/Import</a>
+							<a class="btn btn-social btn-flat bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-database'></i> Expor/Impor</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="<?= site_url("program_bantuan/import/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Import Peserta <?= strtoupper($detail["nama"]); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Import Peserta <?= strtoupper($detail["nama"]); ?>" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> Import</a>
+									<a href="<?= site_url("program_bantuan/impor/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="impor Peserta <?= strtoupper($detail["nama"]); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="impor Peserta <?= strtoupper($detail["nama"]); ?>" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> impor</a>
 								</li>
 								<li>
-									<a href="<?= site_url("program_bantuan/proses_export/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Export"><i class="fa fa-download"></i> Export</a>
+									<a href="<?= site_url("program_bantuan/proses_expor/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Export"><i class="fa fa-download"></i> Expor</a>
 								</li>
 							</ul>
 						</div>
@@ -174,7 +174,7 @@
 									<td><?= $data['pesan']; ?></td>
 								</tr>
 								<tr>
-									<td>Data Import</td>
+									<td>Data impor</td>
 									<td> : </td>
 									<td><?= $data['total']; ?></td>
 								</tr>
