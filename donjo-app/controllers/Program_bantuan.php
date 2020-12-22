@@ -357,7 +357,7 @@ class Program_bantuan extends Admin_Controller {
 
 			$data_program = [];
 			$data_peserta = [];
-			$data_ganti = '';
+			$data_diubah = '';
 
 			foreach ($reader->getSheetIterator() as $sheet)
 			{
@@ -425,8 +425,8 @@ class Program_bantuan extends Admin_Controller {
 
 					if ($kosongkan_peserta == 1)
 					{
-						$pesan .= "- Total <b>" . count($terdaftar) . " data peserta </b> sukses dikosongkan<br>";
-						$terdaftar = NULL;
+						$pesan .= "- Total <b>" . count($terdaftar_peserta) . " data peserta </b> sukses dikosongkan<br>";
+						$terdaftar_peserta = NULL;
 					}
 
 					foreach ($sheet->getRowIterator() as $row)
@@ -474,7 +474,7 @@ class Program_bantuan extends Admin_Controller {
 
 						if (in_array($peserta, $terdaftar_peserta) && $ganti == 1)
 						{
-							$data_ganti .= ", " . $peserta;
+							$data_diubah .= ", " . $peserta;
 							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> ditambahkan menggantikan data lama <br>";
 						}
 
@@ -509,7 +509,7 @@ class Program_bantuan extends Admin_Controller {
 					}
 					else
 					{
-						$this->program_bantuan_model->impor_peserta($program_id, $data_peserta, $kosongkan_peserta, $data_ganti);
+						$this->program_bantuan_model->impor_peserta($program_id, $data_peserta, $kosongkan_peserta, $data_diubah);
 					}
 				}
 			}
@@ -608,15 +608,6 @@ class Program_bantuan extends Admin_Controller {
 		$writer->close();
 
 		$this->session->per_page = $temp;
-	}
-
-	public function testing()
-	{
-		$program_id = 30;
-		$data = $this->program_bantuan_model->get_program(1, $program_id);
-		$daftar_program = str_replace("'", "", explode (", ", sql_in_list(array_column($data['program'], 'id', ))));
-
-		echo json_encode($data, true);
 	}
 
 

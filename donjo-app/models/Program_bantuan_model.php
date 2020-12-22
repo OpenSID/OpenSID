@@ -1243,17 +1243,17 @@ class Program_bantuan_model extends MY_Model {
 		return $program_id;
 	}
 
-	public function impor_peserta($program_id = '', $data_peserta = [], $kosongkan = 0, $data_ganti = '')
+	public function impor_peserta($program_id = '', $data_peserta = [], $kosongkan_peserta = 0, $data_diubah = '')
 	{
 		$this->session->success = 1;
 
-		if ($kosongkan == 1) $this->db->where('program_id', $program_id)->delete('program_peserta');
+		if ($kosongkan_peserta == 1) $this->db->where('program_id', $program_id)->delete('program_peserta');
 
-		if ($data_ganti)
+		if ($data_diubah)
 		{
-			$data_ganti = explode(", ", ltrim($data_ganti, ", "));
+			$data_diubah = explode(", ", ltrim($data_diubah, ", "));
 
-			$this->db->where_in('peserta', $data_ganti)->where('program_id', $program_id)->delete('program_peserta');
+			$this->db->where_in('peserta', $data_diubah)->where('program_id', $program_id)->delete('program_peserta');
 		}
 
 		$outp = $this->db->insert_batch('program_peserta', $data_peserta);
