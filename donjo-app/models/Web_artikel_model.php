@@ -68,10 +68,16 @@
 
 	private function list_data_sql($cat)
 	{
-		if ($cat > 0)
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			// khusus artikel halaman statis
 			$sql = "FROM artikel a
 				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE id_kategori = ? ";
+				WHERE id_kategori = '$cat'";
+		elseif ($cat > 0)
+			// hanya artikel tanpa halaman statis
+			$sql = "FROM artikel a
+				LEFT JOIN kategori k ON a.id_kategori = k.id
+				WHERE id_kategori = ? AND id_kategori != '999' AND id_kategori != '1000' AND id_kategori != '1001'";
 		elseif ($cat == -1)
 			// Semua artikel tidak muncul artikel statis
 			$sql = "FROM artikel a

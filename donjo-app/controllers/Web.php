@@ -74,10 +74,14 @@ class Web extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-		$cat = $this->session->kategori ?: 0;
+		$cat = $this->session->kategori ?: -1;
+
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			$cat = -1;
 
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$data['nama_halaman'] = 'Artikel';
 
 		$data['cat'] = $cat;
 		$data['cari'] = $this->session->cari ?: '';
@@ -103,11 +107,51 @@ class Web extends Admin_Controller {
 		$this->render('web/artikel/table', $data);
 	}
 
+	public function halaman_statis($p = 1, $o = 0)
+	{
+
+		$this->sub_modul_ini = 214;
+
+		$cat = $this->session->kategori ?: 999;
+
+		$data['p'] = $p;
+		$data['o'] = $o;
+		$data['nama_halaman'] = 'Halaman Statis';
+
+		$data['cat'] = $cat;
+		$data['cari'] = $this->session->cari ?: '';
+		$data['status'] = $this->session->status ?: '';
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = "index";
+		$data['per_page'] = $this->session->per_page;
+		$data['set_page'] = $this->_set_page;
+
+		$paging = $this->web_artikel_model->paging($cat, $p, $o);
+		$data['main'] = $this->web_artikel_model->list_data($cat, $o, $paging->offset, $paging->per_page);
+		$data['keyword'] = $this->web_artikel_model->autocomplete($cat);
+		$data['list_kategori'] = $this->web_artikel_model->list_kategori();
+		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
+		$data = $this->security->xss_clean($data);
+		$data['paging'] = $paging;
+
+		$this->set_minsidebar(1);
+		$this->render('web/artikel/table', $data);
+
+	}
+
 	public function tab($cat = 0)
 	{
 		$this->session->kategori = $cat;
 
-		redirect("web");
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else 
+			redirect("web");
+		
 	}
 
 	public function form($id = 0)
@@ -122,6 +166,7 @@ class Web extends Admin_Controller {
 			if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 			$this->session->kategori = $cek_data['id_kategori'];
+
 			$data['artikel'] = $cek_data;
 			$data['form_action'] = site_url("web/update/$id");
 		}
@@ -131,6 +176,14 @@ class Web extends Admin_Controller {
 			$data['form_action'] = site_url("web/insert");
 		}
 
+		if ($cat == 999 || $cat == 1000 || $cat == 1001){
+			$this->sub_modul_ini = 214;
+			$data['url'] = site_url("web/halaman_statis");
+		} else { 
+			$this->sub_modul_ini = 47;
+			$data['url'] = site_url("web");
+		}
+		
 		$data['cat'] = $cat;
 		$data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 
@@ -152,7 +205,11 @@ class Web extends Admin_Controller {
 		$cat = $this->session->kategori ?: 0;
 
 		$this->web_artikel_model->insert($cat);
-		redirect("web");
+
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	public function update($id = 0)
@@ -162,8 +219,11 @@ class Web extends Admin_Controller {
 		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
 
 		$this->web_artikel_model->update($cat, $id);
+
 		if ($this->session->success == -1)
 			redirect("web/form/$id");
+		elseif ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
 		else
 			redirect("web");
 	}
@@ -172,14 +232,24 @@ class Web extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->delete($id);
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	public function delete_all()
 	{
 		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->delete_all();
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	// TODO: Pindahkan ke controller kategori
@@ -190,7 +260,11 @@ class Web extends Admin_Controller {
 		$this->redirect_hak_akses('h');
 		$this->web_artikel_model->hapus($cat);
 		$this->session->kategori = 0;
-		redirect("web");
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	// TODO: Pindahkan ke controller kategoris
@@ -220,7 +294,12 @@ class Web extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 
 		$this->web_artikel_model->artikel_lock($id, $val);
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	public function komentar_lock($id = 0, $val = 1)
@@ -229,7 +308,12 @@ class Web extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 
 		$this->web_artikel_model->komentar_lock($id, $val);
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	// TODO: Pindahkan ke controller kategori
@@ -253,7 +337,12 @@ class Web extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 
 		$this->web_artikel_model->headline($id);
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	public function slide($id = 0)
@@ -262,7 +351,12 @@ class Web extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 
 		$this->web_artikel_model->slide($id);
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 
 	public function slider()
@@ -303,6 +397,11 @@ class Web extends Admin_Controller {
 
 		if ($cat == 999) $this->web_artikel_model->reset($cat);
 
-		redirect("web");
+		$cat = $this->session->kategori ?: 0;
+		
+		if ($cat == 999 || $cat == 1000 || $cat == 1001)
+			redirect("web/halaman_statis");
+		else
+			redirect("web");
 	}
 }

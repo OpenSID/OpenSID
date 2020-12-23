@@ -300,6 +300,7 @@ class Database_model extends CI_Model {
 		$this->jalankan_migrasi('migrasi_2008_ke_2009');
 		$this->jalankan_migrasi('migrasi_2009_ke_2010');
 		$this->jalankan_migrasi('migrasi_2010_ke_2011');
+		$this->jalankan_migrasi('migrasi_2011_ke_2012');
   }
 
   private function jalankan_migrasi($migrasi)

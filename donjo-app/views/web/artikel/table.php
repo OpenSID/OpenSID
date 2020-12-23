@@ -9,19 +9,19 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Artikel <?= $kategori['kategori']; ?></h1>
+		<h1><?= $nama_halaman.' '. $kategori['kategori']; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Artikel <?= $kategori['kategori']; ?></li>
+			<li class="active"><?= $nama_halaman.' '. $kategori['kategori']; ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
+				<?php if ($nama_halaman == 'Artikel'): ?>
 					<div class="box box-info">
 						<div class="box-body no-padding">
-							<!-- <h3 class="box-title"> -->
 								<ul class="nav nav-pills nav-stacked">
 									<li class="<?= jecho($cat, -1, 'active'); ?>">
 										<a href='<?= site_url("web/tab/-1")?>'>
@@ -29,7 +29,6 @@
 										</a>
 									</li>
 								</ul>
-							<!-- </h3> -->
 						</div>
 					</div>
 					<div class="box box-info">
@@ -58,9 +57,10 @@
 							</ul>
 						</div>
 					</div>
+				<?php else:?>
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<h3 class="box-title">Artikel Statis</h3>
+							<h3 class="box-title">Kategori</h3>
 							<div class="box-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
@@ -73,6 +73,7 @@
 							</ul>
 						</div>
 					</div>
+				<?php endif;?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">

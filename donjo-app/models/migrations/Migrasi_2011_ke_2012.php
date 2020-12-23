@@ -47,6 +47,10 @@ class Migrasi_2011_ke_2012 extends MY_model {
 
 	public function up()
 	{
+
+		$this->tambah_data_modul();
+		$this->edit_data_modul();
+		
 		$hasil = true;
 
 		// Tambah kolom masa_berlaku & satuan_masa_berlaku di tweb_surat_format
@@ -70,4 +74,44 @@ class Migrasi_2011_ke_2012 extends MY_model {
 
 		status_sukses($hasil);
 	}
+
+	private function tambah_data_modul()
+	{
+		/* ambil semua data modul dengan menu admin web */
+		$data_modul = $this->db->get_where('setting_modul', ['parent'=>13])->result();
+
+		foreach ($data_modul as $key => $value) {
+			/* ubah urutan modul dari 2 - 11 menjadi 3 - 12 */
+			if ($value->urut != 1)
+				$this->db->update('setting_modul', ['urut'=>$value->urut+1], ['id'=>$value->id]);
+		}
+
+		$data = [
+			'modul' 	 => 'Halaman Statis',
+			'url'   	 => 'web/tab/999',
+			'aktif' 	 => '1',
+			'ikon'  	 => 'fa-file-o',
+			'urut'  	 => 2,
+			'level' 	 => 4,
+			'hidden'	 => 0,
+			'ikon_kecil' => '',
+			'parent'     => 13,
+		];
+
+		/* tambah modul baru di urutan 2 */
+		$this->db->insert('setting_modul', $data);
+
+	}
+
+	private function edit_data_modul()
+	{
+
+		$data_update = [
+			'urut' => 3
+		];
+
+		$this->db->update('setting_modul', $data_update, ['id'=>48]);
+
+	}
+
 }

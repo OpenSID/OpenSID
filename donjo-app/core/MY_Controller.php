@@ -226,6 +226,7 @@ class Admin_Controller extends MY_Controller {
 			session_error("Fitur ini tidak aktif");
 			redirect('/');
 		}
+		
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))
