@@ -49,6 +49,8 @@
 				$baris->rt = '-';
 			if (empty($baris->rw))
 				$baris->rw = '-';
+			if (!empty($baris->foto))
+				$baris->foto = 'kecil_' . $baris->foto;
 			$data[$i] = $baris;
 		}
 
