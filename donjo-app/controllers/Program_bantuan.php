@@ -323,16 +323,10 @@ class Program_bantuan extends Admin_Controller {
 
 	public function impor()
 	{
+		$program_id = '';
 		// Data Program Bantuan
 		$temp = $this->session->per_page;
 		$this->session->per_page = 1000000000;
-		$data['form_action'] = site_url("program_bantuan/proses_impor");
-		$this->load->view('program_bantuan/impor', $data);
-	}
-
-	public function proses_impor()
-	{
-		$program_id = '';
 		$ganti_program = $this->input->post('ganti_program');
 		$kosongkan_peserta = $this->input->post('kosongkan_peserta');
 		$ganti_peserta = $this->input->post('ganti_peserta');
@@ -465,14 +459,14 @@ class Program_bantuan extends Admin_Controller {
 						}
 
 						// Cek data peserta yg akan dimpor dan yg sudah ada
-						if (in_array($peserta, $terdaftar_peserta) && $ganti != 1)
+						if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta != 1)
 						{
 							$no_gagal++;
 							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> sudah ada <br>";
 							continue;
 						}
 
-						if (in_array($peserta, $terdaftar_peserta) && $ganti == 1)
+						if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta == 1)
 						{
 							$data_diubah .= ", " . $peserta;
 							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> ditambahkan menggantikan data lama <br>";
@@ -534,7 +528,7 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/detail/$program_id");
 	}
 
-	public function proses_expor($program_id = '')
+	public function expor($program_id = '')
 	{
 		// Data Program Bantuan
 		$temp = $this->session->per_page;

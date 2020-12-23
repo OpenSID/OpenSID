@@ -33,17 +33,6 @@
 								</li>
 							</ul>
 						</div>
-						<div class="btn-group btn-group-vertical">
-							<a class="btn btn-social btn-flat bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-database'></i> Expor / Impor</a>
-							<ul class="dropdown-menu" role="menu">
-								<li>
-									<a href="<?= site_url("program_bantuan/impor"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Program Bantuan" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> Impor Program Bantuan</a>
-								</li>
-								<li>
-									<a href="<?= site_url("program_bantuan/proses_expor/$detail[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Expor Program Bantuan"><i class="fa fa-download"></i> Expor Program Bantuan</a>
-								</li>
-							</ul>
-						</div>
 					<?php endif; ?>
 					<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?=site_url("program_bantuan/delete_all/$detail[id]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					<a href="<?= site_url("program_bantuan/daftar/$detail[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
