@@ -323,15 +323,6 @@ class Program_bantuan extends Admin_Controller {
 
 	public function impor()
 	{
-		$program_id = '';
-		// Data Program Bantuan
-		$temp = $this->session->per_page;
-		$this->session->per_page = 1000000000;
-		$ganti_program = $this->input->post('ganti_program');
-		$kosongkan_peserta = $this->input->post('kosongkan_peserta');
-		$ganti_peserta = $this->input->post('ganti_peserta');
-		$rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
-
 		$this->load->library('upload');
 
 		$config['upload_path']		= LOKASI_DOKUMEN;
@@ -343,6 +334,15 @@ class Program_bantuan extends Admin_Controller {
 
 		if ($this->upload->do_upload('userfile'))
 		{
+			$program_id = '';
+			// Data Program Bantuan
+			$temp = $this->session->per_page;
+			$this->session->per_page = 1000000000;
+			$ganti_program = $this->input->post('ganti_program');
+			$kosongkan_peserta = $this->input->post('kosongkan_peserta');
+			$ganti_peserta = $this->input->post('ganti_peserta');
+			$rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
+
 			$upload = $this->upload->data();
 			$file = LOKASI_DOKUMEN . $upload['file_name'];
 
@@ -411,7 +411,7 @@ class Program_bantuan extends Admin_Controller {
 				}
 
 				// Sheet Peserta
-				if ($sheet->getName() == 'Peserta')
+				else
 				{
 					$ambil_peserta = $this->program_bantuan_model->get_program(1, $program_id);
 					$sasaran = $ambil_peserta[0]['sasaran'];
@@ -419,7 +419,7 @@ class Program_bantuan extends Admin_Controller {
 
 					if ($kosongkan_peserta == 1)
 					{
-						$pesan .= "- Total <b>" . count($terdaftar_peserta) . " data peserta </b> sukses dikosongkan<br>";
+						$pesan .= "- Data peserta " . ($ambil_peserta[0]['nama']) . " sukses dikosongkan<br>";
 						$terdaftar_peserta = NULL;
 					}
 
@@ -434,18 +434,14 @@ class Program_bantuan extends Admin_Controller {
 						if ($peserta == '###') break;
 
 						// Abaikan baris pertama / judul
-						if ($pertama == false)
-						{
-							$pertama = true;
-							continue;
-						}
+						if ($no_baris <= 1) continue;
 
 						// Cek valid data peserta sesuai sasaran
 						$cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
 						if ( ! in_array($nik, $cek_peserta['valid']))
 						{
 							$no_gagal++;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . " (Peserta = " . $peserta . ")</b> tidak ditemukan <br>";
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / " . $cek_peserta['sasaran_peserta'] . " = " . $peserta . "</b> tidak ditemukan <br>";
 							continue;
 						}
 
@@ -454,7 +450,7 @@ class Program_bantuan extends Admin_Controller {
 						if ( ! $cek_penduduk['id'])
 						{
 							$no_gagal++;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . " (NIK = " . $nik . ")</b> tidak ditemukan <br>";
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / NIK = " . $nik . "</b> yang terdaftar tidak ditemukan <br>";
 							continue;
 						}
 
@@ -462,18 +458,18 @@ class Program_bantuan extends Admin_Controller {
 						if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta != 1)
 						{
 							$no_gagal++;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> sudah ada <br>";
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> sudah ada <br>";
 							continue;
 						}
 
 						if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta == 1)
 						{
 							$data_diubah .= ", " . $peserta;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> ditambahkan menggantikan data lama <br>";
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> ditambahkan menggantikan data lama <br>";
 						}
 
 						// Random no. kartu peserta
-						if ($rand_kartu == 1) $no_id_kartu = 'acak-' . random_int(1, 100);
+						if ($rand_kartu == 1) $no_id_kartu = 'acak_' . random_int(1, 1000);
 
 						// Ubaha data peserta menjadi id (untuk saat ini masih data kelompok yg menggunakan id)
 						// Berkaitan dgn issue #3417
@@ -518,14 +514,14 @@ class Program_bantuan extends Admin_Controller {
 			];
 
 			$this->session->set_flashdata('notif', $notif);
+			$this->session->per_page = $temp;
+
+			redirect("program_bantuan/detail/$program_id");
 		} else {
 			$this->session->error_msg = $this->upload->display_errors();
 			$this->session->success = -1;
 		}
 
-		$this->session->per_page = $temp;
-
-		redirect("program_bantuan/detail/$program_id");
 	}
 
 	public function expor($program_id = '')
@@ -544,7 +540,7 @@ class Program_bantuan extends Admin_Controller {
 
 		// Sheet Program
 		$writer->getCurrentSheet()->setName('Program');
-		$isi = [
+		$data_program = [
 			['id', $tbl_program['id']],
 			['Nama Program', $tbl_program['nama']],
 			['Sasaran Program', $tbl_program['sasaran']],
@@ -552,25 +548,24 @@ class Program_bantuan extends Admin_Controller {
 			['Asal Dana', $tbl_program['asaldana']],
 			['Rentang Waktu (Awal)', $tbl_program['sdate']],
 			['Rentang Waktu (Akhir)', $tbl_program['edate']],
-			['Status', $tbl_program['status']],
 		];
 
-		foreach ($isi as $row)
+		foreach ($data_program as $row)
 		{
-			$data_program = [$row[0], $row[1]];
-			$rowFromValues = WriterEntityFactory::createRowFromArray($data_program);
+			$expor_program = [$row[0], $row[1]];
+			$rowFromValues = WriterEntityFactory::createRowFromArray($expor_program);
 			$writer->addRow($rowFromValues);
 		}
 
 		// Sheet Peserta
 		$writer->addNewSheetAndMakeItCurrent()->setName('Peserta');
-		$judul = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
+		$judul_peserta = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
 		$style = (new StyleBuilder())
 			->setFontBold()
 			->setFontSize(12)
 			->setBackgroundColor(Color::YELLOW)
 			->build();
-		$header = WriterEntityFactory::createRowFromArray($judul, $style);
+		$header = WriterEntityFactory::createRowFromArray($judul_peserta, $style);
 		$writer->addRow($header);
 
 		//Isi Tabel
@@ -603,6 +598,5 @@ class Program_bantuan extends Admin_Controller {
 
 		$this->session->per_page = $temp;
 	}
-
 
 }

@@ -1268,6 +1268,8 @@ class Program_bantuan_model extends MY_Model {
 		{
 			case 1:
 				// Penduduk
+				$sasaran_peserta = 'NIK';
+
 				$data = $this->db
 					->select('id, nik')
 					->where('nik', $peserta)
@@ -1277,6 +1279,8 @@ class Program_bantuan_model extends MY_Model {
 
 			case 2:
 				// Keluarga
+				$sasaran = 'No. KK';
+
 				$data = $this->db
 					->select('k.id, p.nik')
 					->from('penduduk_hidup p')
@@ -1289,6 +1293,8 @@ class Program_bantuan_model extends MY_Model {
 			case 3:
 				// RTM
 				// no_rtm = no_kk
+				$sasaran_peserta = 'No. RTM';
+
 				$data = $this->db
 					->select('r.id, p.nik')
 					->from('penduduk_hidup p')
@@ -1300,6 +1306,8 @@ class Program_bantuan_model extends MY_Model {
 
 			case 4:
 				// Kelompok
+				$sasaran_peserta = 'Kode Kelompok';
+
 				$data = $this->db
 					->select('kl.id, p.nik')
 					->from('penduduk_hidup p')
@@ -1316,6 +1324,7 @@ class Program_bantuan_model extends MY_Model {
 
 		$data = [
 			'id' => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
+			'sasaran_peserta' => $sasaran_peserta,
 			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik')))) // untuk daftar valid anggota keluarga
 		];
 
