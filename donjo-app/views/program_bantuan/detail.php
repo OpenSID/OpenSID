@@ -157,11 +157,13 @@
 									<td> : </td>
 									<td><?= $data['sukses']; ?></td>
 								</tr>
-								<tr>
-									<td>Informasi Tambahan </td>
-									<td> : </td>
-									<td><?= $data['pesan']; ?></td>
-								</tr>
+								<?php if ($data['pesan']): ?>
+									<tr>
+										<td>Informasi Tambahan </td>
+										<td> : </td>
+										<td><?= $data['pesan']; ?></td>
+									</tr>
+								<?php endif; ?>
 							</tbody>
 						</table>
 					</div>
