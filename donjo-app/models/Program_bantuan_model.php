@@ -53,7 +53,7 @@ class Program_bantuan_model extends MY_Model {
 
 	public function __construct()
 	{
-		$this->load->model(['rtm_model', 'kelompok_model', 'wilayah_model']);
+		$this->load->model(['penduduk_model', 'rtm_model', 'kelompok_model', 'wilayah_model']);
 	}
 
 	public function autocomplete($id, $cari)
@@ -1218,6 +1218,108 @@ class Program_bantuan_model extends MY_Model {
 					->row_array();
 
 		return $kk;
+	}
+
+	public function impor_program($program_id = NULL, $data_program = [], $ganti_program = 0)
+	{
+		$this->session->success = 1;
+		$sekarang = date("Y m d");
+		$data_tambahan = [
+			'userid' => $this->session->user,
+			'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
+		];
+
+		$data_program = array_merge($data_program, $data_tambahan);
+
+		if ($program_id == NULL)
+		{
+			$this->db->insert('program', $data_program);
+
+			return $this->db->insert_id();
+		}
+
+		if ($ganti_program == 1) $this->db->where('id', $program_id)->update('program', $data_program);
+
+		return $program_id;
+	}
+
+	public function impor_peserta($program_id = '', $data_peserta = [], $kosongkan_peserta = 0, $data_diubah = '')
+	{
+		$this->session->success = 1;
+
+		if ($kosongkan_peserta == 1) $this->db->where('program_id', $program_id)->delete('program_peserta');
+
+		if ($data_diubah)
+		{
+			$data_diubah = explode(", ", ltrim($data_diubah, ", "));
+
+			$this->db->where_in('peserta', $data_diubah)->where('program_id', $program_id)->delete('program_peserta');
+		}
+
+		$outp = $this->db->insert_batch('program_peserta', $data_peserta);
+		status_sukses($outp, true);
+	}
+
+	public function cek_peserta($peserta = '', $sasaran = 1)
+	{
+		if (in_array($peserta, [NULL, '-', ' ', '0'])) return false;
+
+		switch ($sasaran)
+		{
+			case 1:
+				// Penduduk
+				$data = $this->db
+					->select('id, nik')
+					->where('nik', $peserta)
+					->get('penduduk_hidup')
+					->result_array();
+				break;
+
+			case 2:
+				// Keluarga
+				$data = $this->db
+					->select('k.id, p.nik')
+					->from('penduduk_hidup p')
+					->join('keluarga_aktif k','k.id = p.id_kk', 'left')
+					->where('k.no_kk', $peserta)
+					->get()
+					->result_array();
+				break;
+
+			case 3:
+				// RTM
+				// no_rtm = no_kk
+				$data = $this->db
+					->select('r.id, p.nik')
+					->from('penduduk_hidup p')
+					->join('tweb_rtm r','p.id = r.nik_kepala', 'left')
+					->where('r.no_kk', $peserta)
+					->get()
+					->result_array();
+				break;
+
+			case 4:
+				// Kelompok
+				$data = $this->db
+					->select('kl.id, p.nik')
+					->from('penduduk_hidup p')
+					->join('kelompok kl','p.id = kl.id_ketua', 'left')
+					->where('kl.kode', $peserta)
+					->get()
+					->result_array();
+				break;
+
+			default:
+				// Lainnya
+				break;
+		}
+
+		$data = [
+			'id' => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
+			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik')))) // untuk daftar valid anggota keluarga
+		];
+
+		return $data;
 	}
 
 }

@@ -45,6 +45,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Common\Entity\Style\Color;
+use Box\Spout\Common\Entity\Row;
+
 class Program_bantuan extends Admin_Controller {
 
 	private $_set_page;
@@ -312,4 +320,295 @@ class Program_bantuan extends Admin_Controller {
 
 		redirect("program_bantuan/detail/$program_id");
 	}
+
+	public function impor()
+	{
+		// Data Program Bantuan
+		$temp = $this->session->per_page;
+		$this->session->per_page = 1000000000;
+		$data['form_action'] = site_url("program_bantuan/proses_impor");
+		$this->load->view('program_bantuan/impor', $data);
+	}
+
+	public function proses_impor()
+	{
+		$program_id = '';
+		$ganti_program = $this->input->post('ganti_program');
+		$kosongkan_peserta = $this->input->post('kosongkan_peserta');
+		$ganti_peserta = $this->input->post('ganti_peserta');
+		$rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
+
+		$this->load->library('upload');
+
+		$config['upload_path']		= LOKASI_DOKUMEN;
+		$config['allowed_types']	= 'xls|xlsx|xlsm';
+		//$config['max_size']				= max_upload() * 1024;
+		$config['file_name']			= namafile('Impor Peserta Program Bantuan');
+
+		$this->upload->initialize($config);
+
+		if ($this->upload->do_upload('userfile'))
+		{
+			$upload = $this->upload->data();
+			$file = LOKASI_DOKUMEN . $upload['file_name'];
+
+			$reader = ReaderEntityFactory::createXLSXReader();
+			$reader->open($file);
+
+			$data_program = [];
+			$data_peserta = [];
+			$data_diubah = '';
+
+			foreach ($reader->getSheetIterator() as $sheet)
+			{
+				$no_baris = 0;
+				$no_gagal = 0;
+				$no_sukses = 0;
+				$pesan ='';
+
+				// Sheet Program
+				if ($sheet->getName() == 'Program')
+				{
+					$ambil_program = $this->program_bantuan_model->get_program(1, FALSE);
+					$daftar_program = str_replace("'", "", explode (", ", sql_in_list(array_column($ambil_program['program'], 'id'))));
+
+					$field = ['id', 'nama', 'sasaran', 'ndesc', 'asaldana', 'sdate', 'edate'];
+
+					foreach ($sheet->getRowIterator() as $row)
+					{
+						$cells = $row->getCells();
+						$title = (string) $cells[0];
+						$value = (string) $cells[1];
+
+						// Data terakhir
+						if ($title == '###') break;
+
+						switch (true)
+						{
+							/**
+							 * baris 1 == id
+							 * id bernilai NULL/Kosong( )/Strip(-)/tdk valid, buat program baru dan tampilkan notifkasi tambah program
+							 * id bernilai id dan valid, update data program dan tampilkan notifkasi update program
+							 */
+							case ($no_baris == 0 && in_array($value, $daftar_program) && $ganti_program == 1):
+								$program_id = $value;
+								$pesan .= "- Data program dengan <b> id = " . ($value) . "</b> ditemukan, data lama diganti dengan data baru <br>";
+								break;
+
+							case ($no_baris == 0 && in_array($value, $daftar_program) && $ganti_program != 1):
+								$program_id = $value;
+								$pesan .= "- Data program dengan <b> id = " . ($value) . "</b> ditemukan, data lama tetap digunakan <br>";
+								break;
+
+							case ($no_baris == 0 && ! in_array($value, $daftar_program)):
+								$program_id = NULL;
+								$pesan .= "- Data program dengan <b> id = " . ($value) . "</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>";
+								break;
+
+							default:
+								$data_program = array_merge($data_program, [$field[$no_baris] => $value]);
+								break;
+						}
+						$no_baris++;
+					}
+
+					// Proses impor program
+					$program_id = $this->program_bantuan_model->impor_program($program_id, $data_program, $ganti_program);
+				}
+
+				// Sheet Peserta
+				if ($sheet->getName() == 'Peserta')
+				{
+					$ambil_peserta = $this->program_bantuan_model->get_program(1, $program_id);
+					$sasaran = $ambil_peserta[0]['sasaran'];
+					$terdaftar_peserta = str_replace("'", "", explode (", ", sql_in_list(array_column($ambil_peserta[1], 'peserta'))));
+
+					if ($kosongkan_peserta == 1)
+					{
+						$pesan .= "- Total <b>" . count($terdaftar_peserta) . " data peserta </b> sukses dikosongkan<br>";
+						$terdaftar_peserta = NULL;
+					}
+
+					foreach ($sheet->getRowIterator() as $row)
+					{
+						$no_baris++;
+						$cells = $row->getCells();
+						$peserta = (string) $cells[0];
+						$nik = (string) $cells[2];
+
+						// Data terakhir
+						if ($peserta == '###') break;
+
+						// Abaikan baris pertama / judul
+						if ($pertama == false)
+						{
+							$pertama = true;
+							continue;
+						}
+
+						// Cek valid data peserta sesuai sasaran
+						$cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
+						if ( ! in_array($nik, $cek_peserta['valid']))
+						{
+							$no_gagal++;
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . " (Peserta = " . $peserta . ")</b> tidak ditemukan <br>";
+							continue;
+						}
+
+						// Cek valid data penduduk sesuai nik
+						$cek_penduduk = $this->penduduk_model->get_penduduk_by_nik($nik);
+						if ( ! $cek_penduduk['id'])
+						{
+							$no_gagal++;
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . " (NIK = " . $nik . ")</b> tidak ditemukan <br>";
+							continue;
+						}
+
+						// Cek data peserta yg akan dimpor dan yg sudah ada
+						if (in_array($peserta, $terdaftar_peserta) && $ganti != 1)
+						{
+							$no_gagal++;
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> sudah ada <br>";
+							continue;
+						}
+
+						if (in_array($peserta, $terdaftar_peserta) && $ganti == 1)
+						{
+							$data_diubah .= ", " . $peserta;
+							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris - 1) . "</b> ditambahkan menggantikan data lama <br>";
+						}
+
+						// Random no. kartu peserta
+						if ($rand_kartu == 1) $no_id_kartu = 'acak-' . random_int(1, 100);
+
+						// Ubaha data peserta menjadi id (untuk saat ini masih data kelompok yg menggunakan id)
+						// Berkaitan dgn issue #3417
+						if ($sasaran == 4) $peserta = $cek_peserta['id'];
+
+						// Simpan data peserta yg diimpor dalam bentuk array
+						$simpan = [
+							'peserta' => $peserta,
+							'program_id' => $program_id,
+							'no_id_kartu' => ((string) $cells[1]) ? $cells[1] : $no_id_kartu,
+							'kartu_nik' => $nik,
+							'kartu_nama' => ((string) $cells[3]) ? $cells[3] : $cek_penduduk['nama'],
+							'kartu_tempat_lahir' => ((string) $cells[4]) ? $cells[4] : $cek_penduduk['tempatlahir'],
+							'kartu_tanggal_lahir' => ((string) $cells[5]) ? $cells[5] : $cek_penduduk['tanggallahir'],
+							'kartu_alamat' => ((string) $cells[6]) ? $cells[6] : $cek_penduduk['alamat_wilayah'],
+							'kartu_id_pend' => $cek_penduduk['id'],
+						];
+
+						array_push($data_peserta, $simpan);
+						$no_sukses++;
+					}
+
+					// Proses impor peserta
+					if ($no_baris <= 0)
+					{
+						$pesan .= "- Data peserta tidak tersedia<br>";
+					}
+					else
+					{
+						$this->program_bantuan_model->impor_peserta($program_id, $data_peserta, $kosongkan_peserta, $data_diubah);
+					}
+				}
+			}
+			$reader->close();
+			unlink($file);
+
+			$notif = [
+				'gagal' => $no_gagal,
+				'sukses' => $no_sukses,
+				'pesan' => $pesan,
+				'total' => $total,
+			];
+
+			$this->session->set_flashdata('notif', $notif);
+		} else {
+			$this->session->error_msg = $this->upload->display_errors();
+			$this->session->success = -1;
+		}
+
+		$this->session->per_page = $temp;
+
+		redirect("program_bantuan/detail/$program_id");
+	}
+
+	public function proses_expor($program_id = '')
+	{
+		// Data Program Bantuan
+		$temp = $this->session->per_page;
+		$this->session->per_page = 1000000000;
+		$data = $this->program_bantuan_model->get_program(1, $program_id);
+		$tbl_program = $data[0];
+		$tbl_peserta = $data[1];
+
+		//Nama File
+		$writer = WriterEntityFactory::createXLSXWriter();
+		$fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
+		$writer->openToBrowser($fileName);
+
+		// Sheet Program
+		$writer->getCurrentSheet()->setName('Program');
+		$isi = [
+			['id', $tbl_program['id']],
+			['Nama Program', $tbl_program['nama']],
+			['Sasaran Program', $tbl_program['sasaran']],
+			['Keterangan', $tbl_program['ndesc']],
+			['Asal Dana', $tbl_program['asaldana']],
+			['Rentang Waktu (Awal)', $tbl_program['sdate']],
+			['Rentang Waktu (Akhir)', $tbl_program['edate']],
+			['Status', $tbl_program['status']],
+		];
+
+		foreach ($isi as $row)
+		{
+			$data_program = [$row[0], $row[1]];
+			$rowFromValues = WriterEntityFactory::createRowFromArray($data_program);
+			$writer->addRow($rowFromValues);
+		}
+
+		// Sheet Peserta
+		$writer->addNewSheetAndMakeItCurrent()->setName('Peserta');
+		$judul = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
+		$style = (new StyleBuilder())
+			->setFontBold()
+			->setFontSize(12)
+			->setBackgroundColor(Color::YELLOW)
+			->build();
+		$header = WriterEntityFactory::createRowFromArray($judul, $style);
+		$writer->addRow($header);
+
+		//Isi Tabel
+		foreach ($tbl_peserta as $row)
+		{
+			$peserta = $row['peserta'];
+			// Ubah id menjadi kode untuk data kelompok
+			// Berkaitan dgn issue #3417
+			// Cari data kelompok berdasarkan id
+			if ($tbl_program['sasaran'] == 4)
+			{
+				$this->load->model('kelompok_model');
+				$kelompok = $this->kelompok_model->get_kelompok($peserta);
+				$peserta = $kelompok['kode'];
+			}
+
+			$data_peserta = [
+				$peserta,
+				$row['no_id_kartu'],
+				$row['kartu_nik'],
+				$row['kartu_nama'],
+				$row['kartu_tempat_lahir'],
+				$row['kartu_tanggal_lahir'],
+				$row['kartu_alamat'],
+			];
+			$rowFromValues = WriterEntityFactory::createRowFromArray($data_peserta);
+			$writer->addRow($rowFromValues);
+		}
+		$writer->close();
+
+		$this->session->per_page = $temp;
+	}
+
+
 }
