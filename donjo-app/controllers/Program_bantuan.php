@@ -321,6 +321,7 @@ class Program_bantuan extends Admin_Controller {
 		redirect("program_bantuan/detail/$program_id");
 	}
 
+	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
 	public function impor()
 	{
 		$this->load->library('upload');
@@ -517,13 +518,16 @@ class Program_bantuan extends Admin_Controller {
 			$this->session->per_page = $temp;
 
 			redirect("program_bantuan/detail/$program_id");
-		} else {
+		}
+		else
+		{
 			$this->session->error_msg = $this->upload->display_errors();
 			$this->session->success = -1;
 		}
 
 	}
 
+	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
 	public function expor($program_id = '')
 	{
 		// Data Program Bantuan

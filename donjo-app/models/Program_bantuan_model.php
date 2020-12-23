@@ -1206,16 +1206,16 @@ class Program_bantuan_model extends MY_Model {
 	public function get_kk($id_kk)
 	{
 		$kk = $this->db
-					->select('k.no_kk, p.nik as nik_kk, p.nama as nama_kk, k.alamat, c.*')
-					->from('keluarga_aktif k')
-					->join('penduduk_hidup p','p.id = k.nik_kepala', 'left')
-					->join('tweb_wil_clusterdesa c','c.id = k.id_cluster', 'left')
-					->group_start()
-						->where('k.no_kk', $id_kk) // Hapus jika 'peserta' sudah fix menggunakan 'id' (sesuai sasaran) sebagai referensi parameter
-						->or_where('k.id', $id_kk)
-					->group_end()
-					->get()
-					->row_array();
+			->select('k.no_kk, p.nik as nik_kk, p.nama as nama_kk, k.alamat, c.*')
+			->from('keluarga_aktif k')
+			->join('penduduk_hidup p','p.id = k.nik_kepala', 'left')
+			->join('tweb_wil_clusterdesa c','c.id = k.id_cluster', 'left')
+			->group_start()
+				->where('k.no_kk', $id_kk) // Hapus jika 'peserta' sudah fix menggunakan 'id' (sesuai sasaran) sebagai referensi parameter
+				->or_where('k.id', $id_kk)
+			->group_end()
+			->get()
+			->row_array();
 
 		return $kk;
 	}
@@ -1260,6 +1260,7 @@ class Program_bantuan_model extends MY_Model {
 		status_sukses($outp, true);
 	}
 
+	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
 	public function cek_peserta($peserta = '', $sasaran = 1)
 	{
 		if (in_array($peserta, [NULL, '-', ' ', '0'])) return false;

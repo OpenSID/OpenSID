@@ -64,7 +64,7 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Ubah isi field pd tabel kelompok jd unik, kode = kode_id
 		$hasil =& $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
 		// Field unik pd tabel kelompok
-		$hasil =& $this->db->query("ALTER TABLE `kelompok` ADD UNIQUE INDEX `kode` (`kode`)");
+		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
 		status_sukses($hasil);
 	}
