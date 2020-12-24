@@ -76,7 +76,7 @@ class Pembangunan_jenis extends Admin_Controller
                 ]));
         }
 
-        $this->render('pembangunan/jenis/pembangunan_jenis_index');
+        $this->render('pembangunan/jenis/index');
     }
 
     public function show($id)
@@ -87,14 +87,14 @@ class Pembangunan_jenis extends Admin_Controller
             show_404();
         }
 
-        $this->render('pembangunan/jenis/jenis_show', [
+        $this->render('pembangunan/jenis/show', [
             'main' => $data,
         ]);
     }
 
     public function new()
     {
-        $this->render('pembangunan/jenis/jenis_form');
+        $this->render('pembangunan/jenis/form');
     }
 
     public function create()
@@ -120,7 +120,7 @@ class Pembangunan_jenis extends Admin_Controller
             show_404();
         }
 
-        $this->render('pembangunan/jenis/jenis_edit', [
+        $this->render('pembangunan/jenis/edit', [
             'main' => $data,
         ]);
     }

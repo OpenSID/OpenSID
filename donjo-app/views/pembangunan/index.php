@@ -15,7 +15,7 @@
                 <div class="col-md-9">
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <a href="<?= site_url('inventaris_tanah/form') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru">
+                            <a href="<?= site_url('pembangunan/new') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru">
                                 <i class="fa fa-plus"></i>Tambah Data
                             </a>
                             <a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
@@ -31,10 +31,10 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered dataTable table-hover">
+                                                <table id="tabel-pembangunan" class="table table-bordered dataTable table-hover">
                                                     <thead class="bg-gray">
                                                         <tr>
-                                                            <th class="text-center">No</th>
+                                                            <th width="20px" class="text-center">No</th>
                                                             <th class="text-center">Aksi</th>
                                                             <th class="text-center">Jenis</th>
                                                             <th class="text-center">Sumber Dana</th>
@@ -42,7 +42,6 @@
                                                             <th class="text-center">Volume</th>
                                                             <th class="text-center">Tahun Anggaran</th>
                                                             <th class="text-center">Pelaksana</th>
-                                                            <th class="text-center">Status</th>
                                                             <th class="text-center">Keterangan</th>
                                                             <th class="text-center">Created at</th>
                                                         </tr>
@@ -63,3 +62,74 @@
     </section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
+<script>
+    $(function() {
+        let tabelPembangunan = $('#tabel-pembangunan').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'autoWidth': false,
+            'pageLength': 10,
+            'order': [[2, 'asc']],
+            'columnDefs': [{
+                'orderable': false,
+                'targets': [0,1],
+            }],
+
+            'ajax': {
+                'url': "<?= site_url('pembangunan') ?>",
+                'method': 'GET'
+            },
+            'columns': [
+                {
+                    'data': null,
+                },
+                {
+                    'data': function (data) {
+                        return `
+                            <a href="<?= site_url('pembangunan/edit/'); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                            <a href="<?= site_url('pembangunan/lokasi_maps/'); ?>${data.id}" class="btn bg-olive btn-flat btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a>
+                            <a href="<?= site_url('pembangunan_dokumentasi/'); ?>${data.id}" class="btn bg-purple btn-flat btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-bars"></i></a>
+							<a href="#" data-href="<?= site_url('pembangunan/delete/'); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                            `
+                    }, 'class': 'text-center', 'width': '20%'
+                },
+                {
+                    'data': 'jenis'
+                },
+                {
+                    'data': 'sumber_dana'
+                },
+                {
+                    'data': 'judul'
+                },
+                {
+                    'data': 'volume'
+                },
+                {
+                    'data': 'tahun_anggaran'
+                },
+                {
+                    'data': 'pelaksana_kegiatan'
+                },
+                {
+                    'data': 'keterangan'
+                },
+                {
+                    'data': 'created_at'
+                }
+            ],
+            'language': {
+				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
+			}
+        });
+
+        tabelPembangunan.on('draw.dt', function() {
+            let PageInfo = $('#tabel-pembangunan').DataTable().page.info();
+            tabelPembangunan.column(0, {
+                page: 'current'
+            }).nodes().each(function(cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start;
+            });
+        });
+    });
+</script>

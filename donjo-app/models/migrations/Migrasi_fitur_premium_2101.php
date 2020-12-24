@@ -198,9 +198,9 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'ikon'       => '',
 			'urut'       => 0,
 			'level'      => 0,
-			'hidden'     => 0,
+			'hidden'     => 2,
 			'ikon_kecil' => '',
-			'parent'     => 0
+			'parent'     => 220
 		]);
 
 		$this->tambah_modul([
@@ -211,9 +211,9 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'ikon'       => '',
 			'urut'       => 0,
 			'level'      => 0,
-			'hidden'     => 0,
+			'hidden'     => 2,
 			'ikon_kecil' => '',
-			'parent'     => 0
+			'parent'     => 220
 		]);
 
 		$this->tambah_modul([
@@ -224,9 +224,9 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'ikon'       => '',
 			'urut'       => 0,
 			'level'      => 0,
-			'hidden'     => 0,
+			'hidden'     => 2,
 			'ikon_kecil' => '',
-			'parent'     => 0
+			'parent'     => 220
 		]);
 	}
 }

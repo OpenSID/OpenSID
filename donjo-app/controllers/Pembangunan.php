@@ -50,44 +50,114 @@ class Pembangunan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->set_minsidebar(1);
         $this->modul_ini = 220;
+        $this->tab_ini = 1;
+
+        $this->load->model('pembangunan_model', 'model');
+        $this->load->model('pembangunan_jenis_model');
+        $this->load->model('pembangunan_sumber_dana_model');
     }
 
     public function index()
     {
-        $this->set_minsidebar(1);
-        $this->tab_ini = 1;
+        if ($this->input->is_ajax_request()) {
+            $start = $this->input->get('start');
+            $length = $this->input->get('length');
+            $search = $this->input->get('search[value]');
+            $order = $this->model::ORDER_ABLE[$this->input->get('order[0][column]')];
+            $dir = $this->input->get('order[0][dir]');
 
-        $this->render('pembangunan/pembangunan_index');
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'draw'            => $this->input->get('draw'),
+                    'recordsTotal'    => $this->model->get_data()->count_all_results(),
+                    'recordsFiltered' => $this->model->get_data($search)->count_all_results(),
+                    'data'            => $this->model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+                ]));
+        }
+
+        $this->render('pembangunan/index');
     }
 
-    public function show()
+    public function show($id)
     {
+        $data = $this->model->find($id);
 
+        if (is_null($data)) {
+            show_404();
+        }
+
+        $this->render('pembangunan/show', [
+            'main' => $data,
+        ]);
     }
 
     public function new()
     {
-
+        $this->render('pembangunan/form', [
+            'jenis'       => $this->pembangunan_jenis_model->all(),
+            'sumber_dana' => $this->pembangunan_sumber_dana_model->all(),
+        ]);
     }
 
     public function create()
     {
+        $this->model->insert($this->input->post());
 
+        if ($this->db->affected_rows()) {
+            $this->session->success = 1;
+        } else {
+            $this->session->success = -1;
+
+            redirect('pembangunan/new');
+        }
+
+        redirect('pembangunan');
     }
 
-    public function edit()
+    public function edit($id)
     {
+        $data = $this->model->find($id);
 
+        if (is_null($data)) {
+            show_404();
+        }
+
+        $this->render('pembangunan/edit', [
+            'main'        => $data,
+            'jenis'       => $this->pembangunan_jenis_model->all(),
+            'sumber_dana' => $this->pembangunan_sumber_dana_model->all(),
+        ]);
     }
 
-    public function update()
+    public function update($id)
     {
+        $this->model->update($id, $this->input->post());
 
+        if ($this->db->affected_rows()) {
+            $this->session->success = 1;
+        } else {
+            $this->session->success = -1;
+
+            redirect("pembangunan/edit/{$id}");
+        }
+
+        redirect('pembangunan');
     }
 
-    public function delete()
+    public function delete($id)
     {
+        $this->model->delete($id);
 
+        if ($this->db->affected_rows()) {
+            $this->session->success = 4;
+        } else {
+            $this->session->success = -4;
+        }
+
+        redirect('pembangunan');
     }
 }

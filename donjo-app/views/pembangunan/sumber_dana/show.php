@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Isi Data Jenis Pembangunan</h1>
+        <h1>Detail Data Jenis Pembangunan</h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
             <li><a href="<?= site_url('pembangunan_sumber_dana') ?>"><i class="fa fa-dashboard"></i>Daftar Sumber Dana</a></li>

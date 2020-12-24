@@ -26,6 +26,11 @@ class Pembangunan_jenis_model extends CI_Model
         return $condition;
     }
 
+    public function all()
+    {
+        return $this->db->get($this->table)->result();
+    }
+
     public function insert(array $request)
     {
         return $this->db->insert($this->table, [
