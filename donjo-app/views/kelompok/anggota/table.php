@@ -83,8 +83,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<table class="table table-bordered table-striped table-hover tabel-rincian">
 									<tbody>
 										<tr>
-											<td width="20%">Nama Kelompok</td>
+											<td width="20%">Kode Kelompok</td>
 											<td width="1">:</td>
+											<td><?= strtoupper($kelompok['kode']); ?></td>
+										</tr>
+										<tr>
+											<td>Nama Kelompok</td>
+											<td>:</td>
 											<td><?= strtoupper($kelompok['nama']); ?></td>
 										</tr>
 										<tr>
