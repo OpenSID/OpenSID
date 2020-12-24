@@ -61,7 +61,7 @@
             'order': [[2, 'asc']],
             'columnDefs': [{
                 'orderable': false,
-                'targets': [0,1,3]
+                'targets': [0,1]
             }],
 
             'ajax': {

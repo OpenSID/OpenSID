@@ -6,6 +6,7 @@ class Pembangunan_sumber_dana_model extends CI_Model
 
     const ORDER_ABLE = [
         2 => 'sumber_dana',
+        3 => 'keterangan',
         4 => 'created_at',
     ];
 

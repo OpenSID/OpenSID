@@ -32,7 +32,7 @@ class Pembangunan_model extends CI_Model
         } else {
             $condition = $builder->group_start()
                 ->like('j.jenis', $search)
-                ->or_like('s.sumner_dana', $search)
+                ->or_like('s.sumber_dana', $search)
                 ->or_like('p.judul', $search)
                 ->or_like('p.keterangan', $search)
                 ->or_like('p.volume', $search)
