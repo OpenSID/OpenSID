@@ -241,6 +241,7 @@ class Database extends Admin_Controller {
 			$judul[] = 'status_dasar';
 			$judul[] = 'created_at';
 			$judul[] = 'updated_at';
+			$judul[] = 'desa_id';
 		}
 		else
 		{
@@ -297,6 +298,7 @@ class Database extends Admin_Controller {
 					$row->status_dasar,
 					$row->created_at,
 					$row->updated_at,
+					$row->desa_id,
 				);
 
 
