@@ -110,7 +110,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'jenis'      => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'keterangan' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'created_at' => ['type' => 'datetime', 'null' => true],
-            'updated_at' => ['type' => 'datetime', 'null' => true],
+			'updated_at' => ['type' => 'datetime', 'null' => true],
 		]);
 
 		$this->dbforge->add_key('id', true);
@@ -122,9 +122,9 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		$this->dbforge->add_field([
 			'id'          => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
 			'sumber_dana' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'icon'        => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+			'keterangan'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'created_at'  => ['type' => 'datetime', 'null' => true],
-            'updated_at'  => ['type' => 'datetime', 'null' => true],
+			'updated_at'  => ['type' => 'datetime', 'null' => true],
 		]);
 
 		$this->dbforge->add_key('id', true);
@@ -146,7 +146,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'pelaksana_kegiatan' => ['type' => 'VARCHAR','constraint' => 255,'null' => true],
 			'status'             => ['type' => 'tinyint', 'constraint' => 1, 'default' => 1],
 			'created_at'         => ['type' => 'datetime', 'null' => true],
-            'updated_at'         => ['type' => 'datetime', 'null' => true],
+			'updated_at'         => ['type' => 'datetime', 'null' => true],
 		]);
 
 		$this->dbforge->add_key('id', true);
@@ -166,7 +166,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'persentase'     => ['type' => 'int', 'constraint' => 3,'default' => 0],
 			'keterangan'     => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'created_at'     => ['type' => 'datetime', 'null' => true],
-            'updated_at'     => ['type' => 'datetime', 'null' => true],
+			'updated_at'     => ['type' => 'datetime', 'null' => true],
 		]);
 
 		$this->dbforge->add_key('id', true);

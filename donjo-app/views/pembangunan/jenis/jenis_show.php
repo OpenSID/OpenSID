@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
             <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
             <li><a href="<?= site_url('pembangunan_jenis') ?>"><i class="fa fa-dashboard"></i>Daftar Jenis</a></li>
-            <li class="active">Isi Data</li>
+            <li class="active">Detail</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
@@ -23,13 +23,13 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" style="text-align:left;" for="no_sertifikat">Jenis Pembangunan</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-7">
                                             <input maxlength="50" class="form-control input-sm required" name="jenis" id="jenis" type="text" placeholder="Jenis Pembangunan" value="<?= $main->jenis ?>" disabled/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-7">
                                             <textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan" disabled><?= $main->keterangan ?></textarea>
                                         </div>
                                     </div>

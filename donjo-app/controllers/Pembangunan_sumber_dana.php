@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Pembangunan
  *
- * donjo-app/controllers/Pembangunan_jenis.php
+ * donjo-app/controllers/Pembangunan_sumber_dana.php
  *
  */
 
@@ -45,16 +45,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Pembangunan_jenis extends Admin_Controller
+class Pembangunan_sumber_dana extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
 
         $this->set_minsidebar(1);
-        $this->tab_ini = 3;
+        $this->tab_ini = 4;
 
-        $this->load->model('pembangunan_jenis_model', 'model');
+        $this->load->model('pembangunan_sumber_dana_model', 'model');
     }
 
     public function index()
@@ -76,7 +76,7 @@ class Pembangunan_jenis extends Admin_Controller
                 ]));
         }
 
-        $this->render('pembangunan/jenis/pembangunan_jenis_index');
+        $this->render('pembangunan/sumber_dana/index');
     }
 
     public function show($id)
@@ -87,14 +87,14 @@ class Pembangunan_jenis extends Admin_Controller
             show_404();
         }
 
-        $this->render('pembangunan/jenis/jenis_show', [
+        $this->render('pembangunan/sumber_dana/show', [
             'main' => $data,
         ]);
     }
 
     public function new()
     {
-        $this->render('pembangunan/jenis/jenis_form');
+        $this->render('pembangunan/sumber_dana/form');
     }
 
     public function create()
@@ -106,10 +106,10 @@ class Pembangunan_jenis extends Admin_Controller
         } else {
             $this->session->success = -1;
 
-            redirect('pembangunan_jenis/new');
+            redirect('pembangunan_sumber_dana/new');
         }
 
-        redirect('pembangunan_jenis');
+        redirect('pembangunan_sumber_dana');
     }
 
     public function edit($id)
@@ -120,7 +120,7 @@ class Pembangunan_jenis extends Admin_Controller
             show_404();
         }
 
-        $this->render('pembangunan/jenis/jenis_edit', [
+        $this->render('pembangunan/sumber_dana/edit', [
             'main' => $data,
         ]);
     }
@@ -134,10 +134,10 @@ class Pembangunan_jenis extends Admin_Controller
         } else {
             $this->session->success = -1;
 
-            redirect("pembangunan_jenis/edit/{$id}");
+            redirect("pembangunan_sumber_dana/edit/{$id}");
         }
 
-        redirect('pembangunan_jenis');
+        redirect('pembangunan_sumber_dana');
     }
 
     public function delete($id)
@@ -150,6 +150,6 @@ class Pembangunan_jenis extends Admin_Controller
             $this->session->success = -4;
         }
 
-        redirect('pembangunan_jenis');
+        redirect('pembangunan_sumber_dana');
     }
 }

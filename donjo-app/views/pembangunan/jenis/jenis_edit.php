@@ -23,13 +23,13 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" style="text-align:left;" for="no_sertifikat">Jenis Pembangunan</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-7">
                                             <input maxlength="50" class="form-control input-sm required" name="jenis" id="jenis" type="text" placeholder="Jenis Pembangunan" value="<?= $main->jenis ?>" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-7">
                                             <textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"><?= $main->keterangan ?></textarea>
                                         </div>
                                     </div>
