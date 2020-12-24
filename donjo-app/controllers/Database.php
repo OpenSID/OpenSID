@@ -194,7 +194,6 @@ class Database extends Admin_Controller {
 			$judul[] = 'created_at';
 			$judul[] = 'updated_at';
 			$judul[] = 'desa_id';
-			$judul[] = 'tahun';
 		}
 		else
 		{
@@ -252,7 +251,6 @@ class Database extends Admin_Controller {
 					$row->created_at,
 					$row->updated_at,
 					$row->desa_id,
-					$row->tahun,
 				);
 
 
