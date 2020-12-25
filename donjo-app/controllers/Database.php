@@ -509,7 +509,6 @@ class Database extends Admin_Controller {
 				$row->created_at,
 				$row->updated_at,
 				$row->desa_id,
-				$row->tahun,
 			);
 
 			$file_foto = LOKASI_USER_PICT . $row->foto;
