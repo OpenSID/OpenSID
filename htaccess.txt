@@ -24,6 +24,11 @@ RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 # Protect Folder Not Index
 Options All -Indexes
 
+# Paksa menggunakan https
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 # Periksa apakah full-path perlu disesuaikan untuk server anda
 # Contoh berikut untuk path seperti /home/opensidm/demo.opensid.my.id/desa/upload
 <Directory /home/*/*/desa/upload>

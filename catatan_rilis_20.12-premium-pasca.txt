@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.12-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo, Rudy Purwanto dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 
@@ -21,6 +21,9 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 15. #3825: Perbaiki kode barang di modul Inventaris. [bug-fix]
 16. #3801: Sekarang pesan gagal tidak tampil kalau berhasil impor data penduduk yg dibuat menggunakan template macro FormatImportExcel.xlsm. [bug-fix]
 17. #3837: Perbaiki dan tampilkan gambar utama artikel di feed RSS. Sekarang hanya artikel dinamis yang ditampilkan.
+18. #2687: Sekarang jumlah surat yg dicetak dan diunduh dari arsip layanan surat tidak dibatasi.
+19. #1278: Sediakan fitur impor dan ekspor data bantuan.
+20. Lengkapi contoh htaccess untuk memaksa menggunakan https.
 
 
 Fitur Premium:
