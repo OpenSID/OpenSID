@@ -198,7 +198,7 @@ class Data_persil_model extends MY_Model {
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml;
 		$this->paging->init($cfg);
 
@@ -219,12 +219,15 @@ class Data_persil_model extends MY_Model {
 		$this->search_sql();
 	}
 
-	public function list_data($offset, $per_page)
+	public function list_data($offset = 0, $per_page = 0)
 	{
 		$this->main_sql();
-		$data = $this->db->select('p.*, k.kode, count(m.id_persil) as jml_bidang, c.nomor as nomor_cdesa_awal')
+		$this->db->select('p.*, k.kode, count(m.id_persil) as jml_bidang, c.nomor as nomor_cdesa_awal')
 			->select('(CASE WHEN p.id_wilayah IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat')
-			->order_by('nomor, nomor_urut_bidang')
+			->order_by('nomor, nomor_urut_bidang');
+
+		if ($per_page > 0 ) $this->db->limit($per_page, $offset);
+		$data =  $this->db
 			->get()
 			->result_array();
 
