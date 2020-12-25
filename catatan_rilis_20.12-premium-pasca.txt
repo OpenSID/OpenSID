@@ -1,6 +1,6 @@
 Di rilis ini, versi 20.12-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo, Rudy Purwanto dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo, Rudy Purwanto, Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 
@@ -31,6 +31,7 @@ Fitur Premium:
 2. #3802: Sekarang data suplemen bisa ditampilkan di web melalui menu statis.
 3. #3803: Kembalikan setting aplikasi sebutan_nip_desa yg terhapus saat migrasi dari rilis umum ke rilis premium. [bug-fix]
 4. #3808: Layanan mandiri melalui anjungan tetap tersedia, meskipun layanan mandiri melalui web dinon-aktifkan.
+5. Sinkronkan data penduduk ke OpenDK menggunakan API yg disediakan OpenDK.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
