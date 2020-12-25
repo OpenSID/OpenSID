@@ -1,34 +1,34 @@
 <?php
 
-class Pembangunan_jenis_model extends CI_Model
+class Pembangunan_dokumentasi_model extends CI_Model
 {
-    protected $table = 'pembangunan_ref_jenis';
+    protected $table = 'pembangunan_ref_dokumentasi';
 
     const ORDER_ABLE = [
-        2 => 'jenis',
-        3 => 'keterangan',
-        4 => 'created_at',
+        3 => 'd.persentase',
+        4 => 'd.keterangan',
+        5 => 'd.created_at',
     ];
 
-    public function get_data(string $search = '')
+    public function get_data($id, string $search = '')
     {
-        $builder = $this->db->from($this->table);
+        $builder = $this->db->select([
+            'd.*',
+        ])
+        ->from("{$this->table} d")
+        ->join('pembangunan p', 'd.id_pembangunan = p.id')
+        ->where('d.id_pembangunan', $id);
 
         if (empty($search)) {
             $condition = $builder;
         } else {
             $condition = $builder->group_start()
-                ->like('jenis', $search)
+                ->like('d.keterangan', $search)
                 ->or_like('keterangan', $search)
                 ->group_end();
         }
 
         return $condition;
-    }
-
-    public function all()
-    {
-        return $this->db->get($this->table)->result();
     }
 
     public function insert(array $request)

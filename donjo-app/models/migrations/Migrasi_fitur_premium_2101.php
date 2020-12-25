@@ -93,8 +93,6 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		];
 		$hasil =& $this->dbforge->modify_column('setting_aplikasi', $field);
 
-		$this->create_table_pembangunan_ref_jenis();
-		$this->create_table_pembangunan_ref_sumber_dana();
 		$this->create_table_pembangunan();
 		$this->create_table_pembangunan_ref_dokumentasi();
 		$this->add_modul_pembangunan();
@@ -103,58 +101,25 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		return $hasil;
 	}
 
-	protected function create_table_pembangunan_ref_jenis()
-	{
-		$this->dbforge->add_field([
-			'id'         => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
-			'jenis'      => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'keterangan' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'created_at' => ['type' => 'datetime', 'null' => true],
-			'updated_at' => ['type' => 'datetime', 'null' => true],
-		]);
-
-		$this->dbforge->add_key('id', true);
-		$this->dbforge->create_table('pembangunan_ref_jenis', true);
-	}
-
-	protected function create_table_pembangunan_ref_sumber_dana()
-	{
-		$this->dbforge->add_field([
-			'id'          => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
-			'sumber_dana' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'keterangan'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'created_at'  => ['type' => 'datetime', 'null' => true],
-			'updated_at'  => ['type' => 'datetime', 'null' => true],
-		]);
-
-		$this->dbforge->add_key('id', true);
-		$this->dbforge->create_table('pembangunan_ref_sumber_dana', true);
-	}
-
 	protected function create_table_pembangunan()
 	{
 		$this->dbforge->add_field([
 			'id'                 => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
-			'id_jenis'           => ['type' => 'INT', 'constraint' => 11],
-			'id_sumber_dana'     => ['type' => 'INT', 'constraint' => 11],
+			'sumber_dana'        => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'judul'              => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'keterangan'         => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+			'lokasi'             => ['type' => 'VARCHAR','constraint' => 225, 'null' => true],
 			'lat'                => ['type' => 'VARCHAR','constraint' => 225, 'null' => true],
 			'lng'                => ['type' => 'VARCHAR','constraint' => 255, 'null' => true],
 			'volume'             => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
 			'tahun_anggaran'     => ['type' => 'YEAR', 'null' => true],
-			'pelaksana_kegiatan' => ['type' => 'VARCHAR','constraint' => 255,'null' => true],
-			'status'             => ['type' => 'tinyint', 'constraint' => 1, 'default' => 1],
+			'pelaksana_kegiatan' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'created_at'         => ['type' => 'datetime', 'null' => true],
 			'updated_at'         => ['type' => 'datetime', 'null' => true],
 		]);
 
 		$this->dbforge->add_key('id', true);
-		$this->dbforge->add_key('id_jenis');
-		$this->dbforge->add_key('id_sumber_dana');
 		$this->dbforge->create_table('pembangunan', true);
-		$this->dbforge->add_column('pembangunan', ['CONSTRAINT fk_pembangunan_jenis FOREIGN KEY(id_jenis) REFERENCES pembangunan_ref_jenis(id) ON UPDATE CASCADE ON DELETE CASCADE']);
-		$this->dbforge->add_column('pembangunan', ['CONSTRAINT fk_sumber_dana_pembangunan FOREIGN KEY(id_sumber_dana) REFERENCES pembangunan_ref_sumber_dana(id) ON UPDATE CASCADE ON DELETE CASCADE']);
 	}
 
 	protected function create_table_pembangunan_ref_dokumentasi()
@@ -163,7 +128,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'id'             => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
 			'id_pembangunan' => ['type' => 'INT', 'constraint' => 11],
 			'gambar'         => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'persentase'     => ['type' => 'int', 'constraint' => 3,'default' => 0],
+			'persentase'     => ['type' => 'int', 'constraint' => 3, 'default' => 0],
 			'keterangan'     => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'created_at'     => ['type' => 'datetime', 'null' => true],
 			'updated_at'     => ['type' => 'datetime', 'null' => true],
@@ -172,7 +137,6 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('id_pembangunan');
 		$this->dbforge->create_table('pembangunan_ref_dokumentasi', true);
-		$this->dbforge->add_column('pembangunan_ref_dokumentasi', ['CONSTRAINT fk_pembangunan FOREIGN KEY(id_pembangunan) REFERENCES pembangunan(id) ON UPDATE CASCADE ON DELETE CASCADE']);
 	}
 
 	protected function add_modul_pembangunan()
@@ -194,32 +158,6 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'id'         => 221,
 			'modul'      => 'Pembangunan Dokumentasi',
 			'url'        => 'pembangunan_dokumentasi',
-			'aktif'      => 1,
-			'ikon'       => '',
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'ikon_kecil' => '',
-			'parent'     => 220
-		]);
-
-		$this->tambah_modul([
-			'id'         => 222,
-			'modul'      => 'Pembangunan Jenis',
-			'url'        => 'pembangunan_jenis',
-			'aktif'      => 1,
-			'ikon'       => '',
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'ikon_kecil' => '',
-			'parent'     => 220
-		]);
-
-		$this->tambah_modul([
-			'id'         => 223,
-			'modul'      => 'Pembangunan Sumber Dana',
-			'url'        => 'pembangunan_sumber_dana',
 			'aktif'      => 1,
 			'ikon'       => '',
 			'urut'       => 0,

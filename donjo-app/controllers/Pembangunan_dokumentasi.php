@@ -45,20 +45,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Pembangunan_jenis extends Admin_Controller
+class Pembangunan_dokumentasi extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->set_minsidebar(1);
-        $this->tab_ini = 3;
-
-        $this->load->model('pembangunan_jenis_model', 'model');
+        $this->load->model('pembangunan_model');
+        $this->load->model('pembangunan_dokumentasi_model', 'model');
     }
 
-    public function index()
+    public function show($id = null)
     {
+        $pembangunan = $this->pembangunan_model->find($id);
+
         if ($this->input->is_ajax_request()) {
             $start = $this->input->get('start');
             $length = $this->input->get('length');
@@ -70,25 +70,14 @@ class Pembangunan_jenis extends Admin_Controller
                 ->set_content_type('application/json')
                 ->set_output(json_encode([
                     'draw'            => $this->input->get('draw'),
-                    'recordsTotal'    => $this->model->get_data()->count_all_results(),
-                    'recordsFiltered' => $this->model->get_data($search)->count_all_results(),
-                    'data'            => $this->model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+                    'recordsTotal'    => $this->model->get_data($id)->count_all_results(),
+                    'recordsFiltered' => $this->model->get_data($id, $search)->count_all_results(),
+                    'data'            => $this->model->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
                 ]));
         }
 
-        $this->render('pembangunan/jenis/index');
-    }
-
-    public function show($id)
-    {
-        $data = $this->model->find($id);
-
-        if (is_null($data)) {
-            show_404();
-        }
-
-        $this->render('pembangunan/jenis/show', [
-            'main' => $data,
+        $this->render('pembangunan/dokumentasi/index', [
+            'pembangunan' => $pembangunan,
         ]);
     }
 

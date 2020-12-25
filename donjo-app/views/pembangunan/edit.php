@@ -10,10 +10,7 @@
     <section class="content" id="maincontent">
         <form class="form-horizontal" id="validasi" method="post" action="<?= site_url("pembangunan/update/{$main->id}") ?>">
             <div class="row">
-                <div class="col-md-3">
-                    <?php $this->load->view('pembangunan/menu_kiri'); ?>
-                </div>
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="box box-info">
                         <div class="box-header with-border">
                             <a href="<?= site_url('pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
@@ -22,21 +19,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" style="text-align:left;" for="id_jenis">Jenis Pembangunan</label>
+                                        <label class="col-sm-3 control-label" style="text-align:left;" for="sumber_dana">Sumber Dana</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control input-sm select2" id="id_jenis" name="id_jenis" style="width:100%;">
-                                                <?php foreach ($jenis as $data) : ?>
-                                                    <option <?= $data->id === $main->id_jenis ? 'selected' : '' ?> value="<?= $data->id ?>"><?= $data->jenis ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label" style="text-align:left;" for="id_sumber_dana">Sumber Dana</label>
-                                        <div class="col-sm-7">
-                                            <select class="form-control input-sm select2" id="id_sumber_dana" name="id_sumber_dana" style="width:100%;">
-                                                <?php foreach ($sumber_dana as $data) : ?>
-                                                    <option <?= $data->id === $main->id_sumber_dana ? 'selected' : '' ?> value="<?= $data->id ?>"><?= $data->sumber_dana ?></option>
+                                            <select class="form-control input-sm select2" id="sumber_dana" name="sumber_dana" style="width:100%;">
+                                                <?php foreach ($sumber_dana as $value) : ?>
+                                                    <option <?= $value === $main->sumber_dana ? 'selected' : '' ?> value="<?= $value ?>"><?= $value ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -70,6 +57,12 @@
                                         <label class="col-sm-3 control-label" style="text-align:left;">Pelaksana Kegiatan</label>
                                         <div class="col-sm-7">
                                             <input maxlength="50" class="form-control input-sm required" name="pelaksana_kegiatan" id="pelaksana_kegiatan" value="<?= $main->pelaksana_kegiatan ?>" type="text" placeholder="Pelaksana Kegiatan Pembangunan" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" style="text-align:left;">Lokasi Pembangunan</label>
+                                        <div class="col-sm-7">
+                                            <input maxlength="50" class="form-control input-sm required" name="lokasi" id="lokasi" value="<?= $main->lokasi ?> " type="text" placeholder="Lokasi Kegiatan Pembangunan" />
                                         </div>
                                     </div>
                                     <div class="form-group">

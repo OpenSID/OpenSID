@@ -51,13 +51,11 @@ class Pembangunan extends Admin_Controller
     {
         parent::__construct();
 
-        $this->set_minsidebar(1);
         $this->modul_ini = 220;
         $this->tab_ini = 1;
 
         $this->load->model('pembangunan_model', 'model');
-        $this->load->model('pembangunan_jenis_model');
-        $this->load->model('pembangunan_sumber_dana_model');
+        $this->load->model('referensi_model');
     }
 
     public function index()
@@ -82,24 +80,10 @@ class Pembangunan extends Admin_Controller
         $this->render('pembangunan/index');
     }
 
-    public function show($id)
-    {
-        $data = $this->model->find($id);
-
-        if (is_null($data)) {
-            show_404();
-        }
-
-        $this->render('pembangunan/show', [
-            'main' => $data,
-        ]);
-    }
-
     public function new()
     {
         $this->render('pembangunan/form', [
-            'jenis'       => $this->pembangunan_jenis_model->all(),
-            'sumber_dana' => $this->pembangunan_sumber_dana_model->all(),
+            'sumber_dana' => $this->referensi_model->list_ref_sumber_dana(SUMBER_DANA),
         ]);
     }
 
@@ -128,8 +112,7 @@ class Pembangunan extends Admin_Controller
 
         $this->render('pembangunan/edit', [
             'main'        => $data,
-            'jenis'       => $this->pembangunan_jenis_model->all(),
-            'sumber_dana' => $this->pembangunan_sumber_dana_model->all(),
+            'sumber_dana' => $this->referensi_model->list_ref_sumber_dana(SUMBER_DANA),
         ]);
     }
 

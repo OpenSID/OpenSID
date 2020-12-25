@@ -189,6 +189,23 @@ define("PELAKSANA", serialize([
 	3 => 'Rudy Purwanto'
 ]));
 
+define("SUMBER_DANA", serialize([
+	1 => 'Dana Desa (APBN)',
+	2 => 'Alokasi Dana Desa (APBD)',
+	3 => 'Pendapatan Asli Desa',
+	4 => 'Bantuan Kabupaten',
+	5 => 'Bantuan Provinsi',
+	6 => 'Hibah atau Sumbangan',
+	7 => 'Sumber Dana Lainnya'
+]));
+
+define("STATUS_PEMBANGUNAN", serialize([
+	1 => '0%',
+	2 => '30%',
+	3 => '80%',
+	4 => '100%'
+]));
+
 class Referensi_model extends CI_Model {
 
 	public function __construct()
@@ -262,5 +279,13 @@ class Referensi_model extends CI_Model {
 		return $list_ref;
 	}
 
+	public function list_ref_sumber_dana($sumber_dana)
+	{
+		return unserialize($sumber_dana);
+	}
+
+	public function list_ref_persentase($persentase)
+	{
+		return unserialize($persentase);
+	}
 }
-?>
