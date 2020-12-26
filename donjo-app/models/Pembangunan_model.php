@@ -79,9 +79,15 @@ class Pembangunan_model extends CI_Model
 
     public function find($id)
     {
-        return $this->db->where('id', $id)
-            ->get($this->table)
-            ->row();
+        return $this->db->select([
+            'p.*',
+            '(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+        ])
+        ->from("{$this->table} p")
+        ->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+        ->where('p.id', $id)
+        ->get()
+        ->row();
     }
 
     public function list_dusun_rt_rw()

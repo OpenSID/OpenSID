@@ -33,6 +33,11 @@
                                             <td><?= $pembangunan->sumber_dana ?></td>
                                         </tr>
                                         <tr>
+                                            <td>Lokasi Pembangunan</td>
+                                            <td> : </td>
+                                            <td><?= $pembangunan->alamat ?></td>
+                                        </tr>
+                                        <tr>
                                             <td>Keterangan</td>
                                             <td> : </td>
                                             <td><?= $pembangunan->keterangan ?></td>
