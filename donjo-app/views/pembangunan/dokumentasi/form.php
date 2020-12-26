@@ -18,7 +18,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input type="hidden" name="id_pembangunan" value="<?= $id_pembangunan?>">
+                                    <input type="hidden" name="id_pembangunan" value="<?= $id_pembangunan ?>">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" style="text-align:left;" for="persentase">Persentase</label>
                                         <div class="col-sm-7">
@@ -30,15 +30,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-3" for="upload">Unggah Dokumentasi</label>
+                                        <label class="control-label col-sm-3" for="upload">Unggah Gambar</label>
                                         <div class="col-sm-7">
                                             <div class="input-group input-group-sm">
-                                                <input type="text" class="form-control " id="file_path" name="gambar">
+                                                <input type="text" class="form-control required" id="file_path">
                                                 <input id="file" type="file" class="hidden" name="gambar">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                                 </span>
                                             </div>
+                                            <?php $upload_mb = max_upload(); ?>
+                                            <p><label class="control-label">Batas maksimal pengunggahan berkas <strong><?= $upload_mb ?> MB.</strong></label></p>
                                         </div>
                                     </div>
                                     <div class="form-group">

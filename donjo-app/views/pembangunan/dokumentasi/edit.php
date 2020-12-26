@@ -18,17 +18,26 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input type="hidden" name="id_pembangunan" value="<?= $id_pembangunan?>">
+                                    <input type="hidden" name="id_pembangunan" value="<?= $id_pembangunan ?>">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" style="text-align:left;" for="persentase">Persentase</label>
                                         <div class="col-sm-7">
                                             <select class="form-control input-sm select2" id="persentase" name="persentase" style="width:100%;">
                                                 <?php foreach ($persentase as $value) : ?>
-                                                    <option value="<?= $value ?>"<?= selected($main->persentase, $value)?>><?= $value ?></option>
+                                                    <option value="<?= $value ?>" <?= selected($main->persentase, $value) ?>><?= $value ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                     </div>
+                                    <?php if ($main->gambar) : ?>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="nama"></label>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" name="old_gambar" value="<?= $main->gambar ?>">
+                                                <img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_GALERI . $main->gambar ?>" alt="Gambar Dokumentasi" width="200" height="200">
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="form-group">
                                         <label class="control-label col-sm-3" for="upload">Unggah Dokumentasi</label>
                                         <div class="col-sm-7">
@@ -39,6 +48,7 @@
                                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                                 </span>
                                             </div>
+                                            <span class="help-block"><code>(Kosongkan jika ingin merubah gambar)</code></span>
                                         </div>
                                     </div>
                                     <div class="form-group">

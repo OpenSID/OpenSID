@@ -85,11 +85,11 @@
             'autoWidth': false,
             'pageLength': 10,
             'order': [
-                [2, 'asc']
+                [3, 'asc']
             ],
             'columnDefs': [{
                 'orderable': false,
-                'targets': [0, 1]
+                'targets': [0,1,2]
             }],
 
             'ajax': {
@@ -97,16 +97,23 @@
                 'method': 'GET'
             },
             'columns': [
-                {'data': null,},
+                {'data': null},
                 {
                     'data': function(data) {
-                        return `
-                            <a href="<?= site_url("pembangunan_dokumentasi/edit/{$pembangunan->id}/"); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-							<a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                            `
+                        return `<a href="<?= site_url("pembangunan_dokumentasi/edit/{$pembangunan->id}/"); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+                                <a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                               `
+                    }, 'class': 'text-center'
+                },
+                {
+                    'data': function (data) {
+                        return `<div class="user-panel">
+                                    <div class="image2">
+                                        <img src="<?= base_url(LOKASI_GALERI) ?>${data.gambar}" class="img-circle" alt="Foto Dokumentasi">
+                                    </div>
+                                </div>`
                     }
                 },
-                {'data': 'gambar'},
                 {'data': 'persentase'},
                 {'data': 'keterangan'},
                 {'data': 'created_at'}

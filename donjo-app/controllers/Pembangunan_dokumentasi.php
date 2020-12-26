@@ -53,6 +53,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
         $this->modul_ini = 220;
 
+        $this->load->library('upload');
         $this->load->model('referensi_model');
         $this->load->model('pembangunan_model');
         $this->load->model('pembangunan_dokumentasi_model', 'model');
@@ -94,14 +95,19 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
     public function create($id_pembangunan)
     {
-        $this->model->insert($this->input->post(), '');
+        $config['upload_path']   = LOKASI_GALERI;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size']      = 1024;
+        $config['overwrite']     = true;
+        
+        $this->upload->initialize($config);
 
-        if ($this->db->affected_rows()) {
+        if ($this->upload->do_upload('gambar')) {
+            $this->model->insert($this->input->post(), $this->upload->data('file_name'));
             $this->session->success = 1;
         } else {
             $this->session->success = -1;
-
-            redirect("pembangunan_dokumentasi/new/{$id_pembangunan}");
+            $this->session->error_msg = $this->upload->display_errors();
         }
 
         redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
@@ -124,12 +130,19 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
     public function update($id_pembangunan, $id)
     {
-        $this->model->update($id_pembangunan, $id, $this->input->post(), $gambar = '');
+        $config['upload_path']   = LOKASI_GALERI;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size']      = 1024;
+        $config['overwrite']     = true;
+        
+        $this->upload->initialize($config);
 
-        if ($this->db->affected_rows()) {
+        if ($this->upload->do_upload('gambar')) {
+            $this->model->update($id_pembangunan, $id, $this->input->post(), $this->upload->data('file_name'));
             $this->session->success = 1;
         } else {
             $this->session->success = -1;
+            $this->session->error_msg = $this->upload->display_errors();
 
             redirect("pembangunan_dokumentasi/edit/{$id_pembangunan}/{$id}");
         }
