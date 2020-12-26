@@ -5,11 +5,11 @@
 
 /* Sebagai contoh:
  * - Perubahan css di bawah memungkinkan penggunaan gambar untuk latar belakang halaman siteman.
- *   Gambar yang digunakan harus ditempatkan di desa/css/images/img1.jpg
+ *   Gambar yang digunakan harus ditempatkan di desa/css/gambar/latar_login.jpg
  *
 */
 body.login{
-  background: url(images/img1.jpg) no-repeat center fixed; /*gambar background */
+  background: url(gambar/latar_login.jpg) no-repeat center fixed; /*gambar background */
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;

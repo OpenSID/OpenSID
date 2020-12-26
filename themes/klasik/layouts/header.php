@@ -83,8 +83,8 @@
 
 		<!-- Styles untuk tema dan penyesuaiannya di folder desa -->
 		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
-		<?php if (is_file("desa/css/".$this->theme."/desa-web.css")): ?>
-			<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
+		<?php if (is_file("desa/css/desa-web.css")): ?>
+			<link type='text/css' href="<?= base_url('desa/css/desa-web.css'); ?>" rel='Stylesheet' />
 		<?php endif; ?>
 
 		<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />

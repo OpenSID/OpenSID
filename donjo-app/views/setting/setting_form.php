@@ -8,14 +8,52 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal">
-				<div class="col-md-12">
+			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal" enctype="multipart/form-data">
+				<div class="col-md-3">
 					<div class="box box-primary">
+						<div class="box-header with-border">
+							<b>Latar Website</b>
+						</div>
+						<div class="box-body box-profile text-center">
+							<img class="img-responsive" src="<?= base_url(LOKASI_GAMBAR . 'latar_website.jpg'); ?>" alt="Latar Halaman Website" width="100%">
+							<p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
+							<div class="input-group">
+								<input type="text" class="form-control input-sm" id="file_path" name="latar_website">
+								<input type="file" class="hidden" id="file" name="latar_website">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<b>Latar Login</b>
+						</div>
+						<div class="box-body box-profile text-center">
+							<img class="img-responsive" src="<?= base_url(LOKASI_GAMBAR . 'latar_login.jpg'); ?>" alt="Latar Halaman Website" width="100%">
+							<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
+							<div class="input-group">
+								<input type="text" class="form-control input-sm" id="file_path1" name="latar_login">
+								<input type="file" class="hidden" id="file1" name="latar_login">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser1"><i class="fa fa-search"></i>&nbsp;</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<b>Pengaturan Dasar</b>
+						</div>
 						<div class="box-body">
 							<?php foreach ($this->$list_setting as $setting): ?>
-								<?php if ($setting->kategori != 'development' OR ($this->config->item("environment") == 'development' )): ?>
+								<?php $key = ucwords(str_replace('_', ' ', $setting->key)); ?>
+								<?php if ($setting->jenis != 'upload' && $setting->kategori != 'development' OR ($this->config->item("environment") == 'development' )): ?>
 									<div class="form-group">
-										<label class="col-sm-12 col-md-3" for="nama"><?= $setting->key?></label>
+										<label class="col-sm-12 col-md-3" for="nama"><?= $key; ?></label>
 										<?php if ($setting->jenis == 'option'): ?>
 											<div class="col-sm-12 col-md-4">
 												<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
@@ -82,10 +120,8 @@
 							<?php endforeach; ?>
 						</div>
 						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
-							</div>
+							<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 						</div>
 					</div>
 				</div>
