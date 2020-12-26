@@ -24,6 +24,8 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 18. #2687: Sekarang jumlah surat yg dicetak dan diunduh dari arsip layanan surat tidak dibatasi.
 19. #1278: Sediakan fitur impor dan ekspor data bantuan.
 20. Lengkapi contoh htaccess untuk memaksa menggunakan https.
+21. #3333: Perbaiki paginasi dan rapikan cetak/unduh Daftar Persil. [bug-fix]
+22. #3707: Perbaiki login terakhir pengguna tidak tercatat jika tidak keluar secara eksplisit. [bug-fix]
 
 
 Fitur Premium:
