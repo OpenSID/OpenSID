@@ -52,7 +52,6 @@ class Pembangunan extends Admin_Controller
         parent::__construct();
 
         $this->modul_ini = 220;
-        $this->tab_ini = 1;
 
         $this->load->model('pembangunan_model', 'model');
         $this->load->model('referensi_model');
@@ -83,6 +82,7 @@ class Pembangunan extends Admin_Controller
     public function new()
     {
         $this->render('pembangunan/form', [
+            'list_lokasi' => $this->model->list_dusun_rt_rw(),
             'sumber_dana' => $this->referensi_model->list_ref_sumber_dana(SUMBER_DANA),
         ]);
     }
@@ -112,6 +112,7 @@ class Pembangunan extends Admin_Controller
 
         $this->render('pembangunan/edit', [
             'main'        => $data,
+            'list_lokasi' => $this->model->list_dusun_rt_rw(),
             'sumber_dana' => $this->referensi_model->list_ref_sumber_dana(SUMBER_DANA),
         ]);
     }

@@ -106,7 +106,7 @@
                     'data': 'pelaksana_kegiatan'
                 },
                 {
-                    'data': 'lokasi'
+                    'data': 'alamat'
                 },
                 {
                     'data': 'keterangan'

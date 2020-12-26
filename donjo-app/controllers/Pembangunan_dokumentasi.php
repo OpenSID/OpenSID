@@ -51,6 +51,9 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         parent::__construct();
 
+        $this->modul_ini = 220;
+
+        $this->load->model('referensi_model');
         $this->load->model('pembangunan_model');
         $this->load->model('pembangunan_dokumentasi_model', 'model');
     }
@@ -81,12 +84,14 @@ class Pembangunan_dokumentasi extends Admin_Controller
         ]);
     }
 
-    public function new()
+    public function new($id)
     {
-        $this->render('pembangunan/jenis/form');
+        $this->render('pembangunan/dokumentasi/form', [
+            'persentase' => $this->referensi_model->list_ref_persentase(STATUS_PEMBANGUNAN)
+        ]);
     }
 
-    public function create()
+    public function create($id)
     {
         $this->model->insert($this->input->post());
 
@@ -109,7 +114,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
             show_404();
         }
 
-        $this->render('pembangunan/jenis/edit', [
+        $this->render('pembangunan/dokumentasi/edit', [
             'main' => $data,
         ]);
     }

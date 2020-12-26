@@ -105,6 +105,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 	{
 		$this->dbforge->add_field([
 			'id'                 => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'id_lokasi'          => ['type' => 'INT', 'constraint' => 11, 'null' => true],
 			'sumber_dana'        => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'judul'              => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'keterangan'         => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
@@ -119,6 +120,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		]);
 
 		$this->dbforge->add_key('id', true);
+		$this->dbforge->add_key('id_lokasi');
 		$this->dbforge->create_table('pembangunan', true);
 	}
 
@@ -128,7 +130,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'id'             => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
 			'id_pembangunan' => ['type' => 'INT', 'constraint' => 11],
 			'gambar'         => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
-			'persentase'     => ['type' => 'int', 'constraint' => 3, 'default' => 0],
+			'persentase'     => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'keterangan'     => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
 			'created_at'     => ['type' => 'datetime', 'null' => true],
 			'updated_at'     => ['type' => 'datetime', 'null' => true],

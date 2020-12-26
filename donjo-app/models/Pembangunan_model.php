@@ -17,7 +17,12 @@ class Pembangunan_model extends CI_Model
 
     public function get_data(string $search = '')
     {
-        $builder = $this->db->from($this->table);
+        $builder = $this->db->select([
+            'p.*',
+            '(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+        ])
+        ->from("{$this->table} p")
+        ->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left');
 
         if (empty($search)) {
             $condition = $builder;
@@ -39,12 +44,13 @@ class Pembangunan_model extends CI_Model
     public function insert(array $request)
     {
         $this->db->insert($this->table, [
-            'sumber_dana'     => $request['sumber_dana'],
+            'sumber_dana'        => $request['sumber_dana'],
             'judul'              => $request['judul'],
             'volume'             => $request['volume'],
             'tahun_anggaran'     => $request['tahun_anggaran'],
             'pelaksana_kegiatan' => $request['pelaksana_kegiatan'],
-            'lokasi'             => $request['lokasi'],
+            'id_lokasi'          => $request['id_lokasi'] ?: null,
+            'lokasi'             => $request['lokasi'] ?: null,
             'keterangan'         => $request['keterangan'],
             'created_at'         => date('Y-m-d H:i:s'),
             'updated_at'         => date('Y-m-d H:i:s'),
@@ -59,7 +65,8 @@ class Pembangunan_model extends CI_Model
             'volume'             => $request['volume'],
             'tahun_anggaran'     => $request['tahun_anggaran'],
             'pelaksana_kegiatan' => $request['pelaksana_kegiatan'],
-            'lokasi'             => $request['lokasi'],
+            'id_lokasi'          => $request['id_lokasi'] ?: null,
+            'lokasi'             => $request['lokasi'] ?: null,
             'keterangan'         => $request['keterangan'],
             'updated_at'         => date('Y-m-d H:i:s'),
         ]);
@@ -75,5 +82,14 @@ class Pembangunan_model extends CI_Model
         return $this->db->where('id', $id)
             ->get($this->table)
             ->row();
+    }
+
+    public function list_dusun_rt_rw()
+    {
+        return $this->db->select(['id', 'rt', 'rw', 'dusun'])
+            ->where('rt >', 0)
+            ->order_by('dusun')
+            ->get('tweb_wil_clusterdesa')
+            ->result_array();
     }
 }

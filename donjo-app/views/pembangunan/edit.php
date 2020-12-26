@@ -60,9 +60,32 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" style="text-align:left;">Lokasi Pembangunan</label>
-                                        <div class="col-sm-7">
-                                            <input maxlength="50" class="form-control input-sm required" name="lokasi" id="lokasi" value="<?= $main->lokasi ?> " type="text" placeholder="Lokasi Kegiatan Pembangunan" />
+                                        <label for="jenis_lokasi" class="col-sm-3 control-label">Lokasi Pembangunan</label>
+                                        <div class="btn-group col-sm-8 kiri" data-toggle="buttons">
+                                            <label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label <?= $main->lokasi ? NULL : 'active' ?>">
+                                                <input type="radio" name="jenis_lokasi" class="form-check-input" value="1" autocomplete="off" onchange="pilih_lokasi(this.value);"> Pilih Lokasi
+                                            </label>
+                                            <label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label <?= $main->lokasi ? 'active' : NULL ?>">
+                                                <input type="radio" name="jenis_lokasi" class="form-check-input" value="2" autocomplete="off" onchange="pilih_lokasi(this.value);"> Tulis Manual
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div id="pilih">
+                                            <div class="col-sm-7">
+                                                <select class="form-control input-sm select2 required" id="id_lokasi" name="id_lokasi" style="width:100%">
+                                                    <option value=''>-- Pilih Lokasi Pembangunan --</option>
+                                                    <?php foreach ($list_lokasi as $key => $item) : ?>
+                                                        <option value="<?= $item["id"] ?>" <?php selected($item["id"], $main->id_lokasi) ?>><?= strtoupper($item["dusun"]) . " - RW " . $item["rw"] . " / RT " . $item["rt"] ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="manual">
+                                            <div class="col-sm-7">
+                                                <textarea id="lokasi" class="form-control input-sm required" type="text" placeholder="Lokasi" name="lokasi"><?= $main->lokasi ?></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -86,3 +109,25 @@
         </form>
     </section>
 </div>
+<script>
+    function pilih_lokasi(pilih) {
+        if (pilih == 1) {
+            $('#lokasi').val(null);
+            $('#lokasi').removeClass('required');
+            $("#manual").hide();
+            $("#pilih").show();
+            $('#id_lokasi').addClass('required');
+        } else {
+            $('#id_lokasi').val(null);
+            $('#id_lokasi').trigger('change', true);
+            $('#id_lokasi').removeClass('required');
+            $("#manual").show();
+            $('#lokasi').addClass('required');
+            $("#pilih").hide();
+        }
+    }
+    
+    $(document).ready(function() {
+		pilih_lokasi(<?= is_null($main->lokasi) ? 1 : 2 ?>);
+	});
+</script>
