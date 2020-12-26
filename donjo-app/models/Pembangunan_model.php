@@ -4,15 +4,18 @@ class Pembangunan_model extends CI_Model
 {
     protected $table = 'pembangunan';
 
+    const ENABLE = 1;
+    CONST DISABLE = 0;
+
     const ORDER_ABLE = [
-        2 => 'sumber_dana',
-        3 => 'judul',
-        4 => 'volume',
-        5 => 'tahun_anggaran',
-        6 => 'pelaksana_kegiatan',
-        7 => 'lokasi',
-        8 => 'keterangan',
-        9 => 'created_at'
+        3  => 'p.judul',
+        4  => 'p.sumber_dana',
+        6  => 'p.volume',
+        7  => 'p.tahun_anggaran',
+        8  => 'p.pelaksana_kegiatan',
+        9  => 'p.lokasi',
+        10 => 'p.keterangan',
+        11 => 'p.created_at'
     ];
 
     public function get_data(string $search = '')
@@ -20,21 +23,24 @@ class Pembangunan_model extends CI_Model
         $builder = $this->db->select([
             'p.*',
             '(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+            '(CASE WHEN MAX(d.persentase) IS NOT NULL THEN MAX(d.persentase) ELSE CONCAT("belum ada progres") END) AS max_persentase',
         ])
         ->from("{$this->table} p")
-        ->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left');
+        ->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
+        ->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+        ->group_by('p.id');
 
         if (empty($search)) {
             $condition = $builder;
         } else {
             $condition = $builder->group_start()
-                ->like('sumber_dana', $search)
-                ->or_like('judul', $search)
-                ->or_like('keterangan', $search)
-                ->or_like('volume', $search)
-                ->or_like('tahun_anggaran', $search)
-                ->or_like('pelaksana_kegiatan', $search)
-                ->or_like('lokasi', $search)
+                ->like('p.sumber_dana', $search)
+                ->or_like('p.judul', $search)
+                ->or_like('p.keterangan', $search)
+                ->or_like('p.volume', $search)
+                ->or_like('p.tahun_anggaran', $search)
+                ->or_like('p.pelaksana_kegiatan', $search)
+                ->or_like('p.lokasi', $search)
                 ->group_end();
         }
 
@@ -97,5 +103,19 @@ class Pembangunan_model extends CI_Model
             ->order_by('dusun')
             ->get('tweb_wil_clusterdesa')
             ->result_array();
+    }
+
+    public function unlock($id)
+    {
+        return $this->db->set('status', static::ENABLE)
+            ->where('id', $id)
+            ->update($this->table);
+    }
+
+    public function lock($id)
+    {
+        return $this->db->set('status', static::DISABLE)
+            ->where('id', $id)
+            ->update($this->table);
     }
 }

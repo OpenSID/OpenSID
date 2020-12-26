@@ -31,10 +31,12 @@
                                                 <table id="tabel-pembangunan" class="table table-bordered dataTable table-hover">
                                                     <thead class="bg-gray">
                                                         <tr>
+                                                            <th><input type="checkbox" id="checkall"/></th>
                                                             <th class="text-center">No</th>
-                                                            <th class="text-center">Aksi</th>
-                                                            <th class="text-center">Sumber Dana</th>
+                                                            <th width="190px" class="text-center">Aksi</th>
                                                             <th class="text-center">Judul</th>
+                                                            <th class="text-center">Sumber Dana</th>
+                                                            <th class="text-center">Persentase</th>
                                                             <th class="text-center">Volume</th>
                                                             <th class="text-center">Tahun</th>
                                                             <th class="text-center">Pelaksana</th>
@@ -66,35 +68,50 @@
             'serverSide': true,
             'autoWidth': false,
             'pageLength': 10,
-            'order': [[2, 'asc']],
+            'order': [[11, 'desc']],
             'columnDefs': [{
                 'orderable': false,
-                'targets': [0,1],
+                'targets': [0,1,2,5],
             }],
-
             'ajax': {
                 'url': "<?= site_url('pembangunan') ?>",
                 'method': 'GET'
             },
             'columns': [
                 {
+                    'data': function (data) {
+                        return `<input type="checkbox" name="id_cb[]" value="${data.id}" />`
+                    }
+                },
+                {
                     'data': null,
                 },
                 {
                     'data': function (data) {
+                        let status;
+                        if (data.status == 1) {
+                            status = `<a href="<?= site_url('pembangunan/lock/') ?>${data.id}" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Pembangunan"><i class="fa fa-unlock"></i></a>`
+                        } else {
+                            status = `<a href="<?= site_url('pembangunan/unlock/') ?>${data.id}" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Pembangunan"><i class="fa fa-lock"></i></a>`
+                        }
+
                         return `
                             <a href="<?= site_url('pembangunan/edit/'); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
                             <a href="<?= site_url('pembangunan/lokasi_maps/'); ?>${data.id}" class="btn bg-olive btn-flat btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a>
                             <a href="<?= site_url('pembangunan_dokumentasi/show/'); ?>${data.id}" class="btn bg-purple btn-flat btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-bars"></i></a>
+                            ${status}
 							<a href="#" data-href="<?= site_url('pembangunan/delete/'); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                             `
                     }
                 },
                 {
+                    'data': 'judul'
+                },
+                {
                     'data': 'sumber_dana'
                 },
                 {
-                    'data': 'judul'
+                    'data': 'max_persentase'
                 },
                 {
                     'data': 'volume'
@@ -122,7 +139,7 @@
 
         tabelPembangunan.on('draw.dt', function() {
             let PageInfo = $('#tabel-pembangunan').DataTable().page.info();
-            tabelPembangunan.column(0, {
+            tabelPembangunan.column(1, {
                 page: 'current'
             }).nodes().each(function(cell, i) {
                 cell.innerHTML = i + 1 + PageInfo.start;

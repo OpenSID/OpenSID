@@ -52,6 +52,7 @@ class Pembangunan extends Admin_Controller
         parent::__construct();
 
         $this->modul_ini = 220;
+        $this->set_minsidebar(1);
 
         $this->load->model('pembangunan_model', 'model');
         $this->load->model('referensi_model');
@@ -73,6 +74,7 @@ class Pembangunan extends Admin_Controller
                     'recordsTotal'    => $this->model->get_data()->count_all_results(),
                     'recordsFiltered' => $this->model->get_data($search)->count_all_results(),
                     'data'            => $this->model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+                    'query' => $this->db->last_query(),
                 ]));
         }
 
@@ -141,6 +143,24 @@ class Pembangunan extends Admin_Controller
         } else {
             $this->session->success = -4;
         }
+
+        redirect('pembangunan');
+    }
+
+    public function unlock($id)
+    {
+        $this->model->unlock($id);
+
+        $this->session->success = 1;
+
+        redirect('pembangunan');
+    }
+
+    public function lock($id)
+    {
+        $this->model->lock($id);
+
+        $this->session->success = 1;
 
         redirect('pembangunan');
     }

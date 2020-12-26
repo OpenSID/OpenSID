@@ -115,6 +115,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			'volume'             => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
 			'tahun_anggaran'     => ['type' => 'YEAR', 'null' => true],
 			'pelaksana_kegiatan' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+			'status'             => ['type' => 'TINYINT', 'constraint' => 3, 'default' => 1],
 			'created_at'         => ['type' => 'datetime', 'null' => true],
 			'updated_at'         => ['type' => 'datetime', 'null' => true],
 		]);
