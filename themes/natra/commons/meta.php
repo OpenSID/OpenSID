@@ -32,8 +32,8 @@
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.css"); ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.css"); ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css"); ?>">
-	<?php if (is_file("desa/css/desa-web.css")): ?>
-		<link type='text/css' href="<?= base_url('desa/css/desa-web.css'); ?>" rel='Stylesheet' />
+	<?php if (is_file("desa/css/desa-$this->theme.css")): ?>
+		<link type='text/css' href="<?= base_url("desa/css/desa-$this->theme.css"); ?>" rel='Stylesheet' />
 	<?php endif; ?>
 
 <!-- nambah baru lagi
