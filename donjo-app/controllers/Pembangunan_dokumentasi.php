@@ -84,29 +84,30 @@ class Pembangunan_dokumentasi extends Admin_Controller
         ]);
     }
 
-    public function new($id)
+    public function new($id_pembangunan)
     {
         $this->render('pembangunan/dokumentasi/form', [
-            'persentase' => $this->referensi_model->list_ref_persentase(STATUS_PEMBANGUNAN)
+            'id_pembangunan' => $id_pembangunan,
+            'persentase'     => $this->referensi_model->list_ref_persentase(STATUS_PEMBANGUNAN)
         ]);
     }
 
-    public function create($id)
+    public function create($id_pembangunan)
     {
-        $this->model->insert($this->input->post());
+        $this->model->insert($this->input->post(), '');
 
         if ($this->db->affected_rows()) {
             $this->session->success = 1;
         } else {
             $this->session->success = -1;
 
-            redirect('pembangunan_jenis/new');
+            redirect("pembangunan_dokumentasi/new/{$id_pembangunan}");
         }
 
-        redirect('pembangunan_jenis');
+        redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
     }
 
-    public function edit($id)
+    public function edit($id_pembangunan, $id)
     {
         $data = $this->model->find($id);
 
@@ -115,26 +116,28 @@ class Pembangunan_dokumentasi extends Admin_Controller
         }
 
         $this->render('pembangunan/dokumentasi/edit', [
-            'main' => $data,
+            'id_pembangunan' => $id_pembangunan,
+            'persentase'     => $this->referensi_model->list_ref_persentase(STATUS_PEMBANGUNAN),
+            'main'           => $data,
         ]);
     }
 
-    public function update($id)
+    public function update($id_pembangunan, $id)
     {
-        $this->model->update($id, $this->input->post());
+        $this->model->update($id_pembangunan, $id, $this->input->post(), $gambar = '');
 
         if ($this->db->affected_rows()) {
             $this->session->success = 1;
         } else {
             $this->session->success = -1;
 
-            redirect("pembangunan_jenis/edit/{$id}");
+            redirect("pembangunan_dokumentasi/edit/{$id_pembangunan}/{$id}");
         }
 
-        redirect('pembangunan_jenis');
+        redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
     }
 
-    public function delete($id)
+    public function delete($id_pembangunan, $id)
     {
         $this->model->delete($id);
 
@@ -144,6 +147,6 @@ class Pembangunan_dokumentasi extends Admin_Controller
             $this->session->success = -4;
         }
 
-        redirect('pembangunan_jenis');
+        redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
     }
 }

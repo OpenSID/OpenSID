@@ -31,20 +31,27 @@ class Pembangunan_dokumentasi_model extends CI_Model
         return $condition;
     }
 
-    public function insert(array $request)
+    public function insert(array $request, $gambar)
     {
         return $this->db->insert($this->table, [
-            'jenis'      => $request['jenis'],
-            'keterangan' => $request['keterangan'],
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'id_pembangunan' => $request['id_pembangunan'],
+            'gambar'         => $gambar,
+            'persentase'     => $request['persentase'],
+            'keterangan'     => $request['keterangan'],
+            'created_at'     => date('Y-m-d H:i:s'),
+            'updated_at'     => date('Y-m-d H:i:s'),
         ]);
     }
 
-    public function update($id, array $request)
+    public function update($id_pembangunan, $id, array $request, $gambar)
     {
-        return $this->db->where('id', $id)->update($this->table, [
-            'jenis'      => $request['jenis'],
+        return $this->db->where([
+            'id_pembangunan' => $id_pembangunan,
+            'id'             => $id
+        ])
+        ->update($this->table, [
+            'gambar'     => $gambar,
+            'persentase' => $request['persentase'],
             'keterangan' => $request['keterangan'],
             'updated_at' => date('Y-m-d H:i:s'),
         ]);

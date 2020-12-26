@@ -96,8 +96,8 @@
                 {
                     'data': function(data) {
                         return `
-                            <a href="<?= site_url('pembangunan_dokumentasi/edit/'); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-							<a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                            <a href="<?= site_url("pembangunan_dokumentasi/edit/{$pembangunan->id}/"); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+							<a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                             `
                     }
                 },
