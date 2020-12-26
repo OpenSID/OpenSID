@@ -49,7 +49,7 @@
 				<?php if ($aksi != 'unduh'): ?>
 					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 				<?php endif; ?>
-				<h1 class="judul"> 
+				<h1 class="judul">
 					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
 				</h1>
 			</td>
@@ -94,7 +94,6 @@
 					</tbody>
 				</table>
 			</td>
-			</tr>
-		</tbody>
-	</table>
+		</tr>
+	</tbody>
 </table>

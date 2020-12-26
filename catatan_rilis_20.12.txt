@@ -24,6 +24,7 @@ Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 18. #2687: Sekarang jumlah surat yg dicetak dan diunduh dari arsip layanan surat tidak dibatasi.
 19. #1278: Sediakan fitur impor dan ekspor data bantuan.
 20. Lengkapi contoh htaccess untuk memaksa menggunakan https.
+21. #3333: Perbaiki paginasi dan rapikan cetak/unduh Daftar Persil. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
