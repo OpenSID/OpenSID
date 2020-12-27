@@ -1,0 +1,47 @@
+<div class="box box-solid">
+	<div class="box-header with-border bg-yellow">
+		<h4 class="box-title">Pesan</h4>
+	</div>
+	<div class="box-body box-line">
+		<a href="<?= site_url("layanan-mandiri/pesan/tulis"); ?>" class="btn btn-social btn-success visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pencil-square-o"></i>Tulis Pesan</a>
+		<a href="<?= site_url("layanan-mandiri/pesan-masuk"); ?>" class="btn btn-social btn-primary visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-inbox"></i>Pesan Masuk</a>
+		<a href="<?= site_url("layanan-mandiri/pesan-keluar"); ?>" class="btn btn-social bg-purple visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-envelope-o"></i>Pesan Keluar</a>
+	</div>
+	<div class="box-body box-line">
+		<h4><b>PESAN <?= strtoupper($judul); ?></b></h4>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover datatable-polos table-data" id="list-rekam">
+				<thead>
+					<tr>
+						<th class="padat">No</th>
+						<th class="padat text-center">Aksi</th>
+						<th width="75%">Subjek Pesan</th>
+						<th class="padat">Status Pesan</th>
+						<th width="20%">Dikirimkan Pada</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if ($pesan):
+						foreach ($pesan as $key => $data): ?>
+							<tr <?= jecho($data['status'], '2', 'class="select_row"'); ?>>
+								<td><?= ($key + 1); ?></td>
+								<td nowrap>
+									<a href="<?= site_url("layanan-mandiri/pesan/baca/$kat/$data[id]"); ?>" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa fa-eye<?= jecho($data['status'], '2', '-slash'); ?>">&nbsp;</i></a>
+								</td>
+								<td><?= $data['subjek']; ?></td>
+								<td><?= $data['status'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
+								<td nowrap><?=tgl_indo2($data['tgl_upload']); ?></td>
+							</tr>
+						<?php endforeach;
+					else: ?>
+						<tr>
+							<td class="text-center" colspan="5">Data tidak tersedia</td>
+						</tr>
+					<?php endif; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

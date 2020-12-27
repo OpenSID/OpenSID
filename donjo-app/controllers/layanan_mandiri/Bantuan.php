@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk login Layanan Mandiri
+ * Controller untuk modul Layanan Mandiri
  *
- * donjo-app/controllers/Mandiri_login.php
+ * donjo-app/controllers/Mandiri_web.php
  *
  */
 
@@ -45,67 +45,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mandiri_login extends Web_Controller
+class Bantuan extends Mandiri_Controller
 {
-	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
-		mandiri_timeout();
-		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
-		$this->header = $this->header_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
+		$this->load->model('program_bantuan_model');
 	}
 
 	public function index()
 	{
-		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->header['desa'];
-		//Initialize Session ------------
-		if (!isset($_SESSION['mandiri']))
-		{
-			// Belum ada session variable
-			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 4);
-			$this->session->set_userdata('mandiri_wait', 0);
-		}
-		$_SESSION['success'] = 0;
-		//-------------------------------
+		$data = [
+			'desa' => $this->header,
+			'bantuan_penduduk' => $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->session->nik),
+			'konten' => 'bantuan'
+		];
 
-		$data['cek_anjungan'] = $this->cek_anjungan;
-		$data['form_action'] = site_url('mandiri_login/auth');
-
-		$this->load->view('layanan_mandiri/mandiri_login', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	public function auth()
+	public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
 	{
-		if ($this->session->mandiri_wait != 1)
+		$data = $this->program_bantuan_model->get_program_peserta_by_id($id_peserta);
+		// Hanya boleh menampilkan data pengguna yang login
+		// ** Bagi program sasaran pendududk **
+		// TO DO : Ganti parameter nik menjadi id
+		if ($aksi == 'tampil')
 		{
-			$this->mandiri_model->siteman();
-		}
-
-		if ($this->session->lg == 1)
-		{
-			redirect('mandiri_web/ganti_pin');
-		}
-
-		if ($this->session->mandiri == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
+			$this->load->view('layanan_mandiri/peserta_bantuan', $data);
 		}
 		else
 		{
-			redirect('mandiri_login');
-		}
+			$this->load->helper('download');
+			if ($data['kartu_peserta']) force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
 
+			redirect('layanan-mandiri/bantuan');
+		}
 	}
 
 }

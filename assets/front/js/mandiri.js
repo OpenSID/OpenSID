@@ -92,7 +92,7 @@ $(document).ready(function () {
 				'mRender': function (data, type, row) {
 					let action = ``;
 					if (row[1] && row[6] == 1) {
-						action = `<button type="button" class="btn bg-orange btn-flat btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[1]}"><i class="fa fa-edit"></i></button> <button type="button" class="btn bg-red btn-flat btn-sm delete text-center" title="Hapus Data" data-id="${row[1]}"><i class="fa fa-trash"></i> Hapus</button>`;
+						action = `<button type="button" class="btn bg-orange btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[1]}"><i class="fa fa-edit"></i></button> <button type="button" class="btn bg-red btn-sm delete text-center" title="Hapus Data" data-id="${row[1]}"><i class="fa fa-trash"></i> Hapus</button>`;
 					}
 					return action;
 				}

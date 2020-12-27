@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk login Layanan Mandiri
+ * View untuk modul Layanan Mandiri Web > Program Bantuan
  *
- * donjo-app/controllers/Mandiri_login.php
+ * donjo-app/views/mandiri/data_peerta.php,
  *
  */
 
@@ -44,68 +44,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
-class Mandiri_login extends Web_Controller
-{
-	private $cek_anjungan;
-
-	public function __construct()
-	{
-		parent::__construct();
-		mandiri_timeout();
-		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
-		$this->header = $this->header_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
-	}
-
-	public function index()
-	{
-		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->header['desa'];
-		//Initialize Session ------------
-		if (!isset($_SESSION['mandiri']))
-		{
-			// Belum ada session variable
-			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 4);
-			$this->session->set_userdata('mandiri_wait', 0);
-		}
-		$_SESSION['success'] = 0;
-		//-------------------------------
-
-		$data['cek_anjungan'] = $this->cek_anjungan;
-		$data['form_action'] = site_url('mandiri_login/auth');
-
-		$this->load->view('layanan_mandiri/mandiri_login', $data);
-	}
-
-	public function auth()
-	{
-		if ($this->session->mandiri_wait != 1)
-		{
-			$this->mandiri_model->siteman();
-		}
-
-		if ($this->session->lg == 1)
-		{
-			redirect('mandiri_web/ganti_pin');
-		}
-
-		if ($this->session->mandiri == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect('mandiri_login');
-		}
-
-	}
-
-}
+<table class="table table-bordered table-striped table-hover" >
+	<tbody>
+		<tr>
+			<td>Nomor Kartu Peserta</td>
+			<td> : <?= $peserta; ?></td>
+		</tr>
+		<tr>
+			<td>NIK</td>
+			<td> : <?= $kartu_nama; ?></td>
+		</tr>
+		<tr>
+			<td>Nama</td>
+			<td> : <?= $kartu_nik; ?></td>
+		</tr>
+		<tr>
+			<td>Tempat Lahir</td>
+			<td> : <?= $kartu_tempat_lahir; ?></td>
+		</tr>
+		<tr>
+			<td>Tanggal Lahir</td>
+			<td> : <?= tgl_indo($kartu_tanggal_lahir); ?></td>
+		</tr>
+		<tr>
+			<td>Alamat</td>
+			<td> : <?= $kartu_alamat; ?></td>
+		</tr>
+	</tbody>
+</table>

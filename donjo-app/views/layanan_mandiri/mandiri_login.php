@@ -88,7 +88,7 @@
 			<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
 			<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
 		<?php endif; ?>
-		<?php require __DIR__ .'/head_tags.php' ?>
+		<?php $this->load->view('head_tags'); ?>
 	</head>
 	<body class="login">
 		<div class="top-content">
@@ -109,7 +109,7 @@
 								<hr />
 							</div>
 							<div class="form-bottom">
-								<form id="validasi" class="login-form" action="<?= site_url('mandiri_login/auth'); ?>" method="post" >
+								<form id="validasi" class="login-form" action="<?= $form_action; ?>" method="post" >
 									<?php if ($this->session->mandiri_wait == 1): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>

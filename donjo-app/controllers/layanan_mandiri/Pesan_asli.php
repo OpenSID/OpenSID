@@ -40,12 +40,15 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mailbox_web extends Mandiri_Controller {
+class Pesan extends Mandiri_Controller {
+
+	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'mailbox_model', 'mandiri_model']);
+		$this->load->model(['config_model', 'mailbox_model', 'mandiri_model', 'anjungan_model']);
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 	}
 
 	public function index()

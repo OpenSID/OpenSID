@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk login Layanan Mandiri
+ * Controller untuk modul Layanan Mandiri
  *
- * donjo-app/controllers/Mandiri_login.php
+ * donjo-app/controllers/Mandiri_web.php
  *
  */
 
@@ -45,67 +45,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mandiri_login extends Web_Controller
+class Masuk extends Web_Controller
 {
-	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
-		$this->header = $this->header_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
+		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model']);
+		$this->header = $this->config_model->get_data();
 	}
 
 	public function index()
 	{
-		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->header['desa'];
+		if ($this->session->mandiri == 1) redirect('layanan-mandiri');
+
 		//Initialize Session ------------
-		if (!isset($_SESSION['mandiri']))
+		$this->session->unset_userdata('balik_ke');
+		if ( ! isset($this->session->mandiri))
 		{
 			// Belum ada session variable
-			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 4);
-			$this->session->set_userdata('mandiri_wait', 0);
+			$this->session->mandiri = 0;
+			$this->session->mandiri_try = 4;
+			$this->session->mandiri_wait = 0;
 		}
-		$_SESSION['success'] = 0;
-		//-------------------------------
 
+		$data['header'] = $this->header;
 		$data['cek_anjungan'] = $this->cek_anjungan;
-		$data['form_action'] = site_url('mandiri_login/auth');
+		$data['form_action'] = site_url('layanan-mandiri/cek');
 
-		$this->load->view('layanan_mandiri/mandiri_login', $data);
+		$this->load->view('layanan_mandiri/masuk', $data);
 	}
 
-	public function auth()
+	public function cek()
 	{
-		if ($this->session->mandiri_wait != 1)
-		{
-			$this->mandiri_model->siteman();
-		}
-
-		if ($this->session->lg == 1)
-		{
-			redirect('mandiri_web/ganti_pin');
-		}
-
-		if ($this->session->mandiri == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect('mandiri_login');
-		}
-
+		$this->mandiri_model->siteman();
+		redirect('layanan-mandiri');
 	}
 
 }

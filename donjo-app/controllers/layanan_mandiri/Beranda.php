@@ -1,0 +1,140 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Controller untuk modul Layanan Mandiri
+ *
+ * donjo-app/controllers/Mandiri_web.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+class Beranda extends Mandiri_Controller
+{
+
+	private $id_pend;
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
+		$this->load->helper('download');
+		$this->id_pend = $this->session->id_pend;
+	}
+
+	public function index()
+	{
+		$data = [
+			'desa' => $this->header,
+			'konten' => 'index'
+		];
+
+		$this->load->view('layanan_mandiri/template', $data);
+	}
+
+	public function profil()
+	{
+		$data = [
+			'desa' => $this->header,
+			'penduduk' => $this->penduduk_model->get_penduduk($this->id_pend),
+			'kelompok' => $this->penduduk_model->list_kelompok($this->id_pend),
+			'dokumen' => $this->penduduk_model->list_dokumen($this->id_pend),
+			'konten' => 'profil'
+		];
+
+		$this->load->view('layanan_mandiri/template', $data);
+	}
+
+	public function cetak_biodata()
+	{
+		$data = [
+			'desa' => $this->header,
+			'penduduk' => $this->penduduk_model->get_penduduk($this->id_pend),
+		];
+
+		$this->load->view('sid/kependudukan/cetak_biodata', $data);
+	}
+
+	public function cetak_kk()
+	{
+		$data = $this->keluarga_model->get_data_cetak_kk($this->session->id_kk);
+
+		$this->load->view('sid/kependudukan/cetak_kk_all', $data);
+	}
+
+	public function ganti_pin()
+	{
+		$data = [
+			'desa' => $this->header,
+			'form_action' => site_url('layanan-mandiri/proses-ganti-pin'),
+			'konten' => 'ganti_pin'
+		];
+
+		$this->load->view('layanan_mandiri/template', $data);
+	}
+
+	public function proses_ganti_pin()
+	{
+		$data = $this->mandiri_model->ganti_pin();
+		redirect('layanan-mandiri/ganti-pin');
+	}
+
+	public function keluar()
+	{
+		$this->mandiri_model->logout();
+		redirect('layanan-mandiri');
+	}
+
+	// Belum dipakai
+	/**
+	 * Unduh berkas berdasarkan kolom dokumen.id
+	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
+	 * @return  void
+	 */
+	public function unduh_berkas($id_dokumen = '')
+	{
+		// Ambil nama berkas dari database
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $this->id_pend);
+		if ($berkas)
+			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
+		else
+			$this->output->set_status_header('404');
+	}
+
+}

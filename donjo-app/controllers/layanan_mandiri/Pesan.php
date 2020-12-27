@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk login Layanan Mandiri
+ * Controller untuk modul Layanan Mandiri
  *
- * donjo-app/controllers/Mandiri_login.php
+ * donjo-app/controllers/Mandiri_web.php
  *
  */
 
@@ -45,67 +45,76 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mandiri_login extends Web_Controller
+class Pesan extends Mandiri_Controller
 {
-	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
-		mandiri_timeout();
-		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
-		$this->header = $this->header_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
+		$this->load->model('mailbox_model');
 	}
 
-	public function index()
+	public function index($kat = 1)
 	{
-		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->header['desa'];
-		//Initialize Session ------------
-		if (!isset($_SESSION['mandiri']))
-		{
-			// Belum ada session variable
-			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 4);
-			$this->session->set_userdata('mandiri_wait', 0);
-		}
-		$_SESSION['success'] = 0;
-		//-------------------------------
+		$pesan = $this->mailbox_model->get_all_pesan($this->session->nik, $kat);
 
-		$data['cek_anjungan'] = $this->cek_anjungan;
-		$data['form_action'] = site_url('mandiri_login/auth');
+		$data = [
+			'desa' => $this->header,
+			'kat' => $kat,
+			'judul' => ($kat == 1) ? 'Keluar' : 'Masuk',
+			'pesan' => $pesan,
+			'konten' => 'pesan'
+		];
 
-		$this->load->view('layanan_mandiri/mandiri_login', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	public function auth()
+	// TODO: Pisahkan mailbox dari komentar
+	// TODO: Ganti nik jadi id_pend
+	public function kirim($kat = 2)
 	{
-		if ($this->session->mandiri_wait != 1)
-		{
-			$this->mandiri_model->siteman();
+		$data = $this->input->post();
+		$post['email'] = $this->session->nik; // kolom email diisi nik untuk pesan
+		$post['owner'] = $this->session->nama;
+		$post['subjek'] = $data['subjek'];
+		$post['komentar'] = $data['pesan'];
+		$post['tipe'] = 1;
+		$post['status'] = 2;
+		$this->mailbox_model->insert($post);
+
+		if ($kat == 1) redirect('layanan-mandiri/pesan-keluar');
+
+		redirect('layanan-mandiri/pesan-masuk');
+	}
+
+	public function baca($kat = 2, $id = '')
+	{
+		$nik = $this->session->nik;
+		if ($kat == 2) {
+			$this->mailbox_model->ubah_status_pesan($nik, $id, 1);
 		}
 
-		if ($this->session->lg == 1)
-		{
-			redirect('mandiri_web/ganti_pin');
-		}
+		$data = [
+			'desa' => $this->header,
+			'kat' => $kat,
+			'owner' => ($kat == 2) ? 'Penerima' : 'Pengirim',
+			'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
+			'pesan' => $this->mailbox_model->get_pesan($nik, $id),
+			'konten' => 'baca_pesan'
+		];
 
-		if ($this->session->mandiri == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect('mandiri_login');
-		}
+		$this->load->view('layanan_mandiri/template', $data);
+	}
 
+	public function tulis($kat = 2)
+	{
+		$data = [
+			'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
+			'subjek' => $this->input->post('subjek'),
+			'konten' => 'tulis_pesan'
+		];
+
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 }
