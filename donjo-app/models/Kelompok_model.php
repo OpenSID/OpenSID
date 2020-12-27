@@ -347,22 +347,20 @@ class Kelompok_model extends MY_Model {
 
 	public function list_anggota($id_kelompok = 0)
 	{
+		$dusun = ucwords($this->setting->sebutan_dusun);
 		$data = $this->db
 			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tpx.nama AS sex')
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
+			->select('a.dusun,a.rw,a.rt')
+			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) as alamat")
 			->from('kelompok_anggota ka')
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
 			->order_by('CAST(no_anggota AS UNSIGNED)')
 			->get()
 			->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['alamat'] = $this->wilayah_model->get_alamat($data[$i]['id_penduduk']);
-			$data[$i]['umur'] = umur($data[$i]['tanggallahir']);
-		}
-
 		return $data;
 	}
 }

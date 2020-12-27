@@ -65,47 +65,40 @@
 								<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat" style="width: 100%;">
-										<option >
-											<?php if (!empty($surat_keluar['kode_surat'])): ?>
-												<?= $surat_keluar['kode_surat']?>
-												<?php else: ?>
-													-- Pilih Kode/Klasifikasi Surat --
-												<?php endif; ?>
-											</option>
-											<?php foreach ($klasifikasi as $item): ?>
-												<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_keluar["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
-											<?php endforeach;?>
-										</select>
-									</div>
+										<option value=''>-- Pilih Kode/Klasifikasi Surat --</option>
+										<?php foreach ($klasifikasi as $item): ?>
+											<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_keluar["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>
-									<div class="col-sm-8">
-										<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_keluar['nomor_surat']?>"></input>
-									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>
+								<div class="col-sm-8">
+									<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_keluar['nomor_surat']?>"></input>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label" for="tanggal_surat">Tanggal Surat</label>
-									<div class="col-sm-3">
-										<div class="input-group input-group-sm date">
-											<div class="input-group-addon">
-												<i class="fa fa-calendar"></i>
-											</div>
-											<input class="form-control input-sm pull-right required" id="tgl_2" name="tanggal_surat" type="text" value="<?= tgl_indo_out($surat_keluar['tanggal_surat'])?>">
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="tanggal_surat">Tanggal Surat</label>
+								<div class="col-sm-3">
+									<div class="input-group input-group-sm date">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
 										</div>
+										<input class="form-control input-sm pull-right required" id="tgl_2" name="tanggal_surat" type="text" value="<?= tgl_indo_out($surat_keluar['tanggal_surat'])?>">
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label" for="pengirim">Tujuan</label>
-									<div class="col-sm-8">
-										<input id="tujuan" name="tujuan" class="form-control input-sm required" type="text" placeholder="Tujuan" value="<?= $surat_keluar['tujuan']?>"></input>
-									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="pengirim">Tujuan</label>
+								<div class="col-sm-8">
+									<input id="tujuan" name="tujuan" class="form-control input-sm required" type="text" placeholder="Tujuan" value="<?= $surat_keluar['tujuan']?>"></input>
 								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label" for="disposisi_kepada">Isi Singkat/Perihal</label>
-									<div class="col-sm-8">
-										<textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm required" placeholder="Isi Singkat/Perihal" rows="3" style="resize:none;"><?= $surat_keluar['isi_singkat']?></textarea>
-									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="disposisi_kepada">Isi Singkat/Perihal</label>
+								<div class="col-sm-8">
+									<textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm required" placeholder="Isi Singkat/Perihal" rows="3" style="resize:none;"><?= $surat_keluar['isi_singkat']?></textarea>
 								</div>
 							</div>
 							<div class='box-footer'>

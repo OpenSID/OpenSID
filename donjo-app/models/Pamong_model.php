@@ -228,19 +228,25 @@ class Pamong_model extends CI_Model {
 
 	private function siapkan_data(&$data)
 	{
-		$data['id_pend'] = $this->input->post('id_pend');
+		$post = $this->input->post();
+		$data['id_pend'] = $post['id_pend'];
 		$this->data_pamong_asal($data);
-		$data['pamong_nip'] = strip_tags($this->input->post('pamong_nip'));
-		$data['pamong_niap'] = strip_tags($this->input->post('pamong_niap'));
-		$data['jabatan'] = strip_tags($this->input->post('jabatan'));
-		$data['pamong_pangkat'] = strip_tags($this->input->post('pamong_pangkat'));
-		$data['pamong_status'] = $this->input->post('pamong_status');
-		$data['pamong_nosk'] = strip_tags($this->input->post('pamong_nosk'));
-		$data['pamong_tglsk'] = !empty($this->input->post('pamong_tglsk')) ? tgl_indo_in($this->input->post('pamong_tglsk')) : NULL;
-		$data['pamong_tanggallahir'] = !empty($this->input->post('pamong_tanggallahir')) ? tgl_indo_in($this->input->post('pamong_tanggallahir')) : NULL;
-		$data['pamong_nohenti'] = !empty($this->input->post('pamong_nohenti')) ? strip_tags($this->input->post('pamong_nohenti')) : NULL;
-		$data['pamong_tglhenti'] = !empty($this->input->post('pamong_tglhenti')) ? tgl_indo_in($this->input->post('pamong_tglhenti')) : NULL;
-		$data['pamong_masajab'] = strip_tags($this->input->post('pamong_masajab')) ?: NULL;
+		$data['pamong_nip'] = strip_tags($post['pamong_nip']);
+		$data['pamong_niap'] = strip_tags($post['pamong_niap']);
+		$data['jabatan'] = strip_tags($post['jabatan']);
+		$data['pamong_pangkat'] = strip_tags($post['pamong_pangkat']);
+		$data['pamong_status'] = $post['pamong_status'];
+		$data['pamong_nosk'] = strip_tags($post['pamong_nosk']);
+		$data['pamong_tglsk'] = !empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : NULL;
+		$data['pamong_tanggallahir'] = !empty($post['pamong_tanggallahir']) ? tgl_indo_in($post['pamong_tanggallahir']) : NULL;
+		$data['pamong_nohenti'] = !empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : NULL;
+		$data['pamong_tglhenti'] = !empty($post['pamong_tglhenti']) ? tgl_indo_in($post['pamong_tglhenti']) : NULL;
+		$data['pamong_masajab'] = strip_tags($post['pamong_masajab']) ?: NULL;
+		$data['atasan'] = bilangan($post['atasan']) ?: NULL;
+		$data['bagan_tingkat'] = bilangan($post['bagan_tingkat']) ?: NULL;
+		$data['bagan_offset'] = (integer)$post['bagan_offset'] ?: NULL;
+		$data['bagan_layout'] = htmlentities($post['bagan_layout']);
+		$data['bagan_warna'] = $post['bagan_warna'];
 		return $data;
 	}
 
@@ -397,5 +403,67 @@ class Pamong_model extends CI_Model {
 			->update('tweb_desa_pamong', ['pamong_status' => $val]);
 	}
 
+	public function list_bagan()
+	{
+		// atasan => bawahan. Contoh:
+		// data['struktur'] = [
+    //  ['14' => '20'],
+    //  ['14' => '26'],
+    //  ['20' => '24']
+    // ;
+		$atasan = $this->db
+			->select('atasan, pamong_id')
+			->where('atasan IS NOT NULL')
+    	->where('pamong_status', 1)
+			->get('tweb_desa_pamong')->result_array();
+		$data['struktur'] = [];
+		foreach ($atasan as $pamong)
+		{
+			$data['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
+		}
+
+    $data['nodes'] = $this->db
+    	->select('p.pamong_id, p.jabatan, p.foto, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
+    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
+    	->from('tweb_desa_pamong p')
+    	->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
+    	->where('pamong_status', 1)
+    	->get()->result_array();
+
+    return $data;
+	}
+
+	public function list_atasan($ex_id = '')
+	{
+		if ($ex_id) $this->db->where('pamong_id <>', $ex_id);
+		$data = $this->db
+			->select('pamong_id as id, jabatan')
+    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nik ELSE p.pamong_nik END) as nik')
+    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
+    	->from('tweb_desa_pamong p')
+    	->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
+    	->where('pamong_status', 1)
+    	->order_by('nama')
+    	->get()->result_array();
+    return $data;
+	}
+
+	public function update_bagan($post)
+	{
+
+// print("<pre>".print_r($post, true)."</pre>"); die();
+
+		$list_id = $post['list_id'];
+		if ($post['atasan'])
+			$data['atasan'] = ($post['atasan'] <= 0) ? NULL : $post['atasan'];
+		if ($post['bagan_tingkat'])
+			$data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? NULL : $post['bagan_tingkat'];
+		if ($post['bagan_warna'])
+			$data['bagan_warna'] = ($post['bagan_warna'] == '#000000') ? NULL : $post['bagan_warna'];
+		$this->db
+			->where("pamong_id in ($list_id)")
+			->update('tweb_desa_pamong', $data);
+// print("<pre>".print_r($this->db->last_query(), true)."</pre>"); die();
+	}
 }
 ?>
