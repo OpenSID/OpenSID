@@ -996,6 +996,7 @@
 			$nama_ibu .= $ranggota['nama_ibu']."\line ";
 			$golongan_darah .= $ranggota['golongan_darah']."\line ";
 			$tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo($ranggota['tanggalperkawinan'])."\line " : "- \line ";
+			$tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo($ranggota['tanggalperceraian'])."\line " : "- \line ";
 		}
 
 		$buffer = str_replace("[no]","$no", $buffer);
@@ -1016,6 +1017,7 @@
 		$buffer = str_replace("[ibu]","\caps $nama_ibu", $buffer);
 		$buffer = str_replace("[darah]","\caps $golongan_darah", $buffer);
 		$buffer = str_replace("[tanggalperkawinan]","\caps $tanggalperkawinan", $buffer);
+		$buffer = str_replace("[tanggalperceraian]","\caps $tanggalperceraian", $buffer);
 
 		$h = $data['desa'];
 		$k = $data['kepala_kk'];

@@ -26,3 +26,8 @@ body{
 #feed{
 	/*display: none;*/
 }
+
+/* Aktifkan untuk mengubah judul artikel dengan awalan huruf kapital setelah spasi */
+.artikel .judul {
+	/* text-transform: capitalize; */
+}

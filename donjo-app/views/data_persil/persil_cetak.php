@@ -41,33 +41,32 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Data Persil</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
-		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-		<?php endif; ?>
-		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<style>
-			.textx
-			{
-				mso-number-format:"\@";
-			}
-		</style>
-	</head>
-	<body>
-		<div id="container">
-			<div id="body">
-				<div class="header" align="center">
-					<label align="left"><?= get_identitas()?></label>
-					<h3> DATA PERSIL </h3>
-					<h3> <?= $_SESSION['judul_statistik']; ?></h3>
-				</div>
-				<br>
+
+<table>
+	<tbody>
+		<tr>
+			<td>
+				<?php if ($aksi != 'unduh'): ?>
+					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
+				<?php endif; ?>
+				<h1 class="judul">
+					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
+				</h1>
+			</td>
+		</tr>
+		<tr>
+			<td><hr class="garis"></td>
+		</tr>
+		<tr>
+			<td class="text-center">
+				<h4><u> DATA PERSIL </u></h4>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
@@ -83,8 +82,8 @@
 					<tbody>
 						<?php foreach ($persil as $item): ?>
 						<tr>
-							<td><?= $item['no']?></td>
-							<td><?= $item['nomor'].' : '.$item['nomor_urut_bidang']?></td>
+							<td ><?= $item['no']?></td>
+							<td class="textx"><?= $item['nomor'].' : '.$item['nomor_urut_bidang']?></td>
 							<td><?= $persil_kelas[$item["kelas"]]['kode']?></td>
 							<td><?= $item['luas_persil']?></td>
 							<td><?= $item['alamat'] ?: $item['lokasi']?></td>
@@ -94,8 +93,7 @@
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-			</div>
-			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
-		</div>
-	</body>
-</html>
+			</td>
+		</tr>
+	</tbody>
+</table>

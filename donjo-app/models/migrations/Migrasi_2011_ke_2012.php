@@ -73,6 +73,17 @@ class Migrasi_2011_ke_2012 extends MY_model {
 		}
 
 		status_sukses($hasil);
+
+		// Pengaturan Token TrackSID
+		if ( ! $this->db->field_exists('token_opensid', 'setting_aplikasi'))
+		{
+			$query = "
+				INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
+				(43, 'token_opensid', '', 'Token OpenSID', '', 'sistem')
+				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
+			$this->db->query($query);
+  	}
+
 	}
 
 	private function tambah_data_modul()

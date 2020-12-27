@@ -213,29 +213,32 @@ class Penduduk_model extends MY_Model {
 
 	protected function status_ktp_sql()
 	{
+		if ( ! $this->session->status_ktp) return;
+
 		// Filter berdasarkan data eKTP
 		$wajib_ktp_sql = " AND ((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) ";
-		if (isset($_SESSION['status_ktp']))
+
+		$kf = $this->session->status_ktp;
+		switch (true)
 		{
-			$kf = $_SESSION['status_ktp'];
-			if ($kf == BELUM_MENGISI)
+			case ($kf == BELUM_MENGISI):
 				$sql = $wajib_ktp_sql." AND (u.status_rekam IS NULL OR u.status_rekam = '')";
-			else
-			{
-				if ($kf <> 0)
-				{
-					$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
-					$status_rekam = $status_ktp['status_rekam'];
-					$sql = $wajib_ktp_sql." AND u.status_rekam = $status_rekam";
-				}
-				else
-				{
-					// TOTAL hanya yang wajib KTP
-					$sql = $wajib_ktp_sql;
-				}
-			}
-		return $sql;
+				break;
+			case ($kf == JUMLAH):
+				$sql = $wajib_ktp_sql." AND u.status_rekam IS NOT NULL AND u.status_rekam <> ''";
+				break;
+			case ($kf == TOTAL):
+				// TOTAL hanya yang wajib KTP
+				$sql = $wajib_ktp_sql;
+				break;
+			case ($kf <> 0):
+				$status_ktp = $this->db->where('id',$kf)->get('tweb_status_ktp')->row_array();
+				$status_rekam = $status_ktp['status_rekam'];
+				$sql = $wajib_ktp_sql." AND u.status_rekam = $status_rekam";
+				break;
+			default:
 		}
+		return $sql;
 	}
 
 	public function get_alamat_wilayah($id)
@@ -653,28 +656,6 @@ class Penduduk_model extends MY_Model {
 			return;
 		}
 
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto = $data['old_foto'];
-		if (!empty($lokasi_file))
-		{
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/jpg" AND $tipe_file != "image/png")
-			{
-				unset($data['foto']);
-			}
-			else
-			{
-				UploadFoto($nama_file, $old_foto, $tipe_file);
-				$data['foto'] = $nama_file;
-			}
-		}
-		else
-		{
-			unset($data['foto']);
-		}
-
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
@@ -690,6 +671,10 @@ class Penduduk_model extends MY_Model {
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
 		$outp = $this->db->insert('tweb_penduduk', $data);
 		$idku = $this->db->insert_id();
+
+		// Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
+		if ($foto = $this->upload_foto_penduduk($idku))
+			$this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
 
 		$satuan = $_POST['tanggallahir'];
 		$blnlahir = substr($satuan, 3, 2);
@@ -787,31 +772,14 @@ class Penduduk_model extends MY_Model {
 			}
 			unset($data['alamat']);
 		}
+		if ($foto = $this->upload_foto_penduduk($id))
+			$data['foto'] = $foto;
+		else
+			unset($data['foto']);
+
 		unset($data['no_kk']);
 		unset($data['dusun']);
 		unset($data['rw']);
-
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		$old_foto = $data['old_foto'];
-		if (!empty($lokasi_file))
-		{
-			if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg" AND $tipe_file != "image/png")
-			{
-				unset($data['foto']);
-			}
-			else
-			{
-				UploadFoto($nama_file, $old_foto, $tipe_file);
-				$data['foto'] = $nama_file;
-			}
-		} else
-		{
-			unset($data['foto']);
-		}
-
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 
@@ -821,6 +789,17 @@ class Penduduk_model extends MY_Model {
 		$outp = $this->db->update('tweb_penduduk', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
+	}
+
+	private function upload_foto_penduduk($id)
+	{
+		if (empty($_FILES['foto']['tmp_name'])) return '';
+
+		$nama_file = ($this->input->post('nik') ?: '0') . '-' . $id . get_extension($_FILES['foto']['name']);
+		$old_foto = $this->input->post('old_foto');
+		UploadFoto($nama_file, $old_foto);
+
+		return $nama_file;
 	}
 
 	public function update_position($id=0)

@@ -45,11 +45,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-define("VERSION", '20.11-pasca');
+define("VERSION", '20.12-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
+<<<<<<< HEAD
 define('VERSI_DATABASE', '2020112902');
+||||||| merged common ancestors
+define('VERSI_DATABASE', '2020110102');
+=======
+define('VERSI_DATABASE', '2020122301');
+>>>>>>> master
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -556,24 +562,6 @@ function get_dynamic_title_page_from_path()
 	), ' ', $title));
 }
 
-function get_first_dynamic_title_page_from_path()
-{
-
-	$parse = str_replace(array(
-		'/first'
-	), '', $_SERVER['PATH_INFO']);
-	$explo = explode('/', $parse);
-
-	if ($parse != '/') {
-		$title = str_replace('-', ' ', $explo[5]);
-	} else {
-		$title = null;
-	}
-
-	return $title;
-
-}
-
 function show_zero_as($val, $str)
 {
 	return (empty($val) ? $str : $val);
@@ -1078,4 +1066,14 @@ function crawler()
 	}
 
 	return FALSE;
+}
+
+// Kode Wilayah Dengan Titik
+// Dari 5201142005 --> 52.01.14.2005
+function kode_wilayah($kode_wilayah)
+{
+	$kode_prov_kab_kec = str_split(substr($kode_wilayah, 0, 6), 2);
+	$kode_desa = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
+	$kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
+	return $kode_standar;
 }

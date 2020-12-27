@@ -32,7 +32,7 @@ class Setting_model extends CI_Model {
 		if ($this->config->item("useDatabaseConfig"))
 		{
 			$pr = $this->db
-				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' ")
+				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' and kategori <> 'setting_mandiri' ")
 				->order_by('key')->get("setting_aplikasi")->result();
 			foreach ($pr as $p)
 			{
@@ -52,6 +52,13 @@ class Setting_model extends CI_Model {
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
+			$setting_mandiri = $this->db
+				->where('kategori', 'setting_mandiri')
+				->order_by('key')->get("setting_aplikasi")->result();
+			foreach ($setting_mandiri as $p)
+			{
+				$pre[addslashes($p->key)] = addslashes($p->value);
+			}
 		}
 		else
 		{
@@ -60,6 +67,7 @@ class Setting_model extends CI_Model {
 		$CI->setting = (object) $pre;
 		$CI->list_setting = $pr; // Untuk tampilan daftar setting
 		$CI->list_setting_web = $setting_web; // Untuk tampilan daftar setting web
+		$CI->list_setting_mandiri = $setting_mandiri; // Untuk tampilan daftar setting layanan mandiri
 		$this->apply_setting();
 	}
 
@@ -72,6 +80,11 @@ class Setting_model extends CI_Model {
 		if (empty($this->setting->google_key))
 		{
 			$this->setting->google_key = config_item('google_key');
+		}
+		// Ambil token tracksid dari desa/config/config.php kalau tidak ada di database
+		if (empty($this->setting->token_opensid))
+		{
+			$this->setting->token_opensid = config_item('token_opensid');
 		}
 		// Ambil dev_tracker dari desa/config/config.php kalau tidak ada di database
 		$this->setting->tracker = "https://pantau.opensid.my.id";

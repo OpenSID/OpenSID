@@ -40,7 +40,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mailbox_web extends Web_Controller
+class Mailbox_web extends Mandiri_Controller
 {
 	public function __construct()
 	{
@@ -48,10 +48,6 @@ class Mailbox_web extends Web_Controller
 		$this->load->model('mailbox_model');
 		$this->load->model('mandiri_model');
 		$this->load->model('config_model');
-
-		if (!isset($_SESSION['mandiri'])) {
-			redirect('first');
-		}
 	}
 
 	public function index()

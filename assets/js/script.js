@@ -20,7 +20,19 @@ $( window ).on( "load", function() {
 
 $(document).ready(function()
 {
+	// Fungsi untuk tombol kembali ke atas
+	$(window).on('scroll', function() {
+		if ($(this).scrollTop() > 100) {
+			$(".scrollToTop").fadeIn();
+		} else {
+			$(".scrollToTop").fadeOut();
+		}
+	});
 
+	$(".scrollToTop").on('click', function(e) {
+		$("html, body").animate({scrollTop: 0}, 500);
+		return false;
+	});
 
 	//CheckBox All Selected
 	checkAll();
@@ -741,4 +753,28 @@ $('document').ready(function()
     $(this).css("padding-bottom", 0);
   })
 });
+
+// Notifikasi
+function tampil_badge(elem, url)
+{
+  elem.load(url);
+  setTimeout(function()
+  {
+    if ( elem.text().trim().length )
+      elem.show();
+    else
+      elem.hide();
+  }, 500);
+}
+
+function refresh_badge(elem, url)
+{
+  if ( ! elem.length) return;
+
+  tampil_badge(elem, url);
+  var refreshInbox = setInterval(function()
+  {
+    tampil_badge(elem, url);
+  }, 10000);
+}
 

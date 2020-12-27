@@ -12,13 +12,13 @@
 		return $outp;
 	}
 
-  public function delete($id_permohonan)
-  {
-  	$outp = $this->db->where('id', $id_permohonan)
-  		->delete('permohonan_surat');
-  	if (!$outp)
-  		$this->session->set_userdata('success', -1);
-  }
+	public function delete($id_permohonan)
+	{
+		$outp = $this->db->where('id', $id_permohonan)
+			->delete('permohonan_surat');
+		if (!$outp)
+			$this->session->set_userdata('success', -1);
+	}
 
 	public function update($id_permohonan, $data)
 	{
@@ -103,7 +103,7 @@
 		{
 			case 1: $order_sql = ' ORDER BY u.updated_at'; break;
 			case 2: $order_sql = ' ORDER BY u.updated_at DESC'; break;
-			default:$order_sql = ' ORDER BY u.updated_at';
+			default:$order_sql = ' ORDER BY u.updated_at DESC';
 		}
 
 		//Paging SQL
@@ -194,24 +194,26 @@
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
 		$dok_syarat = array_values($syarat_permohonan);
 		$sql_syarat_permohonan = sql_in_list($dok_syarat);
-  	$dokumen_kelengkapan = $this->db->select('id, nama')
-  		->from('dokumen')
-  		->where("id in ($sql_syarat_permohonan)")
-  		->get()->result_array();
-  	$dok_syarat = array();
-  	foreach ($dokumen_kelengkapan as $dok)
-  	{
-  		$dok_syarat[$dok['id']] = $dok['nama'];
-  	}
-  	$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
-  	for ($i = 0; $i < count($syarat_surat); $i++)
-  	{
-  		$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
-  		$syarat_surat[$i]['dok_id'] = $dok_id;
-  		$syarat_surat[$i]['dok_nama'] = $dok_syarat[$dok_id];
-  	}
+
+		if ($sql_syarat_permohonan) $this->db->where_in('id', $sql_syarat_permohonan);
+		$dokumen_kelengkapan = $this->db
+			->select('id, nama')
+			->get('dokumen')
+			->result_array();
+
+		$dok_syarat = array();
+		foreach ($dokumen_kelengkapan as $dok)
+		{
+			$dok_syarat[$dok['id']] = $dok['nama'];
+		}
+		$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
+		for ($i = 0; $i < count($syarat_surat); $i++)
+		{
+			$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
+			$syarat_surat[$i]['dok_id'] = $dok_id;
+			$syarat_surat[$i]['dok_nama'] = $dok_syarat[$dok_id];
+		}
 		return $syarat_surat;
 	}
 
 }
-?>

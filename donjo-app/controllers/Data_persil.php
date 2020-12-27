@@ -53,14 +53,11 @@ class Data_persil extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model('config_model');
-		$this->load->model('data_persil_model');
-		$this->load->model('cdesa_model');
-		$this->load->model('penduduk_model');
+		$this->load->model(['config_model', 'data_persil_model', 'cdesa_model', 'penduduk_model', 'pamong_model']);
 		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
-		$this->list_session = ['cari'];
+		$this->list_session = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
 	}
 
 	public function clear()
@@ -87,9 +84,47 @@ class Data_persil extends Admin_Controller {
 		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
-		$data['cari'] = htmlentities($_SESSION['cari']) ?: '';
-		$this->session->per_page = $this->input->post('per_page') ?: null;
-		$data['per_page'] = $this->session->per_page;
+		foreach ($this->list_session as $list)
+		{
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+			else
+				$data[$list] = $this->session->$list ?: '';
+		}
+
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->data_persil_model->list_rw($dusun);
+
+			if (isset($rw))
+			{
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->data_persil_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
+				else $data['rt'] = '';
+			}
+			else $data['rw'] = '';
+		}
+		else
+		{
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+		}
+
+		if (isset($data['tipe']))
+		{
+			$data['list_kelas'] = $this->data_persil_model->list_kelas($data['tipe']);
+		}
+		else
+		{
+			$data['list_kelas'] = '';
+		}
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
@@ -98,6 +133,7 @@ class Data_persil extends Admin_Controller {
 		$data["persil"] = $this->data_persil_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$data['keyword'] = $this->data_persil_model->autocomplete();
+		$data['list_dusun'] = $this->data_persil_model->list_dusun();
 
 		$this->render('data_persil/persil', $data);
 	}
@@ -167,20 +203,6 @@ class Data_persil extends Admin_Controller {
 		redirect("data_persil");
 	}
 
-	public function cetak($o=0)
-	{
-		$data['persil'] = $this->data_persil_model->list_data(0, 10000);
-    $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
-		$this->load->view('data_persil/persil_cetak', $data);
-	}
-
-	public function unduh($mode="", $o=0)
-	{
-		$data['persil'] = $this->data_persil_model->list_data(0, 10000);
-    $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
-		$this->load->view('data_persil/persil_unduh', $data);
-	}
-
 	public function kelasid()
 	{
 		$data =[];
@@ -191,6 +213,48 @@ class Data_persil extends Admin_Controller {
 			$data[] = array('id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']);
 		}
 		echo json_encode($data);
+	}
+
+	public function filter($filter)
+	{
+		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
+		if ($filter == "rw") $this->session->unset_userdata("rt");
+		if ($filter == "tipe") $this->session->unset_userdata("kelas");
+		if ($filter == "lokasi") $this->session->unset_userdata(["dusun", "rw", "rt"]);
+
+		$value = $this->input->post($filter);
+		if ($value != "")
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
+		redirect('data_persil');
+	}
+
+	public function dialog_cetak($aksi = '')
+	{
+		$data['aksi'] = $aksi;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['form_action'] = site_url("data_persil/cetak/$aksi");
+		$this->load->view('global/ttd_pamong', $data);
+	}
+
+	public function cetak($aksi = '')
+	{
+		$post = $this->input->post();
+		$data['aksi'] = $aksi;
+		$data['config'] = $this->header['desa'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+		$data['desa'] = $this->config_model->get_data();
+		$data['persil'] = $this->data_persil_model->list_data();
+    	$data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
+
+		//pengaturan data untuk format cetak/ unduh
+		$data['file'] = "Persil";
+		$data['isi'] = "data_persil/persil_cetak";
+		//colspan tepi, colspan ttd pertama, colspan jarak ke ttd kedua
+		$data['letak_ttd'] = ['1', '2', '2'];
+
+		$this->load->view('global/format_cetak', $data);
 	}
 }
 

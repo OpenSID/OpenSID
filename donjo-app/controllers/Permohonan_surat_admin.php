@@ -83,6 +83,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['list_status_permohonan'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN);
+		$data['func'] = 'index';
 		$data['paging'] = $this->permohonan_surat_model->paging($p, $o);
 		$data['main'] = $this->permohonan_surat_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->permohonan_surat_model->autocomplete();

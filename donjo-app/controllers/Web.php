@@ -69,11 +69,13 @@ class Web extends Admin_Controller {
 	{
 		$this->session->unset_userdata(['cari, status']);
 		$this->session->per_page = $this->_set_page[0];
+		$this->session->kategori = -1;
 		redirect("web");
 	}
 
 	public function index($p = 1, $o = 0)
 	{
+<<<<<<< HEAD
 		$cat = $this->session->kategori ?: -1;
 
 		if ($cat == 999 || $cat == 1000 || $cat == 1001)
@@ -113,6 +115,11 @@ class Web extends Admin_Controller {
 		$this->sub_modul_ini = 214;
 
 		$cat = $this->session->kategori ?: 999;
+||||||| merged common ancestors
+		$cat = $this->session->kategori ?: 0;
+=======
+		$cat = $this->session->kategori ?: -1;
+>>>>>>> master
 
 		$data['p'] = $p;
 		$data['o'] = $o;

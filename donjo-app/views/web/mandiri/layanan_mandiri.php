@@ -2,6 +2,14 @@
   #mandiri i.fa {
     margin-right: 10px;
   }
+  #mandiri button.nowrap {
+    white-space: nowrap;
+  }
+  #mandiri .badge {
+    background-color: red;
+    color: white;
+    margin-left: 0px;
+  }
 </style>
 <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -24,7 +32,16 @@
     <td><h4><a href="<?= site_url();?>mandiri_web/mandiri/1/1" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-user"></i>Profil</button></a> </h4></td>
   </tr>
   <tr>
-    <td><h4><a href="<?= site_url();?>mandiri_web/mandiri/1/3"><button type="button" class="btn btn-primary btn-block"><i class="fa fa-envelope-o"></i>Kotak Pesan</button></a></h4></td>
+    <td>
+      <h4>
+        <a href="<?= site_url();?>mandiri_web/mandiri/1/3">
+          <button type="button" class="btn btn-primary btn-block nowrap">
+            <i class="fa fa-envelope-o"></i><span>Kotak Pesan</span>
+          <span class="badge" id="b_pesan" title="Pesan baru" style="display: none;"></span>
+          </button>
+        </a>
+      </h4>
+    </td>
   </tr>
   <tr>
     <td><h4><a href="<?= site_url();?>mandiri_web/mandiri_surat" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-file"></i>Permohonan Surat</button></a></h4></td>
@@ -39,3 +56,15 @@
     <td><h4><a href="<?= site_url('logout');?>"  class=""><button type="button" class="btn btn-danger btn-block"><i class="fa fa-sign-out"></i>Keluar</button></a></h4></td>
   </tr>
 </table>
+
+<script type="text/javascript">
+
+  $('document').ready(function()
+  {
+    setTimeout(function()
+    {
+      refresh_badge($("#b_pesan"), "<?= site_url('notif_web/inbox'); ?>");
+    }, 500);
+  });
+
+</script>

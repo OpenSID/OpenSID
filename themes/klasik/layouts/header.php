@@ -47,20 +47,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>
-			<?php if(empty(get_first_dynamic_title_page_from_path())):?>
-				<?=
-					$this->setting->website_title
-					. ' ' . ucwords($this->setting->sebutan_desa)
-					. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
-				?>
+			<?php if ($title):?>
+				<?= $title; ?>
 			<?php else:?>
 				<?=
-					get_first_dynamic_title_page_from_path()
+					get_dynamic_title_page_from_path()
+					. ' ' . $this->setting->website_title
 					. ' ' . ucwords($this->setting->sebutan_desa)
 					. (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
 				?>
 			<?php endif?>
-			
 		</title>
 		<meta content="utf-8" http-equiv="encoding">
 		<meta name="keywords" content="OpenSID,opensid,sid,SID,SID CRI,SID-CRI,sid cri,sid-cri,Sistem Informasi Desa,sistem informasi desa, desa <?= $desa['nama_desa'];?>">
@@ -122,6 +118,8 @@
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
 		<?php $this->load->view('global/validasi_form'); ?>
+		<!-- Script-->
+		<script src="<?= base_url(); ?>assets/js/script.js"></script>
 
 		<!-- Diperlukan untuk javascript yg mengakses resources -->
 		<script type="text/javascript">

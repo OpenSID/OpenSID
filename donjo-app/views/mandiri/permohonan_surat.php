@@ -58,7 +58,7 @@
 																	<th>No HP Aktif</th>
 																	<th>Jenis Surat</th>
 																	<th>Status</th>
-																	<th>Tanggal Kirim</th>
+																	<th><?= url_order($o, "{$this->controller}/{$func}/$p", 1, 'Tanggal Kirim'); ?></th>
 																</tr>
 															</thead>
 															<tbody>

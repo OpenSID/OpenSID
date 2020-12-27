@@ -48,7 +48,6 @@ class Inventaris_peralatan extends Admin_Controller {
 
 		$this->load->model('inventaris_peralatan_model');
 		$this->load->model('referensi_model');
-		$this->load->model('config_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
@@ -92,7 +91,7 @@ class Inventaris_peralatan extends Admin_Controller {
 	public function edit($id)
 	{
 		$data['main'] = $this->inventaris_peralatan_model->view($id);
-		$data['get_kode'] = $this->config_model->get_data();
+		$data['get_kode'] = $this->header['desa'];
 		$data['aset'] = $this->inventaris_peralatan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
 		$data['kd_reg'] = $this->inventaris_peralatan_model->list_inventaris_kd_register();
@@ -113,7 +112,7 @@ class Inventaris_peralatan extends Admin_Controller {
 	{
 		$data['tip'] = 1;
 
-		$data['main'] = $this->config_model->get_data();
+		$data['get_kode'] = $this->header['desa'];
 		$data['aset'] = $this->inventaris_peralatan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
 		$this->set_minsidebar(1);
@@ -139,7 +138,7 @@ class Inventaris_peralatan extends Admin_Controller {
 
 	public function cetak($tahun, $penandatangan)
 	{
-		$data['header'] = $this->config_model->get_data();
+		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_peralatan_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_peralatan_model->cetak($tahun);
 		$data['pamong'] = $this->inventaris_peralatan_model->pamong($penandatangan);
@@ -148,7 +147,7 @@ class Inventaris_peralatan extends Admin_Controller {
 
 	public function download($tahun, $penandatangan)
 	{
-		$data['header'] = $this->config_model->get_data();
+		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_peralatan_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_peralatan_model->cetak($tahun);
 		$data['pamong'] = $this->inventaris_peralatan_model->pamong($penandatangan);

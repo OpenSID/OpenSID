@@ -132,7 +132,7 @@ class Suplemen extends Admin_Controller {
 		}
 	}
 
-	public function rincian($id, $p = 1)
+	public function rincian($id = '', $p = 1)
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
@@ -243,7 +243,12 @@ class Suplemen extends Admin_Controller {
 			$data['aksi'] = $aksi;
 			$this->session->per_page = $temp;
 
-			$this->load->view('suplemen/cetak', $data);
+			//pengaturan data untuk format cetak/ unduh
+			$data['file'] = "Laporan Suplemen ".$data['suplemen']['nama'];
+			$data['isi'] = "suplemen/cetak";
+			$data['letak_ttd'] = ['2', '2', '3'];
+
+			$this->load->view('global/format_cetak', $data);
 		}
 	}
 

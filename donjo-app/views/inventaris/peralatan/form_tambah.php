@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 						<a href="<?= site_url() ?>inventaris_peralatan" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Peralatan</a>
 						</div>
 						<?php
@@ -39,12 +39,8 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
 										<div class="col-sm-8">
-
 											<input type="hidden" name="nama_barang_save" id="nama_barang_save">
-											<input type="hidden" name="kode_propinsi" id="kode_propinsi" value="<?=$main["kode_propinsi"]?>">
-											<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$main["kode_kabupaten"]?>">
-											<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$main["kode_kecamatan"]?>">
-											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$main["kode_desa"]?>">
+											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode["kode_desa"])?>">
 											<input maxlength="50" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text"/>
 										</div>
 									</div>
@@ -176,25 +172,22 @@
 
 <script>
 	$( document ).ready(function() {
-		$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-		$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+		$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
 
-		$("#tahun_pengadaan").change(function(){
-			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+		$("#tahun_pengadaan").change(function() {
+			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
 		});
 
-		$("#penggunaan_barang").change(function(){
-			$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
-			$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+		$("#penggunaan_barang").change(function() {
+			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
 		});
 
-		$("#nama_barang").change(function(){
+		$("#nama_barang").change(function() {
 			$('#register').val($('#nama_barang').val().split("_").pop());
 			$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
 		});
 
-		$("#tahun_pengadaan").change();	
+		$("#tahun_pengadaan").change();
 		$("#penggunaan_barang").change();
 		$("#nama_barang").change();
 	});
@@ -203,9 +196,7 @@
 		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
 	}
 
-	$(function(){
+	$(function() {
 		$('.select2').select2();
 	})
-
-
 </script>
