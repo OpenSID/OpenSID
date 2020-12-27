@@ -64,7 +64,7 @@ class Setting extends Admin_Controller {
 
 	public function update()
 	{
-		$coba = $this->setting_model->update_setting($this->input->post());
+		$this->setting_model->update_setting($this->input->post());
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}

@@ -5,11 +5,16 @@
 
 /* Sebagai contoh:
  * - Perubahan css di bawah memungkinkan penggunaan gambar untuk latar belakang halaman siteman.
- *   Gambar yang digunakan harus ditempatkan di desa/css/gambar/latar_login.jpg
+ *   Gambar yang digunakan harus ditempatkan di desa/css/images/latar_login.jpg
  *
 */
+
+/*
+ * Ubah latar login/siteman pd halaman admin Pengaturan > Aplikasi, upload dan ganti latar login sesuia yg diinginkan.
+ *
+ */
 body.login{
-  background: url(gambar/latar_login.jpg) no-repeat center fixed; /*gambar background */
+  background: url(images/latar_login.jpg) no-repeat center fixed; /*gambar background */
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;

@@ -66,15 +66,13 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Field unik pd tabel kelompok
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
-		// Hapus folder desa/css dan ganti yg baru
-		$folder = 'desa/css';
+		// Salin folder desa/pengaturan
+		$folder = 'desa/pengaturan';
 		if (is_dir($folder))
 		{
-			delete_files($folder, true);
 			mkdir($folder, 0775);
-			xcopy('desa-contoh/css', $folder);
+			xcopy('desa-contoh/pengaturan', $folder);
 		}
-
 
 		status_sukses($hasil);
 	}

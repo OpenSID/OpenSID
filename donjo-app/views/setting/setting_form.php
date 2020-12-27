@@ -10,28 +10,37 @@
 		<div class="row">
 			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal" enctype="multipart/form-data">
 				<div class="col-md-3">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<b>Latar Website</b>
-						</div>
-						<div class="box-body box-profile text-center">
-							<img class="img-responsive" src="<?= base_url(LOKASI_GAMBAR . 'latar_website.jpg'); ?>" alt="Latar Halaman Website" width="100%">
-							<p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
-							<div class="input-group">
-								<input type="text" class="form-control input-sm" id="file_path" name="latar_website">
-								<input type="file" class="hidden" id="file" name="latar_website">
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
-								</span>
+					<?php
+						$file = "$this->theme_folder/$this->theme/pengaturan.php";
+						if (is_file($file)) include($file);
+					?>
+
+					<?php if ($pengaturan['latar_website'] == TRUE): ?>
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<b>Latar Website</b>
+							</div>
+							<div class="box-body box-profile text-center">
+								<?php $lokasi = $pengaturan[lokasi_latar_website]; ?>
+								<img class="img-responsive" src="<?= base_url($lokasi . "latar_website.jpg"); ?>" alt="Latar Halaman Website" width="100%">
+								<p class="text-muted text-center text-red">(Kosongkan, jika latar website <?= 'tema ' . $this->theme; ?> tidak berubah)</p>
+								<div class="input-group">
+									<input type="text" class="form-control input-sm" id="file_path" name="latar_website">
+									<input type="file" class="hidden" id="file" name="latar_website">
+									<input type="text" class="hidden" name="lokasi" value="<?=$lokasi;?>">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
+									</span>
+								</div>
 							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 					<div class="box box-primary">
 						<div class="box-header with-border">
 							<b>Latar Login</b>
 						</div>
 						<div class="box-body box-profile text-center">
-							<img class="img-responsive" src="<?= base_url(LOKASI_GAMBAR . 'latar_login.jpg'); ?>" alt="Latar Halaman Website" width="100%">
+							<img class="img-responsive" src="<?= base_url(LATAR_LOGIN . 'latar_login.jpg'); ?>" alt="Latar Halaman Website" width="100%">
 							<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
 							<div class="input-group">
 								<input type="text" class="form-control input-sm" id="file_path1" name="latar_login">

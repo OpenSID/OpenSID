@@ -123,17 +123,17 @@ class Setting_model extends CI_Model {
 		}
 		$this->apply_setting();
 		// TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
-		if ($data['latar_website'] != '') $this->upload_img('latar_website'); // latar_website
-		if ($data['latar_login']  != '') $this->upload_img('latar_login'); // latar_login
+		if ($data['latar_website'] != '') $this->upload_img('latar_website', $data['lokasi']); // latar_website
+		if ($data['latar_login']  != '') $this->upload_img('latar_login', LATAR_LOGIN); // latar_login
 
 		return $data;
 	}
 
-	public function upload_img($key = '')
+	public function upload_img($key = '', $lokasi = '')
 	{
 		$this->load->library('upload');
 
-		$config['upload_path']		= LOKASI_GAMBAR;
+		$config['upload_path']		= $lokasi;
 		$config['allowed_types']	= 'jpg|jpeg|png';
 		$config['overwrite'] 			= TRUE;
 		$config['max_size']				= max_upload() * 1024;
