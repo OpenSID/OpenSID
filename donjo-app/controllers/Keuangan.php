@@ -45,10 +45,9 @@ class Keuangan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('pdf');
 		$this->load->model('keuangan_model');
+
 		$this->load->model('keuangan_grafik_model');
-    $this->load->model('keuangan_laporan_apbdes_model');
 		$this->modul_ini = 201;
 	}
 
@@ -78,12 +77,6 @@ class Keuangan extends Admin_Controller {
 		}
 	}
 
-  public function insert()
-	{
-		$this->keuangan_laporan_apbdes_model->insert();
-		//redirect('keuangan_laporan_apbdes');
-	}
-
 	public function grafik($jenis)
 	{
 		$this->sub_modul_ini = 203;
@@ -107,7 +100,6 @@ class Keuangan extends Admin_Controller {
 			case 'grafik-RP-APBD':
 				$this->grafik_rp_apbd($thn);
 				break;
-
 			case 'rincian_realisasi':
 				$this->rincian_realisasi($thn, 'Akhir');
 				break;
@@ -119,19 +111,6 @@ class Keuangan extends Admin_Controller {
 				break;
 			case 'rincian_realisasi_smt1_bidang':
 				$this->rincian_realisasi($thn, 'Semester1 Bidang', $smt1-1);
-				break;
-
-			case 'rincian_realisasi_pdf':
-				$this->rincian_realisasi_pdf($thn, 'rincian_realisasi');
-				break;
-			case 'rincian_realisasi_smt1_pdf':
-				$this->rincian_realisasi_pdf($thn, 'rincian_realisasi_smt1', $smt1=1);
-				break;
-			case 'rincian_realisasi_bidang_pdf':
-				$this->rincian_realisasi_pdf_bidang($thn, 'rincian_realisasi_bidang');
-				break;
-			case 'rincian_realisasi_smt1_bidang_pdf':
-				$this->rincian_realisasi_pdf_bidang($thn, 'rincian_realisasi_smt1_bidang', $smt1-1);
 				break;
 
 			default:
@@ -148,81 +127,6 @@ class Keuangan extends Admin_Controller {
 		$data['sm'] = $smt1 ? '1' : '2';
 		$_SESSION['submenu'] = "Laporan Keuangan " . $judul;
 		$this->render('keuangan/rincian_realisasi', $data);
-	}
-
-	private function rincian_realisasi_pdf($thn, $judul, $smt1=false)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
-		$desa = $this->config_model->get_data();
-		$pendapatan = $data['pendapatan'];
-		$belanja = $data['belanja'];
-		$belanja_bidang = $data['belanja_bidang'];
-		$pembiayaan = $data['pembiayaan'];
-		$pembiayaan_keluar = $data['pembiayaan_keluar'];
-		$tahun_anggaran = $this->keuangan_model->list_tahun_anggaran();
-		$ta = $this->session->userdata('set_tahun');
-		$sm = $smt1 ? '1' : '2';
-
-		ob_start();
-		include('donjo-app/views/keuangan/tabel_laporan_rp_apbd_pdf.php');
-		$content = ob_get_clean();
-
-		$this->pdf->loadHtml($content);
-		$this->pdf->setPaper('A4','portrait');
-		$this->pdf->render();
-    $filename = 'apbdes_' . $ta . $sm . '_kelompok' . '.pdf';
-		$output = $this->pdf->output();
-		file_put_contents(LOKASI_DOKUMEN . $filename, $output);
-
-    $nama = "Laporan Apbdes TA " . $ta . ' Smt. ' . $sm . ' (Belanja Kelompok)';
-    $tahun = $ta;
-    $semester = $sm;
-    $file = $filename;
-		$mime_type = 'pdf';
-		$tgl_upload = date('Y-m-d H:i:s');
-    $created_at = date('Y-m-d H:i:s');
-    $data = $this->keuangan_laporan_apbdes_model->simpan_anggaran($nama,$tahun,$semester,$file,$mime_type,$tgl_upload,$created_at);
-		echo json_encode($data);
-
-		redirect("keuangan/grafik/$judul");
-	}
-
-	private function rincian_realisasi_pdf_bidang($thn, $judul, $smt1=false)
-	{
-		$data = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
-		$desa = $this->config_model->get_data();
-		$pendapatan = $data['pendapatan'];
-		$belanja = $data['belanja'];
-		$belanja_bidang = $data['belanja_bidang'];
-		$pembiayaan = $data['pembiayaan'];
-		$pembiayaan_keluar = $data['pembiayaan_keluar'];
-		$tahun_anggaran = $this->keuangan_model->list_tahun_anggaran();
-		$ta = $this->session->userdata('set_tahun');
-		$sm = $smt1 ? '1' : '2';
-		$jenis = 'bidang';
-
-		ob_start();
-		include('donjo-app/views/keuangan/tabel_laporan_rp_apbd_pdf.php');
-		$content = ob_get_clean();
-
-		$this->pdf->loadHtml($content);
-		$this->pdf->setPaper('A4','portrait');
-		$this->pdf->render();
-    $filename = 'apbdes_' . $ta . $sm . '_bidang' . '.pdf';
-		$output = $this->pdf->output();
-		file_put_contents(LOKASI_DOKUMEN . $filename, $output);
-
-    $nama = "Laporan Apbdes TA " . $ta . ' Smt. ' . $sm . ' (Belanja Bidang)';
-    $tahun = $ta;
-    $semester = $sm;
-    $file = $filename;
-		$mime_type = 'pdf';
-		$tgl_upload = date('Y-m-d H:i:s');
-    $created_at = date('Y-m-d H:i:s');
-    $data = $this->keuangan_laporan_apbdes_model->simpan_anggaran($nama,$tahun,$semester,$file,$mime_type,$tgl_upload,$created_at);
-		echo json_encode($data);
-
-		redirect("keuangan/grafik/$judul");
 	}
 
 	private function grafik_rp_apbd($thn)
