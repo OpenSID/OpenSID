@@ -47,9 +47,10 @@ class Keuangan_manual extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->library('pdf');
 		$this->load->model('keuangan_manual_model');
-
 		$this->load->model('keuangan_grafik_manual_model');
+		$this->load->model('keuangan_laporan_apbdes_model');
 		$this->modul_ini = 201;
 	}
 
@@ -99,6 +100,9 @@ class Keuangan_manual extends Admin_Controller {
 			case 'rincian_realisasi_bidang_manual':
 				$this->rincian_realisasi_manual($thn, 'Akhir Bidang Manual');
 				break;
+			case 'rincian_realisasi_bidang_manual_pdf':
+				$this->rincian_realisasi_manual_pdf($thn, 'Akhir Bidang Manual');
+				break;
 			case 'grafik-RP-APBD-manual':
 				$this->grafik_rp_apbd_manual($thn);
 				break;
@@ -116,6 +120,44 @@ class Keuangan_manual extends Admin_Controller {
 		$data['ta'] = $this->session->set_tahun;
 		$this->session->submenu = "Laporan Keuangan " . $judul;
 		$this->render('keuangan/rincian_realisasi_manual', $data);
+	}
+
+	private function rincian_realisasi_manual_pdf($thn, $judul)
+	{
+		$data = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
+		$tahun_anggaran = $this->keuangan_manual_model->list_tahun_anggaran_manual();
+		$desa = $this->config_model->get_data();
+		$pendapatan = $data['pendapatan'];
+		$belanja = $data['belanja'];
+		$belanja_bidang = $data['belanja_bidang'];
+		$pembiayaan = $data['pembiayaan'];
+		$pembiayaan_keluar = $data['pembiayaan_keluar'];
+		$ta = $thn;
+		$jenis = 'bidang';
+
+		$filename = 'apbdes_' . $ta . '_bidang_manual' . '.pdf';
+
+		ob_start();
+		include('donjo-app/views/keuangan/tabel_laporan_rp_apbd_pdf.php');
+		$content = ob_get_clean();
+
+		$this->pdf->loadHtml($content);
+		$this->pdf->setPaper('A4','portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		file_put_contents(LOKASI_DOKUMEN . $filename, $output);
+
+		$nama = "Laporan APBDes TA " . $ta . ' (Belanja Bidang)';
+    $tahun = $ta;
+    $semester = 0;
+    $file = $filename;
+		$mime_type = 'pdf';
+		$tgl_upload = date('Y-m-d H:i:s');
+    $created_at = date('Y-m-d H:i:s');
+    $data = $this->keuangan_laporan_apbdes_model->simpan_anggaran($nama,$tahun,$semester,$file,$mime_type,$tgl_upload,$created_at);
+		echo json_encode($data);
+
+		redirect("keuangan_manual/grafik_manual/rincian_realisasi_bidang_manual");
 	}
 
 	private function grafik_rp_apbd_manual($thn)
