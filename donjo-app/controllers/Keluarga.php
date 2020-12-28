@@ -494,7 +494,7 @@ class Keluarga extends Admin_Controller {
 			if ($nomor != 0) $this->session->sex = $nomor;
 			else $this->session->unset_userdata('sex');
 			$this->session->unset_userdata('judul_statistik');
-			redirect('penduduk');
+			redirect('keluarga');
 		}
 
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
@@ -553,4 +553,26 @@ class Keluarga extends Admin_Controller {
 		$data['form_action_privasi'] = site_url("keluarga/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
+
+	public function pencarian_spesifik()
+	{
+		$this->session->sasaran = 2; // sasaran keluarga
+		$list_data = $this->program_bantuan_model->get_program($p, FALSE);
+
+		$data = [
+			'form_action' => site_url("keluarga/pencarian_spesifik_proses"),
+			'program_bantuan' => $list_data['program']
+		];
+
+		$this->load->view("sid/kependudukan/pencarian_spesifik_keluarga", $data);
+
+		//echo json_encode($data, true);
+	}
+
+	public function pencarian_spesifik_proses()
+	{
+		$id_program = $this->input->post('program_bantuan');
+		$this->statistik('bantuan_keluarga', $id_program, '0');
+	}
+
 }
