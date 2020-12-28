@@ -27,6 +27,7 @@ Lengkapnya, isi rilis versi 20.12-pasca adalah sebagai berikut:
 21. #3333: Perbaiki paginasi dan rapikan cetak/unduh Daftar Persil. [bug-fix]
 22. #3707: Perbaiki login terakhir pengguna tidak tercatat jika tidak keluar secara eksplisit. [bug-fix]
 23. #3845: Nomor surat di Sekretariat > Surat Keluar sekarang dapat berisi titik.
+24. Kode wilayah di tampilan Identitas Desa sekarang menggunakan format baku bertitik.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
