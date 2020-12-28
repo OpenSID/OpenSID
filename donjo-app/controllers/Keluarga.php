@@ -554,7 +554,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
 
-	public function pencarian_spesifik()
+	public function program_bantuan()
 	{
 		// TODO : Ubah cara ini untuk menampilkan data
 		$this->session->sasaran = 2; // sasaran keluarga
@@ -562,14 +562,14 @@ class Keluarga extends Admin_Controller {
 		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
 
 		$data = [
-			'form_action' => site_url("keluarga/pencarian_spesifik_proses"),
+			'form_action' => site_url("keluarga/program_bantuan_proses"),
 			'program_bantuan' => $list_bantuan['program']
 		];
 
-		$this->load->view("sid/kependudukan/pencarian_spesifik_keluarga", $data);
+		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
 	}
 
-	public function pencarian_spesifik_proses()
+	public function program_bantuan_proses()
 	{
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_keluarga', $id_program, '0');

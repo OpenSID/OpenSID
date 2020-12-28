@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk pencarian spesifik modul keluarga
+ * View untuk pencarian program bantuan
  *
- * donjo-app/views/sid/kependudukan/pencarian_spesifik_keluarga.php,
+ * donjo-app/views/sid/kependudukan/pencarian_program_bantuan.php,
  *
  */
 
@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-body">
 		<div class="form-group">
 			<label for="program_bantuan">Program Bantuan</label>
-			<select class="form-control input-sm required" name="program_bantuan">
+			<select class="form-control input-sm" name="program_bantuan">
 				<option value="">Pilih Program Bantuan</option>
 				<?php foreach ($program_bantuan AS $data): ?>
 					<option value="<?= $data['id']?>"><?= $data['nama']; ?></option>

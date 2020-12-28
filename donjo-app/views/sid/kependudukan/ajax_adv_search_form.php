@@ -129,17 +129,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-12">
-				<label for="program_bantuan">Program Bantuan</label>
-				<div class="form-group">
-					<select class="form-control input-sm" name="program_bantuan">
-						<option value="">Pilih Program Bantuan</option>
-						<?php foreach ($program_bantuan AS $data): ?>
-							<option value="<?= $data['id']?>"><?= $data['nama']; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
