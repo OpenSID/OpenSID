@@ -904,6 +904,7 @@ class Penduduk_model extends MY_Model {
 		$log['id_pend'] = $penduduk_hapus['id'];
 		$log['nik'] = $penduduk_hapus['nik'];
 		$log['foto'] = $penduduk_hapus['foto'];
+		$log['deleted_by'] = $penduduk_hapus['nama_pengubah'];
 		$log['deleted_at'] = date('Y-m-d H:i:s');
 		$this->tulis_log_hapus_penduduk($log);
 
