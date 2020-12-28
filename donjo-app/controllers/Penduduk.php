@@ -765,7 +765,6 @@ class Penduduk extends Admin_Controller {
 
 	public function program_bantuan_proses()
 	{
-		$this->clear_session();
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_penduduk', $id_program, '0');
 	}

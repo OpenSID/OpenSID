@@ -489,10 +489,7 @@ class Keluarga extends Admin_Controller {
 
 	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
-		$this->session->unset_userdata($this->_list_session);
-		$this->session->per_page = $this->_set_page[0];
-		$this->session->status_dasar = 1; // tampilkan KK aktif saja
-
+		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		if ($sex == NULL)
 		{
@@ -576,7 +573,6 @@ class Keluarga extends Admin_Controller {
 
 	public function program_bantuan_proses()
 	{
-		$this->clear_session();
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_keluarga', $id_program, '0');
 	}
