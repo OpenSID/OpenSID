@@ -889,9 +889,39 @@ class Penduduk_model extends MY_Model {
 			$_SESSION['success'] = - 1;
 	}
 
+	public function tulis_log_hapus_penduduk($log)
+	{
+		$sql = $this->db->insert('log_hapus_penduduk', $log);
+		$this->db->query($sql);
+	}
+
 	public function delete($id='', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
+
+		// Catat data penduduk yg di hapus di log_hapus_penduduk
+		$penduduk_hapus = $this->get_penduduk($id);
+		$log['id_pend'] = $penduduk_hapus['id'];
+		$log['nik'] = $penduduk_hapus['nik'];
+		$log['foto'] = $penduduk_hapus['foto'];
+		$log['deleted_at'] = date('Y-m-d H:i:s');
+		$this->tulis_log_hapus_penduduk($log);
+
+		// Hapus file foto penduduk yg di hapus di folder desa/upload/user_pict
+		$file_foto = LOKASI_USER_PICT . $log['foto'];
+		if (is_file($file_foto))
+		{
+			unlink($file_foto);
+			//break;
+		}
+
+		// Hapus file foto kecil penduduk yg di hapus di folder desa/upload/user_pict
+		$file_foto_kecil = LOKASI_USER_PICT . "kecil_" . $log['foto'];
+		if (is_file($file_foto_kecil))
+		{
+			unlink($file_foto_kecil);
+			//break;
+		}
 
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
 

@@ -307,9 +307,10 @@
 
 		$data_hapus = $this->db->select([
 		  "CONCAT('{$kode_desa}') as desa_id",
-			'p.id as id_pend_desa',
+			'p.id_pend as id_pend_desa',
+			'p.foto',
 		])
-		->from('tweb_penduduk p')
+		->from('log_hapus_penduduk p')
 		->get()
 		->result_array();
 
