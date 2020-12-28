@@ -27,11 +27,22 @@
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                <select class="form-control input-sm select2" id="tahun" name="tahun" style="width:100%;">
+                                                    <option selected value="semua">Semua Tahun</option>
+                                                    <?php for ($i = date('Y'); $i >= 1999; $i--) : ?>
+                                                        <option value="<?= $i ?>"><?= $i ?></option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <hr>
                                             <div class="table-responsive">
                                                 <table id="tabel-pembangunan" class="table table-bordered dataTable table-hover">
                                                     <thead class="bg-gray">
                                                         <tr>
-                                                            <th><input type="checkbox" id="checkall"/></th>
+                                                            <th><input type="checkbox" id="checkall" /></th>
                                                             <th class="text-center">No</th>
                                                             <th width="190px" class="text-center">Aksi</th>
                                                             <th class="text-center">Judul</th>
@@ -62,24 +73,29 @@
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
 <script>
-    $(function() {
+    $(document).ready(function() {
         let tabelPembangunan = $('#tabel-pembangunan').DataTable({
             'processing': true,
             'serverSide': true,
             'autoWidth': false,
             'pageLength': 10,
-            'order': [[11, 'desc']],
+            'order': [
+                [11, 'desc']
+            ],
             'columnDefs': [{
                 'orderable': false,
-                'targets': [0,1,2,5],
+                'targets': [0, 1, 2, 5],
             }],
             'ajax': {
                 'url': "<?= site_url('pembangunan') ?>",
-                'method': 'GET'
+                'method': 'POST',
+                'data': function(d) {
+                    d.tahun = $('#tahun').val();
+                }
             },
             'columns': [
                 {
-                    'data': function (data) {
+                    'data': function(data) {
                         return `<input type="checkbox" name="id_cb[]" value="${data.id}" />`
                     }
                 },
@@ -87,7 +103,7 @@
                     'data': null,
                 },
                 {
-                    'data': function (data) {
+                    'data': function(data) {
                         let status;
                         if (data.status == 1) {
                             status = `<a href="<?= site_url('pembangunan/lock/') ?>${data.id}" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Pembangunan"><i class="fa fa-unlock"></i></a>`
@@ -133,8 +149,8 @@
                 }
             ],
             'language': {
-				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
-			}
+                'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
+            }
         });
 
         tabelPembangunan.on('draw.dt', function() {
@@ -144,6 +160,10 @@
             }).nodes().each(function(cell, i) {
                 cell.innerHTML = i + 1 + PageInfo.start;
             });
+        });
+
+        $('#tahun').on('select2:select', function (e) {
+            tabelPembangunan.ajax.reload();
         });
     });
 </script>

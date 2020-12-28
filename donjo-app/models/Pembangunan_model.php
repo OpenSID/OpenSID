@@ -18,7 +18,7 @@ class Pembangunan_model extends CI_Model
         11 => 'p.created_at'
     ];
 
-    public function get_data(string $search = '')
+    public function get_data(string $search = '', $tahun = '')
     {
         $builder = $this->db->select([
             'p.*',
@@ -31,9 +31,9 @@ class Pembangunan_model extends CI_Model
         ->group_by('p.id');
 
         if (empty($search)) {
-            $condition = $builder;
+            $search = $builder;
         } else {
-            $condition = $builder->group_start()
+            $search = $builder->group_start()
                 ->like('p.sumber_dana', $search)
                 ->or_like('p.judul', $search)
                 ->or_like('p.keterangan', $search)
@@ -44,12 +44,16 @@ class Pembangunan_model extends CI_Model
                 ->group_end();
         }
 
+        $condition = $tahun === 'semua'
+            ? $search
+            : $search->where('p.tahun_anggaran', $tahun);
+
         return $condition;
     }
 
     public function insert(array $request)
     {
-        $this->db->insert($this->table, [
+        return $this->db->insert($this->table, [
             'sumber_dana'        => $request['sumber_dana'],
             'judul'              => $request['judul'],
             'volume'             => $request['volume'],

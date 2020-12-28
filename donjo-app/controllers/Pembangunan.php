@@ -61,20 +61,20 @@ class Pembangunan extends Admin_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            $start = $this->input->get('start');
-            $length = $this->input->get('length');
-            $search = $this->input->get('search[value]');
-            $order = $this->model::ORDER_ABLE[$this->input->get('order[0][column]')];
-            $dir = $this->input->get('order[0][dir]');
+            $start = $this->input->post('start');
+            $length = $this->input->post('length');
+            $search = $this->input->post('search[value]');
+            $order = $this->model::ORDER_ABLE[$this->input->post('order[0][column]')];
+            $dir = $this->input->post('order[0][dir]');
+            $tahun = $this->input->post('tahun');
 
             return $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode([
-                    'draw'            => $this->input->get('draw'),
+                    'draw'            => $this->input->post('draw'),
                     'recordsTotal'    => $this->model->get_data()->count_all_results(),
-                    'recordsFiltered' => $this->model->get_data($search)->count_all_results(),
-                    'data'            => $this->model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-                    'query' => $this->db->last_query(),
+                    'recordsFiltered' => $this->model->get_data($search, $tahun)->count_all_results(),
+                    'data'            => $this->model->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result(),
                 ]));
         }
 
@@ -83,6 +83,8 @@ class Pembangunan extends Admin_Controller
 
     public function new()
     {
+        $this->set_minsidebar(0);
+
         $this->render('pembangunan/form', [
             'list_lokasi' => $this->model->list_dusun_rt_rw(),
             'sumber_dana' => $this->referensi_model->list_ref_sumber_dana(SUMBER_DANA),
@@ -106,6 +108,8 @@ class Pembangunan extends Admin_Controller
 
     public function edit($id)
     {
+        $this->set_minsidebar(0);
+        
         $data = $this->model->find($id);
 
         if (is_null($data)) {
