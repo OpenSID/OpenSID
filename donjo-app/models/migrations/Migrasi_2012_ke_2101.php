@@ -66,12 +66,42 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Field unik pd tabel kelompok
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
-		// Salin folder desa/pengaturan
-		$folder = 'desa/pengaturan';
-		if (is_dir($folder))
+		$old = "desa/css";
+		$new = "desa/pengaturan";
+
+		if (is_dir($old))
 		{
-			mkdir($folder, 0775);
-			xcopy('desa-contoh/pengaturan', $folder);
+			// Ubah nama folder desa/csss jadi desa/pengaturan
+			rename($old, $new);
+			// Hapus folder tema hadakewa
+			delete_files($new . "/hadakewa", true , false, 1);
+			// Ubah file img1.jpg
+			rename($new . '/klasik/images/img1.jpg', $new . '/klasik/images/latar_website.jpg');
+
+			// Ubah isi file desa-web.css
+			$file = $new . '/klasik/desa-web.css';
+			$str = file_get_contents($file);
+			$str = str_replace("desa/css/", "desa/pengaturan/", $str);
+			$str = str_replace("img1.jpg", "latar_website.jpg", $str);
+			file_put_contents($file, $str);
+
+			// Pidahkan file siteman
+			mkdir($new . "/siteman", 0775);
+			mkdir($new . "/siteman/images", 0775);
+			copy($new . "/siteman.css", $new . "/siteman/siteman.css");
+			unlink($new . "/siteman.css");
+			xcopy($new . "/images", $new . "/siteman/images");
+			delete_files($new . "/images", true , false, 1);
+			// Ubah isi file siteman.css
+			$file = $new . '/siteman/siteman.css';
+			$str = file_get_contents($file);
+			$str = str_replace("desa/css/", "desa/pengaturan/siteman/", $str);
+			$str = str_replace("img1.jpg", "latar_login.jpg", $str);
+			file_put_contents($file, $str);
+
+			// Salin pengaturan/natra dari folder contoh/pengaturan/natra
+			mkdir($new . "/natra", 0775);
+			xcopy("desa-contoh/pengaturan/natra", $new . "/natra");
 		}
 
 		status_sukses($hasil);
