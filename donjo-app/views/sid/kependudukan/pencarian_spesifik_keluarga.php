@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk pencarian spesifik program bantuan keluarga
+ * View untuk pencarian spesifik modul keluarga
  *
  * donjo-app/views/sid/kependudukan/pencarian_spesifik_keluarga.php,
  *

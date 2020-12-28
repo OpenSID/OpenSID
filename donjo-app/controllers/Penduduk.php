@@ -372,50 +372,36 @@ class Penduduk extends Admin_Controller {
 
 	public function ajax_adv_search()
 	{
-		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+		// TODO : Ubah cara ini untuk menampilkan data
+		$this->session->sasaran = 1; // sasaran penduduk
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
 
-		foreach ($list_session as $session)
-		{
-			$data[$session] = $this->session->userdata($session) ?: '';
-		}
-
-		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		$data['list_pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
-		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
-		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
-		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
-		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-		$data['form_action'] = site_url("penduduk/adv_search_proses");
+		$data = [
+			'form_action' => site_url("penduduk/adv_search_proses"),
+			'list_agama' => $this->referensi_model->list_data('tweb_penduduk_agama'),
+			'list_pendidikan' => $this->referensi_model->list_data('tweb_penduduk_pendidikan'),
+			'list_pendidikan_kk' => $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk'),
+			'list_pekerjaan' => $this->referensi_model->list_data('tweb_penduduk_pekerjaan'),
+			'list_status_kawin' => $this->referensi_model->list_data('tweb_penduduk_kawin'),
+			'list_status_penduduk' => $this->referensi_model->list_data('tweb_penduduk_status'),
+			'program_bantuan' => $list_bantuan['program'],
+		];
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
 	}
 
 	public function adv_search_proses()
 	{
+		$id_program = $this->input->post('program_bantuan');
 		$adv_search = $this->validasi_pencarian($this->input->post());
-		$this->session->filter = $adv_search['status_penduduk'];
 
-		$i = 0;
-		while ($i++ < count($adv_search))
+		foreach ($adv_search as $session)
 		{
-			$col[$i] = key($adv_search);
-			next($adv_search);
-		}
-		$i = 0;
-		while ($i++ < count($col))
-		{
-			if ($adv_search[$col[$i]] == "")
-			{
-				UNSET($adv_search[$col[$i]]);
-				UNSET($_SESSION[$col[$i]]);
-			}
-			else
-			{
-				$_SESSION[$col[$i]] = $adv_search[$col[$i]];
-			}
+			$data[$session] = $this->session->userdata($session) ?: '';
 		}
 
-		redirect('penduduk');
+		$this->statistik('bantuan_penduduk', $id_program, '0');
 	}
 
 	private function validasi_pencarian($post)
@@ -428,6 +414,8 @@ class Penduduk extends Admin_Controller {
 		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
 		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
 		$data['status_penduduk'] = $post['status_penduduk'];
+		$data['filter'] = $post['status_penduduk'];
+		$data['penerima_bantuan'] = $post['program_bantuan'];
 		return $data;
 	}
 

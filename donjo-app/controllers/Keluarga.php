@@ -556,17 +556,17 @@ class Keluarga extends Admin_Controller {
 
 	public function pencarian_spesifik()
 	{
+		// TODO : Ubah cara ini untuk menampilkan data
 		$this->session->sasaran = 2; // sasaran keluarga
-		$list_data = $this->program_bantuan_model->get_program($p, FALSE);
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
 
 		$data = [
 			'form_action' => site_url("keluarga/pencarian_spesifik_proses"),
-			'program_bantuan' => $list_data['program']
+			'program_bantuan' => $list_bantuan['program']
 		];
 
 		$this->load->view("sid/kependudukan/pencarian_spesifik_keluarga", $data);
-
-		//echo json_encode($data, true);
 	}
 
 	public function pencarian_spesifik_proses()
