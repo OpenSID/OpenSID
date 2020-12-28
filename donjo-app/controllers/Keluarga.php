@@ -59,11 +59,16 @@ class Keluarga extends Admin_Controller {
 		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 	}
 
-	public function clear()
+	public function clear_session()
 	{
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
 		$this->session->status_dasar = 1; // tampilkan KK aktif saja
+	}
+
+	public function clear()
+	{
+		$this->clear_session();
 		redirect('keluarga');
 	}
 
@@ -571,6 +576,7 @@ class Keluarga extends Admin_Controller {
 
 	public function program_bantuan_proses()
 	{
+		$this->clear_session();
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_keluarga', $id_program, '0');
 	}

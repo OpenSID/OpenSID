@@ -132,7 +132,7 @@
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
 
 		// Yg berikut hanya untuk menampilkan peserta bantuan
-		if ($this->session->penerima_bantuan)
+		if ($this->session->bantuan_keluarga)
 		{
 			$sql .= "
 				LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
