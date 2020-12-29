@@ -47,6 +47,8 @@ class Migrasi_2012_ke_2101 extends MY_model {
 
 	public function up()
 	{
+		$this->tambah_kolom_urut();
+		
 		$hasil = true;
 
 		// Tambah menu Layanan Mandiri > Pengaturan
@@ -67,6 +69,19 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
 		status_sukses($hasil);
+	}
+
+	private function tambah_kolom_urut()
+	{
+		//tambah kolom urut di tabel tweb_wil_clusterdesa
+		if (!$this->db->field_exists('urut', 'tweb_wil_clusterdesa'))
+			$this->dbforge->add_column('tweb_wil_clusterdesa', array(
+				'urut' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				),
+			));
 	}
 
 }

@@ -50,6 +50,8 @@ class Wilayah_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('tweb_wil_clusterdesa', 'id');
 	}
 
 	public function autocomplete()
@@ -115,6 +117,7 @@ class Wilayah_model extends MY_Model {
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.kk_level = 1) AS jumlah_kk ";
 		$sql = $select_sql . $this->list_data_sql();
+		$sql .= "ORDER BY`u`.`urut` ASC";
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
@@ -618,6 +621,14 @@ class Wilayah_model extends MY_Model {
 		return $data['alamat'];
 	}
 
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($id = 0, $arah = 0)
+	{
+		$subset = "rt = '0' AND rw = '0'";
+		$this->urut_model->urut($id, $arah, $subset);
+	}
 }
 
 ?>
