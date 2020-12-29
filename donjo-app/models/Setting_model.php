@@ -123,7 +123,7 @@ class Setting_model extends CI_Model {
 		}
 		$this->apply_setting();
 		// TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
-		if ($data['latar_website'] != '') $this->upload_img('latar_website', $data['lokasi']); // latar_website
+		if ($data['latar_website'] != '') $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website()); // latar_website
 		if ($data['latar_login']  != '') $this->upload_img('latar_login', LATAR_LOGIN); // latar_login
 
 		return $data;

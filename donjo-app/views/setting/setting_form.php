@@ -15,14 +15,14 @@
 						if (is_file($file)) include($file);
 					?>
 
-					<?php if ($pengaturan['latar_website'] == TRUE): ?>
 						<div class="box box-primary">
 							<div class="box-header with-border">
 								<b>Latar Website</b>
 							</div>
 							<div class="box-body box-profile text-center">
-								<?php $lokasi = $pengaturan[lokasi_latar_website]; ?>
-								<img class="img-responsive" src="<?= base_url($lokasi . "latar_website.jpg"); ?>" alt="Latar Halaman Website" width="100%">
+								<?php if ($latar_website): ?>
+									<img class="img-responsive" src="<?= base_url($latar_website); ?>" alt="Latar Halaman Website" width="100%">
+								<?php endif ?>
 								<p class="text-muted text-center text-red">(Kosongkan, jika latar website <?= 'tema ' . $this->theme; ?> tidak berubah)</p>
 								<div class="input-group">
 									<input type="text" class="form-control input-sm" id="file_path" name="latar_website">
@@ -34,13 +34,14 @@
 								</div>
 							</div>
 						</div>
-					<?php endif; ?>
 					<div class="box box-primary">
 						<div class="box-header with-border">
 							<b>Latar Login</b>
 						</div>
 						<div class="box-body box-profile text-center">
-							<img class="img-responsive" src="<?= base_url(LATAR_LOGIN . 'latar_login.jpg'); ?>" alt="Latar Halaman Website" width="100%">
+							<?php if ($latar_login): ?>
+								<img class="img-responsive" src="<?= base_url($latar_login); ?>" alt="Latar Halaman Website" width="100%">
+							<?php endif; ?>
 							<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
 							<div class="input-group">
 								<input type="text" class="form-control input-sm" id="file_path1" name="latar_login">

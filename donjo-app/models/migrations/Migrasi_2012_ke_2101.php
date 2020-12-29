@@ -49,13 +49,20 @@ class Migrasi_2012_ke_2101 extends MY_model {
 	{
 		$hasil = true;
 
+		$hasil =& $this->pengaturan_latar($hasil);
+
+		status_sukses($hasil);
+	}
+
+	private function pengaturan_latar($hasil)
+	{
 		// Tambah menu Layanan Mandiri > Pengaturan
 		$query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
 			('314', 'Pengaturan', 'setting/mandiri', '1', 'fa-gear', '6', '2', '14', '0', 'fa-gear')
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
-		$this->db->query($query);
+		$hasil =& $this->db->query($query);
 
 		// Tambahkan key layanan_mandiri
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
@@ -73,38 +80,12 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		{
 			// Ubah nama folder desa/csss jadi desa/pengaturan
 			rename($old, $new);
-			// Hapus folder tema hadakewa
-			delete_files($new . "/hadakewa", true , false, 1);
-			// Ubah file img1.jpg
-			rename($new . '/klasik/images/img1.jpg', $new . '/klasik/images/latar_website.jpg');
-
-			// Ubah isi file desa-web.css
-			$file = $new . '/klasik/desa-web.css';
-			$str = file_get_contents($file);
-			$str = str_replace("desa/css/", "desa/pengaturan/", $str);
-			$str = str_replace("img1.jpg", "latar_website.jpg", $str);
-			file_put_contents($file, $str);
-
-			// Pidahkan file siteman
-			mkdir($new . "/siteman", 0775);
-			mkdir($new . "/siteman/images", 0775);
-			copy($new . "/siteman.css", $new . "/siteman/siteman.css");
-			unlink($new . "/siteman.css");
-			xcopy($new . "/images", $new . "/siteman/images");
-			delete_files($new . "/images", true , false, 1);
-			// Ubah isi file siteman.css
-			$file = $new . '/siteman/siteman.css';
-			$str = file_get_contents($file);
-			$str = str_replace("desa/css/", "desa/pengaturan/siteman/", $str);
-			$str = str_replace("img1.jpg", "latar_login.jpg", $str);
-			file_put_contents($file, $str);
-
-			// Salin pengaturan/natra dari folder contoh/pengaturan/natra
-			mkdir($new . "/natra", 0775);
-			xcopy("desa-contoh/pengaturan/natra", $new . "/natra");
 		}
-
-		status_sukses($hasil);
+		// Buat folder untuk latar
+		mkdir($new . "/siteman/images", 0775, true);
+		mkdir($new . "/klasik/images", 0775, true);
+		mkdir($new . "/natra/images", 0775, true);
+		return $hasil;
 	}
 
 }

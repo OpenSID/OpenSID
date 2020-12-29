@@ -100,6 +100,7 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('theme_model');
 	}
 
 	public function auth()
@@ -517,6 +518,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
+		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
