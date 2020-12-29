@@ -79,14 +79,14 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		<!-- CSS global theme -->
 		<link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
-
-		<!-- Styles untuk tema dan penyesuaiannya di folder desa -->
-		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
-		<?php if (is_file("desa/css/".$this->theme."/desa-web.css")): ?>
-			<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
+		<!-- Styles untuk masing2 tema dan penyesuaiannya di folder desa -->
+		<?php if ($this->theme_folder == "themes"): ?>
+			<link type='text/css' href="<?= base_url("desa/pengaturan/$this->theme/desa-web.css"); ?>" rel='Stylesheet' />
+		<?php else: ?>
+			<link type='text/css' href="<?= base_url("$this->theme_folder/$this->theme/assets/css/desa-web.css"); ?>" rel='Stylesheet' />
 		<?php endif; ?>
-
 		<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?= base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<?php if ($single_artikel OR $gallery): ?>
