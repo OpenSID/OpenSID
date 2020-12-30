@@ -27,7 +27,7 @@
 									<tr>
 										<td>Ketua Kelompok</td>
 										<td> : </td>
-										<td><?= $detail['ketua']?></td>
+										<td><?= $detail['nama_ketua']?></td>
 									</tr>
 									<tr>
 										<td>Keterangan</td>
