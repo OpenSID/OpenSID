@@ -293,7 +293,7 @@ class Admin_Controller extends MY_Controller {
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 
-	public function render($view, Array $data = [])
+	public function render($view, Array $data = NULL)
 	{
 		$this->header['minsidebar'] = $this->get_minsidebar();
 		$this->load->view('header', $this->header);
