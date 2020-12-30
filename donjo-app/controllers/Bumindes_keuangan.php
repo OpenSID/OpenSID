@@ -39,7 +39,6 @@ class Bumindes_keuangan extends Admin_Controller {
 		$data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
 
 		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav');

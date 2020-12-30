@@ -72,7 +72,7 @@ class Migrasi_2012_ke_2101 extends MY_model {
   		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
   		$file_migrasi = 'migrations/'.$migrasi_premium;
 			$this->load->model($file_migrasi);
-			$this->$migrasi_premium->up();
+			$hasil =& $this->$migrasi_premium->up();
   	}
 
 		status_sukses($hasil);

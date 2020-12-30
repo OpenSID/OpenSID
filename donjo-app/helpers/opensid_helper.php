@@ -49,7 +49,7 @@ define("VERSION", '20.12-premium-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020122551');
+define('VERSI_DATABASE', '2020123051');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -1077,3 +1077,4 @@ function kode_wilayah($kode_wilayah)
 	$kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
 	return $kode_standar;
 }
+
