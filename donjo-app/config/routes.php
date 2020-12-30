@@ -120,3 +120,9 @@ $route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)'] = "buku_umum/dokumen_sekre
 $route['dokumen_sekretariat/([a-z_]+)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2";
 $route['dokumen_sekretariat/([a-z_]+)'] = "buku_umum/dokumen_sekretariat/$1";
 $route['dokumen_sekretariat'] = "buku_umum/dokumen_sekretariat";
+
+$route['lembaran_desa/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/lembaran_desa/$1/$2/$3/$4";
+$route['lembaran_desa/([a-z_]+)/(:any)/(:any)'] = "buku_umum/lembaran_desa/$1/$2/$3";
+$route['lembaran_desa/([a-z_]+)/(:any)'] = "buku_umum/lembaran_desa/$1/$2";
+$route['lembaran_desa/([a-z_]+)'] = "buku_umum/lembaran_desa/$1";
+$route['lembaran_desa'] = "buku_umum/lembaran_desa";

@@ -48,7 +48,7 @@ class Pengurus extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['pamong_model', 'penduduk_model', 'config_model', 'referensi_model', 'wilayah_model']);
+		$this->load->model(['pamong_model', 'penduduk_model', 'referensi_model', 'wilayah_model']);
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 		$this->_set_page = ['20', '50', '100'];
@@ -82,12 +82,9 @@ class Pengurus extends Admin_Controller {
 		$data['main_content'] = 'home/pengurus';
 		$data['subtitle'] = "Buku Aparat Pemerintah Desa";
 		$data['selected_nav'] = 'aparat';
-		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($id = 0)
@@ -195,7 +192,7 @@ class Pengurus extends Admin_Controller {
 	{
 		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->pamong_model->list_data();
 
 		$this->load->view('home/'.$aksi, $data);
@@ -203,13 +200,11 @@ class Pengurus extends Admin_Controller {
 
 	public function bagan($ada_bpd = '')
 	{
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['bagan'] = $this->pamong_model->list_bagan();
 		$data['ada_bpd'] = ! empty($ada_bpd);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('home/bagan', $data);
-		$this->load->view('footer');
+
+		$this->render('home/bagan', $data);
 	}
 
 	public function atur_bagan()

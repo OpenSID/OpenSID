@@ -1,19 +1,12 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Ekspedisi extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
-		$this->load->model('surat_keluar_model');
-		$this->load->model('ekspedisi_model');
-		$this->load->model('klasifikasi_model');
-		$this->load->model('config_model');
-		$this->load->model('pamong_model');
-		$this->load->model('header_model');
+		$this->load->model(['surat_keluar_model', 'ekspedisi_model', 'klasifikasi_model', 'pamong_model']);
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 	}
@@ -40,16 +33,12 @@ class Ekspedisi extends Admin_Controller {
 		$data['main'] = $this->ekspedisi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
 		$data['keyword'] = $this->ekspedisi_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$data['main_content'] = 'ekspedisi/table';
 		$data['subtitle'] = "Buku Ekspedisi";
 		$data['selected_nav'] = 'ekspedisi';
-		$header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id)
@@ -63,7 +52,6 @@ class Ekspedisi extends Admin_Controller {
 			$data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id);
 			$data['form_action'] = site_url("ekspedisi/update/$p/$o/$id");
 		}
-		$header = $this->header_model->get_data();
 
 		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_keluar']['tanda_terima']);
@@ -71,12 +59,9 @@ class Ekspedisi extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['tanda_terima'] = $namaFile.'.'.$ekstensiFile;
-		$header['minsidebar'] = 1;
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('ekspedisi/form', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('ekspedisi/form', $data);
 	}
 
 	public function search()
@@ -112,15 +97,15 @@ class Ekspedisi extends Admin_Controller {
 		$_SESSION['filter'] = $data['input']['tahun'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->ekspedisi_model->list_data($o, 0, 10000);
 		$this->load->view("ekspedisi/ekspedisi_$aksi", $data);
 	}
 
 	/**
 	 * Unduh berkas tanda terima berdasarkan kolom surat_keluar.id
-	 * @param   integer  $id  ID surat_keluar
-	 * @return  void
+	 * @param  integer $id ID surat_keluar
+	 * @return void
 	 */
 	public function unduh_tanda_terima($id)
 	{

@@ -1,6 +1,6 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Surat Keluar
  *
@@ -8,7 +8,7 @@
  *
  */
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -47,7 +47,7 @@ class Surat_keluar extends Admin_Controller {
 		parent::__construct();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
-		$this->load->model(['surat_keluar_model', 'klasifikasi_model', 'config_model', 'pamong_model', 'penomoran_surat_model']);
+		$this->load->model(['surat_keluar_model', 'klasifikasi_model', 'pamong_model', 'penomoran_surat_model']);
 		$this->list_session = ['cari', 'filter'];
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
@@ -82,16 +82,12 @@ class Surat_keluar extends Admin_Controller {
 		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$data['main_content'] = 'surat_keluar/table';
 		$data['subtitle'] = "Buku Agenda - Surat Keluar";
 		$data['selected_nav'] = 'agenda_keluar';
-		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -119,8 +115,8 @@ class Surat_keluar extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('surat_keluar/form', $data);
 	}
 
@@ -203,7 +199,7 @@ class Surat_keluar extends Admin_Controller {
 		$this->session->filter = $data['input']['tahun'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($data['input']['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
 		$this->load->view('surat_keluar/surat_keluar_print', $data);
 	}
@@ -214,15 +210,15 @@ class Surat_keluar extends Admin_Controller {
 		$this->session->filter = $data['input']['tahun'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($data['input']['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
 		$this->load->view('surat_keluar/surat_keluar_excel', $data);
 	}
 
 	/**
 	 * Unduh berkas scan berdasarkan kolom surat_keluar.id
-	 * @param   integer  $idSuratMasuk  Id berkas scan pada koloam surat_keluar.id
-	 * @return  void
+	 * @param  integer $idSuratMasuk Id berkas scan pada koloam surat_keluar.id
+	 * @return void
 	 */
 	public function unduh_berkas_scan($idSuratMasuk)
 	{
@@ -237,7 +233,7 @@ class Surat_keluar extends Admin_Controller {
 			$hasil = false;
 		else
 			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $this->input->post('nomor_urut'));
-   	echo $hasil ? 'false' : 'true';
+  	echo $hasil ? 'false' : 'true';
 	}
 
 	public function untuk_ekspedisi($p = 1, $o = 0, $id)

@@ -1,6 +1,6 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Surat Masuk
  *
@@ -8,7 +8,7 @@
  *
  */
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -49,9 +49,7 @@ class Surat_masuk extends Admin_Controller {
 		$this->load->helper('download');
 		$this->load->model('surat_masuk_model');
 		$this->load->model('klasifikasi_model');
-		$this->load->model('config_model');
 		$this->load->model('pamong_model');
-
 		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
@@ -89,16 +87,12 @@ class Surat_masuk extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
 		$data['keyword'] = $this->surat_masuk_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$data['main_content'] = 'surat_masuk/table';
 		$data['subtitle'] = "Buku Agenda - Surat Masuk";
 		$data['selected_nav'] = 'agenda_masuk';
-		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -130,8 +124,8 @@ class Surat_masuk extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_masuk']['berkas_scan'] = $namaFile.'.'.$ekstensiFile;
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('surat_masuk/form', $data);
 	}
 
@@ -222,7 +216,7 @@ class Surat_masuk extends Admin_Controller {
 		$_SESSION['filter'] = $data['input']['tahun'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
 		$this->load->view('surat_masuk/surat_masuk_print', $data);
 	}
@@ -233,7 +227,7 @@ class Surat_masuk extends Admin_Controller {
 		$_SESSION['filter'] = $data['input']['tahun'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
 		$this->load->view('surat_masuk/surat_masuk_excel', $data);
 	}
@@ -241,7 +235,7 @@ class Surat_masuk extends Admin_Controller {
 	public function disposisi($id)
 	{
 		$data['input'] = $_POST;
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();
@@ -252,8 +246,8 @@ class Surat_masuk extends Admin_Controller {
 
 	/**
 	 * Unduh berkas scan berdasarkan kolom surat_masuk.id
-	 * @param   integer  $idSuratMasuk  Id berkas scan pada koloam surat_masuk.id
-	 * @return  void
+	 * @param  integer $idSuratMasuk Id berkas scan pada koloam surat_masuk.id
+	 * @return void
 	 */
 	public function unduh_berkas_scan($idSuratMasuk)
 	{
@@ -268,6 +262,6 @@ class Surat_masuk extends Admin_Controller {
 			$hasil = false;
 		else
 			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_masuk', $_POST['nomor_urut']);
-   	echo $hasil ? 'false' : 'true';
+  	echo $hasil ? 'false' : 'true';
 	}
 }
