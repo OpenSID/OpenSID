@@ -48,12 +48,14 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
+		$hasil = true;
 		// Menu baru -FITUR PREMIUM-
-		$this->buku_administrasi_desa();
-		$this->tambah_kolom_pemerintahan_desa();
+		$hasil =& $this->buku_administrasi_desa($hasil);
+		$hasil =& $this->tambah_kolom_pemerintahan_desa($hasil);
+		return $hasil;
 	}
 
-	private function buku_administrasi_desa()
+	private function buku_administrasi_desa($hasil)
 	{
 		// Menu parent Buku Administrasi Desa
 		$menu[0] = array(
@@ -142,11 +144,11 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 			hidden = VALUES(hidden),
 			ikon_kecil = VALUES(ikon_kecil),
 			parent = VALUES(parent)";
-			$this->db->query($sql);
+			$hasil =& $this->db->query($sql);
 		}
 		// Menu parent Buku Administrasi Desa. END
 		// Dokumen tidak harus ada file
-	  $this->db->query('ALTER TABLE dokumen MODIFY satuan VARCHAR(200) NULL DEFAULT NULL;');
+	  $hasil =& $this->db->query('ALTER TABLE dokumen MODIFY satuan VARCHAR(200) NULL DEFAULT NULL;');
 	  // Sembunyikan menu yg sdh masuk buku administrasi umum
 	  $this->db->like('url', 'surat_keluar')->update('setting_modul', ['hidden' => 2]);
 	  $this->db->like('url', 'surat_masuk')->update('setting_modul', ['hidden' => 2]);
@@ -173,11 +175,11 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 	        	'type' => 'varchar',
 	        	'constraint' => 500,
 	        );
-			$this->dbforge->add_column('surat_keluar', $fields);
-			$this->dbforge->add_column('surat_keluar', 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-			$this->dbforge->add_column('surat_keluar', 'created_by int(11) NOT NULL');
-			$this->dbforge->add_column('surat_keluar', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-			$this->dbforge->add_column('surat_keluar', 'updated_by int(11) NOT NULL');
+			$hasil =& $this->dbforge->add_column('surat_keluar', $fields);
+			$hasil =& $this->dbforge->add_column('surat_keluar', 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$hasil =& $this->dbforge->add_column('surat_keluar', 'created_by int(11) NOT NULL');
+			$hasil =& $this->dbforge->add_column('surat_keluar', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$hasil =& $this->dbforge->add_column('surat_keluar', 'updated_by int(11) NOT NULL');
   	}
 		// Menu permohonan surat untuk operator
 		$modul = array(
@@ -193,10 +195,12 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 			'ikon_kecil' => ''
 		);
 		$sql = $this->db->insert_string('setting_modul', $modul) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), parent = VALUES(parent)";
-		$this->db->query($sql);
+		$hasil =& $this->db->query($sql);
+
+		return $hasil;
 	}
 
-	private function tambah_kolom_pemerintahan_desa()
+	private function tambah_kolom_pemerintahan_desa($hasil)
 	{
 		// Struktur pemerintahan desa
 		if (!$this->db->field_exists('atasan', 'tweb_desa_pamong'))
@@ -217,7 +221,7 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 	        	'type' => 'VARCHAR',
 	        	'constraint' => 20,
 	        );
-			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+			$hasil =& $this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
 		// Struktur pemerintahan desa
 		if (!$this->db->field_exists('bagan_warna', 'tweb_desa_pamong'))
@@ -228,18 +232,16 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 	        	'constraint' => 10,
 	        	'default' => NULL
 	        ];
-			$this->dbforge->add_column('tweb_desa_pamong', $fields);
+			$hasil =& $this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
 		// Ukuran Lebar Bagan
-		if (!$this->db->field_exists('ukuran_lebar_bagan', 'setting_aplikasi'))
-		{
-			$query = "
-				INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
-				('ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan Organisasi (800 / 1200 / 1400)', 'int', 'conf_web')
-				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
-			$this->db->query($query);
-  	}
+		$query = "
+			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
+			('ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan Organisasi (800 / 1200 / 1400)', 'int', 'conf_web')
+			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
+		$hasil =& $this->db->query($query);
 
+  	return $hasil;
 	}
 
 }

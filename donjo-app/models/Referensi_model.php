@@ -60,6 +60,12 @@ define("MASA_BERLAKU", serialize([
 	"y" => "Tahun"
 ]));
 
+define("JENIS_PERATURAN_DESA", serialize([
+	"Peraturan Desa (Perdes)",
+	"Peraturan Kepala Desa (Perkades)",
+	"Peraturan Bersama Kepala Desa"
+]));
+
 define("KATEGORI_PUBLIK", serialize([
 	"Informasi Berkala" => "1",
 	"Informasi Serta-merta" => "2",
