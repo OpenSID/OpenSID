@@ -89,7 +89,7 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
-		$this->render('dokumen/table', $data);
+		$this->render('dokumen/table_dokumen', $data);
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')
