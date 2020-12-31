@@ -52,12 +52,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('.jenis_link').hide();
 		$('.jenis_link').removeAttr( "name" );
 		$('.jenis_link').removeClass('required');
+		// Select2 membuat span terpisah dan perlu ditangani khusus
+		$('span.select2').hide();
 		$('#eksternal > input').attr('name', '');
 
 		if (jenis == '1') {
 			$('#artikel_statis').show();
 			$('#artikel_statis').attr('name', 'link');
 			$('#artikel_statis').addClass('required');
+			$('#artikel_statis').select2({
+				width: '100%',
+				dropdownAutoWidth : true
+			});
+
 		} else if (jenis == '2') {
 			$('#statistik_penduduk').show();
 			$('#statistik_penduduk').attr('name', 'link');
@@ -79,6 +86,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#artikel_keuangan').attr('name', 'link');
 			$('#artikel_keuangan').addClass('required');
 		} else if (jenis == '7') {
+			$('#kelompok').show();
+			$('#kelompok').attr('name', 'link');
+			$('#kelompok').addClass('required');
+		} else if (jenis == '8') {
 			$('#kategori_artikel').show();
 			$('#kategori_artikel').attr('name', 'link');
 			$('#kategori_artikel').addClass('required');
@@ -119,18 +130,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="form-group" id="jenis_link" style="<?php ( ! $submenu['link_tipe']) and print('display:none;');; ?>">
 			<label class="control-label" for="link">Link</label>
-			<select id="artikel_statis" class="form-control input-sm jenis_link select2" name="<?= jecho($submenu['link_tipe'], 1, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 1) and print('display:none;');; ?>">
+			<select id="artikel_statis" class="form-control input-sm jenis_link select2" name="<?= jecho($submenu['link_tipe'], 1, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 1) and print('display:none;'); ?>">
 				<option value="">-- Pilih Artikel Statis --</option>
 				<?php foreach ($artikel_statis as $data): ?>
 					<option value="artikel/<?= $data['id']; ?>" <?= selected($submenu['link'], "artikel/$data[id]"); ?>><?=$data['judul']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 1, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 1) and print('display:none;');; ?>">
-						<option value="">-- Pilih Kategori Artikel --</option>
-						<?php foreach ($kategori_artikel as $data): ?>
-							<option value="kategori/<?= $data['slug']; ?>" <?= selected($submenu['link'], "kategori/$data[slug]"); ?>><?=$data['kategori']; ?></option>
-						<?php endforeach; ?>
-					</select>
+			<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 8, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 8) and print('display:none;');; ?>">
+				<option value="">-- Pilih Kategori Artikel --</option>
+				<?php foreach ($kategori_artikel as $data): ?>
+					<option value="kategori/<?= $data['slug']; ?>" <?= selected($submenu['link'], "kategori/$data[slug]"); ?>><?=$data['kategori']; ?></option>
+				<?php endforeach; ?>
+			</select>
 			<select id="statistik_penduduk" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 2, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 2) and print('display:none;');; ?>">
 				<option value="">-- Pilih Statistik Penduduk --</option>
 				<?php foreach ($statistik_penduduk as $id => $nama): ?>
@@ -162,6 +173,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<option value="">-- Pilih Artikel Keuangan --</option>
 				<?php foreach ($artikel_keuangan as $id => $nama): ?>
 					<option value="<?= $id?>" <?= selected($submenu['link'], $id) ?>><?= $nama?></option>
+				<?php endforeach; ?>
+			</select>
+			<select id="kelompok" class="form-control input-sm jenis_link required" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php ($submenu['link_tipe'] != 7 ) and print('display:none;') ?>">
+					<option value="">Pilih Kelompok</option>
+					<?php foreach ($kelompok as $kel): ?>
+						<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<span id="eksternal" class="jenis_link" style="<?php ($submenu['link_tipe'] != 99) and print('display:none;'); ?>">

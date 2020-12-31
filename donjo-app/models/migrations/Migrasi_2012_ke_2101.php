@@ -66,6 +66,11 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Field unik pd tabel kelompok
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
+		// Migrasi fitur premium
+		$migrasi = 'migrasi_fitur_premium_2009';
+  	$this->load->model('migrations/'.$migrasi);
+  	$hasil =& $this->$migrasi->up();
+
 		status_sukses($hasil);
 	}
 
