@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php endif; ?>
 		<div class="form-group">
 			<label class="control-label" for="link">Jenis Link</label>
-			<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val());">
+			<select class="form-control input-sm required" id="link_tipe" name="link_tipe" onchange="ganti_jenis_link($(this).val()); event.stopPropagation();">
 				<option option value="">-- Pilih Jenis Link --</option>
 				<?php foreach ($link_tipe as $id => $nama): ?>
 					<option value="<?= $id; ?>" <?= selected($submenu['link_tipe'], $id) ?>><?= $nama?></option>
