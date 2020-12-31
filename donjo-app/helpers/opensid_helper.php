@@ -1077,4 +1077,3 @@ function kode_wilayah($kode_wilayah)
 	$kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
 	return $kode_standar;
 }
-

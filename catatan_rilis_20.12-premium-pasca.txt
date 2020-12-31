@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
 22. #3707: Perbaiki login terakhir pengguna tidak tercatat jika tidak keluar secara eksplisit. [bug-fix]
 23. #3845: Nomor surat di Sekretariat > Surat Keluar sekarang dapat berisi titik.
 24. Kode wilayah di tampilan Identitas Desa sekarang menggunakan format baku bertitik.
+25. Perbaiki tampilkan panduan Program Bantuan. [bug-fix]
 
 Fitur v20.09-premium yg digabung:
 
