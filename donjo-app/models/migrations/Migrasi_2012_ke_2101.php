@@ -55,7 +55,7 @@ class Migrasi_2012_ke_2101 extends MY_model {
 			('314', 'Pengaturan', 'setting/mandiri', '1', 'fa-gear', '6', '2', '14', '0', 'fa-gear')
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
-		$this->db->query($query);
+		$hasil =& $this->db->query($query);
 
 		// Tambahkan key layanan_mandiri
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
