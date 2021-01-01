@@ -120,7 +120,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function panduan()
 	{
-		$this->render('program_bantuan/panduan', $data);
+		$this->render('program_bantuan/panduan');
 	}
 
 	public function detail($program_id = 0, $p = 1)

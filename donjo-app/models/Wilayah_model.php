@@ -130,6 +130,83 @@ class Wilayah_model extends MY_Model {
 		return $data;
 	}
 
+	public function list_semua_wilayah()
+	{
+		$this->case_dusun = "w.rt = '0' and w.rw = '0'";
+		$this->case_rw = "w.rw <> '0' and w.rw <> '-' and w.rt = '0'";
+		$this->case_rt = "w.rt <> '0' and w.rt <> '-'";
+
+		$this->select_jumlah_rw_rt();
+		$this->select_jumlah_warga();
+		$this->select_jumlah_kk();
+
+		$data = $this->db
+			->select('w.*, p.nama AS nama_kepala, p.nik AS nik_kepala')
+			->select("(CASE WHEN w.rw = '0' THEN '' ELSE w.rw END) AS rw")
+			->select("(CASE WHEN w.rt = '0' THEN '' ELSE w.rt END) AS rt")
+			->from('tweb_wil_clusterdesa w')
+			->join('penduduk_hidup p', 'w.id_kepala = p.id', 'left')
+
+			->group_start()
+				->where("w.rt = '0' and w.rw = '0'")
+				->or_where("w.rw <> '-' and w.rt = '0'")
+				->or_where("w.rt <> '0' and w.rt <> '-'")
+			->group_end()
+
+			->order_by('w.dusun, rw, rt')
+			->get()
+			->result_array();
+		return $data;
+	}
+
+	private function select_jumlah_rw_rt()
+	{
+		$this->db
+			->select("(CASE
+				WHEN ".$this->case_dusun." THEN (SELECT COUNT(id) FROM tweb_wil_clusterdesa WHERE dusun = w.dusun AND rw <> '-' AND rt = '-')
+				END) AS jumlah_rw");
+
+		$this->db
+			->select("(CASE
+				WHEN ".$this->case_dusun." THEN (SELECT COUNT(id) FROM tweb_wil_clusterdesa WHERE dusun = w.dusun AND rt <> '0' AND rt <> '-')
+				WHEN ".$this->case_rw." THEN (SELECT COUNT(id) FROM tweb_wil_clusterdesa WHERE dusun = w.dusun AND rw = w.rw AND rt <> '0' AND rt <> '-')
+				END) AS jumlah_rt");
+	}
+
+	private function select_jumlah_warga()
+	{
+		$this->db
+			->select("(CASE
+				WHEN ".$this->case_dusun." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun))
+				WHEN ".$this->case_rw." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun and rw = w.rw))
+				WHEN ".$this->case_rt." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster = w.id)
+				END) AS jumlah_warga");
+
+		$this->db
+			->select("(CASE
+				WHEN ".$this->case_dusun." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun) AND p.sex = 1)
+				WHEN ".$this->case_rw." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun and rw = w.rw) AND p.sex = 1)
+				WHEN ".$this->case_rt." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster = w.id and p.sex = 1)
+				END) AS jumlah_warga_l");
+
+		$this->db
+			->select("(CASE
+				WHEN ".$this->case_dusun." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun) AND p.sex = 2)
+				WHEN ".$this->case_rw." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun and rw = w.rw) AND p.sex = 2)
+				WHEN ".$this->case_rt." THEN (SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster = w.id and p.sex = 2)
+				END) AS jumlah_warga_p");
+	}
+
+	private function select_jumlah_kk()
+	{
+		$this->db
+			->select("(CASE
+				WHEN ".$this->case_dusun." THEN (SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun) AND p.kk_level = 1)
+				WHEN ".$this->case_rw." THEN (SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = w.dusun and rw = w.rw) AND p.kk_level = 1)
+				WHEN ".$this->case_rt." THEN (SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id WHERE p.id_cluster = w.id AND p.kk_level = 1)
+				END) AS jumlah_kk ");
+	}
+
 	private function bersihkan_data($data)
 	{
 		if (empty((int)$data['id_kepala']))

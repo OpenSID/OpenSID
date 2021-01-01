@@ -53,6 +53,7 @@ class Shortcode_model extends CI_Model {
     $this->load->model('keuangan_grafik_manual_model');
     $this->load->model('laporan_penduduk_model');
     $this->load->model('config_model');
+    $this->load->model('pamong_model');
   }
 
 	// Shortcode untuk isi artikel
@@ -112,6 +113,14 @@ class Shortcode_model extends CI_Model {
 		elseif ($type == 'lap-RP-APBD-Bidang-manual')
 		{
 		  return $this->tabel_rp_apbd_bidang_manual($type, $thn);
+		}
+    elseif ($type == 'sotk_w_bpd')
+		{
+		  return $this->sotk_w_bpd();
+		}
+    elseif ($type == 'sotk_wo_bpd')
+		{
+		  return $this->sotk_wo_bpd();
 		}
 	}
 
@@ -248,6 +257,30 @@ class Shortcode_model extends CI_Model {
 		return $res;
 	}
 
+  private function sotk_w_bpd()
+	{
+    $desa = $this->config_model->get_data();
+		$bagan = $this->pamong_model->list_bagan();
+		$ada_bpd = true;
+
+		ob_start();
+			include("donjo-app/views/home/bagan_sisip.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
+  private function sotk_wo_bpd()
+	{
+    $desa = $this->config_model->get_data();
+		$bagan = $this->pamong_model->list_bagan();
+		$ada_bpd = false;
+
+		ob_start();
+			include("donjo-app/views/home/bagan_sisip.php");
+		$res = ob_get_clean();
+		return $res;
+	}
+
 	// Shortcode untuk list artikel
 	public function convert_sc_list($str = '')
 	{
@@ -316,6 +349,16 @@ class Shortcode_model extends CI_Model {
 		elseif ($type == "penerima_bantuan_keluarga_daftar")
 		{
 			$output = "<i class='fa fa-table'></i> Penerima Bantuan (Keluarga)";
+			return $output;
+		}
+    elseif ($type == "sotk_w_bpd")
+		{
+			$output = "<i class='fa fa-table'></i> Struktur Organisasi (BPD)";
+			return $output;
+		}
+    elseif ($type == "sotk_wo_bpd")
+		{
+			$output = "<i class='fa fa-table'></i> Struktur Organisasi";
 			return $output;
 		}
 	}
