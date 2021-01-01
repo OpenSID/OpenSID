@@ -156,6 +156,11 @@
 		}
 	}
 
+	function compared_return($a, $b, $retval=null)
+	{
+		($a===$b) and print('active');
+	}
+
 	function selected($a, $b, $opt=0)
 	{
 		if ($a == $b)
@@ -280,8 +285,9 @@
 		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
-	function tgl_indo_dari_str($tgl_str) {
-		$tanggal = tgl_indo(date('Y m d',strtotime($tgl_str)));
+	function tgl_indo_dari_str($tgl_str, $kosong='-') {
+		$time = strtotime($tgl_str);
+		$tanggal = $time ? tgl_indo(date('Y m d',strtotime($tgl_str))) : $kosong;
 		return $tanggal;
 	}
 
@@ -359,17 +365,20 @@ function cek_login(){
 	}
 }
 
-//time out Mandiri set 3 login per 5 menit
-function mandiri_timer(){
-	$time=300;  //300 detik
+//time out Mandiri set 3 login per 1 menit
+function mandiri_timer()
+{
+	$time = 60;  //60 detik
 	$_SESSION['mandiri_try'] = 4;
-	$_SESSION['mandiri_wait']=0;
-	$_SESSION['mandiri_timeout']=time()+$time;
+	$_SESSION['mandiri_wait'] = 0;
+	$_SESSION['mandiri_timeout'] = time() + $time;
 }
 
-function mandiri_timeout(){
-	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
-	if(time()>$timeout){
+function mandiri_timeout()
+{
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout = $_SESSION['mandiri_timeout'] : $timeout = null;
+	if (time() > $timeout)
+	{
 		mandiri_timer();
 	}
 }

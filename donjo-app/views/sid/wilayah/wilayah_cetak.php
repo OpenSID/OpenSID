@@ -10,6 +10,12 @@
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<style>
+			td
+			{
+				mso-number-format:"\@";
+			}
+		</style>
 	</head>
 	<body>
 		<div id="container">
@@ -18,29 +24,35 @@
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
 					<h3> Tabel Data Kependudukan berdasarkan Populasi Per Wilayah </h3>
-					<h4>  <?= ucwords($this->setting->sebutan_kabupaten)?> <?= $header['nama_kabupaten']?>, <?= ucwords($this->setting->sebutan_kecamatan)?> <?= $header['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $header['nama_desa']?></h4>
+					<h4> <?= ucwords($this->setting->sebutan_kabupaten)?> <?= $desa['desa']['nama_kabupaten']?>, <?= ucwords($this->setting->sebutan_kecamatan)?> <?= $desa['desa']['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['desa']['nama_desa']?></h4>
 				</div>
 				<br>
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th width="30">No</th>
-							<th width="100">Nama <?= ucwords($this->setting->sebutan_dusun)?></th>
-							<th width="100">Nama Kepala <?= ucwords($this->setting->sebutan_dusun)?></th>
-							<th width="50">RW</th>
-							<th width="50">RT</th>
-							<th width="50">KK</th>
-							<th width="50">L+P</th>
-							<th width="50">L</th>
-							<th width="50">P</th>
+							<th>No</th>
+							<th>Nama <?= ucwords($this->setting->sebutan_dusun)?></th>
+							<th>Nama RW</th>
+							<th>Nama RT</th>
+							<th>NIK Kepala/Ketua</th>
+							<th>Nama Kepala/Ketua</th>
+							<th>RW</th>
+							<th>RT</th>
+							<th>KK</th>
+							<th>L+P</th>
+							<th>L</th>
+							<th>P</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $data): ?>
+						<?php foreach ($main as $indeks => $data): ?>
 							<tr>
-								<td align="center" width="2"><?= $data['no']?></td>
-								<td><?= strtoupper($data['dusun'])?></td>
-								<td><?= $data['nama_kadus']?></td>
+								<td align="center"><?= $indeks + 1?></td>
+								<td><?= ($main[$indeks - 1]['dusun'] == $data['dusun']) ? '' : strtoupper($data['dusun'])?></td>
+								<td><?= ($main[$indeks - 1]['rw'] == $data['rw']) ? '' : $data['rw']?></td>
+								<td><?= $data['rt']?></td>
+								<td><?= $data['nik_kepala']?></td>
+								<td><?= $data['nama_kepala']?></td>
 								<td align="right"><?= $data['jumlah_rw']?></td>
 								<td align="right"><?= $data['jumlah_rt']?></td>
 								<td align="right"><?= $data['jumlah_kk']?></td>
@@ -51,7 +63,7 @@
 						<?php endforeach; ?>
 					</tbody>
 						<tr style="background-color:#BDD498;font-weight:bold;">
-							<td colspan="3" align="left"><label>TOTAL</label></td>
+							<td colspan="6" align="left"><label>TOTAL</label></td>
 							<td align="right"><?= $total['total_rw']?></td>
 							<td align="right"><?= $total['total_rt']?></td>
 							<td align="right"><?= $total['total_kk']?></td>
@@ -61,6 +73,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<?php include("donjo-app/views/global/blok_ttd_pamong.php"); ?>
 			</div>
 			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
 		</div>

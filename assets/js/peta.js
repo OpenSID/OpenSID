@@ -3,7 +3,7 @@
  *
  * Javascript untuk Modul Pemetaan di OpenSID
  *
- * peta.js
+ * assets/js/peta.js
  *
  */
 
@@ -49,16 +49,8 @@ $(document).ready(function()
 	});
 });
 
-function set_marker(marker, daftar_path, warna, judul, nama_wil)
+function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 {
-  var marker_style = {
-    stroke: true,
-    color: '#FF0000',
-    opacity: 1,
-    weight: 2,
-    fillColor: warna,
-    fillOpacity: 0.5
-  }
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
@@ -70,10 +62,38 @@ function set_marker(marker, daftar_path, warna, judul, nama_wil)
       jml_path = daftar[x].path[0].length;
       for (var y = 0; y < jml_path; y++)
       {
-        daftar[x].path[0][y].reverse()
+        daftar[x].path[0][y].reverse();
       }
-      daftar[x].path[0].push(daftar[x].path[0][0])
-      marker.push(turf.polygon(daftar[x].path, {content: judul + ' ' + daftar[x][nama_wil], style: marker_style}));
+
+      var label = L.tooltip({
+        permanent: true,
+        direction: 'center',
+        className: 'text',
+      }).setContent(judul + ' ' + daftar[x][nama_wil]);
+
+      var point_style = {
+        iconSize: [1, 1],
+        iconAnchor: [0.5, 0.5],
+        labelAnchor: [0.3, 0],
+        iconUrl: favico_desa
+    	};
+
+      var marker_style = {
+        stroke: true,
+        color: 'white',
+        opacity: 1,
+        weight: 3,
+        fillColor: daftar[x].warna,
+        fillOpacity: 0.8,
+        dashArray: 4
+      }
+
+      daftar[x].path[0].push(daftar[x].path[0][0]);
+      if (daftar[x].lng)
+      {
+        marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: label, style: L.icon(point_style)}));
+      }
+      marker.push(turf.polygon(daftar[x].path, {content: daftar[x][nama_wil], style: marker_style}));
     }
   }
 }
@@ -88,9 +108,22 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
     daerah_desa[0][x].reverse();
   }
 
+  var style_polygon = {
+		stroke: true,
+		color: '#de2d26',
+		opacity: 1,
+		weight: 3,
+		fillColor: desa['warna'],
+		fillOpacity: 0.8,
+    dashArray: 4
+	};
+
   var point_style = stylePointLogo(favico_desa);
-  marker_desa.push(turf.polygon(daerah_desa, {content: judul, style: stylePolygonDesa(), style: L.icon(point_style)}))
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa", style: L.icon(point_style)}));
+  if (desa['lng'])
+  {
+    marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: desa, style: L.icon(point_style)}));
+  }
+  marker_desa.push(turf.polygon(daerah_desa, {content: desa, style: style_polygon}));
 }
 
 function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
@@ -105,21 +138,26 @@ function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents
 
 	content = $(contents).html();
 
+  var style_polygon = {
+		stroke: true,
+		color: '#de2d26',
+		opacity: 1,
+		weight: 3,
+		fillColor: desa['warna'],
+		fillOpacity: 0.8,
+    dashArray: 4
+	};
+
   var point_style = stylePointLogo(favico_desa);
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style)}));
-  marker_desa.push(turf.polygon(daerah_desa, {content: content, style: stylePolygonDesa(), style: L.icon(point_style)}))
+  if (desa['lng'])
+  {
+    marker_desa.push(turf.point([desa['lng'], desa['lat']], {name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style)}));
+  }
+  marker_desa.push(turf.polygon(daerah_desa, {content: content, style: style_polygon}));
 }
 
-function set_marker_content(marker, daftar_path, warna, judul, nama_wil, contents)
+function set_marker_content(marker, daftar_path, judul, nama_wil, contents, favico_desa)
 {
-  var marker_style = {
-    stroke: true,
-    color: '#FF0000',
-    opacity: 1,
-    weight: 2,
-    fillColor: warna,
-    fillOpacity: 0.5
-  }
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
@@ -131,13 +169,40 @@ function set_marker_content(marker, daftar_path, warna, judul, nama_wil, content
       jml_path = daftar[x].path[0].length;
       for (var y = 0; y < jml_path; y++)
       {
-        daftar[x].path[0][y].reverse()
+        daftar[x].path[0][y].reverse();
       }
 
 			content = $(contents + x).html();
 
-      daftar[x].path[0].push(daftar[x].path[0][0])
-      marker.push(turf.polygon(daftar[x].path, {content: content, style: marker_style}));
+      var label = L.tooltip({
+        permanent: true,
+        direction: 'center',
+        className: 'text',
+      }).setContent(judul + ' ' + daftar[x][nama_wil]);
+
+      var point_style = {
+        iconSize: [1, 1],
+        iconAnchor: [0.5, 0.5],
+        labelAnchor: [0.3, 0],
+        iconUrl: favico_desa
+    	};
+
+      var marker_style = {
+        stroke: true,
+        color: 'white',
+        opacity: 1,
+        weight: 3,
+        fillColor: daftar[x].warna,
+        fillOpacity: 0.8,
+        dashArray: 4
+      }
+
+      daftar[x].path[0].push(daftar[x].path[0][0]);
+      if (daftar[x].lng)
+      {
+        marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: label, style: L.icon(point_style)}));
+      }
+      marker.push(turf.polygon(daftar[x].path, {name: judul, content: content, style: marker_style}));
     }
   }
 }
@@ -263,13 +328,14 @@ function getLatLong(x, y)
 
 function stylePolygonDesa()
 {
-	var style_polygon = {
+  var style_polygon = {
 		stroke: true,
-		color: '#FF0000',
+		color: '#de2d26',
 		opacity: 1,
-		weight: 2,
-		fillColor: '#8888dd',
-		fillOpacity: 0.5
+		weight: 3,
+		fillColor: warna,
+		fillOpacity: 0.5,
+    dashArray: 4
 	};
 	return style_polygon;
 }
@@ -327,7 +393,7 @@ function styleGpx()
 		color: 'red',
 		opacity: 1.0,
 		fillOpacity: 1.0,
-		weight: 2,
+		weight: 3,
 		clickable: true
 	};
 	return style;
@@ -665,11 +731,13 @@ function addPetaLine(layerpeta)
 	return addPetaLine;
 }
 
-function showCurrentPolygon(wilayah, layerpeta)
+function showCurrentPolygon(wilayah, layerpeta, warna)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
+	var poligon_wilayah = L.polygon(wilayah, {
+  showMeasurements: true,
+  measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
 
 	poligon_wilayah.on('pm:edit', function(e)
@@ -724,15 +792,6 @@ function showCurrentPoint(posisi1, layerpeta)
 		{
 			$("#simpan_kantor").attr('disabled', false);
 		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		lokasi_kantor.setLatLng(latLng);
-		layerpeta.setView(latLng,zoom);
 	})
 
 	$('#lng').on("input",function(e) {
@@ -744,16 +803,7 @@ function showCurrentPoint(posisi1, layerpeta)
 		{
 			$("#simpan_kantor").attr('disabled', false);
 		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		lokasi_kantor.setLatLng(latLng);
-		layerpeta.setView(latLng, zoom);
-	});
+	})
 
 	var geojson = lokasi_kantor.toGeoJSON();
 	var shape_for_db = JSON.stringify(geojson);
@@ -961,7 +1011,7 @@ function set_marker_area(marker, daftar_path, foto_area)
       var area_style = {
         stroke: true,
         opacity: 1,
-        weight: 2,
+        weight: 3,
         fillColor: daftar[x].color,
         fillOpacity: 0.5
       }
@@ -1118,16 +1168,12 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 	setMarkerCluster(marker_lokasi, markersList, markers);
 
 	peta.on('layeradd layerremove', function () {
-		var bounds = new L.LatLngBounds();
 		peta.eachLayer(function (layer) {
 			if(peta.hasLayer(layer_lokasi)) {
 				peta.addLayer(markers);
 			} else {
 				peta.removeLayer(markers);
         peta._layersMaxZoom = 19;
-			}
-			if (layer instanceof L.FeatureGroup) {
-				bounds.extend(layer.getBounds());
 			}
 		});
 	});
@@ -1166,6 +1212,146 @@ $(document).ready(function()
 	return false;
 })
 
+//Cetak Peta ke PNG
+function cetakPeta(layerpeta)
+{
+  L.control.browserPrint({
+    documentTitle: "Peta_Wilayah",
+    printModes: [
+      L.control.browserPrint.mode.auto("Auto"),
+      L.control.browserPrint.mode.landscape("Landscape"),
+      L.control.browserPrint.mode.portrait("Portrait")
+    ],
+  }).addTo(layerpeta);
+
+  L.Control.BrowserPrint.Utils.registerLayer(L.MarkerClusterGroup, 'L.MarkerClusterGroup', function (layer, utils) {
+    return layer;
+  });
+
+  L.Control.BrowserPrint.Utils.registerLayer(L.MapboxGL, 'L.MapboxGL', function(layer, utils) {
+      return L.mapboxGL(layer.options);
+    }
+  );
+
+  window.print = function () {
+    return domtoimage
+    .toPng(document.querySelector(".grid-print-container"))
+    .then(function (dataUrl) {
+      var link = document.createElement('a');
+      link.download = layerpeta.printControl.options.documentTitle || "exportedMap" + '.png';
+      link.href = dataUrl;
+      link.click();
+    });
+  };
+  return cetakPeta;
+}
+
+//Menambahkan legend ke peta dusun/rw/rt
+function setlegendPeta(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas)
+{
+  var daftar = JSON.parse(legendData);
+  var div = L.DomUtil.create('div', 'info legend');
+  var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+
+  for (var x = 0; x < daftar.length; x++)
+  {
+    if (daftar[x].path)
+    {
+      legenda.onAdd = function (layerpeta) {
+        var categories = [judul + ' ' + daftar[x][nama_wil]];
+        if (judul === 'RT') {
+          var categories = [judul + ' ' + daftar[x][nama_wil]  + ' ' + judul_wil_atas + ' ' + daftar[x].rw + ' ' + daftar[x].dusun];
+        }
+        if (judul === 'RW') {
+          var categories = [judul + ' ' + daftar[x][nama_wil] + ' ' + judul_wil_atas + ' ' + daftar[x].dusun];
+        }
+        for (var i = 0; i < categories.length; i++)
+          {
+          div.innerHTML +=
+          labels.push(
+            '<i class="circle" style="background:' + daftar[x].warna + '"></i> ' +
+            (categories[i] ? categories[i] + '<br>' : '+'));
+          }
+        div.innerHTML = labels.join('<br>');
+        return div;
+      }
+      legenda.addTo(layerpeta);
+    }
+  }
+  setlegendPrint(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas);
+  return setlegendPeta;
+}
+
+function setlegendPrint(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas)
+{
+  layerpeta.on("browser-print-start", function(e){
+
+    var daftar = JSON.parse(legendData);
+    var div = L.DomUtil.create('div', 'info legend');
+    var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+
+    for (var x = 0; x < daftar.length; x++)
+    {
+      if (daftar[x].path)
+      {
+        legenda.onAdd = function (layerpeta) {
+          var categories = [judul + ' ' + daftar[x][nama_wil]];
+          if (judul === 'RT') {
+            var categories = [judul + ' ' + daftar[x][nama_wil]  + ' ' + judul_wil_atas + ' ' + daftar[x].rw + ' ' + daftar[x].dusun];
+          }
+          if (judul === 'RW') {
+            var categories = [judul + ' ' + daftar[x][nama_wil] + ' ' + judul_wil_atas + ' ' + daftar[x].dusun];
+          }
+          for (var i = 0; i < categories.length; i++)
+            {
+            div.innerHTML +=
+            labels.push(
+              '<i class="circle" style="background:' + daftar[x].warna + '"></i> ' +
+              (categories[i] ? categories[i] + '<br>' : '+'));
+            }
+          div.innerHTML = labels.join('<br>');
+          return div;
+        }
+        legenda.addTo(e.printMap);
+      }
+    }
+  });
+  return setlegendPrint;
+}
+
+//Menambahkan legend ke peta desa
+function setlegendPetaDesa(legenda, layerpeta, legendData, judul, nama_wil)
+{
+  var daftar = JSON.parse(legendData['path']);
+
+  for (var x = 0; x < daftar.length; x++)
+  {
+    legenda.onAdd = function (layerpeta) {
+      var div = L.DomUtil.create('div', 'info legend');
+      var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+      var categories = [judul + ' ' + legendData['nama_desa']];
+      for (var i = 0; i < categories.length; i++)
+        {
+          div.innerHTML +=
+          labels.push(
+            '<i class="circle" style="background:' + legendData['warna'] + '"></i> ' +
+            (categories[i] ? categories[i] + '<br>' : '+'));
+          }
+        div.innerHTML = labels.join('<br>');
+        return div;
+    }
+    legenda.addTo(layerpeta);
+  }
+
+  layerpeta.on("browser-print-start", function(e){
+    L.control.scale({position: 'bottomleft'}).addTo(e.printMap);
+    legenda.addTo(e.printMap);
+  });
+
+  return setlegendPetaDesa;
+}
+
+//loading Info Box Jumlah Status Covid
 const regions = {
 	indonesia: {
 		id: 1,
@@ -1255,3 +1441,124 @@ $(document).ready(function () {
 
 	}
 })
+
+//loading Peta Sebaran Covid - data geoJSON dari API BNPB-https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
+function peta_covid(mylayer, mymap, img)
+{
+  var peta_covid = $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
+    var datalayer = L.geoJson(data ,{
+      onEachFeature: function (feature, layer) {
+        var custom_icon = L.icon({"iconSize": 32, "iconUrl": img});
+        layer.setIcon(custom_icon);
+        var popup_0 = L.popup({"maxWidth": "100%"});
+        var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+        + '<h4><b>' + feature.properties.Provinsi + '</b></h4>'
+        + '<table><tr>'
+        + '<th style="color:red">Positif&nbsp;&nbsp;</th>'
+        + '<th style="color:green">Sembuh&nbsp;&nbsp;</th>'
+        + '<th style="color:black">Meninggal&nbsp;&nbsp;</th>'
+        + '</tr><tr>'
+        + '<td><center><b style="color:red">' + feature.properties.Kasus_Posi + '</b></center></td>'
+        + '<td><center><b style="color:green">' + feature.properties.Kasus_Semb + '</b></center></td>'
+        + '<td><center><b>' + feature.properties.Kasus_Meni + '</b></center></td>'
+        + '</tr></table></div>')[0];
+        popup_0.setContent(html_a);
+        layer.bindPopup(popup_0, {'className' : 'covid_pop'});
+        layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
+      },
+    });
+    mylayer.addLayer(datalayer);
+  });
+  return peta_covid;
+}
+
+//loading Peta Desa Pengguna OpenSID (Data dari API Server)
+function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
+{
+  var pantau_desa = $.getJSON(tracker_host + '/index.php/api/wilayah/geoprov?token=' + token + '&kode_desa=' + kode_desa, function(data){
+    var datalayer = L.geoJson(data ,{
+      onEachFeature: function (feature, layer) {
+        var custom_icon = L.icon({"iconSize": [16, 16], "iconUrl": img});
+        layer.setIcon(custom_icon);
+        var popup_0 = L.popup({"maxWidth": "100%"});
+        var customOptions = {'maxWidth': '325', 'className' : 'covid_pop'};
+        var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+        + '<h4><b style="color:red">' + feature.properties.desa + '</b></h4>'
+        + '<table>'
+        + '<tr>'
+        + '<td><b style="color:green">Alamat : ' + feature.properties.alamat + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Kecamatan : ' + feature.properties.kec + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Kab/Kota : ' + feature.properties.kab + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Provinsi : ' + feature.properties.prov + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Website : ' + '<a href="' + 'http://' + feature.properties.web + '" + " target=\"_blank\">' + 'http://' + feature.properties.web + '</a>' + '</b></td>'
+        + '</tr>'
+        + '</table></div>')[0];
+        popup_0.setContent(html_a);
+        layer.bindPopup(popup_0, customOptions);
+        layer.bindTooltip(feature.properties.desa, {sticky: true, direction: 'top'});
+      },
+    });
+    layer_desa.addLayer(datalayer);
+    var infodesa = data;
+    var nama_prov = infodesa.nama_provinsi;
+    var jml_desa_prov = infodesa.jml_desa_prov;
+    var lat = infodesa.lat;
+    var lng = infodesa.lng;
+    let attributes = ['nama_prov','jml_desa_prov'];
+    attributes.forEach(function (attr) {
+      $(`.${attr}`).html(eval(attr));
+    })
+
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geokab?token=' + token + '&kode_desa=' + kode_desa,
+        dataType: 'json',
+        success: function(data) {
+          var nama_kab = data.nama_kabupaten;
+          var jml_desa_kab = data.jml_desa_kab;
+          let attributes = ['nama_kab','jml_desa_kab'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geokec?token=' + token + '&kode_desa=' + kode_desa,
+        dataType: 'json',
+        success: function(data) {
+          var nama_kec = data.nama_kecamatan;
+          var jml_desa_kec = data.jml_desa_kec;
+          let attributes = ['nama_kec','jml_desa_kec'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geoneg?token=' + token,
+        dataType: 'json',
+        success: function(data) {
+          var nama_negara = data.nama_negara;
+          var jml_desa = data.jml_desa;
+          let attributes = ['nama_negara','jml_desa'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
+
+  });
+  return pantau_desa;
+}

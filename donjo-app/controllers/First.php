@@ -69,8 +69,6 @@ class First extends Web_Controller {
 			}
 		}
 
-		mandiri_timeout();
-
 		$this->load->model('config_model');
 		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');
@@ -80,6 +78,7 @@ class First extends Web_Controller {
 		$this->load->model('web_menu_model');
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
+		$this->load->model('suplemen_model');
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('web_widget_model');
@@ -91,7 +90,6 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_model');
 		$this->load->model('keuangan_manual_model');
 		$this->load->model('web_dokumen_model');
-		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('keuangan_manual_model');
@@ -101,34 +99,7 @@ class First extends Web_Controller {
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
 		$this->load->model('theme_model');
-	}
-
-	public function auth()
-	{
-		if ($_SESSION['mandiri_wait'] != 1)
-		{
-			$this->first_m->siteman();
-		}
-		if ($_SESSION['mandiri'] == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect();
-		}
-	}
-
-	public function logout()
-	{
-		$this->first_m->logout();
-		redirect();
-	}
-
-	public function ganti()
-	{
-		$this->first_m->ganti();
-		redirect();
+		$this->load->model('anjungan_model');
 	}
 
 	public function index($p=1)
@@ -289,6 +260,40 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function kelompok($id)
+	{
+		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
+
+		$data = $this->includes;
+
+		$data['detail'] = $this->kelompok_model->get_kelompok($id);
+		$data['title'] = 'Data Kelompok '. $data['detail']['nama'];
+		$data['pengurus'] = $this->kelompok_model->list_pengurus($id);
+		$data['anggota'] = $this->kelompok_model->list_anggota($id, $sub='anggota');
+
+		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
+		if ($data['detail'] == NULL) show_404();
+
+		$this->_get_common_data($data);
+		$this->set_template('layouts/kelompok.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function suplemen($id = 0)
+	{
+		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
+
+		$data = $this->includes;
+
+		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
+		$data['title'] = 'Data Suplemen '. $data['main']['suplemen']['nama'];
+		$data['sasaran'] = unserialize(SASARAN);
+
+		$this->_get_common_data($data);
+		$this->set_template('layouts/suplemen.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
 	public function ajax_peserta_program_bantuan()
 	{
 		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
@@ -362,9 +367,8 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['main'] = $this->first_penduduk_m->wilayah();
+		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
-		$data['title'] = $data['heading'];
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
@@ -527,6 +531,7 @@ class First extends Web_Controller {
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
 		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+		$data['cek_anjungan'] = $this->anjungan_model->cek_anjungan();
 
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
@@ -620,5 +625,34 @@ class First extends Web_Controller {
 		{
 			echo $content;
 		}
+	}
+
+	public function status_idm()
+	{
+		if (!$this->web_menu_model->menu_aktif('status_idm')) show_404();
+
+		$data = $this->includes;
+		$this->load->library('data_publik');
+		$this->_get_common_data($data);
+		$kode_desa = $data['desa']['kode_desa'];
+		if ($this->data_publik->has_internet_connection())
+		{
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
+				->set_interval(7)
+				->set_cache_folder(FCPATH.'desa');
+
+			$idm = $this->data_publik->get_url_content();
+			if ($idm->body->error)
+			{
+				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" .
+					"Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
+			}
+			$data['idm'] = $idm->body->mapData;
+		}
+
+		$data['halaman_statis'] = 'home/idm';
+
+		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
+		$this->load->view($this->template, $data);
 	}
 }

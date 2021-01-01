@@ -37,7 +37,7 @@
         <a href="<?= site_url();?>mandiri_web/mandiri/1/3">
           <button type="button" class="btn btn-primary btn-block nowrap">
             <i class="fa fa-envelope-o"></i><span>Kotak Pesan</span>
-          <span class="badge" id="b_pesan" title="Pesan baru" style="display: none;"></span>
+            <span class="badge" id="b_pesan" title="Pesan baru" style="display: none;"></span>
           </button>
         </a>
       </h4>
@@ -47,13 +47,25 @@
     <td><h4><a href="<?= site_url();?>mandiri_web/mandiri_surat" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-file"></i>Permohonan Surat</button></a></h4></td>
   </tr>
   <tr>
-    <td><h4><a href="<?= site_url();?>mandiri_web/mandiri/1/2" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-history"></i>Riwayat Layanan / Status Permohonan Surat</button></a> </h4></td>
+    <td>
+      <h4>
+        <a href="<?= site_url();?>mandiri_web/mandiri/1/2" class="">
+          <button type="button" class="btn btn-primary btn-block nowrap">
+            <i class="fa fa-history"></i><span>Riwayat Layanan / <br>Status Permohonan Surat</span>
+            <span class="badge" id="b_surat" title="Surat perlu perhatian" style="display: none;"></span>
+          </button>
+        </a>
+      </h4>
+    </td>
   </tr>
   <tr>
     <td><h4><a href="<?= site_url();?>mandiri_web/mandiri/1/4" class=""><button type="button" class="btn btn-primary btn-block"><i class="fa fa-handshake-o"></i>Program Bantuan</button></a></h4></td>
   </tr>
   <tr>
-    <td><h4><a href="<?= site_url('logout');?>"  class=""><button type="button" class="btn btn-danger btn-block"><i class="fa fa-sign-out"></i>Keluar</button></a></h4></td>
+    <td><h4><a href="<?= site_url();?>mandiri_web/ganti_pin" class=""><button type="button" class="btn btn-warning btn-block"><i class="fa fa-key"></i>Ganti PIN</button></a></h4></td>
+  </tr>
+  <tr>
+    <td><h4><a href="<?= site_url();?>mandiri_web/logout"  class=""><button type="button" class="btn btn-danger btn-block"><i class="fa fa-sign-out"></i>Keluar</button></a></h4></td>
   </tr>
 </table>
 
@@ -64,6 +76,7 @@
     setTimeout(function()
     {
       refresh_badge($("#b_pesan"), "<?= site_url('notif_web/inbox'); ?>");
+      refresh_badge($("#b_surat"), "<?= site_url('notif_web/surat_perlu_perhatian'); ?>");
     }, 500);
   });
 

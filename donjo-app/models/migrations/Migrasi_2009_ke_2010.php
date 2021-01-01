@@ -61,6 +61,11 @@ class Migrasi_2009_ke_2010 extends MY_model {
 							");
 		$hasil =& $this->db->query('ALTER TABLE tweb_desa_pamong MODIFY COLUMN pamong_niap varchar(25) default 0');
 		status_sukses($hasil);
+
+		// Migrasi fitur premium
+		$migrasi = 'migrasi_fitur_premium_2010';
+  	$this->load->model('migrations/'.$migrasi);
+  	$this->$migrasi->up();
 	}
 
 }

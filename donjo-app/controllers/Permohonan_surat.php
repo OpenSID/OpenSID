@@ -49,7 +49,6 @@ class Permohonan_surat extends Mandiri_Controller {
 		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
 		$this->load->model('keluar_model');
-		$this->load->model('config_model');
 		$this->load->model('referensi_model');
 		$this->load->model('penomoran_surat_model');
 		$this->load->model('permohonan_surat_model');
@@ -81,12 +80,15 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->get_data_untuk_form($url, $data);
+		$data['desa'] = $this->header['desa'];
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['views_partial_layout'] = "surat/form_surat.php";
 		$data['data'] = $data;
+		$data['cek_anjungan'] = $this->cek_anjungan;
+
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
@@ -119,7 +121,7 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['input'] = $this->input->post();
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-		$data['lokasi'] = $this->config_model->get_data();
+		$data['lokasi'] = $this->header['desa'];
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();

@@ -97,17 +97,6 @@
 			});
 		</script>
 		<?php $_SESSION['success']=0; ?>
-
-		<!-- Notifikasi PIN Warga -->
-		<script type="text/javascript">
-			<?php if ($_SESSION['pin']): ?>
-				$(window).on('load', function()
-				{
-					$('#pinBox').modal('show');
-				});
-				<?php unset($_SESSION['pin']) ?>
-			<?php endif ?>
-		</script>
 	</body>
 </html>
 

@@ -68,8 +68,6 @@ class Migrasi_2011_ke_2012 extends MY_model {
 			$hasil = $this->dbforge->add_column('tweb_surat_format', $fields);
 		}
 
-		status_sukses($hasil);
-
 		// Pengaturan Token TrackSID
 		if ( ! $this->db->field_exists('token_opensid', 'setting_aplikasi'))
 		{
@@ -77,8 +75,20 @@ class Migrasi_2011_ke_2012 extends MY_model {
 				INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
 				(43, 'token_opensid', '', 'Token OpenSID', '', 'sistem')
 				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
-			$this->db->query($query);
+			$hasil =& $this->db->query($query);
   	}
 
+		// Migrasi fitur premium
+		// Jalankan juga migrasi versi-versi sebelumnya, karena migrasi dari rllis umum belum menjalankan
+  	$daftar_migrasi_premium = ['2009', '2010', '2011', '2012'];
+  	foreach ($daftar_migrasi_premium as $migrasi)
+  	{
+  		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+  		$file_migrasi = 'migrations/'.$migrasi_premium;
+			$this->load->model($file_migrasi);
+			$this->$migrasi_premium->up();
+  	}
+		status_sukses($hasil);
+		return $hasil;
 	}
 }

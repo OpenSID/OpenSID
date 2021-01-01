@@ -27,12 +27,23 @@
 								<?php endforeach; ?>
 							</select>
 						</div>
+						<?php if ($kat == 3): ?>
+							<div class="form-group">
+								<label class="control-label">Jenis Peraturan</label>
+									<select class="form-control input-sm select" name="jenis_peraturan" style="width: 100%;">
+										<option value=''>-- Pilih Jenis Peraturan --</option>
+										<?php foreach ($jenis_peraturan as $item): ?>
+											<option value="<?= $item ?>"><?= $item?></option>
+										<?php endforeach;?>
+									</select>
+							</div>
+						<?php endif; ?>
 						<div class="form-group">
 							<label class="control-label">Pamong tertanda</label>
 							<select class="form-control input-sm jenis_link required" name="pamong_ttd">
 								<option value="">Pilih Staf Penandatangan</option>
 								<?php foreach ($pamong AS $data): ?>
-									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']), 'sekretaris')!==false): ?> selected <?php endif; ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
+									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php (strpos(strtolower($data['jabatan']), 'sekretaris')!==false) and print('selected'); ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach; ?>
 							</select>
 							<input type="hidden" name="jabatan_ttd">
@@ -42,7 +53,7 @@
 							<select class="form-control input-sm jenis_link required"  name="pamong_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
 								<?php foreach ($pamong AS $data): ?>
-									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php if (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false): ?>selected<?php endif; ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
+									<option value="<?= $data['nama']?>" data-jabatan="<?= trim($data['jabatan'])?>" <?php (strpos(strtolower($data['jabatan']),'kepala')!==false and strpos(strtolower($data['jabatan']),'dusun')===false) and print('selected'); ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach;?>
 							</select>
 							<input type="hidden" name="jabatan_ketahui">

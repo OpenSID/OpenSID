@@ -48,9 +48,9 @@ class Pengurus extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['pamong_model', 'penduduk_model', 'config_model', 'referensi_model']);
-		$this->modul_ini = 200;
-		$this->sub_modul_ini = 18;
+		$this->load->model(['pamong_model', 'penduduk_model', 'config_model', 'referensi_model', 'wilayah_model']);
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 302;
 		$this->_set_page = ['20', '50', '100'];
 		$this->_list_session = ['status', 'cari'];
 	}
@@ -70,8 +70,7 @@ class Pengurus extends Admin_Controller {
 		}
 
 		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
+		if (isset($per_page)) $this->session->per_page = $per_page;
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -79,9 +78,15 @@ class Pengurus extends Admin_Controller {
 		$data['paging'] = $this->pamong_model->paging($p);
 		$data['main'] = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->pamong_model->autocomplete();
+		$data['main_content'] = 'home/pengurus';
+		$data['subtitle'] = "Buku Aparat Pemerintah Desa";
+		$data['selected_nav'] = 'aparat';
 		$this->set_minsidebar(1);
 
-		$this->render('home/pengurus', $data);
+		$this->load->view('header', $this->header);
+		$this->load->view('nav');
+		$this->load->view('bumindes/umum/main', $data);
+		$this->load->view('footer');
 	}
 
 	public function form($id = 0)
@@ -99,7 +104,7 @@ class Pengurus extends Admin_Controller {
 			$data['pamong'] = NULL;
 			$data['form_action'] = site_url("pengurus/insert");
 		}
-
+		$data['atasan'] = $this->pamong_model->list_atasan($id);
 		$data['penduduk'] = $this->pamong_model->list_penduduk();
 		$data['pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
@@ -193,5 +198,36 @@ class Pengurus extends Admin_Controller {
 		$data['main'] = $this->pamong_model->list_data();
 
 		$this->load->view('home/'.$aksi, $data);
+	}
+
+	public function bagan($ada_bpd = '')
+	{
+		$data['desa'] = $this->config_model->get_data();
+		$data['bagan'] = $this->pamong_model->list_bagan();
+		$data['ada_bpd'] = ! empty($ada_bpd);
+		$this->render('home/bagan', $data);
+	}
+
+	public function atur_bagan()
+	{
+		$data['atasan'] = $this->pamong_model->list_atasan();
+		$data['form_action'] = site_url("pengurus/update_bagan");
+		$this->load->view('home/ajax_atur_bagan', $data);
+	}
+
+	public function update_bagan()
+	{
+		$post = $this->input->post();
+		$this->pamong_model->update_bagan($post);
+		redirect('pengurus');
+	}
+
+	public function atur_bagan_layout()
+	{
+		$data['judul'] = 'Atur Ukuran Bagan';
+		$data['list_setting'] = 'list_setting_bagan';
+		$this->setting_model->load_options();
+
+		$this->load->view('home/ajax_atur_bagan_layout', $data);
 	}
 }
