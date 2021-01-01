@@ -8,11 +8,11 @@
 		plugins: [
 					"advlist autolink link image lists charmap print preview hr anchor pagebreak",
 					"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code laporan_keuangan penerima_bantuan"
+					"table contextmenu directionality emoticons paste textcolor responsivefilemanager code laporan_keuangan penerima_bantuan sotk"
 		],
 		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
 		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor | print preview code | fontselect fontsizeselect",
-		toolbar3: "| laporan_keuangan | penerima_bantuan",
+		toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
 		image_advtab: true ,
 		external_filemanager_path:"<?= base_url()?>assets/filemanager/",
 		filemanager_title:"Responsive Filemanager" ,

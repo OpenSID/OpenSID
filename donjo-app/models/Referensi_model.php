@@ -54,6 +54,12 @@ define("MASA_BERLAKU", serialize([
 	"y" => "Tahun"
 ]));
 
+define("JENIS_PERATURAN_DESA", serialize([
+	"Peraturan Desa (Perdes)",
+	"Peraturan Kepala Desa (Perkades)",
+	"Peraturan Bersama Kepala Desa"
+]));
+
 define("KATEGORI_PUBLIK", serialize([
 	"Informasi Berkala" => "1",
 	"Informasi Serta-merta" => "2",
@@ -78,6 +84,7 @@ define("LINK_TIPE", serialize([
 	'4' => 'Statistik Program Bantuan',
 	'5' => 'Halaman Statis Lainnya',
 	'6' => 'Artikel Keuangan',
+	'7' => 'Kelompok',
 	'99' => 'Eksternal'
 ]));
 

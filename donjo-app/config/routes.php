@@ -85,3 +85,38 @@ $route['ganti'] = 'first/ganti';
 $route['auth'] = 'first/auth';
 $route['peta'] = 'first/peta';
 $route['informasi_publik'] = 'first/informasi_publik';
+
+$route['bumindes_umum/([a-z_]+)/(:any)'] = "buku_umum/bumindes_umum/$1/$2";
+$route['bumindes_umum/([a-z_]+)'] = "buku_umum/bumindes_umum/$1";
+$route['bumindes_umum'] = "buku_umum/bumindes_umum";
+
+$route['pengurus/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3/$4";
+$route['pengurus/([a-z_]+)/(:any)/(:any)'] = "buku_umum/pengurus/$1/$2/$3";
+$route['pengurus/([a-z_]+)/(:any)'] = "buku_umum/pengurus/$1/$2";
+$route['pengurus/([a-z_]+)'] = "buku_umum/pengurus/$1";
+$route['pengurus'] = "buku_umum/pengurus";
+
+$route['surat_keluar/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/surat_keluar/$1/$2/$3/$4";
+$route['surat_keluar/([a-z_]+)/(:any)/(:any)'] = "buku_umum/surat_keluar/$1/$2/$3";
+$route['surat_keluar/([a-z_]+)/(:any)'] = "buku_umum/surat_keluar/$1/$2";
+$route['surat_keluar/([a-z_]+)'] = "buku_umum/surat_keluar/$1";
+$route['surat_keluar'] = "buku_umum/surat_keluar";
+
+$route['ekspedisi/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/ekspedisi/$1/$2/$3/$4";
+$route['ekspedisi/([a-z_]+)/(:any)/(:any)'] = "buku_umum/ekspedisi/$1/$2/$3";
+$route['ekspedisi/([a-z_]+)/(:any)'] = "buku_umum/ekspedisi/$1/$2";
+$route['ekspedisi/([a-z_]+)'] = "buku_umum/ekspedisi/$1";
+$route['ekspedisi'] = "buku_umum/ekspedisi";
+
+$route['surat_masuk/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/surat_masuk/$1/$2/$3/$4";
+$route['surat_masuk/([a-z_]+)/(:any)/(:any)'] = "buku_umum/surat_masuk/$1/$2/$3";
+$route['surat_masuk/([a-z_]+)/(:any)'] = "buku_umum/surat_masuk/$1/$2";
+$route['surat_masuk/([a-z_]+)'] = "buku_umum/surat_masuk/$1";
+$route['surat_masuk'] = "buku_umum/surat_masuk";
+
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3/$4/$5";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3/$4";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3";
+$route['dokumen_sekretariat/([a-z_]+)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2";
+$route['dokumen_sekretariat/([a-z_]+)'] = "buku_umum/dokumen_sekretariat/$1";
+$route['dokumen_sekretariat'] = "buku_umum/dokumen_sekretariat";

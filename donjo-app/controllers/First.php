@@ -288,6 +288,24 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function kelompok($id)
+	{
+		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
+
+		$data = $this->includes;
+
+		$data['detail'] = $this->kelompok_model->get_kelompok($id);
+		$data['anggota'] = $this->kelompok_model->list_anggota($id);
+
+		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
+		if ($data['detail'] == NULL) show_404();
+
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/kelompok.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
 	public function ajax_peserta_program_bantuan()
 	{
 		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
@@ -361,9 +379,8 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['main'] = $this->first_penduduk_m->wilayah();
+		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
-		$data['title'] = $data['heading'];
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
