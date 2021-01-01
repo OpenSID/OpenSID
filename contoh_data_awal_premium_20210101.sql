@@ -7630,7 +7630,6 @@ INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1611, 97, 46, 51, 37, '2020-12-31 08:52:09', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1612, 97, 46, 51, 37, '2021-01-01 00:10:03', 28, 9, 0, 0);
 
-
 #
 # TABLE STRUCTURE FOR: log_ekspor
 #
