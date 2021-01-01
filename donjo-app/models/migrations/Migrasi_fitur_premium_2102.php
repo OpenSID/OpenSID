@@ -50,7 +50,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		$hasil =& $this->pengaturan_latar();
+		$hasil =& $this->pengaturan_latar($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
