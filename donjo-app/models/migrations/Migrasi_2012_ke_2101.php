@@ -49,13 +49,6 @@ class Migrasi_2012_ke_2101 extends MY_model {
 	{
 		$hasil = true;
 
-		$hasil =& $this->pengaturan_latar($hasil);
-
-		status_sukses($hasil);
-	}
-
-	private function pengaturan_latar($hasil)
-	{
 		// Tambah menu Layanan Mandiri > Pengaturan
 		$query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
@@ -67,25 +60,22 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Tambahkan key layanan_mandiri
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-
 		// Ubah isi field pd tabel kelompok jd unik, kode = kode_id
 		$hasil =& $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
 		// Field unik pd tabel kelompok
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
-		$old = "desa/css";
-		$new = "desa/pengaturan";
+		// Migrasi fitur premium
+  	$daftar_migrasi_premium = ['2009', '2010', '2011', '2012', '2101', '2102'];
+  	foreach ($daftar_migrasi_premium as $migrasi)
+  	{
+  		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+  		$file_migrasi = 'migrations/'.$migrasi_premium;
+			$this->load->model($file_migrasi);
+			$hasil =& $this->$migrasi_premium->up();
+  	}
 
-		if (is_dir($old))
-		{
-			// Ubah nama folder desa/csss jadi desa/pengaturan
-			rename($old, $new);
-		}
-		// Buat folder untuk latar
-		mkdir($new . "/siteman/images", 0775, true);
-		mkdir($new . "/klasik/images", 0775, true);
-		mkdir($new . "/natra/images", 0775, true);
+		status_sukses($hasil);
 		return $hasil;
 	}
-
 }

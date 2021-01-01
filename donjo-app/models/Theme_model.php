@@ -33,7 +33,9 @@
 
 	public function lokasi_latar_website()
 	{
-		return "desa/pengaturan/{$this->theme}/images/";
+		$folder = "desa/pengaturan/{$this->theme}/images/";
+		mkdir($folder, 0775, true);
+		return $folder;
 	}
 
 	public function latar_login()
