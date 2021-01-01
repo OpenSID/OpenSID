@@ -1,8 +1,8 @@
-Di rilis ini, versi 20.12-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.01-premium tersedia sinkronisasi data penduduk ke OpenDK menggunakan API. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo, Rudy Purwanto, Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 20.12-premium-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.01-premium adalah sebagai berikut:
 
 1. #3762: Sekarang judul artikel di tampilan web tema hadakewa tidak lagi default huruf besar semua.
 2. #3615: Teruskan penghapusan 'first' dari panggilan modul web dan layanan mandiri. [teknis]
@@ -46,5 +46,5 @@ Fitur Premium:
 5. Sinkronkan data penduduk ke OpenDK menggunakan API yg disediakan OpenDK.
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.12-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
