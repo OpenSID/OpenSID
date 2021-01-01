@@ -74,10 +74,10 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td><?= 'Nomor '.$data['attr']['no_kep_kades'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_kep_kades'])?></td>
+							<td><?= 'Nomor '.strip_kosong($data['attr']['no_kep_kades']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_kep_kades'])?></td>
 							<td><?= $data['nama']?></td>
 							<td><?= $data['attr']['uraian']?></td>
-							<td><?= 'Nomor '.$data['attr']['no_lapor'].", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lapor'])?></td>
+							<td><?= 'Nomor '.strip_kosong($data['attr']['no_lapor']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lapor'])?></td>
 							<td><?= $data['attr']['keterangan']?></td>
 						</tr>
 						<?php endforeach; ?>

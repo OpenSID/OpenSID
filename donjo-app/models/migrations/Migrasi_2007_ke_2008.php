@@ -47,6 +47,9 @@ class Migrasi_2007_ke_2008 extends CI_model {
 
 	public function up()
 	{
+		// Buat kolom nama dokumen lebih panjang
+		$this->db->query("ALTER TABLE dokumen MODIFY COLUMN nama varchar(100) NOT NULL");
+
 		$this->ubah_data_persil();
 		$this->tambah_simbol_lokasi();
 		$this->buat_folder_simbol_lokasi();

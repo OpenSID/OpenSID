@@ -121,44 +121,52 @@ class Web_dokumen_model extends MY_Model {
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($cari = $this->session->cari)
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (satuan LIKE '$kw' OR nama LIKE '$kw')";
-			return $search_sql;
+			$cari = $this->db->escape_like_str($cari);
+			$this->db
+				->group_start()
+					->like('satuan', $cari)
+					->or_like('nama', $cari)
+				->group_end();
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if ($filter = $this->session->filter)
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql= " AND enabled = $kf";
-			return $filter_sql;
+			$this->db->where('enabled', $filter);
+		}
+	}
+
+	private function jenis_peraturan_sql($kat)
+	{
+		// Jenis peraturan ada di kolom attr dalam bentuk json
+		if ($kat == 3 and ($jenis = $this->session->jenis_peraturan))
+		{
+			$attr = '"jenis_peraturan":"'.$jenis.'"';
+			$this->db->like('attr', $attr, 'both', false);
 		}
 	}
 
 	private function list_data_sql($kat)
 	{
-		$sql = " FROM dokumen_hidup WHERE id_pend = 0";
+		$this->db->from('dokumen_hidup')
+			->where('id_pend', 0);
 		// $kat == 1 adalah informasi publik dan mencakup juga jenis dokumen lain termasuk SK Kades dan Perdes
-		if ($kat != '1')
-			$sql .= " AND kategori = ".$kat;
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		return $sql;
+		if ($kat != '1') $this->db->where('kategori', $kat);
+		$this->search_sql();
+		$this->filter_sql();
+		$this->jenis_peraturan_sql($kat);
 	}
 
 	public function paging($kat, $p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(*) AS jml".$this->list_data_sql($kat);
-		$sql .= $this->search_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		$this->list_data_sql($kat);
+		$jml_data = $this->db
+			->select('COUNT(*) as jml')
+			->get()->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -171,25 +179,23 @@ class Web_dokumen_model extends MY_Model {
 
 	function list_data($kat, $o=0, $offset=0, $limit=500)
 	{
+		$this->list_data_sql($kat);
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY nama'; break;
-			case 2: $order_sql = ' ORDER BY nama DESC'; break;
-			case 3: $order_sql = ' ORDER BY enabled'; break;
-			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
-			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
-			default:$order_sql = ' ORDER BY id';
+			case 1: $order = ' nama'; break;
+			case 2: $order = ' nama DESC'; break;
+			case 3: $order = ' enabled'; break;
+			case 4: $order = ' enabled DESC'; break;
+			case 5: $order = ' tgl_upload'; break;
+			case 6: $order = ' tgl_upload DESC'; break;
+			default:$order = ' id';
 		}
-
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		$sql = "SELECT * ".$this->list_data_sql($kat);
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('*')
+			->order_by($order)
+			->limit($limit, $offset)
+			->get()
+			->result_array();
 
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -279,28 +285,24 @@ class Web_dokumen_model extends MY_Model {
 	{
 		$retval = true;
 		$post = $this->input->post();
-		$satuan = $this->upload_dokumen($post);
-		if ($satuan)
+		$data = $this->validasi($post);
+		if (!empty($post['satuan'])) $data['satuan'] = $this->upload_dokumen($post);
+		$data['attr'] = json_encode($data['attr']);
+		$data['dok_warga'] = isset($post['dok_warga']);
+		// Dari layanan mandiri gunakan NIK penduduk
+		$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
+
+		unset($data['anggota_kk']);
+		$retval &= $this->db->insert('dokumen', $data);
+		$insert_id = $this->db->insert_id();
+
+		if ($retval)
 		{
-			$data = $this->validasi($post);
-			$data['satuan'] = $satuan;
-			$data['attr'] = json_encode($data['attr']);
-			$data['dok_warga'] = isset($post['dok_warga']);
-			// Dari layanan mandiri gunakan NIK penduduk
-			$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
-
-			unset($data['anggota_kk']);
-			$retval &= $this->db->insert('dokumen', $data);
-			$insert_id = $this->db->insert_id();
-
-			if ($retval)
+			$data['id_parent'] = $insert_id;
+			foreach ($post['anggota_kk'] as $key => $value)
 			{
-				$data['id_parent'] = $insert_id;
-				foreach ($post['anggota_kk'] as $key => $value)
-				{
-					$data['id_pend'] = $value;
-					$retval &= $this->db->insert('dokumen', $data);
-				}
+				$data['id_pend'] = $value;
+				$retval &= $this->db->insert('dokumen', $data);
 			}
 		}
 		return $retval;
@@ -573,7 +575,7 @@ class Web_dokumen_model extends MY_Model {
 		return $list_tahun;
 	}
 
-	public function data_cetak($kat=1, $tahun='')
+	public function data_cetak($kat=1, $tahun='', $jenis_peraturan='')
 	{
 		if (!empty($tahun))
 		{
@@ -597,6 +599,13 @@ class Web_dokumen_model extends MY_Model {
 					$this->db->where("attr REGEXP '" . $regex . "'");
 					break;
 			}
+		}
+		// Filter jenis peraturan hanya untuk peraturan desa
+		if ($kat == 3 and $jenis_peraturan)
+		{
+			$like = '"jenis_peraturan":"'.$jenis_peraturan.'"';
+			// $this->db->where("attr REGEXP '" . $regex . "'");
+			$this->db->like('attr', $like, 'both', false);
 		}
 		# Informasi publik termasuk kategori lainnya
 		if ($kat != '1') $this->db->where('kategori', $kat);
