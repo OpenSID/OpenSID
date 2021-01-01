@@ -372,15 +372,20 @@ class Penduduk extends Admin_Controller {
 
 	public function ajax_adv_search()
 	{
-		$data = [
-			'form_action' => site_url("penduduk/adv_search_proses"),
-			'list_agama' => $this->referensi_model->list_data('tweb_penduduk_agama'),
-			'list_pendidikan' => $this->referensi_model->list_data('tweb_penduduk_pendidikan'),
-			'list_pendidikan_kk' => $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk'),
-			'list_pekerjaan' => $this->referensi_model->list_data('tweb_penduduk_pekerjaan'),
-			'list_status_kawin' => $this->referensi_model->list_data('tweb_penduduk_kawin'),
-			'list_status_penduduk' => $this->referensi_model->list_data('tweb_penduduk_status')
-		];
+		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+
+		foreach ($list_session as $session)
+		{
+			$data[$session] = $this->session->userdata($session) ?: '';
+		}
+
+		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
+		$data['list_pendidikan'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
+		$data['list_pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
+		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
+		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
+		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['form_action'] = site_url("penduduk/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
 	}
