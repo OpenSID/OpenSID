@@ -107,5 +107,4 @@ class Mandiri_login extends Web_Controller
 		}
 
 	}
-
 }

@@ -21,5 +21,30 @@
 		return $list_tema;
 	}
 
+	public function latar_website()
+	{
+		$ubahan = "desa/pengaturan/{$this->theme}/images/latar_website.jpg";
+		$bawaan = "$this->theme_folder/$this->theme/assets/css/images/latar_website.jpg";
+		$default = "assets/front/css/images/latar_website.jpg";
+		$latar_website = is_file($ubahan) ? $ubahan : $bawaan;
+		$latar_website = is_file($latar_website) ? $latar_website : $default;
+		return $latar_website;
+	}
+
+	public function lokasi_latar_website()
+	{
+		$folder = "desa/pengaturan/{$this->theme}/images/";
+		mkdir($folder, 0775, true);
+		return $folder;
+	}
+
+	public function latar_login()
+	{
+		$ubahan = LATAR_LOGIN . "latar_login.jpg";
+		$default = "assets/css/images/latar_login.jpg";
+		$latar_login = is_file($ubahan) ? $ubahan : $default;
+		return $latar_login;
+	}
+
 }
 ?>

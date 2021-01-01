@@ -39,7 +39,6 @@ class Bumindes_lain extends Admin_Controller {
 		$data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
 
 		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
 
 		$this->load->view('header', $header);
 		$this->load->view('nav');
@@ -65,7 +64,7 @@ class Bumindes_lain extends Admin_Controller {
 
 	private function load_inventaris_data_tables($page_number=1, $offset=0)
 	{
-		$data['main_content'] = "Bumindes_lain/lain/content_inventaris";
+		$data['main_content'] = "bumindes/lain/content_inventaris";
 		$data['subtitle'] = "Buku Inventaris dan Kekayaan Desa";
 
 		return $data;

@@ -47,22 +47,17 @@ class Surat_keluar extends Admin_Controller {
 		parent::__construct();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
-		$this->load->model('surat_keluar_model');
-		$this->load->model('klasifikasi_model');
-		$this->load->model('config_model');
-		$this->load->model('pamong_model');
-
-		$this->load->model('penomoran_surat_model');
+		$this->load->model(['surat_keluar_model', 'klasifikasi_model', 'config_model', 'pamong_model', 'penomoran_surat_model']);
+		$this->list_session = ['cari', 'filter'];
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 	}
 
 	public function clear($id = 0)
 	{
-		$_SESSION['per_page'] = 20;
-		$_SESSION['surat'] = $id;
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		$this->session->per_page = 20;
+		$this->session->surat = $id;
+		$this->session->unset_userdata($this->list_session);
 		redirect('surat_keluar');
 	}
 
@@ -71,18 +66,18 @@ class Surat_keluar extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
+		if ($this->session->has_userdata('cari'))
+			$data['cari'] = $this->session->cari;
 		else $data['cari'] = '';
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
+		if ($this->session->has_userdata('filter'))
+			$data['filter'] = $this->session->filter;
 		else $data['filter'] = '';
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
+		if ($this->session->has_userdata('per_page'))
+			$this->session->per_page = $this->input->post('per_page');
 
-		$data['per_page'] = $_SESSION['per_page'];
+		$data['per_page'] = $this->session->per_page;
 		$data['paging'] = $this->surat_keluar_model->paging($p, $o);
 		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
@@ -138,16 +133,16 @@ class Surat_keluar extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+			$this->session->cari = $cari;
+		else $this->session->unset_userdata('cari');
 		redirect('surat_keluar');
 	}
 
 	public function filter()
 	{
 		$filter = $this->input->post('filter');
-		if ($filter != 0) $_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		if ($filter != 0) $this->session->filter = $filter;
+		else $this->session->unset_userdata('filter');
 		redirect('surat_keluar');
 	}
 
@@ -203,10 +198,10 @@ class Surat_keluar extends Admin_Controller {
 
 	public function cetak($o = 0)
 	{
-		$data['input'] = $_POST;
-		$_SESSION['filter'] = $data['input']['tahun'];
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+		$data['input'] = $this->input->post();
+		$this->session->filter = $data['input']['tahun'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($data['input']['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
 		$this->load->view('surat_keluar/surat_keluar_print', $data);
@@ -214,10 +209,10 @@ class Surat_keluar extends Admin_Controller {
 
 	public function unduh($o = 0)
 	{
-		$data['input'] = $_POST;
-		$_SESSION['filter'] = $data['input']['tahun'];
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+		$data['input'] = $this->input->post();
+		$this->session->filter = $data['input']['tahun'];
+		$data['pamong_ttd'] = $this->pamong_model->get_data($data['input']['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->surat_keluar_model->list_data($o, 0, 10000);
 		$this->load->view('surat_keluar/surat_keluar_excel', $data);
@@ -237,10 +232,10 @@ class Surat_keluar extends Admin_Controller {
 
 	public function nomor_surat_duplikat()
 	{
-		if ($_POST['nomor_urut'] == $_POST['nomor_urut_lama'])
+		if ($this->input->post('nomor_urut') == $this->input->post('nomor_urut_lama'))
 			$hasil = false;
 		else
-			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $_POST['nomor_urut']);
+			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $this->input->post('nomor_urut'));
    	echo $hasil ? 'false' : 'true';
 	}
 

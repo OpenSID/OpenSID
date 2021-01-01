@@ -59,8 +59,8 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
-		<?php if (is_file("desa/css/siteman.css")): ?>
-			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php if (is_file("desa/pengaturan/siteman/siteman.css")): ?>
+			<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<?php if (is_file(LOKASI_LOGO_DESA ."favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
@@ -73,7 +73,7 @@
 		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
-	<body class="login">
+	<body class="login" style="background: url('<?= base_url($latar_login) ?>')">
 		<div class="top-content">
 			<div class="inner-bg">
 				<div class="container">
