@@ -565,7 +565,8 @@ class Keluarga extends Admin_Controller {
 
 		$data = [
 			'form_action' => site_url("keluarga/program_bantuan_proses"),
-			'program_bantuan' => $list_bantuan['program']
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->bantuan_keluarga
 		];
 
 		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);

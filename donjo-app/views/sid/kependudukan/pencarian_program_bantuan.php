@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<select class="form-control input-sm" name="program_bantuan">
 				<option value="">Pilih Program Bantuan</option>
 				<?php foreach ($program_bantuan AS $data): ?>
-					<option value="<?= $data['id']?>"><?= $data['nama']; ?></option>
+					<option value="<?= $data['id']?>" <?= selected($id_program, $data['id']); ?>><?= $data['nama']; ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>

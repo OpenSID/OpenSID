@@ -762,7 +762,8 @@ class Penduduk extends Admin_Controller {
 
 		$data = [
 			'form_action' => site_url("penduduk/program_bantuan_proses"),
-			'program_bantuan' => $list_bantuan['program']
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->penerima_bantuan
 		];
 
 		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
