@@ -7,5 +7,10 @@ Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
 
 
+Fitur Premium:
+
+1. Sediakan pengaturan latar belakang halaman login dan tema klasik/hadakewa.
+
+
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
