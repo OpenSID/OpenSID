@@ -30,7 +30,7 @@ Lengkapnya, isi rilis versi 21.01-premium adalah sebagai berikut:
 24. Kode wilayah di tampilan Identitas Desa sekarang menggunakan format baku bertitik.
 25. Perbaiki tampilkan panduan Program Bantuan. [bug-fix]
 
-Fitur v20.09-premium yg digabung:
+Fitur v20.09-premium yg digabung ke rilis umum:
 
 1. #3442, #3443: Tampilkan daftar perangkat dan jumlah penduduk pada semua dusun/rw/rt dalam satu laporan.
 2. #3465: Sekarang data kelompok bisa ditampilkan di web melalui menu statis.
