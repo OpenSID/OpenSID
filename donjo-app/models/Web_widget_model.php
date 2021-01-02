@@ -336,24 +336,13 @@
 		$this->load->model('theme_model');
 		$tema_desa = $this->theme_model->list_all();
 		$list_widget = array();
-		$widget_desa = $this->widget(LOKASI_WIDGET.'*.php');
+		$widget_desa = $this->widget(LOKASI_WIDGET . '*.php');
 		$list_widget = array_merge($list_widget, $widget_desa);
 
 		foreach ($tema_desa as $tema)
 		{
-			$tema = 'themes/' . str_replace('desa/', '', $tema);
-
-			if($tema !== 'themes/klasik' OR $tema !== 'themes/natra')
-			{
-				$list = $this->widget($tema . '/widgets/*.php');
-			}
-			else
-			{
-				$list = $this->widget('desa/ ' . $tema . '/widgets/*.php');
-			}
-
-
-
+			$tema = str_replace('themes/desa/', 'desa/', 'themes/' . $tema);
+			$list = $this->widget($tema . '/widgets/*.php');
 			$list_widget = array_merge($list_widget, $list);
 		}
 
