@@ -95,12 +95,6 @@ class Sid_Core extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("sid_core/daftar/$aksi");
 		$this->load->view('global/ttd_pamong', $data);
-
-		// $data['header'] = $this->header['desa'];
-		// $data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
-		// $data['total'] = $this->wilayah_model->total();
-
-		// $this->load->view('sid/wilayah/wilayah_print', $data);
 	}
 
 	/*

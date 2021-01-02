@@ -43,6 +43,13 @@
  */
 ?>
 
+<style type="text/css">
+	<?php if ($latar_website): ?>
+		body {
+			background-image: url('<?= base_url($latar_website) ?>') !important;
+		}
+	<?php endif; ?>
+</style>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -79,14 +86,15 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		<!-- CSS global theme -->
 		<link type='text/css' href="<?= base_url()?>assets/front/css/first.css" rel='Stylesheet' />
-
-		<!-- Styles untuk tema dan penyesuaiannya di folder desa -->
-		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css'?>" rel='Stylesheet' />
-		<?php if (is_file("desa/css/".$this->theme."/desa-web.css")): ?>
-			<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
+		<!-- Styles untuk masing2 tema dan penyesuaiannya di folder desa -->
+		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/assets/css/pengaturan.css'?>" rel='Stylesheet' />
+		<?php if ($this->theme_folder == "themes"): ?>
+			<link type='text/css' href="<?= base_url("desa/pengaturan/$this->theme/desa-web.css"); ?>" rel='Stylesheet' />
+		<?php else: ?>
+			<link type='text/css' href="<?= base_url("$this->theme_folder/$this->theme/assets/css/desa-web.css"); ?>" rel='Stylesheet' />
 		<?php endif; ?>
-
 		<link type='text/css' href="<?= base_url()?>assets/css/font-awesome.min.css" rel='Stylesheet' />
 		<link type='text/css' href="<?= base_url()?>assets/css/ui-buttons.css" rel='Stylesheet' />
 		<?php if ($single_artikel OR $gallery): ?>
@@ -94,7 +102,7 @@
 		<?php endif ?>
 		<!-- Ionicons -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
-		
+
 		<!-- DataTables -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />

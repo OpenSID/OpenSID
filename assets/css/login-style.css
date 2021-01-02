@@ -6,7 +6,7 @@ body {
     line-height: 30px;
     text-align: center;
     background-color: #337ab7;
-	background: url(images/bg_login.jpg) no-repeat center fixed;
+	  background: url('../css/images/latar_login.jpg') no-repeat center fixed; /*gambar background */
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -80,7 +80,7 @@ img { max-width: 100%; }
     color: #fff;
     -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 }
-.btn-link-2:hover, .btn-link-2:focus, 
+.btn-link-2:hover, .btn-link-2:focus,
 .btn-link-2:active, .btn-link-2:active:focus { outline: 0; opacity: 0.6; background: rgba(0, 0, 0, 0.3); color: #fff; }
 
 
@@ -105,7 +105,7 @@ img { max-width: 100%; }
 .top-content .description a {
 	color: #fff;
 }
-.top-content .description a:hover, 
+.top-content .description a:hover,
 .top-content .description a:focus { border-bottom: 1px dotted #fff; }
 
 .form-box {
@@ -195,13 +195,13 @@ img { max-width: 100%; }
 @media (min-width: 768px) and (max-width: 991px) {}
 
 @media (max-width: 767px) {
-	
+
 	.inner-bg { padding: 60px 0 110px 0; }
 
 }
 
 @media (max-width: 415px) {
-	
+
 	h1, h2 { font-size: 32px; }
 
 }
@@ -278,7 +278,7 @@ img { max-width: 100%; }
   background-color: #ffb848;
 }
 .toast-message {
-	font-size: 12px;	
+	font-size: 12px;
 }
 #toast-container > div {
 	text-align: left;

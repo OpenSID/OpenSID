@@ -54,7 +54,6 @@ class Mandiri_web extends Mandiri_Controller
 		mandiri_timeout();
 		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'referensi_model']);
 		$this->load->helper('download');
-
 	}
 
 	public function index()
@@ -75,7 +74,7 @@ class Mandiri_web extends Mandiri_Controller
 		{
 			redirect($_SERVER['HTTP_REFERER']);
 		}
-		else redirect('mandiri_web/logout');
+		else redirect('mandiri_web');
 	}
 
 	public function ganti_pin()
@@ -100,6 +99,8 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function mandiri($p=1, $m=0, $kat=1)
 	{
+		if ($this->session->lg == 1) redirect('mandiri_web/ganti_pin');
+
 		$data = $this->includes;
 		$data['p'] = $p;
 		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();

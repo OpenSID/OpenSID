@@ -32,6 +32,9 @@
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.css"); ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.css"); ?>">
 	<link rel="stylesheet" type="text/css" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css"); ?>">
+	<?php if (is_file("desa/css/desa-$this->theme.css")): ?>
+		<link type='text/css' href="<?= base_url("desa/css/desa-$this->theme.css"); ?>" rel='Stylesheet' />
+	<?php endif; ?>
 
 <!-- nambah baru lagi
 	<link type='text/css' href="<?= base_url()?>Xassets/bootstrap/css/bootstrap.min.css" rel='stylesheet' />-->
@@ -40,7 +43,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
-	
+
 	<?php if(isset($single_artikel)): ?>
 		<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]);?>"/>
 		<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
@@ -79,7 +82,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
 		<script src="<?= base_url()?>assets/js/peta.js"></script>
 
-		
+
 		<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 		<script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
