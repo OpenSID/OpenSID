@@ -15,8 +15,12 @@
 		$tema_desa = glob('desa/themes/*' , GLOB_ONLYDIR);
 		$tema_semua = array_merge($tema_sistem, $tema_desa);
 		$list_tema = array();
-		foreach ($tema_semua as $tema){
-			$list_tema[] = str_replace('themes/', '', $tema);
+		foreach ($tema_semua as $tema)
+		{
+			if (is_file($tema . '/template.php'))
+			{
+				$list_tema[] = str_replace('themes/', '', $tema);
+			}
 		}
 		return $list_tema;
 	}
