@@ -56,6 +56,8 @@ class Pembangunan extends Admin_Controller
 
         $this->load->model('pembangunan_model', 'model');
         $this->load->model('referensi_model');
+        $this->load->model('config_model');
+        $this->load->model('wilayah_model');
     }
 
     public function index()
@@ -149,6 +151,31 @@ class Pembangunan extends Admin_Controller
         }
 
         redirect('pembangunan');
+    }
+
+    public function lokasi_maps($id)
+    {
+        $this->set_minsidebar(0);
+        
+        $data = $this->model->find($id);
+
+        if (is_null($data)) {
+            show_404();
+        }
+
+        // Update lokasi maps
+        if ($request = $this->input->post()) {
+            $this->model->update_lokasi_maps($id, $request);
+        }
+
+        $this->render('pembangunan/lokasi_maps', [
+            'data'      => $data,
+            'desa'      => $this->config_model->get_data(),
+            'wil_atas'  => $this->config_model->get_data(),
+            'dusun_gis' => $this->wilayah_model->list_dusun(),
+            'rw_gis'    => $this->wilayah_model->list_rw_gis(),
+            'rt_gis'    => $this->wilayah_model->list_rt_gis(),
+        ]);
     }
 
     public function unlock($id)

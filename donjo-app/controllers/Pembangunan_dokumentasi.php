@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Pembangunan
  *
- * donjo-app/controllers/Pembangunan_jenis.php
+ * donjo-app/controllers/Pembangunan_dokumentasi.php
  *
  */
 
