@@ -43,6 +43,14 @@
  */
 ?>
 
+<style type="text/css">
+	<?php if ($latar_login): ?>
+		body.login {
+			background: url('<?= base_url($latar_login) ?>');
+		}
+	<?php endif; ?>
+</style>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -73,7 +81,7 @@
 		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
-	<body class="login" style="background: url('<?= base_url($latar_login) ?>')">
+	<body class="login">
 		<div class="top-content">
 			<div class="inner-bg">
 				<div class="container">

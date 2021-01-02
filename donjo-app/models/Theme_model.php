@@ -38,11 +38,11 @@
 		return $folder;
 	}
 
+	// Mengambil latar belakang login ubahan
 	public function latar_login()
 	{
 		$ubahan = LATAR_LOGIN . "latar_login.jpg";
-		$default = "assets/css/images/latar_login.jpg";
-		$latar_login = is_file($ubahan) ? $ubahan : $default;
+		$latar_login = is_file($ubahan) ? $ubahan : NULL;
 		return $latar_login;
 	}
 

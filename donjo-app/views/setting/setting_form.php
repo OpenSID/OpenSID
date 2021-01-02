@@ -39,9 +39,7 @@
 							<b>Latar Login</b>
 						</div>
 						<div class="box-body box-profile text-center">
-							<?php if ($latar_login): ?>
-								<img class="img-responsive" src="<?= base_url($latar_login); ?>" alt="Latar Halaman Website" width="100%">
-							<?php endif; ?>
+							<img class="img-responsive" src="<?= base_url($latar_login ? $latar_login : 'assets/css/images/latar_login.jpg'); ?>" alt="Latar Halaman Website" width="100%">
 							<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
 							<div class="input-group">
 								<input type="text" class="form-control input-sm" id="file_path1" name="latar_login">
