@@ -98,6 +98,7 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('theme_model');
 		$this->load->model('anjungan_model');
 	}
 
@@ -368,7 +369,6 @@ class First extends Web_Controller {
 
 		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
-		$data['title'] = $data['heading'];
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
@@ -522,6 +522,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
+		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();

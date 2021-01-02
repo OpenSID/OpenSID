@@ -57,6 +57,8 @@ class Setting extends Admin_Controller {
 		$data['list_tema'] = $this->theme_model->list_all();
 		$data['judul'] = 'Pengaturan Aplikasi';
 		$data['list_setting'] = 'list_setting';
+		$data['latar_website'] = $this->theme_model->latar_website();
+		$data['latar_login'] = $this->theme_model->latar_login();
 		$this->setting_model->load_options();
 
 		$this->render('setting/setting_form', $data);
@@ -65,6 +67,7 @@ class Setting extends Admin_Controller {
 	public function update()
 	{
 		$this->setting_model->update_setting($this->input->post());
+
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 

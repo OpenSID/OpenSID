@@ -104,7 +104,7 @@
 								</tr>
 								<tr>
 									<td>Kode <?= $desa; ?></td><td>:</td>
-									<td><?= $main['kode_desa']; ?></td>
+									<td><?= kode_wilayah($main['kode_desa']); ?></td>
 								</tr>
 								<tr>
 									<td>Kode Pos <?= $desa; ?></td><td>:</td>
@@ -143,7 +143,7 @@
 								</tr>
 								<tr>
 									<td>Kode <?= $kecamatan; ?></td><td>:</td>
-									<td><?= $main['kode_kecamatan']; ?></td>
+									<td><?= kode_wilayah($main['kode_kecamatan']); ?></td>
 								</tr>
 								<tr>
 									<td>Nama <?= ucwords($this->setting->sebutan_camat); ?></td><td>:</td>
@@ -162,7 +162,7 @@
 								</tr>
 								<tr>
 									<td>Kode <?= $kabupaten; ?></td><td>:</td>
-									<td><?= $main['kode_kabupaten']; ?></td>
+									<td><?= kode_wilayah($main['kode_kabupaten']); ?></td>
 								</tr>
 								<tr>
 									<th colspan="3" class="subtitle_head"><strong>PROVINSI</strong></th>
@@ -173,7 +173,7 @@
 								</tr>
 								<tr>
 									<td>Kode Provinsi</td><td>:</td>
-									<td><?= $main['kode_propinsi']; ?></td>
+									<td><?= kode_wilayah($main['kode_propinsi']); ?></td>
 								</tr>
 							</tbody>
 						</table>

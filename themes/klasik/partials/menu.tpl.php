@@ -16,7 +16,7 @@
 
 <link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css">
 <link rel="stylesheet" href="<?= base_url()?>assets/front/css/default.css" />
-<link rel="stylesheet" href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/default.css'?>" />
+<link rel="stylesheet" href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/assets/css/default.css'?>" />
 <?php if (is_file("desa/css/".$this->theme."/desa-default.css")): ?>
 	<link rel="stylesheet" href="<?= base_url().'desa/css/'.$this->theme.'/desa-default.css'?>" />
 <?php endif; ?>

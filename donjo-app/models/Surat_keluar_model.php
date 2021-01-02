@@ -188,7 +188,7 @@
 		// Normalkan tanggal
 		$data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
 		// Bersihkan data
-		$data['nomor_surat'] = preg_replace('/[^a-zA-Z0-9-\/\s]/', '', strip_tags($data['nomor_surat']));
+		$data['nomor_surat'] = nomor_surat_keputusan(strip_tags($data['nomor_surat']));
 		$data['tujuan'] = strip_tags($data['tujuan']);
 		$data['isi_singkat'] = strip_tags($data['isi_singkat']);
 	}

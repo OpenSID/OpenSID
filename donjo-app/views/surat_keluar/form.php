@@ -75,7 +75,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nomor_surat">Nomor Surat</label>
 								<div class="col-sm-8">
-									<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required" type="text" placeholder="Nomor Surat" value="<?= $surat_keluar['nomor_surat']?>"></input>
+									<input id="nomor_surat" name="nomor_surat" maxlength="35" class="form-control input-sm required nomor_sk" type="text" placeholder="Nomor Surat" value="<?= $surat_keluar['nomor_surat']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
