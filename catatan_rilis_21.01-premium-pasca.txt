@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.01-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
 
 Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 
@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 Fitur Premium:
 
 1. Sediakan pengaturan latar belakang halaman login dan tema klasik/hadakewa.
+2. #3069: Sediakan pencarian peserta program bantuan di daftar Penduduk dan Keluarga.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
