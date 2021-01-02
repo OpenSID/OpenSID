@@ -17,7 +17,6 @@ a:visited { text-decoration: none; background-color: inherit; color: #0404fd; }
 a:hover { text-decoration: none; background-color: inherit; color: #fd0315; }
 
 body{
-	background: url(images/latar_website.jpg) no-repeat center center fixed; /*warna background bodi web*/
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -109,7 +108,7 @@ nav.navbar.navbar-inverse{
  * Menampilkan Artikel mengganti background artikel dll
  * */
 .artikel .sampul img {
-	margin-left: auto; 
+	margin-left: auto;
 	margin-right: auto;
 }
 .artikel {
@@ -118,13 +117,13 @@ nav.navbar.navbar-inverse{
 	background-color:#8abffb;
 }
 .artikel.feed {
-	background-color: gold; 
+	background-color: gold;
 }
 .artikel .judul {
 	font-size: 1.25em;
 	color: #fd070d;
 	line-height: 1em;
-	margin-bottom: .5em; 
+	margin-bottom: .5em;
 }
 .artikel .kecil {
 	font-size: .8em;
@@ -134,11 +133,11 @@ nav.navbar.navbar-inverse{
 	margin-bottom: .5em;
 }
 .artikel .teks {
-	font-size: 1em; 
+	font-size: 1em;
 	margin-right: .5em;
 }
 .artikel .sampul {
-	margin: 1em 0; 
+	margin: 1em 0;
 	display:block;width:100%;
 }
 .gb {
