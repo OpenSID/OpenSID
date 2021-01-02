@@ -392,8 +392,8 @@ class Penduduk extends Admin_Controller {
 
 	public function adv_search_proses()
 	{
+		$this->clear_session();
 		$adv_search = $this->validasi_pencarian($this->input->post());
-		$this->session->filter = $adv_search['status_penduduk'];
 
 		$i = 0;
 		while ($i++ < count($adv_search))
@@ -428,6 +428,8 @@ class Penduduk extends Admin_Controller {
 		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
 		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
 		$data['status_penduduk'] = $post['status_penduduk'];
+		$data['filter'] = $post['status_penduduk'];
+
 		return $data;
 	}
 
@@ -749,5 +751,27 @@ class Penduduk extends Admin_Controller {
 		$data['form_action_privasi'] = site_url("penduduk/cetak/$o/$aksi/1");
 
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
+	}
+
+	public function program_bantuan()
+	{
+		// TODO : Ubah cara ini untuk menampilkan data
+		$this->session->sasaran = 1; // sasaran penduduk
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
+
+		$data = [
+			'form_action' => site_url("penduduk/program_bantuan_proses"),
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->penerima_bantuan
+		];
+
+		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
+	}
+
+	public function program_bantuan_proses()
+	{
+		$id_program = $this->input->post('program_bantuan');
+		$this->statistik('bantuan_penduduk', $id_program, '0');
 	}
 }

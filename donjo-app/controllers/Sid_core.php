@@ -615,4 +615,10 @@ class Sid_Core extends Admin_Controller {
 		$this->wilayah_model->update_wilayah_rt_map($id);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
+
+	public function urut($p = 1, $id = 0, $arah = 0)
+	{
+		$this->wilayah_model->urut($id, $arah);
+		redirect("sid_core/index/$p");
+	}
 }
