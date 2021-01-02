@@ -50,6 +50,8 @@ class Wilayah_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('tweb_wil_clusterdesa', 'id');
 	}
 
 	public function autocomplete()
@@ -115,6 +117,7 @@ class Wilayah_model extends MY_Model {
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.kk_level = 1) AS jumlah_kk ";
 		$sql = $select_sql . $this->list_data_sql();
+		$sql .= "ORDER BY`u`.`urut` ASC";
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
@@ -132,6 +135,8 @@ class Wilayah_model extends MY_Model {
 
 	public function list_semua_wilayah()
 	{
+		$this->urut_semua_wilayah();
+
 		$this->case_dusun = "w.rt = '0' and w.rw = '0'";
 		$this->case_rw = "w.rw <> '0' and w.rw <> '-' and w.rt = '0'";
 		$this->case_rt = "w.rt <> '0' and w.rt <> '-'";
@@ -153,7 +158,7 @@ class Wilayah_model extends MY_Model {
 				->or_where("w.rt <> '0' and w.rt <> '-'")
 			->group_end()
 
-			->order_by('w.dusun, rw, rt')
+			->order_by('w.urut, w.dusun, rw, rt')
 			->get()
 			->result_array();
 		return $data;
@@ -695,6 +700,32 @@ class Wilayah_model extends MY_Model {
 		return $data['alamat'];
 	}
 
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($id = 0, $arah = 0)
+	{
+		$subset = "rt = '0' AND rw = '0'";
+		$this->urut_model->urut($id, $arah, $subset);
+	}
+
+	// Samakan nomor urut semua subwilayah dusun untuk laporan cetak
+	private function urut_semua_wilayah()
+	{
+		$urut_dusun = $this->db
+			->select('dusun, urut')
+			->where('rt', '0')
+			->where('rw', '0')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+		foreach ($urut_dusun as $dusun)
+		{
+			$this->db
+				->set('urut', $dusun['urut'])
+				->where('dusun', $dusun['dusun'])
+				->update('tweb_wil_clusterdesa');
+		}
+	}
 }
 
 ?>

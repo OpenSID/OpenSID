@@ -52,6 +52,16 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		$hasil =& $this->pengaturan_latar($hasil);
 
+		//tambah kolom urut di tabel tweb_wil_clusterdesa
+		if (!$this->db->field_exists('urut', 'tweb_wil_clusterdesa'))
+			$hasil = $this->dbforge->add_column('tweb_wil_clusterdesa', array(
+				'urut' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				),
+			));
+
 		status_sukses($hasil);
 		return $hasil;
 	}
