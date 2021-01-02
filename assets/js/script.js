@@ -63,15 +63,6 @@ $(document).ready(function()
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		$(this).find('.modal-body').html($(e.relatedTarget).data('body'));
 	});
-	//Delay Alert
-	setTimeout(function()
-	{
-		$('#notification').fadeIn('slow');
-	}, 500);
-	setTimeout(function()
-	{
-		$('#notification').fadeOut('slow');
-	}, 2000);
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2({

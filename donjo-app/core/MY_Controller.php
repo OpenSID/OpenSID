@@ -256,7 +256,10 @@ class Admin_Controller extends MY_Controller {
 			}
 		}
 		$this->cek_pengumuman();
-		$this->header = $this->header_model->get_data();
+		$this->header                           = $this->header_model->get_data();
+		$this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
+		$this->header['notif_inbox']            = $this->notif_model->inbox_baru();
+		$this->header['notif_komentar']         = $this->notif_model->komentar_baru();
 	}
 
 	private function cek_pengumuman()
