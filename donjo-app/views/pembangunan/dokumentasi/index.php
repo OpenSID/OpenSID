@@ -15,7 +15,9 @@
                             <a href="<?= site_url("pembangunan_dokumentasi/new/{$pembangunan->id}") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru">
                                 <i class="fa fa-plus"></i>Tambah Data
                             </a>
-                            <a href="<?= site_url('pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
+                            <a href="<?= site_url("pembangunan/dialog_daftar/{$pembangunan->id}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Pembangunan" title="Cetak Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-print "></i> Cetak</a>
+                            <a href="<?= site_url("pembangunan/dialog_daftar/{$pembangunan->id}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Pembangunan" title="Unduh Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-download "></i> Unduh</a>
+                            <a href="<?= site_url('pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pembagunan"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
                         </div>
                         <div class="box-body">
                             <h5 class="text-bold">Rincian Dokumentasi Pembangunan</h5>
@@ -53,8 +55,8 @@
                                                 <table id="tabel-dokumentasi" class="table table-bordered dataTable table-hover">
                                                     <thead class="bg-gray">
                                                         <tr>
-                                                            <th class="text-center">No</th>
-                                                            <th class="text-center">Aksi</th>
+                                                            <th width="20px" class="text-center">No</th>
+                                                            <th width="80px" class="text-center">Aksi</th>
                                                             <th class="text-center">Gambar</th>
                                                             <th class="text-center">Persentase</th>
                                                             <th class="text-center">Keterangan</th>
@@ -94,7 +96,7 @@
 
             'ajax': {
                 'url': "<?= site_url("pembangunan_dokumentasi/show/{$pembangunan->id}") ?>",
-                'method': 'GET'
+                'method': 'POST'
             },
             'columns': [
                 {'data': null},

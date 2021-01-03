@@ -52,14 +52,14 @@ class Pembangunan_model extends CI_Model
     const DISABLE = 0;
 
     const ORDER_ABLE = [
-        3  => 'p.judul',
-        4  => 'p.sumber_dana',
-        6  => 'p.volume',
-        7  => 'p.tahun_anggaran',
-        8  => 'p.pelaksana_kegiatan',
-        9  => 'p.lokasi',
-        10 => 'p.keterangan',
-        11 => 'p.created_at'
+        2  => 'p.judul',
+        3  => 'p.sumber_dana',
+        5  => 'p.volume',
+        6  => 'p.tahun_anggaran',
+        7  => 'p.pelaksana_kegiatan',
+        8  => 'p.lokasi',
+        9  => 'p.keterangan',
+        10 => 'p.created_at'
     ];
 
     public function get_data(string $search = '', $tahun = '')

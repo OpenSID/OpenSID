@@ -113,4 +113,11 @@ class Pembangunan_dokumentasi_model extends CI_Model
             ->get($this->table)
             ->row();
     }
+
+    public function find_dokumentasi($id_pembangunan)
+    {
+        return $this->db->where('id_pembangunan', $id_pembangunan)
+            ->get($this->table)
+            ->result();
+    }
 }

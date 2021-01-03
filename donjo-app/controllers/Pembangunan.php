@@ -55,9 +55,11 @@ class Pembangunan extends Admin_Controller
         $this->set_minsidebar(1);
 
         $this->load->model('pembangunan_model', 'model');
+        $this->load->model('pembangunan_dokumentasi_model');
         $this->load->model('referensi_model');
         $this->load->model('config_model');
         $this->load->model('wilayah_model');
+        $this->load->model('pamong_model');
     }
 
     public function index()
@@ -176,6 +178,36 @@ class Pembangunan extends Admin_Controller
             'rw_gis'    => $this->wilayah_model->list_rw_gis(),
             'rt_gis'    => $this->wilayah_model->list_rt_gis(),
         ]);
+    }
+
+    public function dialog_daftar($id = 0, $aksi = '')
+    {
+        $this->load->view('global/ttd_pamong', [
+            'aksi'        => $aksi,
+            'pamong'      => $this->pamong_model->list_data(),
+            'form_action' => site_url("pembangunan/daftar/$id/$aksi"),
+        ]);
+    }
+    
+    public function daftar($id = 0, $aksi = '')
+    {
+        $request = $this->input->post();
+
+        $pembangunan = $this->model->find($id);
+        $dokumentasi = $this->pembangunan_dokumentasi_model->find_dokumentasi($pembangunan->id);
+
+        $data['pembangunan']    = $pembangunan;
+        $data['dokumentasi']    = $dokumentasi;
+        $data['config']         = $this->header['desa'];
+        $data['pamong_ttd']     = $this->pamong_model->get_data($request['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($request['pamong_ketahui']);
+        $data['aksi']           = $aksi;
+        $data['file']           = "Laporan Pembangunan";
+        $data['isi']            = "pembangunan/cetak";
+
+        echo json_encode($data); exit;
+
+        $this->load->view('global/format_cetak', $data);
     }
 
     public function unlock($id)

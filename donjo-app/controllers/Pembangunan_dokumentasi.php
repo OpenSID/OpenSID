@@ -64,16 +64,16 @@ class Pembangunan_dokumentasi extends Admin_Controller
         $pembangunan = $this->pembangunan_model->find($id);
 
         if ($this->input->is_ajax_request()) {
-            $start = $this->input->get('start');
-            $length = $this->input->get('length');
-            $search = $this->input->get('search[value]');
-            $order = $this->model::ORDER_ABLE[$this->input->get('order[0][column]')];
-            $dir = $this->input->get('order[0][dir]');
+            $start = $this->input->post('start');
+            $length = $this->input->post('length');
+            $search = $this->input->post('search[value]');
+            $order = $this->model::ORDER_ABLE[$this->input->post('order[0][column]')];
+            $dir = $this->input->post('order[0][dir]');
 
             return $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode([
-                    'draw'            => $this->input->get('draw'),
+                    'draw'            => $this->input->post('draw'),
                     'recordsTotal'    => $this->model->get_data($id)->count_all_results(),
                     'recordsFiltered' => $this->model->get_data($id, $search)->count_all_results(),
                     'data'            => $this->model->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),

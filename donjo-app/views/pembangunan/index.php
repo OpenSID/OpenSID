@@ -15,12 +15,6 @@
                             <a href="<?= site_url('pembangunan/new') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru">
                                 <i class="fa fa-plus"></i>Tambah Data
                             </a>
-                            <a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
-                                <i class="fa fa-print"></i>Cetak
-                            </a>
-                            <a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
-                                <i class="fa fa-download"></i>Unduh
-                            </a>
                         </div>
                         <div class="box-body">
                             <div class="row">
@@ -42,7 +36,6 @@
                                                 <table id="tabel-pembangunan" class="table table-bordered dataTable table-hover">
                                                     <thead class="bg-gray">
                                                         <tr>
-                                                            <th><input type="checkbox" id="checkall" /></th>
                                                             <th class="text-center">No</th>
                                                             <th width="190px" class="text-center">Aksi</th>
                                                             <th class="text-center">Judul</th>
@@ -80,11 +73,11 @@
             'autoWidth': false,
             'pageLength': 10,
             'order': [
-                [11, 'desc']
+                [10, 'desc']
             ],
             'columnDefs': [{
                 'orderable': false,
-                'targets': [0, 1, 2, 5],
+                'targets': [0, 1, 4],
             }],
             'ajax': {
                 'url': "<?= site_url('pembangunan') ?>",
@@ -94,11 +87,6 @@
                 }
             },
             'columns': [
-                {
-                    'data': function(data) {
-                        return `<input type="checkbox" name="id_cb[]" value="${data.id}" />`
-                    }
-                },
                 {
                     'data': null,
                 },
@@ -114,7 +102,7 @@
                         return `
                             <a href="<?= site_url('pembangunan/edit/'); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
                             <a href="<?= site_url('pembangunan/lokasi_maps/'); ?>${data.id}" class="btn bg-olive btn-flat btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a>
-                            <a href="<?= site_url('pembangunan_dokumentasi/show/'); ?>${data.id}" class="btn bg-purple btn-flat btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-bars"></i></a>
+                            <a href="<?= site_url('pembangunan_dokumentasi/show/'); ?>${data.id}" class="btn bg-purple btn-flat btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-list-ol"></i></a>
                             ${status}
 							<a href="#" data-href="<?= site_url('pembangunan/delete/'); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                             `
@@ -155,7 +143,7 @@
 
         tabelPembangunan.on('draw.dt', function() {
             let PageInfo = $('#tabel-pembangunan').DataTable().page.info();
-            tabelPembangunan.column(1, {
+            tabelPembangunan.column(0, {
                 page: 'current'
             }).nodes().each(function(cell, i) {
                 cell.innerHTML = i + 1 + PageInfo.start;
