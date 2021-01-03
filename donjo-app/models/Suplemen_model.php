@@ -69,15 +69,44 @@ class Suplemen_model extends MY_Model {
 		return $data;
 	}
 
-	public function list_data($sasaran = 0)
+	public function paging_suplemen($p)
 	{
+		$this->db->select('COUNT(s.id) AS jml');
+		$this->list_data_sql();
+
+		$row = $this->db->get()->row_array();
+		$jml_data = $row['jml'];
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	private function list_data_sql()
+	{
+		$sasaran = $this->session->sasaran;
+
 		if ($sasaran > 0) $this->db->where('s.sasaran', $sasaran);
+
+		$this->db
+			->from('suplemen s')
+			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left');
+
+		$this->search_sql();
+	}
+
+	public function list_data($offset = 0, $limit = 0)
+	{
+		$this->list_data_sql();
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
 
 		$data = $this->db
 			->select('s.*')
 			->select('COUNT(st.id) AS jml')
-			->from('suplemen s')
-			->join('suplemen_terdata st', "s.id = st.id_suplemen", 'left')
 			->order_by('s.nama')
 			->group_by('s.id')
 			->get()
