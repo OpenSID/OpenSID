@@ -28,3 +28,10 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok" data-dismiss="modal" onclick="$('#validasi').submit();"><i class='fa fa-check'></i> <?= $aksi?></button>
 	</div>
 </form>
+
+<!-- Diperlukan karena di hosting yg lambat form belum lengkap sebelum $('#modalBox').on('show.bs.modal' dijalankan di script.js, sehingga csrf field belum ditambahkan -->
+<script type="text/javascript">
+  $(document).ready(function () {
+      addCsrfField($('#validasi')[0]);
+  });
+</script>
