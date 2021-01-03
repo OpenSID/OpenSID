@@ -9,7 +9,7 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal" enctype="multipart/form-data">
-				<?php if ($latar_login OR $latar_website): ?>
+				<?php if ($atur_latar): ?>
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-header with-border">
