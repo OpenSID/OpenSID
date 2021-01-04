@@ -125,7 +125,7 @@ th.padat, td.padat {
 .login-page {
 	position:fixed;
 	width:100%;
-	background: url(images/bg_login.jpg) no-repeat center fixed; /*gambar background */
+	background: url('../css/images/latar_login.jpg') no-repeat center fixed; /*gambar background */
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
