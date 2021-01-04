@@ -49,18 +49,17 @@ class Hom_sid extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('program_bantuan_model');
-		$this->load->model('surat_model');
-		$this->load->model('notif_model');
-		$this->load->library('release');
 		$this->modul_ini = 1;
 	}
 
 	public function index()
 	{
-		if ($this->release->has_internet_connection())
+		$this->load->model('surat_model');
+
+		if (cek_koneksi_internet())
 		{
+			$this->load->library('release');
+
 			$this->release->set_api_url('https://api.github.com/repos/opensid/opensid/releases/latest')
 				->set_interval(7)
 				->set_cache_folder(FCPATH.'desa');
@@ -86,15 +85,13 @@ class Hom_sid extends Admin_Controller {
 
 	public function dialog_pengaturan()
 	{
+		$this->load->model('program_bantuan_model');
+
 		$data['list_program_bantuan'] = $this->program_bantuan_model->list_program();
 		$data['sasaran'] = unserialize(SASARAN);
-		$data['form_action'] = site_url("hom_sid/ubah_program_bantuan");
+		$data['form_action'] = site_url("setting/update");
+
 		$this->load->view('home/pengaturan_form', $data);
 	}
 
-	public function ubah_program_bantuan()
-	{
-		$this->db->where('key','dashboard_program_bantuan')->update('setting_aplikasi', array('value'=>$this->input->post('program_bantuan')));
-		redirect('hom_sid');
-	}
 }

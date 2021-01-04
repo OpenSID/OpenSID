@@ -1,6 +1,6 @@
 <h1 align="center">Selamat datang di OpenSID! 👋</h1>
 
-![readme-image](https://user-images.githubusercontent.com/249563/80325903-6891e180-887a-11ea-8471-6635dc6aa619.png "OpenSID membantu penanggulangan COVID-19")
+![readme-image](https://user-images.githubusercontent.com/46939846/103254436-d5381f80-49b7-11eb-8c2b-99dc4c7de30b.png "OpenSID membantu penanggulangan COVID-19")
 
 ### 🤔 Apa itu OpenSID?
 OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) yang sengaja dibuat supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
