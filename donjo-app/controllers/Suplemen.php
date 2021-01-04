@@ -68,7 +68,7 @@ class Suplemen extends Admin_Controller {
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->suplemen_model->paging_suplemen($p);
-		$data['suplemen'] = $this->suplemen_model->list_data($data['paging']->offset, $data['paging']->per_page);		
+		$data['suplemen'] = $this->suplemen_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data['list_sasaran'] = unserialize(SASARAN);
 		$data['set_sasaran'] = $this->session->sasaran;
 

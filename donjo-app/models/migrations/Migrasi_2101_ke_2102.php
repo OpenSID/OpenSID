@@ -48,7 +48,7 @@ class Migrasi_2101_ke_2102 extends MY_model {
 	public function up()
 	{
 		$hasil = true;
-		$this->url_suplemen();
+		$hasil =& $this->url_suplemen($hasil);
 
 		// Migrasi fitur premium
   	$daftar_migrasi_premium = ['2010', '2011', '2012', '2101', '2102'];
@@ -65,10 +65,11 @@ class Migrasi_2101_ke_2102 extends MY_model {
 	}
 
 	// Tambahkan clear pada url suplemen
-	private function url_suplemen()
+	private function url_suplemen($hasil)
 	{
-		$this->db->where('id', 25)
-		->set('url', 'suplemen/clear')
-		->update('setting_modul');
+		$hasil =& $this->db->where('id', 25)
+			->set('url', 'suplemen/clear')
+			->update('setting_modul');
+		return $hasil;
 	}
 }
