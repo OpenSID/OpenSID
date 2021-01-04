@@ -14,6 +14,7 @@ Fitur Premium:
 3. #2068: Sekarang bisa urut dusun di Info Desa > Wilayah Administratif.
 4. #3881: Sederhanakan notifikasi admin supaya tidak memberatkan server. [teknis]
 5. #1613: Sediakan paginasi untuk daftar Data Suplemen.
+6. Sederhanakan script pemantauan rilis baru. (teknis)
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
