@@ -47,8 +47,6 @@ class Migrasi_2012_ke_2101 extends MY_model {
 
 	public function up()
 	{
-		$this->tambah_kolom_urut();
-
 		$hasil = true;
 
 		// Tambah menu Layanan Mandiri > Pengaturan
