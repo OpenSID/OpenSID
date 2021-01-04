@@ -63,6 +63,8 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			));
 
 		$hasil =& $this->url_suplemen($hasil);
+		// Buat folder untuk cache - 'cache\';
+		mkdir(config_item('cache_path'), 0775, true);
 
 		status_sukses($hasil);
 		return $hasil;
