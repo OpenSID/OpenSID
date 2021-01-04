@@ -262,9 +262,9 @@
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
-									<a href="<?= site_url("permohonan_surat/batalkan/$data[id]")?>" title="Batalkan" class="btn bg-navy btn-sm"><i class="fa fa-download"></i></a>
+									<a href="<?= site_url("layanan-mandiri/unduh-berkas/$data[id]"); ?>" title="Unduh" class="btn bg-navy btn-sm"><i class="fa fa-download"></i></a>
 								</td>
-								<td><a href="<?= site_url("layanan-mandiri/unduh-berkas/$data[id]"); ?>" ><?= $data['nama']; ?></a></td>
+								<td><?= $data['nama']; ?></td>
 								<td nowrap><?= tgl_indo2($data['tgl_upload']); ?></td>
 							</tr>
 						<?php endforeach;
