@@ -639,6 +639,16 @@ function formAction(idForm, action, target = '')
 	$('#'+idForm).submit();
 }
 
+//Delay Alert
+setTimeout(function()
+{
+	$('#notification').fadeIn('slow');
+}, 500);
+setTimeout(function()
+{
+	$('#notification').fadeOut('slow');
+}, 3000);
+
 function notification(type, message)
 {
 	if ( type =='') {return};
