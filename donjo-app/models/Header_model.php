@@ -42,7 +42,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Header_model extends CI_Model {
+class Header_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -151,9 +151,13 @@ class Header_model extends CI_Model {
 		$lap = $query->row_array();
 		$outp['lapor'] = $lap['jml'];
 
-		$this->load->model('modul_model');
-		$outp['modul'] = $this->modul_model->list_aktif();
+		$outp['modul'] = $this->pakai_cache(function ()
+		{
+			$this->load->model('modul_model');
+			return $this->modul_model->list_aktif();
+		}, '_cache_modul');
 
 		return $outp;
 	}
+
 }

@@ -62,6 +62,10 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 				),
 			));
 
+		$hasil =& $this->url_suplemen($hasil);
+		// Buat folder untuk cache - 'cache\';
+		mkdir(config_item('cache_path'), 0775, true);
+
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -82,4 +86,14 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		mkdir($new . "/natra/images", 0775, true);
 		return $hasil;
 	}
+
+	// Tambahkan clear pada url suplemen
+	private function url_suplemen($hasil)
+	{
+		$hasil =& $this->db->where('id', 25)
+			->set('url', 'suplemen/clear')
+			->update('setting_modul');
+		return $hasil;
+	}
+
 }
