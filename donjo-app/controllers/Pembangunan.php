@@ -205,8 +205,6 @@ class Pembangunan extends Admin_Controller
         $data['file']           = "Laporan Pembangunan";
         $data['isi']            = "pembangunan/cetak";
 
-        echo json_encode($data); exit;
-
         $this->load->view('global/format_cetak', $data);
     }
 

@@ -1,3 +1,12 @@
+<style>
+    img.gambar-pembangunan {
+        width: 600px;
+        height: 300px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 <table>
     <tbody>
         <tr>
@@ -14,6 +23,27 @@
                 <hr class="garis">
             </td>
         </tr>
-        <!-- TODO: generate view laporan -->
+        <tr>
+            <td>
+                <strong>NAMA PEMBANGUNAN :</strong> <?= $pembangunan->judul ?><br>
+                <strong>SUMBER DANA :</strong> <?= $pembangunan->sumber_dana ?><br>
+                <strong>LOKASI PEMBANGUNAN :</strong> <?= $pembangunan->alamat ?><br>
+                <strong>KETERANGAN :</strong> <?= $pembangunan->keterangan ?>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <?php foreach ($dokumentasi as $value) : ?>
+            <tr>
+                <td class="text-center">
+                    <h4><?= $value->keterangan . ' ' . $value->persentase ?></h4>
+                    <img class="gambar-pembangunan" src="<?= base_url() . LOKASI_GALERI . $value->gambar ?>" alt="<?= $pembangunan->judul ?>">
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        <?php endforeach ?>
     </tbody>
 </table>
