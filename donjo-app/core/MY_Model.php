@@ -8,7 +8,6 @@ class MY_Model extends CI_Model {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('cache');
 	}
 
 	// Konversi url menu menjadi slug tanpa mengubah data
@@ -132,17 +131,5 @@ class MY_Model extends CI_Model {
 		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan)";
 		return $this->db->query($sql);
 	}
-
-	public function pakai_cache($callback, $cache_id)
-	{
-		if (! $data = $this->cache->file->get("{$this->session->user}{$cache_id}"))
-		{
-			$data = call_user_func($callback);
-			$this->cache->file->save("{$this->session->user}{$cache_id}", $data, 604800);
-		}
-
-		return $data;
-	}
-
 
 }
