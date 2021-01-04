@@ -47,6 +47,7 @@ class Header_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->driver('cache');
 		$this->load->model('config_model');
 	}
 
@@ -151,8 +152,14 @@ class Header_model extends CI_Model {
 		$lap = $query->row_array();
 		$outp['lapor'] = $lap['jml'];
 
-		$this->load->model('modul_model');
-		$outp['modul'] = $this->modul_model->list_aktif();
+		// Cache modul menu default 7 hari
+		if (! $outp['modul'] = $this->cache->file->get("{$this->session->user}_cache_modul"))
+		{
+			$this->load->model('modul_model');
+			$outp['modul'] = $this->modul_model->list_aktif();
+
+			$this->cache->file->save("{$this->session->user}_cache_modul", $outp['modul'], 604800);
+		}
 
 		return $outp;
 	}
