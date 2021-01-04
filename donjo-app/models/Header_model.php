@@ -42,12 +42,11 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Header_model extends CI_Model {
+class Header_model extends MY_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('cache');
 		$this->load->model('config_model');
 	}
 
@@ -152,15 +151,13 @@ class Header_model extends CI_Model {
 		$lap = $query->row_array();
 		$outp['lapor'] = $lap['jml'];
 
-		// Cache modul menu default 7 hari
-		if (! $outp['modul'] = $this->cache->file->get("{$this->session->user}_cache_modul"))
+		$outp['modul'] = $this->pakai_cache(function ()
 		{
 			$this->load->model('modul_model');
-			$outp['modul'] = $this->modul_model->list_aktif();
-
-			$this->cache->file->save("{$this->session->user}_cache_modul", $outp['modul'], 604800);
-		}
+			return $this->modul_model->list_aktif();
+		}, '_cache_modul');
 
 		return $outp;
 	}
+
 }
