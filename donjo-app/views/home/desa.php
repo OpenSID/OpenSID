@@ -43,22 +43,6 @@
  */
 ?>
 
-<style type="text/css">
-	.text-white {
-		color: white;
-	}
-	.pengaturan {
-		float: left;
-		padding-left: 10px;
-	}
-	.modal-body
-	{
-		overflow-y: auto;
-		height: 400px;
-		margin-left: 5px;
-		margin-right: 5px;
-	}
-</style>
 <div class="content-wrapper">
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
@@ -92,7 +76,7 @@
 									</button>
 									<h4 class="modal-title"><i class="fa fa-book"></i>&nbsp;&nbsp;Catatan Rilis OpenSID <small class="label label-success"><?=$latest_version ?></small></h4>
 								</div>
-								<div class="modal-body">
+								<div class="modal-body rilis">
 									<?=nl2br($release_body) ?>
 								</div>
 								<div class="modal-footer">
@@ -203,7 +187,7 @@
 									</div>
 									<div class="small-box-footer">
 										<?php if ($this->CI->cek_hak_akses('u')): ?>
-											<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
+											<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white rilis_pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
 										<?php endif; ?>
 										<a href="<?=site_url().$bantuan['link_detail']?>" class="inner text-white">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
