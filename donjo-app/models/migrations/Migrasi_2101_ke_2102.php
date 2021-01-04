@@ -5,7 +5,7 @@
  *
  * Model untuk migrasi database
  *
- * donjo-app/models/migrations/Migrasi_2010_ke_2011.php
+ * donjo-app/models/migrations/Migrasi_2101_ke_2102.php
  *
  */
 
@@ -43,29 +43,33 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_2010_ke_2011 extends MY_model {
+class Migrasi_2101_ke_2102 extends MY_model {
 
 	public function up()
 	{
-		$this->tambah_kolom_ket();
-
 		$hasil = true;
-		// Ubah tipe data field nilai menjadi INT
-		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN nilai INT(3) NOT NULL DEFAULT 0');
-		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN kode_jawaban INT(3) DEFAULT 0');
+		$hasil =& $this->url_suplemen($hasil);
+
+		// Migrasi fitur premium
+  	$daftar_migrasi_premium = ['2010', '2011', '2012', '2101', '2102'];
+  	foreach ($daftar_migrasi_premium as $migrasi)
+  	{
+  		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+  		$file_migrasi = 'migrations/'.$migrasi_premium;
+			$this->load->model($file_migrasi);
+			$hasil =& $this->$migrasi_premium->up();
+  	}
+
 		status_sukses($hasil);
+		return $hasil;
 	}
 
-	private function tambah_kolom_ket()
+	// Tambahkan clear pada url suplemen
+	private function url_suplemen($hasil)
 	{
-		//tambah kolom keterangan di tabel kelompok_anggota
-		if (!$this->db->field_exists('keterangan', 'kelompok_anggota'))
-			$this->dbforge->add_column('kelompok_anggota', array(
-				'keterangan' => array(
-				'type' => 'text',
-				'null' => TRUE,
-				),
-			));
+		$hasil =& $this->db->where('id', 25)
+			->set('url', 'suplemen/clear')
+			->update('setting_modul');
+		return $hasil;
 	}
-
 }

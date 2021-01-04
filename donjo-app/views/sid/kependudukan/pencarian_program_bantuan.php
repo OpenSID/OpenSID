@@ -1,11 +1,13 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * View untuk pencarian program bantuan
  *
- * donjo-app/models/migrations/Migrasi_2010_ke_2011.php
+ * donjo-app/views/sid/kependudukan/pencarian_program_bantuan.php,
  *
  */
 
@@ -26,11 +28,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -42,30 +44,23 @@
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
-class Migrasi_2010_ke_2011 extends MY_model {
-
-	public function up()
-	{
-		$this->tambah_kolom_ket();
-
-		$hasil = true;
-		// Ubah tipe data field nilai menjadi INT
-		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN nilai INT(3) NOT NULL DEFAULT 0');
-		$hasil =& $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN kode_jawaban INT(3) DEFAULT 0');
-		status_sukses($hasil);
-	}
-
-	private function tambah_kolom_ket()
-	{
-		//tambah kolom keterangan di tabel kelompok_anggota
-		if (!$this->db->field_exists('keterangan', 'kelompok_anggota'))
-			$this->dbforge->add_column('kelompok_anggota', array(
-				'keterangan' => array(
-				'type' => 'text',
-				'null' => TRUE,
-				),
-			));
-	}
-
-}
+<?php $this->load->view('global/validasi_form'); ?>
+<form action="<?= $form_action; ?>" method="post" id="validasi">
+	<div class="modal-body">
+		<div class="form-group">
+			<label for="program_bantuan">Program Bantuan</label>
+			<select class="form-control input-sm" name="program_bantuan">
+				<option value="">Pilih Program Bantuan</option>
+				<?php foreach ($program_bantuan AS $data): ?>
+					<option value="<?= $data['id']?>" <?= selected($id_program, $data['id']); ?>><?= $data['nama']; ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+	</div>
+</form>

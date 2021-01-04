@@ -47,6 +47,8 @@ class Migrasi_2012_ke_2101 extends MY_model {
 
 	public function up()
 	{
+		$this->tambah_kolom_urut();
+
 		$hasil = true;
 
 		// Tambah menu Layanan Mandiri > Pengaturan
@@ -66,7 +68,7 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
 		// Migrasi fitur premium
-  	$daftar_migrasi_premium = ['2009', '2010', '2011', '2012', '2101', '2102'];
+  	$daftar_migrasi_premium = ['2009'];
   	foreach ($daftar_migrasi_premium as $migrasi)
   	{
   		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;

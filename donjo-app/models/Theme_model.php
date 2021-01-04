@@ -21,13 +21,13 @@
 		return $list_tema;
 	}
 
+	// Mengambil latar belakang website ubahan
 	public function latar_website()
 	{
-		$ubahan = "desa/pengaturan/{$this->theme}/images/latar_website.jpg";
-		$bawaan = "$this->theme_folder/$this->theme/assets/css/images/latar_website.jpg";
-		$default = "assets/front/css/images/latar_website.jpg";
-		$latar_website = is_file($ubahan) ? $ubahan : $bawaan;
-		$latar_website = is_file($latar_website) ? $latar_website : $default;
+		$ubahan_tema = "desa/pengaturan/{$this->theme}/images/latar_website.jpg";
+		$bawaan_tema = "$this->theme_folder/$this->theme/assets/css/images/latar_website.jpg";
+		$latar_website = is_file($ubahan_tema) ? $ubahan_tema : $bawaan_tema;
+		$latar_website = is_file($latar_website) ? $latar_website : NULL;
 		return $latar_website;
 	}
 
@@ -38,11 +38,11 @@
 		return $folder;
 	}
 
+	// Mengambil latar belakang login ubahan
 	public function latar_login()
 	{
 		$ubahan = LATAR_LOGIN . "latar_login.jpg";
-		$default = "assets/css/images/latar_login.jpg";
-		$latar_login = is_file($ubahan) ? $ubahan : $default;
+		$latar_login = is_file($ubahan) ? $ubahan : NULL;
 		return $latar_login;
 	}
 

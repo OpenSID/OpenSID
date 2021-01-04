@@ -28,6 +28,7 @@ a:hover { text-decoration: none; background-color: inherit; color: #0C9FD5; }
  * */
 
 body{
+  background: url('images/latar_website.jpg') no-repeat center fixed; /*gambar background */
 	margin:0;
 	padding:0;
 	line-height: 1.5em;

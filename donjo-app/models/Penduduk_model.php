@@ -303,11 +303,12 @@ class Penduduk_model extends MY_Model {
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
 		LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
-		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama";
+		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
+		LEFT JOIN program_peserta pp ON u.nik = pp.peserta";
 
 		// TODO: ubah ke query builder
 		// Yg berikut hanya untuk menampilkan peserta bantuan
-		if ($_SESSION['penerima_bantuan'])
+		if ($this->session->penerima_bantuan)
 		{
 			$sql .= "
 				LEFT JOIN program_peserta bt ON bt.peserta = u.nik
@@ -344,7 +345,7 @@ class Penduduk_model extends MY_Model {
 			array('status_covid', 'rc.id') // Kode covid
 		);
 
-		if ($_SESSION['penerima_bantuan'])
+		if ($this->session->penerima_bantuan)
 		{
 			$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
 		}
