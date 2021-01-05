@@ -33,8 +33,8 @@
 			<table class="table table-bordered table-hover datatable-polos table-data" id="list-rekam">
 				<thead>
 					<tr class="judul">
-						<th class="padat">No</th>
-						<th class="padat">Aksi</th>
+						<th>No</th>
+						<th>Aksi</th>
 						<th width="20%">Waktu / Tanggal</th>
 						<th width="20%">Nama Program</th>
 						<th>Keterangan</th>

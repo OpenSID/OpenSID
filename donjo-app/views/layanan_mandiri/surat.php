@@ -16,8 +16,8 @@
 				<table class="table table-bordered table-hover datatable-polos table-data" id="list-rekam">
 					<thead>
 						<tr>
-							<th class="padat">No</th>
-							<th class="padat">Aksi</th>
+							<th>No</th>
+							<th>Aksi</th>
 							<th width="30%">Nama Penduduk</th>
 							<th width="30%">Jenis Surat</th>
 							<th width="20%">Status</th>
@@ -28,8 +28,8 @@
 						<?php if ($main):
 							foreach ($main as $key => $data): ?>
 								<tr>
-									<td><?= ($key + 1); ?></td>
-									<td nowrap>
+									<td class="padat"><?= ($key + 1); ?></td>
+									<td class="padat">
 										<?php if ($data['status_id'] == 1): ?>
 											<a href="<?= site_url("mandiri_web/mandiri_surat/$data[id]")?>" title="Lengkapi Surat" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
 										<?php endif; ?>

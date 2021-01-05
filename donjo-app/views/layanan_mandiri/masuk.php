@@ -7,9 +7,9 @@
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-	<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
+		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
-	<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
+		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 	<?php endif; ?>
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url()?>rss.xml" />
 	<!-- Bootstrap 3.3.7 -->

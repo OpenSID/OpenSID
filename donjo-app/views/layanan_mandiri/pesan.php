@@ -15,10 +15,10 @@
 			<table class="table table-bordered table-hover datatable-polos table-data" id="list-rekam">
 				<thead>
 					<tr>
-						<th class="padat">No</th>
-						<th class="padat text-center">Aksi</th>
+						<th>No</th>
+						<th>Aksi</th>
 						<th width="75%">Subjek Pesan</th>
-						<th class="padat">Status Pesan</th>
+						<th>Status Pesan</th>
 						<th width="20%">Dikirimkan Pada</th>
 					</tr>
 				</thead>
@@ -26,12 +26,12 @@
 				<?php if ($pesan):
 						foreach ($pesan as $key => $data): ?>
 							<tr <?= jecho($data['status'], '2', 'class="select_row"'); ?>>
-								<td><?= ($key + 1); ?></td>
-								<td nowrap>
+								<td class="padat"><?= ($key + 1); ?></td>
+								<td class="padat">
 									<a href="<?= site_url("layanan-mandiri/pesan/baca/$kat/$data[id]"); ?>" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa fa-eye<?= jecho($data['status'], '2', '-slash'); ?>">&nbsp;</i></a>
 								</td>
 								<td><?= $data['subjek']; ?></td>
-								<td><?= $data['status'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
+								<td class="padat"><?= $data['status'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
 								<td nowrap><?=tgl_indo2($data['tgl_upload']); ?></td>
 							</tr>
 						<?php endforeach;
