@@ -62,7 +62,7 @@ class Beranda extends Mandiri_Controller
 	{
 		$data = [
 			'desa' => $this->header,
-			'konten' => 'layanan_mandiri/index'
+			'konten' => 'index'
 		];
 
 		$this->load->view('layanan_mandiri/template', $data);
@@ -75,7 +75,7 @@ class Beranda extends Mandiri_Controller
 			'penduduk' => $this->penduduk_model->get_penduduk($this->id_pend),
 			'kelompok' => $this->penduduk_model->list_kelompok($this->id_pend),
 			'dokumen' => $this->penduduk_model->list_dokumen($this->id_pend),
-			'konten' => 'layanan_mandiri/profil'
+			'konten' => 'profil'
 		];
 
 		$this->load->view('layanan_mandiri/template', $data);
@@ -103,7 +103,7 @@ class Beranda extends Mandiri_Controller
 		$data = [
 			'desa' => $this->header,
 			'form_action' => site_url('layanan-mandiri/proses-ganti-pin'),
-			'konten' => 'layanan_mandiri/ganti_pin'
+			'konten' => 'ganti_pin'
 		];
 
 		$this->load->view('layanan_mandiri/template', $data);

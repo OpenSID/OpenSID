@@ -173,7 +173,7 @@
 						</div>
 						<div class="col-md-9">
 							<?php
-								$this->load->view("$konten");
+								$this->load->view("layanan_mandiri/$konten");
 
 								// TODO: Gunakan $this->session->flashdata untuk notif sekali panggil
 								if ($this->session->lg == 1 && $this->uri->segment(2) != "ganti-pin"):
@@ -219,6 +219,8 @@
 	<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 	<!-- Validasi -->
 	<?php $this->load->view('global/validasi_form'); ?>
+	<!-- Script-->
+	<script src="<?= base_url()?>assets/js/script.js"></script>
 	<!-- DataTables -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 	<script src="<?= base_url()?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
