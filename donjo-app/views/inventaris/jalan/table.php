@@ -68,7 +68,7 @@
 																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?></td>
+																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																<td><?= $data->kondisi;?></td>
 																<td><?= $data->kontruksi;?></td>
 																<td>
