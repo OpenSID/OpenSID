@@ -75,7 +75,7 @@
 	</div>
 	<div class="box-body box-line">
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover datatable-polos table-data" id="dokumen">
+			<table class="table table-bordered table-hover table-data" id="dokumen">
 				<thead>
 					<tr>
 						<th>No</th>

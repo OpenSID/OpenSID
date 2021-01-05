@@ -130,17 +130,19 @@ class Surat extends Mandiri_Controller
 	{
 		$data = $this->penduduk_model->list_dokumen($this->session->id_pend);
 		$jenis_syarat_surat = $this->referensi_model->list_by_id('ref_syarat_surat', 'ref_syarat_id');
+
 		for ($i=0; $i < count($data); $i++)
 		{
 			$berkas = $data[$i]['satuan'];
 			$list_dokumen[$i][] = $data[$i]['no'];
 			$list_dokumen[$i][] = $data[$i]['id'];
-			$list_dokumen[$i][] = "<a href='".site_url("mandiri_web/unduh_berkas/".$data[$i][id])."/{$data[$i][id_pend]}"."'>".$data[$i]["nama"].'</a>';
+			$list_dokumen[$i][] = '<a href="' . site_url('layanan-mandiri/unduh-berkas/' . $data[$i][id]) . '">' . $data[$i][nama] . '</a>';
 			$list_dokumen[$i][] = $jenis_syarat_surat[$data[$i]['id_syarat']]['ref_syarat_nama'];
 			$list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
 			$list_dokumen[$i][] = $data[$i]['nama'];
 			$list_dokumen[$i][] = $data[$i]['dok_warga'];
 		}
+
 		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
 
 		echo json_encode($list);
@@ -166,13 +168,13 @@ class Surat extends Mandiri_Controller
 
 		if ($this->session->id_pend)
 		{
-			$_POST['id_pend'] = $this->session->id;
+			$_POST['id_pend'] = $this->session->id_pend;
 			$id_dokumen = $this->input->post('id');
 			unset($_POST['id']);
 
 			if ($id_dokumen)
 			{
-				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->id, $mandiri = true);
+				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->id_pend, $mandiri = true);
 				if (!$hasil)
 				{
 					$data['success'] = -1;
@@ -199,7 +201,7 @@ class Surat extends Mandiri_Controller
 	public function ajax_get_dokumen_pendukung()
 	{
 		$id_dokumen = $this->input->post('id_dokumen');
-		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->id);
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->id_pend);
 
 		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 
@@ -208,7 +210,7 @@ class Surat extends Mandiri_Controller
 			$data['success'] = -1;
 			$data['message'] = 'Tidak ditemukan';
 		}
-		elseif ($this->session->id != $data['id_pend'])
+		elseif ($this->session->id_pend != $data['id_pend'])
 		{
 			$data = ['message' => 'Anda tidak mempunyai hak akses itu'];
 		}
