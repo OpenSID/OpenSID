@@ -27,7 +27,7 @@
 					<tbody>
 						<?php if ($main):
 							foreach ($main as $key => $data): ?>
-								<tr class="<?= jecho($data['status_id'], 3, 'bg-green'); ?>">
+								<tr class="<?= jecho($data['status_id'], 1, 'bg-red'); jecho($data['status_id'], 3, 'bg-green'); ?>">
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="padat">
 										<?php if ($data['status_id'] == 1): ?>
