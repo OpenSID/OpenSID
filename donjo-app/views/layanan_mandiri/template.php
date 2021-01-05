@@ -85,6 +85,12 @@
 									<a href="#" data-toggle="control-sidebar" title="Panduan Layanan"><i class="fa fa-question-circle fa-lg"></i></a>
 								</li>
 							-->
+							<li>
+								<a href="<?= site_url('layanan-mandiri/permohonan-surat'); ?>" title="Pesan Masuk">
+								<i class="fa fa-file-word-o"></i>
+									<span class="label label-danger" id="b_surat" title="Surat perlu perhatian" style="display: none;"></span>
+								</a>
+							</li>
 
 							<li>
 								<a href="<?= site_url('layanan-mandiri/pesan-masuk'); ?>" title="Pesan Masuk">
