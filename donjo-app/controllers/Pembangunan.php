@@ -177,6 +177,10 @@ class Pembangunan extends Admin_Controller
 		if ($request = $this->input->post())
 		{
 			$this->model->update_lokasi_maps($id, $request);
+
+			$this->session->success = 1;
+
+			redirect('pembangunan');
 		}
 
 		$this->render('pembangunan/lokasi_maps', [
