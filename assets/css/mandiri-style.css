@@ -4,6 +4,32 @@ body {
 	font-family: 'Quicksand', sans-serif !important;
 }
 
+.content-wrapper {
+	background: #ecf0f5;
+}
+
+.box-title {
+	font-size: 25px;
+	text-transform: uppercase;
+	text-align: left;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.box-body {
+	background: #fff;
+	border-radius: 5px;
+}
+
+.box-body.box-line {
+	border-bottom: 1px solid #f4f4f4;
+}
+
+.box-header {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
 .info-box, .box-solid, .carousel-inner, .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
 	border-radius: 5px;
 }
@@ -27,23 +53,6 @@ body {
 	margin: -7px;
 	width: 30px;
 	height: auto;
-}
-
-.box-title {
-	font-size: 25px;
-	text-transform: uppercase;
-	text-align: left;
-	font-weight: bold;
-	color: #ffffff;
-}
-
-.box-body.box-line {
-	border-bottom: 1px solid #f4f4f4;
-}
-
-.box-header {
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
 }
 
 .btn-social>:first-child {
@@ -85,10 +94,9 @@ th, td {
 	vertical-align: middle;
 	white-space: nowrap;
 	text-transform: uppercase;
-}
-
-.table-data > thead {
 	background-color: #d2d6de !important;
+	text-align: center;
+	white-space: nowrap;
 }
 
 .table-responsive {
@@ -289,7 +297,6 @@ div.form-surat .content-header {
 
 .content-wrapper, .fixed .right-side {
 	padding-top: 0px;
-	background: #fff;
 }
 
 .permohonan-surat > .content-wrapper, .permohonan-surat > .right-side {
@@ -307,4 +314,3 @@ a.btn {
 .unread > td {
 	background-color: #ffeeaa !important;
 }
-
