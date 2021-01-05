@@ -16,6 +16,7 @@ Fitur Premium:
 5. #1613: Sediakan paginasi untuk daftar Data Suplemen.
 6. Sederhanakan script pemantauan rilis baru. (teknis)
 7. p#54: Gunakan cache untuk data menu modul. (teknis)
+8. #2543: Sediakan laporan status pembangunan.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
