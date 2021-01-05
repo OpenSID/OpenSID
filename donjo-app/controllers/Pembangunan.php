@@ -83,7 +83,9 @@ class Pembangunan extends Admin_Controller
 				]));
 		}
 
-		$this->render('pembangunan/index');
+		$this->render('pembangunan/index', [
+			'list_tahun' => $this->model->list_filter_tahun(),
+		]);
 	}
 
 	public function new()
