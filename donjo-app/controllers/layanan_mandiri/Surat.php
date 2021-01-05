@@ -272,10 +272,10 @@ class Surat extends Mandiri_Controller
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
-		$data['views_partial_layout'] = "surat/form_surat.php";
 		$data['data'] = $data;
 		//$data['cek_anjungan'] = $this->cek_anjungan;
 
+		$data['mandiri'] = 1; // Untuk tombol cetak/kirim surat
 		$data['konten'] = 'permohonan_surat';
 		$this->load->view('layanan_mandiri/template', $data);
 
@@ -293,6 +293,7 @@ class Surat extends Mandiri_Controller
 		$data['keterangan'] = $data_permohonan['keterangan'];
 		$data['no_hp_aktif'] = $data_permohonan['no_hp_aktif'];
 		$data['syarat'] = json_encode($data_permohonan['syarat']);
+
 		if ($id_permohonan)
 		{
 			$data['status'] = 0; // kembalikan ke status 'sedang diperiksa'
@@ -300,7 +301,8 @@ class Surat extends Mandiri_Controller
 		}
 		else
 			$this->permohonan_surat_model->insert($data);
-		redirect('mandiri_web/mandiri/1/21');
+
+		redirect('layanan-mandiri/permohonan-surat');
 	}
 
 	private function get_data_untuk_form($url, &$data)
@@ -324,7 +326,8 @@ class Surat extends Mandiri_Controller
 	public function batalkan($id)
 	{
 		$this->permohonan_surat_model->update_status($id, array('status' => 9));
-		redirect('mandiri_web/mandiri/1/21');
+
+		redirect('layanan-mandiri/permohonan-surat');
 	}
 
 }

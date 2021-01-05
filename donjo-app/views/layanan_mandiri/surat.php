@@ -31,16 +31,16 @@
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="padat">
 										<?php if ($data['status_id'] == 1): ?>
-											<a href="<?= site_url("mandiri_web/mandiri_surat/$data[id]")?>" title="Lengkapi Surat" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
+											<a href="<?= site_url("layanan_mandiri/surat/form/$data[id]")?>" title="Lengkapi Surat" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], array('0', '1'))): ?>
-											<a href="<?= site_url("permohonan_surat/batalkan/$data[id]")?>" title="Batalkan" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
+											<a href="<?= site_url("layanan_mandiri/surat/batalkan/$data[id]")?>" title="Batalkan" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 									</td>
 									<td><?=$data['nama']; ?></td>
 									<td><?=$data['jenis_surat']; ?></td>
 									<td class="<?= jecho($data['status_id'], 1, 'perhatian'); ?><?= jecho($data['status_id'], 3, 'siap'); ?>"><?=$data['status']; ?></td>
-									<td nowrap><?=tgl_indo2($data['created_at']); ?></td>
+									<td nowrap><?= tgl_indo2($data['created_at']); ?></td>
 								</tr>
 							<?php endforeach;
 						else: ?>
