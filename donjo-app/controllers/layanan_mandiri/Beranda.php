@@ -60,12 +60,17 @@ class Beranda extends Mandiri_Controller
 
 	public function index()
 	{
+		/**
+		 * krn view index belum tersedia
 		$data = [
 			'desa' => $this->header,
 			'konten' => 'index'
 		];
 
 		$this->load->view('layanan_mandiri/template', $data);
+		*/
+
+		$this->profil();
 	}
 
 	public function profil()
