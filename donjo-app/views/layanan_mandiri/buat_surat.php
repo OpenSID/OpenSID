@@ -111,27 +111,25 @@
 	</div>
 </div>
 
-<?php $this->load->view('global/validasi_form'); ?>
-
 <div class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'>Ubah dokumen</h4>
+				<h4 class='modal-title' id='myModalLabel'>Tambah dokumen</h4>
 			</div>
 			<form id="unggah_dokumen" action="" method="POST" enctype="multipart/form-data">
-				<div class="modal-body">
+				<div class='modal-body'>
 					<div class="form-group">
 						<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-						<input id="nama_dokumen" name="nama" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
+						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
 						<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
 					</div>
 					<div class="form-group">
-						<select class="form-control required" name="id_syarat" id="id_syarat">
+						<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
 							<option> -- Pilih Jenis Dokumen -- </option>
 							<?php foreach ($menu_dokumen_mandiri AS $data): ?>
-								<option value="<?= $data['ref_syarat_id']; ?>" ><?= $data['ref_syarat_nama']; ?></option>
+								<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']; ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -141,7 +139,7 @@
 							<input type="text" class="form-control" id="file_path" name="satuan">
 							<input type="file" class="hidden" id="file" name="satuan">
 							<span class="input-group-btn">
-								<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+								<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 							</span>
 						</div>
 						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen.</code></span>
@@ -162,8 +160,8 @@
 									<?php if ($item['nik'] != $penduduk['nik']): ?>
 										<tr>
 											<td><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
-											<td><?= $item['nik']; ?></td>
-											<td><?= $item['nama']; ?></td>
+											<td><?=$item['nik']?></td>
+											<td><?=$item['nama']?></td>
 										</tr>
 									<?php endif; ?>
 								<?php endforeach; ?>
@@ -172,13 +170,14 @@
 					<?php endif ?>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-danger btn-sm"><i class='fa fa-times'></i> Tutup</button>
-					<button type="submit" class="btn btn-social btn-info btn-sm" id="upload_btn"><i class='fa fa-check'></i> Simpan</button>
+					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class='fa fa-times'></i> Tutup</button>
+					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="upload_btn"><i class='fa fa-check'></i> Simpan</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
 <script type='text/javascript'>
 	function cek_perhatian(elem) {
 		if ($(elem).val() == '-1') {

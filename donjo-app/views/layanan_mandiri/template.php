@@ -219,8 +219,6 @@
 	<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 	<!-- Validasi -->
 	<?php $this->load->view('global/validasi_form'); ?>
-	<!-- Script-->
-	<script src="<?= base_url()?>assets/js/script.js"></script>
 	<!-- DataTables -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 	<script src="<?= base_url()?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>

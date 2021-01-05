@@ -314,3 +314,12 @@ a.btn {
 .unread > td {
 	background-color: #ffeeaa !important;
 }
+
+.input-group-sm>.form-control, .input-group-sm>.input-group-addon, .input-group-sm>.input-group-btn>.btn {
+	border-radius: 0px;
+}
+
+.modal {
+	padding-right: 0px;
+	padding-left: 0px;
+}
