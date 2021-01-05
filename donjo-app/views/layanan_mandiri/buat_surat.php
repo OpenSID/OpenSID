@@ -3,15 +3,13 @@
 </script>
 
 <div class="box box-solid">
-	<form class="contact_form" id="validasi" action="<?= site_url('permohonan_surat/form/'.$permohonan[id])?>" method="POST" enctype="multipart/form-data">
+	<form id="validasi" action="<?= site_url("layanan_mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
 
 		<div class="box-header with-border bg-green">
 			<h4 class="box-title">Surat</h4>
 		</div>
 		<div class="box-body box-line">
 			<h4><b>LAYANAN PERMOHONAN SURAT</b></h4>
-			<input type="hidden" name="pemohon" value="<?= $_SESSION['nama']?>"/>
-			<input type="hidden" readonly="readonly" name="nik" value="<?= $_SESSION['nik']?>"/>
 			<input type="hidden" id="id_permohonan" name="id_permohonan" value="<?= $permohonan['id']?>"/>
 		</div>
 		<div class="box-body box-line">
@@ -34,13 +32,13 @@
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
 				<div class="col-sm-9 form-group">
-					<textarea class="form-control input-sm <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
+					<textarea class="form-control <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
 				<div class="col-sm-9">
-					<input class="form-control input-sm bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>" />
+					<input class="form-control bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= 979789797//$permohonan['no_hp_aktif']; ?>" />
 				</div>
 			</div>
 		</div>
@@ -54,7 +52,7 @@
 				<table class="table table-bordered table-hover table-data" id="syarat_surat">
 					<thead>
 						<tr>
-							<th class="padat"><center>No</center></th>
+							<th><center>No</center></th>
 							<th><center>Syarat</center></th>
 							<th><center>Dokumen Melengkapi Syarat</center></th>
 						</tr>
@@ -80,8 +78,8 @@
 			<table class="table table-bordered table-hover datatable-polos table-data" id="dokumen">
 				<thead>
 					<tr>
-						<th class="padat">No</th>
-						<th class="padat">Aksi</th>
+						<th>No</th>
+						<th>Aksi</th>
 						<th>Judul Dokumen</th>
 						<th>Jenis Dokumen</th>
 						<th width="20%" nowrap>Tanggal Upload</th>
@@ -114,25 +112,26 @@
 </div>
 
 <?php $this->load->view('global/validasi_form'); ?>
+
 <div class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class='modal-dialog'>
-		<div class='modal-content'>
-			<div class='modal-header'>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 				<h4 class='modal-title' id='myModalLabel'>Ubah dokumen</h4>
 			</div>
 			<form id="unggah_dokumen" action="" method="POST" enctype="multipart/form-data">
-				<div class='modal-body'>
+				<div class="modal-body">
 					<div class="form-group">
 						<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
+						<input id="nama_dokumen" name="nama" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
 						<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
 					</div>
 					<div class="form-group">
-						<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
+						<select class="form-control required" name="id_syarat" id="id_syarat">
 							<option> -- Pilih Jenis Dokumen -- </option>
 							<?php foreach ($menu_dokumen_mandiri AS $data): ?>
-								<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']; ?></option>
+								<option value="<?= $data['ref_syarat_id']; ?>" ><?= $data['ref_syarat_nama']; ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
@@ -163,8 +162,8 @@
 									<?php if ($item['nik'] != $penduduk['nik']): ?>
 										<tr>
 											<td><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
-											<td><?=$item['nik']?></td>
-											<td><?=$item['nama']?></td>
+											<td><?= $item['nik']; ?></td>
+											<td><?= $item['nama']; ?></td>
 										</tr>
 									<?php endif; ?>
 								<?php endforeach; ?>
@@ -173,7 +172,7 @@
 					<?php endif ?>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="reset" class="btn btn-social btn-danger btn-sm"><i class='fa fa-times'></i> Tutup</button>
 					<button type="submit" class="btn btn-social btn-info btn-sm" id="upload_btn"><i class='fa fa-check'></i> Simpan</button>
 				</div>
 			</form>
@@ -181,7 +180,7 @@
 	</div>
 </div>
 <script type='text/javascript'>
-	function cek_perhatian(elem){
+	function cek_perhatian(elem) {
 		if ($(elem).val() == '-1') {
 			$(elem).next('.perhatian').show();
 		} else {
@@ -191,7 +190,7 @@
 
 	$(document).ready(function(){
 		// var id_surat = 0;
-		var url = "<?= site_url('layanan_mandiri/surat/cek_syarat'); ?>";
+		var url = "<?= base_url('layanan_mandiri/surat/cek_syarat'); ?>";
 		table = $('#syarat_surat').DataTable({
 			'processing': true,
 			'serverSide': true,
@@ -245,16 +244,13 @@
 			var validator = $("#validasi").validate();
 			var syarat = $("select[name='syarat[]']");
 			var i;
-			for (i = 0; i < syarat.length; i++)
-			{
-				if (!validator.element(syarat[i]))
-				{
+			for (i = 0; i < syarat.length; i++) {
+				if (!validator.element(syarat[i])) {
 					$("#kata_peringatan").text('Syarat belum dilengkapi');
 					$("#dialog").modal('show');
 					return false;
 				}
 			};
 		});
-
 	});
 </script>

@@ -4,7 +4,7 @@ body {
 	font-family: 'Quicksand', sans-serif !important;
 }
 
-select.form-control, input.form-control, .info-box, .box-solid, .carousel-inner, .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
+.info-box, .box-solid, .carousel-inner, .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
 	border-radius: 5px;
 }
 
@@ -39,11 +39,6 @@ select.form-control, input.form-control, .info-box, .box-solid, .carousel-inner,
 
 .box-body.box-line {
 	border-bottom: 1px solid #f4f4f4;
-}
-
-.input-group .input-group-addon {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
 }
 
 .box-header {
@@ -266,3 +261,50 @@ hr {
 .box-line > h4 {
 	font-size: 16px;
 }
+
+.content-wrapper.periksa {
+	min-height: 0px !important;
+}
+div.form-surat .content-wrapper {
+	padding-top: 0px !important;
+	padding-left: 30px;
+}
+
+#wrapper-mandiri .tdk-permohonan, .breadcrumb.admin , .box-header.admin, .tdk-periksa {
+	display: none;
+}
+
+table#surat {
+	width: auto;
+}
+
+.content.periksa {
+	min-height: 0px !important;
+	padding-bottom: 0px;
+}
+
+div.form-surat .content-header {
+	padding-top: 0px !important;
+}
+
+.content-wrapper, .fixed .right-side {
+	padding-top: 0px;
+	background: #fff;
+}
+
+.permohonan-surat > .content-wrapper, .permohonan-surat > .right-side {
+	padding-top: 0px;
+}
+
+.form-horizontal .form-group > label {
+	text-align: left;
+}
+
+a.btn {
+	color: #fff;
+}
+
+.unread > td {
+	background-color: #ffeeaa !important;
+}
+
