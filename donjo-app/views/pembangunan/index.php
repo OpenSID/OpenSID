@@ -38,7 +38,7 @@
 														<tr>
 															<th class="text-center">No</th>
 															<th width="190px" class="text-center">Aksi</th>
-															<th class="text-center">Judul</th>
+															<th class="text-center">Nama Kegiatan</th>
 															<th class="text-center">Sumber Dana</th>
 															<th class="text-center">Persentase</th>
 															<th class="text-center">Volume</th>
