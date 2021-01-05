@@ -284,14 +284,4 @@ class Referensi_model extends CI_Model {
 		$list_ref = unserialize($stat);
 		return $list_ref;
 	}
-
-	public function list_ref_sumber_dana($sumber_dana)
-	{
-		return unserialize($sumber_dana);
-	}
-
-	public function list_ref_persentase($persentase)
-	{
-		return unserialize($persentase);
-	}
 }

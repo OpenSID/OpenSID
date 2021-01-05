@@ -47,119 +47,127 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-        $this->modul_ini = 220;
+		$this->modul_ini = 220;
 
-        $this->load->library('upload');
-        $this->load->model('referensi_model');
-        $this->load->model('pembangunan_model');
-        $this->load->model('pembangunan_dokumentasi_model', 'model');
-    }
+		$this->load->library('upload');
+		$this->load->model('referensi_model');
+		$this->load->model('pembangunan_model');
+		$this->load->model('pembangunan_dokumentasi_model', 'model');
+	}
 
-    public function show($id = null)
-    {
-        $pembangunan = $this->pembangunan_model->find($id);
+	public function show($id = null)
+	{
+		$pembangunan = $this->pembangunan_model->find($id);
 
-        if ($this->input->is_ajax_request()) {
-            $start = $this->input->post('start');
-            $length = $this->input->post('length');
-            $search = $this->input->post('search[value]');
-            $order = $this->model::ORDER_ABLE[$this->input->post('order[0][column]')];
-            $dir = $this->input->post('order[0][dir]');
+		if ($this->input->is_ajax_request())
+		{
+			$start = $this->input->post('start');
+			$length = $this->input->post('length');
+			$search = $this->input->post('search[value]');
+			$order = $this->model::ORDER_ABLE[$this->input->post('order[0][column]')];
+			$dir = $this->input->post('order[0][dir]');
 
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'draw'            => $this->input->post('draw'),
-                    'recordsTotal'    => $this->model->get_data($id)->count_all_results(),
-                    'recordsFiltered' => $this->model->get_data($id, $search)->count_all_results(),
-                    'data'            => $this->model->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-                ]));
-        }
+			return $this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'draw'            => $this->input->post('draw'),
+					'recordsTotal'    => $this->model->get_data($id)->count_all_results(),
+					'recordsFiltered' => $this->model->get_data($id, $search)->count_all_results(),
+					'data'            => $this->model->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+				]));
+		}
 
-        $this->render('pembangunan/dokumentasi/index', [
-            'pembangunan' => $pembangunan,
-        ]);
-    }
+		$this->render('pembangunan/dokumentasi/index', [
+			'pembangunan' => $pembangunan,
+		]);
+	}
 
-    public function new($id_pembangunan)
-    {
-        $this->render('pembangunan/dokumentasi/form', [
-            'id_pembangunan' => $id_pembangunan,
-            'persentase'     => $this->referensi_model->list_ref_persentase(STATUS_PEMBANGUNAN)
-        ]);
-    }
+	public function new($id_pembangunan)
+	{
+		$this->render('pembangunan/dokumentasi/form', [
+			'id_pembangunan' => $id_pembangunan,
+			'persentase'     => $this->referensi_model->list_ref(STATUS_PEMBANGUNAN)
+		]);
+	}
 
-    public function create($id_pembangunan)
-    {
-        $config['upload_path']   = LOKASI_GALERI;
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size']      = 1024;
-        $config['overwrite']     = true;
-        
-        $this->upload->initialize($config);
+	public function create($id_pembangunan)
+	{
+		$config['upload_path']   = LOKASI_GALERI;
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']      = 1024;
+		$config['overwrite']     = true;
 
-        if ($this->upload->do_upload('gambar')) {
-            $this->model->insert($this->input->post(), $this->upload->data('file_name'));
-            $this->session->success = 1;
-        } else {
-            $this->session->success = -1;
-            $this->session->error_msg = $this->upload->display_errors();
-        }
+		$this->upload->initialize($config);
 
-        redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
-    }
+		if ($this->upload->do_upload('gambar'))
+		{
+			$this->model->insert($this->input->post(), $this->upload->data('file_name'));
+			$this->session->success = 1;
+		}
+		else
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = $this->upload->display_errors();
+		}
 
-    public function edit($id_pembangunan, $id)
-    {
-        $data = $this->model->find($id);
+		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
+	}
 
-        if (is_null($data)) {
-            show_404();
-        }
+	public function edit($id_pembangunan, $id)
+	{
+		$data = $this->model->find($id);
 
-        $this->render('pembangunan/dokumentasi/edit', [
-            'id_pembangunan' => $id_pembangunan,
-            'persentase'     => $this->referensi_model->list_ref_persentase(STATUS_PEMBANGUNAN),
-            'main'           => $data,
-        ]);
-    }
+		if (is_null($data)) show_404();
 
-    public function update($id_pembangunan, $id)
-    {
-        $config['upload_path']   = LOKASI_GALERI;
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size']      = 1024;
-        $config['overwrite']     = true;
-        
-        $this->upload->initialize($config);
+		$this->render('pembangunan/dokumentasi/edit', [
+			'id_pembangunan' => $id_pembangunan,
+			'persentase'     => $this->referensi_model->list_ref(STATUS_PEMBANGUNAN),
+			'main'           => $data,
+		]);
+	}
 
-        if ($this->upload->do_upload('gambar')) {
-            $this->model->update($id_pembangunan, $id, $this->input->post(), $this->upload->data('file_name'));
-            $this->session->success = 1;
-        } else {
-            $this->session->success = -1;
-            $this->session->error_msg = $this->upload->display_errors();
+	public function update($id_pembangunan, $id)
+	{
+		$config['upload_path']   = LOKASI_GALERI;
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']      = 1024;
+		$config['overwrite']     = true;
 
-            redirect("pembangunan_dokumentasi/edit/{$id_pembangunan}/{$id}");
-        }
+		$this->upload->initialize($config);
 
-        redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
-    }
+		if ($this->upload->do_upload('gambar'))
+		{
+			$this->model->update($id_pembangunan, $id, $this->input->post(), $this->upload->data('file_name'));
+			$this->session->success = 1;
+		}
+		else
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = $this->upload->display_errors();
 
-    public function delete($id_pembangunan, $id)
-    {
-        $this->model->delete($id);
+			redirect("pembangunan_dokumentasi/edit/{$id_pembangunan}/{$id}");
+		}
 
-        if ($this->db->affected_rows()) {
-            $this->session->success = 4;
-        } else {
-            $this->session->success = -4;
-        }
+		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
+	}
 
-        redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
-    }
+	public function delete($id_pembangunan, $id)
+	{
+		$this->model->delete($id);
+
+		if ($this->db->affected_rows())
+		{
+			$this->session->success = 4;
+		}
+		else
+		{
+			$this->session->success = -4;
+		}
+
+		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
+	}
 }
