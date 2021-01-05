@@ -107,6 +107,7 @@ class Beranda extends Mandiri_Controller
 	{
 		$data = [
 			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'form_action' => site_url('layanan-mandiri/proses-ganti-pin'),
 			'konten' => 'ganti_pin'
 		];

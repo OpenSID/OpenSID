@@ -28,6 +28,12 @@
 
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 
+	<?php if ($cek_anjungan): ?>
+		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
+		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
+		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
+	<?php endif; ?>
+
 	<?php $this->load->view('head_tags'); ?>
 </head>
 
@@ -58,10 +64,10 @@
 				<?php endif; ?>
 				<form id="validasi" action="<?= $form_action; ?>" method="post" class="form-login">
 					<div class="form-group form-login">
-						<input type="text" class="form-control required" name="nik" placeholder=" NIK">
+						<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
 					</div>
 					<div class="form-group form-login">
-						<input type="password" class="form-control required" name="pin" placeholder="PIN" id="pin">
+						<input type="password" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
 					</div>
 					<div class="form-group">
 						<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
@@ -99,6 +105,14 @@
 	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 	<script src="<?= base_url()?>assets/js/validasi.js"></script>
 	<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+
+	<?php if ($cek_anjungan): ?>
+		<!-- keyboard widget css & script -->
+		<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
+		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
+		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
+		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+	<?php endif; ?>
 	<script type="text/javascript">
 		$('document').ready(function() {
 			var pass = $("#pin");

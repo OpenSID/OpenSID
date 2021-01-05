@@ -14,11 +14,11 @@
 		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/kirim'); ?>" method="post">
 			<div class="form-group">
 				<label for="subjek">Subjek</label>
-				<input type="text" class="form-control required" name="subjek" placeholder="Subjek" value="<?= $subjek; ?>">
+				<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="subjek" placeholder="Subjek" value="<?= $subjek; ?>">
 			</div>
 			<div class="form-group">
 				<label for="pesan">Isi Pesan</label>
-				<textarea class="form-control required" name="pesan" placeholder="Isi Pesan"></textarea>
+				<textarea class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="pesan" placeholder="Isi Pesan"></textarea>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn bg-green btn-social"><i class="fa fa-send-o"></i>Kirim Pesan</button>

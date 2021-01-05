@@ -60,6 +60,7 @@ class Pesan extends Mandiri_Controller
 
 		$data = [
 			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'kat' => $kat,
 			'judul' => ($kat == 1) ? 'Keluar' : 'Masuk',
 			'pesan' => $pesan,
@@ -109,6 +110,8 @@ class Pesan extends Mandiri_Controller
 	public function tulis($kat = 2)
 	{
 		$data = [
+			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
 			'subjek' => $this->input->post('subjek'),
 			'konten' => 'tulis_pesan'

@@ -38,19 +38,18 @@
 	<link rel="stylesheet" href="<?= base_url()?>assets/front/css/jquery-confirm.min.css">
 	<!-- Jquery UI -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
-	<?php if ($cek_anjungan): ?>
-		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
-	<?php endif; ?>
 	<!-- Diperlukan untuk script jquery khusus halaman -->
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
-
 	<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 	<script type="text/javascript">
 		const BASE_URL = "<?= base_url(); ?>";
 		const SITE_URL = "<?= site_url(); ?>";
 	</script>
+	<?php if ($cek_anjungan): ?>
+		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
+		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
+		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
+	<?php endif; ?>
 
 	<?php $this->load->view('head_tags'); ?>
 </head>
@@ -266,11 +265,13 @@
 	<!-- Khusus modul layanan mandiri -->
 	<script src="<?= base_url() ?>assets/front/js/mandiri.js"></script>
 
-	<!-- keyboard widget css & script -->
-	<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
-	<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
-	<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+	<?php if ($cek_anjungan): ?>
+		<!-- keyboard widget script -->
+		<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
+		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
+		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
+		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+	<?php endif; ?>
 	<script type="text/javascript">
 		$(window).on('load', function() {
 			$('#notif').modal('show');

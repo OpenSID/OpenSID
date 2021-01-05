@@ -186,7 +186,7 @@ class Web_Controller extends MY_Controller {
 class Mandiri_Controller extends MY_Controller {
 
 	public $header;
-	//public $cek_anjungan;
+	public $cek_anjungan;
 
 	/*
 	 * Constructor
@@ -197,7 +197,7 @@ class Mandiri_Controller extends MY_Controller {
 		$this->load->model(['config_model', 'anjungan_model']);
 
 		$this->header = $this->config_model->get_data();
-		//$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
 		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}

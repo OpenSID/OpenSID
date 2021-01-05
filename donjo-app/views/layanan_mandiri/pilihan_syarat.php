@@ -5,8 +5,8 @@
 			<option value="<?= $data['id']?>" <?= selected($data['id'], $syarat_permohonan[$syarat_id]); ?>><?= $data['nama']?></option>
 		<?php endif; ?>
 	<?php endforeach;?>
-	<?php //if ($cek_anjungan): ?>
+	<?php if ($cek_anjungan): ?>
 		<option value="-1" <?= selected('-1', '$syarat_permohonan[$syarat_id]'); ?>>Bawa bukti fisik ke Kantor Desa</option>
-	<?php //endif; ?>
+	<?php endif; ?>
 </select>
 <i class="fa fa-exclamation-triangle text-red perhatian" style="display: none; padding-left: 10px; font-weight: bold;">&nbsp;Perhatian!</i>

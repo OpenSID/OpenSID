@@ -17,15 +17,15 @@
 
 						<div class="form-group">
 							<label for="pin_lama">PIN Lama</label>
-							<input type="password" class="form-control input-md bilangan required" name="pin_lama" id="pin_lama" placeholder="Masukkan PIN Lama" minlength="6" maxlength="6">
+							<input type="password" class="form-control input-md bilangan required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_lama" id="pin_lama" placeholder="Masukkan PIN Lama" minlength="6" maxlength="6">
 						</div>
 						<div class="form-group">
 							<label for="pin_baru1">PIN Baru</label>
-							<input type="password" class="form-control input-md bilangan required" name="pin_baru1" id="pin_baru1" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
+							<input type="password" class="form-control input-md bilangan required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_baru1" id="pin_baru1" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
 						</div>
 						<div class="form-group">
 							<label for="pin_baru2">Ulangi PIN Baru</label>
-							<input type="password" class="form-control input-md bilangan required" name="pin_baru2" id="pin_baru2" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
+							<input type="password" class="form-control input-md bilangan required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_baru2" id="pin_baru2" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
 						</div>
 					</div>
 					<div class="box-footer">

@@ -63,6 +63,7 @@ class Surat extends Mandiri_Controller
 
 		$data = [
 			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'kat' => $kat,
 			'judul' => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
 			'main' => ($kat == 1) ? $permohonan : $arsip,
@@ -78,6 +79,7 @@ class Surat extends Mandiri_Controller
 
 		$data = [
 			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'menu_surat_mandiri' => $this->surat_model->list_surat_mandiri(),
 			'menu_dokumen_mandiri' => $this->lapor_model->get_surat_ref_all(),
 			'permohonan' => $this->permohonan_surat_model->get_permohonan($id_permohonan),
