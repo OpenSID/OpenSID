@@ -1,0 +1,181 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model Pembangunan
+ *
+ * donjo-app/models/Pembangunan_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+class Pembangunan_model extends CI_Model
+{
+	protected $table = 'pembangunan';
+
+	const ENABLE = 1;
+	const DISABLE = 0;
+
+	const ORDER_ABLE = [
+		2  => 'p.judul',
+		3  => 'p.sumber_dana',
+		5  => 'p.volume',
+		6  => 'p.tahun_anggaran',
+		7  => 'p.pelaksana_kegiatan',
+		8  => 'p.lokasi',
+		9  => 'p.keterangan',
+		10 => 'p.created_at'
+	];
+
+	public function get_data(string $search = '', $tahun = '')
+	{
+		$builder = $this->db->select([
+			'p.*',
+			'(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+			'(CASE WHEN MAX(d.persentase) IS NOT NULL THEN MAX(d.persentase) ELSE CONCAT("belum ada progres") END) AS max_persentase',
+		])
+		->from("{$this->table} p")
+		->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
+		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+		->group_by('p.id');
+
+		if (empty($search))
+		{
+			$search = $builder;
+		}
+		else
+		{
+			$search = $builder->group_start()
+				->like('p.sumber_dana', $search)
+				->or_like('p.judul', $search)
+				->or_like('p.keterangan', $search)
+				->or_like('p.volume', $search)
+				->or_like('p.tahun_anggaran', $search)
+				->or_like('p.pelaksana_kegiatan', $search)
+				->or_like('p.lokasi', $search)
+				->group_end();
+		}
+
+		$condition = $tahun === 'semua'
+			? $search
+			: $search->where('p.tahun_anggaran', $tahun);
+
+		return $condition;
+	}
+
+	public function insert(array $request)
+	{
+		return $this->db->insert($this->table, [
+			'sumber_dana'        => $request['sumber_dana'],
+			'judul'              => $request['judul'],
+			'volume'             => $request['volume'],
+			'tahun_anggaran'     => $request['tahun_anggaran'],
+			'pelaksana_kegiatan' => $request['pelaksana_kegiatan'],
+			'id_lokasi'          => $request['id_lokasi'] ?: null,
+			'lokasi'             => $request['lokasi'] ?: null,
+			'keterangan'         => $request['keterangan'],
+			'created_at'         => date('Y-m-d H:i:s'),
+			'updated_at'         => date('Y-m-d H:i:s'),
+		]);
+	}
+
+	public function update($id, array $request)
+	{
+		return $this->db->where('id', $id)->update($this->table, [
+			'sumber_dana'        => $request['sumber_dana'],
+			'judul'              => $request['judul'],
+			'volume'             => $request['volume'],
+			'tahun_anggaran'     => $request['tahun_anggaran'],
+			'pelaksana_kegiatan' => $request['pelaksana_kegiatan'],
+			'id_lokasi'          => $request['id_lokasi'] ?: null,
+			'lokasi'             => $request['lokasi'] ?: null,
+			'keterangan'         => $request['keterangan'],
+			'updated_at'         => date('Y-m-d H:i:s'),
+		]);
+	}
+
+	public function update_lokasi_maps($id, array $request)
+	{
+		return $this->db->where('id', $id)->update($this->table, [
+			'lat'        => $request['lat'],
+			'lng'        => $request['lng'],
+			'updated_at' => date('Y-m-d H:i:s'),
+		]);
+	}
+
+	public function delete($id)
+	{
+		return $this->db->where('id', $id)->delete($this->table);
+	}
+
+	public function find($id)
+	{
+		return $this->db->select([
+			'p.*',
+			'(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+		])
+		->from("{$this->table} p")
+		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+		->where('p.id', $id)
+		->get()
+		->row();
+	}
+
+	public function list_dusun_rt_rw()
+	{
+		return $this->db->select(['id', 'rt', 'rw', 'dusun'])
+			->where('rt >', 0)
+			->order_by('dusun')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+	}
+
+	public function unlock($id)
+	{
+		return $this->db->set('status', static::ENABLE)
+			->where('id', $id)
+			->update($this->table);
+	}
+
+	public function lock($id)
+	{
+		return $this->db->set('status', static::DISABLE)
+			->where('id', $id)
+			->update($this->table);
+	}
+}
