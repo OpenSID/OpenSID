@@ -96,4 +96,5 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		status_sukses($hasil);
 		return $hasil;
 	}
+
 }

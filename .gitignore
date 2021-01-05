@@ -55,4 +55,5 @@ version.json
 # obfuscator
 Obfuscator.php
 make_obfuscate.php
+cache/*
 
