@@ -13,4 +13,18 @@ class MY_Cache extends CI_Cache {
 		return $data;
 	}
 
+	/* 	Untuk cache yg diberi prefix user_id, seperti "{$this->session->user}_cache_modul",
+			hapus_cache_untuk_semua('_cache_modul') akan menghapus file cache untuk semua pengguna
+	*/
+	public function hapus_cache_untuk_semua($cache_id)
+	{
+		foreach ($this->file->cache_info() as $cache)
+		{
+			$file = $cache['server_path'];
+			if (substr_compare($file, $cache_id, -strlen($cache_id)) === 0 && file_exists($file))
+			{
+				unlink($file);
+			}
+		}
+	}
 }
