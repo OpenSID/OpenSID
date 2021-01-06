@@ -458,7 +458,7 @@
 						<label for="lokasi">Lokasi Tempat Tinggal </label>
 						<div class='row'>
 							<div class='col-sm-12'>
-								<button type="submit" class="btn btn-social btn-flat bg-navy btn-sm" onclick="$('#'+'mainform').attr('action', '<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]"); ?>');$('#'+'mainform').submit();"><i class="fa fa-map-marker"></i> Cari Lokasi Tempat Tinggal</button>
+								<button type="submit" class="btn btn-social btn-flat bg-navy btn-sm" onclick="$('#'+'mainform').attr('action', '<?= site_url("penduduk/penduduk_maps/$p/$o/$penduduk[id]"); ?>');$('#'+'mainform').submit();"><i class="fa fa-map-marker"></i> Cari Lokasi Tempat Tinggal</button>
 							</div>
 						</div>
 					</div>

@@ -475,7 +475,7 @@ class Penduduk extends Admin_Controller {
 		</td>";
 	}
 
-	public function ajax_penduduk_maps($p = 1, $o = 0, $id = NULL)
+	public function penduduk_maps($p = 1, $o = 0, $id = NULL)
 	{
 		if ($id == NULL)
 		{
@@ -483,15 +483,20 @@ class Penduduk extends Admin_Controller {
 
 			if ($this->session->success == -1)
 			{
-				$this->session->dari_internal == true;
+				$this->session->dari_internal = true;
 				redirect("penduduk/form");
 			}
 		}
 
+		redirect("penduduk/ajax_penduduk_maps/$p/$o/$id/1");
+	}
+
+	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
+	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['id'] = $id;
-		$data['edit'] = 1;
+		$data['edit'] =  $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
 		$data['desa'] = $this->header['desa'];
