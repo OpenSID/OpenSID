@@ -20,7 +20,7 @@
 		<?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>
 	</div>
 	<div class="row">
-		<section id="mainContent">
+		<section>
 			<div class="content_middle"></div>
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
