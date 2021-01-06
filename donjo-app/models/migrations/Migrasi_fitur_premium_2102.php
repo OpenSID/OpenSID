@@ -52,6 +52,8 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		$hasil =& $this->pengaturan_latar($hasil);
 
+		$hasil =& $this->urut_cetak($hasil);
+
 		//tambah kolom urut di tabel tweb_wil_clusterdesa
 		if (!$this->db->field_exists('urut', 'tweb_wil_clusterdesa'))
 			$hasil = $this->dbforge->add_column('tweb_wil_clusterdesa', array(
@@ -80,6 +82,21 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		mkdir($new . "/siteman/images", 0775, true);
 		mkdir($new . "/klasik/images", 0775, true);
 		mkdir($new . "/natra/images", 0775, true);
+		return $hasil;
+	}
+
+	private function urut_cetak($hasil)
+	{
+		//tambah kolom urut untuk tabel cetak semua di tabel tweb_wil_clusterdesa
+		if (!$this->db->field_exists('urut_cetak', 'tweb_wil_clusterdesa'))
+			$hasil = $this->dbforge->add_column('tweb_wil_clusterdesa', array(
+				'urut_cetak' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				),
+			));
+
 		return $hasil;
 	}
 }
