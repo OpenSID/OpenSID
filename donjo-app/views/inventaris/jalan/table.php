@@ -37,7 +37,7 @@
 															<th class="text-center" rowspan="2">No</th>
 															<th class="text-center" rowspan="2">Aksi</th>
 															<th class="text-center" rowspan="2">Nama Barang</th>
-															<th class="text-center" rowspan="2">Kode Barang</th>
+															<th class="text-center" rowspan="2">Kode Barang / Nomor Registrasi</th>
 															<th class="text-center" rowspan="2">Kondisi (B, KB, RB)</th>
 															<th class="text-center" rowspan="2">Jenis Kontruksi</th>
 															<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>

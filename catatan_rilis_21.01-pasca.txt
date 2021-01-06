@@ -1,10 +1,11 @@
 Di rilis ini, versi 21.01-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
 
 Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
 
 1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
+2. #3848: Tampilkan Nomor Registrasi di semua daftar inventaris.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

@@ -37,7 +37,7 @@
 															<th class="text-center">No</th>
 															<th class="text-center">Aksi</th>
 															<th class="text-center">Nama Barang</th>
-															<th class="text-center">Kode Barang</th>
+															<th class="text-center">Kode Barang / Nomor Registrasi</th>
 															<th class="text-center">Jumlah</th>
 															<th class="text-center">Tahun Pembelian</th>
 															<th class="text-center">Asal Usul</th>
