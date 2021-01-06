@@ -10,7 +10,7 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
 							</a>
 						</div>
-						<formid="main" name="main" method="POST" class="form-horizontal">
+						<form id="main" name="main" method="POST" class="form-horizontal">
 							<?php include("donjo-app/views/surat/form/_cari_nik.php"); ?>
 						</form>
 						<form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
