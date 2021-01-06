@@ -49,7 +49,7 @@
 <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 
-<form id="mainform_map" name="mainform_map" action="" method="post">
+<form id="mainform_map" name="mainform_map"method="post">
   <div class="row">
     <div class="col-md-12">
       <div id="map">

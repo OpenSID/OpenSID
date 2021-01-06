@@ -120,6 +120,7 @@
 
 	}; //EOF window.onload
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#mapx {
 		width: 100%;

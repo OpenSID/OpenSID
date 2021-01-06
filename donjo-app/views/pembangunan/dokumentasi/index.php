@@ -7,7 +7,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
+		<form id="mainformexcel" name="mainformexcel"method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">

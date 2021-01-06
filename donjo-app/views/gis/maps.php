@@ -238,6 +238,7 @@
 
 })();
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#map
 	{
@@ -246,7 +247,7 @@
 	}
 </style>
 <div class="content-wrapper">
-	<form id="mainform_map" name="mainform_map" action="" method="post">
+	<form id="mainform_map" name="mainform_map"method="post">
 		<div class="row">
 			<div class="col-md-12">
 				<div id="map">

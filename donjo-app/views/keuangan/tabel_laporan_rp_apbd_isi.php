@@ -1,3 +1,4 @@
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	table.blueTable {
 		border: 1px solid #1C6EA4;

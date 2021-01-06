@@ -183,7 +183,7 @@
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 				<h4 class='modal-title' id='myModalLabel'>Ubah dokumen</h4>
 			</div>
-			<form id="unggah_dokumen" action="" method="POST" enctype="multipart/form-data">
+			<form id="unggah_dokumen"method="POST" enctype="multipart/form-data">
 				<div class='modal-body'>
 					<div class="row">
 						<div class="col-sm-12">

@@ -15,6 +15,7 @@
 		$('#modalBox').modal('hide');
 	}
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	.form-group {
 		margin-bottom: 10px;

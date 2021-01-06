@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 </style>
 <div class="modal-body">
-	<form id="mainform" name="mainform" action="" method="post">
+	<form id="mainform" name="mainform" method="post">
 		<input type="hidden" id="untuk_web" value="<?= $untuk_web?>">
 		<div class="row">
 			<div class="col-md-12">

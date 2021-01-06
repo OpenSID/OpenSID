@@ -13,7 +13,7 @@
 		<div id="navarea">
 			<?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>
 		</div>
-		<section id="mainContent">
+		<section>
 			<div class="content_middle">
 			</div>
 			<div class="content_bottom">

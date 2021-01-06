@@ -33,7 +33,7 @@
 								</label>
 							</div>
 						</div>
-						<form action="" id="main" name="main" method="POST"  class="form-horizontal">
+						<formid="main" name="main" method="POST"  class="form-horizontal">
 							<div class="form-group col-sm-12" >
 				  			<label class="col-sm-4 col-lg-2 control-label" for="id_pend">NIK / Nama Penduduk </label>
 								<div class="col-sm-7">
