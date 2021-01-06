@@ -170,6 +170,11 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			'ikon_kecil' => '',
 			'parent'     => 220
 		]);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+
 		return $hasil;
 	}
 
