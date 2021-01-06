@@ -6,6 +6,7 @@ Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
 
 1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
 2. #3848: Tampilkan Nomor Registrasi di semua daftar inventaris.
+3. #3904: Tampilkan luas bangunan di daftar inventaris Konstruksi Dalam Pengerjaan. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
