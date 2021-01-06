@@ -143,7 +143,7 @@
 					<div class="box-header <?= $label?>"><?= $flash_message?></div>
 				<?php endif; ?>
 				<div class="contact_bottom">
-					<form class="contact_form form-validasi" id="form-komentar" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
+					<form class="contact_form form-komentar" id="validasi" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
 						<table width="100%">
 							<tr class="komentar nama">
 								<td width="20%">Nama</td>

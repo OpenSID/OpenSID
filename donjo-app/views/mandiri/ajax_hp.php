@@ -40,12 +40,14 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
+
+<!-- TODO: Pindahkan ke external css -->
 <style type="text/css">
 	#ubah_hp th { width: 20%; }
 </style>
 
 <?php $this->load->view('global/validasi_form'); ?>
-<form action="<?= $form_action; ?>" method="post" class="form-validasi">
+<form id="validasi" action="<?= $form_action; ?>" method="post">
 	<div class="modal-body" id="ubah_hp">
 		<table class="table table-hover" >
 			<tr>
