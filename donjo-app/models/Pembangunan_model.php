@@ -90,7 +90,6 @@ class Pembangunan_model extends CI_Model
 				->or_like('p.tahun_anggaran', $search)
 				->or_like('p.pelaksana_kegiatan', $search)
 				->or_like('p.lokasi', $search)
-				->or_like('p.foto', $search)
 				->or_like('p.anggaran', $search)
 				->group_end();
 		}
