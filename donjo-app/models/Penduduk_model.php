@@ -1120,7 +1120,7 @@ class Penduduk_model extends MY_Model {
 				Untuk semua Kepala Keluarga, hubungan 'kepala keluarga' tidak berlaku
 			***/
 
-			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1', '2', '3', '4', '5', '6', '8') " : "id <> 1";
+			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1', '2', '3', '5', '6', '8') " : "id <> 1";
 		}
 		$sql = "SELECT * FROM tweb_penduduk_hubungan WHERE $where";
 		$query = $this->db->query($sql);
