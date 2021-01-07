@@ -206,7 +206,7 @@ class Keluarga extends Admin_Controller {
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
-		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kk']['status_kawin']);
+		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kk']['status_kawin'], $data['kk']['sex']);
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
@@ -377,7 +377,7 @@ class Keluarga extends Admin_Controller {
 			$data['kepala_kk'] = $kk;
 		else
 			$data['kepala_kk'] = NULL;
-		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id']);
+		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id'], $data['kepala_kk']['sex_id']);
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 
