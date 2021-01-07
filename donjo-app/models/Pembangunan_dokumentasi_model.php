@@ -139,7 +139,8 @@ class Pembangunan_dokumentasi_model extends CI_Model
 			return NULL;
 		}
 		// Tes tidak berisi script PHP
-		if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jeniss]['name']))
+		if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jenis]['name']))
+
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
 			$_SESSION['success'] = -1;
