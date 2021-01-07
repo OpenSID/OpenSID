@@ -69,6 +69,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->create_table_pembangunan($hasil);
 		$hasil =& $this->create_table_pembangunan_ref_dokumentasi($hasil);
 		$hasil =& $this->add_modul_pembangunan($hasil);
+		$hasil =& $this->sebutan_kepala_desa($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -174,6 +175,19 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		// Hapus cache menu navigasi
 		$this->load->driver('cache');
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+		return $hasil;
+	}
+
+	// Tambah Sebutan jabatan kepala desa
+	private function sebutan_kepala_desa($hasil)
+	{
+		$setting = [
+					'key' => 'sebutan_kepala_desa',
+					'value' => 'Kepala',
+					'keterangan' => 'Pengganti sebutan jabatan Kepala Desa'
+					];
+		$hasil = $this->tambah_setting($setting);
 
 		return $hasil;
 	}
