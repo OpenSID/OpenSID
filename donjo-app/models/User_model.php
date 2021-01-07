@@ -195,7 +195,7 @@ class User_model extends CI_Model {
 			$this->session->sesi= $row->session;
 			$this->session->user = $row->id;
 			$this->session->grup = $row->id_grup;
-			$this->session->per_page = 10;	
+			$this->session->per_page = 10;
 		}
 		// Verifikasi password gagal
 		else
@@ -799,6 +799,7 @@ class User_model extends CI_Model {
 				'bumindes_keuangan' => array('b','u'),
 				'bumindes_pembangunan' => array('b','u'),
 				'bumindes_lain' => array('b','u'),
+				'ekspedisi' => array('b','u'),
 
 				// analisis
 				'analisis_master' => array('b','u'),
