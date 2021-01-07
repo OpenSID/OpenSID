@@ -684,7 +684,7 @@ class User_model extends CI_Model {
 			$uploadData = $this->upload->data();
 			// Buat nama file unik agar url file susah ditebak dari browser
 			$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
-      $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
+			$namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 			// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 			$fileRenamed = rename(
 				$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -732,8 +732,10 @@ class User_model extends CI_Model {
 			2 => array(
 				// covid-19
 				'covid19' => array('b','u','h'),
+
 				// home
 				'hom_sid' => array('b','u'),
+
 				// info desa
 				'identitas_desa' => array('b','u'),
 				'sid_core' => array('b','u'),
@@ -741,13 +743,15 @@ class User_model extends CI_Model {
 
 				// kependudukan
 				'penduduk' => array('b','u'),
-					// Penduduk
-					'penduduk_log' => array('b','u'),
+
+				// Penduduk
+				'penduduk_log' => array('b','u'),
 				'keluarga' => array('b','u'),
 				'rtm' => array('b','u'),
 				'kelompok' => array('b','u'),
-					// kelompok
-					'kelompok_master' => array('b','u'),
+
+				// kelompok
+				'kelompok_master' => array('b','u'),
 				'suplemen' => array('b','u'),
 				'dpt' => array('b','u'),
 
@@ -768,40 +772,49 @@ class User_model extends CI_Model {
 				'surat_keluar' => array('b','u'),
 				'dokumen_sekretariat' => array('b','u'),
 				'dokumen' => array('b','u'),
-					// inventaris
-					'api_inventaris_asset' => array('b','u'),
-					'api_inventaris_gedung' => array('b','u'),
-					'api_inventaris_jalan' => array('b','u'),
-					'api_inventaris_kontruksi' => array('b','u'),
-					'api_inventaris_peralatan' => array('b','u'),
-					'api_inventaris_tanah' => array('b','u'),
-					'inventaris_asset' => array('b','u'),
-					'inventaris_gedung' => array('b','u'),
-					'inventaris_jalan' => array('b','u'),
-					'inventaris_kontruksi' => array('b','u'),
-					'inventaris_peralatan' => array('b','u'),
-					'inventaris_tanah' => array('b','u'),
-					'laporan_inventaris' => array('b','u'),
+
+				// inventaris
+				'api_inventaris_asset' => array('b','u'),
+				'api_inventaris_gedung' => array('b','u'),
+				'api_inventaris_jalan' => array('b','u'),
+				'api_inventaris_kontruksi' => array('b','u'),
+				'api_inventaris_peralatan' => array('b','u'),
+				'api_inventaris_tanah' => array('b','u'),
+				'inventaris_asset' => array('b','u'),
+				'inventaris_gedung' => array('b','u'),
+				'inventaris_jalan' => array('b','u'),
+				'inventaris_kontruksi' => array('b','u'),
+				'inventaris_peralatan' => array('b','u'),
+				'inventaris_tanah' => array('b','u'),
+				'laporan_inventaris' => array('b','u'),
 				'klasifikasi' => array('b','u'),
 
 				// keuangan
 				'keuangan' => array('b','u'),
 				'keuangan_manual' => array('b','u'),
 
+				// keuangan
+				'bumindes_umum' => array('b','u'),
+				'bumindes_penduduk' => array('b','u'),
+				'bumindes_keuangan' => array('b','u'),
+				'bumindes_pembangunan' => array('b','u'),
+				'bumindes_lain' => array('b','u'),
+
 				// analisis
 				'analisis_master' => array('b','u'),
-					// pengaturan analisis
-					'analisis_kategori' => array('b','u'),
-					'analisis_indikator' => array('b','u'),
-					'analisis_klasifikasi' => array('b','u'),
-					'analisis_periode' => array('b','u'),
 
-					// input data analisis
-					'analisis_respon' => array('b','u'),
+				// pengaturan analisis
+				'analisis_kategori' => array('b','u'),
+				'analisis_indikator' => array('b','u'),
+				'analisis_klasifikasi' => array('b','u'),
+				'analisis_periode' => array('b','u'),
 
-					// laporan analisis
-					'analisis_laporan' => array('b','u'),
-					'analisis_statistik_jawaban' => array('b','u'),
+				// input data analisis
+				'analisis_respon' => array('b','u'),
+
+				// laporan analisis
+				'analisis_laporan' => array('b','u'),
+				'analisis_statistik_jawaban' => array('b','u'),
 
 				// bantuan
 				'program_bantuan' => array('b','u'),
@@ -811,6 +824,7 @@ class User_model extends CI_Model {
 
 				// pemetaan
 				'gis' => array('b','u'),
+
 				//pengaturan peta
 				'plan' => array('b','u'),
 				'point' => array('b','u'),
@@ -829,8 +843,9 @@ class User_model extends CI_Model {
 				'web' => array('b','u'),
 				'web_widget' => array('b','u'),
 				'menu' => array('b','u'),
-					// menu
-					'kategori' => array('b','u'),
+
+				// menu
+				'kategori' => array('b','u'),
 				'komentar' => array('b','u'),
 				'gallery' => array('b','u'),
 				'sosmed' => array('b','u'),
