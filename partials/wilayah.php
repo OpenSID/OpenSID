@@ -5,6 +5,7 @@
 		<h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
 	</div>
 	<div class="box-body">
+		<div class="table-responsive">
 		<?php if(count($main) > 0) : ?>
 			<table class="table table-striped table-bordered">
 				<thead>
@@ -48,5 +49,6 @@
 			<?php else : ?>
 				Belum ada data...
 		<?php endif ?>
+		</div>
 	</div>
 </div>
