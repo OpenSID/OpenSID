@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 4. #3890: Pengguna operator sekarang dapat mengakses menu Buku Administrasi Desa.
 5. #3893: Tambah Status hubungan Anak bagi Kepala Keluarga (perempuan) yang belum menikah.
 6. #3891: Sekarang ditampilkan pilihan lengkap tingkat pengguna pada form ubah pengguna Administrator. [bug-fix]
+7. #2659: Sekarang bisa isi lokasi peta tempat tinggal pada waktu menambah penduduk baru.
 
 
 Fitur Premium:
