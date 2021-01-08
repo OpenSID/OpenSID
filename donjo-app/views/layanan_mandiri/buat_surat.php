@@ -189,7 +189,7 @@
 
 	$(document).ready(function(){
 		// var id_surat = 0;
-		var url = "<?= base_url('layanan_mandiri/surat/cek_syarat'); ?>";
+		var url = "<?= site_url('layanan_mandiri/surat/cek_syarat'); ?>";
 		table = $('#syarat_surat').DataTable({
 			'processing': true,
 			'serverSide': true,
