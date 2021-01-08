@@ -1,7 +1,3 @@
-<script type='text/javascript'>
-	const LOKASI_DOKUMEN = '<?= base_url().LOKASI_DOKUMEN ?>';
-</script>
-
 <div class="box box-solid">
 	<form id="validasi" action="<?= site_url("layanan_mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
 
@@ -68,7 +64,7 @@
 
 	<!-- Kelengkapan Dokumen Yang Dimiliki -->
 	<div class="box-body box-line">
-		<h4><b>DOKUMEN / KELENGKAPAN PENDUDUK YANG DIBUTUHKAN</b></h4>
+		<h4><b>DOKUMEN / KELENGKAPAN PENDUDUK YANG TERSEDIA</b></h4>
 	</div>
 	<div class="box-body box-line">
 		<button type="button" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modal" data-title="Tambah Dokumen" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="tambah_dokumen"><i class='fa fa-plus'></i>Tambah Dokumen</button>
@@ -144,7 +140,7 @@
 						</div>
 						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen.</code></span>
 					</div>
-					<?php if (!empty($kk)): ?>
+					<?php if ( ! empty($kk)): ?>
 						<hr>
 						<span class="help-block"><code>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini.</code></span>
 						<table class="table table-striped table-bordered table-responsive">
@@ -187,7 +183,7 @@
 		}
 	}
 
-	$(document).ready(function(){
+	$(document).ready(function() {
 		// var id_surat = 0;
 		var url = "<?= base_url('layanan_mandiri/surat/cek_syarat'); ?>";
 		table = $('#syarat_surat').DataTable({
@@ -215,12 +211,12 @@
 			'language': {
 				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
 			},
-			'drawCallback': function (){
+			'drawCallback': function () {
 				$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
 			}
 		});
 
-		$('#id_surat').change(function(){
+		$('#id_surat').change(function() {
 			table.ajax.reload();
 		});
 
