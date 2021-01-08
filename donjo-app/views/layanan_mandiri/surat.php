@@ -13,7 +13,7 @@
 	<div class="box-body">
 		<div class="table-responsive">
 			<?php if($kat == 1): ?>
-				<table class="table table-bordered table-hover datatable-polos table-data">
+				<table class="table table-bordered table-hover table-data" id="datatable-polos">
 					<thead>
 						<tr>
 							<th>No</th>
@@ -51,7 +51,7 @@
 					</tbody>
 				</table>
 			<?php else: ?>
-				<table class="table table-bordered table-hover datatable-polos table-data">
+				<table class="table table-bordered table-hover table-data" id="datatable-polos">
 					<thead>
 						<tr>
 							<th class="padat">No</th>

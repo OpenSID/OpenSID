@@ -217,7 +217,7 @@
 	<div class="box-body box-line">
 		<h4><b>KEANGGOTAAN KELOMPOK</b></h4>
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover datatable-polos table-data">
+		<table class="table table-bordered table-hover table-data" id="datatable-polos">
 				<thead>
 					<tr>
 						<th width="padat">No</th>
@@ -247,7 +247,7 @@
 	<div class="box-body box-line">
 		<h4><b>DOKUMEN / KELENGKAPAN PENDUDUK</b></h4>
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover datatable-polos table-data">
+			<table class="table table-bordered table-hover table-data" id="datatable-polos">
 				<thead>
 					<tr>
 						<th class="padat">No</th>

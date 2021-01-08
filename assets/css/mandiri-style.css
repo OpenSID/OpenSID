@@ -323,3 +323,8 @@ a.btn {
 	padding-right: 0px;
 	padding-left: 0px;
 }
+
+.form-horizontal.form-group.has-error label {
+	padding-left: 10px;
+}
+

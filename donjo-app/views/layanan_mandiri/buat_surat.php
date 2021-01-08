@@ -173,7 +173,6 @@
 		</div>
 	</div>
 </div>
-
 <script type='text/javascript'>
 	function cek_perhatian(elem) {
 		if ($(elem).val() == '-1') {
@@ -182,70 +181,4 @@
 			$(elem).next('.perhatian').hide();
 		}
 	}
-
-	$(document).ready(function() {
-		// var id_surat = 0;
-		var url = "<?= site_url('layanan_mandiri/surat/cek_syarat'); ?>";
-		table = $('#syarat_surat').DataTable({
-			'processing': true,
-			'serverSide': true,
-			'paging': false,
-			'info': false,
-			'ordering': false,
-			'searching': false,
-			"ajax": {
-				"url": url,
-				"type": "POST",
-				data: function ( d ) {
-					d.id_surat = $("#id_surat").val();
-					d.id_permohonan = $("#id_permohonan").val();
-				}
-			},
-			//Set column definition initialisation properties.
-			"columnDefs": [
-			{
-				"targets": [ 0 ], //first column / numbering column
-				"orderable": false, //set not orderable
-			},
-			],
-			'language': {
-				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-			},
-			'drawCallback': function () {
-				$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
-			}
-		});
-
-		$('#id_surat').change(function() {
-			table.ajax.reload();
-		});
-
-		// Perbaharui daftar pilihan dokumen setelah ada perubahan daftar dokumen yg tersedia
-		// Beri tenggang waktu supaya database dokumen selesai di-initialise
-		setTimeout(function() {
-			// Ambil instance dari datatable yg sudah ada
-			var dokumen = $('#dokumen').DataTable({"retrieve": true});
-			dokumen.on( 'draw', function () {
-				table.ajax.reload();
-			} );
-		}, 500);
-
-		if ($('input[name=id_permohonan]').val()) {
-			$('#id_surat').attr('disabled','disabled');
-			$('#id_surat').change();
-		}
-
-		$('#validasi').submit(function() {
-			var validator = $("#validasi").validate();
-			var syarat = $("select[name='syarat[]']");
-			var i;
-			for (i = 0; i < syarat.length; i++) {
-				if (!validator.element(syarat[i])) {
-					$("#kata_peringatan").text('Syarat belum dilengkapi');
-					$("#dialog").modal('show');
-					return false;
-				}
-			};
-		});
-	});
 </script>
