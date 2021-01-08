@@ -424,6 +424,7 @@ class Wilayah_model extends MY_Model {
 			->from('tweb_wil_clusterdesa u')
 			->join('penduduk_hidup a', 'u.id_kepala = a.id', 'LEFT')
 			->where('u.rt <>', '0')
+			->where('u.rt <>', '-')
 			->where('u.rw', urldecode($rw))
 			->where('u.dusun', urldecode($dusun))
 			->order_by('u.urut', 'ASC');
