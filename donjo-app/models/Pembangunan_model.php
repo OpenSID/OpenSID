@@ -156,6 +156,15 @@ class Pembangunan_model extends CI_Model
 		->row();
 	}
 
+	public function list_filter_tahun()
+	{
+		return $this->db->select('tahun_anggaran')
+			->distinct()
+			->order_by('tahun_anggaran', 'desc')
+			->get($this->table)
+			->result();
+	}
+
 	public function list_dusun_rt_rw()
 	{
 		return $this->db->select(['id', 'rt', 'rw', 'dusun'])

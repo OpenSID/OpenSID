@@ -42,7 +42,7 @@
 								<label class="col-sm-3 control-label" for="group">Group</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
-										<?php if ($user['id_grup'] == '1'): ?>
+										<?php if ($user['id'] == '1'): ?>
 											<option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
 										<?php else: ?>
 											<?php foreach ($user_group as $item): ?>

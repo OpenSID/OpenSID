@@ -37,7 +37,7 @@
 															<th class="text-center" rowspan="2">No</th>
 															<th class="text-center" rowspan="2">Aksi</th>
 															<th class="text-center" rowspan="2">Nama Barang</th>
-															<th class="text-center" rowspan="2">Kode Barang</th>
+															<th class="text-center" rowspan="2">Kode Barang / Nomor Registrasi</th>
 															<th class="text-center" rowspan="2">Kondisi (B, KB, RB)</th>
 															<th class="text-center" rowspan="2">Jenis Kontruksi</th>
 															<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>
@@ -68,7 +68,7 @@
 																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?></td>
+																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																<td><?= $data->kondisi;?></td>
 																<td><?= $data->kontruksi;?></td>
 																<td>
