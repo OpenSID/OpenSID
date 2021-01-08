@@ -37,7 +37,7 @@
 															<th class="text-center" rowspan="2">No</th>
 															<th class="text-center" rowspan="2">Aksi</th>
 															<th class="text-center" rowspan="2">Nama Barang</th>
-															<th class="text-center" rowspan="2">Kode Barang</th>
+															<th class="text-center" rowspan="2">Kode Barang / Nomor Registrasi</th>
 															<th class="text-center" rowspan="2">Kondisi Bangunan (B, KB, RB)</th>
 															<th class="text-center" rowspan="2">Letak/Lokasi</th>
 															<th class="text-center" colspan="2">Dokumen Gedung</th>
@@ -67,7 +67,7 @@
 																	<a href="#" data-href="<?= site_url("api_inventaris_gedung/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?></td>
+																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																<td><?= $data->kondisi_bangunan;?></td>
 																<td><?= $data->letak;?></td>
 																<td>

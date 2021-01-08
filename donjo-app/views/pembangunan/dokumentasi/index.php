@@ -25,7 +25,7 @@
 								<table class="table table-bordered table-striped table-hover tabel-rincian">
 									<tbody>
 										<tr>
-											<td width="20%">Nama Pembangunan</td>
+											<td width="20%">Nama Kegiatan</td>
 											<td width="1">:</td>
 											<td><?= $pembangunan->judul ?></td>
 										</tr>

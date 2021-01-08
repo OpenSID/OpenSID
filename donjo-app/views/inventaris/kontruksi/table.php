@@ -62,7 +62,7 @@
 																<td><?= $data->nama_barang;?></td>
 																<td><?= $data->kondisi_bangunan;?></td>
 																<td>
-																	<?= (empty($data->luas)) ? "-" : $data->luas ?>
+																	<?= (empty($data->luas_bangunan)) ? "-" : $data->luas_bangunan ?>
 																</td>
 																<td>
 																	<?= (empty(date('d M Y',strtotime($data->tanggal_dokument)))) ? "-" : date('d M Y',strtotime($data->tanggal_dokument)) ?>
