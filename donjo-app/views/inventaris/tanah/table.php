@@ -37,7 +37,7 @@
 															<th class="text-center" >No</th>
 															<th class="text-center" >Aksi</th>
 															<th class="text-center" >Nama Barang</th>
-															<th class="text-center" >Kode Barang</th>
+															<th class="text-center" >Kode Barang / Nomor Registrasi</th>
 															<th class="text-center" >Luas (M<sup>2</sup>)</th>
 															<th class="text-center" >Tahun Pengadaan</th>
 															<th class="text-center" >Letak/Alamat</th>
@@ -63,7 +63,7 @@
 																	<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?></td>
+																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																<td><?= $data->luas;?></td>
 																<td><?= $data->tahun_pengadaan;?></td>
 																<td><?= $data->letak;?></td>

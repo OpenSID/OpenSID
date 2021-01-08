@@ -29,9 +29,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;">Judul</label>
+										<label class="col-sm-3 control-label" style="text-align:left;">Nama Kegiatan</label>
 										<div class="col-sm-7">
-											<input maxlength="50" class="form-control input-sm required" name="judul" id="judul" type="text" placeholder="Judul Pembangunan" />
+											<input maxlength="50" class="form-control input-sm required" name="judul" id="judul" type="text" placeholder="Nama Kegiatan Pembangunan" />
 										</div>
 									</div>
 									<div class="form-group">

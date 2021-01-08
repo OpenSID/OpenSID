@@ -84,7 +84,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
 		return $this->db->insert($this->table, [
 			'id_pembangunan' => $request['id_pembangunan'],
 			'gambar'         => $gambar,
-			'persentase'     => $request['persentase'],
+			'persentase'     => $request['persentase'] ? $request['persentase'] : $request['id_persentase'],
 			'keterangan'     => $request['keterangan'],
 			'created_at'     => date('Y-m-d H:i:s'),
 			'updated_at'     => date('Y-m-d H:i:s'),
@@ -99,7 +99,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
 		])
 		->update($this->table, [
 			'gambar'     => $gambar,
-			'persentase' => $request['persentase'],
+			'persentase' => $request['persentase'] ? $request['persentase'] : $request['id_persentase'],
 			'keterangan' => $request['keterangan'],
 			'updated_at' => date('Y-m-d H:i:s'),
 		]);

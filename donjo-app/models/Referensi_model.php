@@ -60,12 +60,6 @@ define("MASA_BERLAKU", serialize([
 	"y" => "Tahun"
 ]));
 
-define("JENIS_PERATURAN_DESA", serialize([
-	"Peraturan Desa (Perdes)",
-	"Peraturan Kepala Desa (Perkades)",
-	"Peraturan Bersama Kepala Desa"
-]));
-
 define("KATEGORI_PUBLIK", serialize([
 	"Informasi Berkala" => "1",
 	"Informasi Serta-merta" => "2",
@@ -196,13 +190,13 @@ define("PELAKSANA", serialize([
 ]));
 
 define("SUMBER_DANA", serialize([
-	1 => 'Dana Desa (APBN)',
-	2 => 'Alokasi Dana Desa (APBD)',
-	3 => 'Pendapatan Asli Desa',
-	4 => 'Bantuan Kabupaten',
-	5 => 'Bantuan Provinsi',
-	6 => 'Hibah atau Sumbangan',
-	7 => 'Sumber Dana Lainnya'
+	1 => 'Pendapatan Asli Daerah',
+	2 => 'Alokasi Anggaran Pendapatan dan Belanja Negara (Dana Desa)',
+	3 => 'Bagian Hasil Pajak Daerah dan Retribusi Daerah Kabupaten/Kota',
+	4 => 'Alokasi Dana Desa',
+	5 => 'Bantuan Keuangan dari APBD Provinsi dan APBD Kabupaten/Kota',
+	6 => 'Hibah dan Sumbangan yang Tidak Mengikat dari Pihak Ketiga',
+	7 => 'Lain-lain Pendapatan Desa yang Sah',
 ]));
 
 define("STATUS_PEMBANGUNAN", serialize([

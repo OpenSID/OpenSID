@@ -1107,25 +1107,29 @@ class Penduduk_model extends MY_Model {
 		Digunakan pada saat menambah anggota keluarga, supaya yang ditampilkan hanya
 		hubungan yang berlaku
 	**/
-	public function list_hubungan($status_kawin_kk=NULL)
+	public function list_hubungan($status_kawin_kk = NULL, $sex = 1)
 	{
-		if (empty($status_kawin_kk))
-		{
-			$where = "1";
-		}
-		else
+		if (! empty($status_kawin_kk))
 		{
 			/***
 				Untuk Kepala Keluarga yang belum kawin, hubungan berikut tidak berlaku:
-					menantu, cucu, mertua, suami, istri
+					menantu, cucu, mertua, suami, istri; anak hanya berlaku untuk kk perempuan
 				Untuk semua Kepala Keluarga, hubungan 'kepala keluarga' tidak berlaku
 			***/
 
-			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1', '2', '3', '4', '5', '6', '8') " : "id <> 1";
+			if ($status_kawin_kk == 1)
+			{
+				($sex == 2) ? $this->db->where("id NOT IN ('1', '2', '3', '5', '6', '8') ")
+										: $this->db->where("id NOT IN ('1', '2', '3', '4', '5', '6', '8') ");
+			}
+			else
+			{
+				$this->db->where("id <> 1");
+			}
 		}
-		$sql = "SELECT * FROM tweb_penduduk_hubungan WHERE $where";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->get('tweb_penduduk_hubungan')
+			->result_array();
 		return $data;
 	}
 

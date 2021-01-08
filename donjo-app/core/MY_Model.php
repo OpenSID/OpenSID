@@ -132,4 +132,16 @@ class MY_Model extends CI_Model {
 		return $this->db->query($sql);
 	}
 
+	// fungsi untuk format paginasi
+	// $per_page = $this->session->per_page;
+	public function paginasi($page = 1, $jml_data = 0, $per_page = 0)
+	{
+		$this->load->library('paging');
+		$cfg['page'] = $page;
+		$cfg['per_page'] = $per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
 }
