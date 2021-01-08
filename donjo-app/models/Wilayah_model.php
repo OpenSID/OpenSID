@@ -400,6 +400,7 @@ class Wilayah_model extends MY_Model {
 		$row = $this->db
 			->select('COUNT(*) AS jml ')
 			->where('rt <>', '0')
+			->where('rt <>', '-')
 			->where('rw',  urldecode($rw))
 			->where('dusun', urldecode($dusun))
 			->get('tweb_wil_clusterdesa')
