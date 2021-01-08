@@ -351,7 +351,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ibu_pria): ?>
+								<?php if ($ibu_pria['nik']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>A.3 DATA IBU PASANGAN PRIA</strong></label>
 									</div>
@@ -392,7 +392,7 @@
 									<div class="form-group ibu_pria">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ibu_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_pria']?>">
+											<input  name="nama_ibu_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_pria'] ?: $ibu_pria['nama']?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input  name="binti_ibu_pria" class="form-control input-sm" type="text" placeholder="Binti Ibu Pria" value="<?= $_SESSION['post']['binti_ibu_pria']?>">
@@ -743,7 +743,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ibu_wanita): ?>
+								<?php if ($ibu_wanita['nik']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>B.3 DATA IBU PASANGAN WANITA</strong></label>
 									</div>
@@ -784,7 +784,7 @@
 									<div class="form-group ibu_wanita">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_wanita']?>">
+											<input  name="nama_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_wanita'] ?: $ibu_wanita['nama']?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input  name="binti_ibu_wanita" class="form-control input-sm" type="text" placeholder="Binti Ibu Wanita" value="<?= $_SESSION['post']['binti_ibu_wanita']?>">
