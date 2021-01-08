@@ -78,7 +78,7 @@ class Wilayah_model extends MY_Model {
 		$row = $query->row_array();
 		$jml_data = $row['jml'];
 		$per_page = $this->session->per_page;
-		$paginasi = paginasi($p, $jml_data, $per_page);
+		$paginasi = $this->paginasi($p, $jml_data, $per_page);
 
 		return $paginasi;
 	}
@@ -311,7 +311,7 @@ class Wilayah_model extends MY_Model {
 
 		$jml_data = $row['jml'];
 		$per_page = $this->session->per_page;
-		$paginasi = paginasi($p, $jml_data, $per_page);
+		$paginasi = $this->paginasi($p, $jml_data, $per_page);
 
 		return $paginasi;
 	}
@@ -407,8 +407,8 @@ class Wilayah_model extends MY_Model {
 
 		$jml_data = $row['jml'];
 		$per_page = $this->session->per_page;
-		$paginasi = paginasi($p, $jml_data, $per_page);
-		
+		$paginasi = $this->paginasi($p, $jml_data, $per_page);
+
 		return $paginasi;
 	}
 	//Bagian RT
@@ -780,12 +780,12 @@ class Wilayah_model extends MY_Model {
 
 				$subset = " rt <> '0' AND rw = '$rw' AND dusun = '$dusun'";
 				break;
-			
+
 			default:
 				# code...
 				break;
 		}
-		
+
 		$this->urut_model->urut($id, $arah, $subset);
 	}
 
@@ -833,7 +833,7 @@ class Wilayah_model extends MY_Model {
 				{
 					$this->update_urut($urut, $rt['id']);
 					$urut++;
-				}	
+				}
 			}
 		}
 	}

@@ -658,17 +658,3 @@ function url_order($o = 1, $url = '', $asc = 1, $text = 'Field')
 }
 
 // =======================================
-
-// fungsi untuk format paginasi
-// $per_page = $this->session->per_page;
-function paginasi($page = 1, $jml_data = 0, $per_page = 0)
-	{
-		$ci =& get_instance();
-		$ci->load->library('paging');
-		$cfg['page'] = $page;
-		$cfg['per_page'] = $per_page;
-		$cfg['num_rows'] = $jml_data;
-		$ci->paging->init($cfg);
-
-		return $ci->paging;
-	}

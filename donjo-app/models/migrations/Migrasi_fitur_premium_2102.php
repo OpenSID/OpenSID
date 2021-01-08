@@ -182,7 +182,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	private function urut_cetak($hasil)
 	{
 		//tambah kolom urut untuk tabel cetak semua di tabel tweb_wil_clusterdesa
-		if (!$this->db->field_exists('urut_cetak', 'tweb_wil_clusterdesa'))
+		if ( ! $this->db->field_exists('urut_cetak', 'tweb_wil_clusterdesa'))
 			$hasil = $this->dbforge->add_column('tweb_wil_clusterdesa', array(
 				'urut_cetak' => array(
 				'type' => 'INT',

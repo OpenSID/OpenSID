@@ -16,7 +16,7 @@ Fitur Premium:
 
 1. Sediakan pengaturan latar belakang halaman login dan tema klasik/hadakewa.
 2. #3069: Sediakan pencarian peserta program bantuan di daftar Penduduk dan Keluarga.
-3. #2068: Sekarang bisa urut dusun di Info Desa > Wilayah Administratif.
+3. #2068: Sekarang bisa urut dusun/rw/rt di Info Desa > Wilayah Administratif.
 4. #3881: Sederhanakan notifikasi admin supaya tidak memberatkan server. [teknis]
 5. #1613: Sediakan paginasi untuk daftar Data Suplemen.
 6. Sederhanakan script pemantauan rilis baru. (teknis)
