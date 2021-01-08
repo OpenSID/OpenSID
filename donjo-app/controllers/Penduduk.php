@@ -53,7 +53,7 @@ class Penduduk extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'config_model', 'program_bantuan_model', 'lapor_model']);
+		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model']);
 
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
@@ -159,6 +159,7 @@ class Penduduk extends Admin_Controller {
 				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
+			$data['form_action_maps'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else
 		{
@@ -474,17 +475,33 @@ class Penduduk extends Admin_Controller {
 		</td>";
 	}
 
+	public function penduduk_maps($p = 1, $o = 0, $id = NULL)
+	{
+		if ($id == NULL)
+		{
+			$id = $this->penduduk_model->insert();
+
+			if ($this->session->success == -1)
+			{
+				$this->session->dari_internal = true;
+				redirect("penduduk/form");
+			}
+		}
+
+		redirect("penduduk/ajax_penduduk_maps/$p/$o/$id/1");
+	}
+
 	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['id'] = $id;
-		$data['edit'] = $edit;
+		$data['edit'] =  $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
-		$data['wil_atas'] = $this->config_model->get_data();
+		$data['wil_atas'] = $this->header['desa'];
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
@@ -774,4 +791,5 @@ class Penduduk extends Admin_Controller {
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_penduduk', $id_program, '0');
 	}
+
 }
