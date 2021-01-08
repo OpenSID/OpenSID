@@ -30,7 +30,7 @@
 	</div>
 	<div class="box-body box-line">
 		<div class="table-responsive">
-		<table class="table table-bordered table-hover table-data" id="datatable-polos">
+		<table class="table table-bordered table-hover table-data datatable-polos">
 				<thead>
 					<tr class="judul">
 						<th>No</th>

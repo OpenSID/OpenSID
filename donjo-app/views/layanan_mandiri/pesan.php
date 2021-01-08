@@ -12,7 +12,7 @@
 	</div>
 	<div class="box-body">
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover table-data" id="datatable-polos">
+			<table class="table table-bordered table-hover table-data datatable-polos">
 				<thead>
 					<tr>
 						<th>No</th>

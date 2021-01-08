@@ -111,7 +111,7 @@ $(document).ready(function() {
 		};
 	});
 
-	$('#datatable-polos').DataTable({
+	$('.datatable-polos').DataTable({
 		'pageLength': 10,
 		'responsive': true,
 		'aoColumnDefs': [
