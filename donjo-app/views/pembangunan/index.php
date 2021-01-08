@@ -25,9 +25,9 @@
 												<div class="col-sm-2">
 												<select class="form-control input-sm select2" id="tahun" name="tahun" style="width:100%;">
 													<option selected value="semua">Semua Tahun</option>
-													<?php for ($i = date('Y'); $i >= 1999; $i--) : ?>
-														<option value="<?= $i ?>"><?= $i ?></option>
-													<?php endfor; ?>
+													<?php foreach ($list_tahun as $list) : ?>
+														<option value="<?= $list->tahun_anggaran ?>"><?= $list->tahun_anggaran ?></option>
+													<?php endforeach; ?>
 												</select>
 												</div>
 											</div>
@@ -38,7 +38,7 @@
 														<tr>
 															<th class="text-center">No</th>
 															<th width="190px" class="text-center">Aksi</th>
-															<th class="text-center">Judul</th>
+															<th class="text-center">Nama Kegiatan</th>
 															<th class="text-center">Sumber Dana</th>
 															<th class="text-center">Persentase</th>
 															<th class="text-center">Volume</th>

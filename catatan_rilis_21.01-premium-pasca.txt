@@ -1,10 +1,15 @@
 Di rilis ini, versi 21.01-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Agung Sugiarto dan Ians Shinichi Kudo yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada afa28, Agung Sugiarto, Ariandi Ryan Kahfi dan Ians Shinichi Kudo yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
 
 Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 
 1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
+2. #3848: Tampilkan Nomor Registrasi di semua daftar inventaris.
+3. #3904: Tampilkan luas bangunan di daftar inventaris Konstruksi Dalam Pengerjaan. [bug-fix]
+4. #3890: Pengguna operator sekarang dapat mengakses menu Buku Administrasi Desa.
+5. #3893: Tambah Status hubungan Anak bagi Kepala Keluarga (perempuan) yang belum menikah.
+6. #3891: Sekarang ditampilkan pilihan lengkap tingkat pengguna pada form ubah pengguna Administrator. [bug-fix]
 
 
 Fitur Premium:

@@ -20,13 +20,32 @@
 								<div class="col-md-12">
 									<input type="hidden" name="id_pembangunan" value="<?= $id_pembangunan ?>">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="persentase">Persentase</label>
-										<div class="col-sm-7">
-											<select class="form-control input-sm select2" id="persentase" name="persentase" style="width:100%;">
-												<?php foreach ($persentase as $value) : ?>
-													<option value="<?= $value ?>"><?= $value ?></option>
-												<?php endforeach; ?>
-											</select>
+										<label for="jenis_persentase" class="col-sm-3 control-label">Persentase Pembangunan</label>
+										<div class="btn-group col-sm-8 kiri" data-toggle="buttons">
+											<label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label active">
+												<input type="radio" name="jenis_persentase" class="form-check-input" value="1" autocomplete="off" onchange="pilih_persentase(this.value);"> Pilih Persentase
+											</label>
+											<label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
+												<input type="radio" name="jenis_persentase" class="form-check-input" value="2" autocomplete="off" onchange="pilih_persentase(this.value);"> Tulis Manual
+											</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label"></label>
+										<div id="pilih">
+											<div class="col-sm-7">
+												<select class="form-control input-sm select2 required" id="id_persentase" name="id_persentase" style="width:100%">
+													<option value=''>-- Pilih Persentase Pembangunan --</option>
+													<?php foreach ($persentase as $value) : ?>
+														<option value="<?= $value ?>"><?= $value ?></option>
+													<?php endforeach; ?>
+												</select>
+											</div>
+										</div>
+										<div id="manual">
+											<div class="col-sm-7">
+												<input maxlength="50" class="form-control input-sm required" name="persentase" id="persentase" type="text" placeholder="Contoh: 50%" />
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -64,3 +83,25 @@
 		</form>
 	</section>
 </div>
+<script>
+	function pilih_persentase(pilih) {
+		if (pilih == 1) {
+			$('#persentase').val('');
+			$('#persentase').removeClass('required');
+			$("#manual").hide();
+			$("#pilih").show();
+			$('#id_persentase').addClass('required');
+		} else {
+			$('#id_persentase').val('');
+			$('#id_persentase').trigger('change', true);
+			$('#id_persentase').removeClass('required');
+			$("#manual").show();
+			$('#persentase').addClass('required');
+			$("#pilih").hide();
+		}
+	}
+
+	$(document).ready(function() {
+		pilih_persentase(1);
+	});
+</script>
