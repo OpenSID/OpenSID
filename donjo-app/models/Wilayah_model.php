@@ -397,23 +397,33 @@ class Wilayah_model extends MY_Model {
 	//Paginasi RT
 	public function paging_rt($p = 1, $o = 0, $dusun = '', $rw='')
 	{
-		$row = $this->db
+		$this->list_data_rt_query($dusun, $rw);
+		$jml_data = $this->db
 			->select('COUNT(*) AS jml ')
-			->where('rt <>', '0')
-			->where('rw',  urldecode($rw))
-			->where('dusun', urldecode($dusun))
-			->get('tweb_wil_clusterdesa')
-			->row_array();
+			->get()
+			->row()->jml;
 
-		$jml_data = $row['jml'];
 		$per_page = $this->session->per_page;
 		$paginasi = $this->paginasi($p, $jml_data, $per_page);
 
 		return $paginasi;
 	}
+
+	private function list_data_rt_query($dusun = '', $rw='')
+	{
+		$this->db
+			->from('tweb_wil_clusterdesa u')
+			->join('penduduk_hidup a', 'u.id_kepala = a.id', 'LEFT')
+			->where('u.rt <>', '0')
+			->where('u.rt <>', '-')
+			->where('u.rw', urldecode($rw))
+			->where('u.dusun', urldecode($dusun));
+	}
+
 	//Bagian RT
 	public function list_data_rt($dusun = '', $rw = '', $offset = 0, $limit = 0)
 	{
+		$this->list_data_rt_query($dusun, $rw);
 		$this->db->select("u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt)) AS jumlah_warga,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,
@@ -421,12 +431,6 @@ class Wilayah_model extends MY_Model {
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk");
 
 		$this->db
-			->from('tweb_wil_clusterdesa u')
-			->join('penduduk_hidup a', 'u.id_kepala = a.id', 'LEFT')
-			->where('u.rt <>', '0')
-			->where('u.rt <>', '-')
-			->where('u.rw', urldecode($rw))
-			->where('u.dusun', urldecode($dusun))
 			->order_by('u.urut', 'ASC');
 
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
