@@ -46,7 +46,7 @@
 															<th class="text-center">Tahun</th>
 															<th class="text-center">Pelaksana</th>
 															<th class="text-center">Lokasi</th>
-															<th class="text-center">foto</th>
+															<th class="text-center">Gambar</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -73,11 +73,13 @@
 			'autoWidth': false,
 			'pageLength': 10,
 			'order': [
-				[10, 'desc']
+				[6, 'desc'],
+				[2, 'asc'],
+				[5, 'asc']
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 4],
+				'targets': [0, 1, 6, 10],
 			}],
 			'ajax': {
 				'url': "<?= site_url('pembangunan') ?>",
@@ -138,7 +140,7 @@
 					'data': function (data) {
 						return `<div class="user-panel">
 									<div class="image2">
-										<img src="<?= base_url(LOKASI_GALERI) ?>${data.foto}" class="img-circle" alt="Foto Dokumentasi">
+										<img src="<?= base_url(LOKASI_GALERI) ?>${data.foto}" class="img-circle" alt="Gambar Dokumentasi">
 									</div>
 								</div>`
 					}

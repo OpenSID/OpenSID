@@ -110,7 +110,7 @@
 										</div>
 									<?php endif; ?>
 									<div class="form-group">
-										<label class="control-label col-sm-3" for="upload">Unggah Foto Utama</label>
+										<label class="control-label col-sm-3" for="upload">Unggah Gambar Utama</label>
 										<div class="col-sm-7">
 											<div class="input-group input-group-sm">
 												<input type="text" class="form-control " id="file_path" name="foto">
@@ -119,7 +119,7 @@
 													<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 												</span>
 											</div>
-											<span class="help-block"><code>(Kosongkan jika ingin merubah gambar)</code></span>
+											<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah gambar)</code></span>
 										</div>
 									</div>
 								</div>

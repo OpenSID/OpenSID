@@ -69,6 +69,8 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->create_table_pembangunan($hasil);
 		$hasil =& $this->create_table_pembangunan_ref_dokumentasi($hasil);
 		$hasil =& $this->add_modul_pembangunan($hasil);
+		$hasil =& $this->sebutan_kepala_desa($hasil);
+		$hasil =& $this->urut_cetak($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -199,4 +201,31 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		return $hasil;
 	}
 
+	// Tambah Sebutan jabatan kepala desa
+	private function sebutan_kepala_desa($hasil)
+	{
+		$setting = [
+					'key' => 'sebutan_kepala_desa',
+					'value' => 'Kepala',
+					'keterangan' => 'Pengganti sebutan jabatan Kepala Desa'
+					];
+		$hasil =& $this->tambah_setting($setting);
+
+		return $hasil;
+	}
+
+	private function urut_cetak($hasil)
+	{
+		//tambah kolom urut untuk tabel cetak semua di tabel tweb_wil_clusterdesa
+		if ( ! $this->db->field_exists('urut_cetak', 'tweb_wil_clusterdesa'))
+			$hasil =& $this->dbforge->add_column('tweb_wil_clusterdesa', array(
+				'urut_cetak' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				),
+			));
+
+		return $hasil;
+	}
 }

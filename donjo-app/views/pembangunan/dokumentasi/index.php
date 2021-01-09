@@ -60,7 +60,7 @@
 															<th class="text-center">Gambar</th>
 															<th class="text-center">Persentase</th>
 															<th class="text-center">Keterangan</th>
-															<th class="text-center">Created at</th>
+															<th class="text-center">Tgl Rekam</th>
 														</tr>
 													</thead>
 													<tbody>

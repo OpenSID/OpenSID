@@ -67,7 +67,7 @@
 													<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 												</span>
 											</div>
-											<span class="help-block"><code>(Kosongkan jika ingin merubah gambar)</code></span>
+											<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah gambar)</code></span>
 										</div>
 									</div>
 									<div class="form-group">

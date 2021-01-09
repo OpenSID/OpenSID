@@ -97,7 +97,7 @@
 						<div class="col-xs-4 col-sm-4 pricing-box">
 							<div class="widget-box widget-color-blue">
 								<div class="widget-header">
-									<h6 class="widget-title bigger lighter">Foto</h6>
+									<h6 class="widget-title bigger lighter">Gambar</h6>
 								</div>
 								<div class="widget-body">
 									<div class="widget-main text-center">
@@ -112,11 +112,11 @@
 							</div>
 						</div>
 
-						<?php  foreach ($dokumentasi as $key => $value) { ?>
+						<?php foreach ($dokumentasi as $key => $value): ?>
 							<div class="col-xs-4 col-sm-4 pricing-box">
 								<div class="widget-box widget-color-blue">
 									<div class="widget-header">
-										<h6 class="widget-title bigger lighter">Foto Progress Pembangunan <?= $value->persentase ?></h6>
+										<h6 class="widget-title bigger lighter">Gambar Progres Pembangunan <?= $value->persentase ?></h6>
 									</div>
 									<div class="widget-body">
 										<div class="widget-main text-center">
@@ -130,7 +130,7 @@
 									</div>
 								</div>
 							</div>
-						<?php } ?>
+						<?php endforeach; ?>
 
 					</div>
 				</div>
@@ -140,14 +140,14 @@
 	</div>
 </div>
 
-<?php  foreach ($dokumentasi as $key => $value) { ?>
+<?php foreach ($dokumentasi as $key => $value): ?>
 	<div class="modal fade" id="<?= $value->id ?>">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title"><?= $value->gambar ?></h4>
+						<h4 class="modal-title"><?= 'Gambar Progres Pembangunan ' . $value->persentase ?></h4>
 					</div>
 					<div class="modal-body">
 						<div class="text-center">
@@ -157,7 +157,7 @@
 				</div>
 			</div>
 		</div>
-	<?php } ?>
+	<?php endforeach; ?>
 
 	<div class="modal fade" id="sampul<?= $pembangunan->id ?>">
 		<div class="modal-dialog modal-lg">
@@ -165,7 +165,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">Foto Sampul</h4>
+						<h4 class="modal-title">Gambar</h4>
 					</div>
 					<div class="modal-body">
 						<div class="text-center">
