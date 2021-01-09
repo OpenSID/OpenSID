@@ -73,10 +73,8 @@ class Surat extends Mandiri_Controller
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	public function buat()
+	public function buat_surat($id_permohonan = '')
 	{
-		//$data['cek_anjungan'] = $this->cek_anjungan;
-
 		$data = [
 			'desa' => $this->header,
 			'cek_anjungan' => $this->cek_anjungan,
@@ -91,7 +89,6 @@ class Surat extends Mandiri_Controller
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	// Belum dipakai
 	public function cek_syarat()
 	{
 		$id_permohonan = $this->input->post('id_permohonan');
@@ -275,13 +272,11 @@ class Surat extends Mandiri_Controller
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['data'] = $data;
-		//$data['cek_anjungan'] = $this->cek_anjungan;
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$data['mandiri'] = 1; // Untuk tombol cetak/kirim surat
 		$data['konten'] = 'permohonan_surat';
 		$this->load->view('layanan_mandiri/template', $data);
-
-		//echo json_encode($data, true);
 	}
 
 	public function kirim($id_permohonan = '')
