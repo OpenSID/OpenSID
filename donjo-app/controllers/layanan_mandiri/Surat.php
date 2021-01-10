@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Layanan Mandiri
+ * Controller untuk modul Layanan Mandiri > Surat
  *
- * donjo-app/controllers/Mandiri_web.php
+ * donjo-app/controllers/layanan_mandiri/Surat.php
  *
  */
 

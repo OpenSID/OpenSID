@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Layanan Mandiri Web > Program Bantuan
+ * View modul Layanan Mandiri > Bantuan > Peserta Bantuan
  *
- * donjo-app/views/mandiri/data_peerta.php,
+ * donjo-app/views/layanan_mandiri/peserta_bantuan.php
  *
  */
 
