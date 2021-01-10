@@ -55,7 +55,8 @@ class Masuk extends Web_Controller
 		parent::__construct();
 		mandiri_timeout();
 		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
-		$this->anjungan_model->cek_anjungan();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
 		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan)
 		{
 			// TODO: Tambahkan notifikasi layanan mandiri di matikan
