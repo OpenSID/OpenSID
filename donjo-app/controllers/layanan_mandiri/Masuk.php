@@ -52,7 +52,7 @@ class Masuk extends Web_Controller
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model']);
+		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
 	}
 
 	public function index()
@@ -69,9 +69,12 @@ class Masuk extends Web_Controller
 			$this->session->mandiri_wait = 0;
 		}
 
-		$data['header'] = $this->config_model->get_data();
-		$data['cek_anjungan'] = $this->anjungan_model->cek_anjungan();
-		$data['form_action'] = site_url('layanan-mandiri/cek');
+		$data = [
+			'header' => $this->config_model->get_data(),
+			'latar_login' => $this->theme_model->latar_login(),
+			'cek_anjungan' => $this->anjungan_model->cek_anjungan(),
+			'form_action' => site_url('layanan-mandiri/cek')
+		];
 
 		$this->load->view('layanan_mandiri/masuk', $data);
 	}

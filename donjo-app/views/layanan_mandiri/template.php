@@ -80,11 +80,6 @@
 					</div>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<!--
-								<li>
-									<a href="#" data-toggle="control-sidebar" title="Panduan Layanan"><i class="fa fa-question-circle fa-lg"></i></a>
-								</li>
-							-->
 							<li>
 								<a href="<?= site_url('layanan-mandiri/permohonan-surat'); ?>" title="Pesan Masuk">
 								<i class="fa fa-file-word-o"></i>
@@ -264,7 +259,6 @@
 	<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
 	<script src="<?= base_url()?>assets/front/js/jquery.overlay.min.js"></script>
 	<script src="<?= base_url()?>assets/front/js/jquery-confirm.min.js"></script>
-
 	<!-- Validasi js -->
 	<?php $this->load->view('global/validasi_form'); ?>
 	<!-- Numeral js -->

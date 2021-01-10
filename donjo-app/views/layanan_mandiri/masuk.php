@@ -21,7 +21,9 @@
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 	<!-- Style Mandiri Modification -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/mandiri-style.css">
-	<link rel="stylesheet" href="<?= base_url()?>desa/css/siteman.css">
+	<?php if (is_file("desa/pengaturan/siteman/siteman.css")): ?>
+		<link rel='Stylesheet' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css">
+	<?php endif; ?>
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -34,6 +36,13 @@
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags'); ?>
+	<?php if ($latar_login): ?>
+		<style type="text/css">
+			body.login-page {
+				background: url('<?= base_url($latar_login) ?>');
+			}
+		</style>
+	<?php endif; ?>
 </head>
 
 <body class="login-page">
