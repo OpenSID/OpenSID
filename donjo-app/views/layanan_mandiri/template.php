@@ -73,7 +73,7 @@
 					<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
 						<ul class="nav navbar-nav">
 							<li><a href="<?= site_url('layanan-mandiri/profil'); ?>">Profil</a></li>
-							<li><a href="<?= site_url('layanan-mandiri/arsip-surat'); ?>">Surat</a></li>
+							<li><a href="<?= site_url('layanan-mandiri/permohonan-surat'); ?>">Surat</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/pesan-masuk'); ?>">Pesan</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/bantuan'); ?>">Bantuan</a></li>
 						</ul>
@@ -140,7 +140,7 @@
 								</div>
 							</div>
 						</a>
-						<a href="<?= site_url('layanan-mandiri/arsip-surat'); ?>">
+						<a href="<?= site_url('layanan-mandiri/permohonan-surat'); ?>">
 							<div class="col-md-3 col-sm-6 col-xs-12">
 								<div class="info-box bg-green">
 									<span class="info-box-icon"><i class="fa fa-file-word-o"></i></span>

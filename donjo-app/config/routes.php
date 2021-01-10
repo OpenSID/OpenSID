@@ -136,6 +136,7 @@ $route['layanan-mandiri/pesan/baca/(:num)/(:num)'] = 'layanan_mandiri/pesan/baca
 // Mandiri Surat
 $route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2'; // Arsip Surat
 $route['layanan-mandiri/permohonan-surat'] = 'layanan_mandiri/surat/index/1'; // Permohonan Surat
-$route['layanan-mandiri/surat/buat-surat'] = 'layanan_mandiri/surat/buat'; // Arsip Surat
+$route['layanan-mandiri/surat/buat-surat'] = 'layanan_mandiri/surat/buat_surat'; // Buat Surat Permohonan
+$route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_surat/$1'; //Ubah Surat Permohonan yg tdk lengkap
 // Mandiri Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
