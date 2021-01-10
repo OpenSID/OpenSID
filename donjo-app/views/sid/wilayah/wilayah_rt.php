@@ -48,7 +48,7 @@
 														<tbody>
 															<?php foreach ($main as $indeks => $data): ?>
 																<tr>
-																	<td><?= $indeks + 1 ?></td>
+																	<td><?= $data['no'] ?></td>
 																	<td nowrap>
 																		<?php if ($data['rt']!="-"): ?>
 																			<a href="<?= site_url("sid_core/urut/rt/$paging->page/$data[id]/1/$id_dusun/$id_rw"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>

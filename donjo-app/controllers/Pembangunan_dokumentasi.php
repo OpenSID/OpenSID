@@ -47,6 +47,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
+	protected $table = 'pembangunan_ref_dokumentasi';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -62,6 +64,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 	public function show($id = null)
 	{
 		$pembangunan = $this->pembangunan_model->find($id);
+		$_SESSION['id_pembangunan'] = $id;
 
 		if ($this->input->is_ajax_request())
 		{
@@ -86,73 +89,38 @@ class Pembangunan_dokumentasi extends Admin_Controller
 		]);
 	}
 
-	public function new($id_pembangunan)
+	public function form($id = '')
 	{
-		$this->render('pembangunan/dokumentasi/form', [
-			'id_pembangunan' => $id_pembangunan,
-			'persentase'     => $this->referensi_model->list_ref(STATUS_PEMBANGUNAN)
-		]);
-	}
-
-	public function create($id_pembangunan)
-	{
-		$config['upload_path']   = LOKASI_GALERI;
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']      = 1024;
-		$config['overwrite']     = true;
-
-		$this->upload->initialize($config);
-
-		if ($this->upload->do_upload('gambar'))
+		if ($id)
 		{
-			$this->model->insert($this->input->post(), $this->upload->data('file_name'));
-			$this->session->success = 1;
+			$id_pembangunan = $_SESSION['id_pembangunan'];
+			$data['id_pembangunan'] = $_SESSION['id_pembangunan'];
+			$data['main'] = $this->model->find($id);
+			$data['persentase'] = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
+			$data['form_action'] = site_url("pembangunan_dokumentasi/update/$id/$id_pembangunan");
 		}
 		else
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = $this->upload->display_errors();
+			$id_pembangunan = $_SESSION['id_pembangunan'];
+			$data['id_pembangunan'] = $_SESSION['id_pembangunan'];
+			$data['main'] = NULL;
+			$data['persentase'] = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
+			$data['form_action'] = site_url("pembangunan_dokumentasi/insert/$id_pembangunan");
 		}
 
-		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
+		$this->render('pembangunan/dokumentasi/form', $data);
 	}
 
-	public function edit($id_pembangunan, $id)
+	public function insert($id_pembangunan = '')
 	{
-		$data = $this->model->find($id);
-
-		if (is_null($data)) show_404();
-
-		$this->render('pembangunan/dokumentasi/edit', [
-			'id_pembangunan' => $id_pembangunan,
-			'persentase'     => $this->referensi_model->list_ref(STATUS_PEMBANGUNAN),
-			'main'           => $data,
-		]);
+		$this->model->insert($id_pembangunan);
+		redirect("pembangunan_dokumentasi/show/$id_pembangunan");
 	}
 
-	public function update($id_pembangunan, $id)
+	public function update($id = '', $id_pembangunan = '')
 	{
-		$config['upload_path']   = LOKASI_GALERI;
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']      = 1024;
-		$config['overwrite']     = true;
-
-		$this->upload->initialize($config);
-
-		if ($this->upload->do_upload('gambar'))
-		{
-			$this->model->update($id_pembangunan, $id, $this->input->post(), $this->upload->data('file_name'));
-			$this->session->success = 1;
-		}
-		else
-		{
-			$this->session->success = -1;
-			$this->session->error_msg = $this->upload->display_errors();
-
-			redirect("pembangunan_dokumentasi/edit/{$id_pembangunan}/{$id}");
-		}
-
-		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
+		$this->model->update($id, $id_pembangunan);
+		redirect("pembangunan_dokumentasi/show/$id_pembangunan");
 	}
 
 	public function delete($id_pembangunan, $id)
@@ -170,4 +138,5 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
 		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
 	}
+
 }

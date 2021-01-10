@@ -177,6 +177,27 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$this->load->driver('cache');
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 
+		//tambah kolom Foto utama di tabel pembangunan
+		if (!$this->db->field_exists('foto', 'pembangunan'))
+			$hasil = $this->dbforge->add_column('pembangunan', array(
+				'foto' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 255,
+				'null' => TRUE,
+				),
+			));
+
+		//tambah kolom Anggaran di tabel pembangunan
+		if (!$this->db->field_exists('anggaran', 'pembangunan'))
+			$hasil = $this->dbforge->add_column('pembangunan', array(
+				'anggaran' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => FALSE,
+				'default' => '0',
+				),
+			));
+
 		return $hasil;
 	}
 

@@ -981,6 +981,43 @@ function setMarkerCluster(marker, markersList, markers)
 	return setMarkerCluster;
 }
 
+function setMarkerClusterP(marker, markersListP, markersP)
+{
+	if (marker.length != 0)
+	{
+		var geojson = L.geoJSON(turf.featureCollection(marker), {
+			pmIgnore: true,
+      showMeasurements: true,
+      measurementOptions: {showSegmentLength: false},
+			onEachFeature: function (feature, layer) {
+				layer.bindPopup(feature.properties.content);
+				layer.bindTooltip(feature.properties.content);
+			},
+			style: function(feature)
+			{
+				if (feature.properties.style)
+				{
+					return feature.properties.style;
+				}
+			},
+			pointToLayer: function (feature, latlng)
+			{
+				if (feature.properties.style)
+				{
+					return L.marker(latlng, {icon: feature.properties.style});
+				}
+				else
+				return L.marker(latlng);
+			}
+		});
+
+		markersListP.push(geojson);
+		markersP.addLayer(geojson);
+	}
+
+	return setMarkerClusterP;
+}
+
 function set_marker_area(marker, daftar_path, foto_area)
 {
   var daftar = JSON.parse(daftar_path);
@@ -1127,6 +1164,75 @@ function set_marker_lokasi(marker, daftar_path, path_icon, foto_lokasi)
   }
 }
 
+function set_marker_lokasi_pembangunan(marker, daftar_path, path_icon, foto_lokasi, link_progress)
+{
+  var daftar = JSON.parse(daftar_path);
+  var jml = daftar.length;
+  var foto;
+  var content_lokasi;
+  var lokasi_gambar = foto_lokasi;
+
+  for (var x = 0; x < jml; x++)
+  {
+    if (daftar[x].lat)
+    {
+      if (daftar[x].foto)
+      {
+        foto = '<img src="'+lokasi_gambar+daftar[x].foto+'" style=" width:300px;height:240px;border-radius:1px;-moz-border-radius:3px;-webkit-border-radius:1px;"/>';
+      }
+      else
+      foto = '';
+
+      content_lokasi =
+      '<div id="content">'+
+      '<h4><b style="color:red"><center>Kegiatan Pembangunan</center></b></h4>' +
+      '<div id="bodyContent">'+ foto +
+      '</div>'
+      + '<table>'
+      + '<tr>'
+      + '<td width="100px">Nama Kegiatan</td>'
+      + '<td width="10px">:</td>'
+      + '<td><b style="color:red">' + daftar[x].judul + '</b></td>'
+      + '</tr>'
+      + '<tr>'
+      + '<td width="100px">Lokasi</td>'
+      + '<td width="10px">:</td>'
+      + '<td>' + daftar[x].alamat + '</td>'
+      + '</tr>'
+      + '<tr>'
+      + '<td width="100px">Sumber Dana</td>'
+      + '<td width="10px">:</td>'
+      + '<td>' + daftar[x].sumber_dana + '</td>'
+      + '</tr>'
+      + '<tr>'
+      + '<td width="100px">Anggaran</td>'
+      + '<td width="10px">:</td>'
+      + '<td class="rupiah">Rp. '+formatRupiah(daftar[x].anggaran)+'</td>'
+      + '</tr>'
+      + '<tr>'
+      + '<td width="100px">Volume</td>'
+      + '<td width="10px">:</td>'
+      + '<td>' + daftar[x].volume + '</td>'
+      + '</tr>'
+      + '<tr>'
+      + '<td width="100px">Pelaksana</td>'
+      + '<td width="10px">:</td>'
+      + '<td>' + daftar[x].pelaksana_kegiatan + '</td>'
+      + '</tr>'
+      + '<tr>'
+      + '<td width="100px">Tahun Anggaran</td>'
+      + '<td width="10px">:</td>'
+      + '<td>' + daftar[x].tahun_anggaran + '</td>'
+      + '</tr>'
+      + '</table>'
+      + '<center><a href="' + link_progress + daftar[x].id + '" target="_blank" class="btn btn-flat bg-red btn-sm"><i class="fa fa-info"></i> Informasi Rinci</a>'
+      + '</div>';
+
+      marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: content_lokasi, style: L.icon({"iconSize": [16, 16], "iconUrl": path_icon})}));
+    }
+  }
+}
+
 //Menampilkan OverLayer Area, Garis, Lokasi
 function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daftar_lokasi, path_icon, foto_area, foto_garis, foto_lokasi)
 {
@@ -1160,7 +1266,7 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 
 	//OVERLAY LOKASI DAN PROPERTI
 	if (daftar_lokasi) {
-		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
+		set_marker_lokasi_pembangunan(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
 	}
 
 	setMarkerCustom(marker_area, layer_area);
@@ -1173,6 +1279,82 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 				peta.addLayer(markers);
 			} else {
 				peta.removeLayer(markers);
+        peta._layersMaxZoom = 19;
+			}
+		});
+	});
+
+	return layerCustom;
+}
+
+//Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
+function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis, daftar_lokasi, daftar_lokasi_pembangunan, path_icon, path_icon_pembangunan, foto_area, foto_garis, foto_lokasi, foto_lokasi_pembangunan, link_progress)
+{
+  var marker_area = [];
+  var marker_garis = [];
+  var marker_lokasi = [];
+  var marker_lokasi_pembangunan = [];
+  var markers = new L.MarkerClusterGroup();
+  var markersList = [];
+  var markersP = new L.MarkerClusterGroup();
+  var markersListP = [];
+
+	var layer_area = L.featureGroup();
+	var layer_garis = L.featureGroup();
+	var layer_lokasi = L.featureGroup();
+  var layer_lokasi_pembangunan = L.featureGroup();
+
+	var layerCustom = {
+		"Infrastruktur Desa": {
+			"Infrastruktur (Area)": layer_area,
+			"Infrastruktur (Garis)": layer_garis,
+			"Infrastruktur (Lokasi)": layer_lokasi,
+      "Infrastruktur (Lokasi Pembangunan)": layer_lokasi_pembangunan
+		}
+	};
+
+	//OVERLAY AREA
+	if (daftar_path) {
+		set_marker_area(marker_area, daftar_path, foto_area);
+	}
+
+	//OVERLAY GARIS
+	if (daftar_garis) {
+		set_marker_garis(marker_garis, daftar_garis, foto_garis);
+	}
+
+  //OVERLAY LOKASI DAN PROPERTI
+	if (daftar_lokasi) {
+		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
+	}
+
+	//OVERLAY LOKASI PEMBANGUNAN
+	if (daftar_lokasi_pembangunan) {
+		set_marker_lokasi_pembangunan(marker_lokasi_pembangunan, daftar_lokasi_pembangunan, path_icon_pembangunan, foto_lokasi_pembangunan, link_progress);
+	}
+
+	setMarkerCustom(marker_area, layer_area);
+	setMarkerCustom(marker_garis, layer_garis);
+	setMarkerCluster(marker_lokasi, markersList, markers);
+  setMarkerClusterP(marker_lokasi_pembangunan, markersListP, markersP);
+
+	peta.on('layeradd layerremove', function () {
+		peta.eachLayer(function (layer) {
+			if(peta.hasLayer(layer_lokasi)) {
+				peta.addLayer(markers);
+			} else {
+				peta.removeLayer(markers);
+        peta._layersMaxZoom = 19;
+			}
+		});
+	});
+
+  peta.on('layeradd layerremove', function () {
+		peta.eachLayer(function (layer) {
+			if(peta.hasLayer(layer_lokasi_pembangunan)) {
+				peta.addLayer(markersP);
+			} else {
+				peta.removeLayer(markersP);
         peta._layersMaxZoom = 19;
 			}
 		});

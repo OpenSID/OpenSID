@@ -1,19 +1,19 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Isi Data Dokumentasi Pembangunan</h1>
+		<h1>Pengaturan Data Dokumentasi Pembangunan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url("pembangunan_dokumentasi/show/{$id_pembangunan}") ?>"><i class="fa fa-dashboard"></i>Daftar Dokumentasi Pembangunan</a></li>
-			<li class="active">Isi Data</li>
+			<li class="active">Pengaturan Data Pembangunan</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" method="post" enctype="multipart/form-data" action="<?= site_url("pembangunan_dokumentasi/create/{$id_pembangunan}") ?>">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url('pembangunan_dokumentasi/show/1') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
+							<a href="<?= site_url("pembangunan_dokumentasi/show/{$id_pembangunan}") ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -37,35 +37,43 @@
 												<select class="form-control input-sm select2 required" id="id_persentase" name="id_persentase" style="width:100%">
 													<option value=''>-- Pilih Persentase Pembangunan --</option>
 													<?php foreach ($persentase as $value) : ?>
-														<option value="<?= $value ?>"><?= $value ?></option>
+														<option value="<?= $value ?>" <?= selected($main->persentase, $value) ?>><?= $value ?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>
 										</div>
 										<div id="manual">
 											<div class="col-sm-7">
-												<input maxlength="50" class="form-control input-sm required" name="persentase" id="persentase" type="text" placeholder="Contoh: 50%" />
+												<input maxlength="50" class="form-control input-sm required" name="persentase" id="persentase" type="text" placeholder="Contoh: 50%" value="<?= $main->persentase ?>" />
 											</div>
 										</div>
 									</div>
+									<?php if ($main->gambar) : ?>
+										<div class="form-group">
+											<label class="control-label col-sm-4" for="nama"></label>
+											<div class="col-sm-6">
+												<input type="hidden" name="old_foto" value="<?= $main->gambar ?>">
+												<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_GALERI . $main->gambar ?>" alt="Gambar Dokumentasi" width="200" height="200">
+											</div>
+										</div>
+									<?php endif; ?>
 									<div class="form-group">
-										<label class="control-label col-sm-3" for="upload">Unggah Gambar</label>
+										<label class="control-label col-sm-3" for="upload">Unggah Dokumentasi</label>
 										<div class="col-sm-7">
 											<div class="input-group input-group-sm">
-												<input type="text" class="form-control required" id="file_path">
+												<input type="text" class="form-control " id="file_path" name="gambar">
 												<input id="file" type="file" class="hidden" name="gambar">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 												</span>
 											</div>
-											<?php $upload_mb = max_upload(); ?>
-											<p><label class="control-label">Batas maksimal pengunggahan berkas <strong><?= $upload_mb ?> MB.</strong></label></p>
+											<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah gambar)</code></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-7">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
+											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"><?= $main->keterangan ?></textarea>
 										</div>
 									</div>
 								</div>
@@ -102,6 +110,6 @@
 	}
 
 	$(document).ready(function() {
-		pilih_persentase(1);
+		pilih_persentase(<?= in_array($main->persentase, $persentase) ? 1 : 2 ?>);
 	});
 </script>
