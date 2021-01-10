@@ -48,11 +48,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Masuk extends Web_Controller
 {
 
+	private $cek_anjungan;
+
 	public function __construct()
 	{
 		parent::__construct();
 		mandiri_timeout();
 		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
+		$this->anjungan_model->cek_anjungan()
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan)
+		{
+			// TODO: Tambahkan notifikasi layanan mandiri di matikan
+			redirect();
+		}
 	}
 
 	public function index()
@@ -72,7 +80,7 @@ class Masuk extends Web_Controller
 		$data = [
 			'header' => $this->config_model->get_data(),
 			'latar_login' => $this->theme_model->latar_login(),
-			'cek_anjungan' => $this->anjungan_model->cek_anjungan(),
+			'cek_anjungan' => $this->cek_anjungan,
 			'form_action' => site_url('layanan-mandiri/cek')
 		];
 
