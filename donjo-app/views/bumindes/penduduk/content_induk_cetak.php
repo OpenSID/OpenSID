@@ -103,7 +103,7 @@
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
 							<td><?= $data['pekerjaan']?></td>
-							<td>BELUM ADA</td>
+							<td><?= $data['bahasa']?>A</td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
 							<td><?= $data['hubungan']?></td>
