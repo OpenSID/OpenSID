@@ -95,7 +95,6 @@ $(document).ready(function() {
 
 	if ($('input[name=id_permohonan]').val()) {
 		$('#id_surat').attr('disabled','disabled');
-		$('#id_surat').change();
 	}
 
 	$('#validasi').submit(function() {
