@@ -297,6 +297,7 @@ class Penduduk_model extends MY_Model {
 		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
 		LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
+		LEFT JOIN tweb_penduduk_bahasa l ON u.bahasa_id = l.id
 		LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
 		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
@@ -374,7 +375,7 @@ class Penduduk_model extends MY_Model {
 			$select_sql .= 'rcb.id as penerima_bantuan,';
 		}
 
-		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara,
+		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.initial as bahasa,
 			(CASE
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
