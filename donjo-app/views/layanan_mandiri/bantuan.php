@@ -96,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="padat">
 									<?php if ($item['no_id_kartu']) : ?>
 										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("layanan_mandiri/bantuan/kartu_peserta/tampil/$item[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
-										<a href="<?= site_url("mandiri_web/kartu_peserta/unduh/$item[id]")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
+										<a href="<?= site_url("layanan_mandiri/bantuan/kartu_peserta/unduh/$item[id]")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
 									<?php endif; ?>
 								</td>
 								<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
