@@ -85,17 +85,15 @@
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= strtoupper($data['nama'])?></td>
-							<td><?= $data['sex'] == 'LAKI-LAKI' ? 'L':'P' ?></td>
+							<td><?= $data['sex'] == 'LAKI-LAKI' ? 'Laki-laki':'Perempuan' ?></td>
 							<td>
 								<?php
-								if( strpos( $data['kawin'],'KAWIN' ) !== false) {
-									if( strpos( $data['kawin'],'BELUM KAWIN' ) !== false) {
-										echo "BK";
-									} else echo "K";
-								} else {
-									// untuk sekarang masih menampilkan status cerai, karena tidak ada janda dan duda
-									echo "C";
-								}
+								if( strpos( $data['kawin'],'KAWIN' ) !== false ) {
+									if( strpos( $data['kawin'],'BELUM KAWIN' ) !== false ) {
+										echo "Belum Kawin";
+									} else echo "Kawin";
+								} else 
+									echo (($data['sex'] == 'LAKI-LAKI') ? 'Duda':'Janda');
 								?>
 							</td>
 							<td><?= $data['tempatlahir']?></td>
