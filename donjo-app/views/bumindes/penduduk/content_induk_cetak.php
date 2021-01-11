@@ -92,7 +92,7 @@
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
 							<td><?= $data['pekerjaan']?></td>
-							<td><?= $data['bahasa']?></td>
+							<td><?= strtoupper($data['bahasa_nama'])?></td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
 							<td><?= $data['hubungan']?></td>
