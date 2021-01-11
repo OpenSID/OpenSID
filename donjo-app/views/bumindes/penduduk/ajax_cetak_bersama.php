@@ -30,24 +30,6 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="pamong_ttd">Laporan Ditandatangani</label>
-							<select class="form-control input-sm required" name="pamong_ttd" width="100%">
-								<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
-								<?php foreach ($pamong AS $data): ?>
-									<option value="<?= $data['pamong_id']?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
-								<?php endforeach; ?>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="pamong_ketahui">Laporan Diketahui</label>
-							<select class="form-control input-sm required" name="pamong_ketahui" width="100%">
-								<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
-								<?php foreach ($pamong AS $data): ?>
-									<option value="<?= $data['pamong_id']?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
-								<?php endforeach; ?>
-							</select>
-						</div>
-						<div class="form-group">
 							<label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
 							<div class="form-group">
 								<div class="form-check">
