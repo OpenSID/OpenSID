@@ -103,7 +103,7 @@
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
 							<td><?= $data['pekerjaan']?></td>
-							<td>BELUM ADA</td>
+							<td><?= $data['bahasa']?>A</td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
 							<td><?= $data['hubungan']?></td>
@@ -124,13 +124,13 @@
 						-->
 						<td colspan="2">&nbsp;</td>
 						<td colspan="3">MENGETAHUI</td>
-						<td colspan="3"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="3"><span><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?>, <?= strtoupper(tgl_indo(date("Y m d"))) ?></span></td>
 						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2">&nbsp;</td>
-						<td colspan="3" align="center"><?= strtoupper($input['jabatan_ketahui'])?></td>
-						<td colspan="3" align="center"><?= strtoupper($input['jabatan_ttd'])?></td>
+						<td colspan="3" align="center"><?= strtoupper($pamong_ketahui['jabatan']) ?> <?= strtoupper($desa['nama_desa']) ?></td>
+						<td colspan="3" align="center"><?= strtoupper($pamong_ttd['jabatan']) ?> <?= strtoupper($desa['nama_desa']) ?></td>
 						<td colspan="2">&nbsp;</td>
 					</tr>
 					<tr><td colspan="10">&nbsp;</td></tr>
@@ -141,8 +141,8 @@
 					<tr><td colspan="10">&nbsp;</td></tr>
 					<tr>
 						<td colspan="2">&nbsp;</td>
-						<td colspan="3" align="center"><span class="underline"><?= strtoupper($input['pamong_ketahui'])?></span></td>
-						<td colspan="3" align="center"><span class="underline"><?= strtoupper($input['pamong_ttd'])?></span></td>
+						<td colspan="3">( <?= strtoupper($pamong_ketahui['pamong_nama']) ?> )</td>
+						<td colspan="3" align="center"><span>( <?= strtoupper($pamong_ttd['pamong_nama']) ?> )</span></td>
 						<td colspan="2">&nbsp;</td>
 					</tr>
 				</table>
