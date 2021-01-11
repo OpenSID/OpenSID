@@ -62,7 +62,8 @@ class Anjungan_model extends CI_Model {
 			->where('ip_address', $ip)
 			->where('status', 1)
 			->get('anjungan');
-		$data = $data->num_rows? $data->row_array() : NULL;
+
+		$data = ($data->num_rows() > 0) ? $data->row_array() : NULL;
 
 		return $data;
 	}

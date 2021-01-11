@@ -112,11 +112,11 @@
 									<td><?= $main['kode_pos']; ?></td>
 								</tr>
 								<tr>
-									<td>Kepala <?= $desa; ?></td><td>:</td>
+									<td><?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></td><td>:</td>
 									<td><?= $main['nama_kepala_desa']; ?></td>
 								</tr>
 								<tr>
-									<td>NIP Kepala <?= $desa; ?></td><td>:</td>
+									<td>NIP <?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></td><td>:</td>
 									<td><?= $main['nip_kepala_desa']; ?></td>
 								</tr>
 								<tr>

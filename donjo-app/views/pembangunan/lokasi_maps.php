@@ -105,8 +105,8 @@
 		//Menambahkan zoom scale ke peta
 		L.control.scale().addTo(peta_lokasi);
 
-		// Menampilkan OverLayer Area, Garis, Lokasi
-		layerCustom = tampilkan_layer_area_garis_lokasi(peta_lokasi, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>');
+		// Menampilkan OverLayer Area, Garis, Lokasi dan Lokasi Pembangunan
+		layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_lokasi, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', '<?= favico_desa()?>', '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url("pembangunan/info_pembangunan/")?>');
 
 		L.control.layers(baseLayers, overlayLayers, {
 			position: 'topleft',
@@ -126,20 +126,24 @@
 		width: 100%;
 		height: 50vh
 	}
-
 	.icon {
 		max-width: 70%;
 		max-height: 70%;
 		margin: 4px;
 	}
-
 	.leaflet-control-layers {
 		display: block;
 		position: relative;
 	}
-
 	.leaflet-control-locate a {
 		font-size: 2em;
+	}
+	table {
+	  table-layout: fixed;
+	  white-space: normal!important;
+	}
+	td {
+	  word-wrap: break-word;
 	}
 </style>
 <!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->

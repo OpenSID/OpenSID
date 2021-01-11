@@ -74,8 +74,8 @@
 															<tr>
 																<td class="no_urut"><?= $data['no']?></td>
 																<td nowrap>
-																	<a href="<?= site_url("sid_core/urut/$paging->page/$data[id]/1"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																	<a href="<?= site_url("sid_core/urut/$paging->page/$data[id]/2"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 AND $paging->page == $paging->start_link) and print('disabled'); ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																	<a href="<?= site_url("sid_core/urut/dusun/$paging->page/$data[id]/1"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																	<a href="<?= site_url("sid_core/urut/dusun/$paging->page/$data[id]/2"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 AND $paging->page == $paging->start_link) and print('disabled'); ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																	<a href="<?= site_url("sid_core/sub_rw/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
 																	<a href="<?= site_url("sid_core/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>

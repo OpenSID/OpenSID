@@ -13,6 +13,18 @@ class Mailbox_model extends CI_Model {
 
 	}
 
+	public function list_menu()
+	{
+		return $this->referensi_model->list_ref_flip(KATEGORI_MAILBOX);
+	}
+
+	public function get_kat_nama($kat)
+	{
+		$sub_menu = $this->list_menu();
+		$data = $sub_menu[$kat];
+		return $data;
+	}
+
 	public function insert($post)
 	{
 		$data = array();
@@ -29,78 +41,45 @@ class Mailbox_model extends CI_Model {
 		status_sukses($outp);
 	}
 
-	public function list_menu()
-	{
-		return $this->referensi_model->list_ref_flip(KATEGORI_MAILBOX);
-	}
-
-	public function get_kat_nama($kat)
-	{
-		$sub_menu = $this->list_menu();
-		$data = $sub_menu[$kat];
-		return $data;
-	}
-
 	/**
 	 * Tipe 1: Inbox untuk admin, Outbox untuk pengguna layanan mandiri
 	 * Tipe 2: Outbox untuk admin, Inbox untuk pengguna layanan mandiri
 	 */
-
-	public function get_inbox_user($nik)
+	public function get_all_pesan($nik = '', $tipe = 1)
 	{
-		$outp = $this->db
+		$data = $this->db
 			->where('email', $nik)
-			->where('tipe', 2)
+			->where('tipe', $tipe)
 			->where('id_artikel', 775)
 			->from('komentar')
 			->order_by('id', 'DESC')
 			->get()
 			->result_array();
-		$j = 1;
-		for ($i=0; $i < count($outp); $i++)
-		{
-			$outp[$i]['no'] = $j++;
-		}
-		return $outp;
+
+		return $data;
 	}
 
-	public function get_outbox_user($nik)
+	public function get_pesan($nik = '', $id = '')
 	{
-		$outp = $this->db
-			->where('email', $nik)
-			->where('tipe', 1)
-			->where('id_artikel', 775)
-			->from('komentar')
-			->order_by('id','DESC')
-			->get()
-			->result_array();
-		$j = 1;
-		for ($i=0; $i < count($outp); $i++)
-		{
-			$outp[$i]['no'] = $j++;
-		}
-		return $outp;
-	}
-
-	public function get_pesan($nik, $id)
-	{
-		return $this->db
+		$data = $this->db
 			->where('email', $nik)
 			->where('id', $id)
 			->where('id_artikel', 775)
 			->from('komentar')
 			->get()
 			->row_array();
+
+		return $data;
 	}
 
-	public function ubah_status_pesan($nik, $id, $status)
+	public function ubah_status_pesan($nik = '', $id = '', $status = 1)
 	{
 		return $this->db
 			->where('email', $nik)
 			->where('id', $id)
 			->where('tipe', 2)
 			->where('id_artikel', 775)
-			->update('komentar', array('status' => $status));
+			->update('komentar', ['status' => $status]);
 	}
 }
 ?>
