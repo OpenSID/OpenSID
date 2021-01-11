@@ -59,7 +59,7 @@
 						</tr>
 						<tr class="border thick">
 							<th>TEMPAT LAHIR</th>
-							<th>TGL</th>
+							<th width="70px">TGL</th>
 						</tr>
 						<tr class="border thick">
 							<th>1</th>
@@ -88,13 +88,13 @@
 							<td><?= strtoupper($data['sex']) ?></td>
 							<td><?= (strpos($data['kawin'],'KAWIN') !== false) ? $data['kawin'] : (($data['sex'] == 'LAKI-LAKI') ? 'DUDA':'JANDA') ?></td>
 							<td><?= $data['tempatlahir']?></td>
-							<td><?= strtoupper(tgl_indo($data['tanggallahir']))?></td>
+							<td><?= tgl_indo_out($data['tanggallahir'])?></td>
 							<td><?= $data['agama']?></td>
 							<td><?= $data['pendidikan']?></td>
 							<td><?= $data['pekerjaan']?></td>
 							<td><?= $data['bahasa']?></td>
 							<td><?= $data['warganegara']?></td>
-							<td><?= strtoupper($data['alamat'])?></td>
+							<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
 							<td><?= $data['hubungan']?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>

@@ -58,8 +58,10 @@ class Bumindes_penduduk extends Admin_Controller {
 		$this->load->library('session');
 
 		$this->modul_ini = 301;
-		$this->_set_page = ['20', '50', '100'];
+		$this->_set_page = ['10', '20', '50', '100'];
 		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+
+		$_SESSION['per_page'] = 10;
 	}
 
 	// global function for all menu
@@ -196,7 +198,7 @@ class Bumindes_penduduk extends Admin_Controller {
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
 		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
-
+		
 		return $data;
 	}
 	// end function buku induk penduduk 

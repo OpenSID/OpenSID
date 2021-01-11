@@ -37,15 +37,14 @@
 					</div>
 				</div>
 				<div class="table-responsive table-min-height">
-					<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+					<table class="table table-condensed table-bordered dataTable table-striped table-hover tabel-daftar">
 						<thead class="bg-gray color-palette">
 							<tr>
 								<th rowspan="2">Nomor Urut</th>
-								<th rowspan="2">Foto</th>
 								<th rowspan="2" style="width: 5px;"><?= url_order($o, "{$this->controller}/{$func}/$p", 3, 'Nama Lengkap / Panggilan'); ?></th>
 								<th rowspan="2">Jenis Kelamin</th>
 								<th rowspan="2">Status Perkawinan</th>
-								<th colspan="2">Tempate & Tanggal Lahir</th>
+								<th colspan="2">Tempat & Tanggal Lahir</th>
 								<th rowspan="2">Agama</th>
 								<th rowspan="2">Pendidikan Terakhir</th>
 								<th rowspan="2">Pekerjaan</th>
@@ -59,7 +58,7 @@
 							</tr>
 							<tr>
 								<th>Tempat Lahir</th>
-								<th>Tgl</th>
+								<th width="50px">Tgl</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -67,24 +66,17 @@
 								<?php foreach ($main as $key => $data): ?>
 									<tr>
 										<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-										<td class="padat">
-											<div class="user-panel">
-												<div class="image2">
-													<img src="<?= ! empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
-												</div>
-											</div>
-										</td>
 										<td><?= strtoupper($data['nama'])?></td>
 										<td><?= strtoupper($data['sex']) ?></td>
 										<td><?= (strpos($data['kawin'],'KAWIN') !== false) ? $data['kawin'] : (($data['sex'] == 'LAKI-LAKI') ? 'DUDA':'JANDA') ?></td>
 										<td><?= $data['tempatlahir']?></td>
-										<td><?= strtoupper(tgl_indo($data['tanggallahir']))?></td>
+										<td><?= tgl_indo_out($data['tanggallahir'])?></td>
 										<td><?= $data['agama']?></td>
 										<td><?= $data['pendidikan']?></td>
 										<td><?= $data['pekerjaan']?></td>
 										<td><?= $data['bahasa']?></td>
 										<td><?= $data['warganegara']?></td>
-										<td><?= strtoupper($data['alamat'])?></td>
+										<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
 										<td><?= $data['hubungan']?></td>
 										<td><a href="<?= site_url("penduduk/detail/$p/$o/$data[id]"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a></td>
 										<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]"); ?>"><?= $data['no_kk']; ?></a></td>
