@@ -147,7 +147,6 @@ class Bumindes_penduduk extends Admin_Controller {
 	{
 		$data['o'] = $o;
 		$data['aksi'] = $aksi;
-		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("bumindes_penduduk/cetak/$page/$o/$aksi");
 		$data['form_action_privasi'] = site_url("bumindes_penduduk/cetak/$page/$o/$aksi/1");
 
@@ -158,8 +157,8 @@ class Bumindes_penduduk extends Admin_Controller {
 	{
 		$data['main'] = $this->penduduk_model->list_data($o, 0);
 		$data['desa'] = $this->config_model->get_data();
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
 
 		if ($privasi_nik == 1) $data['privasi_nik'] = true;
 		$this->load->view("bumindes/penduduk/content_".$page."_".$aksi, $data);

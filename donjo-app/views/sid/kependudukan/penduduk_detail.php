@@ -271,6 +271,15 @@
 																<td><?= strtoupper($penduduk['no_asuransi'])?></td>
 															</tr>
 														<?php endif; ?>
+														<tr>
+															<th colspan="3" class="subtitle_head"><strong>DATA LAINNYA</strong></th>
+														</tr>
+														<tr>
+															<td>Bahasa</td><td >:</td><td><?= $penduduk['bahasa_nama']?></td>
+														</tr>
+														<tr>
+															<td>Keterangan</td><td >:</td><td><?= $penduduk['ket']?></td>
+														</tr>
 													</tbody>
 												</table>
 											</div>

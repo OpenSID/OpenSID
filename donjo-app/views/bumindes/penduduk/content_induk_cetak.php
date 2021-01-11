@@ -98,7 +98,7 @@
 							<td><?= $data['hubungan']?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>
-							<td><?= $data['attr']['keterangan']?></td>
+							<td><?= $data['ket']?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>

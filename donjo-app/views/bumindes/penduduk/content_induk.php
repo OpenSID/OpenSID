@@ -80,7 +80,7 @@
 										<td><?= $data['hubungan']?></td>
 										<td><a href="<?= site_url("penduduk/detail/$p/$o/$data[id]"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a></td>
 										<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]"); ?>"><?= $data['no_kk']; ?></a></td>
-										<td><?= $data['attr']['keterangan']?></td>	
+										<td><?= $data['ket']?></td>	
 									</tr>
 								<?php endforeach; ?>
 							<?php else: ?>

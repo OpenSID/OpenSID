@@ -91,7 +91,11 @@
 		select_options(rt, params);
 	}
 </script>
-
+<style>
+	textarea {
+	  resize: none;
+	}
+</style>
 			<div class="row">
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -625,4 +629,30 @@
 						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
 					</div>
 				</div>
+				<div class='col-sm-12'>
+					<div class="form-group subtitle_head">
+						<label class="text-right"><strong>Lainnya :</strong></label>
+					</div>
+				</div>
+				<div class='col-sm-12'>
+					<div class="row">
+						<div class='col-sm-4'>
+							<div class='form-group'>
+								<label for="bahasa_id">Bahasa</label>
+								<select class="form-control input-sm" id="bahasa_id" name="bahasa_id">
+									<option value="">Pilih Bahasa</option>
+									<?php foreach ($bahasa as $data): ?>
+										<option value="<?= $data['id']?>" <?php selected($penduduk['bahasa_id'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+									<?php endforeach;?>
+								</select>
+							</div>
+						</div>
+						<div class='col-sm-12'>
+							<div class='form-group'>
+								<label for="ket">Keterangan</label>
+								<textarea id="ket" name="ket" class="form-control input-sm" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
+							</div>
+						</div>
+					</div>
+				</div>	
 			</div>

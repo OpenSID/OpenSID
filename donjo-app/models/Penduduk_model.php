@@ -375,7 +375,7 @@ class Penduduk_model extends MY_Model {
 			$select_sql .= 'rcb.id as penerima_bantuan,';
 		}
 
-		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.initial as bahasa,
+		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.initial as bahasa, u.ket,
 			(CASE
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
@@ -949,7 +949,7 @@ class Penduduk_model extends MY_Model {
 
 	public function get_penduduk($id=0)
 	{
-		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
+		$sql = "SELECT bahasa.nama as bahasa_nama, u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar, polis.nama AS asuransi,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -988,6 +988,7 @@ class Penduduk_model extends MY_Model {
 			LEFT JOIN user ux ON u.updated_by = ux.id
 			LEFT JOIN user ucreate ON u.created_by = ucreate.id
 			LEFT JOIN tweb_penduduk_asuransi polis ON polis.id = u.id_asuransi
+			LEFT JOIN tweb_penduduk_bahasa bahasa ON bahasa.id = u.bahasa_id
 			WHERE u.id=?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
@@ -1235,6 +1236,14 @@ class Penduduk_model extends MY_Model {
 	public function list_golongan_darah()
 	{
 		$sql = "SELECT * FROM tweb_golongan_darah WHERE 1";
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
+		return $data;
+	}
+
+	public function list_bahasa()
+	{
+		$sql = "SELECT * FROM tweb_penduduk_bahasa WHERE 1";
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;

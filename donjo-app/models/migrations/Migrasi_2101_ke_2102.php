@@ -67,7 +67,7 @@ class Migrasi_2101_ke_2102 extends MY_model {
 
 	// Updates for issues #2777
 	public function penduduk_updates(){
-		// Menambahkan Tabel tweb_penduduk_bahasa yang digunakan untuk autofield pada pemilihan aset
+		// Menambahkan Tabel tweb_penduduk_bahasa yang digunakan untuk kolom bahasa
 		if (!$this->db->table_exists('tweb_penduduk_bahasa') )
 		{
 			// Membuat table tweb_penduduk_bahasa, attribut baru untuk kolom bahasa
@@ -95,5 +95,7 @@ class Migrasi_2101_ke_2102 extends MY_model {
 
 		// Menambahkan bahasa_id setelah column warganegara_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
 		$this->db->query("ALTER TABLE tweb_penduduk ADD bahasa_id int(11) NULL AFTER warganegara_id");
+		// Menambahkan column ket pada table tweb_penduduk
+		$this->db->query("ALTER TABLE tweb_penduduk ADD ket tinytext NULL");
 	}
 }
