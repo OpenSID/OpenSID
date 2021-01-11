@@ -45,7 +45,7 @@
 
 <style type="text/css">
 	.content-wrapper.periksa {min-height: 0px !important;}
-	div.form-surat .content-wrapper {padding-top: 0px !important; padding-left: 30px;}
+	div.form-surat .content-wrapper {padding-top: 0px !important;}
 	.breadcrumb.admin {display: none;}
 	.box-header.admin {display: none;}
 	.tdk-periksa {display: none;}
@@ -69,150 +69,107 @@
 	</section>
 	<section class="content periksa">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-7">
 				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Pemohon</h3>
+					</div>
 					<div class="box-body">
 						<form class="form-horizontal">
-						  <div class="form-group">
-						    <label class="control-label col-sm-2">Pemohon:</label>
-						    <div class="col-sm-10">
-						      <input class="form-control" readonly="readonly" value="<?= $individu['nik'].' - '.$individu['nama']?>">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label class="control-label col-sm-2">Keterangan tambahan:</label>
-						    <div class="col-sm-10">
-						      <textarea class="form-control" readonly="readonly"><?= $periksa['keterangan'] ?></textarea>
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label class="control-label col-sm-2">No HP Aktif:</label>
-						    <div class="col-sm-10">
-						      <input class="form-control" readonly="readonly" value="<?= $periksa['no_hp_aktif']?>">
-						    </div>
-						  </div>
+							<div class="form-group">
+								<label class="control-label col-sm-3">Nama</label>
+								<div class="col-sm-9">
+									<input class="form-control input-sm" readonly="readonly" value="<?= $individu['nik'].' - '.$individu['nama']; ?>">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-3">Keterangan tambahan</label>
+								<div class="col-sm-9">
+									<textarea class="form-control input-sm" readonly="readonly" rows="3"><?= $periksa['keterangan'] ?></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-3">No HP Aktif</label>
+								<div class="col-sm-9">
+									<input class="form-control input-sm" readonly="readonly" value="<?= $periksa['no_hp_aktif']?>">
+								</div>
+							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-warning collapsed-box">
-					<div class="box-header">
-	          <div class="box-tools pull-right">
-	            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-	          </div>
-						<h4>Periksa persyaratan</h4>
+			<div class="col-md-5">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Status Kelengkapan Dokumen</h3>
 					</div>
 					<div class="box-body">
-						Periksa setiap dokumen untuk memastikan sesuai dengan persyaratan surat ini.
-						Kalau persyaratan belum lengkap:
-						<ul>
-							<li>Klik tombol Belum Lengkap</li>
-							<li>Beritahu pemohon persyaratan mana yang belum lengkap</li>
-						</ul>
-						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	 	<div class="box box-info" style="margin-top: 10px;">
-	    <div class="box-header with-border">
-	      <h4 class="box-title">Status Kelengkapan Dokumen</h4>
-	      <div class="box-tools">
-	        <button type="button" class="btn btn-box-tool" data-toggle="collapse" data-target="#surat"><i class="fa fa-minus"></i></button>
-	      </div>
-	    </div>
-	    <div class="box-body">
-	      <table class="table table-striped table-bordered table-responsive" id="surat">
-	        <tr>
-	          <th width="2"><center>No</center></th>
-	          <th>Syarat</th>
-	          <th>Dokumen Melengkapi Syarat</th>
-	        </tr>
-					<?php if ($syarat_permohonan): ?>
-		        <?php $no = 1; foreach ($syarat_permohonan as $syarat): ?>
-		          <tr>
-		            <td align="center" width="2"><?= $no;?></td>
-		            <td><?= $syarat['ref_syarat_nama']?></td>
-		            <td>
-		            	<?php if ($syarat['dok_id'] == '-1'): ?>
-		            		<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
-		            	<?php else: ?>
-			            	<a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a>
-			            <?php endif; ?>
-		            </td>
-		          </tr>
-	          <?php $no++; endforeach; ?>
-					<?php else: ?>
-						<tr>
-							<td class="text-center" colspan="9">Data Tidak Tersedia</td>
-						</tr>
-					<?php endif; ?>
-	      </table>
-	    </div>
-	  </div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-warning collapsed-box">
-					<div class="box-header">
-	          <div class="box-tools pull-right">
-	            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-	          </div>
-						<h4>Periksa isian form</h4>
-					</div>
-					<div class="box-body">
-						Kalau isian sudah lengkap:
-						<ul>
-							<li>Klik Ekspor Dok untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>
-							<li>Berikan surat kepada petugas untuk ditandatangani</li>
-						</ul>
-						<p>Status permohonan akan secara otomatis diubah menjadi 'Menunggu Tandatangan'.</p>
-						Kalau isian belum lengkap:
-						<ul>
-							<li>Klik tombol Belum Lengkap</li>
-							<li>Beritahu pemohon isian mana yang belum lengkap</li>
-						</ul>
-						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
-						<textarea id="isian_form" hidden="hidden"><?= $isian_form?></textarea>
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered" id="surat">
+								<tr>
+									<th width="2"><center>No</center></th>
+									<th>Syarat</th>
+									<th>Dokumen Melengkapi Syarat</th>
+								</tr>
+								<?php if ($syarat_permohonan): ?>
+									<?php $no = 1; foreach ($syarat_permohonan as $syarat): ?>
+										<tr>
+											<td class="padat"><?= $no;?></td>
+											<td width="40%"><?= $syarat['ref_syarat_nama']?></td>
+											<td width="60%">
+												<?php if ($syarat['dok_id'] == '-1'): ?>
+													<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
+												<?php else: ?>
+													<a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a>
+												<?php endif; ?>
+											</td>
+										</tr>
+									<?php $no++; endforeach; ?>
+								<?php else: ?>
+									<tr>
+										<td class="text-center" colspan="9">Data Tidak Tersedia</td>
+									</tr>
+								<?php endif; ?>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
-
-<div class="form-surat" id="periksa-permohonan">
-	<?php $this->load->view($form_surat); ?>
+<div class="row">
+	<div class="col-md-12">
+		<textarea id="isian_form" hidden="hidden"><?= $isian_form; ?></textarea>
+		<div class="form-surat" id="periksa-permohonan">
+			<?php $this->load->view($form_surat); ?>
+		</sdiv>
+	</div>
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    // Di form surat ubah isian admin menjadi disabled
-    $("#periksa-permohonan .readonly-periksa").attr('disabled', true);
+	$(document).ready(function() {
+		// Di form surat ubah isian admin menjadi disabled
+		$("#periksa-permohonan .readonly-periksa").attr('disabled', true);
 		setTimeout(function() {isi_form();}, 100);
-  });
+	});
 
-  function isi_form()
-  {
-    var isian_form = JSON.parse($('#isian_form').val(), function(key, value)
-    {
-    	if (key)
-    	{
-    		var elem = $('*[name=' + key + ']');
-	    	elem.val(value);
-	    	elem.change();
-	    	// Kalau isian hidden, akan ada isian lain untuk menampilkan datanya
-	    	if (elem.is(":hidden"))
-	    	{
-	    		var show = $('#' + key + '_show');
-	    		show.val(value);
-	    		show.change();
-	    	}
-    	}
-  	});
+	function isi_form() {
+
+		var isian_form = JSON.parse($('#isian_form').val(), function(key, value) {
+
+			if (key) {
+				var elem = $('*[name=' + key + ']');
+				elem.val(value);
+				elem.change();
+				// Kalau isian hidden, akan ada isian lain untuk menampilkan datanya
+				if (elem.is(":hidden"))
+				{
+					var show = $('#' + key + '_show');
+					show.val(value);
+					show.change();
+				}
+			}
+		});
 	}
 </script>
