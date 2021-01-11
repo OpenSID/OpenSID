@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Layanan Mandiri Web > Program Bantuan
+ * View modul Layanan Mandiri > Bantuan
  *
- * donjo-app/views/mandiri/bantuan.php,
+ * donjo-app/views/layanan_mandiri/bantuan.php
  *
  */
 
@@ -48,9 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
 <script src="<?= base_url()?>assets/bootstrap/js/jquery-ui.min.js"></script>
-
 <script>
-	function show_kartu_peserta(elem){
+	function show_kartu_peserta(elem) {
 		var id = elem.attr('target');
 		var title = elem.attr('title');
 		var url = elem.attr('href');
@@ -70,43 +69,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#'+id+'').dialog('open');
 	}
 </script>
-<div class="box-header with-border">
-	<h3 class="box-title"><b>DAFTAR BANTUAN YANG DITERIMA</b></h3>
-</div>
-<div class="box-body">
-	<?php if ($bantuan_penduduk) : ?>
-		<i class="fa fa-caret-right"></i> <b>SASARAN PENDUDUK</b>
+<div class="box box-solid">
+	<div class="box-header with-border bg-red">
+		<h4 class="box-title">Bantuan</h4>
+	</div>
+	<div class="box-body box-line">
+		<h4><b>BANTUAN PENDUDUK</b></h4>
+	</div>
+	<div class="box-body box-line">
 		<div class="table-responsive">
-			<table class="table table-bordered">
+		<table class="table table-bordered table-hover table-data datatable-polos">
 				<thead>
-					<tr>
-						<th class="text-center" width="1">No.</th>
-						<th class="text-center" width="1">Aksi</th>
-						<th>Masa Program</th>
-						<th>Nama Program</th>
+					<tr class="judul">
+						<th>No</th>
+						<th>Aksi</th>
+						<th width="20%">Waktu / Tanggal</th>
+						<th width="20%">Nama Program</th>
 						<th>Keterangan</th>
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach ($bantuan_penduduk as $no => $bantuan) : ?>
-					<tr>
-						<td class="text-center"><?= $no + 1; ?></td>
-						<td nowrap>
-							<?php if($bantuan['no_id_kartu']) : ?>
-								<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("mandiri_web/kartu_peserta/tampil/$bantuan[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-flat btn-sm" ><i class="fa fa-eye"></i></button>
-								<a href="<?= site_url("mandiri_web/kartu_peserta/unduh/$bantuan[id]")?>" class="btn bg-black btn-flat btn-sm" title="Kartu Peserta" <?php empty($bantuan['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
-							<?php endif; ?>
-						</td>
-						<td nowrap><?= fTampilTgl($bantuan["sdate"], $bantuan["edate"]);?></td>
-						<td><?= $bantuan['nama']?></td>
-						<td width="60%"><?= $bantuan["ndesc"];?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
-			</table>
-		</div>
-	<?php else: ?>
-		<span>Anda tidak terdaftar dalam program bantuan apapun</span>
-	<?php endif; ?>
+					<?php if ($bantuan_penduduk):
+						foreach ($bantuan_penduduk as $key => $item): ?>
+							<tr>
+								<td class="padat"><?= ($key + 1); ?></td>
+								<td class="padat">
+									<?php if ($item['no_id_kartu']) : ?>
+										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url("layanan_mandiri/bantuan/kartu_peserta/tampil/$item[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
+										<a href="<?= site_url("layanan_mandiri/bantuan/kartu_peserta/unduh/$item[id]")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
+									<?php endif; ?>
+								</td>
+								<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
+								<td><?= $item["nama"]; ?></td>
+								<td><p align="justify"><?= $item["ndesc"];?></p></td>
+							</tr>
+						<?php endforeach;
+					else: ?>
+						<tr>
+							<td class="text-center" colspan="4">Data tidak tersedia</td>
+						</tr>
+				<?php endif; ?>
+			</tbody>
+		</table>
+	</div>
 </div>
-

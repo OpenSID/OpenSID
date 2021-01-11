@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk login Layanan Mandiri
+ * View modul Layanan Mandiri > Pesan > Baca Pesan
  *
- * donjo-app/controllers/Mandiri_login.php
+ * donjo-app/views/layanan_mandiri/baca_pesan.php
  *
  */
 
@@ -44,66 +44,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
-class Mandiri_login extends Web_Controller
-{
-	private $cek_anjungan;
-
-	public function __construct()
-	{
-		parent::__construct();
-		mandiri_timeout();
-		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
-		$this->header = $this->header_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
-	}
-
-	public function index()
-	{
-		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->header['desa'];
-		//Initialize Session ------------
-		if (!isset($_SESSION['mandiri']))
-		{
-			// Belum ada session variable
-			$this->session->set_userdata('mandiri', 0);
-			$this->session->set_userdata('mandiri_try', 4);
-			$this->session->set_userdata('mandiri_wait', 0);
-		}
-		$_SESSION['success'] = 0;
-		//-------------------------------
-
-		$data['cek_anjungan'] = $this->cek_anjungan;
-
-		$this->load->view('mandiri_login', $data);
-	}
-
-	public function auth()
-	{
-		if ($this->session->mandiri_wait != 1)
-		{
-			$this->mandiri_model->siteman();
-		}
-
-		if ($this->session->lg == 1)
-		{
-			redirect('mandiri_web/ganti_pin');
-		}
-
-		if ($this->session->mandiri == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect('mandiri_login');
-		}
-
-	}
-}
+<div class="box box-solid">
+	<div class="box-header with-border bg-yellow">
+		<h4 class="box-title">Pesan</h4>
+	</div>
+	<div class="box-body box-line">
+		<div class="form-group">
+			<a href="<?= site_url("layanan-mandiri/$tujuan"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke <?= ucwords(spaceunpenetration($tujuan)); ?></a>
+		</div>
+	</div>
+	<div class="box-body box-line">
+		<h4><b>BACA PESAN</b></h4>
+	</div>
+	<div class="box-body">
+		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/balas'); ?>" method="post">
+			<div class="form-group">
+				<label for="owner"><?= $owner; ?></label>
+				<input type="text" class="form-control" value="<?= $pesan['owner']; ?>" readonly>
+			</div>
+			<div class="form-group">
+				<label for="subjek">Subjek</label>
+				<input type="text" class="form-control" name= "subjek" value="<?= $pesan['subjek']; ?>" readonly>
+			</div>
+			<div class="form-group">
+				<label for="pesan">Isi Pesan</label>
+				<textarea class="form-control" readonly><?= $pesan['komentar']; ?></textarea>
+			</div>
+			<?php if($kat == 2): ?>
+				<!-- Tombol balas hanya untuk kotak masuk -->
+				<hr/>
+				<div class="form-group">
+					<button type="submit" class="btn bg-green btn-social"><i class="fa fa-reply"></i>Balas Pesan</button>
+				</div>
+			<?php endif; ?>
+		</form>
+	</div>
+</div>

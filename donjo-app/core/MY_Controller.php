@@ -194,14 +194,18 @@ class Mandiri_Controller extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
-		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model(['header_model', 'anjungan_model']);
+		$this->load->model(['config_model', 'anjungan_model']);
 
-		$this->header = $this->header_model->get_data();
+		$this->header = $this->config_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
-		if ($this->session->mandiri != 1) redirect();
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan)
+		{
+			// TODO: Tambahkan notifikasi layanan mandiri di matikan
+			redirect();
+		}
+
+		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}
 
 }

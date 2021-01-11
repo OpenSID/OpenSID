@@ -48,6 +48,20 @@
 <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.css" />
 <link rel="stylesheet" href="<?= base_url()?>assets/css/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
+<style>
+#map
+.leaflet-popup-content {
+  height: auto;
+  overflow-y: auto;
+}
+table {
+  table-layout: fixed;
+  white-space: normal!important;
+}
+td {
+  word-wrap: break-word;
+}
+</style>
 
 <form id="mainform_map" name="mainform_map" action="" method="post">
   <div class="row">
@@ -277,8 +291,8 @@
       }
     });
 
-    // Menampilkan OverLayer Area, Garis, Lokasi
-    var layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
+    // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
+		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, '<?= addslashes(json_encode($area)) ?>', '<?= addslashes(json_encode($garis)) ?>', '<?= addslashes(json_encode($lokasi)) ?>', '<?= addslashes(json_encode($lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url("first/info_pembangunan/")?>');
 
     // Menampilkan OverLayer Covid dan Desa Pengguna OpenSID
     var mylayer = L.featureGroup();
@@ -377,3 +391,4 @@
 <script src="<?= base_url()?>assets/js/leaflet.browser.print.utils.js"></script>
 <script src="<?= base_url()?>assets/js/leaflet.browser.print.sizes.js"></script>
 <script src="<?= base_url()?>assets/js/dom-to-image.min.js"></script>
+<script src="<?= base_url()?>assets/js/script.js"></script>

@@ -54,12 +54,16 @@ class Pembangunan extends Admin_Controller
 		$this->modul_ini = 220;
 		$this->set_minsidebar(1);
 
+		$this->load->library('upload');
 		$this->load->model('pembangunan_model', 'model');
 		$this->load->model('pembangunan_dokumentasi_model');
 		$this->load->model('referensi_model');
 		$this->load->model('config_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('pamong_model');
+		$this->load->model('plan_lokasi_model');
+		$this->load->model('plan_area_model');
+		$this->load->model('plan_garis_model');
 	}
 
 	public function index()
@@ -88,65 +92,36 @@ class Pembangunan extends Admin_Controller
 		]);
 	}
 
-	public function new()
+	public function form($id = '')
 	{
-		$this->set_minsidebar(0);
-
-		$this->render('pembangunan/form', [
-			'list_lokasi' => $this->model->list_dusun_rt_rw(),
-			'sumber_dana' => $this->referensi_model->list_ref(SUMBER_DANA),
-		]);
-	}
-
-	public function create()
-	{
-		$this->model->insert($this->input->post());
-
-		if ($this->db->affected_rows())
+		if ($id)
 		{
-			$this->session->success = 1;
+			$data['main'] = $this->model->find($id);
+			$data['list_lokasi'] = $this->model->list_dusun_rt_rw();
+			$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
+			$data['form_action'] = site_url("pembangunan/update/$id");
 		}
 		else
 		{
-			$this->session->success = -1;
-
-			redirect('pembangunan/new');
+			$data['main'] = NULL;
+			$data['list_lokasi'] = $this->model->list_dusun_rt_rw();
+			$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
+			$data['form_action'] = site_url("pembangunan/insert");
 		}
 
+		$this->render('pembangunan/form', $data);
+	}
+
+	public function insert()
+	{
+		$this->model->insert();
 		redirect('pembangunan');
 	}
 
-	public function edit($id)
+	public function update($id = '')
 	{
-		$this->set_minsidebar(0);
-
-		$data = $this->model->find($id);
-
-		if (is_null($data)) show_404();
-
-		$this->render('pembangunan/edit', [
-			'main'        => $data,
-			'list_lokasi' => $this->model->list_dusun_rt_rw(),
-			'sumber_dana' => $this->referensi_model->list_ref(SUMBER_DANA),
-		]);
-	}
-
-	public function update($id)
-	{
-		$this->model->update($id, $this->input->post());
-
-		if ($this->db->affected_rows())
-		{
-			$this->session->success = 1;
-		}
-		else
-		{
-			$this->session->success = -1;
-
-			redirect("pembangunan/edit/{$id}");
-		}
-
-		redirect('pembangunan');
+		$this->model->update($id);
+		redirect("pembangunan");
 	}
 
 	public function delete($id)
@@ -190,6 +165,10 @@ class Pembangunan extends Admin_Controller
 			'dusun_gis' => $this->wilayah_model->list_dusun(),
 			'rw_gis'    => $this->wilayah_model->list_rw_gis(),
 			'rt_gis'    => $this->wilayah_model->list_rt_gis(),
+			'all_lokasi' => $this->plan_lokasi_model->list_lokasi(),
+			'all_garis' => $this->plan_garis_model->list_garis(),
+			'all_area' => $this->plan_area_model->list_area(),
+			'all_lokasi_pembangunan' => $this->model->list_lokasi_pembangunan(),
 		]);
 	}
 
@@ -219,6 +198,18 @@ class Pembangunan extends Admin_Controller
 		$data['isi']            = "pembangunan/cetak";
 
 		$this->load->view('global/format_cetak', $data);
+	}
+
+	public function info_pembangunan($id = 0)
+	{
+		$pembangunan = $this->model->find($id);
+		$dokumentasi = $this->pembangunan_dokumentasi_model->find_dokumentasi($pembangunan->id);
+
+		$data['pembangunan']    = $pembangunan;
+		$data['dokumentasi']    = $dokumentasi;
+		$data['config']         = $this->header['desa'];
+
+		$this->load->view('pembangunan/informasi', $data);
 	}
 
 	public function unlock($id)
