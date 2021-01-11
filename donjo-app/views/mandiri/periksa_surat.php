@@ -43,21 +43,6 @@
  */
 ?>
 
-<style type="text/css">
-	.content-wrapper.periksa {min-height: 0px !important;}
-	div.form-surat .content-wrapper {padding-top: 0px !important;}
-	.breadcrumb.admin {display: none;}
-	.box-header.admin {display: none;}
-	.tdk-periksa {display: none;}
-	table#surat {width: auto;}
-	.content.periksa
-	{
-		min-height: 0px !important;
-		padding-bottom: 0px;
-	}
-	div.form-surat .content-header {padding-top: 0px !important;}
-</style>
-
 <div class="content-wrapper periksa">
 	<section class="content-header">
 		<h1>Permohonan Surat</h1>
@@ -69,7 +54,7 @@
 	</section>
 	<section class="content periksa">
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title">Pemohon</h3>
@@ -77,7 +62,7 @@
 					<div class="box-body">
 						<form class="form-horizontal">
 							<div class="form-group">
-								<label class="control-label col-sm-3">Nama</label>
+								<label class="control-label col-sm-3">NIK / Nama Penduduk</label>
 								<div class="col-sm-9">
 									<input class="form-control input-sm" readonly="readonly" value="<?= $individu['nik'].' - '.$individu['nama']; ?>">
 								</div>
@@ -97,34 +82,51 @@
 						</form>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-5">
+
+				<div class="box box-warning collapsed-box">
+					<div class="box-header with-border">
+						<h3 class="box-title">Periksa persyaratan</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="box-body">
+						Periksa setiap dokumen untuk memastikan sesuai dengan persyaratan surat ini.
+						Kalau persyaratan belum lengkap:
+						<ul>
+							<li>Klik tombol Belum Lengkap</li>
+							<li>Beritahu pemohon persyaratan mana yang belum lengkap</li>
+						</ul>
+						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
+					</div>
+				</div>
+
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<h3 class="box-title">Status Kelengkapan Dokumen</h3>
+						<h3 class="box-title">Kelengkapan Dokumen</h3>
 					</div>
 					<div class="box-body">
 						<div class="table-responsive">
-							<table class="table table-striped table-bordered" id="surat">
+							<table class="table table-bordered table-striped table-hover tabel-daftar">
 								<tr>
-									<th width="2"><center>No</center></th>
+									<th>No</th>
 									<th>Syarat</th>
 									<th>Dokumen Melengkapi Syarat</th>
 								</tr>
 								<?php if ($syarat_permohonan): ?>
-									<?php $no = 1; foreach ($syarat_permohonan as $syarat): ?>
+									<?php foreach ($syarat_permohonan as $key => $syarat): ?>
 										<tr>
-											<td class="padat"><?= $no;?></td>
+											<td class="padat"><?= ($key + 1); ?></td>
 											<td width="40%"><?= $syarat['ref_syarat_nama']?></td>
 											<td width="60%">
 												<?php if ($syarat['dok_id'] == '-1'): ?>
 													<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
 												<?php else: ?>
-													<a href="<?= site_url('dokumen/unduh_berkas/'.$syarat[dok_id].'/'.$periksa[id_pemohon])?>"><?= $syarat['dok_nama']?></a>
+													<a href="<?= site_url("dokumen/unduh_berkas/$syarat[dok_id]/$periksa[id_pemohon]"); ?>" class="btn btn-flat btn-info btn-sm"><i class="fa fa-eye"></i> Cek Dokumen</a>
 												<?php endif; ?>
 											</td>
 										</tr>
-									<?php $no++; endforeach; ?>
+									<?php endforeach; ?>
 								<?php else: ?>
 									<tr>
 										<td class="text-center" colspan="9">Data Tidak Tersedia</td>
@@ -134,24 +136,49 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="box box-warning collapsed-box">
+					<div class="box-header with-border">
+						<h3 class="box-title">Periksa isian form</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="box-body">
+						Kalau isian sudah lengkap:
+						<ul>
+							<li>Klik Ekspor Dok untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>
+							<li>Berikan surat kepada petugas untuk ditandatangani</li>
+						</ul>
+						<p>Status permohonan akan secara otomatis diubah menjadi 'Menunggu Tandatangan'.</p>
+						Kalau isian belum lengkap:
+						<ul>
+							<li>Klik tombol Belum Lengkap</li>
+							<li>Beritahu pemohon isian mana yang belum lengkap</li>
+						</ul>
+						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
+						<textarea id="isian_form" hidden="hidden"><?= $isian_form?></textarea>
+					</div>
+				</div>
+			</div>
 			</div>
 		</div>
 	</section>
 </div>
+
 <div class="row">
 	<div class="col-md-12">
-		<textarea id="isian_form" hidden="hidden"><?= $isian_form; ?></textarea>
 		<div class="form-surat" id="periksa-permohonan">
 			<?php $this->load->view($form_surat); ?>
-		</sdiv>
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		// Di form surat ubah isian admin menjadi disabled
-		$("#periksa-permohonan .readonly-periksa").attr('disabled', true);
-		setTimeout(function() {isi_form();}, 100);
+	// Di form surat ubah isian admin menjadi disabled
+	$("#periksa-permohonan .readonly-periksa").attr('disabled', true);
+	setTimeout(function() {isi_form();}, 100);
 	});
 
 	function isi_form() {
