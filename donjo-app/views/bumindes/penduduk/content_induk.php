@@ -75,19 +75,10 @@
 											</div>
 										</td>
 										<td><?= strtoupper($data['nama'])?></td>
-										<td><?= $data['sex'] == 'LAKI-LAKI' ? 'Laki-laki':'Perempuan' ?></td>
-										<td>
-											<?php
-											if( strpos( $data['kawin'],'KAWIN' ) !== false ) {
-												if( strpos( $data['kawin'],'BELUM KAWIN' ) !== false ) {
-													echo "Belum Kawin";
-												} else echo "Kawin";
-											} else 
-												echo (($data['sex'] == 'LAKI-LAKI') ? 'Duda':'Janda');
-											?>
-										</td>
+										<td><?= strtoupper($data['sex']) ?></td>
+										<td><?= (strpos($data['kawin'],'KAWIN') !== false) ? $data['kawin'] : (($data['sex'] == 'LAKI-LAKI') ? 'DUDA':'JANDA') ?></td>
 										<td><?= $data['tempatlahir']?></td>
-										<td><?= tgl_indo($data['tanggallahir'])?></td>
+										<td><?= strtoupper(tgl_indo($data['tanggallahir']))?></td>
 										<td><?= $data['agama']?></td>
 										<td><?= $data['pendidikan']?></td>
 										<td><?= $data['pekerjaan']?></td>
