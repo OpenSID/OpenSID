@@ -633,16 +633,16 @@
 					<div class="row">
 						<div class='col-sm-4'>
 							<div class='form-group'>
-								<label for="bahasa_id">Bahasa</label>
+								<label for="bahasa_id">Dapat Membaca Huruf</label>
 								<select class="form-control input-sm" id="bahasa_id" name="bahasa_id">
-									<option value="">Pilih Bahasa</option>
+									<option value="">Pilih Isian</option>
 									<?php foreach ($bahasa as $data): ?>
 										<option value="<?= $data['id']?>" <?php selected($penduduk['bahasa_id'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 									<?php endforeach;?>
 								</select>
 							</div>
 						</div>
-						<div class='col-sm-12'>
+						<div class='col-sm-8'>
 							<div class='form-group'>
 								<label for="ket">Keterangan</label>
 								<textarea id="ket" name="ket" class="form-control input-sm" style="resize: none" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
