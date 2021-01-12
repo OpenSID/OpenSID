@@ -127,8 +127,8 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$data['isian_form'] = json_encode($this->ambil_isi_form($periksa['isian_form']));
 		$data['periksa'] = $periksa;
 
-  	$data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
-
+		$data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
+		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/periksa_doc/$id/$url");
 		$data['form_surat'] = "surat/form_surat.php";
@@ -180,11 +180,12 @@ class Permohonan_surat_admin extends Admin_Controller {
 		return $isian_form;
 	}
 
-  public function delete($id_permohonan)
-  {
+	public function delete($id_permohonan)
+	{
 		$this->session->unset_userdata('success');
 		$this->session->unset_userdata('error_msg');
-  	$this->permohonan_surat_model->delete($id_permohonan);
+		$this->permohonan_surat_model->delete($id_permohonan);
 		redirect($_SERVER['HTTP_REFERER']);
-  }
+	}
+
 }
