@@ -9,25 +9,6 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
-		<style>
-			.textx
-			{
-				mso-number-format:"\@";
-			}
-			td, th
-			{
-				font-size:9pt;
-			}
-			table#ttd td
-			{
-				text-align: center;
-				white-space: nowrap;
-			}
-			.underline
-			{
-				text-decoration: underline;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="container">

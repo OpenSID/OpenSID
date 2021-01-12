@@ -193,6 +193,9 @@ class Bumindes_penduduk extends Admin_Controller {
 		$data['func'] = 'tables/induk';
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
+		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
+		$this->session->status_dasar = 1;
+		$this->session->status_penduduk = 1;
 		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
 		
 		return $data;

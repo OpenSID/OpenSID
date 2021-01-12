@@ -91,11 +91,6 @@
 		select_options(rt, params);
 	}
 </script>
-<style>
-	textarea {
-	  resize: none;
-	}
-</style>
 			<div class="row">
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -650,7 +645,7 @@
 						<div class='col-sm-12'>
 							<div class='form-group'>
 								<label for="ket">Keterangan</label>
-								<textarea id="ket" name="ket" class="form-control input-sm" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
+								<textarea id="ket" name="ket" class="form-control input-sm" style="resize: none" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
 							</div>
 						</div>
 					</div>
