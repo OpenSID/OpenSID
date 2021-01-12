@@ -626,7 +626,7 @@
 				</div>
 				<div class='col-sm-12'>
 					<div class="form-group subtitle_head">
-						<label class="text-right"><strong>Lainnya :</strong></label>
+						<label class="text-right"><strong>LAINNYA :</strong></label>
 					</div>
 				</div>
 				<div class='col-sm-12'>
