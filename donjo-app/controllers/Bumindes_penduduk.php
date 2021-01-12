@@ -105,10 +105,7 @@ class Bumindes_penduduk extends Admin_Controller {
 		$data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
 
 		$this->set_minsidebar(1);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('bumindes/penduduk/main', $data);
-		$this->load->view('footer');
+		$this->render('bumindes/penduduk/main', $data);
 	}
 
 	private function load_data_tables($page=null, $page_number=1, $offset=0)
@@ -156,7 +153,7 @@ class Bumindes_penduduk extends Admin_Controller {
 	public function cetak($page='induk', $o = 0, $aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->penduduk_model->list_data($o, 0);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['pamong_ttd'] = $this->pamong_model->get_ub();
 
@@ -167,7 +164,7 @@ class Bumindes_penduduk extends Admin_Controller {
 	public function autocomplete()
 	{
 		$data = $this->penduduk_model->autocomplete($this->input->post('cari'));
-		echo json_encode($data);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 	public function filter($filter)

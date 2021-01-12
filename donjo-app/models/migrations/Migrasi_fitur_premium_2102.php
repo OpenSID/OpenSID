@@ -71,6 +71,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->add_modul_pembangunan($hasil);
 		$hasil =& $this->sebutan_kepala_desa($hasil);
 		$hasil =& $this->urut_cetak($hasil);
+		$hasil =& $this->penduduk_updates($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -225,6 +226,43 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 				'null' => TRUE,
 				),
 			));
+
+		return $hasil;
+	}
+
+
+	// Updates for issues #2777
+	public function penduduk_updates($hasil){
+		// Menambahkan Tabel tweb_penduduk_bahasa yang digunakan untuk kolom bahasa
+		if (!$this->db->table_exists('tweb_penduduk_bahasa') )
+		{
+			// Membuat table tweb_penduduk_bahasa, attribut baru untuk kolom bahasa
+			$query = "
+			CREATE TABLE IF NOT EXISTS `tweb_penduduk_bahasa` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`nama` varchar(50) NOT NULL,
+				`inisial` varchar(10) NOT NULL,
+				PRIMARY KEY (`id`)
+			)";
+			$this->db->query($query);
+
+			// Insert data ke table tweb_penduduk_bahasa
+			$query = "
+			INSERT INTO tweb_penduduk_bahasa (`id`, `nama`, `inisial`) VALUES
+				(1, 'Latin', 'L'),
+				(2, 'Daerah', 'D'),
+				(3, 'Arab', 'A'),
+				(4, 'Arab dan Latin', 'AL'),
+				(5, 'Arab dan Daerah', 'AD'),
+				(6, 'Arab, Latin dan Daerah', 'ALD')
+			";
+			$hasil =& $this->db->query($query);
+		}
+
+		// Menambahkan bahasa_id setelah column warganegara_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
+		$hasil =& $this->db->query("ALTER TABLE tweb_penduduk ADD bahasa_id int(11) NULL AFTER warganegara_id");
+		// Menambahkan column ket pada table tweb_penduduk
+		$hasil =& $this->db->query("ALTER TABLE tweb_penduduk ADD ket tinytext NULL");
 
 		return $hasil;
 	}
