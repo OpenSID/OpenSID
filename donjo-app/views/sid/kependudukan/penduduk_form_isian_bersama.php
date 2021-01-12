@@ -635,7 +635,7 @@
 							<div class='form-group'>
 								<label for="bahasa_id">Dapat Membaca Huruf</label>
 								<select class="form-control input-sm" id="bahasa_id" name="bahasa_id">
-									<option value="">Pilih Isian</option>
+									<option value="0">Pilih Isian</option>
 									<?php foreach ($bahasa as $data): ?>
 										<option value="<?= $data['id']?>" <?php selected($penduduk['bahasa_id'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 									<?php endforeach;?>
