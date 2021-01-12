@@ -21,7 +21,7 @@
 <div class="box box-info">
 	<div class="box-header with-border">
 		<a href="<?= site_url("bumindes_penduduk/ajax_cetak/induk/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Induk Penduduk"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url("bumindes_penduduk/ajax_cetak/induk/$o/unduh"); ?>?>" title="Unduh Buku Induk Penduduk" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Ekspedisi" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Induk Penduduk"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url("bumindes_penduduk/ajax_cetak/induk/$o/unduh"); ?>?>" title="Unduh Buku Induk Penduduk" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Induk Penduduk"><i class="fa fa-download"></i> Unduh</a>
 	</div>
 	<div class="box-body">
 		<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -74,7 +74,7 @@
 										<td><?= $data['agama']?></td>
 										<td><?= $data['pendidikan']?></td>
 										<td><?= $data['pekerjaan']?></td>
-										<td><?= strtoupper($data['bahasa_nama'])	?></td>
+										<td><?= strtoupper($data['bahasa_nama'])?></td>
 										<td><?= $data['warganegara']?></td>
 										<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
 										<td><?= $data['hubungan']?></td>
@@ -93,26 +93,6 @@
 				</div>
 			</form>
 			<?php $this->load->view('global/paging'); ?>
-		</div>
-	</div>
-</div>
-<?php $this->load->view('global/confirm_delete'); ?>
-<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-	<div class='modal-dialog'>
-		<div class='modal-content'>
-			<div class='modal-header'>
-				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
-			</div>
-			<div class='modal-body btn-info'>
-				Apakah Anda yakin ingin mengembalikan status data penduduk ini?
-			</div>
-			<div class='modal-footer'>
-				<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-				<a class='btn-ok'>
-					<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Simpan</button>
-				</a>
-			</div>
 		</div>
 	</div>
 </div>
