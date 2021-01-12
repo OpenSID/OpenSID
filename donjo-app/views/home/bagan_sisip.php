@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<?= base_url()?>assets/css/bagan.css">
 
 <div class="content-wrapper">
-	<section class="content" id="maincontent">
+	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box-body">

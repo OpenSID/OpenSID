@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-3">
 					<div id="bantuan" class="box box-info">
@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="box-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form id="mainform" name="mainform" action="" method="post">
+								<form id="mainform" name="mainform" method="post">
 									<div class="row">
 										<div class="col-sm-9">
 											<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('kelompok/filter/filter'); ?>')">

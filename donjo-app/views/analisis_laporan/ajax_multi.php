@@ -21,6 +21,7 @@
 
 	})();
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#opsi div
 	{

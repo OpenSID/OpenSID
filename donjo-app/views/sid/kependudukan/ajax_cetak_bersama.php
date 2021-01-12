@@ -15,6 +15,7 @@
 		$('#modalBox').modal('hide');
 	}
 </script>
+
 <div class='modal-body'>
 	<div class="box box-danger">
 		<div class="box-body">

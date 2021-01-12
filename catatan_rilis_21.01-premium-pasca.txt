@@ -26,6 +26,7 @@ Fitur Premium:
 9. #2659: Sekarang bisa isi lokasi peta tempat tinggal pada waktu menambah penduduk baru.
 10. #3863: Sediakan pengaturan sebutan Kepala Desa, supaya bisa disesuaikan (misalnya 'Wali Nagari').
 11. #3696: Rancang ulang tampilan Layanan Mandiri.
+12. Penyederhanaan script form secara menyeluruh. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
