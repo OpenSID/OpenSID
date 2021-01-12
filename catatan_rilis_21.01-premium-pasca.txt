@@ -28,6 +28,8 @@ Fitur Premium:
 11. #3696: Rancang ulang tampilan Layanan Mandiri.
 12. Penyederhanaan script form secara menyeluruh. [teknis]
 13. p#49: Tampilkan 'halaman tidak ditemukan' jika mengakses layanan mandiri saat dinon-aktifkan.
+14. #3917: Dokumen kelengkapan permohonan surat sekarang tampil di halaman periksa permohonan surat layanan mandiri. [bug-fix]
+15. #3919: Perbaiki tampilan halaman periksa permohonan surat layanan mandiri.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
