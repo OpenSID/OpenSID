@@ -1,3 +1,4 @@
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	.textx
 	{

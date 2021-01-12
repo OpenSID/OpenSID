@@ -21,7 +21,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="<?php if ($this->modul_ini <> 15): ?>col-md-9<?php else: ?>col-md-12<?php endif; ?>">
 					<div class="box box-info">
@@ -39,7 +39,7 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+										<form id="mainform" name="mainform" method="post">
 											<input name="kategori" type="hidden" value="<?= $kat?>">
 											<div class="row">
 												<div class="col-sm-6">

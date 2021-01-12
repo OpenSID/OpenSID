@@ -101,7 +101,7 @@
 			</div>
 			<div class="box-body">
 				<h5><b>Daftar Anggota</b></h5>
-				<form id="mainform" name="mainform" action="" method="post">
+				<form id="mainform" name="mainform" method="post">
 					<div class="table-responsive">
 						<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 							<thead class="bg-gray disabled color-palette">

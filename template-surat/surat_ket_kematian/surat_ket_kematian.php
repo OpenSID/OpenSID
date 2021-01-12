@@ -90,7 +90,7 @@
 						</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" name="main" method="POST" class="form-horizontal">
+						<form id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="nik"  class="col-sm-3 control-label">NIK / Nama Yang Meninggal</label>

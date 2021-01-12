@@ -57,11 +57,7 @@ class Masuk extends Web_Controller
 		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan)
-		{
-			// TODO: Tambahkan notifikasi layanan mandiri di matikan
-			redirect();
-		}
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 	}
 
 	public function index()

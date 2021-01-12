@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box-header with-border">
 				<a href="<?= site_url('anjungan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Anjungan</a>
 			</div>
-			<form action="<?= $form_action; ?>" method="POST" class="form-horizontal form-validasi">
+			<form id="validasi" action="<?= $form_action; ?>" method="POST" class="form-horizontal">
 				<div class="box-body">
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="ip_address">IP Address</label>

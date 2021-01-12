@@ -21,14 +21,14 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left', $data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<?php if ($analisis_master['lock']==1): ?>
 								<a href="<?= site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if ($analisis_master['jenis']==1): ?>disabled<?php endif; ?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
 								<a href="#confirm-delete" title="Hapus Data"
@@ -43,7 +43,7 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-8">
 													<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_indikator/tipe')?>')">

@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box-body">
 				<h5><b>Tambahkan Warga Terdata</b></h5>
 				<hr>
-				<form action="" id="main" name="main" method="POST" class="form-horizontal">
+				<form id="main" name="main" method="POST" class="form-horizontal">
 					<div class="form-group" >
 						<label for="terdata" class="col-sm-3 control-label"><?= $list_sasaran['judul']; ?></label>
 						<div class="col-sm-8">
