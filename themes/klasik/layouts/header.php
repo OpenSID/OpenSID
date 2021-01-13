@@ -120,9 +120,9 @@
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?php echo base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
-		<?php $this->load->view('global/validasi_form'); ?>
-		<!-- Script-->
-		<script src="<?= base_url(); ?>assets/js/script.js"></script>
+		<script src="<?= base_url('assets/js/jquery.validate.min.js'); ?>"></script>
+		<script src="<?= base_url('assets/js/validasi.js'); ?>"></script>
+		<script src="<?= base_url('assets/js/localization/messages_id.js'); ?>"></script>
 
 		<!-- Diperlukan untuk javascript yg mengakses resources -->
 		<script type="text/javascript">
