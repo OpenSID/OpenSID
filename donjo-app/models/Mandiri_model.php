@@ -156,7 +156,7 @@ class Mandiri_model extends CI_Model {
 		$pin = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
 
 		$data['pin'] = hash_pin($pin); // Hash PIN
-		$data['tanggal_buat'] = date("Y-m-d H:i:s");
+		$data['ganti_pin'] = 1;
 		$outp = $this->db->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
 
 		status_sukses($data); //Tampilkan Pesan
