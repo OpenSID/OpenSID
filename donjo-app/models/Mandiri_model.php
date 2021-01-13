@@ -288,7 +288,7 @@ class Mandiri_model extends CI_Model {
 		($id_nik === TRUE) ? $this->db->where('p.nik', $id_pend) : $this->db->where('pm.id_pend', $id_pend);
 
 		$data = $this->db
-			->select('pm.*, pm.id as id_pend, p.nama, p.nik, p.email, p.telepon')
+			->select('pm.*, p.nama, p.nik, p.email, p.telepon')
 			->from('tweb_penduduk_mandiri pm')
 			->join('penduduk_hidup p', 'pm.id_pend = p.id', 'LEFT')
 			->get()
@@ -306,9 +306,9 @@ class Mandiri_model extends CI_Model {
 		$pin = hash_pin(bilangan($masuk['pin']));
 
 		$data = $this->db
-			->select('m.*, p.nama, p.nik, p.foto, p.id_kk, k.no_kk')
-			->from('tweb_penduduk_mandiri m')
-			->join('tweb_penduduk p', 'm.id_pend = p.id', 'left')
+			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level, p.id_kk, k.no_kk')
+			->from('tweb_penduduk_mandiri pm')
+			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
 			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
 			->where('p.nik', $nik)
 			->get()
