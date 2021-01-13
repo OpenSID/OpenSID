@@ -48,14 +48,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Beranda extends Mandiri_Controller
 {
 
-	private $id_pend;
-
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
 		$this->load->helper('download');
-		$this->id_pend = $this->session->id_pend;
 	}
 
 	public function index()
@@ -77,9 +74,9 @@ class Beranda extends Mandiri_Controller
 	{
 		$data = [
 			'desa' => $this->header,
-			'penduduk' => $this->penduduk_model->get_penduduk($this->id_pend),
-			'kelompok' => $this->penduduk_model->list_kelompok($this->id_pend),
-			'dokumen' => $this->penduduk_model->list_dokumen($this->id_pend),
+			'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
+			'kelompok' => $this->penduduk_model->list_kelompok($this->is_login->id_pend),
+			'dokumen' => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
 			'konten' => 'profil'
 		];
 
@@ -90,7 +87,7 @@ class Beranda extends Mandiri_Controller
 	{
 		$data = [
 			'desa' => $this->header,
-			'penduduk' => $this->penduduk_model->get_penduduk($this->id_pend),
+			'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
 		];
 
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
@@ -98,7 +95,7 @@ class Beranda extends Mandiri_Controller
 
 	public function cetak_kk()
 	{
-		$data = $this->keluarga_model->get_data_cetak_kk($this->session->id_kk);
+		$data = $this->keluarga_model->get_data_cetak_kk($this->is_login->id_kk);
 
 		$this->load->view('sid/kependudukan/cetak_kk_all', $data);
 	}
@@ -136,7 +133,7 @@ class Beranda extends Mandiri_Controller
 	public function unduh_berkas($id_dokumen = '')
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $this->id_pend);
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $this->is_login->id_pend);
 		if ($berkas)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else

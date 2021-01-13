@@ -187,10 +187,8 @@ class Mandiri_Controller extends MY_Controller {
 
 	public $header;
 	public $cek_anjungan;
+	public $is_login;
 
-	/*
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -198,12 +196,9 @@ class Mandiri_Controller extends MY_Controller {
 
 		$this->header = $this->config_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		$this->is_login = $this->session->is_login;
 
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan)
-		{
-			// TODO: Tambahkan notifikasi layanan mandiri di matikan
-			redirect();
-		}
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 
 		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}

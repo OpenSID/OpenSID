@@ -305,3 +305,8 @@ button.uibutton .fa {color: #752100;}
 .fa-sm {
   font-size: 0.8em;
 }
+
+/* Halaman periksa permohonan surat layanan mandiri*/
+.content-wrapper.periksa {
+	padding-top: 0px;
+}

@@ -516,3 +516,24 @@ span.select2.select2-container {
 .text-white {
 	color: white;
 }
+
+.content-wrapper.periksa {
+	min-height: 0px !important;
+}
+
+div.form-surat .content-wrapper {
+	padding-top: 0px !important;
+}
+
+.breadcrumb.admin, .box-header.admin, .tdk-periksa {
+	display: none;
+}
+
+.content.periksa {
+	min-height: 0px !important;
+	padding-bottom: 0px;
+}
+
+div.form-surat .content-header {
+	padding-top: 0px !important;
+}

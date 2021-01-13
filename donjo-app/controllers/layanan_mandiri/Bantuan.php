@@ -58,7 +58,7 @@ class Bantuan extends Mandiri_Controller
 	{
 		$data = [
 			'desa' => $this->header,
-			'bantuan_penduduk' => $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->session->nik),
+			'bantuan_penduduk' => $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik),
 			'konten' => 'bantuan'
 		];
 
