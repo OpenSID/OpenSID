@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Data Buku Induk Penduduk</title>
+		<title>Data Buku Mutasi Penduduk Desa</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
@@ -14,9 +14,17 @@
 		<div id="container">
 			<div id="body">
 				<div class="header" align="center">
-					<h3>B.1 BUKU INDUK PENDUDUK DESA <?= strtoupper($desa['nama_desa'])?></h3>
+					<h3>B.2 BUKU MUTASI PENDUDUK DESA <?= strtoupper($desa['nama_desa'])?></h3>
 					<h3><?= strtoupper($this->setting->sebutan_kecamatan.' '.$desa['nama_kecamatan'].' '.$this->setting->sebutan_kabupaten.' '.$desa['nama_kabupaten'])?></h3>
 					<h3><?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></h3>
+					<br>
+					<!-- 
+						"""
+						Bulan dan Tahun akan diupdate setelah tahu detail didapat dari mana, apa bulan dan tahun
+						sekarang, atau terdapat pilihan data yang ditampilkan.
+						"""
+					 -->
+					<h3>BUKU MUTASI PENDUDUK DESA BULAN ... TAHUN ...</h3>
 					<br>
 				</div>
 				<table class="border thick">
@@ -24,24 +32,23 @@
 						<tr class="border thick">
 							<th rowspan="2">NOMOR URUT</th>
 							<th rowspan="2">NAMA LENGKAP / PANGGILAN</th>
-							<th rowspan="2">JENIS KELAMIN</th>
-							<th rowspan="2">STATUS PERKAWINAN</th>
 							<th colspan="2">TEMPAT & TANGGAL LAHIR</th>
-							<th rowspan="2">AGAMA</th>
-							<th rowspan="2">PENDIDIKAN TERAKHIR</th>
-							<th rowspan="2">PEKERJAAN</th>
-							<th rowspan="2">DAPAT MEMBACA HURUF</th>
+							<th rowspan="2">JENIS KELAMIN</th>
 							<th rowspan="2">KEWARGANEGARAAN</th>
-							<th rowspan="2">ALAMAT LENGKAP</th>
-							<th rowspan="2">KEDUDUKAN DLM KELUARGA</th>
-							<th rowspan="2">NIK</th>
-							<th rowspan="2">NOMOR KK</th>
-							<th rowspan="2">KET</th>
+							<th colspan="2">PENAMBAHAN</th>
+							<th colspan="4">PENGURANGAN</th>
+							<th rowspan="2">KET</th>								
 						</tr>
 						<tr class="border thick">
 							<th>TEMPAT LAHIR</th>
-							<th width="70px">TGL</th>
-						</tr>
+							<th>TANGGAL</th>
+							<th>DATANG DARI</th>
+							<th>TANGGAL</th>
+							<th>PINDAH KE</th>
+							<th>TANGGAL</th>
+							<th>MENINGGAL</th>
+							<th>TANGGAL</th>
+						</tr>	
 						<tr class="border thick">
 							<th>1</th>
 							<th>2</th>
@@ -56,12 +63,17 @@
 							<th>11</th>
 							<th>12</th>
 							<th>13</th>
-							<th>14</th>
-							<th>15</th>
-							<th>16</th>
 						</tr>
 					</thead>
 					<tbody>
+						<!-- 
+							""" 
+							Menunggu detil informasi data tiap attributnya sudah atau belum, 
+							jika sudah ada bagaimana proses menuju flow tersebut 
+							""" 
+						-->
+						
+					<?php if(!$main): ?>
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
@@ -76,12 +88,10 @@
 							<td><?= strtoupper($data['bahasa_nama'])?></td>
 							<td><?= $data['warganegara']?></td>
 							<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
-							<td><?= $data['hubungan']?></td>
-							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
-							<td><?= $privasi_nik ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>
 							<td><?= $data['ket']?></td>
 						</tr>
 						<?php endforeach; ?>
+					<?php endif; ?>
 					</tbody>
 				</table>
 				<br><br>

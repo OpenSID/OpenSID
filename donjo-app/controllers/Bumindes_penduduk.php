@@ -77,10 +77,10 @@ class Bumindes_penduduk extends Admin_Controller {
 		$this->session->per_page = $this->_set_page[0];
 	}
 
-	public function clear()
+	public function clear($page='induk')
 	{
 		$this->clear_session();
-		redirect('bumindes_penduduk');
+		redirect('bumindes_penduduk/tables/'.$page);
 	}
 
 	public function tables($page='induk', $page_number=1, $offset=0)
@@ -167,13 +167,13 @@ class Bumindes_penduduk extends Admin_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	public function filter($filter)
+	public function filter($filter, $page='induk')
 	{
 		$value = $this->input->post($filter);
 		if ($value != "")
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
-		redirect('bumindes_penduduk');
+		redirect('bumindes_penduduk/tables/'.$page);
 	}
 
 	// end global function
@@ -208,6 +208,23 @@ class Bumindes_penduduk extends Admin_Controller {
 		$data['main_content'] = "bumindes/penduduk/content_mutasi";
 		$data['subtitle'] = "Buku Mutasi Penduduk";
 
+		// menunggu informasi lebih detail, isi fungsi masih copyan dari load_induk_data_tables
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = 'tables/mutasi';
+		$data['set_page'] = $this->_set_page;
+		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
+		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
+		$this->session->status_dasar = 1;
+		$this->session->status_penduduk = 1;
+		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
+		// end copy fungsi load_induk_data_tables
+
 		return $data;
 	}
 	// end function buku mutasi penduduk
@@ -217,6 +234,23 @@ class Bumindes_penduduk extends Admin_Controller {
 	{
 		$data['main_content'] = "bumindes/penduduk/content_rekapitulasi";
 		$data['subtitle'] = "Buku Rekapitulasi Jumlah Penduduk";
+		
+		// menunggu informasi lebih detail, isi fungsi masih copyan dari load_induk_data_tables
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = 'tables/rekapitulasi';
+		$data['set_page'] = $this->_set_page;
+		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
+		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
+		$this->session->status_dasar = 1;
+		$this->session->status_penduduk = 1;
+		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
+		// end copy fungsi load_induk_data_tables
 
 		return $data;
 	}
@@ -228,6 +262,23 @@ class Bumindes_penduduk extends Admin_Controller {
 		$data['main_content'] = "bumindes/penduduk/content_sementara";
 		$data['subtitle'] = "Buku Penduduk Sementara";
 
+		// menunggu informasi lebih detail, isi fungsi masih copyan dari load_induk_data_tables
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = 'tables/sementara';
+		$data['set_page'] = $this->_set_page;
+		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
+		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
+		$this->session->status_dasar = 1;
+		$this->session->status_penduduk = 1;
+		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
+		// end copy fungsi load_induk_data_tables
+
 		return $data;
 	}
 	// end function buku penduduk sementara
@@ -237,6 +288,23 @@ class Bumindes_penduduk extends Admin_Controller {
 	{
 		$data['main_content'] = "bumindes/penduduk/content_ktp_kk";
 		$data['subtitle'] = "Buku KTP dan KK";
+
+		// menunggu informasi lebih detail, isi fungsi masih copyan dari load_induk_data_tables
+		$data['p'] = $page_number;
+		$data['o'] = $offset;
+
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
+		$data['func'] = 'tables/ktpkk';
+		$data['set_page'] = $this->_set_page;
+		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
+		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
+		$this->session->status_dasar = 1;
+		$this->session->status_penduduk = 1;
+		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
+		// end copy fungsi load_induk_data_tables
 
 		return $data;
 	}
