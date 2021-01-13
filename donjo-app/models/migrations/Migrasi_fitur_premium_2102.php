@@ -71,7 +71,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->add_modul_pembangunan($hasil);
 		$hasil =& $this->sebutan_kepala_desa($hasil);
 		$hasil =& $this->urut_cetak($hasil);
-		$hasil =& $this->penduduk_updates($hasil);
+		$hasil =& $this->bumindes_updates($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -230,39 +230,90 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		return $hasil;
 	}
 
+	// Bumindes updates
+	protected function bumindes_updates($hasil){
+		// Updates for issues #2777
+		$hasil =& $this->penduduk_induk($hasil);
 
-	// Updates for issues #2777
-	public function penduduk_updates($hasil){
-		// Menambahkan Tabel tweb_penduduk_bahasa yang digunakan untuk kolom bahasa
-		if (!$this->db->table_exists('tweb_penduduk_bahasa') )
+		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
+		$data = array(
+			['id'=> 303, 'modul' => 'Administrasi Penduduk', 'url' => 'bumindes_penduduk_induk', 'aktif' => 1, 'ikon' => 'fa-users', 'urut' => 2, 'level' => 2, 'hidden' => 0, 'ikon_kecil' => 'fa fa-users', 'parent' => 301],
+			['id'=> 315, 'modul' => 'Buku Mutasi Penduduk', 'url' => 'bumindes_penduduk_mutasi/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+			['id'=> 316, 'modul' => 'Buku Rekapitulasi Jumlah Penduduk', 'url' => 'bumindes_penduduk_rekapitulasi/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+			['id'=> 317, 'modul' => 'Buku Penduduk Sementara', 'url' => 'bumindes_penduduk_sementara/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+			['id'=> 318, 'modul' => 'Buku KTP dan KK', 'url' => 'bumindes_penduduk_ktpkk/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+		);
+			
+		foreach ($data as $modul)
 		{
-			// Membuat table tweb_penduduk_bahasa, attribut baru untuk kolom bahasa
-			$query = "
-			CREATE TABLE IF NOT EXISTS `tweb_penduduk_bahasa` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`nama` varchar(50) NOT NULL,
-				`inisial` varchar(10) NOT NULL,
-				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-
-			// Insert data ke table tweb_penduduk_bahasa
-			$query = "
-			INSERT INTO tweb_penduduk_bahasa (`id`, `nama`, `inisial`) VALUES
-				(1, 'Latin', 'L'),
-				(2, 'Daerah', 'D'),
-				(3, 'Arab', 'A'),
-				(4, 'Arab dan Latin', 'AL'),
-				(5, 'Arab dan Daerah', 'AD'),
-				(6, 'Arab, Latin dan Daerah', 'ALD')
-			";
-			$hasil =& $this->db->query($query);
+			$sql = $this->db->insert_string('setting_modul', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					modul = VALUES(modul),
+					url = VALUES(url),
+					aktif = VALUES(aktif),
+					ikon = VALUES(ikon),
+					urut = VALUES(urut),
+					level = VALUES(level),
+					hidden = VALUES(hidden),
+					ikon_kecil = VALUES(ikon_kecil),
+					parent = VALUES(parent)";
+			$hasil =& $this->db->query($sql);
 		}
 
-		// Menambahkan bahasa_id setelah column warganegara_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
-		$hasil =& $this->db->query("ALTER TABLE tweb_penduduk ADD bahasa_id int(11) NULL AFTER warganegara_id");
-		// Menambahkan column ket pada table tweb_penduduk
-		$hasil =& $this->db->query("ALTER TABLE tweb_penduduk ADD ket tinytext NULL");
+		return $hasil;
+	}
+
+	protected function penduduk_induk($hasil)
+	{
+		// Membuat table ref_penduduk_bahasa
+		$this->dbforge->add_field([
+			'id'            => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' 			=> ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false],
+			'inisial'       => ['type' => 'VARCHAR', 'constraint' => 10, 'null' => false]
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_penduduk_bahasa', true);
+
+		// Menambahkan bahasa_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
+		if (!$this->db->field_exists('bahasa_id', 'tweb_penduduk'))
+			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+				'bahasa_id' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				),
+			));
+
+		// Menambahkan column ket pada table tweb_penduduk, digunakan untuk keterangan penduduk
+		if (!$this->db->field_exists('ket', 'tweb_penduduk'))
+			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+				'ket' => array(
+				'type' => 'TINYTEXT',
+				'null' => TRUE,
+				),
+			));
+
+		// Menambahkan data ke ref_penduduk_bahasa
+		$data = array(
+			['id'=> 1, 'nama' => 'Latin', 'inisial' => 'L'],
+			['id'=> 2, 'nama' => 'Daerah', 'inisial' => 'D'],
+			['id'=> 3, 'nama' => 'Arab', 'inisial' => 'A'],
+			['id'=> 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
+			['id'=> 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
+			['id'=> 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD']
+		);
+
+		foreach ($data as $bahasa)
+		{
+			$sql = $this->db->insert_string('ref_penduduk_bahasa', $bahasa);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama),
+					inisial = VALUES(inisial)";
+			$hasil =& $this->db->query($sql);
+		}
 
 		return $hasil;
 	}

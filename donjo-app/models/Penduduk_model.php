@@ -297,7 +297,7 @@ class Penduduk_model extends MY_Model {
 		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
 		LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
-		LEFT JOIN tweb_penduduk_bahasa l ON u.bahasa_id = l.id
+		LEFT JOIN ref_penduduk_bahasa l ON u.bahasa_id = l.id
 		LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
 		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
@@ -988,7 +988,7 @@ class Penduduk_model extends MY_Model {
 			LEFT JOIN user ux ON u.updated_by = ux.id
 			LEFT JOIN user ucreate ON u.created_by = ucreate.id
 			LEFT JOIN tweb_penduduk_asuransi polis ON polis.id = u.id_asuransi
-			LEFT JOIN tweb_penduduk_bahasa bahasa ON bahasa.id = u.bahasa_id
+			LEFT JOIN ref_penduduk_bahasa bahasa ON bahasa.id = u.bahasa_id
 			WHERE u.id=?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
@@ -1239,12 +1239,6 @@ class Penduduk_model extends MY_Model {
 		$query = $this->db->query($sql);
 		$data = $query->result_array();
 		return $data;
-	}
-
-	public function list_bahasa()
-	{
-		$query = $this->db->get('tweb_penduduk_bahasa');
-		return $query->result_array();
 	}
 
 	public function list_sex()

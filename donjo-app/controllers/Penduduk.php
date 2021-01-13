@@ -192,7 +192,7 @@ class Penduduk extends Admin_Controller {
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
-		$data['bahasa'] = $this->penduduk_model->list_bahasa();
+		$data['bahasa'] = $this->referensi_model->list_data('ref_penduduk_bahasa');
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);

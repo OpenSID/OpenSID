@@ -1,7 +1,55 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View untuk modul Buku Administrasi Desa > Buku KTP dan KK
+ *
+ * donjo-app/views/bumindes/penduduk/ktpkk/content_ktpkk_cetak.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Data Buku Penduduk Sementara</title>
+		<title>Data Buku KTP dan KK</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
@@ -14,7 +62,7 @@
 		<div id="container">
 			<div id="body">
 				<div class="header" align="center">
-					<h3>B.4 BUKU PENDUDUK SEMENTARA DESA <?= strtoupper($desa['nama_desa'])?></h3>
+					<h3>B.5 BUKU KARTU TANDA PENDUDUK DAN BUKU KARTU KELUARGA DESA <?= strtoupper($desa['nama_desa'])?></h3>
 					<h3><?= strtoupper($this->setting->sebutan_kecamatan.' '.$desa['nama_kecamatan'].' '.$this->setting->sebutan_kabupaten.' '.$desa['nama_kabupaten'])?></h3>
 					<h3><?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></h3>
 					<br>
@@ -24,31 +72,34 @@
 						sekarang, atau terdapat pilihan data yang ditampilkan.
 						"""
 					 -->
-					<h3>BUKU PENDUDUK SEMENTARA TAHUN ...</h3>
+					<h3>BUKU KARTU TANDA PENDUDUK TAHUN ... DAN BUKU KARTU KELUARGA</h3>
 					<br>
 				</div>
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
 							<th rowspan="2">NOMOR URUT</th>
+							<th rowspan="2">NO. KK</th>
 							<th rowspan="2">NAMA LENGKAP</th>
-							<th colspan="2">JENIS KELAMIN</th>
-							<th rowspan="2">NOMOR IDENTITAS / TANDA PENGENAL</th>
-							<th rowspan="2">TEMPAT DAN TANGGAL LAHIR / UMUR</th>
-							<th rowspan="2">PEKERJAAN</th>
-							<th colspan="2">KEWARGANEGARAAN</th>
-							<th rowspan="2">DATANG DARI</th>
-							<th rowspan="2">MAKSUD DAN TUJUAN KEDATANGAN</th>
-							<th rowspan="2">NAMA DAN ALAMAT YG DIDATANGI</th>
-							<th rowspan="2">DATANG TANGGAL</th>
-							<th rowspan="2">PERGI TANGGAL</th>
-							<th rowspan="2">KET</th>
+							<th rowspan="2">NIK</th>
+							<th rowspan="2">JENIS KELAMIN</th>
+							<th rowspan="2">TEMPAT / TANGGAL LAHIR</th>
+							<th rowspan="2">GOL. DARAH</th>
+							<th rowspan="2">AGAMA</th>
+							<th rowspan="2">PENDIDIKAN</th>	
+							<th rowspan="2">PEKERJAAN</th>	
+							<th rowspan="2">ALAMAT</th>
+							<th rowspan="2">STATUS PERKAWINAN</th>
+							<th rowspan="2">TEMPAT DAN TANGGAL DIKELUARKAN</th>
+							<th rowspan="2">STATUS HUB. KELUARGA</th>
+							<th rowspan="2">KEWARGANEGARAAN</th>
+							<th colspan="2">ORANG TUA</th>
+							<th rowspan="2">TGL MULAI DI DESA</th>
+							<th rowspan="2">KET</th>							
 						</tr>
 						<tr class="border thick">
-							<th>L</th>
-							<th>P</th>
-							<th>KEBANGSAAN</th>
-							<th>KETURUNAN</th>
+							<th>AYAH</th>
+							<th>IBU</th>
 						</tr>
 						<tr class="border thick">
 							<th>1</th>
@@ -66,6 +117,10 @@
 							<th>13</th>
 							<th>14</th>
 							<th>15</th>
+							<th>16</th>
+							<th>17</th>
+							<th>18</th>
+							<th>19</th>
 						</tr>
 					</thead>
 					<tbody>
