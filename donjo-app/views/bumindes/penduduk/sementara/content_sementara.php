@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			source: function( request, response ) {
 				$.ajax( {
 					type: "POST",
-					url: '<?= site_url("bumindes_penduduk/autocomplete"); ?>',
+					url: '<?= site_url("bumindes_penduduk_sementara/autocomplete"); ?>',
 					dataType: "json",
 					data: {
 						cari: request.term
