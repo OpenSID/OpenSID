@@ -257,7 +257,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			['id'=> 317, 'modul' => 'Buku Penduduk Sementara', 'url' => 'bumindes_penduduk_sementara/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
 			['id'=> 318, 'modul' => 'Buku KTP dan KK', 'url' => 'bumindes_penduduk_ktpkk/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
 		);
-			
+
 		foreach ($data as $modul)
 		{
 			$sql = $this->db->insert_string('setting_modul', $modul);
@@ -291,7 +291,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->dbforge->create_table('ref_penduduk_bahasa', true);
 
 		// Menambahkan bahasa_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
-		if (!$this->db->field_exists('bahasa_id', 'tweb_penduduk'))
+		if (! $this->db->field_exists('bahasa_id', 'tweb_penduduk'))
 			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
 				'bahasa_id' => array(
 				'type' => 'INT',
@@ -301,7 +301,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			));
 
 		// Menambahkan column ket pada table tweb_penduduk, digunakan untuk keterangan penduduk
-		if (!$this->db->field_exists('ket', 'tweb_penduduk'))
+		if (! $this->db->field_exists('ket', 'tweb_penduduk'))
 			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
 				'ket' => array(
 				'type' => 'TINYTEXT',

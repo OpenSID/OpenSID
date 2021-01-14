@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -84,7 +84,7 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 		else $data['filter'] = '';
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
+			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 		// set session END
 
@@ -100,7 +100,7 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 		$this->session->status_dasar = 1;
 		$this->session->status_penduduk = 1;
 		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
-		
+
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);
 	}

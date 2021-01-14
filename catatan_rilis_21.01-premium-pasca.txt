@@ -33,6 +33,7 @@ Fitur Premium:
 14. #3917: Dokumen kelengkapan permohonan surat sekarang tampil di halaman periksa permohonan surat layanan mandiri. [bug-fix]
 15. #3919: Perbaiki tampilan halaman periksa permohonan surat layanan mandiri.
 16. #3672: Sekarang pengguna layanan mandiri harus mengubah PIN yg berbeda saat pertama kali login dan setiap kali dibuat ulang oleh petugas. [keamanan]
+17. #2777: Sediakan Buku Administrasi Desa > Buku Induk Penduduk.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
