@@ -12,6 +12,7 @@ Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 6. #3891: Sekarang ditampilkan pilihan lengkap tingkat pengguna pada form ubah pengguna Administrator. [bug-fix]
 7. #3910: Sekarang RT '-' tidak ditampilkan di daftar RT suatu RW. [bug-fix]
 8. #3878: Perbaiki masa berlaku surat permohonan layanan mandiri sesuai pengaturan. [bug-fix]
+9. #3922: Sekarang error select2 tidak tampil di console browser. [bug-fix]
 
 
 Fitur Premium:
