@@ -79,13 +79,12 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 				'ganti_pin' => ['type' => 'TINYINT', 'constraint' => 1, 'null' => false, 'default' => 1],
 			];
 			$hasil = $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+			// Set ulang value ganti_pin = 0 jika last_login sudah terisi
+			$hasil =& $this->db
+				->where('last_login !=', NULL)
+				->set('ganti_pin', 0)
+				->update('tweb_penduduk_mandiri');
 		}
-
-		// Set ulang value ganti_pin = 0 jika last_login sudah terisi
-		$hasil =& $this->db
-			->where('last_login !=', NULL)
-			->set('ganti_pin', 0)
-			->update('tweb_penduduk_mandiri');
 
 		status_sukses($hasil);
 		return $hasil;
