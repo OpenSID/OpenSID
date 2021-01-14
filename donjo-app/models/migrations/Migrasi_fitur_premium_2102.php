@@ -72,6 +72,20 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->sebutan_kepala_desa($hasil);
 		$hasil =& $this->urut_cetak($hasil);
 
+		// Tambah kolom ganti_pin di tabel tweb_penduduk_mandiri
+		if ( ! $this->db->field_exists('ganti_pin', 'tweb_penduduk_mandiri'))
+		{
+			$fields = [
+				'ganti_pin' => ['type' => 'TINYINT', 'constraint' => 1, 'null' => false, 'default' => 1],
+			];
+			$hasil = $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+			// Set ulang value ganti_pin = 0 jika last_login sudah terisi
+			$hasil =& $this->db
+				->where('last_login !=', NULL)
+				->set('ganti_pin', 0)
+				->update('tweb_penduduk_mandiri');
+		}
+
 		status_sukses($hasil);
 		return $hasil;
 	}

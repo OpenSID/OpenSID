@@ -246,16 +246,16 @@ hr {
 	}
 }
 
-.form-group > textarea {
+textarea {
 	width: 100%;
 	min-height: 100px;
 	font-size: 14px;
 	line-height: 18px;
 	border: 1px solid #dddddd;
 	padding: 10px;
-	border-radius: 5px;
 	overflow-x: hidden;
 	resize: vertical;
+
 }
 
 .btn-social {

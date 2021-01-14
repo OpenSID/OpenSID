@@ -82,7 +82,7 @@ class Surat extends Mandiri_Controller
 			'menu_dokumen_mandiri' => $this->lapor_model->get_surat_ref_all(),
 			'permohonan' => $this->permohonan_surat_model->get_permohonan($id_permohonan),
 			'list_dokumen' => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
-			'kk' => ($this->is_login->kk_lvl === '1') ? $this->keluarga_model->list_anggota($data['penduduk']['id_kk']) : '', // Ambil data anggota KK, jika Kepala Keluarga
+			'kk' => ($this->is_login->kk_level === '1') ? $this->keluarga_model->list_anggota($this->is_login->id_kk) : '', // Ambil data anggota KK, jika Kepala Keluarga
 			'konten' => 'buat_surat'
 		];
 

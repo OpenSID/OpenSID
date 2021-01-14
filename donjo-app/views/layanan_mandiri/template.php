@@ -224,10 +224,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<img class="img-circle" src="<?= AmbilFoto($this->is_login->foto)?>" alt="Foto" width="100%">
 								</div>
 								<div class="box-body">
-									<a href="<?= ($this->is_login->lg == 1) ? '#' : site_url('layanan-mandiri/cetak-biodata'); ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-biodata'); ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 										<i class="fa fa-print"></i> Cetak Biodata
 									</a>
-									<a href="<?= ($this->is_login->lg == 1) ? '#' : site_url('layanan-mandiri/cetak-kk'); ?>" class="btn btn-block btn-social bg-aqua" target="_blank" rel="noopener noreferrer">
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-kk'); ?>" class="btn btn-block btn-social bg-aqua" target="_blank" rel="noopener noreferrer">
 										<i class="fa fa-print"></i> Cetak Salinan KK
 									</a>
 									<a href="<?= site_url('layanan-mandiri/ganti-pin'); ?>" class="btn btn-block btn-social bg-navy">
@@ -243,8 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php
 								$this->load->view("layanan_mandiri/$konten");
 
-								// TODO: Gunakan $this->is_login->flashdata untuk notif sekali panggil
-								if ($this->session->lg == 1 && $this->uri->segment(2) != "ganti-pin"):
+								if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != "ganti-pin"):
 
 									$data = [
 										'pesan' => "Selamat datang pengguna layanan mandiri <b> " . ucwords($this->setting->sebutan_desa . " " . $desa[nama_desa]) . " </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.",
