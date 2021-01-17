@@ -13,6 +13,7 @@ Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
 7. #3910: Sekarang RT '-' tidak ditampilkan di daftar RT suatu RW. [bug-fix]
 8. #3878: Perbaiki masa berlaku surat permohonan layanan mandiri sesuai pengaturan. [bug-fix]
 9. #3922: Sekarang error select2 tidak tampil di console browser. [bug-fix]
+10. #3943: Sekarang anggota keluarga dapat melihat kelengkapan dokumen kepala keluarga yg dibagi pada anggota tersebut. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
