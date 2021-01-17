@@ -115,6 +115,7 @@
 		unset($data['url_remote']);
 		unset($data['nomor_urut_lama']);
 		$this->validasi($data);
+		$data['created_by'] = $data['updated_by'] = $this->session->user;
 
 		// Adakah lampiran yang disertakan?
 		$adaLampiran = !empty($_FILES['satuan']['name']);
@@ -204,6 +205,7 @@
 		unset($data['url_remote']);
 		unset($data['nomor_urut_lama']);
 		$this->validasi($data);
+		$data['updated_by'] = $this->session->user;
 
 		$_SESSION['error_msg'] = NULL;
 
