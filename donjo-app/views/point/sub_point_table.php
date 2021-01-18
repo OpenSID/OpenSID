@@ -8,29 +8,29 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-3">
-          <?php $this->load->view('plan/nav.php')?>
+					<?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?=site_url("point/ajax_add_sub_point/$point[id]")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori <?= $point['nama']; ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $point['nama']; ?>">
 								<i class="fa fa-plus"></i>Tambah Kategori <?= $point['nama']; ?>
-            	</a>
+							</a>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("point/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<a href="<?=site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Lokasi
-            	</a>
+							</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">

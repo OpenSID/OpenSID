@@ -95,12 +95,6 @@ class Sid_Core extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['form_action'] = site_url("sid_core/daftar/$aksi");
 		$this->load->view('global/ttd_pamong', $data);
-
-		// $data['header'] = $this->header['desa'];
-		// $data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
-		// $data['total'] = $this->wilayah_model->total();
-
-		// $this->load->view('sid/wilayah/wilayah_print', $data);
 	}
 
 	/*
@@ -170,13 +164,21 @@ class Sid_Core extends Admin_Controller {
 		redirect($kembali);
 	}
 
-	public function sub_rw($id_dusun = '')
+	public function sub_rw($id_dusun = '', $p = 1, $o = 0)
 	{
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
 		$dusun = $this->wilayah_model->cluster_by_id($id_dusun);
 		$nama_dusun = $dusun['dusun'];
 		$data['dusun'] = $dusun['dusun'];
 		$data['id_dusun'] = $id_dusun;
-		$data['main'] = $this->wilayah_model->list_data_rw($id_dusun );
+		$data['func'] = "sub_rw/$id_dusun";
+		$data['set_page'] = $this->_set_page;
+
+		$data['paging'] = $this->wilayah_model->paging_rw($p, $o, $nama_dusun);
+		$data['main'] = $this->wilayah_model->list_data_rw($id_dusun,  $data['paging']->offset, $data['paging']->per_page);
 		$data['total'] = $this->wilayah_model->total_rw($nama_dusun );
 
 		$this->render('sid/wilayah/wilayah_rw', $data);
@@ -244,8 +246,12 @@ class Sid_Core extends Admin_Controller {
 		redirect("sid_core/sub_rw/$dusun");
 	}
 
-	public function sub_rt($id_dusun = '', $id_rw = '')
+	public function sub_rt($id_dusun = '', $id_rw = '', $p = 1, $o = 0)
 	{
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+
 		$temp = $this->wilayah_model->cluster_by_id($id_dusun);
 		$dusun = $temp['dusun'];
 		$data['dusun'] = $temp['dusun'];
@@ -254,7 +260,12 @@ class Sid_Core extends Admin_Controller {
 		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
 		$data['rw'] = $data_rw['rw'];
 		$data['id_rw'] = $id_rw;
-		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $data['rw']);
+
+		$data['func'] = "sub_rt/$id_dusun/$id_rw";
+		$data['set_page'] = $this->_set_page;
+
+		$data['paging'] = $this->wilayah_model->paging_rt($p, $o, $dusun,  $data['rw']);
+		$data['main'] = $this->wilayah_model->list_data_rt($dusun, $data['rw'], $data['paging']->offset, $data['paging']->per_page);
 		$data['total'] = $this->wilayah_model->total_rt($dusun, $data['rw']);
 
 		$this->render('sid/wilayah/wilayah_rt', $data);
@@ -620,5 +631,23 @@ class Sid_Core extends Admin_Controller {
 	{
 		$this->wilayah_model->update_wilayah_rt_map($id);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
+	}
+
+	public function urut($tipe = '', $p = 1, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
+	{
+		switch ($tipe) {
+			case 'dusun': $url = "index/$p"; break;
+
+			case 'rw': $url = "sub_rw/$id_dusun/$p"; break;
+
+			case 'rt': $url = "sub_rt/$id_dusun/$id_rw/$p"; break;
+			
+			default:
+				# code...
+				break;
+		}
+
+		$this->wilayah_model->urut($tipe, $id, $arah, $id_dusun, $id_rw);
+		redirect("sid_core/$url");
 	}
 }

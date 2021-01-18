@@ -1,4 +1,5 @@
 <?php  if ($halaman_statis): ?>
+	<!-- TODO: Pindahkan ke external css -->
 	<style>
 		.content {padding: 0px !important}
 		.small-box .icon {
@@ -68,6 +69,7 @@ $(document).ready(function () {
 });
 </script>
 
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	.status-idm-kiri {
 		padding-right: 5px;

@@ -45,11 +45,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-define("VERSION", '20.12-premium-pasca');
+define("VERSION", '21.01-premium-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2020122805');
+define('VERSI_DATABASE', '2021011801');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -71,6 +71,9 @@ define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 define("LOKASI_MEDIA", 'desa/upload/media/');
 define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
+
+// Pengaturan Latar
+define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);

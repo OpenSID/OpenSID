@@ -98,7 +98,10 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('theme_model');
 		$this->load->model('anjungan_model');
+		$this->load->model('pembangunan_model');
+		$this->load->model('pembangunan_dokumentasi_model');
 	}
 
 	public function index($p=1)
@@ -368,7 +371,6 @@ class First extends Web_Controller {
 
 		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
-		$data['title'] = $data['heading'];
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
@@ -522,6 +524,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
+		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
@@ -573,6 +576,7 @@ class First extends Web_Controller {
 		$data['lokasi'] = $this->plan_lokasi_model->list_lokasi();
 		$data['garis'] = $this->plan_garis_model->list_garis();
 		$data['area'] = $this->plan_area_model->list_area();
+		$data['lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
 		$this->_get_common_data($data);
@@ -653,5 +657,17 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
+	}
+
+	public function info_pembangunan($id = 0)
+	{
+		$pembangunan = $this->pembangunan_model->find($id);
+		$dokumentasi = $this->pembangunan_dokumentasi_model->find_dokumentasi($pembangunan->id);
+
+		$data['pembangunan']    = $pembangunan;
+		$data['dokumentasi']    = $dokumentasi;
+		$data['config'] = $this->config_model->get_data();
+
+		$this->load->view('pembangunan/informasi', $data);
 	}
 }

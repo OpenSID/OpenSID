@@ -131,6 +131,15 @@
 			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
 
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		if ($this->session->bantuan_keluarga)
+		{
+			$sql .= "
+				LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
+				LEFT JOIN program rcb ON bt.program_id = rcb.id
+			";
+		}
+
 		$sql .= " WHERE 1 ";
 		$sql .=	$this->search_sql();
 		$sql .=	$this->kumpulan_kk_sql();
@@ -144,6 +153,11 @@
 			array('kelas', 'u.kelas_sosial'),
 			array('id_bos', 'id_bos'),
 		];
+
+		if ($this->session->bantuan_keluarga)
+		{
+			$kolom_kode[] = array('bantuan_keluarga', 'rcb.id');
+		}
 
 		foreach ($kolom_kode as $kolom)
 		{
@@ -681,7 +695,7 @@
 		}
 
 		$this->db
-			->select('nik, u.id, u.nama, u.tanggalperkawinan, u.status_kawin as status_kawin_id, tempatlahir, tanggallahir')
+			->select('nik, u.id, u.nama, u.tanggalperkawinan, u.status_kawin as status_kawin_id, u.sex as sex_id, tempatlahir, tanggallahir')
 			->select('('.$umur.') AS umur')
 			->select('a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, x.nama as sex, w.nama as status_kawin')
 			->select('h.nama as hubungan, f.nama as warganegara, warganegara_id, nama_ayah, nama_ibu, g.nama as golongan_darah')

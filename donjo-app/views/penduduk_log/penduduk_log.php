@@ -69,7 +69,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="box-header with-border">
 							<div class="row">
 								<div class="col-sm-12">

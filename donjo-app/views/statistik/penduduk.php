@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4">
 					<?php $this->load->view('statistik/side_menu.php'); ?>
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php if (($lap <= 20 OR $lap == 'bantuan_penduduk') AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga') : ?>
 								<div class="row">
 									<div class="col-sm-12 form-inline">
-										<form action="" id="mainform" method="post">
+										<formid="mainform" method="post">
 											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun'); ?>')">
 												<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
 												<?php foreach ($list_dusun AS $data): ?>

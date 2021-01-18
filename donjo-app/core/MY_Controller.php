@@ -187,21 +187,20 @@ class Mandiri_Controller extends MY_Controller {
 
 	public $header;
 	public $cek_anjungan;
+	public $is_login;
 
-	/*
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
-		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model(['header_model', 'anjungan_model']);
+		$this->load->model(['config_model', 'anjungan_model']);
 
-		$this->header = $this->header_model->get_data();
+		$this->header = $this->config_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		$this->is_login = $this->session->is_login;
 
-		if ($this->session->mandiri != 1) redirect();
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
+
+		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}
 
 }
@@ -264,7 +263,10 @@ class Admin_Controller extends MY_Controller {
 			}
 		}
 		$this->cek_pengumuman();
-		$this->header = $this->header_model->get_data();
+		$this->header                           = $this->header_model->get_data();
+		$this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
+		$this->header['notif_inbox']            = $this->notif_model->inbox_baru();
+		$this->header['notif_komentar']         = $this->notif_model->komentar_baru();
 	}
 
 	private function cek_pengumuman()
@@ -301,7 +303,7 @@ class Admin_Controller extends MY_Controller {
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 
-	public function render($view, Array $data = [])
+	public function render($view, Array $data = NULL)
 	{
 		$this->header['minsidebar'] = $this->get_minsidebar();
 		$this->load->view('header', $this->header);

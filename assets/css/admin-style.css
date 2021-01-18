@@ -497,3 +497,43 @@ span.select2.select2-container {
 .paging {
 	margin-top: 5px;
 }
+
+/* Modal Dialog untuk tampilan rilis */
+.rilis {
+	overflow-y: auto;
+	height: 400px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.rilis_pengaturan {
+	float: left;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding-left: 5px;
+}
+
+.text-white {
+	color: white;
+}
+
+.content-wrapper.periksa {
+	min-height: 0px !important;
+}
+
+div.form-surat .content-wrapper {
+	padding-top: 0px !important;
+}
+
+.breadcrumb.admin, .box-header.admin, .tdk-periksa {
+	display: none;
+}
+
+.content.periksa {
+	min-height: 0px !important;
+	padding-bottom: 0px;
+}
+
+div.form-surat .content-header {
+	padding-top: 0px !important;
+}

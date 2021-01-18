@@ -53,7 +53,7 @@ class Penduduk extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'config_model', 'program_bantuan_model', 'lapor_model']);
+		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model']);
 
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
@@ -159,6 +159,7 @@ class Penduduk extends Admin_Controller {
 				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
+			$data['form_action_maps'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else
 		{
@@ -191,6 +192,7 @@ class Penduduk extends Admin_Controller {
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+		$data['bahasa'] = $this->referensi_model->list_data('ref_penduduk_bahasa');
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
@@ -215,7 +217,6 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
-
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk_detail', $data);
 	}
@@ -392,8 +393,8 @@ class Penduduk extends Admin_Controller {
 
 	public function adv_search_proses()
 	{
+		$this->clear_session();
 		$adv_search = $this->validasi_pencarian($this->input->post());
-		$this->session->filter = $adv_search['status_penduduk'];
 
 		$i = 0;
 		while ($i++ < count($adv_search))
@@ -428,6 +429,8 @@ class Penduduk extends Admin_Controller {
 		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
 		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
 		$data['status_penduduk'] = $post['status_penduduk'];
+		$data['filter'] = $post['status_penduduk'];
+
 		return $data;
 	}
 
@@ -472,17 +475,33 @@ class Penduduk extends Admin_Controller {
 		</td>";
 	}
 
+	public function penduduk_maps($p = 1, $o = 0, $id = NULL)
+	{
+		if ($id == NULL)
+		{
+			$id = $this->penduduk_model->insert();
+
+			if ($this->session->success == -1)
+			{
+				$this->session->dari_internal = true;
+				redirect("penduduk/form");
+			}
+		}
+
+		redirect("penduduk/ajax_penduduk_maps/$p/$o/$id/1");
+	}
+
 	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['id'] = $id;
-		$data['edit'] = $edit;
+		$data['edit'] =  $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
-		$data['wil_atas'] = $this->config_model->get_data();
+		$data['wil_atas'] = $this->header['desa'];
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
@@ -750,4 +769,27 @@ class Penduduk extends Admin_Controller {
 
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
+
+	public function program_bantuan()
+	{
+		// TODO : Ubah cara ini untuk menampilkan data
+		$this->session->sasaran = 1; // sasaran penduduk
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
+
+		$data = [
+			'form_action' => site_url("penduduk/program_bantuan_proses"),
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->penerima_bantuan
+		];
+
+		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
+	}
+
+	public function program_bantuan_proses()
+	{
+		$id_program = $this->input->post('program_bantuan');
+		$this->statistik('bantuan_penduduk', $id_program, '0');
+	}
+
 }

@@ -64,13 +64,16 @@
 						<li>
 							<a href="<?= site_url("keluarga/search_kumpulan_kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan KK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan KK"><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
 						</li>
+						<li>
+							<a href="<?= site_url("keluarga/program_bantuan")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+						<li>
 					</ul>
 				</div>
 				<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 			</div>
 			<div class="box-body">
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="row">
 							<div class="col-sm-9">
 								<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('keluarga/filter/status_dasar')?>')">

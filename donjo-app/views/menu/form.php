@@ -222,4 +222,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#jenis_link').hide();
 		}
 	}
+
+	$('document').ready(function()
+	{
+		$('#link_tipe').change();
+	});
+
 </script>

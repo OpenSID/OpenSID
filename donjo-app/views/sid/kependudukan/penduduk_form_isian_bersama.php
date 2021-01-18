@@ -91,7 +91,6 @@
 		select_options(rt, params);
 	}
 </script>
-
 			<div class="row">
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -458,7 +457,7 @@
 						<label for="lokasi">Lokasi Tempat Tinggal </label>
 						<div class='row'>
 							<div class='col-sm-12'>
-								<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
+								<button type="submit" class="btn btn-social btn-flat bg-navy btn-sm" onclick="$('#'+'mainform').attr('action', '<?= site_url("penduduk/penduduk_maps/$p/$o/$penduduk[id]"); ?>');$('#'+'mainform').submit();"><i class="fa fa-map-marker"></i> Cari Lokasi Tempat Tinggal</button>
 							</div>
 						</div>
 					</div>
@@ -625,4 +624,30 @@
 						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
 					</div>
 				</div>
+				<div class='col-sm-12'>
+					<div class="form-group subtitle_head">
+						<label class="text-right"><strong>LAINNYA :</strong></label>
+					</div>
+				</div>
+				<div class='col-sm-12'>
+					<div class="row">
+						<div class='col-sm-4'>
+							<div class='form-group'>
+								<label for="bahasa_id">Dapat Membaca Huruf</label>
+								<select class="form-control input-sm" id="bahasa_id" name="bahasa_id">
+									<option value="0">Pilih Isian</option>
+									<?php foreach ($bahasa as $data): ?>
+										<option value="<?= $data['id']?>" <?php selected($penduduk['bahasa_id'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+									<?php endforeach;?>
+								</select>
+							</div>
+						</div>
+						<div class='col-sm-8'>
+							<div class='form-group'>
+								<label for="ket">Keterangan</label>
+								<textarea id="ket" name="ket" class="form-control input-sm" style="resize: none" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
+							</div>
+						</div>
+					</div>
+				</div>	
 			</div>

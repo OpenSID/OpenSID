@@ -307,13 +307,4 @@ class Release
 		return file_get_contents($this->cache);
 	}
 
-	/**
-	 * Cek apakah ada koneksi internet atau tidak.
-	 *
-	 * @return bool
-	 */
-	public function has_internet_connection()
-	{
-		return cek_koneksi_internet();
-	}
 }

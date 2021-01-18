@@ -9,7 +9,7 @@
 		</ol>
 	</section>
 	<section class="content"  id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
@@ -165,7 +165,7 @@
 												<tr>
 													<td class="text-center">KEPALA KELUARGA</td>
 													<td>&nbsp;</td>
-													<td class="text-center">KEPALA <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+													<td class="text-center"><?= strtoupper($this->setting->sebutan_kepala_desa)?> <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
 												</tr>
 												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>

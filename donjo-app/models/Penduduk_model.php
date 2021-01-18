@@ -297,17 +297,19 @@ class Penduduk_model extends MY_Model {
 		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
 		LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
+		LEFT JOIN ref_penduduk_bahasa l ON u.bahasa_id = l.id
 		LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
 		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
 		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
 		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
 		LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
 		LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
-		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama";
+		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
+		LEFT JOIN program_peserta pp ON u.nik = pp.peserta";
 
 		// TODO: ubah ke query builder
 		// Yg berikut hanya untuk menampilkan peserta bantuan
-		if ($_SESSION['penerima_bantuan'])
+		if ($this->session->penerima_bantuan)
 		{
 			$sql .= "
 				LEFT JOIN program_peserta bt ON bt.peserta = u.nik
@@ -344,7 +346,7 @@ class Penduduk_model extends MY_Model {
 			array('status_covid', 'rc.id') // Kode covid
 		);
 
-		if ($_SESSION['penerima_bantuan'])
+		if ($this->session->penerima_bantuan)
 		{
 			$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
 		}
@@ -373,7 +375,7 @@ class Penduduk_model extends MY_Model {
 			$select_sql .= 'rcb.id as penerima_bantuan,';
 		}
 
-		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid,
+		$select_sql .= "u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket,
 			(CASE
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
@@ -891,8 +893,7 @@ class Penduduk_model extends MY_Model {
 
 	public function tulis_log_hapus_penduduk($log)
 	{
-		$sql = $this->db->insert('log_hapus_penduduk', $log);
-		$this->db->query($sql);
+		$this->db->insert('log_hapus_penduduk', $log);
 	}
 
 	public function delete($id='', $semua=false)
@@ -904,7 +905,7 @@ class Penduduk_model extends MY_Model {
 		$log['id_pend'] = $penduduk_hapus['id'];
 		$log['nik'] = $penduduk_hapus['nik'];
 		$log['foto'] = $penduduk_hapus['foto'];
-		$log['deleted_by'] = $penduduk_hapus['nama_pengubah'];
+		$log['deleted_by'] = $this->session->user;
 		$log['deleted_at'] = date('Y-m-d H:i:s');
 		$this->tulis_log_hapus_penduduk($log);
 
@@ -978,7 +979,7 @@ class Penduduk_model extends MY_Model {
 
 	public function get_penduduk($id=0)
 	{
-		$sql = "SELECT u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
+		$sql = "SELECT bahasa.nama as bahasa_nama, u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar, polis.nama AS asuransi,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -1017,6 +1018,7 @@ class Penduduk_model extends MY_Model {
 			LEFT JOIN user ux ON u.updated_by = ux.id
 			LEFT JOIN user ucreate ON u.created_by = ucreate.id
 			LEFT JOIN tweb_penduduk_asuransi polis ON polis.id = u.id_asuransi
+			LEFT JOIN ref_penduduk_bahasa bahasa ON bahasa.id = u.bahasa_id
 			WHERE u.id=?";
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
@@ -1137,25 +1139,29 @@ class Penduduk_model extends MY_Model {
 		Digunakan pada saat menambah anggota keluarga, supaya yang ditampilkan hanya
 		hubungan yang berlaku
 	**/
-	public function list_hubungan($status_kawin_kk=NULL)
+	public function list_hubungan($status_kawin_kk = NULL, $sex = 1)
 	{
-		if (empty($status_kawin_kk))
-		{
-			$where = "1";
-		}
-		else
+		if (! empty($status_kawin_kk))
 		{
 			/***
 				Untuk Kepala Keluarga yang belum kawin, hubungan berikut tidak berlaku:
-					menantu, cucu, mertua, suami, istri
+					menantu, cucu, mertua, suami, istri; anak hanya berlaku untuk kk perempuan
 				Untuk semua Kepala Keluarga, hubungan 'kepala keluarga' tidak berlaku
 			***/
 
-			$where = ($status_kawin_kk == 1) ? "id NOT IN ('1', '2', '3', '4', '5', '6', '8') " : "id <> 1";
+			if ($status_kawin_kk == 1)
+			{
+				($sex == 2) ? $this->db->where("id NOT IN ('1', '2', '3', '5', '6', '8') ")
+										: $this->db->where("id NOT IN ('1', '2', '3', '4', '5', '6', '8') ");
+			}
+			else
+			{
+				$this->db->where("id <> 1");
+			}
 		}
-		$sql = "SELECT * FROM tweb_penduduk_hubungan WHERE $where";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->get('tweb_penduduk_hubungan')
+			->result_array();
 		return $data;
 	}
 

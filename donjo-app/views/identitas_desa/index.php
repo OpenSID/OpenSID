@@ -43,6 +43,7 @@
  */
 ?>
 
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	.table {
 		font-size: 12px;
@@ -78,7 +79,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<a href="<?= site_url('identitas_desa/form'); ?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Data <?= $desa; ?></a>
@@ -104,18 +105,18 @@
 								</tr>
 								<tr>
 									<td>Kode <?= $desa; ?></td><td>:</td>
-									<td><?= $main['kode_desa']; ?></td>
+									<td><?= kode_wilayah($main['kode_desa']); ?></td>
 								</tr>
 								<tr>
 									<td>Kode Pos <?= $desa; ?></td><td>:</td>
 									<td><?= $main['kode_pos']; ?></td>
 								</tr>
 								<tr>
-									<td>Kepala <?= $desa; ?></td><td>:</td>
+									<td><?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></td><td>:</td>
 									<td><?= $main['nama_kepala_desa']; ?></td>
 								</tr>
 								<tr>
-									<td>NIP Kepala <?= $desa; ?></td><td>:</td>
+									<td>NIP <?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></td><td>:</td>
 									<td><?= $main['nip_kepala_desa']; ?></td>
 								</tr>
 								<tr>
@@ -143,7 +144,7 @@
 								</tr>
 								<tr>
 									<td>Kode <?= $kecamatan; ?></td><td>:</td>
-									<td><?= $main['kode_kecamatan']; ?></td>
+									<td><?= kode_wilayah($main['kode_kecamatan']); ?></td>
 								</tr>
 								<tr>
 									<td>Nama <?= ucwords($this->setting->sebutan_camat); ?></td><td>:</td>
@@ -162,7 +163,7 @@
 								</tr>
 								<tr>
 									<td>Kode <?= $kabupaten; ?></td><td>:</td>
-									<td><?= $main['kode_kabupaten']; ?></td>
+									<td><?= kode_wilayah($main['kode_kabupaten']); ?></td>
 								</tr>
 								<tr>
 									<th colspan="3" class="subtitle_head"><strong>PROVINSI</strong></th>
@@ -173,7 +174,7 @@
 								</tr>
 								<tr>
 									<td>Kode Provinsi</td><td>:</td>
-									<td><?= $main['kode_propinsi']; ?></td>
+									<td><?= kode_wilayah($main['kode_propinsi']); ?></td>
 								</tr>
 							</tbody>
 						</table>

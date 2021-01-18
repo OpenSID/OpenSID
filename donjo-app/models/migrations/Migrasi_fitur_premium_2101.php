@@ -101,7 +101,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 	private function log_hapus_penduduk()
 	{
 		//insert log_penduduk_hapus
-		if (!$this->db->table_exists('log_hapus_penduduk') )
+		if (! $this->db->table_exists('log_hapus_penduduk') )
 		{
 			$query = "
 			CREATE TABLE IF NOT EXISTS `log_hapus_penduduk` (
@@ -116,5 +116,4 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 				$this->db->query($query);
 			}
 		}
-
 }

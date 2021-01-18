@@ -59,11 +59,16 @@ class Keluarga extends Admin_Controller {
 		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 	}
 
-	public function clear()
+	public function clear_session()
 	{
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
 		$this->session->status_dasar = 1; // tampilkan KK aktif saja
+	}
+
+	public function clear()
+	{
+		$this->clear_session();
 		redirect('keluarga');
 	}
 
@@ -206,7 +211,7 @@ class Keluarga extends Admin_Controller {
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 		$data['warganegara'] = $this->penduduk_model->list_warganegara();
-		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kk']['status_kawin']);
+		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kk']['status_kawin'], $data['kk']['sex']);
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
 		$data['cacat'] = $this->penduduk_model->list_cacat();
@@ -377,7 +382,7 @@ class Keluarga extends Admin_Controller {
 			$data['kepala_kk'] = $kk;
 		else
 			$data['kepala_kk'] = NULL;
-		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id']);
+		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id'], $data['kepala_kk']['sex_id']);
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 
@@ -484,17 +489,14 @@ class Keluarga extends Admin_Controller {
 
 	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
-		$this->session->unset_userdata($this->_list_session);
-		$this->session->per_page = $this->_set_page[0];
-		$this->session->status_dasar = 1; // tampilkan KK aktif saja
-
+		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		if ($sex == NULL)
 		{
 			if ($nomor != 0) $this->session->sex = $nomor;
 			else $this->session->unset_userdata('sex');
 			$this->session->unset_userdata('judul_statistik');
-			redirect('penduduk');
+			redirect('keluarga');
 		}
 
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
@@ -553,4 +555,27 @@ class Keluarga extends Admin_Controller {
 		$data['form_action_privasi'] = site_url("keluarga/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
+
+	public function program_bantuan()
+	{
+		// TODO : Ubah cara ini untuk menampilkan data
+		$this->session->sasaran = 2; // sasaran keluarga
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
+
+		$data = [
+			'form_action' => site_url("keluarga/program_bantuan_proses"),
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->bantuan_keluarga
+		];
+
+		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
+	}
+
+	public function program_bantuan_proses()
+	{
+		$id_program = $this->input->post('program_bantuan');
+		$this->statistik('bantuan_keluarga', $id_program, '0');
+	}
+
 }
