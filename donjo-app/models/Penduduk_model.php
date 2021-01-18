@@ -266,11 +266,9 @@ class Penduduk_model extends MY_Model {
 
 	public function paging($p=1, $o=0)
 	{
-		$list_data_sql = $this->list_data_sql();
-		$sql = "SELECT COUNT(u.id) AS id ".$list_data_sql;
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$list_data_sql = $this->list_data_sql($paging=true);
+		$sql = "SELECT COUNT(u.id) AS jml ".$list_data_sql;
+		$jml_data = $this->db->query($sql)->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -282,30 +280,42 @@ class Penduduk_model extends MY_Model {
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_data_sql()
+	private function list_data_sql($paging=false)
 	{
-		$sql = "
-		FROM tweb_penduduk u
-		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
-		LEFT JOIN tweb_rtm b ON u.id_rtm = b.no_kk
-		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
-		LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
-		LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
-		LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
-		LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
-		LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
-		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
-		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
-		LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
-		LEFT JOIN ref_penduduk_bahasa l ON u.bahasa_id = l.id
-		LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
-		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
-		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
-		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
-		LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
-		LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
-		LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
-		LEFT JOIN program_peserta pp ON u.nik = pp.peserta";
+		if ($paging)
+		{
+			$sql = "
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
+			LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
+			";
+		}
+		else
+		{
+			$sql = "
+			FROM tweb_penduduk u
+			LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
+			LEFT JOIN tweb_rtm b ON u.id_rtm = b.no_kk
+			LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
+			LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
+			LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
+			LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
+			LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
+			LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
+			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
+			LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
+			LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
+			LEFT JOIN ref_penduduk_bahasa l ON u.bahasa_id = l.id
+			LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
+			LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
+			LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
+			LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
+			LEFT JOIN log_penduduk log ON u.id = log.id_pend and log.id_detail in (2,3,4)
+			LEFT JOIN covid19_pemudik c ON c.id_terdata = u.id
+			LEFT JOIN ref_status_covid rc ON c.status_covid = rc.nama
+			LEFT JOIN program_peserta pp ON u.nik = pp.peserta";
+		}
 
 		// TODO: ubah ke query builder
 		// Yg berikut hanya untuk menampilkan peserta bantuan
