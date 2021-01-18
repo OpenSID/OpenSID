@@ -253,7 +253,7 @@
 										</div>
 									<?php endif; ?>
 								<?php endif; ?>
-								<?php if ($ayah_pria): ?>
+								<?php if ($ayah_pria['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>A.2 DATA AYAH PASANGAN PRIA</strong></label>
 									</div>
@@ -351,7 +351,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ibu_pria['nik']): ?>
+								<?php if ($ibu_pria['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>A.3 DATA IBU PASANGAN PRIA</strong></label>
 									</div>
@@ -645,7 +645,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ayah_wanita): ?>
+								<?php if ($ayah_wanita['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>B.2 DATA AYAH PASANGAN WANITA</strong></label>
 									</div>
@@ -686,7 +686,7 @@
 									<div class="form-group ayah_wanita">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_wanita']?>">
+											<input  name="nama_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_wanita'] ?: $ayah_wanita['nama']; ?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input  name="bin_ayah_wanita" class="form-control input-sm" type="text" placeholder="Bin Ayah Wanita" value="<?= $_SESSION['post']['bin_ayah_wanita']?>">
@@ -743,7 +743,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ibu_wanita['nik']): ?>
+								<?php if ($ibu_wanita['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>B.3 DATA IBU PASANGAN WANITA</strong></label>
 									</div>
