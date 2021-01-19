@@ -68,6 +68,9 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 
 	public function index($page_number=1, $offset=0)
 	{
+		// Uncomment untuk menampilkan profil eksekusi
+		// $this->output->enable_profiler(TRUE);
+
 		$data['main_content'] = "bumindes/penduduk/induk/content_induk";
 		$data['subtitle'] = "Buku Induk Penduduk";
 		$data['selected_nav'] = 'induk';
