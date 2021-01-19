@@ -64,6 +64,10 @@ class MY_Controller extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+
+		// Tampilkan profiler untuk development
+		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
+
 		$this->load->model('database_model');
 		$this->database_model->cek_migrasi();
 		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada

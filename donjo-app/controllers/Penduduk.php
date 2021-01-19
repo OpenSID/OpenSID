@@ -76,9 +76,6 @@ class Penduduk extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-		// Uncomment untuk menampilkan profil eksekusi
-		// $this->output->enable_profiler(TRUE);
-
 		$data['p'] = $p;
 		$data['o'] = $o;
 
