@@ -38,6 +38,7 @@ Fitur Premium:
 17. #2777: Sediakan Buku Administrasi Desa > Buku Induk Penduduk.
 18. Rekam log hapus data penduduk dan gunakan untuk sinkronisasi dengan OpenDK. [teknis]
 19. Sekarang membuka halaman Penduduk dan Buku Induk Penduduk sudah dipercepat. [teknis]
+20. Sekarang membuka halaman Rumah Tangga sudah dipercepat. [teknis]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

@@ -396,9 +396,9 @@ class Rtm_model extends CI_Model {
 	{
 		$this->db
 			->from('tweb_rtm u')
-			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'LEFT')
-			->join('tweb_keluarga k', 't.id_kk = k.id', 'LEFT')
-			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'LEFT');
+			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')
+			->join('tweb_keluarga k', 't.id_kk = k.id')
+			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
 
 		$this->search_sql();
 

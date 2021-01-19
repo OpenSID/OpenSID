@@ -87,6 +87,8 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 				->update('tweb_penduduk_mandiri');
 		}
 
+		$hasil =& $this->tambah_indeks('tweb_penduduk', 'id_rtm', 'INDEX');
+
 		status_sukses($hasil);
 		return $hasil;
 	}

@@ -105,7 +105,7 @@ class MY_Model extends CI_Model {
 		else return true;
 	}
 
-	public function tambah_indeks($tabel, $kolom)
+	public function tambah_indeks($tabel, $kolom, $index = "UNIQUE")
 	{
 		$db = $this->db->database;
 		$ada = $this->db
@@ -116,7 +116,7 @@ class MY_Model extends CI_Model {
 			->where('index_name', $kolom)
 			->get()->row()->ada;
 		if ( ! $ada)
-			return $this->db->query("ALTER TABLE $tabel ADD UNIQUE $kolom (`$kolom`)");
+			return $this->db->query("ALTER TABLE $tabel ADD $index $kolom (`$kolom`)");
 		else return true;
 	}
 

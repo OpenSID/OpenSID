@@ -69,6 +69,9 @@ class Rtm extends Admin_Controller {
 
 	public function index($p = 1)
 	{
+		// Uncomment untuk menampilkan profil eksekusi
+		// $this->output->enable_profiler(TRUE);
+
 		foreach ($this->_list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
