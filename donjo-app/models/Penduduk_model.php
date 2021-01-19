@@ -279,29 +279,6 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
 			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left');
 
-		if (! $paging)
-		{
-
-			$this->db
-				->join('tweb_rtm b', 'u.id_rtm = b.no_kk', 'left')
-				->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
-				->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
-				->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
-				->join('tweb_penduduk_kawin k', 'u.status_kawin = k.id', 'left')
-				->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
-				->join('tweb_penduduk_agama g', ' u.agama_id = g.id', 'left')
-				->join('tweb_penduduk_warganegara v', 'u.warganegara_id = v.id', 'left')
-				->join('ref_penduduk_bahasa l', 'u.bahasa_id = l.id', 'left')
-				->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
-				->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
-				->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
-				->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
-				->join('log_penduduk log', 'u.id = log.id_pend and log.id_detail in (2,3,4)', 'left')
-				->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
-				->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
-				->join('program_peserta pp', 'u.nik = pp.peserta', 'left');
-		}
-
 		// Yg berikut hanya untuk menampilkan peserta bantuan
 		if ($this->session->penerima_bantuan)
 		{
@@ -360,26 +337,6 @@ class Penduduk_model extends MY_Model {
 	// $limit = 0 mengambil semua
 	public function list_data($o = 1, $offset = 0, $limit = 0)
 	{
-		$this->db->distinct();
-		if ($this->session->penerima_bantuan)
-		{
-			$this->db->select('rcb.id as penerima_bantuan');
-		}
-
-		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket,
-			(CASE
-				when u.status_kawin IS NULL then ''
-				when u.status_kawin <> 2 then k.nama
-				else
-					case when u.akta_perkawinan = ''
-						then 'KAWIN BELUM TERCATAT'
-						else 'KAWIN TERCATAT'
-					end
-			end) as kawin,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
-			x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
-		");
 		//Main Query
 		$this->list_data_sql();
 
@@ -401,6 +358,30 @@ class Penduduk_model extends MY_Model {
 
 		//Paging SQL
 		$this->db->limit($limit, $offset);
+		$query_dasar = $this->db->select('u.*')->get_compiled_select();
+
+		$this->db->distinct();
+		if ($this->session->penerima_bantuan)
+		{
+			$this->db->select('rcb.id as penerima_bantuan');
+		}
+		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket,
+			(CASE
+				when u.status_kawin IS NULL then ''
+				when u.status_kawin <> 2 then k.nama
+				else
+					case when u.akta_perkawinan = ''
+						then 'KAWIN BELUM TERCATAT'
+						else 'KAWIN TERCATAT'
+					end
+			end) as kawin,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
+			x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
+		");
+		$this->db->from("($query_dasar) as u");
+		$this->lookup_ref_penduduk();
+
 		$data = $this->db->get()->result_array();
 
 		//Formating Output
@@ -429,6 +410,31 @@ class Penduduk_model extends MY_Model {
 			$j++;
 		}
 		return $data;
+	}
+
+	private function lookup_ref_penduduk()
+	{
+		$this->db
+			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
+			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
+			->join('tweb_rtm b', 'u.id_rtm = b.no_kk', 'left')
+			->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
+			->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
+			->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
+			->join('tweb_penduduk_kawin k', 'u.status_kawin = k.id', 'left')
+			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+			->join('tweb_penduduk_agama g', ' u.agama_id = g.id', 'left')
+			->join('tweb_penduduk_warganegara v', 'u.warganegara_id = v.id', 'left')
+			->join('ref_penduduk_bahasa l', 'u.bahasa_id = l.id', 'left')
+			->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
+			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
+			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
+			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
+			->join('log_penduduk log', 'u.id = log.id_pend and log.id_detail in (2,3,4)', 'left')
+			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
+			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
+			->join('program_peserta pp', 'u.nik = pp.peserta', 'left');
 	}
 
 	public function list_data_map()
