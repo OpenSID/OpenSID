@@ -32,34 +32,11 @@ class Setting_model extends CI_Model {
 		if ($this->config->item("useDatabaseConfig"))
 		{
 			$pr = $this->db
-				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' and kategori <> 'setting_mandiri' ")
-				->order_by('key')->get("setting_aplikasi")->result();
+				->order_by('key')
+				->get("setting_aplikasi")
+				->result();
+
 			foreach ($pr as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
-			$setting_sistem = $this->db
-				->where('kategori', 'sistem')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_sistem as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
-			$setting_web = $this->db
-				->where('kategori', 'conf_web')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_web as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
-			$setting_bagan = $this->db
-				->where('kategori', 'conf_bagan')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_bagan as $p)
-			$setting_mandiri = $this->db
-				->where('kategori', 'setting_mandiri')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_mandiri as $p)
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
@@ -70,9 +47,6 @@ class Setting_model extends CI_Model {
 		}
 		$CI->setting = (object) $pre;
 		$CI->list_setting = $pr; // Untuk tampilan daftar setting
-		$CI->list_setting_web = $setting_web; // Untuk tampilan daftar setting web
-		$CI->list_setting_bagan = $setting_bagan; // Untuk tampilan bagan
-		$CI->list_setting_mandiri = $setting_mandiri; // Untuk tampilan daftar setting layanan mandiri
 		$this->apply_setting();
 	}
 

@@ -194,15 +194,7 @@ class Database_model extends CI_Model {
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
-		$this->catat_versi_database();
-  }
-
-  private function catat_versi_database()
-  {
-		// Catat migrasi ini telah dilakukan
-		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-			->get('migrasi')->num_rows();
-		if (!$sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
+		$this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
   }
 
   private function getCurrentVersion()
@@ -216,11 +208,6 @@ class Database_model extends CI_Model {
 		  $result = $_result->value;
 		}
 		return $result;
-  }
-
-  private function nop()
-  {
-  	// Tidak lakukan apa-apa
   }
 
   private function versi_database_terbaru()
