@@ -357,7 +357,7 @@ class Penduduk_model extends MY_Model {
 		}
 
 		//Paging SQL
-		$this->db->limit($limit, $offset);
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		$this->db->distinct();
