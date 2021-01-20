@@ -1646,3 +1646,9 @@ Warna Bar Realisasi
 	text-align: left;
 }
 
+/* Profiler */
+#codeigniter_profiler {
+	margin-left: 100px;
+}
+
+
