@@ -465,6 +465,7 @@ class Penduduk_model extends MY_Model {
 							else 'Alamat penduduk belum valid'
 						end as alamat")
 			->from('tweb_penduduk u')
+			->join('tweb_penduduk_map map', 'u.id = map.id')
 			->join('tweb_wil_clusterdesa a', 'u.id_cluster = a.id', 'left')
 			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
@@ -478,8 +479,7 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
 			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
 			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
-			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
-			->join('tweb_penduduk_map map', 'u.id = map.id', 'left');
+			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left');
 
 		$this->keluarga_sql();
 		$this->search_sql();
