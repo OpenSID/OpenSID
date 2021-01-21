@@ -25,7 +25,7 @@
 	}
 
 	# Data orang tua apabila warga desa
-	if ($ayah_pria)
+	if ($ayah_pria['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ayah_pria]"         => $ayah_pria['nama'],
@@ -40,7 +40,7 @@
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
-	if ($ibu_pria['nik'])
+	if ($ibu_pria['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ibu_pria]"         => $ibu_pria['nama'],
@@ -79,7 +79,7 @@
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
 	# Data orang tua apabila warga desa
-	if ($ayah_wanita)
+	if ($ayah_wanita['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ayah_wanita]"         => $ayah_wanita['nama'],
@@ -94,7 +94,7 @@
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
-	if ($ibu_wanita['nik'])
+	if ($ibu_wanita['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ibu_wanita]"         => $ibu_wanita['nama'],
