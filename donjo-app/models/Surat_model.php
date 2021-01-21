@@ -434,7 +434,6 @@
 	public function get_data_ayah($id=0)
 	{
 		$penduduk = $this->get_data_penduduk($id);
-
 		//cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
 		if ($penduduk['kk_level'] == 4)
 		{
@@ -457,7 +456,7 @@
 		}
 
 		// jika tidak ada Cari berdasarkan ayah_nik
-		if (!isset($data['id']) && !empty($penduduk['ayah_nik']))
+		if (empty($data['id']) && ! empty($penduduk['ayah_nik']))
 		{
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
@@ -483,7 +482,7 @@
 	public function get_data_ibu($id=0)
 	{
 		$penduduk = $this->get_data_penduduk($id);
-		
+
 		// Cari istri keluarga kalau penduduknya seorang anak dalam keluarga
 		// atau kepala keluarga perempuan
 		if ($penduduk['kk_level'] == 4 )
@@ -507,7 +506,7 @@
 		}
 
 		// Cari berdasarkan ibu_nik
-		if (!isset($data['id']) AND !empty($penduduk['ibu_nik']))
+		if (empty($data['id']) AND ! empty($penduduk['ibu_nik']))
 		{
 			$data = $this->db
 				->select('u.id')

@@ -45,7 +45,7 @@
 			'bin_wali',
 			'tempatlahir_wali',
 			'tanggallahir_wali',
-			'wn_wali', 'pek_wali', 
+			'wn_wali', 'pek_wali',
 			'alamat_wali',
 			'hub_wali'
 		];
