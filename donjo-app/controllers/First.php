@@ -70,7 +70,6 @@ class First extends Web_Controller {
 		}
 
 		$this->load->model('config_model');
-		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');
 		$this->load->model('teks_berjalan_model');
 		$this->load->model('first_gallery_m');
