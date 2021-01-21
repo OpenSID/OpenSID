@@ -156,7 +156,7 @@ class Mandiri_model extends CI_Model {
 		$pin = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
 
 		$data['pin'] = hash_pin($pin); // Hash PIN
-		$data['tanggal_buat'] = date("Y-m-d H:i:s");
+		$data['ganti_pin'] = 1;
 		$outp = $this->db->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
 
 		status_sukses($data); //Tampilkan Pesan
@@ -302,34 +302,26 @@ class Mandiri_model extends CI_Model {
 	public function siteman()
 	{
 		$masuk = $this->input->post();
-		$nik = bilangan($masuk['nik']);
+		$nik = bilangan(bilangan($masuk['nik']));
 		$pin = hash_pin(bilangan($masuk['pin']));
 
-		$row = $this->db
-			->select('m.*, p.nama, p.nik, p.foto, p.id_kk, k.no_kk')
-			->from('tweb_penduduk_mandiri m')
-			->join('tweb_penduduk p', 'm.id_pend = p.id', 'left')
+		$data = $this->db
+			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level, p.id_kk, k.no_kk')
+			->from('tweb_penduduk_mandiri pm')
+			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
 			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
 			->where('p.nik', $nik)
 			->get()
 			->row();
 
-		// TODO : Ganti parameter untuk menentukan sudah ganti pin atau tidak
-		$lg = $row->last_login;
-
 		switch (true)
 		{
-			case ($row && $pin == $row->pin):
-				// Kalau pertama kali login, pengguna perlu mengganti PIN ($_SESSION['lg'] == 1)
-				$this->session->lg = ($lg == NULL OR $lg == "0000-00-00 00:00:00") ? 1 : 2;
-				$this->session->mandiri = 1;
-
-				$this->session->id_pend = $row->id_pend;
-				$this->session->nik = $row->nik;
-				$this->session->nama = $row->nama;
-				$this->session->foto = $row->foto;
-				$this->session->id_kk = $row->id_kk;
-				$this->session->no_kk = $row->no_kk;
+			case ($data && $pin == $data->pin):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data
+				];
+				$this->session->set_userdata($session);
 				break;
 
 			case ($this->session->mandiri_try > 2):
@@ -345,13 +337,13 @@ class Mandiri_model extends CI_Model {
 	public function logout()
 	{
 		$data = [
-			'id_pend' => $this->session->id_pend,
+			'id_pend' => $this->is_login->id_pend,
 			'last_login' => date('Y-m-d H:i:s', NOW())
 		];
 
 		if (isset($data['id_pend'])) $this->update_login($data);
 
-		$this->session->unset_userdata(['mandiri', 'id_pend', 'nik', 'no_kk', 'nama', 'foto']);
+		$this->session->unset_userdata(['mandiri', 'is_login']);
 	}
 
 	public function update_login(array $data = [])
@@ -361,7 +353,7 @@ class Mandiri_model extends CI_Model {
 
 	public function ganti_pin()
 	{
-		$id_pend = $this->session->id_pend;
+		$id_pend = $this->is_login->id_pend;
 		$ganti = $this->input->post();
 		$pin_lama = hash_pin(bilangan($ganti['pin_lama']));
 		$pin_baru1 = hash_pin(bilangan($ganti['pin_baru1']));
@@ -380,7 +372,7 @@ class Mandiri_model extends CI_Model {
 			case ($pin_lama != $pin):
 				$respon = [
 					'status' => -1, // Notif gagal
-					'pesan' => "PIN iput $pin_lama  = PIN cek $pin + " . '<b>PIN ' . $row->pin . ' </b> gagal diganti, <b>PIN Lama</b> yang anda masukkan tidak sesuai'
+					'pesan' => 'PIN gagal diganti, <b>PIN Lama</b> yang anda masukkan tidak sesuai'
 				];
 				break;
 
@@ -395,16 +387,15 @@ class Mandiri_model extends CI_Model {
 				$data = [
 					'id_pend' => $id_pend,
 					'pin' => $pin_baru2,
-					'last_login' => date('Y-m-d H:i:s', NOW())
+					'last_login' => date('Y-m-d H:i:s', NOW()),
+					'ganti_pin' => 0
 				];
 				$this->update_login($data);
 				$respon = [
-					'status' => 1, // Notif gagal
+					'status' => 1, // Notif berhasil
 					'aksi' => site_url('layanan-mandiri/keluar'),
 					'pesan' => 'PIN berhasil diganti, silahkan masuk kembali'
 				];
-				// TODO: buat field untuk mengecek pin sudah diganti atau belum
-				$this->session->lg = -1; // Agar notif ganti pin tdk muncul
 				break;
 		}
 		$this->session->set_flashdata('notif', $respon);

@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<a href="<?=site_url("$this->controller/form"); ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Suplemen Baru"><i class="fa fa-plus"></i> Tambah Suplemen Baru</a>
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div class="box-body">
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-						<form id="mainform" name="mainform" action="" method="post">
+						<form id="mainform" name="mainform" method="post">
 							<select class="form-control input-sm" name="sasaran" onchange="formAction('mainform', '<?= site_url('suplemen'); ?>')">
 								<option value="">Pilih Sasaran</option>
 								<?php foreach ($list_sasaran AS $key => $value): ?>

@@ -72,7 +72,7 @@
 					<div class="box-body">
 						<div class="table-responsive">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form id="mainform" name="mainform" action="" method="post">
+								<form id="mainform" name="mainform" method="post">
 									<div class="row">
 										<div class="col-sm-8">
 											<select class="form-control input-sm" name="isi" onchange="formAction('mainform', '<?= site_url('analisis_respon/isi')?>')">

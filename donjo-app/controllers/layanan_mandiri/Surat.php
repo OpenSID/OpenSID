@@ -58,8 +58,8 @@ class Surat extends Mandiri_Controller
 	// Kat 2 = Arsip
 	public function index($kat = 1)
 	{
-		$arsip = $this->keluar_model->list_data_perorangan($this->session->id_pend);
-		$permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->session->id_pend);
+		$arsip = $this->keluar_model->list_data_perorangan($this->is_login->id_pend);
+		$permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->is_login->id_pend);
 
 		$data = [
 			'desa' => $this->header,
@@ -81,8 +81,8 @@ class Surat extends Mandiri_Controller
 			'menu_surat_mandiri' => $this->surat_model->list_surat_mandiri(),
 			'menu_dokumen_mandiri' => $this->lapor_model->get_surat_ref_all(),
 			'permohonan' => $this->permohonan_surat_model->get_permohonan($id_permohonan),
-			'list_dokumen' => $this->penduduk_model->list_dokumen($this->session->id_pend),
-			'kk' => ($this->session->kk_lvl === '1') ? $this->keluarga_model->list_anggota($data['penduduk']['id_kk']) : '', // Ambil data anggota KK, jika Kepala Keluarga
+			'list_dokumen' => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
+			'kk' => ($this->is_login->kk_level === '1') ? $this->keluarga_model->list_anggota($this->is_login->id_kk) : '', // Ambil data anggota KK, jika Kepala Keluarga
 			'konten' => 'buat_surat'
 		];
 
@@ -98,7 +98,7 @@ class Surat extends Mandiri_Controller
 			->row_array();
 
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
-		$dokumen = $this->penduduk_model->list_dokumen($this->session->id_pend);
+		$dokumen = $this->penduduk_model->list_dokumen($this->is_login->id_pend);
 		$id = $this->input->post('id_surat');
 		$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
 		$data = array();
@@ -127,7 +127,7 @@ class Surat extends Mandiri_Controller
 
 	public function ajax_table_surat_permohonan()
 	{
-		$data = $this->penduduk_model->list_dokumen($this->session->id_pend);
+		$data = $this->penduduk_model->list_dokumen($this->is_login->id_pend);
 		$jenis_syarat_surat = $this->referensi_model->list_by_id('ref_syarat_surat', 'ref_syarat_id');
 
 		for ($i=0; $i < count($data); $i++)
@@ -165,16 +165,16 @@ class Surat extends Mandiri_Controller
 		$this->session->unset_userdata('error_msg');
 		$success_msg = 'Berhasil menyimpan data';
 
-		if ($this->session->id_pend)
+		if ($this->is_login->id_pend)
 		{
-			$_POST['id_pend'] = $this->session->id_pend;
+			$_POST['id_pend'] = $this->is_login->id_pend;
 			$id_dokumen = $this->input->post('id');
 			unset($_POST['id']);
 
 			if ($id_dokumen)
 			{
-				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->id_pend, $mandiri = true);
-				if (!$hasil)
+				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->is_login->id_pend, $mandiri = true);
+				if ( ! $hasil)
 				{
 					$data['success'] = -1;
 					$data['message'] = 'Gagal update';
@@ -200,7 +200,7 @@ class Surat extends Mandiri_Controller
 	public function ajax_get_dokumen_pendukung()
 	{
 		$id_dokumen = $this->input->post('id_dokumen');
-		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->session->id_pend);
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $this->is_login->id_pend);
 
 		$data['anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 
@@ -209,7 +209,7 @@ class Surat extends Mandiri_Controller
 			$data['success'] = -1;
 			$data['message'] = 'Tidak ditemukan';
 		}
-		elseif ($this->session->id_pend != $data['id_pend'])
+		elseif ($this->is_login->id_pend != $data['id_pend'])
 		{
 			$data = ['message' => 'Anda tidak mempunyai hak akses itu'];
 		}
@@ -225,7 +225,7 @@ class Surat extends Mandiri_Controller
 			$data['success'] = -1;
 			$data['message'] = 'Tidak ditemukan';
 		}
-		elseif ($this->session->id_pend != $data['id_pend'])
+		elseif ($this->is_login->id_pend != $data['id_pend'])
 		{
 			$data['success'] = -1;
 			$data['message'] = 'Anda tidak mempunyai hak akses itu';
@@ -261,10 +261,10 @@ class Surat extends Mandiri_Controller
 		$data['url'] = $surat['url_surat'];
 		$url = $data['url'];
 
-		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($this->session->id_pend);
-		$data['individu'] = $this->surat_model->get_penduduk($this->session->id_pend);
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($this->is_login->id_pend);
+		$data['individu'] = $this->surat_model->get_penduduk($this->is_login->id_pend);
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id_pend);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->is_login->id_pend);
 		$this->get_data_untuk_form($url, $data);
 		$data['desa'] = $this->header;
 

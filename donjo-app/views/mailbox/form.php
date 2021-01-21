@@ -16,7 +16,7 @@
 						</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" method="POST" class="form-horizontal" name="main">
+						<formid="main" method="POST" class="form-horizontal" name="main">
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="owner">Penerima</label>
 								<div class="col-sm-9">

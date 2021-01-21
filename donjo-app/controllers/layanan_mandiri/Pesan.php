@@ -56,7 +56,7 @@ class Pesan extends Mandiri_Controller
 
 	public function index($kat = 1)
 	{
-		$pesan = $this->mailbox_model->get_all_pesan($this->session->nik, $kat);
+		$pesan = $this->mailbox_model->get_all_pesan($this->is_login->nik, $kat);
 
 		$data = [
 			'desa' => $this->header,
@@ -75,8 +75,8 @@ class Pesan extends Mandiri_Controller
 	public function kirim($kat = 2)
 	{
 		$data = $this->input->post();
-		$post['email'] = $this->session->nik; // kolom email diisi nik untuk pesan
-		$post['owner'] = $this->session->nama;
+		$post['email'] = $this->is_login->nik; // kolom email diisi nik untuk pesan
+		$post['owner'] = $this->is_login->nama;
 		$post['subjek'] = $data['subjek'];
 		$post['komentar'] = $data['pesan'];
 		$post['tipe'] = 1;
@@ -90,7 +90,7 @@ class Pesan extends Mandiri_Controller
 
 	public function baca($kat = 2, $id = '')
 	{
-		$nik = $this->session->nik;
+		$nik = $this->is_login->nik;
 		if ($kat == 2) {
 			$this->mailbox_model->ubah_status_pesan($nik, $id, 1);
 		}

@@ -19,7 +19,7 @@
 		<?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>
 	</div>
 	<div class="row">
-		<section id="mainContent">
+		<section>
 			<div class="content_bottom">
 				<div class="col-lg-12 col-md-12">
 					<?php $this->load->view($halaman_peta); ?>

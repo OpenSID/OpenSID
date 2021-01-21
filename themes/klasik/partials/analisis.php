@@ -60,6 +60,7 @@
 		});
 	};
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	tr#total {
 		background:#fffdc5;

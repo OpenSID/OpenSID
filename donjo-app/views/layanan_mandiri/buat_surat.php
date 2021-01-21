@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
-				<div class="col-sm-9 form-group">
+				<div class="col-sm-9">
 					<textarea class="form-control <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
 				</div>
 			</div>

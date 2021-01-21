@@ -21,7 +21,7 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<form action="" id="main" name="main" method="POST" class="form-horizontal">
+								<form id="main" name="main" method="POST" class="form-horizontal">
 									<div class="box-body">
 
 										<div class="form-group ">

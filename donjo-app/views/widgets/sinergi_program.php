@@ -1,5 +1,5 @@
 <!-- widget Sinergi Program-->
-
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#sinergi_program
 	{

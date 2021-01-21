@@ -192,6 +192,7 @@ class Penduduk extends Admin_Controller {
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+		$data['bahasa'] = $this->referensi_model->list_data('ref_penduduk_bahasa');
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
@@ -216,7 +217,6 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
-
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk_detail', $data);
 	}

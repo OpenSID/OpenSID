@@ -24,7 +24,7 @@
 
 								<h5><b>Tambah Peserta Program</b></h5>
 								<hr>
-								<form action="" id="main" name="main" method="POST" class="form-horizontal">
+								<form id="main" name="main" method="POST" class="form-horizontal">
 									<div class="form-group" >
 										<label class="col-sm-4 col-lg-3 control-label <?php ($detail['sasaran'] != 1) and print('no-padding-top') ?>" for="nik">Cari <?= $detail['judul_cari_peserta']?></label>
 										<div class="col-sm-9">

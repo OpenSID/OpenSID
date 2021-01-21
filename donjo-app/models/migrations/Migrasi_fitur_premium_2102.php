@@ -71,6 +71,23 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->add_modul_pembangunan($hasil);
 		$hasil =& $this->sebutan_kepala_desa($hasil);
 		$hasil =& $this->urut_cetak($hasil);
+		$hasil =& $this->bumindes_updates($hasil);
+
+		// Tambah kolom ganti_pin di tabel tweb_penduduk_mandiri
+		if ( ! $this->db->field_exists('ganti_pin', 'tweb_penduduk_mandiri'))
+		{
+			$fields = [
+				'ganti_pin' => ['type' => 'TINYINT', 'constraint' => 1, 'null' => false, 'default' => 1],
+			];
+			$hasil = $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+			// Set ulang value ganti_pin = 0 jika last_login sudah terisi
+			$hasil =& $this->db
+				->where('last_login !=', NULL)
+				->set('ganti_pin', 0)
+				->update('tweb_penduduk_mandiri');
+		}
+
+		$hasil =& $this->tambah_indeks('tweb_penduduk', 'id_rtm', 'INDEX');
 
 		status_sukses($hasil);
 		return $hasil;
@@ -225,6 +242,94 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 				'null' => TRUE,
 				),
 			));
+
+		return $hasil;
+	}
+
+	// Bumindes updates
+	protected function bumindes_updates($hasil){
+		// Updates for issues #2777
+		$hasil =& $this->penduduk_induk($hasil);
+
+		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
+		$data = array(
+			['id'=> 303, 'modul' => 'Administrasi Penduduk', 'url' => 'bumindes_penduduk_induk', 'aktif' => 1, 'ikon' => 'fa-users', 'urut' => 2, 'level' => 2, 'hidden' => 0, 'ikon_kecil' => 'fa fa-users', 'parent' => 301],
+			['id'=> 315, 'modul' => 'Buku Mutasi Penduduk', 'url' => 'bumindes_penduduk_mutasi/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+			['id'=> 316, 'modul' => 'Buku Rekapitulasi Jumlah Penduduk', 'url' => 'bumindes_penduduk_rekapitulasi/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+			['id'=> 317, 'modul' => 'Buku Penduduk Sementara', 'url' => 'bumindes_penduduk_sementara/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+			['id'=> 318, 'modul' => 'Buku KTP dan KK', 'url' => 'bumindes_penduduk_ktpkk/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
+		);
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('setting_modul', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					modul = VALUES(modul),
+					url = VALUES(url),
+					aktif = VALUES(aktif),
+					ikon = VALUES(ikon),
+					urut = VALUES(urut),
+					level = VALUES(level),
+					hidden = VALUES(hidden),
+					ikon_kecil = VALUES(ikon_kecil),
+					parent = VALUES(parent)";
+			$hasil =& $this->db->query($sql);
+		}
+
+		return $hasil;
+	}
+
+	protected function penduduk_induk($hasil)
+	{
+		// Membuat table ref_penduduk_bahasa
+		$this->dbforge->add_field([
+			'id'            => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' 			=> ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false],
+			'inisial'       => ['type' => 'VARCHAR', 'constraint' => 10, 'null' => false]
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_penduduk_bahasa', true);
+
+		// Menambahkan bahasa_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
+		if (! $this->db->field_exists('bahasa_id', 'tweb_penduduk'))
+			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+				'bahasa_id' => array(
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				),
+			));
+
+		// Menambahkan column ket pada table tweb_penduduk, digunakan untuk keterangan penduduk
+		if (! $this->db->field_exists('ket', 'tweb_penduduk'))
+			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+				'ket' => array(
+				'type' => 'TINYTEXT',
+				'null' => TRUE,
+				),
+			));
+
+		// Menambahkan data ke ref_penduduk_bahasa
+		$data = array(
+			['id'=> 1, 'nama' => 'Latin', 'inisial' => 'L'],
+			['id'=> 2, 'nama' => 'Daerah', 'inisial' => 'D'],
+			['id'=> 3, 'nama' => 'Arab', 'inisial' => 'A'],
+			['id'=> 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
+			['id'=> 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
+			['id'=> 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD']
+		);
+
+		foreach ($data as $bahasa)
+		{
+			$sql = $this->db->insert_string('ref_penduduk_bahasa', $bahasa);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama),
+					inisial = VALUES(inisial)";
+			$hasil =& $this->db->query($sql);
+		}
 
 		return $hasil;
 	}

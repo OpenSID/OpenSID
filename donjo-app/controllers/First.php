@@ -567,7 +567,6 @@ class First extends Web_Controller {
 		$data['wilayah'] = $this->penduduk_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
 		$data['title'] = 'Peta ' . ucwords($this->setting->sebutan_desa . ' ' . $data['desa']['nama_desa']);
-		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();

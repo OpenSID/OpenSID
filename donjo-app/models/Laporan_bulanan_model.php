@@ -8,8 +8,8 @@
 
 	public function tulis_log_bulanan()
 	{
-		// Jangan tulis kalau database belum dimigrasi
-		if (!$this->db->field_exists('wni_lk', 'log_bulanan')) return;
+		// Jangan tulis kalau sudah pernah di sesi ini
+		if ($this->session->log_bulanan) return;
 
 		// Jangan hitung keluarga yang tidak ada Kepala Keluarga
 		// Anggap warganegara_id = 0, 1 atau 3 adalah WNI
@@ -47,6 +47,7 @@
 					->where("month(tgl) = $bln AND year(tgl) = $thn")
 					->update('log_bulanan', $data);
 		}
+		$this->session->log_bulanan = true;
 	}
 
 	private function bulan_sql()
