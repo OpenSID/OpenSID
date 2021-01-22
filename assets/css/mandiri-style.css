@@ -288,7 +288,7 @@ table#surat {
 
 .content.periksa {
 	min-height: 0px !important;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 div.form-surat .content-header {
@@ -296,11 +296,11 @@ div.form-surat .content-header {
 }
 
 .content-wrapper, .fixed .right-side {
-	padding-top: 0px;
+	padding-top: 0;
 }
 
 .permohonan-surat > .content-wrapper, .permohonan-surat > .right-side {
-	padding-top: 0px;
+	padding-top: 0;
 }
 
 .form-horizontal .form-group > label {
@@ -315,22 +315,34 @@ a.btn {
 	background-color: #ffeeaa !important;
 }
 
-.input-group-sm>.form-control, .input-group-sm>.input-group-addon, .input-group-sm>.input-group-btn>.btn {
-	border-radius: 0px;
+.input-group-sm > .form-control, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .btn {
+	height: 25px;
+	padding: 5px 10px;
+	font-size: 11px;
+	line-height: 1.2;
+	border-radius: 0;
 }
 
 .modal {
-	padding-right: 0px;
-	padding-left: 0px;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.modal-body.modal-line {
+	border-top: 1px solid #f4f4f4;
 }
 
 .form-horizontal.form-group.has-error label {
 	padding-left: 10px;
 }
 
+.error {
+	color: #dd4b39;
+}
+
 /* Untuk form permohonan surat */
 .form-group.cari_nik, .form-group.konfirmasi {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 .box-body.permohonan-surat {

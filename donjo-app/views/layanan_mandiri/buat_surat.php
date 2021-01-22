@@ -156,22 +156,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <div class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class='modal-dialog'>
-		<div class='modal-content'>
-			<div class='modal-header'>
-				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'>Tambah dokumen</h4>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Tambah dokumen</h4>
 			</div>
-			<form id="unggah_dokumen" action="" method="POST" enctype="multipart/form-data">
-				<div class='modal-body'>
+			<form id="unggah_dokumen" method="POST" enctype="multipart/form-data">
+				<div class="modal-body">
 					<div class="form-group">
-						<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
+						<label for="nama_dokumen">Nama Dokumen</label>
+						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen"/>
 						<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
 					</div>
 					<div class="form-group">
-						<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
-							<option> -- Pilih Jenis Dokumen -- </option>
+						<label for="nama_dokumen">Jenis Dokumen</label>
+						<select class="form-control input-sm required" name="id_syarat" id="id_syarat">
+							<option value=""> -- Pilih Jenis Dokumen -- </option>
 							<?php foreach ($menu_dokumen_mandiri AS $data): ?>
 								<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']; ?></option>
 							<?php endforeach; ?>
@@ -188,34 +189,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen.</code></span>
 					</div>
+					</hr>
 					<?php if ( ! empty($kk)): ?>
-						<hr>
-						<span class="help-block"><code>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini.</code></span>
-						<table class="table table-striped table-bordered table-responsive">
-							<thead>
-								<tr>
-									<th scope="col">#</th>
-									<th scope="col">NIK</th>
-									<th scope="col">Nama</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($kk as $item): ?>
-									<?php if ($item['nik'] != $penduduk['nik']): ?>
-										<tr>
-											<td><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
-											<td><?=$item['nik']?></td>
-											<td><?=$item['nama']?></td>
-										</tr>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</tbody>
-						</table>
+						<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-data">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>NIK</th>
+										<th>Nama</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($kk as $item): ?>
+										<?php if ($item['nik'] != $this->is_login->nik): ?>
+											<tr>
+												<td class="padat"><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
+												<td><?=$item['nik']?></td>
+												<td><?=$item['nama']?></td>
+											</tr>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
 					<?php endif ?>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class='fa fa-times'></i> Tutup</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="upload_btn"><i class='fa fa-check'></i> Simpan</button>
+					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Tutup</button>
+					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 				</div>
 			</form>
 		</div>
