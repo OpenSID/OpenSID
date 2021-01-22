@@ -90,7 +90,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		$hasil =& $this->tambah_indeks('tweb_penduduk', 'id_rtm', 'INDEX');
 
 		// Perbaiki jenis untuk key 'offline_mode'
-		$this->db->where('key', 'offline_mode')->update('setting_aplikasi', array('jenis' => 'option-kode'));
+		$this->db->where('key', 'offline_mode')->update('setting_aplikasi', array('jenis' => 'option-value'));
 		status_sukses($hasil);
 		return $hasil;
 	}
