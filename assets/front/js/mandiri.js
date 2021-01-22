@@ -194,12 +194,11 @@ $(document).ready(function() {
 				id_dokumen: id
 			},
 			success: function (response) {
-				let data = JSON.parse(response);
 				$('#unggah_dokumen').validate().resetForm();
-				$('#id_dokumen').val(data.id);
-				$('#nama_dokumen').val(data.nama);
-				$('#id_syarat').val(data.id_syarat);
-				$('#old_file').val(data.satuan);
+				$('#id_dokumen').val(response.id);
+				$('#nama_dokumen').val(response.nama);
+				$('#id_syarat').val(response.id_syarat);
+				$('#old_file').val(response.satuan);
 				$('#modal .modal-body').LoadingOverlay('hide');
 
 				//anggota lain
@@ -245,11 +244,10 @@ $(document).ready(function() {
 								id_dokumen: id
 							},
 							success: function(response) {
-								let data = JSON.parse(response);
 								$('#modal .modal-body').LoadingOverlay('hide');
-								switch (data.success) {
+								switch (response.success) {
 									case -1:
-										show_alert('red', 'Error', data.message);
+										show_alert('red', 'Error', response.message);
 										break;
 									default:
 										show_alert('green', 'Sukses', 'Berhasil menghapus');
@@ -280,17 +278,16 @@ $(document).ready(function() {
 				cache: false,
 				async: true,
 				success: function (response) {
-					let data = JSON.parse(response);
 					$('#modal .modal-body').LoadingOverlay("hide");
-					switch (data.success) {
+					switch (response.success) {
 						case -1:
-							show_alert('red', 'Error', data.message);
+							show_alert('red', 'Error', response.message);
 							break;
 						default:
 							$('#dokumen').DataTable().ajax.reload();
 							$('#unggah_dokumen').trigger('reset');
 							$('#modal').modal('hide');
-							show_alert('green', 'Sukses', data.message);
+							show_alert('green', 'Sukses', response.message);
 							break;
 					}
 				},

@@ -278,7 +278,7 @@ div.form-surat .content-wrapper {
 	padding-left: 30px;
 }
 
-#wrapper-mandiri .tdk-permohonan, .breadcrumb.admin , .box-header.admin, .tdk-periksa {
+#wrapper-mandiri .tdk-permohonan, .breadcrumb.admin , .box-header.admin, .tdk-periksa, .jar_form {
 	display: none;
 }
 
@@ -328,3 +328,17 @@ a.btn {
 	padding-left: 10px;
 }
 
+/* Untuk form permohonan surat */
+.form-group.cari_nik, .form-group.konfirmasi {
+	margin-bottom: 0px;
+}
+
+.box-body.permohonan-surat {
+	margin-bottom: -10px;
+}
+
+.content-header > h1 {
+	margin: -10px;
+	font-size: 18px;
+	font-weight: bold;
+}
