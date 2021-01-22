@@ -32,12 +32,6 @@
                     <?php endif; ?>
                 </li>
                 <?php } ?>
-                <div class="hidden-xs navbar-right" style="margin-right: 15px; margin-top: 10px">
-                	<form method=get action="<?= site_url(); ?>" class="form-inline">
-                		<input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel">
-                		<button type="submit" class="btn btn-primary">Cari</button>
-                	</form>	
-                  </div>
             </ul>
 			</div>
     </div>
