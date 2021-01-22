@@ -1,9 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <div class="single_page_area">
-	<div class="single_page_area">
-		<h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
-	</div>
+	<h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
 	<div class="box-body">
 		<div class="table-responsive">
 		<?php if(count($main) > 0) : ?>
