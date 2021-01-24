@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.01-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi, Il Ham dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
 
 Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
 
@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
 9. #3922: Sekarang error select2 tidak tampil di console browser. [bug-fix]
 10. #3943: Sekarang anggota keluarga dapat melihat kelengkapan dokumen kepala keluarga yg dibagi pada anggota tersebut. [bug-fix]
 11. #3916: Sekarang bisa simpan Buku Adminisrasi Desa - Administrasi Umum - Buku Agenda-Surat Keluar. [bug-fix]
+12. #3958: Tambahkan berapa kode isian format impor BIP 2016 sesuai yang dikeluarkan Dispenduk. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
