@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 10. #3943: Sekarang anggota keluarga dapat melihat kelengkapan dokumen kepala keluarga yg dibagi pada anggota tersebut. [bug-fix]
 11. #3916: Sekarang bisa simpan Buku Adminisrasi Desa - Administrasi Umum - Buku Agenda-Surat Keluar. [bug-fix]
 12. #3958: Tambahkan berapa kode isian format impor BIP 2016 sesuai yang dikeluarkan Dispenduk. [bug-fix]
+13. Mutakhirkan tema natra.
 
 
 Fitur Premium:

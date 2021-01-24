@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<div class="row" style="margin-bottom:3px; margin-top:10px;">
+<div class="row" style="margin-bottom:3px; margin-top:5px;">
 	<div class="col-lg-12 col-md-12">
 		<div class="header_top">
 			<div class="header_top_left"style="margin-bottom:0px;">
@@ -24,22 +24,7 @@
 				</li>
 			</ul>
     		</div>
-    		<div class="navbar-right hidden-xs" style="margin-right: 15px; margin-top: 15px;">
-                  <?php foreach ($sosmed As $data): ?>
-    	            <?php if (!empty($data["link"])): ?>
-    	            <a href="<?= $data['link']?>" rel="noopener noreferrer" style="padding:2px;">
-    	                <i class="fa fa-<?= strtolower($data['nama']) ?>-square fa-2x"></i>
-    	                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram' OR strtolower($data["nama"]) == 'telegram'): ?>
-    	                <i class="fa fa-<?= strtolower($data['nama']) ?> fa-2x"></i>
-    	                <?php endif; ?>
-    	            </a>
-    	            <?php endif; ?>
-    	            <?php endforeach; ?>
-    	            <a href="<?= site_url(); ?>feed" rel="noopener noreferrer" target="_blank">
-    	                <i class="fa fa-rss fa-2x"></i>
-    	            </a>
-    	       </div>
-    		<div class="visible-xs" style="margin-bottom: 5px;">
+    		<div class="navbar-right" style="margin-right: 0px; margin-top: 15px; margin-bottom: 3px;">
     			<form method=get action="<?= site_url(); ?>" class="form-inline">
     				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel"></td>
 					<td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
