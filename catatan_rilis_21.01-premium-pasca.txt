@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.01-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Agung Sugiarto, Zeppy Shiddiq, Ariandi Ryan Kahfi dan Ians Shinichi Kudo yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada afa28, Agung Sugiarto, Zeppy Shiddiq, Ariandi Ryan Kahfi, Il Ham dan Ians Shinichi Kudo yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
 
 Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 
@@ -15,6 +15,8 @@ Lengkapnya, isi rilis versi 21.01-premium-pasca adalah sebagai berikut:
 9. #3922: Sekarang error select2 tidak tampil di console browser. [bug-fix]
 10. #3943: Sekarang anggota keluarga dapat melihat kelengkapan dokumen kepala keluarga yg dibagi pada anggota tersebut. [bug-fix]
 11. #3916: Sekarang bisa simpan Buku Adminisrasi Desa - Administrasi Umum - Buku Agenda-Surat Keluar. [bug-fix]
+12. #3958: Tambahkan berapa kode isian format impor BIP 2016 sesuai yang dikeluarkan Dispenduk. [bug-fix]
+13. Mutakhirkan tema natra.
 
 
 Fitur Premium:
@@ -40,6 +42,7 @@ Fitur Premium:
 19. Sekarang membuka halaman Penduduk dan Buku Induk Penduduk sudah dipercepat. [teknis]
 20. Sekarang membuka halaman Rumah Tangga sudah dipercepat. [teknis]
 21. Sekarang membuka peta di web maupun admin sudah dipercepat. [teknis]
+22. #3813: Perbaiki keterangan data orang tua dari calon pria dan calon wanita pada Surat Keterangan Untuk Nikah. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

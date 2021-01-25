@@ -49,7 +49,7 @@ define("VERSION", '21.01-premium-pasca');
 /* Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini.
    Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
 */
-define('VERSI_DATABASE', '2021011802');
+define('VERSI_DATABASE', '2021011803');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -141,6 +141,7 @@ define("KODE_HUBUNGAN", serialize(array(
 )));
 define("KODE_PENDIDIKAN", serialize(array(
 	strtolower("Tidak/Belum Sekolah") => "1",
+	strtolower("Tidak/Blm Sekolah") => "1",
 	strtolower("Belum Tamat SD/Sederajat") => "2",
 	strtolower("Tidak Tamat SD/Sederajat") => "2",
 	strtolower("Tamat SD/Sederajat") => "3",
@@ -149,8 +150,10 @@ define("KODE_PENDIDIKAN", serialize(array(
 	strtolower("SLTA/Sederajat") => "5",
 	strtolower("Diploma I/II") => "6",
 	strtolower("Akademi/Diploma III/S. Muda") => "7",
+	strtolower("Akademi/Diploma III/Sarjana Muda") => "7",
 	strtolower("Diploma IV/Strata I") => "8",
 	strtolower("Strata II") => "9",
+	strtolower("Strata-II") => "9",
 	strtolower("Strata III") => "10"
 )));
 define("KODE_PEKERJAAN", serialize(array(
@@ -159,8 +162,11 @@ define("KODE_PEKERJAAN", serialize(array(
 	strtolower("PELAJAR/MAHASISWA") => "3",
 	strtolower("PENSIUNAN") => "4",
 	strtolower("PEGAWAI NEGERI SIPIL") => "5",
+	strtolower("PEGAWAI NEGERI SIPIL (PNS)") => "5",
 	strtolower("TENTARA NASIONAL INDONESIA") => "6",
+	strtolower("TENTARA NASIONAL INDONESIA (TNI)") => "6",
 	strtolower("KEPOLISIAN RI") => "7",
+	strtolower("KEPOLISIAN RI (POLRI)") => "7",
 	strtolower("PERDAGANGAN") => "8",
 	strtolower("PETANI/PEKEBUN") => "9",
 	strtolower("PETERNAK") => "10",
@@ -242,6 +248,7 @@ define("KODE_PEKERJAAN", serialize(array(
 	strtolower("KEPALA DESA") => "86",
 	strtolower("BIARAWATI") => "87",
 	strtolower("WIRASWASTA") => "88",
+	strtolower("PEKERJAAN LAINNYA") => "89",
 	strtolower("LAINNYA") => "89"
 )));
 define("KODE_GOLONGAN_DARAH", serialize(array(

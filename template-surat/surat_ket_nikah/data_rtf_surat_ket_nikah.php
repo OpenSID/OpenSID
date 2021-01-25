@@ -25,12 +25,12 @@
 	}
 
 	# Data orang tua apabila warga desa
-	if ($ayah_pria)
+	if ($ayah_pria['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ayah_pria]"         => $ayah_pria['nama'],
-								  "[form_noktp_ayah_pria]"        => $ayah_pria['nik'],
-								  "[form_bin_ayah_pria]"          => $ayah_pria['nama_ayah'],
+				  "[form_noktp_ayah_pria]"        => $ayah_pria['nik'],
+				  "[form_bin_ayah_pria]"          => $ayah_pria['nama_ayah'],
                   "[form_tempatlahir_ayah_pria]"  => ucwords(strtolower($ayah_pria['tempatlahir'])),
                   "[form_tanggallahir_ayah_pria]" => tgl_indo_dari_str($ayah_pria['tanggallahir']),
                   "[form_wn_ayah_pria]"           => $ayah_pria['wn'],
@@ -40,12 +40,12 @@
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
-	if ($ibu_pria)
+	if ($ibu_pria['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ibu_pria]"         => $ibu_pria['nama'],
-								  "[form_noktp_ibu_pria]"        => $ibu_pria['nik'],
-								  "[form_binti_ibu_pria]"        => $ibu_pria['nama_ayah'],
+				  "[form_noktp_ibu_pria]"        => $ibu_pria['nik'],
+				  "[form_binti_ibu_pria]"        => $ibu_pria['nama_ayah'],
                   "[form_tempatlahir_ibu_pria]"  => ucwords(strtolower($ibu_pria['tempatlahir'])),
                   "[form_tanggallahir_ibu_pria]" => tgl_indo_dari_str($ibu_pria['tanggallahir']),
                   "[form_wn_ibu_pria]"           => $ibu_pria['wn'],
@@ -68,9 +68,9 @@
                   "[form_agama_wanita]"        => $wanita[agama],
                   "[form_alamat_wanita]"       => "$wanita[alamat] RT $wanita[rt]  RW $wanita[rw] " . " $alamat_desa",
                   "[form_nama_wanita]"         => $wanita[nama],
-								  "[form_no_ktp_wanita]"       => $wanita[nik],
-								  "[form_sex_wanita]"          => $wanita[sex],
-								  "[status_wanita]"       		 => $wanita[status_kawin],
+				  "[form_no_ktp_wanita]"       => $wanita[nik],
+				  "[form_sex_wanita]"          => $wanita[sex],
+				  "[status_wanita]"       		 => $wanita[status_kawin],
                   "[form_pekerjaan_wanita]"    => $wanita[pekerjaan],
                   "[form_tempatlahir_wanita]"  => $wanita[tempatlahir],
                   "[form_tanggallahir_wanita]" => tgl_indo_dari_str($wanita[tanggallahir]),
@@ -79,12 +79,12 @@
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
 	# Data orang tua apabila warga desa
-	if ($ayah_wanita)
+	if ($ayah_wanita['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ayah_wanita]"         => $ayah_wanita['nama'],
-								  "[form_noktp_ayah_wanita]"        => $ayah_wanita['nik'],
-								  "[form_bin_ayah_wanita]"          => $ayah_wanita['nama_ayah'],
+				  "[form_noktp_ayah_wanita]"        => $ayah_wanita['nik'],
+				  "[form_bin_ayah_wanita]"          => $ayah_wanita['nama_ayah'],
                   "[form_tempatlahir_ayah_wanita]"  => ucwords(strtolower($ayah_wanita['tempatlahir'])),
                   "[form_tanggallahir_ayah_wanita]" => tgl_indo_dari_str($ayah_wanita['tanggallahir']),
                   "[form_wn_ayah_wanita]"           => $ayah_wanita['wn'],
@@ -94,12 +94,12 @@
 		);
 		$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 	}
-	if ($ibu_wanita)
+	if ($ibu_wanita['id'])
 	{
 		$array_replace = array(
                   "[form_nama_ibu_wanita]"         => $ibu_wanita['nama'],
-								  "[form_noktp_ibu_wanita]"        => $ibu_wanita['nik'],
-								  "[form_binti_ibu_wanita]"        => $ibu_wanita['nama_ayah'],
+				  "[form_noktp_ibu_wanita]"        => $ibu_wanita['nik'],
+				  "[form_binti_ibu_wanita]"        => $ibu_wanita['nama_ayah'],
                   "[form_tempatlahir_ibu_wanita]"  => ucwords(strtolower($ibu_wanita['tempatlahir'])),
                   "[form_tanggallahir_ibu_wanita]" => tgl_indo_dari_str($ibu_wanita['tanggallahir']),
                   "[form_wn_ibu_wanita]"           => $ibu_wanita['wn'],

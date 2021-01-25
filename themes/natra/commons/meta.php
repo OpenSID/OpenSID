@@ -130,3 +130,4 @@
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js"); ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js"); ?>"></script>
 <![endif]-->
+<?php $this->load->view('head_tags_front') ?>

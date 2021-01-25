@@ -202,8 +202,8 @@ class Database_model extends CI_Model {
 		// Catat migrasi ini telah dilakukan
 		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
 			->get('migrasi')->num_rows();
-		if (!$sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
-  }
+		if (! $sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
+	}
 
   private function getCurrentVersion()
   {
@@ -216,11 +216,6 @@ class Database_model extends CI_Model {
 		  $result = $_result->value;
 		}
 		return $result;
-  }
-
-  private function nop()
-  {
-  	// Tidak lakukan apa-apa
   }
 
   private function versi_database_terbaru()
