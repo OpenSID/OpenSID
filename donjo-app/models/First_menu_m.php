@@ -3,7 +3,7 @@ class First_menu_m extends MY_Model{
 	protected $cache_name = ['menu_atas' => 'menu_atas', 'menu_kiri' => 'menu_kiri'];
 	public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
 	}
 
 	private function list_submenu($menu_id)
@@ -66,7 +66,7 @@ class First_menu_m extends MY_Model{
 			}
 			$this->cache->save($this->cache_name['menu_kiri'],$data,$this->config->item('ttl_cached'));
 		}
-		
+
 		return $data;
 	}	
 }

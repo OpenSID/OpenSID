@@ -167,7 +167,7 @@
 		$this->lock($id, $data['aktif']);
 		$this->remove_cached();
 		status_sukses($outp); //Tampilkan Pesan
-	}	
+	}
 
 	private function set_aktif_submodul($id, $aktif)
 	{

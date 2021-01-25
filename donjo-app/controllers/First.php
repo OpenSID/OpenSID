@@ -99,7 +99,7 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_grafik_manual_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
-		$this->load->model('plan_garis_model');		
+		$this->load->model('plan_garis_model');
 	}
 
 	public function auth()
@@ -131,7 +131,7 @@ class First extends Web_Controller {
 	}
 
 	public function index($p=1)
-	{				
+	{
 		$data = $this->includes;
 
 		$data['p'] = $p;
