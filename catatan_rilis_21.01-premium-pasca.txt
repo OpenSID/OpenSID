@@ -43,6 +43,7 @@ Fitur Premium:
 20. Sekarang membuka halaman Rumah Tangga sudah dipercepat. [teknis]
 21. Sekarang membuka peta di web maupun admin sudah dipercepat. [teknis]
 22. #3813: Perbaiki keterangan data orang tua dari calon pria dan calon wanita pada Surat Keterangan Untuk Nikah. [bug-fix]
+23. #3949: Tampilkan lapisan peta pembangunan di pengaturan peta area/lokasi/garis.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
