@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Model extends CI_Model {
-
+	protected $cache_name = [];
 	/**
 	 * Constructor
 	 */
@@ -119,4 +119,10 @@ class MY_Model extends CI_Model {
 		else return true;
 	}
 
+	protected function remove_cached(){
+		$this->cache_name = !is_array($this->cache_name) ? [$this->cache_name] : $this->cache_name;
+		foreach($this->cache_name as $_key => $_val){
+			$this->cache->delete($_val);
+		}
+	}
 }

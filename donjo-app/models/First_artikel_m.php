@@ -45,8 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class First_artikel_m extends CI_Model {
-
+class First_artikel_m extends MY_Model {	
 	public function __construct()
 	{
 		parent::__construct();
@@ -190,11 +189,11 @@ class First_artikel_m extends CI_Model {
 				break;
 
 			case 'populer':
-				$this->db->order_by('a.hit', DESC);
+				$this->db->order_by('a.hit', 'DESC');
 				break;
 
 			default:
-				$this->db->order_by('a.tgl_upload', DESC);
+				$this->db->order_by('a.tgl_upload', 'DESC');
 				break;
 		}
 
@@ -483,7 +482,7 @@ class First_artikel_m extends CI_Model {
 	{
 		$this->list_artikel_sql($id);
 		$this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
-		$this->db->order_by('a.tgl_upload', DESC);
+		$this->db->order_by('a.tgl_upload', 'DESC');
 		$this->db->limit($limit, $offset);
 		$data = $this->db->get()->result_array();
 

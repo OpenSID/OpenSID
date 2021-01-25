@@ -1,14 +1,17 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
+<?php
+
+/**
+ * File ini:
  *
- * Controller untuk modul Notifikasi
+ * Model untuk migrasi database
  *
- * donjo-app/controllers/Notif.php
+ * donjo-app/models/migrations/Migrasi_2012_ke_2101.php
  *
  */
-/*
- *  File ini bagian dari:
+
+/**
+ *
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -23,11 +26,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- *
+
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
+
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -40,43 +43,20 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Notif extends Admin_Controller {
-	protected $load_setting = 0;
-	public function __construct()
+class Migrasi_2101_ke_2102 extends MY_model {
+
+	public function up()
 	{
-		parent::__construct();
-		$this->load->model('notif_model');
+		$hasil = true;
+
+		// Tambah menu Layanan Mandiri > Pengaturan
+		$query = "
+			INSERT INTO opensid_mutih.setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES
+			(214, 'Refresh Cache', 'setting/remove_cache', 1, 'fa-trash', 7, 1, 0, 'fa-trash', 11)
+			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
+		";
+		$hasil =& $this->db->query($query);				
+		status_sukses($hasil);
 	}
 
-	public function permohonan_surat()
-	{
-		$j = $this->notif_model->permohonan_surat_baru();
-		if ($j > 0)
-		{
-			echo $j;
-		}
-	}
-
-	public function komentar()
-	{
-		$j = $this->notif_model->komentar_baru();
-		if ($j > 0)
-		{
-			echo $j;
-		}
-	}
-
-	public function inbox()
-	{
-		$j = $this->notif_model->inbox_baru();
-		if ($j > 0)
-		{
-			echo $j;
-		}
-	}
-
-	public function update_pengumuman()
-	{
-		$this->notif_model->update_notifikasi($this->input->post('kode'), $this->input->post('non_aktifkan'));
-	}
 }

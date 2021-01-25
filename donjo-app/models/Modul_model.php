@@ -1,5 +1,5 @@
-<?php class Modul_model extends CI_Model {
-
+<?php class Modul_model extends MY_Model {
+	protected $cache_name = 'modul_aktif';
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,31 +28,37 @@
 	public function list_aktif()
 	{
 		if (empty($_SESSION['grup'])) return array();
-		$aktif = array();
-		$data = $this->db->where('aktif', 1)->where('parent', 0)
-			->order_by('urut')
-			->get('setting_modul')->result_array();
-		for ($i=0; $i<count($data); $i++)
+		$aktif = array();		
+		$aktif = $this->cache->get($this->cache_name);
+		if (!$aktif)
 		{
-			if ($this->ada_sub_modul($data[$i]['id']))
-			{
-				$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
-				$data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
-				// Kelompok submenu yg kosong tidak dimasukkan
-				if (!empty($data[$i]['submodul']) or !empty($data[$i]['url']))
-					$aktif[] = $data[$i];
-			}
-			else
-			{
-				// Modul yang tidak boleh diakses tidak dimasukkan
-				if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b'))
-				{
-					$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
-					$aktif[] = $data[$i];
-				}
-			}
+		    $data = $this->db->where('aktif', 1)->where('parent', 0)
+				->order_by('urut')
+				->get('setting_modul')->result_array();
+		    for ($i=0; $i<count($data); $i++)
+		    {
+		        if ($this->ada_sub_modul($data[$i]['id']))
+		        {
+		            $data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+		            $data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
+		            // Kelompok submenu yg kosong tidak dimasukkan
+		            if (!empty($data[$i]['submodul']) or !empty($data[$i]['url']))
+		            {
+		                $aktif[] = $data[$i];
+		            }
+		        }
+		        else
+		        {
+		            // Modul yang tidak boleh diakses tidak dimasukkan
+		            if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b'))
+		            {
+		                $data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+		                $aktif[] = $data[$i];
+		            }
+		        }
+		    }
+			$this->cache->save($this->cache_name,$aktif,$this->config->item('ttl_cached'));
 		}
-
 		return $aktif;
 	}
 
@@ -159,9 +165,9 @@
 
 		$outp = $this->db->where('id', $id)->update('setting_modul', $data);
 		$this->lock($id, $data['aktif']);
-
+		$this->remove_cached();
 		status_sukses($outp); //Tampilkan Pesan
-	}
+	}	
 
 	private function set_aktif_submodul($id, $aktif)
 	{
@@ -176,6 +182,7 @@
 		}
 		$list_id = implode(",", $list_submodul);
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
+		$this->remove_cached();
 	}
 
 	/*

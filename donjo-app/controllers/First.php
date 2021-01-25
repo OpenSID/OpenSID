@@ -99,7 +99,7 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_grafik_manual_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
-		$this->load->model('plan_garis_model');
+		$this->load->model('plan_garis_model');		
 	}
 
 	public function auth()
@@ -131,7 +131,7 @@ class First extends Web_Controller {
 	}
 
 	public function index($p=1)
-	{
+	{				
 		$data = $this->includes;
 
 		$data['p'] = $p;
@@ -170,7 +170,7 @@ class First extends Web_Controller {
 			$data["judul_kategori"] = htmlentities("Hasil pencarian : ". substr($cari, 0, 50));
 		}
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 		$this->track_model->track_desa('first');
 		$this->load->view($this->template, $data);
 	}
@@ -201,7 +201,7 @@ class First extends Web_Controller {
 		$data['title'] = ucwords($data['single_artikel']['judul']);
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		// Validasi pengisian komentar di add_comment()
 		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
@@ -224,7 +224,7 @@ class First extends Web_Controller {
 		$data['paging'] = $this->first_artikel_m->paging_arsip($p);
 		$data['farsip'] = $this->first_artikel_m->full_arsip($data['paging']->offset,$data['paging']->per_page);
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/arsip.tpl.php');
 		$this->load->view($this->template, $data);
@@ -242,7 +242,7 @@ class First extends Web_Controller {
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 		$data['gallery'] = $this->first_gallery_m->gallery_show($data['paging']->offset, $data['paging']->per_page);
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/gallery.tpl.php');
 		$this->load->view($this->template, $data);
@@ -264,7 +264,7 @@ class First extends Web_Controller {
 		$data['parrent'] = $this->first_gallery_m->get_parrent($gal);
 		$data['mode'] = 1;
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/sub_gallery.tpl.php');
 		$this->load->view($this->template, $data);
@@ -282,7 +282,7 @@ class First extends Web_Controller {
 		$data['tipe'] = $tipe;
 		$data['st'] = $stat;
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
@@ -300,7 +300,7 @@ class First extends Web_Controller {
 		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
 		if ($data['detail'] == NULL) show_404();
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/kelompok.tpl.php');
 		$this->load->view($this->template, $data);
@@ -350,7 +350,7 @@ class First extends Web_Controller {
 			$data['indikator'] = $this->first_penduduk_m->get_indikator($stat);
 		}
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/analisis.tpl.php');
 		$this->load->view($this->template, $data);
@@ -366,7 +366,7 @@ class First extends Web_Controller {
 		$data['main'] = $this->dpt_model->statistik_wilayah();
 		$data['total'] = $this->dpt_model->statistik_total();
 		$data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 		$data['tipe'] = 4;
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
@@ -384,7 +384,7 @@ class First extends Web_Controller {
 		$data['tipe'] = 3;
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/stat.tpl.php');
 		$this->load->view($this->template, $data);
@@ -403,7 +403,7 @@ class First extends Web_Controller {
 		$data['heading'] = "Produk Hukum";
 		$data['title'] = $data['heading'];
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/halaman_statis.tpl.php');
 		$this->load->view($this->template, $data);
@@ -441,7 +441,7 @@ class First extends Web_Controller {
 		$data['heading'] ="Informasi Publik";
 		$data['title'] = $data['heading'];
 		$data['halaman_statis'] = 'web/halaman_statis/informasi_publik';
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/halaman_statis.tpl.php');
 		$this->load->view($this->template, $data);
@@ -489,7 +489,7 @@ class First extends Web_Controller {
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 		$data['artikel'] = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 		$this->load->view($this->template, $data);
 	}
 
@@ -532,36 +532,40 @@ class First extends Web_Controller {
 		redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
 	}
 
-	private function _get_common_data(&$data)
+	private function _get_common_data($data)
 	{
-		$data['desa'] = $this->config_model->get_data();
-		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
-		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
-		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
-		$data['teks_berjalan'] = $this->teks_berjalan_model->list_data(TRUE);
-		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
-		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
-		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+		$data = $this->cache->get('first_common_data');
+		if(!$data){
+			$data['desa'] = $this->config_model->get_data();		
+			$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
+			$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
+			$data['teks_berjalan'] = $this->teks_berjalan_model->list_data(TRUE);
+			$data['slide_artikel'] = $this->first_artikel_m->slide_show();
+			$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
+			$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
 
-		$this->web_widget_model->get_widget_data($data);
-		$data['data_config'] = $this->config_model->get_data();
-		$data['flash_message'] = $this->session->flashdata('flash_message');
-		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
-		{
-			$data['transparansi'] = $this->setting->apbdes_manual_input
-				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
-				: $this->keuangan_grafik_model->grafik_keuangan_tema();
+			$data = array_merge($data,$this->web_widget_model->get_widget_data());
+			$data['data_config'] = $this->config_model->get_data();
+			$data['flash_message'] = $this->session->flashdata('flash_message');
+			if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
+			{
+				$data['transparansi'] = $this->setting->apbdes_manual_input
+					? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
+					: $this->keuangan_grafik_model->grafik_keuangan_tema();
+			}
+			// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
+			// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
+			$list_kolom = array(
+				'arsip',
+				'w_cos'
+			);
+			foreach ($list_kolom as $kolom)
+			{
+				$data[$kolom] = $this->security->xss_clean($data[$kolom]);
+			}
+			$this->cache->save('first_common_data',$data,$this->config->item('ttl_cached'));
 		}
-		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
-		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
-		$list_kolom = array(
-			'arsip',
-			'w_cos'
-		);
-		foreach ($list_kolom as $kolom)
-		{
-			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
-		}
+		return $data;
 	}
 
 	public function peta()
@@ -586,7 +590,7 @@ class First extends Web_Controller {
 		$data['area'] = $this->plan_area_model->list_area();
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 
 		$this->set_template('layouts/peta_statis.tpl.php');
 		$this->load->view($this->template, $data);
@@ -596,13 +600,13 @@ class First extends Web_Controller {
 	{
 		$data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 		$this->load->view('gis/apbdes_web', $data);
 	}
 
 	public function load_aparatur_desa()
 	{
-		$this->_get_common_data($data);
+		$data = array_merge($data,$this->_get_common_data($data));
 		$this->load->view('gis/aparatur_desa_web', $data);
 	}
 

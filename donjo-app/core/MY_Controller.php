@@ -63,9 +63,34 @@ class MY_Controller extends CI_Controller {
 	 */
 	function __construct()
 	{
+		parent::__construct();		
+		//$this->output->enable_profiler(1);
+		$this->load->driver('cache',array('adapter' => 'file'));
+	}
+
+	/*
+	 * Bersihkan session cluster wilayah
+	 */
+	public function clear_cluster_session()
+	{
+		$cluster_session = array('dusun', 'rw', 'rt');
+		foreach ($cluster_session as $session)
+		{
+			$this->session->unset_userdata($session);
+		}
+	}
+
+}
+
+class Web_Controller extends MY_Controller {
+
+	/*
+	 * Constructor
+	 */
+	public function __construct()
+	{
 		parent::__construct();
-		$this->load->model('database_model');
-		$this->database_model->cek_migrasi();
+		$this->setting_model->init();
 		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
 		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
 		$theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
@@ -80,8 +105,29 @@ class MY_Controller extends CI_Controller {
 			$this->theme = $theme;
 			$this->theme_folder = $theme_folder;
 		}
+		
 		// Variabel untuk tema
 		$this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
+		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
+		$this->controller = strtolower($this->router->fetch_class());
+	}
+
+	/*
+	 * Jika file theme/view tidak ada, gunakan file klasik/view
+	 * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
+	 */
+	public static function fallback_default($theme, $view)
+	{
+		$view = trim($view, '/');
+		$theme_folder = self::get_instance()->theme_folder;
+		$theme_view = "../../$theme_folder/$theme/$view";
+
+		if (!is_file(APPPATH .'views/'. $theme_view))
+		{
+			$theme_view = "../../themes/klasik/$view";
+		}
+
+		return $theme_view;
 	}
 
 	function set_title($page_title)
@@ -137,50 +183,6 @@ class MY_Controller extends CI_Controller {
 			$this->template = '../../themes/klasik/' . $template_file;
 	}
 
-	/*
-	 * Bersihkan session cluster wilayah
-	 */
-	public function clear_cluster_session()
-	{
-		$cluster_session = array('dusun', 'rw', 'rt');
-		foreach ($cluster_session as $session)
-		{
-			$this->session->unset_userdata($session);
-		}
-	}
-
-}
-
-class Web_Controller extends MY_Controller {
-
-	/*
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
-		$this->controller = strtolower($this->router->fetch_class());
-	}
-
-	/*
-	 * Jika file theme/view tidak ada, gunakan file klasik/view
-	 * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
-	 */
-	public static function fallback_default($theme, $view)
-	{
-		$view = trim($view, '/');
-		$theme_folder = self::get_instance()->theme_folder;
-		$theme_view = "../../$theme_folder/$theme/$view";
-
-		if (!is_file(APPPATH .'views/'. $theme_view))
-		{
-			$theme_view = "../../themes/klasik/$view";
-		}
-
-		return $theme_view;
-	}
-
 }
 
 class Mandiri_Controller extends MY_Controller {
@@ -227,12 +229,16 @@ class Admin_Controller extends MY_Controller {
 	public $header;
 	protected $nav = 'nav';
 	protected $minsidebar = 0;
+	protected $load_setting = 1;
 	public function __construct()
 	{
 		parent::__construct();
-		$this->CI = CI_Controller::get_instance();
+		$this->CI = CI_Controller::get_instance();		
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);
+		$this->load->model('database_model');
+		$this->database_model->cek_migrasi();
+		
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
@@ -255,8 +261,14 @@ class Admin_Controller extends MY_Controller {
 				redirect('/');
 			}
 		}
-		$this->cek_pengumuman();
-		$this->header = $this->header_model->get_data();
+		/** jika yang dibutuhkan hanya data, maka gak perlu load query untuk tampilan, misal untuk notif */
+		if ($this->load_setting)
+		{
+		    $this->setting_model->init();
+			$this->cek_pengumuman();
+			$this->header = $this->header_model->get_data();
+		}
+		
 	}
 
 	private function cek_pengumuman()

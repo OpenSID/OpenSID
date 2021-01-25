@@ -1,5 +1,5 @@
 <?php class Web_widget_model extends MY_Model {
-
+	protected $cache_name = 'widget';
 	private $urut_model;
 
 	public function __construct()
@@ -163,6 +163,7 @@
 	{
 		$sql  = "UPDATE widget SET enabled = ? WHERE id = ?";
 		$this->db->query($sql, array($val, $id));
+		$this->remove_cached();
 	}
 
 	public function insert()
@@ -176,6 +177,7 @@
 		$data['urut'] = $this->urut_model->urut_max() + 1;
 
 		$outp = $this->db->insert('widget', $data);
+		$this->remove_cached();
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
@@ -204,6 +206,7 @@
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update('widget', $data);
+		$this->remove_cached();
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
@@ -289,6 +292,7 @@
 		$setting = json_encode($setting);
 		$data = array('setting' => $setting);
 		$outp = $this->db->where('isi', $widget.'.php')->update('widget', $data);
+		$this->remove_cached();
 		if (!$outp) $_SESSION['success'] = -1;
 	}
 
@@ -297,7 +301,7 @@
 		if (!$semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
-
+		$this->remove_cached();
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
@@ -313,21 +317,29 @@
 	}
 
 	// pengambilan data yang akan ditampilkan di widget
-	public function get_widget_data(&$data)
+	public function get_widget_data()
 	{
-		$data['w_gal']  = $this->first_gallery_m->gallery_widget();
-		$data['hari_ini'] = $this->first_artikel_m->agenda_show('hari_ini');
-		$data['yad'] = $this->first_artikel_m->agenda_show('yad');
-		$data['lama'] = $this->first_artikel_m->agenda_show('lama');
-		$data['komen'] = $this->first_artikel_m->komentar_show();
-		$data['sosmed'] = $this->first_artikel_m->list_sosmed();
-		$data['arsip_terkini'] = $this->first_artikel_m->arsip_show('terkini');
-		$data['arsip_populer'] = $this->first_artikel_m->arsip_show('populer');
-		$data['arsip_acak'] = $this->first_artikel_m->arsip_show('acak');
-		$data['aparatur_desa'] = $this->pamong_model->list_aparatur_desa();
-		$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
-		$data['sinergi_program'] = $this->get_setting('sinergi_program');
-		$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
+		$data = $this->cache->get($this->cache_name);
+		
+		if(!$data)
+		{
+			$data['w_gal']  = $this->first_gallery_m->gallery_widget();
+			$data['hari_ini'] = $this->first_artikel_m->agenda_show('hari_ini');
+			$data['yad'] = $this->first_artikel_m->agenda_show('yad');
+			$data['lama'] = $this->first_artikel_m->agenda_show('lama');
+			$data['komen'] = $this->first_artikel_m->komentar_show();
+			$data['sosmed'] = $this->first_artikel_m->list_sosmed();
+			$data['arsip_terkini'] = $this->first_artikel_m->arsip_show('terkini');
+			$data['arsip_populer'] = $this->first_artikel_m->arsip_show('populer');
+			$data['arsip_acak'] = $this->first_artikel_m->arsip_show('acak');
+			$data['aparatur_desa'] = $this->pamong_model->list_aparatur_desa();
+			$data['stat_widget'] = $this->laporan_penduduk_model->list_data(4);
+			$data['sinergi_program'] = $this->get_setting('sinergi_program');
+			$data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
+			$this->cache->save($this->cache_name,$data,$this->config->item('ttl_cached'));
+		}
+		
+		return $data;
 	}
 
 	// widget statis di ambil dari folder desa/widget dan desa/themes/nama_tema/widgets

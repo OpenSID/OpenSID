@@ -48,3 +48,15 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 		Deny from All
 	</FilesMatch>
 </Directory>
+
+<IfModule mod_expires.c> 
+ ExpiresActive on
+ ExpiresByType image/jpg "access plus 60 days"
+ ExpiresByType image/png "access plus 60 days"
+ ExpiresByType image/gif "access plus 60 days"
+ ExpiresByType image/jpeg "access plus 60 days"
+ ExpiresByType text/css "access plus 1 month"
+ ExpiresByType image/x-icon "access plus 1 month"
+ ExpiresByType application/pdf "access plus 1 month"
+ ExpiresByType text/javascript "access plus 1 month" 
+</IfModule>

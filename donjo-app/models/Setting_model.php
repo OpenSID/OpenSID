@@ -16,11 +16,15 @@ define("VERSI_PHP_MINIMAL", '7.2.0');
 define("VERSI_MYSQL_MINIMAL", '5.6.5');
 
 class Setting_model extends CI_Model {
-
+	protected $cache_name = 'setting';
 
 	public function __construct()
 	{
 		parent::__construct();
+		
+	}
+
+	public function init(){
 		$pre = array();
 		$CI = &get_instance();
 
@@ -70,7 +74,6 @@ class Setting_model extends CI_Model {
 		$CI->list_setting_mandiri = $setting_mandiri; // Untuk tampilan daftar setting layanan mandiri
 		$this->apply_setting();
 	}
-
 	// Setting untuk PHP
 	private function apply_setting()
 	{

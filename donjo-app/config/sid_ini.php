@@ -55,5 +55,6 @@ if (is_file($extra_app_config)) {
 if (file_exists(FCPATH.'.htaccess') && ENVIRONMENT != 'development')
 	$config['index_page'] = '';
 
+$config['ttl_cached'] = 7200; // dua jam
 /* End of file sid_ini.php */
 /* Location: ./application/config/sid_ini.php */

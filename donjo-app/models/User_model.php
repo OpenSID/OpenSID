@@ -66,8 +66,7 @@ class User_model extends CI_Model {
 			'upload_path' => LOKASI_USER_PICT,
 			'allowed_types' => 'gif|jpg|jpeg|png',
 			'max_size' => max_upload()*1024,
-		);
-		$this->load->model('laporan_bulanan_model');
+		);		
 		// Untuk password hashing
 		$this->load->helper('password');
         // Helper upload file
@@ -206,6 +205,7 @@ class User_model extends CI_Model {
 
 	public function logout()
 	{
+		$this->load->model('laporan_bulanan_model');
 		// Hapus file rfm ketika logout
 		unlink(sys_get_temp_dir(). '/config_rfm_' . $this->session->fm_key_file);
 		// Catat jumlah penduduk saat ini

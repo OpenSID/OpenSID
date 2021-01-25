@@ -48,11 +48,11 @@ class Siteman extends CI_Controller
 		parent::__construct();
 		siteman_timeout();
 		$this->load->model('config_model');
-		$this->load->model('user_model');
+		$this->load->model('user_model');				
 	}
 
 	public function index()
-	{
+	{		
 		if (isset($_SESSION['siteman']) and 1 == $_SESSION['siteman'])
 		{
 			redirect('main');
@@ -83,7 +83,7 @@ class Siteman extends CI_Controller
 				$allow_method = ['POST'];
 		if(!in_array($method,$allow_method))
 		{
-			redirect('siteman/login');
+			redirect('siteman/login');			
 		}
 		$this->user_model->siteman();
 

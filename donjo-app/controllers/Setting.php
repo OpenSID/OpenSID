@@ -192,4 +192,9 @@ class Setting extends Admin_Controller {
 			$this->session->success = -1;
 		}
 	}
+
+	public function remove_cache(){
+		$this->cache->clean();		
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 }

@@ -1,9 +1,9 @@
 <?php
 class First_menu_m extends MY_Model{
-
+	protected $cache_name = ['menu_atas' => 'menu_atas', 'menu_kiri' => 'menu_kiri'];
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct();		
 	}
 
 	private function list_submenu($menu_id)
@@ -22,18 +22,24 @@ class First_menu_m extends MY_Model{
 	}
 
 	public function list_menu_atas()
-	{
-		$sql = "SELECT m.* FROM menu m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1 order by urut asc";
-		$query	= $this->db->query($sql);
-		$data	= $query->result_array();
-		for ($i=0; $i<count($data); $i++)
+	{		
+		$data = $this->cache->get($this->cache_name['menu_atas']);
+		if(!$data)
 		{
-			if ($data[$i]['link_tipe'] != 99)
+			$sql = "SELECT m.* FROM menu m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1 order by urut asc";
+			$query	= $this->db->query($sql);
+			$data	= $query->result_array();
+			for ($i=0; $i<count($data); $i++)
 			{
-				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+				if ($data[$i]['link_tipe'] != 99)
+				{
+					$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+				}
+				$data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
 			}
-			$data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
+			$this->cache->save($this->cache_name['menu_atas'],$data,$this->config->item('ttl_cached'));
 		}
+		
 		return $data;
 	}
 
@@ -51,13 +57,16 @@ class First_menu_m extends MY_Model{
 
 	public function list_menu_kiri()
 	{
-		$data	= $this->list_kategori();
-
-		foreach ($data AS $key => $sub_menu) {
-			$data[$key]['submenu'] = $this->list_kategori($sub_menu['id']);
+		$data = $this->cache->get($this->cache_name['menu_kiri']);
+		if(!$data)
+		{
+			$data	= $this->list_kategori();
+			foreach ($data AS $key => $sub_menu) {
+				$data[$key]['submenu'] = $this->list_kategori($sub_menu['id']);
+			}
+			$this->cache->save($this->cache_name['menu_kiri'],$data,$this->config->item('ttl_cached'));
 		}
-
+		
 		return $data;
-	}
-
+	}	
 }

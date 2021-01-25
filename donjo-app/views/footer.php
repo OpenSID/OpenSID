@@ -52,10 +52,16 @@
 
 				setTimeout(function()
 				{
-					refresh_badge($("#b_permohonan_surat"), "<?= site_url('notif/permohonan_surat'); ?>");
-					refresh_badge($("#b_komentar"), "<?= site_url('notif/komentar'); ?>");
+					refresh_badge($("#b_permohonan_surat"), "<?= site_url('notif/permohonan_surat'); ?>");					
+				}, 60000);
+				setTimeout(function()
+				{					
+					refresh_badge($("#b_komentar"), "<?= site_url('notif/komentar'); ?>");				
+				}, 120000);
+				setTimeout(function()
+				{					
 					refresh_badge($("#b_inbox"), "<?= site_url('notif/inbox'); ?>");
-				}, 500);
+				}, 240000);
 
 				if ($('#success-code').val() == 1)
 				{

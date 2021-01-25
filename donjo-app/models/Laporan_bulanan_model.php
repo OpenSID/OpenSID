@@ -3,7 +3,7 @@
 	public function __construct()
 	{
 		parent::__construct();
-		$this->tulis_log_bulanan();
+		//$this->tulis_log_bulanan();
 	}
 
 	public function tulis_log_bulanan()

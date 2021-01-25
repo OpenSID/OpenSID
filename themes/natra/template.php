@@ -3,6 +3,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <?php $this->load->view("$folder_themes/commons/meta.php"); ?>
     <!-- </head> -->
 </head>
