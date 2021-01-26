@@ -47,8 +47,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('analisis_statistik_jawaban_model');
-		$this->load->model('analisis_respon_model');
+		$this->load->model(['analisis_statistik_jawaban_model', 'analisis_respon_model', 'wilayah_model']);
 
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
@@ -109,12 +108,12 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->analisis_statistik_jawaban_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'], $data['rw']);
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
@@ -137,7 +136,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
-		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_statistik_jawaban/table', $data);
@@ -148,12 +147,12 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->analisis_statistik_jawaban_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'],$data['rw']);
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'],$data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -166,7 +165,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$ai = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
@@ -181,12 +180,12 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->analisis_statistik_jawaban_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->analisis_statistik_jawaban_model->list_rt($data['dusun'], $data['rw']);
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -199,7 +198,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 			$data['rw'] = '';
 			$data['rt'] = '';
 		}
-		$data['list_dusun'] = $this->analisis_statistik_jawaban_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$ai = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 
 		$data['analisis_statistik_pertanyaan'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);

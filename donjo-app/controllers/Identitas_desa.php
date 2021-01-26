@@ -104,8 +104,8 @@ class Identitas_desa extends Admin_Controller {
 		$data['wil_atas']['zoom'] = 4;
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
 		$data['wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
 		$data['breadcrumb'] = array(

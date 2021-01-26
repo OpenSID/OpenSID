@@ -65,7 +65,7 @@ class Statistik extends Admin_Controller {
 		$data['lap'] = $this->session->lap;
 		$data['order_by'] = $this->session->order_by;
 		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
-		$data['list_dusun'] = $this->laporan_penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
 		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);

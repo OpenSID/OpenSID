@@ -90,12 +90,12 @@ class Penduduk extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -116,7 +116,7 @@ class Penduduk extends Admin_Controller {
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
@@ -437,7 +437,7 @@ class Penduduk extends Admin_Controller {
 	public function ajax_penduduk_pindah_rw($dusun = '')
 	{
 		$dusun = urldecode($dusun);
-		$rw = $this->penduduk_model->list_rw($dusun);
+		$rw = $this->wilayah_model->list_rw($dusun);
 		echo"<div class='form-group'><label>RW</label>
 		<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 		<option value=''>Pilih RW</option>";
@@ -450,7 +450,7 @@ class Penduduk extends Admin_Controller {
 	public function ajax_penduduk_pindah_rt($dusun = '', $rw = '')
 	{
 		$dusun = urldecode($dusun);
-		$rt = $this->penduduk_model->list_rt($dusun, $rw);
+		$rt = $this->wilayah_model->list_rt($dusun, $rw);
 		echo"<div class='form-group'><label>RT</label>
 		<select class='form-control input-sm' name='id_cluster'>
 		<option value=''>Pilih RT</option>";
@@ -462,7 +462,7 @@ class Penduduk extends Admin_Controller {
 
 	public function ajax_penduduk_cari_rw($dusun = '')
 	{
-		$rw = $this->penduduk_model->list_rw($dusun);
+		$rw = $this->wilayah_model->list_rw($dusun);
 
 		echo"<td>RW</td>
 		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
@@ -503,8 +503,8 @@ class Penduduk extends Admin_Controller {
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->header['desa'];
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
 
 		$this->render("sid/kependudukan/ajax_penduduk_maps", $data);

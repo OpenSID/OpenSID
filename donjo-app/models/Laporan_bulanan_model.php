@@ -135,14 +135,6 @@
 		return $data;
 	}
 
-  public function list_dusun()
-  {
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
-	}
-
 	public function penduduk_awal()
 	{
 		$bln = $this->db->escape($_SESSION['bulanku']-1);

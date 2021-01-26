@@ -78,12 +78,12 @@ class Dpt extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;

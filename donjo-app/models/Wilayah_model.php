@@ -503,11 +503,12 @@ class Wilayah_model extends MY_Model {
 		return $data;
 	}
 
-	public function cluster_by_id($id = 0)
+	public function list_wil()
 	{
-		$data = $this->db->where('id', $id)
+		$data = $this->db
+			->where('zoom >', '0')
 			->get('tweb_wil_clusterdesa')
-			->row_array();
+			->result_array();
 		return $data;
 	}
 
@@ -525,24 +526,33 @@ class Wilayah_model extends MY_Model {
 
 	public function list_rw($dusun = '')
 	{
+		if ($dusun)
+		{
+			$this->db
+				->where('dusun', urldecode($dusun));
+		}
+
 		$data = $this->db
 			->where('rt', '0')
-			->where('dusun', urldecode($dusun))
 			->where('rw <>', '0')
 			->order_by('urut', 'ASC')
 			->get('tweb_wil_clusterdesa')
 			->result_array();
-
 
 		return $data;
 	}
 
 	public function list_rt($dusun = '', $rw = '')
 	{
+		if ($dusun && $rw)
+		{
+			$this->db
+				->where('dusun', urldecode($dusun))
+				->where('rw', urldecode($rw));
+		}
+
 		$data = $this->db
 			->where('rt <>', '0')
-			->where('dusun', urldecode($dusun))
-			->where('rw', urldecode($rw))
 			->order_by('urut', 'ASC')
 			->get('tweb_wil_clusterdesa')
 			->result_array();
@@ -637,13 +647,6 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_dusun_maps($id = 0)
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		return $query->row_array();
-	}
-
 	public function update_kantor_rw_map($id = 0)
 	{
 		$data = $this->validasi_koordinat($this->input->post());
@@ -691,35 +694,13 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_rt_maps($rt_id)
+	public function cluster_by_id($id = 0)
 	{
-		$data = $this->db->where('id', $rt_id)
+		$data = $this->db
+			->where('id', $id)
 			->get('tweb_wil_clusterdesa')
 			->row_array();
-		return $data;
-	}
 
-	public function list_rw_gis($dusun = '')
-	{
-		$data = $this->db->
-			where('rt', '0')->
-			//where('dusun', urldecode($dusun))->
-			where('rw <>', '0')->
-			order_by('rw')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
-		return $data;
-	}
-
-	public function list_rt_gis($dusun = '', $rw = '')
-	{
-		$data = $this->db->
-			where('rt <>', '0')->
-			//where('dusun', urldecode($dusun))->
-			//where('rw', $rw)->
-			order_by('rt')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
 		return $data;
 	}
 

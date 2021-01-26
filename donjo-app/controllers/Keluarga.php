@@ -88,12 +88,12 @@ class Keluarga extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -115,7 +115,7 @@ class Keluarga extends Admin_Controller {
 		$data['paging'] = $this->keluarga_model->paging($p);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/keluarga', $data);
@@ -166,9 +166,9 @@ class Keluarga extends Admin_Controller {
 		$data['kk'] = null;
 		$data['form_action'] = site_url("keluarga/insert_new");
 		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['rw'] = $this->penduduk_model->list_rw($data['penduduk']['dusun']);
-		$data['rt'] = $this->penduduk_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();

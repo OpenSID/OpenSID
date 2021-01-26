@@ -562,13 +562,13 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$data['wilayah'] = $this->penduduk_model->list_wil();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['wilayah'] = $this->wilayah_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
 		$data['title'] = 'Peta ' . ucwords($this->setting->sebutan_desa . ' ' . $data['desa']['nama_desa']);
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['dusun_gis'] = $data['list_dusun'];
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 		$data['lokasi'] = $this->plan_lokasi_model->list_lokasi();

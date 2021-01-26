@@ -81,12 +81,12 @@ class Penduduk_log extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -115,7 +115,7 @@ class Penduduk_log extends Admin_Controller {
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$this->set_minsidebar(1);
 		$this->render('penduduk_log/penduduk_log', $data);
 	}

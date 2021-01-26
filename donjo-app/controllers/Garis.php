@@ -110,7 +110,7 @@ class Garis extends Admin_Controller {
 		$data['o'] = $o;
 		$data['desa'] = $this->config_model->get_data();
 		$data['list_subline'] = $this->plan_garis_model->list_subline();
-		$data['dusun'] = $this->plan_garis_model->list_dusun();
+		$data['dusun'] = $this->wilayah_model->list_dusun();
 		if ($id)
 		{
 			$data['garis'] = $this->plan_garis_model->get_garis($id);
@@ -140,8 +140,8 @@ class Garis extends Admin_Controller {
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['all_lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['all_garis'] = $this->plan_garis_model->list_data();
 		$data['all_area'] = $this->plan_area_model->list_data();
