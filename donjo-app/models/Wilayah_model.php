@@ -560,11 +560,14 @@ class Wilayah_model extends MY_Model {
 		return $data;
 	}
 
-	public function get_rt($dusun = '', $rw = '', $rt = '')
+	public function cluster_by_id($id = 0)
 	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
-		$query = $this->db->query($sql, array($dusun, $rw, $rt));
-		return $query->row_array();
+		$data = $this->db
+			->where('id', $id)
+			->get('tweb_wil_clusterdesa')
+			->row_array();
+
+		return $data;
 	}
 
 	public function total()
@@ -667,13 +670,6 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_rw_maps($dusun = '', $rw = '')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ?";
-		$query = $this->db->query($sql, array($dusun, $rw));
-		return $query->row_array();
-	}
-
 	public function update_kantor_rt_map($id = 0)
 	{
 		$data = $this->validasi_koordinat($this->input->post());
@@ -692,16 +688,6 @@ class Wilayah_model extends MY_Model {
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function cluster_by_id($id = 0)
-	{
-		$data = $this->db
-			->where('id', $id)
-			->get('tweb_wil_clusterdesa')
-			->row_array();
-
-		return $data;
 	}
 
 	// TO DO : Gunakan untuk get_alamat mendapatkan alamat penduduk

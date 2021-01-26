@@ -203,14 +203,6 @@ class Rtm_model extends CI_Model {
 		}
 	}
 
-	public function get_dusun($id)
-	{
-		$sql = "SELECT * FROM tweb_rtm WHERE dusun_id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
-	}
-
 	public function get_rtm($id)
 	{
 		$sql = "SELECT * FROM tweb_rtm WHERE id = ?";

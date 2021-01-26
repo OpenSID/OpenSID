@@ -563,16 +563,6 @@
 		}
 	}
 
-	// TODO: Gunakan wilayah_model
-	public function get_dusun($id = 0)
-	{
-		$sql = "SELECT * FROM tweb_keluarga WHERE dusun_id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-
-		return $data;
-	}
-
 	public function get_keluarga($id = 0)
 	{
 		$sql = "SELECT k.*, b.dusun as dusun, b.rw as rw

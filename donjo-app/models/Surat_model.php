@@ -530,27 +530,6 @@
 		}
 	}
 
-	public function get_dusun($dusun='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rt = '0' AND rw = '0'";
-		$query = $this->db->query($sql, $dusun);
-		return $query->row_array();
-	}
-
-	public function get_rw($dusun='', $rw='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = '0'";
-		$query = $this->db->query($sql, array($dusun, $rw));
-		return $query->row_array();
-	}
-
-	public function get_rt($dusun='', $rw='', $rt='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
-		$query = $this->db->query($sql, array($dusun, $rw, $rt));
-		return $query->row_array();
-	}
-
 	public function get_surat($url='')
 	{
 		$sql = "SELECT * FROM tweb_surat_format WHERE url_surat = ?";
