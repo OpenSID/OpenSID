@@ -100,8 +100,9 @@ class Plan extends Admin_Controller {
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-		$this->set_minsidebar(1);
 		$data['tip'] = 3;
+
+		$this->set_minsidebar(1);
 		$this->render('lokasi/table', $data);
 	}
 
@@ -109,10 +110,6 @@ class Plan extends Admin_Controller {
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-
-		$data['desa'] = $this->config_model->get_data();;
-		$data['list_point'] = $this->plan_lokasi_model->list_point();
-		$data['dusun'] = $this->wilayah_model->list_dusun();
 
 		if ($id)
 		{
@@ -125,7 +122,9 @@ class Plan extends Admin_Controller {
 			$data['form_action'] = site_url("plan/insert");
 		}
 
+		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['tip'] = 3;
+
 		$this->set_minsidebar(1);
 		$this->render('lokasi/form', $data);
 	}

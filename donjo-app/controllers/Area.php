@@ -104,14 +104,10 @@ class Area extends Admin_Controller {
 		$this->render('area/table', $data);
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function form($p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-
-		$data['desa'] = $this->config_model->get_data();
-		$data['list_polygon'] = $this->plan_area_model->list_polygon();
-		$data['dusun'] = $this->wilayah_model->list_dusun();
 
 		if ($id)
 		{
@@ -120,11 +116,13 @@ class Area extends Admin_Controller {
 		}
 		else
 		{
-			$data['area'] = null;
+			$data['area'] = NULL;
 			$data['form_action'] = site_url("area/insert");
 		}
 
+		$data['list_polygon'] = $this->plan_area_model->list_polygon();
 		$data['tip'] = 4;
+
 		$this->set_minsidebar(1);
 		$this->render('area/form', $data);
 	}
