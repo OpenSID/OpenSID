@@ -46,7 +46,7 @@ class Analisis_respon extends Admin_Controller {
 	{
 		parent::__construct();
 		UNSET($_SESSION['delik']);
-		$this->load->model('analisis_respon_model');
+		$this->load->model(['analisis_respon_model', 'wilayah_model']);
 
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
