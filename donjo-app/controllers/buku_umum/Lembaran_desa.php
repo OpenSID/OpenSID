@@ -2,9 +2,9 @@
 /*
  *  File ini:
  *
- * Controller untuk modul Sekretariat
+ * Controller untuk modul Lembaran Desa
  *
- * donjo-app/controllers/Dokumen_sekretariat.php
+ * donjo-app/controllers/buku_umum/Lembaran_desa.php
  *
  */
 /*
@@ -40,40 +40,35 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Dokumen_sekretariat extends Admin_Controller {
+class Lembaran_desa extends Admin_Controller {
+
+	private $_set_page;
+	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->load->model('web_dokumen_model');
-		$this->load->model('referensi_model');
+		$this->load->model(['web_dokumen_model', 'referensi_model', 'pamong_model']);
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 		$this->_list_session = ['filter', 'cari', 'jenis_peraturan'];
+		$this->_set_page = ['20', '50', '100'];
 	}
 
-	public function index($kat=2, $p=1, $o=0)
-	{
-		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
-	}
-
-	// Produk Hukum Desa
-	public function peraturan_desa($kat=2, $p=1, $o=0)
+	// Buku Lembaran Desa dan Berita Desa
+	public function index($p=1, $o=0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-		$data['kat'] = $kat;
+		$kat = 3;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		$data['cari'] = $this->session->cari ?: '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
@@ -92,10 +87,10 @@ class Dokumen_sekretariat extends Admin_Controller {
 			}
 		}
 
+		$data['main_content'] = 'dokumen/table_lembaran_desa';
+		$data['subtitle'] = "Buku Lembaran Desa Dan Berita Desa";
+		$data['selected_nav'] = 'lembaran';
 		$this->set_minsidebar(1);
-		$data['main_content'] = 'dokumen/table_buku_umum';
-		$data['subtitle'] = ($kat == '3') ? "Buku Peraturan Desa" : "Buku Keputusan Kepala Desa";
-		$data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';
 
 		$this->load->view('header', $this->header);
 		$this->load->view('nav', $nav);
@@ -103,37 +98,30 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$this->load->view('footer');
 	}
 
-	public function clear($kat=2)
+	public function clear()
 	{
 		$this->session->unset_userdata($this->_list_session);
-		redirect("dokumen_sekretariat/peraturan_desa/$kat");
+		$this->session->per_page = $this->_set_page[0];
+		redirect("lembaran_desa");
 	}
 
-	public function form($kat=2, $p=1, $o=0, $id='')
+	public function form($p=1, $o=0, $id='')
 	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-		$data['kat'] = $kat;
+		$data['kat'] = 3;
 		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 
 		if ($id)
 		{
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id);
-			$data['form_action'] = site_url("dokumen_sekretariat/update/$kat/$id/$p/$o");
+			$data['form_action'] = site_url("lembaran_desa/update/$id/$p/$o");
 			if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] and !in_array($jenis_peraturan, $data['jenis_peraturan']))
 			{
 				$data['jenis_peraturan'][] = $jenis_peraturan;
 			}
 		}
-		else
-		{
-			$data['dokumen'] = null;
-			$data['form_action'] = site_url("dokumen_sekretariat/insert");
-		}
-		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-
-		$this->_set_tab($kat);
+		$data['kat_nama'] = 'Lembaran Desa';
+		$data['kembali_ke'] = site_url("lembaran_desa/index/$p/$o");
 
 		$this->render('dokumen/form', $data);
 	}
@@ -141,91 +129,58 @@ class Dokumen_sekretariat extends Admin_Controller {
 	public function search()
 	{
 		$cari = $this->input->post('cari');
-		$kat = $this->input->post('kategori');
-		if ($cari != '')
-			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
-		redirect("dokumen_sekretariat/index/$kat");
+		$this->session->cari = $cari ?: null;
+		redirect("lembaran_desa/index");
 	}
 
 	public function filter($filter = 'filter')
 	{
 		$this->session->$filter = $this->input->post($filter);
-		$kat = $this->input->post('kategori');
-		redirect("dokumen_sekretariat/index/$kat");
+		redirect("lembaran_desa/index");
 	}
 
-	public function insert()
+	public function update($id='', $p=1, $o=0)
 	{
-		$_SESSION['success'] = 1;
-		$kat = $this->input->post('kategori');
-		$outp = $this->web_dokumen_model->insert();
-		if (!$outp) $_SESSION['success'] = -1;
-		redirect("dokumen_sekretariat/peraturan_desa/$kat");
-	}
-
-	public function update($kat, $id='', $p=1, $o=0)
-	{
-		$_SESSION['success'] = 1;
-		$kategori = $this->input->post('kategori');
-		if (!empty($kategori))
-			$kat = $this->input->post('kategori');
+		$this->session->success = 1;
 		$outp = $this->web_dokumen_model->update($id);
-		if (!$outp) $_SESSION['success'] = -1;
-		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
+		status_sukses($outp);
+		redirect("lembaran_desa/index/$p/$o");
 	}
 
-	public function delete($kat=1, $p=1, $o=0, $id='')
+	public function lock($id, $val = 1)
 	{
-		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
-		$this->web_dokumen_model->delete($id);
-		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
+		$this->web_dokumen_model->dokumen_lock($id, $val);
+		redirect("lembaran_desa");
 	}
 
-	public function delete_all($kat=1, $p=1, $o=0)
+	public function dialog_daftar($aksi = "cetak", $o = 0)
 	{
-		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
-		$this->web_dokumen_model->delete_all();
-		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
+		$data['aksi'] = $aksi;
+		$data['form_action'] = site_url("lembaran_desa/daftar/$aksi/$o");
+		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat = 3);
+		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 
-	public function dokumen_lock($kat=1, $id='')
+	public function daftar($aksi = "cetak", $o = 1)
 	{
-		$this->web_dokumen_model->dokumen_lock($id, 1);
-		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
+		$data = $this->data_cetak($aksi);
+		$template = $data['template'];
+		$this->load->view("dokumen/$template", $data);
 	}
 
-	public function dokumen_unlock($kat=1,$id='')
+	private function data_cetak($aksi)
 	{
-		$this->web_dokumen_model->dokumen_lock($id, 2);
-		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
+		$post = $this->input->post();
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat = 3, $post['tahun'], $post['jenis_peraturan']);
+		$data['input'] = $post;
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['tahun'] = $post['tahun'];
+		$data['desa'] = $this->config_model->get_data();
+		$data['aksi'] = $aksi;
+		$data['template'] = 'lembaran_desa_print';
+		return $data;
 	}
 
-	public function dialog_cetak($kat=1)
-	{
-		redirect("dokumen/dialog_cetak/$kat");
-	}
-
-	public function dialog_excel($kat=1)
-	{
-		redirect("dokumen/dialog_excel/$kat");
-	}
-
-	private function _set_tab($kat)
-	{
-		switch ($kat)
-		{
-			case '2':
-				$this->tab_ini = 59;
-				break;
-
-			case '3':
-				$this->tab_ini = 60;
-				break;
-
-			default:
-				$this->tab_ini = 59;
-				break;
-		}
-	}
 }

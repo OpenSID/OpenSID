@@ -105,6 +105,11 @@ class Migrasi_2008_ke_2009 extends CI_model {
 				'CONSTRAINT `kelompok_anggota_fk` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
 			]);
 		}
+
+		// Migrasi fitur premium
+		$migrasi = 'migrasi_fitur_premium_2009';
+  	$this->load->model('migrations/'.$migrasi);
+  	$this->$migrasi->up();
 	}
 
 }

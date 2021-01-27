@@ -53,7 +53,7 @@ class Kelompok extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['kelompok_model', 'pamong_model']);
+		$this->load->model(['kelompok_model','referensi_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
 		$this->_set_page = ['20', '50', '100'];
@@ -150,6 +150,7 @@ class Kelompok extends Admin_Controller {
 		}
 
 		$this->set_minsidebar(1);
+		$data['list_jabatan'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
 		$this->render('kelompok/anggota/form', $data);
 	}
 

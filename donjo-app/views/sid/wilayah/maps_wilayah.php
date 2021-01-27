@@ -2,7 +2,7 @@
 /*
  * File ini:
  *
- * View di Modul Identitas Desa di OpenSID
+ * View pemetaan wilayah di Modul Identitas Desa dan Wilayah Administratif OpenSID
  *
  * /donjo-app/views/sid/wilayah/maps_wilayah.php
  *
@@ -61,6 +61,39 @@
 	.leaflet-control-locate a {
 	font-size: 2em;
 	}
+	.grid-print-container {
+	  grid-template: auto 1fr auto / 1fr;
+	  background-color: white;
+	}
+	.grid-map-print {
+	  grid-row: 2;
+	}
+
+	.grid-print-container > .title,
+	.grid-print-container > .sub-content {
+	  color: black;
+	}
+	.title {
+	  grid-row: 1;
+	  justify-self: center;
+	  text-align: center;
+	  color: grey;
+	  box-sizing: border-box;
+	  margin-top: 0;
+	}
+	.sub-content {
+	  grid-row: 5;
+	  padding-left: 10px;
+	  text-align: center;
+	  color: grey;
+	  box-sizing: border-box;
+	}
+	[leaflet-browser-print-pages] {
+	  display: none;
+	}
+	.pages-print-container [leaflet-browser-print-pages] {
+	  display: block;
+	}
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
@@ -86,6 +119,67 @@
 										<input type="hidden" id="path" name="path" value="<?= $wil_ini['path']?>">
 										<input type="hidden" name="id" id="id"  value="<?= $wil_ini['id']?>"/>
 										<input type="hidden" name="zoom" id="zoom"  value="<?= $wil_ini['zoom']?>"/>
+										<table class="title" leaflet-browser-print-content width="100%" style="border: solid 1px grey; text-align: center;">
+											<tr>
+												<td align="center"></td>
+											</tr>
+											<tr>
+												<?php if ($wilayah == $nama_wilayah): ?>
+													<td align="center"><img src="<?= gambar_desa($wil_atas['logo']);?>" alt="logo"  class="logo_mandiri"></td>
+												<?php else: ?>
+													<td align="center"><img src="<?= gambar_desa($logo['logo']);?>" alt="logo"  class="logo_mandiri"></td>
+												<?php endif; ?>
+											</tr>
+											<tr>
+												<td>
+													<?php if ($wilayah == $nama_wilayah): ?>
+														<h5 class="title text-center">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?></h5>
+														<h5 class="title text-center"><?= strtoupper($wil_atas['nama_kabupaten'])?></h5>
+														<h5 class="title text-center"><?= strtoupper($this->setting->sebutan_kecamatan)?></h5>
+														<h5 class="title text-center"><?= strtoupper($wil_atas['nama_kecamatan'])?></h5>
+														<h5 class="title text-center"><?= strtoupper($this->setting->sebutan_desa)?></h5>
+														<h5 class="title text-center"><?= strtoupper($wil_atas['nama_desa'])?></h5>
+													<?php else: ?>
+														<h5 class="title text-center">PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?></h5>
+														<h5 class="title text-center"><?= strtoupper($desa['nama_kabupaten'])?></h5>
+														<h5 class="title text-center"><?= strtoupper($this->setting->sebutan_kecamatan)?></h5>
+														<h5 class="title text-center"><?= strtoupper($desa['nama_kecamatan'])?></h5>
+														<h5 class="title text-center"><?= strtoupper($this->setting->sebutan_desa)?></h5>
+														<h5 class="title text-center"><?= strtoupper($desa['nama_desa'])?></h5>
+													<?php endif; ?>
+												</td>
+											</tr>
+											<tr>
+												<td align="center"></td>
+											</tr>
+											<tr>
+												<td>
+													<?php if ($wilayah == $nama_wilayah): ?>
+														<h3 class="title text-center">PETA WILAYAH</h3>
+														<h3 class="title text-center"><?= strtoupper($this->setting->sebutan_desa)?></h3>
+														<h3 class="title text-center"><?= strtoupper($wil_atas['nama_desa'])?></h3>
+													<?php elseif ($wilayah == ucwords($this->setting->sebutan_dusun)): ?>
+														<h3 class="title text-center">PETA WILAYAH</h3>
+														<h3 class="title text-center"><?= strtoupper($this->setting->sebutan_dusun)?></h3>
+														<h3 class="title text-center"><?= strtoupper($wil_ini['dusun'])?></h3>
+													<?php elseif ($wilayah == "RW"): ?>
+														<h3 class="title text-center">PETA WILAYAH</h3>
+														<h3 class="title text-center">RW <?= $wil_ini['rw']?></h3>
+														<h3 class="title text-center"><?= strtoupper($this->setting->sebutan_dusun)?> <?= strtoupper($wil_ini['dusun'])?></h3>
+													<?php else: ?>
+														<h3 class="title text-center">PETA WILAYAH</h3>
+														<h3 class="title text-center">RT <?= $wil_ini['rt']?> RW <?= $wil_ini['rw']?> </h3>
+														<h3 class="title text-center"><?= strtoupper($this->setting->sebutan_dusun)?> <?= strtoupper($wil_ini['dusun'])?></h3>
+													<?php endif; ?>
+												</td>
+											</tr>
+											<tr>
+												<td align="center"></td>
+											</tr>
+											<tr>
+												<td align="center"><img src="<?= base_url()?>assets/images/kompas.png" alt="OpenSID"></td>
+											</tr>
+										</table>
 								</div>
 							</div>
 						</div>
@@ -190,6 +284,43 @@
 
 		//Menampilkan baseLayers dan overlayLayers
 		L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
+
+		//Menambahkan tombol cetak peta ke PNG
+    L.control.browserPrint({
+      documentTitle: "Peta_Wilayah",
+      printModes: [
+        L.control.browserPrint.mode.auto("Auto"),
+				L.control.browserPrint.mode.landscape("Landscape"),
+				L.control.browserPrint.mode.portrait("Portrait")
+      ],
+    }).addTo(peta_wilayah);
+
+    L.Control.BrowserPrint.Utils.registerLayer(L.MarkerClusterGroup, 'L.MarkerClusterGroup', function (layer, utils) {
+			return layer;
+		});
+
+		L.Control.BrowserPrint.Utils.registerLayer(L.MapboxGL, 'L.MapboxGL', function(layer, utils) {
+				return L.mapboxGL(layer.options);
+			}
+		);
+
+		peta_wilayah.on("browser-print-start", function(e){
+        L.control.scale({
+            position: 'bottomleft',
+        }).addTo(e.printMap);
+    });
+
+    window.print = function () {
+			return domtoimage
+					.toPng(document.querySelector(".grid-print-container"))
+					.then(function (dataUrl) {
+						var link = document.createElement('a');
+						link.download = peta_wilayah.printControl.options.documentTitle || "exportedMap" + '.png';
+						link.href = dataUrl;
+						link.click();
+					});
+		};
+		//EOF Menambahkan tombol cetak peta ke PNG
 
 	}; //EOF window.onload
 </script>

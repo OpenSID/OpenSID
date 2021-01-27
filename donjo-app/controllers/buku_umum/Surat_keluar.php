@@ -82,13 +82,12 @@ class Surat_keluar extends Admin_Controller {
 		$data['main'] = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
 		$data['keyword'] = $this->surat_keluar_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$data['main_content'] = 'surat_keluar/table';
 		$data['subtitle'] = "Buku Agenda - Surat Keluar";
 		$data['selected_nav'] = 'agenda_keluar';
 		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav', $nav);
 		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');

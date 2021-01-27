@@ -154,13 +154,14 @@ class Kelompok_model extends MY_Model {
 		$outpa = $this->db->insert('kelompok', $data);
 		$insert_id = $this->db->insert_id();
 
-		$datax['id_kelompok'] = $insert_id;
-		$datax['id_penduduk'] = $data['id_ketua'];
-		$datax['no_anggota'] = 1;
-		$datax['keterangan'] = 'Ketua Kelompok'; // keteranga Default untuk Ketua Kelompok
-		$outpb = $this->db->insert('kelompok_anggota', $datax);
+		$outpb = $this->db
+			->set('id_kelompok', $insert_id)
+			->set('id_penduduk', $data['id_ketua'])
+			->set('no_anggota', 1)
+			->set('jabatan', 1)
+			->insert('kelompok_anggota');
 
-		status_sukses($outpb); //Tampilkan Pesan
+		status_sukses($outpa && $outpb);
 	}
 
 	private function validasi_anggota($post)
@@ -168,13 +169,38 @@ class Kelompok_model extends MY_Model {
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['jabatan'] = bilangan($post['jabatan']);
+		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		return $data;
 	}
 
 	public function insert_a($id = 0)
 	{
+		$_SESSION['success'] = 1;
+		$nama_file = '';
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+
+		if (!empty($nama_file))
+		{
+		  $nama_file = urlencode(generator(6)."_".$_FILES['foto']['name']);
+			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))
+			{
+				UploadFoto($nama_file, $old_foto='', $tipe_file);
+			}
+			else
+			{
+				$nama_file = '';
+				$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
+			}
+		}
+
 		$data = $this->validasi_anggota($this->input->post());
 		$data['id_kelompok'] = $id;
+		$data['foto'] = $nama_file;
+		$this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], NULL);
 
 		$sdh_ada = $this->db
 			->select('id')
@@ -204,11 +230,32 @@ class Kelompok_model extends MY_Model {
 	{
 		$data = $this->validasi_anggota($this->input->post());
 
+		$_SESSION['success'] = 1;;
+		unset($_SESSION['error_msg']);
+		$lokasi_file = $_FILES['foto']['tmp_name'];
+		$tipe_file = $_FILES['foto']['type'];
+		$nama_file = $_FILES['foto']['name'];
+		$nama_file = str_replace(" ", "_", $nama_file);
+		$old_foto = $this->input->post('old_foto');
+		if (!empty($nama_file))
+		{
+			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))
+			{
+			  $data['foto'] = urlencode(generator(6)."_".$nama_file);
+				UploadFoto($data['foto'], $old_foto, $tipe_file);
+			}
+			else
+			{
+				$_SESSION['success'] = -1;
+				$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
+			}
+		}
+
+		$this->ubah_jabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
 		$outp = $this->db
 			->where('id_kelompok', $id)
 			->where('id_penduduk', $id_a)
 			->update('kelompok_anggota', $data);
-
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -345,9 +392,17 @@ class Kelompok_model extends MY_Model {
 		return $data;
 	}
 
-	public function list_anggota($id_kelompok = 0)
+	public function list_pengurus($id_kelompok)
+	{
+		$this->db->where('jabatan <>', 90);
+		$data = $this->list_anggota($id_kelompok);
+		return $data;
+	}
+
+	public function list_anggota($id_kelompok = 0, $sub = '')
 	{
 		$dusun = ucwords($this->setting->sebutan_dusun);
+		if ($sub == 'anggota') $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
 		$data = $this->db
 			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tpx.nama AS sex')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
@@ -358,9 +413,38 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
-			->order_by('CAST(no_anggota AS UNSIGNED)')
+			->order_by('CAST(jabatan AS UNSIGNED), CAST(no_anggota AS UNSIGNED)')
 			->get()
 			->result_array();
 		return $data;
 	}
+
+	public function ubah_jabatan($id_kelompok, $id_penduduk, $jabatan, $jabatan_lama)
+	{
+		// jika ada orang lain yang sudah jabat KETUA ubah jabatan menjadi anggota
+		// update id_ketua kelompok di tabel kelompok
+		if ($jabatan == '1') // Ketua
+		{
+			$this->db
+				->set('jabatan', '90') // Anggota
+				->set('no_sk_jabatan', '')
+				->where('id_kelompok', $id_kelompok)
+				->where('jabatan', '1')
+				->update('kelompok_anggota');
+
+			$this->db
+				->set('id_ketua', $id_penduduk)
+				->where('id', $id_kelompok)
+				->update('kelompok');
+		}
+		elseif ($jabatan_lama == '1') // Ketua
+		{
+			// jika yang diubah adalah jabatan KETUA maka kosongkan id_ketua kelompok di tabel kelompok
+			$this->db
+				->set('id_ketua', -9999) // kolom id_ketua di tabel kelompok tidak bisa NULL
+				->where('id', $id_kelompok)
+				->update('kelompok');
+		}
+	}
+
 }

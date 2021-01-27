@@ -1,0 +1,48 @@
+Di rilis ini, versi 20.10-premium, tersedia fitur untuk menampilkan status IDM desa. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada afa28, Ahmad Afandi, Rudy Purwanto, Zeppy Shiddiq dan Masumo yang terus berkontribusi. Terima kasih pula pada Yonathan Rizky yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 20.10-premium adalah sebagai berikut:
+
+1. #3514: Sekarang judul produk hukum dan informasi publik diperpanjang sampai 200 karakter.
+2. #3522: Data suplemen tidak bisa lagi dihapus kalau masih digunakan, yaitu masih ada terdata.
+3. #3523: Sekarang perubahan jumlah data paginasi di Program Bantuan berfungsi benar. [bug-fix]
+4. Rapikan pengelolaan session. Hapus session pada waktu logout. [teknis, security-fix]
+5. #3532: Sekarang kolom status penduduk tampil benar di form ubah biodata penduduk. [bug-fix]
+6. #3503: Data ibu untuk Surat Keterangan Penghasilan Orangtua telah diperbaiki. [bug-fix]
+7. #3544: Sekarang Responsive File Manager dapat diakses di OS Windows untuk memasukkan gambar ke artikel. [bug-fix]
+8. #3527: Anggota KK sekarang hanya boleh penduduk dengan status TETAP.
+9. #3519: Tampilkan foto penduduk di Log Penduduk.
+10. #3422: Sekarang bisa menyaring daftar penduduk untuk sekumpulan NIK sekaligus.
+11. #3422: Sekarang bisa menyaring daftar keluarga untuk sekumpulan No. KK sekaligus.
+12. #3552, #2942: Perbaiki supaya kesempatan gagal login 3 kali dan timeout kembali normal. [bug-fix]
+13. #3543: Terapkan menu cetak dan unduh untuk Pertanahan > Daftar Persil.
+14. Ganti library Excel supaya ekspor dan impor data penduduk bisa menggunakan format .xslx. [teknis]
+15. #3549: Bolehkan adanya nama kepemilikan yang sama untuk C-Desa yang berbeda.
+16. #3558: Sekarang Surat Keterangan Kematian berjalan normal apabila data penduduk ybs berisi NIK Ibu. [bug-fix]
+17. #3560: Impor data penduduk sekarang melaporkan error pada waktu menyimpan data ke database. [bug-fix]
+18. #3180: Sekarang bisa saring daftar anggaran dan realisasi keuangan manual berdasarkan tahun anggaran.
+19. #3564: Sediakan setting aplikasi supaya bisa menggunakan NIPD atau NIAP di data Pemerintahan Desa.
+20. #3193: Sediakan opsi mensensor NIK dan No. KK pada waktu mencetak/mengunduh data penduduk.
+21. Sederhanakan script controller dan buat lebih konsisten. [teknis]
+22. Buat script Admin Web > Artikel lebih konsisten. [teknis]
+23. #3581: Sekarang tombol Kembali di halaman Analisis > Indikator & Pertanyaan mengarah ke halaman yg benar. [bug-fix]
+24. #3583: Sekarang semua pamong tampil di pilihan penandatangan di form cetak dan unduh. [bug-fix]
+25. #3584: Perbaiki tampilan pilihan bulan dan tahun pada widget tanggalan di form penduduk. [bug-fix]
+26. Perbaiki tampilan tabel di Layanan Mandiri di layar kecil.
+27. #3589: Sekarang tombol ubah hubungan keluarga selalu muncul di Daftar Anggota Keluarga. Juga hubungan keluarga sekarang harus diisi pada waktu menambah anggota keluarga dari penduduk baru.
+28. #3587: Sediakan opsi menambahkan penduduk baru pada waktu menambah anggota keluarga. Juga hapus tombol tambah anggota keluarga pada halaman Salinan Kartu Keluarga, dan seragamkan tombol kembali.
+29. #3591: Perbaiki tampilan pilihan jenis surat di filter Arsip Layanan surat.
+
+
+Fitur Premium:
+
+1. #3512: Sediakan menu mengatur ukuran bagan.
+2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
+3. #3531: Tampilkan rumusan pokok IDM di Info Desa > Status Desa dari portal IDM Kemendesa. Dan bisa ditampilkan di Web melalui menu statis.
+4. #3571: Sediakan fitur untuk mencetak peta wilayah desa/dusun/rw/rt.
+5. #2775: Sediakan Buku Lembaran dan Berita Desa.
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 20.10-premium, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+

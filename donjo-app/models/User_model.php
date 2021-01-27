@@ -789,6 +789,12 @@ class User_model extends CI_Model {
 				'laporan_inventaris' => array('b','u'),
 				'klasifikasi' => array('b','u'),
 
+				// buku administrasi
+				'buku_umum' => ['b', 'u'],
+				'bumindes_umum' => ['b', 'u'],
+				'ekspedisi' => ['b', 'u'],
+				'lembaran_desa' => ['b', 'u'],
+
 				// keuangan
 				'keuangan' => array('b','u'),
 				'keuangan_manual' => array('b','u'),

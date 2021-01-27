@@ -116,9 +116,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th><input type="checkbox" id="checkall"/></th>
-											<th>No</th>
-											<th>Aksi</th>
-											<th>Nomor Anggota</th>
+											<th class="padat">No</th>
+											<th class="padat">Aksi</th>
+											<th class="padat">Foto</th>
+											<th class="padat">No. Anggota</th>
+											<th width="5%">Jabatan</th>
+											<th width="10%">SK Jabatan</th>
 											<th width="10%">NIK</th>
 											<th width="10%">Nama</th>
 											<th width="10%">Tempat / Tanggal Lahir</th>
@@ -133,18 +136,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<?php foreach ($main as $key => $data): ?>
 												<tr>
 													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
-													<td class="padat"><?= ($key + 1); ?></td>
-													<td class="aksi">
-														<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
-														<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+													<td class="padat"><?= ($key + 1) ?></td>
+													<td class="padat">
+														<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</td>
-													<td class="padat"><?= $data['no_anggota']; ?></td>
-													<td><?= $data['nik']; ?></td>
-													<td><?= $data['nama']; ?></td>
-													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
-													<td class="padat"><?= $data['umur']; ?></td>
-													<td><?= $data['sex']; ?></td>
-													<td><?= $data['alamat']; ?></td>
+													<td class="text-center">
+														<div class="user-panel">
+															<div class="image2">
+															<img src="<?= $data['foto'] ? AmbilFoto($data['foto']) : base_url() . 'assets/files/user_pict/kuser.png'; ?>" class="img-circle" alt="User Image"/>
+															</div>
+														</div>
+													</td>
+													<td class="padat"><?= $data['no_anggota']?></td>
+													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
+													<td><?= $data['no_sk_jabatan']?>
+													<td><?= $data['nik']?></td>
+													<td><?= $data['nama']?></td>
+													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
+													<td class="padat"><?= $data['umur']?></td>
+													<td><?= $data['sex']?></td>
+													<td><?= $data['alamat']?></td>
 													<td><?= $data['keterangan']; ?></td>
 												</tr>
 											<?php endforeach; ?>

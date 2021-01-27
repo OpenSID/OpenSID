@@ -1,4 +1,4 @@
-<?php
+uku<?php
 
 /**
  * File ini:
@@ -234,10 +234,11 @@ class Migrasi_fitur_premium_2009 extends CI_model {
 	        ];
 			$hasil =& $this->dbforge->add_column('tweb_desa_pamong', $fields);
   	}
+		// Ukuran Lebar Bagan
 		$query = "
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
 			('ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan Organisasi (800 / 1200 / 1400)', 'int', 'conf_web')
-			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
+			ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
 		$hasil =& $this->db->query($query);
 
   	return $hasil;

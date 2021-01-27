@@ -392,6 +392,7 @@ class Sid_Core extends Admin_Controller {
 		);
 		$data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
 		$namadesa =  $data['wil_atas']['nama_desa'];
+		$data['logo'] = $this->config_model->get_data();
 
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
@@ -420,6 +421,7 @@ class Sid_Core extends Admin_Controller {
 		);
 		$data['form_action'] = site_url("sid_core/update_wilayah_dusun_map/$id");
 		$namadesa =  $data['wil_atas']['nama_desa'];
+		$data['logo'] = $this->config_model->get_data();
 		if (!empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng'] && !empty($data['wil_atas']['path']))))
 		{
 			$this->render("sid/wilayah/maps_wilayah", $data);
@@ -474,6 +476,7 @@ class Sid_Core extends Admin_Controller {
 		);
 		$data['wilayah'] = 'RW';
 		$data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id_dusun/$id_rw");
+		$data['logo'] = $this->config_model->get_data();
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
@@ -509,6 +512,7 @@ class Sid_Core extends Admin_Controller {
 		);
 		$data['wilayah'] = 'RW';
 		$data['form_action'] = site_url("sid_core/update_wilayah_rw_map/$id_dusun/$id_rw");
+		$data['logo'] = $this->config_model->get_data();
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
@@ -557,6 +561,7 @@ class Sid_Core extends Admin_Controller {
 		);
 		$data['wilayah'] = 'RT';
 		$data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$id_rw/$id");
+		$data['logo'] = $this->config_model->get_data();
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{
@@ -591,6 +596,7 @@ class Sid_Core extends Admin_Controller {
 		);
 		$data['wilayah'] = 'RT';
 		$data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$id_rw/$id");
+		$data['logo'] = $this->config_model->get_data();
 
 		if (!empty($data['wil_atas']['path'] && !empty($data['wil_atas']['lat'] && !empty($data['wil_atas']['lng']))))
 		{

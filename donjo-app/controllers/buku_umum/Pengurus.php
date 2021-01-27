@@ -48,7 +48,7 @@ class Pengurus extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['pamong_model', 'penduduk_model', 'config_model', 'referensi_model', 'wilayah_model']);
+		$this->load->model(['header_model', 'pamong_model', 'penduduk_model', 'config_model', 'referensi_model', 'wilayah_model']);
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 		$this->_set_page = ['20', '50', '100'];
@@ -70,8 +70,7 @@ class Pengurus extends Admin_Controller {
 		}
 
 		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
+		if (isset($per_page)) $this->session->per_page = $per_page;
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -206,10 +205,7 @@ class Pengurus extends Admin_Controller {
 		$data['desa'] = $this->config_model->get_data();
 		$data['bagan'] = $this->pamong_model->list_bagan();
 		$data['ada_bpd'] = ! empty($ada_bpd);
-		$this->load->view('header', $this->header);
-		$this->load->view('nav');
-		$this->load->view('home/bagan', $data);
-		$this->load->view('footer');
+		$this->render('home/bagan', $data);
 	}
 
 	public function atur_bagan()
@@ -226,4 +222,12 @@ class Pengurus extends Admin_Controller {
 		redirect('pengurus');
 	}
 
+	public function atur_bagan_layout()
+	{
+		$data['judul'] = 'Atur Ukuran Bagan';
+		$data['list_setting'] = 'list_setting_bagan';
+		$this->setting_model->load_options();
+
+		$this->load->view('home/ajax_atur_bagan_layout', $data);
+	}
 }

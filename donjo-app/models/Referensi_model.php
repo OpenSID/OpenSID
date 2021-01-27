@@ -129,9 +129,18 @@ define("STAT_LAINNYA", serialize([
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
-	'data_analisis' => 'Data Analisis'
+	'data_analisis' => 'Data Analisis',
+	'status_idm' => 'Status IDM'
 ]));
 
+// Jabatan Kelompok
+define("JABATAN_KELOMPOK", serialize([
+	1 => 'KETUA',
+	2 => 'WAKIL KETUA',
+	3 => 'SEKRETARIS',
+	4 => 'BENDAHARA',
+	90 => 'ANGGOTA'
+]));
 
 class Referensi_model extends CI_Model {
 

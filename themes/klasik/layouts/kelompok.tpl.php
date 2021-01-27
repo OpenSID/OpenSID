@@ -5,6 +5,9 @@
 		margin-top: 5px;
 		margin-bottom: 15px;
 	}
+	p.info {
+		margin-bottom: 15px;
+	}
 </style>
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
 	<div id="contentwrapper">
@@ -15,25 +18,27 @@
 						<h3 class="box-title"> Data Kelompok - <?= $detail['nama']; ?></h3>
 					</div>
 					<div class="box-body">
-						<h3 class="subtitle">Rincian & Pengurus</h3>
+						<p class="info"><?= $detail['keterangan']?></p>
+						<h3 class="subtitle">Daftar Pengurus</h3>
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover">
+								<thead class="bg-gray disabled color-palette">
+									<tr>
+										<th>No</th>
+										<th>Jabatan</th>
+										<th>Nama</th>
+										<th>Alamat</th>
+									</tr>
+								</thead>
 								<tbody>
-									<tr>
-										<td width="20%">Nama Kelompok</td>
-										<td width="1"> : </td>
-										<td><?= $detail['nama']?></td>
-									</tr>
-									<tr>
-										<td>Ketua Kelompok</td>
-										<td> : </td>
-										<td><?= $detail['nama_ketua']?></td>
-									</tr>
-									<tr>
-										<td>Keterangan</td>
-										<td> : </td>
-										<td><?= $detail['keterangan']?></td>
-									</tr>
+									<?php foreach ($pengurus as $key => $data): ?>
+										<tr>
+											<td><?= $key + 1?></td>
+											<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
+											<td nowrap><?= $data['nama']?></td>
+											<td><?= $data['alamat']?></td>
+										</tr>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>

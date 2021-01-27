@@ -124,6 +124,10 @@
 		<script src="<?= base_url()?>assets/js/shp.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.shpfile.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.groupedlayercontrol.min.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.browser.print.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.browser.print.utils.js"></script>
+		<script src="<?= base_url()?>assets/js/leaflet.browser.print.sizes.js"></script>
+		<script src="<?= base_url()?>assets/js/dom-to-image.min.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
@@ -228,4 +232,3 @@
 			</div>
 			<!-- Untuk menampilkan dialog pengumuman -->
 			<?= $this->pengumuman; ?>
-

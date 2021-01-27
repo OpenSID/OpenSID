@@ -119,4 +119,10 @@ class MY_Model extends CI_Model {
 		else return true;
 	}
 
+	public function tambah_modul($modul)
+	{
+		$sql = $this->db->insert_string('setting_modul', $modul) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), parent = VALUES(parent)";
+		return $this->db->query($sql);
+	}
+
 }

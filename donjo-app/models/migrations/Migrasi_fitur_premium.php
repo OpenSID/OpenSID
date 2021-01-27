@@ -43,7 +43,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_fitur_premium extends CI_model {
+class Migrasi_fitur_premium extends MY_model {
 
 	public function up()
 	{

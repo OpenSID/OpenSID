@@ -1,11 +1,10 @@
 <?php
-
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * Controller status desa di dashboard Admin
  *
- * donjo-app/models/migrations/Migrasi_2009_ke_2010.php
+ * donjo-app/controllers/Status_desa.php
  *
  */
 
@@ -26,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -43,29 +42,41 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_2009_ke_2010 extends MY_model {
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-	public function up()
+class Status_desa extends Admin_Controller {
+
+	public function __construct()
 	{
-		$hasil = true;
-		// Sesuaikan panjang judul dokumen menjadi 200
-		$this->db->query("ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL");
-		// Bolehkan C-Desa berbeda berisi nama kepemilikan sama
-		$hasil =& $this->hapus_indeks('cdesa', 'nama_kepemilikan');
-		// Key di setting_aplikasi seharusnya unik
-		$hasil =& $this->tambah_indeks('setting_aplikasi', 'key');
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`,value,keterangan) VALUES ('sebutan_nip_desa','NIPD','Pengganti sebutan label niap/nipd')
-							ON DUPLICATE KEY UPDATE
-							value = VALUES(value),
-							keterangan = VALUES(keterangan)
-							");
-		$hasil =& $this->db->query('ALTER TABLE tweb_desa_pamong MODIFY COLUMN pamong_niap varchar(25) default 0');
-		status_sukses($hasil);
+		parent::__construct();
+		$this->load->model('header_model');
+		$this->load->library('data_publik');
+		$this->modul_ini = 200;
+		$this->sub_modul_ini = 101;
+	}
 
-		// Migrasi fitur premium
-		$migrasi = 'migrasi_fitur_premium_2010';
-  	$this->load->model('migrations/'.$migrasi);
-  	$this->$migrasi->up();
+	public function index()
+	{
+		$header = $this->header_model->get_data();
+		$kode_desa = $header['desa']['kode_desa'];
+		if ($this->data_publik->has_internet_connection())
+		{
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
+				->set_interval(7)
+				->set_cache_folder(FCPATH.'desa');
+
+			$idm = $this->data_publik->get_url_content();
+			if ($idm->body->error)
+			{
+				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" .
+					"Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
+			}
+		}
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('home/idm', ['idm' => $idm->body->mapData]);
+		$this->load->view('footer');
 	}
 
 }

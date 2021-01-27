@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php endif; ?>
 		<div class="form-group">
 			<label class="control-label" for="link">Jenis Link</label>
-			<select class="form-control input-sm required" id="link_tipe" name="link_tipe" onchange="ganti_jenis_link($(this).val()); event.stopPropagation();">
+			<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val()); event.stopPropagation();">
 				<option option value="">-- Pilih Jenis Link --</option>
 				<?php foreach ($link_tipe as $id => $nama): ?>
 					<option value="<?= $id; ?>" <?= selected($submenu['link_tipe'], $id) ?>><?= $nama?></option>
@@ -128,8 +128,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right confirm"><i class="fa fa-check"></i> Simpan</button>
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
 
@@ -199,4 +199,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}, 500);
 	});
 </script>
-

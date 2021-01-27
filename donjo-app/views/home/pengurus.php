@@ -25,7 +25,7 @@
 			<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 			<ul class="dropdown-menu" role="menu">
 				<li>
-					<a href="<?= site_url("pengurus/atur_bagan")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Bagan" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" ><i class="fa fa-sitemap"></i> Atur Bagan</a>
+					<a href="<?= site_url("pengurus/atur_bagan")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Struktur Bagan" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" ><i class="fa fa-sitemap"></i> Atur Struktur Bagan</a>
 				</li>
 				<?php if ($this->CI->cek_hak_akses('h')): ?>
 					<li>
@@ -40,10 +40,13 @@
 			<a class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Bagan Organisasi</a>
 			<ul class="dropdown-menu" role="menu">
 				<li>
-					<a href="<?= site_url("pengurus/bagan")?>" title="Ubah Data" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Tanpa BPD</a>
+					<a href="<?= site_url("pengurus/bagan")?>" title="Bagan Tanpa BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Tanpa BPD</a>
 				</li>
 				<li>
-					<a href="<?= site_url("pengurus/bagan/bpd")?>" title="Ubah Data" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Dengan BPD</a>
+					<a href="<?= site_url("pengurus/bagan/bpd")?>" title="Bagan Dengan BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
+				</li>
+				<li>
+					<a href="<?= site_url("pengurus/atur_bagan_layout")?>" title="Atur Ukuran Bagan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Ukuran Bagan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-cogs"></i> Atur Ukuran Bagan</a>
 				</li>
 			</ul>
 		</div>
@@ -82,7 +85,7 @@
 												<th class="padat">No</th>
 												<th class="padat">Aksi</th>
 												<th class="text-center">Foto</th>
-												<th>Nama, NIP/NIAP, NIK</th>
+												<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa  ?>, NIK</th>
 												<th nowrap>Tempat, <p>Tanggal Lahir</p></th>
 												<th>Jenis Kelamin</th>
 												<th>Agama</th>
@@ -141,7 +144,7 @@
 															<?php if (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-'): ?>
 																<i>NIP :<?=$data['pamong_nip']?></i></br>
 															<?php else: ?>
-																<i>NIAP :<?=$data['pamong_niap']?></i></br>
+																<i><?= $this->setting->sebutan_nip_desa  ?> :<?=$data['pamong_niap']?></i></br>
 															<?php endif; ?>
 															<i>NIK :<?=$data['nik']?></i>
 														</p>

@@ -102,11 +102,15 @@ $route['surat_keluar/([a-z_]+)/(:any)'] = "buku_umum/surat_keluar/$1/$2";
 $route['surat_keluar/([a-z_]+)'] = "buku_umum/surat_keluar/$1";
 $route['surat_keluar'] = "buku_umum/surat_keluar";
 
-$route['ekspedisi/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/ekspedisi/$1/$2/$3/$4";
-$route['ekspedisi/([a-z_]+)/(:any)/(:any)'] = "buku_umum/ekspedisi/$1/$2/$3";
-$route['ekspedisi/([a-z_]+)/(:any)'] = "buku_umum/ekspedisi/$1/$2";
-$route['ekspedisi/([a-z_]+)'] = "buku_umum/ekspedisi/$1";
-$route['ekspedisi'] = "buku_umum/ekspedisi";
+$buku_umum = ['ekspedisi', 'lembaran_desa'];
+foreach ($buku_umum as $menu)
+{
+	$route["{$menu}/([a-z_]+)/(:any)/(:any)/(:any)"] = "buku_umum/{$menu}/$1/$2/$3/$4";
+	$route["{$menu}/([a-z_]+)/(:any)/(:any)"] = "buku_umum/{$menu}/$1/$2/$3";
+	$route["{$menu}/([a-z_]+)/(:any)"] = "buku_umum/{$menu}/$1/$2";
+	$route["{$menu}/([a-z_]+)"] = "buku_umum/{$menu}/$1";
+	$route["{$menu}"] = "buku_umum/{$menu}";
+}
 
 $route['surat_masuk/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/surat_masuk/$1/$2/$3/$4";
 $route['surat_masuk/([a-z_]+)/(:any)/(:any)'] = "buku_umum/surat_masuk/$1/$2/$3";

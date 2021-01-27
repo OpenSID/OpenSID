@@ -40,13 +40,12 @@ class Ekspedisi extends Admin_Controller {
 		$data['main'] = $this->ekspedisi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
 		$data['keyword'] = $this->ekspedisi_model->autocomplete();
-		$header = $this->header_model->get_data();
 		$data['main_content'] = 'ekspedisi/table';
 		$data['subtitle'] = "Buku Ekspedisi";
 		$data['selected_nav'] = 'ekspedisi';
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav', $nav);
 		$this->load->view('bumindes/umum/main', $data);
 		$this->load->view('footer');
@@ -63,7 +62,6 @@ class Ekspedisi extends Admin_Controller {
 			$data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id);
 			$data['form_action'] = site_url("ekspedisi/update/$p/$o/$id");
 		}
-		$header = $this->header_model->get_data();
 
 		// Buang unique id pada link nama file
 		$berkas = explode('__sid__', $data['surat_keluar']['tanda_terima']);
@@ -71,9 +69,9 @@ class Ekspedisi extends Admin_Controller {
 		$ekstensiFile = explode('.', end($berkas));
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['tanda_terima'] = $namaFile.'.'.$ekstensiFile;
-		$header['minsidebar'] = 1;
+		$this->set_minsidebar(1);
 
-		$this->load->view('header', $header);
+		$this->load->view('header', $this->header);
 		$this->load->view('nav', $nav);
 		$this->load->view('ekspedisi/form', $data);
 		$this->load->view('footer');
