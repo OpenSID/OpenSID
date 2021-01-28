@@ -240,4 +240,15 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Isi IP address yang valid");
 
+	// Untuk tanggal lapor dan tanggal peristiwa
+	jQuery.validator.addMethod("tgl_lebih_besar", function(value, element, params)  {
+		tgl_minimal = $(params).val().split("-");
+		tgl_minimal = new Date(+tgl_minimal[2], tgl_minimal[1] - 1, +tgl_minimal[0]);
+		tgl_ini = value.split("-");
+		tgl_ini = new Date(+tgl_ini[2], tgl_ini[1] - 1, +tgl_ini[0]);
+		if (tgl_ini >= tgl_minimal)
+			return true;
+		return false;
+	}, "Tanggal harus sama atau lebih besar dari tanggal minimal.");
+
 })

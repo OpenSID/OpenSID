@@ -292,6 +292,12 @@ $(document).ready(function()
 		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
+	$('.tgl_minimal').datetimepicker().on('dp.change', function (e) {
+		var tgl_lebih_besar = $(this).data('tgl-lebih-besar');
+		$(tgl_lebih_besar).data('DateTimePicker').minDate(moment(new Date(e.date)));
+		$(this).data("DateTimePicker").hide();
+	});
+
 	$('#tgljam_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY HH:mm',

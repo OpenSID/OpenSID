@@ -92,6 +92,35 @@
 	}
 </script>
 			<div class="row">
+				<?php if ($jenis_peristiwa == 5): ?>
+					<div class='col-sm-4'>
+						<div class='form-group'>
+							<label for="tgl_peristiwa">Tanggal Pindah Masuk</label>
+							<div class="input-group input-group-sm date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input class="form-control input-sm pull-right" id="tgl_5" name="tgl_peristiwa" type="text" value="<?= $penduduk['tgl_peristiwa']?rev_tgl($penduduk['tgl_peristiwa']):date("d-m-Y");?>">
+							</div>
+						</div>
+					</div>
+				<?php endif; ?>
+				<div class='col-sm-4'>
+					<div class='form-group'>
+						<label for="tgl_lapor">Tanggal Lapor</label>
+						<div class="input-group input-group-sm date">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input class="form-control input-sm pull-right" id="tgl_6" name="tgl_lapor" type="text" value="<?= $penduduk['tgl_lapor']?rev_tgl($penduduk['tgl_lapor']):date("d-m-Y");?>">
+						</div>
+					</div>
+				</div>
+				<div class='col-sm-12'>
+					<div class="form-group subtitle_head">
+						<label class="text-right"><strong>DATA DIRI :</strong></label>
+					</div>
+				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="nik">NIK </label>

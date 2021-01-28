@@ -46,27 +46,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Data Buku Induk Penduduk</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
-		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-		<?php endif; ?>
-	</head>
-	<body>
-		<div id="container">
-			<div id="body">
-				<div class="header" align="center">
-					<h3>B.1 BUKU INDUK PENDUDUK DESA <?= strtoupper($desa['nama_desa'])?></h3>
-					<h3><?= strtoupper($this->setting->sebutan_kecamatan.' '.$desa['nama_kecamatan'].' '.$this->setting->sebutan_kabupaten.' '.$desa['nama_kabupaten'])?></h3>
-					<h3><?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></h3>
-					<br>
-				</div>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				<?php if ($aksi != 'unduh'): ?>
+					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
+				<?php endif; ?>
+				<h1 class="judul"> 
+					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
+				</h1>
+			</td>
+		</tr>
+		<tr>
+			<td><hr class="garis"></td>
+		</tr>
+		<tr>
+			<td class="text-center">
+				<h4>B1. BUKU INDUK PENDUDUK</h4>
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center">
+				<h4>BUKU INDUK PENDUDUK BULAN <?= strtoupper(getBulan($bulan)) ?> TAHUN <?= $tahun ?></h4>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>	
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
@@ -132,39 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<br><br>
-				<table id="ttd">
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr>
-						<!-- Persen untuk tampilan cetak.
-								Colspan untuk tampilan unduh.
-						-->
-						<td colspan="2">&nbsp;</td>
-						<td colspan="3">MENGETAHUI</td>
-						<td colspan="3"><span><?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?>, <?= strtoupper(tgl_indo(date("Y m d"))) ?></span></td>
-						<td colspan="2">&nbsp;</td>
-					</tr>
-					<tr>
-						<td colspan="2">&nbsp;</td>
-						<td colspan="3" align="center"><?= strtoupper($pamong_ketahui['jabatan']) ?> <?= strtoupper($desa['nama_desa']) ?></td>
-						<td colspan="3" align="center"><?= strtoupper($pamong_ttd['jabatan']) ?> <?= strtoupper($desa['nama_desa']) ?></td>
-						<td colspan="2">&nbsp;</td>
-					</tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr><td colspan="10">&nbsp;</td></tr>
-					<tr>
-						<td colspan="2">&nbsp;</td>
-						<td colspan="3">( <?= strtoupper($pamong_ketahui['pamong_nama']) ?> )</td>
-						<td colspan="3" align="center"><span>( <?= strtoupper($pamong_ttd['pamong_nama']) ?> )</span></td>
-						<td colspan="2">&nbsp;</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-	</body>
-</html>
+			</td>
+		</tr>
+	</tbody>
+</table>

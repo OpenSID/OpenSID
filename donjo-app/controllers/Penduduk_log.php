@@ -55,7 +55,7 @@ class Penduduk_log extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->set_page = ['20', '50', '100'];
-		$this->list_session = ['status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
+		$this->list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
 	}
 
 	public function clear()
@@ -98,10 +98,7 @@ class Penduduk_log extends Admin_Controller {
 		{
 			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
-
-		// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
-		$this->session->log = 1;
-
+		
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
@@ -112,7 +109,7 @@ class Penduduk_log extends Admin_Controller {
 		$data['paging'] = $this->penduduk_log_model->paging($p, $o);
 		$data['main'] = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
-		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
+		$data['list_jenis_peristiwa'] = $this->referensi_model->list_data('ref_peristiwa');
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();

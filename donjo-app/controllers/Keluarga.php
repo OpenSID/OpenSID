@@ -56,7 +56,7 @@ class Keluarga extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 22;
 		$this->_set_page = ['20', '50', '100'];
-		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
+		$this->_list_session = ['jenis_peristiwa', 'status_hanya_tetap', 'status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 	}
 
 	public function clear_session()
@@ -134,6 +134,20 @@ class Keluarga extends Admin_Controller {
 		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
 	}
 
+	public function form_peristiwa($peristiwa='')
+	{
+		// Acuan jenis peristiwa berada pada ref_peristiwa
+		$this->session->jenis_peristiwa = $peristiwa;
+		$this->form();
+	}
+
+	public function form_peristiwa_a($peristiwa='', $p = 1, $o = 0, $id = 0)
+	{
+		// Acuan jenis peristiwa berada pada ref_peristiwa
+		$this->session->jenis_peristiwa = $peristiwa;
+		$this->form_a($p, $o, $id);
+	}
+
 	/*
 	 * Masukkan KK baru
 	 */
@@ -187,9 +201,13 @@ class Keluarga extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		if ($this->session->status_hanya_tetap)
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
+		else
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
-		unset($_SESSION['dari_internal']);
+		$this->session->unset_userdata(['dari_internal']);
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/keluarga_form', $data);
@@ -224,7 +242,11 @@ class Keluarga extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		if ($this->session->status_hanya_tetap)
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
+		else
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
 		if ($_SESSION['validation_error'])

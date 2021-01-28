@@ -66,16 +66,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		} );
 	} );
 </script>
+<?php if ($tgl_lengkap && $tgl_lengkap_aktif == 1): ?>
 <div class="box box-info">
 	<div class="box-header with-border">
-		<a href="<?= site_url("bumindes_penduduk_mutasi/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Mutasi Penduduk Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Mutasi Penduduk Desa"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url("bumindes_penduduk_mutasi/ajax_cetak/$o/unduh"); ?>?>" title="Unduh Buku Mutasi Penduduk Desa" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Mutasi Penduduk Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Mutasi Penduduk Desa"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url($this->controller."/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Mutasi Penduduk Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Mutasi Penduduk Desa"><i class="fa fa-print "></i> Cetak</a>
+		<a href="<?= site_url($this->controller."/ajax_cetak/$o/unduh"); ?>?>" title="Unduh Buku Mutasi Penduduk Desa" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Mutasi Penduduk Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Mutasi Penduduk Desa"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 	</div>
 	<div class="box-body">
 		<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 			<form id="mainform" name="mainform" action="" method="post">
 				<div class="row">
-					<div class="col-sm-12">
+					<div class="col-sm-9">
+						<select class="form-control input-sm " name="filter_tahun" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_tahun')?>')">
+							<option value="">Tahun</option>
+						<?php foreach ($list_tahun as $l_tahun): ?>
+							<option value="<?= $l_tahun['tahun']?>" <?php selected($tahun, $l_tahun['tahun']); ?>><?= $l_tahun['tahun']?></option>
+						<?php endforeach; ?>
+						</select>
+						<select class="form-control input-sm" name="filter_bulan" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_bulan')?>')" width="100%">
+							<option value="">Pilih bulan</option>
+						<?php foreach (bulan() as $idx => $nama_bulan): ?>
+							<option value="<?= $idx?>" <?php selected($bulan, $idx); ?>><?= $nama_bulan?></option>
+						<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="col-sm-3">
 						<div class="input-group input-group-sm pull-right">
 							<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" title="Pencarian berdasarkan nama penduduk" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("bumindes_penduduk_mutasi/filter/cari"); ?>');$('#'+'mainform').submit();}">
 							<div class="input-group-btn">
@@ -109,28 +125,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</tr>
 						</thead>
 						<tbody>
-						<!-- 
-							""" 
-							Menunggu detil informasi data tiap attributnya sudah atau belum, 
-							jika sudah ada bagaimana proses menuju flow tersebut 
-							""" 
-						-->
-							<?php if (!$main): ?>
+							<?php if ($main): ?>
 								<?php foreach ($main as $key => $data): ?>
 									<tr>
 										<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 										<td><?= strtoupper($data['nama'])?></td>
-										<td><?= strtoupper($data['sex']) ?></td>
-										<td><?= (strpos($data['kawin'],'KAWIN') !== false) ? $data['kawin'] : (($data['sex'] == 'LAKI-LAKI') ? 'DUDA':'JANDA') ?></td>
 										<td><?= $data['tempatlahir']?></td>
 										<td><?= tgl_indo_out($data['tanggallahir'])?></td>
-										<td><?= $data['agama']?></td>
-										<td><?= $data['pendidikan']?></td>
-										<td><?= $data['pekerjaan']?></td>
-										<td><?= $data['pekerjaan']?></td>
-										<td><?= $data['pekerjaan']?></td>
-										<td><?= strtoupper($data['bahasa_nama'])?></td>
+										<td><?= strtoupper($data['sex']) ?></td>
 										<td><?= $data['warganegara']?></td>
+										<td><?= $data['kode_peristiwa'] == 5 ? strtoupper($data['alamat_sebelumnya']) : '-';?></td>
+										<td><?= $data['kode_peristiwa'] == 5 ? tgl_indo_out($data['created_at']) : '-'; ?></td>
+										<td><?= strtoupper($data['kode_peristiwa'] == 3 ? $data['alamat_tujuan'] : '-'); ?></td>
+										<td><?= $data['kode_peristiwa'] == 3 ? tgl_indo_out($data['tgl_peristiwa']) : '-'; ?></td>
+										<td><?= strtoupper($data['kode_peristiwa'] == 2 ? $data['meninggal_di'] : '-'); ?></td>
+										<td><?= $data['kode_peristiwa'] == 2 ? tgl_indo_out($data['tgl_peristiwa']) : '-'; ?></td>
+										<?php if (! $data['created_at']): ?>
+											<td>Penduduk sudah dihapus.</td>
+										<?php else: ?>
+											<td><?= $data['catatan'] ? strtoupper($data['catatan']) : '-'; ?></td>
+										<?php endif; ?>
 									</tr>
 								<?php endforeach; ?>
 							<?php else: ?>
@@ -144,5 +158,62 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</form>
 			<?php $this->load->view('global/paging'); ?>
 		</div>
+		<?php if ($data_hapus['list_hapus']): ?>
+			<div class="row" style="padding-top: 20px;">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label class="col-sm-12 control-label"><h5><strong>BUKU MUTASI PENDUDUK TERHAPUS</strong></h5></label>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">Total Hapus</label>
+								<div class="col-sm-9">
+									<p class="text-muted">: <?= $data_hapus['total'];?></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead class="bg-gray disabled color-palette">
+										<tr>
+											<th class="text-center">No</th>
+											<th class="text-center">NIK</th>
+											<th class="text-center">Dihapus Pada</th>
+											<th class="text-center">Catatan</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach ($data_hapus['list_hapus'] as $key => $data): ?>
+										<tr>
+											<td class="text-center" ><?= $key+1?></td>
+											<td><?= $data['nik']?></td>
+											<td><?= tgl_indo($data['deleted_at'])?></td>
+											<td><?= $data['catatan']?$data['catatan']:'Data dihapus karena salah pengisian.';?></td>
+										</tr>
+										<?php endforeach; ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </div>
+<?php else: ?>
+<div class="box box-info">
+	<div class="box-header with-border">
+	</div>
+	<div class="box-body">
+		<div class="alert alert-warning">
+			Buku Mutasi Penduduk masih dalam proses dilengkapi.<br>
+			Buka <a href="<?=site_url('setting')?>">Pengaturan > Aplikasi</a> untuk melengkapi tanggal lengkap data.
+		</div>
+	</div>
+</div>
+<?php endif; ?>

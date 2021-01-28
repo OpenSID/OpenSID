@@ -58,7 +58,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 	}
 
 	private function clear_session()
@@ -123,6 +123,13 @@ class Penduduk extends Admin_Controller {
 
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk', $data);
+	}
+
+	public function form_peristiwa($peristiwa='')
+	{
+		// Acuan jenis peristiwa berada pada ref_peristiwa
+		$this->session->jenis_peristiwa = $peristiwa;
+		$this->form();
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -203,8 +210,13 @@ class Penduduk extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-		unset($_SESSION['dari_internal']);
+		if ($this->session->status_hanya_tetap)
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap);
+		else
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
+		
+		$this->session->unset_userdata(['dari_internal']);
 
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk_form', $data);
@@ -524,7 +536,7 @@ class Penduduk extends Admin_Controller {
 		$data['nik'] = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk/update_status_dasar/$p/$o/$id");
 		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
-		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', '9'); //Kecuali status dasar 'TIDAK VALID'
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', '9, 1'); //Kecuali status dasar 'TIDAK VALID', 'HIDUP'
 		$this->load->view('sid/kependudukan/ajax_edit_status_dasar', $data);
 	}
 

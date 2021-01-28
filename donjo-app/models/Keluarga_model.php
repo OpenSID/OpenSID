@@ -355,6 +355,14 @@
 		UNSET($data['rw']);
 		UNSET($data['no_kk']);
 
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		if ($_POST['tgl_peristiwa'])
+			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
+		else
+			$tgl_peristiwa = rev_tgl($_POST['tanggallahir']);
+		unset($data['tgl_lapor']);
+		unset($data['tgl_peristiwa']);
+
 		// Simpan alamat keluarga sebelum menulis penduduk
 		$data2['alamat'] = $data['alamat'];
 		UNSET($data['alamat']);
@@ -380,23 +388,15 @@
 		$this->db->where('id', $id_pend);
 		$this->db->update('tweb_penduduk', $default);
 
-		$satuan = $_POST['tanggallahir'];
-		$blnlahir = substr($satuan,3,2);
-		$thnlahir = substr($satuan,6,4);
-		$blnskrg = (date("m"));
-		$thnskrg = (date("Y"));
-		if (($blnlahir == $blnskrg) and ($thnlahir == $thnskrg))
-		{
-			$x['id_detail'] = '1';
-		}
-		else
-		{
-			$x['id_detail'] = '5';
-		}
-
-		$x['id_pend'] = $id_pend;
-		$x['bulan'] = $blnskrg;
-		$x['tahun'] = $thnskrg;
+		// Jenis peristiwa didapat dari form yang berbeda
+		// Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+		$x = [
+			'tgl_peristiwa' => $tgl_peristiwa,
+			'kode_peristiwa' => $this->session->jenis_peristiwa,
+			'tgl_lapor' => $tgl_lapor,
+			'id_pend' => $id_pend,
+			'created_by' => $this->session->user
+		];
 		$this->penduduk_model->tulis_log_penduduk_data($x);
 
 		$log['id_pend'] = 1;
@@ -766,20 +766,14 @@
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
-
-		$satuan = $_POST['tanggallahir'];
-		$blnlahir = substr($satuan, 3, 2);
-		$thnlahir= substr($satuan, 6, 4);
-		$blnskrg = (date("m"));
-		$thnskrg = (date("Y"));
-		if (($blnlahir == $blnskrg) and ($thnlahir == $thnskrg))
-		{
-			$id_detail='1';
-		}
+		
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		if ($_POST['tgl_peristiwa'])
+			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
 		else
-		{
-			$id_detail='5';
-		}
+			$tgl_peristiwa = rev_tgl($_POST['tanggallahir']);
+		unset($data['tgl_lapor']);
+		unset($data['tgl_peristiwa']);
 
 		if (!$this->validasi_data_keluarga($data)) return;
 		unset($data['alamat']);
@@ -801,7 +795,17 @@
 		if (!$outp) $_SESSION = -1;
 
 		$id_pend = $this->db->insert_id();
-		$this->penduduk_model->tulis_log_penduduk($id_pend, $id_detail, $blnskrg, $thnskrg);
+		
+		// Jenis peristiwa didapat dari form yang berbeda
+		// Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+		$x = [
+			'tgl_peristiwa' => $tgl_peristiwa,
+			'kode_peristiwa' => $this->session->jenis_peristiwa,
+			'tgl_lapor' => $tgl_lapor,
+			'id_pend' => $id_pend,
+			'created_by' => $this->session->user
+		];
+		$this->penduduk_model->tulis_log_penduduk_data($x);
 	}
 
 	public function get_nokk($id)

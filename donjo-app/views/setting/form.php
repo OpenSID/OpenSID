@@ -58,6 +58,15 @@
 						<?php endforeach;?>
 					</select>
 				</div>
+			<?php elseif ($setting->jenis == 'datetime'): ?>
+				<div class="col-sm-12 col-md-4">
+					<div class="input-group input-group-sm date">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+						<input class="form-control input-sm pull-right tgl_1" id="<?= $setting->key?>" name="<?= $setting->key?>" type="text" value="<?= $setting->value?>">
+					</div>
+				</div>
 			<?php else : ?>
 				<div class="col-sm-12 col-md-4">
 					<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text" value="<?= $setting->value?>" <?php ($setting->kategori != 'readonly') or print 'disabled'?>></input>

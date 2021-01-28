@@ -252,10 +252,12 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	protected function bumindes_updates($hasil){
 		// Updates for issues #2777
 		$hasil =& $this->penduduk_induk($hasil);
+		// Updates for issues #2778
+		$hasil =& $this->penduduk_mutasi($hasil);
 
 		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
 		$data = array(
-			['id'=> 303, 'modul' => 'Administrasi Penduduk', 'url' => 'bumindes_penduduk_induk', 'aktif' => 1, 'ikon' => 'fa-users', 'urut' => 2, 'level' => 2, 'hidden' => 0, 'ikon_kecil' => 'fa fa-users', 'parent' => 301],
+			['id'=> 303, 'modul' => 'Administrasi Penduduk', 'url' => 'bumindes_penduduk_induk/clear', 'aktif' => 1, 'ikon' => 'fa-users', 'urut' => 2, 'level' => 2, 'hidden' => 0, 'ikon_kecil' => 'fa fa-users', 'parent' => 301],
 			['id'=> 315, 'modul' => 'Buku Mutasi Penduduk', 'url' => 'bumindes_penduduk_mutasi/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
 			['id'=> 316, 'modul' => 'Buku Rekapitulasi Jumlah Penduduk', 'url' => 'bumindes_penduduk_rekapitulasi/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
 			['id'=> 317, 'modul' => 'Buku Penduduk Sementara', 'url' => 'bumindes_penduduk_sementara/clear', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 303],
@@ -330,6 +332,135 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 					id = VALUES(id),
 					nama = VALUES(nama),
 					inisial = VALUES(inisial)";
+			$hasil =& $this->db->query($sql);
+		}
+
+		return $hasil;
+	}
+
+	protected function penduduk_mutasi($hasil)
+	{
+		// Mengubah column tanggal menjadi tanggal_lapor
+		if (! $this->db->field_exists('tgl_lapor', 'log_penduduk'))
+			$hasil =& $this->db->query('ALTER TABLE log_penduduk CHANGE COLUMN tanggal tgl_lapor TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+
+		// Menambahkan column created_at
+		if (! $this->db->field_exists('created_at', 'log_penduduk'))
+			$hasil =& $this->dbforge->add_column('log_penduduk', 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
+
+		// Menambahkan column created_by
+		if (! $this->db->field_exists('created_by', 'log_penduduk'))
+			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+				'created_by' => array(
+				'type' => 'INT',
+				'null' => TRUE,
+				),
+			));
+
+		// Menambahkan column updated_at
+		if (! $this->db->field_exists('updated_at', 'log_penduduk'))
+			$hasil =& $this->dbforge->add_column('log_penduduk', 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+
+		// Menambahkan column created_by
+		if (! $this->db->field_exists('updated_by', 'log_penduduk'))
+			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+				'updated_by' => array(
+				'type' => 'INT',
+				'null' => TRUE,
+				),
+			));
+
+		// Menambahkan column meninggal_di
+		if (! $this->db->field_exists('meninggal_di', 'log_penduduk'))
+			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+				'meninggal_di' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 50,
+				'null' => TRUE,
+				'after' => 'id_detail'
+				),
+			));
+
+		// Menambahkan column alamat_tujuan
+		if (! $this->db->field_exists('alamat_tujuan', 'log_penduduk'))
+			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+				'alamat_tujuan' => array(
+				'type' => 'TINYTEXT',
+				'null' => TRUE,
+				'after' => 'meninggal_di'
+				),
+			));
+
+		// Menghapus column tahun, dan bulan
+		if ($this->db->field_exists('tahun', 'log_penduduk'))
+			$hasil =& $this->dbforge->drop_column('log_penduduk', 'tahun');
+		if ($this->db->field_exists('bulan', 'log_penduduk'))
+			$hasil =& $this->dbforge->drop_column('log_penduduk', 'bulan');
+
+		// Merubah status pendatang menjadi tidak tetap
+		$hasil =& $this->db->set('status', 2)->where('status', 3)->update('tweb_penduduk');
+
+		// Mengubah column id_detail menjadi kode_peristiwa
+		if (! $this->db->field_exists('kode_peristiwa', 'log_penduduk'))
+			$hasil =& $this->db->query('ALTER TABLE log_penduduk CHANGE COLUMN id_detail kode_peristiwa INT NULL AFTER id_pend');
+
+		// Menghapus data Pendatang dari table status, dan mengubah auto increment ke 3
+		if ($this->db->get_where('tweb_penduduk_status', array('id' => 3)))
+		{
+			$hasil =& $this->db->delete('tweb_penduduk_status', array('id' => 3));
+			$hasil =& $this->db->query('ALTER TABLE tweb_penduduk_status AUTO_INCREMENT = 3');
+		}
+
+		// Membuat table ref_peristiwa
+		$this->dbforge->add_field([
+			'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => false],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_peristiwa', true);
+
+		// Menambahkan data ke ref_peristiwa
+		$data = array(
+			['id'=> 1, 'nama' => 'Lahir'],
+			['id'=> 2, 'nama' => 'Mati'],
+			['id'=> 3, 'nama' => 'Pindah Keluar'],
+			['id'=> 4, 'nama' => 'Hilang'],
+			['id'=> 5, 'nama' => 'Pindah Masuk'],
+		);
+
+		foreach ($data as $peristiwa)
+		{
+			$sql = $this->db->insert_string('ref_peristiwa', $peristiwa);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama)";
+			$hasil =& $this->db->query($sql);
+		}
+
+		// Menambahkan data yang sudah ada ke tabel log_penduduk
+		$hasil =& $this->db->query('
+			INSERT INTO log_penduduk (id_pend, tgl_lapor, tgl_peristiwa, created_at, kode_peristiwa)
+			SELECT p.id, p.created_at, p.created_at, p.created_at,
+			(CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else NULL end)
+			FROM tweb_penduduk p
+			LEFT JOIN log_penduduk l on l.id_pend = p.id
+			WHERE l.tgl_lapor IS NULL'
+		);
+
+		// Menambahkan data ke setting_aplikasi
+		$data_setting = array(
+			['key' => 'tgl_data_lengkap', 'keterangan' => 'Atur data tanggal sudah lengkap', 'jenis' => 'datetime'],
+			['key' => 'tgl_data_lengkap_aktif', 'value' => 0, 'keterangan' => 'Aktif / Non-aktif data tanggal sudah lengkap', 'jenis' => 'boolean'],
+		);
+
+		foreach ($data_setting as $setting)
+		{
+			$sql = $this->db->insert_string('setting_aplikasi', $setting);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					value = VALUES(value),
+					keterangan = VALUES(keterangan),
+					jenis = VALUES(jenis)";
 			$hasil =& $this->db->query($sql);
 		}
 
