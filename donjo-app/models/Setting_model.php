@@ -20,7 +20,10 @@ class Setting_model extends CI_Model {
 
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct();		
+	}
+
+	public function init(){
 		$pre = array();
 		$CI = &get_instance();
 

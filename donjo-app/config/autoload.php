@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('folder_desa_model', 'setting_model');
+$autoload['model'] = array('folder_desa_model');

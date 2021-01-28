@@ -68,78 +68,9 @@ class MY_Controller extends CI_Controller {
 		// Tampilkan profiler untuk development
 		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
 
-		$this->load->model('database_model');
-		$this->database_model->cek_migrasi();
-		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
-		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
-		$theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
-		$theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
-		if (empty($this->setting->web_theme) OR !is_dir(FCPATH.$theme_folder.'/'.$theme))
-		{
-			$this->theme = 'klasik';
-			$this->theme_folder = 'themes';
-		}
-		else
-		{
-			$this->theme = $theme;
-			$this->theme_folder = $theme_folder;
-		}
-		// Variabel untuk tema
-		$this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
-	}
-
-	function set_title($page_title)
-	{
-		$this->includes[ 'page_title' ] = $page_title;
-
-		/*
-		 * check wether page_header has been set or has a value
-		 * if not, then set page_title as page_header
-		 */
-		$this->includes[ 'page_header' ] = isset( $this->includes[ 'page_header' ] ) ? $this->includes[ 'page_header' ] : $page_title;
-		return $this;
-	}
-
-	/*
-	 * Set Page Header
-	 * sometime, we want to have page header different from page title
-	 * so, use this function
-	 * --------------------------------------
-	 * @author	Arif Rahman Hakim
-	 * @since	Version 3.0.5
-	 * @access	public
-	 * @param	string
-	 * @return	chained object
-	 */
-	function set_page_header($page_header)
-	{
-		$this->includes[ 'page_header' ] = $page_header;
-		return $this;
-	}
-
-	/*
-	 * Set Template
-	 * sometime, we want to use different template for different page
-	 * for example, 404 template, login template, full-width template, sidebar template, etc.
-	 * so, use this function
-	 * --------------------------------------
-	 * @author	Arif Rahman Hakim
-	 * @since	Version 3.1.0
-	 * @access	public
-	 * @param	string, template file name
-	 * @return	chained object
-	 */
-	function set_template($template_file = 'template.php')
-	{
-		// make sure that $template_file has .php extension
-		$template_file = substr( $template_file, -4 ) == '.php' ? $template_file : ( $template_file . ".php" );
-
-		$template_file_path = FCPATH . $this->theme_folder . '/' . $this->theme . "/" . $template_file;
-		if (is_file($template_file_path))
-			$this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
-		else
-			$this->template = '../../themes/klasik/' . $template_file;
-	}
+		$this->load->model(['setting_model']);			
+        $this->setting_model->init();
+	}	
 
 	/*
 	 * Bersihkan session cluster wilayah
@@ -162,9 +93,25 @@ class Web_Controller extends MY_Controller {
 	 */
 	public function __construct()
 	{
-		parent::__construct();
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
+		parent::__construct();		
 		$this->controller = strtolower($this->router->fetch_class());
+		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
+		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
+		$theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
+		$theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
+		if (empty($this->setting->web_theme) OR !is_dir(FCPATH.$theme_folder.'/'.$theme))
+		{
+			$this->theme = 'klasik';
+			$this->theme_folder = 'themes';
+		}
+		else
+		{
+			$this->theme = $theme;
+			$this->theme_folder = $theme_folder;
+		}
+		// Variabel untuk tema
+		$this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
+		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 	}
 
 	/*
@@ -183,6 +130,30 @@ class Web_Controller extends MY_Controller {
 		}
 
 		return $theme_view;
+	}	
+	
+	/*
+	 * Set Template
+	 * sometime, we want to use different template for different page
+	 * for example, 404 template, login template, full-width template, sidebar template, etc.
+	 * so, use this function
+	 * --------------------------------------
+	 * @author	Arif Rahman Hakim
+	 * @since	Version 3.1.0
+	 * @access	public
+	 * @param	string, template file name
+	 * @return	chained object
+	 */
+	function set_template($template_file = 'template.php')
+	{
+		// make sure that $template_file has .php extension
+		$template_file = substr( $template_file, -4 ) == '.php' ? $template_file : ( $template_file . ".php" );
+
+		$template_file_path = FCPATH . $this->theme_folder . '/' . $this->theme . "/" . $template_file;
+		if (is_file($template_file_path))
+			$this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
+		else
+			$this->template = '../../themes/klasik/' . $template_file;
 	}
 
 }
@@ -245,7 +216,7 @@ class Admin_Controller extends MY_Controller {
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-
+        
 		$this->load->model('modul_model');
 		if (!$this->modul_model->modul_aktif($this->controller))
 		{
