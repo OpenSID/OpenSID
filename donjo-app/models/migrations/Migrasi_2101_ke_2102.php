@@ -51,8 +51,8 @@ class Migrasi_2101_ke_2102 extends MY_model {
 
 		// Migrasi fitur premium
 		$migrasi = 'migrasi_fitur_premium_2010';
-  	$this->load->model('migrations/'.$migrasi);
-  	$hasil =& $this->$migrasi->up();
+		$this->load->model('migrations/'.$migrasi);
+		$hasil =& $this->$migrasi->up();
 
 		status_sukses($hasil);
 	}

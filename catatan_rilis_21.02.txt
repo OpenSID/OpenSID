@@ -1,8 +1,8 @@
-Di rilis ini, versi 21.01-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.02 tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Ariandi Ryan Kahfi, Il Ham dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
 
-Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.02 adalah sebagai berikut:
 
 1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
 2. #3848: Tampilkan Nomor Registrasi di semua daftar inventaris.
@@ -18,6 +18,14 @@ Lengkapnya, isi rilis versi 21.01-pasca adalah sebagai berikut:
 12. #3958: Tambahkan berapa kode isian format impor BIP 2016 sesuai yang dikeluarkan Dispenduk. [bug-fix]
 13. Mutakhirkan tema natra.
 
+Fitur v20.09-premium yg digabung:
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.01-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+1. #3512: Sediakan menu mengatur ukuran bagan.
+2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
+3. #3531: Tampilkan rumusan pokok IDM di Info Desa > Status Desa dari portal IDM Kemendesa. Dan bisa ditampilkan di Web melalui menu statis.
+4. #3571: Sediakan fitur untuk mencetak peta wilayah desa/dusun/rw/rt.
+5. #2775: Sediakan Buku Lembaran dan Berita Desa.
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
