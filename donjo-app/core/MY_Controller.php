@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -43,31 +45,21 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class MY_Controller extends CI_Controller {
 
-	/*
-	 * Common data
-	 */
 	public $user;
 	public $settings;
 	public $includes;
-	public $current_uri;
 	public $theme;
 	public $template;
 	public $error;
 
-	/*
-	 * Constructor
-	 */
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('database_model');
 		$this->database_model->cek_migrasi();
 		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
-		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
 		$theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
 		$theme_folder = preg_match("/desa\//", strtolower($this->setting->web_theme)) ? "desa/themes" : "themes";
 		if (empty($this->setting->web_theme) OR !is_dir(FCPATH.$theme_folder.'/'.$theme))
@@ -82,35 +74,6 @@ class MY_Controller extends CI_Controller {
 		}
 		// Variabel untuk tema
 		$this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
-	}
-
-	function set_title($page_title)
-	{
-		$this->includes[ 'page_title' ] = $page_title;
-
-		/*
-		 * check wether page_header has been set or has a value
-		 * if not, then set page_title as page_header
-		 */
-		$this->includes[ 'page_header' ] = isset( $this->includes[ 'page_header' ] ) ? $this->includes[ 'page_header' ] : $page_title;
-		return $this;
-	}
-
-	/*
-	 * Set Page Header
-	 * sometime, we want to have page header different from page title
-	 * so, use this function
-	 * --------------------------------------
-	 * @author	Arif Rahman Hakim
-	 * @since	Version 3.0.5
-	 * @access	public
-	 * @param	string
-	 * @return	chained object
-	 */
-	function set_page_header($page_header)
-	{
-		$this->includes[ 'page_header' ] = $page_header;
-		return $this;
 	}
 
 	/*
@@ -137,25 +100,10 @@ class MY_Controller extends CI_Controller {
 			$this->template = '../../themes/klasik/' . $template_file;
 	}
 
-	/*
-	 * Bersihkan session cluster wilayah
-	 */
-	public function clear_cluster_session()
-	{
-		$cluster_session = array('dusun', 'rw', 'rt');
-		foreach ($cluster_session as $session)
-		{
-			$this->session->unset_userdata($session);
-		}
-	}
-
 }
 
 class Web_Controller extends MY_Controller {
 
-	/*
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -185,14 +133,9 @@ class Web_Controller extends MY_Controller {
 
 class Mandiri_Controller extends MY_Controller {
 
-	/*
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
-		$this->controller = strtolower($this->router->fetch_class());
 		if ($this->session->mandiri != 1 OR $this->setting->layanan_mandiri == 0) redirect();
 	}
 
@@ -203,9 +146,6 @@ class Mandiri_Controller extends MY_Controller {
  */
 class Api_Controller extends MY_Controller {
 
-	/*
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -225,22 +165,22 @@ class Admin_Controller extends MY_Controller {
 	public $CI = NULL;
 	public $pengumuman = NULL;
 	public $header;
-	protected $nav = 'nav';
 	protected $minsidebar = 0;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
-		$this->load->model(['header_model', 'user_model', 'notif_model']);
+		$this->load->model(['header_model', 'user_model', 'notif_model', 'modul_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
-		$this->load->model('modul_model');
 		if (!$this->modul_model->modul_aktif($this->controller))
 		{
 			session_error("Fitur ini tidak aktif");
-			redirect('/');
+			redirect();
 		}
+
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))
@@ -252,7 +192,7 @@ class Admin_Controller extends MY_Controller {
 			{
 				session_error("Anda tidak mempunyai akses pada fitur ini");
 				unset($_SESSION['request_uri']);
-				redirect('/');
+				redirect();
 			}
 		}
 		$this->cek_pengumuman();
