@@ -121,7 +121,7 @@ class Web_Controller extends MY_Controller {
 		$theme_folder = self::get_instance()->theme_folder;
 		$theme_view = "../../$theme_folder/$theme/$view";
 
-		if (!is_file(APPPATH .'views/'. $theme_view))
+		if ( ! is_file(APPPATH .'views/'. $theme_view))
 		{
 			$theme_view = "../../themes/klasik/$view";
 		}
@@ -145,11 +145,6 @@ class Mandiri_Controller extends MY_Controller {
  * Untuk API read-only, seperti Api_informasi_publik
  */
 class Api_Controller extends MY_Controller {
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	protected function log_request()
 	{
@@ -175,13 +170,13 @@ class Admin_Controller extends MY_Controller {
 		$this->load->model(['header_model', 'user_model', 'notif_model', 'modul_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
-		if (!$this->modul_model->modul_aktif($this->controller))
+		if ( ! $this->modul_model->modul_aktif($this->controller))
 		{
 			session_error("Fitur ini tidak aktif");
 			redirect();
 		}
 
-		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
+		if ( ! $this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))
 			{

@@ -49,7 +49,6 @@ class First extends Web_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		parent::clear_cluster_session();
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
@@ -104,11 +103,12 @@ class First extends Web_Controller {
 
 	public function auth()
 	{
-		if ($_SESSION['mandiri_wait'] != 1)
+		if ($this->session->mandiri_wait != 1)
 		{
 			$this->first_m->siteman();
 		}
-		if ($_SESSION['mandiri'] == 1)
+
+		if ($this->session->mandiri == 1)
 		{
 			redirect('mandiri_web/mandiri/1/1');
 		}
