@@ -438,11 +438,42 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			$hasil =& $this->db->query($sql);
 		}
 
-		// Menambahkan data yang sudah ada ke tabel log_penduduk
+		/* KETERANGAN id_detail (sebelum konversi ke kode_peristiwa)
+		   1 = status hidup, insert penduduk baru lahir
+		   2 = status menjadi mati
+			 3 = status menjadi pindah
+			 4 = status menjadi hilang
+			 5 = insert penduduk baru dengan status tetap/tidak tetap
+			 6 = pindah dalam desa
+			 7 = hapus anggota keluarga
+			 8 = insert penduduk baru dengan status pendatang
+			 9 = tambah keluarga baru dari penduduk yang sudah ada
+		*/
+
+		/* KETERANGAN kode_peristiwa
+		   1 = insert penduduk baru dengan status lahir
+		   2 = penduduk mati
+			 3 = penduduk pindah
+			 4 = penduduk hilang
+			 5 = insert penduduk baru dengan status masuk
+		*/
+
+		// Hapus log_penduduk yg tidak diperlukan lagi (id_detail tidak berlaku lagi)
+		$hasil =& $this->db
+			->where('kode_peristiwa IN (6,7,9)')
+			->delete('log_penduduk');
+
+		// Konversi id_detail ke kode_peristiwa di log_penduduk
+		$hasil =& $this->db
+			->where('kode_peristiwa', 8)
+			->set('kode_peristiwa', 5)
+			->update('log_penduduk');
+
+		// Menambahkan data yang sudah ada ke tabel log_penduduk kalau belum ada
 		$hasil =& $this->db->query('
 			INSERT INTO log_penduduk (id_pend, tgl_lapor, tgl_peristiwa, created_at, kode_peristiwa)
 			SELECT p.id, p.created_at, p.created_at, p.created_at,
-			(CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else NULL end)
+			(CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else 5 end)
 			FROM tweb_penduduk p
 			LEFT JOIN log_penduduk l on l.id_pend = p.id
 			WHERE l.tgl_lapor IS NULL'

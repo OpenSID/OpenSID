@@ -896,7 +896,7 @@ class Penduduk_model extends MY_Model {
 			'nama_kk' => $penduduk['kepala_kk'],
 			'tgl_peristiwa' => rev_tgl($_POST['tgl_peristiwa']),
 			'tgl_lapor' => rev_tgl($_POST['tgl_lapor']),
-			'kode_peristiwa>' => $data['status_dasar'],
+			'kode_peristiwa' => $data['status_dasar'],
 			'catatan' => $_POST['catatan'],
 			'meninggal_di' => $_POST['meninggal_di']
 		];

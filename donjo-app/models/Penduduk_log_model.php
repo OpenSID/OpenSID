@@ -153,17 +153,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
-	private function status_dasar_sql()
-	{
-		if ($kf = $this->session->status_dasar)
-		{
-			if (is_array($kf))
-				$this->db->where_in('u.status_dasar', $kf);
-			else 
-				$this->db->where('u.status_dasar', $kf);
-		}
-	}
-
 	private function sex_sql()
 	{
 		if ($kf = $this->session->sex)
@@ -224,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		$kt = $this->session->filter_tahun;
 		$kb = $this->session->filter_bulan;
-		
+
 		switch (true)
 		{
 			case ($kt && $kb):
@@ -321,7 +310,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$this->kode_peristiwa();
 		$this->search_sql();
-		$this->status_dasar_sql();
 		$this->sex_sql();
 		$this->agama_sql();
 		$this->dusun_sql();
