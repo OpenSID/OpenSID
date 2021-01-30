@@ -151,7 +151,7 @@ class Laporan extends Admin_Controller {
 		$data['config'] = $this->config_model->get_data();
 		$data['bulan'] = $_SESSION['bulanku'];
 		$data['tahun'] = $_SESSION['tahunku'];
-		$data['bln'] = $this->laporan_bulanan_model->bulan($data['bulan']);
+		$data['bln'] = getBulan($data['bulan']);
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
 		$data['kematian'] = $this->laporan_bulanan_model->kematian();
