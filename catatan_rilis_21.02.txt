@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.02 tersedia rumusan pokok IDM dari portal IDM Kemendesa. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi, Il Ham dan afa28 yang terus berkontribusi.
+Terima kasih pada afa28, Ahmad Afandi, Rudy Purwanto, Zeppy Shiddiq, Masumo, Ariandi Ryan Kahfi dan Il Ham yang terus berkontribusi.
 
 Lengkapnya, isi rilis versi 21.02 adalah sebagai berikut:
 
