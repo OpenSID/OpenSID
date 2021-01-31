@@ -520,6 +520,21 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			WHERE l.tgl_lapor IS NULL'
 		);
 
+		// Hapus log tertua untuk duplikat (id_pend, kode_peristiwa).
+		// Misalnya hapus kalau ada dua entri 'mati' untuk penduduk yg sama.
+		// https://stackoverflow.com/questions/6107167/mysql-delete-duplicate-records-but-keep-latest/6108860
+	 	$hapus_dupl_sql = "delete log_penduduk
+	   	from log_penduduk
+	  	inner join (
+	    	select max(id) as last_id, id_pend, kode_peristiwa
+	      	from log_penduduk
+	      	group by id_pend, kode_peristiwa
+	     		having count(*) > 1
+	     	) dup
+	    	on dup.id_pend = log_penduduk.id_pend and dup.kode_peristiwa = log_penduduk.kode_peristiwa
+	  	where log_penduduk.id < dup.last_id";
+	  $hasil =& $this->db->query($hapus_dupl_sql);
+
 		// Menambahkan data ke setting_aplikasi
 		$data_setting = array(
 			['key' => 'tgl_data_lengkap', 'keterangan' => 'Atur data tanggal sudah lengkap', 'jenis' => 'datetime'],

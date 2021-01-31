@@ -260,10 +260,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	public function paging($p=1, $o=0)
 	{
-		$this->db->select('COUNT(log.id) AS id');
+		$this->db->select('COUNT(log.id) AS jml');
 		$this->list_data_sql();
 		$jml_data = $this->db->get()
-			->row()->id;
+			->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
