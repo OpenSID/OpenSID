@@ -214,20 +214,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$kt = $this->session->filter_tahun;
 		$kb = $this->session->filter_bulan;
 
-		switch (true)
-		{
-			case ($kt && $kb):
-				$this->db->where("YEAR(log.tgl_lapor)", $kt)
-						->where("MONTH(log.tgl_lapor)", $kb);
-				break;
-			case ($kt):
-				$this->db->where("YEAR(log.tgl_lapor)", $kt);
-				break;
-			case ($kb):
-				$this->db->where("MONTH(log.tgl_lapor)", $kb);
-				break;
-			default:
-		}
+		if ($kt) $this->db->where("YEAR(log.tgl_lapor)", $kt);
+		if ($kb) $this->db->where("MONTH(log.tgl_lapor)", $kb);
 	}
 
 	private function tgl_lengkap()
@@ -317,7 +305,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->rt_sql();
 		$this->status_penduduk();
 		$this->tahun_bulan();
-		$this->tgl_lengkap();
 	}
 
 	// $limit = 0 mengambil semua
@@ -375,6 +362,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$j++;
 		}
 		return $data;
+	}
+
+	public function tahun_log_pertama()
+	{
+		$thn = $this->db
+			->select('min(date_format(tgl_lapor, "%Y")) as thn')
+			->from('log_penduduk')
+			->get()->row()->thn;
+		return $thn;
 	}
 
 }

@@ -61,6 +61,8 @@ class Penduduk_log extends Admin_Controller {
 	public function clear()
 	{
 		$this->session->unset_userdata($this->list_session);
+		$this->session->filter_bulan = date("n");
+		$this->session->filter_tahun = date("Y");
 		$this->session->per_page = 20;
 		redirect('penduduk_log');
 	}
@@ -98,7 +100,9 @@ class Penduduk_log extends Admin_Controller {
 		{
 			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
-		
+		$data['tahun'] = $this->session->filter_tahun;
+		$data['bulan'] = $this->session->filter_bulan;
+
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
@@ -109,6 +113,7 @@ class Penduduk_log extends Admin_Controller {
 		$data['paging'] = $this->penduduk_log_model->paging($p, $o);
 		$data['main'] = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
+		$data['tahun_log_pertama'] = $this->penduduk_log_model->tahun_log_pertama();
 		$data['list_jenis_peristiwa'] = $this->referensi_model->list_data('ref_peristiwa');
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
@@ -152,6 +157,21 @@ class Penduduk_log extends Admin_Controller {
 		if ($rt != "")
 			$this->session->rt = $rt;
 		else $this->session->unset_userdata('rt');
+		redirect('penduduk_log');
+	}
+
+	public function tahun_bulan()
+	{
+
+		if ($bln = $this->input->post('bulan')) $this->session->filter_bulan = $bln;
+		else $this->session->unset_userdata('filter_bulan');
+		if ($thn = $this->input->post('tahun')) $this->session->filter_tahun = $thn;
+		else
+		{
+			// Kalau tidak tentukan tahun, tampilkan semua
+			$this->session->unset_userdata('filter_tahun');
+			$this->session->unset_userdata('filter_bulan');
+		}
 		redirect('penduduk_log');
 	}
 

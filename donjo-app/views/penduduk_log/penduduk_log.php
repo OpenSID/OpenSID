@@ -97,6 +97,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														<?php endif; ?>
 													<?php endforeach; ?>
 												</select>
+                        <select class="form-control input-sm" name="tahun" onchange="formAction('mainform','<?= site_url('penduduk_log/tahun_bulan')?>')" width="100%">
+                          <option value="">Pilih tahun</option>
+                          <?php for ($t=$tahun_log_pertama; $t<=date("Y"); $t++): ?>
+                            <option value=<?= $t ?> <?php selected($tahun, $t); ?>><?= $t ?></option>
+                          <?php endfor; ?>
+                        </select>
+                        <select class="form-control input-sm" name="bulan" onchange="formAction('mainform','<?= site_url('penduduk_log/tahun_bulan')?>')" width="100%">
+                          <option value="">Pilih bulan</option>
+                          <?php foreach (bulan() as $no_bulan => $nama_bulan): ?>
+                            <option value=<?= $no_bulan ?> <?php selected($bulan, $no_bulan); ?>><?= $nama_bulan ?></option>
+                          <?php endforeach; ?>
+                        </select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_sex AS $data): ?>
@@ -208,8 +220,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																			if ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'])
 																			{
 																		?>
-																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>																		
-																		<?php	
+																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>
+																		<?php
 																			}
 																		?>
 																	</td>
@@ -264,7 +276,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																	<td><?= tgl_indo($data['tgl_peristiwa'])?></td>
 																	<td><?= tgl_indo($data['tgl_lapor'])?></td>
 																	<td>Data telah dihapus.</td>
-																</tr>	
+																</tr>
 															<?php endif; ?>
 															<?php endforeach; ?>
 														</tbody>
