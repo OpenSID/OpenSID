@@ -458,9 +458,15 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			 5 = insert penduduk baru dengan status masuk
 		*/
 
-		// Hapus log_penduduk yg tidak diperlukan lagi (id_detail tidak berlaku lagi)
+		// Hapus log untuk penduduk yg sudah terhapus
 		$hasil =& $this->db
-			->where('kode_peristiwa IN (6,7,9)')
+			->where("id_pend IN
+				(select id_pend from
+					(select l.id_pend
+						from log_penduduk l
+						left join tweb_penduduk p on l.id_pend = p.id
+						where p.id is null) x
+				)")
 			->delete('log_penduduk');
 
 		// Konversi id_detail ke kode_peristiwa di log_penduduk
@@ -469,13 +475,48 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			->set('kode_peristiwa', 5)
 			->update('log_penduduk');
 
+		// Konversi kode_peristiwa null dari migrasi salah sebelumnya
+		$hasil =& $this->db
+			->where('kode_peristiwa IS NULL')
+			->set('kode_peristiwa', 5)
+			->update('log_penduduk');
+
+		// Hapus log_penduduk yg tidak diperlukan lagi (id_detail tidak berlaku lagi)
+		$hasil =& $this->db
+			->where('kode_peristiwa IN (6,7,9)')
+			->delete('log_penduduk');
+
+		// Hapus log salah untuk penduduk dgn status dasar hidup
+		$hasil =& $this->db
+			->where('kode_peristiwa NOT IN (1,5)')
+			->where("id_pend IN (select id from penduduk_hidup)")
+			->delete('log_penduduk');
+
+		// Hapus log salah untuk penduduk dgn status dasar mati
+		$hasil =& $this->db
+			->where('kode_peristiwa NOT IN (1,5,2)')
+			->where("id_pend IN (select id from tweb_penduduk where status_dasar = 2)")
+			->delete('log_penduduk');
+
+		// Hapus log salah untuk penduduk dgn status dasar pindah
+		$hasil =& $this->db
+			->where('kode_peristiwa NOT IN (1,5,3)')
+			->where("id_pend IN (select id from tweb_penduduk where status_dasar = 3)")
+			->delete('log_penduduk');
+
+		// Hapus log salah untuk penduduk dgn status dasar hilang
+		$hasil =& $this->db
+			->where('kode_peristiwa NOT IN (1,5,4)')
+			->where("id_pend IN (select id from tweb_penduduk where status_dasar = 4)")
+			->delete('log_penduduk');
+
 		// Menambahkan data yang sudah ada ke tabel log_penduduk kalau belum ada
 		$hasil =& $this->db->query('
 			INSERT INTO log_penduduk (id_pend, tgl_lapor, tgl_peristiwa, created_at, kode_peristiwa)
 			SELECT p.id, p.created_at, p.created_at, p.created_at,
 			(CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else 5 end)
 			FROM tweb_penduduk p
-			LEFT JOIN log_penduduk l on l.id_pend = p.id
+			LEFT JOIN log_penduduk l on l.id_pend = p.id and l.kode_peristiwa in (1,5)
 			WHERE l.tgl_lapor IS NULL'
 		);
 
@@ -489,7 +530,6 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		{
 			$sql = $this->db->insert_string('setting_aplikasi', $setting);
 			$sql .= " ON DUPLICATE KEY UPDATE
-					value = VALUES(value),
 					keterangan = VALUES(keterangan),
 					jenis = VALUES(jenis)";
 			$hasil =& $this->db->query($sql);
