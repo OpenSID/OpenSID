@@ -1,10 +1,10 @@
-Di rilis ini, versi 21.02 tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.02 tersedia rumusan pokok IDM dari portal IDM Kemendesa. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Ariandi Ryan Kahfi, Il Ham dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada Ariandi Ryan Kahfi, Il Ham dan afa28 yang terus berkontribusi.
 
 Lengkapnya, isi rilis versi 21.02 adalah sebagai berikut:
 
-1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
+1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. [teknis]
 2. #3848: Tampilkan Nomor Registrasi di semua daftar inventaris.
 3. #3904: Tampilkan luas bangunan di daftar inventaris Konstruksi Dalam Pengerjaan. [bug-fix]
 4. #3890: Pengguna operator sekarang dapat mengakses menu Buku Administrasi Desa.
@@ -18,7 +18,7 @@ Lengkapnya, isi rilis versi 21.02 adalah sebagai berikut:
 12. #3958: Tambahkan berapa kode isian format impor BIP 2016 sesuai yang dikeluarkan Dispenduk. [bug-fix]
 13. Mutakhirkan tema natra.
 
-Fitur v20.09-premium yg digabung:
+Fitur v20.10-premium yg digabung:
 
 1. #3512: Sediakan menu mengatur ukuran bagan.
 2. #1767: Tambahkan kolom Jabatan dan No SK Jabatan di data Kelompok. Tampilkan daftar Pengurus dan daftar Anggota Kelompok secara terpisah di halaman statis Kelompok di Web.
