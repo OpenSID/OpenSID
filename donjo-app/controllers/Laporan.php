@@ -94,12 +94,14 @@ class Laporan extends Admin_Controller {
 		{
 			$data['data_lengkap'] = false;
 			$this->render('laporan/bulanan', $data);
+			return;
 		}
 		$tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
 		if ($data['tahunku'].'-'.$data['bulanku'] < $tahun_bulan)
 		{
 			$data['sesudah_data_lengkap'] = false;
 			$this->render('laporan/bulanan', $data);
+			return;
 		}
 		$this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
 		$data['tahun_lengkap'] = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
