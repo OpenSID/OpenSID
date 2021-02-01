@@ -69,7 +69,7 @@ class Pembangunan_model extends CI_Model
 		$builder = $this->db->select([
 			'p.*',
 			'(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
-			'(CASE WHEN MAX(d.persentase) IS NOT NULL THEN MAX(d.persentase) ELSE CONCAT("belum ada progres") END) AS max_persentase',
+			'(CASE WHEN MAX(CAST(d.persentase as UNSIGNED INTEGER)) IS NOT NULL THEN CONCAT(MAX(CAST(d.persentase as UNSIGNED INTEGER)), "%") ELSE CONCAT("belum ada progres") END) AS max_persentase',
 		])
 		->from("{$this->table} p")
 		->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')

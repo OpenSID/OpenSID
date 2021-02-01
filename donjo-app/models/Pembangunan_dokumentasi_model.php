@@ -50,7 +50,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
 	protected $table = 'pembangunan_ref_dokumentasi';
 
 	const ORDER_ABLE = [
-		3 => 'd.persentase',
+		3 => 'CAST(d.persentase as UNSIGNED INTEGER)',
 		4 => 'd.keterangan',
 		5 => 'd.created_at',
 	];
@@ -189,6 +189,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
 	public function find_dokumentasi($id_pembangunan)
 	{
 		return $this->db->where('id_pembangunan', $id_pembangunan)
+			->order_by('CAST(persentase as UNSIGNED INTEGER)')
 			->get($this->table)
 			->result();
 	}
