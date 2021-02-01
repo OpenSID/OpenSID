@@ -186,7 +186,7 @@ class Laporan_bulanan_model extends CI_Model {
 			->select('sum(case when sex = 2 and warganegara_id <> 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNI_P_MINUS')
 			->select('sum(case when sex = 1 and warganegara_id = 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNA_L_MINUS')
 			->select('sum(case when sex = 2 and warganegara_id = 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNA_P_MINUS')
-			->select('sum(case when kk_level = 1  and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_PLUS')
+			->select('sum(case when kk_level = 1  and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_MINUS')
 			->select('sum(case when kk_level = 1 and sex = 1 and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_L_MINUS')
 			->select('sum(case when kk_level = 1 and sex = 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_P_MINUS')
 			->from('('.$penduduk_mutasi_sql.') as m')
