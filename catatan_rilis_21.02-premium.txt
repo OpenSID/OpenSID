@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.02-premium tersedia Buku Induk Penduduk dan Buku Mutasi Penduduk sesuai Permendagri No. 47/2016. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Agung Sugiarto, Zeppy Shiddiq, Ariandi Ryan Kahfi, Il Ham dan Ians Shinichi Kudo yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulia berkontribusi.
+Terima kasih pada afa28, Agung Sugiarto, Zeppy Shiddiq, Ariandi Ryan Kahfi, Il Ham dan Ians Shinichi Kudo yang terus berkontribusi.
 
 Lengkapnya, isi rilis versi 21.02-premium adalah sebagai berikut:
 
