@@ -201,7 +201,7 @@
 		//Paging SQL
 		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
 
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.status_dasar, t.foto, t.id as id_pend,
+		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend,
 			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
@@ -766,7 +766,7 @@
 		unset($data['file_foto']);
 		unset($data['old_foto']);
 		unset($data['nik_lama']);
-		
+
 		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
 		if ($_POST['tgl_peristiwa'])
 			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
@@ -795,7 +795,7 @@
 		if (!$outp) $_SESSION = -1;
 
 		$id_pend = $this->db->insert_id();
-		
+
 		// Jenis peristiwa didapat dari form yang berbeda
 		// Jika peristiwa lahir akan mengambil data dari field tanggal lahir
 		$x = [

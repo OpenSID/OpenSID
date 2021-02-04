@@ -1,6 +1,7 @@
 <?php
 
-define("FOTO_DEFAULT", base_url() . 'assets/files/user_pict/kuser.png');
+define("FOTO_DEFAULT_PRIA", base_url() . 'assets/files/user_pict/kuser.png');
+define("FOTO_DEFAULT_WANITA", base_url() . 'assets/files/user_pict/wuser.png');
 
 define ('MIME_TYPE_SIMBOL', serialize (array(
 	'image/png',  'image/x-png' )));
@@ -78,16 +79,19 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter =
 	return $namaFileUnik;
 }
 
-function AmbilFoto($foto, $ukuran="kecil_")
+function AmbilFoto($foto, $ukuran="kecil_", $sex='1')
 {
-	if (empty($foto) OR $foto == 'kuser.png')
-		$file_foto = FOTO_DEFAULT;
-	else
+	if ($foto == 'kuser.png' || $foto == 'wuser.png') return base_url() . LOKASI_USER_PICT . $foto;
+
+	if (empty($foto)) return $sex == 1 ? FOTO_DEFAULT_PRIA : FOTO_DEFAULT_WANITA;
+
+	$ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
+	$file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+	if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto))
 	{
-		$ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
-		$file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
-		if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) $file_foto = FOTO_DEFAULT;
+		$file_foto = $sex == 1 ? FOTO_DEFAULT_PRIA : FOTO_DEFAULT_WANITA;
 	}
+
 	return $file_foto;
 }
 

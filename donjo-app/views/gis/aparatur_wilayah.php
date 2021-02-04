@@ -3,11 +3,6 @@
 	$('.cycle-slideshow').cycle();
 </script>
 <style type="text/css">
-	#aparatur_wilayah .cycle-pager span
-	{
-		height: 10px;
-		width: 10px;
-	}
 	.cycle-slideshow
 	{
 		max-height: none;
@@ -21,15 +16,9 @@
 		<div class="box-body">
 			<div id="aparatur_wilayah" class="cycle-slideshow">
 				<div class="cycle-overlay"></div>
-				<?php if ($penduduk['foto']): ?>
-					<img src="<?= AmbilFoto($penduduk['foto'])?>"
+				<img src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>"
 					data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
-					data-cycle-desc="<?= $jabatan ?>">
-				<?php else: ?>
-					<img src="<?= base_url("assets/files/user_pict/kuser.png") ?>"
-					data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
-					data-cycle-desc="<?= $jabatan ?>">
-				<?php endif; ?>
+					data-cycle-desc="<?= $penduduk['jabatan'] ?>">
 			</div>
 		</div>
 	</div>

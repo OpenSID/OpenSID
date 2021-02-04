@@ -192,7 +192,7 @@
 											<td class="padat">
 												<div class="user-panel">
 													<div class="image2">
-														<img src="<?= AmbilFoto($data['foto']); ?>" class="img-circle" alt="Foto Penduduk"/>
+														<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" class="img-circle" alt="Foto Penduduk"/>
 													</div>
 												</div>
 											</td>

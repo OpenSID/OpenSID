@@ -4,7 +4,7 @@
 	<?php endif; ?>
 	<div class="box box-primary">
 		<div class="box-body box-profile">
-			<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
+			<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>" alt="Foto">
 			<br/>
 			<p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
 			<br/>

@@ -228,7 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																	<td nowrap>
 																		<div class="user-panel">
 																			<div class="image2">
-																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																				<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>" class="img-circle" alt="Foto Penduduk"/>
 																			</div>
 																		</div>
 																	</td>

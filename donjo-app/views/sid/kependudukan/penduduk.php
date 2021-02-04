@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<a href="<?= site_url('penduduk/form_peristiwa/5'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i>  Penduduk Masuk</a>
 								</li>
 							</ul>
-						</div>					
+						</div>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("penduduk/delete_all/$p/$o"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
@@ -232,15 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															<div class="user-panel">
 																<div class="image2">
 																	<img class="img-circle" alt="Foto Penduduk"
-																		<?php if (!empty($data['foto'])): ?>
-																			src="<?= AmbilFoto($data['foto']) ?>"
-																		<?php else: ?>
-																			<?php if (strtolower($data['sex']) === 'laki-laki'): ?>
-																				src="<?= base_url('/assets/files/user_pict/kuser.png') ?>"
-																			<?php else: ?>
-																				src="<?= base_url('/assets/files/user_pict/wuser.png') ?>"
-																			<?php endif; ?>
-																		<?php endif; ?>
+																		src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>"
 																	/>
 																</div>
 															</div>
