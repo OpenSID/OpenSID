@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.02-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
 1. [untuk diisi]
@@ -10,6 +10,8 @@ Fitur Premium:
 
 1. Perbaiki jumlah KK di Statistik > Laporan Bulanan. [bug-fix]
 2. #3977: Urut persentase di rincian pembangunan sudah diperbaiki. [bug-fix]
+3. Sesuaikan gambar default penduduk dan pamong di semua tampilan berdasarkan jenis kelamin penduduk.
+4. Perbaiki menampilkan foto anggota kelompok di Kependudukan > Kelompok. [bug-fix]
 
 
 
