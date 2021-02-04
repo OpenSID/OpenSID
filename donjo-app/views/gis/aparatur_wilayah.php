@@ -18,7 +18,7 @@
 				<div class="cycle-overlay"></div>
 				<img src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>"
 					data-cycle-title="<span class='cycle-overlay-title'><?= $penduduk['nama'] ?></span>"
-					data-cycle-desc="<?= $penduduk['jabatan'] ?>">
+					data-cycle-desc="<?= $jabatan ?>">
 			</div>
 		</div>
 	</div>
