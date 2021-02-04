@@ -56,7 +56,10 @@ class Pamong_model extends CI_Model {
 
 	public function list_data($offset = 0, $limit = 500)
 	{
-		$this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir, x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
+		$this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir,
+			(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
+			(case when p.foto is not null then p.foto else u.foto end) as foto,
+			x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
 
 		$this->list_data_sql();
 		$this->db->order_by('u.urut')
@@ -169,18 +172,18 @@ class Pamong_model extends CI_Model {
 
 	public function get_data($id = 0)
 	{
-		$sql = "SELECT u.*, p.nama as nama
-			FROM tweb_desa_pamong u
-			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
-			WHERE pamong_id = ?";
-		$query = $this->db->query($sql, $id);
-		$data  = $query->row_array();
+		$data = $this->db
+			->select('u.*,
+				(case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
+				(case when p.foto is not null then p.foto else u.foto end) as foto,
+				(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex')
+			->from('tweb_desa_pamong u')
+			->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
+			->where('pamong_id', $id)
+			->get()
+			->row_array();
+
 		$data['pamong_niap_nip'] = (!empty($data['pamong_nip']) and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
-		if (!empty($data['id_pend']))
-		{
-			// Dari database penduduk
-			$data['pamong_nama'] = $data['nama'];
-		}
 		return $data;
 	 }
 
@@ -371,6 +374,7 @@ class Pamong_model extends CI_Model {
 	public function list_aparatur_desa()
 	{
 		$data['daftar_perangkat'] = $this->db->select('dp.jabatan, dp.pamong_niap, dp.foto,
+			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
 			ELSE p.nama END AS nama', FALSE)
 			->from('tweb_desa_pamong dp')
@@ -382,8 +386,8 @@ class Pamong_model extends CI_Model {
 
 		foreach ($data['daftar_perangkat'] as $key => $perangkat)
 		{
-			$perangkat['foto'] = AmbilFoto($perangkat['foto'], "besar");
-			if (!$data['foto_pertama'] and $perangkat['foto'] != FOTO_DEFAULT) $data['foto_pertama'] = $key;
+			$perangkat['foto'] = AmbilFoto($perangkat['foto'], "besar", $perangkat['id_sex']);
+			if ( ! $data['foto_pertama'] and $perangkat['foto'] != FOTO_DEFAULT_PRIA and $perangkat['foto'] != FOTO_DEFAULT_WANITA) $data['foto_pertama'] = $key;
 		 	$data['daftar_perangkat'][$key] = $perangkat;
 		}
 

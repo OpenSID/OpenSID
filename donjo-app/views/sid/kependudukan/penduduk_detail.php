@@ -67,11 +67,7 @@
 										<table class="table table-bordered table-striped table-hover" >
 											<tr>
 												<td colspan="3">
-													<?php if ($penduduk['foto']): ?>
-														<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
-													<?php else: ?>
-														<img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
-													<?php endif; ?>
+													<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>" alt="Foto">
 												</td>
 											</tr>
 											<div class="table-responsive">

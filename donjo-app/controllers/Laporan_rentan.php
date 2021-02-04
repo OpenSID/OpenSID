@@ -48,6 +48,7 @@ class Laporan_rentan extends Admin_Controller {
 
 		$this->load->model('laporan_bulanan_model');
 		$this->load->model('config_model');
+		$this->load->model('wilayah_model');
 
 		//Initialize Session ------------
 		$_SESSION['success'] = 0;

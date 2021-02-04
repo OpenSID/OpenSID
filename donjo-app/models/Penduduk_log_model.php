@@ -153,17 +153,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
-	private function status_dasar_sql()
-	{
-		if ($kf = $this->session->status_dasar)
-		{
-			if (is_array($kf))
-				$this->db->where_in('u.status_dasar', $kf);
-			else 
-				$this->db->where('u.status_dasar', $kf);
-		}
-	}
-
 	private function sex_sql()
 	{
 		if ($kf = $this->session->sex)
@@ -224,21 +213,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		$kt = $this->session->filter_tahun;
 		$kb = $this->session->filter_bulan;
-		
-		switch (true)
-		{
-			case ($kt && $kb):
-				$this->db->where("YEAR(log.tgl_lapor)", $kt)
-						->where("MONTH(log.tgl_lapor)", $kb);
-				break;
-			case ($kt):
-				$this->db->where("YEAR(log.tgl_lapor)", $kt);
-				break;
-			case ($kb):
-				$this->db->where("MONTH(log.tgl_lapor)", $kb);
-				break;
-			default:
-		}
+
+		if ($kt) $this->db->where("YEAR(log.tgl_lapor)", $kt);
+		if ($kb) $this->db->where("MONTH(log.tgl_lapor)", $kb);
 	}
 
 	private function tgl_lengkap()
@@ -271,10 +248,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	public function paging($p=1, $o=0)
 	{
-		$this->db->select('COUNT(log.id) AS id');
+		$this->db->select('COUNT(log.id) AS jml');
 		$this->list_data_sql();
 		$jml_data = $this->db->get()
-			->row()->id;
+			->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -321,7 +298,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$this->kode_peristiwa();
 		$this->search_sql();
-		$this->status_dasar_sql();
 		$this->sex_sql();
 		$this->agama_sql();
 		$this->dusun_sql();
@@ -329,7 +305,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$this->rt_sql();
 		$this->status_penduduk();
 		$this->tahun_bulan();
-		$this->tgl_lengkap();
 	}
 
 	// $limit = 0 mengambil semua
@@ -337,7 +312,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		//Main Query
 		$this->db
-			->select('u.id, u.nik, u.tempatlahir, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk, v.nama AS warganegara, u.created_at, log.meninggal_di, u.alamat_sebelumnya, log.alamat_tujuan,')
+			->select('u.id, u.nik, u.sex as id_sex, u.tempatlahir, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk, v.nama AS warganegara, u.created_at, log.meninggal_di, u.alamat_sebelumnya, log.alamat_tujuan,')
 			->select('(CASE when log.kode_peristiwa = 3 then rp.nama else ra.nama end) as nama_peristiwa')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa")
 			->select('x.nama AS sex, g.nama AS agama, log.tgl_lapor, log.tgl_peristiwa, log.kode_peristiwa, h.nik as nik_hapus');
@@ -387,6 +362,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$j++;
 		}
 		return $data;
+	}
+
+	public function tahun_log_pertama()
+	{
+		$thn = $this->db
+			->select('min(date_format(tgl_lapor, "%Y")) as thn')
+			->from('log_penduduk')
+			->get()->row()->thn;
+		return $thn;
 	}
 
 }
