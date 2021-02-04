@@ -1,10 +1,38 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		$("#dusun").change(function() {
+			let dusun = $(this).val();
+			$('#isi_rt').hide();
+
+			if (dusun) {
+				var rw = $('#rw');
+				$('#isi_rw').show();
+				select_options(rw, urlencode(dusun));
+			} else {
+				$('#isi_rw').hide();
+			}
+		});
+
+		$("#rw").change(function() {
+			let dusun = $("#dusun").val();
+			let rw = $(this).val();
+
+			if (dusun && rw) {
+				var rt = $('#id_cluster');
+				var params = urlencode(dusun) + '/' + urlencode(rw);
+				$('#isi_rt').show();
+				select_options(rt, params);
+			} else {
+				$('#isi_rt').hide();
+			}
+		});
+
 		$("select[name='sex']").change();
 		$("select[name='status_kawin']").change();
 		$("select[name='id_asuransi']").change();
 	});
+
 	$('#mainform').on('reset', function(e)
 	{
 	 setTimeout(function() {
@@ -76,19 +104,6 @@
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				break;
 		}
-	}
-	function ubah_dusun(dusun)
-	{
-		$('#isi_rt').hide();
-		var rw = $('#rw');
-		select_options(rw, urlencode(dusun));
-	}
-	function ubah_rw(dusun, rw)
-	{
-		$('#isi_rt').show();
-		var rt = $('#id_cluster');
-		var params = urlencode(dusun) + '/' + urlencode(rw);
-		select_options(rt, params);
 	}
 </script>
 			<div class="row">
@@ -452,17 +467,17 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class='form-group col-sm-3'>
-								<label><?= ucwords($this->setting->sebutan_dusun)?> <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
-								<select name="dusun" class="form-control input-sm required" onchange="ubah_dusun($(this).val())">
+								<label for="dusun"><?= ucwords($this->setting->sebutan_dusun)?> <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+								<select id="dusun" name="dusun" class="form-control input-sm required">
 									<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 									<?php foreach ($dusun as $data): ?>
-										<option value="<?= $data['dusun']?>" <?php selected($penduduk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
+										<option value="<?= $data['dusun']?>" <?php selected($penduduk['dusun'], $data['dusun']) ?>><?= set_ucwords($data['dusun'])?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
-							<div class='form-group col-sm-2'>
-								<label>RW <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
-								<select id="rw" class="form-control input-sm required" name="rw" data-source="<?= site_url()?>wilayah/list_rw/" data-valueKey="rw" data-displayKey="rw" onchange="ubah_rw($('select[name=dusun]').val(), $(this).val())">
+							<div id='isi_rw' class='form-group col-sm-2'>
+								<label for="rw">RW <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+								<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/')?>" data-valueKey="rw" data-displayKey="rw" >
 									<option class="placeholder" value="">Pilih RW</option>
 									<?php foreach ($rw as $data): ?>
 										<option value="<?= $data['rw']?>" <?php selected($penduduk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
@@ -470,8 +485,8 @@
 								</select>
 							</div>
 							<div id='isi_rt' class='form-group col-sm-2'>
-								<label>RT <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
-								<select id="id_cluster" class="form-control input-sm required" name="id_cluster" data-source="<?= site_url()?>wilayah/list_rt/" data-valueKey="id" data-displayKey="rt">
+								<label for="id_cluster">RT <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+								<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/')?>" data-valueKey="id" data-displayKey="rt">
 									<option class="placeholder" value="">Pilih RT </option>
 									<?php foreach ($rt as $data): ?>
 										<option value="<?= $data['id']?>" <?php selected($penduduk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
@@ -678,5 +693,5 @@
 							</div>
 						</div>
 					</div>
-				</div>	
+				</div>
 			</div>
