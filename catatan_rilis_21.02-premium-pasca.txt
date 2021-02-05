@@ -13,6 +13,7 @@ Fitur Premium:
 3. Sesuaikan gambar default penduduk dan pamong di semua tampilan berdasarkan jenis kelamin penduduk.
 4. Perbaiki menampilkan foto anggota kelompok di Kependudukan > Kelompok. [bug-fix]
 5. Seragamkan penerapan pemilihan dusun/rw/rt di form keluarga dan penduduk. [teknis]
+6. Perbaiki urut daftar penduduk berdasarkan umur. [bug-fix]
 
 
 

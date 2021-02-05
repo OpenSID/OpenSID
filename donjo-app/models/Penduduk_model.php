@@ -364,6 +364,10 @@ class Penduduk_model extends MY_Model {
 		//Main Query
 		$this->list_data_sql();
 
+		//Paging SQL
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$query_dasar = $this->db->select('u.*')->get_compiled_select();
+
 		//Ordering SQL
 		switch ($o)
 		{
@@ -382,10 +386,6 @@ class Penduduk_model extends MY_Model {
 			default: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)');
 		}
 
-		//Paging SQL
-		if ($limit > 0 ) $this->db->limit($limit, $offset);
-		$query_dasar = $this->db->select('u.*')->get_compiled_select();
-
 		$this->db->distinct();
 		if ($this->session->penerima_bantuan)
 		{
@@ -401,8 +401,8 @@ class Penduduk_model extends MY_Model {
 						else 'KAWIN TERCATAT'
 					end
 			end) as kawin,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
+			(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur,
+			(DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
 			x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
 		");
 		$this->db->from("($query_dasar) as u");
