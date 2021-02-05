@@ -1,111 +1,3 @@
-<script type="text/javascript">
-	$(document).ready(function()
-	{
-		$("#dusun").change(function() {
-			let dusun = $(this).val();
-			$('#isi_rt').hide();
-
-			if (dusun) {
-				var rw = $('#rw');
-				$('#isi_rw').show();
-				select_options(rw, urlencode(dusun));
-			} else {
-				$('#isi_rw').hide();
-			}
-		});
-
-		$("#rw").change(function() {
-			let dusun = $("#dusun").val();
-			let rw = $(this).val();
-
-			if (dusun && rw) {
-				var rt = $('#id_cluster');
-				var params = urlencode(dusun) + '/' + urlencode(rw);
-				$('#isi_rt').show();
-				select_options(rt, params);
-			} else {
-				$('#isi_rt').hide();
-			}
-		});
-
-		$("select[name='sex']").change();
-		$("select[name='status_kawin']").change();
-		$("select[name='id_asuransi']").change();
-	});
-
-	$('#mainform').on('reset', function(e)
-	{
-	 setTimeout(function() {
-			$("select[name='sex']").change();
-			$("select[name='status_kawin']").change();
-			$("select[name='id_asuransi']").change();
-	 });
-	});
-	function show_hide_hamil(sex)
-	{
-		if (sex == '2')
-		{
-			$("#isian_hamil").show();
-		}
-		else
-		{
-			$("#isian_hamil").hide();
-		}
-	};
-	function reset_hamil()
-	{
-		setTimeout(function()
-		{
-			$('select[name=sex]').change();
-		});
-	};
-	function show_hide_asuransi(asuransi)
-	{
-		if (asuransi == '1' || asuransi == '')
-		{
-			$('#asuransi_pilihan').hide();
-		}
-		else
-		{
-			if (asuransi == '99')
-			{
-				$('#label-no-asuransi').text('Nama/nomor Asuransi');
-			}
-			else
-			{
-				$('#label-no-asuransi').text('No Asuransi');
-			}
-
-			$('#asuransi_pilihan').show();
-		}
-	}
-	function disable_kawin_cerai(status)
-	{
-		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
-		switch (status)
-		{
-			case '1':
-			case '4':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
-				break;
-			case '2':
-				$("#akta_perkawinan").attr('disabled', false);
-				$("input[name=tanggalperkawinan]").attr('disabled', false);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
-				break;
-			case '3':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("#akta_perceraian").attr('disabled', false);
-				$("input[name=tanggalperceraian]").attr('disabled', false);
-				break;
-		}
-	}
-</script>
 			<div class="row">
 				<?php if ($jenis_peristiwa == 5): ?>
 					<div class='col-sm-4'>
@@ -695,3 +587,112 @@
 					</div>
 				</div>
 			</div>
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$("#dusun").change(function() {
+			let dusun = $(this).val();
+			$('#isi_rt').hide();
+
+			if (dusun) {
+				var rw = $('#rw');
+				$('#isi_rw').show();
+				select_options(rw, urlencode(dusun));
+			} else {
+				$('#isi_rw').hide();
+			}
+		});
+
+		$("#rw").change(function() {
+			let dusun = $("#dusun").val();
+			let rw = $(this).val();
+
+			if (dusun && rw) {
+				var rt = $('#id_cluster');
+				var params = urlencode(dusun) + '/' + urlencode(rw);
+				$('#isi_rt').show();
+				select_options(rt, params);
+			} else {
+				$('#isi_rt').hide();
+			}
+		});
+
+		$("select[name='sex']").change();
+		$("select[name='status_kawin']").change();
+		$("select[name='id_asuransi']").change();
+	});
+
+	$('#mainform').on('reset', function(e)
+	{
+	 setTimeout(function() {
+			$("select[name='sex']").change();
+			$("select[name='status_kawin']").change();
+			$("select[name='id_asuransi']").change();
+	 });
+	});
+	function show_hide_hamil(sex)
+	{
+		if (sex == '2')
+		{
+			$("#isian_hamil").show();
+		}
+		else
+		{
+			$("#isian_hamil").hide();
+		}
+	};
+	function reset_hamil()
+	{
+		setTimeout(function()
+		{
+			$('select[name=sex]').change();
+		});
+	};
+	function show_hide_asuransi(asuransi)
+	{
+		if (asuransi == '1' || asuransi == '')
+		{
+			$('#asuransi_pilihan').hide();
+		}
+		else
+		{
+			if (asuransi == '99')
+			{
+				$('#label-no-asuransi').text('Nama/nomor Asuransi');
+			}
+			else
+			{
+				$('#label-no-asuransi').text('No Asuransi');
+			}
+
+			$('#asuransi_pilihan').show();
+		}
+	}
+	function disable_kawin_cerai(status)
+	{
+		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
+		switch (status)
+		{
+			case '1':
+			case '4':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '2':
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '3':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', false);
+				$("input[name=tanggalperceraian]").attr('disabled', false);
+				break;
+		}
+	}
+</script>

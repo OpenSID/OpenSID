@@ -1,36 +1,4 @@
 <?php $this->load->view('global/validasi_form'); ?>
-<script type="text/javascript">
-	$("#dusun").change(function() {
-		let dusun = $(this).val();
-		$('#isi_rt').hide();
-
-		if (dusun) {
-			var rw = $('#rw');
-			$('#isi_rw').show();
-			select_options(rw, urlencode(dusun));
-		} else {
-			$('#isi_rw').hide();
-		}
-	});
-
-	$("#rw").change(function() {
-		let dusun = $("#dusun").val();
-		let rw = $(this).val();
-
-		if (dusun && rw) {
-			var rt = $('#id_cluster');
-			var params = urlencode(dusun) + '/' + urlencode(rw);
-			$('#isi_rt').show();
-			select_options(rt, params);
-		} else {
-			$('#isi_rt').hide();
-		}
-	});
-
-	$('#tgl_1').datetimepicker({
-		format: 'DD-MM-YYYY'
-	});
-</script>
 <form action="<?= $form_action?>" method="post" id="validasi">
 	<div class="modal-body">
 		<div class="form-group">
@@ -96,3 +64,34 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 	</div>
 </form>
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$("#dusun").change(function() {
+			let dusun = $(this).val();
+			$('#isi_rt').hide();
+
+			if (dusun) {
+				var rw = $('#rw');
+				$('#isi_rw').show();
+				select_options(rw, urlencode(dusun));
+			} else {
+				$('#isi_rw').hide();
+			}
+		});
+
+		$("#rw").change(function() {
+			let dusun = $("#dusun").val();
+			let rw = $(this).val();
+
+			if (dusun && rw) {
+				var rt = $('#id_cluster');
+				var params = urlencode(dusun) + '/' + urlencode(rw);
+				$('#isi_rt').show();
+				select_options(rt, params);
+			} else {
+				$('#isi_rt').hide();
+			}
+		});
+	});
+</script>
