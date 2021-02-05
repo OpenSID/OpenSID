@@ -55,10 +55,7 @@
 	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
-<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
-<script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
+<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.min.js') ?>"></script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.carousel.js') ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script>
@@ -70,12 +67,12 @@
 <script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
-<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
-<script src="<?= base_url()?>assets/js/peta.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
+<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
+<script src="<?= base_url()?>assets/js/peta.js"></script>
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
 <script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
