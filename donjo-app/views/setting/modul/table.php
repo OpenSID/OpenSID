@@ -101,10 +101,10 @@
 										<select class="form-control input-sm" name="server_mana" onchange="ubah_server($(this).val())">
 											<option value='' selected="selected">-- Pilih Server Ini --</option>
 											<option value="5" <?php selected($this->setting->penggunaan_server, '5')?>>
-												Offline di kantor desa
+												Offline admin saja di kantor desa
 											</option>
 											<option value="6" <?php selected($this->setting->penggunaan_server, '6')?>>
-												Online di hosting
+												Online web publik saja di hosting
 											</option>
 										</select>
 									</div>

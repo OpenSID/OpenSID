@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<li class="header">MENU UTAMA</li>
 
 			<?php foreach ($modul AS $mod): ?>
-				<?php if ($this->CI->cek_hak_akses('b', $mod['url'])): ?>
+				<?php if ($this->CI->cek_hak_akses('b', $mod['url']) && $mod['aktif'] == 1): ?>
 					<?php if (count($mod['submodul'])==0): ?>
 						<li class="<?= jecho($this->modul_ini, $mod['id'], 'active'); ?>">
 							<a href="<?= site_url("$mod[url]"); ?>">

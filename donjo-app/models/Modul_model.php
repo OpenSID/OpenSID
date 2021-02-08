@@ -159,6 +159,7 @@
 
 		$outp = $this->db->where('id', $id)->update('setting_modul', $data);
 		$this->lock($id, $data['aktif']);
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -176,6 +177,7 @@
 		}
 		$list_id = implode(",", $list_submodul);
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 	}
 
 	/*
@@ -230,6 +232,7 @@
 				$this->db->update('setting_modul', array('aktif' => 1));
 				break;
 		}
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 	}
 
 	public function modul_aktif($controller)
@@ -261,6 +264,7 @@
 			->where('id', $id)
 			->or_where('parent', $id)
 			->update('setting_modul', ['aktif' => $val]);
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 	}
 
 	public function list_icon()

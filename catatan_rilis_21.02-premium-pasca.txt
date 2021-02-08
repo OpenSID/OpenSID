@@ -16,6 +16,7 @@ Fitur Premium:
 6. Perbaiki urut daftar penduduk berdasarkan umur. [bug-fix]
 7. #3985, Sekarang waktu komentar di widget Komentar sesuai dengan waktu komentar di artikel. [bug-fix]
 8. Perbaiki pemanggilan setting_model supaya tidak berulang-ulang. [teknis]
+9. Perjelas pilihan Pengaturan > Modul > Penggunaan Server, dan sesuaikan menu navigasi utama.
 
 
 
