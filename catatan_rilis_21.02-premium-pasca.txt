@@ -14,6 +14,7 @@ Fitur Premium:
 4. Perbaiki menampilkan foto anggota kelompok di Kependudukan > Kelompok. [bug-fix]
 5. Seragamkan penerapan pemilihan dusun/rw/rt di form keluarga dan penduduk. [teknis]
 6. Perbaiki urut daftar penduduk berdasarkan umur. [bug-fix]
+7. #3985, Sekarang waktu komentar di widget Komentar sesuai dengan waktu komentar di artikel. [bug-fix]
 
 
 

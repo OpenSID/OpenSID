@@ -363,25 +363,25 @@ class First_artikel_m extends CI_Model {
 
 	public function komentar_show()
 	{
-		$sql = "SELECT a.*, b.*, YEAR(b.tgl_upload) AS thn, MONTH(b.tgl_upload) AS bln, DAY(b.tgl_upload) AS hri, b.slug as slug
-			FROM komentar a
-			INNER JOIN artikel b ON a.id_artikel = b.id
-			WHERE a.status = ? AND a.id_artikel <> 775
-			ORDER BY a.tgl_upload DESC LIMIT 10 ";
-		$query = $this->db->query($sql, 1);
-		$data = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$id = $data[$i]['id_artikel'];
-			$pendek = str_split($data[$i]['komentar'], 25);
-			$pendek2 = str_split($pendek[0], 90);
-			$data[$i]['komentar_short'] = $pendek2[0]."...";
-			$panjang = str_split($data[$i]['komentar'], 50);
-			$data[$i]['komentar'] = "".$panjang[0]."...<a href='".site_url("artikel/".$data[$i]['thn']."/".$data[$i]['bln']."/".$data[$i]['hri']."/".$data[$i]['slug']." ")."'>baca selengkapnya</a>";
-		}
+		$this->for_slug();
+		
+		$data = $this->db
+			->select('k.*')
+			->from('komentar k')
+			->join('artikel a', 'k.id_artikel = a.id')
+			->where('k.status', 1)
+			->where('k.id_artikel <>', 775)
+			->order_by('k.tgl_upload', DESC)
+			->limit(10)
+			->get()
+			->result_array();
 
 		return $data;
+	}
+
+	public function for_slug()
+	{
+		return $this->db->select('YEAR(a.tgl_upload) AS thn, MONTH(a.tgl_upload) AS bln, DAY(a.tgl_upload) AS hri, a.slug as slug');
 	}
 
 	public function get_kategori($id = 0)
@@ -502,40 +502,11 @@ class First_artikel_m extends CI_Model {
 	/**
 	 * Simpan komentar yang dikirim oleh pengunjung
 	 */
-	public function insert_comment($id=0)
+	public function insert_comment($data = [])
 	{
-		$data['komentar'] = htmlentities($_POST["komentar"]);
-		$data['owner'] = htmlentities($_POST["owner"]);
-		$data['no_hp'] = bilangan($_POST["no_hp"]);
-		$data['email'] = email($_POST["email"]);
+		$this->db->insert('komentar', $data);
 
-		// load library form_validation
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
-		$this->form_validation->set_rules('owner', 'Nama', 'required');
-		$this->form_validation->set_rules('no_hp', 'No HP', 'numeric|required');
-		$this->form_validation->set_rules('email', 'Email', 'valid_email');
-
-		if ($this->form_validation->run() == TRUE)
-		{
-			$data['status'] = 2;
-			$data['id_artikel'] = $id;
-			$outp = $this->db->insert('komentar', $data);
-		}
-		else
-		{
-			$_SESSION['validation_error'] = 'Form tidak terisi dengan benar';
-		}
-
-		if ($outp)
-		{
-			$_SESSION['success'] = 1;
-			return true;
-		}
-
-		$_SESSION['success'] = -1;
-
-		return false;
+		return $this->db->affected_rows();
 	}
 
 	public function list_komentar($id = 0)
