@@ -1166,7 +1166,7 @@ $(document).ready(function()
 	return false;
 })
 
-const regions = {
+var regions = {
 	indonesia: {
 		id: 1,
 		attributes: {

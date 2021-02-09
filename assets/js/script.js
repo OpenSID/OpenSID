@@ -73,90 +73,12 @@ $(document).ready(function()
 		$('#notification').fadeOut('slow');
 	}, 2000);
 
-	// Select2 dengan fitur pencarian
-	$('.select2').select2({
-		width: '100%',
-		dropdownAutoWidth : true
-	});
-
-	$('.select2-nik-ajax').select2({
-	  ajax: {
-	    url: function () {
-	      return $(this).data('url');
-	    },
-	    dataType: 'json',
-	    delay: 250,
-	    data: function (params) {
-	      return {
-	        q: params.term || '', // search term
-	        page: params.page || 1,
- 	        filter_sex: $(this).data('filter-sex')
-	      };
-	    },
-	    processResults: function (data, params) {
-	      // parse the results into the format expected by Select2
-	      // since we are using custom formatting functions we do not need to
-	      // alter the remote JSON data, except to indicate that infinite
-	      // scrolling can be used
-	      // params.page = params.page || 1;
-
-	      return {
-	        results: data.results,
-	        pagination: data.pagination
-	      };
-	    },
-	    cache: true
-	  },
-		templateResult: function (penduduk) {
-			if (!penduduk.id) {
-			  return penduduk.text;
-			}
-			var _tmpPenduduk = penduduk.text.split('\n');
-			var $penduduk = $(
-			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
-			);
-			return $penduduk;
-		},
-	  placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
-	  minimumInputLength: 0,
-	});
-
-	$('.select2-nik').select2({
-		templateResult: function (penduduk) {
-			if (!penduduk.id) {
-			  return penduduk.text;
-			}
-			var _tmpPenduduk = penduduk.text.split('\n');
-			var $penduduk = $(
-			  '<div>'+_tmpPenduduk[0]+'</div><div>'+_tmpPenduduk[1]+'</div>'
-			);
-			return $penduduk;
-		}
-	});
-
 	// Select2 menampilkan ikon
 	// https://stackoverflow.com/questions/37386293/how-to-add-icon-in-select2
 	function format_ikon (state) {
     if (!state.id) { return state.text; }
     return '<i class="fa fa-lg '+state.id.toLowerCase()+'"></i>&nbsp;&nbsp; '+state.text;
 	}
-	$('.select2-ikon').select2(
-	{
-    templateResult: format_ikon,
-    templateSelection: format_ikon,
-    escapeMarkup: function(m) { return m; }
-	});
-
-	// Select2 dengan fitur pencarian dan boleh isi sendiri
-	$('.select2-tags').select2(
-		{
-			tags: true
-		});
-	// Select2 untuk disposisi pada form
-	// surat masuk
-	$('#disposisi_kepada').select2({
-		placeholder: "Pilih tujuan disposisi"
-	});
 
 	// Reset select2 ke nilai asli
 	// https://stackoverflow.com/questions/10319289/how-to-execute-code-after-html-form-reset-with-jquery
@@ -247,141 +169,6 @@ $(document).ready(function()
 	{
 		$('#file_browser4').click();
 	});
-	//Fortmat Tanggal dan Jam
-	$('.datepicker').datepicker(
-	{
-		weekStart : 1,
-		language:'id',
-		format: 'dd-mm-yyyy',
-		autoclose: true
-	});
-	$('#tgl_mulai').datetimepicker({
-		locale:'id',
-		format: 'DD-MM-YYYY',
-		useCurrent: false,
-		date: moment(new Date())
-	});
-
-	$('#tgl_akhir').datetimepicker({
-		locale:'id',
-		format: 'DD-MM-YYYY',
-		useCurrent: false,
-		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
-		date: moment(new Date()).add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku'))
-	});
-	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
-		$('#tgl_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
-		$(this).data("DateTimePicker").hide();
-		var tglAkhir = moment(new Date(e.date));
-		tglAkhir.add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku'));
-		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
-	});
-
-	$('#tgljam_mulai').datetimepicker({
-		locale:'id',
-		format: 'DD-MM-YYYY HH:mm',
-		useCurrent: false,
-		date: moment(new Date()),
-		sideBySide:true
-	});
-	$('#tgljam_akhir').datetimepicker({
-		locale:'id',
-		format: 'DD-MM-YYYY HH:mm',
-		useCurrent: false,
-		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
-		date: moment(new Date()).add(1, 'day'),
-		sideBySide:true
-	});
-	$('#tgljam_mulai').datetimepicker().on('dp.change', function (e) {
-		$('#tgljam_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
-		var tglAkhir = moment(new Date(e.date));
-		tglAkhir.add(1, 'day');
-		$('#tgljam_akhir').data('DateTimePicker').date(tglAkhir);
-	});
-
-	$('.tgl_jam').datetimepicker(
-	{
-		format: 'DD-MM-YYYY HH:mm:ss',
-		locale:'id'
-	});
-	$('.tgl').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		useCurrent: false,
-		locale:'id'
-	});
-	$('.tgl_indo').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_1').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('.tgl_1').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_2').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_3').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_4').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_5').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id'
-	});
-	$('#tgl_6').datetimepicker(
-	{
-			format: 'DD-MM-YYYY',
-			locale:'id'
-	});
-	$('#jam_1').datetimepicker(
-	{
-		format: 'HH:mm:ss',
-		locale:'id'
-	});
-	$('#jam_2').datetimepicker(
-	{
-		format: 'HH:mm:ss',
-		locale:'id'
-	});
-	$('#jam_3').datetimepicker(
-	{
-		format: 'HH:mm:ss',
-		locale:'id'
-	});
-
-	$('#jammenit_1').datetimepicker(
-	{
-		format: 'HH:mm',
-		locale:'id'
-	});
-	$('#jammenit_2').datetimepicker(
-	{
-		format: 'HH:mm',
-		locale:'id'
-	});
-
-	$('#jammenit_3').datetimepicker(
-	{
-		format: 'HH:mm',
-		locale:'id'
-	});
 
 	$('[data-rel="popover"]').popover(
 	{
@@ -389,46 +176,36 @@ $(document).ready(function()
 		trigger:"hover"
 	});
 
-	/* set otomatis hari */
-	$('.datepicker.data_hari').change(function()
-	{
-		var hari = {
-			0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
-		};
-		var t = $(this).datepicker('getDate');
-		var i = t.getDay();
-		$(this).closest('.form-group').find('.hari').val(hari[i]);
-	});
 
 	$('[checked="checked"]').parent().addClass('active');
 	//Format Tabel
-  $('#tabel1').DataTable();
-  $('#tabel2').DataTable({
-		'paging'      : false,
-    'lengthChange': false,
-    'searching'   : false,
-    'ordering'    : false,
-    'info'        : false,
-		'autoWidth'   : false,
-		'scrollX'			: true
-  });
+  	$('#tabel1').DataTable();
+  	$('#tabel2').DataTable({
+		'paging'      	: false,
+    	'lengthChange'	: false,
+    	'searching'   	: false,
+    	'ordering'    	: false,
+    	'info'        	: false,
+		'autoWidth'   	: false,
+		'scrollX'		: true
+  	});
 	$('#tabel3').DataTable({
-    'paging'      : true,
-    'lengthChange': true,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false,
-		'scrollX'			: true
+		'paging'      	: true,
+		'lengthChange'	: true,
+		'searching'   	: true,
+		'ordering'    	: true,
+		'info'        	: true,
+		'autoWidth'   	: false,
+		'scrollX'		: true
 	});
 
 	// formatting datatable Program Bantuan
 	$('#table-program').DataTable({
 		"paging": false,
-    "info": false,
-    "searching": false,
-    "columnDefs": [
-      {
+    	"info": false,
+    	"searching": false,
+   		"columnDefs": [
+      		{
 			  "targets": [0,1,3,4,5,6,7],
 			  "orderable": false
 			},
@@ -443,16 +220,11 @@ $(document).ready(function()
 					if (data == 0) {
 						return "Tidak Aktif"
 					}
-				return "Aktif"
+					return "Aktif"
 				}
 			}
 		]
 	});
-
-	//color picker with addon
-  $('.my-colorpicker2').colorpicker();
-	//Text Editor with addon
-	$('#min-textarea').wysihtml5();
 
 	$('ul.sidebar-menu').on('expanded.tree', function(e){
 		// Manipulasi menu perlu ada tenggang waktu -- supaya dilakukan sesudah
@@ -483,14 +255,14 @@ $(document).ready(function()
 
 	// Penggunaan datatable di inventaris
 	var t = $('#tabel4').DataTable({
-		'paging'      : true,
-    'lengthChange': true,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false,
+		'paging'      	: true,
+    	'lengthChange'	: true,
+    	'searching'   	: true,
+    	'ordering'    	: true,
+    	'info'        	: true,
+    	'autoWidth'   	: false,
 		'language' 		: {
-				'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+			'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
 		}
 	});
 	t.on('order.dt search.dt', function()

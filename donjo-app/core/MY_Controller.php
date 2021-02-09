@@ -161,6 +161,8 @@ class Web_Controller extends MY_Controller {
 		parent::__construct();
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 		$this->controller = strtolower($this->router->fetch_class());
+
+		$_SESSION['UI'] = 'WEB';
 	}
 
 	/*
@@ -194,6 +196,8 @@ class Mandiri_Controller extends MY_Controller {
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 		$this->controller = strtolower($this->router->fetch_class());
 		if ($this->session->mandiri != 1 OR $this->setting->layanan_mandiri == 0) redirect();
+
+		$_SESSION['UI'] = 'WEB';
 	}
 
 }
@@ -227,6 +231,7 @@ class Admin_Controller extends MY_Controller {
 	public $header;
 	protected $nav = 'nav';
 	protected $minsidebar = 0;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -241,6 +246,7 @@ class Admin_Controller extends MY_Controller {
 			session_error("Fitur ini tidak aktif");
 			redirect('/');
 		}
+
 		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))
@@ -255,6 +261,8 @@ class Admin_Controller extends MY_Controller {
 				redirect('/');
 			}
 		}
+
+		$_SESSION['UI'] = 'ADMIN';
 		$this->cek_pengumuman();
 		$this->header = $this->header_model->get_data();
 	}
