@@ -66,17 +66,17 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 	{
 		// Ambil data sasaran penduduk
 		$this->db->select('u.id, u.nama')
-			->select('COUNT(pp.id) AS jumlah')
-		  ->select('COUNT(CASE WHEN p.sex = 1 THEN pp.id END) AS laki')
-		  ->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
+			->select('u.*, COUNT(pp.peserta) as jumlah')
+			->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
+			->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
 			->from('program u')
-			->join('program_peserta pp', 'u.id = pp.program_id', 'left')
+			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
 			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
-			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
+			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
 			->where('u.sasaran', '1')
 			->where('u.status', '1')
-			->order_by('u.nama')
 			->group_by('u.id');
+
 		if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);
 		if ($rw = $this->session->userdata("rw")) $this->db->where('a.rw', $rw);
 		if ($rt = $this->session->userdata("rt")) $this->db->where('a.rt', $rt);

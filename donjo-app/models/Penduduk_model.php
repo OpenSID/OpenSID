@@ -387,10 +387,6 @@ class Penduduk_model extends MY_Model {
 		}
 
 		$this->db->distinct();
-		if ($this->session->penerima_bantuan)
-		{
-			$this->db->select('rcb.id as penerima_bantuan');
-		}
 		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -462,7 +458,6 @@ class Penduduk_model extends MY_Model {
 			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
 			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
 			->join('program_peserta pp', 'u.nik = pp.peserta', 'left');
-
 	}
 
 	public function list_data_map()
