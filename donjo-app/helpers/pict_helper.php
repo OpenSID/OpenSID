@@ -83,13 +83,13 @@ function AmbilFoto($foto, $ukuran="kecil_", $sex='1')
 {
 	if ($foto == 'kuser.png' || $foto == 'wuser.png') return base_url() . LOKASI_USER_PICT . $foto;
 
-	if (empty($foto)) return $sex == 1 ? FOTO_DEFAULT_PRIA : FOTO_DEFAULT_WANITA;
+	if (empty($foto)) return $sex == 2 ? FOTO_DEFAULT_WANITA : FOTO_DEFAULT_PRIA;
 
 	$ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
 	$file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
 	if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto))
 	{
-		$file_foto = $sex == 1 ? FOTO_DEFAULT_PRIA : FOTO_DEFAULT_WANITA;
+		$file_foto = $sex == 2 ? FOTO_DEFAULT_WANITA : FOTO_DEFAULT_PRIA;
 	}
 
 	return $file_foto;

@@ -815,13 +815,38 @@ class Penduduk_model extends MY_Model {
 
 	private function upload_foto_penduduk($id)
 	{
-		if (empty($_FILES['foto']['tmp_name'])) return '';
-
-		$nama_file = ($this->input->post('nik') ?: '0') . '-' . $id . get_extension($_FILES['foto']['name']);
 		$old_foto = $this->input->post('old_foto');
-		UploadFoto($nama_file, $old_foto);
+		$nama_file = ($this->input->post('nik') ?: '0') . '-' . $id;
 
-		return $nama_file;
+		if ($_FILES['foto']['tmp_name'])
+		{
+			$nama_file = $nama_file . get_extension($_FILES['foto']['name']);
+			UploadFoto($nama_file, $old_foto);
+
+			return $nama_file;
+		}
+		elseif ($_FILES['foto']['tmp_name'] == NULL && $this->input->post('foto'))
+		{
+			$nama_file = 'kecil_' . $nama_file . '.jpeg';
+			$foto = $this->input->post('foto');
+			$foto = str_replace('data:image/png;base64,', '', $foto);
+			$foto = base64_decode($foto, true);
+
+			file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
+
+			if ($old_foto != '')
+			{
+				// Hapus old_foto
+				unlink(LOKASI_USER_PICT . $old_foto);
+				$old_foto = 'kecil_' . $old_foto;
+			}
+
+			return $nama_file;
+		}
+		else
+		{
+			return;
+		}
 	}
 
 	public function update_position($id=0)

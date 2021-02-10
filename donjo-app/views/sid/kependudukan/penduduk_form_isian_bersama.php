@@ -631,17 +631,18 @@
 			$("select[name='id_asuransi']").change();
 	 });
 	});
+
 	function show_hide_hamil(sex)
 	{
-		if (sex == '2')
-		{
-			$("#isian_hamil").show();
-		}
-		else
-		{
-			$("#isian_hamil").hide();
+		var old_foto = $('#old_foto').val();
+
+		(sex == '2') ? $("#isian_hamil").show() : $("#isian_hamil").hide();
+
+		if (old_foto == '') {
+			$('#foto').attr("src", AmbilFoto(old_foto, 'kecil_', sex))
 		}
 	};
+
 	function reset_hamil()
 	{
 		setTimeout(function()
@@ -669,6 +670,24 @@
 			$('#asuransi_pilihan').show();
 		}
 	}
+
+	function AmbilFoto(foto, ukuran = "kecil_", sex)
+	{
+		//Jika penduduk ada foto, maka pakai foto tersebut
+		//Jika tidak, pakai foto default
+		if (foto)
+		{
+		  ukuran_foto = ukuran || null
+		  file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+		}
+		else
+		{
+			file_foto = sex == '2' ? '<?=  FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
+		}
+
+	  return file_foto;
+	}
+
 	function disable_kawin_cerai(status)
 	{
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati

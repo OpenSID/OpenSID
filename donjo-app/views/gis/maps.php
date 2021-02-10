@@ -395,7 +395,7 @@
 		}
 		else
 		{
-			file_foto = sex == '1' ? '<?= FOTO_DEFAULT_PRIA ?>' : '<?= FOTO_DEFAULT_WANITA ?>';
+			file_foto = sex == '2' ? '<?=  FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
 
 	  return file_foto;
