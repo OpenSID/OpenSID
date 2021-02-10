@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-define("VERSION", '21.02');
+define("VERSION", '21.02-pasca');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
@@ -289,7 +289,8 @@ define("ASALDANA", serialize(array(
 )));
 define("KTP_EL", serialize(array(
 	strtolower("BELUM") => "1",
-	strtolower("KTP-EL") => "2"
+	strtolower("KTP-EL") => "2",
+	strtolower("KIA") => "3"
 )));
 define("STATUS_REKAM", serialize(array(
 	strtolower("BELUM WAJIB") => "1",
