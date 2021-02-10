@@ -17,6 +17,7 @@ Fitur Premium:
 7. #3985, Sekarang waktu komentar di widget Komentar sesuai dengan waktu komentar di artikel. [bug-fix]
 8. Perbaiki pemanggilan setting_model supaya tidak berulang-ulang. [teknis]
 9. Perjelas pilihan Pengaturan > Modul > Penggunaan Server, dan sesuaikan menu navigasi utama.
+10. #4000: Sekarang filter dan cari daftar calon pemilih normal kembali. [bug-fix]
 
 
 

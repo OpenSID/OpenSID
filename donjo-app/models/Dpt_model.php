@@ -13,55 +13,49 @@
 
 	private function cacatx_sql()
 	{
-		if (isset($_SESSION['cacatx']))
+		$kf = $this->session->cacatx;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['cacatx'];
-			$cacatx_sql= " AND u.cacat_id <> $kf AND u.cacat_id is not null and u.cacat_id<>''";
-			return $cacatx_sql;
+			$this->db->where("u.cacat_id <> $kf AND u.cacat_id is not null and u.cacat_id<>''");
 		}
 	}
 
 	private function menahunx_sql()
 	{
-		if (isset($_SESSION['menahunx']))
+		$kf = $this->session->menahunx;
+		if (isset($_kf))
 		{
-			$kf = $_SESSION['menahunx'];
-			$menahunx_sql= " AND u.sakit_menahun_id <> $kf and u.sakit_menahun_id is not null and u.sakit_menahun_id<>'0' ";
-			return $menahunx_sql;
+			$this->db->where("u.sakit_menahun_id <> $kf and u.sakit_menahun_id is not null and u.sakit_menahun_id<>'0'");
 		}
 	}
 
 	protected function umur_max_sql()
 	{
-		if (isset($_SESSION['umur_max']))
+		$kf = $this->session->umur_max;
+		if (isset($kf))
 		{
       $tanggal_pemilihan = $this->tanggal_pemilihan();
-			$kf = $_SESSION['umur_max'];
-			$umur_max_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf ";
-			return $umur_max_sql;
+			$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf");
 		}
 	}
 
 	protected function umur_min_sql()
 	{
-		if (isset($_SESSION['umur_min']))
+		$kf = $this->session->umur_min;
+		if (isset($kf))
 		{
       $tanggal_pemilihan = $this->tanggal_pemilihan();
-			$kf = $_SESSION['umur_min'];
-			$umur_min_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf ";
-			return $umur_min_sql;
+			$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf");
 		}
 	}
 
 	protected function umur_sql()
 	{
-		if (isset($_SESSION['umurx']))
+		$kf = $this->session->umurx;
+		if (isset($kf))
 		{
-			$kf = $_SESSION['umurx'];
 			if ($kf != BELUM_MENGISI)
-				$umur_sql= " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ";
-			else $umur_sql = '';
-			return $umur_sql;
+				$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf )");
 		}
 	}
 
@@ -95,20 +89,18 @@
 	private function syarat_dpt_sql()
 	{
 		$tanggal_pemilihan = $this->tanggal_pemilihan();
-		$sql = " AND u.status_dasar = 1 AND u.status = 1 AND u.warganegara_id = 1 ";
-		$sql .= " AND (((SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= 17) OR u.status_kawin IN (2,3,4))";
-		$sql .= " AND u.pekerjaan_id NOT IN ('6', '7') ";
-
-		return $sql;
+		$this->db
+			->where('u.status_dasar = 1 AND u.status = 1 AND u.warganegara_id = 1 ')
+			->where("(((SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= 17) OR u.status_kawin IN (2,3,4))")
+			->where("u.pekerjaan_id NOT IN ('6', '7')");
 	}
 
-	public function paging($p=1, $o=0, $log=0)
+	public function paging($p=1, $o=0)
 	{
-		$list_data_sql = $this->list_data_sql($log);
-		$sql = "SELECT COUNT(u.id) AS id ".$list_data_sql;
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$this->list_data_sql();
+		$jml_data = $this->db
+			->select('COUNT(u.id) AS jml')
+			->get()->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -120,32 +112,31 @@
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_data_sql($log)
+	private function list_data_sql()
 	{
-		$sql = "
-		FROM tweb_penduduk u
-		LEFT JOIN tweb_keluarga d ON u.id_kk = d.id
-		LEFT JOIN tweb_wil_clusterdesa a ON d.id_cluster = a.id
-		LEFT JOIN tweb_wil_clusterdesa a2 ON u.id_cluster = a2.id
-		LEFT JOIN tweb_penduduk_pendidikan_kk n ON u.pendidikan_kk_id = n.id
-		LEFT JOIN tweb_penduduk_pendidikan sd ON u.pendidikan_sedang_id = sd.id
-		LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
-		LEFT JOIN tweb_penduduk_kawin k ON u.status_kawin = k.id
-		LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
-		LEFT JOIN tweb_penduduk_agama g ON u.agama_id = g.id
-		LEFT JOIN tweb_penduduk_warganegara v ON u.warganegara_id = v.id
-		LEFT JOIN tweb_golongan_darah m ON u.golongan_darah_id = m.id
-		LEFT JOIN tweb_cacat f ON u.cacat_id = f.id
-		LEFT JOIN tweb_penduduk_hubungan hub ON u.kk_level = hub.id
-		LEFT JOIN tweb_sakit_menahun j ON u.sakit_menahun_id = j.id
-		LEFT JOIN log_penduduk log ON u.id = log.id_pend
-		WHERE 1 ";
+		$this->db
+			->from('tweb_penduduk u')
+			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
+			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
+			->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
+			->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
+			->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
+			->join('tweb_penduduk_kawin k', 'u.status_kawin = k.id', 'left')
+			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+			->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left')
+			->join('tweb_penduduk_warganegara v', 'u.warganegara_id = v.id', 'left')
+			->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
+			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
+			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
+			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
+			->join('log_penduduk log', 'u.id = log.id_pend', 'left');
 
-		$sql .= $this->syarat_dpt_sql();
-		$sql .= $this->search_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
+		$this->syarat_dpt_sql();
+		$this->search_sql();
+		$this->dusun_sql();
+		$this->rw_sql();
+		$this->rt_sql();
 
 		$kolom_kode = array(
 			array('filter', 'u.status'), // Status : Hidup, Mati, Dll -> Load data awal (filtering combobox)
@@ -166,56 +157,52 @@
 		);
 		foreach ($kolom_kode as $kolom)
 		{
-			$sql .= $this->get_sql_kolom_kode($kolom[0],$kolom[1]);
+			$this->get_sql_kolom_kode($kolom[0],$kolom[1]);
 		}
 
-		$sql .= $this->cacatx_sql();
-		$sql .= $this->akta_kelahiran_sql();
-		$sql .= $this->menahunx_sql();
-		$sql .= $this->umur_min_sql();
-		$sql .= $this->umur_max_sql();
-		$sql .= $this->umur_sql();
-		$sql .= $this->hamil_sql();
-
-		return $sql;
+		$this->cacatx_sql();
+		$this->akta_kelahiran_sql();
+		$this->menahunx_sql();
+		$this->umur_min_sql();
+		$this->umur_max_sql();
+		$this->umur_sql();
+		$this->hamil_sql();
 	}
 
 	// $limit = 0 mengambil semua
 	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		$tanggal_pemilihan = $this->tanggal_pemilihan();
-		$select_sql = "SELECT DISTINCT u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur_pada_pemilihan, x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan
-			";
-		//Main Query
-		$list_data_sql = $this->list_data_sql($log);
-		$sql = $select_sql." ".$list_data_sql;
+
+		$this->db->distinct()
+			->select('u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk')
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur")
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur_pada_pemilihan")
+			->select('x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan');
+
+		$this->list_data_sql();
 
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.nik'; break;
-			case 2: $order_sql = ' ORDER BY u.nik DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.nama'; break;
-			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY d.no_kk'; break;
-			case 6: $order_sql = ' ORDER BY d.no_kk DESC'; break;
-			case 7: $order_sql = ' ORDER BY umur'; break;
-			case 8: $order_sql = ' ORDER BY umur DESC'; break;
+			case 1: $this->db->order_by('u.nik'); break;
+			case 2: $this->db->order_by('u.nik DESC'); break;
+			case 3: $this->db->order_by('u.nama'); break;
+			case 4: $this->db->order_by('u.nama DESC'); break;
+			case 5: $this->db->order_by('d.no_kk'); break;
+			case 6: $this->db->order_by('d.no_kk DESC'); break;
+			case 7: $this->db->order_by('umur'); break;
+			case 8: $this->db->order_by('umur DESC'); break;
 			// Untuk Log Penduduk
-			case 9: $order_sql = ' ORDER BY log.tgl_peristiwa'; break;
-			case 10: $order_sql = ' ORDER BY log.tgl_peristiwa DESC'; break;
-			default:$order_sql = '';
+			case 9: $this->db->order_by('log.tgl_peristiwa'); break;
+			case 10: $this->db->order_by('log.tgl_peristiwa DESC'); break;
+			default: break;
 		}
 
 		//Paging SQL
-		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$data = $this->db->get()->result_array();
 
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
 		//Formating Output
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
