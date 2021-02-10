@@ -119,17 +119,6 @@
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
 			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
-			->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
-			->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
-			->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
-			->join('tweb_penduduk_kawin k', 'u.status_kawin = k.id', 'left')
-			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
-			->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left')
-			->join('tweb_penduduk_warganegara v', 'u.warganegara_id = v.id', 'left')
-			->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
-			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
-			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
-			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
 			->join('log_penduduk log', 'u.id = log.id_pend', 'left');
 
 		$this->syarat_dpt_sql();
@@ -172,15 +161,12 @@
 	// $limit = 0 mengambil semua
 	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
-		$tanggal_pemilihan = $this->tanggal_pemilihan();
-
-		$this->db->distinct()
-			->select('u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk')
-			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur")
-			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur_pada_pemilihan")
-			->select('x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan');
-
+		//Main Query
 		$this->list_data_sql();
+
+		//Paging SQL
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		//Ordering SQL
 		switch ($o)
@@ -199,8 +185,16 @@
 			default: break;
 		}
 
-		//Paging SQL
-		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$tanggal_pemilihan = $this->tanggal_pemilihan();
+		$this->db->distinct()
+			->select('u.id,u.nik,u.tanggallahir,u.tempatlahir,u.status,u.status_dasar,u.id_kk,u.nama,u.nama_ayah,u.nama_ibu,a.dusun,a.rw,a.rt,d.alamat,d.no_kk AS no_kk')
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur")
+			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur_pada_pemilihan")
+			->select('x.nama AS sex,sd.nama AS pendidikan_sedang,n.nama AS pendidikan,p.nama AS pekerjaan,k.nama AS kawin,g.nama AS agama,m.nama AS gol_darah,hub.nama AS hubungan');
+
+		$this->db->from("($query_dasar) as u");
+		$this->lookup_ref_penduduk();
+
 		$data = $this->db->get()->result_array();
 
 		//Formating Output
@@ -227,6 +221,26 @@
 			$j++;
 		}
 		return $data;
+	}
+
+	private function lookup_ref_penduduk()
+	{
+		$this->db
+			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
+			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
+			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
+			->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
+			->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
+			->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
+			->join('tweb_penduduk_kawin k', 'u.status_kawin = k.id', 'left')
+			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+			->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left')
+			->join('tweb_penduduk_warganegara v', 'u.warganegara_id = v.id', 'left')
+			->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
+			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
+			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
+			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
+			->join('log_penduduk log', 'u.id = log.id_pend', 'left');
 	}
 
 	public function adv_search_proses()
