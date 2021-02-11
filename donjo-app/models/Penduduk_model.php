@@ -824,8 +824,6 @@ class Penduduk_model extends MY_Model {
 		{
 			$nama_file = $nama_file . get_extension($_FILES['foto']['name']);
 			UploadFoto($nama_file, $old_foto);
-
-			return $nama_file;
 		}
 		elseif ($foto)
 		{
@@ -833,22 +831,22 @@ class Penduduk_model extends MY_Model {
 			$foto = str_replace('data:image/png;base64,', '', $foto);
 			$foto = base64_decode($foto, true);
 
-			file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
-
 			if ($old_foto != '')
 			{
 				// Hapus old_foto
 				unlink(LOKASI_USER_PICT . $old_foto);
-				$old_foto = 'kecil_' . $old_foto;
+				unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
 			}
 
-			return $nama_file;
+			file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
 		}
-		else
-		{
-			return;
+		else {
+			$nama_file = null;
 		}
+
+		return $nama_file;
 	}
+
 
 	public function update_position($id=0)
 	{

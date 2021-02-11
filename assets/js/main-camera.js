@@ -105,7 +105,6 @@ function cropImage() {
 
 	$("#reset").click(function() {
 		cropper.reset();
-		alert('test');
 	});
 
 	$("#ratio").change(function() {
