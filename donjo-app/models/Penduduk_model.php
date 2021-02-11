@@ -824,6 +824,8 @@ class Penduduk_model extends MY_Model {
 		{
 			$nama_file = $nama_file . get_extension($_FILES['foto']['name']);
 			UploadFoto($nama_file, $old_foto);
+
+			return $nama_file;
 		}
 		elseif ($foto)
 		{
@@ -839,13 +841,13 @@ class Penduduk_model extends MY_Model {
 				unlink(LOKASI_USER_PICT . $old_foto);
 				$old_foto = 'kecil_' . $old_foto;
 			}
+
+			return $nama_file;
 		}
 		else
 		{
-			$nama_file = null;
+			return;
 		}
-
-		return $nama_file;
 	}
 
 	public function update_position($id=0)

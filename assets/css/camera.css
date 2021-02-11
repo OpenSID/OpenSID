@@ -9,7 +9,7 @@
 	min-width: 300px;
 }
 
-#cropimage, #imageprev {
+#cropimage, #imageprev, #kamera, #kamera video {
 	width: 100%;
 	height: auto;
 }
@@ -19,12 +19,7 @@
 		display: block;
 	}
 
-	#cropimage, #imageprev {
-		width:100% !important;
-		height: auto !important;
-	}
-
-	#kamera, #kamera video {
+	#cropimage, #imageprev, #kamera, #kamera video {
 		width:100% !important;
 		height: auto !important;
 	}
