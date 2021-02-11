@@ -93,6 +93,7 @@
 		$("#modal-camera").modal('show');
 		$("#modal-camera").modal({backdrop: "static", keyboard: false});
 		$("#modal-crop").modal('hide');
+		$('#file_path').val('');
 		konfigurasi();
 	}
 
@@ -184,4 +185,19 @@
 			$("#modal-crop").modal('hide');
 		});
 	};
+
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				$('#foto').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	$("#file").change(function() {
+		readURL(this);
+	});
 </script>
