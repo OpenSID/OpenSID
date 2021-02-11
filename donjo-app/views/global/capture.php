@@ -7,14 +7,21 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title text-center">Ambil Gambar (Webcam)</h4>
+				<h4 class="modal-title text-center">Ambil Gambar</h4>
 			</div>
 			<div class="modal-body">
 				<div id="kamera"></div>
 			</div>
 			<div class="modal-footer">
 				<div class="text-center">
-					<button type="button" class="btn btn-flat btn-danger btn-sm" onClick="ambil();"><i class="fa fa-camera"></i>&nbsp; Ambil Gambar</button>
+					<div class="btn-group">
+						<button type="button" class="btn btn-flat btn-danger btn-sm" onClick="ambil();"><i class="fa fa-camera"></i>&nbsp; Ambil Gambar</button>
+					</div>
+					<select class="input-sm" id="mode">
+							<option value="user" selected>Kamera Depan</option>
+							<option value="environment">Kamera Belakang</option>
+							<option value="computer">Webcam</option>							
+					</select>
 				</div>
 			</div>
 		</div>
