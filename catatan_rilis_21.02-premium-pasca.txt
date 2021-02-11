@@ -18,6 +18,7 @@ Fitur Premium:
 8. Perbaiki pemanggilan setting_model supaya tidak berulang-ulang. [teknis]
 9. Perjelas pilihan Pengaturan > Modul > Penggunaan Server, dan sesuaikan menu navigasi utama.
 10. #4000: Sekarang filter dan cari daftar calon pemilih normal kembali. [bug-fix]
+11. #4001: Sekarang filter program bantuan di daftar penduduk normal kembali. [bug-fix]
 
 
 
