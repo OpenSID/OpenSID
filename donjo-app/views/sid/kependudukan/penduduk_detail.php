@@ -67,7 +67,7 @@
 										<table class="table table-bordered table-striped table-hover" >
 											<tr>
 												<td colspan="3">
-													<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>" alt="Foto">
+													<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'], 'kecil_', $penduduk['id_sex'])?>" alt="Foto">
 												</td>
 											</tr>
 											<div class="table-responsive">

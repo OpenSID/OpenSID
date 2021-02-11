@@ -827,7 +827,7 @@ class Penduduk_model extends MY_Model {
 		}
 		elseif ($foto)
 		{
-			$nama_file = 'kecil_' . $nama_file . '.png';
+			$nama_file = $nama_file . '.png';
 			$foto = str_replace('data:image/png;base64,', '', $foto);
 			$foto = base64_decode($foto, true);
 
