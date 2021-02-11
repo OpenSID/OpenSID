@@ -127,8 +127,11 @@
 
 	private function list_data_sql()
 	{
+		/** untuk join ke tweb_penduduk bisa menggunakan join bukan left join karena data dari tweb_penduduk selalu digunakan dalam pencarian function  status_dasar_sql 
+		*   biasanya jika data penduduk besar inner join akan lebih cepat dari pada left join	
+		*/
 		$sql = "FROM tweb_keluarga u
-			LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
+			JOIN tweb_penduduk t ON u.nik_kepala = t.id
 			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
 
 		// Yg berikut hanya untuk menampilkan peserta bantuan
@@ -202,12 +205,13 @@
 		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
 
 		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
+			-- (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
-
+		/** kita jadikan proses pencarian jumlah anggota setelah data diperoleh, jika data tweb_penduduk besar akan terasa perbedaannya */
+		$sql = "select u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota from (".$sql.") u";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
 
@@ -630,7 +634,7 @@
 	public function list_anggota($id=0,$options=array('dengan_kk'=>true))
 	{
 		$sql = "SELECT u.*, u.sex as sex_id, u.status_kawin as status_kawin_id,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+			DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
 			(CASE when u.status_kawin <> 2
 				then w.nama
 				else
@@ -667,10 +671,11 @@
 	{
 		// Buat subquery umur
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
-		$this->db->select("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0")
-			->from('tweb_penduduk')
-			->where('id = u.id');
-		$umur = $this->db->get_compiled_select();
+		// $this->db->select("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0")
+		// 	->from('tweb_penduduk')
+		// 	->where('id = u.id');
+		// $umur = $this->db->get_compiled_select();
+        $umur = "DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0";
 		// Buat subquery untuk setiap kolom yg diperlukan dari tweb_keluarga
 		$list_kk = array_map(function ($a) use ($kolom_id, $id)
 		{
