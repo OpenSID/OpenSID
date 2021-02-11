@@ -11,9 +11,9 @@ function konfigurasi() {
 		height: 480,
 
 		image_format: 'jpeg',
-		jpeg_quality: 100,
+		jpeg_quality: 100			
 	});
-
+	
 	Webcam.attach('#kamera');
 }
 
@@ -36,6 +36,15 @@ function kamera() {
 	$("#modal-crop").modal('hide');
 	$('#file_path').val('');
 	konfigurasi();
+	$("#mode").change(function() {
+		var modecam = $("#mode").val();
+		Webcam.set({
+			constraints: {
+				facingMode: modecam
+			}				
+		});
+		konfigurasi();
+	});
 }
 
 function cropImage() {
@@ -111,7 +120,7 @@ function cropImage() {
 		var ratio = $("#ratio").val();
 		cropper.setAspectRatio(ratio);
 	});
-
+	
 	$("#simpan-gambar").click(function() {
 		canvas = cropper.getCroppedCanvas({
 			width: 220,
