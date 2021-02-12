@@ -318,7 +318,7 @@ class Kelompok_model extends MY_Model {
 	{
 		$this->load->model('penduduk_model');
 		$sql = "SELECT u.id, u.nik, u.nama, k.id as id_kelompok, k.nama as nama_kelompok, u.tempatlahir, u.tanggallahir, s.nama as sex,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
 				d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
 				wil.rt, wil.rw, wil.dusun
 			FROM kelompok k

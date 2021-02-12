@@ -587,7 +587,7 @@ class Sms_model extends MY_Model {
 		if (isset($_SESSION['umur_max1']))
 		{
 			$kf = $_SESSION['umur_max1'];
-			$umur_max_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf";
+			$umur_max_sql = " AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= $kf";
 			return $umur_max_sql;
 		}
 	}
@@ -597,7 +597,7 @@ class Sms_model extends MY_Model {
 		if (isset($_SESSION['umur_min1']))
 		{
 			$kf = $_SESSION['umur_min1'];
-			$umur_min_sql = " AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf";
+			$umur_min_sql = " AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  >= $kf";
 			return $umur_min_sql;
 		}
 	}

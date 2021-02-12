@@ -140,9 +140,7 @@ class Penduduk_model extends MY_Model {
 			else if ($kf == $this->session->status_dasar)
 				$this->db->where_in($kolom, $kf);
 			else
-				$this->db->where($kolom, $kf);
-
-			return $sql;
+				$this->db->where($kolom, $kf);			
 		}
 	}
 
@@ -161,7 +159,7 @@ class Penduduk_model extends MY_Model {
 		$kf = $this->session->umur_max;
 		if (isset($kf))
 		{
-			$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf");
+			$this->db->where(" DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  <= $kf");
 		}
 	}
 
@@ -170,7 +168,7 @@ class Penduduk_model extends MY_Model {
 		$kf = $this->session->umur_min;
 		if (isset($kf))
 		{
-			$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf");
+			$this->db->where(" DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= $kf");
 		}
 	}
 
@@ -182,7 +180,7 @@ class Penduduk_model extends MY_Model {
 			if ($kf == JUMLAH) $this->db->where("u.tanggallahir <> ''");
 			else if ($kf == BELUM_MENGISI) $this->db->where("(u.tanggallahir IS NULL OR u.tanggallahir = '')");
 			else
-				$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ");
+				$this->db->where(" DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= (SELECT dari FROM tweb_penduduk_umur WHERE id=$kf ) AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= (SELECT sampai FROM tweb_penduduk_umur WHERE id=$kf ) ");
 		}
 	}
 
@@ -465,9 +463,7 @@ class Penduduk_model extends MY_Model {
 		//Main Query
 		$this->db
 			->select("u.id, u.nik, u.nama, u.sex as id_sex, map.lat, map.lng, a.dusun, a.rw, a.rt, u.foto, d.no_kk AS no_kk,
-					(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0
-						FROM tweb_penduduk
-						WHERE id = u.id) AS umur,
+					DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0	AS umur,
 						x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan,
 						@alamat:=trim(concat_ws('',
 							case
@@ -1021,8 +1017,8 @@ class Penduduk_model extends MY_Model {
 						else 'KAWIN TERCATAT'
 					end
 			end) as kawin,
-			(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  FROM tweb_penduduk WHERE id = u.id)
-			 AS umur, x.nama AS sex, w.nama AS warganegara,
+			DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  AS umur, 
+			x.nama AS sex, w.nama AS warganegara,
 			 p.nama AS pekerjaan, g.nama AS agama, c.nama as cacat,
 			 kb.nama as cara_kb, sm.nama as sakit_menahun,
 			 sd.nama as status_dasar, u.status_dasar as status_dasar_id,
