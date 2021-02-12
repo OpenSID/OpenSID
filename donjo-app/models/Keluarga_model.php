@@ -127,8 +127,8 @@
 
 	private function list_data_sql()
 	{
-		/** untuk join ke tweb_penduduk bisa menggunakan join bukan left join karena data dari tweb_penduduk selalu digunakan dalam pencarian function  status_dasar_sql 
-		*   biasanya jika data penduduk besar inner join akan lebih cepat dari pada left join	
+		/** untuk join ke tweb_penduduk bisa menggunakan join bukan left join karena data dari tweb_penduduk
+				selalu digunakan dalam pencarian function status_dasar_sql
 		*/
 		$sql = "FROM tweb_keluarga u
 			JOIN tweb_penduduk t ON u.nik_kepala = t.id
@@ -205,12 +205,11 @@
 		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
 
 		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend,
-			-- (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota,
 			c.dusun, c.rw, c.rt ";
 		$sql .= $this->list_data_sql();
 		$sql .= $order_sql;
 		$sql .= $paging_sql;
-		/** kita jadikan proses pencarian jumlah anggota setelah data diperoleh, jika data tweb_penduduk besar akan terasa perbedaannya */
+		/** Lakukan pencarian jumlah anggota setelah data diperoleh supaya lebih cepat */
 		$sql = "select u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota from (".$sql.") u";
 		$query = $this->db->query($sql);
 		$data=$query->result_array();
@@ -669,13 +668,7 @@
 	// apabila $is_no_kk == true maka $id adalah no_kk
 	public function get_kepala_kk($id, $is_no_kk = false)
 	{
-		// Buat subquery umur
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
-		// $this->db->select("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0")
-		// 	->from('tweb_penduduk')
-		// 	->where('id = u.id');
-		// $umur = $this->db->get_compiled_select();
-        $umur = "DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0";
 		// Buat subquery untuk setiap kolom yg diperlukan dari tweb_keluarga
 		$list_kk = array_map(function ($a) use ($kolom_id, $id)
 		{
@@ -691,7 +684,7 @@
 
 		$this->db
 			->select('nik, u.id, u.nama, u.tanggalperkawinan, u.status_kawin as status_kawin_id, u.sex as sex_id, tempatlahir, tanggallahir')
-			->select('('.$umur.') AS umur')
+			->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0) AS umur")
 			->select('a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, x.nama as sex, w.nama as status_kawin')
 			->select('h.nama as hubungan, f.nama as warganegara, warganegara_id, nama_ayah, nama_ibu, g.nama as golongan_darah')
 			->select('c.rt as rt, c.rw as rw, c.dusun as dusun')
