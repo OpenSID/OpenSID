@@ -37,7 +37,7 @@
 						<td><?= strtoupper($penduduk['nama'])?></td>
 						<td rowspan="18" style="vertical-align: top;">
 							<?php if ($penduduk['foto']): ?>
-								<img class="pas_foto" src="<?= AmbilFoto($penduduk['foto'], 'kecil_', $penduduk['id_sex'])?>" alt="<?= $penduduk['foto']; ?>" style="max-width: 300px; height: auto; border: solid 2px black;"/>
+								<img class="pas_foto" src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>" alt="<?= $penduduk['foto']; ?>" style="width: 100%; max-width: 150px; height: auto; border: solid 2px black;"/>
 							<?php endif; ?>
 						</td>
 					</tr>

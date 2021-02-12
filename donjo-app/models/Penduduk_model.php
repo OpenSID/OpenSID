@@ -838,6 +838,7 @@ class Penduduk_model extends MY_Model {
 				unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
 			}
 
+			file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
 			file_put_contents(LOKASI_USER_PICT . 'kecil_' . $nama_file, $foto);
 		}
 		else {
