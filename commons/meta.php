@@ -55,7 +55,7 @@
 	.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
-<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></
+<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.min.js') ?>"></script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.carousel.js') ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script>
