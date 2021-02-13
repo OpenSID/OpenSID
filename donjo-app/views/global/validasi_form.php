@@ -4,6 +4,6 @@
 
 <script src="<?= base_url('assets/js/script.js'); ?>"></script>
 
-<?php IF($_SESSION['UI'] === 'ADMIN'): ?>
+<?php IF ($this->session->siteman == 1): ?>
 <script src="<?= base_url('assets/js/script-admin.js'); ?>"></script>
 <?php ENDIF ?>

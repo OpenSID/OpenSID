@@ -161,8 +161,6 @@ class Web_Controller extends MY_Controller {
 		parent::__construct();
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 		$this->controller = strtolower($this->router->fetch_class());
-
-		$_SESSION['UI'] = 'WEB';
 	}
 
 	/*
@@ -196,8 +194,6 @@ class Mandiri_Controller extends MY_Controller {
 		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 		$this->controller = strtolower($this->router->fetch_class());
 		if ($this->session->mandiri != 1 OR $this->setting->layanan_mandiri == 0) redirect();
-
-		$_SESSION['UI'] = 'WEB';
 	}
 
 }
@@ -262,7 +258,6 @@ class Admin_Controller extends MY_Controller {
 			}
 		}
 
-		$_SESSION['UI'] = 'ADMIN';
 		$this->cek_pengumuman();
 		$this->header = $this->header_model->get_data();
 	}
