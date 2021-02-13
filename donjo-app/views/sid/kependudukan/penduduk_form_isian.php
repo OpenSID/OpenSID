@@ -28,7 +28,7 @@
 		</div>
 		<?php if($penduduk['status_dasar_id'] == 1 || !isset($penduduk['status_dasar_id'])): ?>
 			<div class='box-footer'>
-				<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+				<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="$('#'+'mainform').submit();"><i class='fa fa-times'></i> Batal</button>
 				<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right" onclick="$('#'+'mainform').attr('action', '<?= $form_action ?>');$('#'+'mainform').submit();"><i class="fa fa-check"></i> Simpan</button>
 			</div>
 		<?php endif; ?>

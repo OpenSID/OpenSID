@@ -20,6 +20,7 @@ Fitur Premium:
 10. #4000: Sekarang filter dan cari daftar calon pemilih normal kembali. [bug-fix]
 11. #4001: Sekarang filter program bantuan di daftar penduduk normal kembali. [bug-fix]
 12. Sederhanakan query penduduk supaya lebih cepat. [teknis]
+13. #3994: Unggah foto penduduk langsung ambil dari kamera HP/DSLR.
 
 
 
