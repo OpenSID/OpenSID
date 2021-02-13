@@ -178,7 +178,7 @@ $(document).ready(function()
 	$('button[type="reset"]').click(function(e)
 	{
     e.preventDefault();
-    $(this).closest('form').get(0).reset();
+    $(this).closest('form').trigger('reset');
 		// https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
 		$('.select2').trigger('change');
 		$('.select2-ikon').trigger('change');

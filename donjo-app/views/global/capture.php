@@ -20,7 +20,7 @@
 					<select class="input-sm" id="mode">
 							<option value="user" selected>Kamera Depan</option>
 							<option value="environment">Kamera Belakang</option>
-							<option value="computer">Webcam</option>							
+							<option value="computer">Webcam</option>
 					</select>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 						<button type="button" class="btn btn-flat btn-primary btn-sm" id="rotateR" title="Putar ke kanan"><i class="fa fa-repeat"></i>&nbsp;</button>
 						<button type="button" class="btn btn-flat btn-primary btn-sm" id="scaleX" title="Balik Horizontal"><i class="fa fa-arrows-h"></i>&nbsp;</button>
 						<button type="button" class="btn btn-flat btn-primary btn-sm" id="scaleY" title="Balik Vertikal"><i class="fa fa-arrows-v"></i>&nbsp;</button>
-						<button type="button" class="btn btn-flat btn-primary btn-sm" id="reset" title="Default"><i class="fa fa-refresh"></i>&nbsp;</button>
+						<button type="button" class="btn btn-flat btn-primary btn-sm" id="reset-ini" title="Default"><i class="fa fa-refresh"></i>&nbsp;</button>
 						<button type="button" class="btn btn-flat btn-success btn-sm" id="simpan-gambar" title="Simpan"><i class="fa fa-save"></i>&nbsp;</button>
 					</div>
 					<div class="btn-group">
