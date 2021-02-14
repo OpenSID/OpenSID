@@ -65,10 +65,6 @@ class keuangan_grafik_manual_model extends CI_model {
 
     $this->db->where("keuangan_manual_ref_rek3.Nama_Jenis NOT LIKE '%Hutang%'");
     $this->db->where("keuangan_manual_ref_rek3.Nama_Jenis NOT LIKE '%Ekuitas SAL%'");
-    $this->db->where("keuangan_manual_ref_rek3.Jenis NOT LIKE '4.3.2%'");
-    $this->db->where("keuangan_manual_ref_rek3.Jenis NOT LIKE '4.3.3%'");
-    $this->db->where("keuangan_manual_ref_rek3.Nama_Jenis NOT LIKE 'Lain-lain Pendapatan Desa Yang Sah%'");
-    $this->db->where("keuangan_manual_ref_rek3.Jenis NOT LIKE '4.3.9%'");
 
 		$this->db->order_by('keuangan_manual_ref_rek3.Jenis', 'asc');
 		$data['jenis_pendapatan'] = $this->db->get('keuangan_manual_ref_rek3')->result_array();
