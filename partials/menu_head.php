@@ -1,3 +1,5 @@
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -32,7 +34,16 @@
                     <?php endif; ?>
                 </li>
                 <?php } ?>
+                <li class="dropdown navbar-right" style="margin-right: 5px; margin-top: 0px">
+                    <a class="dropdown-toggle" href="#">Login <span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank">Administrator</a>
+                            <a href="<?= site_url(); ?>layanan-mandiri" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
-			</div>
+		</div>
     </div>
 </nav>
