@@ -11,7 +11,7 @@
 					}
 
 					.slick_slider, .cycle-slideshow {
-						max-height: 300px;
+						max-height: 350px;
 						border: 5px solid #e5e5e5;
 						display: block;
 						position: relative;
