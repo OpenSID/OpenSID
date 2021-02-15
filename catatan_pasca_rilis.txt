@@ -1,24 +1,5 @@
-Catatan Pra Rilis Tema Natra Versi 4.3, sbb:
+Catatan Pra Rilis Tema Natra Versi 4.4, sbb:
 
-1. Aktif/Nonaktif Layanan Mandiri
-2. Perbaiki Layanan Mandiri
-3. Sesuaikan Status Komentar pada Artikel
-4. Setting latar website dan login
-5. Tampilkan Struktur Organisasi
-6. Perbaiki error tampilkan artikel
-7. Hapus form-validasi gunakan validasi
-8. Sesuaikan halaman statis statistik wilayah
-9. Tabel Responsif pada Wilayah Administratif
-10. Munculkan table data demograsi versi desktop
-11. Kembalikan kotak cari ke header
-12. Sesuaikan tampilan Status IDM
-13. Menghapus js double load.
-14. Perbaiki Ganti Gambar CAPTCHA agar nampak
-15. Pindah Posisi Tombol Login
-16. Pindah posisi slider
-17. Munculkan judul artikel pada slider.
-18. Kembalikan data covid ke kawalcorona.com
-19. Rapikan Widget Aparatur Desa
-20. Beri link pada judul widget
+1.
 
 ****************************************************************
