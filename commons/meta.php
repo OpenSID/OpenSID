@@ -7,7 +7,7 @@
 <meta name='theme' content='Natra' />
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
-<meta name='theme:version' content='4.3' />
+<meta name='theme:version' content='4.4' />
 <meta name="keywords" content="<?= $this->setting->website_title.' '.ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>" />
 <meta property="og:site_name" content="<?= ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa'].' '.ucwords($this->setting->sebutan_kecamatan).' '.$desa['nama_kecamatan'].' '.ucwords($this->setting->sebutan_kabupaten).' '.$desa['nama_kabupaten'];?>"/>
 <meta property="og:type" content="article"/>
@@ -56,9 +56,6 @@
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
-<script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.min.js') ?>"></script>
 <script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.carousel.js') ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script>
@@ -70,12 +67,12 @@
 <script src="<?= base_url()?>assets/js/highcharts/highcharts-3d.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
-<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
-<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
-<script src="<?= base_url()?>assets/js/peta.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
+<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
+<script src="<?= base_url()?>assets/js/leaflet-mapbox-gl.js"></script>
+<script src="<?= base_url()?>assets/js/peta.js"></script>
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/bootstrap/css/dataTables.bootstrap.min.css">
 <script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
@@ -125,6 +122,7 @@
 </style>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
+
 <!--[if lt IE 9]>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js"); ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js"); ?>"></script>
