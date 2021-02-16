@@ -2,6 +2,9 @@
 	Javascript untuk penggunaan dan penyesuaian select2
 */
 
+$(document).ready(function()
+{
+
 	// Select2 dengan fitur pencarian
 	$('.select2').select2({
 		width: '100%',
@@ -122,3 +125,4 @@
 		$('.select2-ikon').trigger('change');
 	});
 
+});

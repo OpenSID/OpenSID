@@ -2,7 +2,10 @@
 	Javascript untuk penggunaan dan penyesuaian datepicker dan datetimepicker
 */
 
-//Fortmat Tanggal dan Jam
+$(document).ready(function()
+{
+
+	//Fortmat Tanggal dan Jam
 	$('.datepicker').datepicker(
 	{
 		weekStart : 1,
@@ -143,3 +146,5 @@
 		format: 'HH:mm',
 		locale:'id'
 	});
+
+});

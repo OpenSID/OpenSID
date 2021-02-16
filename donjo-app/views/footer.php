@@ -43,6 +43,8 @@
 		<script src="<?= base_url()?>assets/js/numeral.min.js"></script>
 		<!-- Script-->
 		<script src="<?= base_url()?>assets/js/script.js"></script>
+		<script src="<?= base_url('assets/js/custom-select2.js'); ?>"></script>
+		<script src="<?= base_url('assets/js/custom-datetimepicker.js'); ?>"></script>
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
