@@ -73,7 +73,7 @@ td {
           <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
           <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
           <div id="covid_status" style="display: none;">
-            <?php $this->load->view("gis/covid_peta.php") ?>
+            <?php if ($this->setting->covid_data) $this->load->view("gis/covid_peta.php")?>
           </div>
         </div>
         <div id="desa_online" style="display: none;">
@@ -128,7 +128,7 @@ td {
         </div>
         <div class="leaflet-top leaflet-right">
           <div id="covid_status_local" style="display: none;">
-            <?php $this->load->view("gis/covid_peta_local.php") ?>
+            <?php if ($this->setting->covid_desa) $this->load->view("gis/covid_peta_local.php")?>
           </div>
         </div>
         <div class="leaflet-bottom leaflet-left">
