@@ -1,3 +1,5 @@
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -18,7 +20,16 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav custom_nav">
                 <li class=""><a href="<?= site_url(); ?>">Beranda</a></li>
-                <?php foreach($menu_atas as $data) { ?>
+				<li class="dropdown" style="margin-right: 5px; margin-top: 0px">
+                    <a class="dropdown-toggle" href="javascript:void(0);">Login <span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank">Administrator</a>
+                            <a href="<?= site_url(); ?>layanan-mandiri" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
+                        </li>
+                    </ul>
+                </li>
+				<?php foreach($menu_atas as $data) { ?>
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="<?= $data['link']?>"><?= $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
                     <?php if(count($data['submenu'])>0): ?>
@@ -32,7 +43,8 @@
                     <?php endif; ?>
                 </li>
                 <?php } ?>
+                
             </ul>
-			</div>
+		</div>
     </div>
 </nav>
