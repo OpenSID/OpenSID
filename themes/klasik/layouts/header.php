@@ -141,7 +141,7 @@
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 		<script src="<?= base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
-		<?php $this->load->view('global/validasi_form'); ?>
+		<?php $this->load->view('global/validasi_form', ['web_ui' => true]); ?>
 
 		<!-- Diperlukan untuk javascript yg mengakses resources -->
 		<script type="text/javascript">
