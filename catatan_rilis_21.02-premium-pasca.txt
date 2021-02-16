@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.02-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ahmad Afandi dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ahmad Afandi, Nur Hidayat dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
 1. [untuk diisi]
@@ -22,6 +22,7 @@ Fitur Premium:
 12. Sederhanakan query penduduk supaya lebih cepat. [teknis]
 13. #3994: Unggah foto penduduk langsung ambil dari kamera HP/DSLR.
 14. Sesuaikan laporan keuangan untuk transaksi dengan uang muka.
+15. #3991: Tambahkan pencatatan identitas penduduk KIA (Kartu Identitas Anak).
 
 
 

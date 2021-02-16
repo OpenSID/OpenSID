@@ -291,7 +291,8 @@ define("ASALDANA", serialize(array(
 )));
 define("KTP_EL", serialize(array(
 	strtolower("BELUM") => "1",
-	strtolower("KTP-EL") => "2"
+	strtolower("KTP-EL") => "2",
+	strtolower("KIA") => "3"
 )));
 define("STATUS_REKAM", serialize(array(
 	strtolower("BELUM WAJIB") => "1",
