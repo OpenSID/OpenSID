@@ -24,6 +24,7 @@ Fitur Premium:
 14. Sesuaikan laporan keuangan untuk transaksi dengan uang muka.
 15. #3991: Tambahkan pencatatan identitas penduduk KIA (Kartu Identitas Anak).
 16. #3992: Perbaiki beberapa error javascript di tema natra. [bug]
+17. Kembali tampilkan breadcrumb dan tombol Kembali di form layanan cetak surat. [bug]
 
 
 
