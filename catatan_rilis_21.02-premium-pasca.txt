@@ -25,6 +25,7 @@ Fitur Premium:
 15. #3991: Tambahkan pencatatan identitas penduduk KIA (Kartu Identitas Anak).
 16. #3992: Perbaiki beberapa error javascript di tema natra. [bug]
 17. Kembali tampilkan breadcrumb dan tombol Kembali di form layanan cetak surat. [bug]
+18. Kembalikan pengambilan data covid untuk peta web dari api.kawalcorona.com.
 
 
 
