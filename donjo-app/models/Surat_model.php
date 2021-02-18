@@ -1095,7 +1095,7 @@
 			else
 			{
 				// Linux
-				$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+				$cmd = "".FCPATH."vendor/libreoffice/opt/libreoffice7.1/program/soffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
 			}
 			exec($cmd, $output, $return);
 			// Kalau berhasil, pakai pdf
