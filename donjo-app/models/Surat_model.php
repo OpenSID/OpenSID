@@ -1094,12 +1094,12 @@
 			}
 			elseif ($this->setting->libreoffice_path == '/')
 			{
-				// Linux pasang stand-alone LibreOffice
-				$cmd = "".FCPATH."vendor/libreoffice/opt/libreoffice7.1/program/soffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+				// Linux dengan stand-alone LibreOffice
+				$cmd = "".FCPATH."vendor/libreoffice/opt/libreoffice/program/soffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
 			}
 			else
 			{
-				// Linux menggunakan LibreOffice yg dipaaang menggunakan 'sudo apt-get'
+				// Linux menggunakan LibreOffice yg dipasang menggunakan 'sudo apt-get'
 				$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
 			}
 			exec($cmd, $output, $return);
