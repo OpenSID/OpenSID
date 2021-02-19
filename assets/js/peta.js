@@ -1171,9 +1171,9 @@ const regions = {
 		id: 1,
 		attributes: {
 			wilayah: 'name',
-			positif: 'jumlahKasus',
-			meninggal: 'meninggal',
-			sembuh: 'sembuh'
+			positif: 'confirmed',
+			meninggal: 'deaths',
+			sembuh: 'recovered'
 		}
 	},
 	provinsi: {
@@ -1198,7 +1198,7 @@ function parseToNum(data) {
 function showCovidData(data, region) {
 	const elem = region.id === regions.indonesia.id ? '#covid-nasional' : '#covid-provinsi';
 	Object.keys(region.attributes).forEach(function (prop) {
-		let tempData = data[region.attributes[prop]];
+		let tempData = (region.id === regions.indonesia.id && prop !== 'wilayah') ? data[region.attributes[prop]]['value'] : data[region.attributes[prop]];
 		let finalData = prop === 'wilayah' ? tempData.toUpperCase() : numberFormat(parseToNum(tempData));
 		$(elem).find(`[data-name=${prop}]`).html(`${finalData}`);
 	});
@@ -1213,14 +1213,14 @@ function showError(elem = '') {
 
 $(document).ready(function () {
 	if ($('#covid-nasional').length) {
-		const COVID_API_URL = 'https://indonesia-covid-19.mathdro.id/api/';
-		const ENDPOINT_PROVINSI = 'provinsi/';
+		const ENDPOINT_NASIONAL = 'https://covid19.mathdro.id/api/countries/indonesia';
+		const ENDPOINT_PROVINSI = 'https://indonesia-covid-19.mathdro.id/api/provinsi';
 
 		try {
 			$.ajax({
 				async: true,
 				cache: true,
-				url: COVID_API_URL,
+				url: ENDPOINT_NASIONAL,
 				success: function (response) {
 					const data = response;
 					data.name = 'Indonesia';
@@ -1239,7 +1239,7 @@ $(document).ready(function () {
 				$.ajax({
 					async: true,
 					cache: true,
-					url: COVID_API_URL + ENDPOINT_PROVINSI,
+					url: ENDPOINT_PROVINSI,
 					success: function (response) {
 						const data = response.data.filter(data => data.kodeProvi == KODE_PROVINSI);
 						data.length ? showCovidData(data[0], regions.provinsi) : showError('#covid-provinsi');
