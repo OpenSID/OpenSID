@@ -26,6 +26,7 @@ Fitur Premium:
 16. #3992: Perbaiki beberapa error javascript di tema natra. [bug]
 17. Kembali tampilkan breadcrumb dan tombol Kembali di form layanan cetak surat. [bug]
 18. Kembalikan pengambilan data covid untuk peta web dari api.kawalcorona.com.
+19. #4011: Sediakan alternatif mencetak surat dalam format PDF menggunakan LibreOffice stand-alone. (teknis)
 
 
 

@@ -1092,10 +1092,15 @@
 				$cmd = 'cd '.$this->setting->libreoffice_path;
 				$cmd = $cmd." && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ".$outdir." ".$fcpath.$berkas_arsip_win;
 			}
+			elseif ($this->setting->libreoffice_path == '/')
+			{
+				// Linux pasang stand-alone LibreOffice
+				$cmd = "".FCPATH."vendor/libreoffice/opt/libreoffice7.1/program/soffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+			}
 			else
 			{
-				// Linux
-				$cmd = "".FCPATH."vendor/libreoffice/opt/libreoffice7.1/program/soffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+				// Linux menggunakan LibreOffice yg dipaaang menggunakan 'sudo apt-get'
+				$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
 			}
 			exec($cmd, $output, $return);
 			// Kalau berhasil, pakai pdf
