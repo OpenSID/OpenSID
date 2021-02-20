@@ -148,7 +148,25 @@
 			if ($data[$i]['id_pend'] == -1)
 				$data[$i]['id_pend'] = "Masuk";
 			else
+			{
 				$data[$i]['id_pend'] = "Keluar";
+				$nama_surat = pathinfo($data[$i]['nama_surat'], PATHINFO_FILENAME);
+
+				if ($nama_surat)
+				{
+					$berkas_rtf = $nama_surat . ".rtf";
+					$berkas_pdf = $nama_surat . ".pdf";
+				}
+				else
+				{
+					$berkas_rtf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".rtf";
+					$berkas_pdf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".pdf";
+				}
+
+				$data[$i]['file_rtf'] = LOKASI_ARSIP.$berkas_rtf;
+				$data[$i]['file_pdf'] = LOKASI_ARSIP.$berkas_pdf;
+				$data[$i]['lampiran'] = LOKASI_ARSIP.$data[$i]['lampiran'];
+			}
 			if (!empty($data[$i]['pamong_id_pend']))
 				// Pamong desa
 				$data[$i]['pamong'] = $data[$i]['nama_pamong_desa'];

@@ -178,16 +178,21 @@ class Surat extends Admin_Controller {
 		$log_surat['lampiran'] = $lampiran;
 		$this->keluar_model->log_surat($log_surat);
 
+		if ($this->input->post('submit_cetak') == 'cetak_pdf')
+			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
+		else
+			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".rtf";
+
 		if ($lampiran)
 		{
-			$nama_file = str_replace('rtf', 'zip', $nama_surat);
+			$nama_file = pathinfo($nama_surat, PATHINFO_FILENAME).".zip";
 			$berkas_zip = array();
 			$berkas_zip[] = LOKASI_ARSIP.$nama_surat;
 			$berkas_zip[] = LOKASI_ARSIP.$lampiran;
 			# Masukkan semua berkas ke dalam zip
 			$berkas_zip = masukkan_zip($berkas_zip);
 	    # Unduh berkas zip
-	    header('Content-disposition: attachment; filename='.$nama_file.'.zip');
+	    header('Content-disposition: attachment; filename='.$nama_file);
 	    header('Content-type: application/zip');
 			header($this->security->get_csrf_token_name().':'.$this->security->get_csrf_hash());
 	    readfile($berkas_zip);
