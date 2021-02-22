@@ -1,0 +1,11 @@
+Di rilis ini, versi 21.02-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Diki Siswanto yang terus berkontribusi.
+
+Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
+
+1. Perbaiki tautan sumber untuk menampilkan data kasus covid-19 di Indonesia. [bug]
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+
