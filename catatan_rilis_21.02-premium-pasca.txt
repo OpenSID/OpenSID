@@ -28,6 +28,7 @@ Fitur Premium:
 18. Kembalikan pengambilan data covid untuk peta web dari api.kawalcorona.com.
 19. #4011: Sediakan tombol mencetak surat PDF pada Layanan Surat > Cetak Surat.
 20. Sediakan alternatif mencetak surat dalam format PDF menggunakan LibreOffice stand-alone. (teknis)
+21. Perbaharui library HTML2PDF dan TCPDF. (teknis)
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
