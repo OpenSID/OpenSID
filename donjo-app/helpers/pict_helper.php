@@ -46,6 +46,9 @@ define ('EXT_ARSIP', serialize(array(
 	".zip", ".rar"
 )));
 
+// include 2D barcode class
+require_once 'vendor/html2pdf/vendor/tecnickcom/tcpdf/tcpdf_barcodes_2d_include.php';
+
 /**
 * Tambahkan suffix unik ke nama file
 * @param   string        $namaFile    Nama file asli (beserta ekstensinya)
@@ -786,41 +789,26 @@ function periksa_file($upload, $mime_types, $exts)
 
 function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr)
 {
-	$CI =& get_instance();
-	$CI->load->library('ciqrcode'); //pemanggilan library QR CODE
+	$barcodeobj = new TCPDF2DBarcode($isiqr, 'QRCODE,H');
 
-	$backqr1 = preg_replace('/#/', '0x', $backqr); // code warna default filter
-	$foreqr1 = preg_replace('/#/', '0x', $foreqr); // code warna filter
-
-	$config['cacheable']		=	true; //boolean, the default is true
-	$config['cachedir']			=	'./cache/';
-	$config['errorlog']			=	'./logs/';
-	$config['imagedir']			=	$pathqr; //direktori penyimpanan qr code
-	$config['quality']			=	TRUE; //boolean, the default is true
-	$config['size']					=	'1024'; //interger, the default is 1024
-	$CI->ciqrcode->initialize($config);
-
-	$image_name = $namaqr.'.png';
-
-	$params['data'] = $isiqr; //data yang akan di jadikan QR CODE
-	$params['level'] = 'H'; //H=High
-	$params['size'] = $sizeqr; //Ukuran QR CODE
-	$params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder /desa/upload/media/
-	if (!empty($foreqr1))
+	if ($foreqr == '')
 	{
-		$params['fore_color'] = hexdec($foreqr1);
+		$fore_color = hex2rgba('#000000');
 	}
 	else
 	{
-		$params['back_color'] = hexdec($backqr1); //0x000000
+		$fore_color = hex2rgba($foreqr);
 	}
-	$CI->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
+	$imgData = $barcodeobj->getBarcodePngData($sizeqr, $sizeqr, array($fore_color));
+	$filename = FCPATH . $pathqr . $namaqr . '.png';
+	file_put_contents($filename, $imgData);
 
 	//ambil logo
 	$logopath = $logoqr; // Logo yg tampil di tengah QRCode
 
 	// ambil file qrcode
-	$QR = imagecreatefrompng(FCPATH.$config['imagedir'].$image_name);
+	$QR = imagecreatefrompng($filename);
 
 	// memulai menggambar logo dalam file qrcode
 	// ambil file di server menggunakan absolute path, tidak menggunakan url
@@ -844,7 +832,45 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $f
 	imagecopyresampled($QR, $logo, $QR_width/2.5, $QR_height/2.5, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
 
 	// Simpan kode QR lagi, dengan logo di atasnya
-	imagepng($QR, FCPATH.$config['imagedir'].$image_name);
+	imagepng($QR, $filename);
+}
+
+function hex2rgba($color, $opacity = false)
+{
+		$default = 'rgb(0,0,0)';
+
+		//Return default if no color provided
+		if(empty($color))
+		return $default;
+
+		//Sanitize $color if "#" is provided
+		if ($color[0] == '#' ) {
+			$color = substr( $color, 1 );
+		}
+
+		//Check if color has 6 or 3 characters and get values
+		if (strlen($color) == 6) {
+			$hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+		} elseif ( strlen( $color ) == 3 ) {
+			$hex = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+		} else {
+			return $default;
+		}
+
+		//Convert hexadec to rgb
+		$rgb =  array_map('hexdec', $hex);
+
+		//Check if opacity is set(rgba or rgb)
+		if($opacity){
+			if(abs($opacity) > 1)
+			$opacity = 1.0;
+			$output = implode(",",$rgb).','.$opacity;
+		} else {
+			$output = implode(",",$rgb);
+		}
+
+		//Return rgb(a) color string
+		return $output;
 }
 
 ?>
