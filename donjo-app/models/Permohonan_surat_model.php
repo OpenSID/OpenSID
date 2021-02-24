@@ -193,13 +193,12 @@
 			->row_array();
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
 		$dok_syarat = array_values($syarat_permohonan);
-		$sql_syarat_permohonan = sql_in_list($dok_syarat);
-
-		if ($sql_syarat_permohonan) $this->db->where_in('id', $sql_syarat_permohonan);
+		if ($dok_syarat) $this->db->where_in('id', $dok_syarat);
   	$dokumen_kelengkapan = $this->db
   		->select('id, nama')
-  		->from('dokumen')
-  		->get()->result_array();
+			->get('dokumen')
+			->result_array();
+
   	$dok_syarat = array();
   	foreach ($dokumen_kelengkapan as $dok)
   	{
