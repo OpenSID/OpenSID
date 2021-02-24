@@ -71,7 +71,7 @@
 										<div class="input-group-addon input-sm">
 											<i></i>
 										</div>
-										<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" value="<?= $qrcode['foreqr'] ?: $qrcode['backqr']; ?>">
+										<input type="text" id="foreqr" name="foreqr" class="form-control input-sm" value="<?= $qrcode['foreqr']; ?>">
 									</div>
 								</div>
 							</div>
