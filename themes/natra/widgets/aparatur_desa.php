@@ -21,7 +21,7 @@
 <!-- widget Aparatur Desa -->
 <div class="single_bottom_rightbar">
 	<h2 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h2>
-	<div class="box-body"><div class="content_middle_middle">
+	<div class="box-body">
 		<div id="aparatur_desa" class="cycle-slideshow"
 		data-cycle-pause-on-hover=true
 		data-cycle-fx=scrollHorz
@@ -33,6 +33,7 @@
 		>
 
 		<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
+		<div class="content_middle_middle">
 			<span class="cycle-prev"><img src="<?= base_url()?>assets/images/back_button.png" alt="Back"></span>
 			<span class="cycle-next"><img src="<?= base_url()?>assets/images/next_button.png" alt="Next"></span>
 			<div class="cycle-caption"></div>
@@ -48,5 +49,6 @@
 				>
 			<?php endforeach; ?>
 		</div>
-	</div></div>
+		</div>
+	</div>
 </div>

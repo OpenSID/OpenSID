@@ -7,11 +7,11 @@
 <body>
 <!--
 <div id="preloader">
-	<div id="status">&nbsp;</div>
+		<div id="status">&nbsp;</div>
 </div>
 -->
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
-<div class="container"style="background-color: #f6f6f6;">
+<div class="container" style="background-color: #f6f6f6;">
 	<header id="header">
 		<?php $this->load->view("$folder_themes/partials/header.php"); ?>
 	</header>
@@ -24,7 +24,7 @@
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
 					<div class="content_bottom_left">
-						<?php $this->load->view($folder_themes.'/partials/sub_gallery.php');?>
+					<?php $this->load->view("$folder_themes/partials/kelompok.php"); ?>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3">

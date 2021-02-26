@@ -5,14 +5,14 @@
 	<?php $this->load->view("$folder_themes/commons/meta.php"); ?>
 </head>
 <body>
-<!--
-<div id="preloader">
-	<div id="status">&nbsp;</div>
-</div>
--->
-<a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
-<div class="container" style="background-color: #f6f6f6;">
-	<header id="header">
+	<style type="text/css">
+	  .web .content-wrapper
+	  {
+		margin-left: 0px !important;
+	  }
+	</style>
+	<a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
+	<div class="container" style="background-color: #f6f6f6;">
 		<header id="header">
 			<?php $this->load->view("$folder_themes/partials/header.php"); ?>
 		</header>
@@ -20,16 +20,13 @@
 			<?php $this->load->view("$folder_themes/partials/menu_head.php"); ?>
 		</div>
 		<div class="row">
-			<section>
+			<section id="mainContent">
 				<div class="content_middle"></div>
 				<div class="content_bottom">
-					<div class="col-lg-9 col-md-9">
-						<div class="content_bottom_left">
-							<?php $this->load->view("$folder_themes/partials/arsip.php"); ?>
+					<div class="col-lg-12 col-md-12">
+						<div id="contentwrapper" class="web">
+							<?php $this->load->view($halaman_statis); ?>
 						</div>
-					</div>
-					<div class="col-lg-3 col-md-3">
-						<?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
 					</div>
 				</div>
 			</section>
