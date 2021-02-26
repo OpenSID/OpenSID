@@ -42,17 +42,27 @@
 
 class Permohonan_surat extends Mandiri_Controller {
 
+	private $cek_anjungan;
+
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('penduduk_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('surat_model');
-		$this->load->model('keluar_model');
-		$this->load->model('config_model');
-		$this->load->model('referensi_model');
-		$this->load->model('penomoran_surat_model');
-		$this->load->model('permohonan_surat_model');
+		if ( ! isset($_SESSION['mandiri'])) {
+			redirect('first');
+		}
+		else
+		{
+			$this->load->model('penduduk_model');
+			$this->load->model('keluarga_model');
+			$this->load->model('surat_model');
+			$this->load->model('keluar_model');
+			$this->load->model('config_model');
+			$this->load->model('referensi_model');
+			$this->load->model('penomoran_surat_model');
+			$this->load->model('permohonan_surat_model');
+			$this->load->model('anjungan_model');
+			$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		}
 	}
 
 	public function form($id_permohonan='')
@@ -81,12 +91,15 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->get_data_untuk_form($url, $data);
+		$data['desa'] = $this->config_model->get_data();
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['views_partial_layout'] = "surat/form_surat.php";
 		$data['data'] = $data;
+		$data['cek_anjungan'] = $this->cek_anjungan;
+
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 

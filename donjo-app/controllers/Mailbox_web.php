@@ -40,14 +40,29 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mailbox_web extends Mandiri_Controller
-{
+// class Mailbox_web extends Mandiri_Controller
+// {
+// 	public function __construct()
+// 	{
+// 		parent::__construct();
+// 		$this->load->model('mailbox_model');
+// 		$this->load->model('mandiri_model');
+// 		$this->load->model('config_model');
+class Mailbox_web extends Web_Controller {
+
+	private $cek_anjungan;
+
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('mailbox_model');
-		$this->load->model('mandiri_model');
-		$this->load->model('config_model');
+		if ( ! isset($_SESSION['mandiri'])) {
+			redirect('first');
+		}
+		else
+		{
+			$this->load->model(['config_model', 'mailbox_model', 'mandiri_model', 'anjungan_model']);
+			$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		}
 	}
 
 	public function index()
@@ -57,22 +72,24 @@ class Mailbox_web extends Mandiri_Controller
 
 	public function form()
 	{
-		if (!empty($subjek = $this->input->post('subjek'))) {
+		if ( ! empty($subjek = $this->input->post('subjek'))) {
 			$data['subjek'] = $subjek;
 		}
 		$data['desa'] = $this->config_model->get_data();
-		$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
+		$data['individu'] = $this->mandiri_model->get_mandiri($this->session->nik, true);
 		$data['form_action'] = site_url("mailbox_web/kirim_pesan");
 		$data['views_partial_layout'] = "web/mandiri/mailbox_form";
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
+	// TODO: pisahkan mailbox dari komentar
 	public function kirim_pesan()
 	{
 		$post = $this->input->post();
-		$individu = $this->mandiri_model->get_pendaftar_mandiri($_SESSION['nik']);
-		$post['email'] = $individu['nik'];
+		$individu = $this->mandiri_model->get_mandiri($this->session->nik, true);
+		$post['email'] = $individu['nik']; // kolom email diisi nik untuk pesan
 		$post['owner'] = $individu['nama'];
 		$post['tipe'] = 1;
 		$post['status'] = 2;
@@ -92,6 +109,7 @@ class Mailbox_web extends Mandiri_Controller
 		$data['pesan'] = $this->mailbox_model->get_pesan($nik, $id);
 		$data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat);
 		$data['views_partial_layout'] = "web/mandiri/mailbox_detail";
+		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}

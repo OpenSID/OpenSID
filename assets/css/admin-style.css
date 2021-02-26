@@ -2,23 +2,23 @@
 
 /* Modifikasi Check list dengan Tombol Botton */
 .btn-info.active,
-	.btn-info.active:focus,
-	.btn-info.active:hover,
-	.open > .dropdown-toggle.btn-info.focus,
-	.open > .dropdown-toggle.btn-info:hover
-	{
-		color: #fff;
-		background-color: #1788aa;
-		border-color: #1b6d85;
-	}
+.btn-info.active:focus,
+.btn-info.active:hover,
+.open > .dropdown-toggle.btn-info.focus,
+.open > .dropdown-toggle.btn-info:hover
+{
+	color: #fff;
+	background-color: #1788aa;
+	border-color: #1b6d85;
+}
 
 /* Modifikasi warna dan background Navigator Active */
 .nav-stacked > li.active > a, .nav-stacked > li.active > a:hover
 {
-		background-color: #337ab7;
-		color:#fff;
-		border-top: 0;
-		border-left-color: #1f2427;
+	background-color: #337ab7;
+	color:#fff;
+	border-top: 0;
+	border-left-color: #1f2427;
 }
 
 /* Modifikasi input group */
@@ -195,11 +195,11 @@
 .select2-container--default .select2-selection--single, .select2-selection .select2-selection--single
 {
 	padding: 2px 12px;
-		height: 25px;
+	height: 25px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow
 {
-		height: 22px;
+	height: 22px;
 }
 .fa
 {
@@ -278,7 +278,7 @@ td.nostretch, th.nostretch{
 .form-horizontal .radio,
 .form-horizontal .radio-inline
 {
-		padding: 4px;
+	padding: 4px;
 }
 .panel-fullscreen
 {
@@ -315,7 +315,7 @@ table.head
 .radio input[type="radio"],
 .radio-inline input[type="radio"]
 {
-position: inherit;
+	position: inherit;
 }
 #op_item div
 {
@@ -342,7 +342,7 @@ table.head
 }
 .atas {vertical-align: top;}
 .form-horizontal .control-label {
-text-align: left;
+	text-align: left;
 }
 img { margin-bottom: 5px; }
 .no-padding { padding: 0px; }
@@ -491,6 +491,9 @@ span.select2.select2-container {
 	min-height: 350px;
 }
 
+.select-row {
+	background-color: #f8deb5 !important;
+}
 .paging {
 	margin-top: 5px;
 }

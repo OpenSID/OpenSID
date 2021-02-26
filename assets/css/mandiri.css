@@ -1,0 +1,49 @@
+.ui-keyboard-button {
+    border: 1px solid #aaa;
+    padding: 0 0.5em;
+    margin: 1px;
+    min-width: 3em;
+    height: 3em;
+    line-height: 3em;
+    vertical-align: top;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    border-radius: 5px;
+    -webkit-box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.5);
+    background: white;
+    background-image: -webkit-linear-gradient(-90deg, white 0%, #e3e3e3 100%);
+    background-image:         linear-gradient(-90deg, white 0%, #e3e3e3 100%);
+    cursor: pointer;
+    overflow: hidden;
+    -moz-user-focus: ignore;
+}
+
+.ui-keyboard {
+    /* adjust overall keyboard size using "font-size" */
+    font-size: 28px; /* increase button size for small screen */
+    text-align: center;
+    background: #fefefe;
+    border: 1px solid #aaa;
+    padding: 4px;
+
+    /* include the following setting to place the
+    keyboard at the bottom of the browser window */
+		width: 100%;
+		height: auto;
+		bottom: 0px;
+    left: 0px;
+    top: auto;
+    position: fixed;
+    /*position: absolute;*/
+    white-space: nowrap;
+    overflow-x: auto;
+    /* see issue #484 */
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+.ui-keyboard-has-focus {
+	z-index: 16001;
+}

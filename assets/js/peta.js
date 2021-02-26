@@ -3,7 +3,7 @@
  *
  * Javascript untuk Modul Pemetaan di OpenSID
  *
- * peta.js
+ * assets/js/peta.js
  *
  */
 
@@ -49,16 +49,8 @@ $(document).ready(function()
 	});
 });
 
-function set_marker(marker, daftar_path, warna, judul, nama_wil)
+function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 {
-  var marker_style = {
-    stroke: true,
-    color: '#FF0000',
-    opacity: 1,
-    weight: 2,
-    fillColor: warna,
-    fillOpacity: 0.5
-  }
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
@@ -70,10 +62,38 @@ function set_marker(marker, daftar_path, warna, judul, nama_wil)
       jml_path = daftar[x].path[0].length;
       for (var y = 0; y < jml_path; y++)
       {
-        daftar[x].path[0][y].reverse()
+        daftar[x].path[0][y].reverse();
       }
-      daftar[x].path[0].push(daftar[x].path[0][0])
-      marker.push(turf.polygon(daftar[x].path, {content: judul + ' ' + daftar[x][nama_wil], style: marker_style}));
+
+      var label = L.tooltip({
+        permanent: true,
+        direction: 'center',
+        className: 'text',
+      }).setContent(judul + ' ' + daftar[x][nama_wil]);
+
+      var point_style = {
+        iconSize: [1, 1],
+        iconAnchor: [0.5, 0.5],
+        labelAnchor: [0.3, 0],
+        iconUrl: favico_desa
+    	};
+
+      var marker_style = {
+        stroke: true,
+        color: 'white',
+        opacity: 1,
+        weight: 3,
+        fillColor: daftar[x].warna,
+        fillOpacity: 0.8,
+        dashArray: 4
+      }
+
+      daftar[x].path[0].push(daftar[x].path[0][0]);
+      if (daftar[x].lng)
+      {
+        marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: label, style: L.icon(point_style)}));
+      }
+      marker.push(turf.polygon(daftar[x].path, {content: daftar[x][nama_wil], style: marker_style}));
     }
   }
 }
@@ -88,9 +108,22 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
     daerah_desa[0][x].reverse();
   }
 
+  var style_polygon = {
+		stroke: true,
+		color: '#de2d26',
+		opacity: 1,
+		weight: 3,
+		fillColor: desa['warna'],
+		fillOpacity: 0.8,
+    dashArray: 4
+	};
+
   var point_style = stylePointLogo(favico_desa);
-  marker_desa.push(turf.polygon(daerah_desa, {content: judul, style: stylePolygonDesa(), style: L.icon(point_style)}))
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: "Kantor Desa", style: L.icon(point_style)}));
+  if (desa['lng'])
+  {
+    marker_desa.push(turf.point([desa['lng'], desa['lat']], {content: desa, style: L.icon(point_style)}));
+  }
+  marker_desa.push(turf.polygon(daerah_desa, {content: desa, style: style_polygon}));
 }
 
 function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
@@ -105,21 +138,26 @@ function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents
 
 	content = $(contents).html();
 
+  var style_polygon = {
+		stroke: true,
+		color: '#de2d26',
+		opacity: 1,
+		weight: 3,
+		fillColor: desa['warna'],
+		fillOpacity: 0.8,
+    dashArray: 4
+	};
+
   var point_style = stylePointLogo(favico_desa);
-  marker_desa.push(turf.point([desa['lng'], desa['lat']], {name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style)}));
-  marker_desa.push(turf.polygon(daerah_desa, {content: content, style: stylePolygonDesa(), style: L.icon(point_style)}))
+  if (desa['lng'])
+  {
+    marker_desa.push(turf.point([desa['lng'], desa['lat']], {name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style)}));
+  }
+  marker_desa.push(turf.polygon(daerah_desa, {content: content, style: style_polygon}));
 }
 
-function set_marker_content(marker, daftar_path, warna, judul, nama_wil, contents)
+function set_marker_content(marker, daftar_path, judul, nama_wil, contents, favico_desa)
 {
-  var marker_style = {
-    stroke: true,
-    color: '#FF0000',
-    opacity: 1,
-    weight: 2,
-    fillColor: warna,
-    fillOpacity: 0.5
-  }
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
@@ -131,13 +169,40 @@ function set_marker_content(marker, daftar_path, warna, judul, nama_wil, content
       jml_path = daftar[x].path[0].length;
       for (var y = 0; y < jml_path; y++)
       {
-        daftar[x].path[0][y].reverse()
+        daftar[x].path[0][y].reverse();
       }
 
 			content = $(contents + x).html();
 
-      daftar[x].path[0].push(daftar[x].path[0][0])
-      marker.push(turf.polygon(daftar[x].path, {content: content, style: marker_style}));
+      var label = L.tooltip({
+        permanent: true,
+        direction: 'center',
+        className: 'text',
+      }).setContent(judul + ' ' + daftar[x][nama_wil]);
+
+      var point_style = {
+        iconSize: [1, 1],
+        iconAnchor: [0.5, 0.5],
+        labelAnchor: [0.3, 0],
+        iconUrl: favico_desa
+    	};
+
+      var marker_style = {
+        stroke: true,
+        color: 'white',
+        opacity: 1,
+        weight: 3,
+        fillColor: daftar[x].warna,
+        fillOpacity: 0.8,
+        dashArray: 4
+      }
+
+      daftar[x].path[0].push(daftar[x].path[0][0]);
+      if (daftar[x].lng)
+      {
+        marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: label, style: L.icon(point_style)}));
+      }
+      marker.push(turf.polygon(daftar[x].path, {name: judul, content: content, style: marker_style}));
     }
   }
 }
@@ -229,13 +294,20 @@ function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_des
   var poligon_wil_rw = poligonWil(marker_rw);
   var poligon_wil_rt = poligonWil(marker_rt);
 
-  var peta_desa = 'Peta Wilayah ' + sebutan_desa;
-  var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
-  var overlayLayers = new Object;
-  overlayLayers[peta_desa] = poligon_wil_desa;
-  overlayLayers[peta_dusun] = poligon_wil_dusun;
-  overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
-  overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
+  // var peta_desa = 'Peta Wilayah ' + sebutan_desa;
+  // var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
+  // var overlayLayers = new Object;
+  // overlayLayers[peta_desa] = poligon_wil_desa;
+  // overlayLayers[peta_dusun] = poligon_wil_dusun;
+  // overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
+  // overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
+  var overlayLayers = {
+    'Peta Wilayah Desa': poligon_wil_desa,
+    'Peta Wilayah Dusun': poligon_wil_dusun,
+    'Peta Wilayah RW': poligon_wil_rw,
+    'Peta Wilayah RT': poligon_wil_rt
+  };
+
   return overlayLayers;
 }
 
@@ -263,13 +335,14 @@ function getLatLong(x, y)
 
 function stylePolygonDesa()
 {
-	var style_polygon = {
+  var style_polygon = {
 		stroke: true,
-		color: '#FF0000',
+		color: '#de2d26',
 		opacity: 1,
-		weight: 2,
-		fillColor: '#8888dd',
-		fillOpacity: 0.5
+		weight: 3,
+		fillColor: warna,
+		fillOpacity: 0.5,
+    dashArray: 4
 	};
 	return style_polygon;
 }
@@ -327,7 +400,7 @@ function styleGpx()
 		color: 'red',
 		opacity: 1.0,
 		fillOpacity: 1.0,
-		weight: 2,
+		weight: 3,
 		clickable: true
 	};
 	return style;
@@ -665,11 +738,13 @@ function addPetaLine(layerpeta)
 	return addPetaLine;
 }
 
-function showCurrentPolygon(wilayah, layerpeta)
+function showCurrentPolygon(wilayah, layerpeta, warna)
 {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
-	var poligon_wilayah = L.polygon(wilayah, {showMeasurements: true, measurementOptions: {showSegmentLength: false}})
+	var poligon_wilayah = L.polygon(wilayah, {
+  showMeasurements: true,
+  measurementOptions: {showSegmentLength: false}})
 	.addTo(layerpeta)
 
 	poligon_wilayah.on('pm:edit', function(e)
@@ -961,7 +1036,7 @@ function set_marker_area(marker, daftar_path, foto_area)
       var area_style = {
         stroke: true,
         opacity: 1,
-        weight: 2,
+        weight: 3,
         fillColor: daftar[x].color,
         fillOpacity: 0.5
       }
@@ -1118,16 +1193,12 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 	setMarkerCluster(marker_lokasi, markersList, markers);
 
 	peta.on('layeradd layerremove', function () {
-		var bounds = new L.LatLngBounds();
 		peta.eachLayer(function (layer) {
 			if(peta.hasLayer(layer_lokasi)) {
 				peta.addLayer(markers);
 			} else {
 				peta.removeLayer(markers);
         peta._layersMaxZoom = 19;
-			}
-			if (layer instanceof L.FeatureGroup) {
-				bounds.extend(layer.getBounds());
 			}
 		});
 	});
@@ -1255,3 +1326,142 @@ $(document).ready(function () {
 
 	}
 })
+
+//Cetak Peta ke PNG
+function cetakPeta(layerpeta)
+{
+  L.control.browserPrint({
+    documentTitle: "Peta_Wilayah",
+    printModes: [
+      L.control.browserPrint.mode.auto("Auto"),
+      L.control.browserPrint.mode.landscape("Landscape"),
+      L.control.browserPrint.mode.portrait("Portrait")
+    ],
+  }).addTo(layerpeta);
+
+  L.Control.BrowserPrint.Utils.registerLayer(L.MarkerClusterGroup, 'L.MarkerClusterGroup', function (layer, utils) {
+    return layer;
+  });
+
+  L.Control.BrowserPrint.Utils.registerLayer(L.MapboxGL, 'L.MapboxGL', function(layer, utils) {
+      return L.mapboxGL(layer.options);
+    }
+  );
+
+  window.print = function () {
+    return domtoimage
+    .toPng(document.querySelector(".grid-print-container"))
+    .then(function (dataUrl) {
+      var link = document.createElement('a');
+      link.download = layerpeta.printControl.options.documentTitle || "exportedMap" + '.png';
+      link.href = dataUrl;
+      link.click();
+    });
+  };
+  return cetakPeta;
+}
+
+//Menambahkan legend ke peta dusun/rw/rt
+function setlegendPeta(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas)
+{
+  var daftar = JSON.parse(legendData);
+  var div = L.DomUtil.create('div', 'info legend');
+  var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+
+  for (var x = 0; x < daftar.length; x++)
+  {
+    if (daftar[x].path)
+    {
+      legenda.onAdd = function (layerpeta) {
+        var categories = [judul + ' ' + daftar[x][nama_wil]];
+        if (judul === 'RT') {
+          var categories = [judul + ' ' + daftar[x][nama_wil]  + ' ' + judul_wil_atas + ' ' + daftar[x].rw + ' ' + daftar[x].dusun];
+        }
+        if (judul === 'RW') {
+          var categories = [judul + ' ' + daftar[x][nama_wil] + ' ' + judul_wil_atas + ' ' + daftar[x].dusun];
+        }
+        for (var i = 0; i < categories.length; i++)
+          {
+          div.innerHTML +=
+          labels.push(
+            '<i class="circle" style="background:' + daftar[x].warna + '"></i> ' +
+            (categories[i] ? categories[i] + '<br>' : '+'));
+          }
+        div.innerHTML = labels.join('<br>');
+        return div;
+      }
+      legenda.addTo(layerpeta);
+    }
+  }
+  setlegendPrint(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas);
+  return setlegendPeta;
+}
+
+function setlegendPrint(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas)
+{
+  layerpeta.on("browser-print-start", function(e){
+
+    var daftar = JSON.parse(legendData);
+    var div = L.DomUtil.create('div', 'info legend');
+    var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+
+    for (var x = 0; x < daftar.length; x++)
+    {
+      if (daftar[x].path)
+      {
+        legenda.onAdd = function (layerpeta) {
+          var categories = [judul + ' ' + daftar[x][nama_wil]];
+          if (judul === 'RT') {
+            var categories = [judul + ' ' + daftar[x][nama_wil]  + ' ' + judul_wil_atas + ' ' + daftar[x].rw + ' ' + daftar[x].dusun];
+          }
+          if (judul === 'RW') {
+            var categories = [judul + ' ' + daftar[x][nama_wil] + ' ' + judul_wil_atas + ' ' + daftar[x].dusun];
+          }
+          for (var i = 0; i < categories.length; i++)
+            {
+            div.innerHTML +=
+            labels.push(
+              '<i class="circle" style="background:' + daftar[x].warna + '"></i> ' +
+              (categories[i] ? categories[i] + '<br>' : '+'));
+            }
+          div.innerHTML = labels.join('<br>');
+          return div;
+        }
+        legenda.addTo(e.printMap);
+      }
+    }
+  });
+  return setlegendPrint;
+}
+
+//Menambahkan legend ke peta desa
+function setlegendPetaDesa(legenda, layerpeta, legendData, judul, nama_wil)
+{
+  var daftar = JSON.parse(legendData['path']);
+
+  for (var x = 0; x < daftar.length; x++)
+  {
+    legenda.onAdd = function (layerpeta) {
+      var div = L.DomUtil.create('div', 'info legend');
+      var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+      var categories = [judul + ' ' + legendData['nama_desa']];
+      for (var i = 0; i < categories.length; i++)
+        {
+          div.innerHTML +=
+          labels.push(
+            '<i class="circle" style="background:' + legendData['warna'] + '"></i> ' +
+            (categories[i] ? categories[i] + '<br>' : '+'));
+          }
+        div.innerHTML = labels.join('<br>');
+        return div;
+    }
+    legenda.addTo(layerpeta);
+  }
+
+  layerpeta.on("browser-print-start", function(e){
+    L.control.scale({position: 'bottomleft'}).addTo(e.printMap);
+    legenda.addTo(e.printMap);
+  });
+
+  return setlegendPetaDesa;
+}

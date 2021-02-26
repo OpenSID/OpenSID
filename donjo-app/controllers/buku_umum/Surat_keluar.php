@@ -47,8 +47,12 @@ class Surat_keluar extends Admin_Controller {
 		parent::__construct();
 		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
-		$this->load->model(['surat_keluar_model', 'klasifikasi_model', 'config_model', 'pamong_model', 'penomoran_surat_model']);
-		$this->list_session = ['cari', 'filter'];
+		$this->load->model('surat_keluar_model');
+		$this->load->model('klasifikasi_model');
+		$this->load->model('config_model');
+		$this->load->model('pamong_model');
+
+		$this->load->model('penomoran_surat_model');
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 	}

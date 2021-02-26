@@ -365,17 +365,20 @@ function cek_login(){
 	}
 }
 
-//time out Mandiri set 3 login per 5 menit
-function mandiri_timer(){
-	$time=300;  //300 detik
+//time out Mandiri set 3 login per 1 menit
+function mandiri_timer()
+{
+	$time = 60;  //60 detik
 	$_SESSION['mandiri_try'] = 4;
-	$_SESSION['mandiri_wait']=0;
-	$_SESSION['mandiri_timeout']=time()+$time;
+	$_SESSION['mandiri_wait'] = 0;
+	$_SESSION['mandiri_timeout'] = time() + $time;
 }
 
-function mandiri_timeout(){
-	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
-	if(time()>$timeout){
+function mandiri_timeout()
+{
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout = $_SESSION['mandiri_timeout'] : $timeout = null;
+	if (time() > $timeout)
+	{
 		mandiri_timer();
 	}
 }

@@ -7,5 +7,17 @@ Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
 1. Perbaiki tautan sumber untuk menampilkan data kasus covid-19 di Indonesia. [bug]
 
 
+Fitur Premium digabung dari v20.11-premium:
+
+1. Tampilkan legenda dan kustomisasi warna wilayah di Peta.
+2. #3136: Sediakan tombol dan form login terpisah untuk Layanan Mandiri.
+3. #2888: Sediakan keyboard virtual untuk Layanan Mandiri.
+4. #3634: Tambah fitur untuk mendaftarkan IP address anjungan layanan mandiri.
+5. #3188: Kirim PIN baru ke nomor WA warga setelah mendaftar Layanan Mandiri atau PIN diganti.
+6. #3674: Bisa ubah nomor HP warga di daftar pendaftar layanan mandiri.
+7. #3673: Sediakan menu Ganti PIN di dashboard Layanan Mandiri.
+8. Sediakan fitur untuk menampilkan status langganan layanan OpenDesa.
+
+
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 

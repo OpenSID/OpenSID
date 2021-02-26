@@ -137,8 +137,8 @@
 		{
 			// Tes tidak berisi script PHP
 			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])){
-				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
-				$_SESSION['success']=-1;
+				$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+				$_SESSION['success'] = -1;
 				redirect('man_user');
 			}
 			// Inisialisasi library 'upload'
@@ -167,7 +167,8 @@
 		// Berkas lampiran
 		$data['berkas_scan'] = $adaLampiran && !is_null($uploadData)
 			? $uploadData['file_name'] : NULL;
-
+		$data['created_by'] = $this->session->user;
+		$data['updated_by'] = $this->session->user;
 		// penerapan transcation karena insert ke 2 tabel
 		$this->db->trans_start();
 
@@ -238,7 +239,7 @@
 			if(isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])){
 				$_SESSION['error_msg'].= " -> Jenis file ini tidak diperbolehkan ";
 				$_SESSION['success']=-1;
-				redirect('man_user');
+				redirect('surat_keluar');
 			}
 			// Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
 			// karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
@@ -270,6 +271,8 @@
 				$uploadData['file_name'] = ($uploadedFileRenamed === FALSE) ?: $namaFileUnik;
 
 				$data['berkas_scan'] = $uploadData['file_name'];
+				$data['updated_by'] = $this->session->user;
+				$data['updated_at'] = date('Y-m-d H:i:s');
 				// Update database dengan `berkas_scan` berisi nama unik
 				$this->db->where('id', $idSuratMasuk);
 				$databaseUpdated = $this->db->update('surat_keluar', $data);

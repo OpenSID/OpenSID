@@ -51,7 +51,7 @@ class Sid_Core extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'config_model', 'pamong_model', 'header_model']);
+		$this->load->model(['wilayah_model', 'config_model', 'pamong_model']);
 		$this->load->library('form_validation');
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 20;
@@ -96,8 +96,8 @@ class Sid_Core extends Admin_Controller {
 		$data['form_action'] = site_url("sid_core/daftar/$aksi");
 		$this->load->view('global/ttd_pamong', $data);
 
-		// $data['desa'] = $this->_header;
-		// $data['main'] = $this->wilayah_model->list_semua_wilayah();
+		// $data['header'] = $this->header['desa'];
+		// $data['main'] = $this->wilayah_model->list_data(0, 0, 1000);
 		// $data['total'] = $this->wilayah_model->total();
 
 		// $this->load->view('sid/wilayah/wilayah_print', $data);

@@ -7,7 +7,7 @@
 					<div class="box-header with-border tdk-permohonan tdk-periksa">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
-           	</a>
+						</a>
 					</div>
 					<div class="box-body">
 						<form action="" id="main" name="main" method="POST" class="form-horizontal">
@@ -27,9 +27,9 @@
 							<?php	endif; ?>
 							<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 							<div class="form-group">
-								<label for="keterangan"  class="col-sm-3 control-label">Keperluan</label>
+								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<textarea  id="keterangan" class="form-control input-sm required" placeholder="Keperluan" name="keterangan"></textarea>
+									<textarea name="keterangan" id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" placeholder="Keterangan"></textarea>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/_pamong.php"); ?>

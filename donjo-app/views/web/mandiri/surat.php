@@ -54,6 +54,7 @@
 		white-space: nowrap;
 	}
 </style>
+
 <script type='text/javascript'>
 	const LOKASI_DOKUMEN = '<?= base_url().LOKASI_DOKUMEN ?>';
 </script>
@@ -76,25 +77,31 @@
 			<?php endif; ?>
 			<div class="form-group">
 				<label for="nama_surat" class="col-sm-3 control-label">Jenis Surat Yang Dimohon</label>
-				<div class="col-sm-6 col-lg-8">
-					<select class="form-control select2 required input-sm" name="id_surat" id="id_surat" style="width:100%;">
-						<option value=""> -- Pilih Jenis Surat -- </option>
-						<?php foreach ($menu_surat_mandiri AS $data): ?>
-							<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
-						<?php endforeach;?>
-					</select>
+				<div class="col-sm-8">
+					<div class="input-group col-sm-12">
+						<select class="form-control select2 required" name="id_surat" id="id_surat" style="width:100%;">
+							<option value=""> -- Pilih Jenis Surat -- </option>
+							<?php foreach ($menu_surat_mandiri AS $data): ?>
+								<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
+							<?php endforeach;?>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
-				<div class="col-sm-8 col-lg-8">
-					<textarea class="form-control input-sm" name="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan." rows="3" style="resize:none;"><?= $permohonan['keterangan']?></textarea>
+				<div class="col-sm-8">
+					<div class="input-group col-sm-12">
+						<textarea class="form-control input-sm <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']?></textarea>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
-				<div class="col-sm-6 col-lg-8">
-					<input class="form-control input-sm bilangan_spasi required" type="text" name="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']?>"/>
+				<div class="col-sm-8">
+					<div class="input-group col-sm-12">
+						<input class="form-control input-lg bilangan_spasi required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>"/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -190,8 +197,10 @@
 								<div class="box-body">
 									<div class="form-group">
 										<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-										<input id="nama_dokumen" name="nama" class="form-control input-sm required" type="text" placeholder="Nama Dokumen" value=""/>
-										<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
+											<div class="input-group col-sm-12">
+												<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
+												<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
+											</div>
 									</div>
 									<div class="form-group">
 										<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
@@ -249,6 +258,7 @@
 		</div>
 	</div>
 </div>
+
 <script type='text/javascript'>
 	$(document).ready(function(){
 

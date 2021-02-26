@@ -116,10 +116,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th><input type="checkbox" id="checkall"/></th>
-											<th class="padat">No</th>
-											<th class="padat">Aksi</th>
-											<th class="padat">Foto</th>
-											<th class="padat">No. Anggota</th>
+											<th>No</th>
+											<th>Aksi</th>
+											<th>Foto</th>
+											<th>No. Anggota</th>
 											<th width="5%">Jabatan</th>
 											<th width="10%">SK Jabatan</th>
 											<th width="10%">NIK</th>
@@ -151,12 +151,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><?= $data['no_anggota']?></td>
 													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
 													<td><?= $data['no_sk_jabatan']?>
-													<td><?= $data['nik']?></td>
-													<td><?= $data['nama']?></td>
-													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
-													<td class="padat"><?= $data['umur']?></td>
-													<td><?= $data['sex']?></td>
-													<td><?= $data['alamat']?></td>
+													<td><?= $data['nik']; ?></td>
+													<td><?= $data['nama']; ?></td>
+													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
+													<td class="padat"><?= $data['umur']; ?></td>
+													<td><?= $data['sex']; ?></td>
+													<td><?= $data['alamat']; ?></td>
 													<td><?= $data['keterangan']; ?></td>
 												</tr>
 											<?php endforeach; ?>

@@ -159,6 +159,7 @@ class Kelompok_model extends MY_Model {
 			->set('id_penduduk', $data['id_ketua'])
 			->set('no_anggota', 1)
 			->set('jabatan', 1)
+			->set('keterangan', 'Ketua Kelompok') // keterangan default untuk Ketua Kelompok
 			->insert('kelompok_anggota');
 
 		status_sukses($outpa && $outpb);
@@ -168,6 +169,8 @@ class Kelompok_model extends MY_Model {
 	{
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
+		$data['jabatan'] = bilangan($post['jabatan']);
+		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		$data['jabatan'] = bilangan($post['jabatan']);
 		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);

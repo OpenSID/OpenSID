@@ -97,7 +97,7 @@ class Identitas_desa extends Admin_Controller {
 	public function maps($tipe = 'kantor')
 	{
 		$data_desa = $this->config_model->get_data();
-		$data['desa'] = ucwords($this->setting->sebutan_desa);
+		$data['desa'] = $this->config_model->get_data();
 		$data['wil_ini'] = $data_desa;
 		$data['wil_atas']['lat'] = -1.0546279422758742;
 		$data['wil_atas']['lng'] = 116.71875000000001;
@@ -106,10 +106,10 @@ class Identitas_desa extends Admin_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
 		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
-		$data['nama_wilayah'] = ucwords($desa . " " . $data_desa['nama_desa']);
-		$data['wilayah'] = ucwords($desa . " " . $data_desa['nama_desa']);
+		$data['nama_wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
+		$data['wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
 		$data['breadcrumb'] = array(
-			array('link' => site_url("identitas_desa"), 'judul' => "Identitas " . ucwords($desa)),
+			array('link' => site_url("identitas_desa"), 'judul' => "Identitas " . ucwords($this->setting->sebutan_desa)),
 		);
 
 		$data['form_action'] = site_url("identitas_desa/update_maps/$tipe");

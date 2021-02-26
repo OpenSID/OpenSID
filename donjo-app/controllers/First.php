@@ -69,8 +69,6 @@ class First extends Web_Controller {
 			}
 		}
 
-		mandiri_timeout();
-
 		$this->load->model('config_model');
 		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');
@@ -102,33 +100,33 @@ class First extends Web_Controller {
 		$this->load->model('plan_garis_model');
 	}
 
-	public function auth()
-	{
-		if ($_SESSION['mandiri_wait'] != 1)
-		{
-			$this->first_m->siteman();
-		}
-		if ($_SESSION['mandiri'] == 1)
-		{
-			redirect('mandiri_web/mandiri/1/1');
-		}
-		else
-		{
-			redirect();
-		}
-	}
+	// public function auth()
+	// {
+	// 	if ($_SESSION['mandiri_wait'] != 1)
+	// 	{
+	// 		$this->first_m->siteman();
+	// 	}
+	// 	if ($_SESSION['mandiri'] == 1)
+	// 	{
+	// 		redirect('mandiri_web/mandiri/1/1');
+	// 	}
+	// 	else
+	// 	{
+	// 		redirect();
+	// 	}
+	// }
 
-	public function logout()
-	{
-		$this->first_m->logout();
-		redirect();
-	}
+	// public function logout()
+	// {
+	// 	$this->first_m->logout();
+	// 	redirect();
+	// }
 
-	public function ganti()
-	{
-		$this->first_m->ganti();
-		redirect();
-	}
+	// public function ganti()
+	// {
+	// 	$this->first_m->ganti();
+	// 	redirect();
+	// }
 
 	public function index($p=1)
 	{
@@ -402,7 +400,6 @@ class First extends Web_Controller {
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading'] = "Produk Hukum";
-		$data['title'] = $data['heading'];
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
 		$this->_get_common_data($data);
 

@@ -5,7 +5,7 @@
  *
  * Model untuk modul database
  *
- * Migrasi_fitur_premium.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2010.php
  *
  */
 
