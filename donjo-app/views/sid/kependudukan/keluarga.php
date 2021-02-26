@@ -33,9 +33,6 @@
 					<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah KK Baru</a>
 					<ul class="dropdown-menu" role="menu">
 						<li>
-							<a href="<?= site_url('keluarga/form_peristiwa/1')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i> Tambah Penduduk Lahir</a>
-						</li>
-						<li>
 							<a href="<?= site_url('keluarga/form_peristiwa/5')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Tambah Penduduk Masuk</a>
 						</li>
 						<li>
