@@ -51,6 +51,7 @@ class Config_model extends CI_Model {
 
 	public function get_data()
 	{
+		$this->db->reset_query(); // TODO: cari query yg menggantung terkait pemanggilan first/dpt
 		$query = $this->db->select('*')->limit(1)->get('config')->row_array();
 		return $query;
 	}
