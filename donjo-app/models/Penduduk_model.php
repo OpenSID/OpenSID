@@ -286,7 +286,7 @@ class Penduduk_model extends MY_Model {
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	private function list_data_sql($paging = false)
+	private function list_data_sql()
 	{
 		$this->db
 			->from('tweb_penduduk u')
@@ -358,10 +358,6 @@ class Penduduk_model extends MY_Model {
 		//Main Query
 		$this->list_data_sql();
 
-		//Paging SQL
-		if ($limit > 0 ) $this->db->limit($limit, $offset);
-		$query_dasar = $this->db->select('u.*')->get_compiled_select();
-
 		//Ordering SQL
 		switch ($order_by)
 		{
@@ -379,6 +375,10 @@ class Penduduk_model extends MY_Model {
 			case 12: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
 			default: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)');
 		}
+
+		//Paging SQL
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		$this->db->distinct();
 		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,

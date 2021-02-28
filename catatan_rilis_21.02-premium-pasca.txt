@@ -33,6 +33,7 @@ Fitur Premium:
 24. #2833: Sediakan Buku Administrasi Penduduk > Buku Rekapitulasi Jumlah Penduduk.
 25. #2834: Sediakan Buku Administrasi Penduduk > Buku Penduduk Sementara.
 26. #2835: Sediakan Buku Administrasi Penduduk > Buku Kartu Tanda Penduduk dan Buku Kartu Keluarga.
+27. Perbaiki urut tabel data, seperti daftar penduduk, kembali menyeluruh dan tidak hanya per halaman. [bug-fix]
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

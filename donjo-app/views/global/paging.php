@@ -66,16 +66,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<li <?= jecho($paging->page, 1, "class='disabled'"); ?>><a href="<?= ($func == 'index') ? site_url("$this->controller") : site_url("$this->controller/$func"); jecho($paging->page.'!', 1, "#"); ?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 			<?php endif; ?>
 			<?php if ($paging->prev): ?>
-				<li><a href="<?= site_url("$this->controller/$func/$paging->prev"); ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+				<li><a href="<?= site_url("$this->controller/$func/$paging->prev/$o"); ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 			<?php endif; ?>
 			<?php for ($i=$paging->start_link; $i<=$paging->end_link; $i++): ?>
-				<li <?= jecho($paging->page, $i, "class='active'"); ?>><a href="<?= ($i == 1) ? site_url("$this->controller/$func") : site_url("$this->controller/$func/$i"); ?>"><?= $i; ?></a></li>
+				<li <?= jecho($paging->page, $i, "class='active'"); ?>><a href="<?= ($i == 1) ? site_url("$this->controller/$func") : site_url("$this->controller/$func/$i/$o"); ?>"><?= $i; ?></a></li>
 			<?php endfor; ?>
 			<?php if ($paging->next): ?>
-				<li><a href="<?= site_url("$this->controller/$func/$paging->next"); ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+				<li><a href="<?= site_url("$this->controller/$func/$paging->next/$o"); ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 			<?php endif; ?>
 			<?php if ($paging->end): ?>
-				<li <?= jecho($paging->page.'!', $paging->end, "class='disabled'"); ?>><a href="<?=site_url("$this->controller/$func/$paging->end"); jecho($paging->page, $paging->end_link, "#"); ?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+				<li <?= jecho($paging->page.'!', $paging->end, "class='disabled'"); ?>><a href="<?=site_url("$this->controller/$func/$paging->end/$o"); jecho($paging->page, $paging->end_link, "#"); ?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 			<?php endif; ?>
 		</ul>
 	</div>
