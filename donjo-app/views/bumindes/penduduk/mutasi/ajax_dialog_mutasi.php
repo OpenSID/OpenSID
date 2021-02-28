@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa > Buku Rekapitulasi Jumlah Penduduk
+ * View untuk modul Buku Administrasi Desa > Buku Mutasi Penduduk Desa
  *
- * donjo-app/views/bumindes/penduduk/rekapitulasi/ajax_cetak_bersama.php,
+ * donjo-app/views/bumindes/penduduk/mutasi/ajax_dialog_mutasi.php
  *
  */
 
@@ -46,51 +46,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<?php $this->load->view('global/validasi_form'); ?>
-<script type="text/javascript">
-	$('document').ready(function()
-	{
-		$('#validasi').submit(function()
-		{
-			if ($('#validasi').valid())
-				$('#modalBox').modal('hide');
-		});
-	});
-
-    $("#privasi_nik").click(function(){
-		const privasi_nik = $('#privasi_nik:checked').val();
-		if (privasi_nik == "on")
-		{
-			$("#validasi").attr("action", "<?= $form_action_privasi ?>");
-		}
-		else
-		{
-			$("#validasi").attr("action", "<?= $form_action ?>");
-		}
-    }); 
-</script>
-<form action="<?= $form_action?>" method="post" id="validasi" target="_blank">
-	<div class="modal-body">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
-						<div class="form-group">
-							<label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
-							<div class="form-group">
-								<div class="form-check">
-									<input type="checkbox" class="form-check-input" id="privasi_nik">
-									<label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+<div class="form-group">
+	<div class="form-group">
+		<label for="tgl_cetak">Tanggal Cetak</label>
+		<div class="input-group input-group-sm date">
+			<div class="input-group-addon">
+				<i class="fa fa-calendar"></i>
 			</div>
+			<input class="form-control input-sm pull-right required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
 		</div>
 	</div>
-	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> <?= ucwords($aksi)?></button>
-	</div>
-</form>
+</div>
+

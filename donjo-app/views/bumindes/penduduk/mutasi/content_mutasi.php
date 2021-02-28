@@ -80,9 +80,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-sm-9">
 							<select class="form-control input-sm " name="filter_tahun" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_tahun')?>')">
 								<option value="">Tahun</option>
-							<?php foreach ($list_tahun as $l_tahun): ?>
-								<option value="<?= $l_tahun['tahun']?>" <?php selected($tahun, $l_tahun['tahun']); ?>><?= $l_tahun['tahun']?></option>
-							<?php endforeach; ?>
+							<?php for ($t=$tahun_lengkap; $t<=date("Y"); $t++): ?>
+								<option value=<?= $t ?> <?php selected($tahun, $t); ?>><?= $t ?></option>
+							<?php endfor; ?>
 							</select>
 							<select class="form-control input-sm" name="filter_bulan" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_bulan')?>')" width="100%">
 								<option value="">Pilih bulan</option>

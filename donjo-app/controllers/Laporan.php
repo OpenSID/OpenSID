@@ -179,4 +179,57 @@ class Laporan extends Admin_Controller {
 		else unset($_SESSION['tahunku']);
 		redirect('laporan');
 	}
+
+	public function detail_penduduk($rincian, $tipe)
+	{
+		$data = [];
+
+		switch (strtolower($rincian))
+		{
+			case 'awal':
+					$data = [
+						'title' => 'PENDUDUK/KELUARGA AWAL BULAN INI',
+						'main' => $this->laporan_bulanan_model->penduduk_awal($rincian, $tipe),
+					];
+				break;
+			case 'lahir':
+					$data = [
+						'title' => 'KELAHIRAN/KELUARGA BARU BULAN INI',
+						'main' => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
+					];
+				break;
+			case 'mati':
+					$data = [
+						'title' => 'KEMATIAN BULAN INI',
+						'main' => $this->laporan_bulanan_model->kematian($rincian, $tipe),
+					];
+				break;
+			case 'datang':
+					$data = [
+						'title' => 'PENDATANG BULAN INI',
+						'main' => $this->laporan_bulanan_model->pendatang($rincian, $tipe),
+					];
+				break;
+			case 'pindah':
+					$data = [
+						'title' => 'PINDAH/KELUAR PERGI BULAN INI',
+						'main' => $this->laporan_bulanan_model->pindah($rincian, $tipe),
+					];
+				break;
+			case 'hilang':
+					$data = [
+						'title' => 'PENDUDUK HILANG BULAN INI',
+						'main' => $this->laporan_bulanan_model->hilang($rincian, $tipe),
+					];
+				break;
+			case 'akhir':
+					$data = [
+						'title' => 'PENDUDUK/KELUARGA AKHIR BULAN INI',
+						'main' => $this->laporan_bulanan_model->penduduk_akhir($rincian, $tipe),
+					];
+				break;
+		}
+		
+		$this->render('laporan/tabel_bulanan_detil', $data);
+	}
 }

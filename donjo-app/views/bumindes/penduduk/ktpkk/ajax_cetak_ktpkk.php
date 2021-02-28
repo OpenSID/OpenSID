@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa > Buku Induk Penduduk
+ * View untuk modul Buku Administrasi Desa > Buku KTP dan KK
  *
- * donjo-app/views/bumindes/penduduk/induk/ajax_cetak_bersama.php,
+ * donjo-app/views/bumindes/penduduk/ktpkk/ajax_cetak_ktpkk.php
  *
  */
 
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="input-group-addon">
 				<i class="fa fa-calendar"></i>
 			</div>
-			<input class="form-control input-sm pull-right" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
+			<input class="form-control input-sm pull-right required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
 		</div>
 	</div>
 	<label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
@@ -64,27 +64,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
 	$('document').ready(function()
 	{
-		$('#validasi').submit(function()
-		{
-			if ($('#validasi').valid())
-				$('#modalBox').modal('hide');
-		});
+    $("#privasi_nik").click(function(){
+			const privasi_nik = $('#privasi_nik:checked').val();
+			if (privasi_nik == "on")
+			{
+				$("#validasi").attr("action", "<?= $form_action_privasi ?>");
+			}
+			else
+			{
+				$("#validasi").attr("action", "<?= $form_action ?>");
+			}
+    });
 	});
-
-  $("#privasi_nik").click(function(){
-		const privasi_nik = $('#privasi_nik:checked').val();
-		if (privasi_nik == "on")
-		{
-			$("#validasi").attr("action", "<?= $form_action_privasi ?>");
-		}
-		else
-		{
-			$("#validasi").attr("action", "<?= $form_action ?>");
-		}
-  });
 </script>
 

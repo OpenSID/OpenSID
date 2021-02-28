@@ -1,9 +1,8 @@
-Di rilis ini, versi 21.02-premium-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.02-premium-pasca melengkap Buku Administrasi Desa > Buku Administrasi Penduduk. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Ahmad Afandi, Nur Hidayat dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
-1. [untuk diisi]
 
 
 Fitur Premium:
@@ -31,6 +30,9 @@ Fitur Premium:
 21. Perbaharui library HTML2PDF dan TCPDF. [teknis]
 22. Hapus Library CIQRCODE dan gantikan dgn TCPDF untuk mengurangi duplikasi. [teknis]
 23. #4030: Hapus pilihan menambah kepala keluarga melalui penduduk lahir. [bug-fix]
+24. #2833: Sediakan Buku Administrasi Penduduk > Buku Rekapitulasi Jumlah Penduduk.
+25. #2834: Sediakan Buku Administrasi Penduduk > Buku Penduduk Sementara.
+26. #2835: Sediakan Buku Administrasi Penduduk > Buku Kartu Tanda Penduduk dan Buku Kartu Keluarga.
 
 
 Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.

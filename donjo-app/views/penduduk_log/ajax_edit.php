@@ -136,6 +136,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		format: 'DD-MM-YYYY',
 		locale:'id'
 	});
+	$('#tgl_lapor').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
 
 	setTimeout(function() {
 		$("#tgl_lapor").rules('add', {

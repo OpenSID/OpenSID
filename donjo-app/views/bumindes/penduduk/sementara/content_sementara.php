@@ -70,12 +70,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-header with-border">
 		<a href="<?= site_url("bumindes_penduduk_sementara/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Penduduk Sementara" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Penduduk Sementara"><i class="fa fa-print "></i> Cetak</a>
 		<a href="<?= site_url("bumindes_penduduk_sementara/ajax_cetak/$o/unduh"); ?>?>" title="Unduh Buku Penduduk Sementara" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Penduduk Sementara" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Penduduk Sementara"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 	</div>
 	<div class="box-body">
 		<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 			<form id="mainform" name="mainform" action="" method="post">
 				<div class="row">
-					<div class="col-sm-12">
+					<div class="col-sm-9">
+						<select class="form-control input-sm " name="filter_tahun" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_tahun')?>')">
+							<option value="">Tahun</option>
+						<?php foreach ($list_tahun as $l_tahun): ?>
+							<option value="<?= $l_tahun['tahun']?>" <?php selected($tahun, $l_tahun['tahun']); ?>><?= $l_tahun['tahun']?></option>
+						<?php endforeach; ?>
+						</select>
+						<select class="form-control input-sm" name="filter_bulan" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_bulan')?>')" width="100%">
+							<option value="">Pilih bulan</option>
+						<?php foreach (bulan() as $idx => $nama_bulan): ?>
+							<option value="<?= $idx?>" <?php selected($bulan, $idx); ?>><?= $nama_bulan?></option>
+						<?php endforeach; ?>
+						</select>
+					</div>
+					<div class="col-sm-3">
 						<div class="input-group input-group-sm pull-right">
 							<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" title="Pencarian berdasarkan nama penduduk" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("bumindes_penduduk_sementara/filter/cari"); ?>');$('#'+'mainform').submit();}">
 							<div class="input-group-btn">
@@ -116,22 +131,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							jika sudah ada bagaimana proses menuju flow tersebut 
 							""" 
 						-->
-							<?php if (!$main): ?>
+							<?php if ($main): ?>
 								<?php foreach ($main as $key => $data): ?>
 									<tr>
 										<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 										<td><?= strtoupper($data['nama'])?></td>
-										<td><?= strtoupper($data['sex']) ?></td>
-										<td><?= (strpos($data['kawin'],'KAWIN') !== false) ? $data['kawin'] : (($data['sex'] == 'LAKI-LAKI') ? 'DUDA':'JANDA') ?></td>
-										<td><?= $data['tempatlahir']?></td>
-										<td><?= tgl_indo_out($data['tanggallahir'])?></td>
-										<td><?= $data['agama']?></td>
-										<td><?= $data['pendidikan']?></td>
-										<td><?= $data['pekerjaan']?></td>
-										<td><?= $data['pekerjaan']?></td>
-										<td><?= $data['pekerjaan']?></td>
-										<td><?= strtoupper($data['bahasa_nama'])?></td>
+										<td class="padat"><?= (strtoupper($data['sex']) == 'LAKI-LAKI') ? "L" : "" ?></td>
+										<td class="padat"><?= (strtoupper($data['sex']) == 'PEREMPUAN') ? "P" : "" ?></td>
+										<td><?= $data['nik']?></td>
+										<td><?= $data['tempatlahir'] . ", " . tgl_indo_out($data['tanggallahir']) . " / " . umur($data['tanggallahir']) ?></td>
+										<td><?= ($data['pekerjaan'] == 'BELUM/TIDAK BEKERJA') ? "-" : $data['pekerjaan'] ?></td>
 										<td><?= $data['warganegara']?></td>
+										<td><?= empty($data['negara_asal']) ? "-" : $data['negara_asal'] ?></td>
+										<td><?= empty($data['alamat_sebelumnya']) ? "-" : $data['alamat_sebelumnya'] ?></td>
+										<td><?= empty($data['maksud_tujuan_kedatangan']) ? "-" : $data['maksud_tujuan_kedatangan'] ?></td>
+										<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
+										<td><?= empty($data['tanggal_datang']) ? "-" : tgl_indo_out($data['tanggal_datang']) ?></td>
+										<td><?= empty($data['tanggal_pergi']) ? "-" : tgl_indo_out($data['tanggal_pergi']) ?></td>
+										<td><?= empty($data['ket']) ? "-" : $data['ket'] ?></td>
 									</tr>
 								<?php endforeach; ?>
 							<?php else: ?>

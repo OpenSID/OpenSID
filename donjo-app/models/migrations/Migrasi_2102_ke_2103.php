@@ -1,13 +1,11 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa > Buku Rekapitulasi Jumlah Penduduk
+ * Model untuk migrasi database
  *
- * donjo-app/views/bumindes/penduduk/rekapitulasi/content_rekapitulasi_unduh.php,
+ * donjo-app/models/migrations/Migrasi_2102_ke_2103.php
  *
  */
 
@@ -28,11 +26,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- *
+
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
+
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -44,12 +42,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
-<?php
-  header("Content-type: application/octet-stream");
-  header("Content-Disposition: attachment; filename=Rekapitulasi_".date('Y-m-d').".xls");
-  header("Pragma: no-cache");
-  header("Expires: 0");
 
-  include("donjo-app/views/bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak.php");
-?>
+class Migrasi_2102_ke_2103 extends MY_model {
+
+	public function up()
+	{
+		$hasil = true;
+
+		// Migrasi fitur premium
+		$daftar_migrasi_premium = ['2010', '2011', '2012', '2101', '2102', '2103'];
+		foreach ($daftar_migrasi_premium as $migrasi)
+		{
+			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+			$file_migrasi = 'migrations/'.$migrasi_premium;
+				$this->load->model($file_migrasi);
+				$hasil =& $this->$migrasi_premium->up();
+		}
+
+		status_sukses($hasil);
+		return $hasil;
+	}	
+}

@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -61,45 +61,34 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller {
 
 		$this->_set_page = ['10', '20', '50', '100'];
 		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
-
-		$_SESSION['per_page'] = 10;
 	}
 
-	public function index($page_number=1, $offset=0)
+	public function index($page_number=1)
 	{
-		$data['main_content'] = "bumindes/penduduk/rekapitulasi/content_rekapitulasi";
-		$data['subtitle'] = "Buku Rekapitulasi Jumlah Penduduk";
-		$data['selected_nav'] = 'rekapitulasi';
-		$data['p'] = $page_number;
-		$data['o'] = $offset;
-
-		// set session
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		// set session END
-
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
 
-		$data['func'] = 'index';
-		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
+		$data = [
+			'main_content' => "bumindes/penduduk/rekapitulasi/content_rekapitulasi",
+			'subtitle' => "Buku Rekapitulasi Jumlah Penduduk",
+			'selected_nav' => 'rekapitulasi',
+			'p' => $page_number,
+			'cari' => $this->session->cari ? $this->session->cari : '',
+			'filter' => $this->session->filter ? $this->session->filter : '',
+			'per_page' => $this->session->per_page,
+			'bulan' => $this->session->filter_bulan ? $this->session->filter_bulan : NULL,
+			'tahun' => $this->session->filter_tahun ? $this->session->filter_tahun : NULL,
+			'func' => 'index',
+			'set_page' => $this->_set_page,
+			'tgl_lengkap' => $this->setting->tgl_data_lengkap ? rev_tgl($this->setting->tgl_data_lengkap) : NULL,
+			'tgl_lengkap_aktif' => $this->setting->tgl_data_lengkap_aktif,
+			'paging' => $this->laporan_bulanan_model->rekapitulasi_paging($page_number),
+			'tahun_lengkap' => (new DateTime($this->setting->tgl_data_lengkap))->format('Y'),
+		];
 
-		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
-		$this->session->status_dasar = 1;
-		$this->session->status_penduduk = 1;
-		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
-		
+		$data['main'] = $this->laporan_bulanan_model->rekapitulasi_list($data['paging']->offset, $data['paging']->per_page);
+
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);
 	}
@@ -107,35 +96,46 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller {
 	private function clear_session()
 	{
 		$this->session->unset_userdata($this->_list_session);
-		$this->session->status_dasar = 1; // default status dasar = hidup
 		$this->session->per_page = $this->_set_page[0];
 	}
 
 	public function clear()
 	{
 		$this->clear_session();
+		// Set default filter ke tahun dan bulan sekarang
+		$this->session->filter_tahun = date('Y');
+		$this->session->filter_bulan = date('m');
 		redirect('bumindes_penduduk_rekapitulasi');
 	}
 
-	public function ajax_cetak($o = 0, $aksi = '')
+	public function ajax_cetak($aksi = '')
 	{
-		$data['o'] = $o;
-		$data['aksi'] = $aksi;
-		$data['form_action'] = site_url("bumindes_penduduk_rekapitulasi/cetak/$o/$aksi");
-		$data['form_action_privasi'] = site_url("bumindes_penduduk_rekapitulasi/cetak/$o/$aksi/1");
+		$data = [
+			'aksi' => $aksi,
+			'list_tahun' => $this->penduduk_log_model->list_tahun(),
+			'form_action' => site_url("bumindes_penduduk_rekapitulasi/cetak/$aksi"),
+			'isi' => "bumindes/penduduk/rekapitulasi/ajax_dialog_rekapitulasi",
+		];
 
-		$this->load->view("bumindes/penduduk/rekapitulasi/ajax_cetak_bersama", $data);
+		$this->load->view('global/dialog_cetak', $data);
 	}
 
-	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+	public function cetak($aksi = '')
 	{
-		$data['main'] = $this->penduduk_model->list_data($o, 0);
-		$data['desa'] = $this->header['desa'];
-		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-		$data['pamong_ttd'] = $this->pamong_model->get_ub();
-
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
-		$this->load->view("bumindes/penduduk/rekapitulasi/content_rekapitulasi_".$aksi, $data);
+		$data = [
+			'aksi' => $aksi,
+			'config' => $this->header['desa'],
+			'pamong_ketahui' => $this->pamong_model->get_ttd(),
+			'pamong_ttd' => $this->pamong_model->get_ub(),
+			'main' => $this->laporan_bulanan_model->rekapitulasi_list(NULL, NULL),
+			'bulan' => $this->session->filter_bulan,
+			'tahun' => $this->session->filter_tahun,
+			'tgl_cetak' => $_POST['tgl_cetak'],
+			'file' => "Buku Rekapitulasi Jumlah Penduduk",
+			'isi' => "bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak",
+			'letak_ttd' => ['1', '2', '28'],
+		];
+		$this->load->view('global/format_cetak', $data);
 	}
 
 	public function autocomplete()

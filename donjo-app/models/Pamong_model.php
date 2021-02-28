@@ -333,15 +333,36 @@ class Pamong_model extends CI_Model {
 		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
 	}
 
+	private function select_data_pamong()
+	{
+		$this->db
+			->select('m.*')
+			->select('(case when p.id is null then m.pamong_nama else p.nama end) as pamong_nama')
+			->select('(case when p.id is null then m.pamong_nik else p.nik end) as pamong_nik')
+			->select('(case when p.id is null then m.pamong_tempatlahir else p.tempatlahir end) as pamong_tempatlahir')
+			->select('(case when p.id is null then m.pamong_tanggallahir else p.tanggallahir end) as pamong_tanggallahir')
+			->select('(case when p.id is null then m.pamong_sex else p.sex end) as pamong_sex')
+			->select('(case when p.id is null then m.pamong_pendidikan else p.pendidikan_kk_id end) as pamong_pendidikan')
+			->select('(case when p.id is null then m.pamong_agama else p.agama_id end) as pamong_agama')
+			->from('tweb_desa_pamong m')
+			->join('tweb_penduduk p', 'p.id = m.id_pend', 'left');
+	}
+
 	public function get_ttd()
 	{
-		$ttd = $this->db->where('pamong_ttd', 1)->get('tweb_desa_pamong')->row_array();
+		$this->select_data_pamong();
+		$ttd = $this->db
+			->where('m.pamong_ttd', 1)
+			->get()->row_array();
 		return $ttd;
 	}
 
 	public function get_ub()
 	{
-		$ub = $this->db->where('pamong_ub', 1)->get('tweb_desa_pamong')->row_array();
+		$this->select_data_pamong();
+		$ub = $this->db
+			->where('pamong_ub', 1)
+			->get()->row_array();
 		return $ub;
 	}
 

@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -60,46 +60,36 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller {
 		$this->sub_modul_ini = 303;
 
 		$this->_set_page = ['10', '20', '50', '100'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
-
-		$_SESSION['per_page'] = 10;
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 	}
 
-	public function index($page_number=1, $offset=0)
+	public function index($page_number=1, $order_by=0)
 	{
-		$data['main_content'] = "bumindes/penduduk/ktpkk/content_ktpkk";
-		$data['subtitle'] = "Buku KTP dan KK";
-		$data['selected_nav'] = 'ktpkk';
-		$data['p'] = $page_number;
-		$data['o'] = $offset;
-
-		// set session
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		// set session END
-
-		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
-
-		$data['func'] = 'index';
-		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->penduduk_model->paging($page_number, $offset);
-
-		// hanya menampilkan data status_dasar 1 dan status_penduduk 1
+		// hanya menampilkan data status_dasar 1 (HIDUP) dan status_penduduk 1 (TETAP)
 		$this->session->status_dasar = 1;
 		$this->session->status_penduduk = 1;
-		$data['main'] = $this->penduduk_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
-		
+
+		if ($this->input->post('per_page')) $this->session->per_page = $this->input->post('per_page');
+
+		$data = [
+			'main_content' => "bumindes/penduduk/ktpkk/content_ktpkk",
+			'subtitle' => "Buku KTP dan KK",
+			'selected_nav' => 'ktpkk',
+			'p' => $page_number,
+			'o' => $order_by,
+			'cari' => (isset($this->session->cari)) ? $this->session->cari : "",
+			'filter' => (isset($this->session->filter)) ? $this->session->filter : "",
+			'per_page' => $this->session->per_page,
+			'bulan' => (! isset($this->session->filter_bulan)) ? : $this->session->filter_bulan,
+			'tahun' => (! isset($this->session->filter_tahun)) ? : $this->session->filter_tahun,
+			'func' => 'index',
+			'set_page' => $this->_set_page,
+			'paging' => $this->penduduk_model->paging($page_number),
+			'list_tahun' => $this->penduduk_log_model->list_tahun()
+		];
+
+		$data['main'] = $this->penduduk_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
+
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);
 	}
@@ -114,28 +104,45 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller {
 	public function clear()
 	{
 		$this->clear_session();
+		// Set default filter ke tahun dan bulan sekarang
+		$this->session->filter_tahun = date('Y');
+		$this->session->filter_bulan = date('m');
 		redirect('bumindes_penduduk_ktpkk');
 	}
 
 	public function ajax_cetak($o = 0, $aksi = '')
 	{
-		$data['o'] = $o;
-		$data['aksi'] = $aksi;
-		$data['form_action'] = site_url("bumindes_penduduk_ktpkk/cetak/$o/$aksi");
-		$data['form_action_privasi'] = site_url("bumindes_penduduk_ktpkk/cetak/$o/$aksi/1");
+		$data = [
+			'o' => $o,
+			'aksi' => $aksi,
+			'form_action' => site_url("bumindes_penduduk_ktpkk/cetak/$o/$aksi"),
+			'form_action_privasi' => site_url("bumindes_penduduk_ktpkk/cetak/$o/$aksi/1"),
+			'isi' => "bumindes/penduduk/ktpkk/ajax_cetak_ktpkk"
+		];
 
-		$this->load->view("bumindes/penduduk/ktpkk/ajax_cetak_bersama", $data);
+		$this->load->view('global/dialog_cetak', $data);
 	}
 
 	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
 	{
-		$data['main'] = $this->penduduk_model->list_data($o, 0);
-		$data['desa'] = $this->header['desa'];
-		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data = [
+			'aksi' => $aksi,
+			'main' => $this->penduduk_model->list_data($o, 0),
+			'config' => $this->header['desa'],
+			'pamong_ketahui' => $this->pamong_model->get_ttd(),
+			'pamong_ttd' => $this->pamong_model->get_ub(),
+			'bulan' => $this->session->filter_bulan ? : date('m'),
+			'tahun' => $this->session->filter_tahun ? : date('Y'),
+			'tgl_cetak' => $this->input->post('tgl_cetak'),
+			// pengaturan data untuk format cetak/unduh
+			'file' => "Buku KTP dan KK",
+			'isi' => "bumindes/penduduk/ktpkk/content_ktpkk_cetak",
+			'letak_ttd' => ['2', '2', '9']
+		];
 
 		if ($privasi_nik == 1) $data['privasi_nik'] = true;
-		$this->load->view("bumindes/penduduk/ktpkk/content_ktpkk_".$aksi, $data);
+
+		$this->load->view('global/format_cetak', $data);
 	}
 
 	public function autocomplete()
@@ -147,9 +154,11 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller {
 	public function filter($filter)
 	{
 		$value = $this->input->post($filter);
-		if ($value != "")
-			$this->session->$filter = $value;
+		if ($value != "") $this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
+
+		$this->session->filter_tahun = $this->input->post('filter_tahun') ? : date('Y');
+		$this->session->filter_bulan = $this->input->post('filter_bulan') ? : date('m');
 		redirect('bumindes_penduduk_ktpkk');
 	}
 }

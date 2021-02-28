@@ -46,6 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<!-- TODO: Buat script / js autocomplete global -->
 <script>
 	$( function() {
 		$( "#cari" ).autocomplete( {
@@ -70,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-header with-border">
 		<a href="<?= site_url($this->controller."/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Induk Penduduk"><i class="fa fa-print "></i> Cetak</a>
 		<a href="<?= site_url($this->controller."/ajax_cetak/$o/unduh"); ?>?>" title="Unduh Buku Induk Penduduk" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Induk Penduduk"><i class="fa fa-download"></i> Unduh</a>
-		<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+		<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 	</div>
 	<div class="box-body">
 		<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -78,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="row">
 					<div class="col-sm-9">
 						<select class="form-control input-sm " name="filter_tahun" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/filter_tahun')?>')">
-							<option value="">Tahun</option>
+							<option value="">Pilih Tahun</option>
 						<?php foreach ($list_tahun as $l_tahun): ?>
 							<option value="<?= $l_tahun['tahun']?>" <?php selected($tahun, $l_tahun['tahun']); ?>><?= $l_tahun['tahun']?></option>
 						<?php endforeach; ?>
@@ -104,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<thead class="bg-gray color-palette">
 							<tr>
 								<th rowspan="2">Nomor Urut</th>
-								<th rowspan="2" style="width: 5px;"><?= url_order($o, "{$this->controller}/{$func}/$p", 3, 'Nama Lengkap / Panggilan'); ?></th>
+								<th rowspan="2" style="width: 5px;"><?= url_order($order_by, "{$this->controller}/{$func}/$paging->page", 3, 'Nama Lengkap / Panggilan'); ?></th>
 								<th rowspan="2">Jenis Kelamin</th>
 								<th rowspan="2">Status Perkawinan</th>
 								<th colspan="2">Tempat & Tanggal Lahir</th>
@@ -115,9 +116,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th rowspan="2">Kewarganegaraan</th>
 								<th rowspan="2">Alamat Lengkap</th>
 								<th rowspan="2">Kedudukan Dlm Keluarga</th>
-								<th rowspan="2"><?= url_order($o, "{$this->controller}/{$func}/$p", 1, 'NIK'); ?></th>
-								<th rowspan="2"><?= url_order($o, "{$this->controller}/{$func}/$p", 5, 'No. KK'); ?></th>
-								<th rowspan="2">Ket</th>								
+								<th rowspan="2"><?= url_order($order_by, "{$this->controller}/{$func}/$paging->page", 1, 'NIK'); ?></th>
+								<th rowspan="2"><?= url_order($order_by, "{$this->controller}/{$func}/$paging->page", 5, 'No. KK'); ?></th>
+								<th rowspan="2">Ket</th>
 							</tr>
 							<tr>
 								<th>Tempat Lahir</th>
@@ -141,14 +142,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td><?= $data['warganegara']?></td>
 										<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
 										<td><?= $data['hubungan']?></td>
-										<td><a href="<?= site_url("penduduk/detail/$p/$o/$data[id]"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a></td>
-										<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]"); ?>"><?= $data['no_kk']; ?></a></td>
-										<td><?= $data['ket']?></td>	
+										<td><a href="<?= site_url("penduduk/detail/$paging->page/$order_by/$data[id]"); ?>" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a></td>
+										<td><a href="<?= site_url("keluarga/kartu_keluarga/$paging->page/$order_by/$data[id_kk]"); ?>"><?= $data['no_kk']; ?></a></td>
+										<td><?= $data['ket']?></td>
 									</tr>
 								<?php endforeach; ?>
 							<?php else: ?>
 								<tr>
-									<td class="text-center" colspan="20">Data Tidak Tersedia</td>
+									<td class="text-center" colspan="16">Data Tidak Tersedia</td>
 								</tr>
 							<?php endif; ?>
 						</tbody>

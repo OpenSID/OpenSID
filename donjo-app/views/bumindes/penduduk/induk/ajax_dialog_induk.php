@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa > Buku Mutasi Penduduk Desa
+ * View untuk modul Buku Administrasi Desa > Buku Induk Penduduk
  *
- * donjo-app/views/bumindes/penduduk/mutasi/ajax_cetak_bersama.php,
+ * donjo-app/views/bumindes/penduduk/induk/ajax_dialog_induk.php
  *
  */
 
@@ -53,7 +53,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="input-group-addon">
 				<i class="fa fa-calendar"></i>
 			</div>
-			<input class="form-control input-sm pull-right" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
+			<input class="form-control input-sm pull-right required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
+		</div>
+	</div>
+	<label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
+	<div class="form-group">
+		<div class="form-check">
+			<input type="checkbox" class="form-check-input" id="privasi_nik">
+			<label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
 		</div>
 	</div>
 </div>
@@ -61,11 +68,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
 	$('document').ready(function()
 	{
-		$('#validasi').submit(function()
-		{
-			if ($('#validasi').valid())
-				$('#modalBox').modal('hide');
-		});
+	  $("#privasi_nik").click(function(){
+			const privasi_nik = $('#privasi_nik:checked').val();
+			if (privasi_nik == "on")
+			{
+				$("#validasi").attr("action", "<?= $form_action_privasi ?>");
+			}
+			else
+			{
+				$("#validasi").attr("action", "<?= $form_action ?>");
+			}
+	  });
 	});
 </script>
 

@@ -5,7 +5,7 @@
  *
  * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_fitur_premium_2101.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2102.php
  *
  */
 
@@ -552,4 +552,5 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		return $hasil;
 	}
+	
 }
