@@ -352,13 +352,10 @@ class Penduduk_model extends MY_Model {
 		$this->hamil_sql(); // Filter blum digunakan
 	}
 
-	// $limit = 0 mengambil semua
-	public function list_data($order_by = 1, $offset = 0, $limit = 0)
+	// Perlu di urut sebelum paging dan sesudah paging
+	private function order_by_list($order_by)
 	{
-		//Main Query
-		$this->list_data_sql();
-
-		//Ordering SQL
+		//Urut data
 		switch ($order_by)
 		{
 			case 1: $this->db->order_by('u.nik'); break;
@@ -369,12 +366,21 @@ class Penduduk_model extends MY_Model {
 			case 6: $this->db->order_by('d.no_kk DESC, u.kk_level'); break;
 			case 7: $this->db->order_by('umur'); break;
 			case 8: $this->db->order_by('umur', 'DESC'); break;
-			case 9: $this->db->order_by('created_at'); break;
-			case 10: $this->db->order_by('created_at', 'DESC'); break;
+			case 9: $this->db->order_by('u.created_at'); break;
+			case 10: $this->db->order_by('u.created_at', 'DESC'); break;
 			case 11: $this->db->order_by('log.tgl_peristiwa'); break;
 			case 12: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
 			default: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)');
 		}
+	}
+
+	// $limit = 0 mengambil semua
+	public function list_data($order_by = 1, $offset = 0, $limit = 0)
+	{
+		//Main Query
+		$this->list_data_sql();
+		$this->db->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur");
+		$this->order_by_list($order_by);
 
 		//Paging SQL
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
@@ -395,9 +401,10 @@ class Penduduk_model extends MY_Model {
 			(DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
 			x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
 		");
+
 		$this->db->from("($query_dasar) as u");
 		$this->lookup_ref_penduduk();
-		$this->tahun_bulan();
+		$this->order_by_list($order_by);
 
 		$data = $this->db->get()->result_array();
 

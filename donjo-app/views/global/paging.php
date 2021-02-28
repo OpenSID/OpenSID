@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="col-sm-9 dataTables_paginate">
 		<ul class="pagination">
 			<?php if ($paging->start_link): ?>
-				<li <?= jecho($paging->page, 1, "class='disabled'"); ?>><a href="<?= ($func == 'index') ? site_url("$this->controller") : site_url("$this->controller/$func"); jecho($paging->page.'!', 1, "#"); ?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+				<li <?= jecho($paging->page, 1, "class='disabled'"); ?>><a href="<?= site_url("$this->controller/$func/1/$o"); jecho($paging->page.'!', 1, "#"); ?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 			<?php endif; ?>
 			<?php if ($paging->prev): ?>
 				<li><a href="<?= site_url("$this->controller/$func/$paging->prev/$o"); ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>

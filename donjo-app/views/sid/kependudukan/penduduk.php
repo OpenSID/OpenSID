@@ -164,10 +164,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>No</th>
 												<th>Aksi</th>
 												<th>Foto</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 1, 'NIK'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 1, 'NIK'); ?></th>
 												<th>Tag ID Card</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 3, 'Nama'); ?></th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 5, 'No. KK'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 3, 'Nama'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 5, 'No. KK'); ?></th>
 												<!-- tambah kolom orang tua-->
 												<th>Nama Ayah</th>
 												<th>Nama Ibu</th>
@@ -178,11 +178,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>RW</th>
 												<th>RT</th>
 												<th>Pendidikan dalam KK</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 7, 'Umur'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 7, 'Umur'); ?></th>
 												<th >Pekerjaan</th>
 												<th>Kawin</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 11, 'Tgl Peristiwa'); ?></th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 9, 'Tgl Terdaftar'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 11, 'Tgl Peristiwa'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 9, 'Tgl Terdaftar'); ?></th>
 											</tr>
 										</thead>
 										<tbody>
