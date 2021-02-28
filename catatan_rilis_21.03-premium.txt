@@ -1,8 +1,8 @@
-Di rilis ini, versi 21.02-premium-pasca melengkap Buku Administrasi Desa > Buku Administrasi Penduduk. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.03-premium melengkapi Buku Administrasi Desa > Buku Administrasi Penduduk dan menyediakan fitur merekam foto penduduk langsung dari kamera HP/DSLR. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28, Ahmad Afandi, Nur Hidayat dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
+Terima kasih pada afa28, Ahmad Afandi, Nur Hidayat, Dirga, Diki Siswanto dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.03 adalah sebagai berikut:
 
 
 Fitur Premium:
@@ -36,5 +36,4 @@ Fitur Premium:
 27. Perbaiki urut tabel data, seperti daftar penduduk, kembali menyeluruh dan tidak hanya per halaman. [bug-fix]
 
 
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-premium-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
