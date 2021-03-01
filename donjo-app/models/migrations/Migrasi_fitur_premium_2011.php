@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
+		$hasil = true;
 		// Tambah kolom warna di tabel config
 		if ( ! $this->db->field_exists('warna', 'config'))
 		{
@@ -73,11 +74,11 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 				),
 			);
 
-			$this->dbforge->add_column('tweb_wil_clusterdesa', $fields);
+			$hasil =& $this->dbforge->add_column('tweb_wil_clusterdesa', $fields);
 		}
 
 		// Hapus widget layanan mandiri
-		$this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
+		$hasil =& $this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
 
 		// Tambah pencatatan anjungan
 		$modul = array(
@@ -92,7 +93,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 			'hidden' => '0',
 			'ikon_kecil' => ''
 		);
-		$this->tambah_modul($modul);
+		$hasil =& $this->tambah_modul($modul);
 		// Tabel anjungan
 		if ( ! $this->db->table_exists('anjungan') )
 		{
@@ -108,11 +109,11 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 				updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				PRIMARY KEY (id)
 			)";
-			$this->db->query($query);
+			$hasil =& $this->db->query($query);
 		}
 		// Update view supaya kolom baru ikut masuk
-		$this->db->query("DROP VIEW penduduk_hidup");
-		$this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
+		$hasil =& $this->db->query("DROP VIEW penduduk_hidup");
+		$hasil =& $this->db->query("CREATE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
 		// komentar.email boleh null
 		$field = [
 			'email' => [
@@ -122,7 +123,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 				'default' => NULL
 			]
 		];
-		$this->dbforge->modify_column('komentar', $field);
+		$hasil =& $this->dbforge->modify_column('komentar', $field);
 
 		// Tambah menu layanan pelanggan
 		$modul = array(
@@ -137,7 +138,7 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 			'hidden' => '0',
 			'ikon_kecil' => 'fa-credit-card'
 		);
-		$this->tambah_modul($modul);
+		$hasil =& $this->tambah_modul($modul);
 
 		// Pengaturan API Key
 		if ( ! $this->db->field_exists('api_key_opensid', 'setting_aplikasi'))
@@ -146,8 +147,8 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 				INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
 				(42, 'api_key_opensid', '', 'Opensid API Key untuk Pelanggan OpenDesa', '', '')
 				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
-			$this->db->query($query);
+			$hasil =& $this->db->query($query);
   	}
-
+  	return $hasil;
 	}
 }
