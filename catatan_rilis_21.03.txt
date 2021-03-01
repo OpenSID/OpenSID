@@ -1,8 +1,8 @@
-Di rilis ini, versi 21.02-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.03 tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Diki Siswanto yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 21.02-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.03 adalah sebagai berikut:
 
 1. Perbaiki tautan sumber untuk menampilkan data kasus covid-19 di Indonesia. [bug]
 
@@ -18,6 +18,4 @@ Fitur Premium digabung dari v20.11-premium:
 7. #3673: Sediakan menu Ganti PIN di dashboard Layanan Mandiri.
 8. Sediakan fitur untuk menampilkan status langganan layanan OpenDesa.
 
-
-Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-pasca, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
 
