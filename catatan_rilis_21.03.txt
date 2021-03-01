@@ -1,4 +1,4 @@
-Di rilis ini, versi 21.03 tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.03 tersedia perbaikan Layanan Mandiri. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Diki Siswanto yang terus berkontribusi.
 
