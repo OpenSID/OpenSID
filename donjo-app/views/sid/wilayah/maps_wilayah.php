@@ -61,39 +61,6 @@
 	.leaflet-control-locate a {
 	font-size: 2em;
 	}
-	.grid-print-container {
-	  grid-template: auto 1fr auto / 1fr;
-	  background-color: white;
-	}
-	.grid-map-print {
-	  grid-row: 2;
-	}
-
-	.grid-print-container > .title,
-	.grid-print-container > .sub-content {
-	  color: black;
-	}
-	.title {
-	  grid-row: 1;
-	  justify-self: center;
-	  text-align: center;
-	  color: grey;
-	  box-sizing: border-box;
-	  margin-top: 0;
-	}
-	.sub-content {
-	  grid-row: 5;
-	  padding-left: 10px;
-	  text-align: center;
-	  color: grey;
-	  box-sizing: border-box;
-	}
-	[leaflet-browser-print-pages] {
-	  display: none;
-	}
-	.pages-print-container [leaflet-browser-print-pages] {
-	  display: block;
-	}
 </style>
 <!-- Menampilkan OpenStreetMap -->
 <div class="content-wrapper">
@@ -276,43 +243,6 @@
 
 		//Menampilkan baseLayers dan overlayLayers
 		L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
-
-		//Menambahkan tombol cetak peta ke PNG
-    L.control.browserPrint({
-      documentTitle: "Peta_Wilayah",
-      printModes: [
-        L.control.browserPrint.mode.auto("Auto"),
-				L.control.browserPrint.mode.landscape("Landscape"),
-				L.control.browserPrint.mode.portrait("Portrait")
-      ],
-    }).addTo(peta_wilayah);
-
-    L.Control.BrowserPrint.Utils.registerLayer(L.MarkerClusterGroup, 'L.MarkerClusterGroup', function (layer, utils) {
-			return layer;
-		});
-
-		L.Control.BrowserPrint.Utils.registerLayer(L.MapboxGL, 'L.MapboxGL', function(layer, utils) {
-				return L.mapboxGL(layer.options);
-			}
-		);
-
-		peta_wilayah.on("browser-print-start", function(e){
-        L.control.scale({
-            position: 'bottomleft',
-        }).addTo(e.printMap);
-    });
-
-    window.print = function () {
-			return domtoimage
-					.toPng(document.querySelector(".grid-print-container"))
-					.then(function (dataUrl) {
-						var link = document.createElement('a');
-						link.download = peta_wilayah.printControl.options.documentTitle || "exportedMap" + '.png';
-						link.href = dataUrl;
-						link.click();
-					});
-		};
-		//EOF Menambahkan tombol cetak peta ke PNG
 
 	}; //EOF window.onload
 </script>
