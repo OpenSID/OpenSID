@@ -80,6 +80,9 @@ class Config_model extends CI_Model {
 		{
 			unset($data['logo']);
 		}
+		if(empty($data['kantor_desa'])) {
+			unset($data['kantor_desa']);
+		}
 		unset($data['file_logo']);
 		unset($data['file_kantor_desa']);
 		$outp = $this->db->insert('config', $data);
