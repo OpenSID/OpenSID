@@ -61,13 +61,12 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function index()
 	{
-// pre_print_r($_SESSION); die();
 		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
 		{
 			redirect('mandiri_web/mandiri/1/1');
 		}
 		unset($_SESSION['balik_ke']);
-		$data['header'] = $this->config_model->get_data();
+		$data['header'] = $this->header;
 		//Initialize Session ------------
 		if (!isset($_SESSION['mandiri']))
 		{
@@ -129,7 +128,7 @@ class Mandiri_web extends Mandiri_Controller
 		{
 			$nik = $this->session->nik;
 			$data['main'] = $this->mandiri_model->get_penduduk($nik, TRUE);
-			$data['header'] = $this->config_model->get_data();
+			$data['header'] = $this->header;
 			$data['cek_anjungan'] = $this->cek_anjungan;
 
 			$this->load->view('mandiri_pin', $data);
@@ -188,7 +187,7 @@ class Mandiri_web extends Mandiri_Controller
 				break;
 		}
 
-		$data['desa'] = $this->header['desa'];
+		$data['desa'] = $this->header;
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
@@ -209,7 +208,7 @@ class Mandiri_web extends Mandiri_Controller
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
 
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header;
 		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
@@ -217,7 +216,7 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function cetak_biodata($id = '')
 	{
-		$data['desa'] = $this->header['desa'];
+		$data['desa'] = $this->header;
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
 
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
