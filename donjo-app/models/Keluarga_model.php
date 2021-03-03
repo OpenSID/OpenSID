@@ -777,6 +777,9 @@
 		unset($data['tgl_lapor']);
 		unset($data['tgl_peristiwa']);
 
+		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+		unset($data['maksud_tujuan_kedatangan']);
+
 		if (!$this->validasi_data_keluarga($data)) return;
 		unset($data['alamat']);
 
@@ -805,7 +808,8 @@
 			'kode_peristiwa' => $this->session->jenis_peristiwa,
 			'tgl_lapor' => $tgl_lapor,
 			'id_pend' => $id_pend,
-			'created_by' => $this->session->user
+			'created_by' => $this->session->user,
+			'maksud_tujuan_kedatangan' => $maksud_tujuan,
 		];
 		$this->penduduk_model->tulis_log_penduduk_data($x);
 	}
