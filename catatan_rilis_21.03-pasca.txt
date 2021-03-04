@@ -1,0 +1,10 @@
+Di rilis ini, versi 21.03-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada Zeppy Shiddiq yang terus berkontribusi.
+
+Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
+
+1. #4039: Hapus tombol cetak peta duplikat di peta wilayah desa. [bug-fix]
+
+
+
