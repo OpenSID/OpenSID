@@ -1,0 +1,15 @@
+Di rilis ini, versi 21.03-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
+
+
+Fitur Premium:
+
+1. #4040: Petugas yang pertama kali memasukkan data penduduk kembali ditampilikan. [bug-fix]
+2. #4041: Penambahan KK dan anggota keluarga baru sekarang normal kembali. [bug-fix]
+
+
+
+
