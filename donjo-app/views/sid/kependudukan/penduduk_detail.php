@@ -44,7 +44,7 @@
 											<p class="kecil">
 												Terdaftar pada:
 												<i class="fa fa-clock-o"></i><?= tgl_indo2($penduduk['created_at']);?>
-												<i class="fa fa-user"></i> <?= $penduduk['nama_pengubah']?>
+												<i class="fa fa-user"></i> <?= $penduduk['nama_pendaftar']?>
 											</p>
 										<?php else: ?>
 											<p class="kecil">

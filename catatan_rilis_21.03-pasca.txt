@@ -5,6 +5,7 @@ Terima kasih pada Zeppy Shiddiq yang terus berkontribusi.
 Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 
 1. #4039: Hapus tombol cetak peta duplikat di peta wilayah desa. [bug-fix]
+2. Di biodata penduduk admin, kembali tampilkan nama petugas yg pertama membuat data penduduk. [bug-fix]
 
 
 
