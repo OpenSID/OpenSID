@@ -157,6 +157,11 @@ class Laporan_bulanan_model extends CI_Model {
 		 3 = penduduk pindah
 		 4 = penduduk hilang
 		 5 = insert penduduk baru dengan status masuk
+
+		 Kode bukan mutasi
+		 6 = pindah alamat dalam desa
+		 7 = pecah anggota dari keluarga
+		 9 = dari penduduk lepas masuk keluarga
 	*/
 
 	public function penduduk_awal($rincian = NULL, $tipe = NULL)
@@ -198,16 +203,16 @@ class Laporan_bulanan_model extends CI_Model {
 			$this->db->select('*')->from('('.$penduduk_awal_bulan_minus_sql.') as m');
 		 	switch ($tipe)
 		 	{
-		 		case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'jml': $this->db->where('kode_peristiwa not in (1,5)'); break;
-		 		case 'jml_l': $this->db->where('sex = 1 and kode_peristiwa not in (1,5)'); break;
-		 		case 'jml_p': $this->db->where('sex = 2 and kode_peristiwa not in (1,5)'); break;
-		 		case 'kk': $this->db->where("kk_level = 1 and kode_peristiwa not in (1,5)"); break;
-		 		case 'kk_l': $this->db->where("kk_level = 1 and sex = 1 and kode_peristiwa not in (1,5)"); break;
-		 		case 'kk_p': $this->db->where("kk_level = 1 and sex = 2 and kode_peristiwa not in (1,5)"); break;
+		 		case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'jml': $this->db->where('kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'jml_l': $this->db->where('sex = 1 and kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'jml_p': $this->db->where('sex = 2 and kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'kk': $this->db->where("kk_level = 1 and kode_peristiwa in (2, 3, 4)"); break;
+		 		case 'kk_l': $this->db->where("kk_level = 1 and sex = 1 and kode_peristiwa in (2, 3, 4)"); break;
+		 		case 'kk_p': $this->db->where("kk_level = 1 and sex = 2 and kode_peristiwa in (2, 3, 4)"); break;
 		 	}
 		 	$penduduk_awal_bulan_minus_sql = $this->db->get_compiled_select();
 
@@ -233,13 +238,13 @@ class Laporan_bulanan_model extends CI_Model {
 			->select('sum(case when kk_level = 1 and sex = 1 and kode_peristiwa in (1,5) then 1 else 0 end) AS KK_L_PLUS')
 			->select('sum(case when kk_level = 1 and sex = 2 and kode_peristiwa in (1,5) then 1 else 0 end) AS KK_P_PLUS')
 
-			->select('sum(case when sex = 1 and warganegara_id <> 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNI_L_MINUS')
-			->select('sum(case when sex = 2 and warganegara_id <> 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNI_P_MINUS')
-			->select('sum(case when sex = 1 and warganegara_id = 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNA_L_MINUS')
-			->select('sum(case when sex = 2 and warganegara_id = 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS WNA_P_MINUS')
-			->select('sum(case when kk_level = 1  and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_MINUS')
-			->select('sum(case when kk_level = 1 and sex = 1 and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_L_MINUS')
-			->select('sum(case when kk_level = 1 and sex = 2 and kode_peristiwa not in (1,5) then 1 else 0 end) AS KK_P_MINUS')
+			->select('sum(case when sex = 1 and warganegara_id <> 2 and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS WNI_L_MINUS')
+			->select('sum(case when sex = 2 and warganegara_id <> 2 and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS WNI_P_MINUS')
+			->select('sum(case when sex = 1 and warganegara_id = 2 and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS WNA_L_MINUS')
+			->select('sum(case when sex = 2 and warganegara_id = 2 and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS WNA_P_MINUS')
+			->select('sum(case when kk_level = 1  and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS KK_MINUS')
+			->select('sum(case when kk_level = 1 and sex = 1 and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS KK_L_MINUS')
+			->select('sum(case when kk_level = 1 and sex = 2 and kode_peristiwa in (2, 3, 4) then 1 else 0 end) AS KK_P_MINUS')
 			->from('('.$penduduk_mutasi_sql.') as m')
 			->get()
 			->row_array();
@@ -296,16 +301,16 @@ class Laporan_bulanan_model extends CI_Model {
 			$this->db->select('*')->from('('.$penduduk_awal_bulan_minus_sql.') as m');
 		 	switch ($tipe)
 		 	{
-		 		case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2 AND kode_peristiwa not in (1,5)'); break;
-		 		case 'jml': $this->db->where('kode_peristiwa not in (1,5)'); break;
-		 		case 'jml_l': $this->db->where('sex = 1 and kode_peristiwa not in (1,5)'); break;
-		 		case 'jml_p': $this->db->where('sex = 2 and kode_peristiwa not in (1,5)'); break;
-		 		case 'kk': $this->db->where("kk_level = 1 and kode_peristiwa not in (1,5)"); break;
-		 		case 'kk_l': $this->db->where("kk_level = 1 and sex = 1 and kode_peristiwa not in (1,5)"); break;
-		 		case 'kk_p': $this->db->where("kk_level = 1 and sex = 2 and kode_peristiwa not in (1,5)"); break;
+		 		case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2 AND kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'jml': $this->db->where('kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'jml_l': $this->db->where('sex = 1 and kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'jml_p': $this->db->where('sex = 2 and kode_peristiwa in (2, 3, 4)'); break;
+		 		case 'kk': $this->db->where("kk_level = 1 and kode_peristiwa in (2, 3, 4)"); break;
+		 		case 'kk_l': $this->db->where("kk_level = 1 and sex = 1 and kode_peristiwa in (2, 3, 4)"); break;
+		 		case 'kk_p': $this->db->where("kk_level = 1 and sex = 2 and kode_peristiwa in (2, 3, 4)"); break;
 		 	}
 		 	$penduduk_awal_bulan_minus_sql = $this->db->get_compiled_select();
 
@@ -556,10 +561,10 @@ class Laporan_bulanan_model extends CI_Model {
 		$data = $this->db
 			->select('a.dusun as DUSUN')
 			// Penduduk Awal Bulan
-			->select("(sum(case when p.sex = 1 and p.warganegara_id <> 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 1 and p.warganegara_id <> 2 and l.kode_peristiwa not in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_L_AWAL")
-			->select("(sum(case when p.sex = 2 and p.warganegara_id <> 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 2 and p.warganegara_id <> 2 and l.kode_peristiwa not in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_P_AWAL")
-			->select("(sum(case when p.sex = 1 and p.warganegara_id = 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 1 and p.warganegara_id = 2 and l.kode_peristiwa not in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNA_L_AWAL")
-			->select("(sum(case when p.sex = 2 and p.warganegara_id = 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 2 and p.warganegara_id = 2 and l.kode_peristiwa not in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNA_P_AWAL")
+			->select("(sum(case when p.sex = 1 and p.warganegara_id <> 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 1 and p.warganegara_id <> 2 and l.kode_peristiwa in (2,3,4) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_L_AWAL")
+			->select("(sum(case when p.sex = 2 and p.warganegara_id <> 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 2 and p.warganegara_id <> 2 and l.kode_peristiwa in (2,3,4) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_P_AWAL")
+			->select("(sum(case when p.sex = 1 and p.warganegara_id = 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 1 and p.warganegara_id = 2 and l.kode_peristiwa in (2,3,4) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNA_L_AWAL")
+			->select("(sum(case when p.sex = 2 and p.warganegara_id = 2 and l.kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.sex = 2 and p.warganegara_id = 2 and l.kode_peristiwa in (2,3,4) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNA_P_AWAL")
 			// Tambahan Lahir
 			->select("sum(case when p.sex = 1 and p.warganegara_id <> 2 and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn and l.kode_peristiwa = 1 then 1 else 0 end) AS WNI_L_TAMBAH_LAHIR")
 			->select("sum(case when p.sex = 2 and p.warganegara_id <> 2 and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn and l.kode_peristiwa = 1 then 1 else 0 end) AS WNI_P_TAMBAH_LAHIR")
@@ -581,10 +586,10 @@ class Laporan_bulanan_model extends CI_Model {
 			->select("sum(case when p.sex = 1 and p.warganegara_id = 2 and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn and l.kode_peristiwa = 3 then 1 else 0 end) AS WNA_L_KURANG_KELUAR")
 			->select("sum(case when p.sex = 2 and p.warganegara_id = 2 and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn and l.kode_peristiwa = 3 then 1 else 0 end) AS WNA_P_KURANG_KELUAR")
 			// KK
-			->select("(sum(case when p.kk_level = 1 and kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when kk_level = 1 and kode_peristiwa not in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_JLH")
-			->select("(sum(case when p.kk_level != 1 and kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.kk_level != 1 and kode_peristiwa not in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_ANG_KEL")
-			->select("(sum(case when p.kk_level = 1 and kode_peristiwa in (1,5) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end) - sum(case when p.kk_level = 1 and kode_peristiwa not in (1,5) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end)) AS KK_MASUK_JLH")
-			->select("(sum(case when p.kk_level != 1 and kode_peristiwa in (1,5) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end) - sum(case when p.kk_level != 1 and kode_peristiwa not in (1,5) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end)) AS KK_MASUK_ANG_KEL");
+			->select("(sum(case when p.kk_level = 1 and kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when kk_level = 1 and kode_peristiwa in (2,3,4) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_JLH")
+			->select("(sum(case when p.kk_level != 1 and kode_peristiwa in (1,5) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when p.kk_level != 1 and kode_peristiwa in (2,3,4) and DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_ANG_KEL")
+			->select("(sum(case when p.kk_level = 1 and kode_peristiwa in (1,5) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end) - sum(case when p.kk_level = 1 and kode_peristiwa in (2,3,4) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end)) AS KK_MASUK_JLH")
+			->select("(sum(case when p.kk_level != 1 and kode_peristiwa in (1,5) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end) - sum(case when p.kk_level != 1 and kode_peristiwa in (2,3,4) and month(l.tgl_lapor) = $bln and year(l.tgl_lapor) = $thn then 1 else 0 end)) AS KK_MASUK_ANG_KEL");
 
 		$this->rekapitulasi_query_dasar();
 	}
