@@ -107,12 +107,12 @@ class Laporan extends Admin_Controller {
 		$data['tahun_lengkap'] = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
 		$data['config'] = $this->config_model->get_data();
 		$data['pamong'] = $this->pamong_model->list_data();
-		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
 		$data['kematian'] = $this->laporan_bulanan_model->kematian();
 		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
 		$data['pindah'] = $this->laporan_bulanan_model->pindah();
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
+		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
 		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['lap'] = $lap;
 
