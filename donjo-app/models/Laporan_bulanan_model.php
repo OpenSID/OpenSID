@@ -351,21 +351,42 @@ class Laporan_bulanan_model extends CI_Model {
 		return $this->db->get_compiled_select();
 	}
 
+		// Perubahan keluarga pada bulan laporan
+	private function mutasi_keluarga_bln_thn($id_peristiwa)
+	{
+		$bln = $this->session->bulanku;
+		$thn = $this->session->tahunku;
+
+		$this->db
+			->select('p.*, l.id_peristiwa')
+			->from('log_keluarga l')
+			->join('tweb_keluarga k', 'k.id = l.id_kk')
+			->join('tweb_penduduk p', 'p.id = k.nik_kepala')
+			->where('year(l.tgl_peristiwa)', $thn)
+			->where('month(l.tgl_peristiwa)', $bln)
+			->where('l.id_peristiwa', $id_peristiwa);
+
+		return $this->db->get_compiled_select();
+	}
+
 	/*
 		Kelahiran penduduk berdasarkan tanggal lapor peristiwa lahir di log_penduduk.
 		Keluarga baru berdasarkan tgl_peristiwa di log_keluarga. Log keluarga mencatat keluarga baru pada:
 		(1) tambah keluarga dari penduduk lepas
-		(2) tambah keluarga baru
 	*/
 	public function kelahiran($rincian = NULL, $tipe = NULL)
 	{
+		$keluarga = ['kk', 'kk_l', 'kk_p'];
 		$bln = $this->session->bulanku;
 		$thn = $this->session->tahunku;
-		$mutasi_pada_bln_thn = $this->mutasi_pada_bln_thn(1);
 
 		// Jika rincian dan tipe di definisikan, maka akan masuk kedetil laporan
 		if ($rincian && $tipe)
 		{
+			$mutasi_pada_bln_thn = in_array($tipe, $keluarga) ?
+				$this->mutasi_keluarga_bln_thn(1) :
+				$this->mutasi_pada_bln_thn(1);
+
 			$data = $this->db->select('*')->from('('.$mutasi_pada_bln_thn.') as m');
 			switch ($tipe)
 			{
@@ -376,15 +397,16 @@ class Laporan_bulanan_model extends CI_Model {
 				case 'jml': break;
 				case 'jml_l': $this->db->where('sex = 1'); break;
 				case 'jml_p': $this->db->where('sex = 2'); break;
-				case 'kk': $this->db->where("(SELECT COUNT(id) FROM log_keluarga WHERE id_peristiwa = 1 AND month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn)"); break;
-				case 'kk_l': $this->db->where("(SELECT COUNT(id) FROM log_keluarga WHERE id_peristiwa = 1 AND month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND kk_sex = 1)"); break;
-				case 'kk_p': $this->db->where("(SELECT COUNT(id) FROM log_keluarga WHERE id_peristiwa = 1 AND month(tgl_peristiwa) = $bln AND year(tgl_peristiwa) = $thn AND kk_sex = 2)"); break;
+				case 'kk': break;
+				case 'kk_l': $this->db->where('sex = 1'); break;
+				case 'kk_p': $this->db->where('sex = 2'); break;
 			}
 			$data = $this->db->get()->result_array();
 
 			return $data;
 		}
 
+		$mutasi_pada_bln_thn = $this->mutasi_pada_bln_thn(1);
 		$data = $this->db
 			->select('sum(case when sex = 1 and warganegara_id <> 2 then 1 else 0 end) AS WNI_L')
 			->select('sum(case when sex = 2 and warganegara_id <> 2 then 1 else 0 end) AS WNI_P')

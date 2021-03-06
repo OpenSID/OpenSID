@@ -10,6 +10,7 @@ Fitur Premium:
 1. #4040: Petugas yang pertama kali memasukkan data penduduk kembali ditampilkan. [bug-fix]
 2. #4041: Penambahan KK dan anggota keluarga baru sekarang normal kembali. [bug-fix]
 3. Tidak tampilkan kolom isian Tanggal Lapor di form ubah biodata penduduk. [bug-fix]
+4. Statistik > Laporan Bulanan di baris Kelahiran/Keluarga Baru sekarang dibatasi melaporkan keluarga baru yg dibentuk dari penduduk yang ada (mis. setelah pecah keluarga). [bug-fix]
 
 
 

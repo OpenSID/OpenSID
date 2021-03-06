@@ -183,6 +183,7 @@ class Laporan extends Admin_Controller {
 	public function detail_penduduk($rincian, $tipe)
 	{
 		$data = [];
+		$keluarga = ['kk', 'kk_l', 'kk_p'];
 
 		switch (strtolower($rincian))
 		{
@@ -194,7 +195,7 @@ class Laporan extends Admin_Controller {
 				break;
 			case 'lahir':
 					$data = [
-						'title' => 'KELAHIRAN/KELUARGA BARU BULAN INI',
+						'title' => in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
 						'main' => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
 					];
 				break;
@@ -229,7 +230,7 @@ class Laporan extends Admin_Controller {
 					];
 				break;
 		}
-		
+
 		$this->render('laporan/tabel_bulanan_detil', $data);
 	}
 }
