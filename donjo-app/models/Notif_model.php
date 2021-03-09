@@ -2,6 +2,32 @@
 
 class Notif_model extends CI_Model {
 
+	public function status_langganan()
+	{
+		$this->load->library('data_publik');
+		$tracker_host = (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker;
+		if ( ! $this->data_publik->has_internet_connection()) return;
+		$this->data_publik->set_api_url($tracker_host . '/index.php/api/pelanggan/customer?token=' . $this->setting->api_key_opensid, 'status_pelanggan');
+
+		$status = $this->data_publik->get_url_content($no_cache = true);
+		$tgl_akhir = $status->body->PELANGGAN_PREMIUM[0]->tgl_akhir;
+		$tgl_akhir = strtotime($tgl_akhir);
+		$masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+		switch (true)
+		{
+			case ($masa_berlaku > 30):
+				$status = ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'];
+				break;
+			case ($masa_berlaku > 10):
+				$status = ['status' => 2, 'warna' => 'orange', 'ikon' => 'fa-battery-half'];
+				break;
+			default:
+				$status = ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'];
+		}
+		$status['masa'] = $masa_berlaku;
+		return $status;
+	}
+
 	public function permohonan_surat_baru()
 	{
 		$num_rows = $this->db->where('status', 0)
