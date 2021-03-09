@@ -105,8 +105,8 @@
 																		<?php if (is_file($data['file_qr'])): ?>
 																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QRCode" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
 																		<?php	endif; ?>
-																		<?php if (is_file($data['lampiran'])): ?>
-																			<a href="<?= base_url($data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
+																		<?php if (is_file($data['file_lampiran'])): ?>
+																			<a href="<?= base_url($data['file_lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
 																		<?php	endif; ?>
 																		<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
