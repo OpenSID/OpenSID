@@ -158,6 +158,7 @@
 					$berkas_pdf = $nama_surat . ".pdf";
 					$berkas_php = $nama_surat . ".php";
 					$berkas_qr 	= $nama_surat . ".png";
+					$berkas_lampiran 	= $nama_surat . "_lampiran.pdf";
 				}
 				else
 				{
@@ -165,13 +166,14 @@
 					$berkas_pdf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".pdf";
 					$berkas_php = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".php";
 					$berkas_qr 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".png";
+					$berkas_lampiran 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d")."._lampiran.pdf";
 				}
 
 				$data[$i]['file_rtf'] = LOKASI_ARSIP.$berkas_rtf;
 				$data[$i]['file_pdf'] = LOKASI_ARSIP.$berkas_pdf;
 				$data[$i]['file_php'] = LOKASI_ARSIP.$berkas_php;
 				$data[$i]['file_qr'] 	= LOKASI_MEDIA.$berkas_qr;
-				$data[$i]['lampiran'] = LOKASI_ARSIP.$data[$i]['lampiran'];
+				$data[$i]['file_lampiran'] = LOKASI_ARSIP.$berkas_lampiran;
 			}
 			if (!empty($data[$i]['pamong_id_pend']))
 				// Pamong desa
