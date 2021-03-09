@@ -140,3 +140,8 @@ $route['layanan-mandiri/surat/buat-surat'] = 'layanan_mandiri/surat/buat_surat';
 $route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_surat/$1'; //Ubah Surat Permohonan yg tdk lengkap
 // Mandiri Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
+
+// URL Shortener
+$route['v/(:any)'] = 'first/redirect/$1';
+$route['c1/(:any)'] = 'dokumen_web/check_surat1/$1';
+$route['c2/(:any)'] = 'dokumen_web/check_surat2/$1';

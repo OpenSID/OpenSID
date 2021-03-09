@@ -156,15 +156,21 @@
 				{
 					$berkas_rtf = $nama_surat . ".rtf";
 					$berkas_pdf = $nama_surat . ".pdf";
+					$berkas_php = $nama_surat . ".php";
+					$berkas_qr 	= $nama_surat . ".png";
 				}
 				else
 				{
 					$berkas_rtf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".rtf";
 					$berkas_pdf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".pdf";
+					$berkas_php = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".php";
+					$berkas_qr 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".png";
 				}
 
 				$data[$i]['file_rtf'] = LOKASI_ARSIP.$berkas_rtf;
 				$data[$i]['file_pdf'] = LOKASI_ARSIP.$berkas_pdf;
+				$data[$i]['file_php'] = LOKASI_ARSIP.$berkas_php;
+				$data[$i]['file_qr'] 	= LOKASI_MEDIA.$berkas_qr;
 				$data[$i]['lampiran'] = LOKASI_ARSIP.$data[$i]['lampiran'];
 			}
 			if (!empty($data[$i]['pamong_id_pend']))
@@ -370,6 +376,8 @@
 		$berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
 		unlink(LOKASI_ARSIP.$berkas_surat.".rtf");
 		unlink(LOKASI_ARSIP.$berkas_surat.".pdf");
+		unlink(LOKASI_ARSIP.$berkas_surat.".php");
+		unlink(LOKASI_MEDIA.$berkas_surat.".png");
 		if (!empty($arsip['lampiran'])) unlink(LOKASI_ARSIP.$arsip['lampiran']);
 
 		if (!$this->db->where('id', $id)->delete('log_surat'))

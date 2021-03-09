@@ -57,7 +57,43 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->where("date(tgl_peristiwa) < '2021-03-04'")
 			->delete('log_keluarga');
 
+		// Buat tabel url shortener
+		$hasil =& $this->buat_tabel_url_shortener($hasil);
+		// Buat tabel url statistik
+		$hasil =& $this->buat_tabel_url_statistik($hasil);
+
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	// Buat tabel url shortener
+	protected function buat_tabel_url_shortener($hasil)
+	{
+		$this->dbforge->add_field([
+			'id'			=> ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'url'			=> ['type' => 'VARCHAR', 'constraint' => 255, 'null' => false],
+			'alias'		=> ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false],
+			'created'	=> ['type' => 'datetime', 'null' => false],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$this->dbforge->add_key('alias');
+		$hasil =& $this->dbforge->create_table('urls', true);
+		return $hasil;
+	}
+
+	// Buat tabel url statistik
+	protected function buat_tabel_url_statistik($hasil)
+	{
+		$this->dbforge->add_field([
+			'id'			=> ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'url_id'	=> ['type' => 'INT', 'null' => false],
+			'created'	=> ['type' => 'datetime', 'null' => false],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$this->dbforge->add_key('url_id');
+		$hasil =& $this->dbforge->create_table('statistics', true);
 		return $hasil;
 	}
 

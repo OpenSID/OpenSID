@@ -52,6 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Surat_model extends CI_Model {
 
+ 	protected $awalan_qr = '89504e470d0a1a0a0000000d4948445200000084000000840802000000de';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -59,6 +61,8 @@ class Surat_model extends CI_Model {
 		$this->load->model('penduduk_model');
 		$this->load->model('penomoran_surat_model');
 		$this->load->model('config_model');
+    $this->load->model('url_shortener_model');
+		$this->load->model('stat_shortener_model');
 	}
 
 	public function list_surat()
@@ -678,17 +682,26 @@ class Surat_model extends CI_Model {
 		return $buffer;
 	}
 
-	private function sisipkan_foto($nama_foto, $buffer)
+	private function sisipkan_foto($data, $nama_foto, $buffer)
 	{
-		$file_foto = APPPATH . '../' . LOKASI_USER_PICT . $nama_foto;
-		if (!is_file($file_foto)) return $buffer;
-		$akhiran_foto = 'c37e16e40000000049454e44ae426082';
-		$awalan_foto = '89504e470d0a1a0a0000000d49484452000000c8000000fa0803000000d3';
+    $input = $data['input'];
+    $tampil_foto = $input['tampil_foto'];
+    if ($tampil_foto)
+    {
+      $file_foto = APPPATH . '../' . LOKASI_USER_PICT . $nama_foto;
+    }
+    else
+    {
+      $file_foto = APPPATH . '../' . LOKASI_SISIPAN_DOKUMEN . $nama_foto;
+    }
+		if ( ! is_file($file_foto)) return $buffer;
+		$akhiran_foto = 'afbe45630000000049454e44ae426082';
+		$awalan_foto = '89504e470d0a1a0a0000000d4948445200000080000000800806000000c3';
 		$akhiran_sementara = 'akhiran_foto';
 		$jml_foto = substr_count($buffer, $akhiran_foto);
 		if ($jml_foto <= 0) return $buffer;
 
-		$foto_bytes = file_get_contents($file_foto);
+    $foto_bytes = file_get_contents($file_foto);
 		$foto_hex = implode(unpack("H*", $foto_bytes));;
 		for ($i=0; $i<$jml_foto; $i++)
 		{
@@ -819,7 +832,9 @@ class Surat_model extends CI_Model {
 		$tgl = tgl_indo(date("Y m d"));
 		$tgl_hijri = Hijri_date_id::date('j F Y');
 		$thn = date("Y");
-		$tampil_foto = $input['tampil_foto'];
+    $tampil_foto = $input['tampil_foto'];
+    $tampil_qrcode = $input['tampil_qrcode'];
+    $qrcode = $this->session->qrcode;
 
 		$tgllhr = ucwords(tgl_indo($individu['tanggallahir']));
 		$individu['nama'] = strtoupper($individu['nama']);
@@ -838,10 +853,24 @@ class Surat_model extends CI_Model {
 			$buffer = $this->bersihkan_kode_isian($buffer);
 			$buffer = $this->sisipkan_kop_surat($buffer);
 			$buffer = $this->sisipkan_logo($config['logo'], $buffer);
-			if ($tampil_foto)
-			{
-				$buffer = $this->sisipkan_foto($individu['foto'], $buffer);
-			}
+
+      if ($tampil_foto)
+      {
+        $buffer = $this->sisipkan_foto($data, $individu['foto'], $buffer);
+      }
+      else
+      {
+        $buffer = $this->sisipkan_foto($data, 'empty.png', $buffer);
+      }
+
+      if ($tampil_qrcode)
+      {
+        $buffer = $this->sisipkan_qr($data, $qrcode['namaqr'].".png", $buffer);
+      }
+      else
+      {
+        $buffer = $this->sisipkan_qr($data, 'empty.png', $buffer);
+      }
 
 			//PRINSIP FUNGSI
 			//-> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)
@@ -857,7 +886,7 @@ class Surat_model extends CI_Model {
 				"[tgl_surat_hijri]" => $tgl_hijri,
 				"[tahun]" => "$thn",
 				"[bulan_romawi]" => bulan_romawi((int)date("m")),
-				"[format_nomor_surat]" => $surat['format_nomor_surat']
+				"[format_nomor_surat]" => $surat['format_nomor_surat'],
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
@@ -1115,6 +1144,13 @@ class Surat_model extends CI_Model {
 	public function buat_surat($url='', &$nama_surat, &$lampiran)
 	{
 		$data = $this->get_data_untuk_surat($url);
+    $input = $data['input'];
+    $tampil_qrcode = $input['tampil_qrcode'];
+    if ($tampil_qrcode)
+    {
+      $this->verifikasi_surat($data, $nama_surat);
+      $this->buat_qrcode($data, $nama_surat);
+    }
 		$this->lampiran($data, $nama_surat, $lampiran);
 		$this->surat_utama($data, $nama_surat);
 	}
@@ -1199,5 +1235,147 @@ class Surat_model extends CI_Model {
 		->get()->result_array()[0];
 
 		return $masa_berlaku;
+	}
+
+  private function sisipkan_qr($data, $nama_qr, $buffer)
+	{
+    $input = $data['input'];
+    $tampil_qrcode = $input['tampil_qrcode'];
+    if ($tampil_qrcode)
+    {
+      $file_qr = APPPATH . '../' . LOKASI_MEDIA . $nama_qr;
+    }
+    else
+    {
+      $file_qr = APPPATH . '../' . LOKASI_SISIPAN_DOKUMEN . $nama_qr;
+    }
+		if ( ! is_file($file_qr)) return $buffer;
+		$akhiran_qr = '04c5cd360000000049454e44ae426082';
+		$akhiran_sementara = 'akhiran_qr';
+		$jml_qr = substr_count($buffer, $akhiran_qr);
+		if ($jml_qr <= 0) return $buffer;
+
+    $qr_bytes = file_get_contents($file_qr);
+		$qr_hex = implode(unpack("H*", $qr_bytes));;
+		for ($i=0; $i<$jml_qr; $i++)
+		{
+			$pos = strpos($buffer, $akhiran_qr);
+	    $buffer = substr_replace($buffer, $akhiran_sementara, $pos, strlen($akhiran_qr));
+			$placeholder_qr = '/'.$this->awalan_qr.'.*'.$akhiran_sementara.'/s';
+			$buffer = preg_replace($placeholder_qr, $qr_hex, $buffer);
+		}
+		return $buffer;
+	}
+
+  public function buat_qrcode($data, $nama_surat)
+	{
+    $surat = $data['surat'];
+    $input = $data['input'];
+    $config = $data['config'];
+    $isiqr_input = $input['isiqr'];
+    $isiqr_manual = $input['isiqr_manual'];
+    $foreqr = $input['foreqr'];
+    $nama_surat_qr = pathinfo($nama_surat, PATHINFO_FILENAME);
+    $id_log_surat = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+
+    $isiqr_pilihan = $this->pilih_isi($data);
+
+    //redirect link tidak ke path aslinya dan encode ID surat
+    $check_surat = site_url("c1/$id_log_surat");
+
+    //link diubah ke URL Shortener
+    $check_surat_short = $this->url_shortener_model->url_pendek($check_surat);
+    switch ($isiqr_input)
+		{
+			case '1':
+        $isiqr = $check_surat_short;
+			break;
+      case '2':
+				$isiqr = $isiqr_pilihan;
+      break;
+      case '3':
+				$isiqr = $isiqr_manual;
+			break;
+
+			default:
+        $isiqr = $check_surat_short;
+      break;
+		}
+
+		$pathqr = LOKASI_MEDIA;
+		$desa = $this->config_model->get_data();
+		$logoqr = gambar_desa($desa['logo'], false, $file = true);
+
+		$qrcode = [
+      'pathqr' => $pathqr,
+			'namaqr' => $nama_surat_qr,
+			'isiqr'  => $isiqr,
+			'logoqr' => $logoqr,
+			'sizeqr' => 6,
+			'foreqr' => $foreqr,
+      'viewqr' => base_url(LOKASI_MEDIA.''.$nama_surat_qr.".png")
+		];
+		$this->session->qrcode = $qrcode;
+		qrcode_generate($qrcode['pathqr'], $qrcode['namaqr'], $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['foreqr']);
+	}
+
+  public function verifikasi_surat($data, $nama_surat)
+	{
+    $surat = $data['surat'];
+		$config = $data['config'];
+		$individu = $data['individu'];
+    $tanggal = tgl_indo(date("Y m d"));
+		$check_file = pathinfo($nama_surat, PATHINFO_FILENAME).".php";
+
+    ob_start();
+      include("donjo-app/views/surat/verifikasi_surat.php");
+    $content = ob_get_clean();
+    file_put_contents(LOKASI_ARSIP . $check_file, $content);
+	}
+
+  public function pilih_isi($data)
+	{
+    $input = $data['input'];
+    $isiqr_pilih = $input['id_cb'];
+
+    if(!empty($isiqr_pilih)) {
+      $isiqr_pilihan =  "";
+      $isiqr_pilihan .= " ".$isiqr_pilih[0];
+      $isiqr_pilihan .= " ".$isiqr_pilih[1];
+      $isiqr_pilihan .= " ".$isiqr_pilih[2];
+      $isiqr_pilihan .= " ".$isiqr_pilih[3];
+    }
+
+    return $isiqr_pilihan;
+	}
+
+  public function get_surat_check($id)
+	{
+		$nama_berkas = $this->db->select('nama_surat')
+			->where('id', $id)
+			->get('log_surat')->row()->nama_surat;
+    $nama_surat_check = pathinfo($nama_berkas, PATHINFO_FILENAME).".php";
+		return $nama_surat_check;
+	}
+
+	// Periksa apakah template rtf berisi sematan qrcode
+	public function cek_sisipan_qrcode($url)
+	{
+		$ada = false;
+		// Pakai surat ubahan desa apabila ada
+		$file = SuratExportDesa($url);
+		if ($file == "")
+		{
+			$file = "template-surat/$url/$url.rtf";
+		}
+
+		if (is_file($file))
+		{
+			$handle = fopen($file, 'r');
+			$buffer = stream_get_contents($handle);
+			$ada = strpos($buffer, $this->awalan_qr) !== false;
+			fclose($handle);
+		}
+		return $ada;
 	}
 }

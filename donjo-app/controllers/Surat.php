@@ -77,6 +77,7 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['post']);
 		unset($_SESSION['id_pemberi_kuasa']);
 		unset($_SESSION['id_penerima_kuasa']);
+		unset($_SESSION['qrcode']);
 
 		$this->render('surat/format_surat', $data);
 	}
@@ -173,10 +174,10 @@ class Surat extends Admin_Controller {
 		$log_surat['keterangan'] = $keterangan ? $keterangan : $keperluan;
 		$nama_surat = $this->keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
 		$lampiran = '';
-		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 		$log_surat['nama_surat'] = $nama_surat;
 		$log_surat['lampiran'] = $lampiran;
 		$this->keluar_model->log_surat($log_surat);
+		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 
 		if ($this->input->post('submit_cetak') == 'cetak_pdf')
 			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
@@ -221,9 +222,11 @@ class Surat extends Admin_Controller {
 
 	private function get_data_untuk_form($url, &$data)
 	{
+		$this->session->unset_userdata('qrcode');
 		$this->load->model('pamong_model');
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat'] = $this->surat_model->get_surat($url);
+		$data['config'] = $this->config_model->get_data();
 		$data['input'] = $this->input->post();
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
@@ -233,7 +236,9 @@ class Surat extends Admin_Controller {
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-		$tampil_foto = $this->input->post('tampil_foto');
+		$data['isi_qr'] =  $this->referensi_model->list_ref(ISI_QR);
+		$data['ada_sisipan_qrcode'] = $this->surat_model->cek_sisipan_qrcode($url);
+		$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['foreqr' => '#000000'];
 		if ($pamong_ttd)
 		{
 			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);
