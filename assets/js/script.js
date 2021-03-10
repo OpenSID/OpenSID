@@ -767,6 +767,7 @@ function tampil_badge(elem, url)
   }, 500);
 }
 
+// Setiap lima menit
 function refresh_badge(elem, url)
 {
   if ( ! elem.length) return;
@@ -775,6 +776,6 @@ function refresh_badge(elem, url)
   var refreshInbox = setInterval(function()
   {
     tampil_badge(elem, url);
-  }, 10000);
+  }, 5*60*1000);
 }
 

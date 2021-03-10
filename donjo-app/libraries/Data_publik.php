@@ -157,11 +157,17 @@ class Data_publik
 
 	/**
 	 * Ambil data url
+	 * @param boolean $no_cache
 	 * @return string
 	 */
-	public function get_url_content()
+	public function get_url_content($no_cache = false)
 	{
-		return $this->resync();
+		if (! $this->api)
+		{
+			throw new \Exception('Please specify the API endpoint URL.');
+		}
+		// Jika $no_cache paksa ambil baru
+		return $no_cache ? $this->get_content() : $this->resync();
 	}
 
 	/**
@@ -171,21 +177,22 @@ class Data_publik
 	 */
 	public function resync()
 	{
-		if (! $this->api)
-		{
-			throw new \Exception('Please specify the API endpoint URL.');
-		}
-
 		if ($this->cache_is_outdated())
 		{
-			\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
-
-			$options = [];
-			$response = \Esyede\Curly::get($this->api, [], $options);
+			$response = $this->get_content();
 			$this->write(json_encode($response));
 		}
 
 		return json_decode($this->read($this->cache));
+	}
+
+	private function get_content()
+	{
+		\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
+
+		$options = [];
+		$response = \Esyede\Curly::get($this->api, [], $options);
+		return $response;
 	}
 
 	/**

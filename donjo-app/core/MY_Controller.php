@@ -259,6 +259,7 @@ class Admin_Controller extends MY_Controller {
 		}
 		$this->cek_pengumuman();
 		$this->header = $this->header_model->get_data();
+		$this->header['notif_langganan'] = $this->notif_model->status_langganan();
 	}
 
 	private function cek_pengumuman()
