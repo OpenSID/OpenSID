@@ -59,22 +59,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 	<?php endif; ?>
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url()?>rss.xml" />
-	<!-- Bootstrap 3.3.7 -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.min.css">
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">
-	<!-- Theme style -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
-	<!-- AdminLTE Skins. -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
-	<!-- Style Mandiri Modification -->
-	<link rel="stylesheet" href="<?= base_url()?>assets/css/mandiri-style.css">
-	<?php if (is_file("desa/pengaturan/siteman/siteman.css")): ?>
-		<link rel='Stylesheet' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-style.css" media="screen" type="text/css"/>
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-form-elements.css" media="screen" type="text/css"/>
+	<link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css"/>
+	<?php if (is_file("desa/pengaturan/siteman/siteman_mandiri.css")): ?>
+		<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman_mandiri.css" rel='Stylesheet' />
 	<?php endif; ?>
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 
 	<?php if ($cek_anjungan): ?>
@@ -84,66 +76,79 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags'); ?>
-	<?php if ($latar_login): ?>
+	<?php if ($latar_login_mandiri): ?>
 		<style type="text/css">
 			body.login-page {
-				background: url('<?= base_url($latar_login) ?>');
+				background: url('<?= base_url($latar_login_mandiri) ?>');
 			}
 		</style>
 	<?php endif; ?>
 </head>
-
-<body class="login-page">
-	<div class="login-box">
-		<div class="login-box-body">
-			<div class="login-title">
-				<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']); ?>" alt="<?=$header['nama_desa']?>" class="logo-login"/></a>
-				<h1>
-					LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa) . ' ' . $header['nama_desa']?>
-				</h1>
-				<h3>
-					<br/><?=$header['alamat_kantor']?><br/>Kodepos <?=$header['kode_pos']?>
-					<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?><br/><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
-				</h3>
-			</div>
-			<hr/>
-			<?php if ($this->session->mandiri_wait == 1): ?>
-				<div class="notif-mandiri">
-					<p id="countdown"></p>
+<body class="login">
+	<div class="top-content">
+		<div class="inner-bg">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-4 form-box">
+						<div class="form-top">
+							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']);?>" alt="Dagan" class="img-responsive"/></a>
+							<div class="login-footer-top"><h1>LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
+								<h3>
+									<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
+									<br/><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
+									<br/><?=$header['alamat_kantor']?>
+									<br />Kodepos <?=$header['kode_pos']?>
+									<br/><br/>Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
+								</h3>
+							</div>
+						</div>
+						<div class="form-bottom">
+							<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form" >
+								<?php if ($this->session->mandiri_wait == 1): ?>
+									<div class="error login-footer-top">
+										<p id="countdown" style="color:red; text-transform:uppercase"></p>
+									</div>
+								<?php else: ?>
+									<?php $data = $this->session->flashdata('notif'); ?>
+									<?php if ($this->session->mandiri_try < 4): ?>
+										<div class="callout callout-danger" id="notif">
+											<p>NIK atau PIN salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+										</div>
+									<?php endif; ?>
+									<div class="form-group form-login">
+										<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
+									</div>
+									<div class="form-group form-login">
+										<input type="password" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
+									</div>
+									<div class="form-group">
+										<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
+									</div>
+									<div class="form-group">
+										<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
+									</div>
+									<div class="form-group">
+										<a href="<?= site_url("layanan_mandiri/masuk_ektp")?>" >
+											<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
+										</a>
+									</div>
+								<?php endif; ?>
+								<div class="form-login-footer">
+									IP Address :
+									<?php if ( ! $cek_anjungan): ?>
+										<?= $this->input->ip_address(); ?>
+									<?php else: ?>
+										<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
+										<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+									<?php endif; ?>
+								</div>
+							</form>
+							<div class="login-footer-bottom">
+								<a href="https://github.com/OpenSID/OpenSID" class="content-color-secondary" rel="noopener noreferrer" target="_blank">OpenSID <?= AmbilVersi() ?></a>
+							</div>
+						</div>
+					</div>
 				</div>
-			<?php else: ?>
-				<?php $data = $this->session->flashdata('notif'); ?>
-				<?php if ($this->session->mandiri_try < 4): ?>
-					<div class="callout callout-danger" id="notif">
-						<p>NIK atau PIN salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-					</div>
-				<?php endif; ?>
-				<form id="validasi" action="<?= $form_action; ?>" method="post" class="form-login">
-					<div class="form-group form-login">
-						<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
-					</div>
-					<div class="form-group form-login">
-						<input type="password" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
-					</div>
-					<div class="form-group">
-						<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
-					</div>
-					<div class="form-group form-login">
-						<button type="submit" class="btn btn-block btn-block bg-green"><b>MASUK</b></button>
-					</div>
-				</form>
-				<p align="center">Silakan datang atau hubungi operator <?= $this->setting->sebutan_desa; ?> untuk mendapatkan kode PIN anda.</p>
-			<?php endif; ?>
-			<div class="form-login-footer">
-				<hr/><a href="https://github.com/OpenSID/OpenSID" target="_blank" rel="noreferrer">OpenSID <?= AmbilVersi() ?></a>
-				<br/>
-				IP Address :
-				<?php if ( ! $cek_anjungan): ?>
-					<?= $this->input->ip_address(); ?>
-				<?php else: ?>
-					<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
-					<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
-				<?php endif; ?>
 			</div>
 		</div>
 	</div>
@@ -170,46 +175,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
 	<?php endif; ?>
 	<script type="text/javascript">
-		$('document').ready(function() {
-			var pass = $("#pin");
-			$('#checkbox').click(function() {
-				if (pass.attr('type') === "password") {
-					pass.attr('type', 'text');
-				} else {
-					pass.attr('type', 'password')
-				}
-			});
-
-			if ($('#countdown').length) {
-				start_countdown();
+	$('document').ready(function() {
+		var pass = $("#pin");
+		$('#checkbox').click(function() {
+			if (pass.attr('type') === "password") {
+				pass.attr('type', 'text');
+			} else {
+				pass.attr('type', 'password')
 			}
-
-			window.setTimeout(function() {
-				$("#notif").fadeTo(500, 0).slideUp(500, function(){
-					$(this).remove();
-				});
-			}, 5000);
 		});
 
-		function start_countdown() {
-			var times = eval(<?= json_encode($this->session->mandiri_timeout)?>) - eval(<?= json_encode(time())?>);
-			var menit = Math.floor(times / 60);
-			var detik = times % 60;
-
-			timer = setInterval(function() {
-				detik--;
-				if (detik <= 0 && menit >=1) {
-					detik = 60;
-					menit--;
-				}
-				if (menit <= 0 && detik <= 0) {
-					clearInterval(timer);
-					location.reload();
-				} else {
-					document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
-				}
-			}, 500);
+		if ($('#countdown').length) {
+			start_countdown();
 		}
+
+		window.setTimeout(function() {
+			$("#notif").fadeTo(500, 0).slideUp(500, function(){
+				$(this).remove();
+			});
+		}, 5000);
+	});
+
+	function start_countdown() {
+		var times = eval(<?= json_encode($this->session->mandiri_timeout)?>) - eval(<?= json_encode(time())?>);
+		var menit = Math.floor(times / 60);
+		var detik = times % 60;
+
+		timer = setInterval(function() {
+			detik--;
+			if (detik <= 0 && menit >=1) {
+				detik = 60;
+				menit--;
+			}
+			if (menit <= 0 && detik <= 0) {
+				clearInterval(timer);
+				location.reload();
+			} else {
+				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
+			}
+		}, 500);
+	}
 	</script>
 </body>
 </html>

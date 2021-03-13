@@ -304,19 +304,31 @@ class Mandiri_model extends CI_Model {
 		$masuk = $this->input->post();
 		$nik = bilangan(bilangan($masuk['nik']));
 		$pin = hash_pin(bilangan($masuk['pin']));
+		$tag = bilangan(bilangan($masuk['tag']));
 
 		$data = $this->db
-			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level, p.id_kk, k.no_kk')
-			->from('tweb_penduduk_mandiri pm')
-			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
-			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
-			->where('p.nik', $nik)
-			->get()
-			->row();
+						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
+						->from('tweb_penduduk_mandiri pm')
+						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+						->group_start()
+							->where('p.nik',$nik)
+							->or_where('p.tag_id_card',$tag)
+						->group_end()
+						->get()
+						->row();
 
 		switch (true)
 		{
 			case ($data && $pin == $data->pin):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data
+				];
+				$this->session->set_userdata($session);
+				break;
+
+			case ($data && $tag == $data->tag_id_card):
 				$session = [
 					'mandiri' => 1,
 					'is_login' => $data
