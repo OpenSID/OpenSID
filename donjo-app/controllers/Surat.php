@@ -173,9 +173,12 @@ class Surat extends Admin_Controller {
 
 		$log_surat['keterangan'] = $keterangan ? $keterangan : $keperluan;
 		$nama_surat = $this->keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
-		$lampiran = '';
 		$log_surat['nama_surat'] = $nama_surat;
-		$log_surat['lampiran'] = $lampiran;
+		if ($format['lampiran'])
+		{
+			$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
+			$log_surat['lampiran'] = $lampiran;
+		}
 		$this->keluar_model->log_surat($log_surat);
 		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 

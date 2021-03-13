@@ -13,7 +13,7 @@ Fitur Premium:
 4. Statistik > Laporan Bulanan di baris Kelahiran/Keluarga Baru sekarang dibatasi melaporkan keluarga baru yg dibentuk dari penduduk yang ada (mis. setelah pecah keluarga). [bug-fix]
 5. #3962: Sekarang bisa sisipkan QRCode di layanan surat berisi tautan untuk verifikasi keabsahan surat.
 6. #4036: Tampilkan notifikasi masa berlangganan layanan OpenDesa di header Admin.
-
+7. #790: Sediakan fitur impor/ekspor Data Suplemen.
 
 
 

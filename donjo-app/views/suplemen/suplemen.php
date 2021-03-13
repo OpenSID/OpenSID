@@ -89,10 +89,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<tbody>
 									<?php if ($suplemen): ?>
 										<?php	foreach ($suplemen as $key => $item):	?>
-											<tr>
+											<tr id="row-data">
 												<td class="padat"><?= ($paging->offset + $key + 1); ?></td>
 												<td class="aksi">
 													<a href="<?= site_url("suplemen/clear/$item[id]"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>
+													<a href="<?= site_url("suplemen/impor/"); ?>" class="btn bg-navy btn-flat btn-sm btn-import" title="Impor Data" data-target="#impor" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i></a>
 													<a href="<?= site_url("suplemen/form/$item[id]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 													<a
 														<?php if ($item['jml'] <= 0): ?>
@@ -101,6 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														class="btn bg-maroon btn-flat btn-sm" title="Hapus" <?= jecho($item['jml'] > 0, true, 'disabled'); ?>><i class="fa fa-trash-o"></i>
 													</a>
 												</td>
+												<td class="hidden data-id"><?= $item[id] ?></td>
 												<td width="20%"><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
 												<td class="padat"><?= $item['jml']?></td>
 												<td class="nostretch"><?= $sasaran[$item["sasaran"]]?></td>
@@ -123,3 +125,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('suplemen/impor');?>
+<script type="text/javascript">
+	$(".btn-import").click(function() {
+		$("#id_suplemen").val($(this).closest('#row-data').find(".data-id").html());
+	});
+</script>
