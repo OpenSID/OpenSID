@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.03-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 
@@ -14,6 +14,7 @@ Fitur Premium:
 5. #3962: Sekarang bisa sisipkan QRCode di layanan surat berisi tautan untuk verifikasi keabsahan surat.
 6. #4036: Tampilkan notifikasi masa berlangganan layanan OpenDesa di header Admin.
 7. #790: Sediakan fitur impor/ekspor Data Suplemen.
+8. #4058: Sediakan fitur untuk membaca QR Code dari file atau dari kamera perangkat.
 
 
 
