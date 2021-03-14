@@ -8,7 +8,6 @@ Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 2. Di biodata penduduk admin, kembali tampilkan nama petugas yg pertama membuat data penduduk. [bug-fix]
 3. #4043: Kembali tampilkan lambang dan identitas desa di cetak biodata layanan mandiri. [bug-fix]
 4. #4036: Tampilkan notifikasi masa berlangganan layanan OpenDesa di header Admin.
-
-
+5. #4060: Sekarang Layanan Mandiri > Kotak Pesan > Balas Pesan normal kembali. [bug-fix]
 
 

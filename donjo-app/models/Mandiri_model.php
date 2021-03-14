@@ -247,6 +247,17 @@ class Mandiri_model extends CI_Model {
 		return $result;
 	}
 
+	public function get_pendaftar_mandiri($nik)
+	{
+		return $this->db
+			->select('id, nik, nama')
+			->from('tweb_penduduk')
+			->where('status', 1)
+			->where('nik', $nik)
+			->get()
+			->row_array();
+	}
+
 	public function list_penduduk()
 	{
 		$data = $this->db
