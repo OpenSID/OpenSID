@@ -50,8 +50,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
 <head>
 	<meta charset="utf-8">
+	<title>
+		<?=$this->setting->login_title
+			. ' ' . ucwords($this->setting->sebutan_desa)
+			. (($header['nama_desa']) ? ' ' . $header['nama_desa']: '')
+			. get_dynamic_title_page_from_path();
+		?>
+	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Layanan Mandiri <?= ucwords($this->setting->sebutan_desa . ' '. $desa['nama_desa']); ?></title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />

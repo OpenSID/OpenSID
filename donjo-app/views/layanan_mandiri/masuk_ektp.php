@@ -50,8 +50,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
 <head>
 	<meta charset="utf-8">
+	<title>
+		<?=$this->setting->login_title
+			. ' ' . ucwords($this->setting->sebutan_desa)
+			. (($header['nama_desa']) ? ' ' . $header['nama_desa']: '')
+			. get_dynamic_title_page_from_path();
+		?>
+	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Layanan Mandiri <?= ucwords($this->setting->sebutan_desa . ' '. $desa['nama_desa']); ?></title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
 		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
@@ -67,14 +75,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php endif; ?>
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-<style>
-	.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-</style>
+	<style>
+		.center {
+	  display: block;
+	  margin-left: auto;
+	  margin-right: auto;
+	  width: 50%;
+	}
+	</style>
 
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 
@@ -88,69 +96,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php endif; ?>
 </head>
 <body class="login">
-    <div class="top-content">
-        <div class="inner-bg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-4 form-box">
-                        <div class="form-top">
-                            <a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']);?>" alt="Dagan" class="img-responsive"/></a>
-                            <div class="login-footer-top"><h1>LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
-                            <h3>
-                                <br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
-                                <br/><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
-                                <br/><?=$header['alamat_kantor']?>
-                                <br />Kodepos <?=$header['kode_pos']?>
-                                <br/><br/>Silakan hubungi operator <?= $this->setting->sebutan_desa; ?> untuk mendaftarkan E-KTP anda
-                            </h3>
-                            </div>
-														<div class="form-group">
-															<a href="<?= site_url("layanan_mandiri/masuk")?>" >
-																<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN PIN</b></button>
-															</a>
-														</div>
-                        </div>
-												<div class="form-bottom">
-													<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form" >
-														<?php if ($this->session->mandiri_wait == 1): ?>
-															<div class="error login-footer-top">
-																<p id="countdown" style="color:red; text-transform:uppercase"></p>
-															</div>
-														<?php else: ?>
-															<?php $data = $this->session->flashdata('notif'); ?>
-															<?php if ($this->session->mandiri_try < 4): ?>
-																<div class="callout callout-danger" id="notif">
-																	<p>ID E-KTP salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-																</div>
-															<?php endif; ?>
-															<div class="login-footer-top">
-																Tempelkan E_KTP Pada Card Reader
-																<div class="thumbnail">
-																	<a href="#">
-																		<img src="<?= base_url('assets/images/camera-scan.gif')?>" alt="scanner" class="center" style="width:30%">
-																	</a>
-																</div>
-															</div>
-															<div class="form-group form-login">
-																<input type="password" class="form-control number required" name="tag" id="tag">
-																<button type="submit" style="display: none"></button>
-															</div>
-															<div class="form-group">
-																<a href="<?= site_url("layanan_mandiri/masuk")?>" >
-																	<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN PIN</b></button>
-																</a>
-															</div>
-														<?php endif; ?>
-													</form>
-													<div class="login-footer-bottom">
-														<a href="https://github.com/OpenSID/OpenSID" class="content-color-secondary" rel="noopener noreferrer" target="_blank">OpenSID <?= substr(AmbilVersi(), 0, 20)?></a>
-													</div>
-												</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="top-content">
+		<div class="inner-bg">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-4 form-box">
+						<div class="form-top">
+							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']);?>" alt="Dagan" class="img-responsive"/></a>
+							<div class="login-footer-top"><h1>LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
+								<h3>
+									<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
+									<br/><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
+									<br/><?=$header['alamat_kantor']?>
+									<br />Kodepos <?=$header['kode_pos']?>
+									<br/><br/>Silakan hubungi operator <?= $this->setting->sebutan_desa; ?> untuk mendaftarkan E-KTP anda
+								</h3>
+							</div>
+						</div>
+						<div class="form-bottom">
+							<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form" >
+								<?php if ($this->session->mandiri_wait == 1): ?>
+									<div class="error login-footer-top">
+										<p id="countdown" style="color:red; text-transform:uppercase"></p>
+									</div>
+								<?php else: ?>
+									<?php $data = $this->session->flashdata('notif'); ?>
+									<?php if ($this->session->mandiri_try < 4): ?>
+										<div class="callout callout-danger" id="notif">
+											<p>ID E-KTP salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+										</div>
+									<?php endif; ?>
+									<div class="login-footer-top">
+										Tempelkan E_KTP Pada Card Reader
+										<div class="thumbnail">
+											<a href="#">
+												<img src="<?= base_url('assets/images/camera-scan.gif')?>" alt="scanner" class="center" style="width:30%">
+											</a>
+										</div>
+									</div>
+									<div class="form-group form-login">
+										<input name="tag" id="tag" class="form-control" type="password" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= $form_action; ?>');$('#'+'mainform').submit();}">
+									</div>
+									<div class="form-group">
+										<a href="<?= site_url("layanan_mandiri/masuk")?>" >
+											<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN PIN</b></button>
+										</a>
+									</div>
+								<?php endif; ?>
+							</form>
+							<div class="login-footer-bottom">
+								<a href="https://github.com/OpenSID/OpenSID" class="content-color-secondary" rel="noopener noreferrer" target="_blank">OpenSID <?= substr(AmbilVersi(), 0, 20)?></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- jQuery 3 -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
