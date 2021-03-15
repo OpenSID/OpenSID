@@ -311,24 +311,13 @@ class Mandiri_model extends CI_Model {
 						->from('tweb_penduduk_mandiri pm')
 						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
 						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
-						->group_start()
-							->where('p.nik',$nik)
-							->or_where('p.tag_id_card',$tag)
-						->group_end()
+						->where('p.nik',$nik)
 						->get()
 						->row();
 
 		switch (true)
 		{
 			case ($data && $pin == $data->pin):
-				$session = [
-					'mandiri' => 1,
-					'is_login' => $data
-				];
-				$this->session->set_userdata($session);
-				break;
-
-			case ($data && $tag == $data->tag_id_card):
 				$session = [
 					'mandiri' => 1,
 					'is_login' => $data

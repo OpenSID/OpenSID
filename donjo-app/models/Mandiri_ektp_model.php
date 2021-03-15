@@ -1,19 +1,14 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+/*
+ *  File ini:
  *
- * Controller untuk modul Masuk Layanan Mandiri dengan E-KTP
+ * Model untuk modul Layanan Mandiri
  *
- * donjo-app/controllers/layanan_mandiri/Masuk_ektp.php
+ * donjo-app/models/Mandiri_ektp_model.php
  *
  */
-
-/**
- *
- * File ini bagian dari:
+/*
+ *  File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,49 +40,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Masuk_ektp extends Web_Controller
-{
-
-	private $cek_anjungan;
+class Mandiri_ektp_model extends CI_Model {
 
 	public function __construct()
 	{
 		parent::__construct();
-		mandiri_timeout();
-		$this->load->model(['config_model', 'anjungan_model', 'Mandiri_ektp_model', 'theme_model']);
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 	}
 
-	public function index()
-	{
-		if ($this->session->mandiri == 1) redirect('layanan-mandiri');
+	#Login Layanan Mandiri E-KTP
 
-		//Initialize Session ------------
-		$this->session->unset_userdata('balik_ke');
-		if ( ! isset($this->session->mandiri))
+	public function siteman()
+	{
+		$masuk = $this->input->post();
+		$tag = bilangan(bilangan($masuk['tag']));
+
+		$data = $this->db
+						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
+						->from('tweb_penduduk_mandiri pm')
+						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+						->where('p.tag_id_card',$tag)
+						->get()
+						->row();
+
+		switch (true)
 		{
-			// Belum ada session variable
-			$this->session->mandiri = 0;
-			$this->session->mandiri_try = 4;
-			$this->session->mandiri_wait = 0;
+			case ($data && $tag == $data->tag_id_card):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data
+				];
+				$this->session->set_userdata($session);
+				break;
+
+			case ($this->session->mandiri_try > 2):
+				$this->session->mandiri_try = $this->session->mandiri_try - 1;
+				break;
+
+			default:
+				$this->session->mandiri_wait = 1;
+				break;
 		}
-
-		$data = [
-			'header' => $this->config_model->get_data(),
-			'latar_login' => $this->theme_model->latar_login(),
-			'cek_anjungan' => $this->cek_anjungan,
-			'form_action' => site_url('layanan-mandiri/cek_ektp')
-		];
-
-		$this->load->view('layanan_mandiri/masuk_ektp', $data);
-	}
-
-	public function cek_ektp()
-	{
-		$this->Mandiri_ektp_model->siteman();
-		redirect('layanan-mandiri');
 	}
 
 }
