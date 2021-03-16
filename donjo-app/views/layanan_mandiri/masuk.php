@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-4 form-box">
 						<div class="form-top">
-							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']);?>" alt="Dagan" class="img-responsive"/></a>
+							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']);?>" alt="Lambang Desa" class="img-responsive"/></a>
 							<div class="login-footer-top"><h1>LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 								<h3>
 									<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
