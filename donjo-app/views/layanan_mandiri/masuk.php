@@ -69,6 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url()?>rss.xml" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-style.css" media="screen" type="text/css"/>
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-form-elements.css" media="screen" type="text/css"/>
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/siteman_mandiri.css" media="screen" type="text/css"/>
 	<link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css"/>
 	<?php if (is_file("desa/pengaturan/siteman/siteman_mandiri.css")): ?>
 		<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman_mandiri.css" rel='Stylesheet' />
