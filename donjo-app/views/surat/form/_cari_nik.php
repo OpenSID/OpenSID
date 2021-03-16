@@ -11,6 +11,7 @@
 <script type="text/javascript">
 $(document).ready(function()
 {
+	// Daftar angka di script berikut adalah key number untuk tombol. Karena dropdown ini memakai select2 maka ketika e_KTP discan hasil pencarian akan otomatis dan default memilih record no. 1. Maka proses harus di delay supaya hasil search tampil terlebih dahulu dengan menghilangkan semua karakter di belakang nomor id yg discan.
 	$('#nik').on('select2:open', e => {
 		$('.select2-search__field').on('keydown.ajaxfix', e => {
 			if (![9, 13, 16, 17, 18, 27, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.which)) {

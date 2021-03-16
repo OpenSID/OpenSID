@@ -53,13 +53,12 @@ class Mandiri_ektp_model extends CI_Model {
 	{
 		$masuk = $this->input->post();
 		$tag = bilangan(bilangan($masuk['tag']));
-
 		$data = $this->db
 						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
 						->from('tweb_penduduk_mandiri pm')
 						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
 						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
-						->where('p.tag_id_card',$tag)
+						->where('p.tag_id_card', $tag)
 						->get()
 						->row();
 
