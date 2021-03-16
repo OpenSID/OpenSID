@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php $this->load->view('head_tags'); ?>
 	<?php if ($latar_login_mandiri): ?>
 		<style type="text/css">
-			body.login-page {
+			body.login {
 				background: url('<?= base_url($latar_login_mandiri) ?>');
 			}
 		</style>

@@ -76,7 +76,7 @@ class Masuk extends Web_Controller
 
 		$data = [
 			'header' => $this->config_model->get_data(),
-			'latar_login' => $this->theme_model->latar_login(),
+			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
 			'cek_anjungan' => $this->cek_anjungan,
 			'form_action' => site_url('layanan-mandiri/cek')
 		];
