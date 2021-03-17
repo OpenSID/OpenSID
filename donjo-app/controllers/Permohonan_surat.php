@@ -1,4 +1,7 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Permohonan_surat.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -42,27 +46,16 @@
 
 class Permohonan_surat extends Mandiri_Controller {
 
-	private $cek_anjungan;
-
 	public function __construct()
 	{
 		parent::__construct();
-		if ( ! isset($_SESSION['mandiri'])) {
-			redirect('first');
-		}
-		else
-		{
-			$this->load->model('penduduk_model');
-			$this->load->model('keluarga_model');
-			$this->load->model('surat_model');
-			$this->load->model('keluar_model');
-			$this->load->model('config_model');
-			$this->load->model('referensi_model');
-			$this->load->model('penomoran_surat_model');
-			$this->load->model('permohonan_surat_model');
-			$this->load->model('anjungan_model');
-			$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-		}
+		$this->load->model('penduduk_model');
+		$this->load->model('keluarga_model');
+		$this->load->model('surat_model');
+		$this->load->model('keluar_model');
+		$this->load->model('referensi_model');
+		$this->load->model('penomoran_surat_model');
+		$this->load->model('permohonan_surat_model');
 	}
 
 	public function form($id_permohonan='')
@@ -91,7 +84,7 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->get_data_untuk_form($url, $data);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header;
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
@@ -132,7 +125,7 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['input'] = $this->input->post();
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-		$data['lokasi'] = $this->config_model->get_data();
+		$data['lokasi'] = $this->header;
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();

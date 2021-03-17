@@ -1,4 +1,7 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Mailbox_web.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -40,29 +44,12 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-// class Mailbox_web extends Mandiri_Controller
-// {
-// 	public function __construct()
-// 	{
-// 		parent::__construct();
-// 		$this->load->model('mailbox_model');
-// 		$this->load->model('mandiri_model');
-// 		$this->load->model('config_model');
 class Mailbox_web extends Web_Controller {
-
-	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
-		if ( ! isset($_SESSION['mandiri'])) {
-			redirect('first');
-		}
-		else
-		{
-			$this->load->model(['config_model', 'mailbox_model', 'mandiri_model', 'anjungan_model']);
-			$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-		}
+		$this->load->model(['mailbox_model', 'mandiri_model']);
 	}
 
 	public function index()
@@ -75,7 +62,7 @@ class Mailbox_web extends Web_Controller {
 		if ( ! empty($subjek = $this->input->post('subjek'))) {
 			$data['subjek'] = $subjek;
 		}
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header;
 		$data['individu'] = $this->mandiri_model->get_mandiri($this->session->nik, true);
 		$data['form_action'] = site_url("mailbox_web/kirim_pesan");
 		$data['views_partial_layout'] = "web/mandiri/mailbox_form";
@@ -127,4 +114,5 @@ class Mailbox_web extends Web_Controller {
 		$this->mailbox_model->ubah_status_pesan($nik, $id, 2);
 		redirect("mandiri_web/mandiri/1/3");
 	}
+
 }

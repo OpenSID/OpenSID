@@ -52,6 +52,8 @@ class Mailbox extends Admin_Controller {
 		$this->load->model('config_model');
 		$this->modul_ini = 14;
 		$this->sub_modul_ini = 55;
+
+		//if ($this->session->mandiri != 1) redirect('mandiri_web/masuk');
 	}
 
 	public function clear($kat = 1, $p = 1, $o = 0)
