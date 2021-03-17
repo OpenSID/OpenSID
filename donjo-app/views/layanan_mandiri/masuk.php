@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<br />Kodepos <?=$header['kode_pos']?>
 									<br/><br/>Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
 									<?php if ( ! $cek_anjungan): ?>
-										<br/><br/><br/>Non Anjungan Mandiri
+										<br/><br/><br/>IP Address: <?= $this->input->ip_address(); ?>
 									<?php else: ?>
 										<br/><br/><br/>IP Address :	<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
 										<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
