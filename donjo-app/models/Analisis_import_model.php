@@ -109,6 +109,7 @@ class Analisis_import_Model extends CI_Model {
 	}
 
 	public function import_gform($file='', $kode='00000', $jenis=2){
+		$this->session->success = 5;
 		return '0';
 	}
 }

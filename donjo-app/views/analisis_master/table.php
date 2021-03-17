@@ -18,6 +18,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
+		<input id="mode-form" type="hidden" value="<?= $_SESSION['success']?>">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
@@ -167,4 +168,11 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('analisis_master/modal_pertanyaan', $data);?>
+<script>
+	$(document).ready(function(){
+		if($('#mode-form').val() == 5)
+			$('#modalPertanyaan').modal('show');
+	})
+</script>
 

@@ -63,8 +63,9 @@ class Analisis_master extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-    unset($_SESSION['analisis_master']);
-    unset($_SESSION['analisis_nama']);
+		unset($_SESSION['analisis_master']);
+		unset($_SESSION['analisis_nama']);
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
