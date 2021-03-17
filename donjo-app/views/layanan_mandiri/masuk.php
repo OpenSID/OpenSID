@@ -108,6 +108,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<br/><?=$header['alamat_kantor']?>
 									<br />Kodepos <?=$header['kode_pos']?>
 									<br/><br/>Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
+									<?php if ( ! $cek_anjungan): ?>
+										<br/><br/><br/>Non Anjungan Mandiri
+									<?php else: ?>
+										<br/><br/><br/>IP Address :	<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
+										<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+									<?php endif; ?>
 								</h3>
 							</div>
 						</div>
@@ -142,15 +148,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</a>
 									</div>
 								<?php endif; ?>
-								<div class="form-login-footer">
-									IP Address :
-									<?php if ( ! $cek_anjungan): ?>
-										<?= $this->input->ip_address(); ?>
-									<?php else: ?>
-										<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
-										<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
-									<?php endif; ?>
-								</div>
 							</form>
 							<div class="login-footer-bottom">
 								<a href="https://github.com/OpenSID/OpenSID" class="content-color-secondary" rel="noopener noreferrer" target="_blank">OpenSID <?= AmbilVersi() ?></a>
