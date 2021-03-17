@@ -45,6 +45,8 @@ class Mandiri_ektp_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('anjungan_model');
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 	}
 
 	#Login Layanan Mandiri E-KTP
@@ -52,7 +54,9 @@ class Mandiri_ektp_model extends CI_Model {
 	public function siteman()
 	{
 		$masuk = $this->input->post();
+		$pin = hash_pin(bilangan($masuk['pin']));
 		$tag = bilangan(bilangan($masuk['tag']));
+
 		$data = $this->db
 						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
 						->from('tweb_penduduk_mandiri pm')
@@ -64,7 +68,15 @@ class Mandiri_ektp_model extends CI_Model {
 
 		switch (true)
 		{
-			case ($data && $tag == $data->tag_id_card):
+			case ($data && $this->cek_anjungan && $tag == $data->tag_id_card):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data
+				];
+				$this->session->set_userdata($session);
+				break;
+
+			case ($data && ! $this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin):
 				$session = [
 					'mandiri' => 1,
 					'is_login' => $data
