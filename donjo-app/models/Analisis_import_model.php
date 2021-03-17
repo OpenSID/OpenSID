@@ -107,4 +107,8 @@ class Analisis_import_Model extends CI_Model {
 
 		return $id_master;
 	}
+
+	public function import_gform($file='', $kode='00000', $jenis=2){
+		return '0';
+	}
 }

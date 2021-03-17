@@ -128,6 +128,13 @@ class Analisis_master extends Admin_Controller {
 		$this->load->view('analisis_master/import', $data);
 	}
 
+	public function import_gform()
+	{
+		$this->set_minsidebar(1);
+		$data['form_action'] = site_url("analisis_master/exec_import_gform");
+		$this->load->view('analisis_master/import_gform', $data);
+	}
+
 	public function menu($id='')
 	{
 		$_SESSION['analisis_master'] = $id;
@@ -204,6 +211,12 @@ class Analisis_master extends Admin_Controller {
 	public function import()
 	{
 		$this->analisis_import_model->import_excel();
+		redirect('analisis_master');
+	}
+
+	public function exec_import_gform()
+	{
+		$this->analisis_import_model->import_gform();
 		redirect('analisis_master');
 	}
 
