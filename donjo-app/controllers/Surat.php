@@ -195,11 +195,11 @@ class Surat extends Admin_Controller {
 			$berkas_zip[] = LOKASI_ARSIP.$lampiran;
 			# Masukkan semua berkas ke dalam zip
 			$berkas_zip = masukkan_zip($berkas_zip);
-	    # Unduh berkas zip
-	    header('Content-disposition: attachment; filename='.$nama_file);
-	    header('Content-type: application/zip');
+			# Unduh berkas zip
+			header('Content-disposition: attachment; filename='.$nama_file);
+			header('Content-type: application/zip');
 			header($this->security->get_csrf_token_name().':'.$this->security->get_csrf_hash());
-	    readfile($berkas_zip);
+			readfile($berkas_zip);
 		}
 		else
 		{
@@ -239,9 +239,6 @@ class Surat extends Admin_Controller {
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-		$data['isi_qr'] =  $this->referensi_model->list_ref(ISI_QR);
-		$data['ada_sisipan_qrcode'] = $this->surat_model->cek_sisipan_qrcode($url);
-		$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['foreqr' => '#000000'];
 		if ($pamong_ttd)
 		{
 			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);

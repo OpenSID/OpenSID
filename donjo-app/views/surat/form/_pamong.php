@@ -38,10 +38,6 @@
 		</select>
 	</div>
 </div>
-<?php if ($ada_sisipan_qrcode): ?>
-	<?php include("donjo-app/views/surat/form/tampil_qrcode.php"); ?>
-<?php endif; ?>
-
 
 <script type="text/javascript">
 	$(document).ready(function()
