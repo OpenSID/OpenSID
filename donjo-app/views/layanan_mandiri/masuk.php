@@ -125,28 +125,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								<?php else: ?>
 									<?php $data = $this->session->flashdata('notif'); ?>
-									<?php if ($this->session->mandiri_try < 4): ?>
-										<div class="callout callout-danger" id="notif">
-											<p>NIK atau PIN salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+
+									<?php if (! $this->session->login_ektp): ?>
+
+											<?php if ($this->session->mandiri_try < 4): ?>
+												<div class="callout callout-danger" id="notif">
+													<p>NIK atau PIN salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+												</div>
+											<?php endif; ?>
+											<div class="form-group form-login">
+												<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
+											</div>
+											<div class="form-group form-login">
+												<input type="password" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
+											</div>
+											<div class="form-group">
+												<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
+											</div>
+											<div class="form-group">
+												<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
+											</div>
+											<div class="form-group">
+												<a href="<?= site_url("layanan_mandiri/masuk_ektp")?>" >
+													<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
+												</a>
+											</div>
+
+									<?php else: ?>
+
+										<?php if ($this->session->mandiri_try < 4): ?>
+											<div class="callout callout-danger" id="notif">
+												<p>PIN ATAU ID E-KTP salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+											</div>
+										<?php endif; ?>
+										<div class="login-footer-top">
+											<?php if ($cek_anjungan): ?>
+												Tempelkan e-KTP Pada Card Reader
+											<?php endif; ?>
+											<div class="thumbnail">
+												<img src="<?= base_url('assets/images/camera-scan.gif')?>" alt="scanner" class="center" style="width:30%">
+											</div>
 										</div>
+										<?php if (! $cek_anjungan): ?>
+											<div class="form-group form-login">
+												<input type="password" class="form-control required number" name="pin" placeholder="Masukan PIN" id="pin" autocomplete="off">
+											</div>
+										<?php endif; ?>
+										<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0, FALSE, 'width: 0; overflow: hidden;'); ?>" >
+											<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
+										</div>
+										<div class="form-group">
+											<a href="<?= site_url("layanan_mandiri/masuk")?>" >
+												<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
+											</a>
+										</div>
+
 									<?php endif; ?>
-									<div class="form-group form-login">
-										<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
-									</div>
-									<div class="form-group form-login">
-										<input type="password" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
-									</div>
-									<div class="form-group">
-										<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
-									</div>
-									<div class="form-group">
-										<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
-									</div>
-									<div class="form-group">
-										<a href="<?= site_url("layanan_mandiri/masuk_ektp")?>" >
-											<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
-										</a>
-									</div>
+
 								<?php endif; ?>
 							</form>
 							<div class="login-footer-bottom">
@@ -182,6 +217,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php endif; ?>
 	<script type="text/javascript">
 	$('document').ready(function() {
+
+		<?php if ($this->session->login_ektp): ?>
+			<?php if (! $cek_anjungan): ?>
+			$('#pin').focus();
+			<?php else: ?>
+			$('#tag').focus();
+			<?php endif; ?>
+		<?php endif; ?>
+
 		var pass = $("#pin");
 		$('#checkbox').click(function() {
 			if (pass.attr('type') === "password") {

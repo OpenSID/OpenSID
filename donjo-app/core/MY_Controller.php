@@ -175,7 +175,17 @@ class Mandiri_Controller extends MY_Controller {
 
 		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 
-		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
+		if ($this->session->mandiri != 1)
+		{
+			if (! $this->session->login_ektp)
+			{
+				redirect('layanan-mandiri/masuk');
+			}
+			else
+			{
+				redirect('layanan-mandiri/masuk_ektp');
+			}
+		}
 	}
 
 }
