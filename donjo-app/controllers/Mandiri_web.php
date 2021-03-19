@@ -37,31 +37,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
  */
 
 class Mandiri_web extends Mandiri_Controller
 {
+
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model']);
+		mandiri_timeout();
+		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'referensi_model']);
+		$this->load->helper('download');
 	}
 
 	public function index()
 	{
-		$this->mandiri(1, 1);
+		redirect('mandiri_web/mandiri/1/1');
 	}
 
 	public function logout()
 	{
 		$this->mandiri_model->logout();
-		redirect('mandiri_login');
+		redirect('mandiri_web');
 	}
 
 	public function update_pin($nik = '')
@@ -71,18 +74,21 @@ class Mandiri_web extends Mandiri_Controller
 		{
 			redirect($_SERVER['HTTP_REFERER']);
 		}
-		else redirect('mandiri_login/logout');
+		else redirect('mandiri_web');
 	}
 
 	public function ganti_pin()
 	{
-		$data = [
-			'header' => $this->header,
-			'main' => $this->mandiri_model->get_penduduk($this->session->nik, TRUE),
-			'cek_anjungan' => $this->cek_anjungan
-		];
+		if ($this->session->nik)
+		{
+			$nik = $this->session->nik;
+			$data['main'] = $this->mandiri_model->get_penduduk($nik, TRUE);
+			$data['header'] = $this->config_model->get_data();
+			$data['cek_anjungan'] = $this->cek_anjungan;
 
-		$this->load->view('mandiri_pin', $data);
+			$this->load->view('mandiri_pin', $data);
+		}
+		else redirect('mandiri_web');
 	}
 
 	public function balik_first()
@@ -93,6 +99,8 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function mandiri($p=1, $m=0, $kat=1)
 	{
+		if ($this->session->lg == 1) redirect('mandiri_web/ganti_pin');
+
 		$data = $this->includes;
 		$data['p'] = $p;
 		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
@@ -136,7 +144,7 @@ class Mandiri_web extends Mandiri_Controller
 				break;
 		}
 
-		$data['desa'] = $this->header;
+		$data['desa'] = $this->header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
@@ -157,7 +165,7 @@ class Mandiri_web extends Mandiri_Controller
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
 
-		$data['desa'] = $this->header;
+		$data['desa'] = $this->header['desa'];
 		$data['cek_anjungan'] = $this->cek_anjungan;
 
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
@@ -165,7 +173,7 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function cetak_biodata($id = '')
 	{
-		$data['desa'] = $this->header;
+		$data['desa'] = $this->header['desa'];
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
 
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
@@ -221,7 +229,7 @@ class Mandiri_web extends Mandiri_Controller
 			$row[] = $no;
 			$row[] = $baris['ref_syarat_nama'];
 			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-			$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id']), TRUE);
+			$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan), TRUE);
 			$row[] = $pilihan_dokumen;
 			$data[] = $row;
 		}
@@ -267,7 +275,8 @@ class Mandiri_web extends Mandiri_Controller
 			return;
 		}
 
-		$this->session->unset_userdata(['success', 'error_msg']);
+		$this->session->unset_userdata('success');
+		$this->session->unset_userdata('error_msg');
 		$success_msg = 'Berhasil menyimpan data';
 
 		if ($_SESSION['id'])

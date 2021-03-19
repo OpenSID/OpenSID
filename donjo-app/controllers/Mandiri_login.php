@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Layanan Mandiri
+ * Controller untuk login Layanan Mandiri
  *
  * donjo-app/controllers/Mandiri_login.php
  *
@@ -53,29 +53,30 @@ class Mandiri_login extends CI_Controller
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['config_model', 'mandiri_model', 'anjungan_model']);
-
+		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
+		$this->header = $this->header_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
 	}
 
 	public function index()
 	{
-		if (isset($this->session->mandiri) and 1 == $this->session->mandiri)
+		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
 		{
 			redirect('mandiri_web/mandiri/1/1');
 		}
-		unset($this->session->balik_ke);
-		$data['header'] = $this->config_model->get_data();
+		unset($_SESSION['balik_ke']);
+		$data['header'] = $this->header['desa'];
 		//Initialize Session ------------
-		if (! isset($this->session->mandiri))
+		if (!isset($_SESSION['mandiri']))
 		{
 			// Belum ada session variable
-			$this->session->mandiri = 0;
-			$this->session->mandiri_try = 4;
-			$this->session->mandiri_wait = 0;
+			$this->session->set_userdata('mandiri', 0);
+			$this->session->set_userdata('mandiri_try', 4);
+			$this->session->set_userdata('mandiri_wait', 0);
 		}
-
-		$this->session->success = 0;
+		$_SESSION['success'] = 0;
 		//-------------------------------
 
 		$data['cek_anjungan'] = $this->cek_anjungan;
@@ -97,7 +98,7 @@ class Mandiri_login extends CI_Controller
 
 		if ($this->session->mandiri == 1)
 		{
-			redirect('mandiri_web');
+			redirect('mandiri_web/mandiri/1/1');
 		}
 		else
 		{

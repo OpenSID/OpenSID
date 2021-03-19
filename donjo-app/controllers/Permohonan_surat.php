@@ -1,7 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 /*
  *  File ini:
  *
@@ -10,7 +7,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * donjo-app/controllers/Permohonan_surat.php
  *
  */
-
 /*
  *  File ini bagian dari:
  *
@@ -84,7 +80,7 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
 		$this->get_data_untuk_form($url, $data);
-		$data['desa'] = $this->header;
+		$data['desa'] = $this->header['desa'];
 
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
@@ -125,7 +121,7 @@ class Permohonan_surat extends Mandiri_Controller {
 		$data['input'] = $this->input->post();
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-		$data['lokasi'] = $this->header;
+		$data['lokasi'] = $this->header['desa'];
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();

@@ -1,7 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 /*
  *  File ini:
  *
@@ -10,7 +7,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * donjo-app/controllers/Mailbox_web.php
  *
  */
-
 /*
  *  File ini bagian dari:
  *
@@ -44,12 +40,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mailbox_web extends Web_Controller {
+class Mailbox_web extends Mandiri_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['mailbox_model', 'mandiri_model']);
+		$this->load->model(['config_model', 'mailbox_model', 'mandiri_model']);
 	}
 
 	public function index()
@@ -62,7 +58,7 @@ class Mailbox_web extends Web_Controller {
 		if ( ! empty($subjek = $this->input->post('subjek'))) {
 			$data['subjek'] = $subjek;
 		}
-		$data['desa'] = $this->header;
+		$data['desa'] = $this->config_model->get_data();
 		$data['individu'] = $this->mandiri_model->get_mandiri($this->session->nik, true);
 		$data['form_action'] = site_url("mailbox_web/kirim_pesan");
 		$data['views_partial_layout'] = "web/mandiri/mailbox_form";
