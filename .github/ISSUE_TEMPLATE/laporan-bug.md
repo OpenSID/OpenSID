@@ -8,7 +8,9 @@ assignees: ''
 ---
 
 **Jelaskan error yg dialami**
-Berikan keterangan yg jelas dan singkat mengenai error yg dialami.
+Berikan keterangan yg jelas dan singkat mengenai error yg dialami. 
+
+**Pastikan bahwa error ini juga ditemukan di https://demo.opensid.or.id (untuk RIlis Umum) atau di https://berputar.opensid.or.id (untuk RIlis Premium).
 
 **Cara untuk mereplikasi errornya**
 Langkah untuk mereplikasi error yg dialami:
@@ -20,8 +22,9 @@ Langkah untuk mereplikasi error yg dialami:
 **Hasil yg diharapkan**
 Berikan keterangan yg jelas dan singkat apa hasil yg diharapkan.
 
-**Tampakan layar**
-Lampirkan tampakan layar yg menjelaskan permasalahan
+**Tampakan layar dan log error**
+Lampirkan tampakan layar yg menjelaskan permasalahan.
+Lampirkan isi file di folder `logs` atau tampakan error di console inspector browser.
 
 **Versi OpenSID**
 Rilis umum (mis. v21.03) atau premium (v21.03-premium)
