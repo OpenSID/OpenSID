@@ -69,17 +69,19 @@
 							<label class="text-muted text-red">Minimal 1 dan maksimal 31</label>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label" for="mandiri">Tampilkan QR Code</label>
-						<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-							<label id="n1" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['qr_code'], 1, 'active'); ?>">
-								<input id="q1" type="radio" name="qr_code" class="form-check-input" type="radio" value="1" <?= jecho($surat_master['qr_code'], 1, 'checked'); ?> autocomplete="off">Ya
-							</label>
-							<label id="n2" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['qr_code'] != 1, TRUE, 'active'); ?>">
-								<input id="q2" type="radio" name="qr_code" class="form-check-input" type="radio" value="0" <?= jecho($surat_master['qr_code'] != 1, TRUE, 'checked'); ?> autocomplete="off">Tidak
-							</label>
+					<?php if ($sisipan_qrcode): ?>
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="mandiri">Tampilkan QR Code</label>
+							<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+								<label id="n1" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['qr_code'], 1, 'active'); ?>">
+									<input id="q1" type="radio" name="qr_code" class="form-check-input" type="radio" value="1" <?= jecho($surat_master['qr_code'], 1, 'checked'); ?> autocomplete="off">Ya
+								</label>
+								<label id="n2" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['qr_code'] != 1, TRUE, 'active'); ?>">
+									<input id="q2" type="radio" name="qr_code" class="form-check-input" type="radio" value="0" <?= jecho($surat_master['qr_code'] != 1, TRUE, 'checked'); ?> autocomplete="off">Tidak
+								</label>
+							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
 						<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">

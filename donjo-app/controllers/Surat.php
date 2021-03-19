@@ -1,14 +1,18 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Layanan Surat
  *
  * donjo-app/controllers/Surat.php
  *
  */
+
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,7 +49,6 @@ class Surat extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
@@ -211,7 +214,7 @@ class Surat extends Admin_Controller {
 	public function nomor_surat_duplikat()
 	{
 		$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('log_surat', $_POST['nomor'], $_POST['url']);
-   	echo $hasil ? 'false' : 'true';
+		echo $hasil ? 'false' : 'true';
 	}
 
 	public function search()

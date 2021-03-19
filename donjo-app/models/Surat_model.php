@@ -1144,8 +1144,7 @@ class Surat_model extends CI_Model {
 	{
 		$data = $this->get_data_untuk_surat($url);
 		$input = $data['input'];
-		$tampil_qrcode = $data['surat']['qr_code'];
-		if ($tampil_qrcode == 1 && $this->cek_sisipan_qrcode($url))
+		if ($data['surat']['qr_code'] == 1)
 		{
 			$this->verifikasi_surat($data, $nama_surat);
 			$this->buat_qrcode($data, $nama_surat);
