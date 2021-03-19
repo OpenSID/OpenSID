@@ -10,7 +10,7 @@ assignees: ''
 **Jelaskan error yg dialami**
 Berikan keterangan yg jelas dan singkat mengenai error yg dialami. 
 
-**Pastikan bahwa error ini juga ditemukan di https://demo.opensid.or.id (untuk RIlis Umum) atau di https://berputar.opensid.or.id (untuk RIlis Premium).
+Pastikan error ini juga ditemukan di https://demo.opensid.or.id (untuk RIlis Umum) atau di https://berputar.opensid.or.id (untuk RIlis Premium).
 
 **Cara untuk mereplikasi errornya**
 Langkah untuk mereplikasi error yg dialami:
