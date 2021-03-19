@@ -759,6 +759,7 @@ class User_model extends CI_Model {
 				'statistik' => array('b','u'),
 				'laporan' => array('b','u'),
 				'laporan_rentan' => array('b','u'),
+				'laporan_surat' => array('b','u'),
 
 				// layanan surat
 				'surat_master' => array('b','u'),
