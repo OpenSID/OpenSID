@@ -61,6 +61,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->buat_tabel_url_shortener($hasil);
 		// Buat tabel url statistik
 		$hasil =& $this->buat_tabel_url_statistik($hasil);
+		// Ubah field tag_id_card menjadi index dan unique
+		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -94,6 +96,13 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('url_id');
 		$hasil =& $this->dbforge->create_table('statistics', true);
+		return $hasil;
+	}
+
+	// Indeksasi field tag_id_card
+	protected function ubah_tag_id_card_unique_index($hasil)
+	{
+		$hasil =& $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
 		return $hasil;
 	}
 
