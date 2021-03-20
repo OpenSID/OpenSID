@@ -10,7 +10,6 @@ assignees: ''
 **Jelaskan error yg dialami**
 <!--
 Berikan keterangan yg jelas dan singkat mengenai error yg dialami. 
-
 Pastikan error ini juga ditemukan di https://demo.opensid.or.id (untuk RIlis Umum) atau di https://berputar.opensid.or.id (untuk RIlis Premium).
 -->
 
@@ -18,7 +17,7 @@ Pastikan error ini juga ditemukan di https://demo.opensid.or.id (untuk RIlis Umu
 
 **Cara untuk mereplikasi errornya**
 <!--
-Langkah untuk mereplikasi error yg dialami:
+Langkah untuk mereplikasi error yg dialami, misalnya:
 1. Pergi ke halaman '...'
 2. Klik tombol '....'
 3. Gulir ke bawah sampai '....'
@@ -45,4 +44,6 @@ Error ini terjadi di rilis/versi berapa: Rilis umum (mis. v21.03) atau premium (
 
 
 **Informasi tambahan**
+<!--
 Penjelasan lain yg dapat membantu.
+-->
