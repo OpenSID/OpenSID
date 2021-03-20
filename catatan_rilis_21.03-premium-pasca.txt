@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.03-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada Mochamad Arifin yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 
@@ -11,7 +11,4 @@ Fitur Premium:
 2. #4041: Penambahan KK dan anggota keluarga baru sekarang normal kembali. [bug-fix]
 3. Tidak tampilkan kolom isian Tanggal Lapor di form ubah biodata penduduk. [bug-fix]
 4. Statistik > Laporan Bulanan di baris Kelahiran/Keluarga Baru sekarang dibatasi melaporkan keluarga baru yg dibentuk dari penduduk yang ada (mis. setelah pecah keluarga). [bug-fix]
-
-
-
-
+5. Tutup celah SQL injection di tampilan analisis di Web. [security-fix]
