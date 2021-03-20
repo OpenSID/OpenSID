@@ -57,7 +57,10 @@ class First_penduduk_m extends CI_Model {
 
 	public function list_jawab($id=0, $sb=0, $per=0)
 	{
-		switch ($sb)
+		$per = intval($per);
+		$id = intval($id);
+
+		switch (intval($sb))
 		{
 			case 1: $sbj = "LEFT JOIN tweb_penduduk p ON r.id_subjek = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id "; break;
 			case 2: $sbj = "LEFT JOIN tweb_keluarga v ON r.id_subjek = v.id LEFT JOIN tweb_penduduk p ON v.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  " ; break;
@@ -75,8 +78,8 @@ class First_penduduk_m extends CI_Model {
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			$sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r $sbj WHERE r.id_parameter = ? AND r.id_periode = $per";
-			$query = $this->db->query($sql, $data[$i]['id']);
+			$sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r $sbj WHERE r.id_parameter = ? AND r.id_periode = ?";
+			$query = $this->db->query($sql, [ $data[$i]['id'], $per ]);
 			$respon= $query->row_array();
 			$data[$i]['nilai'] = $respon['jml'];
 		}
