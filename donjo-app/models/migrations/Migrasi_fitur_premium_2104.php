@@ -117,6 +117,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 			$hasil =& $this->dbforge->add_column('tweb_surat_format', $fields);
 		}
+		return $hasil;
 	}
 
 	// Indeksasi field tag_id_card
