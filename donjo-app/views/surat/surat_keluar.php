@@ -103,7 +103,7 @@
 																			<a href="<?= base_url($data['file_php'])?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_qr'])): ?>
-																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QRCode" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_lampiran'])): ?>
 																			<a href="<?= base_url($data['file_lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
@@ -191,7 +191,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel"><center>QRCode</center></h4>
+				<h4 class="modal-title" id="myModalLabel"><center>QR Code</center></h4>
 			</div>
 				<div class="box-body">
 					<div class="form-group">
